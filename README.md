@@ -159,7 +159,12 @@ moves, the version does not.
 
 ## Conventions
 
-- ASCII only, LF line endings, no trailing whitespace.
+- LF line endings, no trailing whitespace.
+- **ASCII only in `skills/`, `practices/` and `memory/`** - those files are terse and get
+  copied into terminals, shell heredocs and `.claude/` directories where a stray Unicode
+  dash is a debugging session nobody planned. **`knowledge/` is UTF-8 prose**: OKF requires
+  valid UTF-8, and a bundle is long-form writing where an em dash is correct typography
+  rather than an affectation. The lanes differ because their readers do.
 - No secrets, ever - not in a file, not in an example, not in a test fixture. A tracked
   credential is a hard failure and has to be rotated, not deleted.
 - One idea per skill, per practice, per memory note.
