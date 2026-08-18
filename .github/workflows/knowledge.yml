@@ -1,0 +1,39 @@
+name: knowledge
+
+# Gates the knowledge/ lane on every change that can affect it.
+#
+# Two jobs, deliberately separate: `bundles` says the four-layer contract holds and no
+# consumer-internal evidence leaked; `catalog` says the generated index still matches the
+# content it indexes. A stale catalog is not a content defect, and conflating the two
+# makes people re-run the wrong thing.
+on:
+  push:
+    branches: [main]
+    paths: ['knowledge/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+  pull_request:
+    paths: ['knowledge/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+  workflow_dispatch:
+
+jobs:
+  bundles:
+    name: bundle integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # No install step: the gate is dependency-free by design.
+      - name: Check bundle integrity
+        run: node scripts/check-bundles.mjs
+
+  catalog:
+    name: catalog freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check catalog is current
+        run: node scripts/build-catalog.mjs --check

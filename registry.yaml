@@ -1,0 +1,53 @@
+# The registry's own declaration of itself — vendor-neutral.
+#
+# This file is the authority on what lanes this repository carries and what rules govern
+# them. `.ascent/registry.yaml` remains beside it as Ascent's overlay: that file says how
+# ONE consumer indexes this repo, this file says what the repo IS. Neither rewrites the
+# other, and a reader that knows only one of them still works.
+#
+# Unknown fields MUST be ignored by a reader, so this file can grow without breaking old
+# readers. (Same rule Ascent's overlay declares; it is the reason this repo can host more
+# than one consumer at all.)
+
+registry: 1
+name: ai-registry
+title: AI development registry
+
+# Every lane is a top-level directory with its own item shape and its own governing doc.
+# A consumer indexes the lanes it understands and ignores the rest.
+lanes:
+  knowledge:
+    path: knowledge/
+    holds: Reference Knowledge Bundles — four-layer domain knowledge (Golden Path →
+      Technique → Application → Evidence), one bundle per domain.
+    spec: docs/rkb-profile.md
+    format: OKF v0.1 profile (concept documents with YAML frontmatter; `type` required)
+    gate: scripts/check-bundles.mjs
+  skills:
+    path: skills/
+    holds: Agent skills — one directory per skill, SKILL.md plus an append-only LESSONS.md.
+    format: SKILL.md frontmatter (name, description, category, memory, version, tags)
+    note: Personas' skill library migrates into this lane; see the migration plan in the
+      consuming repo. Until then the content here is Ascent's worked example.
+  practices:
+    path: practices/
+    holds: Practices — the shape of a repo-level habit plus the starter artifacts it drops.
+  memory:
+    path: memory/
+    holds: Organizational memory notes, one fact per file, kind-partitioned.
+
+# What a reader may assume about content in this repo.
+guarantees:
+  # Nothing published here points into a private tree. Consumers that need dense pointers
+  # into their own codebase keep them in gitignored local overlays (see the knowledge
+  # lane's spec, §5) — the published standard never carries them.
+  no_internal_references: true
+  # Git is the door for content. A tool indexes and proposes; a human merges. Merging is
+  # adopting; see CODEOWNERS.
+  write_path: pull-request
+  # Additive-within-major. A new optional field is not a breaking change; a reader must
+  # ignore what it does not recognize.
+  compatibility: additive
+
+owners:
+  - xkazm04

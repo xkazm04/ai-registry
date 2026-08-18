@@ -1,12 +1,20 @@
 # ai-registry
 
-An example **AI development registry**: the skills, practices and shared memory an organization's
-coding agents run from, kept in git, owned by the organization, and reviewed like code.
+An **AI development registry**: the knowledge, skills, practices and shared memory an
+organization's agents run from, kept in git, owned by the organization, and reviewed like code.
 
-This repository is a **worked example**. Its content is deliberately generic and synthetic - no
-company, no product, no proprietary code. It exists so tooling that onboards, indexes and tracks a
-registry has something real to read, and so a person can see what a good one looks like before
-creating their own.
+The repository carries four lanes, declared in [`registry.yaml`](registry.yaml):
+
+| Lane | Holds | Status |
+| --- | --- | --- |
+| [`knowledge/`](knowledge/README.md) | **Reference Knowledge Bundles** - four-layer domain knowledge (Golden Path → Technique → Application → Evidence), one bundle per domain. | Real content. Gated by CI. |
+| `skills/` | Agent skills, one directory per skill. | Worked example; a real library migrates in later. |
+| `practices/` | Repo-level habits plus the starter artifacts they drop. | Worked example. |
+| `memory/` | Organizational memory notes, one fact per file. | Worked example. |
+
+The three example lanes are deliberately generic and synthetic - no company, no product, no
+proprietary code - so tooling that onboards, indexes and tracks a registry has something real to
+read. The `knowledge/` lane is not an example: it holds the actual bundles.
 
 ## Why a repository
 
@@ -24,9 +32,14 @@ code: version control, review, an owner, and history.
 
 ```
 README.md
-.ascent/registry.yaml     # what this registry is: mode, telemetry sink, policies, owners
+registry.yaml             # what this repository IS: its lanes, their specs and guarantees
+.ascent/registry.yaml     # Ascent's overlay: how ONE consumer indexes it (mode, telemetry, policies)
 CODEOWNERS                # who merges = who adopts
-catalog.json              # GENERATED index: versions, hashes, adopters, invoke counts
+catalog.json              # GENERATED index: bundles, skill versions, hashes, adopters, counts
+docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
+scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
+scripts/build-catalog.mjs # regenerates catalog.json (--check in CI)
+knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
 skills/<name>/SKILL.md    # frontmatter: name, description, category, memory, version
 skills/<name>/LESSONS.md  # append-only reflection lane, beside the skill it is about
 practices/<slug>/PRACTICE.md   # frontmatter: id, dimension, applies-when; body = the shape
@@ -35,7 +48,27 @@ memory/<kind>/<slug>.md   # frontmatter: kind, confidence, namespace, source
 memory/_index.md          # map of content over the notes
 ```
 
+Two `registry.yaml` files is deliberate, not drift: the root one says what this repository is,
+the `.ascent/` one says how Ascent indexes it. A second consumer adds its own overlay; neither
+rewrites the other, and a reader that knows only one of them still works.
+
 ## What is in here
+
+### Knowledge bundles
+
+| Bundle | Covers |
+| --- | --- |
+| [`software-engineering`](knowledge/software-engineering/) | Building and operating software: UI surfaces, client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process. |
+
+A bundle's two upper layers (Golden Path, Technique) carry **no** repo paths, file extensions or
+product names - enforced by [`scripts/check-bundles.mjs`](scripts/check-bundles.mjs), not left to
+discipline - so they transplant to any codebase unchanged. Applications are the opposite by
+design: they cite real code and name their stack in the filename.
+
+**Evidence is not published.** The pointers proving a claim against a particular tree are noise to
+everyone else, so they live in each consumer's gitignored `<subject>/.evidence.local.md` overlay.
+The gate fails any published file that declares them. Format spec:
+[`docs/rkb-profile.md`](docs/rkb-profile.md).
 
 ### Skills (3)
 
