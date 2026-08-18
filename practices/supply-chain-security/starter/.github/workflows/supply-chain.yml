@@ -1,0 +1,99 @@
+# Starter workflow for the supply-chain-security practice (D9).
+#
+# This file lives under practices/supply-chain-security/starter/ in the registry and does NOT run
+# here. Copy it to .github/workflows/supply-chain.yml in the target repo, pin every action to the
+# version your organization allows, and delete the jobs that do not fit the stack.
+#
+# TODO before adopting:
+#   1. Pin each `uses:` to a tag or commit SHA your org permits.
+#   2. Set the language for the SAST job.
+#   3. Make these checks required in the default branch's protection rules - a check that does
+#      not block merge is a dashboard, not a guardrail.
+
+name: supply-chain
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    # A dependency becomes vulnerable while your code sits still, so scan on a timer too.
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supply-chain-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sast:
+    name: static analysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize analysis
+        # TODO: set `languages` to this repo's languages (javascript-typescript, python, go, ...).
+        uses: github/codeql-action/init@v3
+        with:
+          languages: <languages>
+          queries: security-and-quality
+      - uses: github/codeql-action/autobuild@v3
+      - uses: github/codeql-action/analyze@v3
+
+  dependencies:
+    name: dependency review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail the PR on a vulnerable or newly added risky dependency
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          # TODO: add `deny-licenses:` if your org restricts licenses.
+      - name: Audit the full dependency tree
+        # TODO: replace with this repo's ecosystem command, e.g.
+        #   npm audit --audit-level=high | pip-audit | cargo audit | govulncheck ./...
+        run: echo "TODO: run the ecosystem audit command"
+
+  secrets:
+    name: secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history: a secret committed three months ago is still a live secret.
+          fetch-depth: 0
+      - name: Scan the working tree and the history
+        # TODO: pin the scanner your org standardizes on (gitleaks, trufflehog, ...).
+        # This job is the BACKSTOP. The primary control is the same scanner in a pre-commit
+        # hook, which is the only place a leak is prevented rather than reported.
+        run: echo "TODO: run the secret scanner; exit non-zero on any finding"
+
+  # Enable once this repo publishes images or packages. Delete it if it never will, and say so
+  # in SECURITY.md - an explicit out-of-scope beats a silent gap.
+  #
+  # provenance:
+  #   name: sbom and attestation
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'push'
+  #   permissions:
+  #     contents: read
+  #     id-token: write
+  #     attestations: write
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Generate an SBOM
+  #       run: echo "TODO: generate the SBOM for the built artifact"
+  #     - name: Attest the build provenance
+  #       uses: actions/attest-build-provenance@v1
+  #       with:
+  #         subject-path: <path to the built artifact>

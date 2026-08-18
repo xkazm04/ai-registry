@@ -1,0 +1,41 @@
+# The registry's declaration of itself. Ascent reads this when it maps and indexes the repo.
+# Unknown fields MUST be ignored by a reader, so this file can grow without breaking old readers.
+
+registry: 1
+
+# Exactly one registry per org is canonical. On a name collision across registries, the canonical
+# one wins.
+canonical: true
+
+# git-native  - content enters by pull request, ascent only reads. This is the default.
+# hosted-mirror - content is authored in the ascent app and mirrored here.
+mode: git-native
+
+# Where invocation counts go. api = POST to ascent; registry = a telemetry/ folder in this repo;
+# off = no counts at all. Counts only, never prompt or transcript text.
+telemetry: api
+
+policies:
+  requireDescription: true
+  requireVersion: true
+  # The closed set an indexed SKILL.md may declare. Anything else is normalized to `other`.
+  categories:
+    - ci-cd
+    - testing
+    - security
+    - ai-native
+    - docs
+    - workflow
+    - other
+  # The closed set a memory note may declare in its `kind` frontmatter.
+  memoryKinds:
+    - episodic
+    - semantic
+    - procedural
+    - summary
+  # Who may write catalog.json. `bot` lets ascent commit it directly; `pr` makes it a pull
+  # request like everything else.
+  catalogWrites: bot
+
+owners:
+  - xkazm04

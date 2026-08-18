@@ -1,0 +1,25 @@
+# Merging is adopting. Whoever is listed here decides what the organization's agents run.
+#
+# In a real org these are teams (@org/platform, @org/security), never individuals - a personal
+# owner becomes an unmergeable pull request the week that person changes team.
+
+# Everything, by default.
+*                               @xkazm04
+
+# Skills change how every agent in the fleet behaves. Same owner here; in a real org this is the
+# group that maintains the agent tooling.
+/skills/                        @xkazm04
+
+# Practices carry a dimension and a starter artifact that lands in other repos.
+/practices/                     @xkazm04
+
+# The security practice is the one place where a merge changes a guardrail. In a real org this
+# line points at the security group.
+/practices/supply-chain-security/  @xkazm04
+
+# Org memory is org-wide knowledge. Low bar to propose, real review to merge.
+/memory/                        @xkazm04
+
+# The registry's own declaration, and the generated index.
+/.ascent/                       @xkazm04
+/catalog.json                   @xkazm04
