@@ -28,8 +28,9 @@
         "example-org/billing-api@1.3.0",
         "example-org/checkout-service@1.3.0"
       ],
-      "invokes30d": 41,
-      "lessons": 0
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
     },
     {
       "name": "test-before-commit",
@@ -47,10 +48,11 @@
         "example-org/billing-api@2.1.0",
         "example-org/reporting-api@2.1.0"
       ],
-      "invokes30d": 68,
+      "invokes30d": 0,
       "lessons": 3,
       "lessonsPath": "skills/test-before-commit/LESSONS.md",
-      "lessonsHash": "sha256:cac6c35783a41496"
+      "lessonsHash": "sha256:cac6c35783a41496",
+      "usageContributors": []
     },
     {
       "name": "agent-guidance-bootstrap",
@@ -71,8 +73,9 @@
         "example-org/checkout-service@0.4.0",
         "example-org/internal-tooling-cli@0.3.0"
       ],
-      "invokes30d": 12,
-      "lessons": 0
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
     }
   ],
   "practices": [

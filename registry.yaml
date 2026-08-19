@@ -35,6 +35,15 @@ lanes:
   memory:
     path: memory/
     holds: Organizational memory notes, one fact per file, kind-partitioned.
+  usage:
+    path: usage/
+    holds: Which skills actually get used — counts contributed by the installations that
+      run them. One file per contributing installation, aggregated into catalog.json.
+    spec: docs/usage-lane.md
+    gate: scripts/check-usage.mjs
+    note: Counts and nothing else. No paths, project names, URLs or addresses — the gate
+      enforces it rather than trusting contributors, because this repository is public and
+      a leak in git history is permanent.
 
 # What a reader may assume about content in this repo.
 guarantees:
@@ -48,6 +57,10 @@ guarantees:
   # Additive-within-major. A new optional field is not a breaking change; a reader must
   # ignore what it does not recognize.
   compatibility: additive
+  # Every count published here is an aggregate over a time window. Nothing in this repo
+  # records who ran what, or in which repository — that is a fact about one organization's
+  # fleet and it stays there.
+  usage_is_aggregate_only: true
 
 owners:
   - xkazm04

@@ -14,9 +14,9 @@ name: knowledge
 on:
   push:
     branches: [main]
-    paths: ['knowledge/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'usage/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   pull_request:
-    paths: ['knowledge/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'usage/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   workflow_dispatch:
 
 jobs:
@@ -42,6 +42,20 @@ jobs:
           node-version: '20'
       - name: Check each bundle's index is current
         run: node scripts/build-index.mjs --check
+
+  usage:
+    name: usage lane
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # Runs BEFORE catalog in intent (jobs are parallel, but a usage failure is
+      # the one to read first): the catalog aggregates this lane, so a bad usage
+      # file shows up there as a wrong number rather than as an error.
+      - name: Check the usage lane
+        run: node scripts/check-usage.mjs
 
   catalog:
     name: catalog freshness

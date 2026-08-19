@@ -3,7 +3,7 @@
 An **AI development registry**: the knowledge, skills, practices and shared memory an
 organization's agents run from, kept in git, owned by the organization, and reviewed like code.
 
-The repository carries four lanes, declared in [`registry.yaml`](registry.yaml):
+The repository carries five lanes, declared in [`registry.yaml`](registry.yaml):
 
 | Lane | Holds | Status |
 | --- | --- | --- |
@@ -11,10 +11,12 @@ The repository carries four lanes, declared in [`registry.yaml`](registry.yaml):
 | `skills/` | Agent skills, one directory per skill. | Worked example; a real library migrates in later. |
 | `practices/` | Repo-level habits plus the starter artifacts they drop. | Worked example. |
 | `memory/` | Organizational memory notes, one fact per file. | Worked example. |
+| [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. Empty until an installation reports. |
 
-The three example lanes are deliberately generic and synthetic - no company, no product, no
-proprietary code - so tooling that onboards, indexes and tracks a registry has something real to
-read. The `knowledge/` lane is not an example: it holds the actual bundles.
+The three example lanes (`skills`, `practices`, `memory`) are deliberately generic and synthetic -
+no company, no product, no proprietary code - so tooling that onboards, indexes and tracks a
+registry has something real to read. `knowledge/` and `usage/` are not examples: the first holds
+the actual bundles, the second holds real counts once an installation reports them.
 
 ## Why a repository
 
@@ -37,7 +39,9 @@ registry.yaml             # what this repository IS: its lanes, their specs and 
 CODEOWNERS                # who merges = who adopts
 catalog.json              # GENERATED index: bundles, skill versions, hashes, adopters, counts
 docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
+docs/usage-lane.md        # the usage lane's format spec + what may never go in it
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
+scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only privacy rule
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json (--check in CI)
 knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
@@ -48,6 +52,7 @@ practices/<slug>/PRACTICE.md   # frontmatter: id, dimension, applies-when; body 
 practices/<slug>/starter/**    # templatized artifacts the practice drops into a repo
 memory/<kind>/<slug>.md   # frontmatter: kind, confidence, namespace, source
 memory/_index.md          # map of content over the notes
+usage/<contributor>.json  # counts from ONE installation - see docs/usage-lane.md
 ```
 
 Two `registry.yaml` files is deliberate, not drift: the root one says what this repository is,
@@ -159,9 +164,13 @@ version whenever behaviour changes; leave it alone for a typo fix.
 
 A consumer one minor behind must resolve to `stale`, not `in_sync` and not `diverged`. The other
 two skills have every adopter at the registry version, so they resolve to `in_sync` - which makes
-this the one row that should light up in a sync heatmap. The `adopters` and `invokes30d` values
-are illustrative placeholders until real fleet repos are indexed; the `contentHash` values are
-true sha256 prefixes of the files at seed time.
+this the one row that should light up in a sync heatmap. The `adopters` values are illustrative
+placeholders until real fleet repos are indexed; the `contentHash` values are true sha256
+prefixes of the files at seed time.
+
+`invokes30d` is no longer a placeholder: it is **derived** from the [`usage/`](docs/usage-lane.md)
+lane and reads `0` until an installation contributes counts. A zero with an empty
+`usageContributors` means nobody is reporting on that skill - not that nobody runs it.
 
 To exercise `diverged` as well, edit any skill's body without bumping its `version`: the hash
 moves, the version does not.

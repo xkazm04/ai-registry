@@ -11,6 +11,13 @@
 //
 // Counts and hashes only. No prose from inside the bundles ever lands here; a catalog that
 // duplicates content becomes a second authority that drifts.
+//
+// It also owns each skill's `invokes30d`, aggregated from the `usage/` lane
+// (docs/usage-lane.md). That field used to be a hand-seeded number nothing computed —
+// which meant the catalog asserted usage that no installation had reported. It is now
+// DERIVED: contributors each own one file, this sums them, and hand-editing the count in
+// catalog.json is overwritten on the next build. That is the point — many writers into one
+// shared field is the failure the per-contributor files exist to prevent.
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -18,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
+const USAGE = path.join(ROOT, 'usage');
 const CATALOG = path.join(ROOT, 'catalog.json');
 const checkOnly = process.argv.includes('--check');
 
@@ -95,8 +103,50 @@ for (const e of fs.readdirSync(KNOWLEDGE, { withFileTypes: true }).sort((a, b) =
   });
 }
 
+// -- usage aggregation -------------------------------------------------------
+// One file per contributing installation, summed per skill. Validation lives in
+// scripts/check-usage.mjs; this reads what that gate has already accepted and is
+// deliberately tolerant — a malformed file must not be able to erase every
+// count, so it is skipped and named rather than thrown on.
+const usage = new Map(); // skill -> { invokes, contributors:Set }
+let usageFiles = 0;
+if (fs.existsSync(USAGE)) {
+  for (const f of fs.readdirSync(USAGE).filter((x) => x.endsWith('.json')).sort()) {
+    let doc;
+    try {
+      doc = JSON.parse(fs.readFileSync(path.join(USAGE, f), 'utf8'));
+    } catch {
+      console.warn(`  note: usage/${f} is not valid JSON — skipped (run check-usage.mjs)`);
+      continue;
+    }
+    usageFiles += 1;
+    for (const [name, entry] of Object.entries(doc?.skills ?? {})) {
+      const n = Number.isInteger(entry?.invokes) && entry.invokes >= 0 ? entry.invokes : 0;
+      const row = usage.get(name) ?? { invokes: 0, contributors: new Set() };
+      row.invokes += n;
+      if (doc?.contributor) row.contributors.add(doc.contributor);
+      usage.set(name, row);
+    }
+  }
+}
+
 const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
-const next = { ...catalog, bundles };
+
+const skills = Array.isArray(catalog.skills)
+  ? catalog.skills.map((sk) => {
+      const row = usage.get(sk.name);
+      return {
+        ...sk,
+        invokes30d: row ? row.invokes : 0,
+        // Named so a reader can tell "nobody uses this" from "nobody reports on
+        // this" — a zero with no contributors means the lane has no witness, not
+        // that the skill is dead.
+        usageContributors: row ? [...row.contributors].sort() : [],
+      };
+    })
+  : catalog.skills;
+
+const next = { ...catalog, skills, bundles };
 const serialized = `${JSON.stringify(next, null, 2)}\n`;
 
 if (checkOnly) {
@@ -109,10 +159,10 @@ if (checkOnly) {
     else console.error('  bundles match; the difference is elsewhere in the file (formatting or another key).');
     process.exit(1);
   }
-  console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed`);
+  console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed, ${usageFiles} usage contributor(s)`);
 } else {
   fs.writeFileSync(CATALOG, serialized);
-  console.log(`catalog.json updated — ${bundles.length} bundle(s):`);
+  console.log(`catalog.json updated — ${bundles.length} bundle(s), usage from ${usageFiles} contributor(s):`);
   for (const b of bundles) {
     console.log(`  ${b.name}: ${b.subjects} subjects / ${b.techniques} techniques / ${b.applications} applications (${b.contentHash})`);
   }
