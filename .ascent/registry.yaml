@@ -1,5 +1,9 @@
 # The registry's declaration of itself. Ascent reads this when it maps and indexes the repo.
 # Unknown fields MUST be ignored by a reader, so this file can grow without breaking old readers.
+#
+# This is ONE CONSUMER's overlay. The root `registry.yaml` beside it is the vendor-neutral
+# authority on which lanes this repository carries and what governs them; this file only says
+# what Ascent does with them. Neither file rewrites the other.
 
 registry: 1
 
@@ -11,8 +15,28 @@ canonical: true
 # hosted-mirror - content is authored in the ascent app and mirrored here.
 mode: git-native
 
-# Where invocation counts go. api = POST to ascent; registry = a telemetry/ folder in this repo;
-# off = no counts at all. Counts only, never prompt or transcript text.
+# Ascent's role in each lane the root `registry.yaml` declares. A lane named here is one Ascent
+# INDEXES; `reader` means it reads that lane and never writes to it. A lane Ascent does not
+# understand is simply absent from this list and left alone.
+lanes:
+  skills: reader
+  practices: reader
+  memory: reader
+  # usage/ — one `usage/<contributor>.json` per contributing installation (root registry.yaml,
+  # docs/usage-lane.md). Ascent indexes the lane and sums it into catalog.json's per-skill
+  # `invokes30d` + `usageContributors`. It stays a READER on purpose: the installations that
+  # actually run the skills are what contribute counts, and two writers on one number is the
+  # exact failure the per-contributor files exist to prevent.
+  usage: reader
+
+# Where the invocation counts this consumer observes are sent. api = POST to ascent;
+# registry = committed into this repo's usage/ lane (docs/usage-lane.md); off = no counts at
+# all. Counts only, never prompt or transcript text.
+#
+# Deliberately left at `api`. The arrival of the usage/ lane does not move Ascent's own sink:
+# `registry` asserts that THIS consumer commits counts into this repo, which is exactly what
+# `lanes.usage: reader` above rules out. `registry` is the meaningful value for an installation
+# that does contribute a usage file — it declares that in its own overlay, not in this one.
 telemetry: api
 
 policies:
