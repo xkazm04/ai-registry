@@ -38,8 +38,10 @@ CODEOWNERS                # who merges = who adopts
 catalog.json              # GENERATED index: bundles, skill versions, hashes, adopters, counts
 docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
+scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json (--check in CI)
 knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
+knowledge/<domain>/index.json  # GENERATED: every subject, technique, law and application
 skills/<name>/SKILL.md    # frontmatter: name, description, category, memory, version
 skills/<name>/LESSONS.md  # append-only reflection lane, beside the skill it is about
 practices/<slug>/PRACTICE.md   # frontmatter: id, dimension, applies-when; body = the shape
@@ -69,6 +71,13 @@ design: they cite real code and name their stack in the filename.
 everyone else, so they live in each consumer's gitignored `<subject>/.evidence.local.md` overlay.
 The gate fails any published file that declares them. Format spec:
 [`docs/rkb-profile.md`](docs/rkb-profile.md).
+
+**Read a bundle without reading 965 files.** Each bundle carries a generated
+`index.json` - every subject with its category, status, techniques (and the laws they cite),
+and applications. That is the file an agent selecting knowledge to consult should read; the
+markdown is for humans and for the agent that decided to go deeper. It excludes evidence for
+the reason above, and says so in its own `meta.excludes`. Regenerate with
+`node scripts/build-index.mjs` **before** `build-catalog.mjs`, whose hash covers it.
 
 ### Skills (3)
 

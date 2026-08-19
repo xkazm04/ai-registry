@@ -2,10 +2,15 @@ name: knowledge
 
 # Gates the knowledge/ lane on every change that can affect it.
 #
-# Two jobs, deliberately separate: `bundles` says the four-layer contract holds and no
-# consumer-internal evidence leaked; `catalog` says the generated index still matches the
-# content it indexes. A stale catalog is not a content defect, and conflating the two
-# makes people re-run the wrong thing.
+# Three jobs, deliberately separate: `bundles` says the four-layer contract holds and no
+# consumer-internal evidence leaked; `index` says each bundle's index.json still matches
+# its markdown; `catalog` says the generated top-level index still matches the content it
+# indexes. A stale artifact is not a content defect, and conflating the two makes people
+# re-run the wrong thing.
+#
+# Regeneration ORDER matters when a bundle changes: `build-index.mjs` first (it writes a
+# file inside the bundle), then `build-catalog.mjs` (whose content hash covers it). The
+# reverse order produces a catalog that is stale the moment it is written.
 on:
   push:
     branches: [main]
@@ -26,6 +31,17 @@ jobs:
       # No install step: the gate is dependency-free by design.
       - name: Check bundle integrity
         run: node scripts/check-bundles.mjs
+
+  index:
+    name: bundle index freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check each bundle's index is current
+        run: node scripts/build-index.mjs --check
 
   catalog:
     name: catalog freshness
