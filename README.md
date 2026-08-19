@@ -87,13 +87,14 @@ markdown is for humans and for the agent that decided to go deeper. It excludes 
 the reason above, and says so in its own `meta.excludes`. Regenerate with
 `node scripts/build-index.mjs` **before** `build-catalog.mjs`, whose hash covers it.
 
-### Skills (3)
+### Skills (4)
 
 | Skill | Category | Version | What it is for |
 | --- | --- | --- | --- |
 | [`ci-gate-check`](skills/ci-gate-check/SKILL.md) | `ci-cd` | 1.3.0 | Run the checks CI enforces, before you push. |
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
 | [`agent-guidance-bootstrap`](skills/agent-guidance-bootstrap/SKILL.md) | `ai-native` | 0.4.0 | Write or refresh a repo's `AGENTS.md` from evidence. |
+| [`domain-knowledge-forge`](skills/domain-knowledge-forge/SKILL.md) | `ai-native` | 1.0.0 | Extract a repository's domain knowledge into a four-layer RKB bundle, with a bounded agent pool. Carries [`LESSONS.md`](skills/domain-knowledge-forge/LESSONS.md). |
 
 `category` comes from a closed set: `ci-cd`, `testing`, `security`, `ai-native`, `docs`,
 `workflow`, `other`. Anything else is normalized to `other` at index time. `name` is a kebab-case

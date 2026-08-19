@@ -120,10 +120,17 @@ function buildBundle(domain) {
         shared_with: asList(t.shared_with),
       };
       // `use_when` is OKF's consult trigger — the field an agent selects on.
-      // Emitted only where an author wrote one; an empty string would look like
-      // a considered "never".
-      const useWhen = typeof t.use_when === 'string' ? t.use_when : null;
-      if (useWhen) entry.use_when = useWhen;
+      // Emitted only where an author wrote one; an empty value would look like
+      // a considered "never". The frontmatter parser returns list-valued fields
+      // as ARRAYS (both `[a, b]` and block `- item` forms) — the original
+      // string-only check here counted every well-formed use_when as absent
+      // and reported 0/267 over a corpus that was actually at 267/267
+      // (measured 2026-08-19; the instrument was asserted before the result,
+      // and the instrument was wrong).
+      const useWhen = Array.isArray(t.use_when)
+        ? t.use_when.filter(Boolean)
+        : typeof t.use_when === 'string' && t.use_when.trim() ? [t.use_when.trim()] : null;
+      if (useWhen && useWhen.length) entry.use_when = useWhen;
       techniques.push(entry);
 
       for (const law of cited) {
@@ -160,10 +167,11 @@ function buildBundle(domain) {
     applications: Object.values(subjects).reduce((n, s) => n + s.applications.length, 0),
     laws: Object.keys(laws).length,
     categories: (categories.categories || []).map((c) => c.id),
-    // `use_when` is what a consult lane selects on. Measured 2026-08-19 at
-    // 0/624 — the field is specified in docs/rkb-profile.md and written
-    // nowhere yet. Reported as a number so the gap is observed rather than
-    // assumed away by anything built on top of this index.
+    // `use_when` is what a consult lane selects on. Reported as a number so
+    // the gap is observed rather than assumed away by anything built on top
+    // of this index. (The earlier "0/624 — written nowhere yet" note was made
+    // through a string-only check that could not see list-valued fields; see
+    // the counter above. software-engineering genuinely carries none yet.)
     use_when_coverage: `${Object.values(subjects).reduce(
       (n, s) => n + s.techniques.filter((t) => t.use_when).length,
       0,

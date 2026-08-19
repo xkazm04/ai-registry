@@ -14,7 +14,7 @@
    "frame-direction",
    "production-ops"
   ],
-  "use_when_coverage": "0/78",
+  "use_when_coverage": "78/78",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -30,7 +30,12 @@
       "output-never-outruns-evidence",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "recording a claim into the research asset",
+      "deciding whether a fact can bear the argument's weight",
+      "auditing sourcing quality before render"
+     ]
     },
     {
      "slug": "pre-linked-causal-mechanisms",
@@ -39,7 +44,12 @@
       "causality-over-sequence",
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "encoding a causal story for later scripting",
+      "a narrative reads as a list of events",
+      "validating that a claimed mechanism actually connects"
+     ]
     },
     {
      "slug": "prior-declaration-and-steel-man",
@@ -47,7 +57,12 @@
      "laws": [
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "starting a research run",
+      "a verdict feels too clean",
+      "checking whether a finding is a discovery or confirmation bias"
+     ]
     },
     {
      "slug": "scale-conversion-of-numbers",
@@ -55,7 +70,12 @@
      "laws": [
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a significant figure will appear in narration",
+      "choosing between exact quotes and ratios",
+      "extending a script's shelf life"
+     ]
     },
     {
      "slug": "tension-finding-taxonomy",
@@ -63,7 +83,12 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a topic can carry a factual video",
+      "turning gathered facts into a thesis",
+      "a draft reads like a timeline"
+     ]
     },
     {
      "slug": "unknowns-as-constraints",
@@ -72,7 +97,12 @@
       "output-never-outruns-evidence",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "research could not settle a question a script may touch",
+      "verifying a render respects declared evidence limits",
+      "sources disagree on a figure"
+     ]
     }
    ],
    "applications": [
@@ -99,7 +129,12 @@
      "laws": [
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "setting a rate dial or duration slot for a script",
+      "reconciling a slow voice profile with a fixed video length",
+      "validating that a render's word count matches its declared timing"
+     ]
     },
     {
      "slug": "dial-vs-subject-property",
@@ -108,7 +143,12 @@
       "output-never-outruns-evidence",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding which tone controls to expose to a creator",
+      "auditing why a render sounds more confident than its sources",
+      "classifying a measurable script property as style or fact"
+     ]
     },
     {
      "slug": "engine-tone-separation",
@@ -116,13 +156,23 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "adding any tone or style control to a script pipeline",
+      "reviewing whether a personalization request changed structure",
+      "designing re-render behavior for profile changes"
+     ]
     },
     {
      "slug": "reference-world-and-bookends",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "specifying the non-numeric half of a voice profile",
+      "choosing analogies for a creator's script",
+      "wiring fixed openings and closings into a template"
+     ]
     },
     {
      "slug": "voice-profile-from-accepted-work",
@@ -130,7 +180,12 @@
      "laws": [
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building or updating a learned voice profile",
+      "choosing which scripts count as training evidence",
+      "explaining a profile's numbers to the creator who owns it"
+     ]
     }
    ],
    "applications": [
@@ -158,7 +213,12 @@
       "output-never-outruns-evidence",
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "placing arrows or flow marks in a diagram",
+      "visualizing correlated series",
+      "drawing mechanism or state-change frames"
+     ]
     },
     {
      "slug": "epistemic-draw-routing",
@@ -168,7 +228,12 @@
       "output-never-outruns-evidence",
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "architecting a frame compositor",
+      "writing image-generation prompts for factual work",
+      "deciding whether an element is generated or drawn"
+     ]
     },
     {
      "slug": "figure-must-cite-a-fact",
@@ -177,7 +242,12 @@
       "output-never-outruns-evidence",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "validating scene or frame specs",
+      "putting any number or dated label on screen",
+      "building the text layer of a compositor"
+     ]
     },
     {
      "slug": "generous-strawman-rendering",
@@ -186,7 +256,12 @@
       "causality-over-sequence",
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "directing frames for a beat the script later reverses",
+      "visualizing an opposing or \"obvious\" position",
+      "reviewing whether a reversal lands"
+     ]
     },
     {
      "slug": "precision-limit-propagation",
@@ -194,7 +269,12 @@
      "laws": [
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "drawing charts or comparisons from researched facts",
+      "designing the fact-record schema",
+      "reviewing a frame that looks suspiciously clean"
+     ]
     }
    ],
    "applications": [
@@ -222,7 +302,12 @@
       "causality-over-sequence",
       "edit-do-not-regenerate"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "directing visual continuity across a whole cut",
+      "making a turning point land on screen",
+      "reviewing a cut whose frames are individually good but collectively shapeless"
+     ]
     },
     {
      "slug": "motion-intent-authoring",
@@ -230,7 +315,12 @@
      "laws": [
       "checkability-routes-the-pixel"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing what a frame does over its duration",
+      "specifying camera or subject movement for a beat",
+      "reviewing motion notes that read as mood words"
+     ]
     },
     {
      "slug": "one-function-per-visual",
@@ -238,7 +328,12 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a beat seems to need two pictures at once",
+      "reviewing scene specs for cluttered frames",
+      "deciding whether to split a beat"
+     ]
     },
     {
      "slug": "per-beat-rejection",
@@ -247,7 +342,12 @@
       "unmeasured-is-not-pass",
       "refusal-is-a-state"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "validating machine-generated scene specs",
+      "designing the acceptance gate for a direction pass",
+      "deciding what a validator may and may not enforce"
+     ]
     },
     {
      "slug": "plate-elements-text-split",
@@ -256,7 +356,12 @@
       "checkability-routes-the-pixel",
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a mark is generated or code-drawn",
+      "specifying frames that mix imagery with figures and labels",
+      "keeping glyphs out of generated plates"
+     ]
     },
     {
      "slug": "visual-function-vocabulary",
@@ -265,7 +370,12 @@
       "output-never-outruns-evidence",
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "assigning what each beat's picture must do",
+      "designing a script-to-frames handoff schema",
+      "deciding whether a video is image-led or narration-led"
+     ]
     }
    ],
    "applications": [
@@ -293,7 +403,12 @@
       "cost-per-usable-output",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a failed render indicts the prompt or the model",
+      "choosing between two image generators",
+      "a generator keeps failing one kind of brief"
+     ]
     },
     {
      "slug": "regrade-without-regenerate",
@@ -302,7 +417,12 @@
       "edit-do-not-regenerate",
       "cost-per-usable-output"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a batch has images on disk but missing or suspect grades",
+      "upgrading or fixing a grading schema after a run",
+      "designing the resume path of a generation harness"
+     ]
     },
     {
      "slug": "trial-matrix-design",
@@ -311,7 +431,12 @@
       "unmeasured-is-not-pass",
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "choosing a house style or a generator from candidates",
+      "building a reusable test set for image generation",
+      "a showcase render is being offered as proof of capability"
+     ]
     },
     {
      "slug": "two-grader-disagreement-rule",
@@ -319,7 +444,12 @@
      "laws": [
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "gating a decision on a machine judgement",
+      "a vision grader's verdict feels wrong",
+      "deciding how many judges a grading pipeline needs"
+     ]
     },
     {
      "slug": "unconditional-fail-criteria",
@@ -328,7 +458,12 @@
       "checkability-routes-the-pixel",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing a rubric for generated images",
+      "deciding why a high-scoring output is still unusable",
+      "choosing the first field of a grading schema"
+     ]
     },
     {
      "slug": "vision-model-grading-schema",
@@ -337,7 +472,12 @@
       "unmeasured-is-not-pass",
       "checkability-routes-the-pixel"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "automating judgement of generated images",
+      "designing the fields a vision grader must fill",
+      "deciding what a machine grader can and cannot be trusted with"
+     ]
     }
    ],
    "applications": [
@@ -365,7 +505,12 @@
       "cost-per-usable-output",
       "refusal-is-a-state"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "adding a second generation vendor",
+      "a surface wants to name a specific model",
+      "splitting dev and prod vendor choices"
+     ]
     },
     {
      "slug": "cost-per-usable-economics",
@@ -374,7 +519,12 @@
       "cost-per-usable-output",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "choosing or reordering generation vendors",
+      "a cheaper model is proposed to cut spend",
+      "setting a spend ceiling for a generation pipeline"
+     ]
     },
     {
      "slug": "non-silent-elimination",
@@ -383,7 +533,12 @@
       "refusal-is-a-state",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "an asset arrived from an unexpected vendor",
+      "a whole chain came up empty and the error must explain why",
+      "a request field would be silently ignored by a vendor"
+     ]
     },
     {
      "slug": "refusal-reroute-hop",
@@ -391,7 +546,12 @@
      "laws": [
       "refusal-is-a-state"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "an image model declines a prompt on safety grounds",
+      "a generation returns empty with a green status",
+      "deciding which errors may walk the chain"
+     ]
     },
     {
      "slug": "resolution-as-stage-property",
@@ -400,7 +560,12 @@
       "cost-per-usable-output",
       "edit-do-not-regenerate"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "generation spend is dominated by drafts",
+      "choosing render sizes for a multi-stage pipeline",
+      "a winner needs delivery resolution"
+     ]
     },
     {
      "slug": "vendor-fact-ledger",
@@ -409,7 +574,12 @@
       "unmeasured-is-not-pass",
       "cost-per-usable-output"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "integrating a new generation vendor",
+      "a billing or response field changed shape",
+      "a price is needed for a model nobody measured"
+     ]
     }
    ],
    "applications": [
@@ -436,7 +606,11 @@
      "laws": [
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "specifying a palette in a generation prompt",
+      "the right colours appear in outputs but land on the wrong elements"
+     ]
     },
     {
      "slug": "negative-prompting",
@@ -445,7 +619,11 @@
       "checkability-routes-the-pixel",
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a recurring defect keeps appearing across generations",
+      "adapting one prompt contract to vendors with and without negative-prompt support"
+     ]
     },
     {
      "slug": "prompt-budget-limits",
@@ -454,7 +632,11 @@
       "cost-per-usable-output",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "sizing a prompt against a model's real attention window",
+      "a vendor rejects prompts or silently ignores their second half"
+     ]
     },
     {
      "slug": "shape-language-over-nouns",
@@ -462,7 +644,11 @@
      "laws": [
       "checkability-routes-the-pixel"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "describing subjects in a plate prompt without inviting text",
+      "generated images keep containing letters or brand marks"
+     ]
     },
     {
      "slug": "style-first-token-ordering",
@@ -470,7 +656,11 @@
      "laws": [
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "ordering the blocks of a generation prompt",
+      "a model obeys the first half of a prompt and ignores the rest"
+     ]
     },
     {
      "slug": "two-block-style-and-action",
@@ -478,7 +668,11 @@
      "laws": [
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "generating more than one image for the same project",
+      "a batch of outputs no longer looks like one project"
+     ]
     }
    ],
    "applications": [
@@ -506,7 +700,12 @@
       "unmeasured-is-not-pass",
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "rendering a verdict-shaped script",
+      "auditing a contested-question video",
+      "designing fields that store candidate weighing"
+     ]
     },
     {
      "slug": "engine-arbitration-order",
@@ -514,7 +713,12 @@
      "laws": [
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "several engines fit one topic",
+      "breadth of fits is being read as a defect",
+      "choosing between a spine and a final act"
+     ]
     },
     {
      "slug": "engine-catalogue-by-viewer-pleasure",
@@ -522,7 +726,12 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building or extending a structure catalogue",
+      "two structures blur into one",
+      "filing a new witnessed video"
+     ]
     },
     {
      "slug": "fit-vs-hazard-axes",
@@ -531,7 +740,12 @@
       "output-never-outruns-evidence",
       "cost-per-usable-output"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "scoring engines against a researched topic",
+      "a structurally perfect choice feels wrong",
+      "subject involves named people or live harms"
+     ]
     },
     {
      "slug": "no-engine-means-no-video",
@@ -540,7 +754,12 @@
       "causality-over-sequence",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "no engine fits the researched material",
+      "a script reads as a timeline",
+      "gating whether a topic is ready to render"
+     ]
     }
    ],
    "applications": [
@@ -567,7 +786,12 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "scoping a short clip from a longer parent video",
+      "reviewing a derived clip before publish",
+      "diagnosing why repurposed clips underperform originals"
+     ]
     },
     {
      "slug": "format-as-measured-template",
@@ -575,13 +799,23 @@
      "laws": [
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "codifying a video format for a pipeline or team",
+      "reviewing a format spec someone else wrote",
+      "deciding whether a craft observation is ready to become a parameter"
+     ]
     },
     {
      "slug": "hook-shape-selection",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing the first sentence of a short clip",
+      "building a hook picker into a script tool",
+      "diagnosing a cliff-shaped retention curve in the first seconds"
+     ]
     },
     {
      "slug": "image-led-vs-narration-led",
@@ -589,7 +823,12 @@
      "laws": [
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "setting a word budget for a short script",
+      "handing a script downstream to frame planning",
+      "diagnosing a clip that feels rushed or padded at the edit"
+     ]
     },
     {
      "slug": "one-anchor-per-clip",
@@ -597,7 +836,12 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "compressing a multi-part topic into a short clip",
+      "reviewing a short script for idea count",
+      "deciding whether a short can teach a scale or taxonomy"
+     ]
     }
    ],
    "applications": [
@@ -625,7 +869,12 @@
       "cost-per-usable-output",
       "edit-do-not-regenerate"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding what pipeline output to persist",
+      "choosing render fidelity for trials versus finals",
+      "designing deletion for projects that own generated media"
+     ]
     },
     {
      "slug": "long-run-as-background-job",
@@ -634,7 +883,12 @@
       "refusal-is-a-state",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "running minutes-long generation or research from an interactive product",
+      "deciding which jobs may run concurrently",
+      "handling reloads and duplicate launches during long runs"
+     ]
     },
     {
      "slug": "phase-order-and-graduation",
@@ -643,7 +897,12 @@
       "cost-per-usable-output",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "sequencing the phases of a production pipeline",
+      "deciding when work may graduate to the next phase",
+      "merging or retiring a phase without corrupting existing projects"
+     ]
     },
     {
      "slug": "shared-clock-across-phases",
@@ -652,7 +911,12 @@
       "refusal-is-a-state",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing the data contracts between production phases",
+      "assembling picture voice and music onto one timeline",
+      "diagnosing where a multi-phase production is jammed"
+     ]
     },
     {
      "slug": "worst-news-first-progress",
@@ -661,7 +925,12 @@
       "unmeasured-is-not-pass",
       "refusal-is-a-state"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "aggregating per-phase status into a project or dashboard status",
+      "designing who may write progress state",
+      "separating where the creator is from how far the work has got"
+     ]
     }
    ],
    "applications": [
@@ -688,7 +957,12 @@
      "laws": [
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building a ledger of what a render spent on each piece of evidence",
+      "budget or coverage numbers look inflated or contradict the engine's own summary",
+      "deciding how edits update attribution"
+     ]
     },
     {
      "slug": "edit-plan-over-regeneration",
@@ -697,7 +971,12 @@
       "edit-do-not-regenerate",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building the revision path of a generation pipeline",
+      "answering creator notes on reviewed work",
+      "reviewing a revision engine's output for scope creep"
+     ]
     },
     {
      "slug": "follow-up-that-can-kill-a-fact",
@@ -706,7 +985,12 @@
       "output-never-outruns-evidence",
       "refusal-is-a-state"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "review raises doubts about the evidence under a piece",
+      "designing a follow-up research channel",
+      "a fact base only ever grows during iteration"
+     ]
     },
     {
      "slug": "note-taxonomy-focus-scope-order",
@@ -714,7 +998,12 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing the feedback controls of a review surface",
+      "translating creator notes into edit operations",
+      "deciding why a free-text note keeps being misread"
+     ]
     },
     {
      "slug": "refusal-as-valid-outcome",
@@ -723,7 +1012,12 @@
       "refusal-is-a-state",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a creator note asks for something the rules or evidence forbid",
+      "designing the output schema of a revision engine",
+      "two notes contradict each other"
+     ]
     },
     {
      "slug": "scope-vs-preference-signals",
@@ -731,7 +1025,12 @@
      "laws": [
       "refusal-is-a-state"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a review note collides with an earlier scoping decision",
+      "wiring a feedback channel next to an existing governance surface",
+      "auditing a pipeline for authority bypasses"
+     ]
     }
    ],
    "applications": [
@@ -758,13 +1057,23 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "auditing a drafted beat list",
+      "converting research notes into a script spine",
+      "reviewing a generated script before prose-level notes"
+     ]
     },
     {
      "slug": "nested-open-loops",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "auditing mid-video retention",
+      "planning act transitions",
+      "verifying every opened question gets paid"
+     ]
     },
     {
      "slug": "question-stack-architecture",
@@ -772,13 +1081,23 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "structuring acts before any prose exists",
+      "scaling one script format across runtimes",
+      "giving a generation pipeline a reviewable skeleton"
+     ]
     },
     {
      "slug": "reframe-close",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing the final beat of a factual piece",
+      "replacing a recap ending",
+      "pairing the close with the hook during composition"
+     ]
     },
     {
      "slug": "reversal-anatomy",
@@ -786,13 +1105,23 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "engineering a mid-video turn",
+      "compressing a reversal for short runtimes",
+      "reviewing a script whose surprises feel cheap"
+     ]
     },
     {
      "slug": "scqa-opening",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing the first 15-60 seconds of a factual piece",
+      "diagnosing a hook that presents facts but loses viewers",
+      "compressing an opening for very short runtimes"
+     ]
     }
    ],
    "applications": [
@@ -820,7 +1149,12 @@
       "causality-over-sequence",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "placing structural markers on a timeline",
+      "wiring act turns or chapter points into an assembly surface",
+      "diagnosing a marker that stopped matching the cut"
+     ]
     },
     {
      "slug": "drift-correction",
@@ -829,7 +1163,12 @@
       "unmeasured-is-not-pass",
       "edit-do-not-regenerate"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a narration or music clip sits off its mark",
+      "building a sync-adjustment control",
+      "deciding whether a sync problem is an offset or a rate mismatch"
+     ]
     },
     {
      "slug": "gap-and-refusal-honesty",
@@ -838,7 +1177,12 @@
       "refusal-is-a-state",
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "presenting a cut with missing or refused material",
+      "reviewing an assembly surface for claims the system cannot back",
+      "deciding what a refused generation should look like in the cut"
+     ]
     },
     {
      "slug": "multitrack-timeline-discipline",
@@ -846,7 +1190,12 @@
      "laws": [
       "output-never-outruns-evidence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "laying out or reviewing a multitrack cut",
+      "designing a timeline surface for a media pipeline",
+      "diagnosing an assembly whose numbers and picture disagree"
+     ]
     },
     {
      "slug": "music-spotting-against-picture",
@@ -854,7 +1203,12 @@
      "laws": [
       "causality-over-sequence"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding where music enters and exits a cut",
+      "briefing a music generator or composer per cue",
+      "reviewing a scored cut that feels wallpapered"
+     ]
     }
    ],
    "applications": [
@@ -877,7 +1231,12 @@
       "style-is-restated-not-remembered",
       "cost-per-usable-output"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building the image half of a style lock",
+      "deciding how many references to send per call",
+      "sizing a sheet against a model's reference window"
+     ]
     },
     {
      "slug": "consistency-control-arm",
@@ -886,7 +1245,12 @@
       "unmeasured-is-not-pass",
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "verifying that reference conditioning actually holds a style",
+      "building a regression probe for a generation pipeline",
+      "someone claims a batch is consistent by eye"
+     ]
     },
     {
      "slug": "draft-proofing-locked-ratchet",
@@ -895,7 +1259,12 @@
       "edit-do-not-regenerate",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing the lifecycle of a style or theme record",
+      "deciding whether a style may anchor production",
+      "handling a project whose style record is missing"
+     ]
     },
     {
      "slug": "rejections-as-negative-evidence",
@@ -904,7 +1273,12 @@
       "cost-per-usable-output",
       "unmeasured-is-not-pass"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding what happens to a rejected proof",
+      "sizing sheet capacity",
+      "a proofing round keeps repeating the same misses"
+     ]
     },
     {
      "slug": "style-block-restated-every-call",
@@ -912,7 +1286,12 @@
      "laws": [
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "composing any generation call in a styled project",
+      "wiring a pipeline hop from still to motion",
+      "debugging look drift inside a batch"
+     ]
     },
     {
      "slug": "style-onboarding-from-sample",
@@ -920,7 +1299,12 @@
      "laws": [
       "style-is-restated-not-remembered"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a user arrives with a look they cannot describe",
+      "importing a house style from existing published work",
+      "seeding a new theme from a single admired image"
+     ]
     }
    ],
    "applications": [

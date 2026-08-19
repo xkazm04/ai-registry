@@ -13,7 +13,7 @@
    "proposal-craft",
    "grant-operations"
   ],
-  "use_when_coverage": "0/101",
+  "use_when_coverage": "101/101",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -29,7 +29,11 @@
       "hard-gates-precede-soft-scores",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "screening a grant whose minimum award dwarfs the applicant",
+      "deciding which eligibility fails can convert to coalition leads"
+     ]
     },
     {
      "slug": "complementarity-scoring",
@@ -37,7 +41,11 @@
      "laws": [
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "ranking candidate partners for a coalition",
+      "judging whether a proposed consortium reads as breadth or redundancy"
+     ]
     },
     {
      "slug": "lead-applicant-selection",
@@ -45,7 +53,11 @@
      "laws": [
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a coalition is forming and must name its recipient of record",
+      "a partnership dispute over who \"owns\" a joint application"
+     ]
     },
     {
      "slug": "portfolio-balance-across-difficulty",
@@ -54,7 +66,12 @@
       "small-samples-stay-silent",
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "choosing which matched grants to pursue this cycle",
+      "a slate that keeps losing reaches or winning only small awards",
+      "capacity planning for a grants calendar"
+     ]
     },
     {
      "slug": "proportional-subgrant-split",
@@ -62,7 +79,11 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "proposing how a coalition award divides among members",
+      "pre-empting a post-award allocation dispute"
+     ]
     },
     {
      "slug": "requirement-profile-aggregation",
@@ -71,7 +92,11 @@
       "small-samples-stay-silent",
       "untrusted-text-is-data"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building funder-level intelligence from per-application analyses",
+      "assessing readiness against a funder before assembly or pursuit"
+     ]
     }
    ],
    "applications": [
@@ -98,25 +123,45 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a call is still open",
+      "handling funders that publish a closing time and timezone",
+      "an opportunity with multiple cutoffs vanished after the first one passed"
+     ]
     },
     {
      "slug": "cross-client-deadline-union",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a consultant or fiscal sponsor manages deadlines across several client organizations",
+      "building a portfolio-wide deadline view over per-tenant data",
+      "tempted to write a cross-tenant query for a combined dashboard"
+     ]
     },
     {
      "slug": "escalating-reminder-thresholds",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing scheduled deadline reminders",
+      "a recipient got three reminders about one deadline in one day",
+      "reminders re-fired after a scheduler rerun"
+     ]
     },
     {
      "slug": "miss-risk-scoring",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "ranking in-flight drafts by which is most likely to be missed",
+      "a calendar-only reminder treats a nearly-done and a barely-started draft identically",
+      "deciding which applications a triage lane should surface"
+     ]
     },
     {
      "slug": "severity-band-triage",
@@ -124,13 +169,23 @@
      "laws": [
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "rendering a deadline radar or dashboard list",
+      "deciding sort order between urgency and fit",
+      "a deadline list is too long to act on"
+     ]
     },
     {
      "slug": "timezone-correct-day-math",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "computing days-until-close anywhere a real wall-clock now enters",
+      "a reminder fired a day early or skipped the last day",
+      "scheduled jobs and on-screen counts disagree about the same deadline"
+     ]
     }
    ],
    "applications": [
@@ -157,7 +212,12 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "normalizing who-can-apply data from heterogeneous sources",
+      "matching a non-nonprofit applicant against a code-based regime",
+      "an applicant category was silently misrouted"
+     ]
     },
     {
      "slug": "award-size-capacity-fit",
@@ -166,7 +226,12 @@
       "hard-gates-precede-soft-scores",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "screening opportunities by award size against organizational capacity",
+      "handling single-bound award ranges",
+      "a too-large award was recommended to a small organization"
+     ]
     },
     {
      "slug": "deadline-and-cutoff-evaluation",
@@ -175,7 +240,12 @@
       "hard-gates-precede-soft-scores",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a submission window is still open",
+      "evaluating multi-cutoff calls",
+      "an open opportunity showed as closed near midnight or near a cutoff"
+     ]
     },
     {
      "slug": "geographic-scope-gating",
@@ -184,7 +254,12 @@
       "hard-gates-precede-soft-scores",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "gating opportunities by territory in a multi-country corpus",
+      "an applicant passed a foreign national programme",
+      "deciding how prose place-name matching may refine a structured gate"
+     ]
     },
     {
      "slug": "hard-gate-vs-soft-score",
@@ -192,7 +267,12 @@
      "laws": [
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "wiring eligibility checks into a scored matching pipeline",
+      "deciding what an AI layer may override",
+      "an ineligible opportunity outranked eligible ones"
+     ]
     },
     {
      "slug": "legal-form-eligibility-model",
@@ -201,7 +281,12 @@
       "hard-gates-precede-soft-scores",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "entering a jurisdiction whose opportunities publish no applicant codes",
+      "modelling which registered legal forms may receive public funding",
+      "an applicant with an ineligible legal form reached the fit stage"
+     ]
     }
    ],
    "applications": [
@@ -228,7 +313,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing drafting prompts for funding narratives",
+      "deciding what a generator should do when a figure is missing",
+      "gating a draft for submission readiness"
+     ]
     },
     {
      "slug": "document-fact-extraction",
@@ -238,7 +328,12 @@
       "honest-null-over-forced-guess",
       "untrusted-text-is-data"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "pulling typed facts out of uploaded organizational documents",
+      "designing an extraction prompt for financial or program documents",
+      "choosing between deterministic and model extraction"
+     ]
     },
     {
      "slug": "placeholder-to-fact-resolution",
@@ -247,7 +342,12 @@
       "honest-null-over-forced-guess",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "closing out a draft's bracketed placeholders before submission",
+      "wiring the fact ledger into a review surface",
+      "deciding whether a placeholder can be auto-suggested"
+     ]
     },
     {
      "slug": "provenance-per-figure",
@@ -256,7 +356,12 @@
       "provenance-per-field",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing the fact-ledger schema",
+      "presenting extracted values for human review",
+      "answering \"where did this number come from\" for any figure in a proposal"
+     ]
     },
     {
      "slug": "ungrounded-statistic-detection",
@@ -264,7 +369,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "reviewing a generated funding narrative before a human sees it",
+      "building automated quality gates for drafting output",
+      "deciding which numbers in a draft need sourcing"
+     ]
     },
     {
      "slug": "verified-fact-ledger",
@@ -273,7 +383,12 @@
       "never-fabricate-a-figure",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "wiring organizational documents into a drafting pipeline",
+      "deciding what a generated narrative may state as fact",
+      "turning uploaded files into reusable grounding"
+     ]
     }
    ],
    "applications": [
@@ -300,7 +415,12 @@
      "laws": [
       "the-funder-sets-the-form"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "applying to an arts council or cultural funding panel",
+      "structuring a project grant for artistic work",
+      "a draft argues social outcomes where a panel scores artistic quality"
+     ]
     },
     {
      "slug": "blueprint-routing-rules",
@@ -310,7 +430,12 @@
       "honest-null-over-forced-guess",
       "untrusted-text-is-data"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding which application structure a funding opportunity gets",
+      "wiring blueprint selection into a drafting pipeline",
+      "auditing why an opportunity received the wrong form"
+     ]
     },
     {
      "slug": "federal-rubric-sections",
@@ -319,7 +444,12 @@
       "the-funder-sets-the-form",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "responding to a federal or national notice of funding opportunity",
+      "a call publishes a points rubric across need/approach/capacity/evaluation",
+      "restructuring a single-narrative draft for a rubric-scored competition"
+     ]
     },
     {
      "slug": "movement-funder-sections",
@@ -327,7 +457,12 @@
      "laws": [
       "the-funder-sets-the-form"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "applying to an advocacy or social-justice funder",
+      "structuring a community-organizing or campaign grant",
+      "a service-delivery draft needs reshaping around power and systems change"
+     ]
     },
     {
      "slug": "supranational-award-criteria-sections",
@@ -336,7 +471,12 @@
       "the-funder-sets-the-form",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "structuring an application to a supranational research or cooperation programme",
+      "a call scores named award criteria with per-criterion thresholds",
+      "drafting excellence/impact/implementation sections"
+     ]
     },
     {
      "slug": "trust-and-lottery-sections",
@@ -344,7 +484,12 @@
      "laws": [
       "the-funder-sets-the-form"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "applying to a charitable trust or foundation with a short form",
+      "applying to a lottery-distributed or community fund",
+      "a draft in rubric register needs reshaping for trustees"
+     ]
     }
    ],
    "applications": [
@@ -372,7 +517,12 @@
       "small-samples-stay-silent",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "computing publishable per-funder award statistics",
+      "answering \"do orgs my size win here\"",
+      "designing the outcome record schema"
+     ]
     },
     {
      "slug": "consent-scoped-contribution",
@@ -380,7 +530,12 @@
      "laws": [
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "pooling outcome data across organizations",
+      "wording an opt-in disclosure",
+      "handling opt-out against already-contributed data"
+     ]
     },
     {
      "slug": "fit-calibration-monotonicity",
@@ -389,7 +544,12 @@
       "honest-null-over-forced-guess",
       "small-samples-stay-silent"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "auditing whether a fit score predicts real outcomes",
+      "deciding if a scoring model has earned user trust",
+      "binning outcomes by score for calibration"
+     ]
     },
     {
      "slug": "k-anonymity-suppression",
@@ -397,7 +557,12 @@
      "laws": [
       "small-samples-stay-silent"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "publishing any aggregate computed from contributor data",
+      "setting a privacy floor for a shared dataset",
+      "reviewing whether a published cell can identify its members"
+     ]
     },
     {
      "slug": "rfp-difficulty-scoring",
@@ -406,7 +571,12 @@
       "honest-null-over-forced-guess",
       "small-samples-stay-silent"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "labeling funders or programs by competitiveness",
+      "helping applicants triage where to spend proposal hours",
+      "mapping award rates to an ordinal scale"
+     ]
     },
     {
      "slug": "win-probability-confidence-bands",
@@ -416,7 +586,12 @@
       "small-samples-stay-silent",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "showing an applicant their odds before they invest in a proposal",
+      "merging live outcome signals over a curated prior",
+      "labeling an estimate's reliability"
+     ]
     }
    ],
    "applications": [
@@ -444,7 +619,12 @@
       "never-fabricate-a-figure",
       "untrusted-text-is-data"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a discovered opportunity is real",
+      "hardening a research pipeline against confident fabrication",
+      "choosing between cheap and expensive verification signals"
+     ]
     },
     {
      "slug": "coverage-gap-driven-planning",
@@ -452,7 +632,12 @@
      "laws": [
       "clean-is-not-ready"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding which jurisdiction and sector to research next",
+      "budgeting scarce research runs",
+      "detecting silent decay in a research-fed corpus"
+     ]
     },
     {
      "slug": "discovery-with-omit-if-unsure",
@@ -461,7 +646,12 @@
       "never-fabricate-a-figure",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing discovery instructions for a research agent",
+      "reducing fabrication in generative search",
+      "localizing research across jurisdictions"
+     ]
     },
     {
      "slug": "human-review-before-promotion",
@@ -470,7 +660,12 @@
       "never-fabricate-a-figure",
       "clean-is-not-ready"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "moving discovered candidates into a live corpus",
+      "designing the review queue and its states",
+      "making promotion safe to re-run"
+     ]
     },
     {
      "slug": "provenance-and-confidence-per-row",
@@ -478,7 +673,12 @@
      "laws": [
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "staging discovered candidates for review",
+      "designing a confidence score reviewers can trust",
+      "deciding what metadata a research row must carry"
+     ]
     },
     {
      "slug": "schema-validation-at-boundary",
@@ -487,7 +687,12 @@
       "untrusted-text-is-data",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "parsing research-agent output into typed rows",
+      "deciding which malformed candidates to repair versus reject",
+      "keeping a corpus schema stable across many discovery sources"
+     ]
     }
    ],
    "applications": [
@@ -514,7 +719,11 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "scoring mission or topical fit from keyword overlap",
+      "debugging why broad umbrella announcements outrank narrow fits"
+     ]
     },
     {
      "slug": "explainable-match-reasons",
@@ -523,7 +732,11 @@
       "never-fabricate-a-figure",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building the \"why this matched\" surface next to a ranked list",
+      "auditing whether match explanations are faithful to the ranker"
+     ]
     },
     {
      "slug": "injection-safe-rfp-analysis",
@@ -532,7 +745,12 @@
       "untrusted-text-is-data",
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "sending funder-published or scraped text into a model prompt",
+      "injecting applicant-supplied documents into an analysis",
+      "reviewing a matcher prompt for injection surface"
+     ]
     },
     {
      "slug": "llm-plus-deterministic-two-lane",
@@ -542,7 +760,12 @@
       "honest-null-over-forced-guess",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "adding model-based fit analysis to a matcher",
+      "deciding what stays deterministic vs what a model may judge",
+      "designing fallback when the model lane fails"
+     ]
     },
     {
      "slug": "verdict-thresholds",
@@ -551,7 +774,11 @@
       "hard-gates-precede-soft-scores",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "turning fit scores into user-facing recommendations",
+      "deciding how eligibility failures interact with high fit scores"
+     ]
     },
     {
      "slug": "weighted-component-scoring",
@@ -560,7 +787,12 @@
       "hard-gates-precede-soft-scores",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing the ranking backbone of a matcher",
+      "tuning why the wrong grants rank high",
+      "adding a \"related opportunities\" similarity ranking"
+     ]
     }
    ],
    "applications": [
@@ -587,7 +819,12 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "normalizing deadlines at the ingest boundary",
+      "handling multi-cutoff calls",
+      "a deadline pipeline shows wrong or missing dates"
+     ]
     },
     {
      "slug": "curated-floor-vs-live-feed",
@@ -595,7 +832,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a jurisdiction has no structured feed",
+      "designing the source registry for a multi-market corpus",
+      "deciding what runs by default vs behind a flag"
+     ]
     },
     {
      "slug": "market-readiness-tiering",
@@ -604,7 +846,12 @@
       "clean-is-not-ready",
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "prioritizing which markets to enter",
+      "deciding where the product may claim high confidence",
+      "planning the source roadmap"
+     ]
     },
     {
      "slug": "open-call-vs-awarded-history",
@@ -612,7 +859,12 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "evaluating a candidate data source",
+      "deciding what a dataset can power",
+      "auditing a corpus for unapplicable rows"
+     ]
     },
     {
      "slug": "relevance-precision-filtering",
@@ -621,7 +873,12 @@
       "honest-null-over-forced-guess",
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a source returns more than live grant opportunities",
+      "filtering status codes or mixed search indexes at ingest",
+      "closed or irrelevant rows appear in matches"
+     ]
     },
     {
      "slug": "stable-dedup-key-selection",
@@ -629,7 +886,12 @@
      "laws": [
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "onboarding a new source into the corpus",
+      "designing upsert semantics for repeated ingest",
+      "debugging duplicate rows after refresh"
+     ]
     }
    ],
    "applications": [
@@ -656,7 +918,12 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a large share of a corpus is uncategorized despite good text rules",
+      "titles are bare programme names or reference codes",
+      "a source encodes sector in identifiers rather than prose"
+     ]
     },
     {
      "slug": "append-only-codes-with-migrations",
@@ -664,7 +931,12 @@
      "laws": [
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a taxonomy code needs renaming or splitting",
+      "stored rows carry codes from an older vocabulary",
+      "designing the change policy for a controlled vocabulary"
+     ]
     },
     {
      "slug": "deterministic-first-classification",
@@ -673,7 +945,12 @@
       "hard-gates-precede-soft-scores",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building the classification pipeline for a funding corpus",
+      "deciding what work an LLM classifier should be allowed",
+      "a tagging pass must be re-runnable and auditable"
+     ]
     },
     {
      "slug": "false-positive-suppressors",
@@ -681,7 +958,12 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "an audit finds a keyword rule systematically mis-tagging a slice",
+      "a polysemous word pulls one domain's grants into another",
+      "deciding between narrowing a rule and adding a negative rule"
+     ]
     },
     {
      "slug": "llm-residual-classification",
@@ -690,13 +972,23 @@
       "honest-null-over-forced-guess",
       "untrusted-text-is-data"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a residual tail stays uncategorized after all deterministic layers",
+      "corpus rows carry non-English or idiomatic sector signal",
+      "deciding how to constrain an LLM classifier over a controlled vocabulary"
+     ]
     },
     {
      "slug": "orthogonal-dimension-modelling",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "defining or restructuring a funding vocabulary",
+      "a category list keeps growing compound entries",
+      "users cannot filter by a question the data should answer"
+     ]
     }
    ],
    "applications": [
@@ -724,7 +1016,12 @@
       "the-funder-sets-the-form",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "structuring a narrative report to a funder",
+      "defining completion criteria for a report editor",
+      "prompting a drafting model for report sections"
+     ]
     },
     {
      "slug": "honest-misses-disclosure",
@@ -732,7 +1029,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a lessons-learned section",
+      "deciding how to report a target the program missed",
+      "building a quality gate for generated report drafts"
+     ]
     },
     {
      "slug": "modeled-figure-marking",
@@ -741,7 +1043,12 @@
       "never-fabricate-a-figure",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "publishing an estimate derived from a model rather than a count",
+      "designing impact dashboards or board reports",
+      "reviewing public impact claims for overclaiming"
+     ]
     },
     {
      "slug": "per-funder-track-record",
@@ -750,7 +1057,12 @@
       "small-samples-stay-silent",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building a board-facing or public impact roll-up",
+      "preparing a renewal conversation with a specific funder",
+      "aggregating awarded grants across a portfolio"
+     ]
     },
     {
      "slug": "report-calendar-derivation",
@@ -758,7 +1070,12 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building a reports-due queue or reminder system",
+      "deciding when a post-award report is overdue",
+      "retrofitting due dates onto existing report records"
+     ]
     },
     {
      "slug": "verifiable-impact-certificates",
@@ -768,7 +1085,12 @@
       "provenance-per-field",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing third-party-checkable proof of delivered impact",
+      "publishing a public credibility page for an organization",
+      "deciding how a verification badge may honestly present itself"
+     ]
     }
    ],
    "applications": [
@@ -796,7 +1118,12 @@
       "clean-is-not-ready",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building or extending a required-attachments checklist across markets",
+      "a new market demands document classes the founding market never produced",
+      "a completeness check passed while a locally mandatory certificate was missing"
+     ]
     },
     {
      "slug": "eligibility-regime-detection",
@@ -805,7 +1132,12 @@
       "hard-gates-precede-soft-scores",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a shared eligibility gate must serve markets with and without applicant codes",
+      "deciding what an onboarding flow must collect in a given market",
+      "code-regime logic returned empty or default audiences in a new market"
+     ]
     },
     {
      "slug": "entity-type-code-mapping",
@@ -814,7 +1146,12 @@
       "honest-null-over-forced-guess",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "auto-classifying an applicant's legal form from an official registry response",
+      "a registry returns coarse or enumerated codes that must become product entity types",
+      "a verification flow silently mislabeled an organization's legal form"
+     ]
     },
     {
      "slug": "jurisdiction-profile-schema",
@@ -823,7 +1160,12 @@
       "hard-gates-precede-soft-scores",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing the data model for a first or second country market",
+      "a jurisdiction-bound rule is about to be hard-coded outside the profile",
+      "auditing how many places encode the same country assumption"
+     ]
     },
     {
      "slug": "market-claim-truthfulness",
@@ -831,7 +1173,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing any user-facing statement about which markets are covered",
+      "deciding what an applicant in an unsupported market should see",
+      "a roadmap or coverage list disagreed with the live profile set"
+     ]
     },
     {
      "slug": "supranational-membership-inheritance",
@@ -839,7 +1186,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "registering a multi-country funding body as a jurisdiction",
+      "member-state applicants cannot see a supranational corpus they are entitled to",
+      "a coverage count or market list includes a body no one can incorporate in"
+     ]
     }
    ],
    "applications": [
@@ -867,7 +1219,12 @@
       "honest-null-over-forced-guess",
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a registry's negative answer should block an applicant",
+      "mapping a source's status vocabulary onto a shared verdict model",
+      "a legitimate organization was failed by a check that could not actually disqualify it"
+     ]
     },
     {
      "slug": "graceful-source-degradation",
@@ -876,7 +1233,14 @@
       "honest-null-over-forced-guess",
       "clean-is-not-ready"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a registry source is flaky",
+      "credential-gated",
+      "or not yet built for a jurisdiction",
+      "deciding what to cache when an upstream returns a partial payload",
+      "a verification verdict must stay honest while its check roster is incomplete"
+     ]
     },
     {
      "slug": "identifier-checksum-prevalidation",
@@ -884,7 +1248,12 @@
      "laws": [
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "accepting a free-typed organization identifier before a registry lookup",
+      "a mistyped id was reported as \"organization does not exist\"",
+      "adding a new jurisdiction whose identifier carries a check digit"
+     ]
     },
     {
      "slug": "registry-adapter-contract",
@@ -893,7 +1262,12 @@
       "provenance-per-field",
       "clean-is-not-ready"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "adding a second or later registry source to a verification pipeline",
+      "normalizing heterogeneous registry responses into one aggregatable shape",
+      "id-based and name-based sources need to run through one call"
+     ]
     },
     {
      "slug": "registry-name-binding",
@@ -902,7 +1276,12 @@
       "provenance-per-field",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a verification flow accepts a free-typed organization name alongside a registry identifier",
+      "designing the impersonation guard for a verified badge or credential",
+      "tuning name normalization and match thresholds across languages and legal forms"
+     ]
     },
     {
      "slug": "verification-passport",
@@ -912,7 +1291,12 @@
       "provenance-per-field",
       "small-samples-stay-silent"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "turning a multi-source verification run into a durable credential an org can reuse",
+      "defining the aggregate eligibility verdict and its confidence score",
+      "deciding how long a verification stays valid and how tampering is detected"
+     ]
     }
    ],
    "applications": [
@@ -940,7 +1324,12 @@
       "untrusted-text-is-data",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "letting applicants supply websites or documents as extra context for matching and drafting",
+      "bounding and sanitizing user-supplied material before it reaches a prompt",
+      "deciding whether to store uploaded files or extracted text"
+     ]
     },
     {
      "slug": "attestation-invalidation",
@@ -949,7 +1338,12 @@
       "provenance-per-field",
       "clean-is-not-ready"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "persisting a registry-verification result or any derived trust badge",
+      "deciding what happens to verified status when a source field changes",
+      "a verified badge vouched for data it never checked"
+     ]
     },
     {
      "slug": "disambiguation-over-confident-guess",
@@ -958,7 +1352,12 @@
       "honest-null-over-forced-guess",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "an applicant lookup input matches more than one real organization",
+      "capping model confidence on identity-bearing fields",
+      "a lookup returned the fluent profile of the wrong organization"
+     ]
     },
     {
      "slug": "funder-fact-taxonomy",
@@ -966,13 +1365,23 @@
      "laws": [
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding which applicant fields a readiness profile must hold",
+      "designing the schema for an applicant onboarding form",
+      "auditing why applications keep needing facts the profile lacks"
+     ]
     },
     {
      "slug": "multi-org-workspace-scoping",
      "status": "forged",
      "laws": [],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "adding teams or consultant-managed clients to a single-user applicant tool",
+      "choosing the tenancy key for readiness data",
+      "validating which organization a request may act in"
+     ]
     },
     {
      "slug": "registry-grounded-autofill",
@@ -981,7 +1390,12 @@
       "never-fabricate-a-figure",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "pre-filling an applicant profile from one user-supplied input",
+      "wiring a research model or registry API into onboarding",
+      "an autofilled field shipped a wrong or unsourced value"
+     ]
     }
    ],
    "applications": [
@@ -1009,7 +1423,12 @@
       "never-fabricate-a-figure",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "substantiating why a program model works",
+      "deciding which figures may be stated as fact",
+      "reviewing a draft for unsupported claims"
+     ]
     },
     {
      "slug": "funder-dollars-unlock-close",
@@ -1017,7 +1436,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing the closing ask of a narrative",
+      "connecting a request amount to outcomes",
+      "reviewing a draft that ends on generic support language"
+     ]
     },
     {
      "slug": "genre-register-classification",
@@ -1026,7 +1450,12 @@
       "the-funder-sets-the-form",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding which narrative shape a funder demands",
+      "building automated genre detection for drafting",
+      "reviewing a draft that feels tonally wrong for its funder"
+     ]
     },
     {
      "slug": "problem-population-opening",
@@ -1034,7 +1463,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing the first paragraph of a narrative or need statement",
+      "reviewing a draft that opens with organizational history",
+      "drafting a standalone need statement"
+     ]
     },
     {
      "slug": "program-model-specificity",
@@ -1042,7 +1476,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "describing the program or project design",
+      "reviewing a draft that reads as generic mission-speak",
+      "writing drafting guidance for a model section"
+     ]
     },
     {
      "slug": "theory-of-change-framing",
@@ -1051,7 +1490,12 @@
       "the-funder-sets-the-form",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "writing a logic model or theory of change section",
+      "an advocacy or systems-change application",
+      "a narrative whose need/design/evaluation sections do not connect"
+     ]
     }
    ],
    "applications": [
@@ -1079,7 +1523,12 @@
       "never-fabricate-a-figure",
       "hard-gates-precede-soft-scores"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "designing a gate library for draft review",
+      "deciding whether a new check should block",
+      "defining what \"green\" means for a reviewed draft"
+     ]
     },
     {
      "slug": "expert-review-tier-operation",
@@ -1087,7 +1536,12 @@
      "laws": [
       "clean-is-not-ready"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "adding a paid human review tier above automated checks",
+      "designing claim and refund semantics for an expert queue",
+      "deciding whether a human service should be visible when unstaffed"
+     ]
     },
     {
      "slug": "placeholder-and-jargon-detection",
@@ -1096,7 +1550,12 @@
       "never-fabricate-a-figure",
       "clean-is-not-ready"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "checking a draft for unfinished work before filing",
+      "drafting prompts that emit fill-in slots instead of invented figures",
+      "tuning detector patterns after a false pass or false alarm"
+     ]
     },
     {
      "slug": "revise-to-green-single-pass",
@@ -1104,7 +1563,12 @@
      "laws": [
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "a generated draft fails its quality gates",
+      "deciding how much self-repair a drafting pipeline should attempt",
+      "multiple generation routes need the same repair behavior"
+     ]
     },
     {
      "slug": "rubric-mirrors-prompt-guidance",
@@ -1112,7 +1576,12 @@
      "laws": [
       "the-funder-sets-the-form"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "building a critic for machine-generated drafts",
+      "generation guidance and review checks disagree",
+      "adding a new funder-family section type to a drafting pipeline"
+     ]
     },
     {
      "slug": "section-word-band-checks",
@@ -1120,7 +1589,12 @@
      "laws": [
       "the-funder-sets-the-form"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "setting length checks per proposal section",
+      "review flags disagree with generation guidance about length",
+      "a new funder-family section type needs bounds"
+     ]
     }
    ],
    "applications": [
@@ -1149,7 +1623,12 @@
       "untrusted-text-is-data",
       "provenance-per-field"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "capturing filing ground truth at the mark-filed moment",
+      "aggregating org experience into per-funder guidance",
+      "deciding when crowd knowledge may override defaults"
+     ]
     },
     {
      "slug": "funder-portal-resolution",
@@ -1158,7 +1637,12 @@
       "honest-null-over-forced-guess",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "linking a queued submission to its filing destination",
+      "deciding whether a derived URL is safe to render",
+      "merging crowd-reported portals with derived ones"
+     ]
     },
     {
      "slug": "majority-rule-doc-consensus",
@@ -1167,7 +1651,12 @@
       "small-samples-stay-silent",
       "honest-null-over-forced-guess"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deriving a canonical document list from multiple filer reports",
+      "keeping one outlier filing from dictating the checklist",
+      "choosing between union and intersection of contributed lists"
+     ]
     },
     {
      "slug": "proof-of-filing",
@@ -1177,7 +1666,12 @@
       "provenance-per-field",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "deciding what evidence a filed status requires",
+      "building surfaces that promise on submission facts",
+      "handling filings whose confirmation never arrived"
+     ]
     },
     {
      "slug": "standard-materials-checklist",
@@ -1186,7 +1680,12 @@
       "provenance-per-field",
       "never-fabricate-a-figure"
      ],
-     "shared_with": []
+     "shared_with": [],
+     "use_when": [
+      "showing required documents when no per-funder data exists",
+      "captioning generic guidance honestly",
+      "deciding when verified knowledge displaces the generic floor"
+     ]
     }
    ],
    "applications": [
