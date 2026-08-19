@@ -151,11 +151,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 105,
-      "techniques": 624,
-      "applications": 236,
-      "files": 969,
-      "contentHash": "sha256:ed330b86c63f91b9"
+      "subjects": 106,
+      "techniques": 629,
+      "applications": 238,
+      "files": 977,
+      "contentHash": "sha256:aa912cb453476d6a"
     }
   ]
 }

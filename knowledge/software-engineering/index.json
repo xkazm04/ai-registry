@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 105,
-  "techniques": 624,
-  "applications": 236,
+  "subjects": 106,
+  "techniques": 629,
+  "applications": 238,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -17,7 +17,7 @@
    "integration",
    "engineering-process"
   ],
-  "use_when_coverage": "0/624",
+  "use_when_coverage": "0/629",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3630,6 +3630,70 @@
      "stack": "rust",
      "technique": "terminal-state-recovery",
      "file": "knowledge/software-engineering/job-coordination/applications/rust--terminal-state-recovery.md"
+    }
+   ]
+  },
+  "knowledge-registry": {
+   "category": "engineering-process",
+   "status": "forged",
+   "file": "knowledge/software-engineering/knowledge-registry/knowledge-registry.md",
+   "techniques": [
+    {
+     "slug": "consumer-overlays",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "lane-contracts",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "per-contributor-aggregation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "propose-then-adopt",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "standard-versus-consumer-split",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "per-contributor-aggregation",
+     "file": "knowledge/software-engineering/knowledge-registry/applications/node--per-contributor-aggregation.md"
+    },
+    {
+     "stack": "node",
+     "technique": "standard-versus-consumer-split",
+     "file": "knowledge/software-engineering/knowledge-registry/applications/node--standard-versus-consumer-split.md"
     }
    ]
   },
@@ -7833,6 +7897,7 @@
     "ipc-contract/command-registration",
     "ipc-contract/drift-gates",
     "job-coordination/lease-renewal",
+    "knowledge-registry/lane-contracts",
     "markdown-vault/knowledge-integrity-lint",
     "markdown-vault/mirror-indexes",
     "mcp-tools/authentication-and-scoping",
@@ -8217,6 +8282,7 @@
     "hitl-approval/decision-records",
     "i18n/string-extraction-enforcement",
     "job-coordination/terminal-state-recovery",
+    "knowledge-registry/propose-then-adopt",
     "markdown-vault/knowledge-integrity-lint",
     "mcp-tools/untrusted-result-handling",
     "media-playback/source-resilience",
@@ -8317,6 +8383,8 @@
     "import-normalization/lossy-conversion-disclosure",
     "ipc-contract/casing-and-naming",
     "job-coordination/job-observability",
+    "knowledge-registry/per-contributor-aggregation",
+    "knowledge-registry/standard-versus-consumer-split",
     "markdown-vault/link-graph-extraction",
     "metrics-rollups/aggregate-honesty",
     "metrics-rollups/bucketing-strategy",
@@ -8595,6 +8663,7 @@
     "ipc-contract/call-wrapping",
     "ipc-contract/error-shape-mapping",
     "job-coordination/job-state-machines",
+    "knowledge-registry/propose-then-adopt",
     "markdown-vault/vault-as-database",
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/server-composition",
@@ -8871,6 +8940,10 @@
     "ipc-contract/error-shape-mapping",
     "ipc-contract/generated-type-contracts",
     "job-coordination/job-state-machines",
+    "knowledge-registry/consumer-overlays",
+    "knowledge-registry/lane-contracts",
+    "knowledge-registry/per-contributor-aggregation",
+    "knowledge-registry/standard-versus-consumer-split",
     "markdown-vault/link-graph-extraction",
     "mcp-tools/server-composition",
     "mcp-tools/tool-schema-design",
@@ -8996,6 +9069,7 @@
     "health-checks/probe-caching",
     "i18n/catalog-architecture",
     "ipc-contract/generated-type-contracts",
+    "knowledge-registry/per-contributor-aggregation",
     "markdown-vault/link-graph-extraction",
     "markdown-vault/mirror-indexes",
     "media-playback/media-resource-lifecycle",
