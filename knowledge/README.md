@@ -20,6 +20,32 @@ knowledge/
 | Domain | What it covers |
 |---|---|
 | `software-engineering/` | Building and operating software: UI surfaces, client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process. |
+| `media-generation/` | Producing factual audiovisual content with generative models: narrative craft, research grounding, image generation and prompting, frame direction, production operations. |
+| `civic-intelligence/` | Watching public power with data: parliamentary records, legislation, public money, and the accountability methodology for publishing about real named people. |
+| `grant-funding/` | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |
+
+## How the tree grows — and when a domain splits
+
+The hierarchy is deliberately shallow: `knowledge/<domain>/<subject>/`. The *logical* tree
+gets its depth from two generated-or-declared files, not from deeper folders:
+
+- **`categories.json`** groups a bundle's subjects into a display/navigation ring. This is
+  the cheap axis: adding a category is a one-line change, and a category can hold one
+  subject or forty.
+- **`index.json`** (generated) is the machine-readable tree a consumer walks without
+  reading 900 files.
+
+Start every new domain as ONE bundle with categories, even when you suspect it will split
+(image vs video generation; politics vs economics vs law). Categories make the eventual
+split boundary visible before it is paid for. **Split a domain only when a category earns
+it**, and the test is the transplant rule, not size: split when a category's subjects
+stop sharing the parent's purity denylist (they'd ban different product vocabularies), or
+when a consumer exists who wants one category and would be *misled* by the rest. The split
+itself is mechanical: promote the category to `knowledge/<new-domain>/`, move its subject
+folders, write its `index.md`, re-run the gates. Techniques shared across the boundary are
+the cost — cross-bundle links are forbidden, so a shared technique must be duplicated as
+two owned copies or kept in the parent; count those before splitting, and if there are
+many, the category was not actually a separate domain.
 
 ## Reading a bundle
 

@@ -1,0 +1,1098 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "media-generation",
+  "source": "knowledge/media-generation/ (frontmatter only)",
+  "subjects": 14,
+  "techniques": 78,
+  "applications": 27,
+  "laws": 8,
+  "categories": [
+   "narrative-craft",
+   "research-grounding",
+   "visual-generation",
+   "frame-direction",
+   "production-ops"
+  ],
+  "use_when_coverage": "0/78",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "content-research-grounding": {
+   "category": "research-grounding",
+   "status": "forged",
+   "file": "knowledge/media-generation/content-research-grounding/content-research-grounding.md",
+   "techniques": [
+    {
+     "slug": "evidence-grading-ladder",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "pre-linked-causal-mechanisms",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "prior-declaration-and-steel-man",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "scale-conversion-of-numbers",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "tension-finding-taxonomy",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "unknowns-as-constraints",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "tension-finding-taxonomy",
+     "file": "knowledge/media-generation/content-research-grounding/applications/process--tension-finding-taxonomy.md"
+    },
+    {
+     "stack": "react",
+     "technique": "unknowns-as-constraints",
+     "file": "knowledge/media-generation/content-research-grounding/applications/react--unknowns-as-constraints.md"
+    }
+   ]
+  },
+  "creator-voice-and-tone": {
+   "category": "narrative-craft",
+   "status": "forged",
+   "file": "knowledge/media-generation/creator-voice-and-tone/creator-voice-and-tone.md",
+   "techniques": [
+    {
+     "slug": "delivery-rate-budgeting",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "dial-vs-subject-property",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "engine-tone-separation",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "reference-world-and-bookends",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    },
+    {
+     "slug": "voice-profile-from-accepted-work",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "engine-tone-separation",
+     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--engine-tone-separation.md"
+    },
+    {
+     "stack": "process",
+     "technique": "voice-profile-from-accepted-work",
+     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--voice-profile-from-accepted-work.md"
+    }
+   ]
+  },
+  "evidence-bound-visuals": {
+   "category": "research-grounding",
+   "status": "forged",
+   "file": "knowledge/media-generation/evidence-bound-visuals/evidence-bound-visuals.md",
+   "techniques": [
+    {
+     "slug": "causal-arrow-discipline",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "epistemic-draw-routing",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel",
+      "output-never-outruns-evidence",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "figure-must-cite-a-fact",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "generous-strawman-rendering",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "precision-limit-propagation",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "epistemic-draw-routing",
+     "file": "knowledge/media-generation/evidence-bound-visuals/applications/process--epistemic-draw-routing.md"
+    },
+    {
+     "stack": "react",
+     "technique": "figure-must-cite-a-fact",
+     "file": "knowledge/media-generation/evidence-bound-visuals/applications/react--figure-must-cite-a-fact.md"
+    }
+   ]
+  },
+  "frame-direction": {
+   "category": "frame-direction",
+   "status": "forged",
+   "file": "knowledge/media-generation/frame-direction/frame-direction.md",
+   "techniques": [
+    {
+     "slug": "motif-establish-vary-payoff",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "motion-intent-authoring",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "one-function-per-visual",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "per-beat-rejection",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "refusal-is-a-state"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "plate-elements-text-split",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "visual-function-vocabulary",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "visual-function-vocabulary",
+     "file": "knowledge/media-generation/frame-direction/applications/process--visual-function-vocabulary.md"
+    },
+    {
+     "stack": "react",
+     "technique": "per-beat-rejection",
+     "file": "knowledge/media-generation/frame-direction/applications/react--per-beat-rejection.md"
+    }
+   ]
+  },
+  "generated-output-grading": {
+   "category": "visual-generation",
+   "status": "forged",
+   "file": "knowledge/media-generation/generated-output-grading/generated-output-grading.md",
+   "techniques": [
+    {
+     "slug": "cross-provider-flip-analysis",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "regrade-without-regenerate",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "cost-per-usable-output"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "trial-matrix-design",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "two-grader-disagreement-rule",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "unconditional-fail-criteria",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "vision-model-grading-schema",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "trial-matrix-design",
+     "file": "knowledge/media-generation/generated-output-grading/applications/node--trial-matrix-design.md"
+    },
+    {
+     "stack": "process",
+     "technique": "unconditional-fail-criteria",
+     "file": "knowledge/media-generation/generated-output-grading/applications/process--unconditional-fail-criteria.md"
+    }
+   ]
+  },
+  "generative-provider-routing": {
+   "category": "visual-generation",
+   "status": "forged",
+   "file": "knowledge/media-generation/generative-provider-routing/generative-provider-routing.md",
+   "techniques": [
+    {
+     "slug": "capability-to-vendor-plan",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "refusal-is-a-state"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "cost-per-usable-economics",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "non-silent-elimination",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "refusal-reroute-hop",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "resolution-as-stage-property",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "vendor-fact-ledger",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "refusal-reroute-hop",
+     "file": "knowledge/media-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md"
+    },
+    {
+     "stack": "process",
+     "technique": "cost-per-usable-economics",
+     "file": "knowledge/media-generation/generative-provider-routing/applications/process--cost-per-usable-economics.md"
+    }
+   ]
+  },
+  "image-prompt-composition": {
+   "category": "visual-generation",
+   "status": "forged",
+   "file": "knowledge/media-generation/image-prompt-composition/image-prompt-composition.md",
+   "techniques": [
+    {
+     "slug": "assigned-colour-roles",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "negative-prompting",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "prompt-budget-limits",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "shape-language-over-nouns",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "style-first-token-ordering",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "two-block-style-and-action",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "style-first-token-ordering",
+     "file": "knowledge/media-generation/image-prompt-composition/applications/process--style-first-token-ordering.md"
+    },
+    {
+     "stack": "react",
+     "technique": "two-block-style-and-action",
+     "file": "knowledge/media-generation/image-prompt-composition/applications/react--two-block-style-and-action.md"
+    }
+   ]
+  },
+  "narrative-engine-selection": {
+   "category": "narrative-craft",
+   "status": "forged",
+   "file": "knowledge/media-generation/narrative-engine-selection/narrative-engine-selection.md",
+   "techniques": [
+    {
+     "slug": "adjudication-honesty-tells",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "engine-arbitration-order",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "engine-catalogue-by-viewer-pleasure",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "fit-vs-hazard-axes",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "cost-per-usable-output"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "no-engine-means-no-video",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "adjudication-honesty-tells",
+     "file": "knowledge/media-generation/narrative-engine-selection/applications/process--adjudication-honesty-tells.md"
+    },
+    {
+     "stack": "process",
+     "technique": "engine-arbitration-order",
+     "file": "knowledge/media-generation/narrative-engine-selection/applications/process--engine-arbitration-order.md"
+    }
+   ]
+  },
+  "platform-format-adaptation": {
+   "category": "production-ops",
+   "status": "forged",
+   "file": "knowledge/media-generation/platform-format-adaptation/platform-format-adaptation.md",
+   "techniques": [
+    {
+     "slug": "derived-short-contract",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "format-as-measured-template",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "hook-shape-selection",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    },
+    {
+     "slug": "image-led-vs-narration-led",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "one-anchor-per-clip",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "derived-short-contract",
+     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--derived-short-contract.md"
+    },
+    {
+     "stack": "process",
+     "technique": "format-as-measured-template",
+     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--format-as-measured-template.md"
+    }
+   ]
+  },
+  "production-pipeline-phasing": {
+   "category": "production-ops",
+   "status": "forged",
+   "file": "knowledge/media-generation/production-pipeline-phasing/production-pipeline-phasing.md",
+   "techniques": [
+    {
+     "slug": "asset-vs-disposable-render",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "long-run-as-background-job",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "phase-order-and-graduation",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "shared-clock-across-phases",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "worst-news-first-progress",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "refusal-is-a-state"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "react",
+     "technique": "long-run-as-background-job",
+     "file": "knowledge/media-generation/production-pipeline-phasing/applications/react--long-run-as-background-job.md"
+    },
+    {
+     "stack": "react",
+     "technique": "worst-news-first-progress",
+     "file": "knowledge/media-generation/production-pipeline-phasing/applications/react--worst-news-first-progress.md"
+    }
+   ]
+  },
+  "review-iteration-loops": {
+   "category": "production-ops",
+   "status": "forged",
+   "file": "knowledge/media-generation/review-iteration-loops/review-iteration-loops.md",
+   "techniques": [
+    {
+     "slug": "attribution-share-accounting",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "edit-plan-over-regeneration",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "follow-up-that-can-kill-a-fact",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "refusal-is-a-state"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "note-taxonomy-focus-scope-order",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "refusal-as-valid-outcome",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "scope-vs-preference-signals",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "edit-plan-over-regeneration",
+     "file": "knowledge/media-generation/review-iteration-loops/applications/process--edit-plan-over-regeneration.md"
+    },
+    {
+     "stack": "react",
+     "technique": "refusal-as-valid-outcome",
+     "file": "knowledge/media-generation/review-iteration-loops/applications/react--refusal-as-valid-outcome.md"
+    }
+   ]
+  },
+  "short-form-narrative-structure": {
+   "category": "narrative-craft",
+   "status": "forged",
+   "file": "knowledge/media-generation/short-form-narrative-structure/short-form-narrative-structure.md",
+   "techniques": [
+    {
+     "slug": "but-therefore-beat-linking",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "nested-open-loops",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    },
+    {
+     "slug": "question-stack-architecture",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "reframe-close",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    },
+    {
+     "slug": "reversal-anatomy",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "scqa-opening",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "question-stack-architecture",
+     "file": "knowledge/media-generation/short-form-narrative-structure/applications/process--question-stack-architecture.md"
+    },
+    {
+     "stack": "process",
+     "technique": "reversal-anatomy",
+     "file": "knowledge/media-generation/short-form-narrative-structure/applications/process--reversal-anatomy.md"
+    }
+   ]
+  },
+  "video-assembly": {
+   "category": "production-ops",
+   "status": "forged",
+   "file": "knowledge/media-generation/video-assembly/video-assembly.md",
+   "techniques": [
+    {
+     "slug": "derived-turn-markers",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "drift-correction",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "gap-and-refusal-honesty",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "multitrack-timeline-discipline",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "music-spotting-against-picture",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "react",
+     "technique": "gap-and-refusal-honesty",
+     "file": "knowledge/media-generation/video-assembly/applications/react--gap-and-refusal-honesty.md"
+    }
+   ]
+  },
+  "visual-style-locking": {
+   "category": "visual-generation",
+   "status": "forged",
+   "file": "knowledge/media-generation/visual-style-locking/visual-style-locking.md",
+   "techniques": [
+    {
+     "slug": "approved-reference-sheet",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "cost-per-usable-output"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "consistency-control-arm",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "draft-proofing-locked-ratchet",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "rejections-as-negative-evidence",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "style-block-restated-every-call",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "style-onboarding-from-sample",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "react",
+     "technique": "draft-proofing-locked-ratchet",
+     "file": "knowledge/media-generation/visual-style-locking/applications/react--draft-proofing-locked-ratchet.md"
+    },
+    {
+     "stack": "react",
+     "technique": "style-block-restated-every-call",
+     "file": "knowledge/media-generation/visual-style-locking/applications/react--style-block-restated-every-call.md"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "output-never-outruns-evidence": {
+   "statement": "A rendered artifact may never be more precise, more certain, or more causal than the fact behind it. A crisp axis is a precision claim; an arrow is a causal claim; a chart launders confidence unless the confidence propagates into the drawing. Every figure on screen must trace to a sourced fact, and the fact's grade caps the rendering.",
+   "techniques": [
+    "content-research-grounding/evidence-grading-ladder",
+    "content-research-grounding/pre-linked-causal-mechanisms",
+    "content-research-grounding/scale-conversion-of-numbers",
+    "content-research-grounding/unknowns-as-constraints",
+    "creator-voice-and-tone/delivery-rate-budgeting",
+    "creator-voice-and-tone/dial-vs-subject-property",
+    "evidence-bound-visuals/causal-arrow-discipline",
+    "evidence-bound-visuals/epistemic-draw-routing",
+    "evidence-bound-visuals/figure-must-cite-a-fact",
+    "evidence-bound-visuals/generous-strawman-rendering",
+    "evidence-bound-visuals/precision-limit-propagation",
+    "frame-direction/plate-elements-text-split",
+    "frame-direction/visual-function-vocabulary",
+    "narrative-engine-selection/adjudication-honesty-tells",
+    "narrative-engine-selection/engine-arbitration-order",
+    "narrative-engine-selection/fit-vs-hazard-axes",
+    "review-iteration-loops/attribution-share-accounting",
+    "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "video-assembly/gap-and-refusal-honesty",
+    "video-assembly/multitrack-timeline-discipline"
+   ]
+  },
+  "unmeasured-is-not-pass": {
+   "statement": "A quality gate may never report pass for something it did not check. \"Unmeasured\" is a first-class verdict, distinct from pass and fail, and enforcement coverage — what fraction of the promise is actually checked — is reported alongside the verdict. Craft parameters ship only with measurements behind them; an impression is not a number.",
+   "techniques": [
+    "content-research-grounding/evidence-grading-ladder",
+    "content-research-grounding/prior-declaration-and-steel-man",
+    "content-research-grounding/unknowns-as-constraints",
+    "creator-voice-and-tone/dial-vs-subject-property",
+    "creator-voice-and-tone/voice-profile-from-accepted-work",
+    "evidence-bound-visuals/figure-must-cite-a-fact",
+    "frame-direction/per-beat-rejection",
+    "generated-output-grading/cross-provider-flip-analysis",
+    "generated-output-grading/trial-matrix-design",
+    "generated-output-grading/two-grader-disagreement-rule",
+    "generated-output-grading/unconditional-fail-criteria",
+    "generated-output-grading/vision-model-grading-schema",
+    "generative-provider-routing/cost-per-usable-economics",
+    "generative-provider-routing/non-silent-elimination",
+    "generative-provider-routing/vendor-fact-ledger",
+    "image-prompt-composition/prompt-budget-limits",
+    "narrative-engine-selection/adjudication-honesty-tells",
+    "narrative-engine-selection/no-engine-means-no-video",
+    "platform-format-adaptation/format-as-measured-template",
+    "platform-format-adaptation/image-led-vs-narration-led",
+    "production-pipeline-phasing/long-run-as-background-job",
+    "production-pipeline-phasing/phase-order-and-graduation",
+    "production-pipeline-phasing/shared-clock-across-phases",
+    "production-pipeline-phasing/worst-news-first-progress",
+    "review-iteration-loops/edit-plan-over-regeneration",
+    "review-iteration-loops/refusal-as-valid-outcome",
+    "video-assembly/derived-turn-markers",
+    "video-assembly/drift-correction",
+    "visual-style-locking/consistency-control-arm",
+    "visual-style-locking/draft-proofing-locked-ratchet",
+    "visual-style-locking/rejections-as-negative-evidence"
+   ]
+  },
+  "causality-over-sequence": {
+   "statement": "Between any two adjacent beats of a factual narrative you must be able to say \"but\" or \"therefore\". If the only honest connector is \"and then\", the beats have no causal relationship and what you have is a list, not a story. The same facts arranged causally give the viewer a reason to stay; arranged sequentially they give a reason to leave. Every structural choice — engine, act architecture, frame order — inherits this test.",
+   "techniques": [
+    "content-research-grounding/pre-linked-causal-mechanisms",
+    "content-research-grounding/tension-finding-taxonomy",
+    "creator-voice-and-tone/engine-tone-separation",
+    "evidence-bound-visuals/causal-arrow-discipline",
+    "evidence-bound-visuals/generous-strawman-rendering",
+    "frame-direction/motif-establish-vary-payoff",
+    "frame-direction/one-function-per-visual",
+    "frame-direction/visual-function-vocabulary",
+    "narrative-engine-selection/engine-catalogue-by-viewer-pleasure",
+    "narrative-engine-selection/no-engine-means-no-video",
+    "platform-format-adaptation/derived-short-contract",
+    "platform-format-adaptation/one-anchor-per-clip",
+    "review-iteration-loops/note-taxonomy-focus-scope-order",
+    "short-form-narrative-structure/but-therefore-beat-linking",
+    "short-form-narrative-structure/question-stack-architecture",
+    "short-form-narrative-structure/reversal-anatomy",
+    "video-assembly/derived-turn-markers",
+    "video-assembly/music-spotting-against-picture"
+   ]
+  },
+  "checkability-routes-the-pixel": {
+   "statement": "If a viewer could check an element against a fact, deterministic code must draw it. If it only has to feel right, a model may. Charts, exact values, and labels are drawn and composited; atmosphere and illustrative scenes are generated. A generated glyph is not a nicer glyph — it is an unusable one.",
+   "techniques": [
+    "evidence-bound-visuals/epistemic-draw-routing",
+    "frame-direction/motion-intent-authoring",
+    "frame-direction/plate-elements-text-split",
+    "generated-output-grading/unconditional-fail-criteria",
+    "generated-output-grading/vision-model-grading-schema",
+    "image-prompt-composition/negative-prompting",
+    "image-prompt-composition/shape-language-over-nouns"
+   ]
+  },
+  "style-is-restated-not-remembered": {
+   "statement": "Visual consistency across many generation calls comes from restating the full style contract on every call. Reference images alone measurably drift within a single batch; there is no short form, and no call may opt out of the style half of its prompt.",
+   "techniques": [
+    "evidence-bound-visuals/epistemic-draw-routing",
+    "generated-output-grading/trial-matrix-design",
+    "image-prompt-composition/assigned-colour-roles",
+    "image-prompt-composition/negative-prompting",
+    "image-prompt-composition/style-first-token-ordering",
+    "image-prompt-composition/two-block-style-and-action",
+    "visual-style-locking/approved-reference-sheet",
+    "visual-style-locking/consistency-control-arm",
+    "visual-style-locking/style-block-restated-every-call",
+    "visual-style-locking/style-onboarding-from-sample"
+   ]
+  },
+  "edit-do-not-regenerate": {
+   "statement": "Once a creator has reviewed work, feedback is answered with the smallest set of edits — never a regeneration. A regenerated artifact voids every review, gate, and verification computed against the version it silently replaced, even when it is \"better\". Touch what the notes are about; leave everything else byte-identical.",
+   "techniques": [
+    "frame-direction/motif-establish-vary-payoff",
+    "generated-output-grading/regrade-without-regenerate",
+    "generative-provider-routing/resolution-as-stage-property",
+    "production-pipeline-phasing/asset-vs-disposable-render",
+    "review-iteration-loops/edit-plan-over-regeneration",
+    "video-assembly/drift-correction",
+    "visual-style-locking/draft-proofing-locked-ratchet"
+   ]
+  },
+  "refusal-is-a-state": {
+   "statement": "Generative providers refuse, and a refusal is a routing decision: re-route to another provider or surface it honestly — never blind-retry the same request, and never let a refusal masquerade as an empty success. No elimination is silent; the trail of who declined and why is part of the output.",
+   "techniques": [
+    "frame-direction/per-beat-rejection",
+    "generative-provider-routing/capability-to-vendor-plan",
+    "generative-provider-routing/non-silent-elimination",
+    "generative-provider-routing/refusal-reroute-hop",
+    "production-pipeline-phasing/long-run-as-background-job",
+    "production-pipeline-phasing/shared-clock-across-phases",
+    "production-pipeline-phasing/worst-news-first-progress",
+    "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "review-iteration-loops/refusal-as-valid-outcome",
+    "review-iteration-loops/scope-vs-preference-signals",
+    "video-assembly/gap-and-refusal-honesty"
+   ]
+  },
+  "cost-per-usable-output": {
+   "statement": "Generation economics are computed over usable outputs, not renders. A cheaper render that fails the brief more often is the more expensive plate; price per usable unit inverts price per call often enough that the naive metric misroutes real money.",
+   "techniques": [
+    "generated-output-grading/cross-provider-flip-analysis",
+    "generated-output-grading/regrade-without-regenerate",
+    "generative-provider-routing/capability-to-vendor-plan",
+    "generative-provider-routing/cost-per-usable-economics",
+    "generative-provider-routing/resolution-as-stage-property",
+    "generative-provider-routing/vendor-fact-ledger",
+    "image-prompt-composition/prompt-budget-limits",
+    "narrative-engine-selection/fit-vs-hazard-axes",
+    "production-pipeline-phasing/asset-vs-disposable-render",
+    "production-pipeline-phasing/phase-order-and-graduation",
+    "visual-style-locking/approved-reference-sheet",
+    "visual-style-locking/rejections-as-negative-evidence"
+   ]
+  }
+ }
+}

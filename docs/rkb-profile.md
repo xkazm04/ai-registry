@@ -75,8 +75,17 @@ okf_version: "0.1"
 okf_bundle_name: software-engineering
 okf_bundle_title: Software engineering
 purity: software             # which denylist the gate applies to this bundle's upper layers
+stacks: []                   # optional: extra application "stacks" beyond the default set
+                             # (react|rust|sql|node|process). A media bundle's stack is a
+                             # model or pipeline tool; a civic bundle's may be a data
+                             # source class. Kebab-case slugs; the gate validates against
+                             # the union.
 ---
 ```
+
+Purity profiles are per-domain denylists in `scripts/check-bundles.mjs` (`software`,
+`media`, `civic`, `funding`, `generic`). A new domain that none of them fit adds a profile
+there in the same change that adds the bundle — a floor to extend, never to narrow.
 
 **Forbidden in every published file** — the leak gate (§5): `evidence`,
 `counter_evidence`, `deviations`.

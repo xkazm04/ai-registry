@@ -1,0 +1,1409 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "grant-funding",
+  "source": "knowledge/grant-funding/ (frontmatter only)",
+  "subjects": 17,
+  "techniques": 101,
+  "applications": 34,
+  "laws": 8,
+  "categories": [
+   "funding-landscape",
+   "matching-and-intelligence",
+   "proposal-craft",
+   "grant-operations"
+  ],
+  "use_when_coverage": "0/101",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "coalition-and-portfolio-strategy": {
+   "category": "matching-and-intelligence",
+   "status": "forged",
+   "file": "knowledge/grant-funding/coalition-and-portfolio-strategy/coalition-and-portfolio-strategy.md",
+   "techniques": [
+    {
+     "slug": "capacity-floor-detection",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "complementarity-scoring",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "lead-applicant-selection",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "portfolio-balance-across-difficulty",
+     "status": "forged",
+     "laws": [
+      "small-samples-stay-silent",
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "proportional-subgrant-split",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "requirement-profile-aggregation",
+     "status": "forged",
+     "laws": [
+      "small-samples-stay-silent",
+      "untrusted-text-is-data"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "complementarity-scoring",
+     "file": "knowledge/grant-funding/coalition-and-portfolio-strategy/applications/node--complementarity-scoring.md"
+    },
+    {
+     "stack": "node",
+     "technique": "requirement-profile-aggregation",
+     "file": "knowledge/grant-funding/coalition-and-portfolio-strategy/applications/node--requirement-profile-aggregation.md"
+    }
+   ]
+  },
+  "deadline-pipeline-management": {
+   "category": "grant-operations",
+   "status": "forged",
+   "file": "knowledge/grant-funding/deadline-pipeline-management/deadline-pipeline-management.md",
+   "techniques": [
+    {
+     "slug": "closing-instant-resolution",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "cross-client-deadline-union",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    },
+    {
+     "slug": "escalating-reminder-thresholds",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    },
+    {
+     "slug": "miss-risk-scoring",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    },
+    {
+     "slug": "severity-band-triage",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "timezone-correct-day-math",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "closing-instant-resolution",
+     "file": "knowledge/grant-funding/deadline-pipeline-management/applications/node--closing-instant-resolution.md"
+    },
+    {
+     "stack": "node",
+     "technique": "miss-risk-scoring",
+     "file": "knowledge/grant-funding/deadline-pipeline-management/applications/node--miss-risk-scoring.md"
+    }
+   ]
+  },
+  "eligibility-analysis": {
+   "category": "matching-and-intelligence",
+   "status": "forged",
+   "file": "knowledge/grant-funding/eligibility-analysis/eligibility-analysis.md",
+   "techniques": [
+    {
+     "slug": "applicant-type-code-mapping",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "award-size-capacity-fit",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "deadline-and-cutoff-evaluation",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "geographic-scope-gating",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "hard-gate-vs-soft-score",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "legal-form-eligibility-model",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "applicant-type-code-mapping",
+     "file": "knowledge/grant-funding/eligibility-analysis/applications/node--applicant-type-code-mapping.md"
+    },
+    {
+     "stack": "node",
+     "technique": "hard-gate-vs-soft-score",
+     "file": "knowledge/grant-funding/eligibility-analysis/applications/node--hard-gate-vs-soft-score.md"
+    }
+   ]
+  },
+  "evidence-grounded-claims": {
+   "category": "proposal-craft",
+   "status": "forged",
+   "file": "knowledge/grant-funding/evidence-grounded-claims/evidence-grounded-claims.md",
+   "techniques": [
+    {
+     "slug": "bracketed-placeholder-over-invention",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "document-fact-extraction",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "honest-null-over-forced-guess",
+      "untrusted-text-is-data"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "placeholder-to-fact-resolution",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "provenance-per-figure",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "ungrounded-statistic-detection",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "verified-fact-ledger",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "ungrounded-statistic-detection",
+     "file": "knowledge/grant-funding/evidence-grounded-claims/applications/node--ungrounded-statistic-detection.md"
+    },
+    {
+     "stack": "node",
+     "technique": "verified-fact-ledger",
+     "file": "knowledge/grant-funding/evidence-grounded-claims/applications/node--verified-fact-ledger.md"
+    }
+   ]
+  },
+  "funder-format-blueprints": {
+   "category": "proposal-craft",
+   "status": "forged",
+   "file": "knowledge/grant-funding/funder-format-blueprints/funder-format-blueprints.md",
+   "techniques": [
+    {
+     "slug": "arts-panel-sections",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "blueprint-routing-rules",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form",
+      "honest-null-over-forced-guess",
+      "untrusted-text-is-data"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "federal-rubric-sections",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "movement-funder-sections",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "supranational-award-criteria-sections",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "trust-and-lottery-sections",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "blueprint-routing-rules",
+     "file": "knowledge/grant-funding/funder-format-blueprints/applications/process--blueprint-routing-rules.md"
+    },
+    {
+     "stack": "process",
+     "technique": "federal-rubric-sections",
+     "file": "knowledge/grant-funding/funder-format-blueprints/applications/process--federal-rubric-sections.md"
+    }
+   ]
+  },
+  "funder-intelligence-index": {
+   "category": "matching-and-intelligence",
+   "status": "forged",
+   "file": "knowledge/grant-funding/funder-intelligence-index/funder-intelligence-index.md",
+   "techniques": [
+    {
+     "slug": "award-rate-by-revenue-bracket",
+     "status": "forged",
+     "laws": [
+      "small-samples-stay-silent",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "consent-scoped-contribution",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "fit-calibration-monotonicity",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "small-samples-stay-silent"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "k-anonymity-suppression",
+     "status": "forged",
+     "laws": [
+      "small-samples-stay-silent"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "rfp-difficulty-scoring",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "small-samples-stay-silent"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "win-probability-confidence-bands",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "small-samples-stay-silent",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "k-anonymity-suppression",
+     "file": "knowledge/grant-funding/funder-intelligence-index/applications/node--k-anonymity-suppression.md"
+    },
+    {
+     "stack": "node",
+     "technique": "win-probability-confidence-bands",
+     "file": "knowledge/grant-funding/funder-intelligence-index/applications/node--win-probability-confidence-bands.md"
+    }
+   ]
+  },
+  "funder-research": {
+   "category": "funding-landscape",
+   "status": "forged",
+   "file": "knowledge/grant-funding/funder-research/funder-research.md",
+   "techniques": [
+    {
+     "slug": "adversarial-verification-pass",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "untrusted-text-is-data"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "coverage-gap-driven-planning",
+     "status": "forged",
+     "laws": [
+      "clean-is-not-ready"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "discovery-with-omit-if-unsure",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "human-review-before-promotion",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "clean-is-not-ready"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "provenance-and-confidence-per-row",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "schema-validation-at-boundary",
+     "status": "forged",
+     "laws": [
+      "untrusted-text-is-data",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "coverage-gap-driven-planning",
+     "file": "knowledge/grant-funding/funder-research/applications/node--coverage-gap-driven-planning.md"
+    },
+    {
+     "stack": "process",
+     "technique": "discovery-with-omit-if-unsure",
+     "file": "knowledge/grant-funding/funder-research/applications/process--discovery-with-omit-if-unsure.md"
+    }
+   ]
+  },
+  "grant-matching": {
+   "category": "matching-and-intelligence",
+   "status": "forged",
+   "file": "knowledge/grant-funding/grant-matching/grant-matching.md",
+   "techniques": [
+    {
+     "slug": "diminishing-returns-keyword-overlap",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "explainable-match-reasons",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "injection-safe-rfp-analysis",
+     "status": "forged",
+     "laws": [
+      "untrusted-text-is-data",
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "llm-plus-deterministic-two-lane",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "verdict-thresholds",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "weighted-component-scoring",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "weighted-component-scoring",
+     "file": "knowledge/grant-funding/grant-matching/applications/node--weighted-component-scoring.md"
+    },
+    {
+     "stack": "process",
+     "technique": "injection-safe-rfp-analysis",
+     "file": "knowledge/grant-funding/grant-matching/applications/process--injection-safe-rfp-analysis.md"
+    }
+   ]
+  },
+  "grant-source-landscape": {
+   "category": "funding-landscape",
+   "status": "forged",
+   "file": "knowledge/grant-funding/grant-source-landscape/grant-source-landscape.md",
+   "techniques": [
+    {
+     "slug": "close-date-normalization",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "curated-floor-vs-live-feed",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "market-readiness-tiering",
+     "status": "forged",
+     "laws": [
+      "clean-is-not-ready",
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "open-call-vs-awarded-history",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "relevance-precision-filtering",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "stable-dedup-key-selection",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "close-date-normalization",
+     "file": "knowledge/grant-funding/grant-source-landscape/applications/node--close-date-normalization.md"
+    },
+    {
+     "stack": "node",
+     "technique": "curated-floor-vs-live-feed",
+     "file": "knowledge/grant-funding/grant-source-landscape/applications/node--curated-floor-vs-live-feed.md"
+    }
+   ]
+  },
+  "grant-taxonomy-design": {
+   "category": "funding-landscape",
+   "status": "forged",
+   "file": "knowledge/grant-funding/grant-taxonomy-design/grant-taxonomy-design.md",
+   "techniques": [
+    {
+     "slug": "agency-and-programme-fallbacks",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "append-only-codes-with-migrations",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "deterministic-first-classification",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "false-positive-suppressors",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "llm-residual-classification",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "untrusted-text-is-data"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "orthogonal-dimension-modelling",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "deterministic-first-classification",
+     "file": "knowledge/grant-funding/grant-taxonomy-design/applications/node--deterministic-first-classification.md"
+    },
+    {
+     "stack": "node",
+     "technique": "llm-residual-classification",
+     "file": "knowledge/grant-funding/grant-taxonomy-design/applications/node--llm-residual-classification.md"
+    }
+   ]
+  },
+  "impact-reporting": {
+   "category": "grant-operations",
+   "status": "forged",
+   "file": "knowledge/grant-funding/impact-reporting/impact-reporting.md",
+   "techniques": [
+    {
+     "slug": "four-section-report-model",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "honest-misses-disclosure",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "modeled-figure-marking",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "per-funder-track-record",
+     "status": "forged",
+     "laws": [
+      "small-samples-stay-silent",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "report-calendar-derivation",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "verifiable-impact-certificates",
+     "status": "forged",
+     "laws": [
+      "clean-is-not-ready",
+      "provenance-per-field",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "modeled-figure-marking",
+     "file": "knowledge/grant-funding/impact-reporting/applications/node--modeled-figure-marking.md"
+    },
+    {
+     "stack": "node",
+     "technique": "report-calendar-derivation",
+     "file": "knowledge/grant-funding/impact-reporting/applications/node--report-calendar-derivation.md"
+    }
+   ]
+  },
+  "jurisdiction-modelling": {
+   "category": "grant-operations",
+   "status": "forged",
+   "file": "knowledge/grant-funding/jurisdiction-modelling/jurisdiction-modelling.md",
+   "techniques": [
+    {
+     "slug": "compliance-document-taxonomy",
+     "status": "forged",
+     "laws": [
+      "clean-is-not-ready",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "eligibility-regime-detection",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "entity-type-code-mapping",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "jurisdiction-profile-schema",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "market-claim-truthfulness",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "supranational-membership-inheritance",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "jurisdiction-profile-schema",
+     "file": "knowledge/grant-funding/jurisdiction-modelling/applications/node--jurisdiction-profile-schema.md"
+    },
+    {
+     "stack": "node",
+     "technique": "market-claim-truthfulness",
+     "file": "knowledge/grant-funding/jurisdiction-modelling/applications/node--market-claim-truthfulness.md"
+    }
+   ]
+  },
+  "nonprofit-verification": {
+   "category": "grant-operations",
+   "status": "forged",
+   "file": "knowledge/grant-funding/nonprofit-verification/nonprofit-verification.md",
+   "techniques": [
+    {
+     "slug": "determinate-vs-inconclusive-outcomes",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "graceful-source-degradation",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "clean-is-not-ready"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "identifier-checksum-prevalidation",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "registry-adapter-contract",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field",
+      "clean-is-not-ready"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "registry-name-binding",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "verification-passport",
+     "status": "forged",
+     "laws": [
+      "clean-is-not-ready",
+      "provenance-per-field",
+      "small-samples-stay-silent"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "determinate-vs-inconclusive-outcomes",
+     "file": "knowledge/grant-funding/nonprofit-verification/applications/node--determinate-vs-inconclusive-outcomes.md"
+    },
+    {
+     "stack": "node",
+     "technique": "registry-name-binding",
+     "file": "knowledge/grant-funding/nonprofit-verification/applications/node--registry-name-binding.md"
+    }
+   ]
+  },
+  "organizational-grant-readiness": {
+   "category": "grant-operations",
+   "status": "forged",
+   "file": "knowledge/grant-funding/organizational-grant-readiness/organizational-grant-readiness.md",
+   "techniques": [
+    {
+     "slug": "applicant-evidence-corpus",
+     "status": "forged",
+     "laws": [
+      "untrusted-text-is-data",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "attestation-invalidation",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field",
+      "clean-is-not-ready"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "disambiguation-over-confident-guess",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "funder-fact-taxonomy",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "multi-org-workspace-scoping",
+     "status": "forged",
+     "laws": [],
+     "shared_with": []
+    },
+    {
+     "slug": "registry-grounded-autofill",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "attestation-invalidation",
+     "file": "knowledge/grant-funding/organizational-grant-readiness/applications/node--attestation-invalidation.md"
+    },
+    {
+     "stack": "node",
+     "technique": "registry-grounded-autofill",
+     "file": "knowledge/grant-funding/organizational-grant-readiness/applications/node--registry-grounded-autofill.md"
+    }
+   ]
+  },
+  "proposal-narrative-structure": {
+   "category": "proposal-craft",
+   "status": "forged",
+   "file": "knowledge/grant-funding/proposal-narrative-structure/proposal-narrative-structure.md",
+   "techniques": [
+    {
+     "slug": "evidence-base-citation",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "funder-dollars-unlock-close",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "genre-register-classification",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "problem-population-opening",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "program-model-specificity",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "theory-of-change-framing",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "evidence-base-citation",
+     "file": "knowledge/grant-funding/proposal-narrative-structure/applications/process--evidence-base-citation.md"
+    },
+    {
+     "stack": "process",
+     "technique": "genre-register-classification",
+     "file": "knowledge/grant-funding/proposal-narrative-structure/applications/process--genre-register-classification.md"
+    }
+   ]
+  },
+  "proposal-quality-review": {
+   "category": "proposal-craft",
+   "status": "forged",
+   "file": "knowledge/grant-funding/proposal-quality-review/proposal-quality-review.md",
+   "techniques": [
+    {
+     "slug": "critical-vs-quality-severity",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "expert-review-tier-operation",
+     "status": "forged",
+     "laws": [
+      "clean-is-not-ready"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "placeholder-and-jargon-detection",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure",
+      "clean-is-not-ready"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "revise-to-green-single-pass",
+     "status": "forged",
+     "laws": [
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "rubric-mirrors-prompt-guidance",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "section-word-band-checks",
+     "status": "forged",
+     "laws": [
+      "the-funder-sets-the-form"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "placeholder-and-jargon-detection",
+     "file": "knowledge/grant-funding/proposal-quality-review/applications/node--placeholder-and-jargon-detection.md"
+    },
+    {
+     "stack": "node",
+     "technique": "revise-to-green-single-pass",
+     "file": "knowledge/grant-funding/proposal-quality-review/applications/node--revise-to-green-single-pass.md"
+    }
+   ]
+  },
+  "submission-filing": {
+   "category": "grant-operations",
+   "status": "forged",
+   "file": "knowledge/grant-funding/submission-filing/submission-filing.md",
+   "techniques": [
+    {
+     "slug": "crowd-verified-filing-profiles",
+     "status": "forged",
+     "laws": [
+      "small-samples-stay-silent",
+      "untrusted-text-is-data",
+      "provenance-per-field"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "funder-portal-resolution",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "majority-rule-doc-consensus",
+     "status": "forged",
+     "laws": [
+      "small-samples-stay-silent",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "proof-of-filing",
+     "status": "forged",
+     "laws": [
+      "clean-is-not-ready",
+      "provenance-per-field",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "standard-materials-checklist",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field",
+      "never-fabricate-a-figure"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "crowd-verified-filing-profiles",
+     "file": "knowledge/grant-funding/submission-filing/applications/node--crowd-verified-filing-profiles.md"
+    },
+    {
+     "stack": "node",
+     "technique": "proof-of-filing",
+     "file": "knowledge/grant-funding/submission-filing/applications/node--proof-of-filing.md"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "hard-gates-precede-soft-scores": {
+   "statement": "Eligibility — applicant type, geography, award-size capacity, deadline — is decided by deterministic checks that no scoring model may override. Fit is argued only after eligibility passes; a beautifully matched application the applicant may not submit is worth nothing.",
+   "techniques": [
+    "coalition-and-portfolio-strategy/capacity-floor-detection",
+    "coalition-and-portfolio-strategy/complementarity-scoring",
+    "coalition-and-portfolio-strategy/lead-applicant-selection",
+    "coalition-and-portfolio-strategy/portfolio-balance-across-difficulty",
+    "deadline-pipeline-management/severity-band-triage",
+    "eligibility-analysis/award-size-capacity-fit",
+    "eligibility-analysis/deadline-and-cutoff-evaluation",
+    "eligibility-analysis/geographic-scope-gating",
+    "eligibility-analysis/hard-gate-vs-soft-score",
+    "eligibility-analysis/legal-form-eligibility-model",
+    "grant-matching/injection-safe-rfp-analysis",
+    "grant-matching/llm-plus-deterministic-two-lane",
+    "grant-matching/verdict-thresholds",
+    "grant-matching/weighted-component-scoring",
+    "grant-source-landscape/market-readiness-tiering",
+    "grant-source-landscape/relevance-precision-filtering",
+    "grant-taxonomy-design/deterministic-first-classification",
+    "jurisdiction-modelling/eligibility-regime-detection",
+    "jurisdiction-modelling/jurisdiction-profile-schema",
+    "nonprofit-verification/determinate-vs-inconclusive-outcomes",
+    "proposal-quality-review/critical-vs-quality-severity"
+   ]
+  },
+  "honest-null-over-forced-guess": {
+   "statement": "Classification, extraction and matching prefer \"unknown\" with low confidence over a weak guess. A wrong category routes money away from the right applicant; an honest null routes a human to look. Unknown codes never fall through to a default class.",
+   "techniques": [
+    "coalition-and-portfolio-strategy/capacity-floor-detection",
+    "deadline-pipeline-management/closing-instant-resolution",
+    "eligibility-analysis/applicant-type-code-mapping",
+    "eligibility-analysis/deadline-and-cutoff-evaluation",
+    "eligibility-analysis/geographic-scope-gating",
+    "eligibility-analysis/legal-form-eligibility-model",
+    "evidence-grounded-claims/document-fact-extraction",
+    "evidence-grounded-claims/placeholder-to-fact-resolution",
+    "funder-format-blueprints/blueprint-routing-rules",
+    "funder-intelligence-index/fit-calibration-monotonicity",
+    "funder-intelligence-index/rfp-difficulty-scoring",
+    "funder-intelligence-index/win-probability-confidence-bands",
+    "funder-research/discovery-with-omit-if-unsure",
+    "funder-research/schema-validation-at-boundary",
+    "grant-matching/diminishing-returns-keyword-overlap",
+    "grant-matching/llm-plus-deterministic-two-lane",
+    "grant-matching/verdict-thresholds",
+    "grant-matching/weighted-component-scoring",
+    "grant-source-landscape/close-date-normalization",
+    "grant-source-landscape/open-call-vs-awarded-history",
+    "grant-source-landscape/relevance-precision-filtering",
+    "grant-taxonomy-design/agency-and-programme-fallbacks",
+    "grant-taxonomy-design/deterministic-first-classification",
+    "grant-taxonomy-design/false-positive-suppressors",
+    "grant-taxonomy-design/llm-residual-classification",
+    "impact-reporting/report-calendar-derivation",
+    "jurisdiction-modelling/compliance-document-taxonomy",
+    "jurisdiction-modelling/eligibility-regime-detection",
+    "jurisdiction-modelling/entity-type-code-mapping",
+    "nonprofit-verification/determinate-vs-inconclusive-outcomes",
+    "nonprofit-verification/graceful-source-degradation",
+    "nonprofit-verification/identifier-checksum-prevalidation",
+    "organizational-grant-readiness/disambiguation-over-confident-guess",
+    "proposal-narrative-structure/genre-register-classification",
+    "submission-filing/funder-portal-resolution",
+    "submission-filing/majority-rule-doc-consensus"
+   ]
+  },
+  "small-samples-stay-silent": {
+   "statement": "A rate computed over too few outcomes is suppressed, not published: win rates below a minimum of decided outcomes, aggregates below a k-anonymity floor, confidence bands tied to sample size. Publishing a 100% win rate over two applications is a lie told with true numbers.",
+   "techniques": [
+    "coalition-and-portfolio-strategy/portfolio-balance-across-difficulty",
+    "coalition-and-portfolio-strategy/requirement-profile-aggregation",
+    "funder-intelligence-index/award-rate-by-revenue-bracket",
+    "funder-intelligence-index/fit-calibration-monotonicity",
+    "funder-intelligence-index/k-anonymity-suppression",
+    "funder-intelligence-index/rfp-difficulty-scoring",
+    "funder-intelligence-index/win-probability-confidence-bands",
+    "impact-reporting/per-funder-track-record",
+    "nonprofit-verification/verification-passport",
+    "submission-filing/crowd-verified-filing-profiles",
+    "submission-filing/majority-rule-doc-consensus"
+   ]
+  },
+  "never-fabricate-a-figure": {
+   "statement": "No statistic, past result, date, identifier or named partner is ever invented. Where a specific figure would strengthen the case and none is provided, a bracketed placeholder for the writer beats a made-up number — a wrong figure the applicant accepts as theirs is worse than a blank they fill in. Verified organizational facts are the authoritative figure set; nothing else is stated as fact.",
+   "techniques": [
+    "coalition-and-portfolio-strategy/proportional-subgrant-split",
+    "eligibility-analysis/award-size-capacity-fit",
+    "evidence-grounded-claims/bracketed-placeholder-over-invention",
+    "evidence-grounded-claims/document-fact-extraction",
+    "evidence-grounded-claims/provenance-per-figure",
+    "evidence-grounded-claims/ungrounded-statistic-detection",
+    "evidence-grounded-claims/verified-fact-ledger",
+    "funder-format-blueprints/federal-rubric-sections",
+    "funder-format-blueprints/supranational-award-criteria-sections",
+    "funder-intelligence-index/win-probability-confidence-bands",
+    "funder-research/adversarial-verification-pass",
+    "funder-research/discovery-with-omit-if-unsure",
+    "funder-research/human-review-before-promotion",
+    "grant-matching/explainable-match-reasons",
+    "grant-matching/llm-plus-deterministic-two-lane",
+    "grant-source-landscape/curated-floor-vs-live-feed",
+    "impact-reporting/honest-misses-disclosure",
+    "impact-reporting/modeled-figure-marking",
+    "impact-reporting/per-funder-track-record",
+    "impact-reporting/verifiable-impact-certificates",
+    "jurisdiction-modelling/market-claim-truthfulness",
+    "jurisdiction-modelling/supranational-membership-inheritance",
+    "nonprofit-verification/registry-name-binding",
+    "organizational-grant-readiness/applicant-evidence-corpus",
+    "organizational-grant-readiness/disambiguation-over-confident-guess",
+    "organizational-grant-readiness/registry-grounded-autofill",
+    "proposal-narrative-structure/evidence-base-citation",
+    "proposal-narrative-structure/funder-dollars-unlock-close",
+    "proposal-narrative-structure/problem-population-opening",
+    "proposal-narrative-structure/program-model-specificity",
+    "proposal-narrative-structure/theory-of-change-framing",
+    "proposal-quality-review/critical-vs-quality-severity",
+    "proposal-quality-review/placeholder-and-jargon-detection",
+    "proposal-quality-review/revise-to-green-single-pass",
+    "submission-filing/funder-portal-resolution",
+    "submission-filing/proof-of-filing",
+    "submission-filing/standard-materials-checklist"
+   ]
+  },
+  "untrusted-text-is-data": {
+   "statement": "Funder RFPs, scraped listings and applicant-supplied documents enter prompts as delimited, untrusted data. Nothing inside them may change the task, the score, or the output format; forged delimiters are stripped at the boundary.",
+   "techniques": [
+    "coalition-and-portfolio-strategy/requirement-profile-aggregation",
+    "evidence-grounded-claims/document-fact-extraction",
+    "funder-format-blueprints/blueprint-routing-rules",
+    "funder-research/adversarial-verification-pass",
+    "funder-research/schema-validation-at-boundary",
+    "grant-matching/injection-safe-rfp-analysis",
+    "grant-taxonomy-design/llm-residual-classification",
+    "organizational-grant-readiness/applicant-evidence-corpus",
+    "submission-filing/crowd-verified-filing-profiles"
+   ]
+  },
+  "provenance-per-field": {
+   "statement": "Every pre-filled or extracted value carries its confidence and its source. Onboarding and drafting become review of sourced values, not data entry — and a value whose source cannot be shown is a candidate, not a fact.",
+   "techniques": [
+    "evidence-grounded-claims/placeholder-to-fact-resolution",
+    "evidence-grounded-claims/provenance-per-figure",
+    "evidence-grounded-claims/verified-fact-ledger",
+    "funder-intelligence-index/award-rate-by-revenue-bracket",
+    "funder-intelligence-index/consent-scoped-contribution",
+    "funder-research/provenance-and-confidence-per-row",
+    "grant-matching/explainable-match-reasons",
+    "grant-source-landscape/stable-dedup-key-selection",
+    "grant-taxonomy-design/append-only-codes-with-migrations",
+    "impact-reporting/four-section-report-model",
+    "impact-reporting/modeled-figure-marking",
+    "impact-reporting/verifiable-impact-certificates",
+    "jurisdiction-modelling/entity-type-code-mapping",
+    "jurisdiction-modelling/jurisdiction-profile-schema",
+    "nonprofit-verification/registry-adapter-contract",
+    "nonprofit-verification/registry-name-binding",
+    "nonprofit-verification/verification-passport",
+    "organizational-grant-readiness/attestation-invalidation",
+    "organizational-grant-readiness/funder-fact-taxonomy",
+    "organizational-grant-readiness/registry-grounded-autofill",
+    "proposal-narrative-structure/evidence-base-citation",
+    "submission-filing/crowd-verified-filing-profiles",
+    "submission-filing/proof-of-filing",
+    "submission-filing/standard-materials-checklist"
+   ]
+  },
+  "the-funder-sets-the-form": {
+   "statement": "An application's structure, register and emphasis come from the funder family's own scoring rubric — a federal reviewer, a foundation program officer, an arts panel and a movement funder read differently, and one generic template misfits all of them. Genre is detected conservatively; the safe default is the modest register.",
+   "techniques": [
+    "funder-format-blueprints/arts-panel-sections",
+    "funder-format-blueprints/blueprint-routing-rules",
+    "funder-format-blueprints/federal-rubric-sections",
+    "funder-format-blueprints/movement-funder-sections",
+    "funder-format-blueprints/supranational-award-criteria-sections",
+    "funder-format-blueprints/trust-and-lottery-sections",
+    "impact-reporting/four-section-report-model",
+    "proposal-narrative-structure/genre-register-classification",
+    "proposal-narrative-structure/theory-of-change-framing",
+    "proposal-quality-review/rubric-mirrors-prompt-guidance",
+    "proposal-quality-review/section-word-band-checks"
+   ]
+  },
+  "clean-is-not-ready": {
+   "statement": "A compliance report with zero findings certifies nothing unless every applicable check actually executed. Check coverage is part of the verdict; \"no issues found\" and \"not checked\" must be impossible to confuse.",
+   "techniques": [
+    "funder-research/coverage-gap-driven-planning",
+    "funder-research/human-review-before-promotion",
+    "grant-source-landscape/market-readiness-tiering",
+    "impact-reporting/verifiable-impact-certificates",
+    "jurisdiction-modelling/compliance-document-taxonomy",
+    "nonprofit-verification/graceful-source-degradation",
+    "nonprofit-verification/registry-adapter-contract",
+    "nonprofit-verification/verification-passport",
+    "organizational-grant-readiness/attestation-invalidation",
+    "proposal-quality-review/expert-review-tier-operation",
+    "proposal-quality-review/placeholder-and-jargon-detection",
+    "submission-filing/proof-of-filing"
+   ]
+  }
+ }
+}

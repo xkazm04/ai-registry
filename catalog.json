@@ -145,6 +145,45 @@
   },
   "bundles": [
     {
+      "name": "civic-intelligence",
+      "title": "Civic intelligence",
+      "path": "knowledge/civic-intelligence",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "civic",
+      "subjects": 15,
+      "techniques": 88,
+      "applications": 30,
+      "files": 137,
+      "contentHash": "sha256:93aa8e1ae554370e"
+    },
+    {
+      "name": "grant-funding",
+      "title": "Grant funding",
+      "path": "knowledge/grant-funding",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "funding",
+      "subjects": 17,
+      "techniques": 101,
+      "applications": 34,
+      "files": 156,
+      "contentHash": "sha256:651a7350c895e951"
+    },
+    {
+      "name": "media-generation",
+      "title": "Media generation",
+      "path": "knowledge/media-generation",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "media",
+      "subjects": 14,
+      "techniques": 78,
+      "applications": 27,
+      "files": 123,
+      "contentHash": "sha256:0cb778622e022b5d"
+    },
+    {
       "name": "software-engineering",
       "title": "Software engineering",
       "path": "knowledge/software-engineering",
@@ -155,7 +194,7 @@
       "techniques": 624,
       "applications": 236,
       "files": 969,
-      "contentHash": "sha256:ed330b86c63f91b9"
+      "contentHash": "sha256:efcd1eaa5aa1010d"
     }
   ]
 }

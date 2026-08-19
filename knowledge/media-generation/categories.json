@@ -1,0 +1,26 @@
+{
+  "$comment": "Subject -> category for graph consumers. Order IS the display sequence. Seeded 2026-08-19 from the gravitone domain extraction; image and video generation deliberately share one bundle until a category earns a split (see knowledge/README.md).",
+  "categories": [
+    { "id": "narrative-craft", "title": "Narrative craft", "order": 1 },
+    { "id": "research-grounding", "title": "Research & grounding", "order": 2 },
+    { "id": "visual-generation", "title": "Visual generation", "order": 3 },
+    { "id": "frame-direction", "title": "Frame direction", "order": 4 },
+    { "id": "production-ops", "title": "Production operations", "order": 5 }
+  ],
+  "subjects": {
+    "short-form-narrative-structure": "narrative-craft",
+    "narrative-engine-selection": "narrative-craft",
+    "creator-voice-and-tone": "narrative-craft",
+    "content-research-grounding": "research-grounding",
+    "evidence-bound-visuals": "research-grounding",
+    "image-prompt-composition": "visual-generation",
+    "visual-style-locking": "visual-generation",
+    "generative-provider-routing": "visual-generation",
+    "generated-output-grading": "visual-generation",
+    "frame-direction": "frame-direction",
+    "production-pipeline-phasing": "production-ops",
+    "review-iteration-loops": "production-ops",
+    "platform-format-adaptation": "production-ops",
+    "video-assembly": "production-ops"
+  }
+}

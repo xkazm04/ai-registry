@@ -1,0 +1,26 @@
+{
+  "$comment": "Subject -> category for graph consumers. Order IS the display sequence. Seeded 2026-08-19 from the politicas domain extraction; politics, public economics and law deliberately share one bundle until a category earns a split (see knowledge/README.md).",
+  "categories": [
+    { "id": "parliamentary-data", "title": "Parliamentary data", "order": 1 },
+    { "id": "public-money", "title": "Public money", "order": 2 },
+    { "id": "civic-graph-infrastructure", "title": "Civic graph & sources", "order": 3 },
+    { "id": "accountability-method", "title": "Accountability method", "order": 4 }
+  ],
+  "subjects": {
+    "parliamentary-data-modeling": "parliamentary-data",
+    "roll-call-vote-analysis": "parliamentary-data",
+    "legislative-change-tracking": "parliamentary-data",
+    "political-compass-from-votes": "parliamentary-data",
+    "public-procurement-analysis": "public-money",
+    "public-money-attribution": "public-money",
+    "beneficial-ownership-resolution": "public-money",
+    "conflict-of-interest-detection": "public-money",
+    "state-budget-analysis": "public-money",
+    "civic-knowledge-graphs": "civic-graph-infrastructure",
+    "civic-source-adapters": "civic-graph-infrastructure",
+    "politician-performance-scoring": "accountability-method",
+    "claim-verification-and-provenance": "accountability-method",
+    "accountability-publishing-ethics": "accountability-method",
+    "llm-forensic-gating": "accountability-method"
+  }
+}

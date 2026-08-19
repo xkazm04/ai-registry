@@ -1,0 +1,1371 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "civic-intelligence",
+  "source": "knowledge/civic-intelligence/ (frontmatter only)",
+  "subjects": 15,
+  "techniques": 88,
+  "applications": 30,
+  "laws": 9,
+  "categories": [
+   "parliamentary-data",
+   "public-money",
+   "civic-graph-infrastructure",
+   "accountability-method"
+  ],
+  "use_when_coverage": "0/88",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "accountability-publishing-ethics": {
+   "category": "accountability-method",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/accountability-publishing-ethics/accountability-publishing-ethics.md",
+   "techniques": [
+    {
+     "slug": "accountless-notification-privacy",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "deterministic-code-owns-numbers"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "honest-empty-states",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "disclose-never-repair",
+      "non-partisan-symmetry"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "lead-not-verdict-framing",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "provenance-or-nothing",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "public-role-scope-limit",
+     "status": "forged",
+     "laws": [
+      "non-partisan-symmetry",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "real-vs-illustrative-form-encoding",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "severity-free-factual-framing",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "non-partisan-symmetry",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "lead-not-verdict-framing",
+     "file": "knowledge/civic-intelligence/accountability-publishing-ethics/applications/process--lead-not-verdict-framing.md"
+    },
+    {
+     "stack": "react",
+     "technique": "real-vs-illustrative-form-encoding",
+     "file": "knowledge/civic-intelligence/accountability-publishing-ethics/applications/react--real-vs-illustrative-form-encoding.md"
+    }
+   ]
+  },
+  "beneficial-ownership-resolution": {
+   "category": "public-money",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/beneficial-ownership-resolution/beneficial-ownership-resolution.md",
+   "techniques": [
+    {
+     "slug": "identifier-checksum-validation",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "name-to-identifier-discipline",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "officer-record-reading",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "ownership-chain-traversal",
+     "status": "forged",
+     "laws": [
+      "every-cap-ships-its-population",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "role-period-reconciliation",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "struck-off-entity-archives",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "identifier-checksum-validation",
+     "file": "knowledge/civic-intelligence/beneficial-ownership-resolution/applications/node--identifier-checksum-validation.md"
+    },
+    {
+     "stack": "node",
+     "technique": "role-period-reconciliation",
+     "file": "knowledge/civic-intelligence/beneficial-ownership-resolution/applications/node--role-period-reconciliation.md"
+    }
+   ]
+  },
+  "civic-knowledge-graphs": {
+   "category": "civic-graph-infrastructure",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/civic-knowledge-graphs/civic-knowledge-graphs.md",
+   "techniques": [
+    {
+     "slug": "civic-entity-ontology",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "destructive-rebuild-guard",
+     "status": "forged",
+     "laws": [
+      "incident-anchored-doctrine",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "evidence-path-finding",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "every-cap-ships-its-population",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "forensic-view-filtering",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "pass-based-incremental-enrichment",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "per-claim-provenance-stamping",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "destructive-rebuild-guard",
+     "file": "knowledge/civic-intelligence/civic-knowledge-graphs/applications/node--destructive-rebuild-guard.md"
+    },
+    {
+     "stack": "node",
+     "technique": "evidence-path-finding",
+     "file": "knowledge/civic-intelligence/civic-knowledge-graphs/applications/node--evidence-path-finding.md"
+    }
+   ]
+  },
+  "civic-source-adapters": {
+   "category": "civic-graph-infrastructure",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/civic-source-adapters/civic-source-adapters.md",
+   "techniques": [
+    {
+     "slug": "entity-name-normalization",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "lead-not-finding",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "fail-loud-schema-drift",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "incident-anchored-doctrine",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "legacy-encoding-and-escape-parsing",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "licence-and-privacy-by-construction",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "publisher-sentinel-values",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "session-bound-scraping",
+     "status": "forged",
+     "laws": [
+      "every-cap-ships-its-population",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "legacy-encoding-and-escape-parsing",
+     "file": "knowledge/civic-intelligence/civic-source-adapters/applications/node--legacy-encoding-and-escape-parsing.md"
+    },
+    {
+     "stack": "node",
+     "technique": "session-bound-scraping",
+     "file": "knowledge/civic-intelligence/civic-source-adapters/applications/node--session-bound-scraping.md"
+    }
+   ]
+  },
+  "claim-verification-and-provenance": {
+   "category": "accountability-method",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/claim-verification-and-provenance/claim-verification-and-provenance.md",
+   "techniques": [
+    {
+     "slug": "claim-ref-addressing",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "derivation-comparison",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "incident-anchored-doctrine",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "gate-state-as-modifier",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "missing-is-not-zero",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "recomputation-receipts",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "disclose-never-repair",
+      "deterministic-code-owns-numbers"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "structured-review-emission",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "three-verdict-vocabulary",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "three-verdict-vocabulary",
+     "file": "knowledge/civic-intelligence/claim-verification-and-provenance/applications/node--three-verdict-vocabulary.md"
+    },
+    {
+     "stack": "react",
+     "technique": "recomputation-receipts",
+     "file": "knowledge/civic-intelligence/claim-verification-and-provenance/applications/react--recomputation-receipts.md"
+    }
+   ]
+  },
+  "conflict-of-interest-detection": {
+   "category": "public-money",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/conflict-of-interest-detection/conflict-of-interest-detection.md",
+   "techniques": [
+    {
+     "slug": "registry-corroboration-gating",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "statute-relevance-mapping",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "temporal-alignment-of-money-and-role",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "tie-class-taxonomy",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "triage-signal-scoring",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "non-partisan-symmetry",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "vote-versus-interest-join",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "missing-is-not-zero",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "triage-signal-scoring",
+     "file": "knowledge/civic-intelligence/conflict-of-interest-detection/applications/node--triage-signal-scoring.md"
+    },
+    {
+     "stack": "node",
+     "technique": "vote-versus-interest-join",
+     "file": "knowledge/civic-intelligence/conflict-of-interest-detection/applications/node--vote-versus-interest-join.md"
+    }
+   ]
+  },
+  "legislative-change-tracking": {
+   "category": "parliamentary-data",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/legislative-change-tracking/legislative-change-tracking.md",
+   "techniques": [
+    {
+     "slug": "amendment-instruction-grammar",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "bill-fate-dating",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "one-definition-one-import",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "committee-routing-reconstruction",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "sponsorship-and-rapporteur-roles",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "statute-citation-extraction",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "statute-collision-clustering",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "bill-fate-dating",
+     "file": "knowledge/civic-intelligence/legislative-change-tracking/applications/node--bill-fate-dating.md"
+    },
+    {
+     "stack": "node",
+     "technique": "statute-collision-clustering",
+     "file": "knowledge/civic-intelligence/legislative-change-tracking/applications/node--statute-collision-clustering.md"
+    }
+   ]
+  },
+  "llm-forensic-gating": {
+   "category": "accountability-method",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/llm-forensic-gating/llm-forensic-gating.md",
+   "techniques": [
+    {
+     "slug": "citation-required-per-claim",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "entity-id-membership-gates",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "hallucinated-reference-sweep",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "human-review-doors",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "prose-register-gates",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "structured-verdict-schemas",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "prose-register-gates",
+     "file": "knowledge/civic-intelligence/llm-forensic-gating/applications/node--prose-register-gates.md"
+    },
+    {
+     "stack": "node",
+     "technique": "structured-verdict-schemas",
+     "file": "knowledge/civic-intelligence/llm-forensic-gating/applications/node--structured-verdict-schemas.md"
+    }
+   ]
+  },
+  "parliamentary-data-modeling": {
+   "category": "parliamentary-data",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/parliamentary-data-modeling/parliamentary-data-modeling.md",
+   "techniques": [
+    {
+     "slug": "cross-term-registry-loading",
+     "status": "forged",
+     "laws": [
+      "every-cap-ships-its-population",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "mandate-vs-person-identity",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "non-partisan-symmetry"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "membership-window-modeling",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "office-vs-plain-membership",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "party-club-vs-electoral-list",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "non-partisan-symmetry"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "term-and-chamber-scoping",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "cross-term-registry-loading",
+     "file": "knowledge/civic-intelligence/parliamentary-data-modeling/applications/node--cross-term-registry-loading.md"
+    },
+    {
+     "stack": "node",
+     "technique": "office-vs-plain-membership",
+     "file": "knowledge/civic-intelligence/parliamentary-data-modeling/applications/node--office-vs-plain-membership.md"
+    }
+   ]
+  },
+  "political-compass-from-votes": {
+   "category": "parliamentary-data",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/political-compass-from-votes/political-compass-from-votes.md",
+   "techniques": [
+    {
+     "slug": "comparability-floor-for-ranking",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "non-partisan-symmetry"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "disclosed-scoring-rule",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "one-definition-one-import",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "divisive-vote-selection",
+     "status": "forged",
+     "laws": [
+      "every-cap-ships-its-population",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "non-positional-abstention-handling",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "theme-balanced-drawing",
+     "status": "forged",
+     "laws": [
+      "non-partisan-symmetry",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "disclosed-scoring-rule",
+     "file": "knowledge/civic-intelligence/political-compass-from-votes/applications/node--disclosed-scoring-rule.md"
+    },
+    {
+     "stack": "node",
+     "technique": "divisive-vote-selection",
+     "file": "knowledge/civic-intelligence/political-compass-from-votes/applications/node--divisive-vote-selection.md"
+    }
+   ]
+  },
+  "politician-performance-scoring": {
+   "category": "accountability-method",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/politician-performance-scoring/politician-performance-scoring.md",
+   "techniques": [
+    {
+     "slug": "comparison-fairness",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "non-partisan-symmetry",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "formula-lineage-stamping",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "one-definition-one-import",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "participatory-reweighting",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "deterministic-code-owns-numbers",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "saturation-caps",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "one-definition-one-import",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "structural-low-score-corrections",
+     "status": "forged",
+     "laws": [
+      "non-partisan-symmetry",
+      "lead-not-finding",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "weighted-component-index",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "one-definition-one-import",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "formula-lineage-stamping",
+     "file": "knowledge/civic-intelligence/politician-performance-scoring/applications/node--formula-lineage-stamping.md"
+    },
+    {
+     "stack": "react",
+     "technique": "participatory-reweighting",
+     "file": "knowledge/civic-intelligence/politician-performance-scoring/applications/react--participatory-reweighting.md"
+    }
+   ]
+  },
+  "public-money-attribution": {
+   "category": "public-money",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/public-money-attribution/public-money-attribution.md",
+   "techniques": [
+    {
+     "slug": "citable-money-claims",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "one-definition-one-import",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "entity-level-deduplication",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "floor-versus-total-disclosure",
+     "status": "forged",
+     "laws": [
+      "every-cap-ships-its-population",
+      "deterministic-code-owns-numbers"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "owner-operator-vs-steward-split",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "public-body-classification",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "entity-level-deduplication",
+     "file": "knowledge/civic-intelligence/public-money-attribution/applications/node--entity-level-deduplication.md"
+    },
+    {
+     "stack": "node",
+     "technique": "public-body-classification",
+     "file": "knowledge/civic-intelligence/public-money-attribution/applications/node--public-body-classification.md"
+    }
+   ]
+  },
+  "public-procurement-analysis": {
+   "category": "public-money",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/public-procurement-analysis/public-procurement-analysis.md",
+   "techniques": [
+    {
+     "slug": "contract-registry-record-model",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "contract-version-supersession",
+     "status": "forged",
+     "laws": [
+      "provenance-or-nothing",
+      "deterministic-code-owns-numbers"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "payer-vs-receiver-direction",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "lead-not-finding"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "registry-coverage-blind-spots",
+     "status": "forged",
+     "laws": [
+      "every-cap-ships-its-population",
+      "missing-is-not-zero",
+      "non-partisan-symmetry"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "threshold-proximity-signals",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "value-basis-non-summability",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "disclose-never-repair",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "contract-registry-record-model",
+     "file": "knowledge/civic-intelligence/public-procurement-analysis/applications/node--contract-registry-record-model.md"
+    },
+    {
+     "stack": "node",
+     "technique": "value-basis-non-summability",
+     "file": "knowledge/civic-intelligence/public-procurement-analysis/applications/node--value-basis-non-summability.md"
+    }
+   ]
+  },
+  "roll-call-vote-analysis": {
+   "category": "parliamentary-data",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/roll-call-vote-analysis/roll-call-vote-analysis.md",
+   "techniques": [
+    {
+     "slug": "club-line-and-rebellion",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "missing-is-not-zero",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "co-voting-agreement-matrix",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "positional-vs-participation-bases",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "rice-cohesion-index",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "tally-reconciliation",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "provenance-or-nothing",
+      "missing-is-not-zero"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "vote-choice-vocabulary-mapping",
+     "status": "forged",
+     "laws": [
+      "disclose-never-repair",
+      "one-definition-one-import"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "club-line-and-rebellion",
+     "file": "knowledge/civic-intelligence/roll-call-vote-analysis/applications/node--club-line-and-rebellion.md"
+    },
+    {
+     "stack": "node",
+     "technique": "tally-reconciliation",
+     "file": "knowledge/civic-intelligence/roll-call-vote-analysis/applications/node--tally-reconciliation.md"
+    }
+   ]
+  },
+  "state-budget-analysis": {
+   "category": "public-money",
+   "status": "forged",
+   "file": "knowledge/civic-intelligence/state-budget-analysis/state-budget-analysis.md",
+   "techniques": [
+    {
+     "slug": "consolidated-vs-headline-figures",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "incident-anchored-doctrine",
+      "provenance-or-nothing"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "median-over-mean-for-peers",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "every-cap-ships-its-population"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "municipal-money-trail",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "missing-is-not-zero",
+      "disclose-never-repair"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "peer-group-construction",
+     "status": "forged",
+     "laws": [
+      "one-definition-one-import",
+      "non-partisan-symmetry"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "per-capita-normalisation",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "deterministic-code-owns-numbers"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "small-sample-widening",
+     "status": "forged",
+     "laws": [
+      "every-cap-ships-its-population",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": []
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "municipal-money-trail",
+     "file": "knowledge/civic-intelligence/state-budget-analysis/applications/node--municipal-money-trail.md"
+    },
+    {
+     "stack": "node",
+     "technique": "peer-group-construction",
+     "file": "knowledge/civic-intelligence/state-budget-analysis/applications/node--peer-group-construction.md"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "provenance-or-nothing": {
+   "statement": "A number that cannot cite its source does not render. Every published claim carries a permanent machine-checkable address, the formula reference that produced it, and its gate state; primary registries outrank media; the method itself is published so the reader can disagree with the method rather than the data.",
+   "techniques": [
+    "accountability-publishing-ethics/accountless-notification-privacy",
+    "accountability-publishing-ethics/lead-not-verdict-framing",
+    "accountability-publishing-ethics/public-role-scope-limit",
+    "accountability-publishing-ethics/real-vs-illustrative-form-encoding",
+    "beneficial-ownership-resolution/role-period-reconciliation",
+    "beneficial-ownership-resolution/struck-off-entity-archives",
+    "civic-knowledge-graphs/per-claim-provenance-stamping",
+    "civic-source-adapters/licence-and-privacy-by-construction",
+    "claim-verification-and-provenance/claim-ref-addressing",
+    "claim-verification-and-provenance/recomputation-receipts",
+    "claim-verification-and-provenance/structured-review-emission",
+    "conflict-of-interest-detection/registry-corroboration-gating",
+    "conflict-of-interest-detection/statute-relevance-mapping",
+    "legislative-change-tracking/sponsorship-and-rapporteur-roles",
+    "llm-forensic-gating/citation-required-per-claim",
+    "llm-forensic-gating/entity-id-membership-gates",
+    "llm-forensic-gating/hallucinated-reference-sweep",
+    "political-compass-from-votes/disclosed-scoring-rule",
+    "politician-performance-scoring/formula-lineage-stamping",
+    "politician-performance-scoring/weighted-component-index",
+    "public-money-attribution/citable-money-claims",
+    "public-procurement-analysis/contract-version-supersession",
+    "roll-call-vote-analysis/tally-reconciliation",
+    "state-budget-analysis/consolidated-vs-headline-figures"
+   ]
+  },
+  "deterministic-code-owns-numbers": {
+   "statement": "Every count, score, sum and rank is computed by reviewable deterministic code. A language model may name, summarize and interpret — it never authors a figure, and any numeric claim in generated prose must re-derive from the store or it does not render.",
+   "techniques": [
+    "accountability-publishing-ethics/accountless-notification-privacy",
+    "civic-knowledge-graphs/evidence-path-finding",
+    "claim-verification-and-provenance/derivation-comparison",
+    "claim-verification-and-provenance/recomputation-receipts",
+    "conflict-of-interest-detection/temporal-alignment-of-money-and-role",
+    "conflict-of-interest-detection/triage-signal-scoring",
+    "legislative-change-tracking/amendment-instruction-grammar",
+    "llm-forensic-gating/structured-verdict-schemas",
+    "political-compass-from-votes/disclosed-scoring-rule",
+    "politician-performance-scoring/participatory-reweighting",
+    "politician-performance-scoring/saturation-caps",
+    "politician-performance-scoring/weighted-component-index",
+    "public-money-attribution/entity-level-deduplication",
+    "public-money-attribution/floor-versus-total-disclosure",
+    "public-procurement-analysis/contract-version-supersession",
+    "public-procurement-analysis/value-basis-non-summability",
+    "roll-call-vote-analysis/club-line-and-rebellion",
+    "state-budget-analysis/per-capita-normalisation"
+   ]
+  },
+  "missing-is-not-zero": {
+   "statement": "An absent value is a different fact from a measured zero. Rendering \"0 speeches\" for a person whose speech data was never ingested is a fabricated claim. Every metric carries its coverage; \"not measured\" and \"not applicable\" are first-class states, and nothing missing ever loses a comparison.",
+   "techniques": [
+    "accountability-publishing-ethics/honest-empty-states",
+    "beneficial-ownership-resolution/officer-record-reading",
+    "beneficial-ownership-resolution/struck-off-entity-archives",
+    "civic-source-adapters/entity-name-normalization",
+    "civic-source-adapters/legacy-encoding-and-escape-parsing",
+    "civic-source-adapters/publisher-sentinel-values",
+    "claim-verification-and-provenance/derivation-comparison",
+    "claim-verification-and-provenance/gate-state-as-modifier",
+    "conflict-of-interest-detection/temporal-alignment-of-money-and-role",
+    "conflict-of-interest-detection/vote-versus-interest-join",
+    "legislative-change-tracking/committee-routing-reconstruction",
+    "legislative-change-tracking/sponsorship-and-rapporteur-roles",
+    "parliamentary-data-modeling/mandate-vs-person-identity",
+    "parliamentary-data-modeling/membership-window-modeling",
+    "parliamentary-data-modeling/term-and-chamber-scoping",
+    "political-compass-from-votes/comparability-floor-for-ranking",
+    "political-compass-from-votes/divisive-vote-selection",
+    "political-compass-from-votes/non-positional-abstention-handling",
+    "politician-performance-scoring/comparison-fairness",
+    "politician-performance-scoring/structural-low-score-corrections",
+    "public-money-attribution/public-body-classification",
+    "public-procurement-analysis/contract-registry-record-model",
+    "public-procurement-analysis/payer-vs-receiver-direction",
+    "public-procurement-analysis/registry-coverage-blind-spots",
+    "public-procurement-analysis/value-basis-non-summability",
+    "roll-call-vote-analysis/club-line-and-rebellion",
+    "roll-call-vote-analysis/positional-vs-participation-bases",
+    "roll-call-vote-analysis/rice-cohesion-index",
+    "roll-call-vote-analysis/tally-reconciliation",
+    "state-budget-analysis/median-over-mean-for-peers",
+    "state-budget-analysis/municipal-money-trail",
+    "state-budget-analysis/per-capita-normalisation"
+   ]
+  },
+  "disclose-never-repair": {
+   "statement": "Bad source data — an impossible date, a broken row, a header drift — is suppressed and counted, never silently corrected. A repaired value is an invented value. The reader is told what was withheld and why; the source keeps the blame.",
+   "techniques": [
+    "accountability-publishing-ethics/honest-empty-states",
+    "accountability-publishing-ethics/real-vs-illustrative-form-encoding",
+    "beneficial-ownership-resolution/identifier-checksum-validation",
+    "beneficial-ownership-resolution/name-to-identifier-discipline",
+    "beneficial-ownership-resolution/role-period-reconciliation",
+    "civic-knowledge-graphs/forensic-view-filtering",
+    "civic-knowledge-graphs/pass-based-incremental-enrichment",
+    "civic-source-adapters/fail-loud-schema-drift",
+    "civic-source-adapters/legacy-encoding-and-escape-parsing",
+    "civic-source-adapters/publisher-sentinel-values",
+    "claim-verification-and-provenance/gate-state-as-modifier",
+    "claim-verification-and-provenance/recomputation-receipts",
+    "claim-verification-and-provenance/three-verdict-vocabulary",
+    "conflict-of-interest-detection/tie-class-taxonomy",
+    "legislative-change-tracking/bill-fate-dating",
+    "legislative-change-tracking/committee-routing-reconstruction",
+    "legislative-change-tracking/statute-citation-extraction",
+    "llm-forensic-gating/hallucinated-reference-sweep",
+    "parliamentary-data-modeling/cross-term-registry-loading",
+    "parliamentary-data-modeling/membership-window-modeling",
+    "political-compass-from-votes/non-positional-abstention-handling",
+    "public-procurement-analysis/contract-registry-record-model",
+    "public-procurement-analysis/value-basis-non-summability",
+    "roll-call-vote-analysis/tally-reconciliation",
+    "roll-call-vote-analysis/vote-choice-vocabulary-mapping",
+    "state-budget-analysis/municipal-money-trail"
+   ]
+  },
+  "non-partisan-symmetry": {
+   "statement": "The method covers the whole population or covers nothing — a shortlist is an editorial act. Absence of a conflict is a finding with equal claim to surface; scandals are neither manufactured nor softened, across all parties identically.",
+   "techniques": [
+    "accountability-publishing-ethics/honest-empty-states",
+    "accountability-publishing-ethics/public-role-scope-limit",
+    "accountability-publishing-ethics/severity-free-factual-framing",
+    "conflict-of-interest-detection/triage-signal-scoring",
+    "parliamentary-data-modeling/mandate-vs-person-identity",
+    "parliamentary-data-modeling/party-club-vs-electoral-list",
+    "political-compass-from-votes/comparability-floor-for-ranking",
+    "political-compass-from-votes/theme-balanced-drawing",
+    "politician-performance-scoring/comparison-fairness",
+    "politician-performance-scoring/structural-low-score-corrections",
+    "public-procurement-analysis/registry-coverage-blind-spots",
+    "state-budget-analysis/peer-group-construction"
+   ]
+  },
+  "lead-not-finding": {
+   "statement": "Automated matches, web research, model verdicts and tripwires produce candidates for human review. Coincidence in time or registry is a fact; substantive connection requires human verification and until then must not be asserted anywhere. Machine review is not human review, and the copy must say which one happened.",
+   "techniques": [
+    "accountability-publishing-ethics/lead-not-verdict-framing",
+    "accountability-publishing-ethics/severity-free-factual-framing",
+    "beneficial-ownership-resolution/name-to-identifier-discipline",
+    "beneficial-ownership-resolution/officer-record-reading",
+    "beneficial-ownership-resolution/ownership-chain-traversal",
+    "civic-knowledge-graphs/evidence-path-finding",
+    "civic-knowledge-graphs/forensic-view-filtering",
+    "civic-knowledge-graphs/per-claim-provenance-stamping",
+    "civic-source-adapters/entity-name-normalization",
+    "civic-source-adapters/licence-and-privacy-by-construction",
+    "claim-verification-and-provenance/gate-state-as-modifier",
+    "claim-verification-and-provenance/structured-review-emission",
+    "conflict-of-interest-detection/registry-corroboration-gating",
+    "conflict-of-interest-detection/vote-versus-interest-join",
+    "legislative-change-tracking/statute-collision-clustering",
+    "llm-forensic-gating/citation-required-per-claim",
+    "llm-forensic-gating/entity-id-membership-gates",
+    "llm-forensic-gating/human-review-doors",
+    "politician-performance-scoring/comparison-fairness",
+    "politician-performance-scoring/structural-low-score-corrections",
+    "public-money-attribution/citable-money-claims",
+    "public-money-attribution/owner-operator-vs-steward-split",
+    "public-procurement-analysis/payer-vs-receiver-direction",
+    "public-procurement-analysis/threshold-proximity-signals",
+    "roll-call-vote-analysis/co-voting-agreement-matrix",
+    "state-budget-analysis/municipal-money-trail"
+   ]
+  },
+  "incident-anchored-doctrine": {
+   "statement": "A rule is recorded with the measured failure that produced it — date, counts, what was published wrongly and for how long. A rule with its incident attached resists erosion; a rule stated as a principle invites re-litigation. When a rule keeps being violated, stop restating it and give it an observable output.",
+   "techniques": [
+    "accountability-publishing-ethics/lead-not-verdict-framing",
+    "civic-knowledge-graphs/civic-entity-ontology",
+    "civic-knowledge-graphs/destructive-rebuild-guard",
+    "civic-source-adapters/fail-loud-schema-drift",
+    "civic-source-adapters/session-bound-scraping",
+    "claim-verification-and-provenance/derivation-comparison",
+    "conflict-of-interest-detection/triage-signal-scoring",
+    "legislative-change-tracking/amendment-instruction-grammar",
+    "legislative-change-tracking/bill-fate-dating",
+    "llm-forensic-gating/human-review-doors",
+    "llm-forensic-gating/prose-register-gates",
+    "politician-performance-scoring/formula-lineage-stamping",
+    "public-money-attribution/public-body-classification",
+    "state-budget-analysis/consolidated-vs-headline-figures",
+    "state-budget-analysis/small-sample-widening"
+   ]
+  },
+  "one-definition-one-import": {
+   "statement": "A rule that exists twice will drift, and in this domain every measured drift favored a named person or firm. Thresholds, weights, vocabularies and formulas live in exactly one place and are imported by every consumer — a restated literal is a future lie.",
+   "techniques": [
+    "accountability-publishing-ethics/severity-free-factual-framing",
+    "beneficial-ownership-resolution/identifier-checksum-validation",
+    "civic-knowledge-graphs/civic-entity-ontology",
+    "civic-knowledge-graphs/destructive-rebuild-guard",
+    "civic-knowledge-graphs/pass-based-incremental-enrichment",
+    "civic-source-adapters/entity-name-normalization",
+    "claim-verification-and-provenance/claim-ref-addressing",
+    "claim-verification-and-provenance/three-verdict-vocabulary",
+    "conflict-of-interest-detection/statute-relevance-mapping",
+    "conflict-of-interest-detection/tie-class-taxonomy",
+    "legislative-change-tracking/bill-fate-dating",
+    "legislative-change-tracking/statute-citation-extraction",
+    "llm-forensic-gating/prose-register-gates",
+    "llm-forensic-gating/structured-verdict-schemas",
+    "parliamentary-data-modeling/office-vs-plain-membership",
+    "parliamentary-data-modeling/party-club-vs-electoral-list",
+    "parliamentary-data-modeling/term-and-chamber-scoping",
+    "political-compass-from-votes/disclosed-scoring-rule",
+    "politician-performance-scoring/formula-lineage-stamping",
+    "politician-performance-scoring/participatory-reweighting",
+    "politician-performance-scoring/saturation-caps",
+    "politician-performance-scoring/weighted-component-index",
+    "public-money-attribution/citable-money-claims",
+    "public-money-attribution/entity-level-deduplication",
+    "public-money-attribution/owner-operator-vs-steward-split",
+    "public-procurement-analysis/threshold-proximity-signals",
+    "roll-call-vote-analysis/positional-vs-participation-bases",
+    "roll-call-vote-analysis/rice-cohesion-index",
+    "roll-call-vote-analysis/vote-choice-vocabulary-mapping",
+    "state-budget-analysis/consolidated-vs-headline-figures",
+    "state-budget-analysis/peer-group-construction"
+   ]
+  },
+  "every-cap-ships-its-population": {
+   "statement": "A top-N list, a truncated read, or a sampled check states the size of what it was drawn from. A capped corpus yields a floor, not a total; a silent truncation reads as \"everything\" when it is not.",
+   "techniques": [
+    "beneficial-ownership-resolution/ownership-chain-traversal",
+    "civic-knowledge-graphs/evidence-path-finding",
+    "civic-source-adapters/fail-loud-schema-drift",
+    "civic-source-adapters/session-bound-scraping",
+    "conflict-of-interest-detection/vote-versus-interest-join",
+    "legislative-change-tracking/statute-collision-clustering",
+    "parliamentary-data-modeling/cross-term-registry-loading",
+    "political-compass-from-votes/divisive-vote-selection",
+    "political-compass-from-votes/theme-balanced-drawing",
+    "politician-performance-scoring/participatory-reweighting",
+    "politician-performance-scoring/saturation-caps",
+    "public-money-attribution/floor-versus-total-disclosure",
+    "public-procurement-analysis/registry-coverage-blind-spots",
+    "roll-call-vote-analysis/club-line-and-rebellion",
+    "roll-call-vote-analysis/co-voting-agreement-matrix",
+    "state-budget-analysis/median-over-mean-for-peers",
+    "state-budget-analysis/small-sample-widening"
+   ]
+  }
+ }
+}

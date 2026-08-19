@@ -101,6 +101,19 @@ const PURITY_PROFILES = {
     [/\.(?:mp4|mov|prproj|aep|psd|wav)\b/, 'asset file extension'],
     [/\b(?:Premiere|Resolve|After Effects|Photoshop|Blender|Midjourney|Runway|Gravitone)\b/, 'tool/product identifier'],
   ],
+  // Civic/political-intelligence domains: the analogue of a repo path is a dataset or
+  // registry endpoint; the analogue of a framework name is a product or portal name.
+  civic: [
+    [/\b(?:app|lib|features|components)\//, 'repo path'],
+    [/\.(?:tsx?|mjs|cjs|jsx|sql)\b/, 'source-file extension'],
+    [/\b(?:Politicas|Next\.js|React|TypeScript|Firestore|PostgreSQL|Postgres|Neo4j|Supabase)\b/, 'stack/product identifier'],
+  ],
+  // Funding/grants domains: same rule — the standard must transplant to any org or tool.
+  funding: [
+    [/\b(?:app|lib|features|components)\//, 'repo path'],
+    [/\.(?:tsx?|mjs|cjs|jsx)\b/, 'source-file extension'],
+    [/\b(?:Wellspring|Next\.js|React|TypeScript|Firebase|Firestore|Polar)\b/, 'stack/product identifier'],
+  ],
   // Applied when a bundle declares no profile: the domain-independent core only.
   generic: [
     [/\b(?:src|src-tauri|scripts)\//, 'repo path'],
@@ -119,6 +132,9 @@ for (const domain of bundles) {
   // ---- bundle metadata (OKF index.md)
   const indexFile = path.join(dir, 'index.md');
   let purity = PURITY_PROFILES.generic;
+  // Application stacks: the closed default set, extensible per bundle via `stacks:` in
+  // index.md — a media bundle's "stack" is a model or pipeline tool, not a framework.
+  let bundleStacks = STACKS;
   if (!fs.existsSync(indexFile)) {
     fail(`knowledge/${domain}/index.md is missing — an OKF bundle declares itself`);
   } else {
@@ -135,6 +151,11 @@ for (const domain of bundles) {
         else purity = PURITY_PROFILES[fm.purity];
       } else {
         notes.push(`knowledge/${domain}: no purity profile declared — generic denylist applied`);
+      }
+      if (Array.isArray(fm.stacks) && fm.stacks.length) {
+        const bad = fm.stacks.filter((s) => !/^[a-z0-9][a-z0-9-]*$/.test(s));
+        for (const s of bad) fail(`knowledge/${domain}/index.md: declared stack "${s}" is not a kebab-case slug`);
+        bundleStacks = new Set([...STACKS, ...fm.stacks.filter((s) => !bad.includes(s))]);
       }
     }
   }
@@ -272,7 +293,7 @@ for (const domain of bundles) {
         st.applications++;
         if (!fm) continue;
         if (fm.subject !== slug) fail(`knowledge/${domain}/${slug}/applications/${f}: subject "${fm.subject}" ≠ "${slug}"`);
-        if (!STACKS.has(fm.stack)) fail(`knowledge/${domain}/${slug}/applications/${f}: unknown stack "${fm.stack}"`);
+        if (!bundleStacks.has(fm.stack)) fail(`knowledge/${domain}/${slug}/applications/${f}: unknown stack "${fm.stack}" (add it to this bundle's index.md \`stacks:\` if it is real)`);
         if (!onDisk.has(fm.technique)) fail(`knowledge/${domain}/${slug}/applications/${f}: technique "${fm.technique}" not in this subject's techniques/`);
         const expectName = `${fm.stack}--${fm.technique}.md`;
         if (f !== expectName) fail(`knowledge/${domain}/${slug}/applications/${f}: filename should be "${expectName}" (rkb-profile §2)`);
