@@ -63,6 +63,30 @@ reports success. The two properties back each other up; a portability bug
 under an instrument assertion is a loud error, under none it is a
 permanent silent pass.
 
+### Portability bugs have a direction, and one direction is invisible
+
+Not all platform drift costs the same. What matters is **which side is more
+permissive**. When the strict platform is the one the author works on, the
+gate fails in front of the person who can fix it — annoying, self-correcting.
+When the *permissive* platform is the author's, the gate passes locally and
+fails only where nobody is watching, and the author's own run becomes evidence
+of nothing.
+
+Case-insensitive name resolution is the everyday instance: a reference whose
+capitalisation does not match the stored name resolves on a permissive
+filesystem and fails on a strict one. If integration runs on the strict side —
+as it usually does — a developer can run the gate, watch it pass, and ship a
+reference that cannot resolve anywhere else. The gate was not weak; it was
+answering a different question than the one it appeared to answer.
+
+The fix is to make the check mean the same thing everywhere rather than to
+remember the difference: resolve against what the store actually holds, not
+against what the platform is willing to match. A gate that consults the
+authoritative listing is portable by construction, and it can also say
+*mismatch* rather than *absent* — which matters, because "it is not there"
+sends someone hunting for something deleted when the thing is present under
+another name, and on their own machine the gate will look like it lied.
+
 ## Chain ordering: one broken step can blind the rest
 
 Gate suites commonly run as an abort-on-first-failure chain. Two
