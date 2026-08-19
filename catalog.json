@@ -1,7 +1,7 @@
 {
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
-  "_note": "GENERATED FILE. Ascent rewrites this on every index of the registry (bot commit, or a pull request when policies.catalogWrites is 'pr'). This copy is HAND-SEEDED so an indexer has a real file to diff against on its first run: the contentHash values are true sha256 prefixes of the files at seed time, while adopters/invokes30d are illustrative placeholders and become real once fleet repos are indexed. Do not hand-edit; change the source files instead.",
+  "_note": "GENERATED FILE. Two producers write it and neither may clobber the other: Ascent's indexer owns the envelope (schema, registry, skills, practices, memory, counts) and carries forward every key it does not own; scripts/build-catalog.mjs owns 'bundles' (the knowledge lane) and each skill's 'invokes30d' + 'usageContributors', DERIVED from the usage/ lane — see docs/usage-lane.md. Hand-editing a derived count is overwritten on the next build. The skills/practices/memory entries below are still the hand-seeded example fixture until an indexer runs.",
   "generatedAt": "2026-08-18T00:00:00Z",
   "generatedBy": "hand-seeded",
   "registry": {
