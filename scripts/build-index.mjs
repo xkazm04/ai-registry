@@ -160,6 +160,14 @@ function buildBundle(domain) {
     applications: Object.values(subjects).reduce((n, s) => n + s.applications.length, 0),
     laws: Object.keys(laws).length,
     categories: (categories.categories || []).map((c) => c.id),
+    // `use_when` is what a consult lane selects on. Measured 2026-08-19 at
+    // 0/624 — the field is specified in docs/rkb-profile.md and written
+    // nowhere yet. Reported as a number so the gap is observed rather than
+    // assumed away by anything built on top of this index.
+    use_when_coverage: `${Object.values(subjects).reduce(
+      (n, s) => n + s.techniques.filter((t) => t.use_when).length,
+      0,
+    )}/${Object.values(subjects).reduce((n, s) => n + s.techniques.length, 0)}`,
     // Stated in-band so nobody mistakes this for a complete picture of the
     // corpus and quietly builds an evidence feature on top of an index that
     // structurally cannot carry it.
@@ -212,7 +220,8 @@ for (const domain of domains) {
   const m = index.meta;
   console.log(
     `${domain}: ${m.subjects} subjects · ${m.techniques} techniques · ` +
-      `${m.applications} applications · ${m.laws} laws cited`,
+      `${m.applications} applications · ${m.laws} laws cited · ` +
+      `use_when ${m.use_when_coverage}`,
   );
 }
 

@@ -17,6 +17,7 @@
    "integration",
    "engineering-process"
   ],
+  "use_when_coverage": "0/624",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
