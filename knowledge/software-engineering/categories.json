@@ -92,6 +92,7 @@
     "import-normalization": "integration",
     "ipc-contract": "client-architecture",
     "job-coordination": "backend-platform",
+    "knowledge-registry": "engineering-process",
     "markdown-vault": "integration",
     "mcp-tools": "llm-agent",
     "media-playback": "ui-surfaces",
