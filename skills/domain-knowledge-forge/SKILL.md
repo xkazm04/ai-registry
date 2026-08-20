@@ -3,7 +3,7 @@ name: domain-knowledge-forge
 description: "Extract a repository's domain knowledge into a four-layer RKB bundle in this registry: scout every context, design subjects with the operator's split doctrine, then forge each subject two-phase (expert draft + web hardening before repo reconciliation) with a bounded agent pool. Use when a new domain repo should populate the knowledge lane."
 category: ai-native
 memory: project
-version: 1.0.1
+version: 1.1.0
 tags: knowledge, rkb, extraction, orchestration, bundles
 ---
 
@@ -85,9 +85,21 @@ the report doubles as the review surface.
 Never trust the forgers' green reports alone. From the registry root:
 `node scripts/check-bundles.mjs`, `node scripts/build-index.mjs`,
 `node scripts/build-catalog.mjs`. Update the bundle tables in `README.md` and
-`knowledge/README.md`. Commit on a branch; if the checkout is shared with other
-sessions, use a git worktree or an isolated index (seeded `git read-tree HEAD`) and
-verify `git log -1` is your commit. Leave the merge to the registry owner.
+`knowledge/README.md`.
+
+**Where the work happens (operator's standing instruction).** Stay inside the
+registry checkout. Do NOT clone the registry, and do NOT `git worktree add` a sibling
+directory next to it - a second copy on disk is one more place for a stale bundle to
+be edited, and it has to be found and removed afterwards. When isolation is wanted
+because other sessions share the checkout, use the harness's own worktree support
+(`EnterWorktree`), which creates the worktree **under `.claude/worktrees/` inside the
+repository** and switches the session into it; `ExitWorktree` ends it. This paragraph
+is the project instruction that authorises that tool. Note its base ref: the default
+branches from the remote's default branch, so pass the setting that branches from
+local `HEAD` when the wave must build on unpushed work.
+
+Commit on a branch and verify `git log -1` is your commit. Leave the merge to the
+registry owner - merging is adopting, and that click is theirs.
 
 ## Failure modes observed (do not rediscover)
 
@@ -100,3 +112,18 @@ verify `git log -1` is your commit. Leave the merge to the registry owner.
   is other forgers' pending work; each forger checks only its own subject's findings.
 - **use_when belongs on techniques too.** Golden paths get it naturally; technique
   files need it stated explicitly in the brief or a backfill pass follows.
+- **Joining an existing bundle is a different job from founding one.** Give scouts the
+  full existing subject list so candidates come back classified NEW vs EXTENDS, name
+  1-3 adjacent subjects in every dispatch and require a prose boundary, and *append* a
+  new category rather than reordering. Forgers rightly refuse to link a sibling whose
+  folder does not exist yet, so the director owes a link-upgrade pass once every folder
+  is on disk.
+- **Land the bundle back into the source repo, and treat that as verification.** Harvest
+  the deviations forgers recorded in `applications/` into a ranked backlog, re-open every
+  cited anchor (expect a few stale), and fix them on a branch in the source repo. It
+  re-verifies the extraction and it is the only pass that can falsify a promoted upward
+  lesson - one run retracted a rule in the same session this way. Give the apply agents
+  disjoint write sets, forbid every git command (the director commits per area), and put
+  the repo's measured green baseline in their brief. Ask each whether its fix is reachable
+  end to end: a fix whose plumbing crosses a write-set boundary lands *disabled*, and
+  finishing those is the director's job.
