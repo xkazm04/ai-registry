@@ -11,6 +11,7 @@ techniques:
   - geographic-scope-gating
   - award-size-capacity-fit
   - deadline-and-cutoff-evaluation
+  - registration-and-validation-readiness
 ---
 
 # Eligibility analysis
@@ -39,6 +40,16 @@ one of exactly three statuses — pass, fail, unknown:
 3. **Award-size capacity** — can an organization of this size responsibly
    absorb an award of this size?
 4. **Deadline** — is the submission window still open at this instant?
+
+Major public-funding regimes add a fifth check of a different character:
+**registration readiness** — an active registration in the funder system's
+central applicant register, without which even a fully eligible applicant
+cannot submit. It is administrative rather than substantive, curable rather
+than terminal, and time-dependent with a lead time measured in weeks, so it
+behaves as a scheduling gate composed with the deadline rather than a fifth
+verdict — except for one condition, presence on the register's exclusion
+list, which is a true hard fail. It gets its own technique because folding
+it into applicant type mis-models both.
 
 The checks are independent on purpose. Each reads different fields, fails for
 different reasons, and is explained to the user separately. A combined

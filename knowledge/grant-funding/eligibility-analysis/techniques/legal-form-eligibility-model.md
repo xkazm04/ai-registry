@@ -46,7 +46,12 @@ instead of pretending every jurisdiction is code-based.
    is proven (verification documents, registry extracts) are different
    questions on different lifecycles. The gate reads the model; the
    verification workflow accumulates the evidence; conflating them makes
-   every unverified applicant look ineligible.
+   every unverified applicant look ineligible. Field practice underlines the
+   split: the supranational regime validates only *successful* proposals — a
+   self-registered identifier suffices to apply, and registry extracts and
+   the appointed representative are demanded when an award is in prospect —
+   so front-loading full verification at onboarding is work the regime
+   itself defers.
 
 ## Decision rules
 

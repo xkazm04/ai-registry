@@ -53,9 +53,14 @@ is mostly about not over-claiming what a heuristic knows.
   *reachable as a coalition* with complementary partners, where the lead's
   capacity is the consortium's, and the fail message says so.
 - **Sweet-spot band (pass):** when the award range overlaps roughly 5–40%
-  of annual revenue, pass. The band reflects sector practice on healthy
-  single-award concentration: below it the award may not be worth the
-  application's cost; above it concentration risk climbs. Overlap means
+  of annual revenue, pass. The band is a screening heuristic, not a
+  published sector norm — what the field actually publishes is concentration
+  guidance (a single funding source above roughly a quarter to a third of
+  revenue is a board-level risk conversation), and the band's upper edge
+  sits deliberately near that line: below the band the award may not be
+  worth the application's cost; above it concentration risk climbs. Field
+  practice also sanctions far larger asks where alignment and relationship
+  are exceptional — which is exactly why off-band is unknown, not fail. Overlap means
   `ceiling ≥ 5% of revenue AND floor ≤ 40% of revenue` — the range touching
   the band, not sitting inside it.
 - **Everything else → unknown** ("outside the typical sweet spot — check
@@ -70,6 +75,12 @@ is mostly about not over-claiming what a heuristic knows.
 - **Tie the band to revenue, not to a fixed money threshold, because** the
   same award is transformative for one applicant and rounding error for
   another; fixed thresholds encode one customer's size into the gate.
+- **When a public-funder regime mandates an audit above a cumulative
+  annual-expenditure threshold, surface the crossing in the gate's detail —
+  and keep the threshold as dated data in the jurisdiction model, never a
+  constant in code, because** an award that pushes a small organization over
+  the line carries a real compliance cost the revenue ratio alone does not
+  show, and the threshold itself is regulation, which moves.
 - **When the applicant explicitly pursues step-change funding, let the fit
   layer argue past an unknown — but not past the fail, because** ambition
   changes the argument, not the arithmetic of absorbing a floor larger than
