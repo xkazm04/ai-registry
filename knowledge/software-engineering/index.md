@@ -19,7 +19,7 @@ against. Applications are the opposite by design: they cite real code and name t
 in the filename.
 
 Cross-cutting invariants live in [`_laws.md`](./_laws.md); techniques cite them by anchor.
-Graph consumers group subjects with [`categories.json`](./categories.json).
+Subjects are grouped — and located — by [`taxonomy.json`](./taxonomy.json).
 
 Format: [RKB profile v0.1](../../docs/rkb-profile.md), an OKF profile.
 Evidence: consumer-local by design — see the profile, §5.

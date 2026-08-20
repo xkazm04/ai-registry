@@ -20,9 +20,32 @@ ambiguous; read ONE existing subject under `knowledge/software-engineering/` (e.
    lesson (the repo taught something your draft lacked — improve the draft). The repo's
    hard-won incident comments are usually upward lessons; take them.
 
+## Where you write
+
+**Your dispatch prompt names your subject's category and, if it has one, its
+subcategory. Use exactly those - never invent a grouping, never choose your own.**
+Your subject folder is:
+
+```
+knowledge/<bundle>/<category>/<subject>/                # category under the cap
+knowledge/<bundle>/<category>/<subcategory>/<subject>/  # category over ten subjects
+```
+
+The bundle's `taxonomy.json` is the authority and the director has already written your
+entry into it. If your dispatch does not name a category, stop and ask - do not guess,
+because a subject in the wrong folder has to be moved by a script and the move rewrites
+every link into and out of it.
+
+Relative links are depth-sensitive, and your depth depends on that grouping. From a
+subject folder at `<category>/<subject>/`, the laws file is `../../_laws.md`; from
+`<category>/<subcategory>/<subject>/` it is `../../../_laws.md`, and from inside your
+`techniques/` or `applications/` one deeper again. Write the link, then run the gate: it
+checks every relative link resolves, so a wrong count is caught immediately rather than
+shipped.
+
 ## What you write
 
-Under `knowledge/<bundle>/<subject>/`:
+In your subject folder:
 
 - `<subject>.md` — the golden path. 120-220 lines of substance: what the subject IS,
   what a principal practitioner holds true, the load-bearing distinctions, the failure
@@ -103,7 +126,7 @@ craft lessons without naming the repo in the upper layers. Do not pad. Do not
 summarize the golden path inside techniques. When done, run
 `node scripts/check-bundles.mjs` from the registry root and fix anything it reports
 for YOUR subject (other subjects may still be mid-forge — ignore their failures, and
-ignore `categories.json assigns ... which has no folder` failures for subjects that
+ignore `taxonomy.json assigns ... which has no folder` failures for subjects that
 are not yours).
 
 Your final report: 5-10 lines — files written, techniques count, applications count,

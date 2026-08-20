@@ -3,7 +3,7 @@ name: domain-knowledge-forge
 description: "Extract a repository's domain knowledge into a four-layer RKB bundle in this registry: scout every context, design subjects with the operator's split doctrine, then forge each subject two-phase (expert draft + web hardening before repo reconciliation) with a bounded agent pool. Use when a new domain repo should populate the knowledge lane."
 category: ai-native
 memory: project
-version: 1.1.0
+version: 1.2.0
 tags: knowledge, rkb, extraction, orchestration, bundles
 ---
 
@@ -46,9 +46,20 @@ Consolidate scout candidates yourself; this is the judgment step that cannot fan
 - **Subjects: 12-17 per bundle**, each with 4-6 techniques assigned exclusively.
   Assign every technique slug at design time - forgers must never invent or drop one.
 - **Start combined, split later.** One bundle per domain even when a split feels
-  plausible; encode the seam as categories (`categories.json`). The split test lives
+  plausible; encode the seam as categories (`taxonomy.json`). The split test lives
   in `knowledge/README.md`: split when a category stops sharing the purity denylist,
   never for size.
+- **Design the taxonomy under the cap, at design time.** No level may hold more than
+  10 folders. At 12-17 subjects a bundle is 4-6 categories of 2-7 and needs no
+  subcategories; plan the ring so no category is near ten on day one. Nesting is NOT
+  splitting - a subcategory shares the bundle's laws, purity profile and technique
+  namespace, so it costs nothing but a path. Every subject's category (and
+  subcategory) is decided HERE and carried in its forger's dispatch; a forger that has
+  to guess its own folder is a subject that gets moved later, and a move rewrites
+  every link into and out of it.
+- **Never reuse a slug across levels.** A category or subcategory that shares a name
+  with a subject collides the moment the subject moves into it. `apply-taxonomy.mjs`
+  refuses rather than corrupting the tree, but the cheap place to catch it is here.
 - **Distill the laws.** The rules that recur across every scout report ("deterministic
   code owns every number", "missing is not zero") are `_laws.md` anchors, not
   subjects. 8-9 laws per bundle is the observed natural size.
@@ -56,8 +67,11 @@ Consolidate scout candidates yourself; this is the judgment step that cannot fan
 ## Phase 2 - Scaffold the bundle
 
 Write by hand: `index.md` (OKF metadata + `purity:`, optionally `stacks:`),
-`_laws.md` (anchored laws), `categories.json` (the full planned subject map - it will
-fail the gate until every folder exists; that is the progress meter, not an error).
+`_laws.md` (anchored laws), `taxonomy.json` (the full planned subject map, with
+`layout: nested` for a new bundle - it will fail the gate until every folder exists;
+that is the progress meter, not an error). A NEW bundle is born nested: there is no
+legacy tree to migrate, so `layout: flat` is only ever a transitional state for a
+bundle that predates the taxonomy.
 If no purity profile fits the domain, add one to `scripts/check-bundles.mjs` in the
 same change - a floor to extend, never narrow.
 
@@ -66,7 +80,9 @@ same change - a floor to extend, never narrow.
 One agent per subject, never more than the agreed cap in flight; **top the pool up one
 agent per completion notification** rather than launching fixed batches - it holds the
 cap exactly and wastes no wall-clock. Each dispatch prompt carries: bundle, subject
-slug + definition + category, the exclusive technique list, whether web hardening is
+slug + definition + **category and subcategory** (the forger writes to
+`knowledge/<bundle>/<category>/[<subcategory>/]<subject>/` and must never pick its own
+grouping), the exclusive technique list, whether web hardening is
 warranted (2-4 searches for subjects where current practice moves fast; none where
 training data suffices), the scout's file:line anchors, and application stack
 guidance. Everything else lives in `docs/forge-brief.md`, which every forger reads
@@ -108,7 +124,7 @@ registry owner - merging is adopting, and that click is theirs.
   "even names it doesn't list stay out", and spot-check.
 - **Coverage claimed != coverage done.** A scout that "covered" 25 contexts by reading
   8 is invisible unless the report requires a per-context line.
-- **The gate mid-wave is noisy by design.** `categories.json assigns X, no folder`
+- **The gate mid-wave is noisy by design.** `taxonomy.json assigns X, no folder`
   is other forgers' pending work; each forger checks only its own subject's findings.
 - **use_when belongs on techniques too.** Golden paths get it naturally; technique
   files need it stated explicitly in the brief or a backfill pass follows.

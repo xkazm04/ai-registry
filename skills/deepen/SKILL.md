@@ -3,7 +3,7 @@ name: deepen
 description: "Review and widen an existing knowledge-bundle topic via deep web research + training data: scan a domain for undercooked subjects, research the chosen ones in mandatory-counter-evidence lanes, and land gate-clean corrections, techniques and dated field applications. Runs interactively (finding-level triage), in batch (worker-per-subject under Director diff-review), or as a long-running loop with a saturation ledger. Use when a bundle's subjects should rise above the repo they were forged from, or stay current as the field moves."
 category: ai-native
 memory: project
-version: 1.0.1
+version: 1.1.0
 tags: knowledge, rkb, research, saturation, loop
 ---
 
@@ -21,8 +21,11 @@ bundles: interactive, 3-wide and 8-wide batch, and a 3-round loop on a fresh dom
    counts, body mass, stack diversity, missing dated applications), then **demand**
    (registered consumer apps' use-cases x the bundle index - a coverage hole is
    forged, not deepened around; a consumer deviation outranks any scan), then
-   staleness (expired `refresh_by:` clocks). Spot-check the index against one real
-   file before trusting any score. Judgment gap-thesis pass on the shortlist only.
+   staleness - now a computed input, not a hand scan: `node scripts/check-currency.mjs
+   --json` returns expired, at-risk and stack-drift per application, plus which
+   bundles have no reporting installation at all (`witness: unknown` is NOT
+   `current`). Spot-check the index against one real file before trusting any score.
+   Judgment gap-thesis pass on the shortlist only.
 2. **Research** - 3-6 lanes per subject. **Counter-evidence is non-optional** and the
    highest-value lane per token in every measured run: actively refute the subject's
    strongest claims; a claim verified-and-left-untouched is a first-class result.
@@ -32,9 +35,16 @@ bundles: interactive, 3-wide and 8-wide batch, and a 3-round loop on a fresh dom
    hedge better than techniques, and phantom fixes against a summary are the
    dominant failure mode.
 3. **Apply** - in-session, gate-clean, atomic commits per subject. Product-named
-   knowledge lands only in applications; every dated application carries
-   `refresh_by:` (vendor landscapes ~3 months, regulatory <=12, standards ~6, craft
-   principles no clock). Corrections keep `status: forged`; nothing self-promotes.
+   knowledge lands only in applications. Every application carries `verified_on:`
+   (the date YOU resolved its citations - a fact, gate-required) and, where you read
+   a real tree, `verified_against: <stack>@<major>` - that is the only field that
+   makes a runtime bump computable, and only something that opened the tree may write
+   it. Add `refresh_by:` ONLY to override the derived clock for a subject that moves
+   faster or slower than its stack (vendor landscapes ~3 months, regulatory <=12,
+   standards ~6); the default window is derived per stack in `check-currency.mjs`, so
+   a routine application needs no clock of its own. Corrections keep `status: forged`;
+   nothing self-promotes. **A correction that re-checks a citation must move
+   `verified_on` - otherwise the corpus ages while the work says it did not.**
 4. **Reflect** - decline-why (once, batched), a per-domain **saturation ledger**
    (depth rung L1 synthesis / L2 primary / L3 empirical; last-pass yield; clocks;
    demand; dry-streak), and banked leads with return conditions. Recompute scores
@@ -43,7 +53,10 @@ bundles: interactive, 3-wide and 8-wide batch, and a 3-round loop on a fresh dom
 ## Batch mode (Director-reviewed)
 
 One full-pipeline worker per top candidate, in parallel. Hard worker rules: own
-subject folder only (cross-subject findings return as **proposals**, including
+subject folder only - **resolve its path, never construct one**, because a bundle may
+be nested (`knowledge/<bundle>/<category>/[<subcategory>/]<subject>/`) and a worker
+that guesses writes into a folder nobody reads. `index.json` carries each subject's
+`file`; that is the address. Cross-subject findings return as **proposals**, including
 home-ambiguous techniques - the Director places them); at most one new technique and
 only on lane convergence; never touch shared files; never commit. **The Director
 reviews actual diffs, never worker self-reports** - purity grep over upper layers, a

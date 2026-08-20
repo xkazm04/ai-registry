@@ -13,12 +13,14 @@
    "quality-scoring",
    "federation-and-surfaces"
   ],
+  "layout": "flat",
   "use_when_coverage": "98/98",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
   "analytics-store-design": {
    "category": "telemetry-and-data",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/analytics-store-design/analytics-store-design.md",
    "techniques": [
@@ -105,22 +107,27 @@
     {
      "stack": "process",
      "technique": "analytical-copy-partitioning",
-     "file": "knowledge/llm-observability/analytics-store-design/applications/process--analytical-copy-partitioning.md"
+     "file": "knowledge/llm-observability/analytics-store-design/applications/process--analytical-copy-partitioning.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "capability-flags-and-refusal",
-     "file": "knowledge/llm-observability/analytics-store-design/applications/rust--capability-flags-and-refusal.md"
+     "file": "knowledge/llm-observability/analytics-store-design/applications/rust--capability-flags-and-refusal.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "sql",
      "technique": "dashboard-driven-composite-indexes",
-     "file": "knowledge/llm-observability/analytics-store-design/applications/sql--dashboard-driven-composite-indexes.md"
+     "file": "knowledge/llm-observability/analytics-store-design/applications/sql--dashboard-driven-composite-indexes.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "billing-revenue-normalization": {
    "category": "economics-and-governance",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/billing-revenue-normalization/billing-revenue-normalization.md",
    "techniques": [
@@ -203,22 +210,27 @@
     {
      "stack": "process",
      "technique": "signature-is-the-auth",
-     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/process--signature-is-the-auth.md"
+     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/process--signature-is-the-auth.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "signature-is-the-auth",
-     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/rust--signature-is-the-auth.md"
+     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/rust--signature-is-the-auth.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "static-auditable-fx-book",
-     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/rust--static-auditable-fx-book.md"
+     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/rust--static-auditable-fx-book.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "breach-alerting-and-attribution": {
    "category": "economics-and-governance",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/breach-alerting-and-attribution/breach-alerting-and-attribution.md",
    "techniques": [
@@ -320,22 +332,27 @@
     {
      "stack": "process",
      "technique": "scoped-dedup-keys",
-     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/process--scoped-dedup-keys.md"
+     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/process--scoped-dedup-keys.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "pre-breach-forecasting",
-     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/rust--pre-breach-forecasting.md"
+     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/rust--pre-breach-forecasting.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "top-contributor-attribution",
-     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/rust--top-contributor-attribution.md"
+     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/rust--top-contributor-attribution.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "cross-provider-benchmark-operations": {
    "category": "quality-scoring",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
    "techniques": [
@@ -428,17 +445,22 @@
     {
      "stack": "rust",
      "technique": "budget-preflight-and-ceiling",
-     "file": "knowledge/llm-observability/cross-provider-benchmark-operations/applications/rust--budget-preflight-and-ceiling.md"
+     "file": "knowledge/llm-observability/cross-provider-benchmark-operations/applications/rust--budget-preflight-and-ceiling.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "determinism-stamping",
-     "file": "knowledge/llm-observability/cross-provider-benchmark-operations/applications/rust--determinism-stamping.md"
+     "file": "knowledge/llm-observability/cross-provider-benchmark-operations/applications/rust--determinism-stamping.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     }
    ]
   },
   "federated-benchmark-sharing": {
    "category": "federation-and-surfaces",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/federated-benchmark-sharing/federated-benchmark-sharing.md",
    "techniques": [
@@ -531,17 +553,20 @@
     {
      "stack": "rust",
      "technique": "bounded-contributor-influence",
-     "file": "knowledge/llm-observability/federated-benchmark-sharing/applications/rust--bounded-contributor-influence.md"
+     "file": "knowledge/llm-observability/federated-benchmark-sharing/applications/rust--bounded-contributor-influence.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "hub-ingest-plausibility-gates",
-     "file": "knowledge/llm-observability/federated-benchmark-sharing/applications/rust--hub-ingest-plausibility-gates.md"
+     "file": "knowledge/llm-observability/federated-benchmark-sharing/applications/rust--hub-ingest-plausibility-gates.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "judge-calibration-and-drift": {
    "category": "quality-scoring",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/judge-calibration-and-drift/judge-calibration-and-drift.md",
    "techniques": [
@@ -634,22 +659,27 @@
     {
      "stack": "process",
      "technique": "golden-set-agreement-measurement",
-     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/process--golden-set-agreement-measurement.md"
+     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/process--golden-set-agreement-measurement.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "process",
      "technique": "judge-selection-by-spread",
-     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/process--judge-selection-by-spread.md"
+     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/process--judge-selection-by-spread.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "windowed-score-drop-alerting",
-     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/rust--windowed-score-drop-alerting.md"
+     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/rust--windowed-score-drop-alerting.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "judge-contract-design": {
    "category": "quality-scoring",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/judge-contract-design/judge-contract-design.md",
    "techniques": [
@@ -737,22 +767,27 @@
     {
      "stack": "process",
      "technique": "bias-counterbalancing-instructions",
-     "file": "knowledge/llm-observability/judge-contract-design/applications/process--bias-counterbalancing-instructions.md"
+     "file": "knowledge/llm-observability/judge-contract-design/applications/process--bias-counterbalancing-instructions.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "nonce-fenced-candidate-isolation",
-     "file": "knowledge/llm-observability/judge-contract-design/applications/process--nonce-fenced-candidate-isolation.md"
+     "file": "knowledge/llm-observability/judge-contract-design/applications/process--nonce-fenced-candidate-isolation.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "nonce-fenced-candidate-isolation",
-     "file": "knowledge/llm-observability/judge-contract-design/applications/rust--nonce-fenced-candidate-isolation.md"
+     "file": "knowledge/llm-observability/judge-contract-design/applications/rust--nonce-fenced-candidate-isolation.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "llm-call-telemetry-model": {
    "category": "telemetry-and-data",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/llm-call-telemetry-model/llm-call-telemetry-model.md",
    "techniques": [
@@ -843,22 +878,27 @@
     {
      "stack": "process",
      "technique": "dual-clock-event-time",
-     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/process--dual-clock-event-time.md"
+     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/process--dual-clock-event-time.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "token-usage-quadruple",
-     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/process--token-usage-quadruple.md"
+     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/process--token-usage-quadruple.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "server-owned-fields",
-     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/rust--server-owned-fields.md"
+     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/rust--server-owned-fields.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "llm-price-book-operations": {
    "category": "economics-and-governance",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/llm-price-book-operations/llm-price-book-operations.md",
    "techniques": [
@@ -946,17 +986,21 @@
     {
      "stack": "process",
      "technique": "no-retroactive-repricing",
-     "file": "knowledge/llm-observability/llm-price-book-operations/applications/process--no-retroactive-repricing.md"
+     "file": "knowledge/llm-observability/llm-price-book-operations/applications/process--no-retroactive-repricing.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "price-resolution-order",
-     "file": "knowledge/llm-observability/llm-price-book-operations/applications/rust--price-resolution-order.md"
+     "file": "knowledge/llm-observability/llm-price-book-operations/applications/rust--price-resolution-order.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "margin-and-unit-economics": {
    "category": "economics-and-governance",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/margin-and-unit-economics/margin-and-unit-economics.md",
    "techniques": [
@@ -1042,17 +1086,20 @@
     {
      "stack": "rust",
      "technique": "pricing-what-if-simulation",
-     "file": "knowledge/llm-observability/margin-and-unit-economics/applications/rust--pricing-what-if-simulation.md"
+     "file": "knowledge/llm-observability/margin-and-unit-economics/applications/rust--pricing-what-if-simulation.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "revenue-recognition-rules",
-     "file": "knowledge/llm-observability/margin-and-unit-economics/applications/rust--revenue-recognition-rules.md"
+     "file": "knowledge/llm-observability/margin-and-unit-economics/applications/rust--revenue-recognition-rules.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "multi-provider-event-normalization": {
    "category": "telemetry-and-data",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/multi-provider-event-normalization/multi-provider-event-normalization.md",
    "techniques": [
@@ -1142,22 +1189,27 @@
     {
      "stack": "process",
      "technique": "per-provider-usage-extractors",
-     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/process--per-provider-usage-extractors.md"
+     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/process--per-provider-usage-extractors.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "attribute-precedence-lists",
-     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/rust--attribute-precedence-lists.md"
+     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/rust--attribute-precedence-lists.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "two-doors-one-pipeline",
-     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/rust--two-doors-one-pipeline.md"
+     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/rust--two-doors-one-pipeline.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "operator-surfaces-for-llm-spend": {
    "category": "federation-and-surfaces",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/operator-surfaces-for-llm-spend.md",
    "techniques": [
@@ -1236,22 +1288,27 @@
     {
      "stack": "process",
      "technique": "agent-prompts-as-dashboards",
-     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/process--agent-prompts-as-dashboards.md"
+     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/process--agent-prompts-as-dashboards.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "read-tools-default-writes-gated",
-     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/process--read-tools-default-writes-gated.md"
+     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/process--read-tools-default-writes-gated.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "glyph-encoded-business-thresholds",
-     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/rust--glyph-encoded-business-thresholds.md"
+     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/rust--glyph-encoded-business-thresholds.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "production-trace-scoring": {
    "category": "quality-scoring",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/production-trace-scoring/production-trace-scoring.md",
    "techniques": [
@@ -1343,17 +1400,22 @@
     {
      "stack": "rust",
      "technique": "drift-classified-rescoring",
-     "file": "knowledge/llm-observability/production-trace-scoring/applications/rust--drift-classified-rescoring.md"
+     "file": "knowledge/llm-observability/production-trace-scoring/applications/rust--drift-classified-rescoring.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "unscored-work-queue",
-     "file": "knowledge/llm-observability/production-trace-scoring/applications/rust--unscored-work-queue.md"
+     "file": "knowledge/llm-observability/production-trace-scoring/applications/rust--unscored-work-queue.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     }
    ]
   },
   "quality-regression-gating": {
    "category": "quality-scoring",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-regression-gating/quality-regression-gating.md",
    "techniques": [
@@ -1445,17 +1507,20 @@
     {
      "stack": "rust",
      "technique": "paired-per-case-testing",
-     "file": "knowledge/llm-observability/quality-regression-gating/applications/rust--paired-per-case-testing.md"
+     "file": "knowledge/llm-observability/quality-regression-gating/applications/rust--paired-per-case-testing.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "partial-run-never-green",
-     "file": "knowledge/llm-observability/quality-regression-gating/applications/rust--partial-run-never-green.md"
+     "file": "knowledge/llm-observability/quality-regression-gating/applications/rust--partial-run-never-green.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "trace-rollup-and-attribution": {
    "category": "telemetry-and-data",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
    "techniques": [
@@ -1542,17 +1607,20 @@
     {
      "stack": "rust",
      "technique": "derived-trace-rollup",
-     "file": "knowledge/llm-observability/trace-rollup-and-attribution/applications/rust--derived-trace-rollup.md"
+     "file": "knowledge/llm-observability/trace-rollup-and-attribution/applications/rust--derived-trace-rollup.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "unpriced-span-accounting",
-     "file": "knowledge/llm-observability/trace-rollup-and-attribution/applications/rust--unpriced-span-accounting.md"
+     "file": "knowledge/llm-observability/trace-rollup-and-attribution/applications/rust--unpriced-span-accounting.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "usage-limit-governance": {
    "category": "economics-and-governance",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/usage-limit-governance/usage-limit-governance.md",
    "techniques": [
@@ -1654,17 +1722,21 @@
     {
      "stack": "process",
      "technique": "enforcement-placement-and-reconciliation",
-     "file": "knowledge/llm-observability/usage-limit-governance/applications/process--enforcement-placement-and-reconciliation.md"
+     "file": "knowledge/llm-observability/usage-limit-governance/applications/process--enforcement-placement-and-reconciliation.md",
+     "verified_on": "2026-08-20",
+     "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "concurrent-admission-integrity",
-     "file": "knowledge/llm-observability/usage-limit-governance/applications/rust--concurrent-admission-integrity.md"
+     "file": "knowledge/llm-observability/usage-limit-governance/applications/rust--concurrent-admission-integrity.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "graduated-throttle-with-deterministic-shed",
-     "file": "knowledge/llm-observability/usage-limit-governance/applications/rust--graduated-throttle-with-deterministic-shed.md"
+     "file": "knowledge/llm-observability/usage-limit-governance/applications/rust--graduated-throttle-with-deterministic-shed.md",
+     "verified_on": "2026-08-20"
     }
    ]
   }

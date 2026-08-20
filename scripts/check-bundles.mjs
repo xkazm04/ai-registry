@@ -20,6 +20,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// Still zero npm dependencies. This is a sibling file, shared because the gate and the
+// index builder MUST agree on where a subject lives — if they disagreed, the gate would
+// pass a tree the index describes incorrectly, in the one file consumers actually read.
+import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
 
 // Derived from this file's own location, never hardcoded — a gate that only runs on one
 // machine is not a gate.
@@ -190,37 +194,60 @@ for (const domain of bundles) {
     if (lawAnchors.size === 0) fail(`knowledge/${domain}/_laws.md exists but declares zero anchors — techniques cannot cite laws`);
   }
 
-  const subjectDirs = fs.readdirSync(dir, { withFileTypes: true })
-    .filter((e) => e.isDirectory())
-    .map((e) => e.name);
+  // ---- taxonomy: the authority on where every subject lives
+  //
+  // Subjects are discovered by WALKING (a folder holding `<slug>.md` is a subject; any
+  // other folder groups), so this works identically before and after a bundle is
+  // migrated. The taxonomy is then checked against what the walk found, in both
+  // directions.
+  const { taxonomy, errors: txErrors, subjects: declared } = loadTaxonomy(dir, domain);
+  for (const e of txErrors) fail(e);
+
+  const { found, groupDirs, duplicates } = walkSubjects(dir);
+  const subjectDirs = [...found.keys()];
   st.subjects = subjectDirs.length;
   if (subjectDirs.length === 0) fail(`knowledge/${domain}/ holds zero subjects`);
+  for (const d of duplicates) {
+    fail(`knowledge/${domain}: subject "${d.slug}" exists in two places (${d.at.join(' and ')}) — a slug is an identity and has one home`);
+  }
 
-  // ---- categories.json (optional per bundle; fully gated when present)
-  const catsFile = path.join(dir, 'categories.json');
-  if (fs.existsSync(catsFile)) {
-    let cats = null;
-    try { cats = JSON.parse(fs.readFileSync(catsFile, 'utf8')); }
-    catch (err) { fail(`knowledge/${domain}/categories.json does not parse: ${err.message}`); }
-    if (cats) {
-      const ids = new Set((cats.categories ?? []).map((c) => c.id));
-      if (ids.size === 0) fail(`knowledge/${domain}/categories.json declares zero categories`);
-      const orders = (cats.categories ?? []).map((c) => c.order);
-      if (new Set(orders).size !== orders.length) {
-        fail(`knowledge/${domain}/categories.json: duplicate order values — order is the display sequence and must be unique`);
+  if (taxonomy) {
+    st.categories = (taxonomy.categories ?? []).length;
+
+    // Both directions. A subject the taxonomy forgot would silently vanish from every
+    // graph; a subject the taxonomy names with no folder is a plan, not a fact.
+    for (const slug of subjectDirs) {
+      if (!declared.has(slug)) {
+        fail(`knowledge/${domain}/${found.get(slug)}/ has no taxonomy.json entry — it would not appear in a graph`);
       }
-      const assigned = cats.subjects ?? {};
-      for (const [slug, cat] of Object.entries(assigned)) {
-        if (!subjectDirs.includes(slug)) fail(`knowledge/${domain}/categories.json assigns "${slug}", which has no folder`);
-        if (!ids.has(cat)) fail(`knowledge/${domain}/categories.json assigns "${slug}" to unknown category "${cat}"`);
-      }
-      for (const slug of subjectDirs) {
-        if (!(slug in assigned)) fail(`knowledge/${domain}/${slug}/ has no categories.json entry — it would not appear in a graph`);
-      }
-      st.categories = ids.size;
     }
-  } else {
-    notes.push(`knowledge/${domain}: no categories.json — graph consumers will group by nothing`);
+    for (const slug of declared.keys()) {
+      if (!found.has(slug)) fail(`knowledge/${domain}/taxonomy.json assigns "${slug}", which has no folder`);
+    }
+
+    // ---- the cap, and whether the tree matches the declaration
+    //
+    // Under `layout: flat` the taxonomy is declared but NOT materialized: subjects still
+    // sit directly under the bundle. Both findings are then NOTES rather than failures,
+    // which is what lets the authority land before anything moves and lets each bundle
+    // flip independently. Under `layout: nested` they are failures, because at that point
+    // the tree is supposed to be the taxonomy.
+    const materialized = taxonomy.layout === 'nested';
+    const report = (msg) => (materialized ? fail(msg) : notes.push(`${msg} [layout: flat — not yet materialized]`));
+
+    for (const [relDir, count] of groupDirs) {
+      if (count > MAX_CHILD_DIRS) {
+        report(
+          `knowledge/${domain}${relDir ? `/${relDir}` : ''}/ holds ${count} child directories, over the cap of ${MAX_CHILD_DIRS}`,
+        );
+      }
+    }
+    for (const [slug, want] of declared) {
+      const at = found.get(slug);
+      if (at && at !== want.dir) {
+        report(`knowledge/${domain}: subject "${slug}" sits at ${at} but the taxonomy places it at ${want.dir}`);
+      }
+    }
   }
 
   const readNode = (file, expect) => {
@@ -260,12 +287,18 @@ for (const domain of bundles) {
   };
 
   for (const slug of subjectDirs) {
-    const sdir = path.join(dir, slug);
+    // Never constructed from a category: the walk found it, and that is the only thing
+    // that knows where a subject actually is at this bundle's current layout.
+    const sdir = path.join(dir, found.get(slug));
+    // Every finding below reports the path the reader will actually find, whatever depth
+    // this bundle currently sits at. A message that reconstructs `<domain>/<slug>` would
+    // send people to a folder that does not exist the moment a bundle nests.
+    const here = `knowledge/${domain}/${found.get(slug)}`;
     const gpFile = path.join(sdir, `${slug}.md`);
-    if (!fs.existsSync(gpFile)) { fail(`knowledge/${domain}/${slug}/ has no ${slug}.md golden path`); continue; }
+    if (!fs.existsSync(gpFile)) { fail(`${here}/ has no ${slug}.md golden path`); continue; }
     const gp = readNode(gpFile, 'golden-path');
     if (!gp) continue;
-    if (gp.subject !== slug) fail(`knowledge/${domain}/${slug}/${slug}.md: subject "${gp.subject}" ≠ folder "${slug}"`);
+    if (gp.subject !== slug) fail(`${here}/${slug}.md: subject "${gp.subject}" ≠ folder "${slug}"`);
 
     // techniques: declared set ↔ files on disk, identical. `technique@owner` entries
     // reference another subject's technique and must resolve THERE and not exist locally.
@@ -279,32 +312,36 @@ for (const domain of bundles) {
       const shared = t.match(/^([a-z0-9-]+)@([a-z0-9-]+)$/);
       if (shared) {
         const [, tech, owner] = shared;
-        if (!fs.existsSync(path.join(dir, owner, 'techniques', `${tech}.md`))) {
-          fail(`knowledge/${domain}/${slug}/${slug}.md: shared technique "${t}" — no ${owner}/techniques/${tech}.md`);
+        // The owner is named by SLUG, so its location has to be resolved, never joined.
+        // This is the line that would break the moment a bundle nests if the reference
+        // scheme carried a category - which is exactly why it never will.
+        const ownerDir = found.get(owner);
+        if (!ownerDir || !fs.existsSync(path.join(dir, ownerDir, 'techniques', `${tech}.md`))) {
+          fail(`${here}/${slug}.md: shared technique "${t}" — no ${owner}/techniques/${tech}.md`);
         }
         if (onDisk.has(tech)) {
-          fail(`knowledge/${domain}/${slug}/${slug}.md: "${t}" declared shared but techniques/${tech}.md also exists locally — one owner (rkb-profile §4)`);
+          fail(`${here}/${slug}.md: "${t}" declared shared but techniques/${tech}.md also exists locally — one owner (rkb-profile §4)`);
         }
         continue;
       }
       declaredLocal.add(t);
-      if (!onDisk.has(t)) fail(`knowledge/${domain}/${slug}/${slug}.md: declares technique "${t}" but techniques/${t}.md does not exist`);
+      if (!onDisk.has(t)) fail(`${here}/${slug}.md: declares technique "${t}" but techniques/${t}.md does not exist`);
     }
     for (const t of onDisk) {
-      if (!declaredLocal.has(t)) fail(`knowledge/${domain}/${slug}/techniques/${t}.md exists but ${slug}.md does not declare it — links hold in both directions`);
+      if (!declaredLocal.has(t)) fail(`${here}/techniques/${t}.md exists but ${slug}.md does not declare it — links hold in both directions`);
     }
     st.techniques += onDisk.size;
 
     for (const t of onDisk) {
       const fm = readNode(path.join(techDir, `${t}.md`), 'technique');
       if (!fm) continue;
-      if (fm.subject !== slug) fail(`knowledge/${domain}/${slug}/techniques/${t}.md: subject "${fm.subject}" ≠ "${slug}"`);
-      if (fm.technique !== t) fail(`knowledge/${domain}/${slug}/techniques/${t}.md: technique "${fm.technique}" ≠ filename "${t}"`);
+      if (fm.subject !== slug) fail(`${here}/techniques/${t}.md: subject "${fm.subject}" ≠ "${slug}"`);
+      if (fm.technique !== t) fail(`${here}/techniques/${t}.md: technique "${fm.technique}" ≠ filename "${t}"`);
       for (const law of Array.isArray(fm.laws) ? fm.laws : []) {
-        if (!lawAnchors.has(law)) fail(`knowledge/${domain}/${slug}/techniques/${t}.md: cites unknown law "${law}"`);
+        if (!lawAnchors.has(law)) fail(`${here}/techniques/${t}.md: cites unknown law "${law}"`);
       }
       for (const sw of Array.isArray(fm.shared_with) ? fm.shared_with : []) {
-        if (!subjectDirs.includes(sw)) fail(`knowledge/${domain}/${slug}/techniques/${t}.md: shared_with "${sw}" is not a subject in this bundle`);
+        if (!subjectDirs.includes(sw)) fail(`${here}/techniques/${t}.md: shared_with "${sw}" is not a subject in this bundle`);
       }
     }
 
@@ -314,14 +351,14 @@ for (const domain of bundles) {
         const fm = readNode(path.join(appDir, f), 'application');
         st.applications++;
         if (!fm) continue;
-        if (fm.subject !== slug) fail(`knowledge/${domain}/${slug}/applications/${f}: subject "${fm.subject}" ≠ "${slug}"`);
-        if (!bundleStacks.has(fm.stack)) fail(`knowledge/${domain}/${slug}/applications/${f}: unknown stack "${fm.stack}" (add it to this bundle's index.md \`stacks:\` if it is real)`);
-        if (!onDisk.has(fm.technique)) fail(`knowledge/${domain}/${slug}/applications/${f}: technique "${fm.technique}" not in this subject's techniques/`);
+        if (fm.subject !== slug) fail(`${here}/applications/${f}: subject "${fm.subject}" ≠ "${slug}"`);
+        if (!bundleStacks.has(fm.stack)) fail(`${here}/applications/${f}: unknown stack "${fm.stack}" (add it to this bundle's index.md \`stacks:\` if it is real)`);
+        if (!onDisk.has(fm.technique)) fail(`${here}/applications/${f}: technique "${fm.technique}" not in this subject's techniques/`);
         const expectName = `${fm.stack}--${fm.technique}.md`;
-        if (f !== expectName) fail(`knowledge/${domain}/${slug}/applications/${f}: filename should be "${expectName}" (rkb-profile §2)`);
+        if (f !== expectName) fail(`${here}/applications/${f}: filename should be "${expectName}" (rkb-profile §2)`);
 
         // -- currency
-        const arel = `knowledge/${domain}/${slug}/applications/${f}`;
+        const arel = `${here}/applications/${f}`;
         if (!fm.verified_on) {
           fail(`${arel}: no \`verified_on\` — an application cites a moving tree, so it must carry the date those citations were last resolved (rkb-profile §3)`);
         } else if (!DATE_RE.test(fm.verified_on)) {

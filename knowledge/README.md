@@ -8,8 +8,8 @@ knowledge/
 └── <domain>/
     ├── index.md            # OKF bundle metadata
     ├── _laws.md            # cross-cutting laws, cited by techniques
-    ├── categories.json     # subject → display category (for graph consumers)
-    └── <subject>/
+    ├── taxonomy.json       # the authority on where every subject lives
+    └── <category>/[<subcategory>/]<subject>/
         ├── <subject>.md                        # the standard
         ├── techniques/<technique>.md           # named concerns of it
         └── applications/<stack>--<technique>.md  # how one stack realizes it
@@ -27,14 +27,40 @@ knowledge/
 
 ## How the tree grows — and when a domain splits
 
-The hierarchy is deliberately shallow: `knowledge/<domain>/<subject>/`. The *logical* tree
-gets its depth from two generated-or-declared files, not from deeper folders:
+**The graph is flat; the storage is nested.** Those are two different things and keeping
+them apart is what makes the tree survivable at size.
 
-- **`categories.json`** groups a bundle's subjects into a display/navigation ring. This is
-  the cheap axis: adding a category is a one-line change, and a category can hold one
-  subject or forty.
+A subject's **identity** is its bare slug — `table`, never `ui-surfaces/data-display/table`
+— everywhere it is referenced: `technique@owner`, `shared_with:`, `index.json`'s subject
+map, the signals lane. That never changes, at any depth. Its **location** is derived from
+`taxonomy.json`, which groups subjects into categories and, where a category grows past
+ten, into subcategories.
+
+- **`taxonomy.json`** is the authority. The folder tree is derived from it, never the
+  reverse, and only [`scripts/apply-taxonomy.mjs`](../scripts/apply-taxonomy.mjs) may move
+  a subject — a hand-edited recategorization is a corpus-wide link break, because relative
+  markdown links encode depth.
 - **`index.json`** (generated) is the machine-readable tree a consumer walks without
-  reading 900 files.
+  reading 900 files. It carries each subject's category and subcategory, so a consumer
+  renders the hierarchy without walking the filesystem at all.
+
+**No level holds more than ten folders.** Ten is a browsing limit — roughly what a reader
+takes in at once — and it is why depth is *dynamic*: a category under the cap holds its
+subjects directly, and only a category over it grows a subcategory ring. Subdivide above
+ten, collapse back only at six or below; without that gap a category sitting near the cap
+would move its subjects back and forth on alternating contributions.
+
+This is a change of position, and worth naming as one. This file previously argued that
+the hierarchy should stay shallow and that depth belonged only in declared files. That was
+right about the *graph* and wrong about the *tree*: 124 subject folders at one level is not
+a shallow hierarchy, it is an unbrowsable one, and the flat graph survives nesting
+completely intact.
+
+**Nesting is not splitting, and the split rule below is unchanged.** Adding a category
+folder inside a bundle moves bytes and nothing else: one `_laws.md`, one purity profile,
+one technique-ownership namespace, and every subject still free to cite every other. A
+*split* creates a second bundle with its own denylist and a boundary that cross-bundle
+links may not cross — which is why it is never done for size.
 
 Start every new domain as ONE bundle with categories, even when you suspect it will split
 (image vs video generation; politics vs economics vs law). Categories make the eventual

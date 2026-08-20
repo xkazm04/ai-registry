@@ -37,8 +37,8 @@ not change.
 knowledge/<domain>/
 ├── index.md                          # OKF bundle metadata (okf_version, name, title)
 ├── _laws.md                          # optional: cross-cutting laws, each with an <a id> anchor
-├── categories.json                   # optional: subject → display category (graph consumers)
-└── <subject>/
+├── taxonomy.json                     # REQUIRED: the authority on grouping AND location
+└── <category>/[<subcategory>/]<subject>/
     ├── <subject>.md                  # type: golden-path      (filename == folder name)
     ├── techniques/<technique>.md     # type: technique
     ├── applications/<stack>--<technique>.md   # type: application
@@ -47,6 +47,36 @@ knowledge/<domain>/
 
 Slugs are kebab-case noun phrases. A subject slug carries no stack qualifier (`table`, not
 `react-table`) — the stack lives in the application filename.
+
+### 2.1 Where a subject lives, and why that is not its name
+
+**`taxonomy.json` is the authority; the folder tree is derived from it.** The inversion
+matters: once folders encode the taxonomy, a hand-edited recategorization becomes a
+corpus-wide link break, so moving a subject is a scripted operation
+([`scripts/apply-taxonomy.mjs`](../scripts/apply-taxonomy.mjs)) and never a `git mv`.
+
+**No directory under `knowledge/` holds more than ten child directories.** Files are not
+counted — a subject's `techniques/` holds markdown, and a subject with thirty techniques
+needs splitting for reasons that have nothing to do with browsing. Ten is a browsing
+limit: roughly what a reader can see at once and hold in their head.
+
+Depth is **dynamic**. A category at or under the cap holds its subjects directly; over the
+cap, it holds subcategories that hold the subjects. A category is subdivided when it goes
+over ten and collapsed back only at six or below — without that gap, a category
+oscillating around the cap would move every subject inside it on alternating
+contributions, and every move rewrites links. A subject folder is always a leaf: its only
+children are `techniques/` and `applications/`.
+
+`taxonomy.json` also carries `layout`, which says whether the tree has been materialized
+yet. Under `"flat"`, subjects still sit directly under the bundle and the gate reports cap
+and placement findings as notes; under `"nested"` they are failures. That is what lets the
+authority land before anything moves, and lets each bundle migrate independently.
+
+**Identity is the slug, at every depth.** `technique@owner`, `shared_with:`, the index's
+subject map and the signals lane all name a subject by its bare slug — never by a path,
+never with a category. A reference that carried a category would acquire a taxonomy
+dependency, and recategorizing one subject would become an edit to the whole corpus.
+Nothing outside `scripts/lib/taxonomy.mjs` may construct a subject path.
 
 ## 3. Frontmatter
 

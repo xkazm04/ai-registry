@@ -155,7 +155,7 @@
       "techniques": 91,
       "applications": 34,
       "files": 145,
-      "contentHash": "sha256:0c511e10c2c52f97"
+      "contentHash": "sha256:b0cedebb505eeeae"
     },
     {
       "name": "grant-funding",
@@ -168,7 +168,7 @@
       "techniques": 104,
       "applications": 38,
       "files": 164,
-      "contentHash": "sha256:5dbad4c729342c3c"
+      "contentHash": "sha256:978482593d143c81"
     },
     {
       "name": "llm-observability",
@@ -181,7 +181,7 @@
       "techniques": 98,
       "applications": 41,
       "files": 160,
-      "contentHash": "sha256:1371ae6fd7aaa079"
+      "contentHash": "sha256:a7874df439b5958f"
     },
     {
       "name": "media-generation",
@@ -194,7 +194,7 @@
       "techniques": 83,
       "applications": 32,
       "files": 134,
-      "contentHash": "sha256:8c6d1595ecad88d1"
+      "contentHash": "sha256:6fcffcba221ec346"
     },
     {
       "name": "software-engineering",
@@ -207,7 +207,7 @@
       "techniques": 755,
       "applications": 306,
       "files": 1190,
-      "contentHash": "sha256:c090d7c6f4fb7a46"
+      "contentHash": "sha256:7051bbef71fc185d"
     }
   ]
 }

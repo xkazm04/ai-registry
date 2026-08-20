@@ -19,7 +19,7 @@ apply to any grants operation, not only the one they were forged against. Applic
 cite real code and prompts and name their stack in the filename.
 
 Cross-cutting invariants live in [`_laws.md`](./_laws.md); techniques cite them by
-anchor. Graph consumers group subjects with [`categories.json`](./categories.json).
+anchor. Subjects are grouped — and located — by [`taxonomy.json`](./taxonomy.json).
 
 Format: [RKB profile v0.1](../../docs/rkb-profile.md), an OKF profile.
 Evidence: consumer-local by design — see the profile, §5.

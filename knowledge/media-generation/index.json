@@ -11,15 +11,16 @@
    "narrative-craft",
    "research-grounding",
    "visual-generation",
-   "frame-direction",
    "production-ops"
   ],
+  "layout": "flat",
   "use_when_coverage": "83/83",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
   "content-research-grounding": {
    "category": "research-grounding",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/content-research-grounding/content-research-grounding.md",
    "techniques": [
@@ -109,17 +110,20 @@
     {
      "stack": "process",
      "technique": "tension-finding-taxonomy",
-     "file": "knowledge/media-generation/content-research-grounding/applications/process--tension-finding-taxonomy.md"
+     "file": "knowledge/media-generation/content-research-grounding/applications/process--tension-finding-taxonomy.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "react",
      "technique": "unknowns-as-constraints",
-     "file": "knowledge/media-generation/content-research-grounding/applications/react--unknowns-as-constraints.md"
+     "file": "knowledge/media-generation/content-research-grounding/applications/react--unknowns-as-constraints.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "creator-voice-and-tone": {
    "category": "narrative-craft",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/creator-voice-and-tone/creator-voice-and-tone.md",
    "techniques": [
@@ -208,22 +212,26 @@
     {
      "stack": "process",
      "technique": "engine-tone-separation",
-     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--engine-tone-separation.md"
+     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--engine-tone-separation.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "spoken-delivery-direction",
-     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--spoken-delivery-direction.md"
+     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--spoken-delivery-direction.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "voice-profile-from-accepted-work",
-     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--voice-profile-from-accepted-work.md"
+     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--voice-profile-from-accepted-work.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "evidence-bound-visuals": {
    "category": "research-grounding",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/evidence-bound-visuals/evidence-bound-visuals.md",
    "techniques": [
@@ -302,17 +310,20 @@
     {
      "stack": "process",
      "technique": "epistemic-draw-routing",
-     "file": "knowledge/media-generation/evidence-bound-visuals/applications/process--epistemic-draw-routing.md"
+     "file": "knowledge/media-generation/evidence-bound-visuals/applications/process--epistemic-draw-routing.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "react",
      "technique": "figure-must-cite-a-fact",
-     "file": "knowledge/media-generation/evidence-bound-visuals/applications/react--figure-must-cite-a-fact.md"
+     "file": "knowledge/media-generation/evidence-bound-visuals/applications/react--figure-must-cite-a-fact.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "frame-direction": {
-   "category": "frame-direction",
+   "category": "visual-generation",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/frame-direction/frame-direction.md",
    "techniques": [
@@ -403,17 +414,20 @@
     {
      "stack": "process",
      "technique": "visual-function-vocabulary",
-     "file": "knowledge/media-generation/frame-direction/applications/process--visual-function-vocabulary.md"
+     "file": "knowledge/media-generation/frame-direction/applications/process--visual-function-vocabulary.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "react",
      "technique": "per-beat-rejection",
-     "file": "knowledge/media-generation/frame-direction/applications/react--per-beat-rejection.md"
+     "file": "knowledge/media-generation/frame-direction/applications/react--per-beat-rejection.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "generated-output-grading": {
    "category": "visual-generation",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/generated-output-grading/generated-output-grading.md",
    "techniques": [
@@ -505,22 +519,26 @@
     {
      "stack": "node",
      "technique": "trial-matrix-design",
-     "file": "knowledge/media-generation/generated-output-grading/applications/node--trial-matrix-design.md"
+     "file": "knowledge/media-generation/generated-output-grading/applications/node--trial-matrix-design.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "unconditional-fail-criteria",
-     "file": "knowledge/media-generation/generated-output-grading/applications/process--unconditional-fail-criteria.md"
+     "file": "knowledge/media-generation/generated-output-grading/applications/process--unconditional-fail-criteria.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "vision-model-grading-schema",
-     "file": "knowledge/media-generation/generated-output-grading/applications/process--vision-model-grading-schema.md"
+     "file": "knowledge/media-generation/generated-output-grading/applications/process--vision-model-grading-schema.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "generative-provider-routing": {
    "category": "visual-generation",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/generative-provider-routing/generative-provider-routing.md",
    "techniques": [
@@ -612,22 +630,26 @@
     {
      "stack": "node",
      "technique": "refusal-reroute-hop",
-     "file": "knowledge/media-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md"
+     "file": "knowledge/media-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "cost-per-usable-economics",
-     "file": "knowledge/media-generation/generative-provider-routing/applications/process--cost-per-usable-economics.md"
+     "file": "knowledge/media-generation/generative-provider-routing/applications/process--cost-per-usable-economics.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "vendor-fact-ledger",
-     "file": "knowledge/media-generation/generative-provider-routing/applications/process--vendor-fact-ledger.md"
+     "file": "knowledge/media-generation/generative-provider-routing/applications/process--vendor-fact-ledger.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "image-prompt-composition": {
    "category": "visual-generation",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/image-prompt-composition/image-prompt-composition.md",
    "techniques": [
@@ -738,17 +760,20 @@
     {
      "stack": "process",
      "technique": "style-first-token-ordering",
-     "file": "knowledge/media-generation/image-prompt-composition/applications/process--style-first-token-ordering.md"
+     "file": "knowledge/media-generation/image-prompt-composition/applications/process--style-first-token-ordering.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "react",
      "technique": "two-block-style-and-action",
-     "file": "knowledge/media-generation/image-prompt-composition/applications/react--two-block-style-and-action.md"
+     "file": "knowledge/media-generation/image-prompt-composition/applications/react--two-block-style-and-action.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "narrative-engine-selection": {
    "category": "narrative-craft",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-engine-selection/narrative-engine-selection.md",
    "techniques": [
@@ -825,17 +850,20 @@
     {
      "stack": "process",
      "technique": "adjudication-honesty-tells",
-     "file": "knowledge/media-generation/narrative-engine-selection/applications/process--adjudication-honesty-tells.md"
+     "file": "knowledge/media-generation/narrative-engine-selection/applications/process--adjudication-honesty-tells.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "engine-arbitration-order",
-     "file": "knowledge/media-generation/narrative-engine-selection/applications/process--engine-arbitration-order.md"
+     "file": "knowledge/media-generation/narrative-engine-selection/applications/process--engine-arbitration-order.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "platform-format-adaptation": {
    "category": "production-ops",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/platform-format-adaptation/platform-format-adaptation.md",
    "techniques": [
@@ -922,22 +950,26 @@
     {
      "stack": "process",
      "technique": "derived-short-contract",
-     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--derived-short-contract.md"
+     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--derived-short-contract.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "format-as-measured-template",
-     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--format-as-measured-template.md"
+     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--format-as-measured-template.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "sound-off-first-design",
-     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--sound-off-first-design.md"
+     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--sound-off-first-design.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "production-pipeline-phasing": {
    "category": "production-ops",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-pipeline-phasing/production-pipeline-phasing.md",
    "techniques": [
@@ -1016,17 +1048,20 @@
     {
      "stack": "react",
      "technique": "long-run-as-background-job",
-     "file": "knowledge/media-generation/production-pipeline-phasing/applications/react--long-run-as-background-job.md"
+     "file": "knowledge/media-generation/production-pipeline-phasing/applications/react--long-run-as-background-job.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "react",
      "technique": "worst-news-first-progress",
-     "file": "knowledge/media-generation/production-pipeline-phasing/applications/react--worst-news-first-progress.md"
+     "file": "knowledge/media-generation/production-pipeline-phasing/applications/react--worst-news-first-progress.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "review-iteration-loops": {
    "category": "production-ops",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/review-iteration-loops/review-iteration-loops.md",
    "techniques": [
@@ -1116,17 +1151,20 @@
     {
      "stack": "process",
      "technique": "edit-plan-over-regeneration",
-     "file": "knowledge/media-generation/review-iteration-loops/applications/process--edit-plan-over-regeneration.md"
+     "file": "knowledge/media-generation/review-iteration-loops/applications/process--edit-plan-over-regeneration.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "react",
      "technique": "refusal-as-valid-outcome",
-     "file": "knowledge/media-generation/review-iteration-loops/applications/react--refusal-as-valid-outcome.md"
+     "file": "knowledge/media-generation/review-iteration-loops/applications/react--refusal-as-valid-outcome.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "short-form-narrative-structure": {
    "category": "narrative-craft",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/short-form-narrative-structure/short-form-narrative-structure.md",
    "techniques": [
@@ -1207,17 +1245,20 @@
     {
      "stack": "process",
      "technique": "question-stack-architecture",
-     "file": "knowledge/media-generation/short-form-narrative-structure/applications/process--question-stack-architecture.md"
+     "file": "knowledge/media-generation/short-form-narrative-structure/applications/process--question-stack-architecture.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "reversal-anatomy",
-     "file": "knowledge/media-generation/short-form-narrative-structure/applications/process--reversal-anatomy.md"
+     "file": "knowledge/media-generation/short-form-narrative-structure/applications/process--reversal-anatomy.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "video-assembly": {
    "category": "production-ops",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/video-assembly/video-assembly.md",
    "techniques": [
@@ -1310,17 +1351,20 @@
     {
      "stack": "process",
      "technique": "generated-shot-sourcing",
-     "file": "knowledge/media-generation/video-assembly/applications/process--generated-shot-sourcing.md"
+     "file": "knowledge/media-generation/video-assembly/applications/process--generated-shot-sourcing.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "react",
      "technique": "gap-and-refusal-honesty",
-     "file": "knowledge/media-generation/video-assembly/applications/react--gap-and-refusal-honesty.md"
+     "file": "knowledge/media-generation/video-assembly/applications/react--gap-and-refusal-honesty.md",
+     "verified_on": "2026-08-19"
     }
    ]
   },
   "visual-style-locking": {
    "category": "visual-generation",
+   "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-style-locking/visual-style-locking.md",
    "techniques": [
@@ -1411,12 +1455,14 @@
     {
      "stack": "react",
      "technique": "draft-proofing-locked-ratchet",
-     "file": "knowledge/media-generation/visual-style-locking/applications/react--draft-proofing-locked-ratchet.md"
+     "file": "knowledge/media-generation/visual-style-locking/applications/react--draft-proofing-locked-ratchet.md",
+     "verified_on": "2026-08-19"
     },
     {
      "stack": "react",
      "technique": "style-block-restated-every-call",
-     "file": "knowledge/media-generation/visual-style-locking/applications/react--style-block-restated-every-call.md"
+     "file": "knowledge/media-generation/visual-style-locking/applications/react--style-block-restated-every-call.md",
+     "verified_on": "2026-08-19"
     }
    ]
   }
