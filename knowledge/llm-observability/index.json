@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
-  "techniques": 97,
-  "applications": 35,
+  "techniques": 98,
+  "applications": 39,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -13,7 +13,7 @@
    "quality-scoring",
    "federation-and-surfaces"
   ],
-  "use_when_coverage": "97/97",
+  "use_when_coverage": "98/98",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -102,6 +102,11 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "analytical-copy-partitioning",
+     "file": "knowledge/llm-observability/analytics-store-design/applications/process--analytical-copy-partitioning.md"
+    },
     {
      "stack": "rust",
      "technique": "capability-flags-and-refusal",
@@ -196,6 +201,11 @@
    ],
    "applications": [
     {
+     "stack": "process",
+     "technique": "signature-is-the-auth",
+     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/process--signature-is-the-auth.md"
+    },
+    {
      "stack": "rust",
      "technique": "signature-is-the-auth",
      "file": "knowledge/llm-observability/billing-revenue-normalization/applications/rust--signature-is-the-auth.md"
@@ -224,6 +234,20 @@
       "a per-key or per-customer cap breaches",
       "deciding what an alert payload may enumerate",
       "reviewing alerts as a data-exfiltration surface"
+     ]
+    },
+    {
+     "slug": "notification-channel-security",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "operators configure their own webhook sinks",
+      "a receiver needs to verify an alert really came from the platform",
+      "reviewing the alert path as an egress surface",
+      "rotating a channel signing secret"
      ]
     },
     {
@@ -293,6 +317,11 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "scoped-dedup-keys",
+     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/process--scoped-dedup-keys.md"
+    },
     {
      "stack": "rust",
      "technique": "pre-breach-forecasting",
@@ -1200,6 +1229,11 @@
      "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/process--agent-prompts-as-dashboards.md"
     },
     {
+     "stack": "process",
+     "technique": "read-tools-default-writes-gated",
+     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/process--read-tools-default-writes-gated.md"
+    },
+    {
      "stack": "rust",
      "technique": "glyph-encoded-business-thresholds",
      "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/rust--glyph-encoded-business-thresholds.md"
@@ -1633,6 +1667,7 @@
     "analytics-store-design/dashboard-driven-composite-indexes",
     "analytics-store-design/flat-events-plus-json-linkage",
     "billing-revenue-normalization/signature-is-the-auth",
+    "breach-alerting-and-attribution/notification-channel-security",
     "breach-alerting-and-attribution/scoped-dedup-keys",
     "federated-benchmark-sharing/hub-ingest-plausibility-gates",
     "llm-call-telemetry-model/dual-clock-event-time",

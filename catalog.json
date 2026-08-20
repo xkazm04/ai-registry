@@ -178,10 +178,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 16,
-      "techniques": 97,
-      "applications": 35,
-      "files": 152,
-      "contentHash": "sha256:5186f2513a4316c7"
+      "techniques": 98,
+      "applications": 39,
+      "files": 158,
+      "contentHash": "sha256:52573f1610032ddf"
     },
     {
       "name": "media-generation",
