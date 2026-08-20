@@ -1,0 +1,1675 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "llm-observability",
+  "source": "knowledge/llm-observability/ (frontmatter only)",
+  "subjects": 15,
+  "techniques": 90,
+  "applications": 30,
+  "laws": 9,
+  "categories": [
+   "telemetry-and-data",
+   "economics-and-governance",
+   "quality-scoring",
+   "federation-and-surfaces"
+  ],
+  "use_when_coverage": "90/90",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "analytics-store-design": {
+   "category": "telemetry-and-data",
+   "status": "forged",
+   "file": "knowledge/llm-observability/analytics-store-design/analytics-store-design.md",
+   "techniques": [
+    {
+     "slug": "analytical-copy-partitioning",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "long-horizon queries straining the row store",
+      "designing the warehouse copy of the events table",
+      "deciding which store serves which read"
+     ]
+    },
+    {
+     "slug": "backend-parity-as-contract",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a store method across multiple backends",
+      "reviewing a backend port for gaps",
+      "deciding whether a default implementation is acceptable"
+     ]
+    },
+    {
+     "slug": "capability-flags-and-refusal",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a backend cannot serve a query surface",
+      "adding a filter some backends have not ported",
+      "wiring a caller that must adapt to backend capabilities"
+     ]
+    },
+    {
+     "slug": "dashboard-driven-composite-indexes",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a filter to an event listing",
+      "a dashboard read getting slow with volume",
+      "reviewing the index set against the query surface"
+     ]
+    },
+    {
+     "slug": "fixed-width-timestamp-encoding",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "storing timestamps as strings across heterogeneous backends",
+      "debugging range filters that miss rows",
+      "adding any code path that formats a timestamp"
+     ]
+    },
+    {
+     "slug": "flat-events-plus-json-linkage",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the events fact table",
+      "deciding whether a field is a column or metadata",
+      "adding customer or product attribution"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "capability-flags-and-refusal",
+     "file": "knowledge/llm-observability/analytics-store-design/applications/rust--capability-flags-and-refusal.md"
+    },
+    {
+     "stack": "sql",
+     "technique": "dashboard-driven-composite-indexes",
+     "file": "knowledge/llm-observability/analytics-store-design/applications/sql--dashboard-driven-composite-indexes.md"
+    }
+   ]
+  },
+  "billing-revenue-normalization": {
+   "category": "economics-and-governance",
+   "status": "forged",
+   "file": "knowledge/llm-observability/billing-revenue-normalization/billing-revenue-normalization.md",
+   "techniques": [
+    {
+     "slug": "deterministic-external-ids",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning primary keys to records synced from an external system",
+      "making webhook and backfill ingestion converge on the same rows",
+      "designing for at-least-once delivery"
+     ]
+    },
+    {
+     "slug": "idempotent-revenue-upsert",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "persisting webhook-delivered records under at-least-once semantics",
+      "deciding when to acknowledge a delivery",
+      "batching multi-record deliveries"
+     ]
+    },
+    {
+     "slug": "minor-unit-currency-handling",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "converting provider amount fields into major currency units",
+      "ingesting payments in currencies beyond the reporting base",
+      "reviewing any code that divides an amount by one hundred"
+     ]
+    },
+    {
+     "slug": "revenue-kind-taxonomy",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "modeling refunds and credits in a revenue ledger",
+      "classifying billing events into recognition categories",
+      "designing the schema the margin surface will amortize from"
+     ]
+    },
+    {
+     "slug": "signature-is-the-auth",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock",
+      "aggregates-leave-identity-behind"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "exposing a webhook endpoint that writes to a ledger",
+      "verifying a billing provider's signed deliveries",
+      "deciding what authenticates an inbound machine-to-machine call"
+     ]
+    },
+    {
+     "slug": "static-auditable-fx-book",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "converting multi-currency revenue to one reporting base",
+      "choosing between a live FX feed and a snapshot",
+      "handling a payment in a currency with no known rate"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "signature-is-the-auth",
+     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/rust--signature-is-the-auth.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "static-auditable-fx-book",
+     "file": "knowledge/llm-observability/billing-revenue-normalization/applications/rust--static-auditable-fx-book.md"
+    }
+   ]
+  },
+  "breach-alerting-and-attribution": {
+   "category": "economics-and-governance",
+   "status": "forged",
+   "file": "knowledge/llm-observability/breach-alerting-and-attribution/breach-alerting-and-attribution.md",
+   "techniques": [
+    {
+     "slug": "identity-scope-attribution-refusal",
+     "status": "forged",
+     "laws": [
+      "aggregates-leave-identity-behind",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a per-key or per-customer cap breaches",
+      "deciding what an alert payload may enumerate",
+      "reviewing alerts as a data-exfiltration surface"
+     ]
+    },
+    {
+     "slug": "off-request-path-delivery",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "wiring breach notification into an ingest path",
+      "an alert sink outage is affecting tenant traffic",
+      "deciding what work runs inside the admission decision"
+     ]
+    },
+    {
+     "slug": "pre-breach-forecasting",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "operators want warning before a budget breaches",
+      "forecasting margin crossover per customer",
+      "wiring a scheduled forecast sweep without doubling alert volume"
+     ]
+    },
+    {
+     "slug": "scope-inverted-attribution",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scoped cap's alert just names the scope back",
+      "choosing the attribution axis for a limit rule",
+      "a scoped breach shows an empty contributor list"
+     ]
+    },
+    {
+     "slug": "scoped-dedup-keys",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a sustained breach re-fires on every admission",
+      "scoped and global caps suppress each other's alerts",
+      "designing an alert cooldown"
+     ]
+    },
+    {
+     "slug": "top-contributor-attribution",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a breach alert names the limit but not the cause",
+      "deciding what diagnostic detail an alert carries",
+      "attribution queries are slowing ingest"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "pre-breach-forecasting",
+     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/rust--pre-breach-forecasting.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "top-contributor-attribution",
+     "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/rust--top-contributor-attribution.md"
+    }
+   ]
+  },
+  "federated-benchmark-sharing": {
+   "category": "federation-and-surfaces",
+   "status": "forged",
+   "file": "knowledge/llm-observability/federated-benchmark-sharing/federated-benchmark-sharing.md",
+   "techniques": [
+    {
+     "slug": "aggregate-only-digests",
+     "status": "forged",
+     "laws": [
+      "aggregates-leave-identity-behind",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the wire format for cross-organization result sharing",
+      "deciding which internal tables a contribution pipeline may read",
+      "versioning a shared digest schema"
+     ]
+    },
+    {
+     "slug": "bounded-contributor-influence",
+     "status": "forged",
+     "laws": [
+      "aggregates-leave-identity-behind",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "merging self-reported evidence weights from multiple parties",
+      "defending a shared ranking against weight inflation",
+      "choosing between capping and rejecting an outsized contribution"
+     ]
+    },
+    {
+     "slug": "cost-bucketing-side-channels",
+     "status": "forged",
+     "laws": [
+      "aggregates-leave-identity-behind",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing any continuous measure across an organizational boundary",
+      "auditing a shared schema for fingerprinting channels",
+      "reconciling internal cost precision with external sharing"
+     ]
+    },
+    {
+     "slug": "fixed-task-vocabulary",
+     "status": "forged",
+     "laws": [
+      "aggregates-leave-identity-behind"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing any categorical field across an organizational boundary",
+      "mapping internal benchmark names to shareable labels",
+      "reviewing a shared schema for free-text channels"
+     ]
+    },
+    {
+     "slug": "hub-ingest-plausibility-gates",
+     "status": "forged",
+     "laws": [
+      "aggregates-leave-identity-behind",
+      "server-owns-the-accounting-clock",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "accepting contributed statistics from parties outside your trust boundary",
+      "deciding whether a bad field is clamped or the whole entry rejected",
+      "writing the trust policy for a federation hub"
+     ]
+    },
+    {
+     "slug": "k-anonymity-cases-and-sources",
+     "status": "forged",
+     "laws": [
+      "aggregates-leave-identity-behind",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing anonymity floors for a shared statistic",
+      "ordering filters against an anonymity floor",
+      "deciding whether a thin bucket is dropped or flagged"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "bounded-contributor-influence",
+     "file": "knowledge/llm-observability/federated-benchmark-sharing/applications/rust--bounded-contributor-influence.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "hub-ingest-plausibility-gates",
+     "file": "knowledge/llm-observability/federated-benchmark-sharing/applications/rust--hub-ingest-plausibility-gates.md"
+    }
+   ]
+  },
+  "judge-calibration-and-drift": {
+   "category": "quality-scoring",
+   "status": "forged",
+   "file": "knowledge/llm-observability/judge-calibration-and-drift/judge-calibration-and-drift.md",
+   "techniques": [
+    {
+     "slug": "golden-set-agreement-measurement",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "establishing whether a judge agrees with humans",
+      "building or refreshing a human-labeled calibration set",
+      "interpreting kappa vs correlation vs bias"
+     ]
+    },
+    {
+     "slug": "judge-selection-by-spread",
+     "status": "forged",
+     "laws": [
+      "quality-apparatus-stays-unbudgeted",
+      "the-judge-is-both-untrusted-and-under-test"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which model judges",
+      "a cheaper judge candidate looks almost as accurate",
+      "verifying a judging-method change like batching"
+     ]
+    },
+    {
+     "slug": "reserved-rubric-persistence",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where calibration history lives",
+      "wiring judge drift into existing alerting without new infrastructure",
+      "querying kappa over time"
+     ]
+    },
+    {
+     "slug": "scheduled-recalibration",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "quality-apparatus-stays-unbudgeted"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a judge is in production and its trust verdict is aging",
+      "wiring calibration into cron or CI",
+      "detecting provider model updates that silently change the judge"
+     ]
+    },
+    {
+     "slug": "trust-bar-verdict",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what judge scores are allowed to drive",
+      "wiring calibration results into gates and dashboards",
+      "a judge or rubric changed and someone asks if old trust still holds"
+     ]
+    },
+    {
+     "slug": "windowed-score-drop-alerting",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "detecting slow quality or kappa slides that per-event checks miss",
+      "tuning window and min-sample knobs on a score regression detector",
+      "deciding server-side vs runner-side drift responsibilities"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "judge-selection-by-spread",
+     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/process--judge-selection-by-spread.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "windowed-score-drop-alerting",
+     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/rust--windowed-score-drop-alerting.md"
+    }
+   ]
+  },
+  "judge-contract-design": {
+   "category": "quality-scoring",
+   "status": "forged",
+   "file": "knowledge/llm-observability/judge-contract-design/judge-contract-design.md",
+   "techniques": [
+    {
+     "slug": "bias-counterbalancing-instructions",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a pairwise preference prompt",
+      "writing a rubric judge prompt",
+      "batching cases into one judge call"
+     ]
+    },
+    {
+     "slug": "deterministic-dimension-kinds",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rubric checks something mechanically decidable",
+      "judge cost or variance is too high for a factual check",
+      "an extraction or formatting requirement needs an exact verdict"
+     ]
+    },
+    {
+     "slug": "gating-floors",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a dimension must never be tradeable",
+      "a fluent candidate passes despite fatal errors",
+      "defining pass semantics for a rubric"
+     ]
+    },
+    {
+     "slug": "mixed-rubric-honesty",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "combining mechanical and judged dimensions in one rubric",
+      "reporting agreement for a mixed rubric",
+      "aggregating multi-sample judge verdicts"
+     ]
+    },
+    {
+     "slug": "nonce-fenced-candidate-isolation",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "interpolating candidate text into a judge prompt",
+      "batching multiple candidates into one judge call",
+      "handling a judge's malformed output on a repair re-ask"
+     ]
+    },
+    {
+     "slug": "weighted-anchored-dimensions",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a new rubric",
+      "replacing a holistic 1-10 score",
+      "making judge samples comparable across time"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "bias-counterbalancing-instructions",
+     "file": "knowledge/llm-observability/judge-contract-design/applications/process--bias-counterbalancing-instructions.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "nonce-fenced-candidate-isolation",
+     "file": "knowledge/llm-observability/judge-contract-design/applications/rust--nonce-fenced-candidate-isolation.md"
+    }
+   ]
+  },
+  "llm-call-telemetry-model": {
+   "category": "telemetry-and-data",
+   "status": "forged",
+   "file": "knowledge/llm-observability/llm-call-telemetry-model/llm-call-telemetry-model.md",
+   "techniques": [
+    {
+     "slug": "dual-clock-event-time",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which timestamp a budget window keys on",
+      "designing an event schema that accepts client-reported times",
+      "debugging why a rolling limit admitted traffic it should have blocked"
+     ]
+    },
+    {
+     "slug": "ingest-skew-rejection",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "bounding how wrong a client-reported timestamp may be",
+      "choosing skew tolerances for an ingest API",
+      "deciding whether backfilled or buffered traffic should be admitted"
+     ]
+    },
+    {
+     "slug": "metadata-attribution-keys",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "linking call events to billing customers and products",
+      "deciding between a new column and a metadata key",
+      "designing per-key or per-customer rollups over heterogeneous store backends"
+     ]
+    },
+    {
+     "slug": "nullable-cost-never-zero",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero",
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what to store when a model is missing from the price book",
+      "designing cost aggregates that will feed caps or margins",
+      "auditing why spend totals disagree with provider invoices"
+     ]
+    },
+    {
+     "slug": "server-owned-fields",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock",
+      "no-retroactive-restatement"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which event fields the ingest path must stamp or strip",
+      "reviewing an ingest API for spoofable attribution",
+      "adding a field that feeds budgets or billing"
+     ]
+    },
+    {
+     "slug": "token-usage-quadruple",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "modeling token counts in an event schema",
+      "reconciling computed cost against a provider invoice",
+      "adding support for cached or reasoning token classes"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "dual-clock-event-time",
+     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/process--dual-clock-event-time.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "server-owned-fields",
+     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/rust--server-owned-fields.md"
+    }
+   ]
+  },
+  "llm-price-book-operations": {
+   "category": "economics-and-governance",
+   "status": "forged",
+   "file": "knowledge/llm-observability/llm-price-book-operations/llm-price-book-operations.md",
+   "techniques": [
+    {
+     "slug": "embedded-seed-fallback",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "shipping a metering service as bare binaries",
+      "seeding a fresh install's price book",
+      "diagnosing why edited seed prices did not take effect"
+     ]
+    },
+    {
+     "slug": "hot-swap-price-book",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock",
+      "no-retroactive-restatement"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "applying a provider price change without a restart",
+      "designing the admin write path for prices",
+      "keeping the in-memory book consistent with the database"
+     ]
+    },
+    {
+     "slug": "no-retroactive-repricing",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "correcting a wrong price-book row",
+      "explaining why a budget window still shows old costs",
+      "deciding whether cost is stamped at ingest or computed at read"
+     ]
+    },
+    {
+     "slug": "price-provenance-and-staleness",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing where a cost figure came from",
+      "maintaining the price book against provider page changes",
+      "deciding whether a cost dashboard can be trusted"
+     ]
+    },
+    {
+     "slug": "price-resolution-order",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "computing per-event cost from a variant-encoded book",
+      "deciding which price row a call pays",
+      "handling dated model-name aliases"
+     ]
+    },
+    {
+     "slug": "price-row-variant-encoding",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "modeling batch/flex/priority lanes",
+      "adding prompt-length tier pricing",
+      "avoiding a schema migration per provider pricing feature"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "no-retroactive-repricing",
+     "file": "knowledge/llm-observability/llm-price-book-operations/applications/process--no-retroactive-repricing.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "price-resolution-order",
+     "file": "knowledge/llm-observability/llm-price-book-operations/applications/rust--price-resolution-order.md"
+    }
+   ]
+  },
+  "margin-and-unit-economics": {
+   "category": "economics-and-governance",
+   "status": "forged",
+   "file": "knowledge/llm-observability/margin-and-unit-economics/margin-and-unit-economics.md",
+   "techniques": [
+    {
+     "slug": "below-filter-honesty",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "filtering a margin rollup to at-risk rows",
+      "handling rows whose margin percentage is undefined"
+     ]
+    },
+    {
+     "slug": "cogs-by-construction",
+     "status": "forged",
+     "laws": [
+      "quality-apparatus-stays-unbudgeted",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining which spend enters the cost side of margin",
+      "separating quality/eval spend from production cost"
+     ]
+    },
+    {
+     "slug": "loss-first-ordering",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "presenting a margin rollup to an operator",
+      "capping a per-key series to a displayable count"
+     ]
+    },
+    {
+     "slug": "margin-erosion-forecasting",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "watching whether a customer's margin is trending toward loss",
+      "deciding when a repricing conversation must happen"
+     ]
+    },
+    {
+     "slug": "pricing-what-if-simulation",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "evaluating a price change before announcing it",
+      "comparing usage-metered vs flat pricing against real traffic"
+     ]
+    },
+    {
+     "slug": "revenue-recognition-rules",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning billing events into windowed revenue",
+      "handling subscriptions, refunds, and periods in a margin window"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "pricing-what-if-simulation",
+     "file": "knowledge/llm-observability/margin-and-unit-economics/applications/rust--pricing-what-if-simulation.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "revenue-recognition-rules",
+     "file": "knowledge/llm-observability/margin-and-unit-economics/applications/rust--revenue-recognition-rules.md"
+    }
+   ]
+  },
+  "multi-provider-event-normalization": {
+   "category": "telemetry-and-data",
+   "status": "forged",
+   "file": "knowledge/llm-observability/multi-provider-event-normalization/multi-provider-event-normalization.md",
+   "techniques": [
+    {
+     "slug": "attribute-precedence-lists",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "mapping standard-telemetry spans whose attribute names have churned",
+      "supporting senders on old instrumentation versions",
+      "auditing a mapper against a conventions changelog"
+     ]
+    },
+    {
+     "slug": "deterministic-span-derived-ids",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement",
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "making ingestion idempotent against sender retries",
+      "choosing event identity for mapped telemetry spans",
+      "debugging double-counted spend"
+     ]
+    },
+    {
+     "slug": "per-provider-usage-extractors",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a client wrapper that records usage from provider responses",
+      "reconciling divergent SDK response shapes",
+      "reviewing a generic usage parser for silent misses"
+     ]
+    },
+    {
+     "slug": "provider-family-matching",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "resolving provider identity from heterogeneous telemetry",
+      "handling hosted or resold variants of a provider",
+      "deciding what to do with an unrecognized provider string"
+     ]
+    },
+    {
+     "slug": "refuse-to-derive",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to split or impute a missing field at ingest",
+      "handling spans that are not LLM calls",
+      "reviewing a mapper for invented data"
+     ]
+    },
+    {
+     "slug": "two-doors-one-pipeline",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a second ingestion format to an existing pipeline",
+      "deciding where validation and pricing live",
+      "reviewing an ingest architecture for accounting drift"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "attribute-precedence-lists",
+     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/rust--attribute-precedence-lists.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "two-doors-one-pipeline",
+     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/rust--two-doors-one-pipeline.md"
+    }
+   ]
+  },
+  "operator-surfaces-for-llm-spend": {
+   "category": "federation-and-surfaces",
+   "status": "forged",
+   "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/operator-surfaces-for-llm-spend.md",
+   "techniques": [
+    {
+     "slug": "agent-prompts-as-dashboards",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "packaging recurring operator journeys for a conversational agent",
+      "deciding what a spend tool's prompt catalog should contain"
+     ]
+    },
+    {
+     "slug": "glyph-encoded-business-thresholds",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rendering ranked financial or health tables for triage",
+      "encoding a severity rule that several reports must agree on"
+     ]
+    },
+    {
+     "slug": "read-tools-default-writes-gated",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "exposing a spend store to a conversational agent over a tool protocol",
+      "deciding the default capability set of an agent integration"
+     ]
+    },
+    {
+     "slug": "secret-surfaces-never-exposed-to-agents",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding which API capabilities an agent tool server may wrap",
+      "reviewing an agent integration for credential exposure"
+     ]
+    },
+    {
+     "slug": "single-render-layer-many-consumers",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "more than one consumer renders the same accounting payload",
+      "adding a new surface (CLI, agent tool, report export) to a spend store"
+     ]
+    },
+    {
+     "slug": "sql-panel-sets-over-the-relational-store",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building an always-on dashboard wall over a spend store",
+      "deciding which reports a wide-audience surface may show"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "agent-prompts-as-dashboards",
+     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/process--agent-prompts-as-dashboards.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "glyph-encoded-business-thresholds",
+     "file": "knowledge/llm-observability/operator-surfaces-for-llm-spend/applications/rust--glyph-encoded-business-thresholds.md"
+    }
+   ]
+  },
+  "production-trace-scoring": {
+   "category": "quality-scoring",
+   "status": "forged",
+   "file": "knowledge/llm-observability/production-trace-scoring/production-trace-scoring.md",
+   "techniques": [
+    {
+     "slug": "drift-classified-rescoring",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "quality-apparatus-stays-unbudgeted"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a stale verdict earns a fresh judge call",
+      "handling traces that moved after judging",
+      "bounding re-scoring spend on late-arriving spans"
+     ]
+    },
+    {
+     "slug": "errors-always-oversampling",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sampling a mostly-healthy stream for judging",
+      "making sure failures are never the traffic the sample skips",
+      "reading aggregates over a deliberately biased sample"
+     ]
+    },
+    {
+     "slug": "settle-window-completion",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when a live trace is safe to judge",
+      "scoring streamed or multi-span requests",
+      "tuning scoring freshness against mid-flight verdicts"
+     ]
+    },
+    {
+     "slug": "stable-hash-sampling",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "quality-apparatus-stays-unbudgeted"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "capping judge spend against unbounded traffic",
+      "choosing which traces an online judge scores",
+      "making a sampling decision reproducible across workers and restarts"
+     ]
+    },
+    {
+     "slug": "unscored-work-queue",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock",
+      "quality-apparatus-stays-unbudgeted"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "preventing double-paid judge calls in a polling scorer",
+      "designing the \"what still needs judging\" query",
+      "replacing client-side already-scored reconstruction"
+     ]
+    },
+    {
+     "slug": "verdict-coverage-receipt",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "server-owns-the-accounting-clock",
+      "the-judge-is-both-untrusted-and-under-test"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "storing whole-trace verdicts that must stay honest as traces move",
+      "detecting that a judged trace changed after judging",
+      "designing verdict provenance for late-arriving spans"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "drift-classified-rescoring",
+     "file": "knowledge/llm-observability/production-trace-scoring/applications/rust--drift-classified-rescoring.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "unscored-work-queue",
+     "file": "knowledge/llm-observability/production-trace-scoring/applications/rust--unscored-work-queue.md"
+    }
+   ]
+  },
+  "quality-regression-gating": {
+   "category": "quality-scoring",
+   "status": "forged",
+   "file": "knowledge/llm-observability/quality-regression-gating/quality-regression-gating.md",
+   "techniques": [
+    {
+     "slug": "family-wise-correction",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one run tests several targets against a baseline",
+      "a leaderboard makes claims across many pairs",
+      "red verdicts appear on runs nothing changed"
+     ]
+    },
+    {
+     "slug": "fixed-alpha-discipline",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "someone requests a configurable confidence level",
+      "designing the settings surface of a gating tool",
+      "a release is blocked and the team wants the threshold moved"
+     ]
+    },
+    {
+     "slug": "paired-per-case-testing",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing two eval runs on the same case set",
+      "a gate cannot tell signal from case difficulty",
+      "choosing the test behind a regression verdict"
+     ]
+    },
+    {
+     "slug": "partial-run-never-green",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a run can halt on a cost ceiling",
+      "an operator can cancel mid-run",
+      "deciding what a truncated eval result is allowed to claim"
+     ]
+    },
+    {
+     "slug": "tested-superiority-claims",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a leaderboard prints a winner",
+      "a report claims one model beats another",
+      "a rendering layer displays stored comparison results"
+     ]
+    },
+    {
+     "slug": "unverified-vs-regressed-exit-states",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring a benchmark into a pipeline step",
+      "designing exit codes for a gating command",
+      "a run without a baseline must not read as passing"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "paired-per-case-testing",
+     "file": "knowledge/llm-observability/quality-regression-gating/applications/rust--paired-per-case-testing.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "partial-run-never-green",
+     "file": "knowledge/llm-observability/quality-regression-gating/applications/rust--partial-run-never-green.md"
+    }
+   ]
+  },
+  "trace-rollup-and-attribution": {
+   "category": "telemetry-and-data",
+   "status": "forged",
+   "file": "knowledge/llm-observability/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
+   "techniques": [
+    {
+     "slug": "derived-trace-rollup",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to materialize traces",
+      "implementing the trace detail rollup",
+      "handling malformed span parentage"
+     ]
+    },
+    {
+     "slug": "keyset-trace-pagination",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "paging a trace or event list under filters",
+      "live traffic lands between page fetches",
+      "a client renders \"n of N\" without paging to count"
+     ]
+    },
+    {
+     "slug": "single-shape-rule",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "list and detail views report the same derived number",
+      "defining trace duration or status",
+      "two computation paths must agree to the integer"
+     ]
+    },
+    {
+     "slug": "span-cap-truncation-signal",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "bounding a trace detail read",
+      "a runaway loop puts thousands of spans under one trace",
+      "any derived number covers a clipped set"
+     ]
+    },
+    {
+     "slug": "tenant-scoped-trace-ids",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "trace ids are caller-supplied",
+      "multiple tenants share one store",
+      "attribution fields could be written by the client"
+     ]
+    },
+    {
+     "slug": "unpriced-span-accounting",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "summing cost over spans that may lack a price",
+      "a model is absent from the price book",
+      "presenting a cost total an operator will act on"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "derived-trace-rollup",
+     "file": "knowledge/llm-observability/trace-rollup-and-attribution/applications/rust--derived-trace-rollup.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "unpriced-span-accounting",
+     "file": "knowledge/llm-observability/trace-rollup-and-attribution/applications/rust--unpriced-span-accounting.md"
+    }
+   ]
+  },
+  "usage-limit-governance": {
+   "category": "economics-and-governance",
+   "status": "forged",
+   "file": "knowledge/llm-observability/usage-limit-governance/usage-limit-governance.md",
+   "techniques": [
+    {
+     "slug": "concurrent-admission-integrity",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "caps must hold under concurrent ingest",
+      "choosing between locking and optimistic isolation for admission",
+      "batch ingest must not bypass a cap by packing"
+     ]
+    },
+    {
+     "slug": "cost-evidence-and-imputation",
+     "status": "forged",
+     "laws": [
+      "nullable-never-zero",
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cost cap must hold over traffic the price book cannot fully price",
+      "deciding what an enforcing cap does when spend is unmeasurable",
+      "disclosing how much of a cap's current value is estimated"
+     ]
+    },
+    {
+     "slug": "dimension-scoped-caps",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "capping one model or provider without touching other traffic",
+      "giving a staging credential a smaller budget than production",
+      "per-customer spend ceilings"
+     ]
+    },
+    {
+     "slug": "graduated-throttle-with-deterministic-shed",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a cap should apply back-pressure before its hard wall",
+      "clients flap between accepted and rejected at a threshold",
+      "making shedding reproducible and testable"
+     ]
+    },
+    {
+     "slug": "incremental-window-accounting",
+     "status": "forged",
+     "laws": [
+      "server-owns-the-accounting-clock"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "admission cost grows with rolling-window size",
+      "maintaining rolling usage totals on the ingest hot path",
+      "proving a usage cache equals its full-scan reference"
+     ]
+    },
+    {
+     "slug": "metric-window-threshold-action-model",
+     "status": "forged",
+     "laws": [
+      "quality-apparatus-stays-unbudgeted",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the schema for usage limit rules",
+      "choosing what a cap measures and how it reacts",
+      "adding a soft-warning tier before enforcement"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "concurrent-admission-integrity",
+     "file": "knowledge/llm-observability/usage-limit-governance/applications/rust--concurrent-admission-integrity.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "graduated-throttle-with-deterministic-shed",
+     "file": "knowledge/llm-observability/usage-limit-governance/applications/rust--graduated-throttle-with-deterministic-shed.md"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "server-owns-the-accounting-clock": {
+   "statement": "Clients own their event time for debugging; the server stamps its own receipt time and every budget, window and enforcement decision keys on the server's clock. Any client-writable field that feeds accounting or attribution is either re-stamped from the authenticated principal or stripped — otherwise a caller can launder spend onto someone else's budget with one JSON key.",
+   "techniques": [
+    "analytics-store-design/analytical-copy-partitioning",
+    "analytics-store-design/dashboard-driven-composite-indexes",
+    "analytics-store-design/flat-events-plus-json-linkage",
+    "billing-revenue-normalization/signature-is-the-auth",
+    "breach-alerting-and-attribution/scoped-dedup-keys",
+    "federated-benchmark-sharing/hub-ingest-plausibility-gates",
+    "llm-call-telemetry-model/dual-clock-event-time",
+    "llm-call-telemetry-model/ingest-skew-rejection",
+    "llm-call-telemetry-model/metadata-attribution-keys",
+    "llm-call-telemetry-model/server-owned-fields",
+    "llm-price-book-operations/hot-swap-price-book",
+    "multi-provider-event-normalization/deterministic-span-derived-ids",
+    "multi-provider-event-normalization/two-doors-one-pipeline",
+    "production-trace-scoring/unscored-work-queue",
+    "production-trace-scoring/verdict-coverage-receipt",
+    "trace-rollup-and-attribution/tenant-scoped-trace-ids",
+    "usage-limit-governance/dimension-scoped-caps",
+    "usage-limit-governance/incremental-window-accounting"
+   ]
+  },
+  "never-present-absence-as-an-answer": {
+   "statement": "An unported filter returns \"unsupported\", never an unfiltered page presented as honored. An empty capability returns a refusal, never an empty list that reads as \"nobody spent anything\". A cap whose window holds no priced evidence is unpriceable and refuses — it does not read the missing data as zero headroom. A currency with no exchange rate is stored flagged, never silently treated as the base currency. Absence is a state to disclose, not a value to substitute.",
+   "techniques": [
+    "analytics-store-design/backend-parity-as-contract",
+    "analytics-store-design/capability-flags-and-refusal",
+    "billing-revenue-normalization/static-auditable-fx-book",
+    "breach-alerting-and-attribution/identity-scope-attribution-refusal",
+    "breach-alerting-and-attribution/scope-inverted-attribution",
+    "breach-alerting-and-attribution/top-contributor-attribution",
+    "federated-benchmark-sharing/aggregate-only-digests",
+    "federated-benchmark-sharing/hub-ingest-plausibility-gates",
+    "federated-benchmark-sharing/k-anonymity-cases-and-sources",
+    "judge-calibration-and-drift/trust-bar-verdict",
+    "judge-calibration-and-drift/windowed-score-drop-alerting",
+    "judge-contract-design/deterministic-dimension-kinds",
+    "judge-contract-design/mixed-rubric-honesty",
+    "llm-call-telemetry-model/nullable-cost-never-zero",
+    "llm-price-book-operations/embedded-seed-fallback",
+    "margin-and-unit-economics/below-filter-honesty",
+    "multi-provider-event-normalization/provider-family-matching",
+    "multi-provider-event-normalization/refuse-to-derive",
+    "operator-surfaces-for-llm-spend/agent-prompts-as-dashboards",
+    "operator-surfaces-for-llm-spend/glyph-encoded-business-thresholds",
+    "operator-surfaces-for-llm-spend/single-render-layer-many-consumers",
+    "production-trace-scoring/drift-classified-rescoring",
+    "quality-regression-gating/partial-run-never-green",
+    "quality-regression-gating/tested-superiority-claims",
+    "quality-regression-gating/unverified-vs-regressed-exit-states",
+    "trace-rollup-and-attribution/derived-trace-rollup",
+    "trace-rollup-and-attribution/keyset-trace-pagination",
+    "trace-rollup-and-attribution/span-cap-truncation-signal",
+    "trace-rollup-and-attribution/unpriced-span-accounting",
+    "usage-limit-governance/cost-evidence-and-imputation",
+    "usage-limit-governance/dimension-scoped-caps",
+    "usage-limit-governance/metric-window-threshold-action-model"
+   ]
+  },
+  "estimation-announces-itself": {
+   "statement": "Every imputed, truncated, filtered, or simulated number carries its own disclosure: imputation reported beside the total it entered, truncation flagged with a deterministic tie-break, a filtered response echoing its predicate so a cohort subtotal cannot read as a business total, a what-if stamped as simulated with its assumptions attached. The reader learns what was estimated from the payload itself, never from documentation.",
+   "techniques": [
+    "analytics-store-design/backend-parity-as-contract",
+    "breach-alerting-and-attribution/pre-breach-forecasting",
+    "federated-benchmark-sharing/bounded-contributor-influence",
+    "federated-benchmark-sharing/cost-bucketing-side-channels",
+    "judge-calibration-and-drift/reserved-rubric-persistence",
+    "judge-contract-design/mixed-rubric-honesty",
+    "judge-contract-design/nonce-fenced-candidate-isolation",
+    "llm-call-telemetry-model/metadata-attribution-keys",
+    "llm-call-telemetry-model/nullable-cost-never-zero",
+    "llm-price-book-operations/price-provenance-and-staleness",
+    "margin-and-unit-economics/below-filter-honesty",
+    "margin-and-unit-economics/loss-first-ordering",
+    "margin-and-unit-economics/margin-erosion-forecasting",
+    "margin-and-unit-economics/pricing-what-if-simulation",
+    "margin-and-unit-economics/revenue-recognition-rules",
+    "operator-surfaces-for-llm-spend/single-render-layer-many-consumers",
+    "production-trace-scoring/errors-always-oversampling",
+    "production-trace-scoring/settle-window-completion",
+    "production-trace-scoring/stable-hash-sampling",
+    "production-trace-scoring/verdict-coverage-receipt",
+    "quality-regression-gating/family-wise-correction",
+    "trace-rollup-and-attribution/span-cap-truncation-signal",
+    "usage-limit-governance/cost-evidence-and-imputation"
+   ]
+  },
+  "nullable-never-zero": {
+   "statement": "A cost that could not be priced is null. A zero is a measurement; a null is an admission — and every aggregate over nullable measures carries how many rows it could not measure. Reading null as zero converts every downstream cap, margin and trend into a quiet lie on exactly the newest, least-vetted traffic.",
+   "techniques": [
+    "analytics-store-design/flat-events-plus-json-linkage",
+    "breach-alerting-and-attribution/top-contributor-attribution",
+    "judge-contract-design/deterministic-dimension-kinds",
+    "llm-call-telemetry-model/nullable-cost-never-zero",
+    "llm-call-telemetry-model/token-usage-quadruple",
+    "llm-price-book-operations/embedded-seed-fallback",
+    "llm-price-book-operations/no-retroactive-repricing",
+    "llm-price-book-operations/price-resolution-order",
+    "margin-and-unit-economics/below-filter-honesty",
+    "margin-and-unit-economics/cogs-by-construction",
+    "multi-provider-event-normalization/attribute-precedence-lists",
+    "multi-provider-event-normalization/per-provider-usage-extractors",
+    "multi-provider-event-normalization/provider-family-matching",
+    "multi-provider-event-normalization/refuse-to-derive",
+    "operator-surfaces-for-llm-spend/glyph-encoded-business-thresholds",
+    "operator-surfaces-for-llm-spend/sql-panel-sets-over-the-relational-store",
+    "quality-regression-gating/partial-run-never-green",
+    "trace-rollup-and-attribution/unpriced-span-accounting",
+    "usage-limit-governance/cost-evidence-and-imputation"
+   ]
+  },
+  "no-retroactive-restatement": {
+   "statement": "Cost is stamped once at ingest; correcting a wrong price does not restate spend already inside a window, and the caveat says so. Exchange rates come from a static, auditable snapshot — deterministic and versioned — never a live feed that silently re-prices history between two reports. Accounting that can change after the fact is not accounting.",
+   "techniques": [
+    "billing-revenue-normalization/deterministic-external-ids",
+    "billing-revenue-normalization/static-auditable-fx-book",
+    "judge-calibration-and-drift/reserved-rubric-persistence",
+    "judge-contract-design/weighted-anchored-dimensions",
+    "llm-call-telemetry-model/server-owned-fields",
+    "llm-price-book-operations/hot-swap-price-book",
+    "llm-price-book-operations/no-retroactive-repricing",
+    "margin-and-unit-economics/margin-erosion-forecasting",
+    "margin-and-unit-economics/revenue-recognition-rules",
+    "multi-provider-event-normalization/deterministic-span-derived-ids"
+   ]
+  },
+  "aggregates-leave-identity-behind": {
+   "statement": "What leaves the installation is aggregate by construction: k-floored on cases and on distinct sources, continuous side-channels bucketed, single-contributor influence bounded and disclosed, identity derived from issued credentials rather than asserted. Counts are rejected when implausible — a count is the weight the merge trusts.",
+   "techniques": [
+    "billing-revenue-normalization/signature-is-the-auth",
+    "breach-alerting-and-attribution/identity-scope-attribution-refusal",
+    "federated-benchmark-sharing/aggregate-only-digests",
+    "federated-benchmark-sharing/bounded-contributor-influence",
+    "federated-benchmark-sharing/cost-bucketing-side-channels",
+    "federated-benchmark-sharing/fixed-task-vocabulary",
+    "federated-benchmark-sharing/hub-ingest-plausibility-gates",
+    "federated-benchmark-sharing/k-anonymity-cases-and-sources"
+   ]
+  },
+  "statistical-verdicts-or-no-verdict": {
+   "statement": "\"Regressed\" and \"better\" are paired, family-wise-corrected statistical claims at a fixed, non-configurable confidence — a tool whose alpha is a knob invites tuning until the answer is the desired one. A partial run is never green; an unverified result is a distinct exit state from a passing one.",
+   "techniques": [
+    "breach-alerting-and-attribution/pre-breach-forecasting",
+    "judge-calibration-and-drift/golden-set-agreement-measurement",
+    "judge-calibration-and-drift/windowed-score-drop-alerting",
+    "quality-regression-gating/family-wise-correction",
+    "quality-regression-gating/fixed-alpha-discipline",
+    "quality-regression-gating/paired-per-case-testing",
+    "quality-regression-gating/partial-run-never-green",
+    "quality-regression-gating/tested-superiority-claims",
+    "quality-regression-gating/unverified-vs-regressed-exit-states"
+   ]
+  },
+  "the-judge-is-both-untrusted-and-under-test": {
+   "statement": "The judge's input is attacker-influenced by construction — candidate text is fenced, boundary imitations are neutralized and flagged, and known biases (position, verbosity, self-preference) are counterbalanced in the prompt contract. And the judge itself is a measuring instrument that drifts: it is calibrated against human agreement on a schedule, its verdicts carry provenance, and an uncalibrated judge's scores are leads, not measurements.",
+   "techniques": [
+    "judge-calibration-and-drift/golden-set-agreement-measurement",
+    "judge-calibration-and-drift/judge-selection-by-spread",
+    "judge-calibration-and-drift/scheduled-recalibration",
+    "judge-calibration-and-drift/trust-bar-verdict",
+    "judge-contract-design/bias-counterbalancing-instructions",
+    "judge-contract-design/nonce-fenced-candidate-isolation",
+    "production-trace-scoring/verdict-coverage-receipt"
+   ]
+  },
+  "quality-apparatus-stays-unbudgeted": {
+   "statement": "Judge and benchmark spend is segregated from product cost by construction — it never enters COGS, and no usage cap ever throttles the scoring path. An observability product that meters its own measuring instrument alongside the traffic it measures can silently blind itself exactly when traffic spikes.",
+   "techniques": [
+    "judge-calibration-and-drift/judge-selection-by-spread",
+    "judge-calibration-and-drift/scheduled-recalibration",
+    "margin-and-unit-economics/cogs-by-construction",
+    "production-trace-scoring/drift-classified-rescoring",
+    "production-trace-scoring/stable-hash-sampling",
+    "production-trace-scoring/unscored-work-queue",
+    "usage-limit-governance/metric-window-threshold-action-model"
+   ]
+  }
+ }
+}

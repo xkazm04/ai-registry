@@ -1,0 +1,86 @@
+---
+layer: technique
+type: technique
+subject: trace-rollup-and-attribution
+technique: single-shape-rule
+status: forged
+laws: []
+shared_with: []
+use_when: [list and detail views report the same derived number, defining trace duration or status, two computation paths must agree to the integer]
+---
+
+# Single shape rule
+
+When the same derived number is served from two computation paths — a list
+built from a grouped aggregate, a detail folded from raw events — the
+*definition* of that number must live in exactly one shared shape that both
+paths terminate in. The shape holds the minimal facts (first start, last
+finish, error count) and owns the rules that turn them into the displayed
+values (duration, status). Each path may gather the facts its own way; neither
+path may state the rule.
+
+## Why a shared definition, not a shared warning
+
+The incident this exists for: a list reported duration as last-start minus
+first-start; the detail reported last-*finish* minus first-start. Every trace
+whose final span carried real latency — that is, every trace ending in a model
+call, the normal case — showed two different durations depending on the
+screen. Both numbers were individually plausible, so no reviewer of either
+path flagged it; the discrepancy was only visible to someone holding both
+screens at once. A comment saying "keep these in sync" would not have
+prevented it, because each author believed they *were* in sync. Only making
+drift structurally impossible — one place to state the rule, so a second
+statement has nowhere to live — prevents it.
+
+## What earns a place in the shape
+
+Centralize a definition when it contains a **genuine choice** two authors
+would answer differently:
+
+- **Where a trace ends.** Last span's finish (start plus latency), not last
+  span's start — a trailing call's compute time counts, and start-to-start
+  under-reports exactly the requests that end in a long generation. Duration
+  may therefore exceed last-start minus first-start; that is correct, not a
+  bug report.
+- **What one failed span does to the whole.** One rule ("any non-success span
+  makes the trace an error"), stated once, so the list's error badge and the
+  detail's header can never disagree about the same trace.
+
+Do not centralize mechanical sums (token counts, span counts) — there is no
+choice inside them, and a bloated shape stops being read as "the contested
+definitions".
+
+## Agreement to the integer
+
+"Both paths use the same rule" is not yet "both paths produce the same
+number". Precision differences bite: if one path can only offer
+millisecond-resolution arithmetic (an integer latency added to an epoch
+timestamp in the store) while the other holds sub-millisecond timestamps,
+truncate *both* to the coarser resolution before subtracting, inside the
+shared shape. Otherwise the two paths agree in rule and still differ by one
+on sub-millisecond inputs — a discrepancy too small to matter operationally
+and exactly large enough to destroy trust in the surface ("if they can't
+agree on 2100 vs 2101, what else disagrees?").
+
+The right verification is a conformance test that computes the same trace
+through both paths and asserts integer equality on every shared field — not a
+unit test per path, which is precisely the blindness that let the original
+drift ship.
+
+## Related but distinct: the two time figures
+
+The shape defines *wall-clock duration* (first start to last finish: spans
+idle gaps, counts overlapping work once). Keep it distinct from *summed
+per-span latency* (total compute: counts overlap twice, ignores gaps). Both
+belong on the rollup; neither substitutes for the other. A trace with two
+overlapping five-second calls has ten seconds of compute and five of
+duration; a trace with two instant calls a minute apart has a minute of
+duration and no compute. Labeling either figure with the other's name is a
+category error operators will build wrong intuitions on.
+
+## When not to use it
+
+A number served from a single computation path needs no shape — premature
+centralization of one-consumer definitions is indirection without a payoff.
+Adopt the shape at the moment a second path appears, and adopt it by moving
+the *existing* rule, never by writing a fresh one beside it.

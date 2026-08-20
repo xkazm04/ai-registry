@@ -171,6 +171,19 @@
       "contentHash": "sha256:0b9aa47ae2c095f7"
     },
     {
+      "name": "llm-observability",
+      "title": "LLM observability",
+      "path": "knowledge/llm-observability",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "software",
+      "subjects": 15,
+      "techniques": 90,
+      "applications": 30,
+      "files": 139,
+      "contentHash": "sha256:45dca18fa32a71ca"
+    },
+    {
       "name": "media-generation",
       "title": "Media generation",
       "path": "knowledge/media-generation",
