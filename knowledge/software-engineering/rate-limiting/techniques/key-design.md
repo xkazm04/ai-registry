@@ -26,8 +26,9 @@ The candidate axes are few and compose into tuples:
   tenant's misbehaving script must not starve another tenant. The default
   ingress axis.
 - **Per credential / token** — finer than tenant; isolates one leaked or
-  runaway credential without freezing the whole account, and matches the axis
-  on which egress providers usually meter *you*.
+  runaway credential without freezing the whole account, and is the axis
+  egress providers are *assumed* to meter you on. Verify that assumption
+  before building on it (see the pool rule below); it is frequently false.
 - **Per endpoint / operation class** — because operations differ in cost by
   orders of magnitude. One global number across cheap reads and expensive
   mutations is either uselessly loose for reads or cruelly tight for writes;
@@ -43,6 +44,43 @@ too coarse. The *evasion test*: what does an abuser change to get a fresh
 allowance? If the answer is "a free-to-mint identifier" (a new session, a new
 address, a new anonymous id), the key is too fine — or needs a coarser layer
 above it (see limiter-topology for how layers compose).
+
+## An egress key is a copy of someone else's key, not a choice
+
+The axes above are choices for an ingress limiter, which owns the number it
+enforces. An egress limiter owns nothing: it is modelling a boundary a remote
+authority already drew (see limiter-topology), and its key is right only when it
+*matches* that boundary. The choice was made by the provider; your only job is to
+discover it.
+
+The discovery is usually skipped, and the default guess — one allowance per
+credential, per operation — is wrong in a specific and expensive direction.
+Providers commonly meter on a **pool** that is coarser than the credential and
+orthogonal to the operation: one allowance shared across every credential in an
+account or project, one shared across a whole family of operations, a
+promotional or trial pool separate from the paid one, a per-address allowance
+for unauthenticated access. Two consequences:
+
+- **A key finer than the provider's pool over-permits, silently.** Every one of
+  your buckets shows headroom while the pool behind them is empty; the limiter
+  reports green and the provider refuses. You have built a counter, not a limit.
+- **The pool shape is per-provider and undocumented as often as not.** It must
+  be recorded as data next to the roster — one declared pool per provider,
+  editable without a release — because it changes when the provider reorganizes
+  its plans, and because the first time it is wrong you need somewhere to fix it
+  that is not a code path.
+
+Where the pool cannot be discovered, model it as the coarsest plausible
+boundary. An egress limiter that runs conservative loses throughput; one that
+runs optimistic loses the request.
+
+**Observations about a remote limit carry their source.** A ceiling read from a
+response header or a quota endpoint is knowledge; one inferred from an error
+body is strong evidence; one derived from your own counting is a model of a
+model; one taken from published documentation is the weakest of all, because it
+is the least likely to have been updated. Rank them explicitly and let a stronger
+source overwrite a weaker one — never the reverse, which is how a stale
+documented number erases a limit the provider stated an hour ago.
 
 ## One derivation, one authority
 
@@ -113,6 +151,10 @@ advance, is the technique.
 - **Bound every map at birth.** Cap, staleness horizon, and reaper are part of
   the map's construction, not a hardening ticket. A limiter reviewed without
   its cardinality bound is unreviewed.
+- **For an egress key, name the pool it mirrors.** If nobody can say which
+  remote allowance a local bucket stands for, the bucket is decorative. State
+  the pool, state how it was discovered, and treat the provider's refusals as
+  corrections to it.
 - **Keep the derivation singular.** One function, adjacent to the limiter,
   used by every door. Treat a second derivation site as the same defect class
   as a second limiter (see limiter-topology).
