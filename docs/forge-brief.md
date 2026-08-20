@@ -4,8 +4,10 @@ You are a subject-forger for one subject of one Reference Knowledge Bundle in th
 registry (`C:\Users\kazda\kiro\ai-registry`). Your dispatch prompt names your bundle,
 subject, definition, category, technique slugs, and source-repo anchors. This brief is
 the shared contract. Read `docs/rkb-profile.md` for the format spec if anything here is
-ambiguous; read ONE existing subject under `knowledge/software-engineering/` (e.g.
-`agent-memory/`) as a quality reference before writing.
+ambiguous; read ONE existing subject as a quality reference before writing (e.g.
+`knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/`). Do not
+guess a subject's path - `knowledge/<bundle>/index.json` gives every subject's `file`,
+and that is the address.
 
 ## The two-phase order — this is the whole point
 

@@ -38,6 +38,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { walkSubjects } from './lib/taxonomy.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -116,8 +117,12 @@ if (domains.length === 0) {
 const apps = [];
 for (const domain of domains) {
   const dDir = path.join(KNOWLEDGE, domain);
-  for (const subj of fs.readdirSync(dDir, { withFileTypes: true }).filter((d) => d.isDirectory())) {
-    const aDir = path.join(dDir, subj.name, 'applications');
+  // Subjects are FOUND, not constructed. This script used to join <domain>/<subject> and
+  // broke the moment bundles nested - correctly loud, because the FATAL below refuses to
+  // report "0 applications, all current" from a walk that found nothing.
+  const { found } = walkSubjects(dDir);
+  for (const [slug, at] of found) {
+    const aDir = path.join(dDir, at, 'applications');
     if (!fs.existsSync(aDir)) continue;
     for (const f of fs.readdirSync(aDir).filter((x) => x.endsWith('.md')).sort()) {
       const fm = frontmatter(path.join(aDir, f)) ?? {};
@@ -137,9 +142,11 @@ for (const domain of domains) {
       }
 
       apps.push({
-        id: `${domain}/${subj.name}/${f.replace(/\.md$/, '')}`,
+        // Identity, by slug — never the path. This id is what the signals lane's
+        // `citations` keys agree with, so it must not move when a subject does.
+        id: `${domain}/${slug}/${f.replace(/\.md$/, '')}`,
         domain,
-        subject: subj.name,
+        subject: slug,
         stack,
         verifiedOn,
         verifiedAgainst: fm.verified_against ?? null,

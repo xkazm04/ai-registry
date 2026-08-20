@@ -203,11 +203,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 124,
-      "techniques": 755,
-      "applications": 306,
+      "subjects": 9,
+      "techniques": 0,
+      "applications": 0,
       "files": 1190,
-      "contentHash": "sha256:7051bbef71fc185d"
+      "contentHash": "sha256:798129eb08f0e4f4"
     }
   ]
 }

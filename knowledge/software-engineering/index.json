@@ -18,7 +18,7 @@
    "engineering-process",
    "engineering-assessment"
   ],
-  "layout": "flat",
+  "layout": "nested",
   "use_when_coverage": "123/755",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
@@ -27,7 +27,7 @@
    "category": "ui-surfaces",
    "subcategory": "feedback-and-style",
    "status": "forged",
-   "file": "knowledge/software-engineering/accessibility/accessibility.md",
+   "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
    "techniques": [
     {
      "slug": "a11y-verification",
@@ -88,13 +88,13 @@
     {
      "stack": "react",
      "technique": "keyboard-navigation-models",
-     "file": "knowledge/software-engineering/accessibility/applications/react--keyboard-navigation-models.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--keyboard-navigation-models.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "live-region-architecture",
-     "file": "knowledge/software-engineering/accessibility/applications/react--live-region-architecture.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--live-region-architecture.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -103,7 +103,7 @@
    "category": "backend-platform",
    "subcategory": "work-execution",
    "status": "forged",
-   "file": "knowledge/software-engineering/admission-queue/admission-queue.md",
+   "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
    "techniques": [
     {
      "slug": "admission-vocabulary",
@@ -166,13 +166,13 @@
     {
      "stack": "rust",
      "technique": "admission-vocabulary",
-     "file": "knowledge/software-engineering/admission-queue/applications/rust--admission-vocabulary.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--admission-vocabulary.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "load-aware-admission",
-     "file": "knowledge/software-engineering/admission-queue/applications/rust--load-aware-admission.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--load-aware-admission.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -181,7 +181,7 @@
    "category": "engineering-assessment",
    "subcategory": "reporting-and-remediation",
    "status": "forged",
-   "file": "knowledge/software-engineering/adoption-measurement/adoption-measurement.md",
+   "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/adoption-measurement.md",
    "techniques": [
     {
      "slug": "adoption-distribution-bands",
@@ -272,19 +272,19 @@
     {
      "stack": "node",
      "technique": "attribution-provenance-tiers",
-     "file": "knowledge/software-engineering/adoption-measurement/applications/node--attribution-provenance-tiers.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/applications/node--attribution-provenance-tiers.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "before-after-outcome-pairing",
-     "file": "knowledge/software-engineering/adoption-measurement/applications/node--before-after-outcome-pairing.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/applications/node--before-after-outcome-pairing.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "dormancy-verdicts",
-     "file": "knowledge/software-engineering/adoption-measurement/applications/node--dormancy-verdicts.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/applications/node--dormancy-verdicts.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -293,7 +293,7 @@
    "category": "llm-agent",
    "subcategory": "orchestration",
    "status": "forged",
-   "file": "knowledge/software-engineering/agent-chaining/agent-chaining.md",
+   "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/agent-chaining.md",
    "techniques": [
     {
      "slug": "chain-identity-and-rollup",
@@ -358,13 +358,13 @@
     {
      "stack": "rust",
      "technique": "graph-to-wiring-translation",
-     "file": "knowledge/software-engineering/agent-chaining/applications/rust--graph-to-wiring-translation.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--graph-to-wiring-translation.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "stop-reason-ledgers",
-     "file": "knowledge/software-engineering/agent-chaining/applications/rust--stop-reason-ledgers.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--stop-reason-ledgers.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -373,7 +373,7 @@
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
    "status": "forged",
-   "file": "knowledge/software-engineering/agent-memory/agent-memory.md",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
    "techniques": [
     {
      "slug": "consolidation",
@@ -476,19 +476,19 @@
     {
      "stack": "node",
      "technique": "memory-value-model",
-     "file": "knowledge/software-engineering/agent-memory/applications/node--memory-value-model.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--memory-value-model.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "consolidation",
-     "file": "knowledge/software-engineering/agent-memory/applications/rust--consolidation.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--consolidation.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "recall-injection",
-     "file": "knowledge/software-engineering/agent-memory/applications/rust--recall-injection.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--recall-injection.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -497,7 +497,7 @@
    "category": "backend-platform",
    "subcategory": "platform-observability",
    "status": "forged",
-   "file": "knowledge/software-engineering/alerting/alerting.md",
+   "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
    "techniques": [
     {
      "slug": "alert-lifecycle",
@@ -567,13 +567,13 @@
     {
      "stack": "react",
      "technique": "evaluation-loop",
-     "file": "knowledge/software-engineering/alerting/applications/react--evaluation-loop.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/react--evaluation-loop.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "rule-authoring-validation",
-     "file": "knowledge/software-engineering/alerting/applications/rust--rule-authoring-validation.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/rust--rule-authoring-validation.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -582,7 +582,7 @@
    "category": "engineering-assessment",
    "subcategory": "measurement-method",
    "status": "forged",
-   "file": "knowledge/software-engineering/analytics-time-windows/analytics-time-windows.md",
+   "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
    "techniques": [
     {
      "slug": "baseline-as-window-start",
@@ -669,19 +669,19 @@
     {
      "stack": "node",
      "technique": "calendar-arithmetic",
-     "file": "knowledge/software-engineering/analytics-time-windows/applications/node--calendar-arithmetic.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/node--calendar-arithmetic.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "range-precedence-resolution",
-     "file": "knowledge/software-engineering/analytics-time-windows/applications/node--range-precedence-resolution.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/node--range-precedence-resolution.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "sql",
      "technique": "cohort-matched-comparison",
-     "file": "knowledge/software-engineering/analytics-time-windows/applications/sql--cohort-matched-comparison.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/sql--cohort-matched-comparison.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -690,7 +690,7 @@
    "category": "ui-surfaces",
    "subcategory": "shell-and-navigation",
    "status": "forged",
-   "file": "knowledge/software-engineering/app-shell/app-shell.md",
+   "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
    "techniques": [
     {
      "slug": "badge-and-attention",
@@ -747,13 +747,13 @@
     {
      "stack": "react",
      "technique": "lazy-section-loading",
-     "file": "knowledge/software-engineering/app-shell/applications/react--lazy-section-loading.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/react--lazy-section-loading.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "navigation-model",
-     "file": "knowledge/software-engineering/app-shell/applications/react--navigation-model.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/react--navigation-model.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -762,7 +762,7 @@
    "category": "ui-surfaces",
    "subcategory": "feedback-and-style",
    "status": "forged",
-   "file": "knowledge/software-engineering/async-ui-states/async-ui-states.md",
+   "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/async-ui-states.md",
    "techniques": [
     {
      "slug": "action-busy-states",
@@ -815,13 +815,13 @@
     {
      "stack": "react",
      "technique": "action-busy-states",
-     "file": "knowledge/software-engineering/async-ui-states/applications/react--action-busy-states.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/applications/react--action-busy-states.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "state-model",
-     "file": "knowledge/software-engineering/async-ui-states/applications/react--state-model.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/applications/react--state-model.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -830,7 +830,7 @@
    "category": "operations",
    "subcategory": "governance-and-records",
    "status": "forged",
-   "file": "knowledge/software-engineering/audit-logging/audit-logging.md",
+   "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -917,25 +917,25 @@
     {
      "stack": "node",
      "technique": "decision-records",
-     "file": "knowledge/software-engineering/audit-logging/applications/node--decision-records.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/node--decision-records.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "tamper-evidence",
-     "file": "knowledge/software-engineering/audit-logging/applications/node--tamper-evidence.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/node--tamper-evidence.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "retention-and-partitioning",
-     "file": "knowledge/software-engineering/audit-logging/applications/rust--retention-and-partitioning.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--retention-and-partitioning.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "write-chokepoint",
-     "file": "knowledge/software-engineering/audit-logging/applications/rust--write-chokepoint.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--write-chokepoint.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -944,7 +944,7 @@
    "category": "security",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/authorization/authorization.md",
+   "file": "knowledge/software-engineering/security/authorization/authorization.md",
    "techniques": [
     {
      "slug": "authorization-audit",
@@ -1007,13 +1007,13 @@
     {
      "stack": "rust",
      "technique": "dispatch-chokepoint-gating",
-     "file": "knowledge/software-engineering/authorization/applications/rust--dispatch-chokepoint-gating.md",
+     "file": "knowledge/software-engineering/security/authorization/applications/rust--dispatch-chokepoint-gating.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "scope-design",
-     "file": "knowledge/software-engineering/authorization/applications/rust--scope-design.md",
+     "file": "knowledge/software-engineering/security/authorization/applications/rust--scope-design.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1022,7 +1022,7 @@
    "category": "backend-platform",
    "subcategory": "work-execution",
    "status": "forged",
-   "file": "knowledge/software-engineering/background-jobs/background-jobs.md",
+   "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/background-jobs.md",
    "techniques": [
     {
      "slug": "adaptive-cadence",
@@ -1085,13 +1085,13 @@
     {
      "stack": "react",
      "technique": "job-progress-and-cancellation",
-     "file": "knowledge/software-engineering/background-jobs/applications/react--job-progress-and-cancellation.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/applications/react--job-progress-and-cancellation.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "loop-supervision",
-     "file": "knowledge/software-engineering/background-jobs/applications/rust--loop-supervision.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/applications/rust--loop-supervision.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1100,7 +1100,7 @@
    "category": "engineering-process",
    "subcategory": "build-and-release",
    "status": "forged",
-   "file": "knowledge/software-engineering/build-economics/build-economics.md",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/build-economics.md",
    "techniques": [
     {
      "slug": "build-measurement",
@@ -1163,13 +1163,13 @@
     {
      "stack": "node",
      "technique": "cache-budgeting",
-     "file": "knowledge/software-engineering/build-economics/applications/node--cache-budgeting.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/applications/node--cache-budgeting.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "compilation-unit-splitting",
-     "file": "knowledge/software-engineering/build-economics/applications/rust--compilation-unit-splitting.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/applications/rust--compilation-unit-splitting.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1178,7 +1178,7 @@
    "category": "ui-surfaces",
    "subcategory": "data-display",
    "status": "forged",
-   "file": "knowledge/software-engineering/canvas-graph/canvas-graph.md",
+   "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
    "techniques": [
     {
      "slug": "canvas-accessibility",
@@ -1234,13 +1234,13 @@
     {
      "stack": "react",
      "technique": "render-budget",
-     "file": "knowledge/software-engineering/canvas-graph/applications/react--render-budget.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--render-budget.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "viewport-transform",
-     "file": "knowledge/software-engineering/canvas-graph/applications/react--viewport-transform.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--viewport-transform.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1249,7 +1249,7 @@
    "category": "ui-surfaces",
    "subcategory": "shell-and-navigation",
    "status": "forged",
-   "file": "knowledge/software-engineering/chat-transcript/chat-transcript.md",
+   "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/chat-transcript.md",
    "techniques": [
     {
      "slug": "inline-structured-rows",
@@ -1308,13 +1308,13 @@
     {
      "stack": "react",
      "technique": "transcript-scroll",
-     "file": "knowledge/software-engineering/chat-transcript/applications/react--transcript-scroll.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/react--transcript-scroll.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "turn-model",
-     "file": "knowledge/software-engineering/chat-transcript/applications/react--turn-model.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/react--turn-model.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1323,7 +1323,7 @@
    "category": "integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/cicd-monitoring/cicd-monitoring.md",
+   "file": "knowledge/software-engineering/integration/cicd-monitoring/cicd-monitoring.md",
    "techniques": [
     {
      "slug": "deployment-history",
@@ -1378,31 +1378,31 @@
     {
      "stack": "react",
      "technique": "deployment-history",
-     "file": "knowledge/software-engineering/cicd-monitoring/applications/react--deployment-history.md",
+     "file": "knowledge/software-engineering/integration/cicd-monitoring/applications/react--deployment-history.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "failure-drill-down",
-     "file": "knowledge/software-engineering/cicd-monitoring/applications/react--failure-drill-down.md",
+     "file": "knowledge/software-engineering/integration/cicd-monitoring/applications/react--failure-drill-down.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "liveness-scoped-polling",
-     "file": "knowledge/software-engineering/cicd-monitoring/applications/react--liveness-scoped-polling.md",
+     "file": "knowledge/software-engineering/integration/cicd-monitoring/applications/react--liveness-scoped-polling.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "remote-action-consent",
-     "file": "knowledge/software-engineering/cicd-monitoring/applications/react--remote-action-consent.md",
+     "file": "knowledge/software-engineering/integration/cicd-monitoring/applications/react--remote-action-consent.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "transition-detection-and-notify",
-     "file": "knowledge/software-engineering/cicd-monitoring/applications/react--transition-detection-and-notify.md",
+     "file": "knowledge/software-engineering/integration/cicd-monitoring/applications/react--transition-detection-and-notify.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1411,7 +1411,7 @@
    "category": "client-architecture",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/client-fetch-cache/client-fetch-cache.md",
+   "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
    "techniques": [
     {
      "slug": "cache-key-discipline",
@@ -1470,13 +1470,13 @@
     {
      "stack": "react",
      "technique": "swr-design",
-     "file": "knowledge/software-engineering/client-fetch-cache/applications/react--swr-design.md",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/react--swr-design.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "warm-remount-caches",
-     "file": "knowledge/software-engineering/client-fetch-cache/applications/react--warm-remount-caches.md",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/react--warm-remount-caches.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1485,7 +1485,7 @@
    "category": "client-architecture",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/client-state/client-state.md",
+   "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
    "techniques": [
     {
      "slug": "async-race-guards",
@@ -1549,13 +1549,13 @@
     {
      "stack": "react",
      "technique": "singleton-lifecycle",
-     "file": "knowledge/software-engineering/client-state/applications/react--singleton-lifecycle.md",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--singleton-lifecycle.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "status-fsms",
-     "file": "knowledge/software-engineering/client-state/applications/react--status-fsms.md",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--status-fsms.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1564,7 +1564,7 @@
    "category": "engineering-process",
    "subcategory": "codebase-stewardship",
    "status": "forged",
-   "file": "knowledge/software-engineering/codebase-scanning/codebase-scanning.md",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
    "techniques": [
     {
      "slug": "dead-code-detection",
@@ -1661,13 +1661,13 @@
     {
      "stack": "node",
      "technique": "rule-precision-discipline",
-     "file": "knowledge/software-engineering/codebase-scanning/applications/node--rule-precision-discipline.md",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--rule-precision-discipline.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "sensor-pipeline",
-     "file": "knowledge/software-engineering/codebase-scanning/applications/react--sensor-pipeline.md",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/react--sensor-pipeline.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1676,7 +1676,7 @@
    "category": "engineering-process",
    "subcategory": "build-and-release",
    "status": "forged",
-   "file": "knowledge/software-engineering/codegen/codegen.md",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
    "techniques": [
     {
      "slug": "commit-vs-derive-policy",
@@ -1739,13 +1739,13 @@
     {
      "stack": "node",
      "technique": "drift-gating",
-     "file": "knowledge/software-engineering/codegen/applications/node--drift-gating.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--drift-gating.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "node",
      "technique": "task-registry-design",
-     "file": "knowledge/software-engineering/codegen/applications/node--task-registry-design.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--task-registry-design.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1754,7 +1754,7 @@
    "category": "backend-platform",
    "subcategory": "work-execution",
    "status": "forged",
-   "file": "knowledge/software-engineering/concurrency-guards/concurrency-guards.md",
+   "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
    "techniques": [
     {
      "slug": "attempt-attribution",
@@ -1814,13 +1814,13 @@
     {
      "stack": "rust",
      "technique": "cross-process-exclusion",
-     "file": "knowledge/software-engineering/concurrency-guards/applications/rust--cross-process-exclusion.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "single-flight-primitives",
-     "file": "knowledge/software-engineering/concurrency-guards/applications/rust--single-flight-primitives.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--single-flight-primitives.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1829,7 +1829,7 @@
    "category": "engineering-process",
    "subcategory": "codebase-stewardship",
    "status": "forged",
-   "file": "knowledge/software-engineering/concurrent-vcs/concurrent-vcs.md",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
    "techniques": [
     {
      "slug": "commit-verification",
@@ -1887,13 +1887,13 @@
     {
      "stack": "process",
      "technique": "intent-ledgers",
-     "file": "knowledge/software-engineering/concurrent-vcs/applications/process--intent-ledgers.md",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--intent-ledgers.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "process",
      "technique": "isolated-index-commits",
-     "file": "knowledge/software-engineering/concurrent-vcs/applications/process--isolated-index-commits.md",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--isolated-index-commits.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -1902,7 +1902,7 @@
    "category": "engineering-assessment",
    "subcategory": "maturity-and-conformance",
    "status": "forged",
-   "file": "knowledge/software-engineering/conformance-checking/conformance-checking.md",
+   "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -1993,19 +1993,19 @@
     {
      "stack": "node",
      "technique": "declared-then-proven",
-     "file": "knowledge/software-engineering/conformance-checking/applications/node--declared-then-proven.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--declared-then-proven.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "fixture-repo-testing",
-     "file": "knowledge/software-engineering/conformance-checking/applications/node--fixture-repo-testing.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--fixture-repo-testing.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "pass-ratio-comparability",
-     "file": "knowledge/software-engineering/conformance-checking/applications/process--pass-ratio-comparability.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/process--pass-ratio-comparability.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -2014,7 +2014,7 @@
    "category": "integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/connector-catalog/connector-catalog.md",
+   "file": "knowledge/software-engineering/integration/connector-catalog/connector-catalog.md",
    "techniques": [
     {
      "slug": "adapter-normalization",
@@ -2076,13 +2076,13 @@
     {
      "stack": "react",
      "technique": "adapter-normalization",
-     "file": "knowledge/software-engineering/connector-catalog/applications/react--adapter-normalization.md",
+     "file": "knowledge/software-engineering/integration/connector-catalog/applications/react--adapter-normalization.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "schema-driven-forms",
-     "file": "knowledge/software-engineering/connector-catalog/applications/react--schema-driven-forms.md",
+     "file": "knowledge/software-engineering/integration/connector-catalog/applications/react--schema-driven-forms.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2091,7 +2091,7 @@
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
    "status": "forged",
-   "file": "knowledge/software-engineering/cost-metering/cost-metering.md",
+   "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -2153,13 +2153,13 @@
     {
      "stack": "rust",
      "technique": "budget-enforcement",
-     "file": "knowledge/software-engineering/cost-metering/applications/rust--budget-enforcement.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/rust--budget-enforcement.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "usage-ledgers",
-     "file": "knowledge/software-engineering/cost-metering/applications/rust--usage-ledgers.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/rust--usage-ledgers.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2168,7 +2168,7 @@
    "category": "security",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/credential-vault/credential-vault.md",
+   "file": "knowledge/software-engineering/security/credential-vault/credential-vault.md",
    "techniques": [
     {
      "slug": "acquisition",
@@ -2236,13 +2236,13 @@
     {
      "stack": "rust",
      "technique": "brokered-egress",
-     "file": "knowledge/software-engineering/credential-vault/applications/rust--brokered-egress.md",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/rust--brokered-egress.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "encryption-at-rest",
-     "file": "knowledge/software-engineering/credential-vault/applications/rust--encryption-at-rest.md",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/rust--encryption-at-rest.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2251,7 +2251,7 @@
    "category": "backend-platform",
    "subcategory": "data-layer",
    "status": "forged",
-   "file": "knowledge/software-engineering/data-access/data-access.md",
+   "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -2310,13 +2310,13 @@
     {
      "stack": "rust",
      "technique": "query-construction",
-     "file": "knowledge/software-engineering/data-access/applications/rust--query-construction.md",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--query-construction.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "row-mapping",
-     "file": "knowledge/software-engineering/data-access/applications/rust--row-mapping.md",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--row-mapping.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2325,7 +2325,7 @@
    "category": "operations",
    "subcategory": "governance-and-records",
    "status": "forged",
-   "file": "knowledge/software-engineering/data-retention/data-retention.md",
+   "file": "knowledge/software-engineering/operations/governance-and-records/data-retention/data-retention.md",
    "techniques": [
     {
      "slug": "confirm-by-echo",
@@ -2416,19 +2416,19 @@
     {
      "stack": "node",
      "technique": "confirm-by-echo",
-     "file": "knowledge/software-engineering/data-retention/applications/node--confirm-by-echo.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/data-retention/applications/node--confirm-by-echo.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "destructive-override-floor",
-     "file": "knowledge/software-engineering/data-retention/applications/node--destructive-override-floor.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/data-retention/applications/node--destructive-override-floor.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "sql",
      "technique": "time-budgeted-batch-purge",
-     "file": "knowledge/software-engineering/data-retention/applications/sql--time-budgeted-batch-purge.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/data-retention/applications/sql--time-budgeted-batch-purge.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -2437,7 +2437,7 @@
    "category": "ui-surfaces",
    "subcategory": "data-display",
    "status": "forged",
-   "file": "knowledge/software-engineering/data-viz/data-viz.md",
+   "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/data-viz.md",
    "techniques": [
     {
      "slug": "chart-loading-economics",
@@ -2492,13 +2492,13 @@
     {
      "stack": "react",
      "technique": "chart-loading-economics",
-     "file": "knowledge/software-engineering/data-viz/applications/react--chart-loading-economics.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/react--chart-loading-economics.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "metric-identity",
-     "file": "knowledge/software-engineering/data-viz/applications/react--metric-identity.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/react--metric-identity.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2507,7 +2507,7 @@
    "category": "engineering-process",
    "subcategory": "codebase-stewardship",
    "status": "forged",
-   "file": "knowledge/software-engineering/dead-code/dead-code.md",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -2563,25 +2563,25 @@
     {
      "stack": "node",
      "technique": "instrument-per-orphan-class",
-     "file": "knowledge/software-engineering/dead-code/applications/node--instrument-per-orphan-class.md",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/node--instrument-per-orphan-class.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "node",
      "technique": "suppression-hygiene",
-     "file": "knowledge/software-engineering/dead-code/applications/node--suppression-hygiene.md",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/node--suppression-hygiene.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "process",
      "technique": "carrying-cost-economics",
-     "file": "knowledge/software-engineering/dead-code/applications/process--carrying-cost-economics.md",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/process--carrying-cost-economics.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "process",
      "technique": "deletion-protocols",
-     "file": "knowledge/software-engineering/dead-code/applications/process--deletion-protocols.md",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/process--deletion-protocols.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2590,7 +2590,7 @@
    "category": "engineering-assessment",
    "subcategory": "reporting-and-remediation",
    "status": "forged",
-   "file": "knowledge/software-engineering/delivery-analytics/delivery-analytics.md",
+   "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/delivery-analytics.md",
    "techniques": [
     {
      "slug": "attribution-channels",
@@ -2683,19 +2683,19 @@
     {
      "stack": "node",
      "technique": "attribution-channels",
-     "file": "knowledge/software-engineering/delivery-analytics/applications/node--attribution-channels.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/applications/node--attribution-channels.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "delivery-metric-denominators",
-     "file": "knowledge/software-engineering/delivery-analytics/applications/node--delivery-metric-denominators.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/applications/node--delivery-metric-denominators.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "review-coverage-rate",
-     "file": "knowledge/software-engineering/delivery-analytics/applications/node--review-coverage-rate.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/applications/node--review-coverage-rate.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -2704,7 +2704,7 @@
    "category": "backend-platform",
    "subcategory": "work-execution",
    "status": "forged",
-   "file": "knowledge/software-engineering/delivery-guarantees/delivery-guarantees.md",
+   "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
    "techniques": [
     {
      "slug": "atomic-claiming",
@@ -2767,13 +2767,13 @@
     {
      "stack": "react",
      "technique": "dead-letter-design",
-     "file": "knowledge/software-engineering/delivery-guarantees/applications/react--dead-letter-design.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/applications/react--dead-letter-design.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "atomic-claiming",
-     "file": "knowledge/software-engineering/delivery-guarantees/applications/rust--atomic-claiming.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/applications/rust--atomic-claiming.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2782,7 +2782,7 @@
    "category": "ui-surfaces",
    "subcategory": "feedback-and-style",
    "status": "forged",
-   "file": "knowledge/software-engineering/design-tokens/design-tokens.md",
+   "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
    "techniques": [
     {
      "slug": "cross-language-token-parity",
@@ -2842,13 +2842,13 @@
     {
      "stack": "react",
      "technique": "theme-architecture",
-     "file": "knowledge/software-engineering/design-tokens/applications/react--theme-architecture.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/react--theme-architecture.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "token-enforcement",
-     "file": "knowledge/software-engineering/design-tokens/applications/react--token-enforcement.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/react--token-enforcement.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2857,7 +2857,7 @@
    "category": "security",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/device-pairing/device-pairing.md",
+   "file": "knowledge/software-engineering/security/device-pairing/device-pairing.md",
    "techniques": [
     {
      "slug": "admission-scoping",
@@ -2919,43 +2919,43 @@
     {
      "stack": "react",
      "technique": "pairing-ceremony",
-     "file": "knowledge/software-engineering/device-pairing/applications/react--pairing-ceremony.md",
+     "file": "knowledge/software-engineering/security/device-pairing/applications/react--pairing-ceremony.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "admission-scoping",
-     "file": "knowledge/software-engineering/device-pairing/applications/rust--admission-scoping.md",
+     "file": "knowledge/software-engineering/security/device-pairing/applications/rust--admission-scoping.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "pairing-ceremony",
-     "file": "knowledge/software-engineering/device-pairing/applications/rust--pairing-ceremony.md",
+     "file": "knowledge/software-engineering/security/device-pairing/applications/rust--pairing-ceremony.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "revocation-and-expiry",
-     "file": "knowledge/software-engineering/device-pairing/applications/rust--revocation-and-expiry.md",
+     "file": "knowledge/software-engineering/security/device-pairing/applications/rust--revocation-and-expiry.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "timing-defenses",
-     "file": "knowledge/software-engineering/device-pairing/applications/rust--timing-defenses.md",
+     "file": "knowledge/software-engineering/security/device-pairing/applications/rust--timing-defenses.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "token-binding-and-transport",
-     "file": "knowledge/software-engineering/device-pairing/applications/rust--token-binding-and-transport.md",
+     "file": "knowledge/software-engineering/security/device-pairing/applications/rust--token-binding-and-transport.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "verb-allowlists",
-     "file": "knowledge/software-engineering/device-pairing/applications/rust--verb-allowlists.md",
+     "file": "knowledge/software-engineering/security/device-pairing/applications/rust--verb-allowlists.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -2964,7 +2964,7 @@
    "category": "ui-surfaces",
    "subcategory": "data-display",
    "status": "forged",
-   "file": "knowledge/software-engineering/diff-comparison/diff-comparison.md",
+   "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
    "techniques": [
     {
      "slug": "computation-offload",
@@ -3026,25 +3026,25 @@
     {
      "stack": "react",
      "technique": "computation-offload",
-     "file": "knowledge/software-engineering/diff-comparison/applications/react--computation-offload.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--computation-offload.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "drift-against-declared",
-     "file": "knowledge/software-engineering/diff-comparison/applications/react--drift-against-declared.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--drift-against-declared.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "semantic-level-selection",
-     "file": "knowledge/software-engineering/diff-comparison/applications/react--semantic-level-selection.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--semantic-level-selection.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "pair-and-baseline-selection",
-     "file": "knowledge/software-engineering/diff-comparison/applications/rust--pair-and-baseline-selection.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/rust--pair-and-baseline-selection.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3053,7 +3053,7 @@
    "category": "engineering-process",
    "subcategory": "codebase-stewardship",
    "status": "forged",
-   "file": "knowledge/software-engineering/docs-sync/docs-sync.md",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
    "techniques": [
     {
      "slug": "catch-up-markers",
@@ -3118,7 +3118,7 @@
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
    "status": "forged",
-   "file": "knowledge/software-engineering/draft-editing/draft-editing.md",
+   "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/draft-editing.md",
    "techniques": [
     {
      "slug": "completeness-derivation",
@@ -3178,13 +3178,13 @@
     {
      "stack": "react",
      "technique": "debounced-save-groups",
-     "file": "knowledge/software-engineering/draft-editing/applications/react--debounced-save-groups.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/applications/react--debounced-save-groups.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "draft-model",
-     "file": "knowledge/software-engineering/draft-editing/applications/react--draft-model.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/applications/react--draft-model.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3193,7 +3193,7 @@
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
    "status": "forged",
-   "file": "knowledge/software-engineering/drag-drop/drag-drop.md",
+   "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/drag-drop.md",
    "techniques": [
     {
      "slug": "cross-surface-handoff",
@@ -3246,13 +3246,13 @@
     {
      "stack": "react",
      "technique": "drop-affordances",
-     "file": "knowledge/software-engineering/drag-drop/applications/react--drop-affordances.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/react--drop-affordances.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "ownership-boundaries",
-     "file": "knowledge/software-engineering/drag-drop/applications/react--ownership-boundaries.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/react--ownership-boundaries.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3261,7 +3261,7 @@
    "category": "backend-platform",
    "subcategory": "data-layer",
    "status": "forged",
-   "file": "knowledge/software-engineering/embedded-db/embedded-db.md",
+   "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
    "techniques": [
     {
      "slug": "connection-pooling",
@@ -3322,13 +3322,13 @@
     {
      "stack": "rust",
      "technique": "quiet-window-maintenance",
-     "file": "knowledge/software-engineering/embedded-db/applications/rust--quiet-window-maintenance.md",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/rust--quiet-window-maintenance.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "storage-accounting-and-pruning",
-     "file": "knowledge/software-engineering/embedded-db/applications/rust--storage-accounting-and-pruning.md",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/rust--storage-accounting-and-pruning.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3337,7 +3337,7 @@
    "category": "integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/embedded-preview/embedded-preview.md",
+   "file": "knowledge/software-engineering/integration/embedded-preview/embedded-preview.md",
    "techniques": [
     {
      "slug": "convention-discovery",
@@ -3400,37 +3400,37 @@
     {
      "stack": "react",
      "technique": "cross-frame-protocol",
-     "file": "knowledge/software-engineering/embedded-preview/applications/react--cross-frame-protocol.md",
+     "file": "knowledge/software-engineering/integration/embedded-preview/applications/react--cross-frame-protocol.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "origin-validation",
-     "file": "knowledge/software-engineering/embedded-preview/applications/react--origin-validation.md",
+     "file": "knowledge/software-engineering/integration/embedded-preview/applications/react--origin-validation.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "convention-discovery",
-     "file": "knowledge/software-engineering/embedded-preview/applications/rust--convention-discovery.md",
+     "file": "knowledge/software-engineering/integration/embedded-preview/applications/rust--convention-discovery.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "dev-server-registry",
-     "file": "knowledge/software-engineering/embedded-preview/applications/rust--dev-server-registry.md",
+     "file": "knowledge/software-engineering/integration/embedded-preview/applications/rust--dev-server-registry.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "injected-instrumentation-with-fallback",
-     "file": "knowledge/software-engineering/embedded-preview/applications/rust--injected-instrumentation-with-fallback.md",
+     "file": "knowledge/software-engineering/integration/embedded-preview/applications/rust--injected-instrumentation-with-fallback.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "preview-checkpoints",
-     "file": "knowledge/software-engineering/embedded-preview/applications/rust--preview-checkpoints.md",
+     "file": "knowledge/software-engineering/integration/embedded-preview/applications/rust--preview-checkpoints.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3439,7 +3439,7 @@
    "category": "operations",
    "subcategory": "governance-and-records",
    "status": "forged",
-   "file": "knowledge/software-engineering/entity-lifecycle/entity-lifecycle.md",
+   "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/entity-lifecycle.md",
    "techniques": [
     {
      "slug": "archive-restore-semantics",
@@ -3502,13 +3502,13 @@
     {
      "stack": "rust",
      "technique": "blast-radius-computation",
-     "file": "knowledge/software-engineering/entity-lifecycle/applications/rust--blast-radius-computation.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/rust--blast-radius-computation.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "provenance-denormalization",
-     "file": "knowledge/software-engineering/entity-lifecycle/applications/rust--provenance-denormalization.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/rust--provenance-denormalization.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3517,7 +3517,7 @@
    "category": "backend-platform",
    "subcategory": "resilience",
    "status": "forged",
-   "file": "knowledge/software-engineering/error-handling/error-handling.md",
+   "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
    "techniques": [
     {
      "slug": "crash-capture",
@@ -3571,13 +3571,13 @@
     {
      "stack": "react",
      "technique": "error-doors",
-     "file": "knowledge/software-engineering/error-handling/applications/react--error-doors.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/react--error-doors.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "taxonomy-design",
-     "file": "knowledge/software-engineering/error-handling/applications/rust--taxonomy-design.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--taxonomy-design.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3586,7 +3586,7 @@
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
    "status": "forged",
-   "file": "knowledge/software-engineering/eval-harness/eval-harness.md",
+   "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -3651,13 +3651,13 @@
     {
      "stack": "node",
      "technique": "judge-stability",
-     "file": "knowledge/software-engineering/eval-harness/applications/node--judge-stability.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--judge-stability.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "scenario-design",
-     "file": "knowledge/software-engineering/eval-harness/applications/rust--scenario-design.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--scenario-design.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3666,7 +3666,7 @@
    "category": "engineering-assessment",
    "subcategory": "reporting-and-remediation",
    "status": "forged",
-   "file": "knowledge/software-engineering/executive-reporting/executive-reporting.md",
+   "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/executive-reporting.md",
    "techniques": [
     {
      "slug": "bad-news-labelling",
@@ -3758,19 +3758,19 @@
     {
      "stack": "node",
      "technique": "expiring-share-links",
-     "file": "knowledge/software-engineering/executive-reporting/applications/node--expiring-share-links.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--expiring-share-links.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "grounded-narrative-generation",
-     "file": "knowledge/software-engineering/executive-reporting/applications/node--grounded-narrative-generation.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--grounded-narrative-generation.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "bad-news-labelling",
-     "file": "knowledge/software-engineering/executive-reporting/applications/process--bad-news-labelling.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/process--bad-news-labelling.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -3779,7 +3779,7 @@
    "category": "ui-surfaces",
    "subcategory": "data-display",
    "status": "forged",
-   "file": "knowledge/software-engineering/feed/feed.md",
+   "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/feed.md",
    "techniques": [
     {
      "slug": "event-clustering",
@@ -3835,13 +3835,13 @@
     {
      "stack": "react",
      "technique": "read-position-and-unseen",
-     "file": "knowledge/software-engineering/feed/applications/react--read-position-and-unseen.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/applications/react--read-position-and-unseen.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "reverse-chronology-semantics",
-     "file": "knowledge/software-engineering/feed/applications/rust--reverse-chronology-semantics.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/applications/rust--reverse-chronology-semantics.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3850,7 +3850,7 @@
    "category": "ui-surfaces",
    "subcategory": "data-display",
    "status": "forged",
-   "file": "knowledge/software-engineering/file-browsing/file-browsing.md",
+   "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
    "techniques": [
     {
      "slug": "file-mutations",
@@ -3910,13 +3910,13 @@
     {
      "stack": "react",
      "technique": "navigation-state",
-     "file": "knowledge/software-engineering/file-browsing/applications/react--navigation-state.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/react--navigation-state.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "thumbnails-and-previews",
-     "file": "knowledge/software-engineering/file-browsing/applications/react--thumbnails-and-previews.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/applications/react--thumbnails-and-previews.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -3925,7 +3925,7 @@
    "category": "llm-agent",
    "subcategory": "orchestration",
    "status": "forged",
-   "file": "knowledge/software-engineering/fleet-orchestration/fleet-orchestration.md",
+   "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
    "techniques": [
     {
      "slug": "durable-fleet-state",
@@ -3994,13 +3994,13 @@
     {
      "stack": "rust",
      "technique": "parallel-dispatch",
-     "file": "knowledge/software-engineering/fleet-orchestration/applications/rust--parallel-dispatch.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--parallel-dispatch.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "session-registry",
-     "file": "knowledge/software-engineering/fleet-orchestration/applications/rust--session-registry.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--session-registry.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4009,7 +4009,7 @@
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
    "status": "forged",
-   "file": "knowledge/software-engineering/form/form.md",
+   "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/form/form.md",
    "techniques": [
     {
      "slug": "error-aggregation-and-focus",
@@ -4058,13 +4058,13 @@
     {
      "stack": "react",
      "technique": "field-composition",
-     "file": "knowledge/software-engineering/form/applications/react--field-composition.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/form/applications/react--field-composition.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "validation-timing",
-     "file": "knowledge/software-engineering/form/applications/react--validation-timing.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/form/applications/react--validation-timing.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4073,7 +4073,7 @@
    "category": "ui-surfaces",
    "subcategory": "shell-and-navigation",
    "status": "forged",
-   "file": "knowledge/software-engineering/guided-tours/guided-tours.md",
+   "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/guided-tours.md",
    "techniques": [
     {
      "slug": "action-driven-advancement",
@@ -4127,13 +4127,13 @@
     {
      "stack": "react",
      "technique": "action-driven-advancement",
-     "file": "knowledge/software-engineering/guided-tours/applications/react--action-driven-advancement.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/applications/react--action-driven-advancement.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "anchor-contracts",
-     "file": "knowledge/software-engineering/guided-tours/applications/react--anchor-contracts.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/applications/react--anchor-contracts.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4142,7 +4142,7 @@
    "category": "operations",
    "subcategory": "service-operations",
    "status": "forged",
-   "file": "knowledge/software-engineering/health-checks/health-checks.md",
+   "file": "knowledge/software-engineering/operations/service-operations/health-checks/health-checks.md",
    "techniques": [
     {
      "slug": "check-scheduling",
@@ -4200,13 +4200,13 @@
     {
      "stack": "rust",
      "technique": "probe-caching",
-     "file": "knowledge/software-engineering/health-checks/applications/rust--probe-caching.md",
+     "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/rust--probe-caching.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "three-state-outcomes",
-     "file": "knowledge/software-engineering/health-checks/applications/rust--three-state-outcomes.md",
+     "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/rust--three-state-outcomes.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4215,7 +4215,7 @@
    "category": "llm-agent",
    "subcategory": "orchestration",
    "status": "forged",
-   "file": "knowledge/software-engineering/hitl-approval/hitl-approval.md",
+   "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
    "techniques": [
     {
      "slug": "consent-gates",
@@ -4283,13 +4283,13 @@
     {
      "stack": "rust",
      "technique": "consent-gates",
-     "file": "knowledge/software-engineering/hitl-approval/applications/rust--consent-gates.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/rust--consent-gates.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "gate-state-machines",
-     "file": "knowledge/software-engineering/hitl-approval/applications/rust--gate-state-machines.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/rust--gate-state-machines.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4298,7 +4298,7 @@
    "category": "client-architecture",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/i18n/i18n.md",
+   "file": "knowledge/software-engineering/client-architecture/i18n/i18n.md",
    "techniques": [
     {
      "slug": "catalog-architecture",
@@ -4359,13 +4359,13 @@
     {
      "stack": "node",
      "technique": "completeness-gates",
-     "file": "knowledge/software-engineering/i18n/applications/node--completeness-gates.md",
+     "file": "knowledge/software-engineering/client-architecture/i18n/applications/node--completeness-gates.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "catalog-architecture",
-     "file": "knowledge/software-engineering/i18n/applications/react--catalog-architecture.md",
+     "file": "knowledge/software-engineering/client-architecture/i18n/applications/react--catalog-architecture.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4374,7 +4374,7 @@
    "category": "integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/import-normalization/import-normalization.md",
+   "file": "knowledge/software-engineering/integration/import-normalization/import-normalization.md",
    "techniques": [
     {
      "slug": "adapter-capability-tables",
@@ -4434,13 +4434,13 @@
     {
      "stack": "node",
      "technique": "format-detection",
-     "file": "knowledge/software-engineering/import-normalization/applications/node--format-detection.md",
+     "file": "knowledge/software-engineering/integration/import-normalization/applications/node--format-detection.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "import-validation",
-     "file": "knowledge/software-engineering/import-normalization/applications/rust--import-validation.md",
+     "file": "knowledge/software-engineering/integration/import-normalization/applications/rust--import-validation.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4449,7 +4449,7 @@
    "category": "client-architecture",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/ipc-contract/ipc-contract.md",
+   "file": "knowledge/software-engineering/client-architecture/ipc-contract/ipc-contract.md",
    "techniques": [
     {
      "slug": "call-wrapping",
@@ -4516,13 +4516,13 @@
     {
      "stack": "node",
      "technique": "drift-gates",
-     "file": "knowledge/software-engineering/ipc-contract/applications/node--drift-gates.md",
+     "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/node--drift-gates.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "call-wrapping",
-     "file": "knowledge/software-engineering/ipc-contract/applications/react--call-wrapping.md",
+     "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/react--call-wrapping.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4531,7 +4531,7 @@
    "category": "backend-platform",
    "subcategory": "work-execution",
    "status": "forged",
-   "file": "knowledge/software-engineering/job-coordination/job-coordination.md",
+   "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
    "techniques": [
     {
      "slug": "job-observability",
@@ -4585,19 +4585,19 @@
     {
      "stack": "rust",
      "technique": "job-state-machines",
-     "file": "knowledge/software-engineering/job-coordination/applications/rust--job-state-machines.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--job-state-machines.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "lease-renewal",
-     "file": "knowledge/software-engineering/job-coordination/applications/rust--lease-renewal.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--lease-renewal.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "terminal-state-recovery",
-     "file": "knowledge/software-engineering/job-coordination/applications/rust--terminal-state-recovery.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--terminal-state-recovery.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4606,7 +4606,7 @@
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
    "status": "forged",
-   "file": "knowledge/software-engineering/judgment-guardbands/judgment-guardbands.md",
+   "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/judgment-guardbands.md",
    "techniques": [
     {
      "slug": "confidence-weighted-blend",
@@ -4702,19 +4702,19 @@
     {
      "stack": "node",
      "technique": "confidence-weighted-blend",
-     "file": "knowledge/software-engineering/judgment-guardbands/applications/node--confidence-weighted-blend.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/applications/node--confidence-weighted-blend.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "self-audit-budget",
-     "file": "knowledge/software-engineering/judgment-guardbands/applications/node--self-audit-budget.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/applications/node--self-audit-budget.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "narrate-dont-rescore",
-     "file": "knowledge/software-engineering/judgment-guardbands/applications/process--narrate-dont-rescore.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/applications/process--narrate-dont-rescore.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -4723,7 +4723,7 @@
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
    "status": "forged",
-   "file": "knowledge/software-engineering/knowledge-registry/knowledge-registry.md",
+   "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -4803,25 +4803,25 @@
     {
      "stack": "node",
      "technique": "catalog-as-sync-key",
-     "file": "knowledge/software-engineering/knowledge-registry/applications/node--catalog-as-sync-key.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--catalog-as-sync-key.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "deterministic-seeding",
-     "file": "knowledge/software-engineering/knowledge-registry/applications/node--deterministic-seeding.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--deterministic-seeding.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "per-contributor-aggregation",
-     "file": "knowledge/software-engineering/knowledge-registry/applications/node--per-contributor-aggregation.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--per-contributor-aggregation.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "standard-versus-consumer-split",
-     "file": "knowledge/software-engineering/knowledge-registry/applications/node--standard-versus-consumer-split.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--standard-versus-consumer-split.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -4830,7 +4830,7 @@
    "category": "integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/markdown-vault/markdown-vault.md",
+   "file": "knowledge/software-engineering/integration/markdown-vault/markdown-vault.md",
    "techniques": [
     {
      "slug": "editor-interop",
@@ -4891,25 +4891,25 @@
     {
      "stack": "rust",
      "technique": "knowledge-integrity-lint",
-     "file": "knowledge/software-engineering/markdown-vault/applications/rust--knowledge-integrity-lint.md",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--knowledge-integrity-lint.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "mirror-indexes",
-     "file": "knowledge/software-engineering/markdown-vault/applications/rust--mirror-indexes.md",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--mirror-indexes.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "vault-as-database",
-     "file": "knowledge/software-engineering/markdown-vault/applications/rust--vault-as-database.md",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--vault-as-database.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "vault-walking",
-     "file": "knowledge/software-engineering/markdown-vault/applications/rust--vault-walking.md",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--vault-walking.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -4918,7 +4918,7 @@
    "category": "engineering-assessment",
    "subcategory": "maturity-and-conformance",
    "status": "forged",
-   "file": "knowledge/software-engineering/maturity-ladders/maturity-ladders.md",
+   "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/maturity-ladders.md",
    "techniques": [
     {
      "slug": "band-design",
@@ -5013,19 +5013,19 @@
     {
      "stack": "node",
      "technique": "ladder-versioning",
-     "file": "knowledge/software-engineering/maturity-ladders/applications/node--ladder-versioning.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/applications/node--ladder-versioning.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "rung-criteria",
-     "file": "knowledge/software-engineering/maturity-ladders/applications/node--rung-criteria.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/applications/node--rung-criteria.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "present-vs-enforced",
-     "file": "knowledge/software-engineering/maturity-ladders/applications/process--present-vs-enforced.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/applications/process--present-vs-enforced.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -5034,7 +5034,7 @@
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
    "status": "forged",
-   "file": "knowledge/software-engineering/mcp-tools/mcp-tools.md",
+   "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -5098,13 +5098,13 @@
     {
      "stack": "rust",
      "technique": "authentication-and-scoping",
-     "file": "knowledge/software-engineering/mcp-tools/applications/rust--authentication-and-scoping.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--authentication-and-scoping.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "server-composition",
-     "file": "knowledge/software-engineering/mcp-tools/applications/rust--server-composition.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--server-composition.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5113,7 +5113,7 @@
    "category": "engineering-assessment",
    "subcategory": "measurement-method",
    "status": "forged",
-   "file": "knowledge/software-engineering/measurement-honesty/measurement-honesty.md",
+   "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
    "techniques": [
     {
      "slug": "incomplete-not-verdict",
@@ -5202,19 +5202,19 @@
     {
      "stack": "node",
      "technique": "incomplete-not-verdict",
-     "file": "knowledge/software-engineering/measurement-honesty/applications/node--incomplete-not-verdict.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--incomplete-not-verdict.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "minimum-sample-floors",
-     "file": "knowledge/software-engineering/measurement-honesty/applications/node--minimum-sample-floors.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--minimum-sample-floors.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "unmeasurable-vs-zero",
-     "file": "knowledge/software-engineering/measurement-honesty/applications/node--unmeasurable-vs-zero.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--unmeasurable-vs-zero.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -5223,7 +5223,7 @@
    "category": "ui-surfaces",
    "subcategory": "shell-and-navigation",
    "status": "forged",
-   "file": "knowledge/software-engineering/media-playback/media-playback.md",
+   "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/media-playback.md",
    "techniques": [
     {
      "slug": "engine-adapters",
@@ -5284,13 +5284,13 @@
     {
      "stack": "react",
      "technique": "engine-adapters",
-     "file": "knowledge/software-engineering/media-playback/applications/react--engine-adapters.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/applications/react--engine-adapters.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "playback-clock",
-     "file": "knowledge/software-engineering/media-playback/applications/react--playback-clock.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/applications/react--playback-clock.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5299,7 +5299,7 @@
    "category": "engineering-assessment",
    "subcategory": "measurement-method",
    "status": "forged",
-   "file": "knowledge/software-engineering/metric-forecasting/metric-forecasting.md",
+   "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/metric-forecasting.md",
    "techniques": [
     {
      "slug": "fit-confidence-honesty",
@@ -5386,19 +5386,19 @@
     {
      "stack": "node",
      "technique": "pace-against-a-deadline",
-     "file": "knowledge/software-engineering/metric-forecasting/applications/node--pace-against-a-deadline.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/node--pace-against-a-deadline.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "projection-presentability-gates",
-     "file": "knowledge/software-engineering/metric-forecasting/applications/node--projection-presentability-gates.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/node--projection-presentability-gates.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "trend-fitting-and-anchoring",
-     "file": "knowledge/software-engineering/metric-forecasting/applications/node--trend-fitting-and-anchoring.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/node--trend-fitting-and-anchoring.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -5407,7 +5407,7 @@
    "category": "backend-platform",
    "subcategory": "platform-observability",
    "status": "forged",
-   "file": "knowledge/software-engineering/metrics-rollups/metrics-rollups.md",
+   "file": "knowledge/software-engineering/backend-platform/platform-observability/metrics-rollups/metrics-rollups.md",
    "techniques": [
     {
      "slug": "aggregate-honesty",
@@ -5465,13 +5465,13 @@
     {
      "stack": "react",
      "technique": "period-comparison",
-     "file": "knowledge/software-engineering/metrics-rollups/applications/react--period-comparison.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/metrics-rollups/applications/react--period-comparison.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "stored-rollups",
-     "file": "knowledge/software-engineering/metrics-rollups/applications/rust--stored-rollups.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/metrics-rollups/applications/rust--stored-rollups.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5480,7 +5480,7 @@
    "category": "backend-platform",
    "subcategory": "data-layer",
    "status": "forged",
-   "file": "knowledge/software-engineering/migrations/migrations.md",
+   "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
    "techniques": [
     {
      "slug": "data-migrations",
@@ -5544,13 +5544,13 @@
     {
      "stack": "rust",
      "technique": "idempotent-steps",
-     "file": "knowledge/software-engineering/migrations/applications/rust--idempotent-steps.md",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/applications/rust--idempotent-steps.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "pre-migration-snapshots",
-     "file": "knowledge/software-engineering/migrations/applications/rust--pre-migration-snapshots.md",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/applications/rust--pre-migration-snapshots.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5559,7 +5559,7 @@
    "category": "ui-surfaces",
    "subcategory": "shell-and-navigation",
    "status": "forged",
-   "file": "knowledge/software-engineering/modal-stack/modal-stack.md",
+   "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/modal-stack.md",
    "techniques": [
     {
      "slug": "anchored-positioning",
@@ -5614,13 +5614,13 @@
     {
      "stack": "react",
      "technique": "destructive-confirmation",
-     "file": "knowledge/software-engineering/modal-stack/applications/react--destructive-confirmation.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/applications/react--destructive-confirmation.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "stack-ownership",
-     "file": "knowledge/software-engineering/modal-stack/applications/react--stack-ownership.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/applications/react--stack-ownership.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5629,7 +5629,7 @@
    "category": "llm-agent",
    "subcategory": "orchestration",
    "status": "forged",
-   "file": "knowledge/software-engineering/model-routing/model-routing.md",
+   "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
    "techniques": [
     {
      "slug": "candidate-ranking",
@@ -5715,20 +5715,20 @@
     {
      "stack": "process",
      "technique": "candidate-ranking",
-     "file": "knowledge/software-engineering/model-routing/applications/process--candidate-ranking.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/process--candidate-ranking.md",
      "verified_on": "2026-08-20",
      "refresh_by": "2026-11-20"
     },
     {
      "stack": "react",
      "technique": "routing-policy",
-     "file": "knowledge/software-engineering/model-routing/applications/react--routing-policy.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/react--routing-policy.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "turn-classification",
-     "file": "knowledge/software-engineering/model-routing/applications/rust--turn-classification.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/rust--turn-classification.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5737,7 +5737,7 @@
    "category": "ui-surfaces",
    "subcategory": "feedback-and-style",
    "status": "forged",
-   "file": "knowledge/software-engineering/motion/motion.md",
+   "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
    "techniques": [
     {
      "slug": "engine-selection",
@@ -5786,13 +5786,13 @@
     {
      "stack": "react",
      "technique": "performance-discipline",
-     "file": "knowledge/software-engineering/motion/applications/react--performance-discipline.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--performance-discipline.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "preset-vocabulary",
-     "file": "knowledge/software-engineering/motion/applications/react--preset-vocabulary.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--preset-vocabulary.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5801,7 +5801,7 @@
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
    "status": "forged",
-   "file": "knowledge/software-engineering/multi-project/multi-project.md",
+   "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/multi-project.md",
    "techniques": [
     {
      "slug": "cross-project-comparison",
@@ -5869,13 +5869,13 @@
     {
      "stack": "react",
      "technique": "portfolio-drill-hierarchy",
-     "file": "knowledge/software-engineering/multi-project/applications/react--portfolio-drill-hierarchy.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/applications/react--portfolio-drill-hierarchy.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "passive-signal-ingestion",
-     "file": "knowledge/software-engineering/multi-project/applications/rust--passive-signal-ingestion.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/applications/rust--passive-signal-ingestion.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5884,7 +5884,7 @@
    "category": "backend-platform",
    "subcategory": "platform-observability",
    "status": "forged",
-   "file": "knowledge/software-engineering/observability-telemetry/observability-telemetry.md",
+   "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/observability-telemetry.md",
    "techniques": [
     {
      "slug": "crash-record-storage",
@@ -5939,13 +5939,13 @@
     {
      "stack": "rust",
      "technique": "log-architecture",
-     "file": "knowledge/software-engineering/observability-telemetry/applications/rust--log-architecture.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/applications/rust--log-architecture.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "rotation-and-retention",
-     "file": "knowledge/software-engineering/observability-telemetry/applications/rust--rotation-and-retention.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/applications/rust--rotation-and-retention.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -5954,7 +5954,7 @@
    "category": "backend-platform",
    "subcategory": "platform-observability",
    "status": "forged",
-   "file": "knowledge/software-engineering/outbound-notifications/outbound-notifications.md",
+   "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/outbound-notifications.md",
    "techniques": [
     {
      "slug": "channel-adapter-traits",
@@ -6021,37 +6021,37 @@
     {
      "stack": "react",
      "technique": "compose-at-the-locale-layer",
-     "file": "knowledge/software-engineering/outbound-notifications/applications/react--compose-at-the-locale-layer.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/applications/react--compose-at-the-locale-layer.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "channel-adapter-traits",
-     "file": "knowledge/software-engineering/outbound-notifications/applications/rust--channel-adapter-traits.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/applications/rust--channel-adapter-traits.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "channel-health-tracking",
-     "file": "knowledge/software-engineering/outbound-notifications/applications/rust--channel-health-tracking.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/applications/rust--channel-health-tracking.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "inbound-counterparts",
-     "file": "knowledge/software-engineering/outbound-notifications/applications/rust--inbound-counterparts.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/applications/rust--inbound-counterparts.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "per-channel-templating",
-     "file": "knowledge/software-engineering/outbound-notifications/applications/rust--per-channel-templating.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/applications/rust--per-channel-templating.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "subscription-patterns",
-     "file": "knowledge/software-engineering/outbound-notifications/applications/rust--subscription-patterns.md",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/applications/rust--subscription-patterns.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -6060,7 +6060,7 @@
    "category": "security",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/p2p-networking/p2p-networking.md",
+   "file": "knowledge/software-engineering/security/p2p-networking/p2p-networking.md",
    "techniques": [
     {
      "slug": "connection-lifecycle",
@@ -6127,7 +6127,7 @@
    "category": "engineering-process",
    "subcategory": "build-and-release",
    "status": "forged",
-   "file": "knowledge/software-engineering/packaging/packaging.md",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/packaging.md",
    "techniques": [
     {
      "slug": "installed-tree-acceptance",
@@ -6188,13 +6188,13 @@
     {
      "stack": "node",
      "technique": "native-payload-verification",
-     "file": "knowledge/software-engineering/packaging/applications/node--native-payload-verification.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/applications/node--native-payload-verification.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "process",
      "technique": "installed-tree-acceptance",
-     "file": "knowledge/software-engineering/packaging/applications/process--installed-tree-acceptance.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/applications/process--installed-tree-acceptance.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -6203,7 +6203,7 @@
    "category": "engineering-assessment",
    "subcategory": "measurement-method",
    "status": "forged",
-   "file": "knowledge/software-engineering/peer-benchmarking/peer-benchmarking.md",
+   "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
    "techniques": [
     {
      "slug": "basis-disclosure",
@@ -6280,19 +6280,19 @@
     {
      "stack": "node",
      "technique": "comparability-filters",
-     "file": "knowledge/software-engineering/peer-benchmarking/applications/node--comparability-filters.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--comparability-filters.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "population-vs-scalar-ranking",
-     "file": "knowledge/software-engineering/peer-benchmarking/applications/node--population-vs-scalar-ranking.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--population-vs-scalar-ranking.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "sql",
      "technique": "corpus-tenancy-boundary",
-     "file": "knowledge/software-engineering/peer-benchmarking/applications/sql--corpus-tenancy-boundary.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/sql--corpus-tenancy-boundary.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -6301,7 +6301,7 @@
    "category": "engineering-assessment",
    "subcategory": "measurement-method",
    "status": "forged",
-   "file": "knowledge/software-engineering/people-analytics-ethics/people-analytics-ethics.md",
+   "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/people-analytics-ethics.md",
    "techniques": [
     {
      "slug": "aggregate-vs-individual-split",
@@ -6389,19 +6389,19 @@
     {
      "stack": "node",
      "technique": "contribution-eligibility-floors",
-     "file": "knowledge/software-engineering/people-analytics-ethics/applications/node--contribution-eligibility-floors.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/node--contribution-eligibility-floors.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "producer-enforced-suppression",
-     "file": "knowledge/software-engineering/people-analytics-ethics/applications/node--producer-enforced-suppression.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/node--producer-enforced-suppression.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "risk-framing-anonymization",
-     "file": "knowledge/software-engineering/people-analytics-ethics/applications/process--risk-framing-anonymization.md",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/applications/process--risk-framing-anonymization.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -6410,7 +6410,7 @@
    "category": "operations",
    "subcategory": "service-operations",
    "status": "forged",
-   "file": "knowledge/software-engineering/perf-instrumentation/perf-instrumentation.md",
+   "file": "knowledge/software-engineering/operations/service-operations/perf-instrumentation/perf-instrumentation.md",
    "techniques": [
     {
      "slug": "continuous-monitors",
@@ -6474,13 +6474,13 @@
     {
      "stack": "react",
      "technique": "ring-buffer-metrics",
-     "file": "knowledge/software-engineering/perf-instrumentation/applications/react--ring-buffer-metrics.md",
+     "file": "knowledge/software-engineering/operations/service-operations/perf-instrumentation/applications/react--ring-buffer-metrics.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "startup-phasing",
-     "file": "knowledge/software-engineering/perf-instrumentation/applications/rust--startup-phasing.md",
+     "file": "knowledge/software-engineering/operations/service-operations/perf-instrumentation/applications/rust--startup-phasing.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -6489,7 +6489,7 @@
    "category": "backend-platform",
    "subcategory": "work-execution",
    "status": "forged",
-   "file": "knowledge/software-engineering/pipeline-dag/pipeline-dag.md",
+   "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/pipeline-dag.md",
    "techniques": [
     {
      "slug": "conditional-edges",
@@ -6555,13 +6555,13 @@
     {
      "stack": "rust",
      "technique": "external-adapter-nodes",
-     "file": "knowledge/software-engineering/pipeline-dag/applications/rust--external-adapter-nodes.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/applications/rust--external-adapter-nodes.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "node-execution-model",
-     "file": "knowledge/software-engineering/pipeline-dag/applications/rust--node-execution-model.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/applications/rust--node-execution-model.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -6570,7 +6570,7 @@
    "category": "operations",
    "subcategory": "service-operations",
    "status": "forged",
-   "file": "knowledge/software-engineering/plan-entitlements/plan-entitlements.md",
+   "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
    "techniques": [
     {
      "slug": "capability-gate-predicates",
@@ -6665,19 +6665,19 @@
     {
      "stack": "node",
      "technique": "capability-gate-predicates",
-     "file": "knowledge/software-engineering/plan-entitlements/applications/node--capability-gate-predicates.md",
+     "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/node--capability-gate-predicates.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "deployment-mode-short-circuit",
-     "file": "knowledge/software-engineering/plan-entitlements/applications/node--deployment-mode-short-circuit.md",
+     "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/node--deployment-mode-short-circuit.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "price-book-authority",
-     "file": "knowledge/software-engineering/plan-entitlements/applications/process--price-book-authority.md",
+     "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/process--price-book-authority.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -6686,7 +6686,7 @@
    "category": "llm-agent",
    "subcategory": "orchestration",
    "status": "forged",
-   "file": "knowledge/software-engineering/proactive-nudges/proactive-nudges.md",
+   "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/proactive-nudges.md",
    "techniques": [
     {
      "slug": "attention-budgets",
@@ -6744,13 +6744,13 @@
     {
      "stack": "rust",
      "technique": "attention-budgets",
-     "file": "knowledge/software-engineering/proactive-nudges/applications/rust--attention-budgets.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/applications/rust--attention-budgets.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "quiet-windows",
-     "file": "knowledge/software-engineering/proactive-nudges/applications/rust--quiet-windows.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/applications/rust--quiet-windows.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -6759,7 +6759,7 @@
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
    "status": "forged",
-   "file": "knowledge/software-engineering/prompt-assembly/prompt-assembly.md",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
    "techniques": [
     {
      "slug": "capability-documentation",
@@ -6815,13 +6815,13 @@
     {
      "stack": "rust",
      "technique": "context-budgeting",
-     "file": "knowledge/software-engineering/prompt-assembly/applications/rust--context-budgeting.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--context-budgeting.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "layered-composition",
-     "file": "knowledge/software-engineering/prompt-assembly/applications/rust--layered-composition.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--layered-composition.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -6830,7 +6830,7 @@
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
    "status": "forged",
-   "file": "knowledge/software-engineering/prompt-safety/prompt-safety.md",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/prompt-safety.md",
    "techniques": [
     {
      "slug": "canary-tripwires",
@@ -6905,25 +6905,25 @@
     {
      "stack": "node",
      "technique": "payoff-removal",
-     "file": "knowledge/software-engineering/prompt-safety/applications/node--payoff-removal.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/applications/node--payoff-removal.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "untrusted-span-fencing",
-     "file": "knowledge/software-engineering/prompt-safety/applications/node--untrusted-span-fencing.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/applications/node--untrusted-span-fencing.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "react",
      "technique": "output-sanitization",
-     "file": "knowledge/software-engineering/prompt-safety/applications/react--output-sanitization.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/applications/react--output-sanitization.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "untrusted-span-fencing",
-     "file": "knowledge/software-engineering/prompt-safety/applications/rust--untrusted-span-fencing.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/applications/rust--untrusted-span-fencing.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -6932,7 +6932,7 @@
    "category": "engineering-assessment",
    "subcategory": "maturity-and-conformance",
    "status": "forged",
-   "file": "knowledge/software-engineering/public-verdict-badge/public-verdict-badge.md",
+   "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/public-verdict-badge.md",
    "techniques": [
     {
      "slug": "customization-scope-guard",
@@ -7022,19 +7022,19 @@
     {
      "stack": "node",
      "technique": "customization-scope-guard",
-     "file": "knowledge/software-engineering/public-verdict-badge/applications/node--customization-scope-guard.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/applications/node--customization-scope-guard.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "outcome-branched-cache",
-     "file": "knowledge/software-engineering/public-verdict-badge/applications/node--outcome-branched-cache.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/applications/node--outcome-branched-cache.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "react",
      "technique": "embed-snippet-contract",
-     "file": "knowledge/software-engineering/public-verdict-badge/applications/react--embed-snippet-contract.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/applications/react--embed-snippet-contract.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -7043,7 +7043,7 @@
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
    "status": "forged",
-   "file": "knowledge/software-engineering/quality-gates/quality-gates.md",
+   "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "techniques": [
     {
      "slug": "false-positive-economics",
@@ -7132,25 +7132,25 @@
     {
      "stack": "node",
      "technique": "gate-liveness",
-     "file": "knowledge/software-engineering/quality-gates/applications/node--gate-liveness.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--gate-liveness.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "node",
      "technique": "policy-projection",
-     "file": "knowledge/software-engineering/quality-gates/applications/node--policy-projection.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--policy-projection.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "unmeasurable-criteria",
-     "file": "knowledge/software-engineering/quality-gates/applications/node--unmeasurable-criteria.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--unmeasurable-criteria.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "gate-laddering",
-     "file": "knowledge/software-engineering/quality-gates/applications/process--gate-laddering.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-laddering.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -7159,7 +7159,7 @@
    "category": "backend-platform",
    "subcategory": "resilience",
    "status": "forged",
-   "file": "knowledge/software-engineering/rate-limiting/rate-limiting.md",
+   "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
    "techniques": [
     {
      "slug": "algorithm-selection",
@@ -7228,25 +7228,25 @@
     {
      "stack": "node",
      "technique": "limit-derivation",
-     "file": "knowledge/software-engineering/rate-limiting/applications/node--limit-derivation.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/applications/node--limit-derivation.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "limiter-topology",
-     "file": "knowledge/software-engineering/rate-limiting/applications/node--limiter-topology.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/applications/node--limiter-topology.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "rust",
      "technique": "algorithm-selection",
-     "file": "knowledge/software-engineering/rate-limiting/applications/rust--algorithm-selection.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/applications/rust--algorithm-selection.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "storm-hygiene",
-     "file": "knowledge/software-engineering/rate-limiting/applications/rust--storm-hygiene.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/applications/rust--storm-hygiene.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -7255,7 +7255,7 @@
    "category": "engineering-assessment",
    "subcategory": "maturity-and-conformance",
    "status": "forged",
-   "file": "knowledge/software-engineering/readiness-passports/readiness-passports.md",
+   "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
    "techniques": [
     {
      "slug": "blocker-rollups",
@@ -7335,19 +7335,19 @@
     {
      "stack": "node",
      "technique": "declined-by-choice",
-     "file": "knowledge/software-engineering/readiness-passports/applications/node--declined-by-choice.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--declined-by-choice.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "two-axis-readiness",
-     "file": "knowledge/software-engineering/readiness-passports/applications/node--two-axis-readiness.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--two-axis-readiness.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "named-vs-capability-metadata",
-     "file": "knowledge/software-engineering/readiness-passports/applications/process--named-vs-capability-metadata.md",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/process--named-vs-capability-metadata.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -7356,7 +7356,7 @@
    "category": "client-architecture",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/realtime-events/realtime-events.md",
+   "file": "knowledge/software-engineering/client-architecture/realtime-events/realtime-events.md",
    "techniques": [
     {
      "slug": "change-data-capture",
@@ -7420,13 +7420,13 @@
     {
      "stack": "react",
      "technique": "subscription-lifecycle",
-     "file": "knowledge/software-engineering/realtime-events/applications/react--subscription-lifecycle.md",
+     "file": "knowledge/software-engineering/client-architecture/realtime-events/applications/react--subscription-lifecycle.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "change-data-capture",
-     "file": "knowledge/software-engineering/realtime-events/applications/rust--change-data-capture.md",
+     "file": "knowledge/software-engineering/client-architecture/realtime-events/applications/rust--change-data-capture.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -7435,7 +7435,7 @@
    "category": "engineering-process",
    "subcategory": "build-and-release",
    "status": "forged",
-   "file": "knowledge/software-engineering/release-pipeline/release-pipeline.md",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
    "techniques": [
     {
      "slug": "changelog-generation",
@@ -7498,13 +7498,13 @@
     {
      "stack": "node",
      "technique": "size-budgets",
-     "file": "knowledge/software-engineering/release-pipeline/applications/node--size-budgets.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/applications/node--size-budgets.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "node",
      "technique": "version-single-truth",
-     "file": "knowledge/software-engineering/release-pipeline/applications/node--version-single-truth.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/applications/node--version-single-truth.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -7513,7 +7513,7 @@
    "category": "llm-agent",
    "subcategory": "orchestration",
    "status": "forged",
-   "file": "knowledge/software-engineering/remediation-handoff/remediation-handoff.md",
+   "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
    "techniques": [
     {
      "slug": "batch-shaping-for-one-session",
@@ -7599,19 +7599,19 @@
     {
      "stack": "node",
      "technique": "claim-carry-forward-rules",
-     "file": "knowledge/software-engineering/remediation-handoff/applications/node--claim-carry-forward-rules.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--claim-carry-forward-rules.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "handoff-tenancy-and-idempotence",
-     "file": "knowledge/software-engineering/remediation-handoff/applications/node--handoff-tenancy-and-idempotence.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--handoff-tenancy-and-idempotence.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "single-artifact-prompt-construction",
-     "file": "knowledge/software-engineering/remediation-handoff/applications/process--single-artifact-prompt-construction.md",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/process--single-artifact-prompt-construction.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -7620,7 +7620,7 @@
    "category": "engineering-assessment",
    "subcategory": "reporting-and-remediation",
    "status": "forged",
-   "file": "knowledge/software-engineering/remediation-roadmaps/remediation-roadmaps.md",
+   "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/remediation-roadmaps.md",
    "techniques": [
     {
      "slug": "cheapest-path-projection",
@@ -7706,19 +7706,19 @@
     {
      "stack": "node",
      "technique": "weighted-upside-ranking",
-     "file": "knowledge/software-engineering/remediation-roadmaps/applications/node--weighted-upside-ranking.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/applications/node--weighted-upside-ranking.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "invitational-framing",
-     "file": "knowledge/software-engineering/remediation-roadmaps/applications/process--invitational-framing.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/applications/process--invitational-framing.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "react",
      "technique": "sandbox-to-tracker-commit",
-     "file": "knowledge/software-engineering/remediation-roadmaps/applications/react--sandbox-to-tracker-commit.md",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/applications/react--sandbox-to-tracker-commit.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -7727,7 +7727,7 @@
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
    "status": "forged",
-   "file": "knowledge/software-engineering/repo-manifest-standard/repo-manifest-standard.md",
+   "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -7819,19 +7819,19 @@
     {
      "stack": "node",
      "technique": "generated-from-provenance",
-     "file": "knowledge/software-engineering/repo-manifest-standard/applications/node--generated-from-provenance.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--generated-from-provenance.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "pointers-not-embeds",
-     "file": "knowledge/software-engineering/repo-manifest-standard/applications/node--pointers-not-embeds.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--pointers-not-embeds.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "spec-ships-with-artifact",
-     "file": "knowledge/software-engineering/repo-manifest-standard/applications/process--spec-ships-with-artifact.md",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/process--spec-ships-with-artifact.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -7840,7 +7840,7 @@
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
    "status": "forged",
-   "file": "knowledge/software-engineering/retrieval/retrieval.md",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -7903,13 +7903,13 @@
     {
      "stack": "rust",
      "technique": "embedding-lifecycle",
-     "file": "knowledge/software-engineering/retrieval/applications/rust--embedding-lifecycle.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--embedding-lifecycle.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "hybrid-lane-fusion",
-     "file": "knowledge/software-engineering/retrieval/applications/rust--hybrid-lane-fusion.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--hybrid-lane-fusion.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -7918,7 +7918,7 @@
    "category": "backend-platform",
    "subcategory": "resilience",
    "status": "forged",
-   "file": "knowledge/software-engineering/retry-backoff/retry-backoff.md",
+   "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
    "techniques": [
     {
      "slug": "backoff-design",
@@ -7974,13 +7974,13 @@
     {
      "stack": "rust",
      "technique": "circuit-breakers",
-     "file": "knowledge/software-engineering/retry-backoff/applications/rust--circuit-breakers.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/rust--circuit-breakers.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "durable-retries",
-     "file": "knowledge/software-engineering/retry-backoff/applications/rust--durable-retries.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/rust--durable-retries.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -7989,7 +7989,7 @@
    "category": "backend-platform",
    "subcategory": "work-execution",
    "status": "forged",
-   "file": "knowledge/software-engineering/scheduling/scheduling.md",
+   "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/scheduling.md",
    "techniques": [
     {
      "slug": "cooldown-and-debounce",
@@ -8047,7 +8047,7 @@
     {
      "stack": "rust",
      "technique": "overlap-and-reentrancy",
-     "file": "knowledge/software-engineering/scheduling/applications/rust--overlap-and-reentrancy.md",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/applications/rust--overlap-and-reentrancy.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8056,7 +8056,7 @@
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
    "status": "forged",
-   "file": "knowledge/software-engineering/schema-driven-ui/schema-driven-ui.md",
+   "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/schema-driven-ui.md",
    "techniques": [
     {
      "slug": "action-consent-wiring",
@@ -8119,13 +8119,13 @@
     {
      "stack": "react",
      "technique": "registry-mapping",
-     "file": "knowledge/software-engineering/schema-driven-ui/applications/react--registry-mapping.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/applications/react--registry-mapping.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "spec-validation-and-repair",
-     "file": "knowledge/software-engineering/schema-driven-ui/applications/react--spec-validation-and-repair.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/applications/react--spec-validation-and-repair.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8134,7 +8134,7 @@
    "category": "operations",
    "subcategory": "service-operations",
    "status": "forged",
-   "file": "knowledge/software-engineering/scoring-rubrics/scoring-rubrics.md",
+   "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/scoring-rubrics.md",
    "techniques": [
     {
      "slug": "gap-ranking",
@@ -8206,25 +8206,25 @@
     {
      "stack": "node",
      "technique": "rubric-stability",
-     "file": "knowledge/software-engineering/scoring-rubrics/applications/node--rubric-stability.md",
+     "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/applications/node--rubric-stability.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "weight-lenses",
-     "file": "knowledge/software-engineering/scoring-rubrics/applications/node--weight-lenses.md",
+     "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/applications/node--weight-lenses.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "react",
      "technique": "gap-ranking",
-     "file": "knowledge/software-engineering/scoring-rubrics/applications/react--gap-ranking.md",
+     "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/applications/react--gap-ranking.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "weight-design",
-     "file": "knowledge/software-engineering/scoring-rubrics/applications/react--weight-design.md",
+     "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/applications/react--weight-design.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8233,7 +8233,7 @@
    "category": "ui-surfaces",
    "subcategory": "data-display",
    "status": "forged",
-   "file": "knowledge/software-engineering/search/search.md",
+   "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
    "techniques": [
     {
      "slug": "command-surface",
@@ -8296,13 +8296,13 @@
     {
      "stack": "react",
      "technique": "command-surface",
-     "file": "knowledge/software-engineering/search/applications/react--command-surface.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/react--command-surface.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "full-text-indexing",
-     "file": "knowledge/software-engineering/search/applications/rust--full-text-indexing.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/rust--full-text-indexing.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8311,7 +8311,7 @@
    "category": "backend-platform",
    "subcategory": "resilience",
    "status": "forged",
-   "file": "knowledge/software-engineering/self-healing/self-healing.md",
+   "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/self-healing.md",
    "techniques": [
     {
      "slug": "auto-rollback",
@@ -8372,13 +8372,13 @@
     {
      "stack": "rust",
      "technique": "effectiveness-accounting",
-     "file": "knowledge/software-engineering/self-healing/applications/rust--effectiveness-accounting.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--effectiveness-accounting.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "strategy-selection",
-     "file": "knowledge/software-engineering/self-healing/applications/rust--strategy-selection.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--strategy-selection.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8387,7 +8387,7 @@
    "category": "ui-surfaces",
    "subcategory": "shell-and-navigation",
    "status": "forged",
-   "file": "knowledge/software-engineering/session-resume/session-resume.md",
+   "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/session-resume.md",
    "techniques": [
     {
      "slug": "content-freshness-states",
@@ -8441,7 +8441,7 @@
     {
      "stack": "react",
      "technique": "last-seen-anchors",
-     "file": "knowledge/software-engineering/session-resume/applications/react--last-seen-anchors.md",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/react--last-seen-anchors.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8450,7 +8450,7 @@
    "category": "operations",
    "subcategory": "governance-and-records",
    "status": "forged",
-   "file": "knowledge/software-engineering/settings/settings.md",
+   "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
    "techniques": [
     {
      "slug": "key-registry",
@@ -8508,13 +8508,13 @@
     {
      "stack": "react",
      "technique": "read-batching",
-     "file": "knowledge/software-engineering/settings/applications/react--read-batching.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/react--read-batching.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "key-registry",
-     "file": "knowledge/software-engineering/settings/applications/rust--key-registry.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--key-registry.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8523,7 +8523,7 @@
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
    "status": "forged",
-   "file": "knowledge/software-engineering/sidecar-provisioning/sidecar-provisioning.md",
+   "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/sidecar-provisioning.md",
    "techniques": [
     {
      "slug": "atomic-downloads",
@@ -8588,13 +8588,13 @@
     {
      "stack": "rust",
      "technique": "atomic-downloads",
-     "file": "knowledge/software-engineering/sidecar-provisioning/applications/rust--atomic-downloads.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/rust--atomic-downloads.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "resolution-ladders",
-     "file": "knowledge/software-engineering/sidecar-provisioning/applications/rust--resolution-ladders.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/rust--resolution-ladders.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8603,7 +8603,7 @@
    "category": "security",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/signed-artifacts/signed-artifacts.md",
+   "file": "knowledge/software-engineering/security/signed-artifacts/signed-artifacts.md",
    "techniques": [
     {
      "slug": "canonical-hashing",
@@ -8669,31 +8669,31 @@
     {
      "stack": "react",
      "technique": "signature-lifecycle",
-     "file": "knowledge/software-engineering/signed-artifacts/applications/react--signature-lifecycle.md",
+     "file": "knowledge/software-engineering/security/signed-artifacts/applications/react--signature-lifecycle.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "verification-ux",
-     "file": "knowledge/software-engineering/signed-artifacts/applications/react--verification-ux.md",
+     "file": "knowledge/software-engineering/security/signed-artifacts/applications/react--verification-ux.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "canonical-hashing",
-     "file": "knowledge/software-engineering/signed-artifacts/applications/rust--canonical-hashing.md",
+     "file": "knowledge/software-engineering/security/signed-artifacts/applications/rust--canonical-hashing.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "detached-signatures-and-key-identity",
-     "file": "knowledge/software-engineering/signed-artifacts/applications/rust--detached-signatures-and-key-identity.md",
+     "file": "knowledge/software-engineering/security/signed-artifacts/applications/rust--detached-signatures-and-key-identity.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "import-verification-flow",
-     "file": "knowledge/software-engineering/signed-artifacts/applications/rust--import-verification-flow.md",
+     "file": "knowledge/software-engineering/security/signed-artifacts/applications/rust--import-verification-flow.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8702,7 +8702,7 @@
    "category": "integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/sql-console/sql-console.md",
+   "file": "knowledge/software-engineering/integration/sql-console/sql-console.md",
    "techniques": [
     {
      "slug": "dialect-capability-declaration",
@@ -8765,19 +8765,19 @@
     {
      "stack": "react",
      "technique": "safe-mode-guarding",
-     "file": "knowledge/software-engineering/sql-console/applications/react--safe-mode-guarding.md",
+     "file": "knowledge/software-engineering/integration/sql-console/applications/react--safe-mode-guarding.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "introspection-architecture",
-     "file": "knowledge/software-engineering/sql-console/applications/rust--introspection-architecture.md",
+     "file": "knowledge/software-engineering/integration/sql-console/applications/rust--introspection-architecture.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "safe-mode-guarding",
-     "file": "knowledge/software-engineering/sql-console/applications/rust--safe-mode-guarding.md",
+     "file": "knowledge/software-engineering/integration/sql-console/applications/rust--safe-mode-guarding.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8786,7 +8786,7 @@
    "category": "ui-surfaces",
    "subcategory": "feedback-and-style",
    "status": "forged",
-   "file": "knowledge/software-engineering/status-vocabulary/status-vocabulary.md",
+   "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/status-vocabulary.md",
    "techniques": [
     {
      "slug": "number-formatting",
@@ -8846,25 +8846,25 @@
     {
      "stack": "react",
      "technique": "number-formatting",
-     "file": "knowledge/software-engineering/status-vocabulary/applications/react--number-formatting.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/react--number-formatting.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "status-color-mapping",
-     "file": "knowledge/software-engineering/status-vocabulary/applications/react--status-color-mapping.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/react--status-color-mapping.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "timestamp-display",
-     "file": "knowledge/software-engineering/status-vocabulary/applications/react--timestamp-display.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/react--timestamp-display.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "vocabulary-chain-integrity",
-     "file": "knowledge/software-engineering/status-vocabulary/applications/rust--vocabulary-chain-integrity.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/applications/rust--vocabulary-chain-integrity.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8873,7 +8873,7 @@
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
    "status": "forged",
-   "file": "knowledge/software-engineering/streaming-output/streaming-output.md",
+   "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/streaming-output.md",
    "techniques": [
     {
      "slug": "buffering-and-backpressure",
@@ -8930,13 +8930,13 @@
     {
      "stack": "react",
      "technique": "buffering-and-backpressure",
-     "file": "knowledge/software-engineering/streaming-output/applications/react--buffering-and-backpressure.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/applications/react--buffering-and-backpressure.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "stream-parsing",
-     "file": "knowledge/software-engineering/streaming-output/applications/rust--stream-parsing.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/applications/rust--stream-parsing.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -8945,7 +8945,7 @@
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
    "status": "forged",
-   "file": "knowledge/software-engineering/structured-output/structured-output.md",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -9033,13 +9033,13 @@
     {
      "stack": "rust",
      "technique": "artifact-lifecycle",
-     "file": "knowledge/software-engineering/structured-output/applications/rust--artifact-lifecycle.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/rust--artifact-lifecycle.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "op-grammar-allowlisting",
-     "file": "knowledge/software-engineering/structured-output/applications/rust--op-grammar-allowlisting.md",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/rust--op-grammar-allowlisting.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9048,7 +9048,7 @@
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
    "status": "forged",
-   "file": "knowledge/software-engineering/subprocess-lifecycle/subprocess-lifecycle.md",
+   "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
    "techniques": [
     {
      "slug": "concurrency-and-slots",
@@ -9114,13 +9114,13 @@
     {
      "stack": "rust",
      "technique": "concurrency-and-slots",
-     "file": "knowledge/software-engineering/subprocess-lifecycle/applications/rust--concurrency-and-slots.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--concurrency-and-slots.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "spawn-contract",
-     "file": "knowledge/software-engineering/subprocess-lifecycle/applications/rust--spawn-contract.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--spawn-contract.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9129,7 +9129,7 @@
    "category": "security",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/supply-chain/supply-chain.md",
+   "file": "knowledge/software-engineering/security/supply-chain/supply-chain.md",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -9192,19 +9192,19 @@
     {
      "stack": "node",
      "technique": "secret-scanning-architecture",
-     "file": "knowledge/software-engineering/supply-chain/applications/node--secret-scanning-architecture.md",
+     "file": "knowledge/software-engineering/security/supply-chain/applications/node--secret-scanning-architecture.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "process",
      "technique": "dependency-policy-gates",
-     "file": "knowledge/software-engineering/supply-chain/applications/process--dependency-policy-gates.md",
+     "file": "knowledge/software-engineering/security/supply-chain/applications/process--dependency-policy-gates.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "archive-extraction-safety",
-     "file": "knowledge/software-engineering/supply-chain/applications/rust--archive-extraction-safety.md",
+     "file": "knowledge/software-engineering/security/supply-chain/applications/rust--archive-extraction-safety.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9213,7 +9213,7 @@
    "category": "backend-platform",
    "subcategory": "data-layer",
    "status": "forged",
-   "file": "knowledge/software-engineering/sync-replication/sync-replication.md",
+   "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/sync-replication.md",
    "techniques": [
     {
      "slug": "change-tracking-and-cursors",
@@ -9276,13 +9276,13 @@
     {
      "stack": "rust",
      "technique": "change-tracking-and-cursors",
-     "file": "knowledge/software-engineering/sync-replication/applications/rust--change-tracking-and-cursors.md",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/rust--change-tracking-and-cursors.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "conflict-detection-and-policy",
-     "file": "knowledge/software-engineering/sync-replication/applications/rust--conflict-detection-and-policy.md",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/rust--conflict-detection-and-policy.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9291,7 +9291,7 @@
    "category": "ui-surfaces",
    "subcategory": "data-display",
    "status": "forged",
-   "file": "knowledge/software-engineering/table/table.md",
+   "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -9343,13 +9343,13 @@
     {
      "stack": "react",
      "technique": "client-server-split",
-     "file": "knowledge/software-engineering/table/applications/react--client-server-split.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--client-server-split.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "pagination",
-     "file": "knowledge/software-engineering/table/applications/rust--pagination.md",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/rust--pagination.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9358,7 +9358,7 @@
    "category": "integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/templates-scaffolding/templates-scaffolding.md",
+   "file": "knowledge/software-engineering/integration/templates-scaffolding/templates-scaffolding.md",
    "techniques": [
     {
      "slug": "adoption-lifecycle",
@@ -9425,13 +9425,13 @@
     {
      "stack": "react",
      "technique": "integrity-and-provenance",
-     "file": "knowledge/software-engineering/templates-scaffolding/applications/react--integrity-and-provenance.md",
+     "file": "knowledge/software-engineering/integration/templates-scaffolding/applications/react--integrity-and-provenance.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "readiness-prerequisites",
-     "file": "knowledge/software-engineering/templates-scaffolding/applications/react--readiness-prerequisites.md",
+     "file": "knowledge/software-engineering/integration/templates-scaffolding/applications/react--readiness-prerequisites.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9440,7 +9440,7 @@
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
    "status": "forged",
-   "file": "knowledge/software-engineering/terminal-multiplexing/terminal-multiplexing.md",
+   "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/terminal-multiplexing.md",
    "techniques": [
     {
      "slug": "attach-detach-lifecycle",
@@ -9499,13 +9499,13 @@
     {
      "stack": "react",
      "technique": "attach-detach-lifecycle",
-     "file": "knowledge/software-engineering/terminal-multiplexing/applications/react--attach-detach-lifecycle.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/react--attach-detach-lifecycle.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "pty-management",
-     "file": "knowledge/software-engineering/terminal-multiplexing/applications/rust--pty-management.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/rust--pty-management.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9514,7 +9514,7 @@
    "category": "engineering-process",
    "subcategory": "build-and-release",
    "status": "forged",
-   "file": "knowledge/software-engineering/test-harness/test-harness.md",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
    "techniques": [
     {
      "slug": "fixture-economics",
@@ -9579,13 +9579,13 @@
     {
      "stack": "node",
      "technique": "live-app-harness",
-     "file": "knowledge/software-engineering/test-harness/applications/node--live-app-harness.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--live-app-harness.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "fixture-economics",
-     "file": "knowledge/software-engineering/test-harness/applications/rust--fixture-economics.md",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--fixture-economics.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9594,7 +9594,7 @@
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
    "status": "forged",
-   "file": "knowledge/software-engineering/time-travel-replay/time-travel-replay.md",
+   "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/time-travel-replay.md",
    "techniques": [
     {
      "slug": "accrual-overlays",
@@ -9653,13 +9653,13 @@
     {
      "stack": "react",
      "technique": "timeline-derivation",
-     "file": "knowledge/software-engineering/time-travel-replay/applications/react--timeline-derivation.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--timeline-derivation.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "transport-and-time-mapping",
-     "file": "knowledge/software-engineering/time-travel-replay/applications/react--transport-and-time-mapping.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--transport-and-time-mapping.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9668,7 +9668,7 @@
    "category": "ui-surfaces",
    "subcategory": "feedback-and-style",
    "status": "forged",
-   "file": "knowledge/software-engineering/toasts-notifications/toasts-notifications.md",
+   "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
    "techniques": [
     {
      "slug": "actionable-toasts",
@@ -9726,13 +9726,13 @@
     {
      "stack": "react",
      "technique": "durable-notification-ledger",
-     "file": "knowledge/software-engineering/toasts-notifications/applications/react--durable-notification-ledger.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/applications/react--durable-notification-ledger.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "queue-discipline",
-     "file": "knowledge/software-engineering/toasts-notifications/applications/react--queue-discipline.md",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/applications/react--queue-discipline.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9741,7 +9741,7 @@
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
    "status": "forged",
-   "file": "knowledge/software-engineering/tracing/tracing.md",
+   "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/tracing/tracing.md",
    "techniques": [
     {
      "slug": "cross-boundary-propagation",
@@ -9801,13 +9801,13 @@
     {
      "stack": "react",
      "technique": "waterfall-rendering",
-     "file": "knowledge/software-engineering/tracing/applications/react--waterfall-rendering.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/tracing/applications/react--waterfall-rendering.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "trace-capture",
-     "file": "knowledge/software-engineering/tracing/applications/rust--trace-capture.md",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/tracing/applications/rust--trace-capture.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9816,7 +9816,7 @@
    "category": "operations",
    "subcategory": "service-operations",
    "status": "forged",
-   "file": "knowledge/software-engineering/triage-queues/triage-queues.md",
+   "file": "knowledge/software-engineering/operations/service-operations/triage-queues/triage-queues.md",
    "techniques": [
     {
      "slug": "bulk-triage",
@@ -9877,13 +9877,13 @@
     {
      "stack": "react",
      "technique": "focus-mode",
-     "file": "knowledge/software-engineering/triage-queues/applications/react--focus-mode.md",
+     "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/react--focus-mode.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "source-normalization",
-     "file": "knowledge/software-engineering/triage-queues/applications/react--source-normalization.md",
+     "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/react--source-normalization.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9892,7 +9892,7 @@
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
    "status": "forged",
-   "file": "knowledge/software-engineering/ui-controls/ui-controls.md",
+   "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/ui-controls.md",
    "techniques": [
     {
      "slug": "adoption-enforcement",
@@ -9940,19 +9940,19 @@
     {
      "stack": "react",
      "technique": "adoption-enforcement",
-     "file": "knowledge/software-engineering/ui-controls/applications/react--adoption-enforcement.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/applications/react--adoption-enforcement.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "control-inventory-and-discovery",
-     "file": "knowledge/software-engineering/ui-controls/applications/react--control-inventory-and-discovery.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/applications/react--control-inventory-and-discovery.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "micro-interaction-contracts",
-     "file": "knowledge/software-engineering/ui-controls/applications/react--micro-interaction-contracts.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/applications/react--micro-interaction-contracts.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -9961,7 +9961,7 @@
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
    "status": "forged",
-   "file": "knowledge/software-engineering/undo-history/undo-history.md",
+   "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/undo-history.md",
    "techniques": [
     {
      "slug": "checkpoint-restore",
@@ -10015,13 +10015,13 @@
     {
      "stack": "react",
      "technique": "gesture-coalescing",
-     "file": "knowledge/software-engineering/undo-history/applications/react--gesture-coalescing.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/applications/react--gesture-coalescing.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "checkpoint-restore",
-     "file": "knowledge/software-engineering/undo-history/applications/rust--checkpoint-restore.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/applications/rust--checkpoint-restore.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -10030,7 +10030,7 @@
    "category": "operations",
    "subcategory": "service-operations",
    "status": "forged",
-   "file": "knowledge/software-engineering/usage-analytics/usage-analytics.md",
+   "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/usage-analytics.md",
    "techniques": [
     {
      "slug": "activation-and-funnel-honesty",
@@ -10093,13 +10093,13 @@
     {
      "stack": "react",
      "technique": "batching-and-quota",
-     "file": "knowledge/software-engineering/usage-analytics/applications/react--batching-and-quota.md",
+     "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/react--batching-and-quota.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "coverage-from-registries",
-     "file": "knowledge/software-engineering/usage-analytics/applications/react--coverage-from-registries.md",
+     "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/react--coverage-from-registries.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -10108,7 +10108,7 @@
    "category": "operations",
    "subcategory": "governance-and-records",
    "status": "forged",
-   "file": "knowledge/software-engineering/versioning-snapshots/versioning-snapshots.md",
+   "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/versioning-snapshots.md",
    "techniques": [
     {
      "slug": "lineage-and-variants",
@@ -10169,13 +10169,13 @@
     {
      "stack": "rust",
      "technique": "promotion-lifecycle",
-     "file": "knowledge/software-engineering/versioning-snapshots/applications/rust--promotion-lifecycle.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/applications/rust--promotion-lifecycle.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "snapshot-scope",
-     "file": "knowledge/software-engineering/versioning-snapshots/applications/rust--snapshot-scope.md",
+     "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/applications/rust--snapshot-scope.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -10184,7 +10184,7 @@
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
    "status": "forged",
-   "file": "knowledge/software-engineering/voice-io/voice-io.md",
+   "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
    "techniques": [
     {
      "slug": "engine-abstraction",
@@ -10247,13 +10247,13 @@
     {
      "stack": "react",
      "technique": "stt-pipeline",
-     "file": "knowledge/software-engineering/voice-io/applications/react--stt-pipeline.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/react--stt-pipeline.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "engine-abstraction",
-     "file": "knowledge/software-engineering/voice-io/applications/rust--engine-abstraction.md",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--engine-abstraction.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -10262,7 +10262,7 @@
    "category": "integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/software-engineering/web-scraping/web-scraping.md",
+   "file": "knowledge/software-engineering/integration/web-scraping/web-scraping.md",
    "techniques": [
     {
      "slug": "dedup-and-datasets",
@@ -10326,19 +10326,19 @@
     {
      "stack": "react",
      "technique": "dry-run-preview",
-     "file": "knowledge/software-engineering/web-scraping/applications/react--dry-run-preview.md",
+     "file": "knowledge/software-engineering/integration/web-scraping/applications/react--dry-run-preview.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "react",
      "technique": "extraction-rule-dsl",
-     "file": "knowledge/software-engineering/web-scraping/applications/react--extraction-rule-dsl.md",
+     "file": "knowledge/software-engineering/integration/web-scraping/applications/react--extraction-rule-dsl.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "dedup-and-datasets",
-     "file": "knowledge/software-engineering/web-scraping/applications/rust--dedup-and-datasets.md",
+     "file": "knowledge/software-engineering/integration/web-scraping/applications/rust--dedup-and-datasets.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -10347,7 +10347,7 @@
    "category": "backend-platform",
    "subcategory": "resilience",
    "status": "forged",
-   "file": "knowledge/software-engineering/webhook-ingestion/webhook-ingestion.md",
+   "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/webhook-ingestion.md",
    "techniques": [
     {
      "slug": "delivery-logging-and-replay",
@@ -10411,13 +10411,13 @@
     {
      "stack": "rust",
      "technique": "delivery-logging-and-replay",
-     "file": "knowledge/software-engineering/webhook-ingestion/applications/rust--delivery-logging-and-replay.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/applications/rust--delivery-logging-and-replay.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "sender-authentication",
-     "file": "knowledge/software-engineering/webhook-ingestion/applications/rust--sender-authentication.md",
+     "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/applications/rust--sender-authentication.md",
      "verified_on": "2026-08-18"
     }
    ]
@@ -10426,7 +10426,7 @@
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
    "status": "forged",
-   "file": "knowledge/software-engineering/wizard-flows/wizard-flows.md",
+   "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/wizard-flows/wizard-flows.md",
    "techniques": [
     {
      "slug": "ai-driven-elicitation",
@@ -10491,13 +10491,13 @@
     {
      "stack": "react",
      "technique": "step-state-model",
-     "file": "knowledge/software-engineering/wizard-flows/applications/react--step-state-model.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/wizard-flows/applications/react--step-state-model.md",
      "verified_on": "2026-08-18"
     },
     {
      "stack": "rust",
      "technique": "snapshot-and-resume",
-     "file": "knowledge/software-engineering/wizard-flows/applications/rust--snapshot-and-resume.md",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/wizard-flows/applications/rust--snapshot-and-resume.md",
      "verified_on": "2026-08-18"
     }
    ]
