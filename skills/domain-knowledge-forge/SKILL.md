@@ -3,7 +3,7 @@ name: domain-knowledge-forge
 description: "Extract a repository's domain knowledge into a four-layer RKB bundle in this registry: scout every context, design subjects with the operator's split doctrine, then forge each subject two-phase (expert draft + web hardening before repo reconciliation) with a bounded agent pool. Use when a new domain repo should populate the knowledge lane."
 category: ai-native
 memory: project
-version: 1.0.0
+version: 1.0.1
 tags: knowledge, rkb, extraction, orchestration, bundles
 ---
 

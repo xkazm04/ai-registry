@@ -26,7 +26,9 @@ lanes:
   skills:
     path: skills/
     holds: Agent skills — one directory per skill, SKILL.md plus an append-only LESSONS.md.
+    spec: docs/skills-lane.md
     format: SKILL.md frontmatter (name, description, category, memory, version, tags)
+    gate: scripts/check-skills.mjs
     note: Personas' skill library migrates into this lane; see the migration plan in the
       consuming repo. Until then the content here is Ascent's worked example.
   practices:

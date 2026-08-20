@@ -8,7 +8,7 @@ The repository carries five lanes, declared in [`registry.yaml`](registry.yaml):
 | Lane | Holds | Status |
 | --- | --- | --- |
 | [`knowledge/`](knowledge/README.md) | **Reference Knowledge Bundles** - four-layer domain knowledge (Golden Path → Technique → Application → Evidence), one bundle per domain. | Real content. Gated by CI. |
-| `skills/` | Agent skills, one directory per skill. | Worked example; a real library migrates in later. |
+| [`skills/`](docs/skills-lane.md) | Agent skills, one directory per skill. | Worked example; a real library migrates in later. Gated by CI. |
 | `practices/` | Repo-level habits plus the starter artifacts they drop. | Worked example. |
 | `memory/` | Organizational memory notes, one fact per file. | Worked example. |
 | [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. Empty until an installation reports. |
@@ -39,8 +39,10 @@ registry.yaml             # what this repository IS: its lanes, their specs and 
 CODEOWNERS                # who merges = who adopts
 catalog.json              # GENERATED index: bundles, skill versions, hashes, adopters, counts
 docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
+docs/skills-lane.md       # the skills lane's format spec + the version-discipline rule
 docs/usage-lane.md        # the usage lane's format spec + what may never go in it
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
+scripts/check-skills.mjs  # the skills lane's gate: shape + the version-bump rule
 scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only privacy rule
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json (--check in CI)
@@ -95,8 +97,8 @@ the reason above, and says so in its own `meta.excludes`. Regenerate with
 | [`ci-gate-check`](skills/ci-gate-check/SKILL.md) | `ci-cd` | 1.3.0 | Run the checks CI enforces, before you push. |
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
 | [`agent-guidance-bootstrap`](skills/agent-guidance-bootstrap/SKILL.md) | `ai-native` | 0.4.0 | Write or refresh a repo's `AGENTS.md` from evidence. |
-| [`domain-knowledge-forge`](skills/domain-knowledge-forge/SKILL.md) | `ai-native` | 1.0.0 | Extract a repository's domain knowledge into a four-layer RKB bundle, with a bounded agent pool. Carries [`LESSONS.md`](skills/domain-knowledge-forge/LESSONS.md). |
-| [`deepen`](skills/deepen/SKILL.md) | `ai-native` | 1.0.0 | Review and widen an existing bundle topic via research lanes, batch workers, or a saturation-ledger loop. Carries [`LESSONS.md`](skills/deepen/LESSONS.md). |
+| [`domain-knowledge-forge`](skills/domain-knowledge-forge/SKILL.md) | `ai-native` | 1.0.1 | Extract a repository's domain knowledge into a four-layer RKB bundle, with a bounded agent pool. Carries [`LESSONS.md`](skills/domain-knowledge-forge/LESSONS.md). |
+| [`deepen`](skills/deepen/SKILL.md) | `ai-native` | 1.0.1 | Review and widen an existing bundle topic via research lanes, batch workers, or a saturation-ledger loop. Carries [`LESSONS.md`](skills/deepen/LESSONS.md). |
 
 `category` comes from a closed set: `ci-cd`, `testing`, `security`, `ai-native`, `docs`,
 `workflow`, `other`. Anything else is normalized to `other` at index time. `name` is a kebab-case
@@ -156,8 +158,12 @@ Repos with no pointer fall back to the organization's canonical registry
    decision.
 4. The indexer picks up the merge and rewrites `catalog.json`; the next sync anywhere sees it.
 
-Version discipline: **versions are the comparison currency, hashes only detect drift.** Bump the
-version whenever behaviour changes; leave it alone for a typo fix.
+Version discipline: **versions are the comparison currency, hashes only detect drift.** Bump
+minor or major when behaviour changes, patch when it does not — but bump. A checker cannot
+tell a typo from a behaviour change, so `scripts/check-skills.mjs --since <ref>` asks for the
+cheapest honest signal on every pull request that edits a skill, and rejects a version that
+moves backwards. Appending to `LESSONS.md` needs no bump: a lesson records a run *against* a
+version. Full rule in [`docs/skills-lane.md`](docs/skills-lane.md).
 
 ## Intentional version drift (for testing)
 
@@ -178,8 +184,11 @@ prefixes of the files at seed time.
 lane and reads `0` until an installation contributes counts. A zero with an empty
 `usageContributors` means nobody is reporting on that skill - not that nobody runs it.
 
-To exercise `diverged` as well, edit any skill's body without bumping its `version`: the hash
-moves, the version does not.
+To exercise `diverged` as well, edit any skill's body without bumping its `version` **in your
+working tree**: the hash moves, the version does not. Keep it local — that state is a consumer
+test fixture, not a thing to merge, and `scripts/check-skills.mjs --since <ref>` rejects it on
+any pull request. That is the point: `diverged` should be reachable on a developer's machine
+and unreachable on `main`.
 
 ## Conventions
 
