@@ -30,3 +30,15 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   pre-staged in the registry's index during the first commit (isolated read-tree-HEAD
   index kept it untouched), and the follow-up ran in a git worktree from the start —
   strictly simpler. Default to the worktree.
+
+## 1.0.0 - 2026-08-20 - llm-observability (LightTrack)
+
+- When the new domain neighbors an existing bundle (five colliding subjects with
+  the builder-side llm-agent category), the fix that held was structural: a
+  boundary contract in the bundle's index.md plus every golden path naming its
+  neighbor subject in prose. Zero duplication across 16 subjects; adopt as
+  standing doctrine for any adjacent-domain forge.
+- The deepen skill's demand matrix falsified one of this forge's consolidation
+  calls within hours (a folded-out subject was a live-demand coverage hole).
+  Lesson for Phase 1: when folding a scout candidate out, record it as a lead
+  with its demand evidence — consolidation is a hypothesis, not a verdict.
