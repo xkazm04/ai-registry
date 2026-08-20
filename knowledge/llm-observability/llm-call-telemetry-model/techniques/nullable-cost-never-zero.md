@@ -56,7 +56,12 @@ is the operator's own arithmetic over audited prices; client-reported spend
 is an assertion. Downstream consumers use it accordingly — a limit
 evaluation reports the client-reported *share* of the spend it is enforcing
 on, so an operator can see when a cap is resting on self-reported numbers
-rather than discovering it during an invoice dispute.
+rather than discovering it during an invoice dispute. Where traffic arrives
+through a metering gateway that itself returns a computed cost in the
+response, that origin deserves its own provenance value rather than riding
+as `client`: it is the biller's own arithmetic — stronger than a caller's
+claim, weaker than the operator's book, and a reader deciding how much to
+trust a total needs the three grades kept apart.
 
 ## Decision rules
 

@@ -65,7 +65,11 @@ output) and two optional ones (cached input, reasoning) whose absence and
 zero mean different things — the [token-usage-quadruple](techniques/token-usage-quadruple.md)
 technique. Collapsing these to a total destroys pricing: the four classes
 bill at different rates, and a record that stored only a sum can never be
-re-priced or reconciled.
+re-priced or reconciled. The optional class list is provider-driven and
+still growing — cache *writes* billed at a premium tiered by cache lifetime
+are the proven next class — so the durable invariant is not the count four
+but the rule behind it: every class the provider prices distinctly is
+stored distinct.
 
 **Time, twice.** The client's event time and the server's receipt time are
 two fields with two owners and two jobs, never one field doing both —

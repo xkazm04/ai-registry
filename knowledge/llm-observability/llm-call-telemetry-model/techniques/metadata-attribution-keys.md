@@ -73,6 +73,14 @@ three rules hold:
   payload to write your stamp is a worse corruption than carrying an
   unstamped row. Null metadata, by contrast, is upgraded to an object when
   the server has something to stamp.
+- **The pricing lane has a better witness than the request.** Providers
+  increasingly echo the tier they *actually served* in the response itself,
+  and discounted lanes can fall back to the standard lane under load — so a
+  requested lane is a claim of intent while the served lane is what the
+  invoice prices. When the emitter captured the served tier, stamp it over
+  the client-sent `pricing_mode`; when only the request side is known, the
+  key stays a client claim like any other, and a reconciliation gap on
+  fallback-prone lanes is the expected symptom.
 - **Rows predating a key carry no value and fall into the unattributed
   bucket** — never backfill a guessed attribution; a wrong billing linkage
   is worse than a disclosed gap.
