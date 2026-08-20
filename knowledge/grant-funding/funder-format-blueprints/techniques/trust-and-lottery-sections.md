@@ -68,6 +68,13 @@ prose.
   apparatus over-answers the form.
 - **Name the change their grant buys.** Where the grant is a fraction of a
   budget, attribute honestly — trustees fund differences, not deficits.
+- **Mirror the funder's published priorities.** The large community
+  distributors increasingly name explicit funding priorities and missions
+  — who the money must reach, what change it must serve — and assess fit
+  against them before the case itself is read, on forms that keep getting
+  shorter. Where priorities are published, say plainly which one the work
+  serves and how; a strong generic case that never touches them reads as
+  misaddressed.
 - **Portal wins over instinct.** Where a specific community-fund portal
   publishes its own question set, follow it verbatim, even where it
   deviates from this family shape.

@@ -58,6 +58,12 @@ glance.
   writing anything; if the notice weights a dimension at N points and
   lists three sub-questions, the section answers all three, in order, in
   the notice's own vocabulary.
+- **A simplified notice still scores by rubric.** National grantmakers
+  have been shortening notices and rewriting them in plain language —
+  fewer requested elements, less legalese — without changing panel review
+  itself. Read a thinner criteria section with the same discipline: terser
+  sub-criteria still reappear on the score sheet, and a plainer notice
+  never licenses a looser narrative.
 - **Allocate length by points.** A dimension worth a quarter of the score
   does not get a tenth of the words. Word bands per section keep the
   allocation honest at both drafting and review time.
