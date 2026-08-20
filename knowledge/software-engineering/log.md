@@ -75,6 +75,25 @@ techniques forged in the founding run predate the brief clause that requires it.
 backfilled here. A backfill is a mechanical pass over 632 files and should be its own
 change, not a rider on this one.
 
+**The apply pass falsified a promoted upward lesson, within the same session.**
+`agent-memory` took "usage is a veto on forgetting" from the source repo as an upward
+lesson and promoted it to the golden path, a technique and an application — it reads
+as an elegant emergent property (the store declines to forget what is still in
+demand). Landing the bundle's own rules back into that repo proved it was the defect:
+the term counted *deliveries*, not uses, and was unbounded while the retirement sweep
+scored with the same function — so rank caused delivery, delivery raised rank, and a
+stale low-trust row financed its own survival forever with the janitor as the
+mechanism. The repo capped the bonus so the floor stays reachable; all three documents
+were corrected to match, and the application now records the defect and its fix rather
+than quoting the claim approvingly.
+
+Doctrine for the next run: **an upward lesson stated as an emergent property deserves
+more suspicion than one stated as a rule.** "Nobody has to implement it, it falls out
+of the arithmetic" is exactly the shape of a feedback loop nobody bounded. Ask what
+the loop's input is, and whether the loop terminates. Same failure family as the
+llm-observability run, one step earlier: there a consolidation call was falsified in
+hours; here a promoted lesson was.
+
 **Wave hazard, recorded for the next run.** A session limit killed 7 deepeners
 mid-write. Five had already integrated (frontmatter + prose + applications) and were
 complete; two left orphan technique files the gate caught immediately ("exists but

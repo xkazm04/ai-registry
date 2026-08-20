@@ -86,10 +86,27 @@ memory, and letting decay touch it would quietly erase the org's history"),
 and `DECAY_EXEMPT_KINDS = ["procedural"]` ("the most expensive to lose…
 exempt from automatic forgetting, full stop").
 
-The header then draws the implication the standard now carries verbatim:
-"conditions 1+3 imply together: an old, low-confidence memory that is still
-RECALLED often keeps a score above the floor via the usage term, and survives.
-**Usage is a veto on forgetting.**"
+The header then drew an implication that read as a feature and was in fact the
+defect: "conditions 1+3 imply together: an old, low-confidence memory that is
+still RECALLED often keeps a score above the floor via the usage term, and
+survives. **Usage is a veto on forgetting.**"
+
+**Corrected in this codebase after the standard was written, and the standard
+moved with it.** Two errors, one enabling the other. The term counted
+*deliveries* — rows packed into a recall result — while being named for proven
+usefulness; nothing in this system flows back from the agent to say a delivered
+memory was read, cited or used. And because it was unbounded while the decay
+sweep scored with the same function, the veto was literal: rank high, get
+delivered, rank higher, never be archived. A stale low-trust row could finance
+its own survival forever, and the janitor was the mechanism.
+
+The fix caps the bonus at x2 (`MAX_DELIVERY_BONUS`, reached near 54
+deliveries), which makes the floor reachable again — a confidence-0.3 row is
+archived after two half-lives whatever its count — and renames the term for
+what it measures, recording the two honest ways to close the gap (an
+evidence-bearing counter fed by an act that proves use, or nothing). A test
+pins archival at an absurd delivery count. `sparedBy` and the blast radius are
+unchanged; the conjunction was never the problem.
 
 Forgetting is `archived = true`, never a delete (`:4-7`), and
 `DECAY_MAX_PER_PASS = 50` (`:37-38`) is the declared blast radius — "a bad

@@ -147,12 +147,26 @@ with nothing in either component looking wrong when read alone.
 
 The standard is one shared, explicitly-argued value model
 (memory-value-model), imported by the read path and by the janitor. Its axes —
-trust, per-kind age decay, and a sub-linear bonus for proven usefulness —
+trust, per-kind age decay, and a sub-linear bonus for repeated retrieval —
 compose so that no single property can order the store alone, and its
-consequences reach further than ranking. Because the decay term and the usage
-term are in the same product, a modestly trusted, old item that is *still
-being recalled* keeps its score above any retirement floor: **usage becomes a
-veto on forgetting**, not by a special case, but by arithmetic.
+consequences reach further than ranking.
+
+Name the third axis for what it counts. Unless something flows back from the
+consumer, it counts *deliveries*: an item packed into fifty contexts and
+ignored scores exactly like one that answered fifty questions. Calling it
+proven usefulness is the first error, because it licenses the second — leaving
+the term unbounded. Delivery is caused by rank, and rank is caused by score,
+so an unbounded term feeds its own input; and because the retirement sweep
+scores with the same model, that loop is an unbounded stay of execution. A
+stale, barely-trusted item that happens to keep matching queries then holds
+itself above the floor forever, for free, and the store's own janitor is what
+keeps it alive.
+
+So bound the retrieval bonus, and pick the bound so the arithmetic terminates:
+a low-trust item must fall under the floor after a stated number of half-lives
+*regardless* of how often it was delivered. Retrieval then buys a bounded
+reprieve rather than a veto — enough to outrank an ordinary trust gap, which
+is why the term exists, and never enough to make forgetting unreachable.
 
 ## The store's third failure: accretion
 

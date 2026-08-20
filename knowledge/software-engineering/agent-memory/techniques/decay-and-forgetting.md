@@ -83,11 +83,24 @@ intersection is small, conservative, and explainable per item ("this one was
 spared by its confidence"). Recording *which clause spared an item* turns the
 sweep's output into an audit line instead of a count.
 
-Second, clauses 1 and 3 together produce a property nobody has to implement:
-an old, low-confidence item that is **still being recalled** keeps its score
-above the floor through the usage term, and survives. **Usage is a veto on
-forgetting** — arithmetic, not a special case, which is why it cannot be
-forgotten when the policy is next edited.
+Second, clauses 1 and 3 interact with the value model's retrieval term, and
+this is the place implementations get wrong in a way that is invisible until
+the store is old. An old, low-trust item that is still being retrieved keeps
+its score up through that term and survives the sweep. Read quickly that looks
+like a feature — the store declining to forget something still in demand.
+
+It is only a feature if the term is bounded. Retrieval is caused by rank and
+rank is caused by score, so the term feeds its own input; sharing the model
+with the sweep closes the loop. Unbounded, an item can finance its own
+survival indefinitely by being retrieved, and the sweep that exists to retire
+it is what confirms it. Worse, the term almost never measures usefulness — it
+measures delivery — so what is being protected is not "still valuable" but
+"still matching queries".
+
+Require of the value model that the retirement floor stay reachable: state the
+number of half-lives after which a low-trust item is archived *whatever* its
+retrieval count, and pin it with a test at an absurd count. Retrieval buys a
+bounded reprieve, never a veto.
 
 ## A pass has a blast radius, and it is declared
 
