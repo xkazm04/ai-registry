@@ -20,6 +20,7 @@
     "judge-contract-design": "quality-scoring",
     "judge-calibration-and-drift": "quality-scoring",
     "quality-regression-gating": "quality-scoring",
+    "cross-provider-benchmark-operations": "quality-scoring",
     "federated-benchmark-sharing": "federation-and-surfaces",
     "operator-surfaces-for-llm-spend": "federation-and-surfaces"
   }
