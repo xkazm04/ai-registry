@@ -77,6 +77,16 @@ boundary unforgeable.
 - **Never neutralize silently.** An invisible rewrite destroys evidence
   and hides the attempt from both the judge and the human auditing the
   stored prompt. The escape tag is deliberately visible to both.
+- **Read a quiet flag as "no boundary forgery", never as "clean input."**
+  The fence closes exactly one attack class: forging, escaping, or
+  imitating the boundary. A payload built to persuade from *inside* its
+  block — natural-sounding text that flatters, instructs, or dictates a
+  verdict without ever touching a marker shape — passes the fence
+  untouched and unflagged, and published measurements of judge attacks
+  show that in-band class succeeding at high rates against structurally
+  fenced prompts. Fencing is the floor of judge hardening, not its
+  ceiling; catching in-band persuasion belongs to hostile fixtures in the
+  calibration discipline and to anomaly review over verdicts.
 
 ## When not to use it
 

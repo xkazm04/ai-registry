@@ -120,7 +120,11 @@ boundary is neutralized visibly rather than passed through; and the fact
 that something tried rides the verdict as an injection-suspected flag, so a
 run report can say "this case tried to talk to the judge." Isolation
 without the flag hides an attack that deserves to be an alert; the flag
-without isolation is an alarm on an open door.
+without isolation is an alarm on an open door. And the fence's writ runs
+only to the boundary: a payload that persuades from inside its block,
+imitating no marker, passes unflagged — fencing is the floor of judge
+hardening, and its complement is the neighboring calibration discipline's
+hostile fixtures.
 
 The remaining hostility is the judge's own psychology. Model judges carry
 measured, replicated biases: they reward length, they prefer the first (or

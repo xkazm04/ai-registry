@@ -61,6 +61,15 @@ disagreement instead of hiding as a constant:
   effect then shows up as cross-sample disagreement — which the contract
   already measures — instead of biasing every sample identically in a way
   no agreement number can see.
+- **Verbosity: record length beside the score.** The anti-verbosity
+  clause alone is measurably gameable — published benchmark work has
+  shown an instruction-only judge's preference swinging by tens of points
+  when only the candidate's verbosity changes. The structural pair is to
+  stamp each candidate's length on the verdict and read scores
+  length-conditioned — trend score against length, or report a
+  length-adjusted preference beside the raw one — so residual length bias
+  surfaces as a measured coefficient instead of a hope that the clause
+  worked.
 - **Anchors are themselves a counterbalance:** a dimension anchored to
   observable properties gives verbosity nothing to attach to; holistic
   scores are where length bias does its damage.
