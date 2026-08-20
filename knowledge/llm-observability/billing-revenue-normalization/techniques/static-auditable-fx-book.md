@@ -86,8 +86,15 @@ Businesses where FX movement is itself material — high-volume multi-currency
 revenue where a stale rate shifts reported margin by whole points — need
 dated rate *tables* (a rate per currency per period, still static and
 versioned, applied by record date) rather than a single current snapshot;
-that is more book, not a feed. And treasury operations that actually move
-money across currencies need real market rates and belong to a different
-discipline entirely. This technique prices *reporting*, and its ceiling is
-honest: the book's own verification date tells you exactly how approximate
-you are.
+that is more book, not a feed. Formal financial-reporting frameworks point
+the same direction: foreign-currency accounting standards require
+transaction-date rates (or a period-average expedient) — a rate *per date*,
+which a dated table satisfies and a single current snapshot does not. So be
+precise about what this technique prices: **operational and management
+reporting** — unit economics, margin, pricing decisions — not the statutory
+books; a business whose auditors apply those standards runs a dated table
+there, and this snapshot remains the right instrument for the margin
+surface beside it. And treasury operations that actually move money across
+currencies need real market rates and belong to a different discipline
+entirely. The ceiling is honest either way: the book's own verification
+date tells you exactly how approximate you are.

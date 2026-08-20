@@ -47,6 +47,17 @@ absorbs; ack-then-crash-before-persist loses revenue permanently, because the
 provider marked the delivery done and will never send it again. When in
 doubt, fail the delivery; retry is the safe direction.
 
+High-volume receivers vary the mechanics without breaking the invariant:
+where the provider's delivery timeout is tighter than normalization can
+run, verify the signature, **durably persist the raw delivery** (a queue
+with acknowledged writes, an inbox table in the same database), and
+acknowledge on that commit — the queue consumer then owns the
+normalize-and-upsert transaction with the same all-or-roll-back
+discipline. The invariant was never "normalize before acknowledging"; it
+is **acknowledge only what is durably persisted**, and a durable raw copy
+satisfies it because your own replay from the inbox replaces the
+provider's retry. Acknowledging on an in-memory enqueue satisfies nothing.
+
 ## Decision rules
 
 - **Update every business field in the conflict arm**, not a subset. A

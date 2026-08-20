@@ -50,8 +50,22 @@ earns its place:
   signed timestamp and your clock, absolute-valued in both directions. Wide
   enough for provider queue delay and modest clock drift; narrow enough that
   a captured delivery goes stale fast. Five minutes is the widely used
-  default; treat widening it as a security decision, not a convenience fix
-  for a machine whose clock is wrong.
+  default (and the tolerance the emerging cross-provider webhook
+  specification recommends); treat widening it as a security decision, not a
+  convenience fix for a machine whose clock is wrong.
+
+Be honest about what the tolerance is: a *staleness* bound, not replay
+prevention. Inside the window, a captured delivery replays with a valid
+signature — the signature authenticates the sender; it never deduplicates.
+What defuses within-window replay is downstream identity discipline: the
+deterministic id plus idempotent upsert make a replayed delivery a no-op on
+the ledger, and receivers that need delivery-level dedup keep a short-lived
+seen-set of delivery ids spanning at least the tolerance window. A design
+that presents the timestamp bound as its replay defense is over-claiming;
+the bound only shortens the attacker's shelf life. Note also that the
+cross-provider specification signs the **delivery id together with the
+timestamp and body** — binding the dedup handle into the MAC so a replayer
+cannot re-label a captured payload as a fresh delivery.
 
 Take the current time as an explicit input to verification rather than
 reading the clock inside it — the replay bound is then testable with fixed
@@ -73,8 +87,13 @@ timestamps instead of being a flake generator.
   non-error decision.
 - **Secrets are per-endpoint and rotatable.** During rotation, verify against
   the incumbent and the candidate secret and accept either; remove the old
-  one on a schedule. A design that can only hold one secret forces a
-  drop-deliveries window on every rotation.
+  one on a schedule. Size the overlap to the **provider's retry horizon**,
+  not to convenience: deliveries signed under the incumbent secret keep
+  arriving as retries for as long as the provider's backoff schedule runs
+  (commonly one to three days), and an overlap shorter than that horizon
+  silently fails exactly the deliveries that were already having trouble. A
+  design that can only hold one secret forces a drop-deliveries window on
+  every rotation.
 
 ## When not to use it
 

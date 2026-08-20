@@ -51,6 +51,18 @@ than a dedup job by mitigation. Systems that key on delivery ids run a
 reconciliation script forever; systems that key on business identity never
 need one.
 
+The delivery stream is also **unordered by contract** — providers disclaim
+event ordering outright, and retry backoff makes inversions routine: a
+refund's event can arrive before the charge's, an invoice's correction
+before its creation. Normalization therefore never assumes sequence. Each
+event must be processable self-contained from its own payload; a derived
+record (a refund keyed under its charge) must not require the parent row to
+already exist; and where the correct record genuinely depends on current
+object state rather than one event's snapshot, fetch that state from the
+provider's API instead of trusting arrival order to have delivered it.
+Deterministic identity is again what makes this safe: whichever order the
+facts land in, each converges on its own row.
+
 ## The signature is the auth — and authenticity is not relevance
 
 The webhook endpoint is reachable from the open internet and writes to your
