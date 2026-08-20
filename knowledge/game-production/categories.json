@@ -1,0 +1,60 @@
+{
+  "$comment": "Subject -> category for graph consumers. Order IS the display sequence. Seeded 2026-08-20 from a 38-context extraction of one AI-assisted game-production codebase. One bundle on purpose: every category shares the `game` purity denylist (engine / DCC tool / generative model product names), so knowledge/README.md's split test is not met. Categories keep the seam visible until one earns it.",
+  "categories": [
+    { "id": "systems-canon", "title": "Systems canon", "order": 1 },
+    { "id": "balance-validation", "title": "Balance validation", "order": 2 },
+    { "id": "content-pipeline", "title": "Content pipeline", "order": 3 },
+    { "id": "asset-production", "title": "Generative asset production", "order": 4 },
+    { "id": "engine-integration", "title": "Engine integration", "order": 5 },
+    { "id": "craft-judgment", "title": "Machine craft judgment", "order": 6 },
+    { "id": "production-governance", "title": "Production governance", "order": 7 }
+  ],
+  "subjects": {
+    "arpg-systems-canon": "systems-canon",
+    "design-canon-as-executable-law": "systems-canon",
+    "realtime-combat-semantics": "systems-canon",
+    "game-economy-tuning": "systems-canon",
+
+    "encounter-balance-simulation": "balance-validation",
+    "combat-pacing-and-dramatic-arc": "balance-validation",
+    "procedural-level-planning": "balance-validation",
+
+    "catalog-pipeline-authoring": "content-pipeline",
+    "content-acceptance-tiering": "content-pipeline",
+    "acceptance-verdict-spine": "content-pipeline",
+    "wiring-contract-doctrine": "content-pipeline",
+    "generative-artifact-gating": "content-pipeline",
+    "content-drift-and-revision": "content-pipeline",
+
+    "asset-class-poly-budgeting": "asset-production",
+    "generated-mesh-acceptance": "asset-production",
+    "generated-asset-world-scale": "asset-production",
+    "mesh-finishing-for-engine-readiness": "asset-production",
+    "regeneration-vs-repair-economics": "asset-production",
+    "image-to-3d-input-gating": "asset-production",
+    "tiling-texture-acceptance": "asset-production",
+    "shader-budget-authoring": "asset-production",
+    "spatial-audio-scene-authoring": "asset-production",
+    "motion-quality-gating": "asset-production",
+
+    "engine-integration-safety": "engine-integration",
+    "runtime-observation-evidence": "engine-integration",
+    "ship-pipeline-gating": "engine-integration",
+    "crash-forensics-attribution": "engine-integration",
+    "visual-script-to-code-transpilation": "engine-integration",
+    "engine-pitfall-corpus": "engine-integration",
+
+    "aaa-craft-rubric-authoring": "craft-judgment",
+    "quality-verdict-integrity": "craft-judgment",
+    "subsystem-review-doctrine": "craft-judgment",
+    "unattended-build-loop": "craft-judgment",
+    "design-doc-compliance-scoring": "craft-judgment",
+
+    "production-coverage-measurement": "production-governance",
+    "production-work-prioritization": "production-governance",
+    "production-prompt-architecture": "production-governance",
+    "prompt-fitness-and-evolution": "production-governance",
+    "ability-authoring-to-engine": "production-governance",
+    "generative-provider-auditing": "production-governance"
+  }
+}
