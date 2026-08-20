@@ -10,6 +10,7 @@ techniques:
   - hook-shape-selection
   - image-led-vs-narration-led
   - one-anchor-per-clip
+  - sound-off-first-design
 ---
 
 # Platform format adaptation
@@ -38,11 +39,26 @@ template says so out loud and refuses to invent one. Unmeasured is not pass.
 
 The physics worth knowing for the dominant short container today: vertical
 short-form platforms standardize on a **9:16 frame** (a tall canvas around
-1080×1920), platform UI occludes roughly the **top and bottom sixth** of the frame
-— so load-bearing text and faces live in the middle band — and although platform
-ceilings for "a short" range from ninety seconds to several minutes, the work that
-actually succeeds in the format clusters far below the ceiling. The ceiling is a
-policy fact; the band is a craft fact; only the band belongs in a template.
+1080×1920). Platform UI occludes three regions, not two: a strip along the top, a
+deeper block along the bottom (caption and interaction chrome), and a **column of
+controls down the right edge** — so load-bearing text and faces live in a centered
+middle band, and the practical cross-platform safe area is meaningfully smaller
+than the canvas. Platform ceilings for "a short" have meanwhile drifted upward by
+an order of magnitude — from around a minute to several minutes, and to tens of
+minutes on some platforms — while the work that actually succeeds in the format
+still clusters in the tens of seconds. The ceiling is a policy fact; the band is a
+craft fact; only the band belongs in a template — and the widening gap between
+them makes conflating the two more expensive every year, because both drift, on
+different clocks, for different reasons: record each with its own date.
+
+Duration now has a second force on it besides retention: **monetization
+thresholds**. Platforms attach revenue eligibility to minimum durations and
+distribution penalties to maximums, and those lines rarely coincide with the
+measured engagement band — a clip stretched past a revenue threshold can earn
+eligibility while bleeding completion. A template records the monetization lines
+the way it records the ceiling: as dated policy facts in their own fields, never
+silently folded into the band. Whether to author for the band or for the
+threshold is a per-piece business decision the template must expose, not resolve.
 
 ## Retention is decided in the first seconds, and the curve has shapes
 
@@ -113,6 +129,21 @@ argument the visuals carry — and the script stage, which cannot yet know the
 final visual density, must emit its word budget as a **range** and hand the
 declared mode downstream rather than committing to a number it cannot defend
 (image-led-vs-narration-led).
+
+## The default viewer is silent
+
+The feed's default viewing condition is **sound off** — across published
+measurements a large majority of short-form viewing starts muted, with the sound
+turned on only after the clip has already earned attention. So audio is an
+enhancement layer, not the delivery layer: the hook must land as *read* text in
+the safe band at second zero, captions are a designed, load-bearing text surface
+rather than an accessibility afterthought, and any beat whose argument lives only
+in the narration is a beat most viewers never receive. Because captions are text a
+viewer checks word-for-word, they are drawn deterministically and composited —
+never left to a generative model's typography. The image-led/narration-led sound-off
+test ("could a viewer with the sound off follow the argument?") is the same
+physics read from the other side: here it is not a diagnostic but the design
+starting point (sound-off-first-design).
 
 ## The failure modes of the naive reading
 

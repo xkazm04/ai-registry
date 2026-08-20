@@ -22,10 +22,17 @@ paper over.
 
 - **Container physics** — aspect ratio, canvas, the UI-occluded margins where
   no load-bearing element may sit. These are platform facts; record them with a
-  date, because they drift.
+  date, because they drift — and ceilings drift fastest: permitted maxima have
+  moved by an order of magnitude within a couple of years while measured
+  performing bands barely moved, so a template that dated only one of them
+  would silently age the other.
 - **Duration band** — the measured range where successful work in the format
   actually sits, distinct from the platform's permitted maximum. Record both;
   target the band.
+- **Policy lines** — monetization eligibility minima and distribution-penalty
+  maxima, where the platform publishes them. Dated policy facts in their own
+  fields, adjacent to the band but never folded into it: they move on the
+  platform's clock, not the craft's.
 - **Word budget** — as a range, with the driver of the range named (in short
   formats, the delivery mode spreads it by 2×).
 - **Hook contract** — the deadline in seconds, the permitted opening shapes,
