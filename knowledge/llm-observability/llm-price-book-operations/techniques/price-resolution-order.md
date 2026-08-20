@@ -51,6 +51,20 @@ Two structural rules keep the order trustworthy:
   resolver exists, the same event can cost two different amounts depending on
   who is asking, and reconciling them is somebody's quarter.
 
+## Resolution picks the row; the class map prices the call
+
+Resolution ends at one row, but the multiplication is per token class. The
+call's usage arrives as classes — input, output, cache reads, cache writes
+possibly tiered by cache lifetime, sometimes as provider-specific usage-type
+keys — and each class bills at the resolved row's rate for that class. The
+fallback rules are asymmetric on purpose: a *discounted* class with no rate
+falls back up to the input rate (a cache read billed as plain input
+overstates, which is the safe direction), but a *premium* class with no rate
+— a TTL-tiered cache write — must become a disclosed partial miss, never a
+silent fold into input, because billing a 2× write at 1× under-prices exactly
+the traffic that caching was tuned toward. Class arithmetic happens after row
+selection and never re-enters it; the order stays closed.
+
 ## A miss is a null with a story
 
 The unpriced outcome deserves as much design as the priced one, because every
@@ -85,7 +99,9 @@ a tier threshold prices at the band below (strictly-exceeds, and the
 strictness is asserted); a dated name resolves to its trimmed row; a dated
 name whose trimmed form is also absent misses; cached tokens are deducted
 from billable input and re-billed at the cached rate, falling back to the
-input rate when no cached rate exists. Each of these is a place two
+input rate when no cached rate exists; a premium-tiered cache write with no
+rate for its tier surfaces as a disclosed partial miss rather than pricing
+as input. Each of these is a place two
 implementations plausibly disagree — which is exactly why there must be one.
 
 ## When not to use it

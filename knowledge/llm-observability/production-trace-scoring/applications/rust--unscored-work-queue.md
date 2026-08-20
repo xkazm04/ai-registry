@@ -5,6 +5,7 @@ subject: production-trace-scoring
 technique: unscored-work-queue
 stack: rust
 status: forged
+refresh_by: 2026-11-20
 ---
 
 # Rust: the server-side unscored queue in LightTrack's online scorer

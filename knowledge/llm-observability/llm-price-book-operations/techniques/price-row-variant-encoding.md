@@ -59,10 +59,22 @@ be tested against, and a price book's defect budget is better spent on
 verifying the rows you have than on machinery for rows nobody hits. Define
 the variants you actually need; let the rest fall back to base.
 
-The corollary that does compose: **cached-token discounts are orthogonal to
-variants.** The cached rate rides inside every row's rate card, so a batch row
-with a cached rate applies both — matching how providers actually stack cache
-and lane discounts — without the grammar knowing anything about it.
+The corollary that does compose: **token classes are orthogonal to
+variants, and they live inside the rate card.** The card is not a fixed
+input/output/cached trio — it is a small map with one rate per
+*distinctly-priced token class* the event can report: input, output, cache
+reads at a discount, and cache *writes*, which the field prices at a premium
+over input **tiered by cache lifetime** (a short-TTL write at a modest
+premium, a long-TTL write at a multiple of it — 1.25× and 2× classes exist).
+Some providers go further and report usage as arbitrary usage-type keys
+rather than a fixed field set; the class map absorbs that the same way the
+row key absorbs lanes. So the book's full dimensionality is **class ×
+cache-TTL tier × served lane** — and only the lane sits in the row key. The
+class axis multiplies *rates within a row*, never rows, which is why a batch
+row with a cached-read rate applies both discounts — matching how providers
+actually stack cache and lane pricing — without the grammar knowing anything
+about it. The one-level composition bound above governs the row key alone;
+the class map does not count against it.
 
 ## Decision rules
 
@@ -75,6 +87,12 @@ and lane discounts — without the grammar knowing anything about it.
   tier threshold lives in the row key, so two tiers are two rows and the
   resolution picks among them). Parameters in a side column re-open the schema
   the encoding exists to close.
+- **Non-token cost lines exist; model them only when the event carries their
+  quantity.** Some cache offerings bill by *storage time* — per token held
+  per hour — which no token multiplication can produce. If the event stream
+  reports the holding quantity, carry it as its own priced line keyed by
+  usage type; if it does not, record the gap in the book's declared
+  non-coverage rather than smearing an hourly charge into a token rate.
 - **When variant rows for one model exceed a handful, stop and re-check the
   provider's page** — you are probably transcribing a matrix the provider
   publishes as multipliers, and transcribing every cell invites transcription

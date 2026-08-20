@@ -35,6 +35,15 @@ pile of examples:
   and the expensive middle: half-answers, confident wrong answers, polite
   deflections. A set of only clear cases calibrates the judge on the cases
   that never mattered.
+- **Hostile items are a stratum, not a separate exercise.** The judged text
+  is attacker-influenced by construction, so the set includes adversarial
+  fixtures — candidates carrying verdict-steering instructions aimed at the
+  judge itself, boundary imitations, flattery and appeal-to-authority — each
+  with an honest human label. A judge calibrated only against honest
+  disagreement holds a verdict that says nothing about the inputs most
+  likely to be mis-scored; agreement on the attack stratum is measured and
+  reported per stratum, because a healthy overall kappa can hide a judge
+  that folds exactly where folding is induced.
 - **Human labels have their own error.** Where feasible, label with more
   than one annotator and record inter-annotator agreement; it is the
   ceiling against which the judge's kappa is read. A judge cannot agree

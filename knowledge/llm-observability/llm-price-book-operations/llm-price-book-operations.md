@@ -49,10 +49,12 @@ dashboard. What a current multi-provider book must be able to express:
   standard rate to long-context traffic is wrong on exactly the most expensive
   calls.
 - **Cached-token rates.** Cache *reads* bill at a small fraction of the input
-  rate (a tenth is typical); cache *writes* may bill at a premium over it.
-  Cached tokens must be deducted from billable input and re-billed at their
-  own rate, and the discounts stack with lane discounts — a batch call still
-  gets its cache discount.
+  rate (a tenth is typical); cache *writes* bill at a premium over it, and
+  the premium is **tiered by cache lifetime** — short-TTL and long-TTL writes
+  are distinct priced classes. Cached tokens must be deducted from billable
+  input and re-billed at their own class rate, and the discounts stack with
+  lane discounts — a batch call still gets its cache discount. Some cache
+  offerings add a non-token line entirely (storage per token-hour held).
 - **Dated variants and aliases.** Providers ship dated snapshots of a model
   and rename lanes without breaking old names. The book must resolve an
   event's reported model string to a priced row through a declared alias

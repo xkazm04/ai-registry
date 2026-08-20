@@ -73,6 +73,25 @@ Practically this means the verdict is keyed per judge identity, and a
 system with three judge models holds three independent trust states — one
 of which degrading says nothing about the others.
 
+## When one trusted judge is not enough
+
+Trust earned on honest traffic does not cover adversarial traffic. The
+prompt-side contract (fencing, bias counterbalancing) floors in-band
+manipulation but does not close it: a candidate optimized against a single
+judge can steer its verdict without ever touching a boundary marker, and
+the strongest measured defense the field has is a **committee of judges
+from mixed model families** — an attack sequence tuned against one model
+transfers poorly to the others, cutting success several-fold. Two
+disciplines keep committees inside this verdict machinery rather than
+around it: the committee is *one instrument* — it earns its own verdict as
+its own tuple (member models, aggregation rule, rubric, threshold), holds
+its own kappa history, and a member swap or aggregation change starts it
+uncalibrated like any other judge change; and committees are reserved for
+the scopes that need them — verdicts over attacker-influenced traffic that
+gate releases or reach customers as fact — because judge spend is
+unbudgeted but calibration attention is not: every committee is another
+instrument that must stay under test.
+
 ## Making the verdict operational
 
 The verdict must live where machines can act on it, not in a report:

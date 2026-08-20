@@ -52,6 +52,21 @@ survives every downstream aggregate unchallenged.
   *is* the documentation of that provider's shape.
 - **All extractors return the same tuple.** Normalization happens here,
   once, at the edge — everything downstream sees one shape.
+- **The tuple carries one convention: inclusive totals with sub-counts.**
+  Providers split on whether the input figure includes cache traffic — some
+  report an inclusive total with the cached count as a subset detail, others
+  report an exclusive count with cache reads (and premium-billed writes)
+  beside it; the same split exists on the output side for reasoning tokens.
+  The tuple's target, matching the prevailing cross-vendor telemetry
+  convention, is inclusive: an extractor for an exclusive-reporting provider
+  must **add** the sibling counters into its direction's total while still
+  carrying them as sub-counts — never copy the exclusive figure into the
+  inclusive slot. Pricing then consumes the sub-counts *by subtraction from
+  the total*; storing an inclusive total and pricing a re-priced sub-count
+  beside it without subtracting double-prices exactly the traffic engineered
+  for reuse. Whether a given provider's figure is inclusive or exclusive is
+  per-direction, per-provider knowledge — which is one more reason the
+  extractor is per-provider by construction.
 - **Missing optional facts stay null.** Cached-token counts are absent from
   older SDK responses and from providers without cache accounting; an
   absent count must survive as null into the event, never coerced to zero

@@ -73,6 +73,13 @@ Do not "unify" them.
   should read as an evidence log.
 - **When two families could match one string, the match order is a
   documented decision**, not an artifact of code layout.
+- **When a host serves many families, its name identifies the host, not a
+  family.** A marketplace or router that fronts several vendors' models must
+  not appear in any single family's substring list — matching on it would
+  merge every family it serves into one. A hosting-platform substring is a
+  family signal only where that platform serves that family exclusively;
+  otherwise family resolution falls through to the model identity carried
+  beside the provider string.
 - **When pricing genuinely differs by host** (a marketplace surcharge on the
   same models), family matching for identity still holds — the price book,
   not the matcher, is where a host-specific price row belongs.

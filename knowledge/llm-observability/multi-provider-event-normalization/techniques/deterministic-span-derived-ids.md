@@ -42,7 +42,11 @@ are the only thing the sender *asserts* is identity; use them as such.
    within a trace) and stable across re-export.
 2. **Canonicalize before composing.** Trim, drop empties, and normalize
    case through the *one shared canonicalization rule that every ingestion
-   door uses*. Two doors normalizing differently produce case-variant ids
+   door uses* — and treat the standard's invalid sentinel, the all-zeroes
+   trace or span id, as absent rather than as identity. Misconfigured
+   propagators emit the zero id in volume; composing on it would collapse
+   unrelated senders' spans onto one event id and silently deduplicate real
+   spend — the inverse of the double-count this technique exists to prevent. Two doors normalizing differently produce case-variant ids
    for the same trace — the same defect idempotence was meant to prevent,
    one layer up: a mixed-instrumentation trace splits into halves that
    never join.

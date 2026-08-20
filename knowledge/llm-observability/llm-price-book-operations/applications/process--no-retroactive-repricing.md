@@ -5,6 +5,7 @@ subject: llm-price-book-operations
 technique: no-retroactive-repricing
 stack: process
 status: forged
+refresh_by: 2026-11-20
 ---
 
 # The book-maintenance runbook in LightTrack (process)
@@ -68,6 +69,30 @@ next evaluation. Nothing in the flow offers a backfill, and the caveat riding
 in the API response means the operator learns the semantics at the moment
 they would otherwise be confused by them — disclosure in the payload, not the
 manual.
+
+## What the field adds to the caveat (dated, checked 2026-08-20)
+
+The `_meta` non-coverage line is doing more work in 2026 than when it was
+transcribed, because provider pricing grew a third axis beyond lane and
+length tier — the token-class map (re-verify by the frontmatter date):
+
+- **Anthropic** prices cache *writes* at a premium over base input, tiered by
+  cache TTL — 1.25× for the 5-minute tier, 2× for the 1-hour tier — and
+  reports the write volume under TTL-specific usage keys; cache reads bill at
+  ~0.1×.
+- **OpenAI** discounts cached input automatically (roughly 50–90% off
+  depending on model), with no write premium and no storage line.
+- **Google Gemini's** explicit context caching bills cached tokens at about a
+  quarter of the input rate **plus a non-token line: storage per million
+  token-hours held** — a charge no token multiplication can produce.
+
+For this runbook the consequence is sharpened by the temporal rule itself:
+a book keyed only model×lane×tier under-prices cache-write-heavy and
+cache-holding traffic, and because cost is stamped once, every day the
+caveat understates that is a day of *permanently* under-stamped history. The
+monthly re-verification pass therefore checks the class map and its TTL
+tiers, not just headline input/output rates — and the caveat names unmodeled
+classes with the same candor it names unmodeled tiers.
 
 ## Upward lessons this repo taught the standard
 

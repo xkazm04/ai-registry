@@ -72,8 +72,11 @@ the skew *moves* as the error rate moves, which can manufacture a phantom
 "quality drop" out of a mere error-rate blip. Per
 [estimation-announces-itself](../../_laws.md#estimation-announces-itself),
 aggregates over the judged set either report the two strata separately
-(sampled-success verdicts vs all-errors verdicts), or reweight by the known
-sampling factor, or at minimum carry the policy in the label. The one thing
+(sampled-success verdicts vs all-errors verdicts), or reweight by the
+sampling factor each verdict was admitted under — stamped on the verdict,
+since the rate is a tunable lever and reweighting by today's rate restates
+verdicts admitted under yesterday's — or at minimum carry the policy in
+the label. The one thing
 they may not do is present the biased pool as the population.
 
 ## When not to use it

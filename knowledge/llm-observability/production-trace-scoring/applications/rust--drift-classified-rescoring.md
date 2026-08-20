@@ -5,6 +5,7 @@ subject: production-trace-scoring
 technique: drift-classified-rescoring
 stack: rust
 status: forged
+refresh_by: 2026-11-20
 ---
 
 # Rust: drift-classified re-scoring in LightTrack's `score-traces` loop

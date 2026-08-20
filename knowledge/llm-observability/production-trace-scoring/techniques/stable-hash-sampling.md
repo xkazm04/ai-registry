@@ -78,8 +78,12 @@ every consumer of those aggregates must be able to see the policy that
 produced them — the rate, and any bypasses. "Pass rate 94% (1-in-20 sample,
 errors always judged)" is a measurement; "pass rate 94%" over the same data
 is a lie of omission, because the errors-always bias alone can move the
-number by points. The sampling rate is also the primary spend lever for the
-scoring apparatus, and per
+number by points. And because the rate is a lever, it *moves* — so the
+disclosure must be stamped per verdict (the rate in force when that trace
+was admitted), the way sampled telemetry carries an adjusted count, not
+read from current config: reweighting last month's verdicts by this
+month's N quietly restates history. The sampling rate is also the primary
+spend lever for the scoring apparatus, and per
 [quality-apparatus-stays-unbudgeted](../../_laws.md#quality-apparatus-stays-unbudgeted)
 it is the *only* legitimate one: you tune N down to afford the judge — you
 never let a product-side usage cap throttle the judging path implicitly.

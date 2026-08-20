@@ -84,6 +84,14 @@ the pull request that introduced the typo.
 - **Fallback never merges.** File or embedded, one source wins whole. Merging
   a partial file over the embedded book produces a chimera no one can
   reproduce from artifacts.
+- **A network-refreshed seed is a fourth source, not a substitute for the
+  embedded one.** Part of the field keeps its book current by fetching a
+  maintained copy at startup, falling back to the packaged copy when the
+  fetch fails — the same never-empty guarantee with the precedence inverted.
+  If you adopt it, the rules above still bind: one source wins whole, the
+  boot line says which one won, and a fetched book is a *seed* — once the
+  database owns the rows, a startup fetch that silently overwrote admin
+  corrections would be the restatement door reopened from the network side.
 
 ## When not to use it
 

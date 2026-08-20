@@ -45,6 +45,16 @@ Decision rules for the window length:
 - **When in doubt, prefer a shorter window plus the receipt** (below) over
   a longer window alone. The long window buys correctness you cannot
   verify; the short window plus detection buys correctness you can.
+- **Pair the quiet window with a maximum-age ceiling.** A quiet window
+  alone starves the trace that never goes quiet: a long-lived agent
+  session emitting continuously never precedes any cutoff, so the traffic
+  most worth judging is the traffic that is never judged. Tail-based
+  sampling infrastructure pairs its decision-wait with hard duration and
+  span-count ceilings for exactly this reason. Do the same: past a
+  declared maximum age, the trace is judged *anyway*, and the receipt
+  records what was covered — the drift machinery then treats later
+  material arrivals as changed drift, which is the honest handling of a
+  verdict issued mid-life.
 
 ## A heuristic must announce itself
 
