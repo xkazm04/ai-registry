@@ -41,19 +41,17 @@ Hold them apart on five axes and the conflation dies.
 - **Owner.** The audit record is the employer's; the credential is the person's.
 - **Audience.** The audit record's reader is internal and adversarial toward *you*; the
   credential's reader is external and sceptical toward *the bearer*.
-- **Purpose.** The audit record exists to reconstruct why a decision was made. The
-  credential exists to attest that an assessment happened and what it produced. A
-  credential that starts explaining the decision has drifted into the disclosure
-  discipline, which owns what a candidate is told about their outcome.
-- **Disclosure.** The audit record is retained whether or not anyone ever reads it and
-  is disclosed under obligation. The credential is disclosed only when its holder
-  chooses, to whoever they choose, and its existence must not leak who they showed it
-  to.
-- **Contents.** The audit record must carry the decisive inputs, the policy version and
-  the actor. The credential must carry almost none of that — internal reasoning,
-  comparative rank, interviewer identities and rejection rationale are the employer's
-  context, and shipping them into a candidate-held artifact hands a stranger a dossier
-  the candidate never agreed to publish.
+- **Purpose.** The audit record reconstructs why a decision was made; the credential
+  attests that an assessment happened and what it produced. A credential that starts
+  explaining the decision has drifted into the disclosure discipline, which owns what a
+  candidate is told about their outcome.
+- **Disclosure.** The audit record is retained whether or not anyone reads it and is
+  disclosed under obligation. The credential is disclosed only when its holder chooses, to
+  whoever they choose — and its existence must not leak who they showed it to.
+- **Contents.** The audit record carries the decisive inputs, the policy version and the
+  actor. The credential carries almost none of that: internal reasoning, comparative rank,
+  interviewer identities and rejection rationale are the employer's context, and shipping
+  them into a candidate-held artifact hands a stranger a dossier nobody agreed to publish.
 
 The decision-audit discipline owns the employer's sealed records: the chain, the seal,
 the actor attribution, what the chain proves. This subject borrows its integrity
