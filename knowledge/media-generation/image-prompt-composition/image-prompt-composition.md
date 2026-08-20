@@ -15,6 +15,8 @@ techniques:
   - shape-language-over-nouns
   - negative-prompting
   - prompt-budget-limits
+  - prompt-dialect-matching
+  - medium-vocabulary-locking
 ---
 
 # Image prompt composition
