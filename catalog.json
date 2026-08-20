@@ -179,9 +179,9 @@
       "purity": "software",
       "subjects": 16,
       "techniques": 98,
-      "applications": 39,
-      "files": 158,
-      "contentHash": "sha256:52573f1610032ddf"
+      "applications": 41,
+      "files": 160,
+      "contentHash": "sha256:c0dc3a0b4c7d191d"
     },
     {
       "name": "media-generation",

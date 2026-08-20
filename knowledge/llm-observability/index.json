@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
   "techniques": 98,
-  "applications": 39,
+  "applications": 41,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -633,6 +633,11 @@
    "applications": [
     {
      "stack": "process",
+     "technique": "golden-set-agreement-measurement",
+     "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/process--golden-set-agreement-measurement.md"
+    },
+    {
+     "stack": "process",
      "technique": "judge-selection-by-spread",
      "file": "knowledge/llm-observability/judge-calibration-and-drift/applications/process--judge-selection-by-spread.md"
     },
@@ -1134,6 +1139,11 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "per-provider-usage-extractors",
+     "file": "knowledge/llm-observability/multi-provider-event-normalization/applications/process--per-provider-usage-extractors.md"
+    },
     {
      "stack": "rust",
      "technique": "attribute-precedence-lists",
