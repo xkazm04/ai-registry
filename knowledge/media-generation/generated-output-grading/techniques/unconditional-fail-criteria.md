@@ -28,7 +28,16 @@ all captions and figures are drawn deterministically as a separate layer —
 that is where checkable content must live. A render that hallucinates its own
 text does not merely look worse; it collides with the layer that carries the
 actual facts, and no amount of compositional beauty makes the collision
-compositable. The test for veto status:
+compositable.
+
+Because a veto refuses to trade, its detector should be the most
+deterministic instrument available — a veto decided by a judged opinion
+inherits that judge's misses. Where a specialized detector exists for the
+property (character-recognition models for glyphs, geometric checks for
+aspect and framing), it outranks a vision-language judge for the veto tier:
+it is cheaper, it does not hallucinate, and it catches the small instances
+judges skim past. The judged rubric begins where deterministic detection
+ends. The test for veto status:
 
 - **Downstream incompatibility.** The property breaks a stage the output must
   pass through (compositing, legal review, platform policy), rather than

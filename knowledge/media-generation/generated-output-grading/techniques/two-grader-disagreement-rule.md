@@ -26,8 +26,21 @@ pipeline silently converts into whichever opinion it happened to hire.
 
 ## Why two, and why disagreement routes to a human
 
-Judge disagreement is not noise to be suppressed; it is **information about
-the question**. Fields where two graders agree are behaving as measurements —
+A boundary the field has since measured: vision-language judges **rank
+reliably but score unreliably** — the same judge, same image, same rubric
+returns visibly different scalar scores across repeats, while its pairwise
+verdicts stay stable. So the rule applies to *categorical* judgements
+(booleans, pass/fail bands, A-versus-B), where disagreement carries
+information; scalar-score disagreement is partly instrument noise and must
+not be routed to a human as if it were signal. Prefer head-to-head and
+banded questions; where a scalar is unavoidable, repeat it and read the
+spread before reading the value. Two protocol rules ride along from
+measured judge biases: judge both presentation orders (order reversal
+flips verdicts), and never hire a judge from the same model family as the
+generator (self-preference is confirmed).
+
+Judge disagreement on well-posed categorical questions is not noise to be
+suppressed; it is **information about the question**. Fields where two graders agree are behaving as measurements —
 the property is well-enough defined that independent instruments converge.
 Fields where they split are revealing either an under-specified rubric field
 or a genuinely borderline image, and both of those are human work. Published
