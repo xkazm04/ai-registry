@@ -13,7 +13,7 @@
    "proposal-craft",
    "grant-operations"
   ],
-  "layout": "flat",
+  "layout": "nested",
   "use_when_coverage": "104/104",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
@@ -22,7 +22,7 @@
    "category": "matching-and-intelligence",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/coalition-and-portfolio-strategy/coalition-and-portfolio-strategy.md",
+   "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/coalition-and-portfolio-strategy.md",
    "techniques": [
     {
      "slug": "capacity-floor-detection",
@@ -105,13 +105,13 @@
     {
      "stack": "node",
      "technique": "complementarity-scoring",
-     "file": "knowledge/grant-funding/coalition-and-portfolio-strategy/applications/node--complementarity-scoring.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/applications/node--complementarity-scoring.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "requirement-profile-aggregation",
-     "file": "knowledge/grant-funding/coalition-and-portfolio-strategy/applications/node--requirement-profile-aggregation.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/applications/node--requirement-profile-aggregation.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -120,7 +120,7 @@
    "category": "grant-operations",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/deadline-pipeline-management/deadline-pipeline-management.md",
+   "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/deadline-pipeline-management.md",
    "techniques": [
     {
      "slug": "closing-instant-resolution",
@@ -219,19 +219,19 @@
     {
      "stack": "node",
      "technique": "closing-instant-resolution",
-     "file": "knowledge/grant-funding/deadline-pipeline-management/applications/node--closing-instant-resolution.md",
+     "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/applications/node--closing-instant-resolution.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "miss-risk-scoring",
-     "file": "knowledge/grant-funding/deadline-pipeline-management/applications/node--miss-risk-scoring.md",
+     "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/applications/node--miss-risk-scoring.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "submission-lead-time-buffers",
-     "file": "knowledge/grant-funding/deadline-pipeline-management/applications/process--submission-lead-time-buffers.md",
+     "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/applications/process--submission-lead-time-buffers.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -240,7 +240,7 @@
    "category": "matching-and-intelligence",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/eligibility-analysis/eligibility-analysis.md",
+   "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/eligibility-analysis.md",
    "techniques": [
     {
      "slug": "applicant-type-code-mapping",
@@ -344,19 +344,19 @@
     {
      "stack": "node",
      "technique": "applicant-type-code-mapping",
-     "file": "knowledge/grant-funding/eligibility-analysis/applications/node--applicant-type-code-mapping.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/node--applicant-type-code-mapping.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "hard-gate-vs-soft-score",
-     "file": "knowledge/grant-funding/eligibility-analysis/applications/node--hard-gate-vs-soft-score.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/node--hard-gate-vs-soft-score.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "registration-and-validation-readiness",
-     "file": "knowledge/grant-funding/eligibility-analysis/applications/process--registration-and-validation-readiness.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/process--registration-and-validation-readiness.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -365,7 +365,7 @@
    "category": "proposal-craft",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/evidence-grounded-claims/evidence-grounded-claims.md",
+   "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/evidence-grounded-claims.md",
    "techniques": [
     {
      "slug": "bracketed-placeholder-over-invention",
@@ -455,13 +455,13 @@
     {
      "stack": "node",
      "technique": "ungrounded-statistic-detection",
-     "file": "knowledge/grant-funding/evidence-grounded-claims/applications/node--ungrounded-statistic-detection.md",
+     "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/applications/node--ungrounded-statistic-detection.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "verified-fact-ledger",
-     "file": "knowledge/grant-funding/evidence-grounded-claims/applications/node--verified-fact-ledger.md",
+     "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/applications/node--verified-fact-ledger.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -470,7 +470,7 @@
    "category": "proposal-craft",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/funder-format-blueprints/funder-format-blueprints.md",
+   "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/funder-format-blueprints.md",
    "techniques": [
     {
      "slug": "arts-panel-sections",
@@ -559,19 +559,19 @@
     {
      "stack": "process",
      "technique": "blueprint-routing-rules",
-     "file": "knowledge/grant-funding/funder-format-blueprints/applications/process--blueprint-routing-rules.md",
+     "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/applications/process--blueprint-routing-rules.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "federal-rubric-sections",
-     "file": "knowledge/grant-funding/funder-format-blueprints/applications/process--federal-rubric-sections.md",
+     "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/applications/process--federal-rubric-sections.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "supranational-award-criteria-sections",
-     "file": "knowledge/grant-funding/funder-format-blueprints/applications/process--supranational-award-criteria-sections.md",
+     "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/applications/process--supranational-award-criteria-sections.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -580,7 +580,7 @@
    "category": "matching-and-intelligence",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/funder-intelligence-index/funder-intelligence-index.md",
+   "file": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index/funder-intelligence-index.md",
    "techniques": [
     {
      "slug": "award-rate-by-revenue-bracket",
@@ -670,13 +670,13 @@
     {
      "stack": "node",
      "technique": "k-anonymity-suppression",
-     "file": "knowledge/grant-funding/funder-intelligence-index/applications/node--k-anonymity-suppression.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index/applications/node--k-anonymity-suppression.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "win-probability-confidence-bands",
-     "file": "knowledge/grant-funding/funder-intelligence-index/applications/node--win-probability-confidence-bands.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index/applications/node--win-probability-confidence-bands.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -685,7 +685,7 @@
    "category": "funding-landscape",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/funder-research/funder-research.md",
+   "file": "knowledge/grant-funding/funding-landscape/funder-research/funder-research.md",
    "techniques": [
     {
      "slug": "adversarial-verification-pass",
@@ -774,13 +774,13 @@
     {
      "stack": "node",
      "technique": "coverage-gap-driven-planning",
-     "file": "knowledge/grant-funding/funder-research/applications/node--coverage-gap-driven-planning.md",
+     "file": "knowledge/grant-funding/funding-landscape/funder-research/applications/node--coverage-gap-driven-planning.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "discovery-with-omit-if-unsure",
-     "file": "knowledge/grant-funding/funder-research/applications/process--discovery-with-omit-if-unsure.md",
+     "file": "knowledge/grant-funding/funding-landscape/funder-research/applications/process--discovery-with-omit-if-unsure.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -789,7 +789,7 @@
    "category": "matching-and-intelligence",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/grant-matching/grant-matching.md",
+   "file": "knowledge/grant-funding/matching-and-intelligence/grant-matching/grant-matching.md",
    "techniques": [
     {
      "slug": "diminishing-returns-keyword-overlap",
@@ -877,13 +877,13 @@
     {
      "stack": "node",
      "technique": "weighted-component-scoring",
-     "file": "knowledge/grant-funding/grant-matching/applications/node--weighted-component-scoring.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/grant-matching/applications/node--weighted-component-scoring.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "injection-safe-rfp-analysis",
-     "file": "knowledge/grant-funding/grant-matching/applications/process--injection-safe-rfp-analysis.md",
+     "file": "knowledge/grant-funding/matching-and-intelligence/grant-matching/applications/process--injection-safe-rfp-analysis.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -892,7 +892,7 @@
    "category": "funding-landscape",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/grant-source-landscape/grant-source-landscape.md",
+   "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/grant-source-landscape.md",
    "techniques": [
     {
      "slug": "close-date-normalization",
@@ -979,13 +979,13 @@
     {
      "stack": "node",
      "technique": "close-date-normalization",
-     "file": "knowledge/grant-funding/grant-source-landscape/applications/node--close-date-normalization.md",
+     "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--close-date-normalization.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "curated-floor-vs-live-feed",
-     "file": "knowledge/grant-funding/grant-source-landscape/applications/node--curated-floor-vs-live-feed.md",
+     "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--curated-floor-vs-live-feed.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -994,7 +994,7 @@
    "category": "funding-landscape",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/grant-taxonomy-design/grant-taxonomy-design.md",
+   "file": "knowledge/grant-funding/funding-landscape/grant-taxonomy-design/grant-taxonomy-design.md",
    "techniques": [
     {
      "slug": "agency-and-programme-fallbacks",
@@ -1079,13 +1079,13 @@
     {
      "stack": "node",
      "technique": "deterministic-first-classification",
-     "file": "knowledge/grant-funding/grant-taxonomy-design/applications/node--deterministic-first-classification.md",
+     "file": "knowledge/grant-funding/funding-landscape/grant-taxonomy-design/applications/node--deterministic-first-classification.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "llm-residual-classification",
-     "file": "knowledge/grant-funding/grant-taxonomy-design/applications/node--llm-residual-classification.md",
+     "file": "knowledge/grant-funding/funding-landscape/grant-taxonomy-design/applications/node--llm-residual-classification.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -1094,7 +1094,7 @@
    "category": "grant-operations",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/impact-reporting/impact-reporting.md",
+   "file": "knowledge/grant-funding/grant-operations/impact-reporting/impact-reporting.md",
    "techniques": [
     {
      "slug": "four-section-report-model",
@@ -1199,19 +1199,19 @@
     {
      "stack": "node",
      "technique": "modeled-figure-marking",
-     "file": "knowledge/grant-funding/impact-reporting/applications/node--modeled-figure-marking.md",
+     "file": "knowledge/grant-funding/grant-operations/impact-reporting/applications/node--modeled-figure-marking.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "report-calendar-derivation",
-     "file": "knowledge/grant-funding/impact-reporting/applications/node--report-calendar-derivation.md",
+     "file": "knowledge/grant-funding/grant-operations/impact-reporting/applications/node--report-calendar-derivation.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "shared-indicator-alignment",
-     "file": "knowledge/grant-funding/impact-reporting/applications/process--shared-indicator-alignment.md",
+     "file": "knowledge/grant-funding/grant-operations/impact-reporting/applications/process--shared-indicator-alignment.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -1220,7 +1220,7 @@
    "category": "grant-operations",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/jurisdiction-modelling/jurisdiction-modelling.md",
+   "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/jurisdiction-modelling.md",
    "techniques": [
     {
      "slug": "compliance-document-taxonomy",
@@ -1309,13 +1309,13 @@
     {
      "stack": "node",
      "technique": "jurisdiction-profile-schema",
-     "file": "knowledge/grant-funding/jurisdiction-modelling/applications/node--jurisdiction-profile-schema.md",
+     "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--jurisdiction-profile-schema.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "market-claim-truthfulness",
-     "file": "knowledge/grant-funding/jurisdiction-modelling/applications/node--market-claim-truthfulness.md",
+     "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--market-claim-truthfulness.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -1324,7 +1324,7 @@
    "category": "grant-operations",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/nonprofit-verification/nonprofit-verification.md",
+   "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/nonprofit-verification.md",
    "techniques": [
     {
      "slug": "determinate-vs-inconclusive-outcomes",
@@ -1417,13 +1417,13 @@
     {
      "stack": "node",
      "technique": "determinate-vs-inconclusive-outcomes",
-     "file": "knowledge/grant-funding/nonprofit-verification/applications/node--determinate-vs-inconclusive-outcomes.md",
+     "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--determinate-vs-inconclusive-outcomes.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "registry-name-binding",
-     "file": "knowledge/grant-funding/nonprofit-verification/applications/node--registry-name-binding.md",
+     "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--registry-name-binding.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -1432,7 +1432,7 @@
    "category": "grant-operations",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/organizational-grant-readiness/organizational-grant-readiness.md",
+   "file": "knowledge/grant-funding/grant-operations/organizational-grant-readiness/organizational-grant-readiness.md",
    "techniques": [
     {
      "slug": "applicant-evidence-corpus",
@@ -1519,13 +1519,13 @@
     {
      "stack": "node",
      "technique": "attestation-invalidation",
-     "file": "knowledge/grant-funding/organizational-grant-readiness/applications/node--attestation-invalidation.md",
+     "file": "knowledge/grant-funding/grant-operations/organizational-grant-readiness/applications/node--attestation-invalidation.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "registry-grounded-autofill",
-     "file": "knowledge/grant-funding/organizational-grant-readiness/applications/node--registry-grounded-autofill.md",
+     "file": "knowledge/grant-funding/grant-operations/organizational-grant-readiness/applications/node--registry-grounded-autofill.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -1534,7 +1534,7 @@
    "category": "proposal-craft",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/proposal-narrative-structure/proposal-narrative-structure.md",
+   "file": "knowledge/grant-funding/proposal-craft/proposal-narrative-structure/proposal-narrative-structure.md",
    "techniques": [
     {
      "slug": "evidence-base-citation",
@@ -1622,13 +1622,13 @@
     {
      "stack": "process",
      "technique": "evidence-base-citation",
-     "file": "knowledge/grant-funding/proposal-narrative-structure/applications/process--evidence-base-citation.md",
+     "file": "knowledge/grant-funding/proposal-craft/proposal-narrative-structure/applications/process--evidence-base-citation.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "process",
      "technique": "genre-register-classification",
-     "file": "knowledge/grant-funding/proposal-narrative-structure/applications/process--genre-register-classification.md",
+     "file": "knowledge/grant-funding/proposal-craft/proposal-narrative-structure/applications/process--genre-register-classification.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -1637,7 +1637,7 @@
    "category": "proposal-craft",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/proposal-quality-review/proposal-quality-review.md",
+   "file": "knowledge/grant-funding/proposal-craft/proposal-quality-review/proposal-quality-review.md",
    "techniques": [
     {
      "slug": "critical-vs-quality-severity",
@@ -1724,13 +1724,13 @@
     {
      "stack": "node",
      "technique": "placeholder-and-jargon-detection",
-     "file": "knowledge/grant-funding/proposal-quality-review/applications/node--placeholder-and-jargon-detection.md",
+     "file": "knowledge/grant-funding/proposal-craft/proposal-quality-review/applications/node--placeholder-and-jargon-detection.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "revise-to-green-single-pass",
-     "file": "knowledge/grant-funding/proposal-quality-review/applications/node--revise-to-green-single-pass.md",
+     "file": "knowledge/grant-funding/proposal-craft/proposal-quality-review/applications/node--revise-to-green-single-pass.md",
      "verified_on": "2026-08-19"
     }
    ]
@@ -1739,7 +1739,7 @@
    "category": "grant-operations",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/grant-funding/submission-filing/submission-filing.md",
+   "file": "knowledge/grant-funding/grant-operations/submission-filing/submission-filing.md",
    "techniques": [
     {
      "slug": "crowd-verified-filing-profiles",
@@ -1818,13 +1818,13 @@
     {
      "stack": "node",
      "technique": "crowd-verified-filing-profiles",
-     "file": "knowledge/grant-funding/submission-filing/applications/node--crowd-verified-filing-profiles.md",
+     "file": "knowledge/grant-funding/grant-operations/submission-filing/applications/node--crowd-verified-filing-profiles.md",
      "verified_on": "2026-08-19"
     },
     {
      "stack": "node",
      "technique": "proof-of-filing",
-     "file": "knowledge/grant-funding/submission-filing/applications/node--proof-of-filing.md",
+     "file": "knowledge/grant-funding/grant-operations/submission-filing/applications/node--proof-of-filing.md",
      "verified_on": "2026-08-19"
     }
    ]

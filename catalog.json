@@ -151,11 +151,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "civic",
-      "subjects": 15,
-      "techniques": 91,
-      "applications": 34,
+      "subjects": 4,
+      "techniques": 0,
+      "applications": 0,
       "files": 145,
-      "contentHash": "sha256:b0cedebb505eeeae"
+      "contentHash": "sha256:d14d7b007845eebd"
     },
     {
       "name": "grant-funding",
@@ -164,11 +164,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "funding",
-      "subjects": 17,
-      "techniques": 104,
-      "applications": 38,
+      "subjects": 4,
+      "techniques": 0,
+      "applications": 0,
       "files": 164,
-      "contentHash": "sha256:978482593d143c81"
+      "contentHash": "sha256:9f778705ef736b9c"
     },
     {
       "name": "llm-observability",
@@ -177,11 +177,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 16,
-      "techniques": 98,
-      "applications": 41,
+      "subjects": 4,
+      "techniques": 0,
+      "applications": 0,
       "files": 160,
-      "contentHash": "sha256:a7874df439b5958f"
+      "contentHash": "sha256:7b5e180397e3f0a5"
     },
     {
       "name": "media-generation",
@@ -190,11 +190,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 14,
-      "techniques": 83,
-      "applications": 32,
+      "subjects": 4,
+      "techniques": 0,
+      "applications": 0,
       "files": 134,
-      "contentHash": "sha256:6fcffcba221ec346"
+      "contentHash": "sha256:084ac585c594dddf"
     },
     {
       "name": "software-engineering",

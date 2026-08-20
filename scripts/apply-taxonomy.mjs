@@ -41,7 +41,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execFileSync } from 'node:child_process';
 import { loadTaxonomy, walkSubjects, SLUG_RE } from './lib/taxonomy.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -183,6 +182,7 @@ for (const bundle of bundles) {
   const edits = []; // { absOld, absNew, next }
   let rewritten = 0;
   let unresolved = 0;
+  let verified = 0;
 
   for (const [absOld, absNew] of fileMap) {
     if (!absOld.endsWith('.md')) continue;
@@ -205,6 +205,27 @@ for (const bundle of bundles) {
       }
       let rel = posix(path.relative(path.dirname(absNew), targetNew));
       if (!rel.startsWith('.')) rel = `./${rel}`;
+
+      // THE INVARIANT, asserted per link before anything is written: a link must point at
+      // the SAME FILE after the move as before. Re-resolving the rewritten link from the
+      // file's new home has to land back on the mapped target.
+      //
+      // Worth the cycles because the bundle gate cannot catch the interesting failure. It
+      // checks that a link RESOLVES, so a link rewritten to a different file that happens
+      // to exist passes it - and in a corpus where every subject has a `techniques/`
+      // folder, plausible-but-wrong paths are abundant. This check compares identities,
+      // not existence.
+      const roundTrip = path.resolve(path.dirname(absNew), rel);
+      if (roundTrip !== targetNew) {
+        console.error(
+          `\napply-taxonomy FATAL: link arithmetic is wrong for ${posix(path.relative(ROOT, absOld))}\n` +
+            `  link      ${href}\n  intended  ${posix(path.relative(ROOT, targetNew))}\n` +
+            `  computed  ${posix(path.relative(ROOT, roundTrip))}`,
+        );
+        process.exit(2);
+      }
+      verified++;
+
       const out = anchor === undefined ? rel : `${rel}#${anchor}`;
       if (out !== href) {
         changed = true;
@@ -219,6 +240,7 @@ for (const bundle of bundles) {
   // ---- report
   console.log(`\n${bundle} → ${target}`);
   console.log(`  ${moves.length} subject folder(s) move, ${edits.length} file(s) get ${rewritten} link rewrite(s)`);
+  console.log(`  ${verified} link(s) verified to resolve to the same file after the move`);
   if (unresolved) console.log(`  ${unresolved} link(s) left alone (already broken, or outside the bundle)`);
   const show = moves.slice(0, apply ? 0 : 6);
   for (const m of show) console.log(`    ${m.fromRel}  ->  ${m.toRel}`);
@@ -231,22 +253,74 @@ for (const bundle of bundles) {
 
   // ---- do it
   //
-  // Links are rewritten FIRST, at the old paths, then the folders move. Doing it the
-  // other way round means computing every path twice, and it leaves a window where the
-  // tree on disk matches neither the old links nor the new ones.
-  for (const e of edits) fs.writeFileSync(e.absOld, e.next, 'utf8');
+  // ORDER: pre-flight every move, then move, then write the rewritten links at their NEW
+  // paths. An earlier version wrote the links first and moved second, and a fixture run
+  // proved why that is wrong - when a move failed, the links had already been rewritten
+  // for a tree that did not exist, leaving every one of them broken. Rewriting last means
+  // a failed move leaves the tree exactly as it was.
+  //
+  // Renames use fs, not `git mv`. Git detects a rename from content at diff time, so
+  // `git add -A` stages these as renames either way (measured: 140/140 on the first real
+  // bundle) - and fs works on an untracked tree, which is what a fixture and a
+  // freshly-forged bundle both are.
+  for (const m of moves) {
+    const from = path.join(base, m.fromRel);
+    const to = path.join(base, m.toRel);
+    if (!fs.existsSync(from)) {
+      console.error(`  PRE-FLIGHT FAIL: ${m.fromRel} does not exist`);
+      failed = true;
+    }
+    if (fs.existsSync(to)) {
+      console.error(`  PRE-FLIGHT FAIL: ${m.toRel} already exists`);
+      failed = true;
+    }
+  }
+  if (failed) {
+    console.error('  refusing to move anything — the tree is untouched');
+    continue;
+  }
 
-  const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' });
   for (const m of moves) {
     const from = path.join(base, m.fromRel);
     const to = path.join(base, m.toRel);
     fs.mkdirSync(path.dirname(to), { recursive: true });
     try {
-      git('mv', posix(path.relative(ROOT, from)), posix(path.relative(ROOT, to)));
+      fs.renameSync(from, to);
     } catch (err) {
-      console.error(`  FAILED to move ${m.fromRel} -> ${m.toRel}: ${String(err.stderr || err.message).trim()}`);
+      console.error(`  FAILED to move ${m.fromRel} -> ${m.toRel}: ${err.message}`);
+      console.error('  the tree is now PARTIALLY MOVED and no links have been rewritten.');
+      console.error(`  recover with: node scripts/apply-taxonomy.mjs ${bundle} --to flat --apply`);
       failed = true;
+      break;
     }
+  }
+  if (failed) continue;
+
+  for (const e of edits) fs.writeFileSync(e.absNew, e.next, 'utf8');
+
+  // ---- post-condition: every relative link in the moved tree resolves.
+  //
+  // The per-link identity assertion above proves the arithmetic; this proves the RESULT,
+  // against the tree that now exists. Two different questions, and a migration is exactly
+  // the moment to answer both.
+  let broken = 0;
+  for (const absNew of fileMap.values()) {
+    if (!absNew.endsWith('.md') || !fs.existsSync(absNew)) continue;
+    const src = fs.readFileSync(absNew, 'utf8').replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '');
+    for (const m of src.matchAll(LINK_RE)) {
+      const href = m[2];
+      if (/^(https?:|mailto:|#)/.test(href)) continue;
+      const t = href.split('#')[0];
+      if (!t) continue;
+      if (!fs.existsSync(path.resolve(path.dirname(absNew), t))) {
+        console.error(`  BROKEN AFTER MOVE: ${posix(path.relative(ROOT, absNew))} -> ${href}`);
+        broken++;
+      }
+    }
+  }
+  if (broken) {
+    console.error(`  ${broken} link(s) broken after the move. Reverse with --to flat --apply.`);
+    failed = true;
   }
 
   // Prune grouping folders left empty by a --to flat pass.
