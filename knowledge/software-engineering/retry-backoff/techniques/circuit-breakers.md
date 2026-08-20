@@ -76,6 +76,54 @@ egress path is broken" breaker — but the moment two breakers can both speak, t
   breakers double-charges one failure to two ledgers and makes recovery order
   dependent on bookkeeping.
 
+## Provenance decides who may lift it early
+
+Not every open breaker was opened by the same kind of knowledge, and the
+difference governs who is allowed to close it. Three provenances recur, in
+increasing authority:
+
+- **Heuristic** — this system inferred ill-health from a streak or a rate. It is
+  a hypothesis about the dependency, and a probe is precisely the experiment
+  that tests it.
+- **Escalated** — a ladder step, imposed because the previous cooldown was
+  proven insufficient. Probing it early discards the evidence that produced the
+  escalation.
+- **Stated** — the dependency itself named a window. There is nothing to probe:
+  the authority that would answer the probe has already answered, and a probe
+  before its window is a request it will refuse, charged against the very
+  allowance it is protecting.
+
+Two rules follow, and both are cheap to state and expensive to discover:
+
+- **Only a heuristic open is probeable.** A recovery job that clears cooldowns
+  on a schedule must be able to tell which ones it may touch, which means the
+  provenance is stored with the open, not inferred later from its duration.
+- **Never shorten a stronger open.** A new heuristic trip landing on top of an
+  existing longer one must leave it alone. Overwriting is doubly wrong: it
+  shortens a wait that something better-informed imposed, and it replaces a
+  non-probeable provenance with a probeable one, so the next recovery pass
+  cheerfully lifts a window the dependency stated.
+
+## Scope must match the evidence, in both directions
+
+A breaker's scope is a hypothesis (above), but so is each piece of evidence, and
+the two must agree. The failure mode is asymmetric and both halves are real:
+
+- **Evidence gathered across a set must open across that set.** A failure streak
+  counted across every credential reaching one dependency, but then applied to
+  whichever credential happened to fail last, leaves every sibling serving the
+  same sick dependency until each independently re-earns the streak — the
+  breaker trips N times for one outage and protects nothing in the meantime.
+- **Evidence that implicates only one member must not open the set.** A failure
+  that is deterministic in the request or in one member — a schema the
+  dependency will reject identically every time, a capability one endpoint
+  lacks — says nothing about the others, and opening across them removes healthy
+  capacity to punish a defect they do not share.
+
+State, for every evidence class, the scope it implicates. A class that cannot
+say defaults to the narrowest, because a too-narrow open costs one more failed
+attempt and a too-wide one costs the capacity that would have served the call.
+
 ## The open breaker must be loud
 
 A breaker denial is a policy decision, not a dependency failure, and it must be
