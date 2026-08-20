@@ -9,7 +9,7 @@ tags: knowledge, rkb, research, saturation, loop
 
 # Deepen
 
-The forge (`domain-knowledge-forge`) creates a bundle from a repository's ceiling;
+The forge (`/forge`) creates a bundle from a repository's ceiling;
 `/deepen` raises subjects *above* any repository — **improve** (date-stamp or correct
 stale claims), **widen** (convergence-earned techniques, dated field applications),
 **validate** (benchmarks where a claim hinges on a measurement). Validated across four

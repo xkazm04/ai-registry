@@ -1,4 +1,4 @@
-# Lessons - domain-knowledge-forge
+# Lessons - forge
 
 Append-only reflection lane. One entry per run that taught something, newest last.
 Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
