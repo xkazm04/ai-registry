@@ -22,7 +22,7 @@ sets, layered on top of — never instead of — the API's own authorization.**
 
 ## The layered gate
 
-Three independent layers, each meaningful alone:
+Three layers — two enforcing, one cooperative:
 
 1. **API authorization.** Mutations require the appropriate credential
    (admin-grade for administrative writes). This layer exists regardless of
@@ -34,7 +34,12 @@ Three independent layers, each meaningful alone:
    credential into the server's environment.
 3. **Tool annotations.** Read tools are declared side-effect-free in the
    protocol's metadata, so the agent platform can apply its own
-   confirmation policies to the rest.
+   confirmation policies to the rest. Annotations are declarations, not
+   enforcement — a client is free to ignore them, and nothing verifies
+   them — so they never substitute for the switch. Their obligation runs
+   the other way: the declaration must be truthful, because platforms
+   build confirmation policy on it, and a read tool mislabeled as such is
+   a hole in someone else's gate.
 
 The order of failure matters: with only layer 1, the common setup (admin key
 in the environment, because listing prices required it) silently makes every

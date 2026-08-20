@@ -29,7 +29,10 @@ stated in the function's own documentation:
 - **warning** — positive but inside a named band: margin under roughly twenty
   percent, a limit at or past eighty percent of threshold. The band is the
   business's early-warning line; tune the number to your cost structure, keep
-  the three-state shape.
+  the three-state shape. Derive the band from the business's target margin,
+  not from intuition — for inference-heavy products the viable target sits
+  well above where "thin" sounds alarming, so a twenty-percent line is a
+  floor for the warning, not a norm for health.
 - **healthy** — everything else. Healthy must be visually quiet; a wall of
   affirmative glyphs is noise that buries the two rows that matter.
 
