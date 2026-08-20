@@ -40,6 +40,13 @@ the count of near-threshold awards for a firm or a buyer. Decision rules:
   and a tax-inclusive one are near *different effective lines*; run the proximity
   test on whichever basis the statute defines the threshold in, and route
   mixed-basis corpora through the composition discipline first.
+- **Per-entity counts and population-level density tests are complements.** The
+  field's statistical instrument is a manipulation (density-discontinuity) test
+  over the value histogram, which grades each buyer's *probability* of bunching;
+  the per-entity band count is the triage view of the same fact. Where both are
+  computable, run both — a buyer high on both is a stronger lead than either
+  alone, and the density test resists the round-number innocence that defeats a
+  single proximity flag.
 
 ## Corroborating signals
 
@@ -58,6 +65,11 @@ proximity rather than instead of it:
   value would have triggered.
 - **Sequential structuring** — a run of awards to one vendor each just under an
   internal approval or review limit, the small-purchase analogue of splitting.
+- **Procedure-type shift** — awards in the band disproportionately using
+  noncompetitive procedure types. Population-scale studies validate the pairing:
+  buyers with a high probability of bunching below thresholds are measurably
+  less likely to run competitive procedures, more likely to award locally, and
+  more likely to repeat the same winner.
 
 ## What the signal is not
 

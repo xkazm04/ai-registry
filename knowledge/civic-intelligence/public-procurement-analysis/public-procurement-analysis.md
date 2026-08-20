@@ -64,7 +64,8 @@ load-bearing distinctions fall out of this, and each is a technique in this subj
 The sixth technique inverts the frame: once the record model is honest, the registry
 becomes a detector. **Threshold-proximity-signals** reads clusters of contracts
 sitting just under the legal competition thresholds as leads for artificial
-splitting — the best-documented procurement red flag in the field literature.
+splitting — among the best-documented procurement red flags in the field
+literature, alongside single bidding in competitive markets.
 
 ## The failure modes of the naive reading
 
