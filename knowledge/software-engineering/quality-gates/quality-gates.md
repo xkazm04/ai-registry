@@ -10,6 +10,8 @@ techniques:
   - gate-liveness
   - hook-hygiene
   - false-positive-economics
+  - unmeasurable-criteria
+  - policy-projection
 ---
 
 # Quality gates & ratchets
@@ -79,8 +81,25 @@ gate. Second, **scoping is a loan against the backstop**: a commit-stage
 check that examines only changed files is deliberately trading completeness
 for latency, and the trade is safe only because the full-scope run exists
 upstream. Scoped rungs without a full-scope backstop accumulate blind spots
-in exactly the files nobody has touched recently. Rung design, what belongs
-where, and the bypass economics are
+in exactly the files nobody has touched recently.
+
+Both invariants hold for defects whose cost is *rework*. They break for
+defects whose cost is **irreversible at push time**: a credential that
+reaches a remote host has leaked, and a refusal that arrives afterward
+records the incident rather than preventing it. For that class the local
+rung is not a latency optimization over the binding rung — it is the only
+layer that can prevent rather than report, and the remote rung's honest
+job is detection and revocation. The general form is that **control
+placement is a per-control design decision**, not a default: for each
+standard, name the layer that actually holds it, and keep the remote layer
+to the genuine hard passes — the checks that need a clean room, the full
+tree, or credentials that must not exist on a developer's machine. This
+matters most where the author is an agent working in a loop, because a
+remote round-trip costs an entire cycle and a pre-push checklist the agent
+self-runs costs seconds; the same check wired into both layers, from one
+script, means the remote run confirms what already ran rather than
+discovering it. Rung design, control placement, what belongs where, and
+the bypass economics are
 [gate-laddering](techniques/gate-laddering.md).
 
 ## The gate must see its target
@@ -106,6 +125,64 @@ every gap between them is a place the gate passes while the target fails
 
 Before trusting any green result, the question is never "did the check
 pass" but "what did the check read."
+
+## What a gate does with a condition it cannot evaluate
+
+Producing an honest input — distinguishing "unmeasurable" from "measured
+zero," refusing to render a rate off four data points — is the neighbouring
+discipline of
+[measurement honesty](../measurement-honesty/measurement-honesty.md), and
+this subject assumes it rather than restating it. What follows is the half
+that belongs to enforcement: given an honestly-marked unmeasurable input,
+what the refusal machinery is permitted to do with it.
+
+Some condition in every real policy will meet a value that is missing: the
+access the gate was granted could not read the setting, the sample never
+reached the floor a rate needs, the scorer produced nothing for that
+dimension. A gate has three honest resolutions — skip the condition, fail
+closed on it, or refuse to return a verdict at all — and the choice is not
+a matter of taste. It turns on whether the absence describes the
+**subject's world** or the **gate's own vision**. Absence that is a fact
+about the subject (too little of the activity for a rate to exist) is not
+evidence of a violation, and gating on it inverts the policy: it fails a
+subject for not doing enough of the thing the policy wanted governed,
+which rewards not doing it at all. That condition must reach the verdict
+as an announced SKIP. Absence that is a hole in the gate's instrument — an
+unscored dimension, a non-finite value — must never read as compliance,
+and the naive comparison is the trap, because a missing value tested
+against a floor evaluates to "not below it" and sails through the exact
+bar that existed to enforce it. And when *nothing* could be measured, the
+assessment's renormalized zero is not a measurement; certifying or
+condemning on it is treating an ingestion failure as a verdict, so the
+gate refuses the assessment rather than judging the subject. The skip must
+be visible on every surface and counted, because a condition skipped for
+most of the population has become advisory by data starvation. The
+resolutions, the derivation of the "measured nothing" state, and the case
+where skipping is itself the vulnerability are
+[unmeasurable-criteria](techniques/unmeasurable-criteria.md).
+
+## One policy, many surfaces
+
+A policy is enforced in one place and *described* in several: the summary
+attached to a change under review, the pass-rate view, the parameters of
+the invocation that runs the gate, the configuration snippet a team copies
+into their own pipeline. Each is a projection, each is read as
+authoritative, and each is usually written by hand-walking the policy in
+its own renderer — so every projection ends up a *subset* of what is
+enforced, and the error runs one way: **surfaces understate what will
+block you.** A review footer that omits a floor sends the author to fix
+the wrong thing; a rollup evaluating fewer conditions than the gate
+advertises subjects as passing that the gate refuses. The structure is one
+ordered enumeration of the active policy that carries every projection of
+every condition, with renderers reduced to maps over it. The sharpest
+instance of the class is a **display cap consumed as a data cap**: a list
+truncated for layout, fed into a copyable enforcement artifact, has been
+measured shipping a gate that covered eight of twenty failing subjects
+directly beneath a tile reading twenty. Any projection that is itself an
+enforcement artifact derives from the full population, never from a view
+model. The enumeration structure, the inexpressible-condition rule, and
+carrying the effective policy alongside the verdict are
+[policy-projection](techniques/policy-projection.md).
 
 ## Ratchets: monotonic improvement as a gate
 
@@ -194,6 +271,15 @@ instrument. When a new standard arrives, the questions are always the same
 four: which rung, what severity by construction, ratchet or hard ban, and
 how will we know the gate is alive next year.
 
+One neighbour is close enough to name: scoring a codebase against a
+published contract and reporting the result is *assessment*, and its craft
+— what a conformance percentage may claim, how a checker treats what it
+merely observed — belongs to
+[conformance-checking](../conformance-checking/conformance-checking.md). A
+checker is frequently *deployed* as a gate, at which point everything here
+applies to it; the two subjects meet exactly at the moment an assessment
+is asked to refuse something.
+
 ## The techniques
 
 - [gate-laddering](techniques/gate-laddering.md) — cost tiers by pipeline
@@ -214,3 +300,9 @@ how will we know the gate is alive next year.
 - [false-positive-economics](techniques/false-positive-economics.md) —
   precision as survival, measuring before enforcing, the trust budget, and
   quarantining flaky checks.
+- [unmeasurable-criteria](techniques/unmeasurable-criteria.md) — skip,
+  fail-closed, or refuse the verdict; deriving the measured-nothing state;
+  making skips visible and counted.
+- [policy-projection](techniques/policy-projection.md) — one enumeration
+  rendered into every surface, display caps that are not data caps, and
+  the effective policy travelling with the verdict.

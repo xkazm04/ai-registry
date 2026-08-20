@@ -10,6 +10,7 @@ techniques:
   - gap-ranking
   - rubric-stability
   - score-explanation
+  - weight-lenses
 ---
 
 # Scoring rubrics & composite indices
@@ -38,7 +39,13 @@ display* of any number that travels — one derivation per named metric, parity
 gates where two runtimes must both compute it
 ([metric-identity](../data-viz/techniques/metric-identity.md)), and the
 honesty rules of the pixels that render it. This subject owns what happens in
-between: how many true numbers become one true number.
+between: how many true numbers become one true number. A third neighbor draws
+the seam at the top: [maturity ladders](../maturity-ladders/maturity-ladders.md)
+own the *ordinal* — the named rung a reader carries away, where its band edges
+sit, and what happens to a stored rung when the ladder moves under it. This
+subject owns the criteria, the weights, and the cardinal composite; where a
+rule about versioned change applies to both, the ladder subject holds the
+mechanism and this one states what is score-moving about a rubric.
 
 ## A score is a claim with named parts
 
@@ -86,6 +93,23 @@ same law that governs a gap in a plotted line and an unverifiable member in a
 health rollup, applied at the point where the arithmetic would otherwise
 launder the gap away.
 
+## One vocabulary, several importance budgets
+
+A rubric that grades unlike populations under one weight vector reports scale
+and calls it quality: the small subject is marked down for infrastructure it
+has no business owning. Softening the vector until nobody is offended
+discriminates nothing; forking the rubric per class destroys comparability
+outright. The disciplined middle is a **lens** — one dimension set, one
+normalization, one banding, several weight vectors selected by the population
+being judged, so what varies is only the importance budget and the composite
+still means "quality against the same named dimensions". Two consequences are
+load-bearing and routinely missed: a lens that adds or renames a dimension is
+not a lens but a second rubric, and a dimension added to the rubric without a
+weight in *every* lens silently disappears from that population's headline,
+because a missing weight and a deliberate zero are indistinguishable in the
+arithmetic and opposite in meaning. Both, plus the classifier that selects the
+lens (itself a score-moving knob), are [weight-lenses](techniques/weight-lenses.md).
+
 ## The score's output is an ordering of actions
 
 Because the score exists to rank actions, the terminal artifact is rarely the
@@ -122,6 +146,8 @@ and cross-implementation parity are [rubric-stability](techniques/rubric-stabili
 - Normalization declares its reference frame: what maps to the floor, what
   maps to the ceiling, and whether the frame is the cohort's current spread
   (comparison) or a fixed anchor (tracking).
+- Where several populations are graded, each lens declares a weight for every
+  dimension, sums on its own, and travels with the score as a named label.
 - The rubric has fixtures: known inputs with hand-verified outputs, run as a
   gate wherever the rubric is implemented.
 
@@ -130,6 +156,9 @@ and cross-implementation parity are [rubric-stability](techniques/rubric-stabili
 - [weight-design](techniques/weight-design.md) — the weight vector as an
   explicit owned artifact: sum discipline, per-dimension rationale,
   versioned changes, sensitivity checks.
+- [weight-lenses](techniques/weight-lenses.md) — one dimension set, several
+  weight vectors selected by population: the lens invariant, the classifier
+  as a scored decision, and missing-weight drift versus a deliberate zero.
 - [normalization](techniques/normalization.md) — incomparable units into one
   scale: polarity inversion, clamping, cohort-relative vs fixed anchors, and
   which reference frame serves which question.

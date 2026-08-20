@@ -50,6 +50,46 @@ stronger items over more, weaker ones**: past a modest count, each addition
 degrades attention on all the others, so marginal recall is negative well
 before the budget is technically full.
 
+## Packing: whole items, skip don't stop
+
+Once candidates are ranked, they must be fitted into the budget, and the
+fitting has two rules that are easy to get wrong and expensive to get wrong.
+
+**Never truncate an item.** Half a memory is worse than no memory, because it
+reads to the consuming model as a *complete* one: a clipped conditional
+("…unless the scope is public") does not read as incomplete, it reads as an
+unconditional claim, and the truncation has inverted the meaning of a stored
+belief. Truncation is the one context-saving move that manufactures false
+beliefs out of true ones.
+
+**An oversized item is skipped, not a stop condition.** Greedy packing walks
+the ranked list to the end: when the item ranked third is too large for the
+remaining budget, the item ranked ninth still lands. Stopping at the first
+item that does not fit throws away everything behind one fat memory — and fat
+memories are exactly the ones a store accumulates. This is a knapsack
+approximation and it is not optimal; it is deterministic and explainable,
+which matters more here than optimality, because "why was this recalled and
+that not?" is a question operators genuinely ask.
+
+The pattern generalizes: if an item is too large to ever fit a reasonable
+budget, that is a *capture* defect surfacing at read time. Fix it upstream by
+splitting the item, not by teaching the packer to cut.
+
+## The result says what it did not show
+
+A recall result carries three numbers, not one: what was selected, what was
+eligible and considered, and what the budget was. A caller handed only the
+selection will present it — to a human or to the agent's own reasoning — as
+though it were everything the store held on the topic. Reporting the
+considered count alongside the selection is
+[count-carries-predicate](../../_laws.md#count-carries-predicate) applied to
+recall: "these six, from forty-one eligible, under a budget of N" instructs
+very differently from six bare items.
+
+Keeping the *omitted* items ranked and available (not returned into context,
+but inspectable) is what makes the budget debuggable. The complaint "it forgot
+X" is answered in one step: X scored here, and lost to these.
+
 ## Injected memory is labeled, not smuggled
 
 How recalled material enters the context is as consequential as what is
@@ -103,3 +143,19 @@ importance score is what makes
 [decay-and-forgetting](decay-and-forgetting.md) track lived relevance
 instead of creation-time guesses — without it, decay is a countdown timer;
 with it, decay is attention.
+
+The feedback has one contract, and it is the whole reason the signal is worth
+anything: **only items that actually reached the agent may be counted.** The
+tempting implementation counts at the query — one increment per candidate
+scanned, or one per recall call — because that is where the code already is.
+Do that and the usage term stops measuring usefulness and starts measuring
+*how often the store was asked*: every item drifts upward together, the
+ranking's relative order is unchanged, and the
+[memory-value-model](memory-value-model.md) is now scoring its own retrieval
+behavior rather than the items. The failure is invisible in every dashboard,
+because the counts look busy and healthy.
+
+So the increment happens on the selected set, after packing, at the boundary
+where material crosses into context — and it is the *caller's* duty, stated
+explicitly, because the scoring core is pure and cannot perform it. Counting
+items that were merely considered is the same defect one step less obvious.

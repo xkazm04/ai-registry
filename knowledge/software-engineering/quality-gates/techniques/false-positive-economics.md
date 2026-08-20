@@ -85,6 +85,25 @@ When a live gate misfires, the responses rank:
    defect class returns unguarded and the institutional memory that a
    gate once existed evaporates.
 
+## Calibrate the bar to the population it judges
+
+A threshold is a detector too, and a single global bar over a
+heterogeneous population manufactures false failures at one end of it. Bar
+a two-person project at the standard a mature organizational codebase
+meets and every run is red for reasons the author cannot act on this
+quarter; the gate is then bypassed, ignored, or removed, and the mature
+end of the population loses the bar along with them. The fix is
+**differentiated defaults**: classify the subject — by size, age, team
+shape, whatever genuinely predicts the achievable bar — and default the
+thresholds per class, so the refusal is fair to how the subject is
+actually run.
+
+Two guardrails keep this from becoming a loophole. The classification must
+be derived from observable facts, not self-declared by the party being
+gated. And the class must travel with the verdict (see policy-projection),
+because a pass whose bar is unstated is not comparable to any other pass,
+and "we raised the defaults" then looks identical to "quality dropped."
+
 ## Flaky checks: quarantine, never ambient red
 
 A check that fails nondeterministically — timing-sensitive tests, checks

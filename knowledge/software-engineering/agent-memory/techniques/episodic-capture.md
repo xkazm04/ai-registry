@@ -88,6 +88,26 @@ for the life of the belief, so the id must survive every operation the store
 undergoes — pruning, archival, export, re-import — per
 [identity-survives-reuse](../../_laws.md#identity-survives-reuse).
 
+One exception is real and worth stating precisely, because it is where the
+rule is most often broken accidentally. A store that humans read and edit
+directly — an append-only ledger of records, ordered for a reader — has a
+genuine reason to want a **monotonic, human-readable number** rather than an
+opaque identity. That is allowable *only* if allocation is atomic. The naive
+implementation reads the current maximum, adds one, and writes; with two
+writers — two agents, or an agent and a human — both compute the same next
+number, and the second write **silently destroys the first**. The loss is
+total, unlogged, and lands in the one store whose entire selling point is that
+it never loses anything.
+
+The fix is an exclusive-create allocation with retry: claim the identity by a
+create-if-absent write that fails when the identity is taken, and on that
+failure re-read the maximum and retry, bounded, with an explicit error if the
+bound is exhausted. State it as a rule — **an identity derived from the
+current contents of the store must be claimed atomically, or the store has a
+silent write-loss race** — because "read the max and add one" is what everyone
+writes first, and it works perfectly until the day the store has two writers,
+which is the day it was built for.
+
 Episodes are **records, and records do not get edited**. When an episode
 turns out to describe events wrongly, the correction is a *new* episode that
 references the old one; when a belief derived from it is wrong, supersedence

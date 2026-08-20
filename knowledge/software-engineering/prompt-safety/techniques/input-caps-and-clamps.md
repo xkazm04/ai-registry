@@ -95,6 +95,17 @@ expected *shape* validates the shape before insertion:
   parser, and the *parsed, re-serialized* value is what gets inserted — never
   the raw input that happened to parse.
 
+One refinement separates two cases the naive door merges. **A declared-but-
+invalid structure and an absent one are different inputs.** A document that
+declares a metadata block and gets it wrong is rejected with the specific
+errors — never silently repaired into validity, or the author never learns
+their declaration is broken and ships it again next week. A document with no
+block at all may be *wrapped* from values supplied explicitly by the caller —
+but those values must be demanded, never invented. A field the system
+fabricated to fill a hole is indistinguishable, downstream, from a field
+someone asserted; the next agent to read it treats a guess as a declaration,
+and the guess has acquired an authority no one granted it.
+
 Free-text slots get hygiene instead of grammar: strip or reject control
 characters that have no business in prose — including the invisible ones that
 reorder, hide, or disguise text (direction overrides, zero-widths,
@@ -109,7 +120,21 @@ Caps, clamps, and grammar checks live in the **same single door** that fences
 [untrusted-span-fencing](untrusted-span-fencing.md)): bounding happens as part
 of insertion, not as a courtesy each call site performs first. A cap enforced
 at nine of ten call sites is a cap the attacker chooses whether to encounter.
-The door order is fixed and worth stating: **validate grammar → clamp length →
-neutralize fence-lookalikes → fence → place** — grammar first (a clamp can
+The door order is fixed and worth stating: **validate grammar → neutralize
+fence-lookalikes → clamp length → fence → place** — grammar first (a clamp can
 change what the grammar would have said), fencing last (nothing added after
-the fence is inspected by it).
+the fence is inspected by it), and **neutralization before the clamp, not
+after it**.
+
+That middle pair is the one to get right, and the intuitive order is wrong.
+Neutralization is **length-changing in both directions**: replacing a forged
+marker with a visible placeholder makes the span *longer*, defusing a
+delimiter run makes it shorter. Whichever pass runs last therefore determines
+the bytes that actually reach the model, so the ceiling must be enforced on
+the post-neutralization text or it is not a ceiling — clamp first and a single
+expanding replacement pushes the span back over the limit that was just
+checked, with nothing downstream to notice. The second reason is sharper:
+truncating first can cut a structural sequence in half, and a bisected marker
+is a *new* sequence that the neutralizer's patterns, written for the whole
+one, no longer recognize. Cutting text is how you manufacture the token your
+own filter cannot see. Neutralize, then cut, then mark the cut.

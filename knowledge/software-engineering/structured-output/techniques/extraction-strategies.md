@@ -91,6 +91,21 @@ to.
   will scan and the payload it will parse, enforced before allocation, with
   over-cap treated as an extraction failure carrying that reason — not a
   freeze, and not a silent clip.
+- **Bound the recovery rungs on both dimensions, and only the recovery
+  rungs.** Span hunting is quadratic in disguise: each failed opener rescans
+  toward the end of the text, so a truncated or adversarial reply full of
+  unclosed openers costs opener-count × length. Cap the size at which
+  recovery is attempted *and* the number of openers tried — a real producer
+  puts its payload within the first few structural characters, so thousands
+  of failed starts mean there is no payload to find. Both caps apply to the
+  hunting rungs only: the whole-text parse at rung 1 is linear, so a clean
+  reply of any size still parses, and gating it would reject good output to
+  protect against bad. The reason the caps must exist rather than being
+  merely prudent: this scan is a **synchronous loop**, and a synchronous
+  loop cannot observe the cancellation signal the rest of the request
+  respects — a caller who gave up, a timeout that fired, and a shutdown that
+  was requested all wait for it. Anywhere an unbounded scan and a
+  cooperative-cancellation model meet, the bound is the only real timeout.
 - **No candidate is not an error — it is a result.** The ladder exhausting
   itself yields the explicit no-candidate outcome, with the head and tail of
   the scanned text retained (size-capped) as evidence. A ladder that throws

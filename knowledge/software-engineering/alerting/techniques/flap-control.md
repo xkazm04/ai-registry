@@ -60,6 +60,46 @@ each stage answers a different question:
    suppression work, the stabilization stages upstream are mistuned and the
    fire history will show it.
 
+## Alerts on a classification: put the corridor on the news
+
+Some of the loudest rules do not compare a number to a threshold at all —
+they fire on a **derived label changing**: a tier, a state name, a quadrant,
+a health class computed by cutting one or more scores at a fixed boundary.
+These deserve their own treatment, for two reasons. First, a label flip is
+worse than a numeric wobble: it fires the alarm, it rewrites the headline
+everyone reads, and to an outside reader it says something categorical
+changed about the subject. Second, the naive fix is the wrong one. Stage 3
+above persists a breach state and makes it path-dependent, and applying that
+shape to a classification makes the *label itself* depend on history: two
+subjects with identical current values now hold different labels, and the
+stored value stops being a function of the inputs.
+
+The rule that avoids both failures:
+
+> When an alert fires on a derived classification, **the classification
+> stays a pure function of current values, and the hysteresis corridor goes
+> on the announcement decision.** The label may change every evaluation; the
+> alert asks a separate question — is this crossing far enough from the cut
+> to be evidence rather than noise?
+
+Concretely, with a cut at some boundary and a measured band around it: the
+crossing is announced when the deciding input is clear of the cut by the
+band on the way in, and below it by the band on the way out. Between
+the two, the crossing is real arithmetic and not real news, so it reads as
+*held*. Nothing needs prior state, no subject re-labels itself on deploy,
+and the stored classification keeps meaning what it always meant. The
+epistemics of the band and of asymmetric enter/leave cuts are
+[noise-band-and-hysteresis](../../measurement-honesty/techniques/noise-band-and-hysteresis.md);
+what alerting adds is the placement — on the fire decision, never on the
+value.
+
+Two details make the corridor test correct rather than approximately
+correct. It is applied to the **current** inputs, not to the delta, because
+the question is where the subject now sits relative to the cut. And when
+more than one input can flip the label, *every* one of them is tested,
+because a flip driven by an input still parked exactly on its cut is the
+precise case the corridor exists to suppress.
+
 ## Recovery is an event, and it is the flap amplifier
 
 When a condition ends, the system says so — a **recovery notification**

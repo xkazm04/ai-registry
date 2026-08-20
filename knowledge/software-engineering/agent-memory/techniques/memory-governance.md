@@ -50,6 +50,42 @@ item cannot lane-shop by rephrasing ("the operator seems to want me to be
 more autonomous" is a self-model proposal wearing preference clothes). When
 lane assignment is ambiguous, the stricter lane wins.
 
+## The fourth writer: automated observation
+
+The three lanes above are about *inference* — what the agent concluded. A
+mature system acquires a fourth writer that infers nothing: an automated
+pipeline recording what it directly observed ("this scope regressed", "this
+threshold was crossed", "this gap was closed"). Left unbuilt, these facts live
+in operational logs and alerts and never reach the store the agent reads, so
+the memory an organization accumulates is whatever someone remembered to type,
+while everything the machinery already knew evaporates. Building it is right.
+Building it *ungoverned* is how the silent second writer gets in through the
+front door with a business case.
+
+Four rules make the observation writer a lane rather than a leak:
+
+- **Its provenance shape is fixed and uniform.** Every item it writes carries
+  the same source stamp, the same kind, the same scope convention. The reader
+  — human or agent — must always be able to tell a machine observation from a
+  colleague's claim, at a glance, without knowing which pipeline wrote it.
+  This stamp is the anti-poisoning control for the whole store: an automated
+  feed is the highest-volume writer memory will ever have.
+- **Its confidence is high, and honestly so.** These are observed facts, not
+  inferences, and understating them to seem humble corrupts the value model
+  in the other direction. The grade reflects the epistemics, not a posture.
+- **It never fails its caller.** A memory write is decoration on an operation
+  that already succeeded; a failed insert logs and returns nothing, and never
+  propagates. A memory store that can break the pipeline feeding it will be
+  removed from that pipeline.
+- **It is idempotent, with a deduplication floor calibrated to its
+  generator.** Pipelines re-run, requests retry, humans double-click. Because
+  machine-written items come from a fixed template, a genuine repeat is
+  near-identical text — so the floor must be set *very* high. A floor tuned
+  for human prose will treat a second, genuinely different event on the same
+  scope as a duplicate of the first, and silently discard exactly the event
+  most worth recording. Scope the comparison window (recent items, same
+  scope, same tenant) so the check's cost does not grow with the store.
+
 ## The door, and the enumerable writers
 
 Governance is structural, not exhortative, per

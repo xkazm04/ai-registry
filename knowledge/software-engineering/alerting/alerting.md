@@ -10,6 +10,7 @@ techniques:
   - flap-control
   - alert-lifecycle
   - escalation-routing
+  - periodic-digest
 ---
 
 # Alerting & thresholds
@@ -50,7 +51,13 @@ runs**. A threshold below the metric's floor produces a rule that is always
 true; a threshold above its ceiling produces one that can never fire; a
 comparison pointed the wrong direction produces an alert that fires on
 health and sleeps through failure. Each of these is detectable at the door,
-from the rule's own shape plus the metric's known domain — and each is
+from the rule's own shape plus the metric's known domain. A fourth is
+detectable only if someone has done the measurement: **a threshold sited
+inside the signal's own noise is a rule that alerts on the instrument
+breathing.** Thresholds are *derived* — placed a stated distance above the
+observed run-to-run spread of the measurement — not chosen for being round
+numbers, and the constant carries its derivation with it so the next person
+to tune it knows what it was clear of. Each of these authoring defects is
 catastrophically expensive to discover in production instead, because the
 always-true rule burns the channel's credibility and the never-true rule
 provides fake coverage: the team believes a condition is watched when
@@ -144,7 +151,15 @@ instructions**. A severity vocabulary defined once
 ([one-authority-per-vocabulary](../_laws.md#one-authority-per-vocabulary))
 maps each level to a reach: which surfaces show it, whether it interrupts,
 whether it penetrates quiet hours, whether it survives being unseen. The
-essential asymmetry: evaluation never sleeps — rules are evaluated and fire
+vocabulary also has room for the one message that is not an alarm at all —
+the good-news event, the crossing upward — and the cheap way to carry it is
+as **another band on the same severity axis** rather than a second axis, so
+every renderer that already switches on severity inherits its presentation
+instead of borrowing alarm chrome for a celebration. What must never be
+shared is the *verdict flag* a regression sets: good news routed through the
+bad-news predicate files itself as a regression in the audit trail.
+
+The essential asymmetry: evaluation never sleeps — rules are evaluated and fire
 records written around the clock — while *delivery* respects human rhythms.
 Muting delivery must not mute measurement, or the morning after a quiet
 night is indistinguishable from a night where nothing happened. The mapping
@@ -152,6 +167,24 @@ of severity to channel and the quiet-hours interplay are
 [escalation-routing](techniques/escalation-routing.md); the presentation
 mechanics of each channel belong to
 [toasts & notifications](../toasts-notifications/toasts-notifications.md).
+
+## The second channel: the scheduled summary
+
+The event channel cannot carry slow news. A drift toward a target, a
+spending trend, a standing that has been quietly sliding for a month — all
+of it is real and none of it is paging material, and the only alternative to
+a periodic summary is the expectation that someone remembers to open a
+dashboard, which is the habit alerting exists to end. So most alerting
+systems grow a second, batched channel — and it fails differently. A fire
+that should not have fired costs one interruption; a *recurring* push that
+says "no change this week" every week costs the channel permanently, because
+the reader's response to a predictable arrival is a filter rule, and the
+filter applies to next quarter's important edition too. The batch channel is
+therefore gated on content rather than on the calendar (notify on news), it
+declares which alert classes are allowed to wait for it and which must fire
+same-day, and it claims its per-window send durably before it sends, because
+scheduled runs get retried and a duplicated summary is a uniquely visible
+kind of noise. That is [periodic-digest](techniques/periodic-digest.md).
 
 ## The techniques
 
@@ -173,3 +206,6 @@ mechanics of each channel belong to
 - [escalation-routing](techniques/escalation-routing.md) — severity as a
   routing vocabulary; reach per level; quiet hours muting delivery but never
   measurement.
+- [periodic-digest](techniques/periodic-digest.md) — the batched channel;
+  the signal gate and adaptive cadence; which alert classes may wait for the
+  batch; at-most-once-per-window claims taken before the send.

@@ -10,6 +10,8 @@ techniques:
   - best-effort-with-accounting
   - retention-and-partitioning
   - audit-querying
+  - tamper-evidence
+  - decision-records
 ---
 
 # Audit logging
@@ -46,6 +48,24 @@ apply the disciplines below; what they own is the domain-specific content
 of their records. This subject owns the disciplines themselves: what makes
 any ledger append-only, complete, clean, bounded, and queryable.
 
+One further border, and it is the sharpest, because two correct
+disciplines pull opposite ways across it.
+[data-retention](../data-retention/data-retention.md) owns bounded
+storage as a whole: per-tenant windows, the scheduled whole-tenant purge,
+previews, and externally compelled erasure. This subject owns **the
+ledger's own bound** — the horizon a trail states for itself and enforces
+where records enter. The seam matters because the trail is precisely the
+data a retention window is most dangerous to: for a product whose output
+is evidence, the audit history *is* the compliance artifact, so its
+window is never simply one more table swept by the tenant-wide horizon.
+Read from this side, the obligations are: the ledger states its own
+horizon, that horizon carries a floor beneath which a configured value is
+refused rather than applied, and the destruction of the trail is a
+separately requested act, never a side effect of destroying the data the
+trail describes. The policy machinery — how the floor refuses, how the
+purge batches and resumes, what an erasure inventory covers — belongs to
+that subject and is not restated here.
+
 ## Append-only is a structural property, not a policy
 
 The value of an audit record is that it cannot have been altered since it
@@ -68,9 +88,18 @@ Editing history to make it accurate destroys the very property that made
 it worth consulting
 ([deletion-is-not-repair](../_laws.md#deletion-is-not-repair): removing
 the artifact that exposes a defect — here, the wrong record — removes the
-evidence, not the defect). The full treatment, including tamper-evidence
-options for trails that must convince a hostile reader, is the
+evidence, not the defect). The full treatment is the
 [append-only-design](techniques/append-only-design.md) technique.
+
+Shape alone persuades a reader who trusts the operator. Where the trail's
+audience is entitled *not* to — an external examiner, a counterparty in a
+dispute — the records need a proof bound to their own content, and
+something that recomputes it on read, because a proof nobody checks is
+decoration. That ladder, priced by what each rung actually detects (a
+per-record proof catches modification but not deletion; a chain across
+records catches both but forks under concurrent writers), plus the
+self-verifying export, is the
+[tamper-evidence](techniques/tamper-evidence.md) technique.
 
 ## One door per ledger, and the writers are enumerable
 
@@ -139,6 +168,15 @@ and what "surfaced" concretely requires are the
 [best-effort-with-accounting](techniques/best-effort-with-accounting.md)
 technique.
 
+The rule has one shape of exception worth naming here, because it is
+easy to build by accident: a ledger record that is **also load-bearing**
+— the record of "we did this" doubling as the guard against doing it
+twice. The moment a record is a claim, it is no longer an observer, and
+best-effort inverts: a claim that fails must fail the action, because
+acting without a durable claim is exactly the duplicate the claim
+existed to prevent. Such a record is a control record wearing an audit
+record's clothes, and the technique states what that costs.
+
 ## Retention is policy, enforced where records enter
 
 Audit records have obligations in both directions: some must be **kept**
@@ -194,7 +232,13 @@ The six techniques converge on what one record minimally carries:
   survives the subject's deletion, *plus* the display name it had at the
   time: the identifier is the fact, the contemporaneous name is the
   caption, and a trail that stores only a mutable name silently rewrites
-  its own history at the subject's next rename.
+  its own history at the subject's next rename. Where the subject owns no
+  durable identifier at all — a finding recomputed on each refresh, a
+  recommendation a model regenerates — the identifier must be *constructed*
+  from what survives regeneration, in one place, and never from the
+  subject's wording; a record keyed on phrasing is orphaned the moment the
+  phrasing is rewritten, silently, with no failure anywhere
+  ([decision-records](techniques/decision-records.md)).
 - **Time** — assigned at the chokepoint, one clock per ledger.
 - **Outcome** — succeeded, failed, denied; an audit trail of attempts
   without outcomes answers half of every question.
@@ -221,3 +265,9 @@ The six techniques converge on what one record minimally carries:
 - [audit-querying](techniques/audit-querying.md) — the read model as
   contract: filters by actor/action/subject/time, in-context surfaces,
   export, and access control on the readers themselves.
+- [tamper-evidence](techniques/tamper-evidence.md) — proofs bound to a
+  record's own content, verified on read; what each rung of the ladder
+  detects and what it does not; self-verifying exports.
+- [decision-records](techniques/decision-records.md) — recording a
+  human's judgment about a regenerated finding: identity before wording,
+  state and act stored separately, decisions that never move the score.

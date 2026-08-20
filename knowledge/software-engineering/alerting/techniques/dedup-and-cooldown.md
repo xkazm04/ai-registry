@@ -80,6 +80,57 @@ condition that hammered through an entire cooldown window read identically
 in history, and the fatigue analysis that decides which rules to retune
 loses its best column.
 
+## Opposite directions across one boundary share one pool
+
+A subject oscillating across a band edge does not only repeat itself — it
+**alternates**. The crossing down fires the regression; the crossing back up
+fires the good news; the next evaluation fires the regression again. If the
+two directions hold separate suppression state, every one of those messages
+is individually inside its own window and individually correct, and the
+channel is unreadable. Separate pools do not merely fail to stop this
+pattern; they are the mechanism that permits it.
+
+The rule, therefore:
+
+> **Opposite-direction news about the same subject, delivered at the same
+> reach, shares one claim pool — and claiming *consumes* it.** Checking
+> without stamping lets the two directions double-fire inside a single
+> window; a shared pool that both directions stamp cannot.
+
+"At the same reach" is the load-bearing qualifier and the reason this does
+not contradict the asymmetry in [flap-control](flap-control.md). There are
+exactly two coherent designs for the second direction. Either it is *quiet*
+— a state-resolving notice at reduced reach that costs the reader almost
+nothing, in which case it needs no share of the loud pool — or it is a
+**push in its own right**, as loud as the alarm and equally forwardable, in
+which case it is spending the same attention and draws from the same pool.
+What is never coherent is a second direction that pushes at full volume out
+of its own untouched budget.
+
+The cost of the shared pool is real, and naming it is part of choosing it: a
+*genuine* reversal shortly after a *genuine* move in the other direction is
+suppressed. That cost is acceptable only because of where the suppression
+sits — and this is the discipline that makes the whole trade honest:
+
+> **Suppression applies to the push, never to the record.** The detection,
+> the durable record, and any derived history are written *before* the claim
+> is attempted; the claim gates delivery alone. Nothing is lost from the
+> record, only from the pager, and the suppressed occurrence is recorded as
+> suppressed with its reason.
+
+That ordering is what lets a team answer "did we know?" with yes even for
+the messages nobody received, and it is why the reason for non-delivery
+(no channel configured, inside cooldown, delivery failed) belongs on the
+record as a distinguishable value rather than collapsing into a bare "not
+sent".
+
+Finally, distinct *classes* do not share a pool with the general one. A
+rarely-fired, specific class — the security-shaped alert, the quota-shaped
+alert — keyed into the same pool as the routine push will be starved by it:
+the routine alert consumes the window and the specific one never lands,
+which is the opposite of the intended priority. Same subject, same reach,
+opposite directions: one pool. Different class: its own key.
+
 ## The two-evaluator double-fire
 
 The failure that no cooldown window survives: **two evaluators, each

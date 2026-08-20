@@ -92,6 +92,26 @@ posture:
 - Bypass frequency is reviewed as a gate-health metric: routine bypassing
   indicts the hook (too slow, too imprecise), not the authors.
 
+## Extend the hook that exists; never add a parallel one
+
+A repository has at most one hook system, and adding a second — because
+the new control shipped with its own installer, or because the existing
+configuration was unfamiliar — is a durable defect, not a convenience.
+Both systems claim the same trigger, the order in which they fire is
+incidental, an author debugging a slow commit uninstalls one of them
+without knowing which controls it carried, and the "is the hook
+installed?" question now has two answers that can disagree. Worse, the
+second system's config is a second place to keep the rule set, which is
+exactly the drift the single-authority rule forbids.
+
+The discipline for any tool that wants a commit- or push-time control: it
+contributes **one line to the repository's existing hook configuration**,
+naming a script that lives in the repository. That keeps the rung's
+inventory in one readable place, keeps installation a single question, and
+keeps the same script available to the merge rung — which is what makes
+the remote run a confirmation rather than a separate implementation (see
+gate-laddering).
+
 ## Installation is a liveness problem
 
 Hooks live in the clone, not the repository — a fresh clone has none, an

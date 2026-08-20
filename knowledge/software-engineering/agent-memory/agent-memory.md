@@ -10,6 +10,9 @@ techniques:
   - decay-and-forgetting
   - recall-injection
   - memory-governance
+  - memory-value-model
+  - rollup-compaction
+  - coverage-instrumentation
 ---
 
 # Agent memory
@@ -132,6 +135,56 @@ enforced by failure: recall that returns noise, contexts that overflow,
 stores that grow until someone deletes in panic (and panic deletion never
 preserves provenance).
 
+## One value model, or two policies that disagree
+
+Spending a budget requires an ordering, and two of the stages need one: recall
+must rank what to inject, and forgetting must rank what to retire. These look
+like separate concerns and are not — they are the same question, *what is this
+item worth right now*, asked by two callers. A system that answers it twice
+(a "relevance" score for the read path, an "importance" score for the janitor)
+has built a store that retires items its own recall path was actively serving,
+with nothing in either component looking wrong when read alone.
+
+The standard is one shared, explicitly-argued value model
+(memory-value-model), imported by the read path and by the janitor. Its axes —
+trust, per-kind age decay, and a sub-linear bonus for repeated retrieval —
+compose so that no single property can order the store alone, and its
+consequences reach further than ranking.
+
+Name the third axis for what it counts. Unless something flows back from the
+consumer, it counts *deliveries*: an item packed into fifty contexts and
+ignored scores exactly like one that answered fifty questions. Calling it
+proven usefulness is the first error, because it licenses the second — leaving
+the term unbounded. Delivery is caused by rank, and rank is caused by score,
+so an unbounded term feeds its own input; and because the retirement sweep
+scores with the same model, that loop is an unbounded stay of execution. A
+stale, barely-trusted item that happens to keep matching queries then holds
+itself above the floor forever, for free, and the store's own janitor is what
+keeps it alive.
+
+So bound the retrieval bonus, and pick the bound so the arithmetic terminates:
+a low-trust item must fall under the floor after a stated number of half-lives
+*regardless* of how often it was delivered. Retrieval then buys a bounded
+reprieve rather than a veto — enough to outrank an ordinary trust gap, which
+is why the term exists, and never enough to make forgetting unreachable.
+
+## The store's third failure: accretion
+
+Two of the ways a memory store degrades are well known — it fills with
+irrelevance (answered by decay) and it drifts out of date (answered by
+supersedence). The third is quieter. Items accumulate that are each
+individually true, each individually worth keeping, and that *together say one
+thing*. Nothing is stale, nothing is wrong, and the recall budget is being
+spent six times over on one piece of knowledge.
+
+This needs its own pass — rollup-compaction — because the other two cannot
+see it: decay finds nothing low-value, and supersedence finds no
+contradiction. And it needs a companion instrument for the inverse defect,
+because a store can be simultaneously redundant where it is used and blind
+where it is not. That instrument is not a listing surface, however good:
+**a list can only show what is there; it structurally cannot show an
+absence** (coverage-instrumentation).
+
 ## The human's role: what an agent is allowed to believe
 
 An agent's memory is not merely its own affair. Beliefs about the operator,
@@ -167,6 +220,12 @@ grade of evidence the system knows.
 - **The silent second writer** — some code path that inserts "memories"
   without passing the distillation judgment, producing beliefs of a
   different (and unmarked) grade.
+- **The invisible gap** — a store that is inspected only through its own
+  contents, so the subjects it holds nothing about are never noticed by
+  anyone.
+- **The self-poisoning summary** — a compaction or rollup pass that falls
+  back to a mechanical stand-in when its judgment is unavailable, minting an
+  item that supersedes several real ones and speaks for all of them.
 
 ## The techniques
 
@@ -188,3 +247,13 @@ grade of evidence the system knows.
 - [memory-governance](techniques/memory-governance.md) — write lanes by
   stakes, proposal-gated commits, human authority over identity, and the
   audit answer every belief owes.
+- [memory-value-model](techniques/memory-value-model.md) — the one score both
+  recall and forgetting read: trust, per-kind half-lives, sub-linear usage,
+  and why a threshold is only safe inside a conjunction.
+- [rollup-compaction](techniques/rollup-compaction.md) — collapsing families
+  of redundant items into one superseding summary: the symmetric measure,
+  the minimum family size, silence over invention, and the confidence
+  ceiling.
+- [coverage-instrumentation](techniques/coverage-instrumentation.md) — the
+  absence-first instrument: the denominator is the tracked population, and
+  honest zeros over flattering ones.

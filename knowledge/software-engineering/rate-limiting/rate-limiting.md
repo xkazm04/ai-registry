@@ -10,6 +10,7 @@ techniques:
   - limiter-topology
   - storm-hygiene
   - limit-observability
+  - limit-derivation
 ---
 
 # Rate limiting
@@ -86,6 +87,19 @@ The consequences of that stance form the spine of this subject:
    snapshots, near-limit warnings before the first refusal, and refusal counts
    that name their limit are what let an operator raise a limit before an
    incident instead of during one (see limit-observability).
+7. **The number is derived, not chosen.** A limit is the output of arithmetic
+   over two independent measurements: what one admitted request causes to be
+   spent in every system it touches — including the ones you do not own — which
+   sets the ceiling, and the cadence legitimate traffic actually produces, which
+   sets the floor (see limit-derivation). The arithmetic is written beside the
+   number, so the next person recomputes rather than re-guesses. The two errors
+   are not symmetric: a number set too high is invisible until the bill or the
+   outage, while a number set too low is visible immediately, to your most
+   engaged caller, as your system appearing broken. And a limit whose purpose is
+   friction rather than protection is not derived from cost at all — it is
+   chosen from the plan, and it says so, because a friction limit dressed in
+   cost arithmetic invites a reviewer to harden it at an expense its purpose
+   never justified.
 
 ## The limiter owns the policy
 
@@ -142,7 +156,9 @@ owns the number and what a refusal teaches.
 
 A rate-limiting layer meets the bar when: every limited resource has exactly one
 limiter and its doors are enumerable; every limit is a stated contract — key,
-number, window — rather than a constant buried in a condition; every refusal
+number, window — rather than a constant buried in a condition, with the
+arithmetic that produced the number recorded beside it and overridable without a
+release, since its inputs are other people's configuration; every refusal
 carries a computed retry-after and is spelled as a verdict, distinct from
 failure; per-key state is bounded with a named reaper, so hostile cardinality
 costs memory the design already budgeted; a rejection storm produces one
