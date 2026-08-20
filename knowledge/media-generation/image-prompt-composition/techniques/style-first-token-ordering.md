@@ -16,13 +16,22 @@ use_when:
 ## The concern
 
 Prompt order is not presentation; it is **priority under loss**. Two
-mechanisms make early tokens worth more than late ones. First, truncation:
-older, caption-trained text encoders attend to roughly the first 77 tokens
-and silently drop everything after — no error, just an image that obeyed the
-prompt's opening and never saw its end. Second, attention weighting: even
-models that read hundreds of tokens weight early material more heavily, so
-the front of the prompt is obeyed more faithfully than the back on *every*
-model, not only the truncating ones.
+mechanisms make early tokens worth more than late ones, and they bound
+different model generations. First, truncation: short-window caption
+encoders attend to roughly the first 77 tokens and silently drop everything
+after — no error, just an image that obeyed the prompt's opening and never
+saw its end. **This is a class boundary, not a universal law**: model
+families built on long-context language-model encoders process hundreds of
+tokens (commonly 256–512), and material placed past token 77 demonstrably
+reaches the image. Hybrid pipelines that run both encoder types keep the
+short window on the caption branch, so front-loading still pays there.
+Second, attention weighting: even models that read the whole prompt weight
+early material more heavily, so the front of the prompt is obeyed more
+faithfully than the back on *every* model, not only the truncating ones.
+Ordering therefore survives the encoder generation change — as a robustness
+and portability practice rather than a truncation fear. A prompt ordered for
+the worst window runs unchanged on every model class; a prompt that buries
+the style at token 300 runs only where nothing truncates.
 
 So ordering is a triage question: **when the model reads only the first N
 tokens, which N produce the least-bad image?** The answer is stable: an

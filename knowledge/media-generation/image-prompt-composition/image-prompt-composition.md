@@ -75,7 +75,15 @@ composites captions, figures, and labels bound to real data.
 This split reshapes the prompt itself. The prompt must:
 
 - ban all text in the image, both positively ("no text, no letters, no
-  numbers, no labels, no logos, no watermarks") and in the negative prompt;
+  numbers, no labels, no logos, no watermarks") and in the negative prompt.
+  Be clear about *why*, because the reason has changed shape: current
+  flagship models can render multi-region typography with high character
+  accuracy, so the ban is no longer a workaround for a capability the models
+  lack. It is an **architecture decision** — checkable content lives in the
+  layer that binds to facts, and a generated glyph, however well-formed,
+  belongs to no fact. A pipeline with no compositing layer may legitimately
+  let a typography-capable model set text; it then owns per-character
+  proofreading and gives up the fact-binding the split provides;
 - avoid **text-magnet nouns** — objects whose identity is writing (a ledger,
   a signpost, a certificate) invite the model to write on them, and it will
   (see shape-language-over-nouns);

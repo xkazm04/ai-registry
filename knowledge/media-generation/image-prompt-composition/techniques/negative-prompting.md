@@ -26,6 +26,18 @@ setting, an overweight negative distorts the positive it was meant to
 protect, and on some vendors the channel does not exist at all and the
 exclusions must live elsewhere.
 
+**The absent-channel case is a model class, not an edge case.**
+Guidance-distilled model families — the fast, few-step generation of
+samplers — have no negative direction to amplify: the mechanism the negative
+prompt rides on was distilled away, so a supplied negative is ignored or,
+where guidance is forced back up, degrades the image instead. On that class
+the exclusions are carried as positive phrasing ("clean solid background",
+"flat colour areas, no gradients") — and the same wording ships to
+negative-supporting models too, so the contract stays single-sourced. Even
+where the channel exists, heavy negative blocks measurably shift composition
+and style, which is one more reason the procedure below derives a short
+contract negative instead of a folklore list.
+
 ## Procedure
 
 1. **Derive the negative from the project's contract, not from folklore.**

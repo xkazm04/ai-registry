@@ -13,6 +13,20 @@ use_when:
 
 # Shape language over nouns
 
+> **Spatial-language boundary.** Shape descriptions carry spatial claims
+> ("left third", "lower band empty", "twice the height of"), and models
+> honour them unevenly: long-context language-model encoders parse spatial
+> relations and counts far more reliably than caption-class encoders, which
+> treat the prompt as a bag of concepts. Write the spatial prose regardless
+> — it is free — but treat it as a *request* on caption-class models and
+> verify it in the output; when composition must be exact and the model
+> class is weak, the reliable moves are regional conditioning where the
+> runtime offers it, or compositing the layout deterministically. And when
+> the aspect ratio departs from the common training distributions, restate
+> the framing intent in words ("wide panoramic composition, subjects in the
+> lower half") — unusual ratios shift the model's framing priors and the
+> prompt must pull them back.
+
 ## The concern
 
 Models draw what a noun *implies*, not what your architecture permits. Ask

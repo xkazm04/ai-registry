@@ -18,6 +18,20 @@ complete textual style block travels with every single generation call**, in
 full, with no abbreviation, no matter what else is attached. The action half
 of the prompt changes per shot; the style half never does, and never shrinks.
 
+A dated boundary on the bluntness. Current explicit conditioning features —
+style references, subject/identity references, brand-style locks trained
+from uploaded examples — now carry palette, lighting and subject identity
+across calls far better than the reference-image attachment this technique
+was written against, and the vendors' own guidance is to let the reference
+carry the *how* while the text says the *what* (style words that fight the
+reference degrade both). Two things keep the restatement rule standing:
+measured drift persists across pose, lighting and style shifts even with
+references attached, so the working best practice is **references plus a
+short restated style core**, not references alone; and every conditioning
+feature is runtime-bound, while the textual block is the only carrier that
+ports across vendors unchanged. Full restatement remains the portable floor;
+references are an amplifier on top of it, never a replacement for it.
+
 ## Procedure
 
 1. **Store the style as a structured record, not a string.** The block's
