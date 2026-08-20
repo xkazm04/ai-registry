@@ -10,6 +10,7 @@ techniques:
   - closing-instant-resolution
   - miss-risk-scoring
   - escalating-reminder-thresholds
+  - submission-lead-time-buffers
   - cross-client-deadline-union
 ---
 
@@ -29,8 +30,10 @@ fails on four independent axes, and a principal practitioner treats each as a
 separate design problem:
 
 1. **The closing moment is an instant, not a date.** Funders close calls at a
-   wall-clock time in *their* timezone. A date-only model expires the call at
-   the wrong moment for anyone not in that timezone — sometimes hours after
+   wall-clock time in a published timezone frame — usually the funder's own,
+   though some large public funders fix the close in the *applicant's* local
+   time by standing policy. A date-only model expires the call at the wrong
+   moment for anyone outside the deciding frame — sometimes hours after
    submissions stopped being accepted.
 2. **"Days left" is timezone-relative.** The same physical instant is Tuesday
    in one place and Wednesday in another. Day math done in the wrong frame
@@ -42,8 +45,14 @@ separate design problem:
    about everything trains its recipients to ignore it. Escalation, burst
    suppression, and the deliberate dropping of healthy items are what keep the
    channel worth reading.
+5. **The funder's deadline is not the date you can plan to.** Registration
+   prerequisites with multi-week activation chains, internal sign-off
+   deadlines set days before the funder's, and the professional norm of
+   submitting early against portal failure all sit *upstream* of the closing
+   instant. A pipeline that paces work against the funder's date alone
+   discovers these clocks in the final week, when they can no longer be paid.
 
-The six techniques of this subject are the answers to those axes, plus the
+The seven techniques of this subject are the answers to those axes, plus the
 portfolio view that arises when one practitioner serves several client
 organizations at once.
 
@@ -132,6 +141,20 @@ first; softer signals like fit quality only break ties inside a band.
   exist, make hitting it loud — a detectable warning beats a quietly
   incomplete radar.
 
+## The deadline you plan to is not the deadline you expire by
+
+Lead-time buffering (submission-lead-time-buffers) splits the one date into
+two roles. The funder's resolved instant keeps deciding expiry — a call is
+open until the funder closes it. But pacing surfaces — bands, reminder rungs,
+risk day counts — run against an **effective plan-to date**: the close minus
+the applicant's internal review offset and a portal-risk margin, with
+prerequisite registrations tracked as their own dated items ahead of
+everything. Extensions move the plan-to date only when published, never when
+hoped for. The buffer layer is also where portfolio *capacity* becomes
+visible: several applications whose buffered final weeks land on the same
+calendar days are a staffing collision no per-item risk score can see, and
+re-staggering starts is only possible while the collision is still weeks out.
+
 ## The portfolio dimension
 
 A consultant or fiscal sponsor runs this discipline across several client
@@ -147,7 +170,8 @@ correctly-scoped reads, never one unscoped one.
 
 A deadline pipeline is defensible when you can answer, for any application on
 any day: what instant does it close, in whose timezone; how many whole days
-remain in *our* timezone; how much work remains and therefore how likely is a
+remain in *our* timezone; what buffers stand between our plan-to date and the
+funder's close; how much work remains and therefore how likely is a
 miss; which reminders have fired and which rung comes next; and why this row
 ranks above that one. Every technique in this subject exists to make one of
 those answers mechanical. When one of them is missing, the pipeline still

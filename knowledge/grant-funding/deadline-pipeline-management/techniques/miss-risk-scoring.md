@@ -4,7 +4,7 @@ type: technique
 subject: deadline-pipeline-management
 technique: miss-risk-scoring
 status: forged
-laws: []
+laws: [small-samples-stay-silent]
 shared_with: []
 use_when: [ranking in-flight drafts by which is most likely to be missed, a calendar-only reminder treats a nearly-done and a barely-started draft identically, deciding which applications a triage lane should surface]
 ---
@@ -25,10 +25,17 @@ Three quantities and one squash:
 1. **Work left, in days.** `workLeft = effortDays × (1 − completion)`.
    `effortDays` is the estimated focused-work-days to take an application from
    zero to submittable — a single tunable (a defensible starting median is
-   about five days) that converts a percentage into a time budget. Replace the
-   constant with a per-organization historical median when enough completed
-   applications exist to compute one; until then every draft shares the
-   estimate, which is honest about what is actually known.
+   about five days) that converts a percentage into a time budget. The
+   estimate varies by an order of magnitude across funder families — field
+   measurements put a full government application at eighty to two hundred
+   focused hours while a short foundation letter is a day or two — so a
+   single median is only defensible within one family; segment the tunable
+   per funder family as soon as the pipeline knows which family a draft
+   belongs to. Replace the constants with per-organization historical
+   medians when enough completed applications exist to compute them
+   (small-samples-stay-silent: a median over two data points is not a
+   calibration); until then drafts in a family share the estimate, which is
+   honest about what is actually known.
 2. **The pressure ratio.** `ratio = workLeft / (daysOut + 1)`. The `+1` is a
    deliberate grace day: a draft with *exactly* as much work as time
    (`workLeft = daysOut`) should read as tight, not as a certain miss —

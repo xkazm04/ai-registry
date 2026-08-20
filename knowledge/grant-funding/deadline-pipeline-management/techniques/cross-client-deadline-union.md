@@ -4,7 +4,7 @@ type: technique
 subject: deadline-pipeline-management
 technique: cross-client-deadline-union
 status: forged
-laws: []
+laws: [clean-is-not-ready]
 shared_with: []
 use_when: [a consultant or fiscal sponsor manages deadlines across several client organizations, building a portfolio-wide deadline view over per-tenant data, tempted to write a cross-tenant query for a combined dashboard]
 ---
@@ -68,7 +68,9 @@ disciplinary.
 - **Per-org failures degrade, not destroy.** One client org with a broken
   read should drop out of the union visibly (a "couldn't load" row for that
   client) rather than blanking the whole portfolio — the practitioner still
-  needs the other clients' clocks.
+  needs the other clients' clocks, and a client silently absent is the
+  clean-is-not-ready confusion in portfolio form: "no deadlines" and "not
+  checked" rendered identically.
 - **Cap per-org reads explicitly** and treat cap-hits as loud events; a
   silently truncated client is a client whose soonest deadline may be the one
   truncated away.

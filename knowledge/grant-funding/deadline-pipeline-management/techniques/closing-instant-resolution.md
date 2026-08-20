@@ -75,6 +75,16 @@ future to past without any data changing.
   instant exists, "hours until close" powers final-day urgency, but the
   human-facing "N days left" still comes from timezone-correct day math so
   the two never disagree about which day it is.
+- **The timezone frame itself is data.** Some large public funders fix the
+  close in the *applicant organization's* local time by standing policy —
+  for them the business-timezone choice is the published rule, not an
+  approximation, and recording "applicant-local" as the frame keeps the
+  resolution honest for organizations in any timezone.
+- **Capture weekend and holiday rollover as data, never as assumption.**
+  Funder families differ on whether a close landing on a non-business day
+  rolls to the next business day; where a family publishes a rollover rule,
+  apply it during resolution, and where none is published, the stated date
+  stands.
 - **Store time and zone as separate optional fields**, not baked into the
   date string. Their *absence* is information — it selects the calendar-day
   fallback — and a pre-combined timestamp destroys that signal.

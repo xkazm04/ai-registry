@@ -4,7 +4,7 @@ type: technique
 subject: deadline-pipeline-management
 technique: timezone-correct-day-math
 status: forged
-laws: []
+laws: [honest-null-over-forced-guess]
 shared_with: []
 use_when: [computing days-until-close anywhere a real wall-clock now enters, a reminder fired a day early or skipped the last day, scheduled jobs and on-screen counts disagree about the same deadline]
 ---

@@ -4,7 +4,7 @@ type: technique
 subject: deadline-pipeline-management
 technique: escalating-reminder-thresholds
 status: forged
-laws: []
+laws: [clean-is-not-ready]
 shared_with: []
 use_when: [designing scheduled deadline reminders, a recipient got three reminders about one deadline in one day, reminders re-fired after a scheduler rerun]
 ---
@@ -62,7 +62,8 @@ Thresholds are policy, so read them from configuration with a hard-coded
 fallback — but sanitize: parse to positive integers, de-duplicate, sort, and
 fall back wholesale on empty or invalid input. A misconfigured threshold
 string that silently yields an empty ladder is a reminder system that stopped
-working with no error anywhere.
+working with no error anywhere — the clean-is-not-ready failure exactly: a
+quiet channel and a broken channel must be impossible to confuse.
 
 Sort ascending once at the boundary and let the selection rule depend on that
 order ("smallest crossed unsent"); re-sorting defensively at each use hides
@@ -86,6 +87,10 @@ notice happens; the risk score decides *how loudly*.
   for applications that legitimately sit inside it, and suppression retires
   it for everyone deeper — verify this with a test before shipping the config
   change.
+- **When a submission buffer is in force** (submission-lead-time-buffers),
+  run the ladder against the effective plan-to date, not the funder close —
+  a day-before nudge aimed at the funder's date arrives after the internal
+  deadline it was supposed to protect.
 - **Day-of coverage comes from the 1-rung plus correct day math.** If the
   last-day reminder is unreliable, suspect the timezone frame before the
   ladder.
