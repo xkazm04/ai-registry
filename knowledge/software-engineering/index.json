@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 106,
-  "techniques": 629,
-  "applications": 238,
+  "techniques": 632,
+  "applications": 239,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -17,7 +17,7 @@
    "integration",
    "engineering-process"
   ],
-  "use_when_coverage": "0/629",
+  "use_when_coverage": "0/632",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4148,6 +4148,15 @@
    "file": "knowledge/software-engineering/model-routing/model-routing.md",
    "techniques": [
     {
+     "slug": "candidate-ranking",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": []
+    },
+    {
      "slug": "capability-floors",
      "status": "forged",
      "laws": [
@@ -4170,6 +4179,24 @@
      "laws": [
       "count-carries-predicate",
       "gate-sees-target"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "failover-horizon",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": []
+    },
+    {
+     "slug": "model-identity",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
      ],
      "shared_with": []
     },
@@ -4201,6 +4228,11 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "candidate-ranking",
+     "file": "knowledge/software-engineering/model-routing/applications/process--candidate-ranking.md"
+    },
     {
      "stack": "react",
      "technique": "routing-policy",
@@ -8126,6 +8158,7 @@
     "migrations/idempotent-steps",
     "migrations/transactional-ddl",
     "model-routing/capability-floors",
+    "model-routing/failover-horizon",
     "model-routing/routing-policy",
     "multi-project/passive-signal-ingestion",
     "observability-telemetry/remote-telemetry-economics",
@@ -8394,6 +8427,7 @@
     "migrations/pre-migration-snapshots",
     "migrations/schema-drift-detection",
     "modal-stack/destructive-confirmation",
+    "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
     "multi-project/cross-project-comparison",
@@ -8546,6 +8580,7 @@
     "media-playback/timeline-scheduling",
     "migrations/data-migrations",
     "modal-stack/stack-ownership",
+    "model-routing/model-identity",
     "motion/one-shot-guarding",
     "multi-project/cross-project-comparison",
     "multi-project/per-project-tabs-and-state",
@@ -8953,6 +8988,8 @@
     "metrics-rollups/bundle-endpoints",
     "migrations/schema-drift-detection",
     "modal-stack/layering-and-precedence",
+    "model-routing/failover-horizon",
+    "model-routing/model-identity",
     "model-routing/turn-classification",
     "motion/preset-vocabulary",
     "multi-project/cross-project-comparison",
@@ -9078,6 +9115,7 @@
     "metrics-rollups/stored-rollups",
     "migrations/data-migrations",
     "modal-stack/anchored-positioning",
+    "model-routing/candidate-ranking",
     "model-routing/capability-floors",
     "multi-project/passive-signal-ingestion",
     "multi-project/portfolio-drill-hierarchy",
