@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 14,
-  "techniques": 78,
-  "applications": 27,
+  "techniques": 80,
+  "applications": 29,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -14,7 +14,7 @@
    "frame-direction",
    "production-ops"
   ],
-  "use_when_coverage": "78/78",
+  "use_when_coverage": "80/80",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -490,6 +490,11 @@
      "stack": "process",
      "technique": "unconditional-fail-criteria",
      "file": "knowledge/media-generation/generated-output-grading/applications/process--unconditional-fail-criteria.md"
+    },
+    {
+     "stack": "process",
+     "technique": "vision-model-grading-schema",
+     "file": "knowledge/media-generation/generated-output-grading/applications/process--vision-model-grading-schema.md"
     }
    ]
   },
@@ -592,6 +597,11 @@
      "stack": "process",
      "technique": "cost-per-usable-economics",
      "file": "knowledge/media-generation/generative-provider-routing/applications/process--cost-per-usable-economics.md"
+    },
+    {
+     "stack": "process",
+     "technique": "vendor-fact-ledger",
+     "file": "knowledge/media-generation/generative-provider-routing/applications/process--vendor-fact-ledger.md"
     }
    ]
   },
@@ -610,6 +620,20 @@
      "use_when": [
       "specifying a palette in a generation prompt",
       "the right colours appear in outputs but land on the wrong elements"
+     ]
+    },
+    {
+     "slug": "medium-vocabulary-locking",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a style block for a specific artstyle family",
+      "a style reads generically despite detailed prompting",
+      "realism adjectives are making outputs look worse"
      ]
     },
     {
@@ -636,6 +660,20 @@
      "use_when": [
       "sizing a prompt against a model's real attention window",
       "a vendor rejects prompts or silently ignores their second half"
+     ]
+    },
+    {
+     "slug": "prompt-dialect-matching",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adopting a new image model into an existing prompt pipeline",
+      "a prompt that works on one model degrades on another",
+      "deciding between prose and tag-list prompt styles"
      ]
     },
     {
@@ -1365,6 +1403,7 @@
     "generative-provider-routing/cost-per-usable-economics",
     "generative-provider-routing/non-silent-elimination",
     "generative-provider-routing/vendor-fact-ledger",
+    "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/prompt-budget-limits",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/no-engine-means-no-video",
@@ -1424,7 +1463,9 @@
     "evidence-bound-visuals/epistemic-draw-routing",
     "generated-output-grading/trial-matrix-design",
     "image-prompt-composition/assigned-colour-roles",
+    "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/negative-prompting",
+    "image-prompt-composition/prompt-dialect-matching",
     "image-prompt-composition/style-first-token-ordering",
     "image-prompt-composition/two-block-style-and-action",
     "visual-style-locking/approved-reference-sheet",
@@ -1471,6 +1512,7 @@
     "generative-provider-routing/resolution-as-stage-property",
     "generative-provider-routing/vendor-fact-ledger",
     "image-prompt-composition/prompt-budget-limits",
+    "image-prompt-composition/prompt-dialect-matching",
     "narrative-engine-selection/fit-vs-hazard-axes",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/phase-order-and-graduation",

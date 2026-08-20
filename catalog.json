@@ -178,10 +178,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 14,
-      "techniques": 78,
-      "applications": 27,
-      "files": 123,
-      "contentHash": "sha256:a2925ac0cbf71201"
+      "techniques": 80,
+      "applications": 29,
+      "files": 128,
+      "contentHash": "sha256:6e31480441d60497"
     },
     {
       "name": "software-engineering",

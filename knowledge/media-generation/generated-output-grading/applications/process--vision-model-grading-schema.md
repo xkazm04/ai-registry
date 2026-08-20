@@ -71,9 +71,32 @@ below for one such probe run against this registry's own fixtures.
 
 ## Appendix — local probe, 2026-08-20 (smallest discriminating run)
 
-See the run log in this bundle's `log.md`. Method and result recorded with
-n visible; replicate before relying — a probe this small calibrates the
-protocol, it does not rank vendors.
+Fixtures: an existing style-lock experiment triple (anchor / conditioned /
+control) with known ground truth — the conditioned image matched the anchor
+for human raters 67% vs the control's 33% in the original measured run.
+Judge: one frontier VLM family (Claude-class), independent fresh-context
+calls. **n=5 per probe — a protocol calibration, not a vendor ranking.**
+
+- **Scalar probe** (one image vs a countable textual style contract, score
+  1-10, 5 repeats): **5/5 identical scores (7)**, with all five judges
+  independently naming the same three defects. Zero variance.
+- **Pairwise probe** (two images vs the anchor *image*, no textual
+  contract, order alternated, 5 repeats): the known-better image won only
+  **3/5**, with wrong verdicts occurring in *both* presentation orders,
+  and judges disagreeing about which image carried the drop shadows.
+
+Read against the literature's "rank reliably, score unreliably": in this
+setup the relationship **inverted**, and the probes differ in exactly one
+craft-relevant way — the scalar probe had a countable rubric, the pairwise
+probe a holistic similarity question. Working hypothesis, consistent with
+this bundle's own unconditional-fail and countable-rubric doctrine: **the
+stability lever is rubric countability, not verdict format** — a pairwise
+question with no contract inherits the instability, a scalar question with
+countable checks escapes it. The 3/2 pairwise split is also precisely the
+case the two-grader-disagreement rule routes to a human. Confounds stated:
+one judge family, one fixture triple, probes differ in image count as well
+as rubric form; replicate across families and fixtures before promoting
+this beyond an appendix.
 
 ## Sources (accessed 2026-08-20)
 
