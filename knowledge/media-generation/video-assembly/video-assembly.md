@@ -10,6 +10,7 @@ techniques:
   - drift-correction
   - gap-and-refusal-honesty
   - derived-turn-markers
+  - generated-shot-sourcing
 ---
 
 # Video assembly
@@ -50,7 +51,11 @@ single shared ruler:
   to end.
 
 One ruler, three lanes, every block drawn at its true position and true
-length. The lane order is a convention worth keeping stable (picture on top,
+length. Generated clips complicate the grammar without changing it: current
+video models ship shots with their own synchronized sound baked in, and that
+sound is a mix decision made outside the assembly — it is explicitly kept,
+demoted, or stripped per clip, and never silently occupies the voice or
+music lane. The lane order is a convention worth keeping stable (picture on top,
 voice, then music) because an editor reads a timeline the way a musician
 reads a staff: the value is in never having to re-orient.
 
@@ -102,6 +107,22 @@ hundred milliseconds out by the tail, and no single nudge fixes it; it must
 be corrected at the source. Diagnose which one you have before touching
 anything: measure at the head *and* the tail.
 
+## Loudness is delivered to a number
+
+What is true of sync is true of level: the finished cut's loudness is a
+measured target, not a feeling at the monitoring position. Delivery specs
+state an integrated loudness in loudness units and a true-peak ceiling, and
+they differ by destination — broadcast practice normalizes around −23 to
+−24 integrated with a −1 to −2 dB true-peak ceiling, mainstream streaming
+platforms normalize programs near −14, and premium episodic delivery
+measures dialogue-gated loudness near −27, anchoring the whole mix to the
+narration the viewer follows. Two consequences: master to the strictest
+destination you will deliver to and let the louder platforms normalize
+down, never the reverse (upward normalization invites limiting that cannot
+be undone); and treat the target as part of the cut's computed truth —
+"the mix is at −23.2 integrated, peaks at −1.5" is a measurement the
+assembly can state, "it sounds about right" is not.
+
 ## The cut tells the truth about itself
 
 Assembly is where a pipeline's failures become visible, and the naive move
@@ -143,6 +164,11 @@ waiting.
   effect for special moments.
 - Drift is measured in milliseconds at head and tail, corrected against a
   named mark, and its status re-derived from the current offset.
+- Loudness ships to a destination's stated number and ceiling, measured —
+  never to the room's impression of loud enough.
+- A generated shot is sourced material, not a finished scene: it enters the
+  cut through the same acceptance bar as delivered footage, with its brief
+  and anchors kept as provenance.
 - The cut's failures — gaps, refusals, unspotted seconds — are first-class
   drawn states. A cut that only shows what worked is a pitch deck.
 - One clock. Every lane, every marker, every coverage number computes from

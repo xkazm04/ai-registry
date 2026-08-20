@@ -52,7 +52,8 @@ one moment that needed lift arrives pre-spent. Spotting is rationing.
   the last frame of its scene will either end abruptly or overhang, and the
   spotting note should say which is intended.
 - **The voice lane always wins.** Music under narration ducks by a fixed
-  rule (a set attenuation while voice is present, restored in the gaps),
+  rule (a set attenuation while voice is present — a working range of six
+  to twelve decibels covers most factual mixes — restored in the gaps),
   automated rather than hand-keyed per collision. A spotting note that says
   a cue "sits under" a narrated region implies the duck; say it anyway.
 - **Adjacent cues need a relationship.** Two cues that meet need a stated
