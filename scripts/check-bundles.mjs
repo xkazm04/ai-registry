@@ -336,12 +336,83 @@ for (const f of walk(KNOWLEDGE)) {
   }
 }
 
+// ---- file health: the bytes, not the contract
+//
+// The contract checks above all read a file as text and validate what it SAYS. Nothing
+// checked what it IS. A published application document sat in this lane carrying a raw
+// NUL byte — a forger wrote a literal NUL join separator into a code span instead of
+// escaping it — and git classified the file as binary. No diff, no blame, no reviewable
+// history, and every contract check above passed it, because a NUL parses fine as text.
+//
+// So: three properties that decide whether a file can be REVIEWED at all.
+//
+//   * No NUL bytes. One is enough for git to call the file binary.
+//   * Valid UTF-8. OKF requires it and this lane is UTF-8 prose by rule.
+//   * No stray C0 control characters. Tab, LF and CR are content; a form feed or a bell
+//     in prose is the same class of accident as the NUL, caught before it lands.
+//
+// Deliberately NOT checked: line endings. This repository has no .gitattributes and
+// contributors run with `core.autocrlf=true`, so the working tree legitimately holds CRLF
+// on Windows and LF elsewhere. A gate whose verdict depends on the checkout is a gate
+// worth distrusting — the same instrument lesson the deepen lane already paid for.
+const walkAll = (d, out = []) => {
+  for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+    if (e.name.startsWith('.')) continue; // local overlays are not published
+    const p = path.join(d, e.name);
+    if (e.isDirectory()) walkAll(p, out);
+    else out.push(p);
+  }
+  return out;
+};
+
+const utf8 = new TextDecoder('utf-8', { fatal: true });
+let filesScanned = 0;
+
+for (const f of walkAll(KNOWLEDGE)) {
+  filesScanned++;
+  const rel = path.relative(ROOT, f).replace(/\\/g, '/');
+  const bytes = fs.readFileSync(f);
+
+  const nul = bytes.indexOf(0);
+  if (nul !== -1) {
+    const n = bytes.filter((b) => b === 0).length;
+    fail(
+      `${rel}: contains ${n} NUL byte(s), first at offset ${nul} — git treats this file as ` +
+        'binary, so it has no diff and no blame. Write the escape, not the byte.',
+    );
+    continue; // a NUL will also trip the control-character scan; report the cause once
+  }
+
+  try {
+    utf8.decode(bytes);
+  } catch {
+    fail(`${rel}: is not valid UTF-8 — OKF requires it and this lane is UTF-8 prose by rule`);
+    continue;
+  }
+
+  for (let i = 0; i < bytes.length; i++) {
+    const b = bytes[i];
+    // C0 minus tab (9), LF (10), CR (13); plus DEL (127).
+    if ((b < 0x20 && b !== 9 && b !== 10 && b !== 13) || b === 0x7f) {
+      fail(
+        `${rel}: control character 0x${b.toString(16).padStart(2, '0')} at offset ${i} — ` +
+          'prose carries tab, newline and carriage return; nothing else',
+      );
+      break;
+    }
+  }
+}
+
 if (conceptFiles === 0) {
   console.error('FATAL: zero concept documents parsed across all bundles. THE PARSER IS BROKEN.');
   process.exit(2);
 }
 if (linksChecked === 0) {
   console.error('FATAL: zero markdown links found. THE LINK MATCHER IS BROKEN.');
+  process.exit(2);
+}
+if (filesScanned === 0) {
+  console.error('FATAL: the file-health walk visited zero files. THE WALKER IS BROKEN.');
   process.exit(2);
 }
 
@@ -352,7 +423,7 @@ for (const s of stats) {
     (s.categories ? ` · ${s.categories} categories` : ''),
   );
 }
-console.log(`${conceptFiles} concept documents · ${linksChecked} links checked`);
+console.log(`${conceptFiles} concept documents · ${linksChecked} links checked · ${filesScanned} files scanned for health`);
 console.log('NOT checked here: evidence resolution (consumer-side, by design — rkb-profile §5)');
 console.log('NOT checkable statically: the live transplant test — only it promotes status to transplant-tested');
 for (const n of notes) console.log(`  note: ${n}`);
