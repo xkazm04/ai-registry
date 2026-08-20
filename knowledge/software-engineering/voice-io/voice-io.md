@@ -10,6 +10,7 @@ techniques:
   - spoken-intent-parsing
   - voice-ux-integration
   - on-device-vs-cloud
+  - duplex-agent-sessions
 ---
 
 # Voice input and output
@@ -189,6 +190,26 @@ not compete:
   labels — a deaf user must be able to operate the entire voice-output
   feature (start it for someone else, stop it, see that it is playing).
 
+## Someone else can own the middle — on your terms
+
+The two-pipelines framing assumes the product owns what happens between them.
+A whole class of vendor now offers to own it too: one live session that
+listens, decides what to say, and speaks, leaving the product to open the
+session and read the transcript. Taken up carelessly this dissolves the
+subject — the pipelines, the engine seam, the degradation ladder all become
+someone else's implementation detail, and the product's conversational
+behavior becomes a configuration object in an account you do not version.
+
+Taken up deliberately it is often the right trade, because turn-taking,
+barge-in and echo cancellation are each weeks of work. What makes it
+deliberate is naming which half was handed over — speech transport, or the
+conversation itself — and keeping on your side of the line the things that
+make the handover reversible: the persona, the state after every exchange, the
+transcript, and a runnable check that the remote configuration still matches
+what the repository intends.
+[duplex-agent-sessions](techniques/duplex-agent-sessions.md) owns that
+decision and its consequences.
+
 ## The techniques
 
 - [stt-pipeline](techniques/stt-pipeline.md) — capture, metering, endpointing,
@@ -208,3 +229,7 @@ not compete:
 - [on-device-vs-cloud](techniques/on-device-vs-cloud.md) — residency as a
   privacy decision, the decision matrix, the degradation ladder, the
   provisioning boundary.
+- [duplex-agent-sessions](techniques/duplex-agent-sessions.md) — when a vendor
+  runs the whole conversation: the transport-or-brain decision, the
+  account-vs-session configuration split, drift-checking remote configuration,
+  the audience-safe brief, transport reachability, and the verdict at hang-up.
