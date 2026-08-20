@@ -20,8 +20,8 @@
 // shared field is the failure the per-contributor files exist to prevent.
 import fs from 'node:fs';
 import path from 'node:path';
-import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { hashBundle } from './lib/bundle-hash.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -49,26 +49,9 @@ const readFm = (file) => {
   return fm;
 };
 
-// Content hash over the bundle's published files: sorted relative paths + their bytes, so
-// the digest changes when content changes and NOT when the filesystem reorders a listing.
-const hashBundle = (dir) => {
-  const files = [];
-  const walk = (d) => {
-    for (const e of fs.readdirSync(d, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-      if (e.name.startsWith('.')) continue; // local overlays never enter the digest
-      const p = path.join(d, e.name);
-      if (e.isDirectory()) walk(p);
-      else files.push(p);
-    }
-  };
-  walk(dir);
-  const h = crypto.createHash('sha256');
-  for (const f of files.sort()) {
-    h.update(path.relative(dir, f).replace(/\\/g, '/'));
-    h.update(fs.readFileSync(f));
-  }
-  return { hash: `sha256:${h.digest('hex').slice(0, 16)}`, count: files.length };
-};
+// The digest itself lives in scripts/lib/bundle-hash.mjs so the stability guard
+// (check-hash-stability.mjs) hashes through exactly the same code this builder does —
+// two copies of a digest is two answers to "did this bundle change".
 
 const bundles = [];
 for (const e of fs.readdirSync(KNOWLEDGE, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
