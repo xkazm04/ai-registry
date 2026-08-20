@@ -14,6 +14,7 @@ techniques:
   - citation-required-per-claim
   - hallucinated-reference-sweep
   - prose-register-gates
+  - groundedness-scoring-triage
   - human-review-doors
 ---
 
@@ -76,7 +77,12 @@ subject's techniques:
    addresses) and for language — because a sentence can be perfectly true,
    perfectly cited, perfectly schema-valid, and still be unpublishable, and
    accuracy gates never catch that class.
-6. **Nothing the model produced is a finding until a human says so.** A
+6. **What no deterministic check can see is scored, as triage.** A claim can
+   pass every gate above while its cited source fails to support it. An
+   independent verifier model scores that support — to order the review queue
+   and bounce clear non-support into re-runs. A machine opinion about a
+   machine lead: it feeds the door and never replaces it.
+7. **Nothing the model produced is a finding until a human says so.** A
    passing verdict lands in a pending-review state; promotion to published
    runs through one audited write path a human drives. The model's output is a
    lead by construction, not by convention.
@@ -155,8 +161,12 @@ entity-id membership gates and citation-required-per-claim bind every
 assertion to something real and checkable; the hallucinated-reference sweep
 extends the reality check from the citation slots to every character of
 prose; prose register gates bound what may face a reader independent of
-truth; and human review doors are the only exit into publication. The order
-is not optional: schema first (shape failures make every later check
-unreliable), reality checks second, register third, human door last — and the
+truth; groundedness-scoring triage orders what survives all of that by the
+one question the deterministic stack cannot decide — whether each cited
+source actually supports its claim — and human review doors are the only
+exit into publication. The order is not optional: schema first (shape
+failures make every later check unreliable), reality checks second, register
+third, probabilistic triage after the deterministic gates and before the
+door — never instead of either — human door last, and the
 whole stack must be re-runnable as one command over stored verdicts, because
 the gate you cannot re-run is a gate you cannot trust was ever run.
