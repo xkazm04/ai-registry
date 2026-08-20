@@ -70,6 +70,16 @@ the chain survived intact both times — and two adjacent quantities moved anywa
   any dial targeting them. Protect them by exemption (see
   [dial-vs-subject-property](dial-vs-subject-property.md)).
 
+One boundary condition, learned where the render is a synthetic narration rather
+than text: delivery direction — inline pause, emphasis, and performance cues — is
+written *into the prose itself* by most voice engines' interfaces. Those cues are
+tone-layer content, so the "words-only diff" and the mechanical invariance checks
+must strip delivery markup before comparing, or a legitimate re-direction reads as
+drift; and conversely, a cue that changes what is said rather than how (an added
+aside, a cut clause smuggled in as "pacing") is a structural edit wearing stage
+directions, routed like any other (see
+[spoken-delivery-direction](spoken-delivery-direction.md)).
+
 ## When not to use it
 
 Do not impose the separation on genres where voice legitimately *is* the structure —

@@ -36,6 +36,22 @@ Two budget corrections that are always forgotten:
   structural turns are placed, or the turns drift late and the recovered seconds
   come out of the argument.
 
+**The band is a human-presenter measurement, and it narrows twice for synthetic
+narration.** First, the range: professional long-form narration without an on-screen
+presenter conventionally sits far below it (roughly 130–175 wpm, centered near
+150–160), and produced video guidance clusters at 130–170 depending on format — the
+197–252 band belongs to talk-driven video where a visible human carries the pace.
+Validate a learned target against the band *for its delivery mode*, not the
+presenter band universally. Second, the dial itself: a synthetic voice's rate is an
+emergent property of the cast voice plus the text, not a number the profile sets —
+so for a synthetic narrator the budget arithmetic runs on the voice's **measured**
+rate from an audition render, and the timing gate runs on rendered duration, not on
+word count. Word counts additionally under-predict spoken length wherever figures
+are dense, because compact written figures expand to many syllables aloud (see
+[spoken-delivery-direction](spoken-delivery-direction.md)); pause direction adds
+seconds with zero words. The word budget remains the planning tool; the render's
+clock is the verdict.
+
 ## The word floor, and which way to fail
 
 Every beat chain has a **word floor** — the shortest prose that renders all its

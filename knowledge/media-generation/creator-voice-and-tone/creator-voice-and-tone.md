@@ -10,6 +10,7 @@ techniques:
   - reference-world-and-bookends
   - voice-profile-from-accepted-work
   - delivery-rate-budgeting
+  - spoken-delivery-direction
 ---
 
 # Creator voice and tone
@@ -136,6 +137,16 @@ to a hit** (one viral script must not dominate; weight by count, not performance
 because early-stage performance signal is noise).
 
 ## The boundary of the subject
+
+Everything above treats voice as a property of text — and factual video ends in
+narration, where a second voice layer appears that no written dial reaches. When
+the narrator is synthetic, *which voice speaks* and *how it delivers* — pacing,
+pauses, emphasis, breath — is a casting and direction discipline of its own, with
+its own interfaces and failure modes; the written profile still owns the words, and
+the spoken layer owns the performance of them. That layer is
+[spoken-delivery-direction](techniques/spoken-delivery-direction.md); the boundary
+to hold is that delivery direction may season the render but never rescue the
+prose, and never touch the chain.
 
 Tone ends where persona begins. A recurring character with continuity across
 episodes — running jokes about their own spending, a remembered history — is not a
