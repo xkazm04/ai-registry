@@ -151,6 +151,15 @@ peer: it receives, it never enforces, and the schema mirrors the fact table
 so a query written against one runs against the other — see
 [analytical-copy-partitioning](techniques/analytical-copy-partitioning.md).
 
+The fork has a far side. Past the volume where row-store ingest saturates —
+the field measures the ceiling in tens of thousands of events per minute —
+the roles invert: the columnar store becomes the events system of record and
+the row store retreats to config, keys, and governance state. The doctrine
+survives the inversion intact, because it was never about which store is
+bigger: enforcement still reads only the transactional, immediately
+consistent store, and the columnar primary — fed by buffered, batched
+ingest — is eventually consistent by construction.
+
 ## Failure modes of the naive reading
 
 - **The premature star schema.** Dimension tables and surrogate keys before

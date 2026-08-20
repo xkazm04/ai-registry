@@ -87,6 +87,22 @@ so the decision rule matters:
   line belongs to the row store until the copy's lag is measured and
   acceptable for that surface.
 
+There is also a far boundary, and honesty requires stating it: past the
+volume where row-store ingest saturates (the field measures that ceiling in
+tens of thousands of events per minute), the fork *inverts* — the columnar
+store becomes the events system of record and the row store keeps only
+config and governance. Three consequences travel with the inversion: ingest
+becomes buffered and batched, because columnar physics reject
+row-at-a-time inserts (events land in an object store first, queue as
+references, arrive in worker batches — which also makes the object store
+the replay source); partition grain widens with volume, since day-grain
+partitioning at billions of rows explodes partition counts while the
+ordering key does the day-level pruning; and retention becomes an active,
+declared tiering policy — full resolution hot, sampled or summarized cold —
+not merely "old partitions are cheap". The role rule is unchanged:
+enforcement never reads the eventually consistent path, whichever store
+that is.
+
 An interim stage is legitimate: client-side aggregation over a bounded
 recent window (pull the matching rows, sum in the service) serves
 low-volume deployments on weak backends without any warehouse at all — the

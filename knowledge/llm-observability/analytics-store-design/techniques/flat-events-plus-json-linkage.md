@@ -46,7 +46,11 @@ otherwise:
 
 - **Payloads** — request and response bodies. Large, schemaless, subject to
   per-project redaction policy, and never filtered on server-side. One text
-  column each.
+  column each — with a size ceiling: once payloads reach megabytes per event
+  (agentic traffic gets there fast), they move out of the row entirely, into
+  a blob store with a reference column. The row keeps the pointer and the
+  size, never the bytes; the boundary rule is unchanged, only its far edge
+  named.
 - **Tags** — a freeform label array. Query semantics are *membership*, not
   substring: "has tag X" is answerable (imprecisely but correctly) with a
   containment predicate; substring matching over a serialized array matches
@@ -89,6 +93,13 @@ whose rows can contradict the first the day an event arrives late or a
 rollup bug ships. The same holds for cost summaries and daily series: they
 are queries, or at most caches with a stated recomputation, never peer
 tables written on ingest.
+
+One field-observed boundary on this rule: at columnar scale, trace-level
+*identity attributes* (the user, the session) do get denormalized onto every
+event row — wider and flatter than a row store would dare — because they are
+written once, at ingest, onto immutable rows. That is not a materialized
+view; it is the flat-row discipline extended. The roll-up itself — the tree,
+the totals — stays computed on read.
 
 ## When not to use this
 
