@@ -30,9 +30,11 @@ loudly.
    guessing at a date.
 2. **Period end + grace window → due date.** Funders demand the report a
    fixed window after the period closes. Around thirty days is a workable
-   default for foundation narrative reports; public funders commonly allow
-   ninety days for periodic financial reports and up to one hundred twenty
-   for final ones. The default is a *fallback*: when the award letter or
+   default for foundation narrative reports — and for public funders'
+   interim financial reports, which commonly fall due thirty days after the
+   quarter closes; annual financial filings commonly get ninety days, and
+   final closeout reports up to one hundred twenty. The default is a
+   *fallback*: when the award letter or
    notice states a deadline, the stated deadline wins, always. The
    convention exists for records where nobody captured one.
 3. **Due date + today → bucket.** Every unsubmitted report lands in exactly

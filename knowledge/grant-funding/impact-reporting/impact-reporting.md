@@ -8,6 +8,7 @@ techniques:
   - report-calendar-derivation
   - four-section-report-model
   - honest-misses-disclosure
+  - shared-indicator-alignment
   - modeled-figure-marking
   - per-funder-track-record
   - verifiable-impact-certificates
@@ -45,8 +46,9 @@ mechanically from the period the report covers, rather than trusting anyone to
 remember it ([report-calendar-derivation](techniques/report-calendar-derivation.md)):
 the period notation itself ("third quarter of a year", "a fiscal year") fixes
 the period's end date; a grace window — commonly around thirty days for
-foundations, up to ninety or one hundred twenty for public funders' financial
-reports — fixes the due date; and each unsubmitted report lands in exactly one
+foundation narratives and public funders' interim financial reports, stretching
+to ninety for annual filings and one hundred twenty for final closeout — fixes
+the due date; and each unsubmitted report lands in exactly one
 bucket: overdue, due soon, or upcoming. The buckets, not the raw dates, are
 what a human acts on. A reporting queue that surfaces "two reports due within
 fourteen days, one overdue" turns a silent failure mode into a loud one.
@@ -95,6 +97,17 @@ challenge in it is not a clean record — it is a tell that the writer is
 managing the funder rather than informing them. The discipline is structural:
 a report that names no miss anywhere is treated as incomplete, not as good
 news.
+
+Beneath both crafts sits a measurement-design choice made long before the
+report is drafted: which indicators the outcomes are counted in. Chosen at
+award time from a shared sector taxonomy where one faithfully fits — and
+declared bespoke where none does — indicators make an org's outcomes addable
+across its own grants and legible inside a funder's portfolio roll-up
+([shared-indicator-alignment](techniques/shared-indicator-alignment.md)).
+The discipline matters more, not less, as funders lighten their formats —
+shared annual reports, conversations in place of forms — because a lighter
+report has room for only a few figures, and those few must already mean
+something beyond the page they appear on.
 
 Throughout, the cardinal law of the domain applies with full force: no figure
 in a report is ever invented
