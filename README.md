@@ -70,6 +70,7 @@ rewrites the other, and a reader that knows only one of them still works.
 | [`civic-intelligence`](knowledge/civic-intelligence/) | Watching public power with data: parliamentary records, legislation, public money, and the accountability methodology for publishing about real, named people. |
 | [`grant-funding`](knowledge/grant-funding/) | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |
 | [`llm-observability`](knowledge/llm-observability/) | Operating production LLM traffic as a product: telemetry and cost attribution, price books and usage governance, unit economics, judge-scoring of live traces, and federated benchmark sharing. |
+| [`game-production`](knowledge/game-production/) | Producing a game's systems and content at scale with machine assistance: systems canon and balance validation, the content pipeline and its acceptance ladder, generative asset production, engine integration, machine craft judgment, and production governance. |
 
 A bundle's two upper layers (Golden Path, Technique) carry **no** repo paths, file extensions or
 product names - enforced by [`scripts/check-bundles.mjs`](scripts/check-bundles.mjs), not left to
