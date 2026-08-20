@@ -80,6 +80,10 @@ const WINDOW_DAYS = {
 const DEFAULT_WINDOW_DAYS = 183;
 
 const DAY = 86400000;
+// UTC, deliberately. Contributors are in many timezones and a shared registry cannot have
+// a "today" that depends on who is looking. `verified_on` values backfilled from git carry
+// local dates, so the two can differ by a day at the boundary - which is exactly what the
+// bundle gate's one-day slack on `verified_on` absorbs.
 const today = new Date().toISOString().slice(0, 10);
 const addDays = (iso, days) => new Date(Date.parse(`${iso}T00:00:00Z`) + days * DAY).toISOString().slice(0, 10);
 const daysBetween = (a, b) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / DAY);

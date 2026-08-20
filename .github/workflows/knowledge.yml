@@ -84,6 +84,10 @@ jobs:
       # is standing behind it waiting to merge.
       - name: Report knowledge currency
         run: node scripts/check-currency.mjs
+      # Same contract: the maintenance scorecard is published on every change so the
+      # trend is visible in CI history without anyone running a sweep.
+      - name: Report the maintenance scorecard
+        run: node scripts/librarian-scan.mjs --top 10
 
   catalog:
     name: catalog freshness

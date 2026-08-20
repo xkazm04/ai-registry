@@ -3,7 +3,7 @@
 An **AI development registry**: the knowledge, skills, practices and shared memory an
 organization's agents run from, kept in git, owned by the organization, and reviewed like code.
 
-The repository carries five lanes, declared in [`registry.yaml`](registry.yaml):
+The repository carries seven lanes, declared in [`registry.yaml`](registry.yaml):
 
 | Lane | Holds | Status |
 | --- | --- | --- |
@@ -13,11 +13,18 @@ The repository carries five lanes, declared in [`registry.yaml`](registry.yaml):
 | `memory/` | Organizational memory notes, one fact per file. | Worked example. |
 | [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. Empty until an installation reports. |
 | [`signals/`](docs/signals-lane.md) | Whether the knowledge is still TRUE where it is used - stack versions, citation-resolution verdicts, deviations and consults, one file per contributor. | Real, gated. Empty until an installation reports. |
+| [`librarian/`](librarian/index.md) | Coverage memory for the maintenance loop - what was swept when, what was dispatched, and what was declined and why. | Real. Seeded by the founding sweep. |
 
 The three example lanes (`skills`, `practices`, `memory`) are deliberately generic and synthetic -
 no company, no product, no proprietary code - so tooling that onboards, indexes and tracks a
-registry has something real to read. `knowledge/` and `usage/` are not examples: the first holds
-the actual bundles, the second holds real counts once an installation reports them.
+registry has something real to read. The other four are not examples: `knowledge/` holds the
+actual bundles, `librarian/` holds the real record of maintaining them, and `usage/` and
+`signals/` hold real numbers the moment an installation reports them.
+
+Lane depth is declared, not incidental. `knowledge/` is `depth: nested` and caps every level at
+ten folders; `skills/`, `practices/`, `memory/`, `usage/` and `signals/` are `depth: fixed`
+because a consumer's indexer selects their artifacts by exact path length - a category folder
+there would not error, it would make every artifact silently vanish from the index.
 
 ## Why a repository
 
@@ -48,9 +55,13 @@ scripts/check-skills.mjs  # the skills lane's gate: shape + the version-bump rul
 scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only privacy rule
 scripts/check-signals.mjs # the signals lane's gate: shape + the same privacy rule
 scripts/check-currency.mjs# REPORTS how old the knowledge is; never fails a build
+scripts/librarian-scan.mjs# REPORTS the maintenance scorecard; the instrument /librarian reads
+scripts/apply-taxonomy.mjs# the ONLY thing allowed to move a subject (moves + rewrites links)
+scripts/lib/taxonomy.mjs  # the shared slug -> path resolver; nothing else may build a subject path
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json (--check in CI)
 knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
+knowledge/<domain>/taxonomy.json  # the authority on where every subject lives; max 10 folders/level
 knowledge/<domain>/index.json  # GENERATED: every subject, technique, law and application
 skills/<name>/SKILL.md    # frontmatter: name, description, category, memory, version
 skills/<name>/LESSONS.md  # append-only reflection lane, beside the skill it is about
@@ -105,15 +116,16 @@ its own evidence overlay and reports **verdicts, never pointers** - `{"gone": 2}
 which two files. A bundle nobody reports on reads as **unknown**, never as current, for
 the same reason `invokes30d: 0` with no contributors means nobody is looking.
 
-### Skills (5)
+### Skills (6)
 
 | Skill | Category | Version | What it is for |
 | --- | --- | --- | --- |
 | [`ci-gate-check`](skills/ci-gate-check/SKILL.md) | `ci-cd` | 1.3.0 | Run the checks CI enforces, before you push. |
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
 | [`agent-guidance-bootstrap`](skills/agent-guidance-bootstrap/SKILL.md) | `ai-native` | 0.4.0 | Write or refresh a repo's `AGENTS.md` from evidence. |
-| [`domain-knowledge-forge`](skills/domain-knowledge-forge/SKILL.md) | `ai-native` | 1.0.1 | Extract a repository's domain knowledge into a four-layer RKB bundle, with a bounded agent pool. Carries [`LESSONS.md`](skills/domain-knowledge-forge/LESSONS.md). |
-| [`deepen`](skills/deepen/SKILL.md) | `ai-native` | 1.0.1 | Review and widen an existing bundle topic via research lanes, batch workers, or a saturation-ledger loop. Carries [`LESSONS.md`](skills/deepen/LESSONS.md). |
+| [`domain-knowledge-forge`](skills/domain-knowledge-forge/SKILL.md) | `ai-native` | 1.2.0 | Extract a repository's domain knowledge into a four-layer RKB bundle, with a bounded agent pool. Carries [`LESSONS.md`](skills/domain-knowledge-forge/LESSONS.md). |
+| [`deepen`](skills/deepen/SKILL.md) | `ai-native` | 1.1.0 | Review and widen an existing bundle topic via research lanes, batch workers, or a saturation-ledger loop. Carries [`LESSONS.md`](skills/deepen/LESSONS.md). |
+| [`librarian`](skills/librarian/SKILL.md) | `ai-native` | 1.0.0 | Sweep every bundle for structural and quality decay, rank it, and dispatch the other two at what needs work. Keeps coverage memory in [`librarian/`](librarian/index.md). |
 
 `category` comes from a closed set: `ci-cd`, `testing`, `security`, `ai-native`, `docs`,
 `workflow`, `other`. Anything else is normalized to `other` at index time. `name` is a kebab-case

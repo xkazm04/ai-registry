@@ -15,6 +15,23 @@ title: AI development registry
 
 # Every lane is a top-level directory with its own item shape and its own governing doc.
 # A consumer indexes the lanes it understands and ignores the rest.
+# `depth` on a lane says whether this repository is free to reorganize its folders.
+#
+#   nested  — the registry owns both ends of the contract, because consumers read a
+#             GENERATED index rather than walking the tree. Depth is ours to choose,
+#             and knowledge/ caps every level at ten folders.
+#   fixed   — a second repository selects this lane's artifacts by EXACT path length.
+#             Inserting a category folder does not error there; it makes every artifact
+#             silently vanish from the index, which is worse. Measured against the
+#             reference consumer's indexer: skills/<name>/SKILL.md, practices/<slug>/
+#             PRACTICE.md and memory/<kind>/<slug>.md are matched at exactly 3 path
+#             segments, usage/<contributor>.json at exactly 2.
+#
+# Changing a `fixed` lane's depth is a coordinated spec bump in both repositories - the
+# indexer's predicate, the scaffold, the README template and the catalog paths, in one
+# deliberate change. It is entirely doable. What it must never be is a side effect of a
+# folder tidy-up, which is why the reason is recorded here rather than left to be
+# rediscovered.
 lanes:
   knowledge:
     path: knowledge/
@@ -23,12 +40,20 @@ lanes:
     spec: docs/rkb-profile.md
     format: OKF v0.1 profile (concept documents with YAML frontmatter; `type` required)
     gate: scripts/check-bundles.mjs
+    depth: nested
+    # No directory under knowledge/ holds more than this many child directories. Files
+    # are not counted. Enforced by scripts/lib/taxonomy.mjs via the bundle gate.
+    max_child_dirs: 10
   skills:
     path: skills/
     holds: Agent skills — one directory per skill, SKILL.md plus an append-only LESSONS.md.
     spec: docs/skills-lane.md
     format: SKILL.md frontmatter (name, description, category, memory, version, tags)
     gate: scripts/check-skills.mjs
+    # skills/<name>/SKILL.md — exactly 3 path segments. A category folder here would make
+    # every skill vanish from a consumer's index without erroring. If this lane outgrows
+    # browsing, the answer is a coordinated spec bump, not a folder move.
+    depth: fixed
     # How a consumer resolves a skill name it holds in more than one place. This
     # registry CANNOT enforce it — it cannot see a consumer's tiers — so it declares
     # it, and the tool that syncs is what honours it. Declared here rather than left
@@ -54,11 +79,14 @@ lanes:
   practices:
     path: practices/
     holds: Practices — the shape of a repo-level habit plus the starter artifacts it drops.
+    depth: fixed   # practices/<slug>/PRACTICE.md — 3 segments, matched exactly
   memory:
     path: memory/
     holds: Organizational memory notes, one fact per file, kind-partitioned.
+    depth: fixed   # memory/<kind>/<slug>.md — 3 segments, matched exactly
   usage:
     path: usage/
+    depth: fixed   # usage/<contributor>.json — 2 segments, matched exactly
     holds: Which skills actually get used — counts contributed by the installations that
       run them. One file per contributing installation, aggregated into catalog.json.
     spec: docs/usage-lane.md
@@ -73,6 +101,7 @@ lanes:
       installations that consume the knowledge lane. One file per installation.
     spec: docs/signals-lane.md
     gate: scripts/check-signals.mjs
+    depth: fixed   # signals/<contributor>.json — one file per installation, never nested
     # The registry cannot resolve a citation: it does not have the consumer's checkout.
     # That is the same constraint that put the evidence layer in a consumer-local overlay,
     # so this lane takes the same shape — the consumer computes, the registry receives
@@ -80,6 +109,19 @@ lanes:
     # is a fact about one tree and stays there.
     note: Counts and registry-owned slugs only, under the same privacy gate as usage/. A
       bundle no installation reports on reads as UNKNOWN, never as current.
+  librarian:
+    path: librarian/
+    holds: Coverage memory for the maintenance loop — what the registry looked like when
+      it was last swept, what was done about it, and what was deliberately not done.
+      An Obsidian-navigable vault of markdown notes.
+    spec: skills/librarian/SKILL.md
+    depth: nested
+    # Deliberately holds no counts a script can recompute. `librarian-scan.mjs` produces
+    # those fresh every run — a carried-forward derived number drifts silently, and
+    # nobody notices until a decision rests on one. A figure in a note is a RECORD of
+    # what was true at that sweep, never an input to the next.
+    note: Public-safe by rule, like usage/ and signals/ — scores, slugs and dates, never
+      a consumer's paths.
 
 # What a reader may assume about content in this repo.
 guarantees:
