@@ -97,7 +97,12 @@ absence-as-answer failure in miniature.
 
 Do not reach for this machinery to pace a *rate* (N per second against an
 instantaneous regulator) — that is rate limiting, with different windows,
-different state, and different refusal semantics. And never let any rule,
+different state, and different refusal semantics: the token-bucket and
+leaky-bucket family, whose "budget" is a replenishment rate and whose
+state is a counter, not a windowed sum. The two disciplines coexist in
+practice — a per-minute pacing limit in front of a long-window budget cap
+— and the pacing half belongs to a regulator, not to this model; grafting
+per-second windows onto this schema buys the worst of both. And never let any rule,
 of any tier, evaluate the platform's own scoring traffic: the quality
 apparatus is exempt from governance by construction, because a cap that can
 throttle the measuring instrument during a traffic spike removes the

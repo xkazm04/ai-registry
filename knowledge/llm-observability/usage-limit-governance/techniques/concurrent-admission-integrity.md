@@ -65,6 +65,26 @@ the question is "would the window including this event exceed the cap",
 and evaluating the window without the candidate admits one event too many
 at every boundary.
 
+## The atomic-counter alternative, and when it is enough
+
+The field's dominant substrate for plain rate limits is none of the above:
+an atomic increment-and-compare on a shared in-memory counter, often with
+the whole check-and-charge expressed as one atomically executed script.
+When the admission question reduces to a single counter against a single
+threshold, that is the right tool — no lock, no queueing, integrity by
+the store's own atomicity. The critical section earns its extra cost here
+because this subject's admission does not reduce to one counter: it is a
+multi-rule evaluation over per-(window, scope) ledgers, with imputation
+computed from the window's own contents and the event insert bound to the
+same atomic decision. Squeezing that through an atomic counter means
+maintaining a parallel counter per ledger and accepting that the counters
+and the store of record can disagree. It also adds a second stateful
+system to the admission path, whose outage forces a fail-open-or-fail-
+closed choice that silently becomes part of the cap's semantics. Reach
+for the counter substrate when throughput outgrows the locked store —
+knowingly, as a re-architecture — not as a default borrowed from rate
+limiting.
+
 ## Batches must count their own admissions
 
 A batch of events through one request is the cheapest cap bypass ever

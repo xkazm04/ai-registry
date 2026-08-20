@@ -11,6 +11,7 @@ techniques:
   - cost-evidence-and-imputation
   - incremental-window-accounting
   - concurrent-admission-integrity
+  - enforcement-placement-and-reconciliation
 ---
 
 # Usage limit governance
@@ -36,8 +37,11 @@ already happened; only its recording is refused.** The refusal is still real
 governance — well-behaved clients treat 429 as back-pressure and slow the
 traffic itself, and the breach alert reaches a human — but only an inline
 gateway or proxy, sitting *before* the provider call, converts the cap from
-back-pressure into prevention. A product that lets its documentation imply
-prevention it does not perform has already failed the governance test.
+back-pressure into prevention — and even that seat prevents approximately,
+because a call's true token and cost spend is only known after the response
+it was supposed to gate (see enforcement-placement-and-reconciliation). A
+product that lets its documentation imply prevention it does not perform
+has already failed the governance test.
 
 ## The core stance: a cap is only as real as its accounting
 
@@ -99,6 +103,13 @@ The consequences form the spine of the subject:
    must count its own accepted items toward its later ones, so packing
    events into one request cannot slip a cap (see
    concurrent-admission-integrity).
+7. **Where enforcement sits is a design decision with a reconcile loop.**
+   Record-side, inline, and provider-side seats buy different guarantees;
+   an inline cap on token or cost metrics is estimate-then-reconcile by
+   construction, its overshoot debited against the window rather than
+   forgiven; and where the provider offers its own spend ceiling, the
+   platform's cap layers above that backstop instead of replacing it (see
+   enforcement-placement-and-reconciliation).
 
 ## The refusal is part of the accounting
 
@@ -163,4 +174,6 @@ packed batch — cannot race past a threshold; rejections are counted without
 being stored, with their honesty bounds documented; and the documentation
 states plainly that ingest-time rejection governs recording and applies
 back-pressure but cannot un-spend the provider call — with the inline
-gateway named as the upgrade path for callers who need prevention.
+gateway named as the upgrade path for callers who need prevention, its
+enforcement mode and worst-case overshoot stated, and the provider's own
+spend ceiling set as the backstop wherever one exists.

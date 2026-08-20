@@ -71,6 +71,23 @@ hashes mix short inputs unevenly, so finish with an avalanche step and take
 the top bits onto the exactly-representable unit-interval grid, or the shed
 set will cluster instead of sampling traffic evenly.
 
+Know where this sits against the wider field. General overload control
+sheds probabilistically — random early drop in network queues, adaptive
+client-side throttling that rejects with a computed probability — and is
+right to: those regulators face transient overload on a feedback loop of
+milliseconds, where a re-rolled verdict costs nothing and flap is noise.
+A budget cap's pressure moves on the window's timescale and its verdicts
+are re-read — by retries, by tests, by the status surface a support
+engineer replays — which is why determinism wins here. The precedent is
+not absent from large systems either: overload frameworks that need
+per-user consistency partition users into admission levels by a stable
+hash of user id, for exactly the anti-flap reason. And if events carry a
+criticality dimension, shed by it before the lottery — a uniform draw
+treats a health probe and a customer's call alike; ordering the ramp by
+criticality tier, with the deterministic lottery breaking ties within a
+tier, keeps every property above while shedding the most sheddable
+traffic first.
+
 ## The two retry hints
 
 A shed is transient back-pressure: nothing is over budget, other traffic
