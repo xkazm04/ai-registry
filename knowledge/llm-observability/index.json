@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
-  "subjects": 15,
-  "techniques": 90,
-  "applications": 30,
+  "subjects": 16,
+  "techniques": 97,
+  "applications": 35,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -13,7 +13,7 @@
    "quality-scoring",
    "federation-and-surfaces"
   ],
-  "use_when_coverage": "90/90",
+  "use_when_coverage": "97/97",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -302,6 +302,109 @@
      "stack": "rust",
      "technique": "top-contributor-attribution",
      "file": "knowledge/llm-observability/breach-alerting-and-attribution/applications/rust--top-contributor-attribution.md"
+    }
+   ]
+  },
+  "cross-provider-benchmark-operations": {
+   "category": "quality-scoring",
+   "status": "forged",
+   "file": "knowledge/llm-observability/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
+   "techniques": [
+    {
+     "slug": "async-run-queue-with-cancel",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "benchmark runs must not block ingestion",
+      "a paid long-running run needs a stop button",
+      "distinguishing a crashed worker from a failed run"
+     ]
+    },
+    {
+     "slug": "budget-preflight-and-ceiling",
+     "status": "forged",
+     "laws": [
+      "quality-apparatus-stays-unbudgeted",
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a benchmark matrix could cost real money",
+      "an operator must approve spend before it happens",
+      "a halted run must not read as a passing one"
+     ]
+    },
+    {
+     "slug": "dataset-sampling-anonymize-freeze",
+     "status": "forged",
+     "laws": [
+      "no-retroactive-restatement",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building an eval dataset from production traffic",
+      "deciding whether two runs are comparable",
+      "PII must not leak into stored benchmark cases"
+     ]
+    },
+    {
+     "slug": "determinism-stamping",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a benchmark verdict must be reproducible",
+      "comparing runs across providers with different sampling controls",
+      "deciding how much run-to-run delta is dice"
+     ]
+    },
+    {
+     "slug": "failure-clustering-recommendations",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a scorecard into prompt or routing changes",
+      "a benchmark report must end in actions",
+      "diagnosing why a target's mean dropped"
+     ]
+    },
+    {
+     "slug": "target-matrix-runs",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing models or prompt variants on the same workload",
+      "designing a benchmark's target declaration",
+      "a scorecard's columns must be commensurable"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "budget-preflight-and-ceiling",
+     "file": "knowledge/llm-observability/cross-provider-benchmark-operations/applications/rust--budget-preflight-and-ceiling.md"
+    },
+    {
+     "stack": "rust",
+     "technique": "determinism-stamping",
+     "file": "knowledge/llm-observability/cross-provider-benchmark-operations/applications/rust--determinism-stamping.md"
     }
    ]
   },
@@ -603,6 +706,11 @@
      "file": "knowledge/llm-observability/judge-contract-design/applications/process--bias-counterbalancing-instructions.md"
     },
     {
+     "stack": "process",
+     "technique": "nonce-fenced-candidate-isolation",
+     "file": "knowledge/llm-observability/judge-contract-design/applications/process--nonce-fenced-candidate-isolation.md"
+    },
+    {
      "stack": "rust",
      "technique": "nonce-fenced-candidate-isolation",
      "file": "knowledge/llm-observability/judge-contract-design/applications/rust--nonce-fenced-candidate-isolation.md"
@@ -702,6 +810,11 @@
      "stack": "process",
      "technique": "dual-clock-event-time",
      "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/process--dual-clock-event-time.md"
+    },
+    {
+     "stack": "process",
+     "technique": "token-usage-quadruple",
+     "file": "knowledge/llm-observability/llm-call-telemetry-model/applications/process--token-usage-quadruple.md"
     },
     {
      "stack": "rust",
@@ -1440,6 +1553,21 @@
      ]
     },
     {
+     "slug": "enforcement-placement-and-reconciliation",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "no-retroactive-restatement"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a cap physically sits relative to the provider call",
+      "an inline cap must decide before the response reveals what the call cost",
+      "layering a platform cap over a provider-side ceiling",
+      "capping streaming traffic whose spend grows after admission"
+     ]
+    },
+    {
      "slug": "graduated-throttle-with-deterministic-shed",
      "status": "forged",
      "laws": [],
@@ -1479,6 +1607,11 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "enforcement-placement-and-reconciliation",
+     "file": "knowledge/llm-observability/usage-limit-governance/applications/process--enforcement-placement-and-reconciliation.md"
+    },
     {
      "stack": "rust",
      "technique": "concurrent-admission-integrity",
@@ -1525,6 +1658,9 @@
     "breach-alerting-and-attribution/identity-scope-attribution-refusal",
     "breach-alerting-and-attribution/scope-inverted-attribution",
     "breach-alerting-and-attribution/top-contributor-attribution",
+    "cross-provider-benchmark-operations/async-run-queue-with-cancel",
+    "cross-provider-benchmark-operations/determinism-stamping",
+    "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "federated-benchmark-sharing/aggregate-only-digests",
     "federated-benchmark-sharing/hub-ingest-plausibility-gates",
     "federated-benchmark-sharing/k-anonymity-cases-and-sources",
@@ -1558,6 +1694,10 @@
    "techniques": [
     "analytics-store-design/backend-parity-as-contract",
     "breach-alerting-and-attribution/pre-breach-forecasting",
+    "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
+    "cross-provider-benchmark-operations/dataset-sampling-anonymize-freeze",
+    "cross-provider-benchmark-operations/determinism-stamping",
+    "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "federated-benchmark-sharing/bounded-contributor-influence",
     "federated-benchmark-sharing/cost-bucketing-side-channels",
     "judge-calibration-and-drift/reserved-rubric-persistence",
@@ -1578,7 +1718,8 @@
     "production-trace-scoring/verdict-coverage-receipt",
     "quality-regression-gating/family-wise-correction",
     "trace-rollup-and-attribution/span-cap-truncation-signal",
-    "usage-limit-governance/cost-evidence-and-imputation"
+    "usage-limit-governance/cost-evidence-and-imputation",
+    "usage-limit-governance/enforcement-placement-and-reconciliation"
    ]
   },
   "nullable-never-zero": {
@@ -1610,6 +1751,7 @@
    "techniques": [
     "billing-revenue-normalization/deterministic-external-ids",
     "billing-revenue-normalization/static-auditable-fx-book",
+    "cross-provider-benchmark-operations/dataset-sampling-anonymize-freeze",
     "judge-calibration-and-drift/reserved-rubric-persistence",
     "judge-contract-design/weighted-anchored-dimensions",
     "llm-call-telemetry-model/server-owned-fields",
@@ -1617,7 +1759,8 @@
     "llm-price-book-operations/no-retroactive-repricing",
     "margin-and-unit-economics/margin-erosion-forecasting",
     "margin-and-unit-economics/revenue-recognition-rules",
-    "multi-provider-event-normalization/deterministic-span-derived-ids"
+    "multi-provider-event-normalization/deterministic-span-derived-ids",
+    "usage-limit-governance/enforcement-placement-and-reconciliation"
    ]
   },
   "aggregates-leave-identity-behind": {
@@ -1637,6 +1780,8 @@
    "statement": "\"Regressed\" and \"better\" are paired, family-wise-corrected statistical claims at a fixed, non-configurable confidence — a tool whose alpha is a knob invites tuning until the answer is the desired one. A partial run is never green; an unverified result is a distinct exit state from a passing one.",
    "techniques": [
     "breach-alerting-and-attribution/pre-breach-forecasting",
+    "cross-provider-benchmark-operations/async-run-queue-with-cancel",
+    "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
     "quality-regression-gating/family-wise-correction",
@@ -1647,21 +1792,10 @@
     "quality-regression-gating/unverified-vs-regressed-exit-states"
    ]
   },
-  "the-judge-is-both-untrusted-and-under-test": {
-   "statement": "The judge's input is attacker-influenced by construction — candidate text is fenced, boundary imitations are neutralized and flagged, and known biases (position, verbosity, self-preference) are counterbalanced in the prompt contract. And the judge itself is a measuring instrument that drifts: it is calibrated against human agreement on a schedule, its verdicts carry provenance, and an uncalibrated judge's scores are leads, not measurements.",
-   "techniques": [
-    "judge-calibration-and-drift/golden-set-agreement-measurement",
-    "judge-calibration-and-drift/judge-selection-by-spread",
-    "judge-calibration-and-drift/scheduled-recalibration",
-    "judge-calibration-and-drift/trust-bar-verdict",
-    "judge-contract-design/bias-counterbalancing-instructions",
-    "judge-contract-design/nonce-fenced-candidate-isolation",
-    "production-trace-scoring/verdict-coverage-receipt"
-   ]
-  },
   "quality-apparatus-stays-unbudgeted": {
    "statement": "Judge and benchmark spend is segregated from product cost by construction — it never enters COGS, and no usage cap ever throttles the scoring path. An observability product that meters its own measuring instrument alongside the traffic it measures can silently blind itself exactly when traffic spikes.",
    "techniques": [
+    "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
     "judge-calibration-and-drift/judge-selection-by-spread",
     "judge-calibration-and-drift/scheduled-recalibration",
     "margin-and-unit-economics/cogs-by-construction",
@@ -1669,6 +1803,19 @@
     "production-trace-scoring/stable-hash-sampling",
     "production-trace-scoring/unscored-work-queue",
     "usage-limit-governance/metric-window-threshold-action-model"
+   ]
+  },
+  "the-judge-is-both-untrusted-and-under-test": {
+   "statement": "The judge's input is attacker-influenced by construction — candidate text is fenced, boundary imitations are neutralized and flagged, and known biases (position, verbosity, self-preference) are counterbalanced in the prompt contract. And the judge itself is a measuring instrument that drifts: it is calibrated against human agreement on a schedule, its verdicts carry provenance, and an uncalibrated judge's scores are leads, not measurements.",
+   "techniques": [
+    "cross-provider-benchmark-operations/target-matrix-runs",
+    "judge-calibration-and-drift/golden-set-agreement-measurement",
+    "judge-calibration-and-drift/judge-selection-by-spread",
+    "judge-calibration-and-drift/scheduled-recalibration",
+    "judge-calibration-and-drift/trust-bar-verdict",
+    "judge-contract-design/bias-counterbalancing-instructions",
+    "judge-contract-design/nonce-fenced-candidate-isolation",
+    "production-trace-scoring/verdict-coverage-receipt"
    ]
   }
  }

@@ -177,11 +177,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 15,
-      "techniques": 90,
-      "applications": 30,
-      "files": 139,
-      "contentHash": "sha256:45dca18fa32a71ca"
+      "subjects": 16,
+      "techniques": 97,
+      "applications": 35,
+      "files": 152,
+      "contentHash": "sha256:5186f2513a4316c7"
     },
     {
       "name": "media-generation",
