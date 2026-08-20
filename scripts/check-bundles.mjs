@@ -114,6 +114,18 @@ const PURITY_PROFILES = {
     [/\.(?:tsx?|mjs|cjs|jsx)\b/, 'source-file extension'],
     [/\b(?:Wellspring|Next\.js|React|TypeScript|Firebase|Firestore|Polar)\b/, 'stack/product identifier'],
   ],
+  // Recruiting/talent domains: the analogue of a repo path is an application-tracking
+  // vendor, and the analogue of a framework name is an HR product or a model vendor. A
+  // hiring standard that names a vendor stops transplanting the moment a team switches
+  // stacks — and in this domain it also reads as an endorsement, which the upper layers
+  // must never carry. Common English words that happen to be vendor names (a well-known
+  // job board, a well-known applicant-tracking product) are deliberately absent: they
+  // false-positive at sentence start. The denylist is a floor, not the whole rule.
+  recruiting: [
+    [/\b(?:app|lib|features|components|src)\//, 'repo path'],
+    [/\.(?:tsx?|mjs|cjs|jsx|py|sql)\b/, 'source-file extension'],
+    [/\b(?:CandiDate|Next\.js|React|TypeScript|SQLite|Postgres|PostgreSQL|Prisma|Greenhouse|Workday|SmartRecruiters|Ashby|Taleo|iCIMS|LinkedIn|OpenAI|GPT-[0-9]|Claude|Anthropic|Gemini|Mistral|Whisper|ElevenLabs)\b/, 'stack/vendor/model identifier'],
+  ],
   // Applied when a bundle declares no profile: the domain-independent core only.
   generic: [
     [/\b(?:src|src-tauri|scripts)\//, 'repo path'],

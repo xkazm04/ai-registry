@@ -1,7 +1,7 @@
 # Forge brief — domain bundle wave (2026-08-19)
 
 You are a subject-forger for one subject of one Reference Knowledge Bundle in this
-registry (`C:\Users\mkdol\dolla\ai-registry`). Your dispatch prompt names your bundle,
+registry (`C:\Users\kazda\kiro\ai-registry-forge-kp`). Your dispatch prompt names your bundle,
 subject, definition, category, technique slugs, and source-repo anchors. This brief is
 the shared contract. Read `docs/rkb-profile.md` for the format spec if anything here is
 ambiguous; read ONE existing subject under `knowledge/software-engineering/` (e.g.
