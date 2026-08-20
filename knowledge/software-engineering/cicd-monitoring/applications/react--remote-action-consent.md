@@ -4,6 +4,7 @@ type: application
 subject: cicd-monitoring
 technique: remote-action-consent
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Remote action consent — trigger, deploy, rollback (Personas)

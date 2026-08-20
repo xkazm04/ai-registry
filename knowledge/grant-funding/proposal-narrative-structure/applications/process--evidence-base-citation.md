@@ -5,6 +5,7 @@ subject: proposal-narrative-structure
 technique: evidence-base-citation
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process: grounded evidence and anti-fabrication in a prompt-pipeline drafter

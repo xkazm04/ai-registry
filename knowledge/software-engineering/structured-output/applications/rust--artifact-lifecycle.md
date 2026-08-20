@@ -4,6 +4,7 @@ type: application
 subject: structured-output
 technique: artifact-lifecycle
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The AI-artifact flow — the lifecycle machine built once, and the exits it forgot to type

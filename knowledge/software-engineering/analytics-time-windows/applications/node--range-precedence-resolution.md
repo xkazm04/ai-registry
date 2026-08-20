@@ -4,6 +4,7 @@ type: application
 subject: analytics-time-windows
 technique: range-precedence-resolution
 stack: node
+verified_on: 2026-08-20
 ---
 
 # The shared window module behind an org dashboard

@@ -4,6 +4,7 @@ type: application
 subject: audit-logging
 technique: write-chokepoint
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The credential audit ledger's one door

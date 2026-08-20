@@ -5,6 +5,7 @@ subject: data-retention
 technique: confirm-by-echo
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Node: a three-guard erasure ladder on an on-demand delete route

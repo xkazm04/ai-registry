@@ -5,6 +5,7 @@ subject: civic-source-adapters
 technique: legacy-encoding-and-escape-parsing
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: parsing a legacy parliamentary UNL dump

@@ -4,6 +4,7 @@ type: application
 subject: status-vocabulary
 technique: vocabulary-chain-integrity
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust/ts-rs application — vocabulary chain integrity

@@ -4,6 +4,7 @@ type: application
 subject: web-scraping
 technique: dedup-and-datasets
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust application: change-detected upsert into scraper datasets

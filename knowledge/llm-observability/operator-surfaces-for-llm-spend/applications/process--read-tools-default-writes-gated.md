@@ -6,6 +6,7 @@ technique: read-tools-default-writes-gated
 stack: process
 status: forged
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # The 2025-2026 agent-surface landscape: protocol security practice and spend-reporting conventions

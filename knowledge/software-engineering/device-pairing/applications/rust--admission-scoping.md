@@ -4,6 +4,7 @@ type: application
 subject: device-pairing
 technique: admission-scoping
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Admission scoping across the three listeners

@@ -5,6 +5,7 @@ subject: frame-direction
 technique: visual-function-vocabulary
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process: the direction prompts of a script→frames pipeline

@@ -5,6 +5,7 @@ subject: repo-manifest-standard
 technique: spec-ships-with-artifact
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Authoring the contract so it resolves in an air-gapped clone

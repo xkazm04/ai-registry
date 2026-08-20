@@ -5,6 +5,7 @@ subject: beneficial-ownership-resolution
 technique: role-period-reconciliation
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: population-wide period reconciliation against the official register

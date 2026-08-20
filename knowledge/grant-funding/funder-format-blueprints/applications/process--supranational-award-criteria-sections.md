@@ -5,6 +5,7 @@ subject: funder-format-blueprints
 technique: supranational-award-criteria-sections
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The supranational rubric as currently published (process)

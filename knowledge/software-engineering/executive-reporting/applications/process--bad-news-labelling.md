@@ -5,6 +5,7 @@ subject: executive-reporting
 technique: bad-news-labelling
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A reader's verdict as the change driver: heading rules in a board briefing

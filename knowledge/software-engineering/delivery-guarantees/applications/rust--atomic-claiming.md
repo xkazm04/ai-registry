@@ -4,6 +4,7 @@ type: application
 subject: delivery-guarantees
 technique: atomic-claiming
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Atomic claiming in the Rust event bus

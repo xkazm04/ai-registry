@@ -4,6 +4,7 @@ type: application
 subject: data-viz
 technique: chart-loading-economics
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Chart loading economics — React + Recharts, as built here

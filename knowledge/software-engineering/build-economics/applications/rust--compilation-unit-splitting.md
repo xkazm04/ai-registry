@@ -4,6 +4,7 @@ type: application
 subject: build-economics
 technique: compilation-unit-splitting
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The 2026-07-26 crate split: 8.9 GB → 6.2 GB, measured

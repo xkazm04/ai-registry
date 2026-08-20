@@ -5,6 +5,7 @@ subject: peer-benchmarking
 technique: population-vs-scalar-ranking
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Fixing a scalar-vs-population unit mismatch

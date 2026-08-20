@@ -5,6 +5,7 @@ subject: executive-reporting
 technique: grounded-narrative-generation
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A no-new-numbers gate around the one model-written paragraph in a board document

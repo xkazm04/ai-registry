@@ -4,6 +4,7 @@ type: application
 subject: chat-transcript
 technique: transcript-scroll
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Athena's chat — the ready gate, the pin, and the bug that proved both

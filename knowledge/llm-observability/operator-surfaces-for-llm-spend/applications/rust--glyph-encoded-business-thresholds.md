@@ -5,6 +5,7 @@ subject: operator-surfaces-for-llm-spend
 technique: glyph-encoded-business-thresholds
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: glyph thresholds in a shared JSON→Markdown render crate (LightTrack)

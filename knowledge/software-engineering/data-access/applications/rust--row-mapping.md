@@ -4,6 +4,7 @@ type: application
 subject: data-access
 technique: row-mapping
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Row mapping in the Rust data layer

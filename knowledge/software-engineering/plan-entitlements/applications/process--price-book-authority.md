@@ -4,6 +4,7 @@ type: application
 subject: plan-entitlements
 technique: price-book-authority
 stack: process
+verified_on: 2026-08-20
 ---
 
 # A price contract, a drift detector, and a constant that refuses to lie

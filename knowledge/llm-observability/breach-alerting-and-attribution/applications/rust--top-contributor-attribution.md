@@ -5,6 +5,7 @@ subject: breach-alerting-and-attribution
 technique: top-contributor-attribution
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Top-contributor attribution in LightTrack (Rust)

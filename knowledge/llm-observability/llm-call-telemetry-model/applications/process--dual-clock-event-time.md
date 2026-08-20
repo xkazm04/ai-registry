@@ -5,6 +5,7 @@ subject: llm-call-telemetry-model
 technique: dual-clock-event-time
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The dual clock as a written field contract (LightTrack)

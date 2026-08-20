@@ -4,6 +4,7 @@ type: application
 subject: subprocess-lifecycle
 technique: concurrency-and-slots
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Concurrency and slots across the Personas host

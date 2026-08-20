@@ -4,6 +4,7 @@ type: application
 subject: judgment-guardbands
 technique: narrate-dont-rescore
 stack: process
+verified_on: 2026-08-20
 ---
 
 # The assessment prompt — stating the negative space, and where an injection is allowed to land

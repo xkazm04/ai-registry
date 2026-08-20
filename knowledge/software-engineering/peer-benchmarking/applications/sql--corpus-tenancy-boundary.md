@@ -5,6 +5,7 @@ subject: peer-benchmarking
 technique: corpus-tenancy-boundary
 stack: sql
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Tenancy invariants in the corpus queries

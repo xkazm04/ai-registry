@@ -4,6 +4,7 @@ type: application
 subject: signed-artifacts
 technique: verification-ux
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Two dialogs, opposite grades — the consent exemplar and the two-state collapse

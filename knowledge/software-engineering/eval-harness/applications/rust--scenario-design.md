@@ -4,6 +4,7 @@ type: application
 subject: eval-harness
 technique: scenario-design
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The lab's scenario cache — a deliberately-scoped key, with the incident that shaped it

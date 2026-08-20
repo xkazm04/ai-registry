@@ -5,6 +5,7 @@ subject: image-prompt-composition
 technique: two-block-style-and-action
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # React/TypeScript: a one-function prompt compiler

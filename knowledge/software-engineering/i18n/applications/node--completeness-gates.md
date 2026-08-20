@@ -4,6 +4,7 @@ type: application
 subject: i18n
 technique: completeness-gates
 stack: node
+verified_on: 2026-08-18
 ---
 
 # The three gates and the pipeline — completeness as this repo enforces it

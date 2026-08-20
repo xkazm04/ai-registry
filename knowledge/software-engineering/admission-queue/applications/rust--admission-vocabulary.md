@@ -4,6 +4,7 @@ type: application
 subject: admission-queue
 technique: admission-vocabulary
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The admission vocabulary in the Personas execution engine

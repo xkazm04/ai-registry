@@ -4,6 +4,7 @@ type: application
 subject: outbound-notifications
 technique: per-channel-templating
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Per-channel templating — Mustache-style placeholders and provider bodies (Personas)

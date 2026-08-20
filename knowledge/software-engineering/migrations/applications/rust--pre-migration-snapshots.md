@@ -4,6 +4,7 @@ type: application
 subject: migrations
 technique: pre-migration-snapshots
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Pre-migration snapshots of the primary database

@@ -7,6 +7,7 @@ stack: process
 status: forged
 applied: 2026-08-20
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # Process: the judge-attack field layer, dated 2026-08-20

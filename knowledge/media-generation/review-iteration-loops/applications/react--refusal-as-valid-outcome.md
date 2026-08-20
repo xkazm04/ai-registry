@@ -5,6 +5,7 @@ subject: review-iteration-loops
 technique: refusal-as-valid-outcome
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # React: shared note guards that refuse before the transform runs

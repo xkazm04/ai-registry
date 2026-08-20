@@ -4,6 +4,7 @@ type: application
 subject: rate-limiting
 technique: storm-hygiene
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Storm hygiene in the shared ingress limiter

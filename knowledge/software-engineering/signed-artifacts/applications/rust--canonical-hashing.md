@@ -4,6 +4,7 @@ type: application
 subject: signed-artifacts
 technique: canonical-hashing
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Canonical bytes in the enclave, the bundle, and the document signer

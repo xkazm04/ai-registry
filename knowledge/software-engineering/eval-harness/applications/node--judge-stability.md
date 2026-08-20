@@ -4,6 +4,7 @@ type: application
 subject: eval-harness
 technique: judge-stability
 stack: node
+verified_on: 2026-08-18
 ---
 
 # Judge packets and the model bench — instrument discipline in scripts

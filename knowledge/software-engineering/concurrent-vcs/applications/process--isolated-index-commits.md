@@ -4,6 +4,7 @@ type: application
 subject: concurrent-vcs
 technique: isolated-index-commits
 stack: process
+verified_on: 2026-08-18
 ---
 
 # Isolated-index commits — this repo's ritual, and the evidence that forged it

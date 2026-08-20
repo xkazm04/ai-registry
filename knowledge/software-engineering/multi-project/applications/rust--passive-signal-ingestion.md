@@ -4,6 +4,7 @@ type: application
 subject: multi-project
 technique: passive-signal-ingestion
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust — the project-tracking pulse engine

@@ -4,6 +4,7 @@ type: application
 subject: embedded-preview
 technique: cross-frame-protocol
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The Studio ↔ preview-agent bridge — half a protocol, measured

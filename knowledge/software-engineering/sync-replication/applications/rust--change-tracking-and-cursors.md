@@ -4,6 +4,7 @@ type: application
 subject: sync-replication
 technique: change-tracking-and-cursors
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Change tracking and cursors — the cloud sync writer's loop

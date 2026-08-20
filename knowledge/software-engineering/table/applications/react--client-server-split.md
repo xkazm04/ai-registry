@@ -4,6 +4,7 @@ type: application
 subject: table
 technique: client-server-split
 stack: react
+verified_on: 2026-08-18
 ---
 
 # UnifiedTable — how this repo's React side realizes the table standard

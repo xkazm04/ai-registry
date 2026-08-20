@@ -4,6 +4,7 @@ type: application
 subject: prompt-safety
 technique: untrusted-span-fencing
 stack: node
+verified_on: 2026-08-20
 ---
 
 # A fixed-marker boundary, and the ordering it gets right

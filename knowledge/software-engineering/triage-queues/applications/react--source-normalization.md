@@ -4,6 +4,7 @@ type: application
 subject: triage-queues
 technique: source-normalization
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Source normalization — the React implementations in this repo

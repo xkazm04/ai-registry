@@ -5,6 +5,7 @@ subject: public-verdict-badge
 technique: outcome-branched-cache
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Outcome-branched cache in a badge route

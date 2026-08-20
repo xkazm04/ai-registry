@@ -4,6 +4,7 @@ type: application
 subject: guided-tours
 technique: action-driven-advancement
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Action-driven advancement — React implementation (Personas guided tours)

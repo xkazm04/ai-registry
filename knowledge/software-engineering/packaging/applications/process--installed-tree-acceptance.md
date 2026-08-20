@@ -4,6 +4,7 @@ type: application
 subject: packaging
 technique: installed-tree-acceptance
 stack: process
+verified_on: 2026-08-18
 ---
 
 # The installer acceptance ladder across three operating systems

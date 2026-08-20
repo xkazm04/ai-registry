@@ -4,6 +4,7 @@ type: application
 subject: self-healing
 technique: effectiveness-accounting
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Effectiveness accounting in the Personas healing ledger (Rust)

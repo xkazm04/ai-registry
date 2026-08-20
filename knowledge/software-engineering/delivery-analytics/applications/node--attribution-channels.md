@@ -5,6 +5,7 @@ subject: delivery-analytics
 technique: attribution-channels
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Attribution channels in a repository-scanning analyzer (node)

@@ -4,6 +4,7 @@ type: application
 subject: sql-console
 technique: safe-mode-guarding
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The client mirror and the consent gate

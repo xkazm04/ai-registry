@@ -4,6 +4,7 @@ type: application
 subject: drag-drop
 technique: drop-affordances
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Drop affordances in React — the shared affordance kit

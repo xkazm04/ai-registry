@@ -4,6 +4,7 @@ type: application
 subject: file-browsing
 technique: thumbnails-and-previews
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Thumbnails and previews — the Artist gallery

@@ -4,6 +4,7 @@ type: application
 subject: prompt-assembly
 technique: layered-composition
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Layered composition in the persona engine and companion (Rust)

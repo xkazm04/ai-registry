@@ -4,6 +4,7 @@ type: application
 subject: prompt-assembly
 technique: context-budgeting
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Context budgeting in the companion prompt (Rust)

@@ -4,6 +4,7 @@ type: application
 subject: device-pairing
 technique: token-binding-and-transport
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Two token lifecycles, both born bound

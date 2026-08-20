@@ -5,6 +5,7 @@ subject: remediation-roadmaps
 technique: sandbox-to-tracker-commit
 stack: react
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Roadmap sandbox and commit bar (Ascent)

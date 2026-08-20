@@ -4,6 +4,7 @@ type: application
 subject: outbound-notifications
 technique: channel-health-tracking
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Channel health tracking — the per-sink breaker, thrice, and a ledger nobody renders (Personas)

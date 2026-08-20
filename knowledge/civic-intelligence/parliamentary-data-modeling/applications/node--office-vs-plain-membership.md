@@ -5,6 +5,7 @@ subject: parliamentary-data-modeling
 technique: office-vs-plain-membership
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node ingest: resolving offices and memberships to one organ key

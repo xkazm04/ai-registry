@@ -4,6 +4,7 @@ type: application
 subject: terminal-multiplexing
 technique: attach-detach-lifecycle
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React — attach/detach lifecycle in the Fleet terminal manager

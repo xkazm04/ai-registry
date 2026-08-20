@@ -5,6 +5,7 @@ subject: nonprofit-verification
 technique: registry-name-binding
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: binding the claimed name to the registry's canonical name

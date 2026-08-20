@@ -4,6 +4,7 @@ type: application
 subject: cost-metering
 technique: usage-ledgers
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Usage ledgers in the Personas backend

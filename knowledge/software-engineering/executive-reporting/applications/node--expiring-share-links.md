@@ -5,6 +5,7 @@ subject: executive-reporting
 technique: expiring-share-links
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A stateless HMAC capability that carries its own window

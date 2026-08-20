@@ -4,6 +4,7 @@ type: application
 subject: background-jobs
 technique: loop-supervision
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Loop supervision in the Rust engine

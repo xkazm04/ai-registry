@@ -4,6 +4,7 @@ type: application
 subject: undo-history
 technique: checkpoint-restore
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Turn snapshots for web-build projects — non-destructive restore over a repo

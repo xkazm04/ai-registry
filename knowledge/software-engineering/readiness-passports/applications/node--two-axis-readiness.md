@@ -5,6 +5,7 @@ subject: readiness-passports
 technique: two-axis-readiness
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Two derivations, two shapes: a weighted band and a predicate cascade

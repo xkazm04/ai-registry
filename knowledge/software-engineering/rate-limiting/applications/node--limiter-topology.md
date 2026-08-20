@@ -4,6 +4,7 @@ type: application
 subject: rate-limiting
 technique: limiter-topology
 stack: node
+verified_on: 2026-08-20
 ---
 
 # Two scopes, two horizons, and one unreachable store

@@ -4,6 +4,7 @@ type: application
 subject: web-scraping
 technique: dry-run-preview
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application: the wizard's Preview step

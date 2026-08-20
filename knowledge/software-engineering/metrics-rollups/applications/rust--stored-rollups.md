@@ -4,6 +4,7 @@ type: application
 subject: metrics-rollups
 technique: stored-rollups
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Stored rollups in the SLA reliability pipeline

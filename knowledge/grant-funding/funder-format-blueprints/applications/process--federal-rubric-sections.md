@@ -5,6 +5,7 @@ subject: funder-format-blueprints
 technique: federal-rubric-sections
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Federal rubric sections as drafting guidance (process)

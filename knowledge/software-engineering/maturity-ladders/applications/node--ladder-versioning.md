@@ -5,6 +5,7 @@ subject: maturity-ladders
 technique: ladder-versioning
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A version constant that carries its own doctrine, changelog, and backstop

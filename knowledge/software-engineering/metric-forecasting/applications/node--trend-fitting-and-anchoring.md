@@ -5,6 +5,7 @@ subject: metric-forecasting
 technique: trend-fitting-and-anchoring
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Anchoring the ray, and measuring the ETA from now

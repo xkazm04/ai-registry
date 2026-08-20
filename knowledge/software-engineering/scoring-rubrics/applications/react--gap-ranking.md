@@ -4,6 +4,7 @@ type: application
 subject: scoring-rubrics
 technique: gap-ranking
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Gap ranking — the improve plan's impact-per-effort and the twin's foundation tie-break

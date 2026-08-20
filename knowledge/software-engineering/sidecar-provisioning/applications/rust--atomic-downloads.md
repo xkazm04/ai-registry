@@ -4,6 +4,7 @@ type: application
 subject: sidecar-provisioning
 technique: atomic-downloads
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Atomic downloads in the companion STT model manager

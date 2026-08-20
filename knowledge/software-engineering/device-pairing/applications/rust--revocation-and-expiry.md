@@ -4,6 +4,7 @@ type: application
 subject: device-pairing
 technique: revocation-and-expiry
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Revocation reach, measured across three trust registries

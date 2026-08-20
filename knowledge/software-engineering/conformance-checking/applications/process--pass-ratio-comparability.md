@@ -5,6 +5,7 @@ subject: conformance-checking
 technique: pass-ratio-comparability
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # "Score semantics (read before comparing scores)" as a shipped spec section

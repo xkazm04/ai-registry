@@ -4,6 +4,7 @@ type: application
 subject: mcp-tools
 technique: server-composition
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Server composition in the Rust backend

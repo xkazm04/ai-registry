@@ -4,6 +4,7 @@ type: application
 subject: cicd-monitoring
 technique: deployment-history
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Deployment history — GitOps versions + deployment audit trail (Personas)

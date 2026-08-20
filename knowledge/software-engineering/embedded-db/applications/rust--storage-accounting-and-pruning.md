@@ -4,6 +4,7 @@ type: application
 subject: embedded-db
 technique: storage-accounting-and-pruning
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Storage accounting and pruning in the system commands

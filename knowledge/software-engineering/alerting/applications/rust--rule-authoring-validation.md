@@ -4,6 +4,7 @@ type: application
 subject: alerting
 technique: rule-authoring-validation
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rule-authoring validation — always-true rejection at the storage door

@@ -5,6 +5,7 @@ subject: remediation-handoff
 technique: claim-carry-forward-rules
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The resolve rule — pure decision, applied at persist time

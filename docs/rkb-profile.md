@@ -64,8 +64,39 @@ status: forged               # draft | forged | reconciled | transplant-tested
 laws: [identity-survives-reuse]   # techniques: anchors that must exist in _laws.md
 shared_with: []              # techniques: other subjects that reference this one
 use_when: [...]              # optional OKF field: when a consuming agent should read this
+verified_on: 2026-08-18      # applications ONLY, REQUIRED: see §3.1
+verified_against: react@18   # applications, optional: the stack version behind the citations
+refresh_by: 2026-11-20       # applications, optional: overrides the derived clock
 ---
 ```
+
+### 3.1 Currency, on the application layer
+
+An application cites real code in a real tree. That tree moves; the citation does not.
+Nothing in a registry can notice, because a registry does not have the consumer's
+checkout — so the layer that decays fastest was, until these fields existed, the only one
+carrying no age at all.
+
+| field | required | meaning |
+|---|---|---|
+| `verified_on` | **yes** | `YYYY-MM-DD`. The date this document's citations were last resolved against a real tree. A **fact**, not a plan: a future date is a gate failure. |
+| `verified_against` | no | `<stack>@<version>` — the stack version those citations were checked at (`react@18`, `rust@1.79`). Meaningless for `process`, and rejected there. |
+| `refresh_by` | no | `YYYY-MM-DD`. An author's override of the derived clock, for a subject they know moves faster or slower than its stack. Must be after `verified_on`. |
+
+**The expiry is derived, not written.** `verified_on` plus a per-stack window in
+[`scripts/check-currency.mjs`](../scripts/check-currency.mjs) produces the clock. The
+policy lives in one place a maintainer can tune, rather than in hundreds of per-file dates
+that would each have to be invented — which is why `refresh_by` is the exception and not
+the rule. `process` applications get no derived clock at all: a methodology does not
+expire on a vendor's release schedule.
+
+**`verified_against` is written going forward, never backfilled.** Only something that has
+actually read the cited tree can state it truthfully, so the corpus carries it where a
+forge or deepen pass has since supplied it and nowhere else. Its absence is reported as
+*no version witness* — a fact about the instrument, not about the document.
+
+Whether a citation still lands is answered from the other side, by the installation that
+holds the tree: see [`docs/signals-lane.md`](signals-lane.md).
 
 **Bundle `index.md`:**
 

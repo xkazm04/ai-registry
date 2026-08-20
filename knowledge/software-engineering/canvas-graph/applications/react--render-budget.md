@@ -4,6 +4,7 @@ type: application
 subject: canvas-graph
 technique: render-budget
 stack: react
+verified_on: 2026-08-18
 ---
 
 # CanvasShell — the Mastermind render budget at 50–100 projects

@@ -4,6 +4,7 @@ type: application
 subject: triage-queues
 technique: focus-mode
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Focus mode — the triage deck in this repo

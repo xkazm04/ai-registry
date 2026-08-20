@@ -4,6 +4,7 @@ type: application
 subject: time-travel-replay
 technique: transport-and-time-mapping
 stack: react
+verified_on: 2026-08-18
 ---
 
 # ReplaySandbox + useReplayTimeline — the execution-replay transport (and its orphaned sibling)

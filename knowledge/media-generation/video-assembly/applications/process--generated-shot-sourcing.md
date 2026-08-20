@@ -5,6 +5,7 @@ subject: video-assembly
 technique: generated-shot-sourcing
 status: forged
 stack: process
+verified_on: 2026-08-20
 ---
 
 # A worked sourcing ledger — the video-model landscape, August 2026

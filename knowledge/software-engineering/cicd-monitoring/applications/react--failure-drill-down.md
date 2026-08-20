@@ -4,6 +4,7 @@ type: application
 subject: cicd-monitoring
 technique: failure-drill-down
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Failure drill-down — pipeline → jobs → log tail (Personas)

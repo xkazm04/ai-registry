@@ -4,6 +4,7 @@ type: application
 subject: agent-chaining
 technique: graph-to-wiring-translation
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Graph-to-wiring translation — team handoff wiring

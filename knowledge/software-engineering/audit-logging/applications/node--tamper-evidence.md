@@ -4,6 +4,7 @@ type: application
 subject: audit-logging
 technique: tamper-evidence
 stack: node
+verified_on: 2026-08-20
 ---
 
 # Migration-free tamper evidence on a live audit table

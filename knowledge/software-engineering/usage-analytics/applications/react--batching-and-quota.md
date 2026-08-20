@@ -4,6 +4,7 @@ type: application
 subject: usage-analytics
 technique: batching-and-quota
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Batching and quota — per-session counters in the webview

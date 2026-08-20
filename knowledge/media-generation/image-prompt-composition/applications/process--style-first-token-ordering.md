@@ -5,6 +5,7 @@ subject: image-prompt-composition
 technique: style-first-token-ordering
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process: the model-probe prompt as an ordering artifact

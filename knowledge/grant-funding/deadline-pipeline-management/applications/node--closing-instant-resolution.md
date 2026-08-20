@@ -5,6 +5,7 @@ subject: deadline-pipeline-management
 technique: closing-instant-resolution
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: closing instants and tz-correct day math in a deadline radar

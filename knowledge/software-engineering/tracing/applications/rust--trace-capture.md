@@ -4,6 +4,7 @@ type: application
 subject: tracing
 technique: trace-capture
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Trace capture in the Rust engine — `TraceCollector`

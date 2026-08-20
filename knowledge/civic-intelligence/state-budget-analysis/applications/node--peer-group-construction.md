@@ -5,6 +5,7 @@ subject: state-budget-analysis
 technique: peer-group-construction
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node — peer-group construction in the politicas BudgetMirror

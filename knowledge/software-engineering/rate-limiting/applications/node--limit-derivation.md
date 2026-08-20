@@ -4,6 +4,7 @@ type: application
 subject: rate-limiting
 technique: limit-derivation
 stack: node
+verified_on: 2026-08-20
 ---
 
 # A budget table where every entry carries its cost sentence

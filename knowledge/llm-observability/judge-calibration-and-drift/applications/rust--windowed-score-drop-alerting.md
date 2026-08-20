@@ -5,6 +5,7 @@ subject: judge-calibration-and-drift
 technique: windowed-score-drop-alerting
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Windowed score-drop alerting in LightTrack's API (Rust)

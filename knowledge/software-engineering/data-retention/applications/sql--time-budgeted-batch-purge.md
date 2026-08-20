@@ -5,6 +5,7 @@ subject: data-retention
 technique: time-budgeted-batch-purge
 stack: sql
 status: forged
+verified_on: 2026-08-20
 ---
 
 # SQL: a paging delete that yields at batch boundaries

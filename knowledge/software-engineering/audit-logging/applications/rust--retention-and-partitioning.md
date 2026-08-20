@@ -4,6 +4,7 @@ type: application
 subject: audit-logging
 technique: retention-and-partitioning
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Partitioned ledgers with per-domain horizons

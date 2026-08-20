@@ -5,6 +5,7 @@ subject: measurement-honesty
 technique: unmeasurable-vs-zero
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The "n/a, not 0" escape hatch in a repository scoring engine

@@ -4,6 +4,7 @@ type: application
 subject: structured-output
 technique: op-grammar-allowlisting
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The companion op dispatcher — a closed grammar with a cleaned display channel

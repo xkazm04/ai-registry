@@ -5,6 +5,7 @@ subject: metric-forecasting
 technique: projection-presentability-gates
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The shared presentability gate in the maturity forecast module

@@ -4,6 +4,7 @@ type: application
 subject: media-playback
 technique: playback-clock
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The media studio's timeline clock — where the repo meets the technique, and where it doesn't

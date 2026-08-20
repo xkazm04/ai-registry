@@ -5,6 +5,7 @@ subject: platform-format-adaptation
 technique: sound-off-first-design
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The 2026-08 platform constraint table — the measured reality behind sound-off-first design

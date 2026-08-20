@@ -5,6 +5,7 @@ subject: roll-call-vote-analysis
 technique: tally-reconciliation
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Tally reconciliation against the chamber's own totals (node)

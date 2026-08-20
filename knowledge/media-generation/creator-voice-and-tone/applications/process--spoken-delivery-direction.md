@@ -5,6 +5,7 @@ subject: creator-voice-and-tone
 technique: spoken-delivery-direction
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A worked casting ledger — the TTS / voice-generation landscape, August 2026

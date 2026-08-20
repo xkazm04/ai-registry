@@ -5,6 +5,7 @@ subject: production-pipeline-phasing
 technique: worst-news-first-progress
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # React: worst-news-first progress in a five-phase studio

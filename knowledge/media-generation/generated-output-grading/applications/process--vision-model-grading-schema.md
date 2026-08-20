@@ -5,6 +5,7 @@ subject: generated-output-grading
 technique: vision-model-grading-schema
 status: forged
 stack: process
+verified_on: 2026-08-20
 ---
 
 # A worked judge-selection guide — grading models and metrics, August 2026

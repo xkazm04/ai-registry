@@ -4,6 +4,7 @@ type: application
 subject: error-handling
 technique: taxonomy-design
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust application — taxonomy design

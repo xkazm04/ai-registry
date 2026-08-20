@@ -5,6 +5,7 @@ subject: measurement-honesty
 technique: incomplete-not-verdict
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # `isIncompleteReport`: a gate that refuses to certify an ingestion failure

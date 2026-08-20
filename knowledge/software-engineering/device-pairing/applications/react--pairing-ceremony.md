@@ -4,6 +4,7 @@ type: application
 subject: device-pairing
 technique: pairing-ceremony
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The human gate: PairApprovalModal

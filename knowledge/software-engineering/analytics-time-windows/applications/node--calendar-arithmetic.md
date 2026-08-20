@@ -4,6 +4,7 @@ type: application
 subject: analytics-time-windows
 technique: calendar-arithmetic
 stack: node
+verified_on: 2026-08-20
 ---
 
 # Calendar arithmetic across four surfaces of one product

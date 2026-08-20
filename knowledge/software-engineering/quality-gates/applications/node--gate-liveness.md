@@ -4,6 +4,7 @@ type: application
 subject: quality-gates
 technique: gate-liveness
 stack: node
+verified_on: 2026-08-18
 ---
 
 # Gate liveness in this repo's Node checker scripts

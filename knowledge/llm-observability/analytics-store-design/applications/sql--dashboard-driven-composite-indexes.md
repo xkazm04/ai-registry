@@ -5,6 +5,7 @@ subject: analytics-store-design
 technique: dashboard-driven-composite-indexes
 stack: sql
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Query-surface-derived indexes across three backends (LightTrack)

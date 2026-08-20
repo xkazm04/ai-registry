@@ -4,6 +4,7 @@ type: application
 subject: async-ui-states
 technique: action-busy-states
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — action busy states

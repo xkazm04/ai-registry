@@ -4,6 +4,7 @@ type: application
 subject: streaming-output
 technique: stream-parsing
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The execution stream parser — where the repo meets the technique, and where it doesn't

@@ -4,6 +4,7 @@ type: application
 subject: sync-replication
 technique: conflict-detection-and-policy
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Conflict detection and policy — two lanes, two scopes, one algorithm

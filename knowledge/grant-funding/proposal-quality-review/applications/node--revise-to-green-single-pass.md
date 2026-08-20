@@ -5,6 +5,7 @@ subject: proposal-quality-review
 technique: revise-to-green-single-pass
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: the shared revise-to-green loop in a grant-drafting product

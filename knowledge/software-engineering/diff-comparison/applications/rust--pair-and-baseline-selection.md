@@ -4,6 +4,7 @@ type: application
 subject: diff-comparison
 technique: pair-and-baseline-selection
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Pair & baseline selection — the competition slot diff that picks its baseline by byte length

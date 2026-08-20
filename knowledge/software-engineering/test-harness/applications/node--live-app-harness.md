@@ -4,6 +4,7 @@ type: application
 subject: test-harness
 technique: live-app-harness
 stack: node
+verified_on: 2026-08-18
 ---
 
 # The :17320 test-automation bridge — driving the real Tauri app

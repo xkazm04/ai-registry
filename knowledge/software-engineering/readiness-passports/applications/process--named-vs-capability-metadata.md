@@ -5,6 +5,7 @@ subject: readiness-passports
 technique: named-vs-capability-metadata
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The passport design document as the doctrine that licenses naming tools

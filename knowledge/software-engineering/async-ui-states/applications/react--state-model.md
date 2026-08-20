@@ -4,6 +4,7 @@ type: application
 subject: async-ui-states
 technique: state-model
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — the state model

@@ -4,6 +4,7 @@ type: application
 subject: diff-comparison
 technique: semantic-level-selection
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Semantic level selection — four kernels, and which entity each one was chosen for

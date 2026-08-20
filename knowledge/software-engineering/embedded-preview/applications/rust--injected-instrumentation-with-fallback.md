@@ -4,6 +4,7 @@ type: application
 subject: embedded-preview
 technique: injected-instrumentation-with-fallback
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # `preview_agent.rs` — the dev-gated agent and its coarse fallback

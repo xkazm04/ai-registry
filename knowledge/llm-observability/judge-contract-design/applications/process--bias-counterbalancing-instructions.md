@@ -5,6 +5,7 @@ subject: judge-contract-design
 technique: bias-counterbalancing-instructions
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Process: the LightTrack judge prompt contract

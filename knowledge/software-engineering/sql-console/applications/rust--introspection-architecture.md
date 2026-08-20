@@ -4,6 +4,7 @@ type: application
 subject: sql-console
 technique: introspection-architecture
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # One parameterized introspection door, and the deleted second one

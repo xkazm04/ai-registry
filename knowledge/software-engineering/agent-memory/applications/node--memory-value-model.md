@@ -5,6 +5,7 @@ subject: agent-memory
 technique: memory-value-model
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # One value model behind recall, forgetting and coverage (Node/TypeScript)

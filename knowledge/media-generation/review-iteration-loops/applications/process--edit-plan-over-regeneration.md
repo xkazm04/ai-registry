@@ -5,6 +5,7 @@ subject: review-iteration-loops
 technique: edit-plan-over-regeneration
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process: the recalibration prompt as an edit-plan contract

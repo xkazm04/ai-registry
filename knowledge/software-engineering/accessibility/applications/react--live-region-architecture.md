@@ -4,6 +4,7 @@ type: application
 subject: accessibility
 technique: live-region-architecture
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Live region architecture — React announcer (Personas)

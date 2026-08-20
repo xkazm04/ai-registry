@@ -4,6 +4,7 @@ type: application
 subject: cicd-monitoring
 technique: liveness-scoped-polling
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Liveness-scoped polling — the pipeline viewer's refresh loop (Personas)

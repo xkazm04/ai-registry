@@ -5,6 +5,7 @@ subject: generated-output-grading
 technique: unconditional-fail-criteria
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process — an 11-point rubric with text leakage as the veto

@@ -4,6 +4,7 @@ type: application
 subject: judgment-guardbands
 technique: confidence-weighted-blend
 stack: node
+verified_on: 2026-08-20
 ---
 
 # The scoring engine — two constants, a coverage-scaled blend, and a NaN that would have eaten the report

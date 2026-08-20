@@ -79,6 +79,28 @@ const LAYERS = new Set(['golden-path', 'technique', 'application']);
 const STATUSES = new Set(['draft', 'forged', 'reconciled', 'transplant-tested']);
 const STACKS = new Set(['react', 'rust', 'sql', 'node', 'process']);
 
+// Currency fields on the application layer (docs/rkb-profile.md §3).
+//
+// An application cites real code in a real tree. That tree moves; the citation does not.
+// `verified_on` is the FACT that makes the decay measurable - the date those citations
+// were last resolved against a tree. It is required, because an application without one
+// is a claim with no age, and a corpus of claims with no age cannot be triaged.
+//
+// What is deliberately NOT required is `refresh_by`. An expiry date is a judgment about
+// how fast a subject moves, and 451 invented judgments would be fabricated data in a
+// repository that gates against exactly that. The clock is DERIVED from `verified_on` by
+// scripts/check-currency.mjs, which holds the per-stack window policy in one place;
+// `refresh_by` stays an optional per-document override for an author who knows better.
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+// `<stack>@<version>` - the stack version the citations were checked against, e.g.
+// `react@18`, `node@22`, `rust@1.79`. Optional: it can only be written truthfully by
+// something that read the cited tree, so it is emitted going forward rather than
+// backfilled. Its absence is reported by check-currency as "no version witness".
+const VERIFIED_AGAINST_RE = /^[a-z0-9][a-z0-9-]*@\d+(?:\.\d+){0,2}$/;
+// One day of slack: contributors are in many timezones and a clock skew must not be a
+// build failure.
+const TOMORROW = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+
 // The evidence keys that must never appear in a published file (rkb-profile §5).
 const LEAK_KEYS = ['evidence', 'counter_evidence', 'deviations'];
 
@@ -297,6 +319,36 @@ for (const domain of bundles) {
         if (!onDisk.has(fm.technique)) fail(`knowledge/${domain}/${slug}/applications/${f}: technique "${fm.technique}" not in this subject's techniques/`);
         const expectName = `${fm.stack}--${fm.technique}.md`;
         if (f !== expectName) fail(`knowledge/${domain}/${slug}/applications/${f}: filename should be "${expectName}" (rkb-profile §2)`);
+
+        // -- currency
+        const arel = `knowledge/${domain}/${slug}/applications/${f}`;
+        if (!fm.verified_on) {
+          fail(`${arel}: no \`verified_on\` — an application cites a moving tree, so it must carry the date those citations were last resolved (rkb-profile §3)`);
+        } else if (!DATE_RE.test(fm.verified_on)) {
+          fail(`${arel}: verified_on "${fm.verified_on}" is not YYYY-MM-DD`);
+        } else if (fm.verified_on > TOMORROW) {
+          fail(`${arel}: verified_on "${fm.verified_on}" is in the future — it records when a check happened, not when one is planned`);
+        }
+        if (fm.refresh_by !== undefined) {
+          if (!DATE_RE.test(fm.refresh_by)) {
+            fail(`${arel}: refresh_by "${fm.refresh_by}" is not YYYY-MM-DD`);
+          } else if (DATE_RE.test(fm.verified_on ?? '') && fm.refresh_by <= fm.verified_on) {
+            fail(`${arel}: refresh_by "${fm.refresh_by}" is not after verified_on "${fm.verified_on}" — a clock that has already expired at the moment of writing is not an override, it is a typo`);
+          }
+        }
+        if (fm.verified_against !== undefined) {
+          if (!VERIFIED_AGAINST_RE.test(fm.verified_against)) {
+            fail(`${arel}: verified_against "${fm.verified_against}" must be <stack>@<version>, e.g. react@18`);
+          } else {
+            const vstack = String(fm.verified_against).split('@')[0];
+            if (vstack !== fm.stack) {
+              fail(`${arel}: verified_against names stack "${vstack}" but this document's stack is "${fm.stack}"`);
+            }
+            if (fm.stack === 'process') {
+              fail(`${arel}: a "process" application has no runtime version to be verified against — drop verified_against`);
+            }
+          }
+        }
       }
     }
   }

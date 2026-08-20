@@ -5,6 +5,7 @@ subject: judge-calibration-and-drift
 technique: judge-selection-by-spread
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Judge selection by spread — LightTrack's bake-off method

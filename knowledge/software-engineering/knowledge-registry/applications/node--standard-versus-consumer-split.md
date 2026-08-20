@@ -4,6 +4,7 @@ type: application
 subject: knowledge-registry
 technique: standard-versus-consumer-split
 stack: node
+verified_on: 2026-08-19
 ---
 
 # Evidence stays home — how the split was drawn when this bundle moved

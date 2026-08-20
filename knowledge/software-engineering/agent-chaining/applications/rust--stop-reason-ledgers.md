@@ -4,6 +4,7 @@ type: application
 subject: agent-chaining
 technique: stop-reason-ledgers
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Stop-reason ledgers — chain_stop_reasons

@@ -4,6 +4,7 @@ type: application
 subject: streaming-output
 technique: buffering-and-backpressure
 stack: react
+verified_on: 2026-08-18
 ---
 
 # ExecutionSink — how this repo's frontend bounds and throttles the live terminal stream

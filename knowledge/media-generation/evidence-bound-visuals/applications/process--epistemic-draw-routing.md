@@ -5,6 +5,7 @@ subject: evidence-bound-visuals
 technique: epistemic-draw-routing
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Epistemic draw routing in the Gravitone direction pipeline (process)

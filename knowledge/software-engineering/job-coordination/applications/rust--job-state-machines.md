@@ -4,6 +4,7 @@ type: application
 subject: job-coordination
 technique: job-state-machines
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The build-session phase machine

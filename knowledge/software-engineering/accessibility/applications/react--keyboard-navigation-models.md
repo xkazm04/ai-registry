@@ -4,6 +4,7 @@ type: application
 subject: accessibility
 technique: keyboard-navigation-models
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Keyboard navigation models — React shell and widgets (Personas)

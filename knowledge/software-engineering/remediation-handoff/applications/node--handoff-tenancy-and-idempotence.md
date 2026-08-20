@@ -5,6 +5,7 @@ subject: remediation-handoff
 technique: handoff-tenancy-and-idempotence
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The hand-off write — `POST /api/org/followups/handoff`

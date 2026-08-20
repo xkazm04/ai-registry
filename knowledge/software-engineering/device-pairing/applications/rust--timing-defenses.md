@@ -4,6 +4,7 @@ type: application
 subject: device-pairing
 technique: timing-defenses
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Constant time + fixed delay on the companion auth path

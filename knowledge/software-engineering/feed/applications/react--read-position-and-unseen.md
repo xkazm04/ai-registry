@@ -4,6 +4,7 @@ type: application
 subject: feed
 technique: read-position-and-unseen
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Read position and unseen — two anchors, one half-adoption (React + Zustand)

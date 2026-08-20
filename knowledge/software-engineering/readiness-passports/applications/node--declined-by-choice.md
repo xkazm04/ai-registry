@@ -5,6 +5,7 @@ subject: readiness-passports
 technique: declined-by-choice
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The read-time overlay that turns a fingerprint into decision memory

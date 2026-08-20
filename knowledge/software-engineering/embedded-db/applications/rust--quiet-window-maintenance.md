@@ -4,6 +4,7 @@ type: application
 subject: embedded-db
 technique: quiet-window-maintenance
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Quiet-window maintenance in the Rust data layer

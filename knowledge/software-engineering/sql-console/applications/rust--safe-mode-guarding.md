@@ -4,6 +4,7 @@ type: application
 subject: sql-console
 technique: safe-mode-guarding
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The authoritative guard in the Rust executor

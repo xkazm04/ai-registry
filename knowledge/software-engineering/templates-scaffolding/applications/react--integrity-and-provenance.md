@@ -4,6 +4,7 @@ type: application
 subject: templates-scaffolding
 technique: integrity-and-provenance
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Template integrity in the catalog loader — and the autopsy of the gate that wasn't

@@ -5,6 +5,7 @@ subject: people-analytics-ethics
 technique: risk-framing-anonymization
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A deliberate naming asymmetry, documented at the computation site

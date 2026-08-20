@@ -4,6 +4,7 @@ type: application
 subject: device-pairing
 technique: verb-allowlists
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The companion API's closed five-verb grammar

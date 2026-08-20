@@ -4,6 +4,7 @@ type: application
 subject: supply-chain
 technique: dependency-policy-gates
 stack: process
+verified_on: 2026-08-18
 ---
 
 # Dependency policy in this repo: a sound policy file, a gate that never spoke

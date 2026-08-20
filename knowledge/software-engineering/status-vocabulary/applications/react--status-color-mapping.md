@@ -4,6 +4,7 @@ type: application
 subject: status-vocabulary
 technique: status-color-mapping
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — status color mapping

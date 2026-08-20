@@ -4,6 +4,7 @@ type: application
 subject: i18n
 technique: catalog-architecture
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The section-locale pipeline — how this repo's React side realizes the catalog standard

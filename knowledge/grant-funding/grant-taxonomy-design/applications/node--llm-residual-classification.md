@@ -5,6 +5,7 @@ subject: grant-taxonomy-design
 technique: llm-residual-classification
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: constrained LLM classification of the uncategorized residual

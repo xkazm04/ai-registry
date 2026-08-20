@@ -4,6 +4,7 @@ type: application
 subject: markdown-vault
 technique: knowledge-integrity-lint
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Knowledge integrity lint over the Obsidian vault (Rust)

@@ -4,6 +4,7 @@ type: application
 subject: health-checks
 technique: three-state-outcomes
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Three-state outcomes — the credential probe's Verified/Unverifiable/Failed

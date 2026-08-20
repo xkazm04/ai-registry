@@ -5,6 +5,7 @@ subject: funder-research
 technique: discovery-with-omit-if-unsure
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # The discovery/verify prompt pair in a grants research engine

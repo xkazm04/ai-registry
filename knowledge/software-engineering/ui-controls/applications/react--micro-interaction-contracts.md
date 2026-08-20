@@ -4,6 +4,7 @@ type: application
 subject: ui-controls
 technique: micro-interaction-contracts
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — micro-interaction contracts

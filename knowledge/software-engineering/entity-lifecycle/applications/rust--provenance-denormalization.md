@@ -4,6 +4,7 @@ type: application
 subject: entity-lifecycle
 technique: provenance-denormalization
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Recipe provenance stamped onto executions

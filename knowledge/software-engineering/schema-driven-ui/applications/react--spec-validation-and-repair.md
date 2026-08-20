@@ -4,6 +4,7 @@ type: application
 subject: schema-driven-ui
 technique: spec-validation-and-repair
 stack: react
+verified_on: 2026-08-18
 ---
 
 # SurfaceSpec — the repo's one validation door, with honest repair

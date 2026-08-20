@@ -4,6 +4,7 @@ type: application
 subject: rate-limiting
 technique: algorithm-selection
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Two families in one binary: sliding-window log and token bucket

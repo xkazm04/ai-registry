@@ -5,6 +5,7 @@ subject: production-pipeline-phasing
 technique: long-run-as-background-job
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # React: minutes-long AI runs as jobs in a browser studio

@@ -4,6 +4,7 @@ type: application
 subject: release-pipeline
 technique: version-single-truth
 stack: node
+verified_on: 2026-08-18
 ---
 
 # Version single truth — Node bump tool + CI release workflow

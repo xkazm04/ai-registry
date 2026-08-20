@@ -4,6 +4,7 @@ type: application
 subject: retrieval
 technique: embedding-lifecycle
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Embedding lifecycle: stamps, guards, and the backfill that closed the loop

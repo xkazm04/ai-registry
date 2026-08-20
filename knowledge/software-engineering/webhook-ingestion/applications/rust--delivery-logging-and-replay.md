@@ -4,6 +4,7 @@ type: application
 subject: webhook-ingestion
 technique: delivery-logging-and-replay
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Delivery logging and replay in the Rust webhook receiver

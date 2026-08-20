@@ -4,6 +4,7 @@ type: application
 subject: concurrency-guards
 technique: cross-process-exclusion
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Cross-process exclusion in Personas (Rust + one process-level guard)

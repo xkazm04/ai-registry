@@ -5,6 +5,7 @@ subject: trace-rollup-and-attribution
 technique: unpriced-span-accounting
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: counting the spans the cost sum could not measure (LightTrack)

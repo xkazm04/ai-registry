@@ -5,6 +5,7 @@ subject: funder-research
 technique: coverage-gap-driven-planning
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Coverage-driven planning and silent-decay guards in a grants research engine

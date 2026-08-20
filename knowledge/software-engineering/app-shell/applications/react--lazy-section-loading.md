@@ -4,6 +4,7 @@ type: application
 subject: app-shell
 technique: lazy-section-loading
 stack: react
+verified_on: 2026-08-18
 ---
 
 # RouteChunkSkeleton + idlePrefetch + routeSections — lazy sections in this repo

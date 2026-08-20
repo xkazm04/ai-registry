@@ -5,6 +5,7 @@ subject: submission-filing
 technique: crowd-verified-filing-profiles
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node — crowd-verified filing profiles in a grant-writing pipeline

@@ -4,6 +4,7 @@ type: application
 subject: connector-catalog
 technique: adapter-normalization
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Adapter normalization in the LLM-observability overview

@@ -5,6 +5,7 @@ subject: creator-voice-and-tone
 technique: voice-profile-from-accepted-work
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process: the gravitone-gcloud voice-profile loop and schema

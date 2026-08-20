@@ -5,6 +5,7 @@ subject: public-verdict-badge
 technique: embed-snippet-contract
 stack: react
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A snippet generator that pins what it means

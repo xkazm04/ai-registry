@@ -4,6 +4,7 @@ type: application
 subject: draft-editing
 technique: draft-model
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Draft model — React persona editor

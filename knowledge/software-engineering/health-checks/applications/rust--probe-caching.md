@@ -4,6 +4,7 @@ type: application
 subject: health-checks
 technique: probe-caching
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Probe caching — the shared TTL cache over executable probes

@@ -14,9 +14,9 @@ name: knowledge
 on:
   push:
     branches: [main]
-    paths: ['knowledge/**', 'usage/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   pull_request:
-    paths: ['knowledge/**', 'usage/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   workflow_dispatch:
 
 jobs:
@@ -56,6 +56,34 @@ jobs:
       # file shows up there as a wrong number rather than as an error.
       - name: Check the usage lane
         run: node scripts/check-usage.mjs
+
+  signals:
+    name: signals lane
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # Same privacy contract as the usage lane, enforced the same way. A registry nobody
+      # reports to yet passes: absence is a legitimate state, not a finding.
+      - name: Check the signals lane
+        run: node scripts/check-signals.mjs
+
+  currency:
+    name: currency report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # REPORTS, never fails. A stale document must not block an unrelated pull request —
+      # that is how a gate ends up deleted. The failing form (`--fail-on-expired`) belongs
+      # to a scheduled run and to /librarian, where a red result is the point and nobody
+      # is standing behind it waiting to merge.
+      - name: Report knowledge currency
+        run: node scripts/check-currency.mjs
 
   catalog:
     name: catalog freshness

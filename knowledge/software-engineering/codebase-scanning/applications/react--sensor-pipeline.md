@@ -4,6 +4,7 @@ type: application
 subject: codebase-scanning
 technique: sensor-pipeline
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The findings sweep — sensor pipeline in the dev-tools triage loop

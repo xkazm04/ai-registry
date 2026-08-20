@@ -4,6 +4,7 @@ type: application
 subject: embedded-preview
 technique: dev-server-registry
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # `devserver.rs` — one Bun dev server per project, tree-killed on exit

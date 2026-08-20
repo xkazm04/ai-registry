@@ -4,6 +4,7 @@ type: application
 subject: file-browsing
 technique: navigation-state
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Navigation state — the Drive Finder's master hook

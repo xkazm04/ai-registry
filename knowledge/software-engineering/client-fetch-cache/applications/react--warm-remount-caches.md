@@ -4,6 +4,7 @@ type: application
 subject: client-fetch-cache
 technique: warm-remount-caches
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Warm remount caches in this repo — the loading-v2 law 4 precedents

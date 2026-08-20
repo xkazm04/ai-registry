@@ -4,6 +4,7 @@ type: application
 subject: canvas-graph
 technique: viewport-transform
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The Mastermind camera and the pattern-graph camera — two realizations, one contract

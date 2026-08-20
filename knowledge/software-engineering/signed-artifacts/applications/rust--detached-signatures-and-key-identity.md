@@ -4,6 +4,7 @@ type: application
 subject: signed-artifacts
 technique: detached-signatures-and-key-identity
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Five verification doors, one identity scheme — and the door that skips both

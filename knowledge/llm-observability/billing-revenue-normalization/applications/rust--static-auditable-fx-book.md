@@ -4,6 +4,7 @@ type: application
 subject: billing-revenue-normalization
 technique: static-auditable-fx-book
 stack: rust
+verified_on: 2026-08-20
 ---
 
 # The static FX book in LightTrack (Rust)

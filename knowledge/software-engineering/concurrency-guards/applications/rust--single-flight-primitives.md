@@ -4,6 +4,7 @@ type: application
 subject: concurrency-guards
 technique: single-flight-primitives
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Single-flight primitives in the Personas backend (Rust)

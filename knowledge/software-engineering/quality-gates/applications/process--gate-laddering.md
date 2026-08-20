@@ -4,6 +4,7 @@ type: application
 subject: quality-gates
 technique: gate-laddering
 stack: process
+verified_on: 2026-08-20
 ---
 
 # The gate ladder as this repo runs it

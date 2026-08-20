@@ -4,6 +4,7 @@ type: application
 subject: status-vocabulary
 technique: number-formatting
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — number formatting

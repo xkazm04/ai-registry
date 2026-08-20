@@ -4,6 +4,7 @@ type: application
 subject: drag-drop
 technique: ownership-boundaries
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Ownership boundaries in React — the KanbanBoard postures

@@ -4,6 +4,7 @@ type: application
 subject: test-harness
 technique: fixture-economics
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # `migrated_template()` — build-once-copy-per-test in the Rust backend

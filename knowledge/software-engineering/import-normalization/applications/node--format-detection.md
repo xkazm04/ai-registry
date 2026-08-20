@@ -4,6 +4,7 @@ type: application
 subject: import-normalization
 technique: format-detection
 stack: node
+verified_on: 2026-08-18
 ---
 
 # The workflow detector — fingerprints, confidence grades, and a confessing guess

@@ -5,6 +5,7 @@ subject: llm-price-book-operations
 technique: price-resolution-order
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Price resolution in LightTrack (Rust)

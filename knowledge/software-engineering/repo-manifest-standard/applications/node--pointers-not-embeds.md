@@ -5,6 +5,7 @@ subject: repo-manifest-standard
 technique: pointers-not-embeds
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Only pointing at what the generator actually ships

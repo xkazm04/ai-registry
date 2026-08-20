@@ -5,6 +5,7 @@ subject: people-analytics-ethics
 technique: contribution-eligibility-floors
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Eligibility floors over a mixed-cadence fleet

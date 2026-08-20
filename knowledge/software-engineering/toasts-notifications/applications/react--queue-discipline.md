@@ -4,6 +4,7 @@ type: application
 subject: toasts-notifications
 technique: queue-discipline
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Queue discipline — React toast stack (Personas)

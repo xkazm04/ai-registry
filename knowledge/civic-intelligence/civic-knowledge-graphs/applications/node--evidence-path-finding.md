@@ -5,6 +5,7 @@ subject: civic-knowledge-graphs
 technique: evidence-path-finding
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: "Connect two points" over a parliamentary money-and-law graph

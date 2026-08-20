@@ -4,6 +4,7 @@ type: application
 subject: agent-memory
 technique: recall-injection
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Recall injection in the companion brain and persona engine (Rust)

@@ -4,6 +4,7 @@ type: application
 subject: templates-scaffolding
 technique: readiness-prerequisites
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Readiness prerequisites in the template adoption frontend

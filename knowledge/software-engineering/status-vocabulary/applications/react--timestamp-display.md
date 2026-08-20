@@ -4,6 +4,7 @@ type: application
 subject: status-vocabulary
 technique: timestamp-display
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — timestamp display

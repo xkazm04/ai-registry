@@ -4,6 +4,7 @@ type: application
 subject: build-economics
 technique: cache-budgeting
 stack: node
+verified_on: 2026-08-18
 ---
 
 # The target-dir budget: 324 GB of unmanaged cache brought under an enforced ceiling

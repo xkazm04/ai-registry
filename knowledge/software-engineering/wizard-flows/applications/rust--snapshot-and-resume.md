@@ -4,6 +4,7 @@ type: application
 subject: wizard-flows
 technique: snapshot-and-resume
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The build-session FSM — server-side snapshot and resume in this repo

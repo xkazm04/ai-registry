@@ -5,6 +5,7 @@ subject: jurisdiction-modelling
 technique: jurisdiction-profile-schema
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: the JurisdictionProfile schema in a grant-writing product

@@ -4,6 +4,7 @@ type: application
 subject: concurrent-vcs
 technique: intent-ledgers
 stack: process
+verified_on: 2026-08-18
 ---
 
 # Intent ledger — `.claude/active-runs.md`, its design, and its measured decay

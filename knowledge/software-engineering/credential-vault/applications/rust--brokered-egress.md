@@ -4,6 +4,7 @@ type: application
 subject: credential-vault
 technique: brokered-egress
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Brokered egress in the Rust backend

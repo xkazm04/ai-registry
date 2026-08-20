@@ -4,6 +4,7 @@ type: application
 subject: job-coordination
 technique: lease-renewal
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Heartbeat leases: the daemon lock and engine leadership

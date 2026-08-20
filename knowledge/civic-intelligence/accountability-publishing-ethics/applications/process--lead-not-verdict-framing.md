@@ -5,6 +5,7 @@ subject: accountability-publishing-ethics
 technique: lead-not-verdict-framing
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Lead-not-verdict framing — the Politicas accusatory-claim pipeline

@@ -4,6 +4,7 @@ type: application
 subject: retrieval
 technique: hybrid-lane-fusion
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Hybrid lane fusion in the companion brain and the KB search path

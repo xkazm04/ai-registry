@@ -5,6 +5,7 @@ subject: delivery-analytics
 technique: delivery-metric-denominators
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Sample floors, trend points, and the tier that was retired (node)

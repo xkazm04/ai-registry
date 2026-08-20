@@ -4,6 +4,7 @@ type: application
 subject: ui-controls
 technique: control-inventory-and-discovery
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — control inventory & discovery

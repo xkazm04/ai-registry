@@ -5,6 +5,7 @@ subject: content-research-grounding
 technique: tension-finding-taxonomy
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process: the ten-phase research prompt (Gravitone pipeline)

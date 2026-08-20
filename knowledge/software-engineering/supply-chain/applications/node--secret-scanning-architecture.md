@@ -4,6 +4,7 @@ type: application
 subject: supply-chain
 technique: secret-scanning-architecture
 stack: node
+verified_on: 2026-08-18
 ---
 
 # Secret scanning in this repo: the announced skip with no backstop

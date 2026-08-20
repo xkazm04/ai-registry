@@ -4,6 +4,7 @@ type: application
 subject: ipc-contract
 technique: drift-gates
 stack: node
+verified_on: 2026-08-18
 ---
 
 # Drift gates over the generated IPC contract (Node tooling + CI)

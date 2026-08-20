@@ -5,6 +5,7 @@ subject: generative-provider-routing
 technique: refusal-reroute-hop
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node — refusal re-route hop in a server-side imaging router

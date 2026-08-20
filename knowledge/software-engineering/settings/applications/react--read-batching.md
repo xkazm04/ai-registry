@@ -4,6 +4,7 @@ type: application
 subject: settings
 technique: read-batching
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Read batching — the microtask coalescer over Tauri IPC

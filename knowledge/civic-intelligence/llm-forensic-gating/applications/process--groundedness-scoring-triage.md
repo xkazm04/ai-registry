@@ -5,6 +5,7 @@ subject: llm-forensic-gating
 technique: groundedness-scoring-triage
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # The verification-tooling landscape around a gate stack — August 2026

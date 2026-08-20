@@ -4,6 +4,7 @@ type: application
 subject: alerting
 technique: evaluation-loop
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Evaluation loop — the always-mounted global alert evaluator

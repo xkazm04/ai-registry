@@ -4,6 +4,7 @@ type: application
 subject: device-pairing
 technique: pairing-ceremony
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The cloud-origin pairing ceremony on the backend

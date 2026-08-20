@@ -5,6 +5,7 @@ subject: funder-intelligence-index
 technique: win-probability-confidence-bands
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node — win probability with confidence bands, and its calibration audit

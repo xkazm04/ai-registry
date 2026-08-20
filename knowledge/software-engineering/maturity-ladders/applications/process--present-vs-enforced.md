@@ -5,6 +5,7 @@ subject: maturity-ladders
 technique: present-vs-enforced
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Present vs enforced as a written doctrine, not a convention

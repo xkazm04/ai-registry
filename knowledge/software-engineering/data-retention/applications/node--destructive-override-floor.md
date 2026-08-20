@@ -5,6 +5,7 @@ subject: data-retention
 technique: destructive-override-floor
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Node: a safety floor that refuses a fat-fingered retention window

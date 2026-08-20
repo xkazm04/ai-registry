@@ -4,6 +4,7 @@ type: application
 subject: pipeline-dag
 technique: external-adapter-nodes
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # External adapter nodes — Rust automation dispatch & platform deploy

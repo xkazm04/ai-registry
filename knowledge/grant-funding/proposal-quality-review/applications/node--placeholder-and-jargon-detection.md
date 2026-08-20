@@ -5,6 +5,7 @@ subject: proposal-quality-review
 technique: placeholder-and-jargon-detection
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: three placeholder families in a deterministic proofreading pass

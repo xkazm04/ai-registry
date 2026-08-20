@@ -4,6 +4,7 @@ type: application
 subject: embedded-preview
 technique: convention-discovery
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # `routes.rs` — app-router pages discovered by scanning `app/`

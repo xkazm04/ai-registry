@@ -6,6 +6,7 @@ technique: per-provider-usage-extractors
 stack: process
 status: forged
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # The inclusive-vs-exclusive matrix across the 2025–2026 provider SDKs

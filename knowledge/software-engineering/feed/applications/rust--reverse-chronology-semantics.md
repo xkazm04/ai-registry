@@ -4,6 +4,7 @@ type: application
 subject: feed
 technique: reverse-chronology-semantics
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Reverse-chronology semantics — the team channel union (Rust + SQLite)

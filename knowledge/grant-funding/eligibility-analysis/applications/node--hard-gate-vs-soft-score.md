@@ -5,6 +5,7 @@ subject: eligibility-analysis
 technique: hard-gate-vs-soft-score
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: hard gate vs soft score in a grant-matching engine

@@ -4,6 +4,7 @@ type: application
 subject: dead-code
 technique: carrying-cost-economics
 stack: process
+verified_on: 2026-08-18
 ---
 
 # Priced corpses — the three carrying costs this repo has actually measured

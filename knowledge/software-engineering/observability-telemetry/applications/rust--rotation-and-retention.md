@@ -4,6 +4,7 @@ type: application
 subject: observability-telemetry
 technique: rotation-and-retention
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust — rotation, retention, and disk accounting in `src-tauri/src/logging.rs`

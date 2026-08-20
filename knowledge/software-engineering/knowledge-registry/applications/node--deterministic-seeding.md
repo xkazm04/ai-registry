@@ -4,6 +4,7 @@ type: application
 subject: knowledge-registry
 technique: deterministic-seeding
 stack: node
+verified_on: 2026-08-20
 ---
 
 # Seeding a registry into somebody else's repository, twice

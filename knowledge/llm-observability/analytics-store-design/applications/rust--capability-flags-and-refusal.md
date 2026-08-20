@@ -5,6 +5,7 @@ subject: analytics-store-design
 technique: capability-flags-and-refusal
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Tested refusal on the document-store backend (LightTrack)

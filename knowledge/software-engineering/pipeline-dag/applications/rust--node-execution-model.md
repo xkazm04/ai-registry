@@ -4,6 +4,7 @@ type: application
 subject: pipeline-dag
 technique: node-execution-model
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Node execution model — Rust pipeline executor

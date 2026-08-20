@@ -4,6 +4,7 @@ type: application
 subject: proactive-nudges
 technique: attention-budgets
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Attention budgets — Athena's daily nudge budget (Personas)

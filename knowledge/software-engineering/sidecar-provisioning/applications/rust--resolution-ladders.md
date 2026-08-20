@@ -4,6 +4,7 @@ type: application
 subject: sidecar-provisioning
 technique: resolution-ladders
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Resolution ladders across the Personas sidecars

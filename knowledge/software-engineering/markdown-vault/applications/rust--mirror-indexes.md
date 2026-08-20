@@ -4,6 +4,7 @@ type: application
 subject: markdown-vault
 technique: mirror-indexes
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Mirror indexes between app database and vault (Rust)

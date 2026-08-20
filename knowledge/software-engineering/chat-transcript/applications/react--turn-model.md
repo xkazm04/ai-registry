@@ -4,6 +4,7 @@ type: application
 subject: chat-transcript
 technique: turn-model
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Two transcripts, two turn models — the flagged member vs the swapped element

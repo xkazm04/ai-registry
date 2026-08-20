@@ -4,6 +4,7 @@ type: application
 subject: modal-stack
 technique: stack-ownership
 stack: react
+verified_on: 2026-08-18
 ---
 
 # ModalStackContext + BaseModal — how this repo owns the overlay stack

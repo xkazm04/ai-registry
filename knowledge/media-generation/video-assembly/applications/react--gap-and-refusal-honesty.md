@@ -5,6 +5,7 @@ subject: video-assembly
 technique: gap-and-refusal-honesty
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Gap-and-refusal honesty in the Gravitone cut and score surfaces (React/TypeScript)

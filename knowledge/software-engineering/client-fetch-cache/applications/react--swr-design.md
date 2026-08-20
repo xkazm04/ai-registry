@@ -4,6 +4,7 @@ type: application
 subject: client-fetch-cache
 technique: swr-design
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Stale-while-revalidate in this repo — the primitive family

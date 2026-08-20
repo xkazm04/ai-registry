@@ -4,6 +4,7 @@ type: application
 subject: agent-memory
 technique: consolidation
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Consolidation in the companion brain (Rust)

@@ -4,6 +4,7 @@ type: application
 subject: prompt-safety
 technique: payoff-removal
 stack: node
+verified_on: 2026-08-20
 ---
 
 # Removing the payoff in a repository-scoring pipeline

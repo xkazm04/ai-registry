@@ -4,6 +4,7 @@ type: application
 subject: outbound-notifications
 technique: compose-at-the-locale-layer
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Compose at the locale layer — one good door with one caller, five doors total (Personas)

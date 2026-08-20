@@ -5,6 +5,7 @@ subject: eligibility-analysis
 technique: applicant-type-code-mapping
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: applicant-type code mapping across two eligibility regimes

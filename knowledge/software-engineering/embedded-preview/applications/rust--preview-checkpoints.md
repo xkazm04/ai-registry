@@ -4,6 +4,7 @@ type: application
 subject: embedded-preview
 technique: preview-checkpoints
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # `versions.rs` in the preview loop — turn snapshots over a live guest

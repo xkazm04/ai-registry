@@ -4,6 +4,7 @@ type: application
 subject: data-access
 technique: query-construction
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Query construction in the Rust data layer

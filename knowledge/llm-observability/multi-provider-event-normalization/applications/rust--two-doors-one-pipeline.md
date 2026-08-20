@@ -5,6 +5,7 @@ subject: multi-provider-event-normalization
 technique: two-doors-one-pipeline
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: LightTrack's two front doors on one batch handler

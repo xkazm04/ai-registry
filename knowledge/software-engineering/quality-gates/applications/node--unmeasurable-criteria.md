@@ -4,6 +4,7 @@ type: application
 subject: quality-gates
 technique: unmeasurable-criteria
 stack: node
+verified_on: 2026-08-20
 ---
 
 # Three resolutions in one gate evaluator

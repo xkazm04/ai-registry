@@ -4,6 +4,7 @@ type: application
 subject: cicd-monitoring
 technique: transition-detection-and-notify
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Transition detection & notify — `usePipelineNotifications` (Personas)

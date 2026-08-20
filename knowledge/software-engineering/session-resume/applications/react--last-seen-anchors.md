@@ -4,6 +4,7 @@ type: application
 subject: session-resume
 technique: last-seen-anchors
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Last-seen anchors in this repo — one global presence anchor, one per-team consumption watermark, and the engine that has neither

@@ -4,6 +4,7 @@ type: application
 subject: authorization
 technique: scope-design
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Scope design across the management API and credential broker

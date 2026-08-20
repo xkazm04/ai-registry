@@ -12,6 +12,7 @@ The repository carries five lanes, declared in [`registry.yaml`](registry.yaml):
 | `practices/` | Repo-level habits plus the starter artifacts they drop. | Worked example. |
 | `memory/` | Organizational memory notes, one fact per file. | Worked example. |
 | [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. Empty until an installation reports. |
+| [`signals/`](docs/signals-lane.md) | Whether the knowledge is still TRUE where it is used - stack versions, citation-resolution verdicts, deviations and consults, one file per contributor. | Real, gated. Empty until an installation reports. |
 
 The three example lanes (`skills`, `practices`, `memory`) are deliberately generic and synthetic -
 no company, no product, no proprietary code - so tooling that onboards, indexes and tracks a
@@ -41,9 +42,12 @@ catalog.json              # GENERATED index: bundles, skill versions, hashes, ad
 docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
 docs/skills-lane.md       # the skills lane's format spec + the version-discipline rule
 docs/usage-lane.md        # the usage lane's format spec + what may never go in it
+docs/signals-lane.md      # the signals lane's format spec: verdicts, never pointers
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
 scripts/check-skills.mjs  # the skills lane's gate: shape + the version-bump rule
 scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only privacy rule
+scripts/check-signals.mjs # the signals lane's gate: shape + the same privacy rule
+scripts/check-currency.mjs# REPORTS how old the knowledge is; never fails a build
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json (--check in CI)
 knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
@@ -55,6 +59,7 @@ practices/<slug>/starter/**    # templatized artifacts the practice drops into a
 memory/<kind>/<slug>.md   # frontmatter: kind, confidence, namespace, source
 memory/_index.md          # map of content over the notes
 usage/<contributor>.json  # counts from ONE installation - see docs/usage-lane.md
+signals/<contributor>.json# currency verdicts from ONE installation - see docs/signals-lane.md
 ```
 
 Two `registry.yaml` files is deliberate, not drift: the root one says what this repository is,
@@ -89,6 +94,16 @@ and applications. That is the file an agent selecting knowledge to consult shoul
 markdown is for humans and for the agent that decided to go deeper. It excludes evidence for
 the reason above, and says so in its own `meta.excludes`. Regenerate with
 `node scripts/build-index.mjs` **before** `build-catalog.mjs`, whose hash covers it.
+
+**Knowledge has an age, and the registry cannot check it alone.** Every application
+carries `verified_on` - the date its citations were last resolved against a real tree -
+and [`scripts/check-currency.mjs`](scripts/check-currency.mjs) derives an expiry from it
+per stack. That answers "how old is this claim". It cannot answer "is it still true",
+because the registry does not have the consuming repository's checkout. That half arrives
+from the other side, through [`signals/`](docs/signals-lane.md): the installation resolves
+its own evidence overlay and reports **verdicts, never pointers** - `{"gone": 2}`, not
+which two files. A bundle nobody reports on reads as **unknown**, never as current, for
+the same reason `invokes30d: 0` with no contributors means nobody is looking.
 
 ### Skills (5)
 

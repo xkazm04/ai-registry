@@ -5,6 +5,7 @@ subject: repo-manifest-standard
 technique: generated-from-provenance
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Synthesizing the manifest from a scan, with drift-checkable provenance

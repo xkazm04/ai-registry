@@ -4,6 +4,7 @@ type: application
 subject: undo-history
 technique: gesture-coalescing
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Tag+window coalescing in the media studio — one drag, one step

@@ -5,6 +5,7 @@ subject: judge-contract-design
 technique: nonce-fenced-candidate-isolation
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: nonce fencing in the LightTrack judge engine

@@ -5,6 +5,7 @@ subject: people-analytics-ethics
 technique: producer-enforced-suppression
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Producer-enforced suppression in a contributor-insights server module

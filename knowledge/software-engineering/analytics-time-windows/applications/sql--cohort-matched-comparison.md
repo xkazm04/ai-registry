@@ -4,6 +4,7 @@ type: application
 subject: analytics-time-windows
 technique: cohort-matched-comparison
 stack: sql
+verified_on: 2026-08-20
 ---
 
 # The cohort-matched period delta in an org rollup

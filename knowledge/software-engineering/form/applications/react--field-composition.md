@@ -4,6 +4,7 @@ type: application
 subject: form
 technique: field-composition
 stack: react
+verified_on: 2026-08-18
 ---
 
 # FormField — how this repo's React side realizes the field unit

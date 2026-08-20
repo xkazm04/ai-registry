@@ -5,6 +5,7 @@ subject: grant-matching
 technique: injection-safe-rfp-analysis
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process — the injection-safe fit prompt of a nonprofit grant matcher

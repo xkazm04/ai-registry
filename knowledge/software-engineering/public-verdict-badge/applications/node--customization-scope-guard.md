@@ -5,6 +5,7 @@ subject: public-verdict-badge
 technique: customization-scope-guard
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Scoping customization on a public badge renderer

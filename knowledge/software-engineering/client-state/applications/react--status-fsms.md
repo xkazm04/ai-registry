@@ -4,6 +4,7 @@ type: application
 subject: client-state
 technique: status-fsms
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Status FSMs — React/Zustand application

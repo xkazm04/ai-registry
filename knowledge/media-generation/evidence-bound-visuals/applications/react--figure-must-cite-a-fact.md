@@ -5,6 +5,7 @@ subject: evidence-bound-visuals
 technique: figure-must-cite-a-fact
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Figure-must-cite-a-fact in the Gravitone frames validator (React/TypeScript)

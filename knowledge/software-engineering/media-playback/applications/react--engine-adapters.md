@@ -4,6 +4,7 @@ type: application
 subject: media-playback
 technique: engine-adapters
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The radio's dual-engine layer — where the repo meets the technique, and where it doesn't

@@ -5,6 +5,7 @@ subject: beneficial-ownership-resolution
 technique: identifier-checksum-validation
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: modulo-11 company-identifier validation in a judgment-text ingester

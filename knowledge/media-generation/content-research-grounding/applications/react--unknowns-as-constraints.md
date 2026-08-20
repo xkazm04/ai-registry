@@ -5,6 +5,7 @@ subject: content-research-grounding
 technique: unknowns-as-constraints
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # React: the constraint ledger (Gravitone notebook app)

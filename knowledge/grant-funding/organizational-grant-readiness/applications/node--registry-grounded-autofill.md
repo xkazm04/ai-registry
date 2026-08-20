@@ -5,6 +5,7 @@ subject: organizational-grant-readiness
 technique: registry-grounded-autofill
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: registry-grounded autofill in Wellspring's onboarding

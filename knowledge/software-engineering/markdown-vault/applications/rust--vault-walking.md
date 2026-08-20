@@ -4,6 +4,7 @@ type: application
 subject: markdown-vault
 technique: vault-walking
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Vault walking in `vault_fs.rs` (Rust)

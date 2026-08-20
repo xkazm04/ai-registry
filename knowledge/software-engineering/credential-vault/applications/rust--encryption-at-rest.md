@@ -4,6 +4,7 @@ type: application
 subject: credential-vault
 technique: encryption-at-rest
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Encryption at rest in the Rust core

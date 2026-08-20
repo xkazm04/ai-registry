@@ -5,6 +5,7 @@ subject: multi-provider-event-normalization
 technique: attribute-precedence-lists
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: precedence-list span mapping in LightTrack

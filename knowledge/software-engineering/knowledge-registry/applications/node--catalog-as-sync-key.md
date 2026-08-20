@@ -4,6 +4,7 @@ type: application
 subject: knowledge-registry
 technique: catalog-as-sync-key
 stack: node
+verified_on: 2026-08-20
 ---
 
 # A catalog envelope, three hash functions, and no normalization

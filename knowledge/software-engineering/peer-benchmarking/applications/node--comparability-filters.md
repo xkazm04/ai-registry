@@ -5,6 +5,7 @@ subject: peer-benchmarking
 technique: comparability-filters
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Comparability filters in a cross-org benchmark query

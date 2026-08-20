@@ -4,6 +4,7 @@ type: application
 subject: prompt-safety
 technique: output-sanitization
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Output sanitization on the display side

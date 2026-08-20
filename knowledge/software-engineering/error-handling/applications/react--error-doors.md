@@ -4,6 +4,7 @@ type: application
 subject: error-handling
 technique: error-doors
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — error doors

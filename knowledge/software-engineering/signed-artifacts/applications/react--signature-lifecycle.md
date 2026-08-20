@@ -4,6 +4,7 @@ type: application
 subject: signed-artifacts
 technique: signature-lifecycle
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The Drive signing ledger: normalization, re-export, and deletion honesty

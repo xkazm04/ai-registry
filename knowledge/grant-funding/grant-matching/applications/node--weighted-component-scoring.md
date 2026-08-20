@@ -5,6 +5,7 @@ subject: grant-matching
 technique: weighted-component-scoring
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node — weighted component scoring in a nonprofit grant matcher

@@ -4,6 +4,7 @@ type: application
 subject: outbound-notifications
 technique: inbound-counterparts
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Inbound counterparts — the chat pollers, the bridge, and `is_echo` (Personas)

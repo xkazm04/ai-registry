@@ -5,6 +5,7 @@ subject: federated-benchmark-sharing
 technique: bounded-contributor-influence
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: winsorized source weights in LightTrack's collective merge

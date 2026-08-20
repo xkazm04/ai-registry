@@ -5,6 +5,7 @@ subject: organizational-grant-readiness
 technique: attestation-invalidation
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: verification attestations bound to the EIN in Wellspring

@@ -4,6 +4,7 @@ type: application
 subject: supply-chain
 technique: archive-extraction-safety
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Archive extraction in the sidecar installer: slip guard and sentinel

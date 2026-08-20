@@ -5,6 +5,7 @@ subject: grant-taxonomy-design
 technique: deterministic-first-classification
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: deterministic-first classification in a grant research engine

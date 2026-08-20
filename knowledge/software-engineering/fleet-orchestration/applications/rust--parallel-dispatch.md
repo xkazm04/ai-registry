@@ -4,6 +4,7 @@ type: application
 subject: fleet-orchestration
 technique: parallel-dispatch
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust — Fleet dispatch, slots, runs, and the harvest

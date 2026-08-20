@@ -6,6 +6,7 @@ technique: scoped-dedup-keys
 stack: process
 status: forged
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # The 2026 alert-quality landscape: burn rates, grouping stacks, and channel norms

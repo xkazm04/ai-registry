@@ -5,6 +5,7 @@ subject: conformance-checking
 technique: fixture-repo-testing
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Executing the shipped checker against crafted fixture repositories

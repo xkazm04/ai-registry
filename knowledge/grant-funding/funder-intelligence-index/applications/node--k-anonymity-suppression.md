@@ -5,6 +5,7 @@ subject: funder-intelligence-index
 technique: k-anonymity-suppression
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node — k-anonymity suppression in a live funder index

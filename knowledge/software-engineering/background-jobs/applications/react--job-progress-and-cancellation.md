@@ -4,6 +4,7 @@ type: application
 subject: background-jobs
 technique: job-progress-and-cancellation
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Job progress and cancellation on the client

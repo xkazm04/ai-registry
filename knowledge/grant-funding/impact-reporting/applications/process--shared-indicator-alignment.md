@@ -5,6 +5,7 @@ subject: impact-reporting
 technique: shared-indicator-alignment
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Process: the reporting-framework landscape an alignment decision chooses from (2024–2026)

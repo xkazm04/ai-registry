@@ -5,6 +5,7 @@ subject: public-money-attribution
 technique: entity-level-deduplication
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: one shared reachable-money module

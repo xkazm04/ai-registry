@@ -5,6 +5,7 @@ subject: visual-style-locking
 technique: draft-proofing-locked-ratchet
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # React: the theme record as a one-way ratchet

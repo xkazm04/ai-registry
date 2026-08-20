@@ -5,6 +5,7 @@ subject: platform-format-adaptation
 technique: format-as-measured-template
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # A short-clip format template with provenance and a declared gap — a video-studio pipeline

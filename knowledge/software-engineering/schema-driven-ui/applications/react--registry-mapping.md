@@ -4,6 +4,7 @@ type: application
 subject: schema-driven-ui
 technique: registry-mapping
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Two registries, two dispatch styles — cockpit widgets and SurfaceSpec blocks

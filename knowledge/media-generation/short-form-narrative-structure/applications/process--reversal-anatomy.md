@@ -5,6 +5,7 @@ subject: short-form-narrative-structure
 technique: reversal-anatomy
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Reversal anatomy, measured and corrected — a video-studio pattern study

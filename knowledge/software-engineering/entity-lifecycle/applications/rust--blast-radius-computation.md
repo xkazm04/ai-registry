@@ -4,6 +4,7 @@ type: application
 subject: entity-lifecycle
 technique: blast-radius-computation
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The persona delete: preview, drain, receipt

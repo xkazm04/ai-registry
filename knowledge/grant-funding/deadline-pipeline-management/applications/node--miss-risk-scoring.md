@@ -5,6 +5,7 @@ subject: deadline-pipeline-management
 technique: miss-risk-scoring
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: miss-risk scoring in a grant-writing pipeline

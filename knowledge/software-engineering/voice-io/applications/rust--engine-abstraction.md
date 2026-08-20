@@ -4,6 +4,7 @@ type: application
 subject: voice-io
 technique: engine-abstraction
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The companion TTS/STT engine layer — where the repo meets the technique, and where it doesn't

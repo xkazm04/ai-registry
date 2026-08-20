@@ -5,6 +5,7 @@ subject: political-compass-from-votes
 technique: matching-model-choice
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Matching-model choice — the VAA field's methodology landscape (surveyed 2026-08-20)

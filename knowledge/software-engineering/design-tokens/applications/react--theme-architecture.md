@@ -4,6 +4,7 @@ type: application
 subject: design-tokens
 technique: theme-architecture
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — theme architecture

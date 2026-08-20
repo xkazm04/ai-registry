@@ -4,6 +4,7 @@ type: application
 subject: authorization
 technique: dispatch-chokepoint-gating
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Dispatch-chokepoint gating on the desktop IPC surface

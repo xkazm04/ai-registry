@@ -4,6 +4,7 @@ type: application
 subject: observability-telemetry
 technique: log-architecture
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust — log architecture in `src-tauri/src/logging.rs`

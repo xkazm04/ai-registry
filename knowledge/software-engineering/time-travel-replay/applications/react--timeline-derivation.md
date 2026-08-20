@@ -4,6 +4,7 @@ type: application
 subject: time-travel-replay
 technique: timeline-derivation
 stack: react
+verified_on: 2026-08-18
 ---
 
 # useReplayTimeline — where the execution replay's timeline comes from, and where it is invented

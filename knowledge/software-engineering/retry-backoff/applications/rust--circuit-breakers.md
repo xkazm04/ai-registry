@@ -4,6 +4,7 @@ type: application
 subject: retry-backoff
 technique: circuit-breakers
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Circuit breakers in the Personas execution engine (Rust)

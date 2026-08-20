@@ -4,6 +4,7 @@ type: application
 subject: signed-artifacts
 technique: import-verification-flow
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Preview→commit pinning on three ingress channels — and the gate that lives in the view

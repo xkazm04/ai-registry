@@ -5,6 +5,7 @@ subject: usage-limit-governance
 technique: graduated-throttle-with-deterministic-shed
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: graduated throttle in LightTrack's limits core

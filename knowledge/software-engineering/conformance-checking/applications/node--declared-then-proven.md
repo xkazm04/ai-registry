@@ -5,6 +5,7 @@ subject: conformance-checking
 technique: declared-then-proven
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A zero-dependency doctor that proves what the manifest declares

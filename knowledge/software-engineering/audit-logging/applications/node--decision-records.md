@@ -4,6 +4,7 @@ type: application
 subject: audit-logging
 technique: decision-records
 stack: node
+verified_on: 2026-08-20
 ---
 
 # Decisions that survive the next regeneration

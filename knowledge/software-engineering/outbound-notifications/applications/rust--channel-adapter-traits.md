@@ -4,6 +4,7 @@ type: application
 subject: outbound-notifications
 technique: channel-adapter-traits
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Channel adapter traits — `EventProcessor` and the two outbound stacks (Personas)

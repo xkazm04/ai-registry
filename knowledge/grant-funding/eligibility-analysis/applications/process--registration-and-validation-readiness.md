@@ -5,6 +5,7 @@ subject: eligibility-analysis
 technique: registration-and-validation-readiness
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Process: registration readiness under the 2024–2026 US and EU regimes

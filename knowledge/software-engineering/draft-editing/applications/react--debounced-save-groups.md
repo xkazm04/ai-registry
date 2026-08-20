@@ -4,6 +4,7 @@ type: application
 subject: draft-editing
 technique: debounced-save-groups
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Debounced save groups — React persona editor

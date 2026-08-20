@@ -4,6 +4,7 @@ type: application
 subject: plan-entitlements
 technique: deployment-mode-short-circuit
 stack: node
+verified_on: 2026-08-20
 ---
 
 # "The cloud sells operation, not features" as executable doctrine

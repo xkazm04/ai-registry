@@ -6,6 +6,7 @@ technique: candidate-ranking
 stack: process
 status: forged
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # Free-tier gateway routing, 2026 (field study)

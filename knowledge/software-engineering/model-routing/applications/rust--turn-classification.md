@@ -4,6 +4,7 @@ type: application
 subject: model-routing
 technique: turn-classification
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Turn classification in the Personas companion (Rust)

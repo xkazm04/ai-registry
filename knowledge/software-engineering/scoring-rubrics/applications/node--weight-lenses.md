@@ -5,6 +5,7 @@ subject: scoring-rubrics
 technique: weight-lenses
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Three lenses over nine dimensions, and the two guards that keep them honest

@@ -4,6 +4,7 @@ type: application
 subject: subprocess-lifecycle
 technique: spawn-contract
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The spawn contract in the Rust engine

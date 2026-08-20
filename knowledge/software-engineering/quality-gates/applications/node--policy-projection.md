@@ -4,6 +4,7 @@ type: application
 subject: quality-gates
 technique: policy-projection
 stack: node
+verified_on: 2026-08-20
 ---
 
 # One enumeration, four projections

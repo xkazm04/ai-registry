@@ -4,6 +4,7 @@ type: application
 subject: guided-tours
 technique: anchor-contracts
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Anchor contracts — React/Tauri implementation (Personas guided tours)

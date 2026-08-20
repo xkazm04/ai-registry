@@ -4,6 +4,7 @@ type: application
 subject: toasts-notifications
 technique: durable-notification-ledger
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Durable notification ledger — React notification center (Personas)

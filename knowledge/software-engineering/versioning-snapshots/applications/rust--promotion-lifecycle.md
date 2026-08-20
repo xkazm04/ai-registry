@@ -4,6 +4,7 @@ type: application
 subject: versioning-snapshots
 technique: promotion-lifecycle
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Promotion lifecycle — prompt-version tags, proposals, and auto-rollback

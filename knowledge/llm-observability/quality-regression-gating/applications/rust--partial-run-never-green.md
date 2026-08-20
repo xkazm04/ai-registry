@@ -5,6 +5,7 @@ subject: quality-regression-gating
 technique: partial-run-never-green
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: the gate exit contract and cost-halted runs in LightTrack

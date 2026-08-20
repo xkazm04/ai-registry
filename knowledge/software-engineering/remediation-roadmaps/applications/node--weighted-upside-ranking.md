@@ -5,6 +5,7 @@ subject: remediation-roadmaps
 technique: weighted-upside-ranking
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Weighted upside ranking in a scoring engine (Ascent)

@@ -4,6 +4,7 @@ type: application
 subject: diff-comparison
 technique: drift-against-declared
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Drift against declared — execution outcome vs the persona's design expectation

@@ -5,6 +5,7 @@ subject: adoption-measurement
 technique: before-after-outcome-pairing
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Pairing assessments around an adoption instant

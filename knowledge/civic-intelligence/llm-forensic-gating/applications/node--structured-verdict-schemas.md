@@ -5,6 +5,7 @@ subject: llm-forensic-gating
 technique: structured-verdict-schemas
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # The law-forensics verdict contract (Node)

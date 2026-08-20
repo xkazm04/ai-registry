@@ -5,6 +5,7 @@ subject: impact-reporting
 technique: report-calendar-derivation
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: deriving the reporting calendar from the period label

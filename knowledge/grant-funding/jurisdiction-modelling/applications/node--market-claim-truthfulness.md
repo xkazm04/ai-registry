@@ -5,6 +5,7 @@ subject: jurisdiction-modelling
 technique: market-claim-truthfulness
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: coverage claims derived from profiles, with an honest boundary

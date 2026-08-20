@@ -4,6 +4,7 @@ type: application
 subject: knowledge-registry
 technique: per-contributor-aggregation
 stack: node
+verified_on: 2026-08-19
 ---
 
 # The usage lane — one file per installation, aggregated into the catalog

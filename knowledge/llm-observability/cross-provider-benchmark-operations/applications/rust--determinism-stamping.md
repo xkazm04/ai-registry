@@ -6,6 +6,7 @@ technique: determinism-stamping
 stack: rust
 status: forged
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # Rust: two-half determinism stamps and the weakest-wins fold in LightTrack

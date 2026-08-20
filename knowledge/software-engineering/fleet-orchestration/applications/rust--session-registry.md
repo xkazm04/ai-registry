@@ -4,6 +4,7 @@ type: application
 subject: fleet-orchestration
 technique: session-registry
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust — the Fleet session registry

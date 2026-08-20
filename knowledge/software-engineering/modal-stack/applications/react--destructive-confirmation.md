@@ -4,6 +4,7 @@ type: application
 subject: modal-stack
 technique: destructive-confirmation
 stack: react
+verified_on: 2026-08-18
 ---
 
 # ConfirmDialog + ConfirmDestructiveModal — proportional friction in this repo

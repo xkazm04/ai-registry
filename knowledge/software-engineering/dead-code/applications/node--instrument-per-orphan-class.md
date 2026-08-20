@@ -4,6 +4,7 @@ type: application
 subject: dead-code
 technique: instrument-per-orphan-class
 stack: node
+verified_on: 2026-08-18
 ---
 
 # The instrument roster — six orphan classes, five instruments, and the one that protects corpses

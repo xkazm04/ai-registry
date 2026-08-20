@@ -4,6 +4,7 @@ type: application
 subject: realtime-events
 technique: subscription-lifecycle
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Subscription lifecycle — React over a Tauri IPC boundary

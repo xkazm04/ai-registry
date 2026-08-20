@@ -5,6 +5,7 @@ subject: remediation-roadmaps
 technique: invitational-framing
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Invitational framing as a prompt contract (Ascent)

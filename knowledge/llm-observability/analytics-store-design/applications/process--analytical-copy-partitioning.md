@@ -6,6 +6,7 @@ technique: analytical-copy-partitioning
 stack: process
 status: forged
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # The LLM-telemetry storage landscape, 2025–2026 (field survey)

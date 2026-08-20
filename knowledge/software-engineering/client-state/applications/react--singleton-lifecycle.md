@@ -4,6 +4,7 @@ type: application
 subject: client-state
 technique: singleton-lifecycle
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Singleton lifecycle — React/Vite application

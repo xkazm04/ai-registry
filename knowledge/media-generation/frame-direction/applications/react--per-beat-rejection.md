@@ -5,6 +5,7 @@ subject: frame-direction
 technique: per-beat-rejection
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # React/TypeScript: a scene-spec validator that fails one beat at a time

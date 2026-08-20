@@ -4,6 +4,7 @@ type: application
 subject: codebase-scanning
 technique: rule-precision-discipline
 stack: node
+verified_on: 2026-08-18
 ---
 
 # The census engine — precision discipline as a declarative registry

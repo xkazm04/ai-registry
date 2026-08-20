@@ -5,6 +5,7 @@ subject: proposal-narrative-structure
 technique: genre-register-classification
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process: genre-register classification in a prompt-pipeline drafting assistant

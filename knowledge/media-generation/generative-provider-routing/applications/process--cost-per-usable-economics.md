@@ -5,6 +5,7 @@ subject: generative-provider-routing
 technique: cost-per-usable-economics
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Process — the style-trial grid that re-ordered a vendor plan

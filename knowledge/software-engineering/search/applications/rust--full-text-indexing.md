@@ -4,6 +4,7 @@ type: application
 subject: search
 technique: full-text-indexing
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Full-text indexing over executions (FTS5, external content)

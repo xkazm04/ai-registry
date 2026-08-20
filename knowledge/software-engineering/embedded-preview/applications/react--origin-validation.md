@@ -4,6 +4,7 @@ type: application
 subject: embedded-preview
 technique: origin-validation
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Origin discipline on the Studio bridge — absent on both sides, measured

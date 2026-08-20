@@ -5,6 +5,7 @@ subject: nonprofit-verification
 technique: determinate-vs-inconclusive-outcomes
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: the three-valued outcome model across five registry adapters

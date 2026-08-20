@@ -4,6 +4,7 @@ type: application
 subject: metrics-rollups
 technique: period-comparison
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Period comparison in the Overview dashboard

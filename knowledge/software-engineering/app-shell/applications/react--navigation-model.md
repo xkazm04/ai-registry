@@ -4,6 +4,7 @@ type: application
 subject: app-shell
 technique: navigation-model
 stack: react
+verified_on: 2026-08-18
 ---
 
 # NAV_SECTIONS + railSection + passesGates — how this repo owns the location

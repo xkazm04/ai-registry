@@ -4,6 +4,7 @@ type: application
 subject: motion
 technique: performance-discipline
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — performance discipline

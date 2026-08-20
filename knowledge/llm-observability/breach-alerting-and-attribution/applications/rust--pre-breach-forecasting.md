@@ -5,6 +5,7 @@ subject: breach-alerting-and-attribution
 technique: pre-breach-forecasting
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Pre-breach forecasting in LightTrack (Rust)

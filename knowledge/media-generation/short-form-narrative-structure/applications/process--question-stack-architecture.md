@@ -5,6 +5,7 @@ subject: short-form-narrative-structure
 technique: question-stack-architecture
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Question stack as a pipeline artifact — a video-studio script step

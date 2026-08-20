@@ -5,6 +5,7 @@ subject: operator-surfaces-for-llm-spend
 technique: agent-prompts-as-dashboards
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Process: seven operator journeys as MCP prompts (LightTrack)

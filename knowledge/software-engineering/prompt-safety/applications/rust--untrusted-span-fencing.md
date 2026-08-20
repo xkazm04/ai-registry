@@ -4,6 +4,7 @@ type: application
 subject: prompt-safety
 technique: untrusted-span-fencing
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Untrusted-span fencing in the Rust backend

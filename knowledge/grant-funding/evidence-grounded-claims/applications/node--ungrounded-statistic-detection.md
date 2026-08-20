@@ -5,6 +5,7 @@ subject: evidence-grounded-claims
 technique: ungrounded-statistic-detection
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: the grounding-echo guard (grant-writing-nonprofits)

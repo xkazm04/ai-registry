@@ -4,6 +4,7 @@ type: application
 subject: mcp-tools
 technique: authentication-and-scoping
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Authentication and scoping in the Rust backend

@@ -5,6 +5,7 @@ subject: generative-provider-routing
 technique: vendor-fact-ledger
 status: forged
 stack: process
+verified_on: 2026-08-20
 ---
 
 # A worked vendor fact ledger — the image-model landscape, August 2026

@@ -5,6 +5,7 @@ subject: coalition-and-portfolio-strategy
 technique: requirement-profile-aggregation
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: funder requirement profiles from cached match analyses

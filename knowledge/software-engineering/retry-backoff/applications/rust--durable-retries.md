@@ -4,6 +4,7 @@ type: application
 subject: retry-backoff
 technique: durable-retries
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Durable retries in the Personas healing engine (Rust)

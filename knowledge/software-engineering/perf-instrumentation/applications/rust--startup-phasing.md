@@ -4,6 +4,7 @@ type: application
 subject: perf-instrumentation
 technique: startup-phasing
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Startup phasing — the boot pipeline report

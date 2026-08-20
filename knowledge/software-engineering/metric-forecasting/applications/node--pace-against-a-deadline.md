@@ -5,6 +5,7 @@ subject: metric-forecasting
 technique: pace-against-a-deadline
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Goal pacing, and the baseline that was never stored

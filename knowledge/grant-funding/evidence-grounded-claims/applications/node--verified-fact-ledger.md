@@ -5,6 +5,7 @@ subject: evidence-grounded-claims
 technique: verified-fact-ledger
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: the verified org fact-ledger (grant-writing-nonprofits)

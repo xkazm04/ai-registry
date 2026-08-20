@@ -5,6 +5,7 @@ subject: measurement-honesty
 technique: minimum-sample-floors
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # A `>= 5` sample floor across every derived pull-request rate

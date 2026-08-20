@@ -4,6 +4,7 @@ type: application
 subject: delivery-guarantees
 technique: dead-letter-design
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The dead-letter triage surface

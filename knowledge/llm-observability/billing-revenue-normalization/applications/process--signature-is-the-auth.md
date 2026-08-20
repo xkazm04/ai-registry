@@ -6,6 +6,7 @@ technique: signature-is-the-auth
 stack: process
 status: forged
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # The 2026 billing-webhook landscape: Standard Webhooks, provider schemes, and where the field converged

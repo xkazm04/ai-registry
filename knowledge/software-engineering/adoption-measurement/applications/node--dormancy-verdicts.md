@@ -5,6 +5,7 @@ subject: adoption-measurement
 technique: dormancy-verdicts
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Dormancy verdicts in a server-side org-skills library

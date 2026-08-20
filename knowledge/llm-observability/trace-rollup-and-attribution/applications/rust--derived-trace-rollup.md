@@ -5,6 +5,7 @@ subject: trace-rollup-and-attribution
 technique: derived-trace-rollup
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: the trace as a pure fold over events (LightTrack)

@@ -5,6 +5,7 @@ subject: platform-format-adaptation
 technique: derived-short-contract
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # The derived-short contract as review items — a video-studio script step

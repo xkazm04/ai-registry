@@ -5,6 +5,7 @@ subject: public-procurement-analysis
 technique: threshold-proximity-signals
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Process: the open-contracting indicator landscape a splitting detector plugs into (2024–2026)

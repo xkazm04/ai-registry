@@ -5,6 +5,7 @@ subject: usage-limit-governance
 technique: concurrent-admission-integrity
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: atomic admission in LightTrack's two store backends

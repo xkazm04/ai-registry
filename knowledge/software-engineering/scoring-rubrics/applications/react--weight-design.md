@@ -4,6 +4,7 @@ type: application
 subject: scoring-rubrics
 technique: weight-design
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Weight design — three rubric vectors, and the one that asserts its sum

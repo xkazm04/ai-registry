@@ -4,6 +4,7 @@ type: application
 subject: admission-queue
 technique: load-aware-admission
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Load-aware admission in the Personas resource governor

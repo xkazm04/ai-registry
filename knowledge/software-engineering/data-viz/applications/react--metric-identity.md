@@ -4,6 +4,7 @@ type: application
 subject: data-viz
 technique: metric-identity
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Metric identity — React + Rust, as built here

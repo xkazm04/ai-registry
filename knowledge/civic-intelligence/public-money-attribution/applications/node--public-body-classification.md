@@ -5,6 +5,7 @@ subject: public-money-attribution
 technique: public-body-classification
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: ownership-based public-mandate classifier

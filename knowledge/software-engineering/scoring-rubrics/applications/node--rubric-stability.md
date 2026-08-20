@@ -5,6 +5,7 @@ subject: scoring-rubrics
 technique: rubric-stability
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # One enumeration of the bar, four surfaces, and the parity a dashboard owes the gate

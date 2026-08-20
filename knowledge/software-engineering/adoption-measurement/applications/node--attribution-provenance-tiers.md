@@ -5,6 +5,7 @@ subject: adoption-measurement
 technique: attribution-provenance-tiers
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Fidelity tiers on an AI-usage signal, and the tier that had to be deleted

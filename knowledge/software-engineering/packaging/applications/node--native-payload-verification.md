@@ -4,6 +4,7 @@ type: application
 subject: packaging
 technique: native-payload-verification
 stack: node
+verified_on: 2026-08-18
 ---
 
 # The ONNX Runtime payload: linking-aware verification and the mislabeled tarball

@@ -5,6 +5,7 @@ subject: visual-style-locking
 technique: style-block-restated-every-call
 stack: react
 status: forged
+verified_on: 2026-08-19
 ---
 
 # React: compiling and restating the style contract per call

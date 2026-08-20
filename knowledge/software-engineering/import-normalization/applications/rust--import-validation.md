@@ -4,6 +4,7 @@ type: application
 subject: import-normalization
 technique: import-validation
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # The workflow-import backend — caps with one authority, nonce fencing, and an atomic commit door

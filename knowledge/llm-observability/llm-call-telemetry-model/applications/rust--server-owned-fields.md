@@ -5,6 +5,7 @@ subject: llm-call-telemetry-model
 technique: server-owned-fields
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Server-owned fields in LightTrack (Rust)

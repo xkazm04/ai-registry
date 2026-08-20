@@ -4,6 +4,7 @@ type: application
 subject: outbound-notifications
 technique: subscription-patterns
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Subscription patterns — anchored prefix matching and the one-door repo (Personas)

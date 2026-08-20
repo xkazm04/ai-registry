@@ -5,6 +5,7 @@ subject: coalition-and-portfolio-strategy
 technique: complementarity-scoring
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: complementarity scoring in a coalition proposal engine

@@ -5,6 +5,7 @@ subject: generated-output-grading
 technique: trial-matrix-design
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node — a graded 6×5 trial matrix with regrade and flip analysis

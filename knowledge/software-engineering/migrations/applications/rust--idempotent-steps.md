@@ -4,6 +4,7 @@ type: application
 subject: migrations
 technique: idempotent-steps
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Idempotent steps in the ledger-less boot chain

@@ -4,6 +4,7 @@ type: application
 subject: job-coordination
 technique: terminal-state-recovery
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Terminal-state recovery in the Rust boot sequence

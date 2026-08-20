@@ -5,6 +5,7 @@ subject: submission-filing
 technique: proof-of-filing
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node — proof of filing derived, never stored

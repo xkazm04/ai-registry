@@ -4,6 +4,7 @@ type: application
 subject: model-routing
 technique: routing-policy
 stack: react
+verified_on: 2026-08-18
 ---
 
 # BYOM routing policy in the Personas settings surface (React)

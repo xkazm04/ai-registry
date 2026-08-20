@@ -4,6 +4,7 @@ type: application
 subject: multi-project
 technique: portfolio-drill-hierarchy
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React — the passport wall and the Factory drill

@@ -4,6 +4,7 @@ type: application
 subject: hitl-approval
 technique: gate-state-machines
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Gate state machines in the build-session interviewer (Rust)

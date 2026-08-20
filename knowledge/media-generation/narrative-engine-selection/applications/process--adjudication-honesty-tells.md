@@ -5,6 +5,7 @@ subject: narrative-engine-selection
 technique: adjudication-honesty-tells
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Adjudication honesty tells in a video-studio methodic (process)

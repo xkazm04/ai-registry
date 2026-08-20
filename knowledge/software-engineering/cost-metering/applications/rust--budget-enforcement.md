@@ -4,6 +4,7 @@ type: application
 subject: cost-metering
 technique: budget-enforcement
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Budget enforcement in the Personas backend

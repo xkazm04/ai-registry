@@ -5,6 +5,7 @@ subject: federated-benchmark-sharing
 technique: hub-ingest-plausibility-gates
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: LightTrack's one-function hub trust policy

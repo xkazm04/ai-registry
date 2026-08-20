@@ -4,6 +4,7 @@ type: application
 subject: plan-entitlements
 technique: capability-gate-predicates
 stack: node
+verified_on: 2026-08-20
 ---
 
 # Entitlement gates in the Ascent scan-billing path

@@ -4,6 +4,7 @@ type: application
 subject: markdown-vault
 technique: vault-as-database
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Vault as database in the Obsidian Brain plugin (Rust)

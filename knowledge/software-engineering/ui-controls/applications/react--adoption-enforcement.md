@@ -4,6 +4,7 @@ type: application
 subject: ui-controls
 technique: adoption-enforcement
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — adoption enforcement

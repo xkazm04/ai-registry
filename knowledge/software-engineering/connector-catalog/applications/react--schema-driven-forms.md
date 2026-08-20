@@ -4,6 +4,7 @@ type: application
 subject: connector-catalog
 technique: schema-driven-forms
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Schema-driven credential forms in the vault catalog

@@ -4,6 +4,7 @@ type: application
 subject: release-pipeline
 technique: size-budgets
 stack: node
+verified_on: 2026-08-18
 ---
 
 # Size budgets — bundle budget gate, committed baseline, per-target installer report

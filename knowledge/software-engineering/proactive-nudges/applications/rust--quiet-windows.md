@@ -4,6 +4,7 @@ type: application
 subject: proactive-nudges
 technique: quiet-windows
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Quiet windows — Athena's quiet-hours check (Personas)

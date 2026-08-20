@@ -4,6 +4,7 @@ type: application
 subject: tracing
 technique: waterfall-rendering
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Waterfall rendering in the execution inspector

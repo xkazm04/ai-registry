@@ -4,6 +4,7 @@ type: application
 subject: wizard-flows
 technique: step-state-model
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The n8n import wizard's reducer — the step-state model in this repo

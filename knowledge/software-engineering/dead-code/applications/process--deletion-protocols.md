@@ -4,6 +4,7 @@ type: application
 subject: dead-code
 technique: deletion-protocols
 stack: process
+verified_on: 2026-08-18
 ---
 
 # Two deletions that followed the protocol — and left the record to prove it

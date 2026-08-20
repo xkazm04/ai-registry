@@ -4,6 +4,7 @@ type: application
 subject: voice-io
 technique: stt-pipeline
 stack: react
+verified_on: 2026-08-18
 ---
 
 # The local dictation pipeline — where the repo meets the technique, and where it doesn't

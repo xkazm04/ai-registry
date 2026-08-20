@@ -5,6 +5,7 @@ subject: deadline-pipeline-management
 technique: submission-lead-time-buffers
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Process: US federal submission-window realities, 2025–2026

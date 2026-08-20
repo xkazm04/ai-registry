@@ -4,6 +4,7 @@ type: application
 subject: hitl-approval
 technique: consent-gates
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Consent gates in the companion lane and the autonomy front door (Rust)

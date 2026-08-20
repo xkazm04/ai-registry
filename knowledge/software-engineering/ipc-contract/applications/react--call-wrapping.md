@@ -4,6 +4,7 @@ type: application
 subject: ipc-contract
 technique: call-wrapping
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Call wrapping in the React/TypeScript frontend

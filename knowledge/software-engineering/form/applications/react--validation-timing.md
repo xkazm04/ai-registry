@@ -4,6 +4,7 @@ type: application
 subject: form
 technique: validation-timing
 stack: react
+verified_on: 2026-08-18
 ---
 
 # validateOn + the two validation hooks — timing policy in this repo

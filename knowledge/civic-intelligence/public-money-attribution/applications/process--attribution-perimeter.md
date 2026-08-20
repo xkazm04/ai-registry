@@ -5,6 +5,7 @@ subject: public-money-attribution
 technique: attribution-perimeter
 stack: process
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Process: the field's perimeter standards and data landscape (2025–2026)

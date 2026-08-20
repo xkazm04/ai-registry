@@ -4,6 +4,7 @@ type: application
 subject: terminal-multiplexing
 technique: pty-management
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Rust — PTY management in the Fleet spawn path

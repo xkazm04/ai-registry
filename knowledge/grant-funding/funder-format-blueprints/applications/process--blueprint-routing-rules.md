@@ -5,6 +5,7 @@ subject: funder-format-blueprints
 technique: blueprint-routing-rules
 stack: process
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Blueprint routing in a grant-writing copilot (process)

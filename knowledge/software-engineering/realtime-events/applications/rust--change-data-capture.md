@@ -4,6 +4,7 @@ type: application
 subject: realtime-events
 technique: change-data-capture
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Change data capture — SQLite update hook feeding Tauri events

@@ -5,6 +5,7 @@ subject: grant-source-landscape
 technique: curated-floor-vs-live-feed
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: curated floors under gated live feeds (grant-writing-nonprofits)

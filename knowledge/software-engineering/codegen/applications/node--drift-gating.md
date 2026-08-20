@@ -4,6 +4,7 @@ type: application
 subject: codegen
 technique: drift-gating
 stack: node
+verified_on: 2026-08-18
 ---
 
 # Node: mixed-tier drift gates over one codegen population

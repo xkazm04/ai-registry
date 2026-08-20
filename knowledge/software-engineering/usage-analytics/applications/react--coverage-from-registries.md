@@ -4,6 +4,7 @@ type: application
 subject: usage-analytics
 technique: coverage-from-registries
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Coverage from registries — React/Zustand nav stores

@@ -4,6 +4,7 @@ type: application
 subject: versioning-snapshots
 technique: snapshot-scope
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Snapshot scope — the persona version snapshots

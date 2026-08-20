@@ -4,6 +4,7 @@ type: application
 subject: diff-comparison
 technique: computation-offload
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Computation offload — the execution-comparison worker, and the seven surfaces that never got one

@@ -4,6 +4,7 @@ type: application
 subject: dead-code
 technique: suppression-hygiene
 stack: node
+verified_on: 2026-08-18
 ---
 
 # The census exclude list — suppression hygiene enforced by the engine, and the rosters that lack it

@@ -4,6 +4,7 @@ type: application
 subject: webhook-ingestion
 technique: sender-authentication
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # HMAC sender authentication in the Rust webhook receiver

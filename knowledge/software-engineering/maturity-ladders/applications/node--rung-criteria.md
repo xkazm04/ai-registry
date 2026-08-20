@@ -5,6 +5,7 @@ subject: maturity-ladders
 technique: rung-criteria
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Two predicate ladders with no score underneath them

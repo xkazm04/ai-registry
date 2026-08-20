@@ -5,6 +5,7 @@ subject: political-compass-from-votes
 technique: divisive-vote-selection
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Divisive vote selection — pure selection module (politicas)

@@ -4,6 +4,7 @@ type: application
 subject: self-healing
 technique: strategy-selection
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Strategy selection in the Personas healing engine (Rust)

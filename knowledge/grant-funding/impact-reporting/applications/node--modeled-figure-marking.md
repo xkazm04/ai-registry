@@ -5,6 +5,7 @@ subject: impact-reporting
 technique: modeled-figure-marking
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: marking the modeled figure at the formatter

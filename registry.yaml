@@ -66,6 +66,20 @@ lanes:
     note: Counts and nothing else. No paths, project names, URLs or addresses — the gate
       enforces it rather than trusting contributors, because this repository is public and
       a leak in git history is permanent.
+  signals:
+    path: signals/
+    holds: Whether what this registry claims is still true where it is used — stack
+      versions, citation-resolution verdicts, deviations and consults, contributed by the
+      installations that consume the knowledge lane. One file per installation.
+    spec: docs/signals-lane.md
+    gate: scripts/check-signals.mjs
+    # The registry cannot resolve a citation: it does not have the consumer's checkout.
+    # That is the same constraint that put the evidence layer in a consumer-local overlay,
+    # so this lane takes the same shape — the consumer computes, the registry receives
+    # VERDICTS and never pointers. `{"gone": 2}` is the finding; which two files vanished
+    # is a fact about one tree and stays there.
+    note: Counts and registry-owned slugs only, under the same privacy gate as usage/. A
+      bundle no installation reports on reads as UNKNOWN, never as current.
 
 # What a reader may assume about content in this repo.
 guarantees:
@@ -83,6 +97,11 @@ guarantees:
   # records who ran what, or in which repository — that is a fact about one organization's
   # fleet and it stays there.
   usage_is_aggregate_only: true
+  # An application document carries the DATE its citations were last resolved against a
+  # real tree (`verified_on`). The expiry is derived from it per stack by
+  # scripts/check-currency.mjs, so the policy lives in one tunable place instead of in
+  # hundreds of invented per-file dates. A claim with no age cannot be triaged.
+  applications_carry_an_age: true
 
 owners:
   - xkazm04

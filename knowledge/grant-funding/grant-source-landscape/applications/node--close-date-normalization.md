@@ -5,6 +5,7 @@ subject: grant-source-landscape
 technique: close-date-normalization
 stack: node
 status: forged
+verified_on: 2026-08-19
 ---
 
 # Node: three deadline dialects, one normalized shape (grant-writing-nonprofits)

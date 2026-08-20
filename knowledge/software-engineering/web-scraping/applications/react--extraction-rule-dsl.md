@@ -4,6 +4,7 @@ type: application
 subject: web-scraping
 technique: extraction-rule-dsl
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application: the field-rule DSL held flat, serialized at the edges

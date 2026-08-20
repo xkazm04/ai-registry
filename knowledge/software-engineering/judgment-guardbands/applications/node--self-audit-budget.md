@@ -4,6 +4,7 @@ type: application
 subject: judgment-guardbands
 technique: self-audit-budget
 stack: node
+verified_on: 2026-08-20
 ---
 
 # The discrepancy budget — forty lines, most of them the argument

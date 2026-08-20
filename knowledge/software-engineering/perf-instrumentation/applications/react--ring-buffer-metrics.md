@@ -4,6 +4,7 @@ type: application
 subject: perf-instrumentation
 technique: ring-buffer-metrics
 stack: react
+verified_on: 2026-08-18
 ---
 
 # Ring-buffer metrics — the IPC call ring

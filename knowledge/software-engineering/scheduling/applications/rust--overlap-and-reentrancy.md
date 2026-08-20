@@ -4,6 +4,7 @@ type: application
 subject: scheduling
 technique: overlap-and-reentrancy
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Overlap & reentrancy in the Personas trigger scheduler (Rust)

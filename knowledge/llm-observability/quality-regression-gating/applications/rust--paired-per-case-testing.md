@@ -5,6 +5,7 @@ subject: quality-regression-gating
 technique: paired-per-case-testing
 stack: rust
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Rust: paired per-case testing in LightTrack's benchmark runner

@@ -4,6 +4,7 @@ type: application
 subject: codegen
 technique: task-registry-design
 stack: node
+verified_on: 2026-08-18
 ---
 
 # Node: the flat codegen registry (`scripts/run-codegen.mjs`)

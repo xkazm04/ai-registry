@@ -6,6 +6,7 @@ technique: enforcement-placement-and-reconciliation
 stack: process
 status: forged
 refresh_by: 2026-11-20
+verified_on: 2026-08-20
 ---
 
 # The 2026 enforcement landscape: gateways, providers, and the reconcile loop

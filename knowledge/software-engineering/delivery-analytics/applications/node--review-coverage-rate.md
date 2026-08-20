@@ -5,6 +5,7 @@ subject: delivery-analytics
 technique: review-coverage-rate
 stack: node
 status: forged
+verified_on: 2026-08-20
 ---
 
 # Review coverage, enforced and observed (node)

@@ -4,6 +4,7 @@ type: application
 subject: design-tokens
 technique: token-enforcement
 stack: react
+verified_on: 2026-08-18
 ---
 
 # React application — token enforcement

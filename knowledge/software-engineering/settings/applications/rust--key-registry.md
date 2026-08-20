@@ -4,6 +4,7 @@ type: application
 subject: settings
 technique: key-registry
 stack: rust
+verified_on: 2026-08-18
 ---
 
 # Key registry — the `app_settings` allowlist in Rust
