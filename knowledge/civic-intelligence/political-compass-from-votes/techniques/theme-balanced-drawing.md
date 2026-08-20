@@ -36,8 +36,10 @@ and its rank within that theme (by divisiveness, per the selection rule).
    theme that runs out of candidates simply yields its turn.
 
 Two caps govern the draw and both are published constants: the **total** (a
-citizen's patience — twenty questions is near the ceiling questionnaire tools
-have converged on) and the **per-theme cap** (the anti-referendum guard — two
+citizen's patience — questionnaire tools converge on roughly twenty-five to
+forty crafted statements, and a record-based set belongs at or below that
+band's floor, because a real roll call costs more to read than a statement
+written to be answered) and the **per-theme cap** (the anti-referendum guard — two
 or three per theme means even the term's loudest conflict gets a bounded
 share). Both are caps over a stated population: the surface reports how many
 candidates each theme held, so the reader can see that "2 of 31" and "2 of 2"

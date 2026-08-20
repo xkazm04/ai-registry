@@ -9,6 +9,7 @@ techniques:
   - theme-balanced-drawing
   - non-positional-abstention-handling
   - comparability-floor-for-ranking
+  - matching-model-choice
   - disclosed-scoring-rule
 ---
 
@@ -92,7 +93,14 @@ non-negotiable invariant:
    floor the entity is shown, with its computable rate, in an explicitly
    unranked tail.
    ([comparability-floor-for-ranking](techniques/comparability-floor-for-ranking.md))
-5. **Publish the formula next to the result.** The scoring rule — including
+5. **Choose the matching model deliberately.** The agreement rate is one
+   member of a studied family — distance metrics, answer scales, salience
+   weights, spatial projections — and the family's measured property is that
+   reasonable members hand a majority of users different top matches. Binary
+   ballots close exactly one axis of that sensitivity (the metric); every
+   other axis remains a design choice and is treated as one.
+   ([matching-model-choice](techniques/matching-model-choice.md))
+6. **Publish the formula next to the result.** The scoring rule — including
    its tie-breaks, and an admission of which tie-breaks are meaningless — is
    rendered verbatim on the result surface, computed by one pure, tested
    function that both the page and the stated rule import from.
