@@ -149,6 +149,16 @@ skills:
 Repos with no pointer fall back to the organization's canonical registry
 (`canonical: true` in [`.ascent/registry.yaml`](.ascent/registry.yaml)).
 
+**Which copy runs, when a repo has its own.** Nearest to the work wins, outright: a skill in
+the repository beats one in the operator's library, which beats this registry. A higher
+version here does **not** displace a nearer copy — because if it did, merging a pull request
+in this repository would change what every adopting repository's agent does, remotely and
+silently. Across tiers a version reports staleness; it never resolves it. Merging is
+adopting, copying is consuming, and both stay human acts. Declared in
+[`registry.yaml`](registry.yaml) under `lanes.skills.resolution`, explained in
+[`docs/skills-lane.md`](docs/skills-lane.md) — and not enforceable from here, since the
+registry cannot see what any installation holds.
+
 ## How a change gets in
 
 1. Branch, edit `skills/<name>/SKILL.md`, **bump `version`**.

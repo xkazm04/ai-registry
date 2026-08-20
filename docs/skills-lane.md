@@ -93,6 +93,57 @@ future reader can tell which method produced the lesson. A range (`0.1-1.0`) is 
 a lesson covers an arc. The gate checks the heading shape; append-only is a property of
 history, not of a file, so it is enforced by review.
 
+## Resolution: which copy runs
+
+A skill rarely exists in one place. The same name can sit in the repository being worked
+in, in the operator's own library, and here — three copies, three versions, and until this
+section existed, nothing saying which one an agent actually loads.
+
+Declared in [`registry.yaml`](../registry.yaml) under `lanes.skills.resolution`:
+
+| tier | where | wins against |
+| --- | --- | --- |
+| `project` | the repository being worked in | everything |
+| `user` | the operator's own library | `registry` |
+| `registry` | this repository | — |
+
+**Nearest to the work wins, outright.** A tier is a location, not a ranking of quality.
+
+### Version does not break ties across tiers
+
+This is the load-bearing rule, and it is the counterintuitive one: **a higher version here
+does not displace a nearer copy.** A repository pinned to `1.1` keeps running `1.1` after
+`1.7` is merged here.
+
+That is not conservatism, it is the whole safety property. If the newest version won, then
+merging a pull request in this repository would change the behaviour of every repository
+that ever adopted the skill — remotely, silently, without anyone there present to review
+it. A skill executes with tool access against a live codebase. "Someone else's merge
+changed what my agent does to my repo" is the one outcome a registry must never produce.
+
+So what a version does across tiers is **report staleness, never resolve it**. A consumer
+three minors behind should be told so, clearly, and then left alone until a human syncs.
+This is the mirror of the rule the rest of this registry already runs on: merging is
+adopting, and it is a human act. Copying is consuming, and it is also a human act. Nothing
+here auto-resolves in either direction.
+
+The failure this prevents is not hypothetical. Measured on a live installation while this
+section was being written: one skill at `1.7` in the user tier and `1.1` in a project tier,
+six minors apart, with the publish ritual pushing outward and nothing ever pulling forward
+— and no rule anywhere saying which of the two an agent would load.
+
+### What the registry cannot do here
+
+**This rule is not gated, and cannot be.** The registry cannot see a consumer's tiers; it
+has no way to know what any installation holds. `scripts/check-skills.mjs` does not check
+it and never will.
+
+It is declared here so that the tool doing the syncing has something to honour instead of
+inventing its own answer per installation, and so that two consumers of this registry
+resolve the same name the same way. A consumer that resolves differently is not violating
+a gate — it is diverging from a documented contract, which is a review conversation, not a
+build failure.
+
 ## Not yet specified
 
 **Sub-resources.** Skills in this lane are `SKILL.md` plus `LESSONS.md` and nothing else.

@@ -29,6 +29,26 @@ lanes:
     spec: docs/skills-lane.md
     format: SKILL.md frontmatter (name, description, category, memory, version, tags)
     gate: scripts/check-skills.mjs
+    # How a consumer resolves a skill name it holds in more than one place. This
+    # registry CANNOT enforce it — it cannot see a consumer's tiers — so it declares
+    # it, and the tool that syncs is what honours it. Declared here rather than left
+    # to each consumer because the failure it prevents is one the registry would
+    # cause: a merge here silently changing what a repository runs.
+    resolution:
+      # Nearest to the work wins, outright. A tier is a location, not a ranking of
+      # quality: project = the repo being worked in, user = the operator's own
+      # library, registry = this repository.
+      order: [project, user, registry]
+      rule: nearest-wins
+      # Deliberately false, and this is the load-bearing line. A higher version here
+      # does NOT displace a nearer copy. If it did, merging a pull request in this
+      # repository would change the behaviour of every repository that ever adopted
+      # the skill, without anyone there consenting or even being present.
+      version_breaks_ties_across_tiers: false
+      # What a version IS for across tiers: reporting staleness, never resolving it.
+      # A consumer three minors behind should be told so and left alone until a human
+      # syncs. Merging is adopting; copying is consuming. Both are human acts.
+      version_reports_staleness: true
     note: Personas' skill library migrates into this lane; see the migration plan in the
       consuming repo. Until then the content here is Ascent's worked example.
   practices:
