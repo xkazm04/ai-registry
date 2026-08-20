@@ -9,6 +9,7 @@ use_when:
   - deciding whether an institution's spending belongs to a board member
   - publishing a money figure next to a person's name
 techniques:
+  - attribution-perimeter
   - owner-operator-vs-steward-split
   - entity-level-deduplication
   - public-body-classification
@@ -72,6 +73,23 @@ corpus or at one person's slice, because a cap signature that is meaningful at
 corpus scale is pure noise at slice scale. See
 [floor-versus-total-disclosure](techniques/floor-versus-total-disclosure.md).
 
+## The error before the four: an undeclared perimeter
+
+The four errors all operate on a tie table the arithmetic did not choose.
+Upstream of them sits the question of whose relationships entered that table
+at all — the official alone or also household members and close associates,
+registered roles only or traced ownership chains, any stake or a threshold.
+The disclosure standards this field leans on are unanimous that control is
+exercised directly *and* indirectly, and that the indirect forms — holdings
+parked with relatives and nominees, stakes split below thresholds, control
+routed through intermediate entities — are precisely the evasive ones. So a
+tie table built from the official's own registered relationships is a floor
+of the reachable surface by construction, independent of any ingest cap, and
+the perimeter that produced it is part of the metric's definition: declared
+once, applied to the whole population identically, changed only as a
+versioned method migration. See
+[attribution-perimeter](techniques/attribution-perimeter.md).
+
 ## One definition, or several answers to one question
 
 These rules only hold if they exist exactly once. The characteristic decay mode
@@ -132,6 +150,8 @@ excluded rather than silently shrinking. See
 
 ## What a principal practitioner holds true
 
+- The perimeter is part of the definition: whose ties count is declared once,
+  uniformly, and a direct-ties-only read is itself a floor — the copy says so.
 - The defamatory direction is the expensive one. Every default, every
   fallback, every unknown resolves *away* from attribution to the person and
   *toward* disclosure to the reader.

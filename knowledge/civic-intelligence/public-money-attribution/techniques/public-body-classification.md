@@ -47,7 +47,17 @@ The two tempting shortcuts both fail in the expensive direction:
 3. **Only with positive evidence, private.** The verdict is **private** only
    when the own form is a verified business form *and* the ownership record
    was actually retrieved *and* every current holder resolves to a
-   non-public form.
+   non-public form. A one-hop walk cannot honestly deliver this verdict on
+   its own terms: a current holder wearing a business form may itself be
+   publicly owned one register hop up — the same neutral-named holding
+   pattern this technique exists to catch, recursed. Either the walk recurses
+   through business-form holders until every chain terminates in a verified
+   form, or a business-form holder is treated like an unknown code — the walk
+   cannot conclude "no public owner" and says so. Statistical practice makes
+   the same point more broadly: public control also travels outside the
+   shareholder table (appointment rights, special shares, dominant
+   influence), so even a fully recursed ownership walk is establishing
+   *ownership*, and a verdict of `private` asserts no more than that.
 4. **Everything else is `unknown`** — and `unknown` blocks attribution.
 
 This requires *three* tables, not one: a verified-public allowlist, a
@@ -67,6 +77,10 @@ around.
   entity whose ownership record could not be retrieved is `unknown`, not
   `private` — the missing record is a different fact from a retrieved record
   showing no public owner ([missing-is-not-zero](../../_laws.md#missing-is-not-zero)).
+- **A business-form holder is not a terminal answer.** "Held by an ordinary
+  company" ends the question only if that company's own ownership was walked;
+  an unwalked business-form holder leaves the chain open, and an open chain
+  cannot support `private`.
 - **An unknown code among current holders taints the verdict.** If any current
   holder's form is in neither table, the walk cannot conclude "no public
   owner"; say so and route to review.

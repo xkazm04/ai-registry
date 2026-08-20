@@ -39,6 +39,22 @@ deterministic, reviewable code, and its output — the cap value, how many
 entities sit at it, whether the figure is a floor — travels with the number
 ([deterministic-code-owns-numbers](../../_laws.md#deterministic-code-owns-numbers)).
 
+## The cap no signature can see: the source's own publication rules
+
+One cap class leaves no fingerprint in the data at all: the register itself
+publishes only what its rules require — contracts above a statutory value
+threshold, awards after a cutoff date, one procedure type and not another.
+An ingest that reads *everything the source holds*, uncapped and complete,
+is still a floor of the state's actual spending, and no ceiling-signature
+detector can discover that, because the truncation happened before the data
+existed. This knowledge comes only from the source's documented rules, so it
+is carried as *declared* coverage metadata — recorded at ingest, attached to
+the corpus, and merged into the same floor-versus-total verdict the detector
+feeds. Field practice confirms the shape of the gap: the standard contracting
+schemas themselves omit fields that completeness accounting needs, so "the
+source published it all" is a claim about the source's rules, never about
+the absence of a cap signature.
+
 ## The scale trap: a corpus statistic is not a slice statistic
 
 The cap signature is a *corpus-level* statistic, and only the corpus may run

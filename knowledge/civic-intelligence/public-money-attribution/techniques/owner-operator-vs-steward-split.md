@@ -74,6 +74,12 @@ surface" — and it must be labeled as that, not as the official's money.
 
 ## When not to use it
 
+The split classifies the ties it is given; it does not choose them. Holdings
+parked with relatives or nominees, and control routed through intermediate
+entities, never reach its input — that is the
+[attribution-perimeter](attribution-perimeter.md)'s question, and a narrow
+perimeter makes even a correctly split attributable bucket a floor.
+
 The split answers *attribution*, not *interest*. Do not use it to decide what
 humans should investigate — a steward seat at a body awarding contracts to the
 official's other firms is precisely a conflict-of-interest lead, and the split
