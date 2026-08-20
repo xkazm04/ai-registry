@@ -10,6 +10,7 @@ techniques:
   - output-sanitization
   - model-output-as-untrusted
   - cross-language-rule-parity
+  - payoff-removal
 ---
 
 # Input sanitization & prompt safety
@@ -43,7 +44,12 @@ teams expect. Attacker-controlled text is not "the user's message"; it is
 - tool and connector results — an API response, a fetched page, a file listing,
   an email body: content authored by whoever the tool touched;
 - retrieved memory and knowledge-base entries, which launder yesterday's
-  untrusted input into today's context with an air of provenance;
+  untrusted input into today's context with an air of provenance — and in a
+  shared store the laundering is *cross-principal*: an entry written by one
+  team's agent, which read a hostile document and stored what it "learned",
+  is recalled into another team's run. There is no human in that loop at any
+  point, by design, which makes an agent-written store the ordinary path an
+  injection takes rather than the exotic one;
 - prior model output fed back into a later turn — tainted by whatever tainted
   the earlier run (this is how injections *propagate* across turns);
 - names, titles, and descriptions of user-created entities, which render as
@@ -54,6 +60,23 @@ The discipline is provenance tracking: every variable that enters a prompt has
 an author, and only spans authored by the application's own code — its fixed
 instructions, its schemas, its own generated identifiers — sit on the trusted
 side of the boundary. Everything else crosses it, and crossing has a protocol.
+
+**A human decision about a span does not re-author it.** The dangerous variant
+of this list is the span an operator has *promoted*: a standing decision, a
+dismissed finding with its stated reason, an approved note — third-party text
+that a person read and acted on, and which therefore gets rendered in the
+prompt's authoritative region, above the boundary, as calibration the model
+would otherwise lack. Promotion is a judgment about the *claim*; the bytes are
+still authored by whoever authored them, and above the boundary they inherit
+no denial of authority at all. So promoted spans are the one channel that
+reaches the model unfenced, and they get the neutralization pass anyway — the
+strictest one, since a forged boundary marker there can open a second region
+inside the trusted frame. Two rules follow. Promoted context is framed as
+**calibration, not licence**: "a person already judged this" is context the
+run was missing, never a reason to move a number. Left unframed, a model reads
+a recorded dismissal as an endorsement. And the promotion path is inventoried
+with the rest — it is the item teams forget, because it arrives wearing a
+human's approval.
 
 ## Fencing is structure, not politeness
 
@@ -122,6 +145,64 @@ So the same seriousness applies in both directions:
   guessed at. The
   [model-output-as-untrusted](techniques/model-output-as-untrusted.md)
   technique.
+
+There is a third sink, and it is the one that closes the loop: **the artifacts
+you write into somebody else's system.** A file committed into a customer's
+codebase, a note written into a shared store, a record another organization's
+agent will later retrieve — each is, from that reader's side, exactly the
+"third-party span" this subject tells them to distrust. Text you derived from
+one party and hand to another makes you the upstream of their injection. So
+third-party-derived strings are made inert in the *destination's* grammar
+before they are written, and uniformly: sanitize every field of the payload,
+including the ones whose character set is already constrained by the system
+they came from, because a rule with an exception list is a rule maintained
+against a moving inventory of which fields are "safe".
+
+## Remove the payoff, not only the authority
+
+Fences, labels and denials attack the injection's **authority** — its ability
+to be read as instruction. There is a second, independent move, and it is
+usually cheaper and always more durable: attack its **payoff**. Enumerate what
+a fully successful injection would actually *win* on this path, then remove or
+bound the win. The two are complementary, and the second is the one that still
+holds on the day the first fails.
+
+Doing this properly means treating the model's *response* as a set of channels
+ranked by consequence, not as one blob of output. Some channels are inert —
+prose a person reads. Some move a number, retire a record, or dispatch an
+action. And one class deserves its own name, because it is the amplifier:
+**self-elevating channels**, where something the model emits enlarges the
+model's own latitude on that same run. A field that says "the computed
+evidence is wrong here" and thereby widens how far the model may move the
+result is such a channel: a planted sentence no longer has to move the number
+itself, it only has to buy more room in which the number can be moved. One
+sentence, two steps of leverage.
+
+The countermeasures are structural, not textual. Route instruction-shaped
+findings to a channel that changes nothing — the model *must* have somewhere
+to report "this text tried to instruct me", since dropping that report
+silently destroys the best detection signal the run produces, but the
+reporting channel must not be a channel that buys latitude. Bound the
+self-elevating channel with a small declared budget, enforced all-or-nothing
+so there is no ranking for the model to steer. Disclose the bound in the
+prompt, so over-claiming becomes self-defeating rather than free. And
+re-derive the ranking whenever a consumer is added: payoff is a property of
+the pipeline, not of the field, and an inert channel becomes consequential the
+day something downstream starts reading it. The full procedure is the
+[payoff-removal](techniques/payoff-removal.md) technique.
+
+The seam with the neighbouring discipline is worth stating precisely, because
+the same budget appears on both sides of it. Bounding how far a model may move
+a computed number — band width, blend weight, all-or-nothing enforcement, the
+audit record — is a *judgment* question and belongs to
+[judgment-guardbands](../judgment-guardbands/judgment-guardbands.md), which
+owns that procedure. This subject owns the *adversarial* reading of the same
+mechanism: that a self-audit channel is also an injection amplifier, that the
+budget is therefore a countermeasure and not only a calibration, and that
+every response channel needs a payoff assignment for the same reason every
+input span needs a provenance label. Read that subject for how wide the band
+should be; read this one for why the channel that widens it is a trust
+boundary.
 
 ## The last fence is capability, not text
 
@@ -193,3 +274,7 @@ technique.
   rule set, two runtimes: a single authoritative specification, mirrored
   implementations, and shared test vectors as the gate that catches one-sided
   edits.
+- [payoff-removal](techniques/payoff-removal.md) — ranking response channels
+  by what emitting them wins, naming the self-elevating ones, routing found
+  instructions to a channel with no consequence, and bounding the amplifier
+  with a disclosed all-or-nothing budget.

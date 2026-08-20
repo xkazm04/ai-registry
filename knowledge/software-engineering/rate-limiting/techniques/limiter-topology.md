@@ -86,8 +86,8 @@ Ingress and egress limiters share machinery but not epistemology:
   impossible.
 
 The two directions also fail differently: an unavailable ingress limiter
-fails open or closed by resource criticality (a policy chosen in advance —
-see the golden path), while an unavailable egress limiter fails *open with
+fails open or closed by how recoverable each mistake is (a policy chosen in
+advance — see "When the shared state is unreachable" below), while an unavailable egress limiter fails *open with
 the provider as backstop* — the remote authority still enforces its real
 limit; you have only lost politeness.
 
@@ -106,6 +106,38 @@ is single-node, say so and enjoy exactness — pre-distributing a limiter for
 scale that is not coming trades away its simplest correctness argument for
 nothing.
 
+## When the shared state is unreachable
+
+Centralizing the count adds a dependency, and the dependency will one day be
+down. The golden path's rule stands — the direction is chosen in advance — but
+a limiter whose counting was *deliberately* centralized has already made that
+choice, and the choice is **closed**:
+
+- **Configuring shared state is itself the declaration.** Nobody adds a network
+  hop to a hot path for aesthetics. They do it because a fleet of N instances
+  each enforcing N locally was enforcing (instances × limit) — a ceiling that
+  *rises with autoscaling*, loosening precisely when demand peaks. Degrading
+  silently back to per-instance counting on an outage restores the exact hole
+  the operator paid to close, and does it unannounced.
+- **Recoverability decides the direction, not criticality.** The honest test is
+  what each mistake costs to undo. A wrongly refused free request is recovered
+  by trying again in a minute. Money spent on an admitted request — inference
+  billed per call, a metered upstream, a per-request-billed store — is not
+  recoverable at all, and an outage in the counting layer is exactly when a
+  wallet-draining flood is most likely to be in progress. Fail closed in front
+  of spend; fail open in front of resources whose only injury is load.
+- **State how far a fail-open degrades.** In a layered stack (see above) only
+  the layer backed by the missing state is lost: a per-key burst cap held in
+  local memory keeps working, so the fallback is a *bounded* degradation to the
+  older, looser ceiling, not an unlimited one. That bound is what makes an
+  availability-first override defensible — and it must be an explicit operator
+  choice, off by default, never the code's silent preference.
+- **A limiter that could not count did not refuse.** Whichever direction is
+  chosen, the outcome is spelled honestly: a fail-closed refusal on unknown
+  state has no true retry-after to offer — one window is the only defensible
+  answer — and it belongs on its own counter, distinct from refusals the
+  limiter actually evaluated (see refusal-contract, limit-observability).
+
 ## Decision rules
 
 - **Write the door list down.** The limiter's documentation names the doors it
@@ -119,6 +151,10 @@ nothing.
 - **Keep the model humble on egress.** Conservative pacing, corrections from
   observed refusals, and no alarm when the provider disagrees with the local
   model — disagreement is the expected steady state, at low rate.
+- **A centralized counter fails closed in front of spend.** The decision to
+  share state is the decision that one ceiling matters; a silent fallback to
+  per-instance counting un-makes it. Any availability-first override is opt-in,
+  and its degradation is stated as a bound, not as "best effort".
 - **Choose the distribution posture explicitly.** "Exact and centralized" or
   "approximate by a stated factor" — either, written down. A distributed
   limiter without a stated consistency stance enforces an unknown number.

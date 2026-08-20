@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 106,
-  "techniques": 632,
-  "applications": 239,
+  "subjects": 124,
+  "techniques": 755,
+  "applications": 306,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -15,9 +15,10 @@
    "operations",
    "security",
    "integration",
-   "engineering-process"
+   "engineering-process",
+   "engineering-assessment"
   ],
-  "use_when_coverage": "0/632",
+  "use_when_coverage": "123/755",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -169,6 +170,114 @@
     }
    ]
   },
+  "adoption-measurement": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/adoption-measurement/adoption-measurement.md",
+   "techniques": [
+    {
+     "slug": "adoption-distribution-bands",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting how far a practice has spread",
+      "an adoption headline rate is being requested",
+      "deciding whether an enablement push should target spread or depth"
+     ]
+    },
+    {
+     "slug": "adoption-vs-outcome-separation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an uptake number is about to be presented as a business result",
+      "designing a rollout dashboard that shows adoption and delivery together",
+      "a composite score would include an adoption dimension"
+     ]
+    },
+    {
+     "slug": "attribution-provenance-tiers",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an adoption number is about to be displayed or exported",
+      "a signal source cannot be measured directly",
+      "deciding whether a seat or roster count may be reported as adoption"
+     ]
+    },
+    {
+     "slug": "before-after-outcome-pairing",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing an assessment taken before uptake with one taken after",
+      "a rollout impact claim is being assembled",
+      "one half of a before/after pair is missing"
+     ]
+    },
+    {
+     "slug": "dormancy-verdicts",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a recorded touch counts as a use",
+      "labelling something unused or abandoned",
+      "a usage total and an activity verdict disagree on one screen"
+     ]
+    },
+    {
+     "slug": "mentor-learner-pairing",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning an adoption distribution into an enablement action",
+      "proposing who should teach whom",
+      "deciding whether a gap is large enough to be worth a pairing"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "attribution-provenance-tiers",
+     "file": "knowledge/software-engineering/adoption-measurement/applications/node--attribution-provenance-tiers.md"
+    },
+    {
+     "stack": "node",
+     "technique": "before-after-outcome-pairing",
+     "file": "knowledge/software-engineering/adoption-measurement/applications/node--before-after-outcome-pairing.md"
+    },
+    {
+     "stack": "node",
+     "technique": "dormancy-verdicts",
+     "file": "knowledge/software-engineering/adoption-measurement/applications/node--dormancy-verdicts.md"
+    }
+   ]
+  },
   "agent-chaining": {
    "category": "llm-agent",
    "status": "forged",
@@ -261,6 +370,20 @@
      "shared_with": []
     },
     {
+     "slug": "coverage-instrumentation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "asking whether memory covers what it should",
+      "a store that looks healthy",
+      "reporting memory health"
+     ]
+    },
+    {
      "slug": "decay-and-forgetting",
      "status": "forged",
      "laws": [
@@ -288,6 +411,20 @@
      "shared_with": []
     },
     {
+     "slug": "memory-value-model",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ranking what to recall",
+      "tuning how fast memory ages",
+      "deciding what may be forgotten"
+     ]
+    },
+    {
      "slug": "recall-injection",
      "status": "forged",
      "laws": [
@@ -295,6 +432,20 @@
       "failure-not-empty-success"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "rollup-compaction",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the store grew by accretion",
+      "many items say one thing",
+      "compressing without deleting"
+     ]
     },
     {
      "slug": "working-memory",
@@ -307,6 +458,11 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "memory-value-model",
+     "file": "knowledge/software-engineering/agent-memory/applications/node--memory-value-model.md"
+    },
     {
      "stack": "rust",
      "technique": "consolidation",
@@ -366,6 +522,19 @@
      "shared_with": []
     },
     {
+     "slug": "periodic-digest",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a scheduled summary push",
+      "deciding whether an alert class may wait for the batch",
+      "a recurring report is being ignored"
+     ]
+    },
+    {
      "slug": "rule-authoring-validation",
      "status": "forged",
      "laws": [
@@ -385,6 +554,110 @@
      "stack": "rust",
      "technique": "rule-authoring-validation",
      "file": "knowledge/software-engineering/alerting/applications/rust--rule-authoring-validation.md"
+    }
+   ]
+  },
+  "analytics-time-windows": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/analytics-time-windows/analytics-time-windows.md",
+   "techniques": [
+    {
+     "slug": "baseline-as-window-start",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a \"change over this period\" figure",
+      "choosing between a prior-period window and a point baseline",
+      "reconciling two surfaces that disagree about a delta"
+     ]
+    },
+    {
+     "slug": "calendar-arithmetic",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing a monthly or quarterly period",
+      "aligning weekly bins",
+      "defining a renewal or allowance boundary"
+     ]
+    },
+    {
+     "slug": "canonical-zone-single-source",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "snapping a window to day or month boundaries",
+      "bucketing a trend series",
+      "deciding whose midnight a report uses"
+     ]
+    },
+    {
+     "slug": "cohort-matched-comparison",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting movement across a period",
+      "an aggregate delta contradicts a per-entity movers list",
+      "the measured population changes size within the window"
+     ]
+    },
+    {
+     "slug": "half-open-interval-policy",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "constructing any time range",
+      "computing a period-over-period delta",
+      "debugging an off-by-one observation count"
+     ]
+    },
+    {
+     "slug": "range-precedence-resolution",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "more than one source can name the reporting range",
+      "adding a saved period preference",
+      "debugging why two pages show different periods"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "calendar-arithmetic",
+     "file": "knowledge/software-engineering/analytics-time-windows/applications/node--calendar-arithmetic.md"
+    },
+    {
+     "stack": "node",
+     "technique": "range-precedence-resolution",
+     "file": "knowledge/software-engineering/analytics-time-windows/applications/node--range-precedence-resolution.md"
+    },
+    {
+     "stack": "sql",
+     "technique": "cohort-matched-comparison",
+     "file": "knowledge/software-engineering/analytics-time-windows/applications/sql--cohort-matched-comparison.md"
     }
    ]
   },
@@ -554,6 +827,20 @@
      "shared_with": []
     },
     {
+     "slug": "decision-records",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording that a human accepted or declined a finding",
+      "letting users dismiss recomputed items",
+      "keeping judgments alive across regeneration"
+     ]
+    },
+    {
      "slug": "retention-and-partitioning",
      "status": "forged",
      "laws": [
@@ -561,6 +848,21 @@
       "count-carries-predicate"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "tamper-evidence",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "derivation-names-recomputation",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a trail must convince a reader outside the operating team",
+      "adding integrity proof to an existing ledger",
+      "exporting records as filed evidence"
+     ]
     },
     {
      "slug": "write-chokepoint",
@@ -580,6 +882,16 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "decision-records",
+     "file": "knowledge/software-engineering/audit-logging/applications/node--decision-records.md"
+    },
+    {
+     "stack": "node",
+     "technique": "tamper-evidence",
+     "file": "knowledge/software-engineering/audit-logging/applications/node--tamper-evidence.md"
+    },
     {
      "stack": "rust",
      "technique": "retention-and-partitioning",
@@ -1202,6 +1514,22 @@
      ]
     },
     {
+     "slug": "evidence-scoping",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a detector false-fired on an unfamiliar codebase",
+      "deciding where a rule is allowed to look",
+      "crediting a practice from a sampled subset",
+      "a ratio scores a correct target down"
+     ]
+    },
+    {
      "slug": "finding-lifecycle",
      "status": "forged",
      "laws": [
@@ -1218,6 +1546,22 @@
       "derivation-names-recomputation"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "ingestion-budget",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scanning a repository you do not control",
+      "reading a target over a metered remote interface",
+      "a detector goes blind on large targets",
+      "deciding how much of a tree to fetch"
+     ]
     },
     {
      "slug": "llm-assisted-scanning",
@@ -1476,6 +1820,114 @@
      "stack": "process",
      "technique": "isolated-index-commits",
      "file": "knowledge/software-engineering/concurrent-vcs/applications/process--isolated-index-commits.md"
+    }
+   ]
+  },
+  "conformance-checking": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/conformance-checking/conformance-checking.md",
+   "techniques": [
+    {
+     "slug": "checker-false-positive-discipline",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a repository owner disputes a conformance finding",
+      "tuning a detector that misfires",
+      "auditing a checker for false passes"
+     ]
+    },
+    {
+     "slug": "claim-write-back",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a checker executes a declared command and must record the proof",
+      "preventing a stale verification flag from surviving a broken command",
+      "deciding whether an assessment run may write"
+     ]
+    },
+    {
+     "slug": "declared-then-proven",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what each check in a conformance run actually verifies",
+      "deciding whether presence is sufficient proof",
+      "auditing a checker that reads more than it executes"
+     ]
+    },
+    {
+     "slug": "finding-severity-ladder",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning severities to conformance findings",
+      "deciding what deserves to stop a run",
+      "handling checks whose tooling is unavailable"
+     ]
+    },
+    {
+     "slug": "fixture-repo-testing",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing a checker whose subject is a whole repository",
+      "proving a checker can actually fail",
+      "locking in a regression after a disputed finding"
+     ]
+    },
+    {
+     "slug": "pass-ratio-comparability",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing a conformance percentage",
+      "comparing two conformance runs",
+      "defending a score to the repository being judged"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "declared-then-proven",
+     "file": "knowledge/software-engineering/conformance-checking/applications/node--declared-then-proven.md"
+    },
+    {
+     "stack": "node",
+     "technique": "fixture-repo-testing",
+     "file": "knowledge/software-engineering/conformance-checking/applications/node--fixture-repo-testing.md"
+    },
+    {
+     "stack": "process",
+     "technique": "pass-ratio-comparability",
+     "file": "knowledge/software-engineering/conformance-checking/applications/process--pass-ratio-comparability.md"
     }
    ]
   },
@@ -1778,6 +2230,114 @@
     }
    ]
   },
+  "data-retention": {
+   "category": "operations",
+   "status": "forged",
+   "file": "knowledge/software-engineering/data-retention/data-retention.md",
+   "techniques": [
+    {
+     "slug": "confirm-by-echo",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "gating an irreversible destructive action",
+      "designing a delete-everything confirmation",
+      "reviewing a dangerous operator workflow"
+     ]
+    },
+    {
+     "slug": "destructive-override-floor",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "exposing a configurable window that drives deletion",
+      "reviewing a destructive setting for fat-finger risk",
+      "deciding whether to clamp or refuse a bad value"
+     ]
+    },
+    {
+     "slug": "dry-run-preview",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rolling out a retention window",
+      "adding a destructive operation",
+      "an operator asks what a purge would remove"
+     ]
+    },
+    {
+     "slug": "erasure-requests",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "honouring a request to delete a subject's data",
+      "inventorying where copies of data live",
+      "deciding between soft delete and hard delete"
+     ]
+    },
+    {
+     "slug": "per-tenant-retention-policy",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a configurable retention window",
+      "replacing a hardcoded cleanup horizon",
+      "resolving which window applies to a tenant"
+     ]
+    },
+    {
+     "slug": "time-budgeted-batch-purge",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deleting expired rows at volume",
+      "a cleanup job is being killed before it finishes",
+      "reporting what a purge actually did"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "confirm-by-echo",
+     "file": "knowledge/software-engineering/data-retention/applications/node--confirm-by-echo.md"
+    },
+    {
+     "stack": "node",
+     "technique": "destructive-override-floor",
+     "file": "knowledge/software-engineering/data-retention/applications/node--destructive-override-floor.md"
+    },
+    {
+     "stack": "sql",
+     "technique": "time-budgeted-batch-purge",
+     "file": "knowledge/software-engineering/data-retention/applications/sql--time-budgeted-batch-purge.md"
+    }
+   ]
+  },
   "data-viz": {
    "category": "ui-surfaces",
    "status": "forged",
@@ -1920,6 +2480,116 @@
      "stack": "process",
      "technique": "deletion-protocols",
      "file": "knowledge/software-engineering/dead-code/applications/process--deletion-protocols.md"
+    }
+   ]
+  },
+  "delivery-analytics": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/delivery-analytics/delivery-analytics.md",
+   "techniques": [
+    {
+     "slug": "attribution-channels",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what produced a change",
+      "measuring tool-authored or agent-authored share",
+      "comparing attribution rates across time or across repositories"
+     ]
+    },
+    {
+     "slug": "batch-size-thresholds",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "measuring change size",
+      "setting a large-change threshold",
+      "reporting size distribution rather than an average"
+     ]
+    },
+    {
+     "slug": "delivery-metric-denominators",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining any delivery rate",
+      "plotting a delivery trend",
+      "deciding whether a rate has enough samples to publish",
+      "reviewing a metric someone else defined"
+     ]
+    },
+    {
+     "slug": "off-platform-signal-detection",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a delivery metric reads suspiciously low",
+      "deciding whether an absent artifact means an absent practice",
+      "choosing between suppressing a metric and crediting it"
+     ]
+    },
+    {
+     "slug": "revert-linkage",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deriving a failure signal from change history alone",
+      "reporting a revert or change-failure rate",
+      "tying a failure back to the change that caused it"
+     ]
+    },
+    {
+     "slug": "review-coverage-rate",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining what counts as a reviewed change",
+      "reading a branch protection setting as evidence of review",
+      "comparing review discipline across repositories"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "attribution-channels",
+     "file": "knowledge/software-engineering/delivery-analytics/applications/node--attribution-channels.md"
+    },
+    {
+     "stack": "node",
+     "technique": "delivery-metric-denominators",
+     "file": "knowledge/software-engineering/delivery-analytics/applications/node--delivery-metric-denominators.md"
+    },
+    {
+     "stack": "node",
+     "technique": "review-coverage-rate",
+     "file": "knowledge/software-engineering/delivery-analytics/applications/node--review-coverage-rate.md"
     }
    ]
   },
@@ -2840,6 +3510,115 @@
     }
    ]
   },
+  "executive-reporting": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/executive-reporting/executive-reporting.md",
+   "techniques": [
+    {
+     "slug": "bad-news-labelling",
+     "status": "forged",
+     "laws": [
+      "deletion-is-not-repair",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a period delta is negative and must still be printed",
+      "choosing headings for a report section",
+      "deciding whether a bad result may be omitted from a summary"
+     ]
+    },
+    {
+     "slug": "denominator-naming",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "printing a rate or percentage in a stakeholder document",
+      "a period comparison rests on very few units",
+      "deciding whether a comparison is quotable at all"
+     ]
+    },
+    {
+     "slug": "expiring-share-links",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "identity-survives-reuse",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a report must be readable by someone without an account",
+      "choosing an expiry for a shared document",
+      "revoking access to a distributed snapshot"
+     ]
+    },
+    {
+     "slug": "grounded-narrative-generation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model writes the summary paragraph of a stakeholder document",
+      "deciding what a generator may see",
+      "handling a generation failure in a document that must still render"
+     ]
+    },
+    {
+     "slug": "provenance-caveats",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a report section covers only part of its population",
+      "a projection rests on thin or noisy input",
+      "deciding where a caveat belongs on the page"
+     ]
+    },
+    {
+     "slug": "single-ranked-next-move",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a report must end with a recommendation",
+      "the ranking source for recommendations is unavailable",
+      "deciding how many priorities a summary may name"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "expiring-share-links",
+     "file": "knowledge/software-engineering/executive-reporting/applications/node--expiring-share-links.md"
+    },
+    {
+     "stack": "node",
+     "technique": "grounded-narrative-generation",
+     "file": "knowledge/software-engineering/executive-reporting/applications/node--grounded-narrative-generation.md"
+    },
+    {
+     "stack": "process",
+     "technique": "bad-news-labelling",
+     "file": "knowledge/software-engineering/executive-reporting/applications/process--bad-news-labelling.md"
+    }
+   ]
+  },
   "feed": {
    "category": "ui-surfaces",
    "status": "forged",
@@ -3633,11 +4412,138 @@
     }
    ]
   },
+  "judgment-guardbands": {
+   "category": "llm-agent",
+   "status": "forged",
+   "file": "knowledge/software-engineering/judgment-guardbands/judgment-guardbands.md",
+   "techniques": [
+    {
+     "slug": "confidence-weighted-blend",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how much of a model verdict lands in a score",
+      "evidence coverage varies by dimension",
+      "a model returns a confidence value"
+     ]
+    },
+    {
+     "slug": "deterministic-backbone",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing which part of a score is computed",
+      "deciding what a model is allowed to contribute",
+      "a detector returns zero and you must know why"
+     ]
+    },
+    {
+     "slug": "judgment-integrity-record",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model adjustment changed a stored number",
+      "tuning a guardband or blend weight",
+      "someone appeals a score"
+     ]
+    },
+    {
+     "slug": "narrate-dont-rescore",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model writes both narrative and numbers",
+      "content under evaluation may contain instructions",
+      "deciding what a prompt says the model may not do"
+     ]
+    },
+    {
+     "slug": "score-guardband",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "one-validation-door",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sizing how far a model may move a score",
+      "a model verdict feeds a user-visible number",
+      "reviewing whether a clamp is actually a bound"
+     ]
+    },
+    {
+     "slug": "self-audit-budget",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "gate-sees-target",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the model believes a detector is wrong",
+      "granting a model extra room on a dimension",
+      "designing how disagreement with the evidence is handled"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "confidence-weighted-blend",
+     "file": "knowledge/software-engineering/judgment-guardbands/applications/node--confidence-weighted-blend.md"
+    },
+    {
+     "stack": "node",
+     "technique": "self-audit-budget",
+     "file": "knowledge/software-engineering/judgment-guardbands/applications/node--self-audit-budget.md"
+    },
+    {
+     "stack": "process",
+     "technique": "narrate-dont-rescore",
+     "file": "knowledge/software-engineering/judgment-guardbands/applications/process--narrate-dont-rescore.md"
+    }
+   ]
+  },
   "knowledge-registry": {
    "category": "engineering-process",
    "status": "forged",
    "file": "knowledge/software-engineering/knowledge-registry/knowledge-registry.md",
    "techniques": [
+    {
+     "slug": "catalog-as-sync-key",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "consumers need to know whether their copy is current",
+      "designing a generated index",
+      "choosing a content hash for drift detection"
+     ]
+    },
     {
      "slug": "consumer-overlays",
      "status": "forged",
@@ -3645,6 +4551,20 @@
       "one-authority-per-vocabulary"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "deterministic-seeding",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "creating a registry in a repository you do not own",
+      "re-running a seeding proposal",
+      "moving an existing body of knowledge into a registry"
+     ]
     },
     {
      "slug": "lane-contracts",
@@ -3685,6 +4605,16 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "catalog-as-sync-key",
+     "file": "knowledge/software-engineering/knowledge-registry/applications/node--catalog-as-sync-key.md"
+    },
+    {
+     "stack": "node",
+     "technique": "deterministic-seeding",
+     "file": "knowledge/software-engineering/knowledge-registry/applications/node--deterministic-seeding.md"
+    },
     {
      "stack": "node",
      "technique": "per-contributor-aggregation",
@@ -3780,6 +4710,118 @@
     }
    ]
   },
+  "maturity-ladders": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/maturity-ladders/maturity-ladders.md",
+   "techniques": [
+    {
+     "slug": "band-design",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "cutting a continuous signal into named rungs",
+      "rung labels keep flipping between runs",
+      "choosing band edges"
+     ]
+    },
+    {
+     "slug": "ladder-versioning",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "editing rung criteria",
+      "adding or renaming a rung",
+      "cached assessments look stale",
+      "reviewing a ladder change"
+     ]
+    },
+    {
+     "slug": "migrate-on-read",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "derivation-names-recomputation",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a ladder version was bumped with stored rungs in the wild",
+      "reading an old assessment",
+      "planning a rung rename"
+     ]
+    },
+    {
+     "slug": "ordinal-first-comparability",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "storing an assessment result",
+      "aggregating maturity across a portfolio",
+      "comparing assessments over time"
+     ]
+    },
+    {
+     "slug": "present-vs-enforced",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the top rungs of a ladder",
+      "an assessment looks too good",
+      "deciding what evidence a rung requires"
+     ]
+    },
+    {
+     "slug": "rung-criteria",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a new maturity rung",
+      "two assessors disagree on a rung",
+      "auditing an inherited ladder"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "ladder-versioning",
+     "file": "knowledge/software-engineering/maturity-ladders/applications/node--ladder-versioning.md"
+    },
+    {
+     "stack": "node",
+     "technique": "rung-criteria",
+     "file": "knowledge/software-engineering/maturity-ladders/applications/node--rung-criteria.md"
+    },
+    {
+     "stack": "process",
+     "technique": "present-vs-enforced",
+     "file": "knowledge/software-engineering/maturity-ladders/applications/process--present-vs-enforced.md"
+    }
+   ]
+  },
   "mcp-tools": {
    "category": "llm-agent",
    "status": "forged",
@@ -3856,6 +4898,112 @@
     }
    ]
   },
+  "measurement-honesty": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/measurement-honesty/measurement-honesty.md",
+   "techniques": [
+    {
+     "slug": "incomplete-not-verdict",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a collection stage partly failed but downstream still produced a report",
+      "designing the boundary between ingestion and analysis",
+      "deciding what confidence to attach to a run"
+     ]
+    },
+    {
+     "slug": "lower-bound-disclosure",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing a reach or usage tally assembled from partial observation",
+      "two rungs of a ladder are both arguable",
+      "a number will be quoted outside its context"
+     ]
+    },
+    {
+     "slug": "minimum-sample-floors",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deriving a percentage or rate from a countable set",
+      "a metric swings wildly between runs",
+      "a new or low-volume subject is being scored"
+     ]
+    },
+    {
+     "slug": "noise-band-and-hysteresis",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a metric change is worth announcing",
+      "a classification flip-flops across runs",
+      "setting a threshold near which subjects will cluster"
+     ]
+    },
+    {
+     "slug": "renormalize-over-present",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "averaging values where some inputs are absent",
+      "a detector was removed or went dark",
+      "aggregating a nullable measure across many subjects"
+     ]
+    },
+    {
+     "slug": "unmeasurable-vs-zero",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a detector returned nothing and you must decide what that means",
+      "designing the return type of a signal collector",
+      "a subject disputes a zero in its report"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "incomplete-not-verdict",
+     "file": "knowledge/software-engineering/measurement-honesty/applications/node--incomplete-not-verdict.md"
+    },
+    {
+     "stack": "node",
+     "technique": "minimum-sample-floors",
+     "file": "knowledge/software-engineering/measurement-honesty/applications/node--minimum-sample-floors.md"
+    },
+    {
+     "stack": "node",
+     "technique": "unmeasurable-vs-zero",
+     "file": "knowledge/software-engineering/measurement-honesty/applications/node--unmeasurable-vs-zero.md"
+    }
+   ]
+  },
   "media-playback": {
    "category": "ui-surfaces",
    "status": "forged",
@@ -3926,6 +5074,110 @@
      "stack": "react",
      "technique": "playback-clock",
      "file": "knowledge/software-engineering/media-playback/applications/react--playback-clock.md"
+    }
+   ]
+  },
+  "metric-forecasting": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/metric-forecasting/metric-forecasting.md",
+   "techniques": [
+    {
+     "slug": "fit-confidence-honesty",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting how well a trend fits",
+      "deciding whether to show a confidence figure",
+      "suppressing a noisy projection downstream"
+     ]
+    },
+    {
+     "slug": "horizon-caps-and-flat-bands",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "bounding how far a projection may claim",
+      "deciding when a slope counts as flat",
+      "suppressing far-future estimates"
+     ]
+    },
+    {
+     "slug": "pace-against-a-deadline",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging whether a goal will land by its deadline",
+      "reporting required rate to catch up",
+      "designing goal progress"
+     ]
+    },
+    {
+     "slug": "projection-presentability-gates",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a trend line may be displayed",
+      "explaining why no forecast is shown",
+      "guarding a forecast surface against thin histories"
+     ]
+    },
+    {
+     "slug": "threshold-crossing-eta",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "estimating when a metric will reach a target level",
+      "answering \"when do we hit the threshold\""
+     ]
+    },
+    {
+     "slug": "trend-fitting-and-anchoring",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fitting a trend to a short metric history",
+      "drawing a projected ray on a chart"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "pace-against-a-deadline",
+     "file": "knowledge/software-engineering/metric-forecasting/applications/node--pace-against-a-deadline.md"
+    },
+    {
+     "stack": "node",
+     "technique": "projection-presentability-gates",
+     "file": "knowledge/software-engineering/metric-forecasting/applications/node--projection-presentability-gates.md"
+    },
+    {
+     "stack": "node",
+     "technique": "trend-fitting-and-anchoring",
+     "file": "knowledge/software-engineering/metric-forecasting/applications/node--trend-fitting-and-anchoring.md"
     }
    ]
   },
@@ -4691,6 +5943,205 @@
     }
    ]
   },
+  "peer-benchmarking": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/peer-benchmarking/peer-benchmarking.md",
+   "techniques": [
+    {
+     "slug": "basis-disclosure",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "shipping a percentile to a user",
+      "a rank is quoted in an export or generated summary",
+      "wording a suppressed comparison"
+     ]
+    },
+    {
+     "slug": "cohort-minimum-size",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the floor below which no peer position is shown",
+      "a benchmark launches with few participants",
+      "deciding how a suppressed comparison is worded"
+     ]
+    },
+    {
+     "slug": "comparability-filters",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which measurements may enter a ranking",
+      "a scoring engine gains a fallback path",
+      "a rubric version ships"
+     ]
+    },
+    {
+     "slug": "corpus-tenancy-boundary",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a query reads rows belonging to other tenants",
+      "building a public-facing comparison surface",
+      "adding an operator view spanning many tenants"
+     ]
+    },
+    {
+     "slug": "population-vs-scalar-ranking",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "computing a percentile for an aggregate value",
+      "a benchmark shows everyone near the middle",
+      "choosing what one row of the corpus represents"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "comparability-filters",
+     "file": "knowledge/software-engineering/peer-benchmarking/applications/node--comparability-filters.md"
+    },
+    {
+     "stack": "node",
+     "technique": "population-vs-scalar-ranking",
+     "file": "knowledge/software-engineering/peer-benchmarking/applications/node--population-vs-scalar-ranking.md"
+    },
+    {
+     "stack": "sql",
+     "technique": "corpus-tenancy-boundary",
+     "file": "knowledge/software-engineering/peer-benchmarking/applications/sql--corpus-tenancy-boundary.md"
+    }
+   ]
+  },
+  "people-analytics-ethics": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/people-analytics-ethics/people-analytics-ethics.md",
+   "techniques": [
+    {
+     "slug": "aggregate-vs-individual-split",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing an engineering dashboard with a personal view",
+      "a manager asks for a per-person breakdown",
+      "deciding what crosses between org and self views"
+     ]
+    },
+    {
+     "slug": "contribution-eligibility-floors",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a per-person distribution or ranking",
+      "a departed colleague still tops a list",
+      "deciding who is eligible for a celebratory badge"
+     ]
+    },
+    {
+     "slug": "naming-population-floor",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a breakdown would name individuals",
+      "sizing a cohort before publishing per-person rows",
+      "choosing a suppression threshold"
+     ]
+    },
+    {
+     "slug": "private-view-separation",
+     "status": "forged",
+     "laws": [
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a personal engineering dashboard",
+      "an authorization check is the only thing hiding a roster",
+      "a manager asks to see one person's private view"
+     ]
+    },
+    {
+     "slug": "producer-enforced-suppression",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a privacy floor is applied",
+      "adding a second surface over person-level data",
+      "a suppressed value renders as zero"
+     ]
+    },
+    {
+     "slug": "risk-framing-anonymization",
+     "status": "forged",
+     "laws": [
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a metric labels a person a risk or a gap",
+      "deciding whether a finding may carry a name",
+      "rewriting a person-shaped claim as an artifact-shaped one"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "contribution-eligibility-floors",
+     "file": "knowledge/software-engineering/people-analytics-ethics/applications/node--contribution-eligibility-floors.md"
+    },
+    {
+     "stack": "node",
+     "technique": "producer-enforced-suppression",
+     "file": "knowledge/software-engineering/people-analytics-ethics/applications/node--producer-enforced-suppression.md"
+    },
+    {
+     "stack": "process",
+     "technique": "risk-framing-anonymization",
+     "file": "knowledge/software-engineering/people-analytics-ethics/applications/process--risk-framing-anonymization.md"
+    }
+   ]
+  },
   "perf-instrumentation": {
    "category": "operations",
    "status": "forged",
@@ -4842,6 +6293,118 @@
      "stack": "rust",
      "technique": "node-execution-model",
      "file": "knowledge/software-engineering/pipeline-dag/applications/rust--node-execution-model.md"
+    }
+   ]
+  },
+  "plan-entitlements": {
+   "category": "operations",
+   "status": "forged",
+   "file": "knowledge/software-engineering/plan-entitlements/plan-entitlements.md",
+   "techniques": [
+    {
+     "slug": "capability-gate-predicates",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "gating a feature behind a plan",
+      "writing an upgrade prompt",
+      "a paid button that fails after it was shown"
+     ]
+    },
+    {
+     "slug": "deployment-mode-short-circuit",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "one-validation-door",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product ships both hosted and self-run builds",
+      "adding a capability gate",
+      "a self-run instance refuses its own features"
+     ]
+    },
+    {
+     "slug": "entitlement-lifecycle-revocation",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "handling subscription lifecycle events",
+      "deciding what a lapsed customer keeps",
+      "writing a downgrade handler"
+     ]
+    },
+    {
+     "slug": "id-vs-label-split",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "naming or renaming a tier",
+      "storing a plan on a tenant row",
+      "marketing asks for new plan names"
+     ]
+    },
+    {
+     "slug": "price-book-authority",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rendering a price in the product",
+      "changing a price",
+      "a pricing page that disagrees with the invoice"
+     ]
+    },
+    {
+     "slug": "tier-model-single-source",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding or renaming a paid tier",
+      "building a pricing page",
+      "discovering two places that list the plans"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "capability-gate-predicates",
+     "file": "knowledge/software-engineering/plan-entitlements/applications/node--capability-gate-predicates.md"
+    },
+    {
+     "stack": "node",
+     "technique": "deployment-mode-short-circuit",
+     "file": "knowledge/software-engineering/plan-entitlements/applications/node--deployment-mode-short-circuit.md"
+    },
+    {
+     "stack": "process",
+     "technique": "price-book-authority",
+     "file": "knowledge/software-engineering/plan-entitlements/applications/process--price-book-authority.md"
     }
    ]
   },
@@ -5035,6 +6598,20 @@
      "shared_with": []
     },
     {
+     "slug": "payoff-removal",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "untrusted content reaches a prompt whose output has consequences",
+      "designing what a model response is allowed to change",
+      "hardening a boundary that cannot be made leakproof"
+     ]
+    },
+    {
      "slug": "untrusted-span-fencing",
      "status": "forged",
      "laws": [
@@ -5045,6 +6622,16 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "payoff-removal",
+     "file": "knowledge/software-engineering/prompt-safety/applications/node--payoff-removal.md"
+    },
+    {
+     "stack": "node",
+     "technique": "untrusted-span-fencing",
+     "file": "knowledge/software-engineering/prompt-safety/applications/node--untrusted-span-fencing.md"
+    },
+    {
      "stack": "react",
      "technique": "output-sanitization",
      "file": "knowledge/software-engineering/prompt-safety/applications/react--output-sanitization.md"
@@ -5053,6 +6640,113 @@
      "stack": "rust",
      "technique": "untrusted-span-fencing",
      "file": "knowledge/software-engineering/prompt-safety/applications/rust--untrusted-span-fencing.md"
+    }
+   ]
+  },
+  "public-verdict-badge": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/public-verdict-badge/public-verdict-badge.md",
+   "techniques": [
+    {
+     "slug": "customization-scope-guard",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which badge parameters an embedder may set",
+      "a request to allow custom colours",
+      "hardening a public rendering endpoint against parameter abuse"
+     ]
+    },
+    {
+     "slug": "embed-reach-attribution",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "counting impressions of an embedded artifact",
+      "reporting where a badge is displayed",
+      "a referrer-derived metric is about to be published"
+     ]
+    },
+    {
+     "slug": "embed-snippet-contract",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generating copy-paste embed code",
+      "a badge parameter has a server-side default",
+      "writing alternative text for a published verdict"
+     ]
+    },
+    {
+     "slug": "neutral-state-vocabulary",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a public artifact has no verdict to publish",
+      "distinguishing absent from private from failed",
+      "choosing colours for non-verdict states"
+     ]
+    },
+    {
+     "slug": "outcome-branched-cache",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting cache lifetime on a public artifact endpoint",
+      "a crawler-hammered path needs negative caching",
+      "a stale verdict appeared on someone else's page"
+     ]
+    },
+    {
+     "slug": "verdict-honesty-qualifiers",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a published verdict is narrower than it appears",
+      "deciding whether to qualify or refuse",
+      "wording a preview or partial result for a small artifact"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "customization-scope-guard",
+     "file": "knowledge/software-engineering/public-verdict-badge/applications/node--customization-scope-guard.md"
+    },
+    {
+     "stack": "node",
+     "technique": "outcome-branched-cache",
+     "file": "knowledge/software-engineering/public-verdict-badge/applications/node--outcome-branched-cache.md"
+    },
+    {
+     "stack": "react",
+     "technique": "embed-snippet-contract",
+     "file": "knowledge/software-engineering/public-verdict-badge/applications/react--embed-snippet-contract.md"
     }
    ]
   },
@@ -5097,6 +6791,20 @@
      "shared_with": []
     },
     {
+     "slug": "policy-projection",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gate policy is shown in more than one place",
+      "generating a config snippet someone will paste",
+      "a dashboard pass rate disagrees with the gate"
+     ]
+    },
+    {
      "slug": "ratchet-design",
      "status": "forged",
      "laws": [
@@ -5114,6 +6822,20 @@
       "count-carries-predicate"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "unmeasurable-criteria",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a policy condition has no data to evaluate",
+      "deciding whether missing evidence blocks or skips",
+      "a gate reports a verdict over a partly failed assessment"
+     ]
     }
    ],
    "applications": [
@@ -5121,6 +6843,16 @@
      "stack": "node",
      "technique": "gate-liveness",
      "file": "knowledge/software-engineering/quality-gates/applications/node--gate-liveness.md"
+    },
+    {
+     "stack": "node",
+     "technique": "policy-projection",
+     "file": "knowledge/software-engineering/quality-gates/applications/node--policy-projection.md"
+    },
+    {
+     "stack": "node",
+     "technique": "unmeasurable-criteria",
+     "file": "knowledge/software-engineering/quality-gates/applications/node--unmeasurable-criteria.md"
     },
     {
      "stack": "process",
@@ -5147,6 +6879,20 @@
       "creation-names-reaper"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "limit-derivation",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a limit's number",
+      "adding a limiter to a new endpoint",
+      "pacing calls against a provider's quota"
+     ]
     },
     {
      "slug": "limit-observability",
@@ -5185,6 +6931,16 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "limit-derivation",
+     "file": "knowledge/software-engineering/rate-limiting/applications/node--limit-derivation.md"
+    },
+    {
+     "stack": "node",
+     "technique": "limiter-topology",
+     "file": "knowledge/software-engineering/rate-limiting/applications/node--limiter-topology.md"
+    },
+    {
      "stack": "rust",
      "technique": "algorithm-selection",
      "file": "knowledge/software-engineering/rate-limiting/applications/rust--algorithm-selection.md"
@@ -5193,6 +6949,103 @@
      "stack": "rust",
      "technique": "storm-hygiene",
      "file": "knowledge/software-engineering/rate-limiting/applications/rust--storm-hygiene.md"
+    }
+   ]
+  },
+  "readiness-passports": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/readiness-passports/readiness-passports.md",
+   "techniques": [
+    {
+     "slug": "blocker-rollups",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "identity-survives-reuse",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a portfolio view lists projects but nobody acts on it",
+      "sizing shared platform work",
+      "ranking what to fix once for many projects"
+     ]
+    },
+    {
+     "slug": "declined-by-choice",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-validation-door",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a recurring assessment keeps reporting a finding the owner has already decided about",
+      "designing a dismiss or acknowledge affordance",
+      "deciding which findings may be waived"
+     ]
+    },
+    {
+     "slug": "fingerprint-provenance",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the header of a portable assessment artifact",
+      "an old stored fingerprint must still be readable",
+      "deciding when a fingerprint is too old to quote"
+     ]
+    },
+    {
+     "slug": "named-vs-capability-metadata",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing fields for a comparable per-project fingerprint",
+      "a boolean capability field is not answering the reader's question",
+      "worrying that named tooling in a schema will rot"
+     ]
+    },
+    {
+     "slug": "two-axis-readiness",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a readiness fingerprint's axes",
+      "someone asks for a single headline score",
+      "deciding what an agent may be trusted to do in a project"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "declined-by-choice",
+     "file": "knowledge/software-engineering/readiness-passports/applications/node--declined-by-choice.md"
+    },
+    {
+     "stack": "node",
+     "technique": "two-axis-readiness",
+     "file": "knowledge/software-engineering/readiness-passports/applications/node--two-axis-readiness.md"
+    },
+    {
+     "stack": "process",
+     "technique": "named-vs-capability-metadata",
+     "file": "knowledge/software-engineering/readiness-passports/applications/process--named-vs-capability-metadata.md"
     }
    ]
   },
@@ -5344,6 +7197,321 @@
      "stack": "node",
      "technique": "version-single-truth",
      "file": "knowledge/software-engineering/release-pipeline/applications/node--version-single-truth.md"
+    }
+   ]
+  },
+  "remediation-handoff": {
+   "category": "llm-agent",
+   "status": "forged",
+   "file": "knowledge/software-engineering/remediation-handoff/remediation-handoff.md",
+   "techniques": [
+    {
+     "slug": "batch-shaping-for-one-session",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how many findings to hand to one autonomous session",
+      "a weakness appears across most of the estate at once"
+     ]
+    },
+    {
+     "slug": "claim-carry-forward-rules",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "matching last run's findings against this run's findings",
+      "an item someone claimed is neither marked resolved nor restated"
+     ]
+    },
+    {
+     "slug": "evidence-based-auto-close",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "closing findings without a human confirming the work",
+      "deciding what counts as proof that remediation landed"
+     ]
+    },
+    {
+     "slug": "handoff-tenancy-and-idempotence",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the endpoint that records a batch as claimed",
+      "a handoff can be re-sent, retried, or replayed from a stale selection"
+     ]
+    },
+    {
+     "slug": "resolution-trailers",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing how a remote executor reports completion without a callback",
+      "deciding what a resolution claim in commit history may and may not prove"
+     ]
+    },
+    {
+     "slug": "single-artifact-prompt-construction",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the document an unattended coding agent will act on",
+      "the executing agent cannot reach your system for clarification"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "claim-carry-forward-rules",
+     "file": "knowledge/software-engineering/remediation-handoff/applications/node--claim-carry-forward-rules.md"
+    },
+    {
+     "stack": "node",
+     "technique": "handoff-tenancy-and-idempotence",
+     "file": "knowledge/software-engineering/remediation-handoff/applications/node--handoff-tenancy-and-idempotence.md"
+    },
+    {
+     "stack": "process",
+     "technique": "single-artifact-prompt-construction",
+     "file": "knowledge/software-engineering/remediation-handoff/applications/process--single-artifact-prompt-construction.md"
+    }
+   ]
+  },
+  "remediation-roadmaps": {
+   "category": "engineering-assessment",
+   "status": "forged",
+   "file": "knowledge/software-engineering/remediation-roadmaps/remediation-roadmaps.md",
+   "techniques": [
+    {
+     "slug": "cheapest-path-projection",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a reader asks what it takes to reach the next level",
+      "presenting a banded score with a plan attached",
+      "choosing a minimal set of moves rather than the single best one"
+     ]
+    },
+    {
+     "slug": "coverage-guarantee",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "truncating a generated recommendation list for readability",
+      "a weak area has no good move available",
+      "checking that a plan does not silently endorse a gap"
+     ]
+    },
+    {
+     "slug": "invitational-framing",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing the title of a recommendation about someone's own work",
+      "an assessment reads as accusatory",
+      "deciding what a tool is allowed to tell a person to do"
+     ]
+    },
+    {
+     "slug": "projected-gain-modelling",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "attaching a number to a recommendation",
+      "showing a total for a set of selected moves",
+      "deciding how confident a plan may sound"
+     ]
+    },
+    {
+     "slug": "sandbox-to-tracker-commit",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "letting a reader reorder or deselect generated recommendations",
+      "turning a proposed plan into tracked work",
+      "a plan surface writes as the user clicks"
+     ]
+    },
+    {
+     "slug": "weighted-upside-ranking",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ordering generated recommendations for a reader",
+      "deciding which weak area to surface first",
+      "a plan keeps recommending the hardest problem"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "weighted-upside-ranking",
+     "file": "knowledge/software-engineering/remediation-roadmaps/applications/node--weighted-upside-ranking.md"
+    },
+    {
+     "stack": "process",
+     "technique": "invitational-framing",
+     "file": "knowledge/software-engineering/remediation-roadmaps/applications/process--invitational-framing.md"
+    },
+    {
+     "stack": "react",
+     "technique": "sandbox-to-tracker-commit",
+     "file": "knowledge/software-engineering/remediation-roadmaps/applications/react--sandbox-to-tracker-commit.md"
+    }
+   ]
+  },
+  "repo-manifest-standard": {
+   "category": "engineering-process",
+   "status": "forged",
+   "file": "knowledge/software-engineering/repo-manifest-standard/repo-manifest-standard.md",
+   "techniques": [
+    {
+     "slug": "capability-not-tool-vocabulary",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "naming the fields of a repository contract",
+      "deciding whether to record a tool name",
+      "migrating a manifest off a replaced tool"
+     ]
+    },
+    {
+     "slug": "generated-from-provenance",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding who writes a manifest",
+      "making a committed artifact drift-checkable",
+      "separating generated fields from human-owned ones"
+     ]
+    },
+    {
+     "slug": "must-ignore-unknown",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "specifying how a reader parses a contract",
+      "adding a field to a shared artifact",
+      "writing a generator that rewrites a file others also write"
+     ]
+    },
+    {
+     "slug": "pointers-not-embeds",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what belongs inside a manifest",
+      "adding a field that duplicates existing material",
+      "wiring a manifest to generated evidence"
+     ]
+    },
+    {
+     "slug": "semver-additive-evolution",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "classifying a proposed change to a contract",
+      "stamping a version on a machine-readable artifact",
+      "deciding whether a change forces a migration"
+     ]
+    },
+    {
+     "slug": "spec-ships-with-artifact",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing a contract others will implement",
+      "making a repository self-describing offline",
+      "keeping a vendored copy of a specification honest"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "generated-from-provenance",
+     "file": "knowledge/software-engineering/repo-manifest-standard/applications/node--generated-from-provenance.md"
+    },
+    {
+     "stack": "node",
+     "technique": "pointers-not-embeds",
+     "file": "knowledge/software-engineering/repo-manifest-standard/applications/node--pointers-not-embeds.md"
+    },
+    {
+     "stack": "process",
+     "technique": "spec-ships-with-artifact",
+     "file": "knowledge/software-engineering/repo-manifest-standard/applications/process--spec-ships-with-artifact.md"
     }
    ]
   },
@@ -5684,9 +7852,34 @@
       "derivation-names-recomputation"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "weight-lenses",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one rubric grades unlike populations",
+      "small subjects score badly for missing infrastructure",
+      "adding a dimension to a rubric that has per-class weights"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "rubric-stability",
+     "file": "knowledge/software-engineering/scoring-rubrics/applications/node--rubric-stability.md"
+    },
+    {
+     "stack": "node",
+     "technique": "weight-lenses",
+     "file": "knowledge/software-engineering/scoring-rubrics/applications/node--weight-lenses.md"
+    },
     {
      "stack": "react",
      "technique": "gap-ranking",
@@ -6385,6 +8578,21 @@
    "file": "knowledge/software-engineering/structured-output/structured-output.md",
    "techniques": [
     {
+     "slug": "answer-coverage-gating",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the request enumerates units the model must each answer",
+      "a validated artifact may still be half-answered",
+      "deciding whether a thin response is a failure"
+     ]
+    },
+    {
      "slug": "artifact-lifecycle",
      "status": "forged",
      "laws": [
@@ -6425,6 +8633,20 @@
       "one-validation-door"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "output-budget-signal",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one call is asked to produce a growing structured artifact",
+      "deciding whether to split a call or raise a limit",
+      "diagnosing silently shrinking artifacts"
+     ]
     },
     {
      "slug": "schema-validation-and-repair",
@@ -7861,6 +10083,7 @@
     "alerting/evaluation-loop",
     "alerting/rule-authoring-validation",
     "app-shell/entitlement-gating",
+    "audit-logging/tamper-evidence",
     "authorization/declarative-requirements",
     "authorization/dispatch-chokepoint-gating",
     "authorization/scope-design",
@@ -7872,7 +10095,9 @@
     "chat-transcript/transcript-scroll",
     "client-state/invalidation-strategy",
     "codebase-scanning/dead-code-detection",
+    "codebase-scanning/evidence-scoping",
     "codebase-scanning/incremental-scanning",
+    "codebase-scanning/ingestion-budget",
     "codebase-scanning/llm-assisted-scanning",
     "codebase-scanning/rule-precision-discipline",
     "codegen/drift-gating",
@@ -7880,6 +10105,9 @@
     "concurrency-guards/cross-process-exclusion",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/isolated-index-commits",
+    "conformance-checking/checker-false-positive-discipline",
+    "conformance-checking/claim-write-back",
+    "conformance-checking/declared-then-proven",
     "connector-catalog/schema-driven-forms",
     "connector-catalog/shipped-vs-operator-ownership",
     "cost-metering/budget-enforcement",
@@ -7888,8 +10116,12 @@
     "credential-vault/token-refresh-lifecycle",
     "data-access/batching-and-n-plus-one",
     "data-access/repo-testing",
+    "data-retention/confirm-by-echo",
+    "data-retention/dry-run-preview",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
+    "delivery-analytics/off-platform-signal-detection",
+    "delivery-analytics/review-coverage-rate",
     "design-tokens/cross-language-token-parity",
     "design-tokens/density-and-scale-axes",
     "design-tokens/token-enforcement",
@@ -7913,6 +10145,8 @@
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
     "eval-harness/judge-stability",
+    "executive-reporting/expiring-share-links",
+    "executive-reporting/grounded-narrative-generation",
     "file-browsing/listing-and-refresh",
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/lifecycle-signals",
@@ -7929,14 +10163,21 @@
     "ipc-contract/command-registration",
     "ipc-contract/drift-gates",
     "job-coordination/lease-renewal",
+    "judgment-guardbands/deterministic-backbone",
+    "judgment-guardbands/narrate-dont-rescore",
+    "judgment-guardbands/self-audit-budget",
     "knowledge-registry/lane-contracts",
     "markdown-vault/knowledge-integrity-lint",
     "markdown-vault/mirror-indexes",
+    "maturity-ladders/ladder-versioning",
+    "maturity-ladders/present-vs-enforced",
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/client-integration",
     "mcp-tools/tool-schema-design",
     "mcp-tools/transport-selection",
     "mcp-tools/untrusted-result-handling",
+    "measurement-honesty/incomplete-not-verdict",
+    "metric-forecasting/projection-presentability-gates",
     "migrations/error-propagation",
     "migrations/idempotent-steps",
     "migrations/pre-migration-snapshots",
@@ -7957,6 +10198,9 @@
     "perf-instrumentation/semantic-flags-over-heuristics",
     "pipeline-dag/external-adapter-nodes",
     "pipeline-dag/pause-and-gate-nodes",
+    "plan-entitlements/capability-gate-predicates",
+    "plan-entitlements/deployment-mode-short-circuit",
+    "plan-entitlements/price-book-authority",
     "proactive-nudges/quiet-windows",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-safety/canary-tripwires",
@@ -7965,13 +10209,18 @@
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
+    "quality-gates/policy-projection",
     "quality-gates/severity-by-construction",
+    "quality-gates/unmeasurable-criteria",
     "rate-limiting/limiter-topology",
     "realtime-events/event-registry",
     "release-pipeline/pipeline-staging",
     "release-pipeline/release-verification",
     "release-pipeline/updater-chain",
     "release-pipeline/version-single-truth",
+    "remediation-handoff/evidence-based-auto-close",
+    "repo-manifest-standard/generated-from-provenance",
+    "repo-manifest-standard/spec-ships-with-artifact",
     "retrieval/embedding-lifecycle",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
@@ -7980,6 +10229,7 @@
     "schema-driven-ui/action-consent-wiring",
     "schema-driven-ui/emitter-registry-sync",
     "scoring-rubrics/rubric-stability",
+    "scoring-rubrics/weight-lenses",
     "search/full-text-indexing",
     "self-healing/auto-rollback",
     "session-resume/last-seen-anchors",
@@ -7995,6 +10245,7 @@
     "status-vocabulary/number-formatting",
     "status-vocabulary/timestamp-display",
     "status-vocabulary/vocabulary-chain-integrity",
+    "structured-output/answer-coverage-gating",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/host-resource-protection",
     "subprocess-lifecycle/liveness-and-heartbeats",
@@ -8038,18 +10289,24 @@
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/drain-and-shutdown",
     "admission-queue/load-aware-admission",
+    "adoption-measurement/before-after-outcome-pairing",
+    "adoption-measurement/dormancy-verdicts",
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/run-conditions",
     "agent-chaining/stop-reason-ledgers",
+    "agent-memory/coverage-instrumentation",
     "agent-memory/recall-injection",
+    "agent-memory/rollup-compaction",
     "alerting/evaluation-loop",
+    "alerting/periodic-digest",
     "app-shell/lazy-section-loading",
     "app-shell/shell-hosted-services",
     "async-ui-states/empty-state-design",
     "async-ui-states/failure-states",
     "async-ui-states/state-model",
     "audit-logging/best-effort-with-accounting",
+    "audit-logging/tamper-evidence",
     "authorization/authorization-audit",
     "authorization/declarative-requirements",
     "authorization/dispatch-chokepoint-gating",
@@ -8066,6 +10323,7 @@
     "client-fetch-cache/swr-design",
     "client-state/persistence-and-migration",
     "client-state/status-fsms",
+    "codebase-scanning/ingestion-budget",
     "codebase-scanning/llm-assisted-scanning",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
@@ -8078,6 +10336,8 @@
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/intent-ledgers",
     "concurrent-vcs/shared-resource-arbitration",
+    "conformance-checking/finding-severity-ladder",
+    "conformance-checking/fixture-repo-testing",
     "connector-catalog/adapter-normalization",
     "connector-catalog/matching-and-ranking",
     "cost-metering/usage-ledgers",
@@ -8088,10 +10348,14 @@
     "data-access/repo-testing",
     "data-access/row-mapping",
     "data-access/transactions-and-units-of-work",
+    "data-retention/destructive-override-floor",
+    "data-retention/time-budgeted-batch-purge",
     "data-viz/empty-and-degraded-chart-states",
     "dead-code/instrument-per-orphan-class",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
+    "delivery-analytics/delivery-metric-denominators",
+    "delivery-analytics/off-platform-signal-detection",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/non-delivery-ledgers",
     "delivery-guarantees/stuck-reaping",
@@ -8117,6 +10381,9 @@
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
     "eval-harness/eval-economics",
+    "executive-reporting/grounded-narrative-generation",
+    "executive-reporting/provenance-caveats",
+    "executive-reporting/single-ranked-next-move",
     "feed/feed-retention",
     "feed/live-prepend",
     "file-browsing/listing-and-refresh",
@@ -8144,13 +10411,23 @@
     "job-coordination/job-state-machines",
     "job-coordination/step-position-and-resumability",
     "job-coordination/terminal-state-recovery",
+    "judgment-guardbands/confidence-weighted-blend",
+    "judgment-guardbands/deterministic-backbone",
+    "knowledge-registry/deterministic-seeding",
     "markdown-vault/knowledge-integrity-lint",
     "markdown-vault/vault-walking",
+    "maturity-ladders/migrate-on-read",
+    "maturity-ladders/present-vs-enforced",
+    "maturity-ladders/rung-criteria",
     "mcp-tools/server-composition",
     "mcp-tools/tool-schema-design",
+    "measurement-honesty/incomplete-not-verdict",
+    "measurement-honesty/renormalize-over-present",
+    "measurement-honesty/unmeasurable-vs-zero",
     "media-playback/engine-adapters",
     "media-playback/source-resilience",
     "media-playback/transport-contract",
+    "metric-forecasting/fit-confidence-honesty",
     "metrics-rollups/aggregate-honesty",
     "metrics-rollups/bundle-endpoints",
     "metrics-rollups/stored-rollups",
@@ -8172,6 +10449,9 @@
     "p2p-networking/resilience-and-reconnection",
     "packaging/installed-tree-acceptance",
     "packaging/native-payload-verification",
+    "peer-benchmarking/basis-disclosure",
+    "peer-benchmarking/cohort-minimum-size",
+    "people-analytics-ethics/producer-enforced-suppression",
     "perf-instrumentation/continuous-monitors",
     "perf-instrumentation/startup-phasing",
     "pipeline-dag/conditional-edges",
@@ -8180,22 +10460,36 @@
     "pipeline-dag/graph-validation",
     "pipeline-dag/node-execution-model",
     "pipeline-dag/pause-and-gate-nodes",
+    "plan-entitlements/capability-gate-predicates",
+    "plan-entitlements/entitlement-lifecycle-revocation",
     "proactive-nudges/notice-delivery-decoupling",
     "proactive-nudges/trigger-evaluators",
     "prompt-assembly/variable-interpolation",
     "prompt-safety/canary-tripwires",
     "prompt-safety/model-output-as-untrusted",
     "prompt-safety/output-sanitization",
+    "public-verdict-badge/neutral-state-vocabulary",
+    "public-verdict-badge/outcome-branched-cache",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
     "quality-gates/ratchet-design",
+    "quality-gates/unmeasurable-criteria",
     "rate-limiting/refusal-contract",
+    "readiness-passports/blocker-rollups",
+    "readiness-passports/declined-by-choice",
+    "readiness-passports/fingerprint-provenance",
+    "readiness-passports/two-axis-readiness",
     "realtime-events/change-data-capture",
     "realtime-events/event-registry",
     "realtime-events/outbound-fan-out",
     "release-pipeline/pipeline-staging",
     "release-pipeline/release-verification",
     "release-pipeline/updater-chain",
+    "remediation-handoff/evidence-based-auto-close",
+    "remediation-handoff/resolution-trailers",
+    "remediation-roadmaps/coverage-guarantee",
+    "repo-manifest-standard/must-ignore-unknown",
+    "repo-manifest-standard/pointers-not-embeds",
     "retrieval/embedding-lifecycle",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
@@ -8208,6 +10502,7 @@
     "schema-driven-ui/registry-mapping",
     "schema-driven-ui/spec-validation-and-repair",
     "scoring-rubrics/unmeasured-honesty",
+    "scoring-rubrics/weight-lenses",
     "search/query-parsing",
     "search/saved-views",
     "self-healing/auto-rollback",
@@ -8234,9 +10529,11 @@
     "status-vocabulary/vocabulary-chain-integrity",
     "streaming-output/cancellation-and-finalization",
     "streaming-output/stream-parsing",
+    "structured-output/answer-coverage-gating",
     "structured-output/artifact-lifecycle",
     "structured-output/extraction-observability",
     "structured-output/extraction-strategies",
+    "structured-output/output-budget-signal",
     "structured-output/schema-validation-and-repair",
     "subprocess-lifecycle/liveness-and-heartbeats",
     "subprocess-lifecycle/session-reuse",
@@ -8295,9 +10592,11 @@
     "agent-memory/decay-and-forgetting",
     "agent-memory/memory-governance",
     "audit-logging/append-only-design",
+    "audit-logging/decision-records",
     "background-jobs/tick-isolation",
     "codebase-scanning/finding-lifecycle",
     "codegen/commit-vs-derive-policy",
+    "conformance-checking/checker-false-positive-discipline",
     "connector-catalog/catalog-lifecycle",
     "credential-vault/encryption-at-rest",
     "credential-vault/rotation-and-remediation",
@@ -8311,19 +10610,27 @@
     "docs-sync/dated-corrections",
     "embedded-db/storage-accounting-and-pruning",
     "entity-lifecycle/change-logging",
+    "executive-reporting/bad-news-labelling",
     "health-checks/remediation-affordances",
     "hitl-approval/decision-records",
     "i18n/string-extraction-enforcement",
     "job-coordination/terminal-state-recovery",
+    "judgment-guardbands/self-audit-budget",
     "knowledge-registry/propose-then-adopt",
     "markdown-vault/knowledge-integrity-lint",
+    "maturity-ladders/present-vs-enforced",
     "mcp-tools/untrusted-result-handling",
     "media-playback/source-resilience",
     "motion/reduced-motion-mechanics",
+    "peer-benchmarking/comparability-filters",
+    "people-analytics-ethics/risk-framing-anonymization",
     "perf-instrumentation/continuous-monitors",
+    "plan-entitlements/entitlement-lifecycle-revocation",
     "proactive-nudges/efficacy-feedback",
+    "prompt-safety/payoff-removal",
     "quality-gates/false-positive-economics",
     "release-pipeline/size-budgets",
+    "repo-manifest-standard/spec-ships-with-artifact",
     "schema-driven-ui/spec-validation-and-repair",
     "signed-artifacts/signature-lifecycle",
     "status-vocabulary/vocabulary-evolution-checklist",
@@ -8348,10 +10655,19 @@
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/priority-and-fairness",
     "admission-queue/wait-telemetry",
+    "adoption-measurement/adoption-distribution-bands",
+    "adoption-measurement/adoption-vs-outcome-separation",
+    "adoption-measurement/attribution-provenance-tiers",
+    "adoption-measurement/before-after-outcome-pairing",
+    "adoption-measurement/dormancy-verdicts",
+    "adoption-measurement/mentor-learner-pairing",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/stop-reason-ledgers",
+    "agent-memory/coverage-instrumentation",
     "agent-memory/recall-injection",
     "alerting/dedup-and-cooldown",
+    "analytics-time-windows/baseline-as-window-start",
+    "analytics-time-windows/cohort-matched-comparison",
     "app-shell/badge-and-attention",
     "audit-logging/audit-querying",
     "audit-logging/best-effort-with-accounting",
@@ -8366,21 +10682,31 @@
     "chat-transcript/turn-metadata",
     "cicd-monitoring/deployment-history",
     "codebase-scanning/dead-code-detection",
+    "codebase-scanning/evidence-scoping",
+    "codebase-scanning/ingestion-budget",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
     "codegen/generator-failure-isolation",
     "concurrency-guards/attempt-attribution",
     "concurrent-vcs/commit-verification",
+    "conformance-checking/pass-ratio-comparability",
     "cost-metering/preflight-estimation",
     "cost-metering/spend-attribution",
     "cost-metering/spend-observability",
     "cost-metering/usage-ledgers",
     "credential-vault/encryption-at-rest",
     "data-access/batching-and-n-plus-one",
+    "data-retention/dry-run-preview",
+    "data-retention/time-budgeted-batch-purge",
     "data-viz/scale-and-axis-design",
     "dead-code/carrying-cost-economics",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
+    "delivery-analytics/attribution-channels",
+    "delivery-analytics/batch-size-thresholds",
+    "delivery-analytics/delivery-metric-denominators",
+    "delivery-analytics/revert-linkage",
+    "delivery-analytics/review-coverage-rate",
     "delivery-guarantees/retry-escalation",
     "device-pairing/verb-allowlists",
     "diff-comparison/diff-honesty",
@@ -8400,6 +10726,8 @@
     "eval-harness/comparison-modes",
     "eval-harness/judge-stability",
     "eval-harness/scenario-design",
+    "executive-reporting/denominator-naming",
+    "executive-reporting/provenance-caveats",
     "feed/event-clustering",
     "feed/read-position-and-unseen",
     "feed/reverse-chronology-semantics",
@@ -8416,9 +10744,24 @@
     "import-normalization/lossy-conversion-disclosure",
     "ipc-contract/casing-and-naming",
     "job-coordination/job-observability",
+    "judgment-guardbands/confidence-weighted-blend",
+    "judgment-guardbands/deterministic-backbone",
+    "judgment-guardbands/judgment-integrity-record",
+    "judgment-guardbands/score-guardband",
+    "knowledge-registry/catalog-as-sync-key",
     "knowledge-registry/per-contributor-aggregation",
     "knowledge-registry/standard-versus-consumer-split",
     "markdown-vault/link-graph-extraction",
+    "maturity-ladders/band-design",
+    "maturity-ladders/rung-criteria",
+    "measurement-honesty/lower-bound-disclosure",
+    "measurement-honesty/minimum-sample-floors",
+    "measurement-honesty/noise-band-and-hysteresis",
+    "measurement-honesty/renormalize-over-present",
+    "measurement-honesty/unmeasurable-vs-zero",
+    "metric-forecasting/fit-confidence-honesty",
+    "metric-forecasting/threshold-crossing-eta",
+    "metric-forecasting/trend-fitting-and-anchoring",
     "metrics-rollups/aggregate-honesty",
     "metrics-rollups/bucketing-strategy",
     "metrics-rollups/cardinality-and-cost",
@@ -8439,6 +10782,13 @@
     "p2p-networking/manifest-negotiation",
     "p2p-networking/peer-state-honesty",
     "packaging/os-arch-matrix",
+    "peer-benchmarking/basis-disclosure",
+    "peer-benchmarking/comparability-filters",
+    "peer-benchmarking/corpus-tenancy-boundary",
+    "peer-benchmarking/population-vs-scalar-ranking",
+    "people-analytics-ethics/aggregate-vs-individual-split",
+    "people-analytics-ethics/contribution-eligibility-floors",
+    "people-analytics-ethics/naming-population-floor",
     "perf-instrumentation/perf-data-lifecycle",
     "perf-instrumentation/probe-cost-budgeting",
     "perf-instrumentation/ring-buffer-metrics",
@@ -8447,13 +10797,24 @@
     "proactive-nudges/efficacy-feedback",
     "prompt-assembly/context-budgeting",
     "prompt-safety/input-caps-and-clamps",
+    "public-verdict-badge/embed-reach-attribution",
+    "public-verdict-badge/embed-snippet-contract",
+    "public-verdict-badge/verdict-honesty-qualifiers",
     "quality-gates/false-positive-economics",
     "quality-gates/ratchet-design",
     "quality-gates/severity-by-construction",
+    "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
+    "readiness-passports/blocker-rollups",
+    "readiness-passports/named-vs-capability-metadata",
+    "readiness-passports/two-axis-readiness",
     "realtime-events/change-data-capture",
     "release-pipeline/changelog-generation",
     "release-pipeline/size-budgets",
+    "remediation-handoff/batch-shaping-for-one-session",
+    "remediation-handoff/single-artifact-prompt-construction",
+    "remediation-roadmaps/projected-gain-modelling",
+    "repo-manifest-standard/generated-from-provenance",
     "retrieval/hybrid-lane-fusion",
     "retrieval/ranking-budgets",
     "retrieval/retrieval-evaluation",
@@ -8472,7 +10833,9 @@
     "sql-console/introspection-architecture",
     "sql-console/result-fidelity",
     "streaming-output/buffering-and-backpressure",
+    "structured-output/answer-coverage-gating",
     "structured-output/extraction-observability",
+    "structured-output/output-budget-signal",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/host-resource-protection",
     "sync-replication/sync-observability",
@@ -8516,9 +10879,11 @@
     "agent-memory/working-memory",
     "alerting/alert-lifecycle",
     "alerting/dedup-and-cooldown",
+    "analytics-time-windows/cohort-matched-comparison",
     "app-shell/navigation-model",
     "async-ui-states/arrival-choreography",
     "audit-logging/append-only-design",
+    "audit-logging/decision-records",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-supervision",
     "canvas-graph/direct-manipulation",
@@ -8541,7 +10906,9 @@
     "connector-catalog/catalog-as-data",
     "connector-catalog/matching-and-ranking",
     "cost-metering/spend-attribution",
+    "data-retention/erasure-requests",
     "data-viz/encoding-vocabulary",
+    "delivery-analytics/revert-linkage",
     "delivery-guarantees/atomic-claiming",
     "delivery-guarantees/guarantee-selection",
     "device-pairing/pairing-ceremony",
@@ -8557,6 +10924,7 @@
     "entity-lifecycle/provenance-denormalization",
     "eval-harness/comparison-modes",
     "eval-harness/scenario-design",
+    "executive-reporting/expiring-share-links",
     "feed/event-clustering",
     "feed/live-prepend",
     "feed/read-position-and-unseen",
@@ -8576,8 +10944,10 @@
     "ipc-contract/call-wrapping",
     "job-coordination/lease-renewal",
     "job-coordination/step-position-and-resumability",
+    "judgment-guardbands/judgment-integrity-record",
     "markdown-vault/vault-as-database",
     "media-playback/timeline-scheduling",
+    "metric-forecasting/pace-against-a-deadline",
     "migrations/data-migrations",
     "modal-stack/stack-ownership",
     "model-routing/model-identity",
@@ -8592,12 +10962,21 @@
     "packaging/installer-authoring",
     "pipeline-dag/deterministic-vs-model-nodes",
     "pipeline-dag/node-execution-model",
+    "plan-entitlements/id-vs-label-split",
     "proactive-nudges/nudge-identity-dedup",
     "prompt-assembly/continuation-prompts",
+    "readiness-passports/blocker-rollups",
+    "readiness-passports/fingerprint-provenance",
     "realtime-events/outbound-fan-out",
     "realtime-events/push-vs-refetch-reconciliation",
     "realtime-events/subscription-lifecycle",
     "release-pipeline/pipeline-staging",
+    "remediation-handoff/claim-carry-forward-rules",
+    "remediation-handoff/handoff-tenancy-and-idempotence",
+    "remediation-handoff/resolution-trailers",
+    "remediation-roadmaps/sandbox-to-tracker-commit",
+    "remediation-roadmaps/weighted-upside-ranking",
+    "repo-manifest-standard/semver-additive-evolution",
     "retrieval/chunking-and-indexing",
     "retrieval/hybrid-lane-fusion",
     "retry-backoff/durable-retries",
@@ -8660,7 +11039,9 @@
     "agent-chaining/run-conditions",
     "agent-memory/consolidation",
     "agent-memory/memory-governance",
+    "agent-memory/rollup-compaction",
     "alerting/rule-authoring-validation",
+    "analytics-time-windows/range-precedence-resolution",
     "audit-logging/write-chokepoint",
     "audit-logging/write-path-sanitization",
     "authorization/dispatch-chokepoint-gating",
@@ -8677,6 +11058,9 @@
     "credential-vault/encryption-at-rest",
     "data-access/layering-rules",
     "data-access/query-construction",
+    "data-retention/confirm-by-echo",
+    "data-retention/destructive-override-floor",
+    "data-retention/erasure-requests",
     "device-pairing/admission-scoping",
     "device-pairing/pairing-ceremony",
     "draft-editing/draft-model",
@@ -8684,6 +11068,7 @@
     "drag-drop/ownership-boundaries",
     "embedded-preview/origin-validation",
     "entity-lifecycle/cascade-design",
+    "executive-reporting/grounded-narrative-generation",
     "file-browsing/file-mutations",
     "fleet-orchestration/hibernation-and-resume",
     "fleet-orchestration/parallel-dispatch",
@@ -8698,10 +11083,14 @@
     "ipc-contract/call-wrapping",
     "ipc-contract/error-shape-mapping",
     "job-coordination/job-state-machines",
+    "judgment-guardbands/score-guardband",
+    "judgment-guardbands/self-audit-budget",
     "knowledge-registry/propose-then-adopt",
     "markdown-vault/vault-as-database",
+    "maturity-ladders/migrate-on-read",
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/server-composition",
+    "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
     "model-routing/routing-policy",
     "multi-project/project-identity-and-joins",
@@ -8711,16 +11100,27 @@
     "outbound-notifications/inbound-counterparts",
     "outbound-notifications/subscription-patterns",
     "p2p-networking/exposure-controls",
+    "peer-benchmarking/corpus-tenancy-boundary",
+    "people-analytics-ethics/private-view-separation",
+    "people-analytics-ethics/producer-enforced-suppression",
     "pipeline-dag/conditional-edges",
     "pipeline-dag/external-adapter-nodes",
     "pipeline-dag/graph-validation",
+    "plan-entitlements/capability-gate-predicates",
+    "plan-entitlements/deployment-mode-short-circuit",
     "prompt-assembly/layered-composition",
     "prompt-safety/input-caps-and-clamps",
     "prompt-safety/model-output-as-untrusted",
     "prompt-safety/output-sanitization",
     "prompt-safety/untrusted-span-fencing",
+    "public-verdict-badge/customization-scope-guard",
+    "public-verdict-badge/embed-reach-attribution",
     "rate-limiting/limiter-topology",
+    "readiness-passports/declined-by-choice",
     "realtime-events/change-data-capture",
+    "remediation-handoff/handoff-tenancy-and-idempotence",
+    "remediation-roadmaps/sandbox-to-tracker-commit",
+    "repo-manifest-standard/must-ignore-unknown",
     "schema-driven-ui/spec-validation-and-repair",
     "search/query-parsing",
     "self-healing/blast-radius-bounds",
@@ -8782,11 +11182,13 @@
     "concurrent-vcs/intent-ledgers",
     "concurrent-vcs/isolated-index-commits",
     "concurrent-vcs/physical-isolation",
+    "conformance-checking/fixture-repo-testing",
     "connector-catalog/catalog-lifecycle",
     "connector-catalog/schema-driven-forms",
     "cost-metering/usage-ledgers",
     "credential-vault/brokered-egress",
     "credential-vault/token-refresh-lifecycle",
+    "data-retention/per-tenant-retention-policy",
     "data-viz/chart-loading-economics",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
@@ -8806,6 +11208,7 @@
     "entity-lifecycle/cascade-design",
     "error-handling/crash-capture",
     "eval-harness/eval-economics",
+    "executive-reporting/expiring-share-links",
     "feed/feed-retention",
     "file-browsing/file-mutations",
     "file-browsing/thumbnails-and-previews",
@@ -8848,7 +11251,9 @@
     "perf-instrumentation/ring-buffer-metrics",
     "pipeline-dag/node-execution-model",
     "pipeline-dag/pause-and-gate-nodes",
+    "plan-entitlements/entitlement-lifecycle-revocation",
     "proactive-nudges/notice-delivery-decoupling",
+    "public-verdict-badge/outcome-branched-cache",
     "rate-limiting/key-design",
     "rate-limiting/storm-hygiene",
     "realtime-events/outbound-fan-out",
@@ -8906,9 +11311,18 @@
     "accessibility/name-and-description-wiring",
     "accessibility/preference-respect",
     "admission-queue/admission-vocabulary",
+    "adoption-measurement/adoption-distribution-bands",
+    "adoption-measurement/adoption-vs-outcome-separation",
+    "adoption-measurement/attribution-provenance-tiers",
+    "adoption-measurement/mentor-learner-pairing",
     "agent-chaining/run-conditions",
     "agent-chaining/stop-reason-ledgers",
+    "agent-memory/memory-value-model",
     "alerting/escalation-routing",
+    "analytics-time-windows/calendar-arithmetic",
+    "analytics-time-windows/canonical-zone-single-source",
+    "analytics-time-windows/half-open-interval-policy",
+    "analytics-time-windows/range-precedence-resolution",
     "app-shell/entitlement-gating",
     "app-shell/navigation-model",
     "authorization/declarative-requirements",
@@ -8923,10 +11337,13 @@
     "client-fetch-cache/cache-key-discipline",
     "client-state/async-race-guards",
     "client-state/status-fsms",
+    "codebase-scanning/evidence-scoping",
     "codebase-scanning/llm-assisted-scanning",
     "codegen/generated-file-hygiene",
     "codegen/task-registry-design",
     "concurrency-guards/guard-key-design",
+    "conformance-checking/declared-then-proven",
+    "conformance-checking/finding-severity-ladder",
     "connector-catalog/adapter-normalization",
     "connector-catalog/catalog-as-data",
     "connector-catalog/schema-driven-forms",
@@ -8936,8 +11353,11 @@
     "credential-vault/token-refresh-lifecycle",
     "data-access/query-construction",
     "data-access/row-mapping",
+    "data-retention/per-tenant-retention-policy",
     "data-viz/encoding-vocabulary",
     "data-viz/metric-identity",
+    "delivery-analytics/attribution-channels",
+    "delivery-analytics/batch-size-thresholds",
     "delivery-guarantees/non-delivery-ledgers",
     "design-tokens/cross-language-token-parity",
     "design-tokens/density-and-scale-axes",
@@ -8958,6 +11378,8 @@
     "error-handling/taxonomy-design",
     "error-handling/user-facing-mapping",
     "eval-harness/judge-stability",
+    "executive-reporting/bad-news-labelling",
+    "executive-reporting/single-ranked-next-move",
     "feed/reverse-chronology-semantics",
     "file-browsing/kind-taxonomy",
     "fleet-orchestration/lifecycle-signals",
@@ -8975,16 +11397,23 @@
     "ipc-contract/error-shape-mapping",
     "ipc-contract/generated-type-contracts",
     "job-coordination/job-state-machines",
+    "judgment-guardbands/narrate-dont-rescore",
+    "judgment-guardbands/score-guardband",
     "knowledge-registry/consumer-overlays",
     "knowledge-registry/lane-contracts",
     "knowledge-registry/per-contributor-aggregation",
     "knowledge-registry/standard-versus-consumer-split",
     "markdown-vault/link-graph-extraction",
+    "maturity-ladders/ladder-versioning",
+    "maturity-ladders/ordinal-first-comparability",
     "mcp-tools/server-composition",
     "mcp-tools/tool-schema-design",
+    "measurement-honesty/noise-band-and-hysteresis",
     "media-playback/engine-adapters",
     "media-playback/playback-clock",
     "media-playback/transport-contract",
+    "metric-forecasting/horizon-caps-and-flat-bands",
+    "metric-forecasting/pace-against-a-deadline",
     "metrics-rollups/bundle-endpoints",
     "migrations/schema-drift-detection",
     "modal-stack/layering-and-precedence",
@@ -9001,13 +11430,34 @@
     "p2p-networking/manifest-negotiation",
     "packaging/native-payload-verification",
     "packaging/variant-config-parity",
+    "peer-benchmarking/cohort-minimum-size",
+    "peer-benchmarking/comparability-filters",
+    "people-analytics-ethics/contribution-eligibility-floors",
+    "people-analytics-ethics/naming-population-floor",
     "perf-instrumentation/semantic-flags-over-heuristics",
     "perf-instrumentation/startup-phasing",
     "pipeline-dag/node-execution-model",
+    "plan-entitlements/deployment-mode-short-circuit",
+    "plan-entitlements/id-vs-label-split",
+    "plan-entitlements/price-book-authority",
+    "plan-entitlements/tier-model-single-source",
     "prompt-assembly/capability-documentation",
     "prompt-safety/cross-language-rule-parity",
+    "prompt-safety/payoff-removal",
+    "public-verdict-badge/customization-scope-guard",
+    "public-verdict-badge/embed-snippet-contract",
+    "public-verdict-badge/neutral-state-vocabulary",
+    "quality-gates/policy-projection",
+    "readiness-passports/named-vs-capability-metadata",
     "realtime-events/event-registry",
     "release-pipeline/version-single-truth",
+    "remediation-handoff/resolution-trailers",
+    "remediation-handoff/single-artifact-prompt-construction",
+    "remediation-roadmaps/weighted-upside-ranking",
+    "repo-manifest-standard/capability-not-tool-vocabulary",
+    "repo-manifest-standard/pointers-not-embeds",
+    "repo-manifest-standard/semver-additive-evolution",
+    "repo-manifest-standard/spec-ships-with-artifact",
     "retry-backoff/error-classification-for-retry",
     "scheduling/trigger-matching",
     "schema-driven-ui/action-consent-wiring",
@@ -9016,6 +11466,7 @@
     "schema-driven-ui/registry-mapping",
     "scoring-rubrics/rubric-stability",
     "scoring-rubrics/weight-design",
+    "scoring-rubrics/weight-lenses",
     "search/command-surface",
     "search/faceting-and-filters",
     "search/saved-views",
@@ -9065,7 +11516,9 @@
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
     "agent-memory/consolidation",
+    "agent-memory/memory-value-model",
     "app-shell/badge-and-attention",
+    "audit-logging/tamper-evidence",
     "background-jobs/loop-health-telemetry",
     "build-economics/cache-budgeting",
     "canvas-graph/graph-layout",
@@ -9082,12 +11535,15 @@
     "codegen/drift-gating",
     "codegen/generated-file-hygiene",
     "codegen/trigger-wiring",
+    "conformance-checking/claim-write-back",
+    "conformance-checking/pass-ratio-comparability",
     "cost-metering/price-tables",
     "cost-metering/spend-observability",
     "credential-vault/health-probing",
     "credential-vault/token-refresh-lifecycle",
     "data-viz/metric-identity",
     "dead-code/carrying-cost-economics",
+    "delivery-analytics/delivery-metric-denominators",
     "design-tokens/theme-architecture",
     "diff-comparison/computation-offload",
     "docs-sync/doc-rot-detection",
@@ -9106,12 +11562,21 @@
     "health-checks/probe-caching",
     "i18n/catalog-architecture",
     "ipc-contract/generated-type-contracts",
+    "judgment-guardbands/confidence-weighted-blend",
+    "judgment-guardbands/judgment-integrity-record",
+    "knowledge-registry/catalog-as-sync-key",
+    "knowledge-registry/deterministic-seeding",
     "knowledge-registry/per-contributor-aggregation",
     "markdown-vault/link-graph-extraction",
     "markdown-vault/mirror-indexes",
+    "maturity-ladders/band-design",
+    "maturity-ladders/ladder-versioning",
+    "maturity-ladders/migrate-on-read",
+    "maturity-ladders/ordinal-first-comparability",
     "media-playback/media-resource-lifecycle",
     "media-playback/playback-clock",
     "media-playback/timeline-scheduling",
+    "metric-forecasting/trend-fitting-and-anchoring",
     "metrics-rollups/stored-rollups",
     "migrations/data-migrations",
     "modal-stack/anchored-positioning",
@@ -9126,14 +11591,24 @@
     "perf-instrumentation/perf-data-lifecycle",
     "perf-instrumentation/probe-cost-budgeting",
     "perf-instrumentation/ring-buffer-metrics",
+    "plan-entitlements/price-book-authority",
+    "plan-entitlements/tier-model-single-source",
     "proactive-nudges/attention-budgets",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "quality-gates/ratchet-design",
+    "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
+    "readiness-passports/declined-by-choice",
+    "readiness-passports/fingerprint-provenance",
     "realtime-events/outbound-fan-out",
     "realtime-events/push-vs-refetch-reconciliation",
     "release-pipeline/changelog-generation",
     "release-pipeline/size-budgets",
+    "remediation-handoff/claim-carry-forward-rules",
+    "remediation-handoff/evidence-based-auto-close",
+    "remediation-roadmaps/cheapest-path-projection",
+    "remediation-roadmaps/projected-gain-modelling",
+    "repo-manifest-standard/generated-from-provenance",
     "retrieval/chunking-and-indexing",
     "retrieval/embedding-lifecycle",
     "scheduling/next-run-computation",

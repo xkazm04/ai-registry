@@ -58,6 +58,42 @@ failure class:
   deleted is surfaced as broken, not silently widened to everything.
 - **Severity** — drawn from the closed routing vocabulary, never free text.
 
+## The threshold is derived from the instrument, not chosen
+
+The domain check above rejects thresholds that are impossible. A second,
+sharper question survives it: is the threshold clear of the *measurement's
+own jitter*? Re-run a measurement over an unchanged subject and the number
+moves — by a point, by a few — and a threshold sited inside that spread
+produces a rule that fires on the instrument breathing. It is not a false
+positive in the usual sense: the arithmetic is right, the change is real,
+and the change means nothing. That rule is indistinguishable from a working
+one until the fire history is examined, and by then the channel has learned
+its lesson.
+
+So a defensible threshold is **derived**: measured spread first, threshold
+placed a stated distance above it, and the distance is the author's
+sensitivity choice. How to measure the spread and write it down as one
+shared constant is
+[noise-band-and-hysteresis](../../measurement-honesty/techniques/noise-band-and-hysteresis.md);
+what authoring adds is three rules for using it:
+
+- **The threshold constant carries its derivation.** Written beside the
+  value: what the observed spread was, how it was measured, and what number
+  it is therefore clear of. A bare round number is unmaintainable — the next
+  person to tune it has no way to know whether they are about to cross the
+  noise floor, so they either freeze it forever or halve it on a hunch.
+- **Composite signals have more than one floor.** A blended or corrected
+  measurement can be far steadier in aggregate than in any one component: a
+  headline number that moves by one across re-runs may sit on components
+  whose own correction band is an order of magnitude wider. A per-component
+  threshold is sited against the *component's* floor, never the headline's,
+  and the two thresholds will legitimately differ by a lot.
+- **Where the floor is unknown, say so.** A brand-new signal has no measured
+  spread, and a threshold on it is provisional by definition. That is
+  allowed; pretending otherwise is not. Mark it, and revisit it once the
+  history exists — the same honesty the preview owes when it has no data to
+  preview against.
+
 ## The whole predicate lives in the rule
 
 The window and the scope are **part of the predicate, stored on the rule** —

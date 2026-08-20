@@ -73,6 +73,24 @@ kinds, because the kinds have different lifecycles:
 - **Procedures** — how-to knowledge distilled from episodes of doing
   ("renewing the credential requires the second approval step"). Validated
   by working, invalidated by failing, and dated by the systems they touch.
+- **Failed approaches** — the negative result: what was tried, and the
+  symptom that ruled it out. This kind is first-class, not a footnote on the
+  procedure that eventually worked, and a store that omits it is the most
+  common expensive omission in the subject. An agent without a dead-end
+  ledger re-derives the same failure every few sessions, at full cost, with
+  full confidence; the item that would have saved the day is precisely the
+  one that records an absence of success. Capture it with the symptom
+  attached, because "we tried X and it didn't work" without the symptom
+  cannot be re-evaluated when the surrounding system changes.
+
+The set is **small and closed at the top, open at the edges**: a fixed core
+that every consumer understands, plus room for kinds a specific deployment
+needs. The two rules that make an open vocabulary safe rather than sloppy:
+readers **ignore kinds they do not recognize** rather than failing on them,
+and every kind-keyed policy (retention, half-life, recall tier) has a
+**declared default** for an unrecognized kind. Without the default, adding a
+kind silently gives it either immortality or immediate erasure, depending on
+which policy noticed first — and nobody finds out for a quarter.
 
 Each item carries: the claim at its right altitude (scoped, dated where time
 matters), a **confidence** the distiller assigned, and **provenance** — the
@@ -82,6 +100,40 @@ law applied to belief: a consolidated item is a stored derivation, and the
 episodes-plus-pass that produced it are its named recomputation path. A
 belief whose grounds cannot be enumerated cannot be audited, re-derived, or
 safely forgotten — it can only be taken on faith or deleted.
+
+## Finding the candidates is a deterministic prefilter
+
+Before any judgment can be made about whether a new item duplicates,
+corrects, or contradicts an existing one, the existing ones have to be
+*found*. That step is deterministic, cheap, and does two jobs the expensive
+judgment cannot do for itself.
+
+**It bounds the prompt independently of the store.** A shortlist cap (a
+handful of candidates, not the whole store) and a per-candidate excerpt cap
+mean the cost of consolidating one item is constant whether the store holds
+two hundred items or two hundred thousand. Without both caps, the pass gets
+slower exactly as memory starts paying off, and the first response to that
+is to run it less often. The excerpt cap matters as much as the shortlist
+cap: one enormous item can otherwise consume the whole comparison window and
+crowd out its own competitors.
+
+**And the measure it ranks by must fit the question being asked.** Duplicate
+and correction detection is *directional*: a short, sharp correction ("we
+moved off the shared credential") must score high against the long item it
+corrects. A similarity measure that normalizes by the combined size of both
+texts punishes that pairing for the length difference alone — and the pairing
+it punishes is exactly the one the system most needs to catch, since
+corrections are short and the beliefs they overturn are elaborated.
+Normalize by the *smaller* side instead. The mirror case, grouping items that
+belong to one family, wants the opposite property and belongs to
+[rollup-compaction](rollup-compaction.md); the rule to carry is that the
+measure follows the question, and a system doing both jobs needs both
+measures.
+
+A noise floor completes the prefilter: below some overlap, a candidate is not
+worth a reasoner's attention or a human's. And when the reasoner is
+unreachable, the prefilter *is* the answer — degraded, clearly marked as
+degraded, but not silent.
 
 ## Supersedence: contradiction is data
 

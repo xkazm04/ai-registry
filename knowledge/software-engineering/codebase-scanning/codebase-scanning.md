@@ -10,6 +10,8 @@ techniques:
   - llm-assisted-scanning
   - incremental-scanning
   - dead-code-detection
+  - ingestion-budget
+  - evidence-scoping
 ---
 
 # Codebase scanning & triage
@@ -149,6 +151,45 @@ are gone: each produces no diff and no local signal, and is found only by an
 inventory of what *should* exist reconciled against what does. The
 reachability analysis, the shadow-declaration defeat, and the protocol for
 actually deleting are [dead-code-detection](techniques/dead-code-detection.md).
+
+## Scanning a codebase you do not control
+
+Everything above assumes the scanner may read its target freely and calibrate
+its rules against a population it has seen. A scanner pointed at *arbitrary
+foreign codebases* — projects it has never opened, over a metered remote
+interface, on demand — loses both assumptions at once, and two disciplines
+that are optional at home become load-bearing.
+
+The first is that **gathering stops being free and becomes an allocation
+decision.** The corpus the scan can afford is a small fraction of the tree, so
+the picker that chooses which files enter the snapshot determines what every
+downstream rule is even capable of seeing. Its hardest rule is the one nobody
+writes down until a detector goes quiet: a detector whose correctness requires
+*complete* coverage of some file class cannot share a general cap with
+high-volume classes, because it will be starved exactly on the largest targets
+— the ones it matters most for — and give back an unearned clean bill. The
+allocation craft, the per-consumer byte caps, the deliberate seam where
+ingestion fetches more than any single consumer can hold, and the rule that
+coverage confidence must measure the *fetch's* success rather than the
+target's size, are [ingestion-budget](techniques/ingestion-budget.md).
+
+The second is that **precision must be bought by scoping rather than by
+calibration.** The population-first order of operations is unavailable when
+the next target is unlike every target used to tune the rule; what remains is
+control over where a rule may look and what counts as evidence. Shrink the
+haystack instead of the needle; recognize that demonstration trees testify
+about samples and not about the project; refuse to credit a practice from a
+filename; score evidence of *use* rather than presence, because a scanner
+whose results people care about turns its presence checks into forms to fill
+in; and emulate a document's structure rather than approximating it with line
+adjacency. The catalogue, each entry stated with the defective rule it
+replaces, is [evidence-scoping](techniques/evidence-scoping.md).
+
+Both disciplines share one premise worth stating alone: **the full listing is
+cheap and the contents are not.** Read the whole tree structure even when
+almost no file contents can be afforded — it costs one request, and it is what
+lets a sample describe itself honestly, because a subset is only reportable as
+a subset when its denominator is known.
 
 ## The economics: findings are spent from the operator's budget
 

@@ -86,24 +86,47 @@ Plain append-only defends against *casual* history-editing — the
 convenience edit, the well-meaning cleanup. Against a *privileged
 adversary* (someone with direct store access) it defends nothing, and a
 principal engineer says so rather than gesturing at immutability. The
-escalation ladder, each step bought only when a real reader demands it:
+escalation runs from module shape only, through a per-record keyed proof
+(detects modification of a record, and — say it out loud — not deletion of
+one), to a chain across records (detects deletion and reordering too, at
+the price that a chain has a single tail which concurrent writers fork),
+to anchoring in a store under different administrative control. Which rung
+to buy, how the proof is canonicalized so it can be recomputed, and why
+verification must run on the read path rather than at write time are the
+[tamper-evidence](tamper-evidence.md) technique.
 
-1. **Nothing beyond module shape** — right for trails whose audience is
-   the operating team itself. Most internal trails live here, and
-   pretending otherwise buys cost without a threat model.
-2. **Hash chaining** — each record carries a digest of its content plus
-   the previous record's digest; editing or deleting any interior record
-   breaks the chain from that point forward. Cheap at write time; makes
-   tampering *detectable*, not impossible. Requires deciding what anchors
-   the chain's head (a periodically exported checkpoint, or the chain is
-   only as trustworthy as the store it lives in).
-3. **External anchoring** — periodically ship the chain head (or the
-   records themselves) to a store under different administrative control.
-   This is the only rung that survives a fully privileged local
-   adversary, and it converts the integrity claim into "these two
-   independently controlled systems would both have to be corrupted."
-
-Retention-trimming and hash chains interact: trimming the tail breaks
+Retention-trimming and chained proofs interact: trimming the tail breaks
 naive verification, so chained ledgers trim at checkpoint boundaries and
-retain the checkpoint digests. Decide this when adopting rung 2, not
+retain the checkpoint digests. Decide this when adopting the chain, not
 during the first trim.
+
+## A record that is also a claim is not an audit record
+
+One pattern deserves a warning here, because it arrives disguised as
+elegance: using a ledger row as the **at-most-once key** for an action —
+the record of "we did this" doubling as the guard against doing it twice.
+It is genuinely attractive. It needs no new table, the guard and the
+evidence cannot disagree, and the conditional insert that takes the claim
+is exactly the write the trail wanted anyway.
+
+The cost lands on this technique. A claim must be **retractable**: when
+the guarded side effect fails after the claim is taken, the window has to
+be released or the action is lost until the next window. Retraction of a
+row is a targeted delete — content-specific, not horizon-driven — and a
+door that exposes one is a mutation surface no matter what the function is
+called. Two ways to keep the ledger honest, and a ledger that does neither
+has quietly given up its append-only claim:
+
+- **Keep the claim out of the ledger.** The at-most-once key lives in a
+  control store with its own mutable shape; the ledger records the action
+  as an ordinary observer. This is the default answer.
+- **If the claim must live in the ledger, make retraction a record.**
+  Write a retraction entry referencing the claim rather than removing it,
+  and let the guard's predicate read "a claim exists that has not been
+  retracted." The trail then shows the claim, the failure, and the
+  retry — three facts a reader would want — instead of a hole where a
+  claim used to be.
+
+Either way the choice is documented at the door, because the next reader's
+first question about a delete on an append-only ledger is whether the
+guarantee still holds.

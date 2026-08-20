@@ -40,10 +40,68 @@ ordering is a computed score whose inputs are explicit:
 Two disciplines keep the score honest. It is a **derivation** — recomputable
 from its named inputs, never hand-poked into individual rows, because a
 score adjusted by hand is a ranking with an unmarked exception in it. And it
-is **relative, not absolute**: its job is to order candidates for demotion
-under pressure, not to declare cosmic importance. A threshold like "prune
-below 0.3" invites tuning theater; "the category is over cap, demote the
-lowest-ranked" states what actually happens.
+is **not a private score**: forgetting imports the same value model recall
+ranks by ([memory-value-model](memory-value-model.md)), so remembering and
+forgetting can never disagree about what an item is worth. A janitor with its
+own notion of importance will retire items the read path was actively serving,
+and neither component looks wrong when read alone.
+
+Prefer the **relative** use of the score wherever pressure supplies the
+ordering: "the category is over cap, demote the lowest-ranked" states what
+actually happens, while a bare "prune below this value" is a constant that
+absorbs every disagreement about policy and expresses none of it. But a bare
+threshold and *no* threshold are not the only options, and the next section is
+the honest middle.
+
+## The forgetting gate is a conjunction, and every clause names a failure
+
+An unattended sweep needs an absolute admission test, because there is no
+pressure supplying an ordering — nothing is over cap, the pass just runs. The
+rule that makes such a test safe: **the score floor is one clause among
+several, and each other clause names the specific failure the floor alone
+would cause.** A defensible gate is roughly four conjunctive conditions:
+
+1. **Below the value floor** — computed by the shared value model, so this
+   clause cannot disagree with recall.
+2. **Older than a grace period** — nothing recent is ever retired, whatever
+   it scores. A tentative note written this morning legitimately carries low
+   confidence and zero usage; it must survive long enough to be confirmed or
+   corrected. Without this clause the sweep eats every new hunch before the
+   system can learn whether it was right.
+3. **Inside the low-confidence band** — a well-grounded item is never retired
+   by age alone. *Old and true is the normal state of a durable fact*, and a
+   gate that lets decay reach it quietly erases the organization's history
+   while reporting a healthy store.
+4. **Not of an exempt kind** — the longest-lived and most expensive-to-lose
+   category (typically procedures: what was tried and what worked) is exempt
+   from automatic forgetting outright. Not decayed more slowly — exempt. A
+   procedure is rediscovered only by repeating the work that produced it.
+
+Two consequences worth stating explicitly. First, the conjunction is what
+makes automation acceptable at all: any one clause alone is wrong, and their
+intersection is small, conservative, and explainable per item ("this one was
+spared by its confidence"). Recording *which clause spared an item* turns the
+sweep's output into an audit line instead of a count.
+
+Second, clauses 1 and 3 together produce a property nobody has to implement:
+an old, low-confidence item that is **still being recalled** keeps its score
+above the floor through the usage term, and survives. **Usage is a veto on
+forgetting** — arithmetic, not a special case, which is why it cannot be
+forgotten when the policy is next edited.
+
+## A pass has a blast radius, and it is declared
+
+However good the gate, the sweep is one edit away from being wrong, and the
+edit will be made by someone tuning a constant. So a single pass retires at
+most a declared maximum number of items, with the remainder left for the next
+pass.
+
+This is not throughput management; it is the difference between a bad policy
+edit that costs a reviewable batch and one that empties the store in a single
+call. The cap also inserts a human into a loop that otherwise has none: the
+pass reports its count, and an unusual count is visible *before* the next pass
+compounds it. Pair the cap with the report-only rollout below — the cap
+bounds the damage, the report prevents it.
 
 ## Demotion tiers, not a trapdoor
 

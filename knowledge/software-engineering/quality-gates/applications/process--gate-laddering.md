@@ -67,6 +67,59 @@ demanded a rung and the budget math that chose it.
   or `census:check` (documented at the fix site in
   `scripts/census/check-corpus-integrity.mjs`).
 
+## Control placement, stated as a thesis and shipped as a matrix
+
+The onboarding generator (`src/lib/onboarding/tracks.ts:1`) opens by
+arguing the placement decision rather than assuming the default:
+
+> Control placement is the design thesis: a CI gate fires AFTER a branch
+> is pushed, which is too late (a leaked secret has already left the
+> machine; a failed gate is a wasted round-trip). In an LLM-driven
+> workflow the agent is the FIRST line of control, so most controls become
+> a checklist the agent self-runs BEFORE pushing … CI is a thin backstop
+> for the few hard passes that genuinely need a remote, clean-room, or
+> full-tree environment (SAST, the merge gate).
+
+Both halves of the irreversibility argument are there: the secret that
+cannot be un-pushed, and the round-trip cost that dominates when the
+author is an agent in a loop.
+
+The matrix is real code, not prose. `ControlSpec` (`tracks.ts:33-47`)
+requires every dimension to declare `primaryLayer`
+(`"pre-push" | "ci-hard-pass" | "both"`), a `deliverable` that is "the
+real file/hook, not a doc-shaped placeholder," a `prePushChecklist`, and
+`ciHardPasses` — "the minimal non-negotiables that stay in CI (clean-room
+/ full-tree / merge gate)." The `CONTROL` table at `tracks.ts:88` fills
+one row per dimension, and `definitionOfDone` is deliberately "ordered
+pre-push-first so it never contradicts that model." Where a control has no
+remote component the row says so rather than inventing one: D1's
+`ciHardPasses` is `["None. This is the checklist that feeds every other
+layer, not a CI gate."]`.
+
+## One script, both layers
+
+`src/lib/standard/wiring.ts:1` is the wire-once rule made literal:
+
+> Wires the doctor into BOTH control layers with ONE script — the
+> shift-left model made literal: pre-push (primary) the agent runs
+> `node .ai/doctor.mjs` locally before the branch leaves the box; CI (thin
+> backstop) the SAME command runs on the merge gate, confirming what the
+> agent already did.
+
+And the hook-hygiene half of the rule, in the next line: "the pre-push
+side is a one-line extension of the repo's existing hook
+(lefthook/husky/pre-commit), which the skill instructs — **we never add a
+parallel hook system**."
+
+The generated workflow adds a liveness detail worth stealing. It triggers
+on `pull_request` *and* a weekly `schedule`, because "a pull_request-only
+trigger means a repo that goes quiet (no PRs for weeks) never re-reports,
+so the dashboard silently shows a stale score while the manifest/hooks/CI
+may have drifted underneath it." The scheduled job is explicitly
+report-only (`if: github.event_name == 'pull_request'` on the blocking
+job) so a cron run cannot fail the merge queue — two triggers, one script,
+two different severities by construction.
+
 ## One authority, partially
 
 The pre-commit lint and the merge-rung lint both run the same

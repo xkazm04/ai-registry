@@ -46,6 +46,41 @@ path-addressed errors** — each naming the field path, the violated rule, and
 the observed value. Free-text error prose is useless twice over: the repair
 loop cannot feed it back precisely, and observability cannot categorize it.
 
+What the door **cannot** enforce is completeness against the request. Every
+check above reads the artifact; none of them knows how many units the
+producer was asked to answer, because that number lives in the call, not in
+the schema. A legal, empty, fully validated artifact is the predictable
+result — and it is a separate gate's job
+([answer-coverage-gating](answer-coverage-gating.md)), run after this door
+and before use.
+
+## Declared, absent, invalid: three inputs, three answers
+
+Where the artifact carries a **self-describing metadata block** — a
+declaration the document makes about itself, which later readers will trust
+as authored — the door's answer depends on which of three states the block
+is in, and collapsing any two of them is a distinct defect:
+
+1. **Declared and valid → the declaration wins** over whatever the caller
+   passed alongside it, and the caller's stored copies are synced *from* it.
+   The document is what a later reader actually reads; making the caller's
+   parameters authoritative creates a record that disagrees with the file
+   describing it.
+2. **Declared and invalid → reject the write with the specific errors.**
+   Never silently repair a broken declaration: the author never learns the
+   block is broken, keeps writing it that way, and the repair becomes an
+   undocumented dialect the next reader does not implement. A declaration is
+   a claim, and a claim that is wrong is corrected by its author.
+3. **Absent → inject one from explicitly supplied fields.** Injection is
+   legitimate — a document without a declaration is not making a false
+   claim — but the fields must be *demanded*, not invented. Fabricating a
+   plausible description and writing it into a block that later readers
+   treat as authored is manufacturing authority; if the required fields are
+   not supplied, that write is rejected too.
+
+The asymmetry is the whole rule: **repair what was never claimed, reject
+what was claimed wrongly.**
+
 ## What the door never does
 
 - **Silently coerce.** Rounding a float into an int field, truncating an
@@ -53,7 +88,15 @@ loop cannot feed it back precisely, and observability cannot categorize it.
   coercion is a small lie the system tells itself, discovered months later
   as data nobody can explain. Coercions either appear in the enumerated
   tolerant-repair list (deterministic, meaning-preserving, counted) or they
-  are rejections.
+  are rejections. The worst-behaved coercions are the ones whose *failure*
+  mode is a legal value: a missing number run through a conversion that
+  yields a non-number and then through a fallback that maps non-numbers to
+  zero produces a confident zero, in range, indistinguishable from a real
+  answer, and it is exactly the field the model never filled. **Absent must
+  be representable distinctly from every value the field may legitimately
+  hold** — admit only a genuine value of the right type, and drop the
+  containing unit otherwise, so a downstream completeness check sees an
+  omission rather than a fabricated answer.
 - **Partially accept.** "Store the valid fields, null the invalid ones"
   converts one detectable failure into N latent ones. The unit of acceptance
   is the artifact, except where the schema *explicitly* declares a

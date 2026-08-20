@@ -48,6 +48,31 @@ each rendered number says which frame produced it: a normalized value that
 travels without its frame is a count without its predicate
 ([count-carries-predicate](../../_laws.md#count-carries-predicate)).
 
+## For a movement question, the floor is the baseline — not zero
+
+The frame error with the shortest path to a misled reader is the progress
+meter: current value over target value, rendered as "how far along are we".
+It answers a different question than the one the reader asked. Current-over-
+target is **attainment** — standing relative to a goal — and its implicit
+floor is zero, which is almost never where the subject started. A subject at
+forty-five that sets a target of fifty shows a ninety-percent-full bar on the
+day the goal is created, having moved nothing; the remaining ten percent of
+the bar is ninety percent of the work. **Progress** — distance travelled —
+requires a floor the attainment framing does not have: the value at the
+moment the target was set, captured then, because it is unrecoverable
+afterwards. If no baseline was stored, "progress since we set this goal" is
+not computable, and the honest responses are to store one going forward, to
+label the meter as attainment, or to answer the movement question with a
+trend fit over the retained series instead of a point-in-time ratio.
+
+Two rules follow. **Capture the baseline at creation**, not at first read;
+a target created without one can never be re-baselined truthfully. And
+**reject a target that is already met at creation** — with the current value
+named in the refusal, so the setter can pick a better one. Otherwise the goal
+is stamped achieved on its first evaluation and pollutes the record of
+completed goals with a milestone representing zero movement, which is worse
+than a misleading meter: it is a fabricated accomplishment.
+
 ## Polarity: invert before you combine
 
 Half of real signals are lower-is-better. Every one of them is inverted

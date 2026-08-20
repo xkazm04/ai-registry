@@ -140,6 +140,24 @@ worth watching; or fall back to a coarser axis (per source) with its own tight
 limit. Which one is right depends on the door; that there *is* one, chosen in
 advance, is the technique.
 
+**And it depends on the window, which is why one system needs two opposite
+answers for the same sentinel.** Pooling every unidentifiable caller into one
+shared allowance is the strict, correct choice in a seconds-to-minutes burst
+window: the blast radius is bounded by the clock, an honest visitor caught in
+the pool waits a minute, and an attacker gains nothing by being anonymous. Carry
+that same pooled sentinel into a month-long allowance and it inverts: the first
+handful of anonymous requests exhausts the shared bucket and every anonymous
+visitor is locked out for the rest of the window — which reads to the operator
+as an outage and to the visitor as a broken product, not as a quota. So the rule
+is **the strictness of the unknown-key policy scales inversely with the window's
+horizon**: pool and refuse at burst horizons, treat the same unidentifiable
+caller as *unenforceable* at calendar horizons and let the request through,
+because a long-horizon gate that cannot attribute a request has no honest bucket
+to charge it to. Two limits over the same identity therefore legitimately
+disagree about the same sentinel, and each states its direction and its reason
+where the sentinel is produced — an unexplained disagreement is how a later
+refactor "harmonizes" them and ships a month-long lockout.
+
 ## Decision rules
 
 - **Key for the blast radius you intend.** State, for each limit, who is
@@ -148,6 +166,9 @@ advance, is the technique.
 - **Run the evasion test before shipping.** Whatever the abuser can mint for
   free must not be the sole key. Layer a bounded-cardinality axis above any
   free-to-mint one.
+- **Scale the unknown-key policy to the horizon.** Pool and refuse unidentifiable
+  callers where the window is seconds; treat them as unenforceable where the
+  window is a month. The same sentinel, the opposite direction, each stated.
 - **Bound every map at birth.** Cap, staleness horizon, and reaper are part of
   the map's construction, not a hardening ticket. A limiter reviewed without
   its cardinality bound is unreviewed.

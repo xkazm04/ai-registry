@@ -9,6 +9,8 @@ techniques:
   - standard-versus-consumer-split
   - per-contributor-aggregation
   - propose-then-adopt
+  - catalog-as-sync-key
+  - deterministic-seeding
 ---
 
 # Shared knowledge registries
@@ -33,7 +35,7 @@ with consequences: every consumer can read it with tools they already have, the
 history is the audit log, review is the adoption mechanism, and nothing needs an
 account. It also means the failure modes are repository failure modes — lost
 updates, merge conflicts, and one writer silently erasing another — which is why
-three of the five techniques here are about ownership rather than content.
+three of the seven techniques here are about ownership rather than content.
 
 ## What belongs in a registry
 
@@ -84,6 +86,25 @@ beside it. Neither rewrites the other, a reader that knows only one of them stil
 works, and a third consumer costs a file rather than a migration.
 [consumer-overlays](techniques/consumer-overlays.md) is that split.
 
+## The one question every consumer actually asks
+
+A consumer rarely wants the registry's content. It wants one answer about each
+item it already holds: **am I in sync, stale, or diverged?** Answering that by
+fetching everything and comparing bodies is expensive, and it means the
+comparison gets implemented once per consumer, differently each time.
+
+So the registry publishes a generated catalog — one row per item carrying
+identity, location, declared version, and a short digest of the content — and
+that digest is the only thing a consumer needs to decide whether to fetch.
+Two consequences are easy to miss. The comparison has four outcomes rather than
+two, because *stale* wants a pull and *diverged* wants a conversation, and a
+tool that collapses them will overwrite somebody's local edit while reporting
+success. And the digest is only trustworthy if it is defined over a normalized
+form: a digest taken over whatever bytes happen to be on disk answers a question
+about the checkout rather than about the content.
+[catalog-as-sync-key](techniques/catalog-as-sync-key.md) covers the envelope, the
+four states, and the normalization rule that keeps the answer true.
+
 ## Many writers, one artifact
 
 Some registry content is contributed rather than authored — usage counts,
@@ -113,6 +134,28 @@ removed the decision. [propose-then-adopt](techniques/propose-then-adopt.md)
 covers where to stop, and why the stopping point is "committed on a branch"
 rather than anything further along.
 
+## Creating one is also a proposal
+
+A registry usually has to be brought into existence inside a repository its
+author does not own, through the same door as everything else: a proposal
+somebody merges. That makes the initial seed an unusual artifact — it will be
+generated more than once against the same target, because the proposal sits open
+while people ask what it is for, and in the meantime the thing that produced it
+is fixed or simply re-run.
+
+The seed must therefore be a pure function of the organization it is for. No
+timestamps, no minted identifiers, no reads of the environment: a re-run then
+produces byte-identical content and *updates* the open proposal instead of
+churning it, and a reviewer who sees no diff can trust that nothing changed. The
+same discipline decides what happens on a collision — one on the marker that
+makes a repository a registry means it is already one and nothing should be
+written; one on any ordinary file means skip that path and let the rest land —
+and it decides that the ownership metadata forcing review ships *with* the seed
+rather than after it, because that metadata is the entire adoption control.
+[deterministic-seeding](techniques/deterministic-seeding.md) covers the seed as a
+derived artifact, the two collision meanings, and moving existing material in one
+kind of artifact per proposal.
+
 ## Failure modes worth naming
 
 - **The registry becomes a second authority.** A consumer copies registry
@@ -131,6 +174,11 @@ rather than anything further along.
 - **A consumer's write erases another's.** The most expensive one, and the
   quietest: a producer that rebuilds a shared artifact from scratch deletes
   every field it does not know about. Carry forward what you do not own.
+- **A digest describes the checkout, not the content.** A change key computed
+  over raw bytes, or computed over a different span by each of the two sides
+  comparing it, reports divergence for artifacts that are identical. It is wrong
+  in exactly the case it exists to detect, and its operators learn to ignore it
+  before the first real divergence arrives.
 - **The gate is on the wrong side.** Checks that describe the standard belong to
   the registry; checks that describe a codebase cannot live there and must not
   be dropped in the move. Splitting a gate is how half of it disappears.

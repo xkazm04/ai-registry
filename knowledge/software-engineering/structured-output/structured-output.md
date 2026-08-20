@@ -6,6 +6,8 @@ status: forged
 techniques:
   - extraction-strategies
   - schema-validation-and-repair
+  - answer-coverage-gating
+  - output-budget-signal
   - op-grammar-allowlisting
   - artifact-lifecycle
   - display-vs-machine-channels
@@ -95,10 +97,34 @@ and let [extraction-observability](techniques/extraction-observability.md)
 catch the drift — a shift in which failure categories dominate is the drift
 alarm going off.
 
+Where the producer supports schema-constrained decoding, the contract is
+written a **third** time — as the machine-readable schema sent with the
+request — and the third copy is the one most likely to be typed out by hand
+beside the domain model instead of generated from it. Derive it. The
+vocabularies in the request schema, the vocabularies in the validator, and
+the vocabulary the rest of the system actually scores against must be one
+definition with three renderings, or the request constrains the model to a
+menu the validator has stopped believing in.
+
 Validation happens at **one door**. Every producer of a given artifact type —
 the interactive flow, the batch job, the retry path, the import — passes
 through the same validator. Sprinkling validation across call sites is
 validation minus the call site added next quarter.
+
+## The artifact's top level is an envelope
+
+A generated artifact's outermost shape is an **envelope object, never a bare
+collection**. The envelope carries what a consumer needs in order to decide
+whether to trust the contents before reading them: the schema identity and
+version, who or what produced it, what it describes, the counts it claims,
+and a content hash short enough to read in a diff and stable enough to answer
+"am I in sync, stale, or diverged" without a field-by-field comparison. A
+bare collection is a shape with nowhere to put any of that, so the first
+piece of metadata anyone needs forces a breaking change on every reader — and
+until then, a consumer that fetched a truncated or wrong-version document has
+no way to notice. The declared counts are load-bearing twice over: they are
+also what lets a consumer who did not issue the request run the coverage
+check below.
 
 ## Repair is a bounded loop, not an infinite hope
 
@@ -166,9 +192,33 @@ interchangeable:
 | Outcome | Meaning | It is NOT |
 | --- | --- | --- |
 | **Artifact** | a candidate was found, validated, and (if applicable) repaired within budget | — |
-| **Empty** | the model, legitimately, had nothing to propose — an explicit empty artifact that itself validated | a failure |
+| **Empty** | the request was open-ended and the model, legitimately, had nothing to propose — an explicit empty artifact that itself validated | a failure; and not available at all to a request that enumerated what to answer |
 | **Extraction failed** | no candidate found, or validation exhausted the repair budget | an empty result |
 | **Turn failed** | the producing run itself ended in error — there was never settled text to extract from | an extraction failure |
+
+The empty row carries a qualifier that is easy to lose and expensive to
+lose: **an empty artifact is only a legitimate outcome for a request that
+did not enumerate its answers.** When the request named the units — score
+these nine dimensions, classify these twelve records — a validated artifact
+containing none of them has not "proposed nothing"; it has failed to answer,
+while wearing the outcome reserved for honest silence. The validation door
+cannot catch this on its own, because the count that makes it detectable
+lives in the *request*, not in the schema: every field present is well
+formed, and the ones that are absent were never required by a document that
+does not know what was asked. That gap needs its own gate — answered units
+against asked units, checked after validation and before use, with a
+below-floor response failed as a whole. Owned by
+[answer-coverage-gating](techniques/answer-coverage-gating.md).
+
+A parsed-but-unanswered response has a second cause worth separating from
+the first: the response ran out of room. Producers cap how much they emit in
+one turn, and the failure at that cap is a truncated artifact rather than an
+error — which the tolerant ladder then partially recovers and the consumer
+renormalizes over. Track output size against the producer's ceiling as a
+**measurement of how the flow is built**, not as a runtime guard: when
+responses routinely approach the ceiling the answer is to split the call,
+never to raise the limit or add a fallback that hides the growth. Owned by
+[output-budget-signal](techniques/output-budget-signal.md).
 
 Collapsing "extraction failed" into "empty" is this subject's rendition of
 failure spelled as empty success: the operator sees "no suggestions" and
@@ -185,7 +235,29 @@ validates; the system then acts on the default (retries, escalates, reports
 "no progress") and the resulting symptom carries no trace of its parser
 origin. Default-construction is never a give-up path. The give-up path is
 the extraction-failed outcome, which exists precisely so that no legal value
-has to stand in for one. A failed extraction carries its evidence: the raw settled
+has to stand in for one.
+
+The trap has a field-sized version that is easier to write and just as
+damaging: a defensive coercion whose failure mode is a *valid in-range
+value*. An absent number pushed through a conversion that yields a
+non-number, then through a fallback that turns non-numbers into zero, is a
+confident zero that travels — and zero is a legal score, so nothing
+downstream will ever question it, least of all a gate that counts how much
+was answered. Absence must be representable distinctly from every value the
+field can legitimately hold, and the unit that could not supply a real value
+is dropped rather than filled.
+
+There is exactly one place a default *is* the right answer, and knowing its
+border keeps the rule above from being argued away: a **declaration whose
+absence has a defined meaning**. A human-authored settings document that is
+missing or partly unreadable may legitimately resolve to documented
+defaults — refusing to proceed over a typo is the worse failure, the
+defaults are published, and the author can be told. None of those three hold
+for a model-produced artifact: the default was never published as an answer,
+the producer cannot be corrected in place, and the turn is not reproducible.
+Declarations may default; extraction never does.
+
+A failed extraction carries its evidence: the raw settled
 text (retained under a size cap), the strategy trace, and the final
 validation errors. It is diagnosable after the fact without re-running.
 
@@ -229,6 +301,12 @@ by [extraction-observability](techniques/extraction-observability.md).
 - [schema-validation-and-repair](techniques/schema-validation-and-repair.md) —
   the single validation door, typed path-addressed errors, the bounded
   model-assisted repair loop, and give-up semantics.
+- [answer-coverage-gating](techniques/answer-coverage-gating.md) — answered
+  units against asked units, where to set the coverage floor, and why a
+  fallback must never wear the failed producer's name.
+- [output-budget-signal](techniques/output-budget-signal.md) — the output
+  ceiling as a measurement that triggers splitting a call, the two kinds of
+  unknown ceiling, and why "not measured" is not zero.
 - [op-grammar-allowlisting](techniques/op-grammar-allowlisting.md) — closed
   operation vocabularies, the unknown-op policy, reference validation before
   action, and the one dispatch door.

@@ -79,6 +79,64 @@ quietly ceased to exist. The pass rate of the binding rung is therefore
 the first number to check when auditing any ladder — before reading a
 single rule.
 
+## Irreversible defects invert the rule
+
+"Local rungs move the moment of discovery, not the moment of refusal" is
+true for every defect whose cost is rework. It is false for defects whose
+cost is **incurred at the moment of push**. A credential committed and
+pushed has left the machine; the remote refusal that follows produces an
+incident report and a rotation, not a prevention. The same holds for
+anything that becomes public, replicated, or externally consumed the
+instant it leaves the workstation.
+
+For that class, the local rung is the *only* layer that can prevent, and
+the remote rung's honest job is detection and revocation — a genuinely
+different product, worth wiring differently (alert an owner; do not merely
+redden a build). Two consequences follow. A local-only secret scan is not
+"a courtesy" — it is the whole control, so its liveness deserves the
+scrutiny a binding rung gets, including the case where it exits clean
+because its scanner is not installed. And the remote counterpart must
+still exist, because it is what catches the clone that never installed the
+hook — it just cannot be credited with preventing anything.
+
+## Control placement is a design decision, per control
+
+The default ladder puts most weight on the remote rung because that is
+where refusal binds. That default is worth re-deriving whenever the author
+is an agent working in a loop, because the economics change: a remote
+round-trip costs a whole cycle of a workflow that could have run the same
+check in seconds locally, and an agent will happily execute a twenty-item
+checklist before every push, which no human sustains.
+
+The practice that makes this concrete is a **placement matrix**: for each
+standard the team holds, one row naming the layer that primarily enforces
+it, the concrete artifact that does the enforcing (a real hook, config, or
+script — never a document-shaped placeholder), the checks the author runs
+before pushing, and the short list of **hard passes** that genuinely
+require the remote layer. A check earns a hard-pass slot only by needing
+something the workstation cannot supply:
+
+- a clean room — no local caches, no uncommitted state, no
+  author-specific tooling;
+- the full tree at a scope too expensive for any local rung;
+- credentials or scanning services that must not exist on a developer
+  machine;
+- the merge decision itself, which is by definition remote.
+
+Everything else is a candidate for pre-push primacy. The matrix's value is
+that it makes the placement *explicit and reviewable* — the common failure
+is not a wrong placement but an unconsidered one, where every new control
+lands remotely because that is where the last one landed.
+
+**Wire one script into both layers.** The strongest form of this design is
+a single in-repository checker invoked identically by the pre-push hook
+and by the remote job, so the remote run *confirms* what already ran
+rather than discovering it for the first time. Two implementations of "the
+same" check drift, and the drift surfaces as a remote failure the author
+cannot reproduce — which is a bypass generator. One script also collapses
+the rung-skew diagnostic below to a triviality: skew becomes impossible
+except through scope.
+
 ## Scoping is a loan against the backstop
 
 A commit-rung check that examines only the committed files is making a

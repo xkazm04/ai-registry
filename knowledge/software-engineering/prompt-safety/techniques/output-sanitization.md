@@ -84,6 +84,27 @@ an event handler. The neutralization rules that survive contact:
   Sanitizing "somewhere upstream" leaves every new downstream surface to
   remember the rule.
 
+## The exported artifact is a sink too
+
+The sink inventory is usually written as display, log, store — three surfaces
+this system owns. It is missing the one with the longest reach: **an artifact
+written into a system belonging to somebody else.** A document committed into
+another party's codebase, a note pushed into a store their tooling reads, a
+generated file handed over as a deliverable. Two properties make it the sink
+worth naming separately: the neutralization must target the *destination's*
+grammar rather than any surface here, and the eventual reader is very often
+another automated agent, for whom your artifact is precisely the untrusted
+third-party span this subject tells it to fence. Getting this wrong makes you
+the upstream of someone else's incident, discovered by them.
+
+The procedural rule that keeps it honest: **sanitize every interpolated field
+uniformly**, including the ones whose character set is already constrained by
+the system they came from. Only one field is usually free-form and therefore
+"the real vector" — and that assessment is a snapshot. Constraints elsewhere
+loosen, new fields join the template, and a sanitizer with an exception list
+is maintained against a moving inventory of which fields are safe. Passing
+everything through one pass costs nothing and has no list to go stale.
+
 ## Link schemes and paths — small grammars, sharp teeth
 
 Two output shapes deserve named rules because their exploitation is one

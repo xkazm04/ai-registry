@@ -40,6 +40,43 @@ best-effort audit — it is running a transaction in which the record is a
 participant, a different design with different costs. Every ledger that
 has not explicitly claimed that exception is best-effort.
 
+There is a second exception, and unlike the first it is usually built by
+accident. When a ledger row doubles as the **at-most-once key** for the
+action — the record of "we sent it" also being the guard against sending
+it twice — the write has stopped being an observation and become part of
+the operation's control flow. Best-effort now produces the failure it was
+meant to prevent: swallow the claim's error, proceed anyway, and the next
+run finds no marker and does the thing again. So a claim write **fails
+closed**: no durable claim, no side effect, and the action is deferred to
+the next run rather than performed unrecorded. Three rules follow, and
+each one has a duplicate-delivery incident behind it.
+
+- **The claim is one conditional write, never a read then a write.**
+  "Look for a marker, then act, then record" is check-then-act: two
+  overlapping runs — a platform retry, a re-fired schedule — both read
+  *not yet*, both act. Collapse it into a single insert that succeeds only
+  when no marker exists in the window, and let the affected-row count
+  decide the winner. Under a store that resolves write conflicts
+  optimistically, the loser re-runs, sees the winner's marker, and stands
+  down; under a locking store the loser blocks and then loses. Both are
+  correct; both require the decision to be *one* write.
+- **Claim before the side effect, and release on failure.** A claim taken
+  after a successful send leaves a crash window in which the action
+  happened and nothing records it. Claim first, then act; if the act
+  fails, retract the claim so the window retries rather than staying
+  falsely marked done. Retraction is where this collides with the ledger's
+  shape — see [append-only-design](append-only-design.md) for the two
+  honest ways to express it.
+- **Fail closed on every uncertainty, not just on errors.** Persistence
+  disabled, the tenant unresolvable, the write ambiguous: all of these
+  mean *not claimed*. A skipped periodic action self-heals in the next
+  window; a duplicate is delivered to a customer and cannot be recalled.
+
+The counter still applies — a claim that could not be written is a gap in
+the trail as well as a deferred action — but the ranking of harms is
+inverted for exactly these records, and the ledger's documentation must
+say which of its actions are claims.
+
 ## Half two: every miss is counted, and the count is surfaced
 
 Swallowing the failure is where the naive implementation ends and where
