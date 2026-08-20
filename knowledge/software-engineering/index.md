@@ -8,7 +8,7 @@ purity: software
 
 # Software engineering
 
-105 subjects, each a Golden Path with its Techniques and per-stack
+106 subjects, each a Golden Path with its Techniques and per-stack
 Applications. Read a subject's `<subject>.md` first: it states what the subject is and
 what a principal engineer holds true about it, then names the techniques that carry the
 procedures.

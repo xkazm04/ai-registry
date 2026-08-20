@@ -10,6 +10,9 @@ techniques:
   - consumer-overrides
   - capability-floors
   - policy-governance
+  - model-identity
+  - failover-horizon
+  - candidate-ranking
 ---
 
 # Model routing & provider policy
@@ -89,6 +92,22 @@ The consequences of that stance form the spine of this subject:
    record, not a log line. Policy edits are diffed, reviewed, and approved,
    because a routing change is a spend change and possibly a compliance change
    (see policy-governance).
+7. **A tier does not resolve to a model; it resolves to a set of endpoints.**
+   Once more than one provider is reachable, the same published weights are on
+   offer from several of them, under different names and with different caps.
+   Substituting one endpoint for another holding the model constant is not a
+   quality event; substituting a different model is. A routing layer with one
+   word for both records the common case as if it were the rare one (see
+   model-identity).
+8. **Substitution is free only until the caller has seen a byte.** After that
+   there is no invisible retry, only a seam. That horizon is a state the layer
+   tracks, and it is the window in which a whole class of failures — the call
+   that returned cleanly and returned nothing usable — must be caught if it is
+   to be caught at all (see failover-horizon).
+9. **Which of the eligible candidates goes first is a live measurement.**
+   Eligibility is decided by policy and floors; order is decided by
+   what the roster is doing this hour, ranked by commensurable terms with
+   guardrails that demote rather than reorder (see candidate-ranking).
 
 ## The classes and their contracts
 
@@ -121,7 +140,25 @@ A routing decision that cannot be reconstructed afterward is a decision nobody
 made. The minimum record, per call: the class asserted, the tier and effort
 selected, the policy rule or override that decided (not just the outcome — the
 *why*), and whether the served model was the selected one or a fallback
-substituted under failure. Aggregated over time, these records answer the
+substituted under failure.
+
+**And the record must carry what was *served*, not only what was selected.**
+The two are assumed identical and are not: a provider can answer a request for
+one model with another — a quantized variant, a house default, a silent
+substitution under its own capacity pressure — and it will report this, when it
+reports it at all, in a field the routing layer has every reason to overwrite.
+Overwriting is usually right: provider-reported model identifiers are
+unreliable enough that exposing them breaks callers, and the honest public
+contract is the model that was *routed*. But that normalization destroys the
+only evidence that the two ever differed. So the raw upstream identity is
+captured at the boundary **before** the response is normalized, compared
+against the routed identity under the same normalization that grouping uses
+(see model-identity), and recorded when it genuinely differs — leaving the
+caller-facing contract untouched. A routing layer that cannot detect
+substitution by its own providers is auditing its intentions rather than its
+behavior (law: [gate-sees-target](../_laws.md#gate-sees-target)).
+
+Aggregated over time, these records answer the
 questions this subject exists for: what serves each class today, which classes
 are drifting toward expensive tiers, whether an override outlived its incident,
 and whether policy is being complied with at all. [Audit-logging](../audit-logging/audit-logging.md)
@@ -136,6 +173,12 @@ policy is data with one evaluation door, and an edit that references a retired
 tier or unknown tag warns at edit time; every override is applied at the
 consumer, visible in the decision record, bounded by policy, and named with the
 condition that removes it; capability floors exist for the calls that have them,
-and nothing — not cost pressure, not failover — crosses one silently; and an
-operator can answer "which model served this call, and why" from the record
-alone, without reading source.
+and nothing — not cost pressure, not failover — crosses one silently; the same
+weights reached through two providers are one logical model with per-endpoint
+capability, so a substitution within it reads differently in the record from a
+substitution across models; the first-delivered-byte horizon is tracked, and a
+clean response that cannot serve the caller is classified as a routing signal
+rather than returned as a successful empty answer; candidate order comes from
+measurements that name their window and their sample size; and an operator can
+answer "which model served this call, and why" from the record alone, without
+reading source — including when the honest answer is "not the one we selected".
