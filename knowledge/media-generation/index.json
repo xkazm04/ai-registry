@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 14,
-  "techniques": 80,
-  "applications": 29,
+  "techniques": 83,
+  "applications": 32,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -14,7 +14,7 @@
    "frame-direction",
    "production-ops"
   ],
-  "use_when_coverage": "80/80",
+  "use_when_coverage": "83/83",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -175,6 +175,22 @@
      ]
     },
     {
+     "slug": "spoken-delivery-direction",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "casting a synthetic narrator for a script",
+      "marking pacing or emphasis for a speech render",
+      "adapting a written script into its spoken form",
+      "patching a narration after review notes",
+      "choosing a voice engine's direction interface"
+     ]
+    },
+    {
      "slug": "voice-profile-from-accepted-work",
      "status": "forged",
      "laws": [
@@ -193,6 +209,11 @@
      "stack": "process",
      "technique": "engine-tone-separation",
      "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--engine-tone-separation.md"
+    },
+    {
+     "stack": "process",
+     "technique": "spoken-delivery-direction",
+     "file": "knowledge/media-generation/creator-voice-and-tone/applications/process--spoken-delivery-direction.md"
     },
     {
      "stack": "process",
@@ -880,6 +901,21 @@
       "reviewing a short script for idea count",
       "deciding whether a short can teach a scale or taxonomy"
      ]
+    },
+    {
+     "slug": "sound-off-first-design",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing captions or on-screen text for a vertical short",
+      "reviewing a clip whose argument lives in the narration",
+      "planning the text layer of a format template",
+      "diagnosing a short that holds viewers with sound on and loses them in the feed"
+     ]
     }
    ],
    "applications": [
@@ -892,6 +928,11 @@
      "stack": "process",
      "technique": "format-as-measured-template",
      "file": "knowledge/media-generation/platform-format-adaptation/applications/process--format-as-measured-template.md"
+    },
+    {
+     "stack": "process",
+     "technique": "sound-off-first-design",
+     "file": "knowledge/media-generation/platform-format-adaptation/applications/process--sound-off-first-design.md"
     }
    ]
   },
@@ -1223,6 +1264,22 @@
      ]
     },
     {
+     "slug": "generated-shot-sourcing",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "refusal-is-a-state",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing a generative video model to produce shots for a cut",
+      "deciding between text-only and image-anchored conditioning for a shot",
+      "accepting or rejecting generated clips into an assembly",
+      "handling clips that arrive with their own baked-in audio"
+     ]
+    },
+    {
      "slug": "multitrack-timeline-discipline",
      "status": "forged",
      "laws": [
@@ -1250,6 +1307,11 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "generated-shot-sourcing",
+     "file": "knowledge/media-generation/video-assembly/applications/process--generated-shot-sourcing.md"
+    },
     {
      "stack": "react",
      "technique": "gap-and-refusal-honesty",
@@ -1392,6 +1454,7 @@
     "content-research-grounding/prior-declaration-and-steel-man",
     "content-research-grounding/unknowns-as-constraints",
     "creator-voice-and-tone/dial-vs-subject-property",
+    "creator-voice-and-tone/spoken-delivery-direction",
     "creator-voice-and-tone/voice-profile-from-accepted-work",
     "evidence-bound-visuals/figure-must-cite-a-fact",
     "frame-direction/per-beat-rejection",
@@ -1409,6 +1472,7 @@
     "narrative-engine-selection/no-engine-means-no-video",
     "platform-format-adaptation/format-as-measured-template",
     "platform-format-adaptation/image-led-vs-narration-led",
+    "platform-format-adaptation/sound-off-first-design",
     "production-pipeline-phasing/long-run-as-background-job",
     "production-pipeline-phasing/phase-order-and-graduation",
     "production-pipeline-phasing/shared-clock-across-phases",
@@ -1445,6 +1509,19 @@
     "video-assembly/music-spotting-against-picture"
    ]
   },
+  "edit-do-not-regenerate": {
+   "statement": "Once a creator has reviewed work, feedback is answered with the smallest set of edits — never a regeneration. A regenerated artifact voids every review, gate, and verification computed against the version it silently replaced, even when it is \"better\". Touch what the notes are about; leave everything else byte-identical.",
+   "techniques": [
+    "creator-voice-and-tone/spoken-delivery-direction",
+    "frame-direction/motif-establish-vary-payoff",
+    "generated-output-grading/regrade-without-regenerate",
+    "generative-provider-routing/resolution-as-stage-property",
+    "production-pipeline-phasing/asset-vs-disposable-render",
+    "review-iteration-loops/edit-plan-over-regeneration",
+    "video-assembly/drift-correction",
+    "visual-style-locking/draft-proofing-locked-ratchet"
+   ]
+  },
   "checkability-routes-the-pixel": {
    "statement": "If a viewer could check an element against a fact, deterministic code must draw it. If it only has to feel right, a model may. Charts, exact values, and labels are drawn and composited; atmosphere and illustrative scenes are generated. A generated glyph is not a nicer glyph — it is an unusable one.",
    "techniques": [
@@ -1454,7 +1531,8 @@
     "generated-output-grading/unconditional-fail-criteria",
     "generated-output-grading/vision-model-grading-schema",
     "image-prompt-composition/negative-prompting",
-    "image-prompt-composition/shape-language-over-nouns"
+    "image-prompt-composition/shape-language-over-nouns",
+    "platform-format-adaptation/sound-off-first-design"
    ]
   },
   "style-is-restated-not-remembered": {
@@ -1468,22 +1546,11 @@
     "image-prompt-composition/prompt-dialect-matching",
     "image-prompt-composition/style-first-token-ordering",
     "image-prompt-composition/two-block-style-and-action",
+    "video-assembly/generated-shot-sourcing",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/style-block-restated-every-call",
     "visual-style-locking/style-onboarding-from-sample"
-   ]
-  },
-  "edit-do-not-regenerate": {
-   "statement": "Once a creator has reviewed work, feedback is answered with the smallest set of edits — never a regeneration. A regenerated artifact voids every review, gate, and verification computed against the version it silently replaced, even when it is \"better\". Touch what the notes are about; leave everything else byte-identical.",
-   "techniques": [
-    "frame-direction/motif-establish-vary-payoff",
-    "generated-output-grading/regrade-without-regenerate",
-    "generative-provider-routing/resolution-as-stage-property",
-    "production-pipeline-phasing/asset-vs-disposable-render",
-    "review-iteration-loops/edit-plan-over-regeneration",
-    "video-assembly/drift-correction",
-    "visual-style-locking/draft-proofing-locked-ratchet"
    ]
   },
   "refusal-is-a-state": {
@@ -1499,7 +1566,8 @@
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
     "review-iteration-loops/refusal-as-valid-outcome",
     "review-iteration-loops/scope-vs-preference-signals",
-    "video-assembly/gap-and-refusal-honesty"
+    "video-assembly/gap-and-refusal-honesty",
+    "video-assembly/generated-shot-sourcing"
    ]
   },
   "cost-per-usable-output": {
@@ -1516,6 +1584,7 @@
     "narrative-engine-selection/fit-vs-hazard-axes",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/phase-order-and-graduation",
+    "video-assembly/generated-shot-sourcing",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/rejections-as-negative-evidence"
    ]

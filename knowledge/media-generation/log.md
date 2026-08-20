@@ -30,3 +30,32 @@ operator preferences — those live consumer-side.
   confounds stated.
 - Sources: 30+ URLs, recorded per document; all edits gate-clean
   (check-bundles) at each commit.
+
+## 2026-08-20 — deepen round 2: three subjects in parallel (full-pipeline workers)
+
+Efficiency experiment: one worker per subject running research + apply,
+Director diff-review replacing per-finding triage. All gate-clean.
+
+### video-assembly
+- Counter-evidence: sync thresholds verified against ITU-R BT.1359 + ATSC
+  IS-191 — survive untouched; forge-era "no reliable AI video pipeline"
+  refuted for short-form (dated in the new application).
+- + technique generated-shot-sourcing (conditioning ladder, clip caps,
+  baked-in-audio doctrine, cost/usable-second); + application
+  process--generated-shot-sourcing (2026-08 video-model ledger, 11 sources).
+- Golden path: loudness-delivery section; spotting duck given 6-12 dB range.
+
+### creator-voice-and-tone
+- Gap closed: spoken voice was absent bundle-wide. + technique
+  spoken-delivery-direction; + application process--spoken-delivery-direction
+  (2026-08 TTS casting ledger, 13 sources).
+- Corrections: 197-252 wpm band scoped to human presenters (synthetic
+  narration ~130-175, rate measured not set); engine-tone separation holds
+  but invariance checks must strip delivery markup.
+
+### platform-format-adaptation
+- Golden path refreshed vs 2026-08 platform reality: right-edge occlusion,
+  ceiling-vs-band drift on separate clocks, monetization thresholds as a
+  second duration force. + technique sound-off-first-design; + application
+  process--sound-off-first-design (provenance-graded constraint table).
+- Counter-evidence: hook/retention/word-budget claims confirmed unchanged.
