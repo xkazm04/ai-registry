@@ -4,8 +4,8 @@
   "bundle": "grant-funding",
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
-  "techniques": 101,
-  "applications": 34,
+  "techniques": 104,
+  "applications": 38,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -13,7 +13,7 @@
    "proposal-craft",
    "grant-operations"
   ],
-  "use_when_coverage": "101/101",
+  "use_when_coverage": "104/104",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -133,7 +133,9 @@
     {
      "slug": "cross-client-deadline-union",
      "status": "forged",
-     "laws": [],
+     "laws": [
+      "clean-is-not-ready"
+     ],
      "shared_with": [],
      "use_when": [
       "a consultant or fiscal sponsor manages deadlines across several client organizations",
@@ -144,7 +146,9 @@
     {
      "slug": "escalating-reminder-thresholds",
      "status": "forged",
-     "laws": [],
+     "laws": [
+      "clean-is-not-ready"
+     ],
      "shared_with": [],
      "use_when": [
       "designing scheduled deadline reminders",
@@ -155,7 +159,9 @@
     {
      "slug": "miss-risk-scoring",
      "status": "forged",
-     "laws": [],
+     "laws": [
+      "small-samples-stay-silent"
+     ],
      "shared_with": [],
      "use_when": [
       "ranking in-flight drafts by which is most likely to be missed",
@@ -177,9 +183,25 @@
      ]
     },
     {
+     "slug": "submission-lead-time-buffers",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what date the pipeline should actually plan against",
+      "an application was finished on time and still could not be submitted",
+      "onboarding an organization that has never filed with a government funder",
+      "a portal outage or funder extension disrupted a planned submission week"
+     ]
+    },
+    {
      "slug": "timezone-correct-day-math",
      "status": "forged",
-     "laws": [],
+     "laws": [
+      "honest-null-over-forced-guess"
+     ],
      "shared_with": [],
      "use_when": [
       "computing days-until-close anywhere a real wall-clock now enters",
@@ -198,6 +220,11 @@
      "stack": "node",
      "technique": "miss-risk-scoring",
      "file": "knowledge/grant-funding/deadline-pipeline-management/applications/node--miss-risk-scoring.md"
+    },
+    {
+     "stack": "process",
+     "technique": "submission-lead-time-buffers",
+     "file": "knowledge/grant-funding/deadline-pipeline-management/applications/process--submission-lead-time-buffers.md"
     }
    ]
   },
@@ -287,6 +314,21 @@
       "modelling which registered legal forms may receive public funding",
       "an applicant with an ineligible legal form reached the fit stage"
      ]
+    },
+    {
+     "slug": "registration-and-validation-readiness",
+     "status": "forged",
+     "laws": [
+      "hard-gates-precede-soft-scores",
+      "honest-null-over-forced-guess"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an eligible applicant missed a deadline waiting on a registry",
+      "deciding when to surface funder-system registration in a matching pipeline",
+      "an applicant on an exclusion list reached the drafting stage",
+      "modelling how long before a deadline an unregistered applicant can still realistically apply"
+     ]
     }
    ],
    "applications": [
@@ -299,6 +341,11 @@
      "stack": "node",
      "technique": "hard-gate-vs-soft-score",
      "file": "knowledge/grant-funding/eligibility-analysis/applications/node--hard-gate-vs-soft-score.md"
+    },
+    {
+     "stack": "process",
+     "technique": "registration-and-validation-readiness",
+     "file": "knowledge/grant-funding/eligibility-analysis/applications/process--registration-and-validation-readiness.md"
     }
    ]
   },
@@ -502,6 +549,11 @@
      "stack": "process",
      "technique": "federal-rubric-sections",
      "file": "knowledge/grant-funding/funder-format-blueprints/applications/process--federal-rubric-sections.md"
+    },
+    {
+     "stack": "process",
+     "technique": "supranational-award-criteria-sections",
+     "file": "knowledge/grant-funding/funder-format-blueprints/applications/process--supranational-award-criteria-sections.md"
     }
    ]
   },
@@ -1078,6 +1130,21 @@
      ]
     },
     {
+     "slug": "shared-indicator-alignment",
+     "status": "forged",
+     "laws": [
+      "honest-null-over-forced-guess",
+      "provenance-per-field",
+      "the-funder-sets-the-form"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing outcome indicators for a new award",
+      "designing an outcomes schema for reports that must aggregate across funders",
+      "deciding whether a bespoke metric should map to a sector-standard indicator"
+     ]
+    },
+    {
      "slug": "verifiable-impact-certificates",
      "status": "forged",
      "laws": [
@@ -1103,6 +1170,11 @@
      "stack": "node",
      "technique": "report-calendar-derivation",
      "file": "knowledge/grant-funding/impact-reporting/applications/node--report-calendar-derivation.md"
+    },
+    {
+     "stack": "process",
+     "technique": "shared-indicator-alignment",
+     "file": "knowledge/grant-funding/impact-reporting/applications/process--shared-indicator-alignment.md"
     }
    ]
   },
@@ -1711,11 +1783,13 @@
     "coalition-and-portfolio-strategy/lead-applicant-selection",
     "coalition-and-portfolio-strategy/portfolio-balance-across-difficulty",
     "deadline-pipeline-management/severity-band-triage",
+    "deadline-pipeline-management/submission-lead-time-buffers",
     "eligibility-analysis/award-size-capacity-fit",
     "eligibility-analysis/deadline-and-cutoff-evaluation",
     "eligibility-analysis/geographic-scope-gating",
     "eligibility-analysis/hard-gate-vs-soft-score",
     "eligibility-analysis/legal-form-eligibility-model",
+    "eligibility-analysis/registration-and-validation-readiness",
     "grant-matching/injection-safe-rfp-analysis",
     "grant-matching/llm-plus-deterministic-two-lane",
     "grant-matching/verdict-thresholds",
@@ -1734,10 +1808,12 @@
    "techniques": [
     "coalition-and-portfolio-strategy/capacity-floor-detection",
     "deadline-pipeline-management/closing-instant-resolution",
+    "deadline-pipeline-management/timezone-correct-day-math",
     "eligibility-analysis/applicant-type-code-mapping",
     "eligibility-analysis/deadline-and-cutoff-evaluation",
     "eligibility-analysis/geographic-scope-gating",
     "eligibility-analysis/legal-form-eligibility-model",
+    "eligibility-analysis/registration-and-validation-readiness",
     "evidence-grounded-claims/document-fact-extraction",
     "evidence-grounded-claims/placeholder-to-fact-resolution",
     "funder-format-blueprints/blueprint-routing-rules",
@@ -1758,6 +1834,7 @@
     "grant-taxonomy-design/false-positive-suppressors",
     "grant-taxonomy-design/llm-residual-classification",
     "impact-reporting/report-calendar-derivation",
+    "impact-reporting/shared-indicator-alignment",
     "jurisdiction-modelling/compliance-document-taxonomy",
     "jurisdiction-modelling/eligibility-regime-detection",
     "jurisdiction-modelling/entity-type-code-mapping",
@@ -1775,6 +1852,7 @@
    "techniques": [
     "coalition-and-portfolio-strategy/portfolio-balance-across-difficulty",
     "coalition-and-portfolio-strategy/requirement-profile-aggregation",
+    "deadline-pipeline-management/miss-risk-scoring",
     "funder-intelligence-index/award-rate-by-revenue-bracket",
     "funder-intelligence-index/fit-calibration-monotonicity",
     "funder-intelligence-index/k-anonymity-suppression",
@@ -1842,6 +1920,25 @@
     "submission-filing/crowd-verified-filing-profiles"
    ]
   },
+  "clean-is-not-ready": {
+   "statement": "A compliance report with zero findings certifies nothing unless every applicable check actually executed. Check coverage is part of the verdict; \"no issues found\" and \"not checked\" must be impossible to confuse.",
+   "techniques": [
+    "deadline-pipeline-management/cross-client-deadline-union",
+    "deadline-pipeline-management/escalating-reminder-thresholds",
+    "funder-research/coverage-gap-driven-planning",
+    "funder-research/human-review-before-promotion",
+    "grant-source-landscape/market-readiness-tiering",
+    "impact-reporting/verifiable-impact-certificates",
+    "jurisdiction-modelling/compliance-document-taxonomy",
+    "nonprofit-verification/graceful-source-degradation",
+    "nonprofit-verification/registry-adapter-contract",
+    "nonprofit-verification/verification-passport",
+    "organizational-grant-readiness/attestation-invalidation",
+    "proposal-quality-review/expert-review-tier-operation",
+    "proposal-quality-review/placeholder-and-jargon-detection",
+    "submission-filing/proof-of-filing"
+   ]
+  },
   "provenance-per-field": {
    "statement": "Every pre-filled or extracted value carries its confidence and its source. Onboarding and drafting become review of sourced values, not data entry — and a value whose source cannot be shown is a candidate, not a fact.",
    "techniques": [
@@ -1856,6 +1953,7 @@
     "grant-taxonomy-design/append-only-codes-with-migrations",
     "impact-reporting/four-section-report-model",
     "impact-reporting/modeled-figure-marking",
+    "impact-reporting/shared-indicator-alignment",
     "impact-reporting/verifiable-impact-certificates",
     "jurisdiction-modelling/entity-type-code-mapping",
     "jurisdiction-modelling/jurisdiction-profile-schema",
@@ -1881,27 +1979,11 @@
     "funder-format-blueprints/supranational-award-criteria-sections",
     "funder-format-blueprints/trust-and-lottery-sections",
     "impact-reporting/four-section-report-model",
+    "impact-reporting/shared-indicator-alignment",
     "proposal-narrative-structure/genre-register-classification",
     "proposal-narrative-structure/theory-of-change-framing",
     "proposal-quality-review/rubric-mirrors-prompt-guidance",
     "proposal-quality-review/section-word-band-checks"
-   ]
-  },
-  "clean-is-not-ready": {
-   "statement": "A compliance report with zero findings certifies nothing unless every applicable check actually executed. Check coverage is part of the verdict; \"no issues found\" and \"not checked\" must be impossible to confuse.",
-   "techniques": [
-    "funder-research/coverage-gap-driven-planning",
-    "funder-research/human-review-before-promotion",
-    "grant-source-landscape/market-readiness-tiering",
-    "impact-reporting/verifiable-impact-certificates",
-    "jurisdiction-modelling/compliance-document-taxonomy",
-    "nonprofit-verification/graceful-source-degradation",
-    "nonprofit-verification/registry-adapter-contract",
-    "nonprofit-verification/verification-passport",
-    "organizational-grant-readiness/attestation-invalidation",
-    "proposal-quality-review/expert-review-tier-operation",
-    "proposal-quality-review/placeholder-and-jargon-detection",
-    "submission-filing/proof-of-filing"
    ]
   }
  }

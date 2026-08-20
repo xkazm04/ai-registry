@@ -152,10 +152,10 @@
       "profile": "rkb/0.1",
       "purity": "civic",
       "subjects": 15,
-      "techniques": 88,
-      "applications": 30,
-      "files": 137,
-      "contentHash": "sha256:a8101015dfec9154"
+      "techniques": 91,
+      "applications": 34,
+      "files": 145,
+      "contentHash": "sha256:8a47cc059397e3e9"
     },
     {
       "name": "grant-funding",
@@ -165,10 +165,10 @@
       "profile": "rkb/0.1",
       "purity": "funding",
       "subjects": 17,
-      "techniques": 101,
-      "applications": 34,
-      "files": 156,
-      "contentHash": "sha256:e1acd40d6fb8cc91"
+      "techniques": 104,
+      "applications": 38,
+      "files": 164,
+      "contentHash": "sha256:0b9aa47ae2c095f7"
     },
     {
       "name": "media-generation",

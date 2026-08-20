@@ -4,8 +4,8 @@
   "bundle": "civic-intelligence",
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
-  "techniques": 88,
-  "applications": 30,
+  "techniques": 91,
+  "applications": 34,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -13,7 +13,7 @@
    "civic-graph-infrastructure",
    "accountability-method"
   ],
-  "use_when_coverage": "88/88",
+  "use_when_coverage": "91/91",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -771,6 +771,19 @@
      ]
     },
     {
+     "slug": "groundedness-scoring-triage",
+     "status": "forged",
+     "laws": [
+      "lead-not-finding",
+      "deterministic-code-owns-numbers"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every deterministic gate passes and nobody has checked whether cited sources support their claims",
+      "a pending-review queue grows faster than human reviewers can clear it"
+     ]
+    },
+    {
      "slug": "hallucinated-reference-sweep",
      "status": "forged",
      "laws": [
@@ -833,6 +846,11 @@
      "stack": "node",
      "technique": "structured-verdict-schemas",
      "file": "knowledge/civic-intelligence/llm-forensic-gating/applications/node--structured-verdict-schemas.md"
+    },
+    {
+     "stack": "process",
+     "technique": "groundedness-scoring-triage",
+     "file": "knowledge/civic-intelligence/llm-forensic-gating/applications/process--groundedness-scoring-triage.md"
     }
    ]
   },
@@ -987,6 +1005,20 @@
      ]
     },
     {
+     "slug": "matching-model-choice",
+     "status": "forged",
+     "laws": [
+      "missing-is-not-zero",
+      "provenance-or-nothing"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the distance model that turns answers into matches",
+      "evaluating whether a scaled answer format or a spatial map is worth its sensitivity cost",
+      "reviewing a compass for imputed answers or projection presented as measurement"
+     ]
+    },
+    {
      "slug": "non-positional-abstention-handling",
      "status": "forged",
      "laws": [
@@ -1025,6 +1057,11 @@
      "stack": "node",
      "technique": "divisive-vote-selection",
      "file": "knowledge/civic-intelligence/political-compass-from-votes/applications/node--divisive-vote-selection.md"
+    },
+    {
+     "stack": "process",
+     "technique": "matching-model-choice",
+     "file": "knowledge/civic-intelligence/political-compass-from-votes/applications/process--matching-model-choice.md"
     }
    ]
   },
@@ -1143,6 +1180,20 @@
    "file": "knowledge/civic-intelligence/public-money-attribution/public-money-attribution.md",
    "techniques": [
     {
+     "slug": "attribution-perimeter",
+     "status": "forged",
+     "laws": [
+      "non-partisan-symmetry",
+      "lead-not-finding"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whose relationships enter the tie table at all",
+      "a figure's meaning depends on whether relatives, nominees, or ownership chains count",
+      "comparing money figures produced under different inclusion rules"
+     ]
+    },
+    {
      "slug": "citable-money-claims",
      "status": "forged",
      "laws": [
@@ -1219,6 +1270,11 @@
      "stack": "node",
      "technique": "public-body-classification",
      "file": "knowledge/civic-intelligence/public-money-attribution/applications/node--public-body-classification.md"
+    },
+    {
+     "stack": "process",
+     "technique": "attribution-perimeter",
+     "file": "knowledge/civic-intelligence/public-money-attribution/applications/process--attribution-perimeter.md"
     }
    ]
   },
@@ -1324,6 +1380,11 @@
      "stack": "node",
      "technique": "value-basis-non-summability",
      "file": "knowledge/civic-intelligence/public-procurement-analysis/applications/node--value-basis-non-summability.md"
+    },
+    {
+     "stack": "process",
+     "technique": "threshold-proximity-signals",
+     "file": "knowledge/civic-intelligence/public-procurement-analysis/applications/process--threshold-proximity-signals.md"
     }
    ]
   },
@@ -1555,6 +1616,7 @@
     "llm-forensic-gating/entity-id-membership-gates",
     "llm-forensic-gating/hallucinated-reference-sweep",
     "political-compass-from-votes/disclosed-scoring-rule",
+    "political-compass-from-votes/matching-model-choice",
     "politician-performance-scoring/formula-lineage-stamping",
     "politician-performance-scoring/weighted-component-index",
     "public-money-attribution/citable-money-claims",
@@ -1573,6 +1635,7 @@
     "conflict-of-interest-detection/temporal-alignment-of-money-and-role",
     "conflict-of-interest-detection/triage-signal-scoring",
     "legislative-change-tracking/amendment-instruction-grammar",
+    "llm-forensic-gating/groundedness-scoring-triage",
     "llm-forensic-gating/structured-verdict-schemas",
     "political-compass-from-votes/disclosed-scoring-rule",
     "politician-performance-scoring/participatory-reweighting",
@@ -1606,6 +1669,7 @@
     "parliamentary-data-modeling/term-and-chamber-scoping",
     "political-compass-from-votes/comparability-floor-for-ranking",
     "political-compass-from-votes/divisive-vote-selection",
+    "political-compass-from-votes/matching-model-choice",
     "political-compass-from-votes/non-positional-abstention-handling",
     "politician-performance-scoring/comparison-fairness",
     "politician-performance-scoring/structural-low-score-corrections",
@@ -1667,6 +1731,7 @@
     "political-compass-from-votes/theme-balanced-drawing",
     "politician-performance-scoring/comparison-fairness",
     "politician-performance-scoring/structural-low-score-corrections",
+    "public-money-attribution/attribution-perimeter",
     "public-procurement-analysis/registry-coverage-blind-spots",
     "state-budget-analysis/peer-group-construction"
    ]
@@ -1691,9 +1756,11 @@
     "legislative-change-tracking/statute-collision-clustering",
     "llm-forensic-gating/citation-required-per-claim",
     "llm-forensic-gating/entity-id-membership-gates",
+    "llm-forensic-gating/groundedness-scoring-triage",
     "llm-forensic-gating/human-review-doors",
     "politician-performance-scoring/comparison-fairness",
     "politician-performance-scoring/structural-low-score-corrections",
+    "public-money-attribution/attribution-perimeter",
     "public-money-attribution/citable-money-claims",
     "public-money-attribution/owner-operator-vs-steward-split",
     "public-procurement-analysis/payer-vs-receiver-direction",
