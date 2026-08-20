@@ -10,6 +10,7 @@ techniques:
   - top-contributor-attribution
   - scope-inverted-attribution
   - identity-scope-attribution-refusal
+  - notification-channel-security
   - pre-breach-forecasting
 ---
 
@@ -102,6 +103,14 @@ The general principle: attribution granularity in a broadcast payload stops at
 the level of *infrastructure* (models, providers, workload names) and never
 reaches the level of *identity* (keys, customers, people).
 
+The content boundary has a transport twin. The delivery pipe itself is an
+outbound webhook whose destinations are operator-supplied URLs: unsigned
+payloads let anyone who learns the endpoint forge enforcement news, and
+unvetted destinations turn the "add a webhook" form into a probe of the
+platform's own network. Signing what is sent and vetting where it is sent are
+settled field practice with their own technique
+([notification-channel-security](techniques/notification-channel-security.md)).
+
 ## Warning is a different event from breaching
 
 A cap that only speaks when it bites teaches operators to fear it. The humane
@@ -113,6 +122,14 @@ preempt. Second, a warning should be raised only for *admitted* traffic — if t
 event that crossed the warn line was itself rejected, the usage figure the
 warning would report does not include a recorded event, and the alert would
 describe a state the store cannot corroborate.
+
+The static warn threshold has a rate-based sibling from reliability practice:
+alerting when the window's *burn rate* — spend per unit time relative to what
+the budget affords — would exhaust the budget early, confirmed against a short
+recent window so a stale spike cannot page for a fire already out. The two
+warn styles answer different questions ("we are near the line" vs "we are
+approaching the line unusually fast") and mature deployments carry both; the
+rate-based tier's dedup and phrasing obligations are unchanged.
 
 ## Forecasting: the alert before the event
 
@@ -179,6 +196,10 @@ is to explain; its third is to never claim more than it measured.
 - [identity-scope-attribution-refusal](techniques/identity-scope-attribution-refusal.md)
   — the broadcast-payload boundary: infrastructure axes may be enumerated,
   identity axes are refused with a pointer to the authenticated surface.
+- [notification-channel-security](techniques/notification-channel-security.md)
+  — the transport twin of the payload boundary: sign the exact bytes sent,
+  freshness-check against replay, vet operator-supplied destinations, rotate
+  secrets without a verification gap.
 - [pre-breach-forecasting](techniques/pre-breach-forecasting.md) — explainable
   projection to "breach in about N days" and margin-crossover warnings;
   window-aware projection semantics; methodology-free dedup keys.

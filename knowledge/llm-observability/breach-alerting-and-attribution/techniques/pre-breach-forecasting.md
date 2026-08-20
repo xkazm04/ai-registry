@@ -33,6 +33,23 @@ hyperparameters until the forecast says what they want, which is the knob-free
 posture the verdict disciplines of this domain demand. Upgrade only when a
 measured false-alert rate justifies it, and keep the explanation property.
 
+## The rate-based alternative, and when it is enough
+
+Reliability practice attacks the same "warn before the money is gone" problem
+without any fitted model: a **burn-rate alert** fires when current consumption,
+relative to what the budget affords per unit time, would exhaust the window
+early — typically evaluated over a long window for sustained detection and
+confirmed against a short window so the alert only fires while the burn is
+*still happening*. That currency check is the idea worth stealing: a
+trend-based ETA fitted mostly on days-old data can page for a spike already
+over, and requiring the recent portion of the series to corroborate the trend
+before alerting is a cheap false-page filter. The trade runs the other way
+too: burn rates only speak once consumption is already abnormal, while the
+level-plus-slope projection can flag a *gradual* drift that never trips a
+burn-rate tier until late. Deployments that need only "we are spending
+abnormally fast" should prefer the model-free burn rate; the fitted
+projection earns its keep for slow drifts and margin crossovers.
+
 ## Projection semantics follow the window
 
 A single daily-series trend answers different questions for different budget

@@ -73,6 +73,26 @@ consumes the cooldown, and the actual breach at 100% — the alert that matters 
 is silently dropped. The tier is part of what the operator learns, so it is
 part of the key.
 
+## Dedup is one layer of a three-layer field stack
+
+Mature alerting pipelines separate three mechanisms this technique should not
+be mistaken for each other. **Deduplication** — this technique — drops repeat
+observations of one condition under a cooldown. **Grouping** batches several
+*distinct* keys that fire close together into one notification (a short
+gather-wait, then a single message listing the members), trading a little
+latency for a calmer channel during a platform-wide event. **Inhibition** is
+*configured* suppression: an operator-authored rule saying "while this alert
+fires, hold that one," used when one condition makes another redundant.
+
+The distinction resolves an apparent conflict with this technique's core rule.
+Scope belongs in the key because *accidental* suppression — two independent
+rules colliding on an underspecified key — is a bug nobody chose. An operator
+who then decides the project-wide breach should hush its per-model children
+during a shared incident is expressing *deliberate* suppression, which belongs
+in an inhibition layer where it is visible, reviewable configuration — never
+smuggled in by widening the dedup key. Keys stay maximally specific; any
+coarsening of what the operator hears is an explicit, separate decision.
+
 ## Honest limits of in-memory dedup
 
 Dedup state held in process memory resets on restart and is per-instance under
