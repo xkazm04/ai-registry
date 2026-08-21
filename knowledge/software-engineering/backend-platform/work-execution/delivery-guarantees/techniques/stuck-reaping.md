@@ -8,6 +8,7 @@ laws:
   - creation-names-reaper
   - failure-not-empty-success
 shared_with: []
+use_when: [events stranded in processing after a worker dies, deciding whether an old claim is crashed or just slow, one event keeps killing workers on every retry]
 ---
 
 # Stuck reaping

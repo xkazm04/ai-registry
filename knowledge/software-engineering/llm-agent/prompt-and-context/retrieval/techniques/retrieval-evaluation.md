@@ -6,6 +6,7 @@ technique: retrieval-evaluation
 status: forged
 laws: [gate-sees-target, count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [building the labeled query set for retrieval, deciding which metric supports which claim, paraphrase queries score far below verbatim ones]
 ---
 
 # Retrieval evaluation

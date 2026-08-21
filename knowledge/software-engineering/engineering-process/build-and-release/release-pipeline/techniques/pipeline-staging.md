@@ -6,6 +6,7 @@ technique: pipeline-staging
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether the tag precedes the build, a run died between tagging and publishing, green jobs but a platform artifact missing]
 ---
 
 # Pipeline staging

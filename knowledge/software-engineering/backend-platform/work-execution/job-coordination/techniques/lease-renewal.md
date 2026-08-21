@@ -6,6 +6,7 @@ technique: lease-renewal
 status: forged
 laws: [creation-names-reaper, identity-survives-reuse, gate-sees-target]
 shared_with: []
+use_when: [sizing how long a dead executor may go unnoticed, an executor keeps writing after losing its lease, live jobs keep being taken over while still running]
 ---
 
 # Lease renewal

@@ -6,6 +6,7 @@ technique: convention-discovery
 status: forged
 laws: [derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
+use_when: [deriving routes from the guest's file tree, picker offers a page that no longer exists, scanner reports an app as having no pages]
 ---
 
 # Convention discovery

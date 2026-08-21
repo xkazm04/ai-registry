@@ -6,6 +6,7 @@ technique: connection-lifecycle
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [cancelled dial still blocks future attempts, deciding who yields when both sides dial, session closed in name but live in resources]
 ---
 
 # Connection lifecycle

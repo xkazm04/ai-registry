@@ -6,6 +6,7 @@ technique: attach-detach-lifecycle
 status: forged
 laws: [creation-names-reaper, identity-survives-reuse]
 shared_with: []
+use_when: [deciding what a session keeps when no one watches it, terminals keep going blank and replaying, a fresh emulator appears on every navigation]
 ---
 
 # Attach / detach lifecycle

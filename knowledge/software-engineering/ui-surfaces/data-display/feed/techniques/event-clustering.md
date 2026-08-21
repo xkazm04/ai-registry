@@ -9,6 +9,7 @@ laws:
   - count-carries-predicate
   - identity-survives-reuse
 shared_with: []
+use_when: [one busy producer drowns the whole feed, deciding whether clusters may be stored or only derived, expanded clusters reset as new members arrive]
 ---
 
 # Event clustering

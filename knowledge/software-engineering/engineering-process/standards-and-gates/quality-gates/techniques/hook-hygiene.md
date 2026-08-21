@@ -6,6 +6,7 @@ technique: hook-hygiene
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a hook may fix what it finds, a second tool installs its own commit check, checks pass on clones where nothing ran]
 ---
 
 # Hook hygiene

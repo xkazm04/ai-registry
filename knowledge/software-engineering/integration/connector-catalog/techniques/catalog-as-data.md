@@ -6,6 +6,7 @@ technique: catalog-as-data
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether a service belongs in data or code, a side table drifts from the rows it maps, nobody can say what would catch a lying row]
 ---
 
 # Catalog as data

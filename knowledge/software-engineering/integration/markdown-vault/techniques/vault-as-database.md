@@ -6,6 +6,7 @@ technique: vault-as-database
 status: forged
 laws: [identity-survives-reuse, one-validation-door]
 shared_with: []
+use_when: [deciding what identifies a note across renames, fields stop parsing after a quote in a title, keeping caller-supplied paths inside the root]
 ---
 
 # Vault as database

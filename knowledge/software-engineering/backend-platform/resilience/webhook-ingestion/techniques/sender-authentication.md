@@ -6,6 +6,7 @@ technique: sender-authentication
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, one-validation-door]
 shared_with: []
+use_when: [verifying a digest over raw request bytes, a captured delivery replays with valid signature, rotating a shared secret without an outage]
 ---
 
 # Sender authentication

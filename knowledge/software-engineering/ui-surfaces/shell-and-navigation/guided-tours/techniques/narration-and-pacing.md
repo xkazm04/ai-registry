@@ -6,6 +6,7 @@ technique: narration-and-pacing
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding whether a step may wait for its soundtrack, step auto-advances when the narrator finishes, narrator keeps talking over the next step]
 ---
 
 # Narration and pacing

@@ -6,6 +6,7 @@ technique: changelog-generation
 status: forged
 laws: [derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [writing commit subjects that survive extraction, deciding which kinds count as user-facing, hand edits vanish on the next compile]
 ---
 
 # Changelog generation

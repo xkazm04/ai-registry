@@ -6,6 +6,7 @@ technique: singleton-lifecycle
 status: forged
 laws: [creation-names-reaper, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether a second instance would actually harm, old listeners still firing after code replacement, tests pass alone but fail in the full suite]
 ---
 
 # Singleton lifecycle

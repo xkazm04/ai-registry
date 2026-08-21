@@ -6,6 +6,7 @@ technique: phase-derivation
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
 shared_with: []
+use_when: [deriving a readable phase from raw event shapes, a specific phase frozen over a silent stream, deciding whether logic may branch on the phase label]
 ---
 
 # Phase derivation

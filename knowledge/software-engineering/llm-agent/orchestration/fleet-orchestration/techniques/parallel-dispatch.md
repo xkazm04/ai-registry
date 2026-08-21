@@ -6,6 +6,7 @@ technique: parallel-dispatch
 status: forged
 laws: [gate-sees-target, one-validation-door, creation-names-reaper, count-carries-predicate]
 shared_with: []
+use_when: [deciding how many sessions may run at once, two sessions wrote the same file at once, fanning one task across many targets]
 ---
 
 # Parallel dispatch

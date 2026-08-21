@@ -8,6 +8,7 @@ laws:
   - one-authority-per-vocabulary
   - identity-survives-reuse
 shared_with: []
+use_when: [deciding where tool calls and approvals render, a kind that rendered live vanishes on reload, approving a card whose request already expired]
 ---
 
 # Inline structured rows

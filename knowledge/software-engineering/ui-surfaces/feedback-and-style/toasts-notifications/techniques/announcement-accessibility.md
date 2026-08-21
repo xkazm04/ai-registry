@@ -6,6 +6,7 @@ technique: announcement-accessibility
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [toasts never reach screen-reader users, mapping severity to polite or assertive, three toasts arrive and only one is voiced]
 ---
 
 # Announcement accessibility

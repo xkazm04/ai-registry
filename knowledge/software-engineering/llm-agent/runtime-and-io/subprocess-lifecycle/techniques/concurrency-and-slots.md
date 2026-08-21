@@ -6,6 +6,7 @@ technique: concurrency-and-slots
 status: forged
 laws: [gate-sees-target, creation-names-reaper, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a spawn queues or evicts an idle child, slots held with no live process, a burst of launches freezes the whole machine]
 ---
 
 # Concurrency and slots

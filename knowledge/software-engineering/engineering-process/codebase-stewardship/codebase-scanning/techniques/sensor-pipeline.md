@@ -8,6 +8,7 @@ laws:
   - failure-not-empty-success
   - count-carries-predicate
 shared_with: []
+use_when: [one broken sensor is crashing the whole sweep, deciding whether a rule may read during emission, cap survivors change from run to run]
 ---
 
 # Sensor pipeline

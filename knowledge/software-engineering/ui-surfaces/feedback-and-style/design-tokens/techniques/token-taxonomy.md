@@ -6,6 +6,7 @@ technique: token-taxonomy
 status: forged
 laws:
   - one-authority-per-vocabulary
+use_when: [deciding whether a candidate token earns its name, semantic names still carry colors or numbers, components reaching past roles for raw values]
 ---
 
 # Token taxonomy

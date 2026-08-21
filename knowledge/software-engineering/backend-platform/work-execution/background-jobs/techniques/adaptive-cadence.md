@@ -6,6 +6,7 @@ technique: adaptive-cadence
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding how fast an idle loop should tick, wake signals arrive but work still gets missed, every loop fires together and spikes the store]
 ---
 
 # Adaptive cadence

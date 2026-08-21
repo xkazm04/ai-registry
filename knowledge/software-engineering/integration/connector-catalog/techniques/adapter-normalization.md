@@ -6,6 +6,7 @@ technique: adapter-normalization
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [shaping the internal model from consumer needs, unclassifiable failures turning into empty results, a dashboard shows zero for an unavailable field]
 ---
 
 # Adapter normalization

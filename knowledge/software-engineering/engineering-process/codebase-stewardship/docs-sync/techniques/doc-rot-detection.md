@@ -6,6 +6,7 @@ technique: doc-rot-detection
 status: forged
 laws: [failure-not-empty-success, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding whether an uncheckable document counts as clean, timestamp checks keep missing claims false at birth, each scan examines a different sample of docs]
 ---
 
 # Doc-rot detection

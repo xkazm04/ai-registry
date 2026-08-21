@@ -6,6 +6,7 @@ technique: admission-vocabulary
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [naming the verdicts a queue's gate may return, deciding whether refusal throws or returns, refusal reasons drifting into two spellings]
 ---
 
 # Admission vocabulary

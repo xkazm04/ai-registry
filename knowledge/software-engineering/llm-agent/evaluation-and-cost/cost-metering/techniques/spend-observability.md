@@ -6,6 +6,7 @@ technique: spend-observability
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation]
 shared_with: []
+use_when: [designing what a spend surface must show, flat averages while one call class burns money, dashboard total disagrees with the ledger]
 ---
 
 # Spend observability

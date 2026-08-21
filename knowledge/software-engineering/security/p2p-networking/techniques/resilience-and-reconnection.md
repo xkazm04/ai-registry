@@ -6,6 +6,7 @@ technique: resilience-and-reconnection
 status: forged
 laws: [identity-survives-reuse, failure-not-empty-success, creation-names-reaper, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a vanished peer keeps its record, a reconnect flag exists but nothing reads it, transfers restart instead of resuming after a gap]
 ---
 
 # Resilience and reconnection

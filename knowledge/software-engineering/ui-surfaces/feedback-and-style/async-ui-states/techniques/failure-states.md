@@ -6,6 +6,7 @@ technique: failure-states
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether zero means empty or the request died, a failed refresh blanks content the user still had, offering retry when signing in is the real fix]
 ---
 
 # Failure states

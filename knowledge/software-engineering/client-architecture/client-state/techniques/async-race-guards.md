@@ -6,6 +6,7 @@ technique: async-race-guards
 status: forged
 laws: [identity-survives-reuse, one-authority-per-vocabulary]
 shared_with: []
+use_when: [stale responses overwriting fresher answers, duplicate flights for identical questions, failed rollback erasing concurrent mutation]
 ---
 
 # Async race guards

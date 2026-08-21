@@ -6,6 +6,7 @@ technique: tts-pipeline
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper, derivation-names-recomputation]
 shared_with: []
+use_when: [audio keeps playing after its surface is gone, speech starts after the user said stop, choosing a queue policy for overlapping speech]
 ---
 
 # The text-to-speech pipeline

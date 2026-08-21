@@ -9,6 +9,7 @@ laws:
   - count-carries-predicate
   - failure-not-empty-success
 shared_with: []
+use_when: [hand-rolled copies outnumber the adopters, deciding whether a rule should warn or fail builds, citing an adoption count without its predicate]
 ---
 
 # Adoption enforcement

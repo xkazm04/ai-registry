@@ -6,6 +6,7 @@ technique: schema-driven-forms
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, creation-names-reaper]
 shared_with: []
+use_when: [deciding what each declared form field must carry, a probe goes green without touching the credential, an override starts collecting undeclared fields]
 ---
 
 # Schema-driven forms

@@ -6,6 +6,7 @@ technique: quiet-window-maintenance
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [replacing a wall-clock maintenance timer with an activity gate, maintenance keeps stalling the user mid-interaction, every pass defers and the sidecar keeps growing]
 ---
 
 # Quiet-window maintenance

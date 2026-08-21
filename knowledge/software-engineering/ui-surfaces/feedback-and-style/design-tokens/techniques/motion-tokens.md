@@ -6,6 +6,7 @@ technique: motion-tokens
 status: forged
 laws:
   - one-authority-per-vocabulary
+use_when: [picking which duration step a change belongs to, naming easings by role instead of curve shape, reduced-motion honoring keeps getting missed]
 ---
 
 # Motion tokens

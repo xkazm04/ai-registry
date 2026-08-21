@@ -6,6 +6,7 @@ technique: cross-boundary-propagation
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether a successor run continues or links, trace fragments that no viewer can rejoin, child spans starting before their parent]
 ---
 
 # Cross-boundary propagation

@@ -6,6 +6,7 @@ technique: archive-extraction-safety
 status: forged
 laws: [gate-sees-target, creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [unpacking an archive from untrusted input, extraction succeeded but delivered nothing needed, enumerating every call site that unpacks archives]
 ---
 
 # Archive extraction safety

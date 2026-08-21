@@ -6,6 +6,7 @@ technique: engine-abstraction
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [an engine's name appears in surface code, deciding whether an engine is absent or broken, stored preferences point at a retired engine]
 ---
 
 # Engine abstraction

@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - derivation-names-recomputation
 shared_with: []
+use_when: [answering what version sits on staging, judging whether a slow run is abnormal, a success rate quoted without its window]
 ---
 
 # Deployment history

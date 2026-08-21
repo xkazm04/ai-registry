@@ -6,6 +6,7 @@ technique: anchor-contracts
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
+use_when: [choosing what a tour step anchors to, an anchor one gate accepts another forbids, spotlight drifts as the page scrolls]
 ---
 
 # Anchor contracts

@@ -6,6 +6,7 @@ technique: synthetic-and-estimated-traces
 status: forged
 laws: [derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [rebuilding span trees from totals and event logs, an estimated span looks identical to a measured one, retiring a synthesizer once real spans arrive]
 ---
 
 # Synthetic and estimated traces

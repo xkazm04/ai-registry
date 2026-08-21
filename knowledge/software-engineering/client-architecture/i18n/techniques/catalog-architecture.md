@@ -6,6 +6,7 @@ technique: catalog-architecture
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding which locale file is authored truth, choosing load-on-access versus pure-read resolution, strings resolved at import time never switch language]
 ---
 
 # Catalog architecture

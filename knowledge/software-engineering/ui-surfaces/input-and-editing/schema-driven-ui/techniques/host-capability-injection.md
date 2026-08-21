@@ -6,6 +6,7 @@ technique: host-capability-injection
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding what a rendered surface may reach, a renderer reaches into ambient state, subscriptions leak after every re-render]
 ---
 
 # Host capability injection

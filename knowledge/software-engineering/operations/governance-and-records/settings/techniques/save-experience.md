@@ -6,6 +6,7 @@ technique: save-experience
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [choosing between auto-save and an explicit save button, toggle stays flipped after a failed write, unsaved-changes guard fires on a clean form]
 ---
 
 # Save experience

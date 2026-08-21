@@ -6,6 +6,7 @@ technique: peer-state-honesty
 status: forged
 laws: [failure-not-empty-success, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [deciding what evidence earns a peer state, shows the device but won't connect to it, explaining why a peer list came back empty]
 ---
 
 # Peer-state honesty

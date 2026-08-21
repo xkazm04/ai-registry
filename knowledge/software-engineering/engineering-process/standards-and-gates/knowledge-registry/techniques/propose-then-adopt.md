@@ -6,6 +6,7 @@ technique: propose-then-adopt
 status: forged
 laws: [one-validation-door, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding where an automated contributor stops, a tool merged its own proposal, an unmapped category silently filed as catch-all]
 ---
 
 # Propose, then adopt

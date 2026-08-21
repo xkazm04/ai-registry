@@ -6,6 +6,7 @@ technique: graph-layout
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding whether auto-layout may move a node, user-placed nodes shift after a reload, choosing between layered and force-directed]
 ---
 
 # Graph layout

@@ -9,6 +9,7 @@ laws:
   - one-authority-per-vocabulary
   - count-carries-predicate
 shared_with: []
+use_when: [picking event time or arrival time as the ordering key, tied rows swap places across a refetch, an optimistic row moves once the server confirms]
 ---
 
 # Reverse-chronology semantics

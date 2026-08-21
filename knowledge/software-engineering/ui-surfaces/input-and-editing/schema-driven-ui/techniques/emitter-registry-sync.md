@@ -6,6 +6,7 @@ technique: emitter-registry-sync
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, identity-survives-reuse]
 shared_with: []
+use_when: [keeping emitter instructions in step with the registry, deciding whether specs are validated at dispatch, pins vanishing when the agent recomposes]
 ---
 
 # Emitter–registry sync

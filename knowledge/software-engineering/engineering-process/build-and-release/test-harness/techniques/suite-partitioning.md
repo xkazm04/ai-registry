@@ -6,6 +6,7 @@ technique: suite-partitioning
 status: forged
 laws: [count-carries-predicate, gate-sees-target]
 shared_with: []
+use_when: [deciding which tests share a machine, a green badge hides tiers that never ran, discovered files never report results]
 ---
 
 # Suite partitioning

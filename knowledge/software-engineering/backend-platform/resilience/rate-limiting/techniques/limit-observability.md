@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - derivation-names-recomputation
 shared_with: []
+use_when: [tuning a limit from evidence rather than re-guessing, operator panel disagrees with what callers were told, refusal spike with no matching limit-change event]
 ---
 
 # Limit observability

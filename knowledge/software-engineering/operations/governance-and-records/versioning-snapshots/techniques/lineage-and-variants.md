@@ -6,6 +6,7 @@ technique: lineage-and-variants
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
+use_when: [recording where each saved state came from, history keeps rendering as one straight line, choosing how experimental variants are addressed]
 ---
 
 # Lineage & variants

@@ -6,6 +6,7 @@ technique: keyboard-alternatives
 status: forged
 laws: []
 shared_with: []
+use_when: [defining the operation apart from its gesture, no key starts a drag on a focused item, grip announces itself but cannot take focus]
 ---
 
 # Keyboard alternatives

@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [defining which invocations count as the same operation, duplicates still slip through intermittently, unrelated work queues behind one guard]
 ---
 
 # Guard key design

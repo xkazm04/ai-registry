@@ -6,6 +6,7 @@ technique: comparison-modes
 status: forged
 laws: [count-carries-predicate, identity-survives-reuse]
 shared_with: []
+use_when: [deciding what question an eval answers, verdict flips when pair order mirrors, headline winner hides losing cells]
 ---
 
 # Comparison modes

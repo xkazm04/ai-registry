@@ -6,6 +6,7 @@ technique: startup-sweeps
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [planning what the first act after a gap must reconcile, items marked running by a process that no longer exists, a restart floods every dependency with weeks of backlog]
 ---
 
 # Startup sweeps

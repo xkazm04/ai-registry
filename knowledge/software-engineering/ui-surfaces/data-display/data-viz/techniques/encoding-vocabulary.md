@@ -6,6 +6,7 @@ technique: encoding-vocabulary
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether color carries identity or status, same entity changes color after a re-sort, chart green disagrees with badge green]
 ---
 
 # Encoding vocabulary

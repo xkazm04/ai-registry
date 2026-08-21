@@ -9,6 +9,7 @@ laws:
   - deletion-is-not-repair
   - failure-not-empty-success
 shared_with: []
+use_when: [designing what a dead-letter record must hold, a dead-letter table nobody opens, deciding what happens when records age out]
 ---
 
 # Dead-letter design

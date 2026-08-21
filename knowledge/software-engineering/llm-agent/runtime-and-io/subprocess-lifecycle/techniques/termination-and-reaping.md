@@ -6,6 +6,7 @@ technique: termination-and-reaping
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [choosing when a polite stop becomes a kill, the parent died but its helpers did not, an exit code of zero from a crashed wrapper]
 ---
 
 # Termination and reaping

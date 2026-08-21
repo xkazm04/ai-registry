@@ -6,6 +6,7 @@ technique: ingress-topology
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [choosing how deliveries reach a process behind a firewall, a sender swears it delivered yet nothing arrives, one green light masking a dead ingress path]
 ---
 
 # Ingress topology

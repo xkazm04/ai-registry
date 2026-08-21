@@ -6,6 +6,7 @@ technique: hybrid-lane-fusion
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
+use_when: [merging candidate lists from several matchers, adding raw scores from incomparable scales, nearest-neighbor hits leaking across scopes]
 ---
 
 # Hybrid lane fusion

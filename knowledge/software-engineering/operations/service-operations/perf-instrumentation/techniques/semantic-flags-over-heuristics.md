@@ -6,6 +6,7 @@ technique: semantic-flags-over-heuristics
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
+use_when: [inferring timeouts from a duration threshold, deciding whether a timeout is also a failure, percentiles pool cancellations with completions]
 ---
 
 # Semantic flags over heuristics

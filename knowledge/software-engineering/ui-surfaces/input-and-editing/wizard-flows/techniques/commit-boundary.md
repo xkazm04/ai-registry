@@ -6,6 +6,7 @@ technique: commit-boundary
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, creation-names-reaper]
 shared_with: []
+use_when: [review and apply drift when steps are added, partial failure leaves user unable to retry, provisional resources leak on draft expiry]
 ---
 
 # Commit boundary

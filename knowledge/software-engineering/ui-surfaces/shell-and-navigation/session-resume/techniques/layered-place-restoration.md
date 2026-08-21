@@ -6,6 +6,7 @@ technique: layered-place-restoration
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding which layers each surface restores, restored scroll snaps back to zero when content loads, orphaned place records piling up for deleted entities]
 ---
 
 # Layered place restoration

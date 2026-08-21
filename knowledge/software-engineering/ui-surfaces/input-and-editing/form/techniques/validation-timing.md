@@ -6,6 +6,7 @@ technique: validation-timing
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [deciding whether a rule fires on keystroke or blur, an error persists past the keystroke that fixed it, a stale async answer lands on a newer entry]
 ---
 
 # Validation timing

@@ -8,6 +8,7 @@ laws:
   - creation-names-reaper
   - failure-not-empty-success
 shared_with: []
+use_when: [committing to clear a queue rather than scan it, a verdict landing on an item never read, the deck freezes and nothing says why]
 ---
 
 # Focus mode

@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding whether first sight is baseline or news, notifications re-announcing the same failure each poll, a failed poll makes every run look deleted]
 ---
 
 # Transition detection & notify

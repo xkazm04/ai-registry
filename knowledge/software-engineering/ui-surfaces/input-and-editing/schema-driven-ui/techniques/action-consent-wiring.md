@@ -6,6 +6,7 @@ technique: action-consent-wiring
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether an action parameter is data or instruction, a button that does something other than its label, wiring consent so what is shown is what executes]
 ---
 
 # Action consent wiring

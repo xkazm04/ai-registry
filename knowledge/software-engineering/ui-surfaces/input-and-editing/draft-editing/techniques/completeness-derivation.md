@@ -6,6 +6,7 @@ technique: completeness-derivation
 status: forged
 laws: [derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether an incomplete draft may save, a stored complete flag going stale, choosing which requirements block promotion]
 ---
 
 # Completeness derivation

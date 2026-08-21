@@ -6,6 +6,7 @@ technique: performance
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation]
 shared_with: []
+use_when: [diagnosing the actual shape of a slow table, choosing between pagination and windowing, one selection toggle repaints every row]
 ---
 
 # Performance

@@ -6,6 +6,7 @@ technique: privacy-scrubbing
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding which fields an event payload may carry, the behavioral trail is leaving the device, opted-out users still appear in collector traffic]
 ---
 
 # Privacy scrubbing

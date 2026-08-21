@@ -6,6 +6,7 @@ technique: shared-resource-arbitration
 status: forged
 laws: [identity-survives-reuse, failure-not-empty-success]
 shared_with: []
+use_when: [choosing whether to duplicate a resource or lock it, sessions queue behind a lock whose owner died, inferring a sibling is still working from leftovers]
 ---
 
 # Shared-resource arbitration

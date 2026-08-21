@@ -8,6 +8,7 @@ laws:
   - creation-names-reaper
   - failure-not-empty-success
 shared_with: []
+use_when: [designing how a guard survives every exit path, an operation sometimes never runs again, setting a reclamation bound for stale entries]
 ---
 
 # Release guarantees

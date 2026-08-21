@@ -6,6 +6,7 @@ technique: first-run-and-quiet-silence
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a briefing with no news should render, a quiet week and a broken derivation look identical, first run floods everything as new]
 ---
 
 # First run and quiet silence

@@ -6,6 +6,7 @@ technique: db-self-instrumentation
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation]
 shared_with: []
+use_when: [keying operation metrics by table not statement, local reads feel slow yet pass networked thresholds, metric writes contending with the measured path]
 ---
 
 # Database self-instrumentation

@@ -7,6 +7,7 @@ status: forged
 laws:
   - creation-names-reaper
 shared_with: []
+use_when: [budgeting the refusal branch as the hot path, a rejection storm floods the log pipeline, per-key state keeps growing during an attack]
 ---
 
 # Storm hygiene

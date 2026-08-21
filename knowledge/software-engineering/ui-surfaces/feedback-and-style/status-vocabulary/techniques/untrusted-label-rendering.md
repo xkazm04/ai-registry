@@ -6,6 +6,7 @@ technique: untrusted-label-rendering
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding whether a rendered string is repo-authored, a pill hue keyed on a user-typed name, a crafted name breaks the layout]
 ---
 
 # Untrusted label rendering

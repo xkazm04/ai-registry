@@ -6,6 +6,7 @@ technique: resume-after-decision
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [deciding what survives the wait for a verdict, what runs on approval is not what was shown, rejected work still shows as pending]
 ---
 
 # Resume after decision

@@ -6,6 +6,7 @@ technique: connection-pooling
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [sizing a pool for an engine that serializes writes, queries measure fast but the application crawls, a returned connection keeps its old settings]
 ---
 
 # Connection pooling for an in-process engine

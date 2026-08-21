@@ -8,6 +8,7 @@ laws:
   - one-authority-per-vocabulary
   - failure-not-empty-success
 shared_with: []
+use_when: [tracing why a subscription never fired, one event fanning out into a run storm, deciding whether a broken filter should fire]
 ---
 
 # Trigger matching

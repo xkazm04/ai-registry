@@ -6,6 +6,7 @@ technique: link-graph-extraction
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [features disagree about which links are broken, deciding when a cached graph must be rebuilt, two dashboards report different orphan counts]
 ---
 
 # Link graph extraction

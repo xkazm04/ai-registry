@@ -6,6 +6,7 @@ technique: name-and-description-wiring
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding which source is naming a control, screen reader says button and stops, an error shows red but is never voiced]
 ---
 
 # Name and description wiring

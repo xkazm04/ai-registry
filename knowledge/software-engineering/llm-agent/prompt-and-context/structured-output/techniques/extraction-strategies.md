@@ -6,6 +6,7 @@ technique: extraction-strategies
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [ordering the rungs of a payload extractor, rescuing a truncated reply's partial object, span hunt freezes on a reply full of openers]
 ---
 
 # Extraction strategies

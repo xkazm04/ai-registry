@@ -6,6 +6,7 @@ technique: cross-frame-protocol
 status: forged
 laws: [identity-survives-reuse, failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [pairing each reply with its pending request, stale answers land after the user moved on, pending requests outlive a frame reload]
 ---
 
 # Cross-frame protocol

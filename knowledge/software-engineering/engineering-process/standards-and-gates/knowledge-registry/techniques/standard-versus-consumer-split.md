@@ -6,6 +6,7 @@ technique: standard-versus-consumer-split
 status: forged
 laws: [one-authority-per-vocabulary, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a fact belongs in the shared registry, a gate quietly lost half its coverage, mismatch reports do not say which side failed]
 ---
 
 # Standard versus consumer split

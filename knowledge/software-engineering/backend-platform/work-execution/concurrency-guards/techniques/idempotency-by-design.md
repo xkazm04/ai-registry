@@ -7,6 +7,7 @@ status: forged
 laws:
   - identity-survives-reuse
 shared_with: []
+use_when: [covering duplicates no in-flight guard can see, choosing between natural keys and minted keys, the effect doubled despite every check passing]
 ---
 
 # Idempotency by design

@@ -6,6 +6,7 @@ technique: command-surface
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
+use_when: [scoring fuzzy matches so initials outrank substrings, deciding whether history may override a text match, palette matches everything at three characters]
 ---
 
 # Command surface

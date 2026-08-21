@@ -6,6 +6,7 @@ technique: result-harvest
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, one-validation-door]
 shared_with: []
+use_when: [deciding whether a run finished or only looks finished, a session says done but its drop point is empty, choosing a deadline or quorum to close a wave]
 ---
 
 # Result harvest

@@ -6,6 +6,7 @@ technique: tool-schema-design
 status: forged
 laws: [failure-not-empty-success, gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
+use_when: [naming tools so the model picks the right one, deciding whether a constraint lives in the schema, failed calls reading as successes downstream]
 ---
 
 # Tool schema design

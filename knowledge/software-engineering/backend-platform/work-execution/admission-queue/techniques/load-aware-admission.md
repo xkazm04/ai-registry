@@ -6,6 +6,7 @@ technique: load-aware-admission
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding when to defer queued work, admission gate flaps open and closed, probe reads stale or wrong-scope numbers]
 ---
 
 # Load-aware admission

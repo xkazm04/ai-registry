@@ -6,6 +6,7 @@ technique: timestamp-display
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a moment shows as elapsed or exact, per-row timers multiplying in a long list, future timestamps rendering as just now]
 ---
 
 # Timestamp display

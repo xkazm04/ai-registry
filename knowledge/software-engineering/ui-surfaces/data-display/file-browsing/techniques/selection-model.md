@@ -6,6 +6,7 @@ technique: selection-model
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether selection holds identities or indices, items vanish between aiming and firing, choosing select-all scope when the listing is windowed]
 ---
 
 # Selection model

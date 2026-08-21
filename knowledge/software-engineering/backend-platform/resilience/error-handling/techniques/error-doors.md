@@ -6,6 +6,7 @@ technique: error-doors
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a caught failure reaches the user, one incident showing up as three telemetry events, the same failure reporting fresh on every poll cycle]
 ---
 
 # Error doors

@@ -8,6 +8,7 @@ laws:
   - gate-sees-target
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding where the evaluation loop lives, changing a chart filter silences a rule, deciding whether an empty window is zero]
 ---
 
 # The evaluation loop

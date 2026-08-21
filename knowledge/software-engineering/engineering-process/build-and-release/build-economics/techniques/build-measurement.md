@@ -6,6 +6,7 @@ technique: build-measurement
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a claimed build win is real, attributing a memory peak to the process behind it, settling whether the build got slower this year]
 ---
 
 # Build measurement

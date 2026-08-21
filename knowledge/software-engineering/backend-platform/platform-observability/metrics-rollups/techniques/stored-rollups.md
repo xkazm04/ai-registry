@@ -6,6 +6,7 @@ technique: stored-rollups
 status: forged
 laws: [derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
+use_when: [deciding how a stored bucket gets rebuilt, yesterday's total changes on refresh, an audit flags drift in an exact table]
 ---
 
 # Stored rollups

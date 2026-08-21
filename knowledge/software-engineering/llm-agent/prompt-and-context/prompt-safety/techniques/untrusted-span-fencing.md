@@ -6,6 +6,7 @@ technique: untrusted-span-fencing
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [wrapping untrusted text into a prompt, payload closes its own delimiter, choosing between nonce and stripped fixed markers]
 ---
 
 # Untrusted-span fencing

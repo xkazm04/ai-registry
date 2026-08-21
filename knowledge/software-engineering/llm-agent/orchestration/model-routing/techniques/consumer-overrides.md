@@ -7,6 +7,7 @@ status: forged
 laws:
   - creation-names-reaper
 shared_with: []
+use_when: [deciding where an override may live, an incident pin still routing weeks later, an override quietly beat a policy rule]
 ---
 
 # Consumer overrides

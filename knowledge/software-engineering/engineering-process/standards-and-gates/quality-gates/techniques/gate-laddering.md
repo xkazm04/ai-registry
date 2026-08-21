@@ -6,6 +6,7 @@ technique: gate-laddering
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [placing each check on the rung its latency affords, local green but pipeline red on the same content, pipeline red every run while merging continues]
 ---
 
 # Gate laddering

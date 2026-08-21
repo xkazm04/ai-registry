@@ -8,6 +8,7 @@ laws:
   - one-validation-door
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding which providers a call may use at all, two rules of equal rank conflict, no candidate survives the rule cascade]
 ---
 
 # Routing policy

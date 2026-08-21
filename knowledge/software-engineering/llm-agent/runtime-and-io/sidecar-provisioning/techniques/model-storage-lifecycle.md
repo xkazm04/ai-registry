@@ -6,6 +6,7 @@ technique: model-storage-lifecycle
 status: forged
 laws: [creation-names-reaper, derivation-names-recomputation, identity-survives-reuse]
 shared_with: []
+use_when: [deciding where provisioned artifacts live, two features each hold their own copy, an evicted model still crashes a feature]
 ---
 
 # Model storage lifecycle

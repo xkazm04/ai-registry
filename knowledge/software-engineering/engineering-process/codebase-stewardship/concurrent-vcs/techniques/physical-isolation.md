@@ -6,6 +6,7 @@ technique: physical-isolation
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding whether a task needs its own worktree, a cleanup deleted the main checkout's dependencies, registry and disk disagree about worktrees]
 ---
 
 # Physical isolation

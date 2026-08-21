@@ -6,6 +6,7 @@ technique: updater-chain
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [rehearsing a release as an update not an install, the fleet looks current but stopped updating, deciding what the feed may claim about payloads]
 ---
 
 # Updater chain

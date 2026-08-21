@@ -6,6 +6,7 @@ technique: snapshot-scope
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
+use_when: [deciding what state a version must capture, choosing embed or reference for a shared pointer, restore yields an old head with new limbs]
 ---
 
 # Snapshot scope

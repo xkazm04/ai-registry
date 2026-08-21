@@ -6,6 +6,7 @@ technique: recall-injection
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [splitting a recall budget across tiers, an oversized memory blocks everything behind it, the agent re-asks things it already knows]
 ---
 
 # Recall injection

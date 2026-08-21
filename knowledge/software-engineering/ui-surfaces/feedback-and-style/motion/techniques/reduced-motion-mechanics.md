@@ -7,6 +7,7 @@ status: forged
 laws:
   - deletion-is-not-repair
 shared_with: []
+use_when: [designing the reduced fallback for a motion preset, placeholders flash after reduced motion is enabled, an exit animation never unmounts]
 ---
 
 # Reduced-motion mechanics

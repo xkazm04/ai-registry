@@ -6,6 +6,7 @@ technique: eval-economics
 status: forged
 laws: [creation-names-reaper, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a planned matrix run is affordable, scores still cited after the suite stopped running, choosing what a cache key treats as the same question]
 ---
 
 # Eval economics

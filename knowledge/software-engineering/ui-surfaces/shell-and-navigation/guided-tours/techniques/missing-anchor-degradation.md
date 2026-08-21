@@ -6,6 +6,7 @@ technique: missing-anchor-degradation
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [choosing skip or recenter per step when anchors may be absent, ensuring tour overlays never strand users when anchors fail to resolve, recording every degradation so skipped tours do not read as success]
 ---
 
 # Missing-anchor degradation

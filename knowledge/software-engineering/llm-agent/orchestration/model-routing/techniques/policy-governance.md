@@ -8,6 +8,7 @@ laws:
   - gate-sees-target
   - count-carries-predicate
 shared_with: []
+use_when: [approving a diff to routing policy before it applies, auditing which model actually served a call, class traffic drifting up tiers without any policy edit]
 ---
 
 # Policy governance

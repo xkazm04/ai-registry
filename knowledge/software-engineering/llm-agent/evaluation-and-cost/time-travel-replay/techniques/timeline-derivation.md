@@ -6,6 +6,7 @@ technique: timeline-derivation
 status: forged
 laws: [derivation-names-recomputation, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [deriving a playable timeline from raw records, timestamp ties reorder the timeline between rebuilds, gaps render as idle when capture actually failed]
 ---
 
 # Timeline derivation

@@ -6,6 +6,7 @@ technique: subscription-lifecycle
 status: forged
 laws: [creation-names-reaper, identity-survives-reuse]
 shared_with: []
+use_when: [a callback still fires after its owner is gone, teardown races an unfinished handshake, events arrive before any consumer attaches]
 ---
 
 # Subscription lifecycle

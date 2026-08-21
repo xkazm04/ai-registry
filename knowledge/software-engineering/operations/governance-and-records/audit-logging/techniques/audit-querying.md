@@ -6,6 +6,7 @@ technique: audit-querying
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [designing how an audit trail gets queried, empty result that might mean nothing happened, exporting evidence for an external reviewer]
 ---
 
 # Audit querying

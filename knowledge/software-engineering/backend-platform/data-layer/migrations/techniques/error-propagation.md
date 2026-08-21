@@ -6,6 +6,7 @@ technique: error-propagation
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a failed step should halt the chain, runner says nothing to do but the ledger was unreadable, weighing a proposal to log the error and mark the step done]
 ---
 
 # Error propagation

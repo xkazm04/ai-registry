@@ -6,6 +6,7 @@ technique: probe-design
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [deciding whether a check observes the target or a proxy, timed-out probes leave orphaned children behind, deciding if a probe may change anything]
 ---
 
 # Probe design

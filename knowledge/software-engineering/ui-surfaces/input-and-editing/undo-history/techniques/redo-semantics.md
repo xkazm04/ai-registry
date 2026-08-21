@@ -6,6 +6,7 @@ technique: redo-semantics
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding whether divergence truncates or forks, redo control stays enabled after a divergent edit, undo then redo does not return to the same state]
 ---
 
 # Redo semantics

@@ -6,6 +6,7 @@ technique: layering-and-precedence
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding which of two overlapping surfaces wins, choosing where a new overlay family ranks, surface ranks wrong despite its correct band]
 ---
 
 # Layering and precedence

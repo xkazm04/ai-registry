@@ -6,6 +6,7 @@ technique: update-automation-review
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding if green checks justify merging a dependency bump, one manifest bump dragging strangers into the lockfile, months of claimed automation with zero proposals]
 ---
 
 # Update automation review

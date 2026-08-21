@@ -6,6 +6,7 @@ technique: durable-fleet-state
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [attaching durability to existing event chokepoints, a restart forgot sessions that were still running, reconciling mirror claims before serving new work]
 ---
 
 # Durable fleet state

@@ -6,6 +6,7 @@ technique: dispatch-chokepoint-gating
 status: forged
 laws: [one-validation-door, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding where authorization enforcement lives, a handler was reached without passing the gate, privileged operations keep sliding down a tier]
 ---
 
 # Dispatch-chokepoint gating

@@ -6,6 +6,7 @@ technique: consolidation
 status: forged
 laws: [derivation-names-recomputation, one-validation-door]
 shared_with: []
+use_when: [deciding whether conflict flips a belief or just dents it, a short correction ranks below the long belief it fixes, an import wants to bypass the judgment pass]
 ---
 
 # Consolidation

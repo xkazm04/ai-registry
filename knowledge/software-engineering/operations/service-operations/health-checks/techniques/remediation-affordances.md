@@ -6,6 +6,7 @@ technique: remediation-affordances
 status: forged
 laws: [deletion-is-not-repair]
 shared_with: []
+use_when: [authoring a check together with its remediation, deciding whether a failure is fixable from here, suppressed checks quietly counting as green]
 ---
 
 # Remediation affordances

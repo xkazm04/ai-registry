@@ -6,6 +6,7 @@ technique: decision-records
 status: forged
 laws: [identity-survives-reuse, deletion-is-not-repair, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether an old approval still covers this, proving what the decider saw when they said yes, rewriting a verdict instead of superseding it]
 ---
 
 # Decision records

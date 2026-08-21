@@ -6,6 +6,7 @@ technique: admission-scoping
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
+use_when: [deciding which addresses reach the pairing gate, a listener running on installs that never pair, approvals drifting between cache and trust registry]
 ---
 
 # Admission scoping

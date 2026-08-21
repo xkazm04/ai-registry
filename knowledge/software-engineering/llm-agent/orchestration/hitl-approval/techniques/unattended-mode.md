@@ -6,6 +6,7 @@ technique: unattended-mode
 status: forged
 laws: [gate-sees-target, creation-names-reaper, count-carries-predicate]
 shared_with: []
+use_when: [granting auto-approval for a bounded overnight run, preventing a grant from swallowing irreversible deletions, re-arming gates when spend velocity breaks profile]
 ---
 
 # Unattended mode

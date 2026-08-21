@@ -6,6 +6,7 @@ technique: privilege-tiers
 status: forged
 laws: [one-authority-per-vocabulary, count-carries-predicate]
 shared_with: []
+use_when: [classifying an operation by its worst reachable effect, pressure to add a sixth tier, reviewing a one-word tier downgrade]
 ---
 
 # Privilege tiers

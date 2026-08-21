@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-validation-door
 shared_with: []
+use_when: [enumerating what an automated healer may change, deciding whether a machine-authored fix runs autonomously, a strategy grew a side effect its declaration missed]
 ---
 
 # Blast-radius bounds

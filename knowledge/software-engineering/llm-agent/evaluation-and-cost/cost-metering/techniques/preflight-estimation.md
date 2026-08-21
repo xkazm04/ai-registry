@@ -6,6 +6,7 @@ technique: preflight-estimation
 status: forged
 laws: [gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [pricing a call before making it, deciding whether an estimate should gate or advise, bills exceeding what the gate approved]
 ---
 
 # Preflight estimation

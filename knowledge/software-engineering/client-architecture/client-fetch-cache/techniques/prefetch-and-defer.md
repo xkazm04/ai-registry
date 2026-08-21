@@ -6,6 +6,7 @@ technique: prefetch-and-defer
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding whether a fetch should run before its mount, hover-triggered prefetch turning into a load spike, deferred fetches firing after their view unmounted]
 ---
 
 # Prefetch and defer

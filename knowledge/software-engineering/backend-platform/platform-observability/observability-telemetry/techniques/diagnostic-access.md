@@ -6,6 +6,7 @@ technique: diagnostic-access
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [deciding how a user reaches stored records, a support case stalls on getting the logs, changing a path or layout support depends on]
 ---
 
 # Diagnostic access

@@ -6,6 +6,7 @@ technique: navigation-state
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [deciding what belongs in persisted view state, expanded folders land on the wrong nodes after restore, breadcrumbs and tree disagree about where you are]
 ---
 
 # Navigation state

@@ -6,6 +6,7 @@ technique: detached-signatures-and-key-identity
 status: forged
 laws: [gate-sees-target, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether to verify against the enclosed key, binding a claimed identity to its public key, unknown signer keeps failing verification forever]
 ---
 
 # Detached signatures and key identity

@@ -6,6 +6,7 @@ technique: run-attribution
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [old run's tail lands in the new answer, choosing an identity that survives restarts, duplicated output after a view remounts]
 ---
 
 # Run attribution

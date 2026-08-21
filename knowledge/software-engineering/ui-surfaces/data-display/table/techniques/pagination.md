@@ -7,6 +7,7 @@ status: forged
 laws: [identity-survives-reuse, count-carries-predicate, derivation-names-recomputation]
 shared_with:
   - feed
+use_when: [choosing between offset and keyset, rows skipped or repeated where sort values collide, a total disagrees with the current filter]
 ---
 
 # Pagination

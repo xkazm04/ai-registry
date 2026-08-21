@@ -6,6 +6,7 @@ technique: voice-ux-integration
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper]
 shared_with: []
+use_when: [attaching read-aloud controls to content, two narrations start talking over each other, an enabled-looking voice button does nothing]
 ---
 
 # Voice UX integration

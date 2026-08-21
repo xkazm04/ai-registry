@@ -6,6 +6,7 @@ technique: delta-briefings
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [answering what happened while I was gone, badge count disagrees with the view it opens, silence that could mean no news or no data]
 ---
 
 # Delta briefings

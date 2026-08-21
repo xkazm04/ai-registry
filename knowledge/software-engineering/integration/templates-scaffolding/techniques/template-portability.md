@@ -6,6 +6,7 @@ technique: template-portability
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [deciding whether a payload names a service or declares a role, an adopted trigger fires with nobody's intention, defaults landing outside their own option lists after a rewrite]
 ---
 
 # Template portability

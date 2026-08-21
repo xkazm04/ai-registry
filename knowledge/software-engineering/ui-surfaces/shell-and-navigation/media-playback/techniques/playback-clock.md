@@ -6,6 +6,7 @@ technique: playback-clock
 status: forged
 laws: [derivation-names-recomputation, one-authority-per-vocabulary]
 shared_with: []
+use_when: [frame ticks re-render the whole tree, choosing where slewing ends and snapping begins, needle snaps back mid-scrub]
 ---
 
 # The playback clock

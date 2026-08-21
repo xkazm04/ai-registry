@@ -7,6 +7,7 @@ status: forged
 laws:
   - identity-survives-reuse
 shared_with: []
+use_when: [copy shows success for a write that never landed, holding an increment button fires a request storm, deciding whether a toggle applies now or on submit]
 ---
 
 # Micro-interaction contracts

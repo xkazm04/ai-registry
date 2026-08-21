@@ -6,6 +6,7 @@ technique: canary-tripwires
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [planting a marker that proves a boundary was crossed, a run emits a token nothing legitimate produces, zero trips and no proof the tripwire fires]
 ---
 
 # Canary tripwires

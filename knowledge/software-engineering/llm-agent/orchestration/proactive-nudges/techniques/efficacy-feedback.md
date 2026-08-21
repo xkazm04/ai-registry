@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - deletion-is-not-repair
 shared_with: []
+use_when: [reading what users did with each delivered nudge, a kind keeps firing while nobody acts on it, deciding whether an ignored kind may get louder]
 ---
 
 # Efficacy feedback

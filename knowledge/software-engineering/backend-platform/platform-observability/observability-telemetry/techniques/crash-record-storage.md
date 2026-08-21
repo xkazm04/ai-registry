@@ -6,6 +6,7 @@ technique: crash-record-storage
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding where crash evidence lands on disk, deciding whether scrubbing can wait until upload, a crash store that crashes its own reader]
 ---
 
 # Crash record storage

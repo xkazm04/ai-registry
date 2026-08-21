@@ -6,6 +6,7 @@ technique: event-registry
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [subscribers keep listening after a rename, choosing generate versus gate for a mirrored vocabulary, runtime-minted names drift in spelling]
 ---
 
 # Event registry

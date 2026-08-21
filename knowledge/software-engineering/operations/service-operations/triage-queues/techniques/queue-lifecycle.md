@@ -9,6 +9,7 @@ laws:
   - deletion-is-not-repair
   - derivation-names-recomputation
 shared_with: []
+use_when: [designing what may enter and leave a queue, the badge count disagrees with the queue, expiry keeps clearing the backlog nobody reached]
 ---
 
 # Queue lifecycle

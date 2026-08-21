@@ -6,6 +6,7 @@ technique: cascade-design
 status: forged
 laws: [creation-names-reaper, count-carries-predicate, one-validation-door]
 shared_with: []
+use_when: [declaring the fate of each reference to a deletable entity, one delete removing far more rows than anyone counted, resources outside the store outliving their deleted owner]
 ---
 
 # Cascade design

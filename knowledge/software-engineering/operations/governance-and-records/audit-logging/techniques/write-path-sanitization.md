@@ -6,6 +6,7 @@ technique: write-path-sanitization
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding what the free-form audit field may hold, a credential surfaced in stored audit records, erasure obligations against an append-only ledger]
 ---
 
 # Write-path sanitization

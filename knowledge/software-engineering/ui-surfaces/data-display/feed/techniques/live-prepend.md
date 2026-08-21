@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - failure-not-empty-success
 shared_with: []
+use_when: [keeping the viewport still while rows prepend above, entrance animations replay on every refresh, resuming a live feed after a dropped connection]
 ---
 
 # Live prepend

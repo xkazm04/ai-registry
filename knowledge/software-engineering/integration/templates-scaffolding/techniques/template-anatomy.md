@@ -6,6 +6,7 @@ technique: template-anatomy
 status: forged
 laws: [one-validation-door, one-authority-per-vocabulary, identity-survives-reuse, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding which layer a template field belongs to, a default the picker cannot represent, stored answers orphaned by a rewording pass]
 ---
 
 # Template anatomy

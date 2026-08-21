@@ -6,6 +6,7 @@ technique: canvas-accessibility
 status: forged
 laws: []
 shared_with: []
+use_when: [making an infinite canvas usable without a pointer, tab order fills with one stop per node, choosing spatial versus topological navigation]
 ---
 
 # Canvas accessibility

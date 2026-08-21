@@ -6,6 +6,7 @@ technique: resolution-ladders
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding which concrete file a dependency uses, a stale system install shadows the managed copy, an override is set but silently skipped]
 ---
 
 # Resolution ladders

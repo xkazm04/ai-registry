@@ -6,6 +6,7 @@ technique: channel-health-tracking
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, derivation-names-recomputation, creation-names-reaper]
 shared_with: []
+use_when: [designing what each delivery attempt records, one dead sink spams every healthy channel, an owner discovers a channel broke weeks later]
 ---
 
 # Channel health tracking

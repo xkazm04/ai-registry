@@ -6,6 +6,7 @@ technique: tick-isolation
 status: forged
 laws: [failure-not-empty-success, deletion-is-not-repair]
 shared_with: []
+use_when: [a loop ran fine for weeks then died silently, ticks overlap because they outlast their cadence, deciding when repeated failure earns quarantine]
 ---
 
 # Tick isolation

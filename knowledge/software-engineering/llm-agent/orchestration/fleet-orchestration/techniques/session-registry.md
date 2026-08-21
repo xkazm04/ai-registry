@@ -6,6 +6,7 @@ technique: session-registry
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [designing what a session entry must carry, a late finished signal races a lost verdict, consumers keep their own copy of the status enum]
 ---
 
 # Session registry

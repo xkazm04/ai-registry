@@ -6,6 +6,7 @@ technique: subscription-patterns
 status: forged
 laws: [one-validation-door, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [choosing which events a subscription can match, first subscription floods the channel with history, deciding whether disable preserves identity]
 ---
 
 # Subscription patterns

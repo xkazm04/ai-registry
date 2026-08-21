@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - derivation-names-recomputation
 shared_with: []
+use_when: [narrating what a working turn is doing, deciding what survives when a turn settles, trail count disagrees with the step record]
 ---
 
 # Progress narration

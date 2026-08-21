@@ -6,6 +6,7 @@ technique: live-region-architecture
 status: forged
 laws: [one-validation-door, creation-names-reaper]
 shared_with: []
+use_when: [screen reader silent though text renders, burst of updates loses all but the last, deciding whether an identical repeat voices]
 ---
 
 # Live region architecture

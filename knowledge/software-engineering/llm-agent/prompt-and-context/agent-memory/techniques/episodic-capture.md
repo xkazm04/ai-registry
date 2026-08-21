@@ -6,6 +6,7 @@ technique: episodic-capture
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [deciding where one episode ends and another begins, episodes ballooning into a second transcript store, two writers claiming the same sequential id]
 ---
 
 # Episodic capture

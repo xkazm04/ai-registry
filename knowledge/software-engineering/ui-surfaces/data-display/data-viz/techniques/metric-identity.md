@@ -6,6 +6,7 @@ technique: metric-identity
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
 shared_with: []
+use_when: [defining the contract behind a metric name, two surfaces disagree under one metric name, changing a metric's meaning without breaking history]
 ---
 
 # Metric identity

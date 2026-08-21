@@ -6,6 +6,7 @@ technique: integrity-and-provenance
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, deletion-is-not-repair, count-carries-predicate]
 shared_with: []
+use_when: [designing what a manifest digest actually covers, integrity gate has never produced a red, deciding whether a second check is independent]
 ---
 
 # Integrity and provenance

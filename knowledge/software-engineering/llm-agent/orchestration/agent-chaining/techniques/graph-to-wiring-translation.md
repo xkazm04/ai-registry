@@ -9,6 +9,7 @@ laws:
   - creation-names-reaper
   - gate-sees-target
 shared_with: []
+use_when: [turning a drawn edge into runtime wiring, an agent starts that no drawn arrow explains, deciding whether a save appends or reconciles]
 ---
 
 # Graph-to-wiring translation

@@ -6,6 +6,7 @@ technique: stt-pipeline
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper]
 shared_with: []
+use_when: [mic denied but the affordance shows nothing, empty transcript while the meter was moving, a partial transcript fired a real action]
 ---
 
 # The speech-to-text pipeline

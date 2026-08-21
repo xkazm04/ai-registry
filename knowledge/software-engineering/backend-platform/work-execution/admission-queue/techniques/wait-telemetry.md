@@ -6,6 +6,7 @@ technique: wait-telemetry
 status: forged
 laws: [count-carries-predicate, gate-sees-target]
 shared_with: []
+use_when: [fast executor reads as a slow executor, deciding what a depth count actually counts, mean wait flat while one entry ages forever]
 ---
 
 # Wait telemetry

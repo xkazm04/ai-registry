@@ -6,6 +6,7 @@ technique: result-fidelity
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [deciding how null empty string and literal null render distinctly, verifying an empty grid says zero rows not error, scrubbing credentials from engine errors before display]
 ---
 
 # Result fidelity

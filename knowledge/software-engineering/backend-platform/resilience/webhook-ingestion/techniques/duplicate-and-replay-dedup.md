@@ -6,6 +6,7 @@ technique: duplicate-and-replay-dedup
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
+use_when: [choosing a dedup key for repeated deliveries, one delivery minted two internal events, telling a sender retry from a replay attack]
 ---
 
 # Duplicate and replay dedup

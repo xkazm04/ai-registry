@@ -6,6 +6,7 @@ technique: diff-honesty
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [deciding what a truncated diff may claim, empty diff after a failed comparison run, summary count contradicts the detail rows]
 ---
 
 # Diff honesty

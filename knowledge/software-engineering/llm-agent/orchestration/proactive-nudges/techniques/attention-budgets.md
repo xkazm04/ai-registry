@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - derivation-names-recomputation
 shared_with: []
+use_when: [setting a daily cap on machine-initiated contact, one chatty kind eats the whole day's budget, concurrent triggers each take the last free slot]
 ---
 
 # Attention budgets

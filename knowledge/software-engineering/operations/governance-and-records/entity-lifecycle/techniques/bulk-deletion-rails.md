@@ -6,6 +6,7 @@ technique: bulk-deletion-rails
 status: forged
 laws: [gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [designing a delete-all or purge operation, preview counts drift from what actually got deleted, deciding whether a purge can be archive first]
 ---
 
 # Bulk-deletion rails

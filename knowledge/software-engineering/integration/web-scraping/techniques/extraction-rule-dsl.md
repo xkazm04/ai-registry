@@ -6,6 +6,7 @@ technique: extraction-rule-dsl
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [declaring what missing data means for each field, choosing locator kind per field instead of engine default, rule preview and harvest execution diverge]
 ---
 
 # Extraction-rule DSL

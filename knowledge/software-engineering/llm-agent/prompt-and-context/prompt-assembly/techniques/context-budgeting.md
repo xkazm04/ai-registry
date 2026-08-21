@@ -6,6 +6,7 @@ technique: context-budgeting
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [setting floors and elastic lines before assembly, each section fits its cap but the total still overflows, deciding whether heavy material rides every call]
 ---
 
 # Context budgeting

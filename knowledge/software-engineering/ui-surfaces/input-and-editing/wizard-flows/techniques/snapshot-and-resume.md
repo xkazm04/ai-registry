@@ -6,6 +6,7 @@ technique: snapshot-and-resume
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a flow needs snapshots at all, resume re-runs expensive work already done, a committed flow still offers its old draft]
 ---
 
 # Snapshot and resume

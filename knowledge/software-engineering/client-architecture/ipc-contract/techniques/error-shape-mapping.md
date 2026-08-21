@@ -6,6 +6,7 @@ technique: error-shape-mapping
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [deciding what an error handler may branch on, call sites substring-match error prose, a raw panic reaches the wire un-enveloped]
 ---
 
 # Error shape mapping

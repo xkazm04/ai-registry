@@ -6,6 +6,7 @@ technique: decay-and-forgetting
 status: forged
 laws: [creation-names-reaper, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether a memory may be forgotten, stale beliefs crowd out fresh recall, a refuted belief still gets recalled]
 ---
 
 # Decay and forgetting

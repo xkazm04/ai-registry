@@ -6,6 +6,7 @@ technique: terminal-state-recovery
 status: forged
 laws: [failure-not-empty-success, deletion-is-not-repair]
 shared_with: []
+use_when: [closing the set of verdicts a job can end in, an orphaned running row blocks new runs forever, choosing per-job verdicts for a boot recovery sweep]
 ---
 
 # Terminal states and recovery

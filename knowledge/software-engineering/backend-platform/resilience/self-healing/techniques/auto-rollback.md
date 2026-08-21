@@ -8,6 +8,7 @@ laws:
   - gate-sees-target
   - failure-not-empty-success
 shared_with: []
+use_when: [fix cured its target but broke its neighbors, designing the undo before the change lands, same strategy keeps regressing after each rollback]
 ---
 
 # Auto-rollback

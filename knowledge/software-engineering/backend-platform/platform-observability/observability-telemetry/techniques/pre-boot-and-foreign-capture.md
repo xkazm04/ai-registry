@@ -6,6 +6,7 @@ technique: pre-boot-and-foreign-capture
 status: forged
 laws: []
 shared_with: []
+use_when: [logging before the logger exists, child process output never reaches the sink, deciding which stream writes are exempt]
 ---
 
 # Pre-boot and foreign capture

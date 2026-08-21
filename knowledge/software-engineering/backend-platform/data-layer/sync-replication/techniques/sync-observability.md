@@ -6,6 +6,7 @@ technique: sync-observability
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, deletion-is-not-repair]
 shared_with: []
+use_when: [everything works locally yet nothing propagates, deciding whether a still cursor means health or lag, pager fires on every transient attempt failure]
 ---
 
 # Sync observability

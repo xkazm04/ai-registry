@@ -6,6 +6,7 @@ technique: waterfall-rendering
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether bar width still means duration, rendering a span that never closed, wide parent with no slow child]
 ---
 
 # Waterfall rendering

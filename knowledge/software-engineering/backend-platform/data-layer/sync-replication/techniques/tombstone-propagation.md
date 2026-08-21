@@ -6,6 +6,7 @@ technique: tombstone-propagation
 status: forged
 laws: [creation-names-reaper, identity-survives-reuse]
 shared_with: []
+use_when: [a deleted record keeps coming back after sync, choosing between soft-delete flags and tombstone rows, auditing whether any code path writes the tombstone]
 ---
 
 # Tombstone propagation

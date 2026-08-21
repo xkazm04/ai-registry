@@ -6,6 +6,7 @@ technique: scenario-design
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [deciding what belongs in a scenario cache key, improvement shows up but the exam changed underneath, coverage reported without naming which regions]
 ---
 
 # Scenario design

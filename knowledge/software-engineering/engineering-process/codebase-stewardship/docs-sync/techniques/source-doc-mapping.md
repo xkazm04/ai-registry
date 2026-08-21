@@ -6,6 +6,7 @@ technique: source-doc-mapping
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation, gate-sees-target]
 shared_with: []
+use_when: [deciding what a coupling entry must declare, checker green while whole areas sit unmapped, renames keep stripping docs of coverage]
 ---
 
 # Source→doc mapping

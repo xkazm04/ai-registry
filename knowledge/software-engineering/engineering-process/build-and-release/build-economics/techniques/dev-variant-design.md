@@ -6,6 +6,7 @@ technique: dev-variant-design
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [choosing the default variant for daily work, default quietly reverts to the expensive build, green test on a build that never ran the code]
 ---
 
 # Dev-variant design

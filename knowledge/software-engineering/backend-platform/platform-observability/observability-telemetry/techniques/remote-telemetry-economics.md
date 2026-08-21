@@ -6,6 +6,7 @@ technique: remote-telemetry-economics
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether an occurrence earns an event, zero events arriving reads as perfect health, choosing what to shed as quota runs out]
 ---
 
 # Remote telemetry economics

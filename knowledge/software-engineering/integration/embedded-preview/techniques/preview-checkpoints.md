@@ -6,6 +6,7 @@ technique: preview-checkpoints
 status: forged
 laws: [failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [choosing when a live preview takes its checkpoint, snapshots silently stopped and nobody noticed, files reverted but routes and pending requests did not]
 ---
 
 # Preview checkpoints

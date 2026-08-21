@@ -6,6 +6,7 @@ technique: spend-attribution
 status: forged
 laws: [count-carries-predicate, identity-survives-reuse]
 shared_with: []
+use_when: [deciding which axes every call must carry, unattributed spend keeps growing, rollup slices that never sum to the total]
 ---
 
 # Spend attribution

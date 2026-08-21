@@ -6,6 +6,7 @@ technique: drift-gates
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, creation-names-reaper]
 shared_with: []
+use_when: [building a regenerate-and-diff gate, a green diff while the contract rots, generator exits clean having written nothing]
 ---
 
 # Drift gates

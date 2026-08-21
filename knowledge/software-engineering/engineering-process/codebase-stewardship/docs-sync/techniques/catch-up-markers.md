@@ -6,6 +6,7 @@ technique: catch-up-markers
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [scoping a catch-up pass after long unenforced drift, telling covered-at-anchor from never-in-scope, an old marker promises the drift cannot return]
 ---
 
 # Catch-up markers

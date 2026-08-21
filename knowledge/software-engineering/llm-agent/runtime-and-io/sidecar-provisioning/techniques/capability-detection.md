@@ -6,6 +6,7 @@ technique: capability-detection
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding what a probe must establish beyond presence, installed users keep being told to install it, gating a feature before its first spawn]
 ---
 
 # Capability detection

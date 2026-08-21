@@ -6,6 +6,7 @@ technique: layered-composition
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding who owns each layer of a prompt, prompt text is being concatenated at call sites, deciding whether a variant needs its own family]
 ---
 
 # Layered composition

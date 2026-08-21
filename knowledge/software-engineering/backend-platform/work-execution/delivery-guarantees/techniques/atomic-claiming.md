@@ -9,6 +9,7 @@ laws:
   - creation-names-reaper
 shared_with:
   - job-coordination
+use_when: [two workers claimed the same event, a finished event still reads as pending, deciding what evidence a claim must carry]
 ---
 
 # Atomic claiming

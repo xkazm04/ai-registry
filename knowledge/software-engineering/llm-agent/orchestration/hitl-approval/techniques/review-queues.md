@@ -6,6 +6,7 @@ technique: review-queues
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, creation-names-reaper]
 shared_with: []
+use_when: [deciding where pending approvals wait to be seen, badge count disagrees with what the queue shows, judging whether a batch approval is one decision]
 ---
 
 # Review queues

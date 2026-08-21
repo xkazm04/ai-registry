@@ -8,6 +8,7 @@ laws:
   - deletion-is-not-repair
   - count-carries-predicate
   - gate-sees-target
+use_when: [turning verified candidates into a shipped removal, a dead guard still reads as protection, counts dropped more than the deletion explains]
 ---
 
 # Deletion protocols

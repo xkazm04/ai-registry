@@ -6,6 +6,7 @@ technique: same-change-enforcement
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [deciding what record of change a doc gate should read, a gate that exits zero yet has never fired, seeding a violation to see whether the nag arrives]
 ---
 
 # Same-change enforcement

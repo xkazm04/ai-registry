@@ -9,6 +9,7 @@ laws:
   - count-carries-predicate
 shared_with:
   - dead-code
+use_when: [proving nothing references this code, dead modules keep each other looking alive, a generated file outlived its generator]
 ---
 
 # Dead-code detection

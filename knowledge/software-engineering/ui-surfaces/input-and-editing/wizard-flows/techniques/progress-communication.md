@@ -6,6 +6,7 @@ technique: progress-communication
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation]
 shared_with: []
+use_when: [checkmarks disagree with the flow's own state, choosing an honest step total for a branching flow, a step the user finished quietly turned invalid]
 ---
 
 # Progress communication

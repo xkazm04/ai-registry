@@ -6,6 +6,7 @@ technique: render-throttling
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding whether to paint per event or per flush, final words of a run never reach the screen, scroll yanks back to tail while the user reads]
 ---
 
 # Render throttling

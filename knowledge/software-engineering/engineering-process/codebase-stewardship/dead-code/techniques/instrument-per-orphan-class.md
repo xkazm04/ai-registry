@@ -8,6 +8,7 @@ laws:
   - gate-sees-target
   - count-carries-predicate
   - failure-not-empty-success
+use_when: [choosing which instrument sees which absence, deciding whether a mention counts as a use, one tool reports green so the rest feel handled]
 ---
 
 # One instrument per orphan class

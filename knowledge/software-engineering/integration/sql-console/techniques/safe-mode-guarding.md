@@ -6,6 +6,7 @@ technique: safe-mode-guarding
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding where the authoritative guard stands, mutations hiding in literals or comments, an unclassified string reaching the executor]
 ---
 
 # Safe-mode guarding

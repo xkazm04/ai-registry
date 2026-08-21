@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding when a failure pattern becomes an incident, incidents duplicating on every restart, telling expired apart from resolved]
 ---
 
 # Incident promotion

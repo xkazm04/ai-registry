@@ -6,6 +6,7 @@ technique: error-aggregation-and-focus
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [deciding where focus lands after a failed submit, summary still lists errors already fixed, announcing an async result without stealing focus]
 ---
 
 # Error aggregation and focus

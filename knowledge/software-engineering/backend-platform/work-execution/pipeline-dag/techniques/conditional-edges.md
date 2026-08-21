@@ -9,6 +9,7 @@ laws:
   - count-carries-predicate
   - one-validation-door
 shared_with: []
+use_when: [deciding what an unevaluable condition resolves to, run completes green but a branch never fires, choosing any-fire versus all-fire at a join]
 ---
 
 # Conditional edges

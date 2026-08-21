@@ -6,6 +6,7 @@ technique: loop-supervision
 status: forged
 laws: [creation-names-reaper, one-validation-door, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether a new timer must register, orphaned timers fire into torn-down state, two instances both claim singleton loops]
 ---
 
 # Loop supervision

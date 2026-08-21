@@ -6,6 +6,7 @@ technique: op-grammar-allowlisting
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door]
 shared_with: []
+use_when: [deciding whether model output is action or data, model proposes an operation nothing can execute, three of five ops applied with no record which]
 ---
 
 # Op-grammar allowlisting

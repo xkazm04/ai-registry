@@ -6,6 +6,7 @@ technique: key-registry
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, creation-names-reaper]
 shared_with: []
+use_when: [a key reads fine but its write gets rejected, renaming a key users already saved values under, proving which stored keys nothing reads anymore]
 ---
 
 # Key registry

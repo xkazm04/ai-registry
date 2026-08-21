@@ -6,6 +6,7 @@ technique: verb-allowlists
 status: forged
 laws: [one-authority-per-vocabulary, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a new remote verb may exist, remote label fallback starts leaking file paths, a local refactor silently unbounds the remote path]
 ---
 
 # Verb allowlists

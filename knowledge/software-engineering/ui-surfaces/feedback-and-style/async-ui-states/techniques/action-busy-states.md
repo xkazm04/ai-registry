@@ -7,6 +7,7 @@ status: forged
 laws: []
 shared_with:
   - ui-controls
+use_when: [making a pressed control acknowledge async work, a fast double-press submits twice, one press lights every sibling's spinner]
 ---
 
 # Action busy states

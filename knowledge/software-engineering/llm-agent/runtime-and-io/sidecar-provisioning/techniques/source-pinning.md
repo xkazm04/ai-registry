@@ -6,6 +6,7 @@ technique: source-pinning
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a requested artifact may be fetched, a dependency downloads its own model at runtime, an artifact fails to load only on some machines]
 ---
 
 # Source pinning

@@ -6,6 +6,7 @@ technique: computation-offload
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper, derivation-names-recomputation]
 shared_with: []
+use_when: [moving diff computation off the interactive thread, stale answer for pair A lands under pair B's header, choosing what an oversized input degrades to]
 ---
 
 # Computation offload

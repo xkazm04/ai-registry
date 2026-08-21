@@ -6,6 +6,7 @@ technique: setting-kinds
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [classifying a new setting key, deciding whether a boolean flag is really a ceiling, a spend cap edited like a theme toggle]
 ---
 
 # Setting kinds

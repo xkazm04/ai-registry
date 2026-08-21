@@ -8,6 +8,7 @@ laws:
   - one-authority-per-vocabulary
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding which single strategy runs for a failure, two strategies fired on the same failure, re-litigating which branch outranked another]
 ---
 
 # Strategy selection

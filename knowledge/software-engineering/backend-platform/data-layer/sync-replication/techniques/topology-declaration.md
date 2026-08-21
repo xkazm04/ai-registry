@@ -6,6 +6,7 @@ technique: topology-declaration
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [picking a shape for a new replicated stream, local edits vanish after each mirror pass, deciding whether one editable field forces a merge]
 ---
 
 # Topology declaration

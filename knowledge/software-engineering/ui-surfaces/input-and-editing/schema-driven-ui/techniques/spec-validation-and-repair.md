@@ -6,6 +6,7 @@ technique: spec-validation-and-repair
 status: forged
 laws: [one-validation-door, count-carries-predicate, failure-not-empty-success, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether a sloppy value normalizes or drops, invalid nodes vanish from the stored spec, choosing what renders when a whole spec fails]
 ---
 
 # Spec validation and repair

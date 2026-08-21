@@ -6,6 +6,7 @@ technique: checkpoint-restore
 status: forged
 laws: [deletion-is-not-repair, identity-survives-reuse]
 shared_with: []
+use_when: [choosing which moments earn a checkpoint, deciding whether restore can be undone, undo after restore corrupts state]
 ---
 
 # Checkpoint & restore

@@ -7,6 +7,7 @@ status: forged
 laws:
   - derivation-names-recomputation
   - one-authority-per-vocabulary
+use_when: [deciding whether a component may branch on theme, role resolves to nothing in one theme state, regenerating stored themes after adding a role]
 ---
 
 # Theme architecture

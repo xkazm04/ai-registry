@@ -8,6 +8,7 @@ laws:
   - one-authority-per-vocabulary
   - failure-not-empty-success
 shared_with: []
+use_when: [designing what the shared item contract must carry, a failed source reads as an empty queue, a new source forces edits below the adapter]
 ---
 
 # Source normalization

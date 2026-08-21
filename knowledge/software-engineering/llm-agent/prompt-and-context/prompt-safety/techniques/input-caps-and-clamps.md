@@ -6,6 +6,7 @@ technique: input-caps-and-clamps
 status: forged
 laws: [one-validation-door, count-carries-predicate]
 shared_with: []
+use_when: [setting a ceiling for one slot class, deciding whether truncation changes meaning, clamps keep firing at one ceiling from one source]
 ---
 
 # Input caps and clamps
