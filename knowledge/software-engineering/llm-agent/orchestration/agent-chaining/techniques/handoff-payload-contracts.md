@@ -9,6 +9,7 @@ laws:
   - count-carries-predicate
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding what crosses each agent handoff, context keeps growing until a deep link fails, telling empty output from a malformed handoff]
 ---
 
 # Handoff payload contracts

@@ -12,3 +12,11 @@
 **/.*.local.md
 
 node_modules/
+
+# Fleet proposals: the intermediate file a bulk-model pass writes and a reviewer reads.
+#
+# It is a working artifact, not registry content. What a run DID belongs in the
+# librarian vault, in prose, where it is reviewed like everything else here; a large
+# machine-written JSON of candidate lines is neither reviewable nor worth a diff. Keep
+# the file for as long as the review takes, then let it go.
+fleet-*.proposals.json

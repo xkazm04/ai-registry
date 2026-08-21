@@ -6,6 +6,7 @@ technique: projection-security
 status: forged
 laws: [one-validation-door, gate-sees-target]
 shared_with: []
+use_when: [deciding which fields a stream may send, a new column reached replicas by default, scoping inbound writes by connection not payload]
 ---
 
 # Projection security

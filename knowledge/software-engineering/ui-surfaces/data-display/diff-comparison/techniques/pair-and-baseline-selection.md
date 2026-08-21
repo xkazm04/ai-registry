@@ -6,6 +6,7 @@ technique: pair-and-baseline-selection
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
+use_when: [choosing which baseline a diff compares against, diff answers a question nobody asked, empty diff where changes were expected]
 ---
 
 # Pair & baseline selection

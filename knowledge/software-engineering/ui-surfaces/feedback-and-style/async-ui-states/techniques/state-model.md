@@ -6,6 +6,7 @@ technique: state-model
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deriving ui states from request machinery, an empty state flashes before data lands, a slow stale response lands after a fast one]
 ---
 
 # The state model

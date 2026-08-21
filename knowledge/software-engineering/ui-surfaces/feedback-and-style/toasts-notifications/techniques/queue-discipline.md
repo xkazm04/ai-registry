@@ -6,6 +6,7 @@ technique: queue-discipline
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [toasts arrive faster than the screen can absorb, the same failure keeps earning fresh toasts, a dismissed toast resurrects on its own]
 ---
 
 # Queue discipline

@@ -105,9 +105,10 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   much doctrine the repo has already written down, not from its size.
 - **`use_when` on techniques: 237/237 on first pass.** The founding run needed a backfill
   pass; stating the requirement in the brief AND in the frontmatter template fixed it
-  outright. Keep both. (The `software-engineering` bundle is still at 0/629 - verified by
-  direct grep, not the builder, per the founding run's instrument lesson. It predates the
-  rule. That is a real gap and a standing lead, not a forge-run defect.)
+  outright. Keep both. (The `software-engineering` bundle stood at 0/629 during this
+  run - verified by direct grep, not the builder, per the founding run's instrument lesson.
+  A parallel session closed it before this branch merged; the lead is spent, and it is
+  recorded here only because the verify-the-instrument step is what made it reportable.)
 - **Name the neighbouring subject owners inside every dispatch prompt**, each with "reference
   in prose, do NOT write their techniques", plus one line on where the seam runs. Across 40
   concurrent forgers this produced zero duplicated techniques and a large number of correctly

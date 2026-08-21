@@ -6,6 +6,7 @@ technique: navigation-guards
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [wiring a new exit from a draft surface, guard sees clean while a save is pending, users click through the unsaved-changes dialog]
 ---
 
 # Navigation guards

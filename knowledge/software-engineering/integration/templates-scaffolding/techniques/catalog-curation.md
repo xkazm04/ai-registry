@@ -6,6 +6,7 @@ technique: catalog-curation
 status: forged
 laws: [count-carries-predicate, creation-names-reaper, one-validation-door]
 shared_with: []
+use_when: [setting the admission bar for new catalog entries, near-identical entries keep competing in search, deciding when an entry stops earning shelf space]
 ---
 
 # Catalog curation

@@ -7,6 +7,7 @@ status: forged
 laws: [one-authority-per-vocabulary]
 shared_with:
   - status-vocabulary
+use_when: [deciding whether a string is a token or a label, a comparison breaks when the copy changes, rendering a token no map covers]
 ---
 
 # Token–label separation

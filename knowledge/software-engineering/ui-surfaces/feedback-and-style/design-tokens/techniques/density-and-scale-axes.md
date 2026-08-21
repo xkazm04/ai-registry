@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
   - gate-sees-target
+use_when: [adding a user appearance axis beyond color themes, deciding which token roles each axis may rebind, scaled text clips in fixed-size containers]
 ---
 
 # Density and scale axes

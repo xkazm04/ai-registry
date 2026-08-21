@@ -6,6 +6,7 @@ technique: model-output-as-untrusted
 status: forged
 laws: [one-validation-door, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [turning model output into executable operations, a parsed operation points at someone else's record, sizing damage if every proposal is attacker-authored]
 ---
 
 # Model output as untrusted input

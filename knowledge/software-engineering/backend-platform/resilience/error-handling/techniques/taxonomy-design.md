@@ -6,6 +6,7 @@ technique: taxonomy-design
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether timeout and unreachable are one kind or two, retry loop hammers a dependency that can never succeed, a new category degrades to unknown across the wire]
 ---
 
 # Taxonomy design

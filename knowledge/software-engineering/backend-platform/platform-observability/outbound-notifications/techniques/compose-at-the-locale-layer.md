@@ -6,6 +6,7 @@ technique: compose-at-the-locale-layer
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
+use_when: [sent messages ignore the user's language, events originate on a side with no locale, send sites keep bypassing the single door]
 ---
 
 # Compose at the locale layer

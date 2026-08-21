@@ -6,6 +6,7 @@ technique: performance-discipline
 status: forged
 laws: []
 shared_with: []
+use_when: [choosing which properties an animation may touch, a component re-renders at frame rate during animation, idle profile shows clock wake-ups with nothing running]
 ---
 
 # Performance discipline

@@ -7,6 +7,7 @@ status: forged
 laws: [identity-survives-reuse, failure-not-empty-success, creation-names-reaper]
 shared_with:
   - job-coordination
+use_when: [progress bar sits at 99% or runs backwards, deciding whether a cancel click has landed, viewer arriving mid-job sees a blank panel]
 ---
 
 # Job progress and cancellation

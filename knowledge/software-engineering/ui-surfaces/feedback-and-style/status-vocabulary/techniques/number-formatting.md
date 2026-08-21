@@ -6,6 +6,7 @@ technique: number-formatting
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [deciding where locale resolution lives, sub-unit spend rendering as zero, auditing a checker blind to formatter callbacks]
 ---
 
 # Number formatting

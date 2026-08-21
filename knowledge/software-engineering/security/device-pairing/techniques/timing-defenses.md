@@ -6,6 +6,7 @@ technique: timing-defenses
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [auditing every equality a secret value meets, refusals reveal whether the credential existed, a refactor added a descriptive error message]
 ---
 
 # Timing defenses

@@ -6,6 +6,7 @@ technique: append-only-design
 status: forged
 laws: [deletion-is-not-repair, identity-survives-reuse]
 shared_with: []
+use_when: [deciding which operations a ledger may export, correcting a record that was written wrong, an idempotency guard wants to live in the ledger]
 ---
 
 # Append-only design

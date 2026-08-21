@@ -6,6 +6,7 @@ technique: vault-walking
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [five features hand-roll the same vault walk, choosing abort or skip for unreadable directories, deciding whether to descend into symlinked directories]
 ---
 
 # Vault walking

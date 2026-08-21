@@ -7,6 +7,7 @@ status: forged
 laws:
   - identity-survives-reuse
 shared_with: []
+use_when: [choosing between risking duplicates and risking loss, duplicates appear only after a restart, auditing a claimed exactly-once guarantee]
 ---
 
 # Guarantee selection

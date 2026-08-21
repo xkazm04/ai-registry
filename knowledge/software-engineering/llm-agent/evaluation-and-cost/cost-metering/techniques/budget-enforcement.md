@@ -6,6 +6,7 @@ technique: budget-enforcement
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
+use_when: [enumerating every path that can start metered spend, a lowered ceiling still letting calls through, choosing fail-open or fail-closed when the store is down]
 ---
 
 # Budget enforcement

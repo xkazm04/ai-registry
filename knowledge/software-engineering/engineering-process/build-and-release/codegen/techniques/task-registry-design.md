@@ -6,6 +6,7 @@ technique: task-registry-design
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [wiring a second generator into the build, a renamed task silently stops running, two tasks racing on one generated file]
 ---
 
 # Task registry design

@@ -6,6 +6,7 @@ technique: navigation-model
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
+use_when: [adding a section updates one list but not the other, two sections highlight at once, back keeps bouncing off a redirect]
 ---
 
 # Navigation model

@@ -6,6 +6,7 @@ technique: weight-design
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding how much one dimension outweighs another, stored scores stop comparing after a weight change, perturbing weights to see if rankings even move]
 ---
 
 # Weight design

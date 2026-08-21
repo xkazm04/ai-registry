@@ -6,6 +6,7 @@ technique: signing-and-trust
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [deciding whether a platform cell ships unsigned, artifacts stop validating on credential expiry, outer shell signed but an inner binary missed]
 ---
 
 # Signing and trust

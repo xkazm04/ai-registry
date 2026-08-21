@@ -6,6 +6,7 @@ technique: passive-signal-ingestion
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary, creation-names-reaper, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding where a project view's freshness comes from, two surfaces disagree about what happened, a quiet project may just be unwatched]
 ---
 
 # Passive signal ingestion

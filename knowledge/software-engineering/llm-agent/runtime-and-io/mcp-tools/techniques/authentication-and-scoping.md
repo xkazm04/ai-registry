@@ -6,6 +6,7 @@ technique: authentication-and-scoping
 status: forged
 laws: [one-validation-door, gate-sees-target, creation-names-reaper]
 shared_with: []
+use_when: [minting per-consumer tokens for a tool server, deciding whether listing tools needs a token, a caller's inbound token reaching downstream]
 ---
 
 # Authentication and scoping

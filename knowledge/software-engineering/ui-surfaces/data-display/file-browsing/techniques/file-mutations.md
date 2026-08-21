@@ -6,6 +6,7 @@ technique: file-mutations
 status: forged
 laws: [count-carries-predicate, creation-names-reaper, one-validation-door]
 shared_with: []
+use_when: [deciding whether to trust a preflight check, a bulk move summary says only done, choosing optimistic versus pessimistic refresh]
 ---
 
 # File mutations

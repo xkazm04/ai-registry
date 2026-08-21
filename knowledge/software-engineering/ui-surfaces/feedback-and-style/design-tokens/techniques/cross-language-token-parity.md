@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
   - gate-sees-target
+use_when: [choosing between generated mirrors and runtime readback, an animation wait fires before the motion lands, auditing a parity checker that found zero tokens]
 ---
 
 # Cross-language token parity

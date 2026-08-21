@@ -6,6 +6,7 @@ technique: period-comparison
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [fetching both periods for one delta, a weekly tile plunges every Monday morning, rendering growth when the prior period is zero]
 ---
 
 # Period comparison

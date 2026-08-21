@@ -6,6 +6,7 @@ technique: authorization-audit
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [designing what each denial record carries, deciding whether secrets enter the audit line, an empty trail reads as zero denials]
 ---
 
 # Authorization audit

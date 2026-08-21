@@ -6,6 +6,7 @@ technique: undo-model-selection
 status: forged
 laws: [derivation-names-recomputation]
 shared_with: []
+use_when: [choosing between snapshot and inverse undo, undo history blowing the memory budget, inverses drifting from their forward ops]
 ---
 
 # Undo model selection

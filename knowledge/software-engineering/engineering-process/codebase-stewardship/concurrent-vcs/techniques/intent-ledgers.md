@@ -6,6 +6,7 @@ technique: intent-ledgers
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether an overlapping session blocks your start, conflict scan stays green while every entry is stale, choosing how long a silent session casts a shadow]
 ---
 
 # Intent ledgers

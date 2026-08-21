@@ -6,6 +6,7 @@ technique: portfolio-drill-hierarchy
 status: forged
 laws: [derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [splitting a portfolio view into drill levels, the wall slows as the project count grows, unmeasured dimensions rendering as zeros]
 ---
 
 # Portfolio drill hierarchy

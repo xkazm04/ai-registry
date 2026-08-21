@@ -6,6 +6,7 @@ technique: query-construction
 status: forged
 laws: [one-validation-door, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether a token is a value or an identifier, a query runs and returns wrong rows, admitting a raw statement escape hatch]
 ---
 
 # Query construction

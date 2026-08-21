@@ -6,6 +6,7 @@ technique: rubric-stability
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
+use_when: [pinning hand-verified examples against a rubric, two implementations of one composite disagree, deciding whether a rubric edit needs a bump]
 ---
 
 # Rubric stability

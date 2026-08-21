@@ -6,6 +6,7 @@ technique: listener-lifecycle
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [telling a dead listener apart from a quiet one, deciding what happens to deliveries mid-shutdown, bind failing because another copy holds the port]
 ---
 
 # Listener lifecycle

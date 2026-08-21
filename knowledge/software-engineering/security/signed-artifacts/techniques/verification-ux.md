@@ -6,6 +6,7 @@ technique: verification-ux
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [a green check is vouching for a stranger, the verdict crossing the boundary is one boolean, every file flashes unsigned on each mount]
 ---
 
 # Verification UX

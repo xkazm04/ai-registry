@@ -6,6 +6,7 @@ technique: drop-affordances
 status: forged
 laws: []
 shared_with: []
+use_when: [making an item announce it is draggable, drop lands away from the promised slot, deciding how an invalid target refuses]
 ---
 
 # Drop affordances

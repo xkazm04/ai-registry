@@ -6,6 +6,7 @@ technique: idempotent-steps
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding what a guard may conclude, add and drop steps undo each other on replay, pricing a guard against the converged store]
 ---
 
 # Idempotent steps

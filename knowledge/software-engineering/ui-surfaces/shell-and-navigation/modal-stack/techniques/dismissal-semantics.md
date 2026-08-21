@@ -6,6 +6,7 @@ technique: dismissal-semantics
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding which gestures may close an overlay, overlay closes the instant it opens, distinguishing cancel from dismiss for callers]
 ---
 
 # Dismissal semantics

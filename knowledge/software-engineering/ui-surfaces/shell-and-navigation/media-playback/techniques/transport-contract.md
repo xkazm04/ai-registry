@@ -6,6 +6,7 @@ technique: transport-contract
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding what a control shows before the engine answers, users cannot tell paused from buffering, an echo arrives for a request already replaced]
 ---
 
 # The transport contract

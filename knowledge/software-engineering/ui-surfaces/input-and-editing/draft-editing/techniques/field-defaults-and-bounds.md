@@ -6,6 +6,7 @@ technique: field-defaults-and-bounds
 status: forged
 laws: [one-validation-door, one-authority-per-vocabulary]
 shared_with: []
+use_when: [the same range limit written in three places, an oddly specific default keeps getting reset, deciding whether a bound blocks or warns]
 ---
 
 # Field defaults and bounds

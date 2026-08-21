@@ -6,6 +6,7 @@ technique: bucketing-strategy
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [choosing grain for a queried range, first and last buckets come out short, deciding whether absent buckets are zeros]
 ---
 
 # Bucketing strategy

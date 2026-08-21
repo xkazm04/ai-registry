@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - derivation-names-recomputation
 shared_with: []
+use_when: [deciding whether a factor joins the score or multiplies it, a candidate frozen out after two early failures, suspending exploration while the roster degrades]
 ---
 
 # Candidate ranking

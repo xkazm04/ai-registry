@@ -7,6 +7,7 @@ status: forged
 laws:
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding what a red status should open to, choosing how much of a log to transfer, failed fetch reads as no output]
 ---
 
 # Failure drill-down

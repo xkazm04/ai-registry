@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - derivation-names-recomputation
 shared_with: []
+use_when: [deciding which turn facts earn ambient visibility, cost or duration shown without its predicate, recall badge that cannot be opened to its evidence]
 ---
 
 # Turn metadata

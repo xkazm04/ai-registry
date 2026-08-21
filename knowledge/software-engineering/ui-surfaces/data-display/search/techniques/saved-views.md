@@ -6,6 +6,7 @@ technique: saved-views
 status: forged
 laws: [identity-survives-reuse, failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether a view re-runs or freezes results, a retired filter clause quietly widens results, deciding how shared views absorb edits]
 ---
 
 # Saved views

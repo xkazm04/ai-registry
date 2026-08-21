@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - creation-names-reaper
 shared_with: []
+use_when: [a run comes due while still executing, item stuck in running and never runs again, schedule fires twice after a restart]
 ---
 
 # Overlap and reentrancy

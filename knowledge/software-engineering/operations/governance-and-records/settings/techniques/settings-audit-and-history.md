@@ -6,6 +6,7 @@ technique: settings-audit-and-history
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [deciding what a settings change record must carry, history tab full of cursor noise, offering revert without rewriting the trail]
 ---
 
 # Settings audit and history

@@ -6,6 +6,7 @@ technique: acquisition
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [routing a provider to its best acquisition mode, credential fails inside automation days after entry, a tool refresh silently killed the vault's copy]
 ---
 
 # Acquisition

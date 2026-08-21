@@ -6,6 +6,7 @@ technique: gap-ranking
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [deciding which gap to close first, the queue reshuffles on every re-run, phrasing the top gap as an action]
 ---
 
 # Gap ranking

@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - identity-survives-reuse
 shared_with: []
+use_when: [choosing where last-fired state lives, opposite-direction alerts alternate past cooldown, two evaluators each believe they own firing]
 ---
 
 # Dedup and cooldown

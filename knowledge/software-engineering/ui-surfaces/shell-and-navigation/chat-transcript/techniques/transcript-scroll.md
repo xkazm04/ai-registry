@@ -7,6 +7,7 @@ status: forged
 laws:
   - gate-sees-target
 shared_with: []
+use_when: [deciding whether new content may move the viewport, open lands mid-history despite waiting for data, prepending older turns shifts the visible rows]
 ---
 
 # Transcript scroll

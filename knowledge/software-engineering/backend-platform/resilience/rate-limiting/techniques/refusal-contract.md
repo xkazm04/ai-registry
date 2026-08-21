@@ -7,6 +7,7 @@ status: forged
 laws:
   - failure-not-empty-success
 shared_with: []
+use_when: [designing what a refusal tells its caller, callers honoring retry-after still get refused, a quota hit pages as an error-rate alarm]
 ---
 
 # The refusal contract

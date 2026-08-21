@@ -6,6 +6,7 @@ technique: knowledge-integrity-lint
 status: forged
 laws: [failure-not-empty-success, gate-sees-target, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether an unlinked note is exempt, a clean lint report over a partial scan, choosing what a repair pass may delete]
 ---
 
 # Knowledge integrity lint

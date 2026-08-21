@@ -6,6 +6,7 @@ technique: stream-parsing
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [separating framing from payload, unknown event types vanish downstream, malformed frames end the whole run]
 ---
 
 # Stream parsing

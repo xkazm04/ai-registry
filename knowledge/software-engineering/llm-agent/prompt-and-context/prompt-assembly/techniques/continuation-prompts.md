@@ -6,6 +6,7 @@ technique: continuation-prompts
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether the session survived or must be rebuilt, resumed model relitigates decisions already settled, checking carried facts for drift before resuming]
 ---
 
 # Continuation prompts

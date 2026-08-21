@@ -6,6 +6,7 @@ technique: isolated-index-commits
 status: forged
 laws: [gate-sees-target, creation-names-reaper]
 shared_with: []
+use_when: [committing from a checkout shared with live siblings, second commit on a reused index reverts the first, deciding whether to resync the shared index at close]
 ---
 
 # Isolated-index commits

@@ -6,6 +6,7 @@ technique: overlay-precedence
 status: forged
 laws: []
 shared_with: []
+use_when: [modal opens during active tour step, critical alert outranks coaching overlay, escape pressed while tour is topmost]
 ---
 
 # Overlay precedence — the tour as a citizen

@@ -6,6 +6,7 @@ technique: signature-lifecycle
 status: forged
 laws: [identity-survives-reuse, deletion-is-not-repair, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding what deleting a signing record removes, a verified badge outlives a revoked signer, a moved file stops matching its signature]
 ---
 
 # Signature lifecycle

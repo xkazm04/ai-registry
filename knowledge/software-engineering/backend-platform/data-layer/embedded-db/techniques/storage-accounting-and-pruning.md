@@ -6,6 +6,7 @@ technique: storage-accounting-and-pruning
 status: forged
 laws: [creation-names-reaper, count-carries-predicate, deletion-is-not-repair]
 shared_with: []
+use_when: [the database grew but no table admits it, deciding which rows a pruner may touch, rows deleted but the file never shrank]
 ---
 
 # Storage accounting and pruning

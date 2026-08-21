@@ -6,6 +6,7 @@ technique: sink-abstraction
 status: forged
 laws: [failure-not-empty-success, one-validation-door]
 shared_with: []
+use_when: [drawing the seam between measurement and destination, implementing opt-out as a null sink, a dead flush masquerading as declining usage]
 ---
 
 # Sink abstraction

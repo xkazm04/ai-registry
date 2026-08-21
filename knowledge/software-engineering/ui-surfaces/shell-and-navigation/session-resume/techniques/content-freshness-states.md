@@ -6,6 +6,7 @@ technique: content-freshness-states
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [designing what a fetched-content panel shows when offline, splitting cached from stale by cause not age, telling an empty source from an unreachable one]
 ---
 
 # Content freshness states

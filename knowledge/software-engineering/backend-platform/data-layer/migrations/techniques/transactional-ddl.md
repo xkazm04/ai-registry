@@ -6,6 +6,7 @@ technique: transactional-ddl
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [placing the ledger bump inside a migration step, a crash leaves the ledger and store disagreeing, swapping in a rebuilt table without orphaning rows]
 ---
 
 # Transactional DDL

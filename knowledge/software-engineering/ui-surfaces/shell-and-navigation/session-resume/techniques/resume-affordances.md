@@ -6,6 +6,7 @@ technique: resume-affordances
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding what may restore without asking, the same offer re-rendered every launch, arbitrating which arrival card speaks first]
 ---
 
 # Resume affordances

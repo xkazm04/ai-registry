@@ -6,6 +6,7 @@ technique: vocabulary-evolution-checklist
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse, deletion-is-not-repair]
 shared_with: []
+use_when: [adding a member to a display vocabulary, deciding whether a rename means token or label, retiring a member consumers still emit]
 ---
 
 # Vocabulary evolution checklist

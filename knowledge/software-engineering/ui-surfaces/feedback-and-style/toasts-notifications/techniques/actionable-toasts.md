@@ -6,6 +6,7 @@ technique: actionable-toasts
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding what one action a toast should offer, toast vanishes under the cursor mid-reach, choosing between deferred and compensated deletes]
 ---
 
 # Actionable toasts

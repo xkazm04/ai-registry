@@ -6,6 +6,7 @@ technique: readiness-prerequisites
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [declaring what a template assumes about its environment, gate passed but the instance still fails unattended, choosing between blocking adoption and degrading it]
 ---
 
 # Readiness prerequisites

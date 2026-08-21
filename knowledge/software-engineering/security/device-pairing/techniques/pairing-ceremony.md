@@ -6,6 +6,7 @@ technique: pairing-ceremony
 status: forged
 laws: [one-validation-door, identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [designing how a stranger becomes a credential, a retried request resets a resolved record, auditing what a declined stranger just learned]
 ---
 
 # The pairing ceremony

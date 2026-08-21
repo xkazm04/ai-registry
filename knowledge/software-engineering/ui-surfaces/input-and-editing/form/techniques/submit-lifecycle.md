@@ -6,6 +6,7 @@ technique: submit-lifecycle
 status: forged
 laws: [one-validation-door, identity-survives-reuse]
 shared_with: []
+use_when: [designing what happens after submit is pressed, duplicate records slipping past the guard, backdrop close skips the unsaved warning]
 ---
 
 # Submit lifecycle

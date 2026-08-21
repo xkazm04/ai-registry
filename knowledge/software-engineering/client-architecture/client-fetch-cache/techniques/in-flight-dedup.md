@@ -6,6 +6,7 @@ technique: in-flight-dedup
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [two identical requests firing at once, a settled failure still answers new callers, choosing between dedup and latest-wins]
 ---
 
 # In-flight deduplication

@@ -7,6 +7,7 @@ status: forged
 laws:
   - derivation-names-recomputation
 shared_with: []
+use_when: [deciding whether intervals anchor on schedule or completion, a stored next-run disagrees with its rule, fifty jobs firing in the same second]
 ---
 
 # Next-run computation

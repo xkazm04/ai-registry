@@ -6,6 +6,7 @@ technique: commit-verification
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [staged count no longer matches what you named, deciding whether a commit actually happened, push rejected on a branch siblings share]
 ---
 
 # Commit verification

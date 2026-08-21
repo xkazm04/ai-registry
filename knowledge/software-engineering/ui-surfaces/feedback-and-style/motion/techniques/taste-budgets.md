@@ -6,6 +6,7 @@ technique: taste-budgets
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding how much motion a surface is entitled to, each addition looks better yet the whole never rests, an idle loop reads as loading though nothing runs]
 ---
 
 # Taste budgets

@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [deciding whether a failure is safe to retry, same outage retried by one path and dropped by another, classifying a timed-out write that may have landed]
 ---
 
 # Error classification for retry

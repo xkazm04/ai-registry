@@ -6,6 +6,7 @@ technique: brokered-egress
 status: forged
 laws: [one-validation-door, gate-sees-target, creation-names-reaper]
 shared_with: []
+use_when: [whether a caller may ever hold the secret, grants narrowed but scope checks still pass, a spawned worker cannot call through the door]
 ---
 
 # Brokered egress

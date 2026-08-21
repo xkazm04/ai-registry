@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [deciding whether to emulate a missing capability, unmapped status string arrives from a provider, stating how stale or shallow rendered data is]
 ---
 
 # Provider capability honesty

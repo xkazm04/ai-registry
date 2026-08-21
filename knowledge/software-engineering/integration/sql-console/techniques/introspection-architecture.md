@@ -6,6 +6,7 @@ technique: introspection-architecture
 status: forged
 laws: [one-validation-door, count-carries-predicate, derivation-names-recomputation]
 shared_with: []
+use_when: [binding clicked names into catalog queries, deciding whether a client helper is a second door, schema tree drifts from the live database]
 ---
 
 # Introspection architecture

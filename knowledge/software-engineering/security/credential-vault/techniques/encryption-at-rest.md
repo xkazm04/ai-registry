@@ -6,6 +6,7 @@ technique: encryption-at-rest
 status: forged
 laws: [one-validation-door, deletion-is-not-repair, count-carries-predicate]
 shared_with: []
+use_when: [deciding what adversary sealing actually stops, choosing where the master key lives, a ciphertext transplanted between records still opens]
 ---
 
 # Encryption at rest

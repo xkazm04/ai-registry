@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - identity-survives-reuse
 shared_with: []
+use_when: [letting one judgment cover many items, a stale count after the queue mutated, deciding how much friction bulk-accept earns]
 ---
 
 # Bulk triage

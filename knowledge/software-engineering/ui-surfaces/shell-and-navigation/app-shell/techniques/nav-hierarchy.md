@@ -6,6 +6,7 @@ technique: nav-hierarchy
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding whether a section earns a sub-nav, a third nav level is being proposed, posture silently resets on relaunch]
 ---
 
 # Nav hierarchy

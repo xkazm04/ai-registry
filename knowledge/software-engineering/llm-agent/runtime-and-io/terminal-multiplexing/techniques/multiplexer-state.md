@@ -6,6 +6,7 @@ technique: multiplexer-state
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [deciding what identifies a session, keystrokes land in the wrong terminal, sessions reset when moved between panes]
 ---
 
 # Multiplexer state

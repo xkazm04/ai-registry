@@ -6,6 +6,7 @@ technique: editor-ergonomics
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [deciding which editor features earn their execution path, re-run entry N stops meaning entry N, a runaway statement can only be waited out]
 ---
 
 # Editor ergonomics

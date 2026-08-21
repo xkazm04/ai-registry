@@ -7,6 +7,7 @@ status: forged
 laws: [derivation-names-recomputation, failure-not-empty-success, creation-names-reaper, identity-survives-reuse]
 shared_with:
   - outbound-notifications
+use_when: [deciding whether delivery should block the emitter, events skipped or re-sent at a timestamp boundary, a re-enabled channel replays months of history]
 ---
 
 # Outbound fan-out

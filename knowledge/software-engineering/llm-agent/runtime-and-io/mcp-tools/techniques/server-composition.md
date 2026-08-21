@@ -6,6 +6,7 @@ technique: server-composition
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [a tool works but is not listed, one handler's crash takes down the transport, deciding how much of an upstream to re-expose]
 ---
 
 # Server composition

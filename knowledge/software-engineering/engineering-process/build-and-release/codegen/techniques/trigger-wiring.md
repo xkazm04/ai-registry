@@ -6,6 +6,7 @@ technique: trigger-wiring
 status: forged
 laws: [gate-sees-target, derivation-names-recomputation]
 shared_with: []
+use_when: [wiring regeneration into doors developers already open, a raw build shipped stale artifacts, developers routing around a slow pre-step]
 ---
 
 # Trigger wiring

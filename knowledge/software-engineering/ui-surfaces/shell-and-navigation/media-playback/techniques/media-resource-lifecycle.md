@@ -6,6 +6,7 @@ technique: media-resource-lifecycle
 status: forged
 laws: [creation-names-reaper, derivation-names-recomputation]
 shared_with: []
+use_when: [audio keeps playing after its surface is gone, each regenerate rerun strands megabytes, deciding what sheds first under memory pressure]
 ---
 
 # Media resource lifecycle

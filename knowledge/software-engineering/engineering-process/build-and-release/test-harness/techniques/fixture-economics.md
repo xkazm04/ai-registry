@@ -6,6 +6,7 @@ technique: fixture-economics
 status: forged
 laws: [derivation-names-recomputation, creation-names-reaper, one-validation-door, one-authority-per-vocabulary]
 shared_with: []
+use_when: [every test pays for a full environment build, tests pass against yesterday's schema, seeding states the product could never write]
 ---
 
 # Fixture economics

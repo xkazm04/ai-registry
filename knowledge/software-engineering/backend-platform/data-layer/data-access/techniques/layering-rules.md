@@ -6,6 +6,7 @@ technique: layering-rules
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding whether a handler may run its own query, data layer tests stand up the whole application, partitioning a growing repository by aggregate]
 ---
 
 # Layering rules

@@ -6,6 +6,7 @@ technique: ownership-boundaries
 status: forged
 laws: [one-validation-door, gate-sees-target]
 shared_with: []
+use_when: [deciding which tier owns the arrangement, items snap back after a drop that looked accepted, an item floats provisional with no answer]
 ---
 
 # Ownership boundaries

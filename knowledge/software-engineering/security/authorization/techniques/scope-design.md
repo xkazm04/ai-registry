@@ -6,6 +6,7 @@ technique: scope-design
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [adding a scope without knowing who checks it, a pin on one resource opening another, a check passing after the grant narrowed]
 ---
 
 # Scope design

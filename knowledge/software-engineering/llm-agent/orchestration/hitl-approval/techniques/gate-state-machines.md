@@ -6,6 +6,7 @@ technique: gate-state-machines
 status: forged
 laws: [gate-sees-target, identity-survives-reuse, one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a prompt flag is a real gate, machine can flip its own gate open, approved content swapped before execution]
 ---
 
 # Gate state machines

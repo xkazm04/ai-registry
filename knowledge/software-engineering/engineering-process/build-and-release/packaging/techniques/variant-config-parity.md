@@ -6,6 +6,7 @@ technique: variant-config-parity
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [a variant drifted and nothing failed, classifying a difference as chosen or accidental, an overlay is restating half the base]
 ---
 
 # Variant configuration parity

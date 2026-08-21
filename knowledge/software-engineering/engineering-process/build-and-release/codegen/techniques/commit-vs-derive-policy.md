@@ -6,6 +6,7 @@ technique: commit-vs-derive-policy
 status: forged
 laws: [derivation-names-recomputation, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether to commit a generated artifact, a freshness gate fires mostly on noise, dropping a gate without writing down why]
 ---
 
 # Commit-vs-derive policy

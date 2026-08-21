@@ -8,6 +8,7 @@ laws:
   - failure-not-empty-success
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [tracing an event that was accepted but never processed, skip reasons arriving as prose or nulls, deciding whether a skip is replayable or consumed]
 ---
 
 # Non-delivery ledgers

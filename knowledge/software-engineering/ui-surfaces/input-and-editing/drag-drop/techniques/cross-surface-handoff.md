@@ -6,6 +6,7 @@ technique: cross-surface-handoff
 status: forged
 laws: [one-authority-per-vocabulary, creation-names-reaper]
 shared_with: []
+use_when: [designing a handoff where surfaces share nothing, a drop silently does nothing between two surfaces, one side stays haunted after the drag ends]
 ---
 
 # Cross-surface handoff

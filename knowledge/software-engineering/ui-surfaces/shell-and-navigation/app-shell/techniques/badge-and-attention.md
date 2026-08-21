@@ -6,6 +6,7 @@ technique: badge-and-attention
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation]
 shared_with: []
+use_when: [defining what a nav badge counts and when it clears, every entry glows so nothing does, several signals compete for one nav slot]
 ---
 
 # Badge and attention

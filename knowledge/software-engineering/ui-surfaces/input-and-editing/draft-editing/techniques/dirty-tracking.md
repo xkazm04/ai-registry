@@ -6,6 +6,7 @@ technique: dirty-tracking
 status: forged
 laws: [derivation-names-recomputation, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a dirty flag is stored or derived, one edited tab lights every tab's indicator, a new field mutates without ever dirtying]
 ---
 
 # Dirty tracking

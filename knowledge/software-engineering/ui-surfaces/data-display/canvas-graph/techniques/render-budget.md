@@ -6,6 +6,7 @@ technique: render-budget
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation]
 shared_with: []
+use_when: [a canvas stutters on every pan gesture, deciding whether nodes may see the transform, labels pop in and out while zooming]
 ---
 
 # Render budget

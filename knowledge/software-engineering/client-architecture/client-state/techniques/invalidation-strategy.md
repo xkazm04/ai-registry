@@ -6,6 +6,7 @@ technique: invalidation-strategy
 status: forged
 laws: [derivation-names-recomputation, gate-sees-target, creation-names-reaper]
 shared_with: []
+use_when: [choosing how cached state learns it is wrong, deciding to patch from an event or refetch instead, events arrive but the list still shows old names]
 ---
 
 # Invalidation strategy

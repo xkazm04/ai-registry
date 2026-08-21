@@ -6,6 +6,7 @@ technique: dry-run-preview
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a rule edit is safe to save, preview passes but the scheduled harvest misses, target unreachable and the author wants to save]
 ---
 
 # Dry-run preview

@@ -6,6 +6,7 @@ technique: read-batching
 status: forged
 laws: [derivation-names-recomputation]
 shared_with: []
+use_when: [startup pays a round trip per key, the toggle just flipped reads back stale, choosing between a warm cache and tick coalescing]
 ---
 
 # Read batching

@@ -6,6 +6,7 @@ technique: display-vs-machine-channels
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding whether the user sees raw payload or a card, a parser breaks when prompt phrasing changes, prose reads fine but the action never happened]
 ---
 
 # Display vs machine channels

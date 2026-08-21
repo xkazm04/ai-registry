@@ -6,6 +6,7 @@ technique: token-refresh-lifecycle
 status: forged
 laws: [failure-not-empty-success, derivation-names-recomputation, creation-names-reaper, gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding how far ahead of expiry to refresh, a refresh fires but the proof keeps aging, classifying a failed refresh as retryable or fatal]
 ---
 
 # Token refresh lifecycle

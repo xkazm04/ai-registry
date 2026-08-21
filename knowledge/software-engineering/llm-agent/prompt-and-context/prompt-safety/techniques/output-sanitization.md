@@ -6,6 +6,7 @@ technique: output-sanitization
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [model echoes a credential it was shown, stripped markup comes back live after decoding, deciding which egresses mask and which stay verbatim]
 ---
 
 # Output sanitization

@@ -6,6 +6,7 @@ technique: step-position-and-resumability
 status: forged
 laws: [identity-survives-reuse, failure-not-empty-success]
 shared_with: []
+use_when: [a crash re-ran nine steps of side effects, declaring whether a step can survive a re-run, resume needs a value that died with the old process]
 ---
 
 # Step position and resumability

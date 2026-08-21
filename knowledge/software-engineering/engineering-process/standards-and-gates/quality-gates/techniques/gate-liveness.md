@@ -6,6 +6,7 @@ technique: gate-liveness
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a clean exit means anything was checked, seeding a known violation to watch a new gate go red, a gate that has been green for a year]
 ---
 
 # Gate liveness

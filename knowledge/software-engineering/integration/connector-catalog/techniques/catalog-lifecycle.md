@@ -6,6 +6,7 @@ technique: catalog-lifecycle
 status: forged
 laws: [creation-names-reaper, deletion-is-not-repair]
 shared_with: []
+use_when: [retiring an entry whose dependents still reference it, installed rows outliving their shipped source, merging two entries that are one service]
 ---
 
 # Catalog lifecycle

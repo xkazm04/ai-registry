@@ -6,6 +6,7 @@ technique: dev-server-registry
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a surface may spawn its own server, a preview frame never stops loading, an orphaned dev server outlives its owner]
 ---
 
 # Dev-server registry

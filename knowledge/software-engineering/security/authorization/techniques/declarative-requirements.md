@@ -6,6 +6,7 @@ technique: declarative-requirements
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [choosing where an operation's requirement lives, an annotated operation still dispatches ungated, deciding whether unannotated operations may register]
 ---
 
 # Declarative requirements

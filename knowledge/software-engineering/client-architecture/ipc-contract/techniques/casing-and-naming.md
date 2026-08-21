@@ -6,6 +6,7 @@ technique: casing-and-naming
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [fields silently arrive null across the boundary, declaring one wire casing for all crossing shapes, stale call names compile but fail at runtime]
 ---
 
 # Casing and naming

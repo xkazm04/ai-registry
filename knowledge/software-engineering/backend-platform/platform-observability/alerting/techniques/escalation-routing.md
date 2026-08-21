@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [deciding how far a severity may interrupt, an unacknowledged alert keeps aging, a quiet night reads as no problems]
 ---
 
 # Escalation and routing

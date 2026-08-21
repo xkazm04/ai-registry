@@ -6,6 +6,7 @@ technique: retention-and-pruning
 status: forged
 laws: [creation-names-reaper, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether full snapshots are affordable, choosing which versions a janitor may evict, lineage walks dead-ending at pruned parents]
 ---
 
 # Retention & pruning

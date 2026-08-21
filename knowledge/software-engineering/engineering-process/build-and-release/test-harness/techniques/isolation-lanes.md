@@ -6,6 +6,7 @@ technique: isolation-lanes
 status: forged
 laws: [creation-names-reaper, gate-sees-target]
 shared_with: []
+use_when: [deciding what each lane's tests may inherit, tests pass on one machine and fail on another, a live product lane flakes when run in parallel]
 ---
 
 # Isolation lanes

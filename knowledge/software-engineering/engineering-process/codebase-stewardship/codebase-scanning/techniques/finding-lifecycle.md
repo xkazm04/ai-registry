@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - deletion-is-not-repair
 shared_with: []
+use_when: [designing a dedup key that survives edits, the queue fills with matches nobody acts on, deciding whether a fix actually fixed]
 ---
 
 # Finding lifecycle

@@ -6,6 +6,7 @@ technique: priority-and-fairness
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
+use_when: [choosing who queues ahead of whom, one origin quietly owns the whole line, cancellation hits whoever moved into that slot]
 ---
 
 # Priority and fairness

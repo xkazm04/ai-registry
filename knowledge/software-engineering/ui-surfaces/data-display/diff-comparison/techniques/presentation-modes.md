@@ -6,6 +6,7 @@ technique: presentation-modes
 status: forged
 laws: [count-carries-predicate, one-authority-per-vocabulary]
 shared_with: []
+use_when: [choosing how a difference reaches its reader, zeros that cannot be told from not-compared, diff colors meaning different things per surface]
 ---
 
 # Presentation modes

@@ -6,6 +6,7 @@ technique: destructive-confirmation
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [weighing reversibility against blast radius, confirmations getting clicked through unread, a bulk delete hit the wrong set]
 ---
 
 # Destructive confirmation

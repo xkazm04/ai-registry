@@ -6,6 +6,7 @@ technique: kind-taxonomy
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [icon and preview disagreeing on one file, renaming a kind token without orphaning saved state, explaining files that vanished behind an old filter]
 ---
 
 # Kind taxonomy

@@ -6,6 +6,7 @@ technique: installer-authoring
 status: forged
 laws: [creation-names-reaper, identity-survives-reuse]
 shared_with: []
+use_when: [choosing per-user versus per-machine scope, upgrades land as side-by-side duplicates, deciding what uninstall may remove]
 ---
 
 # Installer authoring

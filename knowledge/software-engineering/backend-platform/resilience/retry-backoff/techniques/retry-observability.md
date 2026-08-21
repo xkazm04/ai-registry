@@ -8,6 +8,7 @@ laws:
   - failure-not-empty-success
   - count-carries-predicate
 shared_with: []
+use_when: [why submitted work silently never runs, dashboards green while every call retries, telling gave up from refused from waiting]
 ---
 
 # Retry observability

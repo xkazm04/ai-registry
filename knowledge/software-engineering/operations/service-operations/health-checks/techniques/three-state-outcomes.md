@@ -6,6 +6,7 @@ technique: three-state-outcomes
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding what a check reports when it could not run, the board goes red when only the prober broke, splitting cannot-probe-now from cannot-probe-ever]
 ---
 
 # Three-state outcomes

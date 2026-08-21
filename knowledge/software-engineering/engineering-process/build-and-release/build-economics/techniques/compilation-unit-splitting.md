@@ -6,6 +6,7 @@ technique: compilation-unit-splitting
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [deciding whether to split one huge compilation unit, choosing where to cut between units, one edit rebuilds everything]
 ---
 
 # Compilation-unit splitting

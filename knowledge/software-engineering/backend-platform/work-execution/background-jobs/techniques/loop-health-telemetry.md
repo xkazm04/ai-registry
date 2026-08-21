@@ -6,6 +6,7 @@ technique: loop-health-telemetry
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding what outcomes a tick can report, a loop has been returning zero rows for weeks, the silence detector dies with the supervisor]
 ---
 
 # Loop health telemetry

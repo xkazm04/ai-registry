@@ -7,6 +7,7 @@ status: forged
 laws:
   - identity-survives-reuse
 shared_with: []
+use_when: [queue shuffles a little every refresh, verdicts landing on items never seen, deciding whether groups are separate queues]
 ---
 
 # Queue ordering and identity

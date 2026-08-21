@@ -6,6 +6,7 @@ technique: data-migrations
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [backfilling a new column from existing fields, deciding whether a rewrite fits one transaction, a resumed batch skips rows it already converted]
 ---
 
 # Data migrations

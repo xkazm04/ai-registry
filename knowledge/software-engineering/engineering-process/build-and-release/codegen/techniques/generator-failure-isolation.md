@@ -6,6 +6,7 @@ technique: generator-failure-isolation
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, creation-names-reaper]
 shared_with: []
+use_when: [a generator exits zero but touched nothing, an interrupted run leaves fewer files than it found, deciding whether a failed task blocks the session]
 ---
 
 # Generator failure isolation

@@ -6,6 +6,7 @@ technique: batching-and-quota
 status: forged
 laws: [count-carries-predicate, creation-names-reaper]
 shared_with: []
+use_when: [choosing whether telemetry ships per click or per session, summaries dying with crashed sessions, pricing a new counter against the daily quota]
 ---
 
 # Batching and quota

@@ -6,6 +6,7 @@ technique: cache-budgeting
 status: forged
 laws: [creation-names-reaper, derivation-names-recomputation, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [setting a byte ceiling a pruner enforces, baffling link errors after toolchain drift, deciding whether a cache earns its bytes]
 ---
 
 # Cache budgeting

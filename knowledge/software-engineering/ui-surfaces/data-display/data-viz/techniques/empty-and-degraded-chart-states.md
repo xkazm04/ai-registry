@@ -6,6 +6,7 @@ technique: empty-and-degraded-chart-states
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding what an empty plot area actually says, unmeasured buckets plotting as flat zero, two observations drawing a confident trend line]
 ---
 
 # Empty and degraded chart states

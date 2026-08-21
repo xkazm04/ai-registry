@@ -6,6 +6,7 @@ technique: severity-by-construction
 status: forged
 laws: [gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [tracing what count makes a gate exit non-zero, deciding whether a flag suppresses counting or display, a standard everyone assumes the machine holds]
 ---
 
 # Severity by construction

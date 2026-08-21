@@ -6,6 +6,7 @@ technique: draft-model
 status: forged
 laws: [one-validation-door, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether a control may bypass the patch door, a save clears fields the user never touched, edits from one record bleeding into another]
 ---
 
 # Draft model

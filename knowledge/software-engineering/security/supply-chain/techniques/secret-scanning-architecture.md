@@ -6,6 +6,7 @@ technique: secret-scanning-architecture
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding what a commit-time scanner should read, the scanner engine is missing on some machines, an allowlist entry no longer matches anything]
 ---
 
 # Secret-scanning architecture

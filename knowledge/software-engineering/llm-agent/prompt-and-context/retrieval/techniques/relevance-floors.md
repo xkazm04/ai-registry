@@ -6,6 +6,7 @@ technique: relevance-floors
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding whether to return nothing over weak hits, recalibrating floors after an embedder swap, telling honest empty apart from engine failure]
 ---
 
 # Relevance floors

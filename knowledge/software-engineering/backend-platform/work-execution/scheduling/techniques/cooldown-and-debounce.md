@@ -7,6 +7,7 @@ status: forged
 laws:
   - count-carries-predicate
 shared_with: []
+use_when: [choosing which suppression shape fits a reaction, deciding whether to suppress on a clock or an open artifact, same alert refiring while the condition still holds]
 ---
 
 # Cooldown and debounce

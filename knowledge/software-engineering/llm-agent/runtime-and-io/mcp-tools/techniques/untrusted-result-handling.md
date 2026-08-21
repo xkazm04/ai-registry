@@ -6,6 +6,7 @@ technique: untrusted-result-handling
 status: forged
 laws: [gate-sees-target, deletion-is-not-repair]
 shared_with: []
+use_when: [fencing tool results so the model reads them as data, an argument in a call came from a prior tool result, caught an injection and tempted to delete the poisoned turn]
 ---
 
 # Untrusted result handling

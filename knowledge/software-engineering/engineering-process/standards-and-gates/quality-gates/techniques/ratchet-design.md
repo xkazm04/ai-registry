@@ -6,6 +6,7 @@ technique: ratchet-design
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
+use_when: [gating a metric that cannot be zeroed today, a below-baseline reading passes silently, upward re-baselines are becoming routine]
 ---
 
 # Ratchet design

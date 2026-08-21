@@ -6,6 +6,7 @@ technique: span-model
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
+use_when: [defining the one span schema every producer shares, nesting inferred from intervals breaks under concurrency, absent measurements showing up as zero]
 ---
 
 # Span model

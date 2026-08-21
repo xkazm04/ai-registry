@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - creation-names-reaper
 shared_with: []
+use_when: [deciding whether a retry must survive a restart, retry rows that never reach a terminal state, choosing between ladder delay and a stated reset time]
 ---
 
 # Durable retries

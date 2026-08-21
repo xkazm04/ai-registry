@@ -6,6 +6,7 @@ technique: remote-action-consent
 status: forged
 laws: []
 shared_with: []
+use_when: [matching confirmation strength to blast radius, deciding whether an ack counts as success, two deploys from one impatient second click]
 ---
 
 # Remote action consent

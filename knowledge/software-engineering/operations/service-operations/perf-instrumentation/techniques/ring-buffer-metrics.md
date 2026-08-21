@@ -6,6 +6,7 @@ technique: ring-buffer-metrics
 status: forged
 laws: [creation-names-reaper, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [sizing a fixed window of raw metric records, metric map grows though every ring is capped, deciding whether a rate is a window or lifetime claim]
 ---
 
 # Ring-buffer metrics

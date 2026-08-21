@@ -6,6 +6,7 @@ technique: drift-against-declared
 status: forged
 laws: [gate-sees-target, identity-survives-reuse]
 shared_with: []
+use_when: [diffing live state against a declared promise, deciding whether to fix reality or amend the promise, same deviation re-alarms on every run]
 ---
 
 # Drift against declared

@@ -8,6 +8,7 @@ laws:
   - derivation-names-recomputation
   - gate-sees-target
 shared_with: []
+use_when: [answering does this exist before someone builds it, keeping the component catalog fresh without hand edits, a catalogued primitive has zero adopters]
 ---
 
 # Control inventory & discovery

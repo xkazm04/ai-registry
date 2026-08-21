@@ -6,6 +6,7 @@ technique: log-architecture
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether a value is a field or part of the message, a warn fires on every run, logging shows up in the profile]
 ---
 
 # Log architecture

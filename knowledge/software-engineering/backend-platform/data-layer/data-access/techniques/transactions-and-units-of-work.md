@@ -6,6 +6,7 @@ technique: transactions-and-units-of-work
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding who opens the transaction boundary, half a unit of work commits as success, side effects firing before the commit lands]
 ---
 
 # Transactions and units of work

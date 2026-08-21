@@ -6,6 +6,7 @@ technique: vocabulary-chain-integrity
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a vocabulary is a type or a constraint, a new member renders as a raw unlabeled token, a green registry gate over members minted elsewhere]
 ---
 
 # Vocabulary chain integrity

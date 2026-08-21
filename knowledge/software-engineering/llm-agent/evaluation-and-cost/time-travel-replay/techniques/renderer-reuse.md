@@ -6,6 +6,7 @@ technique: renderer-reuse
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether replay may fork its own renderer, replay renders every timestamp as months old, effects firing while replaying a failed run]
 ---
 
 # Renderer reuse

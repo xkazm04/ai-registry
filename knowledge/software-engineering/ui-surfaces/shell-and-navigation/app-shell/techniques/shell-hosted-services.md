@@ -6,6 +6,7 @@ technique: shell-hosted-services
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a candidate earns shell residency, everything works except the first second, a side effect stops when an unrelated page unmounts]
 ---
 
 # Shell-hosted services

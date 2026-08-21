@@ -6,6 +6,7 @@ technique: write-chokepoint
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding where audit writes should live, proving every destructive action gets recorded, audit calls sprinkled across call sites]
 ---
 
 # Write chokepoint

@@ -6,6 +6,7 @@ technique: lane-contracts
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
+use_when: [dividing mixed registry content into single-shape lanes, a rebuild wipes fields another producer owns, deciding whether an empty lane passes its gate]
 ---
 
 # Lane contracts

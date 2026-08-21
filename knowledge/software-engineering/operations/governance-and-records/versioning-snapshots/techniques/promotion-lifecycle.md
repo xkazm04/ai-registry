@@ -6,6 +6,7 @@ technique: promotion-lifecycle
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [two versions both claim to be active, a save promoted an untested version, deciding what evidence a promotion needs]
 ---
 
 # Promotion lifecycle

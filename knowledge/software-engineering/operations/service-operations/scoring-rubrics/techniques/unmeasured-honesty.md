@@ -6,6 +6,7 @@ technique: unmeasured-honesty
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding what an absent dimension contributes, the least-measured entity keeps ranking lowest, setting the coverage floor below which nothing ranks]
 ---
 
 # Unmeasured honesty

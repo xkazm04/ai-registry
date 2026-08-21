@@ -6,6 +6,7 @@ technique: transport-selection
 status: forged
 laws: [gate-sees-target, creation-names-reaper]
 shared_with: []
+use_when: [choosing between a child process and a network listener, a local tool wants a port just for debugging, treating handle possession as proof of identity]
 ---
 
 # Transport selection

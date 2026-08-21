@@ -6,6 +6,7 @@ technique: bounded-replay-buffers
 status: forged
 laws: [count-carries-predicate, creation-names-reaper]
 shared_with: []
+use_when: [sizing a backend tail buffer in bytes not lines, replay doubles or drops at the attach seam, reading an unwatched session's screen without rendering it]
 ---
 
 # Bounded replay buffers

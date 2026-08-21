@@ -6,6 +6,7 @@ technique: semantic-level-selection
 status: forged
 laws: [identity-survives-reuse, one-authority-per-vocabulary]
 shared_with: []
+use_when: [choosing the level a diff is computed at, forty phantom edits hiding the one that mattered, aligning list elements by key not position]
 ---
 
 # Semantic level selection

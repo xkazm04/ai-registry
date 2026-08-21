@@ -6,6 +6,7 @@ technique: activation-and-funnel-honesty
 status: forged
 laws: [count-carries-predicate, gate-sees-target, deletion-is-not-repair]
 shared_with: []
+use_when: [defining what counts as activation, a funnel rate comes back over 100%, deciding whether a zero-visit surface is dead]
 ---
 
 # Activation and funnel honesty

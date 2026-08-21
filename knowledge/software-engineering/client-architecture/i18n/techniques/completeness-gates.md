@@ -6,6 +6,7 @@ technique: completeness-gates
 status: forged
 laws: [gate-sees-target, count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [a green report over an untranslated locale, extra keys surviving a source rename, a key absent from every locale at once]
 ---
 
 # Completeness gates

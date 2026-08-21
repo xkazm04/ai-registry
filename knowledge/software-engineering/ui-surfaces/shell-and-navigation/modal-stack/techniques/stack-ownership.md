@@ -6,6 +6,7 @@ technique: stack-ownership
 status: forged
 laws: [one-validation-door, creation-names-reaper, identity-survives-reuse]
 shared_with: []
+use_when: [one Escape press closes three layers at once, opening a dialog from inside another dialog, a dialog still standing after a route change]
 ---
 
 # Stack ownership

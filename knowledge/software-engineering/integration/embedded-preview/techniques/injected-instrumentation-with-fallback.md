@@ -6,6 +6,7 @@ technique: injected-instrumentation-with-fallback
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper]
 shared_with: []
+use_when: [deciding how an instrumentation agent enters the guest, designing what the preview does without the agent, preview behaves differently after a second reload]
 ---
 
 # Injected instrumentation, with fallback

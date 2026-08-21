@@ -6,6 +6,7 @@ technique: live-app-harness
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether a claim needs the shipped product, no error returned but the effect never landed, element locators break after a restyle]
 ---
 
 # Live-app harness

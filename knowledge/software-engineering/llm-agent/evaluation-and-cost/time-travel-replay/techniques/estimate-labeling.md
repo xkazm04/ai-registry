@@ -6,6 +6,7 @@ technique: estimate-labeling
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [labeling estimates so they survive playback, a replayed guess hardens into remembered fact, deciding what precision a playhead may print]
 ---
 
 # Estimate labeling under playback

@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [deciding whether an endpoint swap changed the model, measured history resets when a roster label changes, choosing whether capability lives on group or member]
 ---
 
 # Model identity across providers

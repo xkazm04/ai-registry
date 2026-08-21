@@ -6,6 +6,7 @@ technique: severity-taxonomy
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [designing the closed set of severity levels, warnings have stopped meaning anything, a message that fits no existing level]
 ---
 
 # Severity taxonomy

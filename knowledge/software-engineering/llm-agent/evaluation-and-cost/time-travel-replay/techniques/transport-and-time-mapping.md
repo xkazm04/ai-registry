@@ -6,6 +6,7 @@ technique: transport-and-time-mapping
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [mapping replay position onto record timestamps, compressing dead air without lying about tempo, seek keeps toggling between playing and paused]
 ---
 
 # Transport and time mapping

@@ -6,6 +6,7 @@ technique: entitlement-gating
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [deciding whether an entry hides or locks, a hidden section still reachable by deep link, policy revokes while the user sits inside it]
 ---
 
 # Entitlement gating

@@ -6,6 +6,7 @@ technique: algorithm-selection
 status: forged
 laws: []
 shared_with: []
+use_when: [naming the burst semantic before picking a family, a one-second spike becomes a self-renewing lockout, clock sync steps backward and tokens get minted]
 ---
 
 # Algorithm selection

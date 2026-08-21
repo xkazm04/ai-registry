@@ -6,6 +6,7 @@ technique: origin-validation
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
+use_when: [deciding whether a known shape proves a message is ours, weighing a wildcard target for outbound sends, preview loads but the bridge stays dead]
 ---
 
 # Origin validation

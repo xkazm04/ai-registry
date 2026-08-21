@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - failure-not-empty-success
 shared_with: []
+use_when: [keying turns so re-fetch does not duplicate rows, selection or scroll lost when streaming settles, deciding whether failed turns stay in the transcript]
 ---
 
 # The turn model

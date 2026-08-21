@@ -6,6 +6,7 @@ technique: size-budgets
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation, deletion-is-not-repair]
 shared_with: []
+use_when: [a one-line change quietly adds megabytes, deciding whether a size win should stick, raising a budget after a failed gate]
 ---
 
 # Size budgets

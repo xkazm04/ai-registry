@@ -6,6 +6,7 @@ technique: permission-manifest-scoping
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [reviewing a diff that widens a privilege grant, two copies of one allowlist keep drifting apart, declared grants no feature actually exercises]
 ---
 
 # Permission manifest scoping

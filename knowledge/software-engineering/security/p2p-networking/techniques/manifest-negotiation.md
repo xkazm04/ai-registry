@@ -6,6 +6,7 @@ technique: manifest-negotiation
 status: forged
 laws: [one-authority-per-vocabulary, count-carries-predicate, creation-names-reaper]
 shared_with: []
+use_when: [negotiating shared abilities between two live peers, exchange cost grows with library size not divergence, arrived data fails the digest its manifest promised]
 ---
 
 # Manifest negotiation

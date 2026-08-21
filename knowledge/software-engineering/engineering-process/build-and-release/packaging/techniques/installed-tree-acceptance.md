@@ -6,6 +6,7 @@ technique: installed-tree-acceptance
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether build-directory tests are evidence, a process starts and dies in the first second, an uninstaller exits zero leaving the tree behind]
 ---
 
 # Installed-tree acceptance

@@ -6,6 +6,7 @@ technique: atomic-downloads
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding whether transport success proves completeness, two features racing to fetch one artifact, half-installed tree reports itself installed]
 ---
 
 # Atomic downloads

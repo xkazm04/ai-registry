@@ -6,6 +6,7 @@ technique: node-vocabulary-design
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [designing the closed set of node kinds, deciding how unknown node kinds render, kind lists drift between validator and emitter]
 ---
 
 # Node vocabulary design

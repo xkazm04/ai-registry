@@ -6,6 +6,7 @@ technique: fingerprinting-and-cache-keys
 status: forged
 laws: [derivation-names-recomputation, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a resumed session continues or rebuilds, unchanged sessions keep flagging as stale, tracing a behavior shift to the prompt version that caused it]
 ---
 
 # Fingerprinting and cache keys

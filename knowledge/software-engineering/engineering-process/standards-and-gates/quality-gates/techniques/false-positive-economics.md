@@ -6,6 +6,7 @@ technique: false-positive-economics
 status: forged
 laws: [deletion-is-not-repair, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a detector may block, a gate keeps firing on correct content, recovering a suite that was never green]
 ---
 
 # False-positive economics

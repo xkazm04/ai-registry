@@ -6,6 +6,7 @@ technique: undo-scope
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding whether a new field joins the undoable slice, undo moves the camera instead of fixing the document, restore reverts the data but the screen stays stale]
 ---
 
 # Undo scope

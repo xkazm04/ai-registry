@@ -6,6 +6,7 @@ technique: exposure-controls
 status: forged
 laws: [one-validation-door, gate-sees-target]
 shared_with: []
+use_when: [deciding what a paired peer may see, a new data category leaks to peers by default, an endpoint serves bytes without reading the grant]
 ---
 
 # Exposure controls

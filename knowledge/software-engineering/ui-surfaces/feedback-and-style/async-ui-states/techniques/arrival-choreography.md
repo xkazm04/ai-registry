@@ -6,6 +6,7 @@ technique: arrival-choreography
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [deciding which load edge plays the cascade, entrance replays on every scroll-back, settled content animating on a warm load]
 ---
 
 # Arrival choreography

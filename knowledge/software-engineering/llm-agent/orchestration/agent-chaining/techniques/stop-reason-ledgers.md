@@ -9,6 +9,7 @@ laws:
   - failure-not-empty-success
   - count-carries-predicate
 shared_with: []
+use_when: [naming why a chain did not continue, classifying a stop reason as success or error, telling stopped apart from stuck]
 ---
 
 # Stop-reason ledgers

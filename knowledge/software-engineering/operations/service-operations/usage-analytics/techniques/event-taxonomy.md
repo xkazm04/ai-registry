@@ -6,6 +6,7 @@ technique: event-taxonomy
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse, count-carries-predicate]
 shared_with: []
+use_when: [naming events before the first emitter exists, one action is recorded under several names, deciding whether a meaning change needs a new name]
 ---
 
 # Event taxonomy

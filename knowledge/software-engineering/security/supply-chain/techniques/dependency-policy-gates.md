@@ -6,6 +6,7 @@ technique: dependency-policy-gates
 status: forged
 laws: [gate-sees-target, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether the gate reads the manifest or the lockfile, an advisory lands on an untouched lockfile, ignore entries piling up without expiry]
 ---
 
 # Dependency policy gates

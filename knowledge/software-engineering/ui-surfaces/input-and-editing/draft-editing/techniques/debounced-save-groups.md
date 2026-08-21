@@ -6,6 +6,7 @@ technique: debounced-save-groups
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [choosing the save unit for a long-lived draft, pending debounced writes vanish on window close, dirty flag clears before the payload confirms]
 ---
 
 # Debounced save groups

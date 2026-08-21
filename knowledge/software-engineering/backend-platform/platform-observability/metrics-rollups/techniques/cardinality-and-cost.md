@@ -6,6 +6,7 @@ technique: cardinality-and-cost
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [bounding a grouped read before it ships, breakdown rows sum to less than the total, deciding whether a dimension is safe to roll up]
 ---
 
 # Cardinality and cost

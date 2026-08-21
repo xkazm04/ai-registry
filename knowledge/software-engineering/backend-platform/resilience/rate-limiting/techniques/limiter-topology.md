@@ -8,6 +8,7 @@ laws:
   - one-validation-door
   - gate-sees-target
 shared_with: []
+use_when: [two limiters on one resource through different doors, limiter on a proxy that traffic bypasses, deciding fail-open or fail-closed when counting is down]
 ---
 
 # Limiter topology

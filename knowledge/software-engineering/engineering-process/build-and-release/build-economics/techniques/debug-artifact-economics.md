@@ -6,6 +6,7 @@ technique: debug-artifact-economics
 status: forged
 laws: [creation-names-reaper, count-carries-predicate]
 shared_with: []
+use_when: [setting debug-info levels per binary class, rebuild fails while the app still runs, full clean is the only documented recovery]
 ---
 
 # Debug-artifact economics

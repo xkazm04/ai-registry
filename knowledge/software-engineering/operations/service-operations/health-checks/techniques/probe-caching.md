@@ -6,6 +6,7 @@ technique: probe-caching
 status: forged
 laws: [derivation-names-recomputation, creation-names-reaper]
 shared_with: []
+use_when: [surfaces disagreeing about one verdict, sizing a ttl to the fact's rate of change, a wedged probe serving eternal in-progress]
 ---
 
 # Probe caching

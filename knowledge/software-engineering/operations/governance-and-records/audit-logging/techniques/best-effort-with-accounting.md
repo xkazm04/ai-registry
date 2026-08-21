@@ -6,6 +6,7 @@ technique: best-effort-with-accounting
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether an audit write may fail its action, a ledger row doubles as the duplicate guard, the audit-failure counter keeps climbing]
 ---
 
 # Best-effort with accounting

@@ -6,6 +6,7 @@ technique: chunking-and-indexing
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, creation-names-reaper]
 shared_with: []
+use_when: [choosing where chunk boundaries fall, re-sync keeps growing stale near-duplicates, deleted items still match in results]
 ---
 
 # Chunking and indexing

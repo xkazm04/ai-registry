@@ -8,6 +8,7 @@ laws:
   - one-validation-door
   - gate-sees-target
 shared_with: []
+use_when: [authoring or editing a threshold alert rule, rule previews as firing constantly or never, threshold sits inside the signal's own jitter]
 ---
 
 # Rule-authoring validation

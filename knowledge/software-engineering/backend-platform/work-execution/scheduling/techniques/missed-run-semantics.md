@@ -7,6 +7,7 @@ status: forged
 laws:
   - failure-not-empty-success
 shared_with: []
+use_when: [picking a policy for work missed during downtime, two actors both dispatched the same backlog, suppressed overlaps resurrect as make-up runs]
 ---
 
 # Missed-run semantics

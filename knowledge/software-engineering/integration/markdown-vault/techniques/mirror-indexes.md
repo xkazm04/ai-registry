@@ -6,6 +6,7 @@ technique: mirror-indexes
 status: forged
 laws: [derivation-names-recomputation, gate-sees-target]
 shared_with: []
+use_when: [adding a relational mirror beside a file vault, human edits to mirrored notes keep vanishing, auditing what an incremental skip-gate reads]
 ---
 
 # Mirror indexes

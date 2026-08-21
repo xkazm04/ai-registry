@@ -6,6 +6,7 @@ technique: dialect-capability-declaration
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [adding an engine without auditing every conditional, two surfaces disagreeing about one engine, deciding whether to declare or probe capability]
 ---
 
 # Dialect capability declaration

@@ -6,6 +6,7 @@ technique: gesture-coalescing
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether events merge into one undo step, undo reverts two gestures at once, deciding what closes an open undo step]
 ---
 
 # Gesture coalescing

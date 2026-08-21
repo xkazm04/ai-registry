@@ -6,6 +6,7 @@ technique: long-lane-certification
 status: forged
 laws: [failure-not-empty-success, deletion-is-not-repair, count-carries-predicate]
 shared_with: []
+use_when: [declaring pass criteria for an hours-long run, a lane has never been green, deciding whether to quarantine or delete a flaky test]
 ---
 
 # Long-lane certification

@@ -6,6 +6,7 @@ technique: capability-documentation
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [dispatcher rejects a call the prompt explicitly taught, deciding how much detail each operation entry earns, hiding a registered operation to discourage its use]
 ---
 
 # Capability documentation

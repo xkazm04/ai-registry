@@ -6,6 +6,7 @@ technique: push-vs-refetch-reconciliation
 status: forged
 laws: [derivation-names-recomputation, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether events carry truth or only advice, push works reads work but display is still wrong, keeping an optimistic pre-paint tethered to its refetch]
 ---
 
 # Push vs refetch reconciliation

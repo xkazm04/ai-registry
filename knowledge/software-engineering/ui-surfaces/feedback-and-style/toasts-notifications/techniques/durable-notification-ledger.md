@@ -6,6 +6,7 @@ technique: durable-notification-ledger
 status: forged
 laws: [count-carries-predicate, creation-names-reaper, identity-survives-reuse, derivation-names-recomputation, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding which messages earn a durable record, badge count refuses to reach zero, the same news must be cleared twice]
 ---
 
 # Durable notification ledger

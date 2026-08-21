@@ -6,6 +6,7 @@ technique: process-isolation
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether a native capability loads in process, crashes that appear only when two features coexist, garbled sidecar responses after an upgrade]
 ---
 
 # Process isolation

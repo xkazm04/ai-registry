@@ -6,6 +6,7 @@ technique: engine-selection
 status: forged
 laws: []
 shared_with: []
+use_when: [choosing the engine for each gesture, deciding whether a gesture can be interrupted mid-flight, entrances stop playing with nothing erroring]
 ---
 
 # Engine selection

@@ -6,6 +6,7 @@ technique: retention-and-partitioning
 status: forged
 laws: [creation-names-reaper, count-carries-predicate]
 shared_with: []
+use_when: [deciding how long each audit ledger keeps its records, splitting one pooled ledger by retention obligation, the record documenting the cut falls inside the cut]
 ---
 
 # Retention and partitioning

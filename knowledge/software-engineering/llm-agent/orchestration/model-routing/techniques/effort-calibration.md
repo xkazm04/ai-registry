@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - gate-sees-target
 shared_with: []
+use_when: [raising effort because bigger feels safer, output capped but effort set high, all tiers fail the same requirement]
 ---
 
 # Effort calibration

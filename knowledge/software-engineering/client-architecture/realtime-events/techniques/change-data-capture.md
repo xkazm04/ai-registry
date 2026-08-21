@@ -6,6 +6,7 @@ technique: change-data-capture
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success, one-validation-door]
 shared_with: []
+use_when: [deciding where change events originate, consumers refetch and find nothing changed, capture pipeline never reports a drop]
 ---
 
 # Change data capture

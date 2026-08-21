@@ -6,6 +6,7 @@ technique: generated-file-hygiene
 status: forged
 laws: [derivation-names-recomputation, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding what a generated file's header must say, formatter keeps reflowing regenerated output, regenerated output differs between runs]
 ---
 
 # Generated-file hygiene

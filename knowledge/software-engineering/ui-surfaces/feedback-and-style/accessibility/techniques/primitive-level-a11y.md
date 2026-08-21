@@ -6,6 +6,7 @@ technique: primitive-level-a11y
 status: forged
 laws: [one-validation-door, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding where an accessibility fix should land, the same finding recurring on every screen, choosing native element versus custom widget]
 ---
 
 # Primitive-level accessibility

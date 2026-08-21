@@ -6,6 +6,7 @@ technique: restore-semantics
 status: forged
 laws: [deletion-is-not-repair, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether restore rewinds or mints forward, restored content clobbered uncaptured live edits, a restore failed halfway and left partial state]
 ---
 
 # Restore semantics

@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [a control renders differently at every call site, deciding whether a new variant is a design decision, override counts climbing on one control]
 ---
 
 # Variant discipline

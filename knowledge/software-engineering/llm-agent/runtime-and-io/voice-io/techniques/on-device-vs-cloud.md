@@ -6,6 +6,7 @@ technique: on-device-vs-cloud
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether voice runs on-device or in the cloud, voice falls back to cloud without asking, settings say the model is ready but it fails]
 ---
 
 # On-device versus cloud

@@ -6,6 +6,7 @@ technique: journal-and-durability-modes
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [deciding whether a power cut may lose commits, a restored backup is missing recent commits, the promised durability mode silently reverts]
 ---
 
 # Journal and durability modes

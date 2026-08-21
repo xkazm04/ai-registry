@@ -6,6 +6,7 @@ technique: coupled-surface-inventory
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding which prose surfaces a feature change owes, two artifacts agree yet neither matches the live surface, choosing what change altitude dismisses each surface]
 ---
 
 # Coupled-surface inventory

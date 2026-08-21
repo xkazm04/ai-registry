@@ -8,6 +8,7 @@ laws:
   - creation-names-reaper
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding whether a deferred notice is still true, suppressed notices vanish instead of waiting, answering why a notice was never delivered]
 ---
 
 # Notice/delivery decoupling

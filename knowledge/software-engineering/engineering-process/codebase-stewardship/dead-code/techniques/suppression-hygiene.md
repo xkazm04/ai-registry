@@ -8,6 +8,7 @@ laws:
   - creation-names-reaper
   - deletion-is-not-repair
   - failure-not-empty-success
+use_when: [writing a reason for a suppression entry, an exemption points at deleted code, deciding whether an ignore delegates or hides]
 ---
 
 # Suppression hygiene
