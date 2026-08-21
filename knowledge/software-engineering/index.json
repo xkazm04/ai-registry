@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 124,
-  "techniques": 756,
-  "applications": 307,
+  "techniques": 757,
+  "applications": 308,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "123/756",
+  "use_when_coverage": "124/757",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -8545,6 +8545,22 @@
      "shared_with": []
     },
     {
+     "slug": "grade-selection",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "derivation-names-recomputation",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which variant of a model or engine to provision",
+      "sizing a dependency against the machine it will run on",
+      "explaining why output quality changed without a version change",
+      "designing a download picker"
+     ]
+    },
+    {
      "slug": "model-storage-lifecycle",
      "status": "forged",
      "laws": [
@@ -8590,6 +8606,13 @@
      "technique": "atomic-downloads",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/rust--atomic-downloads.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "grade-selection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/rust--grade-selection.md",
+     "verified_on": "2026-08-21",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -10969,6 +10992,7 @@
     "settings/typed-accessors",
     "sidecar-provisioning/atomic-downloads",
     "sidecar-provisioning/capability-detection",
+    "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/process-isolation",
     "sidecar-provisioning/resolution-ladders",
     "signed-artifacts/import-verification-flow",
@@ -11440,6 +11464,7 @@
     "search/ranking-and-excerpts",
     "search/saved-views",
     "self-healing/incident-promotion",
+    "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/model-storage-lifecycle",
     "signed-artifacts/detached-signatures-and-key-identity",
     "signed-artifacts/import-verification-flow",
@@ -12070,6 +12095,7 @@
     "search/full-text-indexing",
     "self-healing/effectiveness-accounting",
     "settings/read-batching",
+    "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/model-storage-lifecycle",
     "signed-artifacts/canonical-hashing",
     "signed-artifacts/signature-lifecycle",
