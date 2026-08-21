@@ -3,23 +3,26 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.0.0
+version: 1.1.0
 tags: registry, maintenance, coverage, dispatch, quality
 ---
 
 # Librarian
 
-The registry has two content engines and they are good. `domain-knowledge-forge`
+The registry has three content engines and they are good. `domain-knowledge-forge`
 creates a bundle from a repository's ceiling. `deepen` raises one subject above any
-repository, with research lanes and a saturation ledger.
+repository, with research lanes and a saturation ledger. `research` runs inward: it
+mines a source somebody handed us for what it changes here, and banks what it cannot
+prove as a dated lead.
 
-**This skill is neither.** It is the layer that decides *what to run, where, and
-whether it was worth running* - a warden over structure and a dispatcher over the two
+**This skill is none of them.** It is the layer that decides *what to run, where, and
+whether it was worth running* - a warden over structure and a dispatcher over the
 engines. It keeps the coverage memory that lets run N+1 know what run N did.
 
 Say that out loud in every session, because the failure mode for a skill like this is
 re-implementing deepen's research lanes badly under a new name. **If the answer is
-"research this subject", the answer is `/deepen`, dispatched from here.**
+"research this subject", the answer is `/deepen`, dispatched from here.** If it is
+"mine this link", the answer is `/research`, and a human has to bring the link.
 
 ## Invocation
 
@@ -73,6 +76,9 @@ script cannot:
 - **Systemic beats individual.** When one defect dominates the worklist across dozens
   of subjects, the fix is one systematic pass, not forty dispatches. Notice this
   before you dispatch, not after.
+- **A due lead is cheaper than a fresh scan.** `librarian/sources/` holds findings a
+  research run proved real and could not land, each with a return condition. Read them
+  before ranking: a lead whose condition has arrived is work somebody already scoped.
 
 **5. Dispatch.** A fleet of scoped workers, **cap 10 concurrent, topped up one per
 completion** - the number both existing skills converged on across measured runs. Each
@@ -87,6 +93,7 @@ Choose the engine by what is missing:
 | --- | --- |
 | subject is thin, stale, or contradicted | scoped `/deepen` |
 | subject does not exist but should | forge wave (`domain-knowledge-forge`) |
+| a banked lead in `sources/` came due | scoped `/deepen` at the subject the lead names |
 | missing `use_when`, dead link, bad frontmatter | fix in-session; no worker |
 | cap breach, misplaced subject | `apply-taxonomy.mjs`; no worker |
 
@@ -104,9 +111,12 @@ gets re-proposed every run forever.
 ```
 librarian/index.md                        map of content
 librarian/standard.md                     the bar every sweep grades against
+librarian/projects.md                     which connected project relates to which bundle
 librarian/domains/<domain>.md             per bundle: last swept, shape, what is owed
 librarian/subjects/<domain>/<subject>.md  last touched, dry streak, open leads, declines
 librarian/runs/<YYYY-MM-DD>-<n>.md        what one run swept, dispatched, accepted, declined
+librarian/sources/index.md                the ledger of external sources /research mined
+librarian/sources/<YYYY-MM-DD>-<slug>.md  what one source yielded, and what it did not
 ```
 
 Obsidian-navigable: wikilinks between notes, one fact per note. It lives in the

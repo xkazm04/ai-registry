@@ -12,3 +12,15 @@
 **/.*.local.md
 
 node_modules/
+
+# Local-only project bridge.
+#
+# `/research` needs to resolve a connected project's slug to a path on THIS machine.
+# Those paths name private trees, and `registry.yaml` guarantees that nothing published
+# here points into one - the same rule that put the evidence layer in a local overlay.
+# So the bridge is split: `.projects.local.json` holds slug -> path and stays here;
+# `librarian/projects.md` holds slug -> domain, is path-free, and is reviewed like
+# everything else.
+#
+# See skills/research/SKILL.md, Phase 0 and Phase 8.
+**/.*.local.json
