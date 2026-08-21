@@ -3,7 +3,7 @@ name: research
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.1.0
+version: 0.2.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -56,7 +56,7 @@ writes a document into a folder no consumer walks - the same rule `deepen` worke
 Neither instrument decides anything. They put you in the neighbourhood; you still open
 the file.
 
-## The four outcomes
+## The five outcomes
 
 Rank a run by which of these it produced honestly, never by document count.
 
@@ -66,6 +66,14 @@ Rank a run by which of these it produced honestly, never by document count.
 | **Currency** | The world moved under a claim we already publish. | `verified_on` / `refresh_by` on the affected application, or a scoped `/deepen` dispatch |
 | **Lead** | Real, unproven, with a stated return condition. | `librarian/sources/<date>-<slug>.md` |
 | **Already covered** | The corpus says it, and says it better. | The source note, as a catch |
+| **Untriaged** | Extracted, reached the table, never picked. | The source note, in its own table |
+
+**Untriaged is not declined, and the distinction is load-bearing.** A candidate the
+operator never chose carries no judgment at all; filing it as a decline poisons the
+decline ledger, which the next run reads as "somebody looked at this and said no" and
+which Phase 11 promotes into a rule after three sightings. Record untriaged candidates
+with their anchors so a later run does not re-derive them, in a table that says plainly
+that nobody verified them.
 
 A mixed-news roundup that yields nine already-covered catches, two leads and one clock
 reset is a **good run**. Padding it into three half-corroborated techniques is how the
@@ -100,6 +108,17 @@ candidates that would otherwise consume the corroboration budget.
 | Currency signal | Yes, on its own. "A vendor shipped X" is exactly the class of fact a news source is reliable for, and it is a statement about the world, not about the standard. |
 | Lead | Yes, on its own. That is what a lead is. |
 | `skills/`, `practices/`, `memory/`, `scripts/`, `docs/` | Judgment, no gate. These are ours; the bar is whether it would survive `CODEOWNERS` review. |
+
+**A source that is contradicted is the best case, not a dead candidate.** Corroboration
+is not a pass/fail gate on the source's wording - it is how the finding gets written. On
+2026-08-21 a roundup said "take the highest precision tier your machine allows"; the
+primary literature said the compression format dominates the nominal tier and that a
+lower-tier variant can beat a higher one. The gap the source pointed at was real and the
+rule it gave for filling it was inverted, so the technique was written against the
+literature and is stronger for it. When a pick is contradicted, do not drop it: ask
+whether the source located something true while explaining it wrongly, and if so write
+the finding from the source that can authorize it. Say so in the note - a corrected
+premise is the most reusable thing a run produces about a source class.
 
 Budget corroboration like `deepen` does: at most **3** web fetches for the whole run,
 spent only on picked candidates, preferring primary and vendor documents over
@@ -255,8 +274,8 @@ assumed.
 
 - **Source note** `librarian/sources/<YYYY-MM-DD>-<slug>.md`: frontmatter (`source`,
   `kind`, `url`, `title`, `author`, `words`, `extracted`, `accepted`, `declined`,
-  `leads`, `already_covered`, `dispatched`), then one block per candidate with its
-  outcome and, for declines, the reason. A decline nobody wrote down gets re-proposed
+  `leads`, `already_covered`, `untriaged`, `dispatched`), then one block per candidate
+  with its outcome and, for declines, the reason. A decline nobody wrote down gets re-proposed
   every run forever.
 - **Source ledger** `librarian/sources/index.md`: one line per mined source. This is
   what makes "already mined" a one-second check next time.
@@ -272,9 +291,16 @@ assumed.
 - **A branch, always.** Never `main`. The registry's governance model is that merging
   is a human act, and a research run is exactly the kind of automation that erodes it
   if it is allowed to land directly.
-- **Commit with a pathspec**: `git commit -m "..." -- <your paths>`. This checkout is
-  routinely shared with parallel agent sessions, and a pathspec-less commit takes
-  whatever another session staged between your `add` and your `commit`.
+- **Check for parallel sessions before branching.** This checkout is routinely shared
+  with other agent sessions, and two of them cannot be on different branches: on
+  2026-08-21 another session switched the branch out from under this one mid-run. When
+  anything else is live in the tree, run the whole thing in `git worktree add <short
+  path> -b <branch>` instead of switching in place. Keep the worktree path SHORT - the
+  deepest bundle paths are long enough that a scratch-directory prefix blows past the
+  platform path limit and the worktree half-creates.
+- **Commit with a pathspec**: `git commit -m "..." -- <your paths>`. A worktree isolates
+  the checkout but shares the object store and the branch namespace, and a pathspec-less
+  commit still takes whatever is staged.
 - Treat any modified file you did not touch as live WIP. Never `git add -A`.
 - Close by verifying each shipped artifact is in `HEAD` (`git grep <slug> HEAD -- <path>`),
   not by trusting that the commit command succeeded. A parallel session can rewrite

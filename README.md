@@ -129,7 +129,7 @@ the same reason `invokes30d: 0` with no contributors means nobody is looking.
 | [`domain-knowledge-forge`](skills/domain-knowledge-forge/SKILL.md) | `ai-native` | 1.2.0 | Extract a repository's domain knowledge into a four-layer RKB bundle, with a bounded agent pool. Carries [`LESSONS.md`](skills/domain-knowledge-forge/LESSONS.md). |
 | [`deepen`](skills/deepen/SKILL.md) | `ai-native` | 1.1.0 | Review and widen an existing bundle topic via research lanes, batch workers, or a saturation-ledger loop. Carries [`LESSONS.md`](skills/deepen/LESSONS.md). |
 | [`librarian`](skills/librarian/SKILL.md) | `ai-native` | 1.1.0 | Sweep every bundle for structural and quality decay, rank it, and dispatch the other engines at what needs work. Keeps coverage memory in [`librarian/`](librarian/index.md). |
-| [`research`](skills/research/SKILL.md) | `ai-native` | 0.1.0 | Mine an external source - a video, an article, pasted notes - for what it changes here, and in the connected projects that consume it. |
+| [`research`](skills/research/SKILL.md) | `ai-native` | 0.2.0 | Mine an external source - a video, an article, pasted notes - for what it changes here, and in the connected projects that consume it. Carries [`LESSONS.md`](skills/research/LESSONS.md). |
 
 `category` comes from a closed set: `ci-cd`, `testing`, `security`, `ai-native`, `docs`,
 `workflow`, `other`. Anything else is normalized to `other` at index time. `name` is a kebab-case
