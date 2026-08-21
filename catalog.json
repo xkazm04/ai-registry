@@ -197,6 +197,19 @@
       "contentHash": "sha256:b043ae3e490ae9ba"
     },
     {
+      "name": "recruiting",
+      "title": "Recruiting",
+      "path": "knowledge/recruiting",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "recruiting",
+      "subjects": 64,
+      "techniques": 384,
+      "applications": 190,
+      "files": 642,
+      "contentHash": "sha256:b7d94e86121c6342"
+    },
+    {
       "name": "software-engineering",
       "title": "Software engineering",
       "path": "knowledge/software-engineering",
