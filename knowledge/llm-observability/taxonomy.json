@@ -1,0 +1,52 @@
+{
+  "$comment": "AUTHORITY on where every subject lives. The folder tree is DERIVED from this file, never the other way round: once folders encode the taxonomy, a hand-edited recategorization is a corpus-wide link break, so moves go through scripts/apply-taxonomy.mjs and nothing else. `layout` says whether the tree has been materialized yet - \"flat\" means subjects still sit directly under the bundle and the cap check reports rather than fails. A subject is identified by its bare slug everywhere (technique@owner, shared_with, index.json, signals/); only its location is nested. Gated by scripts/check-bundles.mjs via scripts/lib/taxonomy.mjs.",
+  "schema": "rkb-taxonomy/1",
+  "bundle": "llm-observability",
+  "layout": "nested",
+  "categories": [
+    {
+      "id": "telemetry-and-data",
+      "title": "Telemetry & data",
+      "order": 1,
+      "subjects": [
+        "analytics-store-design",
+        "llm-call-telemetry-model",
+        "multi-provider-event-normalization",
+        "trace-rollup-and-attribution"
+      ]
+    },
+    {
+      "id": "economics-and-governance",
+      "title": "Economics & governance",
+      "order": 2,
+      "subjects": [
+        "billing-revenue-normalization",
+        "breach-alerting-and-attribution",
+        "llm-price-book-operations",
+        "margin-and-unit-economics",
+        "usage-limit-governance"
+      ]
+    },
+    {
+      "id": "quality-scoring",
+      "title": "Quality scoring",
+      "order": 3,
+      "subjects": [
+        "cross-provider-benchmark-operations",
+        "judge-calibration-and-drift",
+        "judge-contract-design",
+        "production-trace-scoring",
+        "quality-regression-gating"
+      ]
+    },
+    {
+      "id": "federation-and-surfaces",
+      "title": "Federation & surfaces",
+      "order": 4,
+      "subjects": [
+        "federated-benchmark-sharing",
+        "operator-surfaces-for-llm-spend"
+      ]
+    }
+  ]
+}

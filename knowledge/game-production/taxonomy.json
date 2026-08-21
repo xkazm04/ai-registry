@@ -1,0 +1,97 @@
+{
+  "$comment": "AUTHORITY on where every subject lives. The folder tree is DERIVED from this file, never the other way round: once folders encode the taxonomy, a hand-edited recategorization is a corpus-wide link break, so moves go through scripts/apply-taxonomy.mjs and nothing else. Seeded 2026-08-20 from a 38-context extraction of one game-production codebase. One bundle on purpose: every category shares the `game` purity denylist (engine / DCC tool / generative model product names), so knowledge/README.md's split test is not met.",
+  "schema": "rkb-taxonomy/1",
+  "bundle": "game-production",
+  "layout": "nested",
+  "categories": [
+    {
+      "id": "systems-canon",
+      "title": "Systems canon",
+      "order": 1,
+      "subjects": [
+        "arpg-systems-canon",
+        "design-canon-as-executable-law",
+        "game-economy-tuning",
+        "realtime-combat-semantics"
+      ]
+    },
+    {
+      "id": "balance-validation",
+      "title": "Balance validation",
+      "order": 2,
+      "subjects": [
+        "combat-pacing-and-dramatic-arc",
+        "encounter-balance-simulation",
+        "procedural-level-planning"
+      ]
+    },
+    {
+      "id": "content-pipeline",
+      "title": "Content pipeline",
+      "order": 3,
+      "subjects": [
+        "acceptance-verdict-spine",
+        "catalog-pipeline-authoring",
+        "content-acceptance-tiering",
+        "content-drift-and-revision",
+        "generative-artifact-gating",
+        "wiring-contract-doctrine"
+      ]
+    },
+    {
+      "id": "asset-production",
+      "title": "Generative asset production",
+      "order": 4,
+      "subjects": [
+        "asset-class-poly-budgeting",
+        "generated-asset-world-scale",
+        "generated-mesh-acceptance",
+        "image-to-3d-input-gating",
+        "mesh-finishing-for-engine-readiness",
+        "motion-quality-gating",
+        "regeneration-vs-repair-economics",
+        "shader-budget-authoring",
+        "spatial-audio-scene-authoring",
+        "tiling-texture-acceptance"
+      ]
+    },
+    {
+      "id": "engine-integration",
+      "title": "Engine integration",
+      "order": 5,
+      "subjects": [
+        "crash-forensics-attribution",
+        "engine-integration-safety",
+        "engine-pitfall-corpus",
+        "runtime-observation-evidence",
+        "ship-pipeline-gating",
+        "visual-script-to-code-transpilation"
+      ]
+    },
+    {
+      "id": "craft-judgment",
+      "title": "Machine craft judgment",
+      "order": 6,
+      "subjects": [
+        "aaa-craft-rubric-authoring",
+        "design-doc-compliance-scoring",
+        "quality-verdict-integrity",
+        "subsystem-review-doctrine",
+        "unattended-build-loop"
+      ]
+    },
+    {
+      "id": "production-governance",
+      "title": "Production governance",
+      "order": 7,
+      "subjects": [
+        "ability-authoring-to-engine",
+        "generative-provider-auditing",
+        "production-coverage-measurement",
+        "production-prompt-architecture",
+        "production-work-prioritization",
+        "prompt-fitness-and-evolution"
+      ]
+    }
+  ]
+}

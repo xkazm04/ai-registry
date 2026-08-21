@@ -31,6 +31,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadTaxonomy, walkSubjects } from './lib/taxonomy.mjs';
+import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'knowledge');
@@ -77,11 +79,17 @@ const mdFiles = (dir) =>
 function buildBundle(domain) {
   const base = path.join(LANE, domain);
 
-  const catFile = path.join(base, 'categories.json');
-  const categories = fs.existsSync(catFile)
-    ? JSON.parse(fs.readFileSync(catFile, 'utf8'))
-    : { categories: [], subjects: {} };
-  const catOf = categories.subjects || {};
+  // The taxonomy is the authority on grouping AND on location. Reading it through the
+  // same module the gate uses is deliberate: a resolver that disagreed with the gate's
+  // would produce an index that describes a tree nobody has.
+  const { taxonomy, errors: txErrors, subjects: declared } = loadTaxonomy(base, domain);
+  if (txErrors.length) {
+    console.error(`build-index FATAL: ${domain}'s taxonomy is not usable —`);
+    for (const e of txErrors) console.error(`  ${e}`);
+    console.error('Refusing to write an index built on a broken taxonomy. Run check-bundles.mjs.');
+    process.exit(2);
+  }
+  const { found } = walkSubjects(base);
 
   // Law statements: anchor id → first paragraph beneath it.
   const lawStmt = {};
@@ -96,14 +104,11 @@ function buildBundle(domain) {
   const subjects = {};
   const laws = {};
 
-  const slugs = fs
-    .readdirSync(base, { withFileTypes: true })
-    .filter((d) => d.isDirectory())
-    .map((d) => d.name)
-    .sort();
+  const slugs = [...found.keys()].sort();
 
   for (const slug of slugs) {
-    const dir = path.join(base, slug);
+    const at = found.get(slug); // where it IS, at this bundle's current layout
+    const dir = path.join(base, at);
     const gpFile = path.join(dir, `${slug}.md`);
     if (!fs.existsSync(gpFile)) continue;
     const gp = frontmatter(gpFile);
@@ -131,6 +136,11 @@ function buildBundle(domain) {
         ? t.use_when.filter(Boolean)
         : typeof t.use_when === 'string' && t.use_when.trim() ? [t.use_when.trim()] : null;
       if (useWhen && useWhen.length) entry.use_when = useWhen;
+      // `stage` is the maturity rung at which a technique STARTS to pay
+      // (rkb-profile §3.2). Emitted only where an author declared one: absence
+      // means "applies at every rung", which is the common case and must not be
+      // rendered as an unfilled field a consumer then tries to infer.
+      if (typeof t.stage === 'string' && t.stage.trim()) entry.stage = t.stage.trim();
       techniques.push(entry);
 
       for (const law of cited) {
@@ -142,17 +152,28 @@ function buildBundle(domain) {
 
     const applications = mdFiles(path.join(dir, 'applications')).map((af) => {
       const a = frontmatter(path.join(dir, 'applications', af));
-      return {
+      const entry = {
         stack: a.stack || af.split('--')[0],
         technique: a.technique || '',
-        file: `knowledge/${domain}/${slug}/applications/${af}`,
+        file: `knowledge/${domain}/${at}/applications/${af}`,
       };
+      // Currency, emitted so a consumer can see how old a claim is without opening it —
+      // the whole point of an index is not having to. `verified_on` is required by the
+      // gate; the other two are present only where somebody could state them truthfully.
+      if (a.verified_on) entry.verified_on = a.verified_on;
+      if (a.verified_against) entry.verified_against = a.verified_against;
+      if (a.refresh_by) entry.refresh_by = a.refresh_by;
+      return entry;
     });
 
+    const placed = declared.get(slug);
     subjects[slug] = {
-      category: catOf[slug] || 'uncategorized',
+      category: placed?.category ?? 'uncategorized',
+      // Null where the category is flat. Additive: a reader that predates the taxonomy
+      // work sees the same `category` it always did and ignores this.
+      subcategory: placed?.subcategory ?? null,
       status: gp.status || 'unknown',
-      file: `knowledge/${domain}/${slug}/${slug}.md`,
+      file: `knowledge/${domain}/${at}/${slug}.md`,
       techniques,
       applications,
     };
@@ -166,7 +187,11 @@ function buildBundle(domain) {
     techniques: Object.values(subjects).reduce((n, s) => n + s.techniques.length, 0),
     applications: Object.values(subjects).reduce((n, s) => n + s.applications.length, 0),
     laws: Object.keys(laws).length,
-    categories: (categories.categories || []).map((c) => c.id),
+    categories: (taxonomy.categories || []).map((c) => c.id),
+    // Where the bytes sit: "flat" = subjects directly under the bundle, "nested" = at
+    // their taxonomy path. A consumer that renders the tree needs to know which, and a
+    // consumer that only reads slugs can ignore it — identity never moves.
+    layout: taxonomy.layout,
     // `use_when` is what a consult lane selects on. Reported as a number so
     // the gap is observed rather than assumed away by anything built on top
     // of this index. (The earlier "0/624 — written nowhere yet" note was made
@@ -214,14 +239,19 @@ for (const domain of domains) {
   const prev = fs.existsSync(out) ? fs.readFileSync(out, 'utf8') : null;
 
   if (check) {
-    if (prev !== next) {
+    // Compared ignoring newlines: a Windows checkout hands the working tree CRLF while
+    // this script writes LF, and a freshness verdict must not depend on which platform
+    // cloned the repo. Same rule the bundle digest already runs on.
+    if (prev === null || !sameIgnoringNewlines(prev, next)) {
       stale += 1;
       console.error(
         `stale: knowledge/${domain}/index.json does not match the bundle. ` +
           'Run `node scripts/build-index.mjs` and commit the result.',
       );
     }
-  } else if (prev !== next) {
+    // Write only when the CONTENT changed. Rewriting a file whose sole difference is
+    // its line endings would churn the working tree on every run on Windows.
+  } else if (prev === null || !sameIgnoringNewlines(prev, next)) {
     fs.writeFileSync(out, next);
   }
 

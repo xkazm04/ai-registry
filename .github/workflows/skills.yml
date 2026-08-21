@@ -1,0 +1,51 @@
+name: skills
+
+# Gates the skills/ lane (docs/skills-lane.md).
+#
+# Two jobs, deliberately separate, for the same reason knowledge.yml splits its own:
+# `shape` says the frontmatter contract holds and the lane is still ASCII; `version`
+# says the change carries the one signal every consumer's sync decision reads. A stale
+# version is not a shape defect, and conflating the two makes people re-run the wrong
+# thing.
+#
+# `version` runs on pull requests only. It compares against the merge base, which a push
+# to main does not have — and by then the decision it guards has already been made.
+on:
+  push:
+    branches: [main]
+    paths: ['skills/**', 'scripts/check-skills.mjs', '.github/workflows/skills.yml']
+  pull_request:
+    paths: ['skills/**', 'scripts/check-skills.mjs', '.github/workflows/skills.yml']
+  workflow_dispatch:
+
+jobs:
+  shape:
+    name: skill shape
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # No install step: the gate is dependency-free by design.
+      - name: Check the skills lane
+        run: node scripts/check-skills.mjs
+
+  version:
+    name: version discipline
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The gate diffs against the merge base. A shallow clone cannot resolve it,
+          # and the checker exits 2 rather than reporting "no version problems" from a
+          # comparison that never ran.
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check every changed skill carries a version bump
+        run: node scripts/check-skills.mjs --since "$BASE_SHA"
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}

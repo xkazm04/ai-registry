@@ -3,20 +3,28 @@
 An **AI development registry**: the knowledge, skills, practices and shared memory an
 organization's agents run from, kept in git, owned by the organization, and reviewed like code.
 
-The repository carries five lanes, declared in [`registry.yaml`](registry.yaml):
+The repository carries seven lanes, declared in [`registry.yaml`](registry.yaml):
 
 | Lane | Holds | Status |
 | --- | --- | --- |
 | [`knowledge/`](knowledge/README.md) | **Reference Knowledge Bundles** - four-layer domain knowledge (Golden Path → Technique → Application → Evidence), one bundle per domain. | Real content. Gated by CI. |
-| `skills/` | Agent skills, one directory per skill. | Worked example; a real library migrates in later. |
+| [`skills/`](docs/skills-lane.md) | Agent skills, one directory per skill. | Worked example; a real library migrates in later. Gated by CI. |
 | `practices/` | Repo-level habits plus the starter artifacts they drop. | Worked example. |
 | `memory/` | Organizational memory notes, one fact per file. | Worked example. |
 | [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. Empty until an installation reports. |
+| [`signals/`](docs/signals-lane.md) | Whether the knowledge is still TRUE where it is used - stack versions, citation-resolution verdicts, deviations and consults, one file per contributor. | Real, gated. Empty until an installation reports. |
+| [`librarian/`](librarian/index.md) | Coverage memory for the maintenance loop - what was swept when, what was dispatched, and what was declined and why. | Real. Seeded by the founding sweep. |
 
 The three example lanes (`skills`, `practices`, `memory`) are deliberately generic and synthetic -
 no company, no product, no proprietary code - so tooling that onboards, indexes and tracks a
-registry has something real to read. `knowledge/` and `usage/` are not examples: the first holds
-the actual bundles, the second holds real counts once an installation reports them.
+registry has something real to read. The other four are not examples: `knowledge/` holds the
+actual bundles, `librarian/` holds the real record of maintaining them, and `usage/` and
+`signals/` hold real numbers the moment an installation reports them.
+
+Lane depth is declared, not incidental. `knowledge/` is `depth: nested` and caps every level at
+ten folders; `skills/`, `practices/`, `memory/`, `usage/` and `signals/` are `depth: fixed`
+because a consumer's indexer selects their artifacts by exact path length - a category folder
+there would not error, it would make every artifact silently vanish from the index.
 
 ## Why a repository
 
@@ -39,12 +47,21 @@ registry.yaml             # what this repository IS: its lanes, their specs and 
 CODEOWNERS                # who merges = who adopts
 catalog.json              # GENERATED index: bundles, skill versions, hashes, adopters, counts
 docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
+docs/skills-lane.md       # the skills lane's format spec + the version-discipline rule
 docs/usage-lane.md        # the usage lane's format spec + what may never go in it
+docs/signals-lane.md      # the signals lane's format spec: verdicts, never pointers
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
+scripts/check-skills.mjs  # the skills lane's gate: shape + the version-bump rule
 scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only privacy rule
+scripts/check-signals.mjs # the signals lane's gate: shape + the same privacy rule
+scripts/check-currency.mjs# REPORTS how old the knowledge is; never fails a build
+scripts/librarian-scan.mjs# REPORTS the maintenance scorecard; the instrument /librarian reads
+scripts/apply-taxonomy.mjs# the ONLY thing allowed to move a subject (moves + rewrites links)
+scripts/lib/taxonomy.mjs  # the shared slug -> path resolver; nothing else may build a subject path
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json (--check in CI)
 knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
+knowledge/<domain>/taxonomy.json  # the authority on where every subject lives; max 10 folders/level
 knowledge/<domain>/index.json  # GENERATED: every subject, technique, law and application
 skills/<name>/SKILL.md    # frontmatter: name, description, category, memory, version
 skills/<name>/LESSONS.md  # append-only reflection lane, beside the skill it is about
@@ -53,6 +70,7 @@ practices/<slug>/starter/**    # templatized artifacts the practice drops into a
 memory/<kind>/<slug>.md   # frontmatter: kind, confidence, namespace, source
 memory/_index.md          # map of content over the notes
 usage/<contributor>.json  # counts from ONE installation - see docs/usage-lane.md
+signals/<contributor>.json# currency verdicts from ONE installation - see docs/signals-lane.md
 ```
 
 Two `registry.yaml` files is deliberate, not drift: the root one says what this repository is,
@@ -65,12 +83,13 @@ rewrites the other, and a reader that knows only one of them still works.
 
 | Bundle | Covers |
 | --- | --- |
-| [`software-engineering`](knowledge/software-engineering/) | Building and operating software: UI surfaces, client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process. |
+| [`software-engineering`](knowledge/software-engineering/) | Building and operating software: UI surfaces, client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process, and engineering assessment (measuring maturity, delivery and adoption). |
 | [`media-generation`](knowledge/media-generation/) | Producing factual audiovisual content with generative models: narrative craft, research grounding, image generation and prompting, frame direction, production operations. |
 | [`civic-intelligence`](knowledge/civic-intelligence/) | Watching public power with data: parliamentary records, legislation, public money, and the accountability methodology for publishing about real, named people. |
 | [`grant-funding`](knowledge/grant-funding/) | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |
 | [`llm-observability`](knowledge/llm-observability/) | Operating production LLM traffic as a product: telemetry and cost attribution, price books and usage governance, unit economics, judge-scoring of live traces, and federated benchmark sharing. |
 | [`game-production`](knowledge/game-production/) | Producing a game's systems and content at scale with machine assistance: systems canon and balance validation, the content pipeline and its acceptance ladder, generative asset production, engine integration, machine craft judgment, and production governance. |
+| [`recruiting`](knowledge/recruiting/) | Hiring people with machine assistance and staying defensible: role definition and intake, candidate evidence and its provenance, interviews and work samples, automated screening and its fairness gates, pipeline operations, candidate experience, governance and consent, and honest measurement of a small-sample process. |
 
 A bundle's two upper layers (Golden Path, Technique) carry **no** repo paths, file extensions or
 product names - enforced by [`scripts/check-bundles.mjs`](scripts/check-bundles.mjs), not left to
@@ -89,19 +108,31 @@ markdown is for humans and for the agent that decided to go deeper. It excludes 
 the reason above, and says so in its own `meta.excludes`. Regenerate with
 `node scripts/build-index.mjs` **before** `build-catalog.mjs`, whose hash covers it.
 
-### Skills (3)
+**Knowledge has an age, and the registry cannot check it alone.** Every application
+carries `verified_on` - the date its citations were last resolved against a real tree -
+and [`scripts/check-currency.mjs`](scripts/check-currency.mjs) derives an expiry from it
+per stack. That answers "how old is this claim". It cannot answer "is it still true",
+because the registry does not have the consuming repository's checkout. That half arrives
+from the other side, through [`signals/`](docs/signals-lane.md): the installation resolves
+its own evidence overlay and reports **verdicts, never pointers** - `{"gone": 2}`, not
+which two files. A bundle nobody reports on reads as **unknown**, never as current, for
+the same reason `invokes30d: 0` with no contributors means nobody is looking.
+
+### Skills (4)
 
 | Skill | Category | Version | What it is for |
 | --- | --- | --- | --- |
 | [`ci-gate-check`](skills/ci-gate-check/SKILL.md) | `ci-cd` | 1.3.0 | Run the checks CI enforces, before you push. |
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
 | [`agent-guidance-bootstrap`](skills/agent-guidance-bootstrap/SKILL.md) | `ai-native` | 0.4.0 | Write or refresh a repo's `AGENTS.md` from evidence. |
+| [`librarian`](skills/librarian/SKILL.md) | `ai-native` | 1.0.1 | Sweep every bundle for structural and quality decay, rank it, and dispatch the other two at what needs work. Keeps coverage memory in [`librarian/`](librarian/index.md). |
 
 The `skills/` lane publishes skills that transplant to **any** repository. The two skills that
-maintain *this* registry — [`/forge`](.claude/skills/forge/SKILL.md) (extract a repo's domain
+maintain *this* registry - [`/forge`](.claude/skills/forge/SKILL.md) (extract a repo's domain
 knowledge into a new bundle) and [`/deepen`](.claude/skills/deepen/SKILL.md) (raise an existing
-bundle above the repo it came from) — live in `.claude/skills/` instead. They are slash commands
-for anyone working *on* the registry, not library items to install elsewhere.
+bundle above the repo it came from) - live in `.claude/skills/` instead. They are slash commands
+for anyone working *on* the registry, not library items to install elsewhere; `/librarian` sweeps
+the registry and dispatches them.
 
 `category` comes from a closed set: `ci-cd`, `testing`, `security`, `ai-native`, `docs`,
 `workflow`, `other`. Anything else is normalized to `other` at index time. `name` is a kebab-case
@@ -152,6 +183,16 @@ skills:
 Repos with no pointer fall back to the organization's canonical registry
 (`canonical: true` in [`.ascent/registry.yaml`](.ascent/registry.yaml)).
 
+**Which copy runs, when a repo has its own.** Nearest to the work wins, outright: a skill in
+the repository beats one in the operator's library, which beats this registry. A higher
+version here does **not** displace a nearer copy — because if it did, merging a pull request
+in this repository would change what every adopting repository's agent does, remotely and
+silently. Across tiers a version reports staleness; it never resolves it. Merging is
+adopting, copying is consuming, and both stay human acts. Declared in
+[`registry.yaml`](registry.yaml) under `lanes.skills.resolution`, explained in
+[`docs/skills-lane.md`](docs/skills-lane.md) — and not enforceable from here, since the
+registry cannot see what any installation holds.
+
 ## How a change gets in
 
 1. Branch, edit `skills/<name>/SKILL.md`, **bump `version`**.
@@ -161,8 +202,12 @@ Repos with no pointer fall back to the organization's canonical registry
    decision.
 4. The indexer picks up the merge and rewrites `catalog.json`; the next sync anywhere sees it.
 
-Version discipline: **versions are the comparison currency, hashes only detect drift.** Bump the
-version whenever behaviour changes; leave it alone for a typo fix.
+Version discipline: **versions are the comparison currency, hashes only detect drift.** Bump
+minor or major when behaviour changes, patch when it does not — but bump. A checker cannot
+tell a typo from a behaviour change, so `scripts/check-skills.mjs --since <ref>` asks for the
+cheapest honest signal on every pull request that edits a skill, and rejects a version that
+moves backwards. Appending to `LESSONS.md` needs no bump: a lesson records a run *against* a
+version. Full rule in [`docs/skills-lane.md`](docs/skills-lane.md).
 
 ## Intentional version drift (for testing)
 
@@ -183,8 +228,11 @@ prefixes of the files at seed time.
 lane and reads `0` until an installation contributes counts. A zero with an empty
 `usageContributors` means nobody is reporting on that skill - not that nobody runs it.
 
-To exercise `diverged` as well, edit any skill's body without bumping its `version`: the hash
-moves, the version does not.
+To exercise `diverged` as well, edit any skill's body without bumping its `version` **in your
+working tree**: the hash moves, the version does not. Keep it local — that state is a consumer
+test fixture, not a thing to merge, and `scripts/check-skills.mjs --since <ref>` rejects it on
+any pull request. That is the point: `diverged` should be reachable on a developer's machine
+and unreachable on `main`.
 
 ## Conventions
 

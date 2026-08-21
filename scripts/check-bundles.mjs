@@ -20,6 +20,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+// Still zero npm dependencies. This is a sibling file, shared because the gate and the
+// index builder MUST agree on where a subject lives — if they disagreed, the gate would
+// pass a tree the index describes incorrectly, in the one file consumers actually read.
+import { loadTaxonomy, walkSubjects, MAX_CHILD_DIRS } from './lib/taxonomy.mjs';
 
 // Derived from this file's own location, never hardcoded — a gate that only runs on one
 // machine is not a gate.
@@ -79,6 +83,40 @@ const LAYERS = new Set(['golden-path', 'technique', 'application']);
 const STATUSES = new Set(['draft', 'forged', 'reconciled', 'transplant-tested']);
 const STACKS = new Set(['react', 'rust', 'sql', 'node', 'process']);
 
+// The maturity ladder a technique may declare (docs/rkb-profile.md §3.2).
+//
+// OPTIONAL, and deliberately so. Most techniques apply at every rung, and a decorative
+// `stage:` on one of those is noise that trains readers to ignore the field. It exists
+// for the class of technique whose whole failure mode is being adopted at the wrong time -
+// where "correct but not yet" is the honest verdict and a flat standard cannot say it.
+//
+// A declared value is a FLOOR: below it the technique is over-engineering, at or above it
+// its absence is a gap. The gate checks membership only; whether the rung is the RIGHT one
+// is a judgment no script can make.
+const STAGES = new Set(['solo', 'team', 'multi-service', 'fleet']);
+
+// Currency fields on the application layer (docs/rkb-profile.md §3).
+//
+// An application cites real code in a real tree. That tree moves; the citation does not.
+// `verified_on` is the FACT that makes the decay measurable - the date those citations
+// were last resolved against a tree. It is required, because an application without one
+// is a claim with no age, and a corpus of claims with no age cannot be triaged.
+//
+// What is deliberately NOT required is `refresh_by`. An expiry date is a judgment about
+// how fast a subject moves, and 451 invented judgments would be fabricated data in a
+// repository that gates against exactly that. The clock is DERIVED from `verified_on` by
+// scripts/check-currency.mjs, which holds the per-stack window policy in one place;
+// `refresh_by` stays an optional per-document override for an author who knows better.
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+// `<stack>@<version>` - the stack version the citations were checked against, e.g.
+// `react@18`, `node@22`, `rust@1.79`. Optional: it can only be written truthfully by
+// something that read the cited tree, so it is emitted going forward rather than
+// backfilled. Its absence is reported by check-currency as "no version witness".
+const VERIFIED_AGAINST_RE = /^[a-z0-9][a-z0-9-]*@\d+(?:\.\d+){0,2}$/;
+// One day of slack: contributors are in many timezones and a clock skew must not be a
+// build failure.
+const TOMORROW = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+
 // The evidence keys that must never appear in a published file (rkb-profile §5).
 const LEAK_KEYS = ['evidence', 'counter_evidence', 'deviations'];
 
@@ -114,11 +152,25 @@ const PURITY_PROFILES = {
     [/\.(?:tsx?|mjs|cjs|jsx)\b/, 'source-file extension'],
     [/\b(?:Wellspring|Next\.js|React|TypeScript|Firebase|Firestore|Polar)\b/, 'stack/product identifier'],
   ],
+  // Recruiting/talent domains: the analogue of a repo path is an application-tracking
+  // vendor, and the analogue of a framework name is an HR product or a model vendor. A
+  // hiring standard that names a vendor stops transplanting the moment a team switches
+  // stacks — and in this domain it also reads as an endorsement, which the upper layers
+  // must never carry. Common English words that happen to be vendor names (a well-known
+  // job board, a well-known applicant-tracking product) are deliberately absent: they
+  // false-positive at sentence start. The denylist is a floor, not the whole rule.
+  recruiting: [
+    [/\b(?:app|lib|features|components|src)\//, 'repo path'],
+    [/\.(?:tsx?|mjs|cjs|jsx|py|sql)\b/, 'source-file extension'],
+    [/\b(?:CandiDate|Next\.js|React|TypeScript|SQLite|Postgres|PostgreSQL|Prisma|Greenhouse|Workday|SmartRecruiters|Ashby|Taleo|iCIMS|LinkedIn|OpenAI|GPT-[0-9]|Claude|Anthropic|Gemini|Mistral|Whisper|ElevenLabs)\b/, 'stack/vendor/model identifier'],
+  ],
   // Game-production domains: the analogue of a repo path is an engine content path; the
-  // analogue of a framework name is an engine, a DCC tool, or a generative model product.
-  // Engine-proprietary system names (a visual-scripting graph product, an ability-system
-  // product) are product identifiers too — the craft transplants to studios on other
-  // engines, so the upper layers must say "a visual scripting graph", not the brand.
+  // analogue of a framework name is an engine, a digital-content-creation tool, or a
+  // generative model product. Engine-proprietary system names (a visual-scripting graph
+  // product, an ability-system product) are product identifiers too — the craft transplants
+  // to studios on other engines, so the upper layers must say "a visual scripting graph",
+  // not the brand. Published game titles used as quality anchors belong in an application,
+  // never upstairs. The denylist is a floor, not the whole rule.
   game: [
     [/\b(?:src|app|lib|components|features|scripts|Content|Source|Config)\//, 'repo or engine content path'],
     [/\.(?:tsx?|mjs|cjs|jsx|cpp|uasset|umap|fbx|glb|blend|wav|png)\b/, 'source or asset file extension'],
@@ -178,37 +230,60 @@ for (const domain of bundles) {
     if (lawAnchors.size === 0) fail(`knowledge/${domain}/_laws.md exists but declares zero anchors — techniques cannot cite laws`);
   }
 
-  const subjectDirs = fs.readdirSync(dir, { withFileTypes: true })
-    .filter((e) => e.isDirectory())
-    .map((e) => e.name);
+  // ---- taxonomy: the authority on where every subject lives
+  //
+  // Subjects are discovered by WALKING (a folder holding `<slug>.md` is a subject; any
+  // other folder groups), so this works identically before and after a bundle is
+  // migrated. The taxonomy is then checked against what the walk found, in both
+  // directions.
+  const { taxonomy, errors: txErrors, subjects: declared } = loadTaxonomy(dir, domain);
+  for (const e of txErrors) fail(e);
+
+  const { found, groupDirs, duplicates } = walkSubjects(dir);
+  const subjectDirs = [...found.keys()];
   st.subjects = subjectDirs.length;
   if (subjectDirs.length === 0) fail(`knowledge/${domain}/ holds zero subjects`);
+  for (const d of duplicates) {
+    fail(`knowledge/${domain}: subject "${d.slug}" exists in two places (${d.at.join(' and ')}) — a slug is an identity and has one home`);
+  }
 
-  // ---- categories.json (optional per bundle; fully gated when present)
-  const catsFile = path.join(dir, 'categories.json');
-  if (fs.existsSync(catsFile)) {
-    let cats = null;
-    try { cats = JSON.parse(fs.readFileSync(catsFile, 'utf8')); }
-    catch (err) { fail(`knowledge/${domain}/categories.json does not parse: ${err.message}`); }
-    if (cats) {
-      const ids = new Set((cats.categories ?? []).map((c) => c.id));
-      if (ids.size === 0) fail(`knowledge/${domain}/categories.json declares zero categories`);
-      const orders = (cats.categories ?? []).map((c) => c.order);
-      if (new Set(orders).size !== orders.length) {
-        fail(`knowledge/${domain}/categories.json: duplicate order values — order is the display sequence and must be unique`);
+  if (taxonomy) {
+    st.categories = (taxonomy.categories ?? []).length;
+
+    // Both directions. A subject the taxonomy forgot would silently vanish from every
+    // graph; a subject the taxonomy names with no folder is a plan, not a fact.
+    for (const slug of subjectDirs) {
+      if (!declared.has(slug)) {
+        fail(`knowledge/${domain}/${found.get(slug)}/ has no taxonomy.json entry — it would not appear in a graph`);
       }
-      const assigned = cats.subjects ?? {};
-      for (const [slug, cat] of Object.entries(assigned)) {
-        if (!subjectDirs.includes(slug)) fail(`knowledge/${domain}/categories.json assigns "${slug}", which has no folder`);
-        if (!ids.has(cat)) fail(`knowledge/${domain}/categories.json assigns "${slug}" to unknown category "${cat}"`);
-      }
-      for (const slug of subjectDirs) {
-        if (!(slug in assigned)) fail(`knowledge/${domain}/${slug}/ has no categories.json entry — it would not appear in a graph`);
-      }
-      st.categories = ids.size;
     }
-  } else {
-    notes.push(`knowledge/${domain}: no categories.json — graph consumers will group by nothing`);
+    for (const slug of declared.keys()) {
+      if (!found.has(slug)) fail(`knowledge/${domain}/taxonomy.json assigns "${slug}", which has no folder`);
+    }
+
+    // ---- the cap, and whether the tree matches the declaration
+    //
+    // Under `layout: flat` the taxonomy is declared but NOT materialized: subjects still
+    // sit directly under the bundle. Both findings are then NOTES rather than failures,
+    // which is what lets the authority land before anything moves and lets each bundle
+    // flip independently. Under `layout: nested` they are failures, because at that point
+    // the tree is supposed to be the taxonomy.
+    const materialized = taxonomy.layout === 'nested';
+    const report = (msg) => (materialized ? fail(msg) : notes.push(`${msg} [layout: flat — not yet materialized]`));
+
+    for (const [relDir, count] of groupDirs) {
+      if (count > MAX_CHILD_DIRS) {
+        report(
+          `knowledge/${domain}${relDir ? `/${relDir}` : ''}/ holds ${count} child directories, over the cap of ${MAX_CHILD_DIRS}`,
+        );
+      }
+    }
+    for (const [slug, want] of declared) {
+      const at = found.get(slug);
+      if (at && at !== want.dir) {
+        report(`knowledge/${domain}: subject "${slug}" sits at ${at} but the taxonomy places it at ${want.dir}`);
+      }
+    }
   }
 
   const readNode = (file, expect) => {
@@ -248,12 +323,18 @@ for (const domain of bundles) {
   };
 
   for (const slug of subjectDirs) {
-    const sdir = path.join(dir, slug);
+    // Never constructed from a category: the walk found it, and that is the only thing
+    // that knows where a subject actually is at this bundle's current layout.
+    const sdir = path.join(dir, found.get(slug));
+    // Every finding below reports the path the reader will actually find, whatever depth
+    // this bundle currently sits at. A message that reconstructs `<domain>/<slug>` would
+    // send people to a folder that does not exist the moment a bundle nests.
+    const here = `knowledge/${domain}/${found.get(slug)}`;
     const gpFile = path.join(sdir, `${slug}.md`);
-    if (!fs.existsSync(gpFile)) { fail(`knowledge/${domain}/${slug}/ has no ${slug}.md golden path`); continue; }
+    if (!fs.existsSync(gpFile)) { fail(`${here}/ has no ${slug}.md golden path`); continue; }
     const gp = readNode(gpFile, 'golden-path');
     if (!gp) continue;
-    if (gp.subject !== slug) fail(`knowledge/${domain}/${slug}/${slug}.md: subject "${gp.subject}" ≠ folder "${slug}"`);
+    if (gp.subject !== slug) fail(`${here}/${slug}.md: subject "${gp.subject}" ≠ folder "${slug}"`);
 
     // techniques: declared set ↔ files on disk, identical. `technique@owner` entries
     // reference another subject's technique and must resolve THERE and not exist locally.
@@ -267,32 +348,39 @@ for (const domain of bundles) {
       const shared = t.match(/^([a-z0-9-]+)@([a-z0-9-]+)$/);
       if (shared) {
         const [, tech, owner] = shared;
-        if (!fs.existsSync(path.join(dir, owner, 'techniques', `${tech}.md`))) {
-          fail(`knowledge/${domain}/${slug}/${slug}.md: shared technique "${t}" — no ${owner}/techniques/${tech}.md`);
+        // The owner is named by SLUG, so its location has to be resolved, never joined.
+        // This is the line that would break the moment a bundle nests if the reference
+        // scheme carried a category - which is exactly why it never will.
+        const ownerDir = found.get(owner);
+        if (!ownerDir || !fs.existsSync(path.join(dir, ownerDir, 'techniques', `${tech}.md`))) {
+          fail(`${here}/${slug}.md: shared technique "${t}" — no ${owner}/techniques/${tech}.md`);
         }
         if (onDisk.has(tech)) {
-          fail(`knowledge/${domain}/${slug}/${slug}.md: "${t}" declared shared but techniques/${tech}.md also exists locally — one owner (rkb-profile §4)`);
+          fail(`${here}/${slug}.md: "${t}" declared shared but techniques/${tech}.md also exists locally — one owner (rkb-profile §4)`);
         }
         continue;
       }
       declaredLocal.add(t);
-      if (!onDisk.has(t)) fail(`knowledge/${domain}/${slug}/${slug}.md: declares technique "${t}" but techniques/${t}.md does not exist`);
+      if (!onDisk.has(t)) fail(`${here}/${slug}.md: declares technique "${t}" but techniques/${t}.md does not exist`);
     }
     for (const t of onDisk) {
-      if (!declaredLocal.has(t)) fail(`knowledge/${domain}/${slug}/techniques/${t}.md exists but ${slug}.md does not declare it — links hold in both directions`);
+      if (!declaredLocal.has(t)) fail(`${here}/techniques/${t}.md exists but ${slug}.md does not declare it — links hold in both directions`);
     }
     st.techniques += onDisk.size;
 
     for (const t of onDisk) {
       const fm = readNode(path.join(techDir, `${t}.md`), 'technique');
       if (!fm) continue;
-      if (fm.subject !== slug) fail(`knowledge/${domain}/${slug}/techniques/${t}.md: subject "${fm.subject}" ≠ "${slug}"`);
-      if (fm.technique !== t) fail(`knowledge/${domain}/${slug}/techniques/${t}.md: technique "${fm.technique}" ≠ filename "${t}"`);
+      if (fm.subject !== slug) fail(`${here}/techniques/${t}.md: subject "${fm.subject}" ≠ "${slug}"`);
+      if (fm.technique !== t) fail(`${here}/techniques/${t}.md: technique "${fm.technique}" ≠ filename "${t}"`);
       for (const law of Array.isArray(fm.laws) ? fm.laws : []) {
-        if (!lawAnchors.has(law)) fail(`knowledge/${domain}/${slug}/techniques/${t}.md: cites unknown law "${law}"`);
+        if (!lawAnchors.has(law)) fail(`${here}/techniques/${t}.md: cites unknown law "${law}"`);
+      }
+      if (fm.stage !== undefined && !STAGES.has(fm.stage)) {
+        fail(`${here}/techniques/${t}.md: unknown stage "${fm.stage}" — one of ${[...STAGES].join(' | ')} (rkb-profile §3.2)`);
       }
       for (const sw of Array.isArray(fm.shared_with) ? fm.shared_with : []) {
-        if (!subjectDirs.includes(sw)) fail(`knowledge/${domain}/${slug}/techniques/${t}.md: shared_with "${sw}" is not a subject in this bundle`);
+        if (!subjectDirs.includes(sw)) fail(`${here}/techniques/${t}.md: shared_with "${sw}" is not a subject in this bundle`);
       }
     }
 
@@ -302,11 +390,41 @@ for (const domain of bundles) {
         const fm = readNode(path.join(appDir, f), 'application');
         st.applications++;
         if (!fm) continue;
-        if (fm.subject !== slug) fail(`knowledge/${domain}/${slug}/applications/${f}: subject "${fm.subject}" ≠ "${slug}"`);
-        if (!bundleStacks.has(fm.stack)) fail(`knowledge/${domain}/${slug}/applications/${f}: unknown stack "${fm.stack}" (add it to this bundle's index.md \`stacks:\` if it is real)`);
-        if (!onDisk.has(fm.technique)) fail(`knowledge/${domain}/${slug}/applications/${f}: technique "${fm.technique}" not in this subject's techniques/`);
+        if (fm.subject !== slug) fail(`${here}/applications/${f}: subject "${fm.subject}" ≠ "${slug}"`);
+        if (!bundleStacks.has(fm.stack)) fail(`${here}/applications/${f}: unknown stack "${fm.stack}" (add it to this bundle's index.md \`stacks:\` if it is real)`);
+        if (!onDisk.has(fm.technique)) fail(`${here}/applications/${f}: technique "${fm.technique}" not in this subject's techniques/`);
         const expectName = `${fm.stack}--${fm.technique}.md`;
-        if (f !== expectName) fail(`knowledge/${domain}/${slug}/applications/${f}: filename should be "${expectName}" (rkb-profile §2)`);
+        if (f !== expectName) fail(`${here}/applications/${f}: filename should be "${expectName}" (rkb-profile §2)`);
+
+        // -- currency
+        const arel = `${here}/applications/${f}`;
+        if (!fm.verified_on) {
+          fail(`${arel}: no \`verified_on\` — an application cites a moving tree, so it must carry the date those citations were last resolved (rkb-profile §3)`);
+        } else if (!DATE_RE.test(fm.verified_on)) {
+          fail(`${arel}: verified_on "${fm.verified_on}" is not YYYY-MM-DD`);
+        } else if (fm.verified_on > TOMORROW) {
+          fail(`${arel}: verified_on "${fm.verified_on}" is in the future — it records when a check happened, not when one is planned`);
+        }
+        if (fm.refresh_by !== undefined) {
+          if (!DATE_RE.test(fm.refresh_by)) {
+            fail(`${arel}: refresh_by "${fm.refresh_by}" is not YYYY-MM-DD`);
+          } else if (DATE_RE.test(fm.verified_on ?? '') && fm.refresh_by <= fm.verified_on) {
+            fail(`${arel}: refresh_by "${fm.refresh_by}" is not after verified_on "${fm.verified_on}" — a clock that has already expired at the moment of writing is not an override, it is a typo`);
+          }
+        }
+        if (fm.verified_against !== undefined) {
+          if (!VERIFIED_AGAINST_RE.test(fm.verified_against)) {
+            fail(`${arel}: verified_against "${fm.verified_against}" must be <stack>@<version>, e.g. react@18`);
+          } else {
+            const vstack = String(fm.verified_against).split('@')[0];
+            if (vstack !== fm.stack) {
+              fail(`${arel}: verified_against names stack "${vstack}" but this document's stack is "${fm.stack}"`);
+            }
+            if (fm.stack === 'process') {
+              fail(`${arel}: a "process" application has no runtime version to be verified against — drop verified_against`);
+            }
+          }
+        }
       }
     }
   }
@@ -346,12 +464,83 @@ for (const f of walk(KNOWLEDGE)) {
   }
 }
 
+// ---- file health: the bytes, not the contract
+//
+// The contract checks above all read a file as text and validate what it SAYS. Nothing
+// checked what it IS. A published application document sat in this lane carrying a raw
+// NUL byte — a forger wrote a literal NUL join separator into a code span instead of
+// escaping it — and git classified the file as binary. No diff, no blame, no reviewable
+// history, and every contract check above passed it, because a NUL parses fine as text.
+//
+// So: three properties that decide whether a file can be REVIEWED at all.
+//
+//   * No NUL bytes. One is enough for git to call the file binary.
+//   * Valid UTF-8. OKF requires it and this lane is UTF-8 prose by rule.
+//   * No stray C0 control characters. Tab, LF and CR are content; a form feed or a bell
+//     in prose is the same class of accident as the NUL, caught before it lands.
+//
+// Deliberately NOT checked: line endings. This repository has no .gitattributes and
+// contributors run with `core.autocrlf=true`, so the working tree legitimately holds CRLF
+// on Windows and LF elsewhere. A gate whose verdict depends on the checkout is a gate
+// worth distrusting — the same instrument lesson the deepen lane already paid for.
+const walkAll = (d, out = []) => {
+  for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+    if (e.name.startsWith('.')) continue; // local overlays are not published
+    const p = path.join(d, e.name);
+    if (e.isDirectory()) walkAll(p, out);
+    else out.push(p);
+  }
+  return out;
+};
+
+const utf8 = new TextDecoder('utf-8', { fatal: true });
+let filesScanned = 0;
+
+for (const f of walkAll(KNOWLEDGE)) {
+  filesScanned++;
+  const rel = path.relative(ROOT, f).replace(/\\/g, '/');
+  const bytes = fs.readFileSync(f);
+
+  const nul = bytes.indexOf(0);
+  if (nul !== -1) {
+    const n = bytes.filter((b) => b === 0).length;
+    fail(
+      `${rel}: contains ${n} NUL byte(s), first at offset ${nul} — git treats this file as ` +
+        'binary, so it has no diff and no blame. Write the escape, not the byte.',
+    );
+    continue; // a NUL will also trip the control-character scan; report the cause once
+  }
+
+  try {
+    utf8.decode(bytes);
+  } catch {
+    fail(`${rel}: is not valid UTF-8 — OKF requires it and this lane is UTF-8 prose by rule`);
+    continue;
+  }
+
+  for (let i = 0; i < bytes.length; i++) {
+    const b = bytes[i];
+    // C0 minus tab (9), LF (10), CR (13); plus DEL (127).
+    if ((b < 0x20 && b !== 9 && b !== 10 && b !== 13) || b === 0x7f) {
+      fail(
+        `${rel}: control character 0x${b.toString(16).padStart(2, '0')} at offset ${i} — ` +
+          'prose carries tab, newline and carriage return; nothing else',
+      );
+      break;
+    }
+  }
+}
+
 if (conceptFiles === 0) {
   console.error('FATAL: zero concept documents parsed across all bundles. THE PARSER IS BROKEN.');
   process.exit(2);
 }
 if (linksChecked === 0) {
   console.error('FATAL: zero markdown links found. THE LINK MATCHER IS BROKEN.');
+  process.exit(2);
+}
+if (filesScanned === 0) {
+  console.error('FATAL: the file-health walk visited zero files. THE WALKER IS BROKEN.');
   process.exit(2);
 }
 
@@ -362,7 +551,7 @@ for (const s of stats) {
     (s.categories ? ` · ${s.categories} categories` : ''),
   );
 }
-console.log(`${conceptFiles} concept documents · ${linksChecked} links checked`);
+console.log(`${conceptFiles} concept documents · ${linksChecked} links checked · ${filesScanned} files scanned for health`);
 console.log('NOT checked here: evidence resolution (consumer-side, by design — rkb-profile §5)');
 console.log('NOT checkable statically: the live transplant test — only it promotes status to transplant-tested');
 for (const n of notes) console.log(`  note: ${n}`);

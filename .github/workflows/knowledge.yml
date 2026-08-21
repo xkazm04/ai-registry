@@ -14,9 +14,9 @@ name: knowledge
 on:
   push:
     branches: [main]
-    paths: ['knowledge/**', 'usage/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   pull_request:
-    paths: ['knowledge/**', 'usage/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   workflow_dispatch:
 
 jobs:
@@ -57,6 +57,38 @@ jobs:
       - name: Check the usage lane
         run: node scripts/check-usage.mjs
 
+  signals:
+    name: signals lane
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # Same privacy contract as the usage lane, enforced the same way. A registry nobody
+      # reports to yet passes: absence is a legitimate state, not a finding.
+      - name: Check the signals lane
+        run: node scripts/check-signals.mjs
+
+  currency:
+    name: currency report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # REPORTS, never fails. A stale document must not block an unrelated pull request —
+      # that is how a gate ends up deleted. The failing form (`--fail-on-expired`) belongs
+      # to a scheduled run and to /librarian, where a red result is the point and nobody
+      # is standing behind it waiting to merge.
+      - name: Report knowledge currency
+        run: node scripts/check-currency.mjs
+      # Same contract: the maintenance scorecard is published on every change so the
+      # trend is visible in CI history without anyone running a sweep.
+      - name: Report the maintenance scorecard
+        run: node scripts/librarian-scan.mjs --top 10
+
   catalog:
     name: catalog freshness
     runs-on: ubuntu-latest
@@ -65,5 +97,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      # Before asking whether the catalog is current, assert that "current" means the
+      # same thing here as on the machine that wrote it. The digest hashed raw bytes
+      # once, which made it a property of the checkout's line endings — this job then
+      # failed for every commit written from a CRLF clone, indistinguishably from real
+      # staleness.
+      - name: Check the bundle digest is checkout-stable
+        run: node scripts/check-hash-stability.mjs
       - name: Check catalog is current
         run: node scripts/build-catalog.mjs --check

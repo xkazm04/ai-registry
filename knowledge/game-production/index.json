@@ -16,14 +16,16 @@
    "craft-judgment",
    "production-governance"
   ],
+  "layout": "nested",
   "use_when_coverage": "237/237",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
   "aaa-craft-rubric-authoring": {
    "category": "craft-judgment",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
+   "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
    "techniques": [
     {
      "slug": "capped-disqualifiers",
@@ -117,24 +119,28 @@
     {
      "stack": "process",
      "technique": "ceiling-as-a-market-assumption",
-     "file": "knowledge/game-production/aaa-craft-rubric-authoring/applications/process--ceiling-as-a-market-assumption.md"
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--ceiling-as-a-market-assumption.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "checkable-against-the-stored-artifact",
-     "file": "knowledge/game-production/aaa-craft-rubric-authoring/applications/process--checkable-against-the-stored-artifact.md"
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--checkable-against-the-stored-artifact.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "criterion-with-a-cited-source",
-     "file": "knowledge/game-production/aaa-craft-rubric-authoring/applications/process--criterion-with-a-cited-source.md"
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--criterion-with-a-cited-source.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "ability-authoring-to-engine": {
    "category": "production-governance",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/ability-authoring-to-engine/ability-authoring-to-engine.md",
+   "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
    "techniques": [
     {
      "slug": "declared-vs-referenced-tag-audit",
@@ -223,24 +229,28 @@
     {
      "stack": "node",
      "technique": "declared-vs-referenced-tag-audit",
-     "file": "knowledge/game-production/ability-authoring-to-engine/applications/node--declared-vs-referenced-tag-audit.md"
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/node--declared-vs-referenced-tag-audit.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "server-derived-codegen-report",
-     "file": "knowledge/game-production/ability-authoring-to-engine/applications/node--server-derived-codegen-report.md"
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/node--server-derived-codegen-report.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "few-shot-reference-plus-tag-registry",
-     "file": "knowledge/game-production/ability-authoring-to-engine/applications/process--few-shot-reference-plus-tag-registry.md"
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/process--few-shot-reference-plus-tag-registry.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "acceptance-verdict-spine": {
    "category": "content-pipeline",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/acceptance-verdict-spine/acceptance-verdict-spine.md",
+   "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/acceptance-verdict-spine.md",
    "techniques": [
     {
      "slug": "explain-why-this-verdict",
@@ -334,24 +344,28 @@
     {
      "stack": "node",
      "technique": "three-layer-merge-order",
-     "file": "knowledge/game-production/acceptance-verdict-spine/applications/node--three-layer-merge-order.md"
+     "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/node--three-layer-merge-order.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "hardcoded-pass-antipattern",
-     "file": "knowledge/game-production/acceptance-verdict-spine/applications/process--hardcoded-pass-antipattern.md"
+     "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/process--hardcoded-pass-antipattern.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "react",
      "technique": "explain-why-this-verdict",
-     "file": "knowledge/game-production/acceptance-verdict-spine/applications/react--explain-why-this-verdict.md"
+     "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/react--explain-why-this-verdict.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "arpg-systems-canon": {
    "category": "systems-canon",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/arpg-systems-canon/arpg-systems-canon.md",
+   "file": "knowledge/game-production/systems-canon/arpg-systems-canon/arpg-systems-canon.md",
    "techniques": [
     {
      "slug": "added-increased-more-stacking",
@@ -443,19 +457,22 @@
     {
      "stack": "node",
      "technique": "mitigation-order-and-soft-caps",
-     "file": "knowledge/game-production/arpg-systems-canon/applications/node--mitigation-order-and-soft-caps.md"
+     "file": "knowledge/game-production/systems-canon/arpg-systems-canon/applications/node--mitigation-order-and-soft-caps.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "rarity-is-an-affix-budget",
-     "file": "knowledge/game-production/arpg-systems-canon/applications/process--rarity-is-an-affix-budget.md"
+     "file": "knowledge/game-production/systems-canon/arpg-systems-canon/applications/process--rarity-is-an-affix-budget.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "asset-class-poly-budgeting": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
+   "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -548,19 +565,22 @@
     {
      "stack": "node",
      "technique": "provider-face-limit-conversion",
-     "file": "knowledge/game-production/asset-class-poly-budgeting/applications/node--provider-face-limit-conversion.md"
+     "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/applications/node--provider-face-limit-conversion.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "class-ceiling-vs-requested-budget",
-     "file": "knowledge/game-production/asset-class-poly-budgeting/applications/process--class-ceiling-vs-requested-budget.md"
+     "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/applications/process--class-ceiling-vs-requested-budget.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "catalog-pipeline-authoring": {
    "category": "content-pipeline",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/catalog-pipeline-authoring/catalog-pipeline-authoring.md",
+   "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/catalog-pipeline-authoring.md",
    "techniques": [
     {
      "slug": "archetype-view-coherence-ratchet",
@@ -656,24 +676,28 @@
     {
      "stack": "node",
      "technique": "seed-entities-and-walker-coverage",
-     "file": "knowledge/game-production/catalog-pipeline-authoring/applications/node--seed-entities-and-walker-coverage.md"
+     "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/node--seed-entities-and-walker-coverage.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "step-archetype-taxonomy",
-     "file": "knowledge/game-production/catalog-pipeline-authoring/applications/process--step-archetype-taxonomy.md"
+     "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/process--step-archetype-taxonomy.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "react",
      "technique": "archetype-view-coherence-ratchet",
-     "file": "knowledge/game-production/catalog-pipeline-authoring/applications/react--archetype-view-coherence-ratchet.md"
+     "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/react--archetype-view-coherence-ratchet.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "combat-pacing-and-dramatic-arc": {
    "category": "balance-validation",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/combat-pacing-and-dramatic-arc/combat-pacing-and-dramatic-arc.md",
+   "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/combat-pacing-and-dramatic-arc.md",
    "techniques": [
     {
      "slug": "beat-taxonomy-climax-comeback-deadzone",
@@ -748,19 +772,22 @@
     {
      "stack": "node",
      "technique": "intensity-and-threat-tension-curve",
-     "file": "knowledge/game-production/combat-pacing-and-dramatic-arc/applications/node--intensity-and-threat-tension-curve.md"
+     "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/node--intensity-and-threat-tension-curve.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "plain-language-fight-report",
-     "file": "knowledge/game-production/combat-pacing-and-dramatic-arc/applications/process--plain-language-fight-report.md"
+     "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/process--plain-language-fight-report.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "content-acceptance-tiering": {
    "category": "content-pipeline",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/content-acceptance-tiering/content-acceptance-tiering.md",
+   "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/content-acceptance-tiering.md",
    "techniques": [
     {
      "slug": "config-complete-vs-runtime-verified",
@@ -850,19 +877,22 @@
     {
      "stack": "node",
      "technique": "config-complete-vs-runtime-verified",
-     "file": "knowledge/game-production/content-acceptance-tiering/applications/node--config-complete-vs-runtime-verified.md"
+     "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/applications/node--config-complete-vs-runtime-verified.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "tier-ladder-design",
-     "file": "knowledge/game-production/content-acceptance-tiering/applications/process--tier-ladder-design.md"
+     "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/applications/process--tier-ladder-design.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "content-drift-and-revision": {
    "category": "content-pipeline",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/content-drift-and-revision/content-drift-and-revision.md",
+   "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/content-drift-and-revision.md",
    "techniques": [
     {
      "slug": "add-only-hydration",
@@ -951,24 +981,28 @@
     {
      "stack": "node",
      "technique": "batch-lease-on-a-non-reentrant-resource",
-     "file": "knowledge/game-production/content-drift-and-revision/applications/node--batch-lease-on-a-non-reentrant-resource.md"
+     "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/node--batch-lease-on-a-non-reentrant-resource.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "content-hash-vs-status-drift",
-     "file": "knowledge/game-production/content-drift-and-revision/applications/node--content-hash-vs-status-drift.md"
+     "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/node--content-hash-vs-status-drift.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "sql",
      "technique": "bounded-revision-history",
-     "file": "knowledge/game-production/content-drift-and-revision/applications/sql--bounded-revision-history.md"
+     "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/sql--bounded-revision-history.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "crash-forensics-attribution": {
    "category": "engine-integration",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/crash-forensics-attribution/crash-forensics-attribution.md",
+   "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/crash-forensics-attribution.md",
    "techniques": [
     {
      "slug": "caller-chain-decay",
@@ -1060,24 +1094,28 @@
     {
      "stack": "node",
      "technique": "crash-signature-over-id-equality",
-     "file": "knowledge/game-production/crash-forensics-attribution/applications/node--crash-signature-over-id-equality.md"
+     "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/node--crash-signature-over-id-equality.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "weighted-evidence-directory-file-symbol",
-     "file": "knowledge/game-production/crash-forensics-attribution/applications/node--weighted-evidence-directory-file-symbol.md"
+     "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/node--weighted-evidence-directory-file-symbol.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "root-cause-to-fix-prompt",
-     "file": "knowledge/game-production/crash-forensics-attribution/applications/process--root-cause-to-fix-prompt.md"
+     "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/process--root-cause-to-fix-prompt.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "design-canon-as-executable-law": {
    "category": "systems-canon",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/design-canon-as-executable-law/design-canon-as-executable-law.md",
+   "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/design-canon-as-executable-law.md",
    "techniques": [
     {
      "slug": "archetype-aware-envelopes",
@@ -1168,24 +1206,28 @@
     {
      "stack": "node",
      "technique": "flag-your-own-shipped-defaults",
-     "file": "knowledge/game-production/design-canon-as-executable-law/applications/node--flag-your-own-shipped-defaults.md"
+     "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/applications/node--flag-your-own-shipped-defaults.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "parse-thresholds-from-prose",
-     "file": "knowledge/game-production/design-canon-as-executable-law/applications/node--parse-thresholds-from-prose.md"
+     "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/applications/node--parse-thresholds-from-prose.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "canon-as-single-source-of-thresholds",
-     "file": "knowledge/game-production/design-canon-as-executable-law/applications/process--canon-as-single-source-of-thresholds.md"
+     "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/applications/process--canon-as-single-source-of-thresholds.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "design-doc-compliance-scoring": {
    "category": "craft-judgment",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/design-doc-compliance-scoring/design-doc-compliance-scoring.md",
+   "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/design-doc-compliance-scoring.md",
    "techniques": [
     {
      "slug": "bidirectional-gap-detection",
@@ -1278,24 +1320,28 @@
     {
      "stack": "node",
      "technique": "coverage-vs-conformance-split",
-     "file": "knowledge/game-production/design-doc-compliance-scoring/applications/node--coverage-vs-conformance-split.md"
+     "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/applications/node--coverage-vs-conformance-split.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "severity-weighted-scale-free-damping",
-     "file": "knowledge/game-production/design-doc-compliance-scoring/applications/node--severity-weighted-scale-free-damping.md"
+     "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/applications/node--severity-weighted-scale-free-damping.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "declared-mapping-is-terminal",
-     "file": "knowledge/game-production/design-doc-compliance-scoring/applications/process--declared-mapping-is-terminal.md"
+     "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/applications/process--declared-mapping-is-terminal.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "encounter-balance-simulation": {
    "category": "balance-validation",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/encounter-balance-simulation/encounter-balance-simulation.md",
+   "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/encounter-balance-simulation.md",
    "techniques": [
     {
      "slug": "goal-seek-on-a-seeded-monotonic-lever",
@@ -1386,24 +1432,28 @@
     {
      "stack": "node",
      "technique": "goal-seek-on-a-seeded-monotonic-lever",
-     "file": "knowledge/game-production/encounter-balance-simulation/applications/node--goal-seek-on-a-seeded-monotonic-lever.md"
+     "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/node--goal-seek-on-a-seeded-monotonic-lever.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "per-cell-seed-derivation-for-order-independence",
-     "file": "knowledge/game-production/encounter-balance-simulation/applications/node--per-cell-seed-derivation-for-order-independence.md"
+     "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/node--per-cell-seed-derivation-for-order-independence.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "monte-carlo-scenario-presets",
-     "file": "knowledge/game-production/encounter-balance-simulation/applications/process--monte-carlo-scenario-presets.md"
+     "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/process--monte-carlo-scenario-presets.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "engine-integration-safety": {
    "category": "engine-integration",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/engine-integration-safety/engine-integration-safety.md",
+   "file": "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
    "techniques": [
     {
      "slug": "editor-thread-timeout-budgeting",
@@ -1497,24 +1547,28 @@
     {
      "stack": "node",
      "technique": "editor-thread-timeout-budgeting",
-     "file": "knowledge/game-production/engine-integration-safety/applications/node--editor-thread-timeout-budgeting.md"
+     "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--editor-thread-timeout-budgeting.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "transport-failure-taxonomy",
-     "file": "knowledge/game-production/engine-integration-safety/applications/node--transport-failure-taxonomy.md"
+     "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--transport-failure-taxonomy.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "refuse-dont-kill-a-live-editor",
-     "file": "knowledge/game-production/engine-integration-safety/applications/process--refuse-dont-kill-a-live-editor.md"
+     "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/process--refuse-dont-kill-a-live-editor.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "engine-pitfall-corpus": {
    "category": "engine-integration",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/engine-pitfall-corpus/engine-pitfall-corpus.md",
+   "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -1601,19 +1655,22 @@
     {
      "stack": "node",
      "technique": "domain-scoped-injection-with-a-safe-superset",
-     "file": "knowledge/game-production/engine-pitfall-corpus/applications/node--domain-scoped-injection-with-a-safe-superset.md"
+     "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/node--domain-scoped-injection-with-a-safe-superset.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "incident-entry-shape",
-     "file": "knowledge/game-production/engine-pitfall-corpus/applications/process--incident-entry-shape.md"
+     "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/process--incident-entry-shape.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "game-economy-tuning": {
    "category": "systems-canon",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/game-economy-tuning/game-economy-tuning.md",
+   "file": "knowledge/game-production/systems-canon/game-economy-tuning/game-economy-tuning.md",
    "techniques": [
     {
      "slug": "economy-philosophy-multipliers",
@@ -1705,24 +1762,28 @@
     {
      "stack": "node",
      "technique": "tornado-sensitivity-sweeps",
-     "file": "knowledge/game-production/game-economy-tuning/applications/node--tornado-sensitivity-sweeps.md"
+     "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/node--tornado-sensitivity-sweeps.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "wealth-concentration-and-price-imbalance-alerts",
-     "file": "knowledge/game-production/game-economy-tuning/applications/node--wealth-concentration-and-price-imbalance-alerts.md"
+     "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/node--wealth-concentration-and-price-imbalance-alerts.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "faucet-sink-balance-band",
-     "file": "knowledge/game-production/game-economy-tuning/applications/process--faucet-sink-balance-band.md"
+     "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/process--faucet-sink-balance-band.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "generated-asset-world-scale": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/generated-asset-world-scale/generated-asset-world-scale.md",
+   "file": "knowledge/game-production/asset-production/generated-asset-world-scale/generated-asset-world-scale.md",
    "techniques": [
     {
      "slug": "generator-normalization-band",
@@ -1801,19 +1862,22 @@
     {
      "stack": "node",
      "technique": "import-scale-derivation",
-     "file": "knowledge/game-production/generated-asset-world-scale/applications/node--import-scale-derivation.md"
+     "file": "knowledge/game-production/asset-production/generated-asset-world-scale/applications/node--import-scale-derivation.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "generator-normalization-band",
-     "file": "knowledge/game-production/generated-asset-world-scale/applications/process--generator-normalization-band.md"
+     "file": "knowledge/game-production/asset-production/generated-asset-world-scale/applications/process--generator-normalization-band.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "generated-mesh-acceptance": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/generated-mesh-acceptance/generated-mesh-acceptance.md",
+   "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/generated-mesh-acceptance.md",
    "techniques": [
     {
      "slug": "defect-code-taxonomy-not-prose",
@@ -1906,19 +1970,22 @@
     {
      "stack": "node",
      "technique": "structural-scorecard",
-     "file": "knowledge/game-production/generated-mesh-acceptance/applications/node--structural-scorecard.md"
+     "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/applications/node--structural-scorecard.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "stage-declared-grading",
-     "file": "knowledge/game-production/generated-mesh-acceptance/applications/process--stage-declared-grading.md"
+     "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/applications/process--stage-declared-grading.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "generative-artifact-gating": {
    "category": "content-pipeline",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/generative-artifact-gating/generative-artifact-gating.md",
+   "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
    "techniques": [
     {
      "slug": "auto-picked-vs-human-chosen-provenance",
@@ -2011,19 +2078,22 @@
     {
      "stack": "node",
      "technique": "grade-the-selected-candidate",
-     "file": "knowledge/game-production/generative-artifact-gating/applications/node--grade-the-selected-candidate.md"
+     "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/node--grade-the-selected-candidate.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "gate-before-every-credit-spend",
-     "file": "knowledge/game-production/generative-artifact-gating/applications/process--gate-before-every-credit-spend.md"
+     "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/process--gate-before-every-credit-spend.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "generative-provider-auditing": {
    "category": "production-governance",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/generative-provider-auditing/generative-provider-auditing.md",
+   "file": "knowledge/game-production/production-governance/generative-provider-auditing/generative-provider-auditing.md",
    "techniques": [
     {
      "slug": "arena-benchmark-protocol",
@@ -2117,24 +2187,28 @@
     {
      "stack": "node",
      "technique": "capability-is-not-registry-membership",
-     "file": "knowledge/game-production/generative-provider-auditing/applications/node--capability-is-not-registry-membership.md"
+     "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/node--capability-is-not-registry-membership.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "pin-a-model-per-asset-class",
-     "file": "knowledge/game-production/generative-provider-auditing/applications/node--pin-a-model-per-asset-class.md"
+     "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/node--pin-a-model-per-asset-class.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "arena-benchmark-protocol",
-     "file": "knowledge/game-production/generative-provider-auditing/applications/process--arena-benchmark-protocol.md"
+     "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/process--arena-benchmark-protocol.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "image-to-3d-input-gating": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/image-to-3d-input-gating/image-to-3d-input-gating.md",
+   "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/image-to-3d-input-gating.md",
    "techniques": [
     {
      "slug": "canonical-pose-rule",
@@ -2224,24 +2298,28 @@
     {
      "stack": "node",
      "technique": "reference-role-tagging",
-     "file": "knowledge/game-production/image-to-3d-input-gating/applications/node--reference-role-tagging.md"
+     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "single-subject-plain-background",
-     "file": "knowledge/game-production/image-to-3d-input-gating/applications/node--single-subject-plain-background.md"
+     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "score-defect-verdict-protocol",
-     "file": "knowledge/game-production/image-to-3d-input-gating/applications/process--score-defect-verdict-protocol.md"
+     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/process--score-defect-verdict-protocol.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "mesh-finishing-for-engine-readiness": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
+   "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
    "techniques": [
     {
      "slug": "crease-angle-and-custom-normals",
@@ -2335,24 +2413,28 @@
     {
      "stack": "node",
      "technique": "high-to-low-bake-coverage",
-     "file": "knowledge/game-production/mesh-finishing-for-engine-readiness/applications/node--high-to-low-bake-coverage.md"
+     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/node--high-to-low-bake-coverage.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "unwrap-only-the-low-poly",
-     "file": "knowledge/game-production/mesh-finishing-for-engine-readiness/applications/node--unwrap-only-the-low-poly.md"
+     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/node--unwrap-only-the-low-poly.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "headless-dcc-capability-limits",
-     "file": "knowledge/game-production/mesh-finishing-for-engine-readiness/applications/process--headless-dcc-capability-limits.md"
+     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/process--headless-dcc-capability-limits.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "motion-quality-gating": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/motion-quality-gating/motion-quality-gating.md",
+   "file": "knowledge/game-production/asset-production/motion-quality-gating/motion-quality-gating.md",
    "techniques": [
     {
      "slug": "absolute-not-curved-judgment",
@@ -2448,24 +2530,28 @@
     {
      "stack": "node",
      "technique": "asset-reality-ledger",
-     "file": "knowledge/game-production/motion-quality-gating/applications/node--asset-reality-ledger.md"
+     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/node--asset-reality-ledger.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "filmstrip-sampling-discipline",
-     "file": "knowledge/game-production/motion-quality-gating/applications/node--filmstrip-sampling-discipline.md"
+     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/node--filmstrip-sampling-discipline.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "six-dimension-motion-rubric",
-     "file": "knowledge/game-production/motion-quality-gating/applications/process--six-dimension-motion-rubric.md"
+     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/process--six-dimension-motion-rubric.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "procedural-level-planning": {
    "category": "balance-validation",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/procedural-level-planning/procedural-level-planning.md",
+   "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
    "techniques": [
     {
      "slug": "algorithm-parameter-support-matrix",
@@ -2557,24 +2643,28 @@
     {
      "stack": "node",
      "technique": "declare-what-each-engine-ignores",
-     "file": "knowledge/game-production/procedural-level-planning/applications/node--declare-what-each-engine-ignores.md"
+     "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--declare-what-each-engine-ignores.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "pacing-linter-rules",
-     "file": "knowledge/game-production/procedural-level-planning/applications/node--pacing-linter-rules.md"
+     "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--pacing-linter-rules.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "safe-room-and-boss-placement",
-     "file": "knowledge/game-production/procedural-level-planning/applications/process--safe-room-and-boss-placement.md"
+     "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/process--safe-room-and-boss-placement.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "production-coverage-measurement": {
    "category": "production-governance",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/production-coverage-measurement/production-coverage-measurement.md",
+   "file": "knowledge/game-production/production-governance/production-coverage-measurement/production-coverage-measurement.md",
    "techniques": [
     {
      "slug": "audited-fact-drift-detection",
@@ -2669,24 +2759,28 @@
     {
      "stack": "node",
      "technique": "engine-credibility-classes",
-     "file": "knowledge/game-production/production-coverage-measurement/applications/node--engine-credibility-classes.md"
+     "file": "knowledge/game-production/production-governance/production-coverage-measurement/applications/node--engine-credibility-classes.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "readiness-ladder",
-     "file": "knowledge/game-production/production-coverage-measurement/applications/process--readiness-ladder.md"
+     "file": "knowledge/game-production/production-governance/production-coverage-measurement/applications/process--readiness-ladder.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "react",
      "technique": "source-provenance-marks",
-     "file": "knowledge/game-production/production-coverage-measurement/applications/react--source-provenance-marks.md"
+     "file": "knowledge/game-production/production-governance/production-coverage-measurement/applications/react--source-provenance-marks.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "production-prompt-architecture": {
    "category": "production-governance",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/production-prompt-architecture/production-prompt-architecture.md",
+   "file": "knowledge/game-production/production-governance/production-prompt-architecture/production-prompt-architecture.md",
    "techniques": [
     {
      "slug": "acceptance-criteria-appended-not-replaced",
@@ -2777,19 +2871,22 @@
     {
      "stack": "node",
      "technique": "fixed-section-order",
-     "file": "knowledge/game-production/production-prompt-architecture/applications/node--fixed-section-order.md"
+     "file": "knowledge/game-production/production-governance/production-prompt-architecture/applications/node--fixed-section-order.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "acceptance-criteria-appended-not-replaced",
-     "file": "knowledge/game-production/production-prompt-architecture/applications/process--acceptance-criteria-appended-not-replaced.md"
+     "file": "knowledge/game-production/production-governance/production-prompt-architecture/applications/process--acceptance-criteria-appended-not-replaced.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "production-work-prioritization": {
    "category": "production-governance",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/production-work-prioritization/production-work-prioritization.md",
+   "file": "knowledge/game-production/production-governance/production-work-prioritization/production-work-prioritization.md",
    "techniques": [
     {
      "slug": "blocked-if-any-produced-feature-is-blocked",
@@ -2879,24 +2976,28 @@
     {
      "stack": "node",
      "technique": "five-factor-weighted-scoring",
-     "file": "knowledge/game-production/production-work-prioritization/applications/node--five-factor-weighted-scoring.md"
+     "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/node--five-factor-weighted-scoring.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "null-success-odds-with-sample-provenance",
-     "file": "knowledge/game-production/production-work-prioritization/applications/node--null-success-odds-with-sample-provenance.md"
+     "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/node--null-success-odds-with-sample-provenance.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "urgency-ladder-for-what-next",
-     "file": "knowledge/game-production/production-work-prioritization/applications/process--urgency-ladder-for-what-next.md"
+     "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/process--urgency-ladder-for-what-next.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "prompt-fitness-and-evolution": {
    "category": "production-governance",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/prompt-fitness-and-evolution/prompt-fitness-and-evolution.md",
+   "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/prompt-fitness-and-evolution.md",
    "techniques": [
     {
      "slug": "exclude-synthetic-fixtures-from-fitness",
@@ -2987,24 +3088,28 @@
     {
      "stack": "node",
      "technique": "join-judge-verdicts-to-prompt-version",
-     "file": "knowledge/game-production/prompt-fitness-and-evolution/applications/node--join-judge-verdicts-to-prompt-version.md"
+     "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/applications/node--join-judge-verdicts-to-prompt-version.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "min-trials-and-confidence-banded-conclusion",
-     "file": "knowledge/game-production/prompt-fitness-and-evolution/applications/process--min-trials-and-confidence-banded-conclusion.md"
+     "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/applications/process--min-trials-and-confidence-banded-conclusion.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "mutation-taxonomy",
-     "file": "knowledge/game-production/prompt-fitness-and-evolution/applications/process--mutation-taxonomy.md"
+     "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/applications/process--mutation-taxonomy.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "quality-verdict-integrity": {
    "category": "craft-judgment",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/quality-verdict-integrity/quality-verdict-integrity.md",
+   "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/quality-verdict-integrity.md",
    "techniques": [
     {
      "slug": "calibration-against-confirmed-labels-only",
@@ -3098,24 +3203,28 @@
     {
      "stack": "node",
      "technique": "condemn-vs-elevate-asymmetry",
-     "file": "knowledge/game-production/quality-verdict-integrity/applications/node--condemn-vs-elevate-asymmetry.md"
+     "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/node--condemn-vs-elevate-asymmetry.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "content-hash-binding",
-     "file": "knowledge/game-production/quality-verdict-integrity/applications/node--content-hash-binding.md"
+     "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/node--content-hash-binding.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "calibration-against-confirmed-labels-only",
-     "file": "knowledge/game-production/quality-verdict-integrity/applications/process--calibration-against-confirmed-labels-only.md"
+     "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/process--calibration-against-confirmed-labels-only.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "realtime-combat-semantics": {
    "category": "systems-canon",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/realtime-combat-semantics/realtime-combat-semantics.md",
+   "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/realtime-combat-semantics.md",
    "techniques": [
     {
      "slug": "active-defense-two-axis-split",
@@ -3205,24 +3314,28 @@
     {
      "stack": "node",
      "technique": "real-time-timers-with-an-escapable-window",
-     "file": "knowledge/game-production/realtime-combat-semantics/applications/node--real-time-timers-with-an-escapable-window.md"
+     "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/node--real-time-timers-with-an-escapable-window.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "death-via-state-tag-not-input-disable",
-     "file": "knowledge/game-production/realtime-combat-semantics/applications/process--death-via-state-tag-not-input-disable.md"
+     "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/process--death-via-state-tag-not-input-disable.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "telegraph-or-homing-for-area-effects",
-     "file": "knowledge/game-production/realtime-combat-semantics/applications/process--telegraph-or-homing-for-area-effects.md"
+     "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/process--telegraph-or-homing-for-area-effects.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "regeneration-vs-repair-economics": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
+   "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
    "techniques": [
     {
      "slug": "best-of-n-parameter-sweep",
@@ -3314,19 +3427,22 @@
     {
      "stack": "node",
      "technique": "defect-class-to-remedy-map",
-     "file": "knowledge/game-production/regeneration-vs-repair-economics/applications/node--defect-class-to-remedy-map.md"
+     "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/applications/node--defect-class-to-remedy-map.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "bounded-refine-iteration",
-     "file": "knowledge/game-production/regeneration-vs-repair-economics/applications/process--bounded-refine-iteration.md"
+     "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/applications/process--bounded-refine-iteration.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "runtime-observation-evidence": {
    "category": "engine-integration",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/runtime-observation-evidence/runtime-observation-evidence.md",
+   "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/runtime-observation-evidence.md",
    "techniques": [
     {
      "slug": "behavioural-discriminators-over-symbolic-pass",
@@ -3421,24 +3537,28 @@
     {
      "stack": "node",
      "technique": "behavioural-discriminators-over-symbolic-pass",
-     "file": "knowledge/game-production/runtime-observation-evidence/applications/node--behavioural-discriminators-over-symbolic-pass.md"
+     "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/node--behavioural-discriminators-over-symbolic-pass.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "unverifiable-is-not-fail",
-     "file": "knowledge/game-production/runtime-observation-evidence/applications/node--unverifiable-is-not-fail.md"
+     "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/node--unverifiable-is-not-fail.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "tiers-of-truth",
-     "file": "knowledge/game-production/runtime-observation-evidence/applications/process--tiers-of-truth.md"
+     "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/process--tiers-of-truth.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "shader-budget-authoring": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/shader-budget-authoring/shader-budget-authoring.md",
+   "file": "knowledge/game-production/asset-production/shader-budget-authoring/shader-budget-authoring.md",
    "techniques": [
     {
      "slug": "channel-packing",
@@ -3530,24 +3650,28 @@
     {
      "stack": "node",
      "technique": "feature-cost-with-a-cheaper-swap",
-     "file": "knowledge/game-production/shader-budget-authoring/applications/node--feature-cost-with-a-cheaper-swap.md"
+     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/node--feature-cost-with-a-cheaper-swap.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "hardware-tier-lighting-presets",
-     "file": "knowledge/game-production/shader-budget-authoring/applications/process--hardware-tier-lighting-presets.md"
+     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/process--hardware-tier-lighting-presets.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "surface-to-shading-model-map",
-     "file": "knowledge/game-production/shader-budget-authoring/applications/process--surface-to-shading-model-map.md"
+     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/process--surface-to-shading-model-map.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "ship-pipeline-gating": {
    "category": "engine-integration",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/ship-pipeline-gating/ship-pipeline-gating.md",
+   "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
    "techniques": [
     {
      "slug": "editor-only-api-audit-for-shipping",
@@ -3642,24 +3766,28 @@
     {
      "stack": "node",
      "technique": "post-cook-process-liveness-smoke",
-     "file": "knowledge/game-production/ship-pipeline-gating/applications/node--post-cook-process-liveness-smoke.md"
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/node--post-cook-process-liveness-smoke.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "preflight-before-an-expensive-cook",
-     "file": "knowledge/game-production/ship-pipeline-gating/applications/node--preflight-before-an-expensive-cook.md"
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/node--preflight-before-an-expensive-cook.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "validator-log-classification",
-     "file": "knowledge/game-production/ship-pipeline-gating/applications/process--validator-log-classification.md"
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/process--validator-log-classification.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "spatial-audio-scene-authoring": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/spatial-audio-scene-authoring/spatial-audio-scene-authoring.md",
+   "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/spatial-audio-scene-authoring.md",
    "techniques": [
     {
      "slug": "attenuation-falloff-and-distance-filtering",
@@ -3751,19 +3879,22 @@
     {
      "stack": "node",
      "technique": "room-type-to-acoustic-profile",
-     "file": "knowledge/game-production/spatial-audio-scene-authoring/applications/node--room-type-to-acoustic-profile.md"
+     "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/applications/node--room-type-to-acoustic-profile.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "event-priority-concurrency-cooldown",
-     "file": "knowledge/game-production/spatial-audio-scene-authoring/applications/process--event-priority-concurrency-cooldown.md"
+     "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/applications/process--event-priority-concurrency-cooldown.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "subsystem-review-doctrine": {
    "category": "craft-judgment",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/subsystem-review-doctrine/subsystem-review-doctrine.md",
+   "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/subsystem-review-doctrine.md",
    "techniques": [
     {
      "slug": "four-pass-ordering",
@@ -3855,24 +3986,28 @@
     {
      "stack": "node",
      "technique": "regression-diff-new-persisting-resolved",
-     "file": "knowledge/game-production/subsystem-review-doctrine/applications/node--regression-diff-new-persisting-resolved.md"
+     "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/applications/node--regression-diff-new-persisting-resolved.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "ground-truth-pass-before-proposals",
-     "file": "knowledge/game-production/subsystem-review-doctrine/applications/process--ground-truth-pass-before-proposals.md"
+     "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/applications/process--ground-truth-pass-before-proposals.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "trace-one-interaction-end-to-end",
-     "file": "knowledge/game-production/subsystem-review-doctrine/applications/process--trace-one-interaction-end-to-end.md"
+     "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/applications/process--trace-one-interaction-end-to-end.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "tiling-texture-acceptance": {
    "category": "asset-production",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/tiling-texture-acceptance/tiling-texture-acceptance.md",
+   "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/tiling-texture-acceptance.md",
    "techniques": [
     {
      "slug": "biome-themed-tile-prompting",
@@ -3972,24 +4107,28 @@
     {
      "stack": "node",
      "technique": "derive-only-what-the-source-encodes",
-     "file": "knowledge/game-production/tiling-texture-acceptance/applications/node--derive-only-what-the-source-encodes.md"
+     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/node--derive-only-what-the-source-encodes.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "wrap-around-edge-diff",
-     "file": "knowledge/game-production/tiling-texture-acceptance/applications/node--wrap-around-edge-diff.md"
+     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/node--wrap-around-edge-diff.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "biome-themed-tile-prompting",
-     "file": "knowledge/game-production/tiling-texture-acceptance/applications/process--biome-themed-tile-prompting.md"
+     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/process--biome-themed-tile-prompting.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "unattended-build-loop": {
    "category": "craft-judgment",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/unattended-build-loop/unattended-build-loop.md",
+   "file": "knowledge/game-production/craft-judgment/unattended-build-loop/unattended-build-loop.md",
    "techniques": [
     {
      "slug": "budget-reservation-and-drain-not-kill",
@@ -4083,24 +4222,28 @@
     {
      "stack": "node",
      "technique": "budget-reservation-and-drain-not-kill",
-     "file": "knowledge/game-production/unattended-build-loop/applications/node--budget-reservation-and-drain-not-kill.md"
+     "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--budget-reservation-and-drain-not-kill.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "verified-vs-self-reported-pass-rate",
-     "file": "knowledge/game-production/unattended-build-loop/applications/node--verified-vs-self-reported-pass-rate.md"
+     "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--verified-vs-self-reported-pass-rate.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "no-gate-self-certifies",
-     "file": "knowledge/game-production/unattended-build-loop/applications/process--no-gate-self-certifies.md"
+     "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/process--no-gate-self-certifies.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "visual-script-to-code-transpilation": {
    "category": "engine-integration",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/visual-script-to-code-transpilation/visual-script-to-code-transpilation.md",
+   "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/visual-script-to-code-transpilation.md",
    "techniques": [
     {
      "slug": "declaration-definition-parity",
@@ -4176,19 +4319,22 @@
     {
      "stack": "node",
      "technique": "event-override-signature-resolution",
-     "file": "knowledge/game-production/visual-script-to-code-transpilation/applications/node--event-override-signature-resolution.md"
+     "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/applications/node--event-override-signature-resolution.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "plain-language-jargon-layer",
-     "file": "knowledge/game-production/visual-script-to-code-transpilation/applications/process--plain-language-jargon-layer.md"
+     "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/applications/process--plain-language-jargon-layer.md",
+     "verified_on": "2026-08-20"
     }
    ]
   },
   "wiring-contract-doctrine": {
    "category": "content-pipeline",
+   "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/wiring-contract-doctrine/wiring-contract-doctrine.md",
+   "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/wiring-contract-doctrine.md",
    "techniques": [
     {
      "slug": "contract-injection-into-prompts",
@@ -4281,24 +4427,27 @@
     {
      "stack": "node",
      "technique": "placeholder-rejection",
-     "file": "knowledge/game-production/wiring-contract-doctrine/applications/node--placeholder-rejection.md"
+     "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/applications/node--placeholder-rejection.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "verification-must-name-a-tier",
-     "file": "knowledge/game-production/wiring-contract-doctrine/applications/node--verification-must-name-a-tier.md"
+     "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/applications/node--verification-must-name-a-tier.md",
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "contract-injection-into-prompts",
-     "file": "knowledge/game-production/wiring-contract-doctrine/applications/process--contract-injection-into-prompts.md"
+     "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/applications/process--contract-injection-into-prompts.md",
+     "verified_on": "2026-08-20"
     }
    ]
   }
  },
  "laws": {
   "grade-against-what-ships-not-on-a-curve": {
-   "statement": "Craft is judged in absolute terms against the standard of work that actually shipped, never relative to the batch, never relative to the artifact's own ambition, and never assuming the input was competent. Correctness is the floor, not a passing grade: a functional, generic result that a lead would hand back is placeholder work and must score as such. A rubric earns this by naming concrete reference standards per level and by stating each criterion as a bar an examiner can check against the stored artifact.",
+   "statement": null,
    "techniques": [
     "aaa-craft-rubric-authoring/capped-disqualifiers",
     "aaa-craft-rubric-authoring/ceiling-as-a-market-assumption",
@@ -4321,7 +4470,7 @@
    ]
   },
   "unmeasured-is-not-a-pass": {
-   "statement": "Absence of a measurement, a verdict, or a check must render as *not measured*, never as compliance, and never as a neutral number standing in for one. A step nobody has evaluated and a step evaluated as adequate are different epistemic states and must be different values; collapsing them is the single most common way a production dashboard lies. There is no neutral constant: an unmeasured thing is null, `unmeasured`, `ungauged`, `unknown` — a label, not a score. The corollary is that silence must never propagate upward as green.",
+   "statement": "Absence of a measurement, a verdict, or a check must render as *not measured*, never as compliance, and never as a neutral number standing in for one. A step nobody has evaluated and a step evaluated as adequate are different epistemic states and must be different values; collapsing them is the single most common way a production dashboard lies. There is no neutral constant: an unmeasured thing is null, `unmeasured`, `ungauged`, `unknown` — a label, not a score. The corollary is that silence must never propagate upward as green. --- <a id=\"a-number-carries-its-unit-and-basis\"></a>",
    "techniques": [
     "aaa-craft-rubric-authoring/capped-disqualifiers",
     "aaa-craft-rubric-authoring/checkable-against-the-stored-artifact",
@@ -4453,7 +4602,7 @@
    ]
   },
   "one-authority-per-quantity": {
-   "statement": "Two systems answering the same question with two models is worse than having one model, and worse than having none: the disagreement is invisible until it is load-bearing. Each quantity has exactly one owning implementation; everything else adapts into it. A simpler legacy model may be retained for compatibility but must be barred from producing a verdict. The same rule governs content: a value that appears in sibling artifacts is single-sourced, and a contradiction between siblings is a defect in its own right.",
+   "statement": "Two systems answering the same question with two models is worse than having one model, and worse than having none: the disagreement is invisible until it is load-bearing. Each quantity has exactly one owning implementation; everything else adapts into it. A simpler legacy model may be retained for compatibility but must be barred from producing a verdict. The same rule governs content: a value that appears in sibling artifacts is single-sourced, and a contradiction between siblings is a defect in its own right. --- <a id=\"law-and-check-share-one-source\"></a>",
    "techniques": [
     "aaa-craft-rubric-authoring/capped-disqualifiers",
     "ability-authoring-to-engine/strict-output-schema-with-derived-dependents",
@@ -4537,7 +4686,7 @@
    ]
   },
   "a-number-carries-its-unit-and-basis": {
-   "statement": "A quantity handed across a boundary without its unit and the assumption it was computed under is not information. A budget is meaningless unless it says which primitive it counts. A damage figure is meaningless without its type and its stacking bucket. A mitigation percentage does not exist for a defence that is soft-capped against the size of the incoming hit — only for a stated reference hit. A score is meaningless without the basis it was scored on. Where a producer and a consumer of a number disagree about its unit, the failure is silent, arrives late, and is expensive.",
+   "statement": null,
    "techniques": [
     "aaa-craft-rubric-authoring/ceiling-as-a-market-assumption",
     "aaa-craft-rubric-authoring/named-benchmark-anchors-per-level",
@@ -4631,7 +4780,7 @@
    ]
   },
   "no-gate-self-certifies": {
-   "statement": "The party that produced an artifact may not be the authority that passes it. A producer's own claim of success is an input to a verdict, never the verdict; a generator that reports its output as valid gets that claim recorded and labelled as self-reported. The authority is a separate observer reading real state. Under automation this hardens further: an unattended process reports what it verified and what it merely asserted as two different numbers, and the one that counts is the verified one.",
+   "statement": "The party that produced an artifact may not be the authority that passes it. A producer's own claim of success is an input to a verdict, never the verdict; a generator that reports its output as valid gets that claim recorded and labelled as self-reported. The authority is a separate observer reading real state. Under automation this hardens further: an unattended process reports what it verified and what it merely asserted as two different numbers, and the one that counts is the verified one. --- <a id=\"grade-against-what-ships-not-on-a-curve\"></a>",
    "techniques": [
     "aaa-craft-rubric-authoring/checkable-against-the-stored-artifact",
     "ability-authoring-to-engine/server-derived-codegen-report",
@@ -4674,7 +4823,7 @@
    ]
   },
   "law-and-check-share-one-source": {
-   "statement": "A rule written in prose for humans and a threshold typed into a linter will drift apart, and the drift is undetectable from either side. The check reads its numbers from the canonical statement of the law; a change to the prose propagates, and a failure to parse the prose is a loud error, never a silent fallback to a hardcoded default. The corollary at authoring time: the rule an artifact will be graded against is visible to whoever — or whatever — authors the number.",
+   "statement": null,
    "techniques": [
     "aaa-craft-rubric-authoring/criterion-with-a-cited-source",
     "aaa-craft-rubric-authoring/lens-versioning-as-invalidation",
@@ -4709,7 +4858,7 @@
    ]
   },
   "a-verdict-is-bound-to-its-content": {
-   "statement": "A quality judgment speaks only for the exact artifact it examined. Bind it to a content fingerprint; when the content changes, the verdict becomes evidence about the past, not a statement about the present. Report it as such rather than dropping it — a gap that is visible is survivable, and \"unjudged since the last change\" must never be readable as \"judged and passed\". Where provenance is unprovable, the asymmetry is deliberate: an unverifiable condemnation still condemns, an unverifiable pass does not elevate. Falling to the conservative side is what keeps the whole layer honest.",
+   "statement": null,
    "techniques": [
     "aaa-craft-rubric-authoring/lens-versioning-as-invalidation",
     "acceptance-verdict-spine/explain-why-this-verdict",
@@ -4742,7 +4891,7 @@
    ]
   },
   "compiling-is-not-wiring": {
-   "statement": "An artifact that builds, loads and validates but is never granted, registered, triggered or reachable is not done. Every produced artifact declares how it is granted, how it is activated, what it depends on, and how it is verified — and each of those must name something real, not a placeholder. This is the rule that separates a demonstrably complete feature from one that merely survives its own compiler.",
+   "statement": "An artifact that builds, loads and validates but is never granted, registered, triggered or reachable is not done. Every produced artifact declares how it is granted, how it is activated, what it depends on, and how it is verified — and each of those must name something real, not a placeholder. This is the rule that separates a demonstrably complete feature from one that merely survives its own compiler. --- <a id=\"a-verdict-is-bound-to-its-content\"></a>",
    "techniques": [
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
     "ability-authoring-to-engine/server-derived-codegen-report",
@@ -4770,7 +4919,7 @@
    ]
   },
   "refuse-rather-than-destroy": {
-   "statement": "A tool that drives someone's live workspace refuses and reports rather than clearing the way. It never terminates a process it did not itself spawn, never kills by name what it can only identify by name, and takes an exclusive lease on a non-reentrant resource rather than racing for it. When it cannot proceed, the honest outcome is a stated precondition failure — a refusal is a result, and it is a better one than a destroyed session. The same instinct governs teardown: drain what is in flight and count it, rather than cancelling and hiding the cost.",
+   "statement": null,
    "techniques": [
     "ability-authoring-to-engine/refinement-mode-minimal-diff",
     "content-drift-and-revision/add-only-hydration",
@@ -4799,7 +4948,7 @@
    ]
   },
   "structural-proof-is-never-sufficient": {
-   "statement": "That an artifact exists, parses, compiles and has its properties set says nothing about whether it behaves correctly or looks right. Every ladder of evidence therefore has rungs above the structural ones, and a claim of completion names the rung it was proven at. The canonical failure is a subject that passed every existence, compile and wiring check and was motionless on screen. Behavioural and perceptual evidence are separate rungs precisely because nothing below them implies them.",
+   "statement": "That an artifact exists, parses, compiles and has its properties set says nothing about whether it behaves correctly or looks right. Every ladder of evidence therefore has rungs above the structural ones, and a claim of completion names the rung it was proven at. The canonical failure is a subject that passed every existence, compile and wiring check and was motionless on screen. Behavioural and perceptual evidence are separate rungs precisely because nothing below them implies them. --- <a id=\"refuse-rather-than-destroy\"></a>",
    "techniques": [
     "acceptance-verdict-spine/first-non-pass-reporting-in-all-of",
     "acceptance-verdict-spine/three-layer-merge-order",

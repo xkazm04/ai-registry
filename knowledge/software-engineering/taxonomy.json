@@ -1,0 +1,323 @@
+{
+  "$comment": "AUTHORITY on where every subject lives. The folder tree is DERIVED from this file, never the other way round: once folders encode the taxonomy, a hand-edited recategorization is a corpus-wide link break, so moves go through scripts/apply-taxonomy.mjs and nothing else. `layout` says whether the tree has been materialized yet - \"flat\" means subjects still sit directly under the bundle and the cap check reports rather than fails. A subject is identified by its bare slug everywhere (technique@owner, shared_with, index.json, signals/); only its location is nested. Gated by scripts/check-bundles.mjs via scripts/lib/taxonomy.mjs.",
+  "schema": "rkb-taxonomy/1",
+  "bundle": "software-engineering",
+  "layout": "nested",
+  "categories": [
+    {
+      "id": "ui-surfaces",
+      "title": "UI surfaces",
+      "order": 1,
+      "subcategories": [
+        {
+          "id": "data-display",
+          "title": "Data display",
+          "subjects": [
+            "table",
+            "feed",
+            "data-viz",
+            "canvas-graph",
+            "diff-comparison",
+            "file-browsing",
+            "search"
+          ]
+        },
+        {
+          "id": "input-and-editing",
+          "title": "Input and editing",
+          "subjects": [
+            "form",
+            "ui-controls",
+            "draft-editing",
+            "drag-drop",
+            "undo-history",
+            "wizard-flows",
+            "schema-driven-ui"
+          ]
+        },
+        {
+          "id": "shell-and-navigation",
+          "title": "Shell and navigation",
+          "subjects": [
+            "app-shell",
+            "modal-stack",
+            "session-resume",
+            "guided-tours",
+            "chat-transcript",
+            "media-playback"
+          ]
+        },
+        {
+          "id": "feedback-and-style",
+          "title": "Feedback and style",
+          "subjects": [
+            "async-ui-states",
+            "status-vocabulary",
+            "toasts-notifications",
+            "motion",
+            "design-tokens",
+            "accessibility"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "client-architecture",
+      "title": "Client architecture",
+      "order": 2,
+      "subjects": [
+        "client-fetch-cache",
+        "client-state",
+        "i18n",
+        "ipc-contract",
+        "realtime-events"
+      ]
+    },
+    {
+      "id": "llm-agent",
+      "title": "LLM & agent engineering",
+      "order": 3,
+      "subcategories": [
+        {
+          "id": "prompt-and-context",
+          "title": "Prompt and context",
+          "subjects": [
+            "prompt-assembly",
+            "prompt-safety",
+            "retrieval",
+            "agent-memory",
+            "structured-output"
+          ]
+        },
+        {
+          "id": "orchestration",
+          "title": "Orchestration",
+          "subjects": [
+            "agent-chaining",
+            "fleet-orchestration",
+            "model-routing",
+            "hitl-approval",
+            "remediation-handoff",
+            "proactive-nudges"
+          ]
+        },
+        {
+          "id": "runtime-and-io",
+          "title": "Runtime and I/O",
+          "subjects": [
+            "streaming-output",
+            "subprocess-lifecycle",
+            "mcp-tools",
+            "terminal-multiplexing",
+            "sidecar-provisioning",
+            "voice-io"
+          ]
+        },
+        {
+          "id": "evaluation-and-cost",
+          "title": "Evaluation and cost",
+          "subjects": [
+            "eval-harness",
+            "judgment-guardbands",
+            "cost-metering",
+            "tracing",
+            "time-travel-replay"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backend-platform",
+      "title": "Backend platform",
+      "order": 4,
+      "subcategories": [
+        {
+          "id": "data-layer",
+          "title": "Data layer",
+          "subjects": [
+            "data-access",
+            "embedded-db",
+            "migrations",
+            "sync-replication"
+          ]
+        },
+        {
+          "id": "work-execution",
+          "title": "Work execution",
+          "subjects": [
+            "background-jobs",
+            "job-coordination",
+            "scheduling",
+            "pipeline-dag",
+            "admission-queue",
+            "concurrency-guards",
+            "delivery-guarantees"
+          ]
+        },
+        {
+          "id": "resilience",
+          "title": "Resilience",
+          "subjects": [
+            "retry-backoff",
+            "rate-limiting",
+            "error-handling",
+            "self-healing",
+            "webhook-ingestion"
+          ]
+        },
+        {
+          "id": "platform-observability",
+          "title": "Platform observability",
+          "subjects": [
+            "observability-telemetry",
+            "metrics-rollups",
+            "alerting",
+            "outbound-notifications"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "operations",
+      "title": "Operations & governance",
+      "order": 5,
+      "subcategories": [
+        {
+          "id": "governance-and-records",
+          "title": "Governance and records",
+          "subjects": [
+            "audit-logging",
+            "data-retention",
+            "versioning-snapshots",
+            "entity-lifecycle",
+            "settings"
+          ]
+        },
+        {
+          "id": "service-operations",
+          "title": "Service operations",
+          "subjects": [
+            "health-checks",
+            "perf-instrumentation",
+            "triage-queues",
+            "usage-analytics",
+            "plan-entitlements",
+            "scoring-rubrics"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security",
+      "order": 6,
+      "subjects": [
+        "authorization",
+        "credential-vault",
+        "device-pairing",
+        "p2p-networking",
+        "signed-artifacts",
+        "supply-chain"
+      ]
+    },
+    {
+      "id": "integration",
+      "title": "Integration",
+      "order": 7,
+      "subjects": [
+        "cicd-monitoring",
+        "connector-catalog",
+        "embedded-preview",
+        "import-normalization",
+        "markdown-vault",
+        "sql-console",
+        "templates-scaffolding",
+        "web-scraping"
+      ]
+    },
+    {
+      "id": "engineering-process",
+      "title": "Engineering process",
+      "order": 8,
+      "subcategories": [
+        {
+          "id": "build-and-release",
+          "title": "Build and release",
+          "subjects": [
+            "build-economics",
+            "packaging",
+            "release-pipeline",
+            "codegen",
+            "test-harness"
+          ]
+        },
+        {
+          "id": "codebase-stewardship",
+          "title": "Codebase stewardship",
+          "subjects": [
+            "codebase-scanning",
+            "dead-code",
+            "docs-sync",
+            "concurrent-vcs"
+          ]
+        },
+        {
+          "id": "standards-and-gates",
+          "title": "Standards and gates",
+          "subjects": [
+            "quality-gates",
+            "knowledge-registry",
+            "repo-manifest-standard",
+            "multi-project"
+          ]
+        },
+        {
+          "id": "continuous-integration",
+          "title": "Continuous integration",
+          "subjects": [
+            "pipeline-authoring",
+            "machine-paced-delivery"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "engineering-assessment",
+      "title": "Engineering assessment",
+      "order": 9,
+      "subcategories": [
+        {
+          "id": "measurement-method",
+          "title": "Measurement method",
+          "subjects": [
+            "measurement-honesty",
+            "analytics-time-windows",
+            "metric-forecasting",
+            "people-analytics-ethics",
+            "peer-benchmarking"
+          ]
+        },
+        {
+          "id": "maturity-and-conformance",
+          "title": "Maturity and conformance",
+          "subjects": [
+            "maturity-ladders",
+            "readiness-passports",
+            "conformance-checking",
+            "public-verdict-badge"
+          ]
+        },
+        {
+          "id": "reporting-and-remediation",
+          "title": "Reporting and remediation",
+          "subjects": [
+            "executive-reporting",
+            "delivery-analytics",
+            "adoption-measurement",
+            "remediation-roadmaps"
+          ]
+        }
+      ]
+    }
+  ]
+}

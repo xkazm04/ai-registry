@@ -155,7 +155,7 @@
       "techniques": 91,
       "applications": 34,
       "files": 145,
-      "contentHash": "sha256:7cf5cf4a41b662da"
+      "contentHash": "sha256:4bc961b13f80bf7e"
     },
     {
       "name": "game-production",
@@ -168,7 +168,7 @@
       "techniques": 237,
       "applications": 108,
       "files": 389,
-      "contentHash": "sha256:58fab50f4d2ebf47"
+      "contentHash": "sha256:b29de30dfed3a6fb"
     },
     {
       "name": "grant-funding",
@@ -181,7 +181,7 @@
       "techniques": 104,
       "applications": 38,
       "files": 164,
-      "contentHash": "sha256:b6019f9cf01e9eb2"
+      "contentHash": "sha256:2f719a191e7ec068"
     },
     {
       "name": "llm-observability",
@@ -194,7 +194,7 @@
       "techniques": 98,
       "applications": 41,
       "files": 160,
-      "contentHash": "sha256:f65053f71bbf4993"
+      "contentHash": "sha256:56071585c756d687"
     },
     {
       "name": "media-generation",
@@ -207,7 +207,20 @@
       "techniques": 83,
       "applications": 32,
       "files": 134,
-      "contentHash": "sha256:7f9204b911f9894c"
+      "contentHash": "sha256:52bc9d139d7e9267"
+    },
+    {
+      "name": "recruiting",
+      "title": "Recruiting",
+      "path": "knowledge/recruiting",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "recruiting",
+      "subjects": 64,
+      "techniques": 384,
+      "applications": 190,
+      "files": 642,
+      "contentHash": "sha256:7abb032a2271ef0b"
     },
     {
       "name": "software-engineering",
@@ -216,11 +229,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 106,
-      "techniques": 629,
-      "applications": 238,
-      "files": 977,
-      "contentHash": "sha256:abb406ffd485fe6a"
+      "subjects": 126,
+      "techniques": 768,
+      "applications": 311,
+      "files": 1210,
+      "contentHash": "sha256:a2692937093fb5f6"
     }
   ]
 }
