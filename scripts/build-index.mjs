@@ -32,6 +32,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadTaxonomy, walkSubjects } from './lib/taxonomy.mjs';
+import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'knowledge');
@@ -233,14 +234,19 @@ for (const domain of domains) {
   const prev = fs.existsSync(out) ? fs.readFileSync(out, 'utf8') : null;
 
   if (check) {
-    if (prev !== next) {
+    // Compared ignoring newlines: a Windows checkout hands the working tree CRLF while
+    // this script writes LF, and a freshness verdict must not depend on which platform
+    // cloned the repo. Same rule the bundle digest already runs on.
+    if (prev === null || !sameIgnoringNewlines(prev, next)) {
       stale += 1;
       console.error(
         `stale: knowledge/${domain}/index.json does not match the bundle. ` +
           'Run `node scripts/build-index.mjs` and commit the result.',
       );
     }
-  } else if (prev !== next) {
+    // Write only when the CONTENT changed. Rewriting a file whose sole difference is
+    // its line endings would churn the working tree on every run on Windows.
+  } else if (prev === null || !sameIgnoringNewlines(prev, next)) {
     fs.writeFileSync(out, next);
   }
 

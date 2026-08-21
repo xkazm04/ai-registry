@@ -13,6 +13,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
+/** The text form of the same rule, for comparing two GENERATED files rather than
+ *  hashing a tree. `build-index.mjs --check` and `build-catalog.mjs --check` both
+ *  compare a committed artifact against a fresh build, and both were comparing raw
+ *  text — so on a Windows checkout (autocrlf hands the working tree CRLF while the
+ *  generator writes LF) they reported every generated file as STALE when its content
+ *  was byte-identical after normalization. Exactly the failure this module was
+ *  extracted for, one layer up: a verdict that depends on the checkout. */
+export const sameIgnoringNewlines = (a, b) => a.replace(/\r\n/g, '\n') === b.replace(/\r\n/g, '\n');
+
 /** Drop the CR of every CRLF. Done on the BUFFER rather than through a utf8
  *  round-trip, so a binary file dropped into a bundle one day still hashes
  *  deterministically instead of being mangled into replacement characters first. */

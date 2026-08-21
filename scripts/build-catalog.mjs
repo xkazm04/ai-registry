@@ -21,7 +21,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { hashBundle } from './lib/bundle-hash.mjs';
+import { hashBundle, sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 import { walkSubjects } from './lib/taxonomy.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -182,7 +182,11 @@ const serialized = `${JSON.stringify(next, null, 2)}\n`;
 
 if (checkOnly) {
   const current = fs.readFileSync(CATALOG, 'utf8');
-  if (current !== serialized) {
+  // Newline-insensitive, for the same reason the bundle digest is: a Windows checkout
+  // holds CRLF while this writes LF, so a raw comparison reports a byte-identical
+  // catalog as STALE — a verdict about the checkout wearing the costume of a verdict
+  // about the content, which is precisely the failure lib/bundle-hash.mjs exists for.
+  if (!sameIgnoringNewlines(current, serialized)) {
     console.error('catalog.json is STALE — run `node scripts/build-catalog.mjs` and commit the result.');
     const cur = JSON.stringify(catalog.bundles ?? null);
     const nxt = JSON.stringify(bundles);
