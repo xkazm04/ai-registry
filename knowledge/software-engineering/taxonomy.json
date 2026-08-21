@@ -270,6 +270,14 @@
             "repo-manifest-standard",
             "multi-project"
           ]
+        },
+        {
+          "id": "continuous-integration",
+          "title": "Continuous integration",
+          "subjects": [
+            "pipeline-authoring",
+            "machine-paced-delivery"
+          ]
         }
       ]
     },

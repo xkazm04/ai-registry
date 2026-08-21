@@ -136,6 +136,11 @@ function buildBundle(domain) {
         ? t.use_when.filter(Boolean)
         : typeof t.use_when === 'string' && t.use_when.trim() ? [t.use_when.trim()] : null;
       if (useWhen && useWhen.length) entry.use_when = useWhen;
+      // `stage` is the maturity rung at which a technique STARTS to pay
+      // (rkb-profile §3.2). Emitted only where an author declared one: absence
+      // means "applies at every rung", which is the common case and must not be
+      // rendered as an unfilled field a consumer then tries to infer.
+      if (typeof t.stage === 'string' && t.stage.trim()) entry.stage = t.stage.trim();
       techniques.push(entry);
 
       for (const law of cited) {

@@ -83,6 +83,18 @@ const LAYERS = new Set(['golden-path', 'technique', 'application']);
 const STATUSES = new Set(['draft', 'forged', 'reconciled', 'transplant-tested']);
 const STACKS = new Set(['react', 'rust', 'sql', 'node', 'process']);
 
+// The maturity ladder a technique may declare (docs/rkb-profile.md §3.2).
+//
+// OPTIONAL, and deliberately so. Most techniques apply at every rung, and a decorative
+// `stage:` on one of those is noise that trains readers to ignore the field. It exists
+// for the class of technique whose whole failure mode is being adopted at the wrong time -
+// where "correct but not yet" is the honest verdict and a flat standard cannot say it.
+//
+// A declared value is a FLOOR: below it the technique is over-engineering, at or above it
+// its absence is a gap. The gate checks membership only; whether the rung is the RIGHT one
+// is a judgment no script can make.
+const STAGES = new Set(['solo', 'team', 'multi-service', 'fleet']);
+
 // Currency fields on the application layer (docs/rkb-profile.md §3).
 //
 // An application cites real code in a real tree. That tree moves; the citation does not.
@@ -351,6 +363,9 @@ for (const domain of bundles) {
       if (fm.technique !== t) fail(`${here}/techniques/${t}.md: technique "${fm.technique}" ≠ filename "${t}"`);
       for (const law of Array.isArray(fm.laws) ? fm.laws : []) {
         if (!lawAnchors.has(law)) fail(`${here}/techniques/${t}.md: cites unknown law "${law}"`);
+      }
+      if (fm.stage !== undefined && !STAGES.has(fm.stage)) {
+        fail(`${here}/techniques/${t}.md: unknown stage "${fm.stage}" — one of ${[...STAGES].join(' | ')} (rkb-profile §3.2)`);
       }
       for (const sw of Array.isArray(fm.shared_with) ? fm.shared_with : []) {
         if (!subjectDirs.includes(sw)) fail(`${here}/techniques/${t}.md: shared_with "${sw}" is not a subject in this bundle`);
