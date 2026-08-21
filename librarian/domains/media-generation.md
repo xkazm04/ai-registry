@@ -1,6 +1,6 @@
 ---
 domain: media-generation
-last_swept: 2026-08-20
+last_swept: 2026-08-21
 layout: nested
 demand_known: false
 ---
@@ -10,7 +10,7 @@ demand_known: false
 Coverage note for the `media-generation` bundle. Part of [[index]]; graded against
 [[standard]].
 
-## Shape at the last sweep (2026-08-20)
+## Shape at the last sweep (2026-08-21)
 
 | | |
 | --- | --- |
@@ -43,9 +43,8 @@ These are a record of this sweep, not an input to the next one. Recompute with
 
 ## Dispatched
 
-Nothing yet. This is the founding sweep: it established the baseline and the vault, and
-deliberately dispatched no workers - a first run that both measures and changes the
-corpus cannot tell which of the two moved the numbers.
+Nothing yet. The sweeps so far have measured and restructured; no research worker has
+been dispatched at content. See the run notes for why.
 
 ## Declined
 

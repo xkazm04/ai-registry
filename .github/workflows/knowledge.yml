@@ -97,5 +97,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      # Before asking whether the catalog is current, assert that "current" means the
+      # same thing here as on the machine that wrote it. The digest hashed raw bytes
+      # once, which made it a property of the checkout's line endings — this job then
+      # failed for every commit written from a CRLF clone, indistinguishably from real
+      # staleness.
+      - name: Check the bundle digest is checkout-stable
+        run: node scripts/check-hash-stability.mjs
       - name: Check catalog is current
         run: node scripts/build-catalog.mjs --check

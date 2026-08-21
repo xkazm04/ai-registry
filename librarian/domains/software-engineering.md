@@ -1,6 +1,6 @@
 ---
 domain: software-engineering
-last_swept: 2026-08-20
+last_swept: 2026-08-21
 layout: nested
 demand_known: false
 ---
@@ -10,18 +10,18 @@ demand_known: false
 Coverage note for the `software-engineering` bundle. Part of [[index]]; graded against
 [[standard]].
 
-## Shape at the last sweep (2026-08-20)
+## Shape at the last sweep (2026-08-21)
 
 | | |
 | --- | --- |
 | Subjects | 124 |
-| Techniques | 755 |
-| Applications | 306 |
-| `use_when` written | 123/755 |
-| Version witness (`verified_against`) | 0/306 |
+| Techniques | 756 |
+| Applications | 307 |
+| `use_when` written | 123/756 |
+| Version witness (`verified_against`) | 0/307 |
 | Expired applications | 0 |
 | Never swept | 124/124 |
-| Attention points | 1778 |
+| Attention points | 1780 |
 | Cap breaches | none - every level is under ten |
 
 These are a record of this sweep, not an input to the next one. Recompute with
@@ -29,7 +29,7 @@ These are a record of this sweep, not an input to the next one. Recompute with
 
 ## What is owed
 
-- `use_when` on 632 technique(s) - the single largest gap in this bundle
+- `use_when` on 633 technique(s) - the single largest gap in this bundle
 - an application for 2 subject(s): docs-sync, p2p-networking
 - a second stack for 65 subject(s) - the transplant claim is untested at one
 - a reporting installation - demand for every subject here is UNKNOWN, not zero
@@ -45,9 +45,8 @@ These are a record of this sweep, not an input to the next one. Recompute with
 
 ## Dispatched
 
-Nothing yet. This is the founding sweep: it established the baseline and the vault, and
-deliberately dispatched no workers - a first run that both measures and changes the
-corpus cannot tell which of the two moved the numbers.
+Nothing yet. The sweeps so far have measured and restructured; no research worker has
+been dispatched at content. See the run notes for why.
 
 ## Declined
 

@@ -151,11 +151,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "civic",
-      "subjects": 4,
-      "techniques": 0,
-      "applications": 0,
+      "subjects": 15,
+      "techniques": 91,
+      "applications": 34,
       "files": 145,
-      "contentHash": "sha256:d14d7b007845eebd"
+      "contentHash": "sha256:4bc961b13f80bf7e"
     },
     {
       "name": "grant-funding",
@@ -164,11 +164,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "funding",
-      "subjects": 4,
-      "techniques": 0,
-      "applications": 0,
+      "subjects": 17,
+      "techniques": 104,
+      "applications": 38,
       "files": 164,
-      "contentHash": "sha256:9f778705ef736b9c"
+      "contentHash": "sha256:2f719a191e7ec068"
     },
     {
       "name": "llm-observability",
@@ -177,11 +177,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 4,
-      "techniques": 0,
-      "applications": 0,
+      "subjects": 16,
+      "techniques": 98,
+      "applications": 41,
       "files": 160,
-      "contentHash": "sha256:7b5e180397e3f0a5"
+      "contentHash": "sha256:56071585c756d687"
     },
     {
       "name": "media-generation",
@@ -190,11 +190,24 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 4,
-      "techniques": 0,
-      "applications": 0,
+      "subjects": 14,
+      "techniques": 83,
+      "applications": 32,
       "files": 134,
-      "contentHash": "sha256:084ac585c594dddf"
+      "contentHash": "sha256:52bc9d139d7e9267"
+    },
+    {
+      "name": "recruiting",
+      "title": "Recruiting",
+      "path": "knowledge/recruiting",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "recruiting",
+      "subjects": 64,
+      "techniques": 384,
+      "applications": 190,
+      "files": 642,
+      "contentHash": "sha256:7abb032a2271ef0b"
     },
     {
       "name": "software-engineering",
@@ -203,11 +216,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 9,
-      "techniques": 0,
-      "applications": 0,
-      "files": 1190,
-      "contentHash": "sha256:798129eb08f0e4f4"
+      "subjects": 124,
+      "techniques": 756,
+      "applications": 307,
+      "files": 1192,
+      "contentHash": "sha256:7f8a0d8b52753f7f"
     }
   ]
 }

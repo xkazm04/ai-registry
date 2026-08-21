@@ -1,0 +1,147 @@
+{
+  "$comment": "AUTHORITY on where every subject lives. The folder tree is DERIVED from this file, never the other way round: once folders encode the taxonomy, a hand-edited recategorization is a corpus-wide link break, so moves go through scripts/apply-taxonomy.mjs and nothing else. `layout` says whether the tree has been materialized yet. A subject is identified by its bare slug everywhere (technique@owner, shared_with, index.json, signals/); only its location is nested. Gated by scripts/check-bundles.mjs via scripts/lib/taxonomy.mjs.",
+  "schema": "rkb-taxonomy/1",
+  "bundle": "recruiting",
+  "layout": "nested",
+  "categories": [
+    {
+      "id": "role-definition",
+      "title": "Role definition",
+      "order": 1,
+      "subjects": [
+        "hiring-need-as-structured-brief",
+        "inclusive-job-advertising",
+        "pre-publish-fillability-forecast",
+        "requirement-inflation-control",
+        "requisition-lifecycle-governance",
+        "role-intake-conversation"
+      ]
+    },
+    {
+      "id": "sourcing-and-intake",
+      "title": "Sourcing & intake",
+      "order": 2,
+      "subjects": [
+        "application-intake-and-conversion",
+        "candidate-outreach-and-halt-rules",
+        "portable-hiring-records",
+        "silver-medalist-rediscovery",
+        "sourcing-campaign-honesty"
+      ]
+    },
+    {
+      "id": "candidate-evidence",
+      "title": "Candidate evidence",
+      "order": 3,
+      "subjects": [
+        "candidate-archetype-routing",
+        "candidate-identity-and-staleness",
+        "cv-authenticity-screening",
+        "cv-parsing-and-career-reading",
+        "early-career-potential-assessment",
+        "evidence-provenance-weighting",
+        "hypothesis-not-verdict-soft-signals",
+        "public-work-evidence-bounding",
+        "skill-adjacency-and-normalization"
+      ]
+    },
+    {
+      "id": "assessment",
+      "title": "Assessment",
+      "order": 4,
+      "subjects": [
+        "ai-assistance-detection-and-fairness",
+        "ai-interviewer-brief-authoring",
+        "assessment-instrument-validation",
+        "conversational-assessment-validation",
+        "interview-round-design",
+        "interview-run-of-show",
+        "llm-era-work-sample-design",
+        "structured-interview-scorecards",
+        "voice-interview-fidelity",
+        "work-sample-timeboxing-and-cost"
+      ]
+    },
+    {
+      "id": "decision-and-fairness",
+      "title": "Decision & fairness",
+      "order": 5,
+      "subcategories": [
+        {
+          "id": "scoring-and-decision",
+          "title": "Scoring and decision",
+          "subjects": [
+            "combining-signals-into-a-hire-decision",
+            "comparative-shortlist-evaluation",
+            "selection-score-calibration",
+            "presenting-a-score-to-a-recruiter",
+            "recruiter-anchored-model-evaluation",
+            "inference-labelling-and-refusal"
+          ]
+        },
+        {
+          "id": "fairness-and-defensibility",
+          "title": "Fairness and defensibility",
+          "subjects": [
+            "adverse-impact-and-proxy-neutrality",
+            "automated-screening-fairness-gates",
+            "blind-screening-and-redaction",
+            "bulk-adverse-action-governance",
+            "collective-and-statutory-hiring-governance",
+            "regulated-credential-gating"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pipeline-operations",
+      "title": "Pipeline operations",
+      "order": 6,
+      "subjects": [
+        "candidate-self-scheduling",
+        "interview-calendar-integrity",
+        "offer-lifecycle-and-deadlines",
+        "pipeline-aging-and-attention-triage",
+        "pipeline-stage-modelling"
+      ]
+    },
+    {
+      "id": "candidate-experience",
+      "title": "Candidate experience",
+      "order": 7,
+      "subjects": [
+        "candidate-communication-integrity",
+        "candidate-status-transparency",
+        "degrade-never-block-a-candidate",
+        "pre-boarding-and-first-day-handoff",
+        "rejection-with-dignity"
+      ]
+    },
+    {
+      "id": "governance",
+      "title": "Governance & compliance",
+      "order": 8,
+      "subjects": [
+        "candidate-ai-disclosure-and-explanation",
+        "candidate-consent-and-retention",
+        "decision-audit-and-traceability",
+        "hiring-policy-defaults-and-tiering",
+        "multi-jurisdiction-hiring-compliance",
+        "portable-candidate-credentials"
+      ]
+    },
+    {
+      "id": "measurement",
+      "title": "Measurement",
+      "order": 9,
+      "subjects": [
+        "compensation-banding-and-market-honesty",
+        "honest-measurement-presentation",
+        "peer-benchmarking-under-k-anonymity",
+        "recruiting-cost-and-automation-economics",
+        "recruiting-funnel-metrics",
+        "small-sample-honesty-in-hiring-analytics"
+      ]
+    }
+  ]
+}

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 124,
-  "techniques": 755,
-  "applications": 306,
+  "techniques": 756,
+  "applications": 307,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "123/755",
+  "use_when_coverage": "123/756",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -10187,6 +10187,19 @@
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
    "techniques": [
     {
+     "slug": "duplex-agent-sessions",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [
+      "prompt-assembly",
+      "cost-metering"
+     ]
+    },
+    {
      "slug": "engine-abstraction",
      "status": "forged",
      "laws": [
@@ -10244,6 +10257,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "duplex-agent-sessions",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/react--duplex-agent-sessions.md",
+     "verified_on": "2026-08-20"
+    },
     {
      "stack": "react",
      "technique": "stt-pipeline",
@@ -10702,6 +10721,7 @@
     "usage-analytics/coverage-from-registries",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/snapshot-scope",
+    "voice-io/duplex-agent-sessions",
     "voice-io/on-device-vs-cloud",
     "web-scraping/dry-run-preview",
     "web-scraping/llm-assisted-rule-authoring",
@@ -10997,6 +11017,7 @@
     "usage-analytics/coverage-from-registries",
     "usage-analytics/sink-abstraction",
     "versioning-snapshots/restore-semantics",
+    "voice-io/duplex-agent-sessions",
     "voice-io/engine-abstraction",
     "voice-io/on-device-vs-cloud",
     "voice-io/spoken-intent-parsing",
@@ -11936,6 +11957,7 @@
     "usage-analytics/event-taxonomy",
     "versioning-snapshots/promotion-lifecycle",
     "versioning-snapshots/version-identity",
+    "voice-io/duplex-agent-sessions",
     "voice-io/engine-abstraction",
     "web-scraping/extraction-rule-dsl",
     "wizard-flows/branching-and-skipping",
