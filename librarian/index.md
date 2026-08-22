@@ -18,7 +18,7 @@ else here and readable with no tool at all.
 
 ## Bundles
 
-- [[software-engineering]] - 126 subjects; still the largest, no longer the one carrying almost all the debt
+- [[software-engineering]] - 142 subjects; still the largest, and the 2026-08-22 harvest grew its transplant debt as well as its coverage
 - [[recruiting]] - 64 subjects, arrived from a parallel wave at 384/384 use_when
 - [[grant-funding]] - 17 subjects
 - [[llm-observability]] - 16 subjects

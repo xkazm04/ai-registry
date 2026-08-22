@@ -93,3 +93,61 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   technique check is what made a mid-air failure diagnosable in one command. Repair agents were
   told to review before integrating, since an orphan was written by an agent that never
   reconciled it - one was kept unedited, one gained nothing (its anchors were already covered).
+
+## 1.2.0 - 2026-08-22 - a harvest into software-engineering (one ordinary repo, all 56 contexts)
+
+- **Joining a bundle is a third lane, and it needed its own contract.** Not founding
+  (the taxonomy, laws and voice are already decided) and not deepening (the material
+  comes from a tree, not from research). Written as `docs/harvest-brief.md` and used by
+  all 20 workers: the seam is the job, the voice is inherited, the laws are closed, and
+  the highest-value outcome available to a worker is reporting that its ground is
+  already owned. Scale: 10 scouts / 56 contexts / 1,029 files, then 14 new subjects and
+  6 extensions, cap 10 concurrent, all gate-clean.
+- **Expect the same subject to be proposed by three or four unrelated territories, and
+  dedup by SUBJECT FOLDER before dispatch.** Four scouts independently proposed
+  extending one subject; four more independently proposed extending another. Eight
+  dispatches as proposed would have been eight workers racing two golden paths. Only
+  the director reads every scout, so this is director work by construction - and it is
+  the single thing that makes a harvest wave survivable.
+- **The same merge appears in content, not only in scheduling.** Four scouts each found
+  one face of one subject (a marketing demo, a dashboard fixture fallback, a three-plane
+  API client, a nav badge that must not count fabricated incidents). Carving by
+  MECHANISM versus HONESTY produced one shippable subject and one banked one. Asking the
+  worker to confirm the carve as a tiebreaker cost nothing and confirmed it.
+- **Check the target's technique count and stack list from the SCAN, never from the
+  domain note.** One extension was dispatched to retire single-stack debt on the
+  strength of a note one day old; the scan showed the subject already carried two stacks
+  and already stood at nine techniques, the house ceiling. Dropped mid-wave and swapped
+  for a subject that genuinely was single-stack. The note is a record of a moment.
+- **A harvest GROWS the bundle's transplant debt.** Single-stack subjects went 67 -> 79:
+  two retired, fourteen new ones born with one stack each, because a subject reconciled
+  against one tree has exactly one. This is arithmetic, not a regression, but a wave
+  should report it rather than netting it away - and the pass that pays it down is a
+  transplant pass, not another harvest.
+- **Tell workers the source repo's context map may be stale, and make re-opening every
+  cited line a step separate from drafting.** It paid on every axis: roughly a fifth of
+  anchors were off by one to three lines, several listed files no longer existed at all,
+  and two anchors carried a stated rationale inverted relative to the code's real
+  effect. A citation nobody re-read is the one liability an external reconcile already
+  measured; a harvest has ten times the citations.
+- **A worker refused a director instruction and was right.** Six dispatches carried a
+  runtime version justified by a types-package pin in the manifest; the tree's only real
+  runtime witness was its CI workflow, two majors away. One worker checked, refused, and
+  said so; the rest had complied. Broadcasting the general rule mid-wave - when a
+  dispatch states a fact about the tree and the tree disagrees, the tree wins and you
+  report it - is worth doing at dispatch time instead.
+- **Ten workers proposed ten laws; none qualified.** Every worker proposed at least one
+  anchor, three cited sightings in subjects outside their own, and one had four. The bar
+  is cross-domain recurrence and every sighting sat in one domain. Bank them per subject
+  with their evidence and return conditions: a law proposed by ten independent workers
+  in one afternoon is either a real anchor or a shared blind spot, and one wave cannot
+  tell which. Resist minting at wave end - an anchor no technique cites is decoration.
+- **Verifying the instrument caught two things, not one.** A catalog/index disagreement
+  that looked like registry drift was another session's uncommitted work in a shared
+  checkout (confirmed by file mtimes, and by a clean baseline in a fresh worktree from
+  the same commit). And the maintenance scan's never-swept clause read a frontmatter
+  field that no writer anywhere emits, so it scored the entire corpus permanently and
+  dominated its own ranking - surfaced only because twenty fresh subject notes moved the
+  count by exactly zero.
+- **In a shared checkout the worktree is step one, not the fallback.** This session's
+  first git command moved another session's HEAD onto a branch it never asked for.
