@@ -6,6 +6,7 @@ technique: adoption-lifecycle
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, creation-names-reaper]
 shared_with: []
+use_when: [same answers yielding different instances, preview ignoring the latest answers, deciding whether adoption is a replay]
 ---
 
 # Adoption lifecycle

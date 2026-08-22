@@ -9,6 +9,7 @@ laws:
   - count-carries-predicate
   - identity-survives-reuse
 shared_with: []
+use_when: [deciding whether seen means opened or scrolled past, unread badge flashes then zeroes on open, an unread counter keeps drifting wrong]
 ---
 
 # Read position and unseen

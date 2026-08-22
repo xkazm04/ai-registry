@@ -6,6 +6,7 @@ technique: pty-management
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper]
 shared_with: []
+use_when: [placing a platform terminal quirk behind one seam, resized output still wraps to the old width, telling process exit apart from stream end]
 ---
 
 # Pseudo-terminal management

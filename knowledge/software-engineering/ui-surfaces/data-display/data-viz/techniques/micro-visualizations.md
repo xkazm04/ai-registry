@@ -6,6 +6,7 @@ technique: micro-visualizations
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding whether a cell wants a number or a shape, flat and volatile rows looking identical in one column, two-point histories drawing slopes that read as trends]
 ---
 
 # Micro-visualizations

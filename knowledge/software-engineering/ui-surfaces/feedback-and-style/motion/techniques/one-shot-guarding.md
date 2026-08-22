@@ -7,6 +7,7 @@ status: forged
 laws:
   - identity-survives-reuse
 shared_with: []
+use_when: [entrance animation replays on poll or tab return, choosing what keys an entrance seen-set, deciding when a seen-set may legitimately reset]
 ---
 
 # One-shot guarding

@@ -6,6 +6,7 @@ technique: intermediate-representation
 status: forged
 laws: [identity-survives-reuse, one-authority-per-vocabulary, one-validation-door]
 shared_with: []
+use_when: [deciding what belongs in the shared staging vocabulary, foreign ids colliding across files and re-imports, the loss ledger living in a log instead of the proposal]
 ---
 
 # The normalized intermediate representation

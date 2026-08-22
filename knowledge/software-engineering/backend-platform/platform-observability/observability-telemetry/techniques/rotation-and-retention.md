@@ -6,6 +6,7 @@ technique: rotation-and-retention
 status: forged
 laws: [creation-names-reaper, count-carries-predicate]
 shared_with: []
+use_when: [bounding a log file that grows with every event, a reaper deleted files it did not own, answering where last month's logs went]
 ---
 
 # Rotation and retention

@@ -6,6 +6,7 @@ technique: bundle-endpoints
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [deciding which tiles belong in one request, series buckets that do not sum to the summary, a failed section rendering as an empty one]
 ---
 
 # Bundle endpoints

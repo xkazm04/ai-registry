@@ -7,6 +7,7 @@ status: forged
 laws:
   - creation-names-reaper
 shared_with: []
+use_when: [deciding how much worse resilience can make an outage, one restart wakes every queued caller at once, an outage flooding the log with duplicate errors]
 ---
 
 # Storm control

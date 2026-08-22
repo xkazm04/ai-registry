@@ -6,6 +6,7 @@ technique: lazy-section-loading
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding what ships in the frame versus on demand, warm navigations flash a placeholder skeleton, a chunk fails and the viewport stays blank]
 ---
 
 # Lazy section loading

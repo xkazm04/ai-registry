@@ -6,6 +6,7 @@ technique: spoken-intent-parsing
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [turning a transcript into a typed command, same utterance behaves differently across dialogs, deciding whether a matched command executes or confirms]
 ---
 
 # Spoken intent parsing

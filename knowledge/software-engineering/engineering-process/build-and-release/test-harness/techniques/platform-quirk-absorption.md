@@ -6,6 +6,7 @@ technique: platform-quirk-absorption
 status: forged
 laws: [failure-not-empty-success, one-validation-door]
 shared_with: []
+use_when: [a run exits green with zero tests executed, deciding whether a quirk belongs in the runner, green on one machine dead on another]
 ---
 
 # Platform quirk absorption

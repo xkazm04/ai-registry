@@ -9,6 +9,7 @@ laws:
   - failure-not-empty-success
   - gate-sees-target
 shared_with: []
+use_when: [writing a rule before reading what it would match, a fresh rule matches nothing on first run, a tracked count quietly falls to zero]
 ---
 
 # Rule precision discipline

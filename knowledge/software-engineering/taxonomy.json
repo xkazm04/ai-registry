@@ -271,6 +271,16 @@
             "repo-manifest-standard",
             "multi-project"
           ]
+        },
+        {
+          "id": "continuous-integration",
+          "title": "Continuous integration",
+          "subjects": [
+            "pipeline-authoring",
+            "ci-execution-trust",
+            "runner-fleet",
+            "machine-paced-delivery"
+          ]
         }
       ]
     },

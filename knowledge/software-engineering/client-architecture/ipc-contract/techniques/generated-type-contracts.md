@@ -6,6 +6,7 @@ technique: generated-type-contracts
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
+use_when: [choosing which side authors the shared shapes, regeneration ran clean but touched nothing, generated type promises values the wire cannot carry]
 ---
 
 # Generated type contracts

@@ -6,6 +6,7 @@ technique: scrape-scheduling
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper]
 shared_with: []
+use_when: [choosing how often to hit someone else's server, pausing a scrape without losing its history, green runs that harvested nothing]
 ---
 
 # Scrape scheduling

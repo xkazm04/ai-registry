@@ -6,6 +6,7 @@ technique: dated-corrections
 status: forged
 laws: [count-carries-predicate, deletion-is-not-repair]
 shared_with: []
+use_when: [a documented claim just proved false, a warning block outlived the defect it named, a dated correction turned out to be wrong]
 ---
 
 # Dated corrections

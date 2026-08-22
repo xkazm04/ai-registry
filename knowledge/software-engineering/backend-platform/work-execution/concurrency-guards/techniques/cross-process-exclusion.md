@@ -8,6 +8,7 @@ laws:
   - gate-sees-target
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding whether an in-process guard is enough, the lock holder died without releasing, choosing fail-open or fail-closed for duplicates]
 ---
 
 # Cross-process exclusion

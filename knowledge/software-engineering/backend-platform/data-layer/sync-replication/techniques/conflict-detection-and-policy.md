@@ -6,6 +6,7 @@ technique: conflict-detection-and-policy
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether two differing copies truly conflict, choosing a resolution policy for a stream, the conflict lane cries wolf]
 ---
 
 # Conflict detection and policy

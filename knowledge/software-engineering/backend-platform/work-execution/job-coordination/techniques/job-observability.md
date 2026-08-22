@@ -6,6 +6,7 @@ technique: job-observability
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [building the operator view of every live job, telling slow jobs from dead ones at a glance, a failure count is quoted without its predicate]
 ---
 
 # Job observability

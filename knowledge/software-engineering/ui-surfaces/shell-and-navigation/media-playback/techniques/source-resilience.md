@@ -6,6 +6,7 @@ technique: source-resilience
 status: forged
 laws: [failure-not-empty-success, deletion-is-not-repair]
 shared_with: []
+use_when: [designing recovery before the first stream fails, a source plays but delivers silence, skips loop forever through a dead catalog]
 ---
 
 # Source resilience

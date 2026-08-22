@@ -6,6 +6,7 @@ technique: import-verification-flow
 status: forged
 laws: [gate-sees-target, one-validation-door, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [deciding where the import verdict gets enforced, bytes changed between preview and commit, every ingress channel grew its own guard]
 ---
 
 # Import verification flow

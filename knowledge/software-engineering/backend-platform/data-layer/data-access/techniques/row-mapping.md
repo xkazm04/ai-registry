@@ -6,6 +6,7 @@ technique: row-mapping
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [declaring a table's shape once, deciding whether one bad row aborts the list, counts quietly disagreeing with sums elsewhere]
 ---
 
 # Row mapping

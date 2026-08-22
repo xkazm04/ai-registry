@@ -6,6 +6,7 @@ technique: per-channel-templating
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a template error may veto delivery, a typo'd path renders as an empty gap, composing a digest after a burst is coalesced]
 ---
 
 # Per-channel templating

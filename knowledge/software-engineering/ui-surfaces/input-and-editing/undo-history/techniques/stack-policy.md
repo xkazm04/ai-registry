@@ -6,6 +6,7 @@ technique: stack-policy
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [setting how deep the undo stack goes, a destructive edit silently aged out of undo, undo history vanishing after save]
 ---
 
 # Stack policy

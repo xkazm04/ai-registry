@@ -6,6 +6,7 @@ technique: never-lose-work-rules
 status: forged
 laws: []
 shared_with: []
+use_when: [stashing would sweep a sibling's in-flight edits, bulk staging would commit a neighbor's changes, a reset would erase commits siblings built on]
 ---
 
 # Never-lose-work rules

@@ -6,6 +6,7 @@ technique: error-propagation
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a failed step should halt the chain, runner says nothing to do but the ledger was unreadable, weighing a proposal to log the error and mark the step done]
 ---
 
 # Error propagation
@@ -52,6 +53,20 @@ distinguishable by its output alone
 2. **Applied** — steps *k+1…n* ran; say which, from what to what.
 3. **Failed at step j** — chain halted, ledger stands at *j−1*, snapshot
    at hand.
+
+Outcome 3 has a stronger form than a message, and it is the one to build:
+**persist the verdict in the ledger itself.** A failed-at mark written
+beside the version — set before the step runs, cleared only by its success
+— survives the process dying mid-step, survives the log rotating away, and
+is read by the next boot and by monitoring without anyone having to
+re-derive what happened. A verdict that exists only in the runner's output
+is gone the moment the runner is; one that lives in the store is a fact
+about the store. Two consequences follow and are the mark's whole point:
+every entry that advances the chain refuses while the mark stands, and
+clearing it is a separately named repair, never a side effect of trying
+again. The same move appears wherever a contract must outlive a process —
+an engine that writes its journaling mode into the store's own header is
+making the identical choice for the identical reason.
 
 The classic collapse is 3 masquerading as 1: a runner that cannot *read*
 the version — file locked, header damaged, ledger table missing — and

@@ -6,6 +6,7 @@ technique: backoff-design
 status: forged
 laws: []
 shared_with: []
+use_when: [tuning base factor and cap for a retry ladder, recovery collapses under synchronized retries, backoff resets on every accepted handshake]
 ---
 
 # Backoff design

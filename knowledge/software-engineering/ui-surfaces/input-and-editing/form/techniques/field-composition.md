@@ -6,6 +6,7 @@ technique: field-composition
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding what one field unit owns, two forms disagree where errors go, repeated fields cross-link their labels]
 ---
 
 # Field composition

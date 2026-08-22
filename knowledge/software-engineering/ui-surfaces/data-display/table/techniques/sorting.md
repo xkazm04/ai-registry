@@ -6,6 +6,7 @@ technique: sorting
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [rows shuffle on refresh with unchanged data, deciding where absent values land in a sort, selection lands on the wrong row after a resort]
 ---
 
 # Sorting

@@ -6,6 +6,7 @@ technique: preference-respect
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding what an honored preference must preserve, one screen still parallax-scrolls under reduced motion, labels truncate once text scales past 200%]
 ---
 
 # Preference respect

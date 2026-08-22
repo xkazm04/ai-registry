@@ -8,6 +8,7 @@ laws:
   - failure-not-empty-success
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [deciding whether a candidate can still be swapped silently, a clean status whose answer cannot serve the caller, the same failure recurring behind a different credential]
 ---
 
 # The failover horizon

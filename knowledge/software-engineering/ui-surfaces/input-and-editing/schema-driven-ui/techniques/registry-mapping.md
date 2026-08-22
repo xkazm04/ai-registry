@@ -6,6 +6,7 @@ technique: registry-mapping
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [registering a new node kind, a missing kind renders as nothing, one bad node blanks its siblings]
 ---
 
 # Registry mapping

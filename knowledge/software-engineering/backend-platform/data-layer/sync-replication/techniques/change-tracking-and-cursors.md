@@ -6,6 +6,7 @@ technique: change-tracking-and-cursors
 status: forged
 laws: [derivation-names-recomputation, identity-survives-reuse, failure-not-empty-success]
 shared_with: []
+use_when: [deciding when a cursor may safely advance, rows slip past an advanced cursor unread, first sync stalls against years of history]
 ---
 
 # Change tracking and cursors

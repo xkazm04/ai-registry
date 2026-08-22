@@ -6,6 +6,7 @@ technique: placeholder-design
 status: forged
 laws: []
 shared_with: []
+use_when: [designing what shows while first data is in flight, skeleton flashing on fast or cached loads, content jumping when the ghost is replaced]
 ---
 
 # Placeholder design

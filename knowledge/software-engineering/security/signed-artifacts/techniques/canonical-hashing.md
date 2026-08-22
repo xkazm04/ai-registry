@@ -6,6 +6,7 @@ technique: canonical-hashing
 status: forged
 laws: [gate-sees-target, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [declaring which byte sequence a signature covers, honest artifacts failing verification, verifying a re-serialization instead of signed bytes]
 ---
 
 # Canonical hashing

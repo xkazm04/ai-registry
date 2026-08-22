@@ -6,6 +6,7 @@ technique: depth-bounds-and-shed
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper, count-carries-predicate]
 shared_with: []
+use_when: [deriving how deep the queue may grow, picking which arrivals to shed at the bound, bound keeps getting raised under pressure]
 ---
 
 # Depth bounds and shed

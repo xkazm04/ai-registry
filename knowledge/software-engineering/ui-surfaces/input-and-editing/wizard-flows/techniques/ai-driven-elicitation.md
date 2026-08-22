@@ -6,6 +6,7 @@ technique: ai-driven-elicitation
 status: forged
 laws: [gate-sees-target, count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [turning a form step into a generative interview, the generator says the step is done, raw transcript reaching the commit boundary]
 ---
 
 # AI-driven elicitation

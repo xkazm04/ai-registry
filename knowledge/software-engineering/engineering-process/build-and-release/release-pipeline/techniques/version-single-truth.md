@@ -6,6 +6,7 @@ technique: version-single-truth
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [version copies disagree after a bump, adding a manifest that records the version, lockfile regenerates dirty after a clean bump]
 ---
 
 # Version single truth

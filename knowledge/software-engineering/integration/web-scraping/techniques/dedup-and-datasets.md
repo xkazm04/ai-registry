@@ -6,6 +6,7 @@ technique: dedup-and-datasets
 status: forged
 laws: [identity-survives-reuse, deletion-is-not-repair, count-carries-predicate]
 shared_with: []
+use_when: [choosing which fields identify a real-world entity, deciding whether absence means gone or extraction broke, one page redesign tombstoning the whole dataset]
 ---
 
 # Dedup and datasets

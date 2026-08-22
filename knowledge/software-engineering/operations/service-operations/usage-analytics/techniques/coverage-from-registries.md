@@ -6,6 +6,7 @@ technique: coverage-from-registries
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [a new surface ships with no analytics row, deciding projection versus guarded copy, report cannot tell unmeasured from unused]
 ---
 
 # Coverage from registries

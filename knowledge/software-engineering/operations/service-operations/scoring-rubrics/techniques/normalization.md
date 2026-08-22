@@ -6,6 +6,7 @@ technique: normalization
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a score tracks movement or ranks now, a progress bar reads nearly full on day one, one un-inverted axis rewards the worst performers]
 ---
 
 # Normalization

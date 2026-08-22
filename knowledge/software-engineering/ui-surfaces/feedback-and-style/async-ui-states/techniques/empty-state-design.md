@@ -6,6 +6,7 @@ technique: empty-state-design
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether empty is earned or premature, a failed request renders as no data, user with filters sees create your first item]
 ---
 
 # Empty state design

@@ -128,6 +128,39 @@ forge or deepen pass has since supplied it and nowhere else. Its absence is repo
 Whether a citation still lands is answered from the other side, by the installation that
 holds the tree: see [`docs/signals-lane.md`](signals-lane.md).
 
+### 3.2 Stage, on the technique layer
+
+A standard states what is true. It does not, by default, state *when it starts being worth
+paying for* — and for a whole class of technique that omission is what gets the document
+ignored. Tell a two-person project to sign its job instructions and isolate its runner
+fleet and you have not raised its bar; you have told it, correctly and uselessly, about
+somebody else's problem, and the next document from the same bundle gets skimmed.
+
+So a technique MAY declare the rung of a four-rung ladder at which it **starts to pay**:
+
+```yaml
+stage: team
+```
+
+| value | the situation it names |
+|---|---|
+| `solo` | One repository, one or two authors, no shared runtime. Nothing is coordinated because there is nobody to coordinate with. |
+| `team` | Several authors sharing one main branch and one deployable. Coordination costs appear; so does the first shared queue. |
+| `multi-service` | More than one independently deployable unit, shared infrastructure between them, cross-repository ordering. |
+| `fleet` | Many teams on shared execution infrastructure, or an external obligation (audit, regulation, customer contract) that makes provenance a requirement rather than a preference. |
+
+**It is a floor, not a mandate.** Below the declared rung the technique is over-engineering
+and a consumer is right to skip it. At or above it, absence is a gap worth reporting. The
+field never means "optional above here" and never means "forbidden below here" — a `solo`
+project that wants `fleet`-stage provenance is not violating anything, it is just paying
+early.
+
+The field is **optional and additive**. Most techniques do not need it: a document about
+how to write an error message applies at every rung, and a decorative `stage: solo` on it
+is noise. Declare it only where the answer is genuinely load-bearing — where a reader
+could otherwise adopt the technique at the wrong time and pay for it. The gate validates
+the value against the closed set above and is silent about its absence.
+
 **Bundle `index.md`:**
 
 ```yaml

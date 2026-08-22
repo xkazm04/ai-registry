@@ -6,6 +6,7 @@ technique: scrub-performance
 status: forged
 laws: [derivation-names-recomputation, creation-names-reaper]
 shared_with: []
+use_when: [a scrubber stutters and users stop scrubbing, choosing keyframe spacing, a backward seek breaks append-only rendering]
 ---
 
 # Scrub performance

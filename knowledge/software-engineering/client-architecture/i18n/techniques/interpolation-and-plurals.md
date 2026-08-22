@@ -6,6 +6,7 @@ technique: interpolation-and-plurals
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding whether a sentence can be split into reusable keys, a translation drops or mangles a placeholder, choosing plural variants instead of appending an s]
 ---
 
 # Interpolation and plurals

@@ -6,6 +6,7 @@ technique: keyboard-navigation-models
 status: forged
 laws: [identity-survives-reuse, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether arrows move widgets or members, focus teleports to the wrong item after a resort, walking the tab order and activating every stop]
 ---
 
 # Keyboard navigation models

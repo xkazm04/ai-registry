@@ -6,6 +6,7 @@ technique: delivery-logging-and-replay
 status: forged
 laws: [one-validation-door, creation-names-reaper, failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [reproducing a webhook failure from its record, replay runs clean but delivers garbage, deciding whether rejected deliveries are kept]
 ---
 
 # Delivery logging and replay

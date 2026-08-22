@@ -6,6 +6,7 @@ technique: blast-radius-computation
 status: forged
 laws: [gate-sees-target, count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [designing what a destructive confirmation shows, preview count disagrees with what was deleted, users click through every confirm dialog]
 ---
 
 # Blast-radius computation

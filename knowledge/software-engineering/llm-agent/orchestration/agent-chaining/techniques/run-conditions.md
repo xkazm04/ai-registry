@@ -9,6 +9,7 @@ laws:
   - one-validation-door
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [declaring when an edge is even considered, next agent never ran and nobody noticed, escalation chain firing on your own cancellation]
 ---
 
 # Run conditions

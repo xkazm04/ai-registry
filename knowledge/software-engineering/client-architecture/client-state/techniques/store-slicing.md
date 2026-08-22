@@ -6,6 +6,7 @@ technique: store-slicing
 status: forged
 laws: [one-validation-door]
 shared_with: []
+use_when: [deciding whether view-local state earns a slice, every consumer re-renders after an unrelated write, wiring one slice to react to another's change]
 ---
 
 # Store slicing

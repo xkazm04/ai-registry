@@ -9,6 +9,7 @@ laws:
   - failure-not-empty-success
   - derivation-names-recomputation
 shared_with: []
+use_when: [declaring retention when a feed is created, reaper stopped running after a refactor, cursor past the horizon renders as no more history]
 ---
 
 # Feed retention

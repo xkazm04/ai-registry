@@ -6,6 +6,7 @@ technique: probe-cost-budgeting
 status: forged
 laws: [derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether an instrument fits the hot path, a sampled number renders without its rate, measuring the cost of all default-on instruments]
 ---
 
 # Probe cost budgeting

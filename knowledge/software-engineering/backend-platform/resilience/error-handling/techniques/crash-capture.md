@@ -6,6 +6,7 @@ technique: crash-capture
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [naming the last-resort handler for each execution context, deciding which fields may survive into a crash report, the same startup crash ships every few seconds]
 ---
 
 # Crash capture

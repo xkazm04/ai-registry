@@ -6,6 +6,7 @@ technique: consumer-overlays
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whose fact a field is, wiring up a second consumer of a shared registry, an overlay claims reader while publishing into the lane]
 ---
 
 # Consumer overlays

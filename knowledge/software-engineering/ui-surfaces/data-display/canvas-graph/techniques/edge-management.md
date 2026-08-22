@@ -6,6 +6,7 @@ technique: edge-management
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [edges floating a few pixels off their nodes, deciding which edges deserve ink in the current view, hit-testing a one-pixel-wide edge]
 ---
 
 # Edge management

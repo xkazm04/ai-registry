@@ -6,6 +6,7 @@ technique: coalescing-and-batching
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding whether an event can be superseded, a counter fires twice but applies once, one burst causing three separate renders]
 ---
 
 # Coalescing and batching

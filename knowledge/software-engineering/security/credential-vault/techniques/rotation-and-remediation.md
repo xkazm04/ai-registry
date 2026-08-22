@@ -6,6 +6,7 @@ technique: rotation-and-remediation
 status: forged
 laws: [one-authority-per-vocabulary, deletion-is-not-repair, failure-not-empty-success]
 shared_with: []
+use_when: [deciding when the incumbent key may be retired, every network blip triggers re-onboarding, credential flaps between healthy and degraded]
 ---
 
 # Rotation and remediation

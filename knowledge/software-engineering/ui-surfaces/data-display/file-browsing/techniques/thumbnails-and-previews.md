@@ -6,6 +6,7 @@ technique: thumbnails-and-previews
 status: forged
 laws: [derivation-names-recomputation, creation-names-reaper]
 shared_with: []
+use_when: [choosing which preview rung an item renders, stale thumbnail after the file changed, one corrupt file crashes the whole grid]
 ---
 
 # Thumbnails and previews

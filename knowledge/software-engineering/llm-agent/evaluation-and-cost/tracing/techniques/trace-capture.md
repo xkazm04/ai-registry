@@ -6,6 +6,7 @@ technique: trace-capture
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, creation-names-reaper]
 shared_with: []
+use_when: [deciding what granularity of work gets a span, spans render as eternally running, crashed runs leave no trace]
 ---
 
 # Trace capture

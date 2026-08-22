@@ -6,6 +6,7 @@ technique: shipped-vs-operator-ownership
 status: forged
 laws: [one-validation-door, gate-sees-target]
 shared_with: []
+use_when: [choosing which columns a refresh may write, operator edits revert after every restart, every row shares one modification timestamp]
 ---
 
 # Shipped vs operator ownership

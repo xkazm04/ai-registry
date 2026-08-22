@@ -6,6 +6,7 @@ technique: keystroke-injection
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [automation pastes commands that never submit, full-screen program drops the second keystroke, deciding whether to hand-encode one arrow key]
 ---
 
 # Keystroke injection

@@ -6,6 +6,7 @@ technique: judge-stability
 status: forged
 laws: [gate-sees-target, count-carries-predicate, one-authority-per-vocabulary]
 shared_with: []
+use_when: [frozen anchors started scoring differently, swapping the judge without breaking the trend, the judge keeps favoring its own kind]
 ---
 
 # Judge stability

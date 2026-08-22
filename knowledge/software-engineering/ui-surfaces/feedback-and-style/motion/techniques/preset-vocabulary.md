@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [deciding whether a new gesture earns a preset, a preset inlines its own milliseconds, deciding if a gesture is shared or private]
 ---
 
 # Preset vocabulary

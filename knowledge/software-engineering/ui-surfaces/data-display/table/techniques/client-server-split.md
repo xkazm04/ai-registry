@@ -6,6 +6,7 @@ technique: client-server-split
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [placing filter sort and window on server or client, a sort that only reorders the loaded page, deciding when a client-held table must move server-side]
 ---
 
 # Client–server split

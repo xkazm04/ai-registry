@@ -6,6 +6,7 @@ technique: consent-gates
 status: forged
 laws: [gate-sees-target, identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [grant tuple silently widened to whole capability, re-ask initializes from defaults not stored answer, autonomy dial cached at startup blocks revocation]
 ---
 
 # Consent gates

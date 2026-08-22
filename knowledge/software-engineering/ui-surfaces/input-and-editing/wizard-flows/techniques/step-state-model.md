@@ -6,6 +6,7 @@ technique: step-state-model
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse, one-validation-door]
 shared_with: []
+use_when: [deciding whether steps own their state or view it, validity flag goes stale after editing an earlier answer, deep link or keyboard shortcut slips past a disabled button]
 ---
 
 # Step state model

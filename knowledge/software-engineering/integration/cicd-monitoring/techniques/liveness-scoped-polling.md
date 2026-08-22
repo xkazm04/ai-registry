@@ -7,6 +7,7 @@ status: forged
 laws:
   - creation-names-reaper
 shared_with: []
+use_when: [deciding whether a poll loop deserves its next request, loop stops one poll early and misses the finish, hidden tab keeps burning shared rate limit]
 ---
 
 # Liveness-scoped polling

@@ -6,6 +6,7 @@ technique: batching-and-n-plus-one
 status: forged
 laws: [gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [a caller holds many ids and only fetch-one exists, deciding join versus fetch-and-stitch, batch works in tests dies at four thousand ids]
 ---
 
 # Batching and N+1

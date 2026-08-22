@@ -6,6 +6,7 @@ technique: query-parsing
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [turning raw user text into an engine-safe query, matching fails on accented input, zero results that could be failure or true emptiness]
 ---
 
 # Query parsing

@@ -6,6 +6,7 @@ technique: price-tables
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding what an unpriced model should cost, estimate and actual diverge for one model, retroactively repricing already-written rows]
 ---
 
 # Price tables

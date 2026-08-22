@@ -8,6 +8,7 @@ laws:
   - deletion-is-not-repair
   - creation-names-reaper
   - failure-not-empty-success
+use_when: [deciding whether an unreachable candidate is safe to delete, kept code that stays silent about its own use, a quarantine list where nothing ever expires]
 ---
 
 # Quarantine versus delete

@@ -6,6 +6,7 @@ technique: status-fsms
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success, identity-survives-reuse, one-validation-door]
 shared_with: []
+use_when: [flags combine into states nobody enumerated, deciding where a failed reload lands, every row's spinner runs when one row saves]
 ---
 
 # Status FSMs

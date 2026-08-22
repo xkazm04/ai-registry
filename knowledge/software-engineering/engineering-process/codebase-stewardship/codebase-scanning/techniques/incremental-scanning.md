@@ -8,6 +8,7 @@ laws:
   - gate-sees-target
   - derivation-names-recomputation
 shared_with: []
+use_when: [deciding what counts as changed since the last scan, an unchanged module fails a cross-unit rule, deciding how long a finding stands before decaying]
 ---
 
 # Incremental scanning

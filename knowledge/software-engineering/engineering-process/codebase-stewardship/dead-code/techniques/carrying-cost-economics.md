@@ -7,6 +7,7 @@ status: forged
 laws:
   - count-carries-predicate
   - derivation-names-recomputation
+use_when: [deciding whether a deletion is worth its price, a ratcheting gate stops ratcheting, quoting a cost figure nobody can recompute]
 ---
 
 # Carrying-cost economics

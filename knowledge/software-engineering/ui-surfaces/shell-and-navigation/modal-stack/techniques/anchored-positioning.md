@@ -6,6 +6,7 @@ technique: anchored-positioning
 status: forged
 laws: [derivation-names-recomputation]
 shared_with: []
+use_when: [popover drifts off its anchor on scroll, choosing track or dismiss on ancestor scroll, submenu closes as the pointer moves toward it]
 ---
 
 # Anchored positioning

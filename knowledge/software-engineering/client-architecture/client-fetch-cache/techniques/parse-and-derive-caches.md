@@ -6,6 +6,7 @@ technique: parse-and-derive-caches
 status: forged
 laws: [derivation-names-recomputation, creation-names-reaper]
 shared_with: []
+use_when: [keying a derivation by content identity, memory grows while the user edits, old answers survive a derivation change]
 ---
 
 # Parse and derive caches

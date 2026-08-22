@@ -6,6 +6,7 @@ technique: sync-observability
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, deletion-is-not-repair]
 shared_with: []
+use_when: [everything works locally yet nothing propagates, deciding whether a still cursor means health or lag, pager fires on every transient attempt failure]
 ---
 
 # Sync observability
@@ -43,6 +44,18 @@ One inspectable record per stream, updated by the loop itself:
 
 The snapshot is written by the loop as it works — not derived by a
 second system watching the loop, which adds a second thing to doubt.
+
+**Lifecycle state is not health state.** Running, enabled, open, started
+— these are facts about the loop's existence, and a status surface that
+publishes one of them under a health key is worse than no status at all:
+dashboards and alerts bind to the key, and a stream that has failed every
+pass for a week still reads as actively replicating because its loop is,
+indeed, still running. Health is derived only from outcomes — the age of
+the last success, the run of consecutive failures, the gap between cursor
+and tail — never from whether the machinery is present. The same
+confusion recurs far from sync engines: a handle whose *shape* says it can
+do something is not a handle whose *state* says it is doing it, and code
+that reads the first as the second is reading liveness as meaning.
 
 ## Fault isolation: one stream's failure strands nothing else
 

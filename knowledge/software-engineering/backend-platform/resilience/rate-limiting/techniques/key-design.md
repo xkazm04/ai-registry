@@ -7,6 +7,7 @@ status: forged
 laws:
   - creation-names-reaper
 shared_with: []
+use_when: [deciding which axes compose a limit's key, buckets show headroom while the provider refuses, one actor splitting into two allowances]
 ---
 
 # Key design

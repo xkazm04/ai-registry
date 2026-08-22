@@ -8,6 +8,7 @@ laws:
   - gate-sees-target
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding whether a dependency is down for everyone, recovery jobs keep lifting cooldowns they should not, denied calls look like failed calls]
 ---
 
 # Circuit breakers

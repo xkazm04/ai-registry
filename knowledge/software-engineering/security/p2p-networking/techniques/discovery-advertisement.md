@@ -6,6 +6,7 @@ technique: discovery-advertisement
 status: forged
 laws: [identity-survives-reuse, failure-not-empty-success]
 shared_with: []
+use_when: [deciding what a broadcast announcement may carry, a renamed device showing up as a new peer, an empty peer list hiding a dead listener]
 ---
 
 # Discovery advertisement

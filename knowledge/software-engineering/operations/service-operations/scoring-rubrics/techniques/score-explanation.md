@@ -6,6 +6,7 @@ technique: score-explanation
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a score ships with its breakdown, two surfaces band the same score differently, breakdown parts that no longer visibly sum]
 ---
 
 # Score explanation

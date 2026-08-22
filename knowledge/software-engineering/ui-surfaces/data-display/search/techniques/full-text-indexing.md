@@ -6,6 +6,7 @@ technique: full-text-indexing
 status: forged
 laws: [derivation-names-recomputation, gate-sees-target, creation-names-reaper]
 shared_with: []
+use_when: [deciding whether a corpus needs indexing, choosing what the tokenizer throws away, matches resolving to deleted rows]
 ---
 
 # Full-text indexing

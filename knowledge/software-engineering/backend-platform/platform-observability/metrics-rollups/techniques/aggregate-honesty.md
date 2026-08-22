@@ -6,6 +6,7 @@ technique: aggregate-honesty
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [every dashboard trend ends in a dip, deciding whether an empty bucket is zero or missing, keeping per-point source knowledge past the merge]
 ---
 
 # Aggregate honesty

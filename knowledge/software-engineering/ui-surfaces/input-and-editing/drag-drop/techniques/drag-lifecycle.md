@@ -6,6 +6,7 @@ technique: drag-lifecycle
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding whether a press is a click or a drag, mapping each way a drag can end to an exit, highlight or auto-scroll outlives the drag]
 ---
 
 # Drag lifecycle

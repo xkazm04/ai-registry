@@ -8,6 +8,7 @@ laws:
   - derivation-names-recomputation
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding where a capability stops degrading and starts breaking, auditing whether a floor was measured or just feared, failover quietly picked a tier that breaks the feature]
 ---
 
 # Capability floors

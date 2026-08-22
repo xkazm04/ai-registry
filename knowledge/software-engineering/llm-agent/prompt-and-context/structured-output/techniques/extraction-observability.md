@@ -6,6 +6,7 @@ technique: extraction-observability
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [instrumenting an extraction pipeline's chokepoints, failure rate steady while output quality decays, telling whether a producer upgrade changed extraction]
 ---
 
 # Extraction observability

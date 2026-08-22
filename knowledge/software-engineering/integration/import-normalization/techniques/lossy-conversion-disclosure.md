@@ -6,6 +6,7 @@ technique: lossy-conversion-disclosure
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [grading what each converted entity actually lost, users ask why an imported entity behaves differently, deciding whether export can promise a round trip]
 ---
 
 # Lossy-conversion disclosure

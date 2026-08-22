@@ -6,6 +6,7 @@ technique: session-reuse
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
+use_when: [deciding what belongs in a session fingerprint, every request cold-starts yet nothing errors, deciding whether a just-failed session is reusable]
 ---
 
 # Session reuse

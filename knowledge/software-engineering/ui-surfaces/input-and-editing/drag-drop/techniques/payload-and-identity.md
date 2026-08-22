@@ -6,6 +6,7 @@ technique: payload-and-identity
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [deciding what a drag payload must carry, a positional drop lands on the wrong record, choosing dense versus fractional ranks]
 ---
 
 # Payload and identity

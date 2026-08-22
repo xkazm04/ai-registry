@@ -6,6 +6,7 @@ technique: schema-drift-detection
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether fresh and migrated stores converge, a query fails on a column a migration renamed, live schema disagrees with the version it reports]
 ---
 
 # Schema drift detection

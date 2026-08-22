@@ -6,6 +6,7 @@ technique: token-binding-and-transport
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper]
 shared_with: []
+use_when: [deciding what a freshly minted credential carries, choosing a channel for delivering the plaintext, the credential turns up in a log or dump]
 ---
 
 # Token binding & transport

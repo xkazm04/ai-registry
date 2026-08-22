@@ -6,6 +6,7 @@ technique: typed-accessors
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [twelve call sites each parsing the same string, deciding what an absent key should mean, default change never reaching untouched installs]
 ---
 
 # Typed accessors

@@ -7,6 +7,7 @@ status: forged
 laws:
   - identity-survives-reuse
 shared_with: []
+use_when: [deciding whether a reopened condition is new news, same notice resurfacing after every restart, choosing between supersede and stack]
 ---
 
 # Nudge identity & dedup

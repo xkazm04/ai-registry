@@ -6,6 +6,7 @@ technique: nl-assist-gating
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
+use_when: [deciding if generated sql may skip the guard, a generated mutation wants to auto-run, failed extraction shows up as empty results]
 ---
 
 # NL-assist gating

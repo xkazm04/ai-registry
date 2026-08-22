@@ -6,6 +6,7 @@ technique: inbound-counterparts
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, creation-names-reaper, one-validation-door]
 shared_with: []
+use_when: [wiring replies into a channel we also post to, the room echoes its own messages back, a hundred replies fire after one restart]
 ---
 
 # Inbound counterparts

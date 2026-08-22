@@ -6,6 +6,7 @@ technique: release-verification
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [all jobs green yet one platform's artifact is missing, deciding whether green tests cover the shipped artifacts, gating publish on a verdict pinned to exact bytes]
 ---
 
 # Release verification

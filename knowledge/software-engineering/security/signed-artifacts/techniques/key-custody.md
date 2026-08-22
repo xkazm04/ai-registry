@@ -6,6 +6,7 @@ technique: key-custody
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [deciding when to mint the signing identity, keychain and application state describe different keys, a rotate button that rotates nothing]
 ---
 
 # Key custody

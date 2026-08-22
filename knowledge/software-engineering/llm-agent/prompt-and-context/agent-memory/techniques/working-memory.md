@@ -6,6 +6,7 @@ technique: working-memory
 status: forged
 laws: [creation-names-reaper, identity-survives-reuse]
 shared_with: []
+use_when: [deciding whether context is memory or transcript, a resumed task wakes with no operative state, deciding how a fact outlives its task]
 ---
 
 # Working memory

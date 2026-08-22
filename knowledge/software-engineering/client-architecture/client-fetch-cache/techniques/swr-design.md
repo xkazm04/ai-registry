@@ -6,6 +6,7 @@ technique: swr-design
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [choosing how long a cached answer stays believable, stale data vanishes after a failed refresh, every tab switch fires a burst of refetches]
 ---
 
 # Stale-while-revalidate design

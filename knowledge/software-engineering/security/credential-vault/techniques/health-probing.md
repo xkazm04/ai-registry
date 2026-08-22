@@ -6,6 +6,7 @@ technique: health-probing
 status: forged
 laws: [failure-not-empty-success, derivation-names-recomputation, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether could-not-reach counts as broken, a revoked credential still shows green, probing trips provider rate limits]
 ---
 
 # Health probing

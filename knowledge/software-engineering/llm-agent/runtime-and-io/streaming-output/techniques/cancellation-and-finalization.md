@@ -6,6 +6,7 @@ technique: cancellation-and-finalization
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper]
 shared_with: []
+use_when: [converging every exit on one finalization, outcome flickers between cancelled and failed, a stopped stream still shows as completed]
 ---
 
 # Cancellation and finalization

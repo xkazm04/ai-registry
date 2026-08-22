@@ -6,6 +6,7 @@ technique: perf-data-lifecycle
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation, creation-names-reaper]
 shared_with: []
+use_when: [deciding what graduates to the durable sink, panel numbers arrive without their sampling predicate, regression feels real but no baseline exists]
 ---
 
 # Performance data lifecycle

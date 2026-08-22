@@ -6,6 +6,7 @@ technique: structured-propagation
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding what each layer adds to a rising failure, a failure arrives as bare prose with no category, defining the error shape that crosses a wire or queue]
 ---
 
 # Structured propagation

@@ -6,6 +6,7 @@ technique: persistence-and-migration
 status: forged
 laws: [derivation-names-recomputation, failure-not-empty-success, one-validation-door]
 shared_with: []
+use_when: [deciding whether a value earns persistence, appending a step to a shipped migration chain, corrupt payload keeps the app from launching]
 ---
 
 # Persistence and migration

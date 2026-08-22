@@ -9,6 +9,7 @@ laws:
   - failure-not-empty-success
   - gate-sees-target
 shared_with: []
+use_when: [verifying quoted evidence behind a model finding, a model scan came back suspiciously clean, splitting checks between model and pattern tiers]
 ---
 
 # LLM-assisted scanning

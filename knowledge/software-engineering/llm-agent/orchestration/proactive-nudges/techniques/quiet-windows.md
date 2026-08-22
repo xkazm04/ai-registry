@@ -7,6 +7,7 @@ status: forged
 laws:
   - gate-sees-target
 shared_with: []
+use_when: [declaring which hours the machine never initiates contact, a nudge lands at 03:00 despite a declared window, deciding what may wake the user anyway]
 ---
 
 # Quiet windows

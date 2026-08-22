@@ -6,6 +6,7 @@ technique: status-color-mapping
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [mapping status members to themed color roles, a new status renders as a colorless pill, choosing what unknown severities fall back to]
 ---
 
 # Status color mapping

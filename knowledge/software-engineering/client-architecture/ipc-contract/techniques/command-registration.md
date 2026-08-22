@@ -6,6 +6,7 @@ technique: command-registration
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [a call compiles clean and fails with unknown operation, reconciling published command names with live registrations, name checks pass yet calls fail on missing parameters]
 ---
 
 # Command registration

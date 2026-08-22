@@ -6,6 +6,7 @@ technique: payload-bounds
 status: forged
 laws: [gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [ordering checks on an exposed endpoint, enforcing a size cap while reading, senders hammering a permanent failure]
 ---
 
 # Payload bounds

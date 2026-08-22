@@ -6,6 +6,7 @@ technique: drift-gating
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, derivation-names-recomputation]
 shared_with: []
+use_when: [splitting one tree-wide diff into per-class gates, deciding where each drift gate should run, an advisory check mistaken for a real gate]
 ---
 
 # Drift gating

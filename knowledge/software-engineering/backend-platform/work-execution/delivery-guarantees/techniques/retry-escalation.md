@@ -8,6 +8,7 @@ laws:
   - count-carries-predicate
   - deletion-is-not-repair
 shared_with: []
+use_when: [deciding what happens after the final retry, events crash forever while their counter reads zero, a counter that resets itself on deploy or restart]
 ---
 
 # Retry escalation

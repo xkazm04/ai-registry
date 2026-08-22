@@ -6,6 +6,7 @@ technique: archive-restore-semantics
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
+use_when: [deciding what archived means for each behavior, an archived entity still fires its schedules, restore meets a name claimed while it slept]
 ---
 
 # Archive / restore semantics

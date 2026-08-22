@@ -6,6 +6,7 @@ technique: memory-governance
 status: forged
 laws: [one-validation-door, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding which memory writes need human approval, an agent is updating its own rules from experience, answering who wrote this belief and who approved it]
 ---
 
 # Memory governance

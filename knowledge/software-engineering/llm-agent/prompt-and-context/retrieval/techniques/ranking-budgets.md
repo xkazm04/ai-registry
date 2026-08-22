@@ -6,6 +6,7 @@ technique: ranking-budgets
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [allocating seats before or after seeing candidates, item counts filling wildly different window shares, near-duplicates each claiming their own seat]
 ---
 
 # Ranking budgets

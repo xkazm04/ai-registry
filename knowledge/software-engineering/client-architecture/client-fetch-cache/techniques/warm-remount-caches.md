@@ -6,6 +6,7 @@ technique: warm-remount-caches
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding whether fetched data should outlive the view, unmount throws away data the user just saw, deleted entity repaints from cache after navigation]
 ---
 
 # Warm remount caches

@@ -6,6 +6,7 @@ technique: matching-and-ranking
 status: forged
 laws: [failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [resolving a foreign reference to a catalog identity, a short query substring-matching half the catalog, deciding whether an ambiguous match may auto-bind]
 ---
 
 # Matching and ranking

@@ -6,6 +6,7 @@ technique: os-escalation
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding which events deserve the lock screen, users revoked notification permission, escalated messages arrive untranslated]
 ---
 
 # OS escalation

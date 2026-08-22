@@ -6,6 +6,7 @@ technique: repo-testing
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether to mock the store, tests pass alone but fail together, manufacturing illegal state for a corruption drill]
 ---
 
 # Repository testing

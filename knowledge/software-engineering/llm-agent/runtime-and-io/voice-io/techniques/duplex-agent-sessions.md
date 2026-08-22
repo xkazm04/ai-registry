@@ -6,6 +6,7 @@ technique: duplex-agent-sessions
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target, failure-not-empty-success]
 shared_with: [prompt-assembly, cost-metering]
+use_when: [deciding whether the vendor decides replies or only carries audio, session override silently ignored, failed call recorded as completed]
 ---
 
 # Duplex agent sessions

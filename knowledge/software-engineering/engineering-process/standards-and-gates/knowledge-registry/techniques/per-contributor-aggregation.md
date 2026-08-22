@@ -6,6 +6,7 @@ technique: per-contributor-aggregation
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation, one-authority-per-vocabulary]
 shared_with: []
+use_when: [a shared counter keeps coming up short, two writers claiming the same contributor id, deciding whether zero means unused or unreported]
 ---
 
 # Per-contributor aggregation

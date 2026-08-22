@@ -8,6 +8,7 @@ laws:
   - one-validation-door
   - failure-not-empty-success
 shared_with: []
+use_when: [validating a pipeline graph before any run exists, a drawn node never fires on any input, an import writes graphs the editor never checked]
 ---
 
 # Graph validation

@@ -6,6 +6,7 @@ technique: llm-assisted-rule-authoring
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
+use_when: [choosing whether the model writes rules or extracts, selectors compile but match nothing, deciding whether a proposal replaces or merges]
 ---
 
 # LLM-assisted rule authoring

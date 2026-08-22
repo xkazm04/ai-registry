@@ -6,6 +6,7 @@ technique: adapter-capability-tables
 status: forged
 laws: [one-authority-per-vocabulary, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether adding a foreign type means a row or code, a specific row never matches because a generic row wins, unmapped types quietly resolving into plausible host names]
 ---
 
 # Adapters with capability tables as data

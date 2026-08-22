@@ -5,10 +5,12 @@ subject: test-harness
 status: forged
 techniques:
   - suite-partitioning
+  - history-driven-partitioning
   - fixture-economics
   - live-app-harness
   - isolation-lanes
   - platform-quirk-absorption
+  - flake-lifecycle
   - long-lane-certification
 ---
 
@@ -44,6 +46,17 @@ decided by location rather than annotation, and a partition so legible that a
 directory listing reads as the answer to "what runs where." The
 [suite-partitioning](./techniques/suite-partitioning.md) technique carries the
 full decision table.
+
+Splitting *within* a suite is a separate question with a separate answer.
+Once a machine is defined, distributing it across parallel workers is a
+bin-packing problem over **measured duration** — never over file count, name,
+or hash, all of which optimize for equal numbers of tests in a population whose
+durations span orders of magnitude. The usual result of the naive split is one
+worker at nine minutes beside three at two, wall clock set by the first, and
+most of the purchased parallelism idle. The check is one ratio (slowest worker
+over mean worker), the fix is longest-first assignment from retained timing
+history, and the trap is the test with no history yet. See
+[history-driven-partitioning](./techniques/history-driven-partitioning.md).
 
 ## The fidelity ladder — and what each rung buys
 
@@ -146,6 +159,18 @@ salvaging the run is flake-measurement. The count of retried tests is a health
 metric of the harness, and like any count it travels with its predicate
 ([_laws: count-carries-predicate_](../../../_laws.md#count-carries-predicate)).
 
+Flakiness is not a state a test sits in, it is a **process it goes through** —
+detected, labelled, quarantined, fixed, released — with an owner at every
+transition. Detection is a query over retained run history (how often an
+outcome changed on the same code), not an impression; labelling is applied
+*and removed* by the system, or the flaky population only ever grows;
+quarantine carries an owner, an entry date and an expiry, which is what makes
+it debt rather than amnesty; and release requires a stable window, not one
+green run. The two figures that keep the register honest are its size trend
+and the age of its oldest entry — the second is the more diagnostic of the
+two. The five transitions, the muted-versus-skipped choice, and the register's
+ceiling are [flake-lifecycle](./techniques/flake-lifecycle.md).
+
 ## Long lanes are certifications, not gates
 
 Endurance, load, and chaos runs answer questions no per-change gate can:
@@ -162,6 +187,9 @@ a soak run misunderstands both; the design of these lanes is
 - [suite-partitioning](./techniques/suite-partitioning.md) — one configuration
   per suite, membership by location, the cost-tier table, and what runs at
   commit / push / merge / nightly.
+- [history-driven-partitioning](./techniques/history-driven-partitioning.md) —
+  splitting one suite across workers by measured duration, longest-first
+  assignment, continuous rebalance, and the cold-start default.
 - [fixture-economics](./techniques/fixture-economics.md) — build-once-copy-per-
   test, fixture freshness and its rebuild trigger, seeded-data honesty.
 - [live-app-harness](./techniques/live-app-harness.md) — driving the real
@@ -173,6 +201,9 @@ a soak run misunderstands both; the design of these lanes is
 - [platform-quirk-absorption](./techniques/platform-quirk-absorption.md) —
   pre-main failures solved once in the runner, silence converted to diagnosis,
   the incident story kept attached.
+- [flake-lifecycle](./techniques/flake-lifecycle.md) — detection from outcome
+  transitions, auto-applied and auto-removed labels, owned and expiring
+  quarantine, retry as measurement, and release on a stable window.
 - [long-lane-certification](./techniques/long-lane-certification.md) — chaos /
   load / soak as scheduled lanes with statistical pass criteria, lane-health
   bookkeeping, and quarantine review.

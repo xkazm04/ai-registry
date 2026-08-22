@@ -6,6 +6,7 @@ technique: chart-loading-economics
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding whether the chart engine ships in the entry chunk, choosing what holds the slot while engine and data wait, one malformed series blanks the whole dashboard]
 ---
 
 # Chart loading economics

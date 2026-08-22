@@ -6,6 +6,7 @@ technique: pre-migration-snapshots
 status: forged
 laws: [creation-names-reaper, gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [deciding which boots earn a pre-migration snapshot, restore day finds the backup torn or unreadable, sizing snapshot retention for restart storms]
 ---
 
 # Pre-migration snapshots

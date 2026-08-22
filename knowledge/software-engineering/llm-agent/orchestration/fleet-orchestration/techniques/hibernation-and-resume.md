@@ -6,6 +6,7 @@ technique: hibernation-and-resume
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper, one-validation-door]
 shared_with: []
+use_when: [deciding what a parked session keeps and releases, a resumed process is fresh but wears the old identity, choosing when to park instead of kill]
 ---
 
 # Hibernation and resume

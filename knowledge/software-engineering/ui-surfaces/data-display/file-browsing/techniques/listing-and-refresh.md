@@ -6,6 +6,7 @@ technique: listing-and-refresh
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding what one directory read promises, empty and unreadable look identical on screen, a refresh loses selection or expansion]
 ---
 
 # Listing and refresh

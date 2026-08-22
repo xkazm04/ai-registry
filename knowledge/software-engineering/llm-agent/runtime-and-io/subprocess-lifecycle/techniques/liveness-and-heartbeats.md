@@ -6,6 +6,7 @@ technique: liveness-and-heartbeats
 status: forged
 laws: [identity-survives-reuse, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [telling a stalled run from a slow-but-honest one, no-data reads that never end on a live child, deciding whether a pulse proves the worker is alive]
 ---
 
 # Liveness and heartbeats

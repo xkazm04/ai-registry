@@ -6,6 +6,7 @@ technique: assertion-vs-judgment
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether a property needs a judge, judge scoring what a checklist could catch, checks passing output a human would reject]
 ---
 
 # Assertion vs judgment

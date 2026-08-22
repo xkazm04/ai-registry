@@ -8,6 +8,7 @@ laws:
   - failure-not-empty-success
   - gate-sees-target
 shared_with: []
+use_when: [deciding whether a drawn cycle is rejected or bounded, two agents wired to collaborate never stop firing, choosing how deep a handoff chain may run]
 ---
 
 # Cycle and depth guards

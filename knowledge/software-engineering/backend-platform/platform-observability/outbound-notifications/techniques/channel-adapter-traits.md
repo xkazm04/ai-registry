@@ -6,6 +6,7 @@ technique: channel-adapter-traits
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [adding a new channel class to the pipeline, a new channel validates but dispatches as another, deciding whether a failed send throws or returns]
 ---
 
 # Channel adapter traits

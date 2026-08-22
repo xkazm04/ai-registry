@@ -6,6 +6,7 @@ technique: engine-adapters
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether an unsupported verb hides or lies, state flickers between local guess and remote echo, switching engines leaves double audio]
 ---
 
 # Engine adapters

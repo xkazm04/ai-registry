@@ -6,6 +6,7 @@ technique: check-scheduling
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding which moments may launch a health check, separating observation rhythm from reporting rhythm, a crashed sweep makes every next tick immediately due]
 ---
 
 # Check scheduling

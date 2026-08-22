@@ -6,6 +6,7 @@ technique: accrual-overlays
 status: forged
 laws: [derivation-names-recomputation, count-carries-predicate]
 shared_with: []
+use_when: [counter already shows its ending at frame zero, designing a counter that survives scrubbing, replay total disagrees with the settled rollup]
 ---
 
 # Accrual overlays

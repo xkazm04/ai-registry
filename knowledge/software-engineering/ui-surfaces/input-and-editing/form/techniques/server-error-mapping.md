@@ -6,6 +6,7 @@ technique: server-error-mapping
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [routing a server rejection into the right slot, a submission passed client checks but the server refused it, an unmapped error code renders nothing at all]
 ---
 
 # Server error mapping

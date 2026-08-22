@@ -6,6 +6,7 @@ technique: provenance-denormalization
 status: forged
 laws: [identity-survives-reuse, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether history may reference the present, capturing provenance while the source still exists, an unknown placeholder accumulating its own history]
 ---
 
 # Provenance denormalization

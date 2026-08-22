@@ -6,6 +6,7 @@ technique: format-detection
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding which adapter should parse an upload, two fingerprints match with equal strength, unsupported input silently reaching a default parser]
 ---
 
 # Format detection

@@ -6,6 +6,7 @@ technique: certification-levels
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, count-carries-predicate]
 shared_with: []
+use_when: [deciding which candidates earn live-lane spend, labeling a theoretical pass as what it saw, a green badge over a changed system]
 ---
 
 # Certification levels

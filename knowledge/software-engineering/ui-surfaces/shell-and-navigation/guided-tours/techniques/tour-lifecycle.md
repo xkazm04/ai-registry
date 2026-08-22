@@ -6,6 +6,7 @@ technique: tour-lifecycle
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [minting step ids that survive reordering, tour restarts at step one after a crash, retiring tours whose anchored screens changed]
 ---
 
 # Tour lifecycle

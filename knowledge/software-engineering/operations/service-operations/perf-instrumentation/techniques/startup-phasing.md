@@ -6,6 +6,7 @@ technique: startup-phasing
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [cutting boot into named phases with owned marks, backend ready while the user still sees a blank window, phase sums fall short of the wall clock]
 ---
 
 # Startup phasing

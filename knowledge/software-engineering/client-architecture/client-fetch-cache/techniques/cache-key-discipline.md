@@ -6,6 +6,7 @@ technique: cache-key-discipline
 status: forged
 laws: [identity-survives-reuse, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding what belongs in a cache key, cached answers leaking across users or tenants, identical questions keep missing the cache]
 ---
 
 # Cache key discipline

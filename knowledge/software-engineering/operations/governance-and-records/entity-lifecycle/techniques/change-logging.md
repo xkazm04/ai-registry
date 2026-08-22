@@ -6,6 +6,7 @@ technique: change-logging
 status: forged
 laws: [deletion-is-not-repair, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding what a lifecycle transition record carries, a delete recorded nowhere once the row is gone, someone wants to scrub an embarrassing incident log]
 ---
 
 # Change logging

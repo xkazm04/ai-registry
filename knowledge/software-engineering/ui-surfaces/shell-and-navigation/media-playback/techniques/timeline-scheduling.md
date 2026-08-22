@@ -6,6 +6,7 @@ technique: timeline-scheduling
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation]
 shared_with: []
+use_when: [playing content assembled from arranged parts, seams between clips gap or overlap, sizing the prepare-ahead window]
 ---
 
 # Timeline scheduling

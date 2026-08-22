@@ -6,6 +6,7 @@ technique: artifact-lifecycle
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper, failure-not-empty-success]
 shared_with: []
+use_when: [designing the states an artifact run walks, flow stuck reporting running forever, deciding what a second start should do]
 ---
 
 # Artifact lifecycle

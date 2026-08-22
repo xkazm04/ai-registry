@@ -6,6 +6,7 @@ technique: renderer-economics
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding how many accelerated renderers may exist, opening more sessions blanks the oldest terminal, one drag produces dozens of full-screen repaints]
 ---
 
 # Renderer economics

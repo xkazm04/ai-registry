@@ -6,6 +6,7 @@ technique: health-rollup
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation]
 shared_with: []
+use_when: [rolling many check verdicts into one summary, a score that hides which checks failed, unverifiable members quietly counted as green]
 ---
 
 # Health rollup

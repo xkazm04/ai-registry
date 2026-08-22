@@ -6,6 +6,7 @@ technique: scheduled-deep-analysis
 status: forged
 laws: [failure-not-empty-success, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a check waits for a diff or the clock, a clean scan and a dead job look identical, findings arriving addressed to no one]
 ---
 
 # Scheduled deep analysis

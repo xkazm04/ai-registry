@@ -6,6 +6,7 @@ technique: ranking-and-excerpts
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
+use_when: [result order shimmers between identical queries, highlighter misses the inflected form the engine matched, deciding which signals earn weight in the score]
 ---
 
 # Ranking and excerpts

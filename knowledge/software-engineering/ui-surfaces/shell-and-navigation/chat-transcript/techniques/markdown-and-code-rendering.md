@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-validation-door
 shared_with: []
+use_when: [routing all model markup through one sanitizing door, rendering a streaming prefix without layout jumps, making code blocks copy verbatim every time]
 ---
 
 # Markdown and code rendering

@@ -8,6 +8,7 @@ laws:
   - failure-not-empty-success
   - one-validation-door
 shared_with: []
+use_when: [routing a verdict to its owning system's mutation, resolved items keep returning after a refresh, a bulk verdict half-succeeding across sources]
 ---
 
 # Verdict write-back

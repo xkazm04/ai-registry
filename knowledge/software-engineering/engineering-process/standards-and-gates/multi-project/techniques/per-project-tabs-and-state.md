@@ -6,6 +6,7 @@ technique: per-project-tabs-and-state
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper, one-authority-per-vocabulary]
 shared_with: []
+use_when: [tabs vanish after a project rename, deciding whether closing a tab stops work, project B restores scrolled to A's spot]
 ---
 
 # Per-project tabs and state

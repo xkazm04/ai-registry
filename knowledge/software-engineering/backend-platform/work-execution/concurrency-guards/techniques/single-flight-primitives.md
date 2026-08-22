@@ -8,6 +8,7 @@ laws:
   - one-validation-door
   - failure-not-empty-success
 shared_with: []
+use_when: [picking the second-caller policy per operation, a boolean flag trampled by a second key, callers retrying a refusal that looks like failure]
 ---
 
 # Single-flight primitives

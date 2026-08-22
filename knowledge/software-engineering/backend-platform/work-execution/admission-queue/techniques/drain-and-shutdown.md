@@ -6,6 +6,7 @@ technique: drain-and-shutdown
 status: forged
 laws: [creation-names-reaper, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [deciding what happens to queued work at shutdown, shutdown blocks behind the backlog, distinguishing parked from abandoned entries]
 ---
 
 # Drain and shutdown

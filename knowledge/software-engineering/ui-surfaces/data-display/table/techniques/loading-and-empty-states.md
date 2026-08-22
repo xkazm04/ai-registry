@@ -6,6 +6,7 @@ technique: loading-and-empty-states
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether no results can be shown yet, rows replaced by skeletons while refreshing, entrance animation replaying on scroll back]
 ---
 
 # Loading and empty states

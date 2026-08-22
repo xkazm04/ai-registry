@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - derivation-names-recomputation
 shared_with: []
+use_when: [deciding which executions are one chain, interleaved chains keep getting joined, chain totals drift from their link records]
 ---
 
 # Chain identity and rollup

@@ -9,6 +9,7 @@ laws:
   - failure-not-empty-success
   - gate-sees-target
 shared_with: []
+use_when: [vetting a user-supplied endpoint before any call goes out, a local record claims a deployment that never happened, adjudicating whether an outbound call actually happened]
 ---
 
 # External adapter nodes

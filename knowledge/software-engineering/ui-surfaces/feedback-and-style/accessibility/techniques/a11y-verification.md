@@ -6,6 +6,7 @@ technique: a11y-verification
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, deletion-is-not-repair, count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a green audit means accessible, asserting what a screen reader would hear, focus lands nowhere after a dialog closes]
 ---
 
 # Accessibility verification

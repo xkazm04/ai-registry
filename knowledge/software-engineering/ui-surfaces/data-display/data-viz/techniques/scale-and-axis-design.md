@@ -6,6 +6,7 @@ technique: scale-and-axis-design
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
+use_when: [deciding whether a chart shares its scale with siblings, a flat metric rendered as a dramatic climb, a cliff appearing at the right edge of live trends]
 ---
 
 # Scale and axis design

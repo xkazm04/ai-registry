@@ -6,6 +6,7 @@ technique: locale-runtime
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [app paints in source language before first render, choosing which icons mirror under right-to-left, pseudo-locale markers appear mid-sentence]
 ---
 
 # Locale runtime

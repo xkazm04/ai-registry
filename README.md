@@ -60,6 +60,8 @@ scripts/research-ingest.mjs# normalizes an external source into an auditable tra
 scripts/research-map.mjs  # maps a claim's terms onto existing subjects: prior art, and where new goes
 scripts/apply-taxonomy.mjs# the ONLY thing allowed to move a subject (moves + rewrites links)
 scripts/lib/taxonomy.mjs  # the shared slug -> path resolver; nothing else may build a subject path
+scripts/lib/fleet.mjs     # the shared bulk-model dispatcher: retry, budget and model rotation
+scripts/fleet-use-when.mjs# proposes the missing use_when lines, then applies the reviewed ones
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json (--check in CI)
 knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
@@ -119,12 +121,24 @@ its own evidence overlay and reports **verdicts, never pointers** - `{"gone": 2}
 which two files. A bundle nobody reports on reads as **unknown**, never as current, for
 the same reason `invokes30d: 0` with no contributors means nobody is looking.
 
-### Skills (7)
+**Some knowledge is correct but not yet.** A technique may declare a `stage` - `solo`,
+`team`, `multi-service` or `fleet` - naming the rung at which it *starts to pay*
+([`docs/rkb-profile.md` §3.2](docs/rkb-profile.md)). It is a floor, not a mandate: below it
+the technique is over-engineering and a consumer is right to skip it; at or above it, its
+absence is a gap. The field is optional and rare on purpose - most techniques apply at
+every rung, and a decorative `stage` teaches readers to ignore the real ones. It exists for
+the class of technique whose whole failure mode is being adopted at the wrong time, and it
+is carried into each bundle's `index.json` so a consumer can filter on it.
+
+### Skills (10)
 
 | Skill | Category | Version | What it is for |
 | --- | --- | --- | --- |
+| [`ci-bootstrap`](skills/ci-bootstrap/SKILL.md) | `ci-cd` | 0.1.0 | Give a project its first real CI gate, ratcheted so it is green on day one. |
 | [`ci-gate-check`](skills/ci-gate-check/SKILL.md) | `ci-cd` | 1.3.0 | Run the checks CI enforces, before you push. |
+| [`ci-triage`](skills/ci-triage/SKILL.md) | `ci-cd` | 0.1.0 | Turn a red build into a located first cause and a scoped fix proposal. |
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
+| [`flake-register`](skills/flake-register/SKILL.md) | `testing` | 0.1.0 | Quarantine an intermittent test as tracked debt - owner, cause, expiry. |
 | [`agent-guidance-bootstrap`](skills/agent-guidance-bootstrap/SKILL.md) | `ai-native` | 0.4.0 | Write or refresh a repo's `AGENTS.md` from evidence. |
 | [`domain-knowledge-forge`](skills/domain-knowledge-forge/SKILL.md) | `ai-native` | 1.2.0 | Extract a repository's domain knowledge into a four-layer RKB bundle, with a bounded agent pool. Carries [`LESSONS.md`](skills/domain-knowledge-forge/LESSONS.md). |
 | [`deepen`](skills/deepen/SKILL.md) | `ai-native` | 1.1.0 | Review and widen an existing bundle topic via research lanes, batch workers, or a saturation-ledger loop. Carries [`LESSONS.md`](skills/deepen/LESSONS.md). |

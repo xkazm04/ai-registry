@@ -6,6 +6,7 @@ technique: cross-project-comparison
 status: forged
 laws: [count-carries-predicate, one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
+use_when: [projects measuring the same idea under different names, choosing fleet-relative or fixed anchors per dimension, ranking projects with unequal score coverage]
 ---
 
 # Cross-project comparison

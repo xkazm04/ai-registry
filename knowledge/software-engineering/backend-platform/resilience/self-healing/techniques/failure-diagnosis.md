@@ -8,6 +8,7 @@ laws:
   - one-authority-per-vocabulary
   - failure-not-empty-success
 shared_with: []
+use_when: [one defect fragments into thousands of signatures, counting unknown signatures as taxonomy gaps, diagnosing from state that changed since failing]
 ---
 
 # Failure diagnosis

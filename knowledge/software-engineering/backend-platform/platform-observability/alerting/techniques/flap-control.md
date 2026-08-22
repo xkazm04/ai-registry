@@ -6,6 +6,7 @@ technique: flap-control
 status: forged
 laws: []
 shared_with: []
+use_when: [alerts flip between firing and recovering, identical inputs leave subjects holding different labels, tuning how long a breach must hold before it counts]
 ---
 
 # Flap control

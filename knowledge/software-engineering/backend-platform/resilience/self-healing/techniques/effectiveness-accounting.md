@@ -9,6 +9,7 @@ laws:
   - count-carries-predicate
   - derivation-names-recomputation
 shared_with: []
+use_when: [defining what evidence confirms a fix worked, success rate looks perfect but nothing improves, two reports disagree on the same success rate]
 ---
 
 # Effectiveness accounting

@@ -6,6 +6,7 @@ technique: project-onboarding-lifecycle
 status: forged
 laws: [one-validation-door, derivation-names-recomputation, creation-names-reaper, one-authority-per-vocabulary]
 shared_with: []
+use_when: [admitting a project into managed status, an artifact aging with no named refresher, choosing between archive and delete]
 ---
 
 # Project onboarding and lifecycle

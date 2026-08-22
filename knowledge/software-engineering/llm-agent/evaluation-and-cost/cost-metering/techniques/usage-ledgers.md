@@ -6,6 +6,7 @@ technique: usage-ledgers
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, creation-names-reaper]
 shared_with: []
+use_when: [deciding whether a failed call still gets a row, two current-month spend figures disagreeing, deleting run history visibly lowers enforced spend]
 ---
 
 # Usage ledgers

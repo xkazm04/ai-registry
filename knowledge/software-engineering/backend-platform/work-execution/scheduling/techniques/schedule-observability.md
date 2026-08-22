@@ -8,6 +8,7 @@ laws:
   - failure-not-empty-success
   - gate-sees-target
 shared_with: []
+use_when: [investigating why an armed item never fired, deciding what each suppressed occurrence must log, the heartbeat passes but the loop is wedged]
 ---
 
 # Schedule observability

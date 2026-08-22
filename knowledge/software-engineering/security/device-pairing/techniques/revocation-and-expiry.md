@@ -6,6 +6,7 @@ technique: revocation-and-expiry
 status: forged
 laws: [creation-names-reaper, gate-sees-target, deletion-is-not-repair]
 shared_with: []
+use_when: [setting how long each minted artifact lives, a revoked credential still passes the gate, operator said out but the task still runs]
 ---
 
 # Revocation & expiry

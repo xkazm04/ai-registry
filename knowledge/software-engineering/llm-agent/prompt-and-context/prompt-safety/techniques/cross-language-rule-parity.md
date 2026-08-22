@@ -6,6 +6,7 @@ technique: cross-language-rule-parity
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [implementing one rule twice across a language boundary, masked on screen but raw in the log file, same pattern passing tests yet diverging on non-ascii]
 ---
 
 # Cross-language rule parity

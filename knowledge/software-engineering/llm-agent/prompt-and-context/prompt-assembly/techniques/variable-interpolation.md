@@ -6,6 +6,7 @@ technique: variable-interpolation
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
+use_when: [declaring each input a template will accept, settling trust at declaration not the call site, a missing variable renders as an empty string]
 ---
 
 # Variable interpolation

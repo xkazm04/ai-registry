@@ -6,6 +6,7 @@ technique: continuous-monitors
 status: forged
 laws: [failure-not-empty-success, creation-names-reaper, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether a fact needs a monitor or a probe, the detector is manufacturing the jank it watches, one burst firing the same alert hundreds of times]
 ---
 
 # Continuous monitors

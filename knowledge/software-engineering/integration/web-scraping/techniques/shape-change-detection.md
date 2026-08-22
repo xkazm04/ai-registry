@@ -6,6 +6,7 @@ technique: shape-change-detection
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, gate-sees-target]
 shared_with: []
+use_when: [scrape reports success with zero records, telling a redesign apart from a block or outage, deciding whether a collapsed run may tombstone entities]
 ---
 
 # Shape-change detection

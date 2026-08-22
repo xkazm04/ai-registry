@@ -6,6 +6,7 @@ technique: review-before-commit
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [designing the screen where an import asks consent, re-import duplicates instead of updating, a partial commit left half an import behind]
 ---
 
 # Review before commit

@@ -6,6 +6,7 @@ technique: project-identity-and-joins
 status: forged
 laws: [identity-survives-reuse, one-validation-door, gate-sees-target]
 shared_with: []
+use_when: [choosing what identifies a project, history vanishes after a rename, one real project admitted twice]
 ---
 
 # Project identity and joins

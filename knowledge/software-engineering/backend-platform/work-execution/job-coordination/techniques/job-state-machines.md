@@ -6,6 +6,7 @@ technique: job-state-machines
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [deciding whether job status is one enum or scattered flags, terminal verdicts being rewritten by late writers, adding a new state to the vocabulary]
 ---
 
 # Job state machines

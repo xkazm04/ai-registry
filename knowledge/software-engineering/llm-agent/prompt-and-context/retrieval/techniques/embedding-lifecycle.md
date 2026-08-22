@@ -6,6 +6,7 @@ technique: embedding-lifecycle
 status: forged
 laws: [derivation-names-recomputation, gate-sees-target, failure-not-empty-success]
 shared_with: []
+use_when: [queries still answer normally after an embedder swap, choosing between backfill and lazy migration, deciding what ingest does when the embedder is missing]
 ---
 
 # Embedding lifecycle

@@ -9,6 +9,7 @@ laws:
   - creation-names-reaper
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding whether a pause holds a thread or sits in data, a restart kills every pending approval, choosing what an expired gate resolves to]
 ---
 
 # Pause and gate nodes

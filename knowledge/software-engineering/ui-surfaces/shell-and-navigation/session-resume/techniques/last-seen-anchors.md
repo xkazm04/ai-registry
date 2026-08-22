@@ -6,6 +6,7 @@ technique: last-seen-anchors
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [briefing says nothing has changed, gating a presence stamp on visibility, deciding whether a watermark may trust the clock]
 ---
 
 # Last-seen anchors

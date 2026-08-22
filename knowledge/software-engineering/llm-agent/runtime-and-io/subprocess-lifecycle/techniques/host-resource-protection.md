@@ -6,6 +6,7 @@ technique: host-resource-protection
 status: forged
 laws: [gate-sees-target, count-carries-predicate, deletion-is-not-repair]
 shared_with: []
+use_when: [a timeout keeps killing honest runs, the admission gate flaps between open and closed, choosing what to shed under sustained pressure]
 ---
 
 # Host resource protection

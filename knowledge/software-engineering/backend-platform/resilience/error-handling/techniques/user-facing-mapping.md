@@ -6,6 +6,7 @@ technique: user-facing-mapping
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
+use_when: [writing the message and suggestion for a failure, same failure reads differently on two screens, generic fallback fires far too often]
 ---
 
 # User-facing mapping

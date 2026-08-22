@@ -6,6 +6,7 @@ technique: editor-interop
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding whether the app may hold a file open, caches go stale on edits made while closed, a deep link opens the wrong note or nothing]
 ---
 
 # Editor interop

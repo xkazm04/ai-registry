@@ -6,6 +6,7 @@ technique: focus-and-scroll-containment
 status: forged
 laws: [creation-names-reaper]
 shared_with: []
+use_when: [deciding where focus enters and returns, background scrolls beneath an open overlay, page stays locked after the last overlay closes]
 ---
 
 # Focus and scroll containment

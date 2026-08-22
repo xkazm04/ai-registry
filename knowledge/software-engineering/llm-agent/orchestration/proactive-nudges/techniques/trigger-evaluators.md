@@ -7,6 +7,7 @@ status: forged
 laws:
   - failure-not-empty-success
 shared_with: []
+use_when: [deciding whether an evaluator may deliver directly, same condition keeps refiring every tick, quiet week that could be a dead instrument]
 ---
 
 # Trigger evaluators

@@ -6,6 +6,7 @@ technique: action-driven-advancement
 status: forged
 laws: [gate-sees-target]
 shared_with: []
+use_when: [declaring what completes a tour step, tour advanced while the user watched, spotlight aimed at a screen still loading]
 ---
 
 # Action-driven advancement

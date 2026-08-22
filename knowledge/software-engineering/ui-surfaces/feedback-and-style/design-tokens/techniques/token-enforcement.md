@@ -8,6 +8,7 @@ laws:
   - gate-sees-target
   - failure-not-empty-success
   - deletion-is-not-repair
+use_when: [deciding whether a rule should warn or fail the build, a rule fires daily but half the violations go unseen, counting inline suppressions before they become a dialect]
 ---
 
 # Token enforcement

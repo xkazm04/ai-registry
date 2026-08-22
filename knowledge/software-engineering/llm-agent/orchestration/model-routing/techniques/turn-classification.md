@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
 shared_with: []
+use_when: [designing a closed vocabulary of call classes, a new class shows up unlabeled on one chart, effort half of a routed pair going missing]
 ---
 
 # Turn classification

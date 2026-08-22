@@ -6,6 +6,7 @@ technique: import-validation
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
+use_when: [sizing caps that guard an untrusted parse, deciding whether imports reuse the creation door, embedded tokens surfacing in an imported file]
 ---
 
 # Import validation & sanitization

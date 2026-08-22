@@ -6,6 +6,7 @@ technique: lifecycle-signals
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a silent session is dead or idle, a hung process keeps animating its status display, self-report and sweep disagree on a session's state]
 ---
 
 # Lifecycle signals

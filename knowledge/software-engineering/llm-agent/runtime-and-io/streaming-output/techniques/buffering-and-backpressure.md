@@ -6,6 +6,7 @@ technique: buffering-and-backpressure
 status: forged
 laws: [count-carries-predicate, creation-names-reaper]
 shared_with: []
+use_when: [sizing a live stream buffer, choosing backpressure or shedding, memory grows though every buffer is bounded]
 ---
 
 # Buffering and backpressure

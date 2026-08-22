@@ -6,6 +6,7 @@ technique: extension-lifecycle
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [same query succeeds or fails depending on connection, deciding whether a missing extension stops the boot, tooling opens a store whose tables name a module]
 ---
 
 # Extension lifecycle

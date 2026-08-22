@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - count-carries-predicate
 shared_with: []
+use_when: [state flickers backwards as old attempts land late, deciding whether a guard alone closes the finish race, choosing between a generation counter and an attempt id]
 ---
 
 # Attempt attribution

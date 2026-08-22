@@ -6,6 +6,7 @@ technique: composition-contracts
 status: forged
 laws: []
 shared_with: []
+use_when: [deciding whether a control is controlled, consumer handler silently disarms a guard, auditing whether a look-alike still renders the primitive]
 ---
 
 # Composition contracts

@@ -10,6 +10,7 @@ laws:
   - failure-not-empty-success
   - creation-names-reaper
 shared_with: []
+use_when: [naming why a node did not execute, recovering a crashed run without replaying work, timeout failing nodes that never ran]
 ---
 
 # Node execution model

@@ -6,6 +6,7 @@ technique: failure-direction
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
+use_when: [enumerating the ways a decision path can degrade, corrupt input resolving more permissive than absent, warn-only mode outliving its migration window]
 ---
 
 # Failure direction

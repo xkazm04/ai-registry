@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - creation-names-reaper
 shared_with: []
+use_when: [deciding whether an ack is ownership or closure, suppressed repeats showing up as separate alerts, a rule whose resolutions are mostly noise dismissals]
 ---
 
 # Alert lifecycle

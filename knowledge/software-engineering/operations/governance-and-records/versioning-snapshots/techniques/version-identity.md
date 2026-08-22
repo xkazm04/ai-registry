@@ -6,6 +6,7 @@ technique: version-identity
 status: forged
 laws: [identity-survives-reuse, one-authority-per-vocabulary]
 shared_with: []
+use_when: [deciding whether callers may supply version numbers, two concurrent writers both minted v7, a deleted version's number came back]
 ---
 
 # Version identity

@@ -6,6 +6,7 @@ technique: native-payload-verification
 status: forged
 laws: [gate-sees-target, one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
+use_when: [app installs and launches then fails at one feature, checking presence where the loader actually resolves, shipped tree holds files no manifest explains]
 ---
 
 # Native payload verification

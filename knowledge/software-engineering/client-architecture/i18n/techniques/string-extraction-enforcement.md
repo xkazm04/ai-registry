@@ -6,6 +6,7 @@ technique: string-extraction-enforcement
 status: forged
 laws: [one-validation-door, deletion-is-not-repair]
 shared_with: []
+use_when: [deciding whether an advisory rule holds a line, warnings visible at authoring but no gate fails, shrinking a legacy backlog of hardcoded strings]
 ---
 
 # String extraction enforcement

@@ -6,6 +6,7 @@ technique: capability-feature-gating
 status: forged
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
+use_when: [deciding whether a heavy capability deserves a build-time gate, everyone pays compile cost for a capability few ever touch, gated code rots because the default build never type-checks it]
 ---
 
 # Capability feature-gating

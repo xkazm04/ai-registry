@@ -6,6 +6,7 @@ technique: faceting-and-filters
 status: forged
 laws: [count-carries-predicate, one-authority-per-vocabulary]
 shared_with: []
+use_when: [choosing which selection each facet count assumes, deciding whether a filter sees the whole set, page 2 of the filtered list comes back empty]
 ---
 
 # Faceting and filters

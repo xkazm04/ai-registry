@@ -6,6 +6,7 @@ technique: raw-record-viewers
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
+use_when: [structure localized the span but not the defect inside, deciding how to render a payload that fails to parse, unknown log lines are being classified as normal info]
 ---
 
 # Raw record viewers

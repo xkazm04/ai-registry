@@ -6,6 +6,7 @@ technique: branching-and-skipping
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
+use_when: [answers from a switched-off branch reach the commit, deciding what an edited answer invalidates, flipping a branch back forces users to re-type]
 ---
 
 # Branching and skipping

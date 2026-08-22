@@ -6,6 +6,7 @@ technique: direct-manipulation
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
+use_when: [nodes let go mid-drag when the pointer crosses an overlay, deciding whether a press is a click or a drag, showing edge validity before the drop lands]
 ---
 
 # Direct manipulation

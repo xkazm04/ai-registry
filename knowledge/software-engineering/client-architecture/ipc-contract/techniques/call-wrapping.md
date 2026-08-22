@@ -6,6 +6,7 @@ technique: call-wrapping
 status: forged
 laws: [one-validation-door, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
+use_when: [enforcing one door for every crossing call, choosing a timeout class for an operation, a retried mutation ran twice on the far side]
 ---
 
 # Call wrapping

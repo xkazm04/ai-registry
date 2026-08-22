@@ -6,6 +6,7 @@ technique: viewport-transform
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
 shared_with: []
+use_when: [deciding where screen-world conversion lives, content rockets toward a corner on every zoom, scrolling an overlay zooms the canvas behind it]
 ---
 
 # Viewport transform

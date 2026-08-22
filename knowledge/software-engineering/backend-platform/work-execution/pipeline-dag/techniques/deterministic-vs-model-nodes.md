@@ -8,6 +8,7 @@ laws:
   - identity-survives-reuse
   - failure-not-empty-success
 shared_with: []
+use_when: [declaring what running a node actually changes, a retried model node returns a different answer, deciding whether an unknown-fate attempt may rerun]
 ---
 
 # Deterministic vs model nodes

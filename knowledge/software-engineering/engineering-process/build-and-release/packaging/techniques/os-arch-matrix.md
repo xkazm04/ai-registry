@@ -6,6 +6,7 @@ technique: os-arch-matrix
 status: forged
 laws: [gate-sees-target, count-carries-predicate]
 shared_with: []
+use_when: [turning a support claim into enumerated platform cells, upstream archive holds binaries for another architecture, deciding if emulated runs count as native proof]
 ---
 
 # The OS × architecture matrix

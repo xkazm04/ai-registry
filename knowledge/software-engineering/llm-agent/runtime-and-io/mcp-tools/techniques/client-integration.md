@@ -6,6 +6,7 @@ technique: client-integration
 status: forged
 laws: [creation-names-reaper, gate-sees-target]
 shared_with: []
+use_when: [reviewing an install flow that writes a spawn command, deciding which tool calls stop for a human, two servers exporting the same tool name]
 ---
 
 # Client integration
