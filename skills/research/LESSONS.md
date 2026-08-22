@@ -213,3 +213,35 @@
   human turn a flow exists for - third sighting of that thread). Recorded as untriaged
   rather than landed, which is the vocabulary working as intended two versions after it
   was added.
+
+## 0.6.0 - 2026-08-22 - ai-registry (run 7: first-party empirical study; no bump - lessons only)
+
+- **A fifth source class: the first-party empirical study.** Controlled protocol,
+  published rows, an appendix arguing against its own headline. Two reading rules it
+  taught: its NEGATIVE results are first-class candidates (three of six accepted findings
+  came from the author's nulls and reversals - raw replay hurting, the stack outweighing
+  the store, files winning abstention); and the author's own scope flags are binding -
+  what the study declines to claim ("untested, not refuted"), a technique must not
+  assert. Findings from this class land naturally as decision rules with measured
+  conditions attached, which is the amendment shape almost by definition.
+- **Against a mature subject, a study source yields amendments, not files.** Six accepted
+  findings, five amendments, zero new documents - and the run's whole verification budget
+  went into reading the homes, exactly as the missing-stage heuristic predicts. The
+  10-technique agent-memory subject absorbed four findings as missing *distinctions*
+  (state vs event, labeled vs applied, floor vs abstention, yield as health) without
+  growing.
+- **Never guess a URL; follow the source's own links.** Two of three corroboration
+  fetches were burned learning this: an arXiv abstract page (should have gone straight
+  to /html full text) and a guessed paper id (404). The source names and links its
+  primary documents; harvest those hrefs during ingest and fetch them, not reconstructions.
+  The one clean fetch (the Graphiti paper, full text) authorized finding 1 by confirming
+  both the mechanism and the gap.
+- **The invocation loaded the wrong skill and the run had to notice.** `/research` in this
+  checkout resolved to a personas-specific skill from the user library (its Phase 1 would
+  have aborted on a missing file); the repo's own method - renamed to `intake` by a
+  parallel session mid-run - was the one to follow. When a skill's constants name another
+  project's paths, stop and look for the repo-local method before executing anything.
+- **The parallel-session rule fired again, harder.** The main tree carried a staged
+  lane-wide rename while this run was live. Worktree-from-HEAD kept the run isolated, and
+  writing against HEAD's file layout (this file, at its old path) lets rename detection
+  carry the append into the moved file instead of resurrecting the old one.

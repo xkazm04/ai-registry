@@ -26,6 +26,7 @@ when the run ends. A note quotes an anchor, never a corpus.
 
 | Date | Source | Kind | Words | Extracted | Accepted | Leads | Caught | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-22 | `web:pinglin.tw` - "The Shapes of Agent Memory" | first-party-empirical-study | 13767 | 12 | 6 | 1 | 2 | [[2026-08-22-shapes-of-agent-memory]] - five amendments across agent-memory + eval-harness |
 | 2026-08-22 | `youtube:bxp4G-oJATM` - "Difficulty in Video Games" | designer-talk | 2332 | 6 | 5 | 0 | 0 | [[2026-08-22-game-difficulty]] - landed on `research/game-difficulty` + cross-repo |
 | 2026-08-22 | `youtube:3MP8D-mdheA` - "How To De-Slop A Codebase Ruined By AI" | practitioner-deep-dive (technique demo) | 2456 | 6 | 0 (+1 dispatched) | 0 | 1 | [[2026-08-22-de-slop-a-codebase]] |
 | 2026-08-22 | `youtube:gaDdrDdczO4` - "New Skills! v1.2..." | practitioner-deep-dive (skill-library release) | 2514 | 10 | 5 | 0 | 2 | [[2026-08-22-skills-v1-2-release]] |

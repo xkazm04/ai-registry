@@ -6,7 +6,7 @@ technique: recall-injection
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
-use_when: [splitting a recall budget across tiers, an oversized memory blocks everything behind it, the agent re-asks things it already knows]
+use_when: [splitting a recall budget across tiers, an oversized memory blocks everything behind it, the agent re-asks things it already knows, a recalled experience steers a capable agent wrong, the agent answers plausibly where the honest answer is unknown]
 ---
 
 # Recall injection
@@ -114,6 +114,50 @@ Stakes scale the discipline: a recalled preference shaping a report's tone
 can ride on its label, while a recalled credential procedure about to drive
 an irreversible action deserves verification against the live system first.
 Memory proposes; for destructive acts, the present confirms.
+
+## Labeled is not applied
+
+Labeling makes recalled material doubtable; nothing about it makes the
+material *used well*. Between "in view" and "acted on correctly" sits a
+judgment injection cannot perform: does this remembered item actually apply
+to the present situation, and what does it translate to here? Skipping that
+judgment is not neutral. Where it has been measured, replaying raw past
+experience into a capable consumer's context scored *below* running with no
+memory at all: a near-match to the current situation reads as a match, and
+steers confidently wrong. Two disciplines follow:
+
+- **Recall proposes; a distinct check disposes.** Before a recalled
+  procedure or past experience drives action, the consumer states whether it
+  applies to the current state and what it means there -- and rejects it,
+  falling back to fresh reasoning, when it does not. The rejection path is a
+  designed outcome with its own exit, not a failure of recall.
+- **Memory's value floats on the gap between the consumer and the task.**
+  A consumer that already solves the task from what is in front of it gains
+  nothing from injected experience and pays the distraction surface anyway;
+  the same bank moves results where the consumer is far from its ceiling.
+  This is an observed pattern, not a law -- so budget recall against the
+  measured gap in the deployment at hand, not against the store's size or
+  the architecture's ambitions.
+
+## Eager recall buys over-answering
+
+A recall path that almost always surfaces *something* has changed the
+consumer's default from "I don't know" to "here is my best guess" -- without
+anyone deciding that. Measured head-to-head, sparse curated stores beat
+eager ranked recall exactly and only on the questions whose right answer is
+that nothing was ever said: not by judging better, but by having less
+plausible material to be tempted with. And the over-answering tracked how
+eagerly recall surfaced material, not how much context was injected -- so
+trimming the slice does not fix it. Sparse memory gets abstention for free;
+eager memory must build it back deliberately: relevance floors on the
+retrieval side, the considered/selected counts on the injected slice so
+"nothing strong was found" is a sayable state, and a consumer instructed
+that a plausible recalled fragment is not evidence the question was ever
+answered. The eval closes the loop: include should-abstain questions and
+score them in the same denominator as everything else, per
+[failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)
+-- leave them out and the suite structurally rewards never saying "I don't
+know", which is the exact bias eager recall already has.
 
 ## Empty is not broken — and the difference must be visible
 
