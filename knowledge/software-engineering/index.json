@@ -5,8 +5,8 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 143,
   "techniques": 896,
-  "applications": 379,
-  "laws": 10,
+  "applications": 383,
+  "laws": 12,
   "categories": [
    "ui-surfaces",
    "client-architecture",
@@ -659,6 +659,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "cycle-and-depth-guards",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/node--cycle-and-depth-guards.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "graph-to-wiring-translation",
@@ -2563,6 +2569,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "cache-key-discipline",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/node--cache-key-discipline.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "react",
      "technique": "swr-design",
@@ -4528,6 +4540,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "cross-language-token-parity",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/node--cross-language-token-parity.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "react",
      "technique": "theme-architecture",
@@ -8214,7 +8232,8 @@
      "status": "forged",
      "laws": [
       "gate-sees-target",
-      "creation-names-reaper"
+      "creation-names-reaper",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
@@ -8712,7 +8731,8 @@
      "status": "forged",
      "laws": [
       "failure-not-empty-success",
-      "gate-sees-target"
+      "gate-sees-target",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
@@ -9819,7 +9839,8 @@
      "laws": [
       "failure-not-empty-success",
       "derivation-names-recomputation",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
@@ -14108,7 +14129,9 @@
       "one-validation-door",
       "failure-not-empty-success",
       "one-authority-per-vocabulary",
-      "verdict-survives-boundary"
+      "verdict-survives-boundary",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
@@ -15864,6 +15887,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "retention-and-pruning",
+     "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/applications/go--retention-and-pruning.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "promotion-lifecycle",
      "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/applications/rust--promotion-lifecycle.md",
@@ -16151,7 +16180,8 @@
      "status": "forged",
      "laws": [
       "identity-survives-reuse",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
@@ -18226,6 +18256,22 @@
     "undo-history/undo-model-selection",
     "voice-io/tts-pipeline",
     "wizard-flows/progress-communication"
+   ]
+  },
+  "absent-guard-is-loud": {
+   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
+   "techniques": [
+    "mcp-tools/transport-selection",
+    "structured-output/schema-validation-and-repair",
+    "webhook-ingestion/duplicate-and-replay-dedup"
+   ]
+  },
+  "unknown-is-not-a-value": {
+   "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
+   "techniques": [
+    "migrations/error-propagation",
+    "p2p-networking/peer-state-honesty",
+    "structured-output/schema-validation-and-repair"
    ]
   }
  }

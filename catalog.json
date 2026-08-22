@@ -576,9 +576,9 @@
       "purity": "software",
       "subjects": 143,
       "techniques": 896,
-      "applications": 379,
-      "files": 1423,
-      "contentHash": "sha256:c9e76f4056029ee4"
+      "applications": 383,
+      "files": 1427,
+      "contentHash": "sha256:b300fa1b1169df00"
     }
   ]
 }

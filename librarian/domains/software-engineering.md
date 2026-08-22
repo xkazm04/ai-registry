@@ -62,6 +62,13 @@ Argo Workflows (conditional-edges), OPA (failure-direction) and containerd
 lane's six runs; two law questions triggered in one wave (opt-in-guard at four
 sightings, unknown-is-not-a-value at four).
 
+[[2026-08-22-11]] - the sixth reconcile wave, and the lane's pivot: with the
+rust backlog nearly drained, react subjects now earn their second stack from
+framework-agnostic cores (TanStack query-core, Style Dictionary) beside two go
+trees (restic, n8n's agent module). Twenty-five single-stack debts cleared
+across seven runs; the one-mechanism-or-two-that-agree family reached three
+sightings.
+
 ## What is owed
 
 - a second stack for the ~44 single-stack subjects the last scan showed - the
