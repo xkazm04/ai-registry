@@ -17,6 +17,38 @@ the entire governance model, and it compresses to one sentence:
 
 Everything else is detail about where the proposing stops.
 
+## The same rule, read in the other direction
+
+"Tools propose, people adopt" is usually read as a constraint on writing into a
+registry. It constrains *reading out of one* just as hard, and that half is
+easier to lose because the mechanism looks like convenience rather than
+governance.
+
+A subscription that pulls updates automatically — a managed bundle, a plugin
+that refreshes, a pinned reference that silently follows a moving branch — moves
+the adoption decision to the publisher. When the artifact is instructions that
+execute against a live codebase, that is the same act the write path forbids,
+performed from the other end: a merge in the publisher's repository changes what
+a consumer's agent does, remotely, with nobody present on the consuming side to
+review it. The publisher did not do anything wrong; the distribution channel
+made the decision for both of them.
+
+The distinction that keeps this tractable:
+
+- **Data may follow.** A catalog, an index, a list of what exists — refreshing
+  these changes what a consumer can *see*.
+- **Instructions are adopted.** A skill, a policy, a rule the agent executes —
+  refreshing these changes what a consumer *does*, and it is a decision
+  somebody there has to make.
+
+Auto-pull is not thereby forbidden; it is a **declared** choice with a cost, and
+the consumer is the one entitled to make it. What must never happen is the
+choice arriving as a side effect of how the artifact was installed. Where a
+channel offers only auto-pull, the honest arrangements are to pin a version
+explicitly, or to treat the subscription as a notification — tell me a newer
+version exists, and let a human here decide — which is the read-side mirror of
+proposing rather than merging.
+
 ## Where an automated contributor stops
 
 A tool may do all of the preparatory work — read the source material, generalize

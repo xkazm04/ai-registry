@@ -26,6 +26,7 @@ when the run ends. A note quotes an anchor, never a corpus.
 
 | Date | Source | Kind | Words | Extracted | Accepted | Leads | Caught | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-22 | `youtube:gaDdrDdczO4` - "New Skills! v1.2..." | practitioner-deep-dive (skill-library release) | 2514 | 10 | 5 | 0 | 2 | [[2026-08-22-skills-v1-2-release]] |
 | 2026-08-22 | `youtube:u8Im0l_vwqM` - "Inside DeepWiki: How Cognition Builds Wikis for Devin at Scale" | practitioner-deep-dive | 2974 | 10 | 2 (+1 proposed) | 0 | 1 | [[2026-08-22-inside-deepwiki]] |
 | 2026-08-22 | `youtube:NC4h5kWH_-A` - "AI News: The AI Agent Race Just Exploded" | mixed-ai-news-roundup | 6958 | 10 | 4 | 1 | 2 | [[2026-08-22-ai-agent-race-exploded]] |
 | 2026-08-21 | `youtube:EfGF7QbJItA` - "AI News: The Best Open Model Runs on Your Computer!" | mixed-ai-news-roundup | 6507 | 12 | 1 | 0 | 0 | [[2026-08-21-ai-news-open-model-local]] |
@@ -39,6 +40,18 @@ here after it has been seen twice, with the incident that taught it.
 | --- | --- | --- |
 | First-party practitioner deep-dive | What they built, what they measured, and what changed when they changed it. Facts about one system, from the person who changed it - no corroboration lane improves on that. | What works in GENERAL. The sample is one pipeline at one company, so a measured result is an existence proof, not a distribution. |
 | Mixed AI-news roundup | That the world moved: a release happened, a price changed, a benchmark was published. | Why it matters, whether it is true, whether it is new. Its claims are second-hand by construction. |
+
+**First-party practitioner deep-dive, second observation (2026-08-22) - the row is
+earned, and one sub-class is worth seeking out.** Both observations confirmed the split:
+authoritative about what they built, silent on generality. The sub-class that outperformed
+is the **release walkthrough** - a library author going through one version's changes.
+It is organised around CHANGES, and a change carries its own motivation, so the author
+states the failure mode out loud because it is the reason the release exists. Three of
+five accepted findings came from that structure rather than from the feature described.
+A feature demo shows the solution and hides the problem; a release walkthrough shows both.
+
+Also confirmed across both: no corroboration fetch was needed in either run. The 3-fetch
+budget binds on second-hand surveys and never on this class.
 
 **First-party practitioner deep-dive, first observation (2026-08-22).** Its authority
 maps onto the layer contract almost exactly: strong evidence for the SHAPE of a

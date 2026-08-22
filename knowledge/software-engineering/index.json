@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 124,
-  "techniques": 762,
+  "techniques": 765,
   "applications": 308,
   "laws": 9,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "129/762",
+  "use_when_coverage": "132/765",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4266,6 +4266,22 @@
      "shared_with": []
     },
     {
+     "slug": "human-performed-steps",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a task contains steps the machine must not perform itself",
+      "handing credentials or console work back to a person",
+      "deciding between automating a step and scripting it for a human",
+      "writing a capability that exists to work around a boundary"
+     ]
+    },
+    {
      "slug": "resume-after-decision",
      "status": "forged",
      "laws": [
@@ -6842,6 +6858,21 @@
       "gate-sees-target"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "house-vocabulary-layer",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "output is verbose or generic and instructions to be concise are not working",
+      "an agent renames the project's own concepts",
+      "onboarding an agent onto an established domain",
+      "deciding what belongs in a persistent context file"
+     ]
     },
     {
      "slug": "layered-composition",
@@ -10582,6 +10613,21 @@
      "shared_with": []
     },
     {
+     "slug": "frontier-batched-elicitation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an elicitation flow feels slow at the tail",
+      "deciding how many questions a turn may carry",
+      "ordering questions whose answers unlock other questions",
+      "reducing the effort of agreeing with a proposal"
+     ]
+    },
+    {
      "slug": "progress-communication",
      "status": "forged",
      "laws": [
@@ -10955,6 +11001,7 @@
     "health-checks/three-state-outcomes",
     "hitl-approval/decision-records",
     "hitl-approval/gate-state-machines",
+    "hitl-approval/human-performed-steps",
     "hitl-approval/resume-after-decision",
     "hitl-approval/review-queues",
     "i18n/completeness-gates",
@@ -11143,6 +11190,7 @@
     "webhook-ingestion/sender-authentication",
     "wizard-flows/ai-driven-elicitation",
     "wizard-flows/commit-boundary",
+    "wizard-flows/frontier-batched-elicitation",
     "wizard-flows/snapshot-and-resume"
    ]
   },
@@ -11433,6 +11481,7 @@
     "webhook-ingestion/duplicate-and-replay-dedup",
     "webhook-ingestion/payload-bounds",
     "wizard-flows/ai-driven-elicitation",
+    "wizard-flows/frontier-batched-elicitation",
     "wizard-flows/progress-communication"
    ]
   },
@@ -11534,6 +11583,7 @@
     "plan-entitlements/id-vs-label-split",
     "proactive-nudges/nudge-identity-dedup",
     "prompt-assembly/continuation-prompts",
+    "prompt-assembly/house-vocabulary-layer",
     "readiness-passports/blocker-rollups",
     "readiness-passports/fingerprint-provenance",
     "realtime-events/outbound-fan-out",
@@ -11791,6 +11841,7 @@
     "health-checks/check-scheduling",
     "health-checks/probe-caching",
     "hitl-approval/consent-gates",
+    "hitl-approval/human-performed-steps",
     "hitl-approval/resume-after-decision",
     "hitl-approval/review-queues",
     "hitl-approval/unattended-mode",
@@ -11960,6 +12011,7 @@
     "form/server-error-mapping",
     "guided-tours/anchor-contracts",
     "health-checks/three-state-outcomes",
+    "hitl-approval/human-performed-steps",
     "i18n/catalog-architecture",
     "i18n/token-label-separation",
     "import-normalization/adapter-capability-tables",
@@ -12015,6 +12067,7 @@
     "plan-entitlements/tier-model-single-source",
     "prompt-assembly/capability-documentation",
     "prompt-assembly/context-reachability",
+    "prompt-assembly/house-vocabulary-layer",
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/payoff-removal",
     "public-verdict-badge/customization-scope-guard",
