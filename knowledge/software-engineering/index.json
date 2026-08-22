@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 129,
   "techniques": 793,
-  "applications": 323,
+  "applications": 327,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -223,6 +223,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "priority-and-fairness",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/go--priority-and-fairness.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "admission-vocabulary",
@@ -8084,6 +8090,12 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "remote-telemetry-economics",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/applications/node--remote-telemetry-economics.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "log-architecture",
      "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/applications/rust--log-architecture.md",
@@ -11370,6 +11382,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "auto-rollback",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/go--auto-rollback.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "effectiveness-accounting",
      "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--effectiveness-accounting.md",
@@ -14262,6 +14280,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "duplicate-and-replay-dedup",
+     "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/applications/go--duplicate-and-replay-dedup.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "delivery-logging-and-replay",
