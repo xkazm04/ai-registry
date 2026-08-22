@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 143,
   "techniques": 896,
-  "applications": 375,
+  "applications": 379,
   "laws": 10,
   "categories": [
    "ui-surfaces",
@@ -1603,6 +1603,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "failure-direction",
+     "file": "knowledge/software-engineering/security/authorization/applications/go--failure-direction.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "dispatch-chokepoint-gating",
@@ -9841,6 +9847,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "peer-state-honesty",
+     "file": "knowledge/software-engineering/security/p2p-networking/applications/go--peer-state-honesty.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "exposure-controls",
      "file": "knowledge/software-engineering/security/p2p-networking/applications/rust--exposure-controls.md",
@@ -10466,6 +10478,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "conditional-edges",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/applications/go--conditional-edges.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "external-adapter-nodes",
@@ -14218,6 +14236,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "termination-and-reaping",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/go--termination-and-reaping.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "concurrency-and-slots",

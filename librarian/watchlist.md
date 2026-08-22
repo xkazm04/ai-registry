@@ -1,6 +1,6 @@
 ---
 kind: watchlist
-updated: 2026-08-22
+updated: 2026-08-22 (evening pass)
 ---
 
 # OSS watchlist - candidate trees for the two loops
@@ -45,7 +45,7 @@ Stack in parentheses; `zig`/`c`/`go` beyond the declared set would need
 
 | repo | subjects it could serve | grade |
 | --- | --- | --- |
-| tailscale/tailscale (go) | p2p-networking (connection-lifecycle, discovery), sync-observability | reputed, exceptionally documented internals |
+| tailscale/tailscale (go) | CONSUMED by [[2026-08-22-9]] (peer-state-honesty); resilience-and-reconnection seam banked | measured: L3/49, rigor 66, adoption 16 |
 | caddyserver/caddy (go) | ingress-topology, listener-lifecycle, entity-lifecycle (config reload) | reputed |
 | nats-io/nats-server (go) | delivery-guarantees, outbound-fan-out, subscription-lifecycle | reputed |
 | etcd-io/etcd (go) | sync-replication (topology), migrations (schema version), lease-renewal | reputed |

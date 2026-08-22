@@ -44,13 +44,28 @@ then 20 subject-workers - 14 new subjects and 6 extensions. It added a fifth sub
 under `ui-surfaces` (`published-surfaces`, five founding subjects) and left the top level
 at nine categories, deliberately, so the bundle keeps headroom for a genuinely new one.
 
-[[2026-08-22-2]] and [[2026-08-22-3]] ran the external-reconcile and research lanes
-alongside it, clearing four single-stack subjects against world-class trees and adding
-`module-design`.
+The external-reconcile and research lanes ran alongside it, clearing single-stack
+subjects against world-class trees and adding `module-design`. (Correction, same
+day: the run ids in this paragraph's first draft pointed at the wrong notes -
+`runs/2026-08-22-2` through `-8` are the reconcile lane's waves and cycles, and
+the harvest described above carries no run note of its own yet. Corrected rather
+than left, because a vault whose links misattribute its own history is worse
+than one with a visible patch.)
 
 **Version witness moved 0/311 -> 37/357.** That line had read zero since the bundle was
 founded. The harvest wrote the runtime major for every application it produced except two
 `sql` ones whose author declined to guess; the reconcile lane contributed the rest.
 
+[[2026-08-22-9]] - the fifth reconcile wave: Tailscale (peer-state-honesty),
+Argo Workflows (conditional-edges), OPA (failure-direction) and containerd
+(termination-and-reaping). Twenty-one single-stack debts cleared across the
+lane's six runs; two law questions triggered in one wave (opt-in-guard at four
+sightings, unknown-is-not-a-value at four).
+
 ## What is owed
-
+
+- a second stack for the ~44 single-stack subjects the last scan showed - the
+  lane has cleared twenty-one; the harvest added new single-stack subjects, so
+  recompute before the next wave
+- a reporting installation - demand is still UNKNOWN, not zero
+- the maturity ladder - everything still says `forged`
