@@ -124,6 +124,19 @@ discoverable only by archaeology.
   attribution is ambiguous — roll back both rather than adjudicating with
   guesswork. Better: the selection layer's budgets should make overlapping
   in-flight changes rare enough that this stays a corner case.
+- **A broken gate is a verdict, not a gap.** The commonest real failure of
+  this loop is not a wrong measurement but a dead one: the regression query
+  errors, the metric source vanishes, the window closes with nothing in it.
+  A change must never keep running *unjudged* because the judge died — that
+  is the healing layer's own version of the swallowed error. The resolution
+  is graded by what failed: repeated failure of the measurement itself
+  resolves toward abort (fail closed — the experiment loses its license when
+  its instruments do), while an ambiguous reading that the instruments
+  delivered honestly resolves toward pause-for-a-human. Confidence gates
+  autonomy; absence of evidence gates it harder. The same discipline appears
+  wherever an admission check guards an irreversible act: when the check's
+  own machinery fails, the act is refused, because a retry costs seconds and
+  an unjudged effect can cost the incident.
 - **A rollback that fails is a page, immediately.** The system is now in a
   third state — not the old one, not the intended new one — created by the
   remediation layer. This is the one place in the subject where the correct

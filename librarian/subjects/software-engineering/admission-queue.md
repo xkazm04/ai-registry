@@ -34,3 +34,7 @@ numeric, which is the pass at its best.
 - The reason-labelled rejection counter as an exemplary verdict vocabulary →
   admission-vocabulary (note: the inverse of the wave-1 finding where a
   refusal enum was erased at the boundary — same family, opposite outcome).
+
+## Applied to the technique layer
+
+- 2026-08-22-6: **vocabulary erasure in transit** (verdict-survives-the-boundary family) applied to `admission-vocabulary` ([[2026-08-22-6]]).

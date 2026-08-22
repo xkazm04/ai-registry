@@ -32,3 +32,7 @@ First touch: [[2026-08-22-4]], external reconcile against
 - Three-surface loudness (event + notification + phase) → alerting.
 - Warm-capacity retention for the failed attempt (abortScaleDownDelaySeconds) →
   retry-backoff's cost model.
+
+## Applied to the technique layer
+
+- 2026-08-22-6: **a broken gate is a verdict, not a gap** (fail-closed family) applied to `auto-rollback` ([[2026-08-22-6]]).

@@ -34,3 +34,7 @@ single-stack debt cleared. Second hint refuted with evidence: OSS rotation is
 
 - Full-width ±50% jitter vs full-jitter [0,t] — a comparative note for
   backoff-design on which jitter shape preserves expected-value schedules.
+
+## Applied to the technique layer
+
+- 2026-08-22-6: **the taxonomy survives the wire as a typed field** applied to `token-refresh-lifecycle` ([[2026-08-22-6]]). The verdict-survives family is now the standing LAW candidate; a fourth sighting triggers the law pass, not another technique edit.

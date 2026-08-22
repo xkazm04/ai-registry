@@ -43,3 +43,7 @@ it earns a technique edit, per deepen's convergence rule:
   version + commit, which lives in the application's prose. If external
   reconciles become a standing lane, the profile may want a field for this —
   a proposal for the profile's owner, not a unilateral edit.
+
+## Applied to the technique layer
+
+- 2026-08-22-6: **the deny spelling is judged at the outermost boundary** (sharpening of the existing bullet) applied to `storm-control` ([[2026-08-22-6]]).

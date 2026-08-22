@@ -33,3 +33,7 @@ single-stack debt cleared. Hint held.
   byte-identically → payload-bounds / sender-authentication.
 - Provider-specific verifiers frequently ship without a timestamp window; the
   receiver adds it → sender-authentication.
+
+## Applied to the technique layer
+
+- 2026-08-22-6: **fail closed when the dedup instrument fails** applied to `duplicate-and-replay-dedup` ([[2026-08-22-6]]).
