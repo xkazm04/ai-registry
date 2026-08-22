@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 128,
-  "techniques": 779,
-  "applications": 317,
+  "techniques": 781,
+  "applications": 321,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "779/779",
+  "use_when_coverage": "781/781",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1245,6 +1245,21 @@
      ]
     },
     {
+     "slug": "identity-bearing-keys",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cross-tenant read must be unrepresentable rather than merely refused",
+      "a handler that skips the gate still must not see another owner's rows",
+      "deciding whether tenancy is a filter or an address"
+     ]
+    },
+    {
      "slug": "privilege-tiers",
      "status": "forged",
      "laws": [
@@ -1274,6 +1289,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "identity-bearing-keys",
+     "file": "knowledge/software-engineering/security/authorization/applications/node--identity-bearing-keys.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "node@22"
+    },
     {
      "stack": "rust",
      "technique": "dispatch-chokepoint-gating",
@@ -2008,6 +2030,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "cache-key-discipline",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/node--cache-key-discipline.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "node@22"
+    },
     {
      "stack": "react",
      "technique": "swr-design",
@@ -2825,7 +2854,8 @@
      "use_when": [
       "enumerating every path that can start metered spend",
       "a lowered ceiling still letting calls through",
-      "choosing fail-open or fail-closed when the store is down"
+      "choosing fail-open or fail-closed when the store is down",
+      "a ceiling that drains on cache hits or busy-rejections"
      ]
     },
     {
@@ -5766,7 +5796,8 @@
      "use_when": [
       "a green report over an untranslated locale",
       "extra keys surviving a source rename",
-      "a key absent from every locale at once"
+      "a key absent from every locale at once",
+      "a linguistic ruling half-applied across a transcreated locale"
      ]
     },
     {
@@ -5837,6 +5868,13 @@
      "technique": "catalog-architecture",
      "file": "knowledge/software-engineering/client-architecture/i18n/applications/react--catalog-architecture.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "completeness-gates",
+     "file": "knowledge/software-engineering/client-architecture/i18n/applications/react--completeness-gates.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -9385,6 +9423,21 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "techniques": [
     {
+     "slug": "chokepoint-tag-registry",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving statically that no call escaped a declared wrapper",
+      "a new capability shipped unassignable in a policy table",
+      "a registry row whose call site was deleted"
+     ]
+    },
+    {
      "slug": "false-positive-economics",
      "status": "forged",
      "laws": [
@@ -9498,6 +9551,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "chokepoint-tag-registry",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--chokepoint-tag-registry.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "node@22"
+    },
     {
      "stack": "node",
      "technique": "gate-liveness",
@@ -14281,6 +14341,7 @@
     "prompt-safety/canary-tripwires",
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/model-output-as-untrusted",
+    "quality-gates/chokepoint-tag-registry",
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
@@ -14555,6 +14616,7 @@
     "prompt-safety/output-sanitization",
     "public-verdict-badge/neutral-state-vocabulary",
     "public-verdict-badge/outcome-branched-cache",
+    "quality-gates/chokepoint-tag-registry",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
     "quality-gates/ratchet-design",
@@ -14980,6 +15042,7 @@
     "async-ui-states/arrival-choreography",
     "audit-logging/append-only-design",
     "audit-logging/decision-records",
+    "authorization/identity-bearing-keys",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-supervision",
     "canvas-graph/direct-manipulation",
@@ -15273,6 +15336,7 @@
     "alerting/alert-lifecycle",
     "app-shell/shell-hosted-services",
     "audit-logging/retention-and-partitioning",
+    "authorization/identity-bearing-keys",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-supervision",
     "build-economics/cache-budgeting",
@@ -15442,6 +15506,7 @@
     "app-shell/navigation-model",
     "authorization/declarative-requirements",
     "authorization/failure-direction",
+    "authorization/identity-bearing-keys",
     "authorization/privilege-tiers",
     "authorization/scope-design",
     "build-economics/capability-feature-gating",
@@ -15562,6 +15627,7 @@
     "public-verdict-badge/customization-scope-guard",
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/neutral-state-vocabulary",
+    "quality-gates/chokepoint-tag-registry",
     "quality-gates/policy-projection",
     "readiness-passports/named-vs-capability-metadata",
     "realtime-events/event-registry",
