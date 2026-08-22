@@ -26,6 +26,7 @@ when the run ends. A note quotes an anchor, never a corpus.
 
 | Date | Source | Kind | Words | Extracted | Accepted | Leads | Caught | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-22 | `youtube:bxp4G-oJATM` - "Difficulty in Video Games" | designer-talk | 2332 | 6 | 5 | 0 | 0 | [[2026-08-22-game-difficulty]] - landed on `research/game-difficulty` + cross-repo |
 | 2026-08-22 | `youtube:3MP8D-mdheA` - "How To De-Slop A Codebase Ruined By AI" | practitioner-deep-dive (technique demo) | 2456 | 6 | 0 (+1 dispatched) | 0 | 1 | [[2026-08-22-de-slop-a-codebase]] |
 | 2026-08-22 | `youtube:gaDdrDdczO4` - "New Skills! v1.2..." | practitioner-deep-dive (skill-library release) | 2514 | 10 | 5 | 0 | 2 | [[2026-08-22-skills-v1-2-release]] |
 | 2026-08-22 | `youtube:u8Im0l_vwqM` - "Inside DeepWiki: How Cognition Builds Wikis for Devin at Scale" | practitioner-deep-dive | 2974 | 10 | 2 (+1 proposed) | 0 | 1 | [[2026-08-22-inside-deepwiki]] |
@@ -39,8 +40,17 @@ here after it has been seen twice, with the incident that taught it.
 
 | Class | Reliable for | Not reliable for |
 | --- | --- | --- |
+| Designer talk (domain craft, no tooling) | The STRUCTURE of a domain's received wisdom - the decomposition, the named hazards, the shapes practitioners converge on. | Whether any particular studio's version is best, and anything about software. Its findings never route to `software-engineering`; they route to a domain bundle, which may not be on the branch you are standing on. |
 | First-party practitioner deep-dive | What they built, what they measured, and what changed when they changed it. Facts about one system, from the person who changed it - no corroboration lane improves on that. | What works in GENERAL. The sample is one pipeline at one company, so a measured result is an existence proof, not a distribution. |
 | Mixed AI-news roundup | That the world moved: a release happened, a price changed, a benchmark was published. | Why it matters, whether it is true, whether it is new. Its claims are second-hand by construction. |
+
+**Designer talk, first observation (2026-08-22).** A teacher explaining an established
+body of practice - neither second-hand survey nor first-party account. The class has one
+defining property for this registry: **it has a placement problem before it has a content
+problem.** Its natural home was a bundle living on a different branch, which the mapping
+instrument cannot see, so the instrument reported "no prior art" for a topic a sibling
+branch covers in two subjects. The corpus is bigger than any one branch and the tooling
+does not know it.
 
 **First-party practitioner deep-dive, second observation (2026-08-22) - the row is
 earned, and one sub-class is worth seeking out.** Both observations confirmed the split:

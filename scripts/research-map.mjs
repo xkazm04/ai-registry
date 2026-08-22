@@ -40,6 +40,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -316,7 +317,21 @@ const scoreTerm = (term) => {
 const results = terms.map(scoreTerm);
 
 // ---------------------------------------------------------------- report
+// The corpus is bigger than any one branch: this repository carries bundles on
+// feature branches that a checkout of another branch simply does not contain. The
+// scan cannot see them, so it says which branch it read rather than letting an
+// empty result be mistaken for an absent subject.
+let branch = null;
+try {
+  branch = execFileSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+    cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'],
+  }).trim();
+} catch {
+  /* not a git checkout, or git unavailable: the warning is simply omitted */
+}
+
 const scanned = {
+  branch,
   bundles: bundles.map((b) => b.domain),
   subjects: subjectCount,
   techniques: bundles.reduce(
@@ -335,6 +350,14 @@ console.log(
   `research-map: ${terms.length} term(s) against ${scanned.subjects} subjects / ${scanned.techniques} techniques ` +
     `in ${scanned.bundles.length} bundle(s)${deep ? ' [deep: use_when read]' : ''}`,
 );
+console.log(`  scanned: ${scanned.bundles.join(', ')}`);
+if (scanned.branch) {
+  console.log(
+    `  branch:  ${scanned.branch} - THIS WORKING TREE ONLY. Bundles that exist on other branches are` +
+      ' invisible here, and a "no prior art" result over a domain this branch does not carry is a fact' +
+      ' about the checkout, not about the corpus. Check `git branch` before trusting an empty.',
+  );
+}
 
 for (const r of results) {
   console.log(`\nterm: "${r.term}"`);
