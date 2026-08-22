@@ -30,11 +30,9 @@ These are a record of this sweep, not an input to the next one. Recompute with
 ## What is owed
 
 - an application for 2 subject(s): docs-sync, p2p-networking
-- a second stack for 56 subject(s) - the transplant claim is untested at one
-  (the external-reconcile lane has cleared nine: retry-backoff in [[2026-08-22-1]];
-  migrations, embedded-db, sync-replication, data-access in [[2026-08-22-2]];
-  observability-telemetry, self-healing, webhook-ingestion, admission-queue in
-  [[2026-08-22-4]])
+- a second stack for 52 subject(s) - the transplant claim is untested at one
+  (the external-reconcile lane has cleared thirteen across [[2026-08-22-1]],
+  [[2026-08-22-2]], [[2026-08-22-4]] and [[2026-08-22-5]])
 - a reporting installation - demand for every subject here is UNKNOWN, not zero
 - a maturity signal - all 126 documents say `forged`, nothing has ever been reconciled or transplant-tested
 
@@ -51,6 +49,10 @@ read a real codebase, which is why none of it is a bulk-model job.
 - **migrations** (5) - single stack (rust); never swept by the librarian
 
 ## Dispatched
+
+[[2026-08-22-5]] - the third wave: Temporal's schedule compiler, River's
+resumable steps, Vault's lease machinery and the MCP TypeScript SDK's
+transports. Two convergence families now waiting on the next technique cycle.
 
 [[2026-08-22-4]] - the second wave: Sentry's SDK, Argo Rollouts, Convoy and the
 Kubernetes API server's flow control, with the technique cycle [[2026-08-22-3]]

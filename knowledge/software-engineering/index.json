@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 129,
   "techniques": 793,
-  "applications": 327,
+  "applications": 331,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -3037,6 +3037,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "token-refresh-lifecycle",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/go--token-refresh-lifecycle.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "brokered-egress",
@@ -6189,6 +6195,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "step-position-and-resumability",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/go--step-position-and-resumability.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "job-state-machines",
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--job-state-machines.md",
@@ -6900,6 +6912,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "transport-selection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--transport-selection.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "authentication-and-scoping",
@@ -10936,6 +10954,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "next-run-computation",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/applications/go--next-run-computation.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "overlap-and-reentrancy",
