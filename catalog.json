@@ -191,10 +191,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 14,
-      "techniques": 83,
+      "techniques": 84,
       "applications": 32,
-      "files": 134,
-      "contentHash": "sha256:52bc9d139d7e9267"
+      "files": 135,
+      "contentHash": "sha256:e9c2b2c9f86b4264"
     },
     {
       "name": "recruiting",
@@ -217,10 +217,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 124,
-      "techniques": 757,
+      "techniques": 760,
       "applications": 308,
-      "files": 1194,
-      "contentHash": "sha256:873d828d7f8d62db"
+      "files": 1197,
+      "contentHash": "sha256:dca92f06e32eed3b"
     }
   ]
 }

@@ -60,6 +60,38 @@ with extra steps. A grant names:
   "trust the machine tonight" into "trust the machine tonight *up to this
   much*", which is what the operator actually meant.
 
+## An inferred scope is not an enumerated one
+
+The scope above is a **list**: action classes, agents, ceilings, all written
+down before the run. The tempting substitute, especially when unattended
+becomes a product's default rather than an operator's deliberate grant, is to
+enumerate nothing and let a model decide at action time whether each step is
+consequential enough to ask about. “Auto-approve everything unless it looks
+harmful” is a grant whose scope is a judgment, and it differs from an
+enumerated grant in three ways that all matter at once.
+
+- **It cannot be read before it runs.** An enumerated scope tells the operator
+  what they are agreeing to; an inferred one can only be discovered by
+  observing what it did, which is the review they were trying to avoid.
+- **Its failures are silent in the direction that hurts.** A classifier that
+  wrongly asks costs one interruption. A classifier that wrongly proceeds
+  spends, sends or deletes — and produces a record showing an auto-approval
+  that looked exactly like every correct one.
+- **It has no stable predicate**, so the retrospective counts stop meaning
+  one thing across runs: “42 auto-approved” under an enumerated grant is 42
+  actions of known classes, and under an inferred one it is 42 actions the
+  classifier felt fine about that day
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
+
+The resolution is not to refuse the classifier — it is genuinely useful for the
+long tail an enumeration cannot anticipate. It is to keep it **subordinate to
+the list**: the mandatory-gate categories stay enumerated and always ask, the
+classifier operates only inside the classes the grant already covers, and its
+verdict is recorded as a distinct decider so that “auto-approved by enumerated
+scope” and “auto-approved by judgment” are separable in the morning. A
+classifier that can override the enumeration is not a scope refinement; it is
+the enumeration deleted, with a plausible-sounding step in front of it.
+
 ## The grant expires
 
 A standing grant is created state and names its reaper

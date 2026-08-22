@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 14,
-  "techniques": 83,
+  "techniques": 84,
   "applications": 32,
   "laws": 8,
   "categories": [
@@ -14,7 +14,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "83/83",
+  "use_when_coverage": "84/84",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -63,6 +63,21 @@
       "starting a research run",
       "a verdict feels too clean",
       "checking whether a finding is a discovery or confirmation bias"
+     ]
+    },
+    {
+     "slug": "provenance-signal-asymmetry",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging whether a source was machine-written",
+      "grading research pulled from the open web",
+      "deciding what a provenance detector's result licenses you to claim",
+      "handling machine-provenance marks on your own published output"
      ]
     },
     {
@@ -1473,6 +1488,7 @@
    "techniques": [
     "content-research-grounding/evidence-grading-ladder",
     "content-research-grounding/pre-linked-causal-mechanisms",
+    "content-research-grounding/provenance-signal-asymmetry",
     "content-research-grounding/scale-conversion-of-numbers",
     "content-research-grounding/unknowns-as-constraints",
     "creator-voice-and-tone/delivery-rate-budgeting",
@@ -1498,6 +1514,7 @@
    "techniques": [
     "content-research-grounding/evidence-grading-ladder",
     "content-research-grounding/prior-declaration-and-steel-man",
+    "content-research-grounding/provenance-signal-asymmetry",
     "content-research-grounding/unknowns-as-constraints",
     "creator-voice-and-tone/dial-vs-subject-property",
     "creator-voice-and-tone/spoken-delivery-direction",

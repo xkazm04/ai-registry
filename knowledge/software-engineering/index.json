@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 124,
-  "techniques": 757,
+  "techniques": 760,
   "applications": 308,
   "laws": 9,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "124/757",
+  "use_when_coverage": "127/760",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -437,6 +437,23 @@
       "ranking what to recall",
       "tuning how fast memory ages",
       "deciding what may be forgotten"
+     ]
+    },
+    {
+     "slug": "procedure-promotion",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door",
+      "creation-names-reaper",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a repeated observed workflow into a callable capability",
+      "deciding whether a distilled procedure should be recalled or invoked",
+      "capturing a task from a demonstration",
+      "auditing a library of auto-generated skills"
      ]
     },
     {
@@ -7208,6 +7225,22 @@
      "shared_with": []
     },
     {
+     "slug": "metered-step-selection",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which step in a flow a limit applies to",
+      "limiting abuse that costs almost nothing to produce",
+      "deciding between capping creation and capping export",
+      "auditing a limiter that never fires while the harm continues"
+     ]
+    },
+    {
      "slug": "refusal-contract",
      "status": "forged",
      "laws": [
@@ -7897,6 +7930,23 @@
       "failure-not-empty-success"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "retrieval-triggering",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a request needs the corpus at all",
+      "cutting retrieval latency and context spend",
+      "diagnosing answers that were degraded by irrelevant recall",
+      "wiring a retrieval call into an agent turn"
+     ]
     }
    ],
    "applications": [
@@ -10687,6 +10737,7 @@
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
     "rate-limiting/limiter-topology",
+    "rate-limiting/metered-step-selection",
     "realtime-events/event-registry",
     "release-pipeline/pipeline-staging",
     "release-pipeline/release-verification",
@@ -10968,6 +11019,7 @@
     "retrieval/embedding-lifecycle",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
+    "retrieval/retrieval-triggering",
     "retry-backoff/circuit-breakers",
     "retry-backoff/retry-observability",
     "scheduling/missed-run-semantics",
@@ -11141,6 +11193,7 @@
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/stop-reason-ledgers",
     "agent-memory/coverage-instrumentation",
+    "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
     "alerting/dedup-and-cooldown",
     "analytics-time-windows/baseline-as-window-start",
@@ -11282,6 +11335,7 @@
     "quality-gates/severity-by-construction",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
+    "rate-limiting/metered-step-selection",
     "readiness-passports/blocker-rollups",
     "readiness-passports/named-vs-capability-metadata",
     "readiness-passports/two-axis-readiness",
@@ -11295,6 +11349,7 @@
     "retrieval/hybrid-lane-fusion",
     "retrieval/ranking-budgets",
     "retrieval/retrieval-evaluation",
+    "retrieval/retrieval-triggering",
     "retry-backoff/retry-observability",
     "scheduling/cooldown-and-debounce",
     "schema-driven-ui/spec-validation-and-repair",
@@ -11353,6 +11408,7 @@
     "admission-queue/priority-and-fairness",
     "agent-chaining/chain-identity-and-rollup",
     "agent-memory/episodic-capture",
+    "agent-memory/procedure-promotion",
     "agent-memory/working-memory",
     "alerting/alert-lifecycle",
     "alerting/dedup-and-cooldown",
@@ -11517,6 +11573,7 @@
     "agent-chaining/run-conditions",
     "agent-memory/consolidation",
     "agent-memory/memory-governance",
+    "agent-memory/procedure-promotion",
     "agent-memory/rollup-compaction",
     "alerting/rule-authoring-validation",
     "analytics-time-windows/range-precedence-resolution",
@@ -11639,6 +11696,7 @@
     "agent-chaining/graph-to-wiring-translation",
     "agent-memory/decay-and-forgetting",
     "agent-memory/episodic-capture",
+    "agent-memory/procedure-promotion",
     "agent-memory/working-memory",
     "alerting/alert-lifecycle",
     "app-shell/shell-hosted-services",
@@ -11926,6 +11984,7 @@
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/neutral-state-vocabulary",
     "quality-gates/policy-projection",
+    "rate-limiting/metered-step-selection",
     "readiness-passports/named-vs-capability-metadata",
     "realtime-events/event-registry",
     "release-pipeline/version-single-truth",
@@ -11936,6 +11995,7 @@
     "repo-manifest-standard/pointers-not-embeds",
     "repo-manifest-standard/semver-additive-evolution",
     "repo-manifest-standard/spec-ships-with-artifact",
+    "retrieval/retrieval-triggering",
     "retry-backoff/error-classification-for-retry",
     "scheduling/trigger-matching",
     "schema-driven-ui/action-consent-wiring",
@@ -12090,6 +12150,7 @@
     "repo-manifest-standard/generated-from-provenance",
     "retrieval/chunking-and-indexing",
     "retrieval/embedding-lifecycle",
+    "retrieval/retrieval-triggering",
     "scheduling/next-run-computation",
     "scoring-rubrics/weight-design",
     "search/full-text-indexing",

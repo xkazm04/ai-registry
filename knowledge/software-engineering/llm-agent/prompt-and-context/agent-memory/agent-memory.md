@@ -13,6 +13,7 @@ techniques:
   - memory-value-model
   - rollup-compaction
   - coverage-instrumentation
+  - procedure-promotion
 ---
 
 # Agent memory
@@ -205,6 +206,27 @@ overrides a belief, that correction supersedes immediately and is itself
 remembered — with provenance marking it as operator-issued, the highest
 grade of evidence the system knows.
 
+## When a procedure stops being a memory
+
+Consolidation produces facts, preferences and **procedures**, and the first two
+have found their destination once they can be recalled. A procedure has not. A
+recalled procedure is advisory text the model re-interprets every time, so the
+agent re-derives its most common work forever, slightly differently on each
+run.
+
+Promotion is the boundary where a remembered procedure becomes a named,
+invocable, versioned capability — something the agent *runs* rather than
+*reads*. The bar is higher than consolidation's because the output executes:
+counted recurrence, a step sequence that varies only in its inputs, a stateable
+outcome, and either bounded consequence or an approval gate. Capture comes from
+observation (real, but silent about which steps were essential) or from a human
+demonstration (intentional, but silent about generality); neither is sufficient
+alone. Promotion goes through one door, mints its own identity, keeps its
+provenance, re-promotes as a new version rather than an overwrite, and — being
+created state — names its reaper. The source memory survives: it is the
+evidence the capability exists for.
+[procedure-promotion](./techniques/procedure-promotion.md) owns the boundary.
+
 ## Failure modes this standard exists to prevent
 
 - **Confabulation with persistence** — beliefs stored without provenance,
@@ -254,6 +276,9 @@ grade of evidence the system knows.
   of redundant items into one superseding summary: the symmetric measure,
   the minimum family size, silence over invention, and the confidence
   ceiling.
+- [procedure-promotion](./techniques/procedure-promotion.md) — the memory-to-
+  capability boundary: promotion bar, demonstration versus observation, one
+  door, versioning, retirement.
 - [coverage-instrumentation](./techniques/coverage-instrumentation.md) — the
   absence-first instrument: the denominator is the tracked population, and
   honest zeros over flattering ones.

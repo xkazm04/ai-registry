@@ -26,6 +26,7 @@ when the run ends. A note quotes an anchor, never a corpus.
 
 | Date | Source | Kind | Words | Extracted | Accepted | Leads | Caught | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-22 | `youtube:NC4h5kWH_-A` - "AI News: The AI Agent Race Just Exploded" | mixed-ai-news-roundup | 6958 | 10 | 4 | 1 | 2 | [[2026-08-22-ai-agent-race-exploded]] |
 | 2026-08-21 | `youtube:EfGF7QbJItA` - "AI News: The Best Open Model Runs on Your Computer!" | mixed-ai-news-roundup | 6507 | 12 | 1 | 0 | 0 | [[2026-08-21-ai-news-open-model-local]] |
 
 ## Source classes, and what each is trusted for
@@ -36,6 +37,21 @@ here after it has been seen twice, with the incident that taught it.
 | Class | Reliable for | Not reliable for |
 | --- | --- | --- |
 | Mixed AI-news roundup | That the world moved: a release happened, a price changed, a benchmark was published. | Why it matters, whether it is true, whether it is new. Its claims are second-hand by construction. |
+
+**Mixed AI-news roundup, second observation (2026-08-22) - the class row is now
+earned.** Two runs, same channel, and the pattern held in both directions. The class
+located four real gaps and was *wrong* about two things the corpus has measured (the
+precision-tier rule in run 1, the throughput-buys-thinking claim in run 2), plus a third
+it got backwards on agent identity. Yield is not a property of the class but of where
+its segments happen to land: run 1 hit model and media subjects and produced one
+finding, run 2 hit `llm-agent` and produced four.
+
+The second observation adds something the first could not show: **the class becomes
+authoritative in aggregate.** Two independent vendors across two runs shipped the same
+"observed repetition becomes a named skill" feature, which met the upper-layer
+corroboration bar with no web fetch at all. That only worked because run 1 wrote down
+its untriaged candidates - a vocabulary with only "declined" in it would have lost the
+first half of the pair.
 
 **Mixed AI-news roundup, first observation (2026-08-21).** The class did exactly what the
 row predicts. The one segment that reached a landed finding named a real hole in the
