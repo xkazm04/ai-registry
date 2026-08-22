@@ -233,8 +233,13 @@ is a different value from "fine".
 
 Tension curves, beat structure and the plain-language narrative of how a fight *felt*
 are a neighbouring concern and are not this subject's output; nor is sensitivity analysis
-over economy outcomes, which shares the sweep machinery but not the question. This
-subject stops at the number and its trustworthiness.
+over economy outcomes, which shares the sweep machinery but not the question. Nor is the
+design-side question the harness's own reference build quietly assumes an answer to — a
+standing cast fixes player *power*, and says nothing about player *skill*, which is the
+one term of difficulty nobody can set and every result here is conditional on. What
+difficulty is composed of, who declares it, and what may adapt during play is a separate
+subject that this one supplies evidence to. This subject stops at the number and its
+trustworthiness.
 
 ## The path, in order
 

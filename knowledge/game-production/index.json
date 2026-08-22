@@ -3,8 +3,8 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 40,
-  "techniques": 237,
+  "subjects": 41,
+  "techniques": 241,
   "applications": 108,
   "laws": 11,
   "categories": [
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "237/237",
+  "use_when_coverage": "241/241",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1336,6 +1336,76 @@
      "verified_on": "2026-08-20"
     }
    ]
+  },
+  "difficulty-design-and-adaptation": {
+   "category": "balance-validation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/difficulty-design-and-adaptation.md",
+   "techniques": [
+    {
+     "slug": "four-term-difficulty-decomposition",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a difficulty complaint has no agreed cause",
+      "deciding which term a difficulty change should move",
+      "writing down what a difficulty setting actually scales",
+      "a balance figure assumes a player nobody has described"
+     ]
+    },
+    {
+     "slug": "player-chosen-challenge-and-adjustment-hazards",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing difficulty settings or opt-in modifiers",
+      "adding a system that adjusts difficulty from live performance",
+      "players have discovered how to game an adjustment",
+      "deciding whether an adjustment should be visible"
+     ]
+    },
+    {
+     "slug": "setting-bounded-overlapping-bands",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "combining a difficulty setting with live adjustment",
+      "an adaptive system is overriding the player's chosen setting",
+      "deciding how far a difficulty system may drift",
+      "difficulty settings feel like disjoint games"
+     ]
+    },
+    {
+     "slug": "skill-scaling-versus-power-scaling",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a higher difficulty tier",
+      "an elite variant is only a bigger version of its base",
+      "deciding what a new difficulty level should change",
+      "an opponent has become unbeatably fast or accurate"
+     ]
+    }
+   ],
+   "applications": []
   },
   "encounter-balance-simulation": {
    "category": "balance-validation",
@@ -4507,6 +4577,9 @@
     "design-doc-compliance-scoring/declared-mapping-is-terminal",
     "design-doc-compliance-scoring/evidence-age-envelope",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "difficulty-design-and-adaptation/four-term-difficulty-decomposition",
+    "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
+    "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
     "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
     "encounter-balance-simulation/kill-share-and-damage-share-attribution",
     "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
@@ -4628,6 +4701,7 @@
     "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
     "design-canon-as-executable-law/self-declared-budget-enforcement",
     "design-doc-compliance-scoring/declared-mapping-is-terminal",
+    "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
     "encounter-balance-simulation/monte-carlo-scenario-presets",
     "engine-integration-safety/editor-thread-timeout-budgeting",
     "engine-integration-safety/pid-scoped-teardown",
@@ -4715,6 +4789,10 @@
     "design-doc-compliance-scoring/coverage-vs-conformance-split",
     "design-doc-compliance-scoring/evidence-age-envelope",
     "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
+    "difficulty-design-and-adaptation/four-term-difficulty-decomposition",
+    "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
+    "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
     "encounter-balance-simulation/kill-share-and-damage-share-attribution",
     "encounter-balance-simulation/monte-carlo-scenario-presets",
     "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
@@ -4960,6 +5038,7 @@
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "design-canon-as-executable-law/shape-check-vs-content-invariant",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
     "encounter-balance-simulation/tier-band-peer-outlier-linting",
     "engine-integration-safety/judge-by-log-markers-not-exit-code",
     "engine-pitfall-corpus/incident-entry-shape",

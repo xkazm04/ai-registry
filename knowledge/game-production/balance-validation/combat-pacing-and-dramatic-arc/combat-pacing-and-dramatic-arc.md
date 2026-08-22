@@ -209,6 +209,11 @@ captured from real play. The semantics of the individual attacks — telegraph w
 escapability, cancel rules — are another neighbour, upstream of the curve rather than part of
 it.
 
+So is the design-side model this instrument reports against. What difficulty is made of, which
+of its terms a designer can actually set, who is allowed to choose the setting, and what a
+system may adjust while the player is watching are a separate subject. A curve says the fight
+is flat; it does not say which lever to move, and this subject deliberately does not either.
+
 One neighbour deserves more than a boundary line, because it shares this subject's central
 idea one level up. The same pacing thinking applies at room-graph scale, where the questions
 are whether three or more combat spaces run back to back, whether difficulty jumps or drops by
