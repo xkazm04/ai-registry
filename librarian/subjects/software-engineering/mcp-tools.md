@@ -77,3 +77,4 @@ None.
 ## Applied to the technique layer
 
 - 2026-08-22-8: **checks on unless deliberately removed** (opt-in-guard family) applied to `transport-selection` ([[2026-08-22-8]]).
+- 2026-08-22-10: `transport-selection` now cites the promoted `absent-guard-is-loud` law ([[2026-08-22-10]]).

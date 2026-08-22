@@ -1,9 +1,10 @@
 # Cross-cutting laws
 
-Ten convergences, nine measured ≥3 independent times during the 2026 composition
+Twelve convergences, nine measured ≥3 independent times during the 2026 composition
 campaign and reclassified by `knowledge-hierarchy-plan.md` (`docs/concepts/knowledge-hierarchy-plan.md`)
-§2 from Golden-Path candidates to **laws that Techniques cite**; the tenth earned its
-place from four sightings in the external-reconcile lane (librarian runs 2026-08-22). They are not subjects —
+§2 from Golden-Path candidates to **laws that Techniques cite**; the tenth through
+twelfth each earned their place from four sightings in the external-reconcile lane
+(librarian runs 2026-08-22). They are not subjects —
 no folder, no techniques of their own. Cite them from a Technique's `laws:` frontmatter
 by anchor id. The doctrine's transferable sections migrate here in the closing pass;
 until then each law carries its one-paragraph statement.
@@ -77,3 +78,24 @@ message text, a policy denial re-thrown as the last underlying failure — in ea
 classification exists where it was computed and dies where it mattered. The test is what
 the outermost consumer can branch on; a verdict that survives only as prose has not
 survived.
+
+## <a id="absent-guard-is-loud"></a> absent-guard-is-loud
+
+An optional guard is an absent guard. A check that must be configured, mounted, or
+switched on protects the examples and not the installations — a deployed fleet converges
+on the default, and the default is off. Either the guard engages on its own, or its
+absence is loud: a logged, visible, deliberate choice. A system that degrades to
+unguarded because a config row is missing, a validator was not attached, or a strict
+mode was not requested has made its most important decision silently — and the vendor
+that ships the safe mode without self-enabling it has signed the same waiver.
+
+## <a id="unknown-is-not-a-value"></a> unknown-is-not-a-value
+
+Unknown must never render as a definite value. A nil zero-filled into "offline", an
+absent ledger read as "never migrated", an unset sentinel that collides with the
+strictest legitimate setting, a lost outcome published as a synthetic exit code — each
+converts "we do not know" into a confident claim exactly where confidence misleads
+most, and the laundering point is always a boundary where an optional type meets a
+non-optional one. Sibling of failure-not-empty-success, and distinct: that law
+separates failure from empty success; this one separates unknown from every definite
+value, including zero.

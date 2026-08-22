@@ -35,3 +35,7 @@ central noun does not exist.
   endpoint re-derivation) - untouched, banked for a future wave.
 - The zero-filling optional accessor as an observability-lane hazard note.
 - Timing constants that state what they trade - constants-as-documented-policy.
+
+## Applied to the technique layer
+
+- 2026-08-22-10: `peer-state-honesty` now cites the promoted `unknown-is-not-a-value` law - its own text was already the family's cleanest prose ([[2026-08-22-10]]).

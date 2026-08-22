@@ -34,3 +34,7 @@ question is triggered; see [[2026-08-22-9]].
   authorization-audit's "audit failure is visible, not blocking".
 - Secure default and its warning must move together (AuthorizationOff as zero
   value; warning wired only to the legacy path).
+
+## Applied to the technique layer
+
+- 2026-08-22-10: this subject's OPA sighting was the fourth that triggered `absent-guard-is-loud`; the law landed in the three prose-carrying homes, and `failure-direction` was deliberately NOT wired (no anchoring prose) ([[2026-08-22-10]]).

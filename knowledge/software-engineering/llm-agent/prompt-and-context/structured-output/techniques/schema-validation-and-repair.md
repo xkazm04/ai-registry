@@ -4,7 +4,7 @@ type: technique
 subject: structured-output
 technique: schema-validation-and-repair
 status: forged
-laws: [one-validation-door, failure-not-empty-success, one-authority-per-vocabulary, verdict-survives-boundary]
+laws: [one-validation-door, failure-not-empty-success, one-authority-per-vocabulary, verdict-survives-boundary, absent-guard-is-loud, unknown-is-not-a-value]
 shared_with: []
 use_when: [deciding whether a candidate artifact passes the door, missing values arrive as confident zeros, repairs keep succeeding by deleting content]
 ---

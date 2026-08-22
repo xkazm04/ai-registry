@@ -38,3 +38,4 @@ single-stack debt cleared. Hint held.
 
 - 2026-08-22-6: **fail closed when the dedup instrument fails** applied to `duplicate-and-replay-dedup` ([[2026-08-22-6]]).
 - 2026-08-22-8: **the digest fallback is the default, not a feature** (opt-in-guard family) applied to `duplicate-and-replay-dedup` ([[2026-08-22-8]]).
+- 2026-08-22-10: `duplicate-and-replay-dedup` now cites the promoted `absent-guard-is-loud` law ([[2026-08-22-10]]).

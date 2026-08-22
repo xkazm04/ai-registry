@@ -32,3 +32,4 @@ single-stack debt is cleared.
 ## Applied to the technique layer
 
 - 2026-08-22-3: **persist the verdict** applied to `error-propagation` ([[2026-08-22-3]]).
+- 2026-08-22-10: `error-propagation` now cites the promoted `unknown-is-not-a-value` law ([[2026-08-22-10]]).

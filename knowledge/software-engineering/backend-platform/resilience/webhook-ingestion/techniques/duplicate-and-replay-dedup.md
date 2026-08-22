@@ -4,7 +4,7 @@ type: technique
 subject: webhook-ingestion
 technique: duplicate-and-replay-dedup
 status: forged
-laws: [identity-survives-reuse, count-carries-predicate]
+laws: [identity-survives-reuse, count-carries-predicate, absent-guard-is-loud]
 shared_with: []
 use_when: [choosing a dedup key for repeated deliveries, one delivery minted two internal events, telling a sender retry from a replay attack]
 ---

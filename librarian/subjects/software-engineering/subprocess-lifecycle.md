@@ -38,3 +38,7 @@ round-trip at daemon load, not heartbeats - no periodic pulse exists.
   will not -> a shutdown/resilience home.
 - ShouldKillAllOnExit as a second failure-direction exemplar -> the sibling
   authorization application's subject.
+
+## Applied to the technique layer
+
+- 2026-08-22-10: this subject's synthetic-exit-status sighting was the fourth that triggered `unknown-is-not-a-value`; `termination-and-reaping` was deliberately NOT wired (no anchoring prose) ([[2026-08-22-10]]).

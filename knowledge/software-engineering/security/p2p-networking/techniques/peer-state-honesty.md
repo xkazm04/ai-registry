@@ -4,7 +4,7 @@ type: technique
 subject: p2p-networking
 technique: peer-state-honesty
 status: forged
-laws: [failure-not-empty-success, derivation-names-recomputation, count-carries-predicate]
+laws: [failure-not-empty-success, derivation-names-recomputation, count-carries-predicate, unknown-is-not-a-value]
 shared_with: []
 use_when: [deciding what evidence earns a peer state, shows the device but won't connect to it, explaining why a peer list came back empty]
 ---
