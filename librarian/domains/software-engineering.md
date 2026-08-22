@@ -30,8 +30,9 @@ These are a record of this sweep, not an input to the next one. Recompute with
 ## What is owed
 
 - an application for 2 subject(s): docs-sync, p2p-networking
-- a second stack for 64 subject(s) - the transplant claim is untested at one
-  ([[2026-08-22-1]] cleared retry-backoff via the external-reconcile lane)
+- a second stack for 60 subject(s) - the transplant claim is untested at one
+  (the external-reconcile lane has cleared five: retry-backoff in [[2026-08-22-1]];
+  migrations, embedded-db, sync-replication and data-access in [[2026-08-22-2]])
 - a reporting installation - demand for every subject here is UNKNOWN, not zero
 - a maturity signal - all 126 documents say `forged`, nothing has ever been reconciled or transplant-tested
 
@@ -48,6 +49,10 @@ read a real codebase, which is why none of it is a bulk-model job.
 - **migrations** (5) - single stack (rust); never swept by the librarian
 
 ## Dispatched
+
+[[2026-08-22-2]] - four subjects reconciled in parallel against golang-migrate,
+SQLite, Litestream and Prisma; the lane's first wave, with per-worker citation
+re-check and director spot-checks holding at scale.
 
 [[2026-08-22-1]] - one subject reconciled against an external world-class tree
 (`smithy-lang/smithy-typescript`); the pilot of that lane.

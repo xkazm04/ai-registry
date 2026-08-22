@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 128,
   "techniques": 779,
-  "applications": 317,
+  "applications": 321,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -3119,6 +3119,12 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "transactions-and-units-of-work",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--transactions-and-units-of-work.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "query-construction",
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--query-construction.md",
@@ -4439,6 +4445,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "c",
+     "technique": "journal-and-durability-modes",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/c--journal-and-durability-modes.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "quiet-window-maintenance",
@@ -7369,6 +7381,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "error-propagation",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/applications/go--error-propagation.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "idempotent-steps",
@@ -12385,6 +12403,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "sync-observability",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/go--sync-observability.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "change-tracking-and-cursors",
