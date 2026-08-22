@@ -25,6 +25,44 @@ has made every future addition a breaking change, and the standard's practical
 answer becomes "never extend," which is how conventions calcify and get replaced
 by whatever is willing to grow.
 
+## The one case where ignoring INVERTS the author's intent
+
+Before the strict set: there is a class of field for which *must ignore* is
+correct as a compatibility rule and dangerous as a behavioural one, and it is
+worth separating from the exceptions below because the fix is different.
+
+A **descriptive** field — a label, a category, an extra pointer — degrades
+gracefully when ignored. The reader does less than it could; nothing happens
+that the author did not want.
+
+A **restrictive** field does not. `do not load this automatically`,
+`never invoke without confirmation`, `treat this as untrusted` — each states
+something the author wants the reader *not* to do. A reader that ignores it does
+not do less; it does the thing the field existed to prevent. The declaration
+fails **open**, silently, and the artifact behaves in a way its author believes
+they have ruled out. That is not a portability gap, it is a behaviour inversion,
+and the more conformant the ignoring reader is the more completely it happens.
+
+The rule that follows is about the author's obligations, not the reader's — the
+reader is behaving correctly, and no amount of specification changes what an
+already-shipped runtime does:
+
+- **Know which readers honour a restriction before relying on it.** For a
+  restrictive field, "the spec says so" is not an answer to "what happens in
+  practice"; only the roster of readers is.
+- **Express the restriction in each runtime's own vocabulary**, as a
+  per-consumer artifact beside the neutral one. This is
+  [consumer-overlays](../../knowledge-registry/techniques/consumer-overlays.md)'
+  split applied to behaviour rather than to configuration: one neutral
+  declaration of what the artifact IS, and one overlay per consumer saying it in
+  terms that consumer already enforces. The neutral field stays — it is what a
+  future reader will honour — but it is not what makes the restriction hold
+  today.
+- **Design restrictions to fail toward the safer behaviour where the format
+  allows it.** A field that must be *present* to unlock something is honoured by
+  an ignoring reader; a field that must be present to *forbid* something is not.
+  Where the choice exists, spend it here.
+
 ## Where strictness is still correct
 
 *Must ignore* is not *must accept anything*. The narrow strict set:

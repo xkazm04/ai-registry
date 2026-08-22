@@ -7,7 +7,7 @@ dry_streak: 0
 
 # public-claim-provenance
 
-First touch: [[2026-08-22-3]] — the 2026-08-22 harvest wave. Class: NEW.
+First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: NEW.
 
 ## State
 

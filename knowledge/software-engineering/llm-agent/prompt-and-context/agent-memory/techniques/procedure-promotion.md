@@ -1,0 +1,139 @@
+---
+layer: technique
+type: technique
+subject: agent-memory
+technique: procedure-promotion
+status: forged
+laws: [identity-survives-reuse, one-validation-door, creation-names-reaper, count-carries-predicate]
+shared_with: []
+use_when: [turning a repeated observed workflow into a callable capability, deciding whether a distilled procedure should be recalled or invoked, capturing a task from a demonstration, auditing a library of auto-generated skills]
+---
+
+# Procedure promotion
+
+[consolidation](./consolidation.md) distils episodes into durable items, and one
+of the kinds it produces is a **procedure** — the agent's belief about how a
+recurring task is done. Everything else in this subject then treats that item
+the way it treats any other belief: it is scored by the
+[value model](./memory-value-model.md), selected by
+[recall-injection](./recall-injection.md), and pushed into context as text the
+model reads.
+
+For a fact or a preference, that is the right destiny. For a procedure it is a
+half-measure, and this technique owns the other half: **the point at which a
+remembered procedure stops being something the agent reads and becomes
+something the agent runs.**
+
+The distinction is not cosmetic. A recalled procedure is advisory — injected,
+reinterpreted, and re-derived every time, with a different result whenever the
+context around it differs. A promoted procedure is an artifact: named, invoked
+deliberately, versioned, testable, and reviewable by a human who can read it
+without reading a transcript. The first is memory. The second is capability,
+and a system that only has the first will re-derive its most common work
+forever, slightly differently each time.
+
+## What earns promotion
+
+Promotion is a strictly higher bar than consolidation, because the output is
+executed rather than considered. Four conditions, all of them:
+
+1. **Recurrence, counted.** The procedure has been observed enough times to be
+   a pattern rather than an incident, and the count travels with it
+   ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)) —
+   *observed N times across M sessions* is the record, "seems common" is not.
+2. **Stable shape.** The observed runs vary in their inputs, not in their
+   steps. A procedure whose step sequence differs every time has not been
+   learned; a variable that changes across runs is a parameter, and
+   identifying it correctly is most of the work.
+3. **A stateable outcome.** There is a description of what "it worked" means.
+   Without one the promoted artifact cannot be tested, and an untestable
+   capability is one nobody can safely change later.
+4. **Bounded consequence, or a gate.** A procedure that spends, deletes,
+   sends, or publishes does not become invocable on the strength of having
+   been seen a few times. It gets promoted with a gate attached
+   ([hitl-approval](../../../orchestration/hitl-approval/hitl-approval.md)),
+   or it does not get promoted.
+
+A procedure that fails any of these stays a memory. That is not a failure
+state — it is the correct destination for most of them.
+
+## Capture, and why demonstration is not enough on its own
+
+Two sources feed promotion, and they have opposite weaknesses.
+
+**Observation** — the agent's own [episodic](./episodic-capture.md) record of
+having done the task, repeatedly, in the ordinary course of work. High
+confidence that the steps are real, because they happened; low confidence
+about which parts were essential, because a single trace cannot distinguish the
+necessary step from the incidental one. Repetition across varied contexts is
+what resolves that, which is why the recurrence bar is a bar and not a
+formality.
+
+**Demonstration** — a human performs the task once, deliberately, for the
+agent to learn from. High confidence about intent, because someone chose every
+step; low confidence about generality, because one demonstration is one path
+through a task and shows nothing about its branches, its failure handling, or
+which of its constants were arbitrary.
+
+The two are complementary and neither is sufficient alone. A demonstration
+proposes the shape; observation across repeats confirms which parts of it were
+load-bearing. Promoting from a single demonstration produces a brittle artifact
+that encodes the demonstrator's incidental choices — the window that happened
+to be open, the record that happened to be first — as though they were the
+method.
+
+**Capture carries provenance either way.** A promoted procedure names the
+episodes or the demonstration it came from, for the same reason every other
+item in this subject does: when it later behaves wrongly, the question is what
+it was learned from, and a capability with no trail back to its evidence cannot
+be debugged, only deleted.
+
+## One promotion door
+
+Promotion is a mutation of the agent's capability surface, and it gets exactly
+one door
+([one-validation-door](../../../../_laws.md#one-validation-door)). Whatever
+promotes — a scheduled pass over consolidated procedures, an explicit operator
+action, a demonstration recorder — arrives at the same validator, which checks
+the four conditions, mints the identity, and records the provenance. A second
+path that writes a capability directly is a capability nobody reviewed.
+
+The door is also where the **human's role** in this subject applies at its
+strongest. The standard already holds that an agent does not get to decide
+unilaterally what it believes; it follows immediately that it does not get to
+decide unilaterally what it can *do*. Promotion is the natural review point,
+and reviewing a named artifact with a stated outcome is a tractable ask in a
+way that reviewing a stream of consolidated beliefs is not.
+
+## Identity, versioning, and the memory it came from
+
+A promoted procedure gets its own identity, minted at promotion, never derived
+from its name or from the episodes behind it
+([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)). A
+name is a label a human will want to change; an identity is what invocation
+records, what failures attribute to, and what a later version replaces.
+
+Re-promotion produces a **new version, not a silent overwrite**. The agent
+observes the task again, the steps have shifted, and the honest outcome is a
+second version with its own evidence — because "the skill changed" and "the
+skill was always this" are different facts, and only the first explains a
+behaviour change to someone who noticed one.
+
+The source memory is **not** deleted on promotion. The procedure-as-belief and
+the procedure-as-capability answer different questions ("how is this done
+here?" versus "do it"), and the belief remains the evidence for the
+capability's existence.
+
+## Promoted capabilities accumulate, and name their reaper
+
+A library that only grows is the accretion failure this subject already warns
+about, relocated
+([creation-names-reaper](../../../../_laws.md#creation-names-reaper)). Promoted
+procedures decay in a specific way: the underlying task changes, the system
+they drove moves, and the artifact keeps working in the sense that it runs.
+
+So each carries invocation accounting — when it was last used, how often, and
+whether it succeeded — and unused or persistently failing capabilities are
+surfaced for retirement rather than left to be discovered by the run that
+depended on one. Retirement returns the procedure to its honest state: a
+memory of how something used to be done.

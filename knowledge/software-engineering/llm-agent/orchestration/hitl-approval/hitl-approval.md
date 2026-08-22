@@ -5,6 +5,7 @@ subject: hitl-approval
 status: forged
 techniques:
   - gate-state-machines
+  - human-performed-steps
   - consent-gates
   - review-queues
   - unattended-mode
@@ -41,6 +42,31 @@ They share everything that matters — the pending state, the decision surface,
 the durable record, the continuation — which is why they are one subject and
 not two. A system that builds them separately builds the same machinery twice
 and then lets the two copies disagree about what a decision means.
+
+## A third flow: the human does the work
+
+Both flows above keep the machine as the actor — in each, the human decides and
+the machine does. There is a third case with no gate in it at all, and it is
+handled worst for exactly that reason: **the machine must not perform the step,
+so the human performs it.** Credentials nobody should hand to a process, an
+action bound to a person's identity, a physical act, a provider's terms that
+bind the human rather than their tools.
+
+The default output for it is prose — a numbered list — and prose hands the
+person the whole task: tracking position, retyping values the machine already
+holds, judging whether each step worked. The human was needed for *authority*,
+not for bookkeeping. The right artifact is an **executable runbook** that
+sequences the work, holds the state, prompts for exactly what only they can
+supply, verifies what it can, and resumes where it stopped.
+
+It must be **deterministic** — written by a model, never run by one — which is
+what makes it reviewable before a production credential is pasted into it, and
+what keeps that credential off any inference path. And the flow is not closed
+until the runbook hands back a record of what ran and what was verified, in the
+same vocabulary the other two flows use.
+[human-performed-steps](./techniques/human-performed-steps.md) owns it, including
+the rule that a capability existing only to compensate for a tooling gap states
+the condition under which it should be deleted.
 
 ## When a gate is mandatory
 
@@ -221,6 +247,9 @@ the machine with nobody ever having seen it.
 - [gate-state-machines](./techniques/gate-state-machines.md) — the gate as
   enumerated, durable state on the gated entity; transitions only a human can
   drive; approval invalidation on change.
+- [human-performed-steps](./techniques/human-performed-steps.md) — the third
+  flow: executable runbooks for work the machine must not do, deterministic and
+  secret-safe, and the retirement condition a compensating one carries.
 - [consent-gates](./techniques/consent-gates.md) — the machine-asks-human flow:
   first-use consent, informed consent with impact disclosure, the autonomy
   dial, revocation.

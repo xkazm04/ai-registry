@@ -5,6 +5,7 @@ subject: wizard-flows
 status: forged
 techniques:
   - step-state-model
+  - frontier-batched-elicitation
   - snapshot-and-resume
   - progress-communication
   - branching-and-skipping
@@ -199,6 +200,29 @@ obligations on the transitions:
   association, focus-to-first-invalid on a failed step validation, exactly
   as the [form](../form/form.md) standard prescribes.
 
+## How many questions a turn may carry
+
+Dependence is what makes a wizard a wizard, and it is also what decides turn
+size. One question per turn is safe — every question is asked with its
+prerequisites answered — and it fails at the tail, where the contested decisions
+are behind you and a long run of obvious confirmations is being served one round
+trip at a time. All at once is fast and reintroduces exactly what the ordering
+existed to prevent.
+
+The resolution is the graph the flow already holds: ask **every question whose
+dependencies are satisfied**, in one turn, then recompute the frontier from the
+answers. Batch size is derived rather than tuned, and varies by round on purpose
+— an early round may be one critical question that unlocks a dozen, a late one
+eleven independent confirmations.
+
+The half that does most of the work is that each question carries the answer the
+system would choose, with a one-line reason. That converts the user's job from
+composition to adjudication, which is what makes a batch of eleven humane rather
+than a homework assignment — attention is spent only where a recommendation is
+wrong. A recommendation is a position, never a default that applies on silence.
+[frontier-batched-elicitation](./techniques/frontier-batched-elicitation.md)
+owns the policy, and the setting where it inverts.
+
 ## The techniques
 
 - [step-state-model](./techniques/step-state-model.md) — one reducer/machine
@@ -212,6 +236,9 @@ obligations on the transitions:
 - [branching-and-skipping](./techniques/branching-and-skipping.md) —
   conditional steps as declared predicates, skipped-data hygiene, downstream
   invalidation on revisit.
+- [frontier-batched-elicitation](./techniques/frontier-batched-elicitation.md) —
+  how many questions a turn may carry: the dependency frontier, rounds,
+  recommended answers, and where the opposite rule holds.
 - [ai-driven-elicitation](./techniques/ai-driven-elicitation.md) — generated
   questions inside an owned flow: coverage scoring, bounded follow-ups,
   promotion to durable state.

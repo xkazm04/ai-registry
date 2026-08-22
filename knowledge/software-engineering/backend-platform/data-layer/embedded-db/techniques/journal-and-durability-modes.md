@@ -101,6 +101,20 @@ effective mode and sync level and compare against the contract; a mismatch
 is at minimum a loud diagnostic, and for modes the application's
 concurrency design depends on, a refusal to proceed.
 
+The two halves of the contract have **opposite persistence**, and the
+assertion must respect that. The journaling mode is typically written into
+the store itself — carried in its header, inherited by every process,
+connection and tool that opens the file — so it is signed once per store
+and survives everything short of rewriting the file. The sync level is the
+reverse: a per-connection setting that reverts to the engine default at
+every open, so a contract signed at first run has durably set one half and
+transiently set the other. "Assert at boot" is therefore two acts at two
+frequencies: the mode once per store, the sync level on **every**
+connection the application — or its pool
+([connection-pooling](./connection-pooling.md)) — manufactures. A pool that
+hands out connections without re-asserting the sync clause has quietly
+downgraded the durability contract for every caller after the first.
+
 ## Test the contract, don't cite it
 
 Crash-consistency claims are testable locally: kill the process

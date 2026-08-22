@@ -5,6 +5,8 @@ subject: prompt-assembly
 status: forged
 techniques:
   - layered-composition
+  - context-reachability
+  - house-vocabulary-layer
   - variable-interpolation
   - context-budgeting
   - capability-documentation
@@ -121,6 +123,30 @@ weight:
   [recall-injection](../agent-memory/techniques/recall-injection.md)
   technique governs how that line item is spent.
 
+## What makes a layer a floor: reachability, not importance
+
+The budget above splits layers into floors and elastic allowances, and the axis
+that decides which is which is not importance — it is whether the agent could
+have obtained the material itself, with the tools it already has.
+
+**Reachable** material is a path compression: injecting it buys back tool calls
+and latency, and the agent's ceiling does not move. It is therefore safe to cut
+under pressure, and it is also the material where an error is most expensive —
+the agent would have found the truth on its own, and instead is handed a
+confident falsehood and stops looking. **Unreachable** material — a convention
+visible only across many call sites, a constraint recorded in no file, a fact
+about a system the agent cannot see — moves the ceiling, and omitting it
+produces a fluent wrong answer with no signal attached. That is what a floor is
+for.
+
+Reachability is a property of the *pair*, not of the document: granting a new
+tool demotes a whole class of injected context from floor to elastic, and a
+prompt designed for an agent without search and never revisited is spending its
+budget compressing paths that are now one call long. Each feeder declares the
+class of what it contributes, where the material is produced.
+[context-reachability](./techniques/context-reachability.md) owns the
+classification, its freshness consequence, and the split worth measuring.
+
 ## Determinism, and the fingerprint that makes caching safe
 
 The same inputs must produce the same prompt — byte for byte. Assembly
@@ -149,6 +175,30 @@ and versioned — the fingerprint doubles as the version stamp that ties an
 observed behavior change to the prompt change that caused it. "Who changed
 the prompt, when, and what did calls look like before?" must be answerable
 from artifacts, not memory.
+
+## Verbose output is usually a missing vocabulary
+
+Output that is bloated and generic reads as a style defect and is treated with
+style instructions — be concise, avoid filler, write plainly. Those
+underperform, because the output is not badly styled, it is **ungrounded**: a
+model with no name for the thing it is discussing falls back on general
+language, and general language is verbose by construction. Where a domain has a
+word, prose without that word needs a clause.
+
+So one owned section carries the project's own terms — the nouns for its
+concepts, the verbs for its operations, and the terms it has deliberately
+rejected with what to say instead. Supplying the names compresses the output
+without dropping content, which is what a length instruction cannot do. It is
+also checkable in a way tone is not: "did it use our term or invent one?" is
+nearly an assertion, and a model that renames a concept has shown it is not
+reasoning about the same object the team is — the verbosity was the diagnostic.
+
+The layer is small, permanent and unreachable by definition, which makes it a
+**floor** rather than an elastic allowance, and raises rather than lowers its
+accuracy bar: a term defined wrongly here is adopted confidently and reads more
+authoritative while meaning something the team does not.
+[house-vocabulary-layer](./techniques/house-vocabulary-layer.md) owns the
+section, its one authority, and what belongs in it.
 
 ## Trust classification happens at assembly
 
@@ -196,6 +246,12 @@ a span enters; safety decides *how it is wrapped*.
 - [variable-interpolation](./techniques/variable-interpolation.md) — typed
   variables with declared trust classes and insertion points; loud failure
   on missing inputs; purity of the rendering pass.
+- [house-vocabulary-layer](./techniques/house-vocabulary-layer.md) — the
+  project's own terms as an owned section: why it beats a style instruction,
+  what earns a slot, one authority, and why it is a floor.
+- [context-reachability](./techniques/context-reachability.md) — classifying
+  injected material by whether the agent could have found it itself, and what
+  that implies for floors, freshness and measurement.
 - [context-budgeting](./techniques/context-budgeting.md) — per-layer
   allocation, degradation ladders, summarization thresholds, truncation
   that names its drops, lazy expansion of heavy sections.

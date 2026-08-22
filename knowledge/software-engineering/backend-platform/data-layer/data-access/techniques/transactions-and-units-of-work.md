@@ -67,6 +67,18 @@ What does not work: detecting ambient state by side channel and silently
 skipping the begin — unless the *commit* is skipped symmetrically and
 failure semantics are re-examined, this converts "my operation is atomic"
 into "my operation is atomic sometimes", the worst kind of true statement.
+The subtler version of the same defect is **discriminating ambient state
+by shape** — deciding "we are already inside a transaction" because the
+handle lacks a `begin`, or because it has the methods a transaction would
+have. Shape is a fact about the handle's type; transactional state is a
+fact about this moment, and the two are only correlated. A handle that
+*cannot* open a boundary and a handle that is *already inside* one look
+identical to a shape check — and for the first kind, a multi-statement
+unit runs non-atomically and nothing says so. The discriminator must be
+typed and explicit (the scope handle carries whether a boundary is open),
+never inferred from what the handle happens to be able to do. Reading a
+capability as a state is the same error a status surface makes when it
+reports "running" as "healthy"; it is liveness mistaken for meaning.
 
 ## Errors inside the boundary must reach it
 

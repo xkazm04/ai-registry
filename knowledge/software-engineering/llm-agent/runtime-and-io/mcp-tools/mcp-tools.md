@@ -5,6 +5,7 @@ subject: mcp-tools
 status: forged
 techniques:
   - transport-selection
+  - orchestration-to-tool-migration
   - authentication-and-scoping
   - tool-schema-design
   - server-composition
@@ -151,6 +152,29 @@ subsequent calls. This is
 [untrusted-result-handling](./techniques/untrusted-result-handling.md), and it
 is the technique least optional in the set.
 
+## What belongs on the surface changes as models improve
+
+Which capabilities are exposed as tools is not a fixed answer. Every system
+built around a model sits on a dial between **orchestration** — the pipeline
+decides the sequence, constructs each context, and branches in code — and
+**agency**, where the pipeline supplies capabilities and the agent decides what
+to invoke. The dial's right position is derived from what the model can
+reliably do, and that input keeps moving, so a pipeline built two generations
+ago is usually carrying scaffolding that compensates for a limitation which has
+since lifted.
+
+The migration has a shape. Deterministic work — quantification, scoring,
+indexing, anything that must be reproducible or that runs at a scale no
+reasoning loop can afford — stays a computed first pass. What migrates is the
+*adaptive* half: the rarely-firing conditionals hand-written to approximate
+“something is unusual here”, which become tools the agent calls when it judges
+it needs them. And the move is measured on a **fixed model roster**, because a
+migration shipped alongside an upgrade cannot attribute its result to either —
+against quality, cost per unit of output (which often *improves*, via cache
+reuse), and variance, which is where the surprise usually is.
+[orchestration-to-tool-migration](./techniques/orchestration-to-tool-migration.md)
+owns the candidacy tells, the experiment, and the honest reverse.
+
 ## Sprawl is a quality defect, not a cosmetic one
 
 Every tool listed is prompt space spent and a choice the model can get wrong.
@@ -189,6 +213,9 @@ same obligations as the wire itself:
   who may call and with what: per-consumer capability tokens, scope reuse
   from an existing key registry, audience validation, the no-passthrough
   rule, and open-listing/authenticated-call policies.
+- [orchestration-to-tool-migration](./techniques/orchestration-to-tool-migration.md)
+  — what earns a place on the surface as capability rises, what must stay
+  deterministic, and the fixed-roster experiment that proves the move.
 - [tool-schema-design](./techniques/tool-schema-design.md) — the contract
   itself: naming for selection, argument design for a caller that guesses,
   result shapes for a reader that reasons, and the two error channels.

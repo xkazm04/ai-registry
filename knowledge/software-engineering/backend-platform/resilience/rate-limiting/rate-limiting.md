@@ -13,6 +13,7 @@ techniques:
   - storm-hygiene
   - limit-observability
   - limit-derivation
+  - metered-step-selection
 ---
 
 # Rate limiting
@@ -166,6 +167,32 @@ Every limiter faces one of two directions, and the direction changes what
 
 Both postures use the same algorithms and the same hygiene; they differ in who
 owns the number and what a refusal teaches.
+
+## Which step carries the counter
+
+Before a limit has a number it has a subject: the step the counter increments
+on. The default is the arriving request, because that is where limiting
+middleware naturally sits, and it is right whenever the arriving request is
+what costs. It is wrong whenever the expensive or harmful part of the flow is
+somewhere else — and a correctly derived limit on the wrong step is a limiter
+that fires exactly when its proxy gets busy, which may have nothing to do with
+what anyone was worried about
+([gate-sees-target](../../../_laws.md#gate-sees-target) applied to counters).
+
+Three answers recur. **Production** is the cost when compute, inference spend
+or third-party quota is what the flow consumes — meter the creating call.
+**Egress** is the cost when producing is cheap and reversible and the damage is
+the artifact leaving in volume — meter the boundary crossing and leave
+production alone, which also keeps iteration free for the most engaged users
+instead of capping exactly them. **Amplification** is the cost when one action
+reaches many recipients or spawns many jobs — meter the fan-out, not the
+trigger.
+
+Steps are metered in their own units and a flow may carry several limits on
+several steps; what it may not carry is two limits on one step in different
+units decided in different places.
+[metered-step-selection](./techniques/metered-step-selection.md) owns the
+choice, its divergence check, and the tells that it was made wrongly.
 
 ## What "done" looks like for this subject
 

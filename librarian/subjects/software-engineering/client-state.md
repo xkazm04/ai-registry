@@ -7,7 +7,7 @@ dry_streak: 0
 
 # client-state
 
-First touch: [[2026-08-22-3]] — the 2026-08-22 harvest wave. Class: EXTENDS.
+First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: EXTENDS.
 
 ## State
 

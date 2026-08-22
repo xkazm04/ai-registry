@@ -15,10 +15,12 @@ else here and readable with no tool at all.
 | `domains/<domain>.md` | Per bundle: shape, last sweep, what is owed. |
 | `subjects/<domain>/<subject>.md` | Per subject: last touched, dry streak, open leads, declines with reasons. |
 | `runs/<YYYY-MM-DD>-<n>.md` | What one run swept, dispatched, accepted and declined. |
+| [`projects.md`](projects.md) | Which connected project relates to which bundle. Slugs and domains only. |
+| [`sources/index.md`](sources/index.md) | The ledger of external sources [`/research`](../skills/research/SKILL.md) has mined, and one note per run. |
 
 ## Bundles
 
-- [[software-engineering]] - 142 subjects; still the largest, and the 2026-08-22 harvest grew its transplant debt as well as its coverage
+- [[software-engineering]] - 143 subjects; still the largest, and the 2026-08-22 harvest grew its transplant debt as well as its coverage
 - [[recruiting]] - 64 subjects, arrived from a parallel wave at 384/384 use_when
 - [[grant-funding]] - 17 subjects
 - [[llm-observability]] - 16 subjects

@@ -11,6 +11,7 @@ techniques:
   - scale-conversion-of-numbers
   - unknowns-as-constraints
   - evidence-grading-ladder
+  - provenance-signal-asymmetry
 ---
 
 # Content research grounding
@@ -128,6 +129,32 @@ prevent:
    asking the writer whether it complied. Compliance is scored mechanically,
    per render, against the declared constraints — and a constraint that
    cannot be scored is reported as unscored, never assumed honoured.
+
+## What a provenance check does and does not settle
+
+A corpus drawn from the open web now carries a large and growing share of
+machine-authored material, and detectors for it are becoming ordinary. They
+obey one asymmetry, and it is structural rather than a maturity problem:
+**a positive detection is evidence, a negative detection is not.** A
+statistical text mark dilutes with every paraphrase, edit and trim, and may
+never have been detectable in a short passage; signed metadata is strong when
+present and removed in one operation. Producers say as much themselves — a
+detected mark is a signal, and its absence carries no implication either way.
+
+So detection composes with the [evidence grading
+ladder](./techniques/evidence-grading-ladder.md) in one direction only: a
+positive is a downgrade proportional to what the source is being asked to
+support, and a negative moves a source exactly nowhere. Promoting an unmarked
+source makes one paraphrase the cheapest route to the top of the ladder.
+“Not checked” is a third state and never merges into “not detected”
+([unmeasured is not pass](../../_laws.md#unmeasured-is-not-pass)).
+
+The durable guards do not depend on a detector at all: publication date
+relative to cheap generation, whether the source is a primary record rather
+than prose about one, and whether the claim resolves to something checkable.
+[provenance-signal-asymmetry](./techniques/provenance-signal-asymmetry.md) owns
+the asymmetry, the three-state vocabulary, and the mirror case of marks on your
+own output.
 
 ## The economics
 
