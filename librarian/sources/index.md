@@ -26,6 +26,7 @@ when the run ends. A note quotes an anchor, never a corpus.
 
 | Date | Source | Kind | Words | Extracted | Accepted | Leads | Caught | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-22 | `youtube:u8Im0l_vwqM` - "Inside DeepWiki: How Cognition Builds Wikis for Devin at Scale" | practitioner-deep-dive | 2974 | 10 | 2 (+1 proposed) | 0 | 1 | [[2026-08-22-inside-deepwiki]] |
 | 2026-08-22 | `youtube:NC4h5kWH_-A` - "AI News: The AI Agent Race Just Exploded" | mixed-ai-news-roundup | 6958 | 10 | 4 | 1 | 2 | [[2026-08-22-ai-agent-race-exploded]] |
 | 2026-08-21 | `youtube:EfGF7QbJItA` - "AI News: The Best Open Model Runs on Your Computer!" | mixed-ai-news-roundup | 6507 | 12 | 1 | 0 | 0 | [[2026-08-21-ai-news-open-model-local]] |
 
@@ -36,7 +37,18 @@ here after it has been seen twice, with the incident that taught it.
 
 | Class | Reliable for | Not reliable for |
 | --- | --- | --- |
+| First-party practitioner deep-dive | What they built, what they measured, and what changed when they changed it. Facts about one system, from the person who changed it - no corroboration lane improves on that. | What works in GENERAL. The sample is one pipeline at one company, so a measured result is an existence proof, not a distribution. |
 | Mixed AI-news roundup | That the world moved: a release happened, a price changed, a benchmark was published. | Why it matters, whether it is true, whether it is new. Its claims are second-hand by construction. |
+
+**First-party practitioner deep-dive, first observation (2026-08-22).** Its authority
+maps onto the layer contract almost exactly: strong evidence for the SHAPE of a
+technique, weak evidence for its universality. So its claims land well as decision rules
+with their conditions attached and badly as unqualified assertions - which is a
+different editing job from the roundups, not merely a higher trust level. Yield differed
+in kind as well as degree: a coherent account of one problem maps onto one region of the
+corpus, so the run produced two techniques and a subject proposal rather than findings
+scattered across six subjects. At 2,974 words it outproduced a 6,958-word roundup, which
+is the first evidence that transcript length is not a yield proxy.
 
 **Mixed AI-news roundup, second observation (2026-08-22) - the class row is now
 earned.** Two runs, same channel, and the pattern held in both directions. The class

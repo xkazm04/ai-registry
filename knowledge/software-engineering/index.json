@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 124,
-  "techniques": 760,
+  "techniques": 762,
   "applications": 308,
   "laws": 9,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "127/760",
+  "use_when_coverage": "129/762",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5073,6 +5073,22 @@
      "shared_with": []
     },
     {
+     "slug": "orchestration-to-tool-migration",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what belongs on the tool surface",
+      "revisiting a pipeline built against an older model",
+      "choosing between a fixed stage and an on-demand tool",
+      "justifying an architecture change that changed no models"
+     ]
+    },
+    {
      "slug": "server-composition",
      "status": "forged",
      "laws": [
@@ -6793,6 +6809,22 @@
       "count-carries-predicate"
      ],
      "shared_with": []
+    },
+    {
+     "slug": "context-reachability",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what to inject into an agent prompt",
+      "choosing what degrades first under budget pressure",
+      "justifying a precomputed index or digest",
+      "diagnosing an agent that performs worse with context than without"
+     ]
     },
     {
      "slug": "continuation-prompts",
@@ -10697,6 +10729,7 @@
     "maturity-ladders/present-vs-enforced",
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/client-integration",
+    "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/tool-schema-design",
     "mcp-tools/transport-selection",
     "mcp-tools/untrusted-result-handling",
@@ -10990,6 +11023,7 @@
     "plan-entitlements/entitlement-lifecycle-revocation",
     "proactive-nudges/notice-delivery-decoupling",
     "proactive-nudges/trigger-evaluators",
+    "prompt-assembly/context-reachability",
     "prompt-assembly/variable-interpolation",
     "prompt-safety/canary-tripwires",
     "prompt-safety/model-output-as-untrusted",
@@ -11284,6 +11318,7 @@
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/band-design",
     "maturity-ladders/rung-criteria",
+    "mcp-tools/orchestration-to-tool-migration",
     "measurement-honesty/lower-bound-disclosure",
     "measurement-honesty/minimum-sample-floors",
     "measurement-honesty/noise-band-and-hysteresis",
@@ -11326,6 +11361,7 @@
     "proactive-nudges/attention-budgets",
     "proactive-nudges/efficacy-feedback",
     "prompt-assembly/context-budgeting",
+    "prompt-assembly/context-reachability",
     "prompt-safety/input-caps-and-clamps",
     "public-verdict-badge/embed-reach-attribution",
     "public-verdict-badge/embed-snippet-contract",
@@ -11978,6 +12014,7 @@
     "plan-entitlements/price-book-authority",
     "plan-entitlements/tier-model-single-source",
     "prompt-assembly/capability-documentation",
+    "prompt-assembly/context-reachability",
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/payoff-removal",
     "public-verdict-badge/customization-scope-guard",
@@ -12112,6 +12149,7 @@
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/migrate-on-read",
     "maturity-ladders/ordinal-first-comparability",
+    "mcp-tools/orchestration-to-tool-migration",
     "media-playback/media-resource-lifecycle",
     "media-playback/playback-clock",
     "media-playback/timeline-scheduling",

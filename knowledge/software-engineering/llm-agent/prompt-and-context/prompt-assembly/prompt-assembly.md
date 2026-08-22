@@ -5,6 +5,7 @@ subject: prompt-assembly
 status: forged
 techniques:
   - layered-composition
+  - context-reachability
   - variable-interpolation
   - context-budgeting
   - capability-documentation
@@ -121,6 +122,30 @@ weight:
   [recall-injection](../agent-memory/techniques/recall-injection.md)
   technique governs how that line item is spent.
 
+## What makes a layer a floor: reachability, not importance
+
+The budget above splits layers into floors and elastic allowances, and the axis
+that decides which is which is not importance — it is whether the agent could
+have obtained the material itself, with the tools it already has.
+
+**Reachable** material is a path compression: injecting it buys back tool calls
+and latency, and the agent's ceiling does not move. It is therefore safe to cut
+under pressure, and it is also the material where an error is most expensive —
+the agent would have found the truth on its own, and instead is handed a
+confident falsehood and stops looking. **Unreachable** material — a convention
+visible only across many call sites, a constraint recorded in no file, a fact
+about a system the agent cannot see — moves the ceiling, and omitting it
+produces a fluent wrong answer with no signal attached. That is what a floor is
+for.
+
+Reachability is a property of the *pair*, not of the document: granting a new
+tool demotes a whole class of injected context from floor to elastic, and a
+prompt designed for an agent without search and never revisited is spending its
+budget compressing paths that are now one call long. Each feeder declares the
+class of what it contributes, where the material is produced.
+[context-reachability](./techniques/context-reachability.md) owns the
+classification, its freshness consequence, and the split worth measuring.
+
 ## Determinism, and the fingerprint that makes caching safe
 
 The same inputs must produce the same prompt — byte for byte. Assembly
@@ -196,6 +221,9 @@ a span enters; safety decides *how it is wrapped*.
 - [variable-interpolation](./techniques/variable-interpolation.md) — typed
   variables with declared trust classes and insertion points; loud failure
   on missing inputs; purity of the rendering pass.
+- [context-reachability](./techniques/context-reachability.md) — classifying
+  injected material by whether the agent could have found it itself, and what
+  that implies for floors, freshness and measurement.
 - [context-budgeting](./techniques/context-budgeting.md) — per-layer
   allocation, degradation ladders, summarization thresholds, truncation
   that names its drops, lazy expansion of heavy sections.
