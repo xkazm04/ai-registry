@@ -34,3 +34,7 @@ shadow-WAL generations with LTX/TXIDs.
   retry-backoff's observability side.
 - tmp-fsync-rename done right (`WriteTXIDFile`) and inverted (`Restore`) in one
   file → an atomic-file-replacement home.
+
+## Applied to the technique layer
+
+- 2026-08-22-3: **lifecycle state is not health state** applied to `sync-observability` ([[2026-08-22-3]]).

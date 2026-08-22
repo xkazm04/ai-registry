@@ -28,3 +28,7 @@ single-stack debt is cleared.
 
 - Pipe/stream boundaries closed with their error → a resilience-side home.
 - Nil-by-default library logger = diagnostics not propagated → observability.
+
+## Applied to the technique layer
+
+- 2026-08-22-3: **persist the verdict** applied to `error-propagation` ([[2026-08-22-3]]).

@@ -33,3 +33,7 @@ v8's restructured monorepo has no client-side dataloader.
   pooling" → connection-pooling.
 - Cache writes gated on execution scope (read-inside-transaction must not
   populate a shared cache) → the caching subject.
+
+## Applied to the technique layer
+
+- 2026-08-22-3: **shape is not transactional state** applied to `transactions-and-units-of-work` ([[2026-08-22-3]]).

@@ -33,3 +33,7 @@ single-stack debt cleared. `c` declared as a bundle extra stack for this.
   unconditional TRUNCATE against the PASSIVE→TRUNCATE spectrum).
 - `VACUUM INTO` / `sqlite3_backup_*` as the engine-native snapshot primitives →
   migrations' snapshot contract.
+
+## Applied to the technique layer
+
+- 2026-08-22-3: **opposite persistence of the two halves** applied to `journal-and-durability-modes` ([[2026-08-22-3]]).
