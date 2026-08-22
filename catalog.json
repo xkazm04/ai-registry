@@ -216,11 +216,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 129,
-      "techniques": 796,
-      "applications": 327,
-      "files": 1257,
-      "contentHash": "sha256:35075ce0e6ee9e06"
+      "subjects": 143,
+      "techniques": 893,
+      "applications": 361,
+      "files": 1402,
+      "contentHash": "sha256:9d98385a40b92e02"
     }
   ]
 }

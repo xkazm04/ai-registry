@@ -2,7 +2,7 @@
 domain: software-engineering
 subject: rate-limiting
 last_touched: 2026-08-22
-touched_by: research
+touched_by: harvest
 dry_streak: 0
 ---
 
@@ -11,6 +11,26 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-08-22 - harvest wave (run 4)
+
+Gained `untrusted-key-derivation` and `unattributable-client-bucketing` (8 -> 10
+techniques) and a fifth application, `node--untrusted-key-derivation`. See
+[[2026-08-22-4]].
+
+Held deliberately to two techniques rather than three: the subject was already the
+second-largest in its subcategory. Both sit *upstream* of `key-design`, which assumes you
+have a key. The first is how you obtain one from a request whose every identifying header
+the caller wrote - an ordered trust ladder, a platform's forwarding header trusted only
+when you are actually running on that platform, and conventional proxy headers honoured
+only under an explicit operator opt-in. The second is what to key on when the ladder runs
+out, and why the obvious answer is the worst: pooling every unattributable caller into one
+bucket makes ordinary traffic exhaust one shared allowance, a denial of service delivered
+by the control meant to prevent one.
+
+The discipline that makes the fallback safe is a labelling rule, not a cryptographic one:
+call it entropy, not identity, at the site, so no later reader promotes a spoofable value
+into a trust decision.
 
 ### 2026-08-22 - `/research`, from an external source
 
@@ -29,10 +49,20 @@ motivated to make it diverge.
 
 ## Open leads
 
+- **This subject is now at ten techniques, and nothing enforces a ceiling.** Two
+  concurrent waves each respected the observed house maximum of nine in isolation; the
+  union is ten. The next structure pass should decide whether nine is a real bar or an
+  observation that has been overtaken. Note the ordering that emerged by accident and is
+  worth keeping: `metered-step-selection` (which step) -> `untrusted-key-derivation`
+  (what identifies the caller) -> `unattributable-client-bucketing` (when nothing does)
+  -> `key-design` (what the key composes) -> `limit-derivation` (the number).
 - **`usage-limit-governance` (llm-observability) is the sibling case.** It meters spend
   by dimension and has the same blind spot from the other side. Cross-bundle links are
   forbidden, so if that subject ever needs this rule it needs its own copy - check
   whether that is duplication worth paying before writing it.
+- **`a predicate's name states its direction, or the negation site decides it`** (proposed
+  law, not added). Two sightings, both inside this subject, both in the tree it was
+  reconciled against. The worker asked for a third before promotion.
 
 ## Standing debt
 
