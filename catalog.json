@@ -511,11 +511,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 129,
-      "techniques": 793,
-      "applications": 335,
-      "files": 1262,
-      "contentHash": "sha256:bcf395f77438406e"
+      "subjects": 143,
+      "techniques": 893,
+      "applications": 373,
+      "files": 1414,
+      "contentHash": "sha256:61f4b916f7f4fc69"
     }
   ]
 }

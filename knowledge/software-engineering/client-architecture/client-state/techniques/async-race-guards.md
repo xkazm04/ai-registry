@@ -108,6 +108,11 @@ writes are involved:
   entity", or a concurrent successful mutation's result is destroyed by an
   unrelated failure's rollback.
 
+The ledger is the entry point rather than the whole discipline: serializing
+attempts per entity so a snapshot is always of settled state, and checking
+before reverting that what the attempt wrote still holds, are the
+[optimistic-write-path](./optimistic-write-path.md) technique.
+
 ## Where each guard lives
 
 Guards belong in the **data operation layer** — the functions that dispatch

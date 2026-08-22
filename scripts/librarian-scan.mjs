@@ -117,8 +117,18 @@ if (fs.existsSync(path.join(VAULT, 'subjects'))) {
   for (const d of fs.readdirSync(path.join(VAULT, 'subjects'), { withFileTypes: true }).filter((e) => e.isDirectory())) {
     for (const f of mdFiles(path.join(VAULT, 'subjects', d.name))) {
       const { fm } = frontmatter(path.join(VAULT, 'subjects', d.name, f));
+      // Accept either spelling. The vault's documented design is that a subject note
+      // is created the first time a subject is TOUCHED and that "no note" is what
+      // means never-swept (librarian/index.md); its notes accordingly carry
+      // `last_touched`, while domain notes carry `last_swept`. This reader asked for
+      // `last_swept` only, so no subject note ever satisfied it — the never-swept
+      // clause scored every subject in the registry forever, and its 3 points times
+      // the whole corpus dominated the ranking it was meant to inform. Found by the
+      // 2026-08-22 harvest wave: 20 fresh subject notes moved the count by zero.
+      // Reading a field no writer emits is the same failure family as the
+      // use_when counter that reported 0/267 over a corpus at 267/267.
       sweptOf[`${d.name}/${f.replace(/\.md$/, '')}`] = {
-        last_swept: fm.last_swept ?? null,
+        last_swept: fm.last_swept ?? fm.last_touched ?? null,
         dry_streak: Number(fm.dry_streak ?? 0) || 0,
       };
     }

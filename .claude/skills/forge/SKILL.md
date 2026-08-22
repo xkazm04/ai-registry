@@ -3,7 +3,7 @@ name: forge
 description: "Extract a repository's domain knowledge into a four-layer RKB bundle in this registry: scout every context, design subjects with the operator's split doctrine, then forge each subject two-phase (expert draft + web hardening before repo reconciliation) with a bounded agent pool. Use when a new domain repo should populate the knowledge lane."
 category: ai-native
 memory: project
-version: 1.2.0
+version: 1.3.0
 tags: knowledge, rkb, extraction, orchestration, bundles
 ---
 
@@ -128,12 +128,23 @@ registry owner - merging is adopting, and that click is theirs.
   is other forgers' pending work; each forger checks only its own subject's findings.
 - **use_when belongs on techniques too.** Golden paths get it naturally; technique
   files need it stated explicitly in the brief or a backfill pass follows.
-- **Joining an existing bundle is a different job from founding one.** Give scouts the
-  full existing subject list so candidates come back classified NEW vs EXTENDS, name
-  1-3 adjacent subjects in every dispatch and require a prose boundary, and *append* a
-  new category rather than reordering. Forgers rightly refuse to link a sibling whose
-  folder does not exist yet, so the director owes a link-upgrade pass once every folder
-  is on disk.
+- **Joining an existing bundle is a different job from founding one**, and it has its
+  own contract: `docs/harvest-brief.md`. Give scouts the full existing subject list so
+  candidates come back classified NEW vs EXTENDS, name 1-3 adjacent subjects in every
+  dispatch and require a prose boundary, and *append* a new category rather than
+  reordering. Forgers rightly refuse to link a sibling whose folder does not exist yet,
+  so the director owes a link-upgrade pass once every folder is on disk.
+  Three rules that only a harvest needs:
+  - **Dedup candidates by SUBJECT FOLDER before dispatch.** Unrelated territories
+    routinely propose extending the same subject - four did, twice, in one wave. One
+    worker per folder, and the merge is director work because only the director reads
+    every scout report.
+  - **Read the target's technique count and stack list from the SCAN, not the domain
+    note.** A subject already at the house ceiling of nine techniques cannot take three
+    more, and a note one day old can already be wrong about which debts it carries.
+  - **A harvest grows single-stack debt.** Every new subject is born with one stack.
+    Report the increase rather than netting it against the one or two the wave retires;
+    the pass that pays it down is a transplant pass, not another harvest.
 - **Land the bundle back into the source repo, and treat that as verification.** Harvest
   the deviations forgers recorded in `applications/` into a ranked backlog, re-open every
   cited anchor (expect a few stale), and fix them on a branch in the source repo. It

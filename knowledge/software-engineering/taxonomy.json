@@ -32,7 +32,8 @@
             "drag-drop",
             "undo-history",
             "wizard-flows",
-            "schema-driven-ui"
+            "schema-driven-ui",
+            "batch-undo-commit-window"
           ]
         },
         {
@@ -56,7 +57,19 @@
             "toasts-notifications",
             "motion",
             "design-tokens",
-            "accessibility"
+            "accessibility",
+            "adaptive-fidelity-tiers"
+          ]
+        },
+        {
+          "id": "published-surfaces",
+          "title": "Published surfaces",
+          "subjects": [
+            "lazy-section-addressability",
+            "long-form-reading-surface",
+            "docs-content-model",
+            "authoring-block-vocabulary",
+            "public-claim-provenance"
           ]
         }
       ]
@@ -70,7 +83,9 @@
         "client-state",
         "i18n",
         "ipc-contract",
-        "realtime-events"
+        "realtime-events",
+        "hash-pinned-translation-pipeline",
+        "demo-data-plane"
       ]
     },
     {
@@ -110,7 +125,8 @@
             "mcp-tools",
             "terminal-multiplexing",
             "sidecar-provisioning",
-            "voice-io"
+            "voice-io",
+            "agent-addressable-ui"
           ]
         },
         {
@@ -162,7 +178,9 @@
             "rate-limiting",
             "error-handling",
             "self-healing",
-            "webhook-ingestion"
+            "webhook-ingestion",
+            "stream-proxy-hop",
+            "optional-dependency-degradation"
           ]
         },
         {
@@ -217,7 +235,9 @@
         "device-pairing",
         "p2p-networking",
         "signed-artifacts",
-        "supply-chain"
+        "supply-chain",
+        "telemetry-pii-redaction",
+        "browser-credential-boundary"
       ]
     },
     {

@@ -11,6 +11,9 @@ techniques:
   - unattended-mode
   - decision-records
   - resume-after-decision
+  - severity-sla-ladder
+  - cosmetic-vs-enforced-threshold-invariant
+  - fail-loud-classification-default
 ---
 
 # Human-in-the-loop approval
@@ -202,6 +205,43 @@ Three defaults recur, and each has exactly one safe direction:
   the mechanism may never do is let a lost write be indistinguishable from a
   verdict ([failure-not-empty-success](../../../_laws.md#failure-not-empty-success)).
 
+## The clock, and what feeds it
+
+Two facts about every pending item arrive from outside the gate itself: how
+long it may wait, and how severe it is. Neither is free, and both have a
+characteristic way of going wrong.
+
+The waiting is answered by a **ladder** — one table, keyed by severity, giving
+each severity a deadline and one terminal action
+([severity-sla-ladder](./techniques/severity-sla-ladder.md)). Its terminal
+actions number three, not two: auto-approve, escalate, and *hold* — the
+deadline passes, the item stays pending and starts showing as overdue, and
+nothing is decided. A ladder without the third rung has nowhere to put the
+severities that genuinely require a person, so it resolves them by picking the
+least-bad automated action instead. And where a ladder does auto-approve, that
+is not an exception to "timeout is deny or hold" above; it is a claim that the
+actions at that severity never met the bar for a gate in the first place. If
+any of them is irreversible, spends, or leaves the boundary, the rung is a
+defect wearing a policy's clothes.
+
+A ladder that acts acquires a **second, cosmetic ladder** the moment the queue
+renders — the elapsed times at which a row starts *looking* urgent. The two get
+tuned by different people for different reasons, and the invariant between them
+is that the cosmetic one fires strictly earlier at every severity, asserted in
+running code rather than described in a comment
+([cosmetic-vs-enforced-threshold-invariant](./techniques/cosmetic-vs-enforced-threshold-invariant.md)).
+Inverted, the machine acts while the screen is still calm, and the operator's
+model of the system and the system diverge at precisely the moment that costs.
+
+Severity itself is a claim read out of an item's payload, so it has a failure
+case: an item whose payload cannot be read takes the **most** severe bucket and
+carries a marker saying why
+([fail-loud-classification-default](./techniques/fail-loud-classification-default.md)).
+The cheap default is the mildest bucket, and it is quiet, which is exactly what
+makes it dangerous — composed with a ladder whose mildest rung auto-approves,
+an unreadable payload belonging to a genuinely critical event is approved by
+the machine with nobody ever having seen it.
+
 ## The techniques
 
 - [gate-state-machines](./techniques/gate-state-machines.md) — the gate as
@@ -224,3 +264,12 @@ Three defaults recur, and each has exactly one safe direction:
 - [resume-after-decision](./techniques/resume-after-decision.md) — the
   continuation half: approve→resume without re-generation, reject→cleanup
   without zombies, staleness checks at resume time.
+- [severity-sla-ladder](./techniques/severity-sla-ladder.md) — one table from
+  severity to deadline and terminal action; the closed three-member action set,
+  and why hold is the member that makes it honest.
+- [cosmetic-vs-enforced-threshold-invariant](./techniques/cosmetic-vs-enforced-threshold-invariant.md)
+  — the urgency ladder fires strictly before the enforcing one, and the
+  relation is asserted at load by the side that acts, never documented.
+- [fail-loud-classification-default](./techniques/fail-loud-classification-default.md)
+  — an unreadable payload classifies to the most severe bucket with a marker
+  saying why; the quiet default is the one that gets things waved through.
