@@ -47,3 +47,4 @@ it earns a technique edit, per deepen's convergence rule:
 ## Applied to the technique layer
 
 - 2026-08-22-6: **the deny spelling is judged at the outermost boundary** (sharpening of the existing bullet) applied to `storm-control` ([[2026-08-22-6]]).
+- 2026-08-22-8: `storm-control` now cites the promoted `verdict-survives-boundary` law ([[2026-08-22-8]]).

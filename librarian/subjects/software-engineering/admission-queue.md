@@ -38,3 +38,4 @@ numeric, which is the pass at its best.
 ## Applied to the technique layer
 
 - 2026-08-22-6: **vocabulary erasure in transit** (verdict-survives-the-boundary family) applied to `admission-vocabulary` ([[2026-08-22-6]]).
+- 2026-08-22-8: `admission-vocabulary` now cites the promoted `verdict-survives-boundary` law ([[2026-08-22-8]]).

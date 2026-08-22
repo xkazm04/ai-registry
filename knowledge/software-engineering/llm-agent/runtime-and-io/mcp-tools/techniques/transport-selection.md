@@ -67,7 +67,12 @@ progress or notifications. The properties that matter:
   socket-like mechanism with real access control. The common failure is a
   developer choosing HTTP for a single-machine tool "to make debugging
   easier" and shipping an unauthenticated localhost service that any web page
-  can drive.
+  can drive. And the checks must be **on unless deliberately removed**: a
+  framework that implements origin validation but ships it disabled, or
+  documents "mount the helper yourself", has protected its examples and not
+  its installations — an opt-in guard converges on absent across a deployed
+  fleet, and this transport's characteristic check is exactly the one most
+  often found shipped off.
 - **Reconnects are normal, so nothing may depend on connection continuity.**
   Notification streams are best-effort across reconnects; polling remains the
   correctness path. Long operations should not hold a request open past

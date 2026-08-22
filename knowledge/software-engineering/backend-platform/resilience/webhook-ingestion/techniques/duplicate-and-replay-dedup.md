@@ -40,6 +40,16 @@ content-identical deliveries *outside* it may be legitimately distinct facts
 quietly deduplicates reality. Sender id when available, windowed digest when
 not — and record *which* kind of key each delivery was deduplicated by.
 
+The fallback is the **default, not a feature**. An ingress where dedup
+exists only when an operator configures an identity selector has dedup for
+exactly the senders who least need it, and none for the long tail — and the
+degradation is silent, because an unconfigured source looks identical to a
+healthy one. When no sender identity is declared, the content digest engages
+on its own; running without dedup is an explicit, logged choice, never the
+quiet consequence of a missing config row. A guard that must be switched on
+is a guard most installations lack — the same shape recurs wherever
+protection ships opt-in.
+
 One more rung on the ladder when deliveries arrive over a subscription
 channel rather than direct requests: **the transport's own message position**
 (a stream's per-message identifier) outranks even the sender's delivery id,

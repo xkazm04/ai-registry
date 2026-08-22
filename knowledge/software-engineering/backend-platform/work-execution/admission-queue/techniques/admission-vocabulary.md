@@ -4,7 +4,7 @@ type: technique
 subject: admission-queue
 technique: admission-vocabulary
 status: forged
-laws: [one-authority-per-vocabulary, failure-not-empty-success]
+laws: [one-authority-per-vocabulary, failure-not-empty-success, verdict-survives-boundary]
 shared_with: []
 use_when: [naming the verdicts a queue's gate may return, deciding whether refusal throws or returns, refusal reasons drifting into two spellings]
 ---

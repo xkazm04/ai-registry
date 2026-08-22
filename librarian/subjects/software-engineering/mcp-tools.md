@@ -73,3 +73,7 @@ From the reconcile (convergence rule applies):
 ## Declines
 
 None.
+
+## Applied to the technique layer
+
+- 2026-08-22-8: **checks on unless deliberately removed** (opt-in-guard family) applied to `transport-selection` ([[2026-08-22-8]]).

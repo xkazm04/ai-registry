@@ -37,3 +37,4 @@ single-stack debt cleared. Hint held.
 ## Applied to the technique layer
 
 - 2026-08-22-6: **fail closed when the dedup instrument fails** applied to `duplicate-and-replay-dedup` ([[2026-08-22-6]]).
+- 2026-08-22-8: **the digest fallback is the default, not a feature** (opt-in-guard family) applied to `duplicate-and-replay-dedup` ([[2026-08-22-8]]).

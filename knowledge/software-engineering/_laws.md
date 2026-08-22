@@ -1,8 +1,9 @@
 # Cross-cutting laws
 
-Nine convergences, each measured ≥3 independent times during the 2026 composition
-campaign, reclassified by `knowledge-hierarchy-plan.md` (`docs/concepts/knowledge-hierarchy-plan.md`)
-§2 from Golden-Path candidates to **laws that Techniques cite**. They are not subjects —
+Ten convergences, nine measured ≥3 independent times during the 2026 composition
+campaign and reclassified by `knowledge-hierarchy-plan.md` (`docs/concepts/knowledge-hierarchy-plan.md`)
+§2 from Golden-Path candidates to **laws that Techniques cite**; the tenth earned its
+place from four sightings in the external-reconcile lane (librarian runs 2026-08-22). They are not subjects —
 no folder, no techniques of their own. Cite them from a Technique's `laws:` frontmatter
 by anchor id. The doctrine's transferable sections migrate here in the closing pass;
 until then each law carries its one-paragraph statement.
@@ -67,3 +68,12 @@ Everything created names its reaper. Temp files, background tasks, listeners, wo
 caches: the code that creates a resource states what destroys it and when. Unowned
 cleanup is deferred leakage — the question "who deletes this?" must have an answer at
 creation time, because nobody re-asks it later.
+
+## <a id="verdict-survives-boundary"></a> verdict-survives-boundary
+
+A classified outcome reaches every boundary that acts on it as a typed value. A refusal
+enum erased into a generic error, a server-side failure taxonomy re-derived by matching
+message text, a policy denial re-thrown as the last underlying failure — in each, the
+classification exists where it was computed and dies where it mattered. The test is what
+the outermost consumer can branch on; a verdict that survives only as prose has not
+survived.

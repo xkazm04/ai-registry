@@ -38,3 +38,4 @@ single-stack debt cleared. Second hint refuted with evidence: OSS rotation is
 ## Applied to the technique layer
 
 - 2026-08-22-6: **the taxonomy survives the wire as a typed field** applied to `token-refresh-lifecycle` ([[2026-08-22-6]]). The verdict-survives family is now the standing LAW candidate; a fourth sighting triggers the law pass, not another technique edit.
+- 2026-08-22-8: `token-refresh-lifecycle` now cites the promoted `verdict-survives-boundary` law; the family's fourth sighting triggered the law pass as recorded here ([[2026-08-22-8]]).

@@ -34,3 +34,7 @@ a ladder.
   successful-parse / repaired-parse / failed-parse) -> streaming-output.
 - Consider naming "structural completion of a truncated prefix" as a distinct
   extraction strategy beside candidate-search ladders.
+
+## Applied to the technique layer
+
+- 2026-08-22-8: **never silently skip** (opt-in-guard family) applied to `schema-validation-and-repair`; the technique also now cites the new `verdict-survives-boundary` law ([[2026-08-22-8]]).

@@ -4,7 +4,7 @@ type: technique
 subject: structured-output
 technique: schema-validation-and-repair
 status: forged
-laws: [one-validation-door, failure-not-empty-success, one-authority-per-vocabulary]
+laws: [one-validation-door, failure-not-empty-success, one-authority-per-vocabulary, verdict-survives-boundary]
 shared_with: []
 use_when: [deciding whether a candidate artifact passes the door, missing values arrive as confident zeros, repairs keep succeeding by deleting content]
 ---
@@ -98,6 +98,14 @@ what was claimed wrongly.**
   hold** — admit only a genuine value of the right type, and drop the
   containing unit otherwise, so a downstream completeness check sees an
   omission rather than a fabricated answer.
+- **Silently skip.** The sibling of silent coercion: a door whose strictness
+  depends on something optional — a schema object that may or may not carry a
+  runtime validator, a check the caller must remember to mount — degrades to
+  a cast the moment the optional thing is absent, and nothing says so. The
+  door validates, warns loudly, or rejects; what it never does is *pass
+  because it could not check*. A protection that must be attached is a
+  protection most call sites lack — the same shape recurs wherever a guard
+  ships opt-in, and in every sighting the absence was silent.
 - **Partially accept.** "Store the valid fields, null the invalid ones"
   converts one detectable failure into N latent ones. The unit of acceptance
   is the artifact, except where the schema *explicitly* declares a
