@@ -3,7 +3,7 @@ name: research
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.3.0
+version: 0.4.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -78,6 +78,30 @@ that nobody verified them.
 A mixed-news roundup that yields nine already-covered catches, two leads and one clock
 reset is a **good run**. Padding it into three half-corroborated techniques is how the
 upper layers rot. Report the counts and let them be small.
+
+## Read the source's class before its content
+
+A source's class decides what its claims are *for*, and the two seen so far are near
+opposites. Record the reading in the ledger; it is what makes run N+1 cheaper.
+
+- **Second-hand survey** (a news roundup, a digest, a "what shipped this week"). Broad,
+  shallow, and reliable for exactly one thing: **that the world moved**. Its
+  explanations are second-hand by construction and it will state rules backwards with
+  total confidence. Mine it for *where to look*, never for *what is true*.
+- **First-party practitioner account** (the person who built it, talking about what they
+  built). Authoritative about **what they did and what they measured** - no corroboration
+  lane improves on a first-hand report of one's own system. **Not** authoritative about
+  what works in general, because the sample is one. A measured result here is an
+  existence proof, not a distribution.
+
+That second class maps onto the layer contract almost exactly: strong evidence for the
+**shape** of a technique, weak evidence for its universality. So its claims land well as
+decision rules with their conditions attached, and badly as unqualified assertions -
+which is a different editing job, not merely a higher trust level.
+
+**Length is not yield.** A 3,000-word first-party talk has outproduced a 7,000-word
+roundup. The `--min-words` floor asks whether anything is there at all; it says nothing
+about how much is worth having.
 
 ## The strip test
 
@@ -246,8 +270,15 @@ impact as the tie-breaker and say which you picked and why.
    aims you at the half that is not built and away from the half that is, which is
    where a real defect is likelier to sit. Read the sibling techniques and one
    application before writing the finding up.
-4. **Corroborate** per the table above, inside the 3-fetch budget.
-5. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
+4. **Name the home, and expect it to be contested.** A finding whose home is obvious was
+   probably already covered. The interesting ones sit between subjects, and picking
+   wrong misfiles the technique where nobody looking for it will look. Read the
+   candidate subjects' own boundary statements - this corpus states them explicitly, in
+   the golden path's opening - and choose the subject whose stated job the finding
+   answers, not the one whose slug matches. When two subjects describe the same
+   boundary from opposite sides, say so in both notes rather than writing it twice.
+5. **Corroborate** per the table above, inside the 3-fetch budget.
+6. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
    not a failure, and it goes in the note so nobody proposes it again.
 
 ### Phase 7 - Land what survived
@@ -267,7 +298,22 @@ Route by shape. Every content change is gate-clean before it is committed.
 | `lead` | the source note | With a return condition, or it is not a lead, it is a shrug. |
 
 `XL` is specified, never half-built: write the spec or the handoff and link it from the
-source note.
+source note. Two things make the difference between a spec somebody can execute and a
+note nobody acts on:
+
+- **Fold the fragments in.** A subject-sized gap usually arrives as several small
+  candidates from the same source that each looked like a standalone technique. Absorb
+  them into the spec as its proposed techniques rather than banking them separately -
+  four fragments in one dispatchable document beat four leads that will be re-derived
+  one at a time.
+- **Write it as the engine's input, not as prose.** Name the bundle, the category, the
+  proposed technique slugs with the decision rule each must carry, the boundaries it
+  must NOT absorb, and the open questions the drafter has to decide rather than
+  discover. Point at any instance of the gap that already exists in a tree somebody can
+  open - that is what makes the dispatch cheap.
+
+Say plainly why it was proposed rather than written. A spec that does not argue its own
+`XL`-ness reads as an excuse.
 
 After content changes, regenerate in this order and never the reverse - the catalog's
 hash covers the index:

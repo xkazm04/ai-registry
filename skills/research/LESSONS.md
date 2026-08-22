@@ -90,3 +90,46 @@
   from a single channel is not that. Writing it as a technique with the law banked as a
   lead behind a stated return condition was the correct application of a rule that
   wanted to be broken. No change; the bar worked.
+
+## 0.3.0 - 2026-08-22 - ai-registry (run 3: first-party practitioner talk; bumped to 0.4.0 in the same change)
+
+- **The source CLASS is a reading instruction, not a trust level.** Three runs in, two
+  classes with near-opposite shapes. A second-hand survey is broad, shallow and reliable
+  only for "the world moved" - mine it for where to look. A first-party practitioner
+  account is authoritative about what they built and measured and not at all about what
+  works in general, because the sample is one. That maps onto the layer contract almost
+  exactly: strong evidence for a technique's SHAPE, weak evidence for its universality,
+  so its claims want their conditions attached rather than a higher confidence setting.
+  Applied as a section that runs before the strip test.
+- **Length is not yield.** 2,974 words outproduced 6,958. Density, first-hand-ness and
+  topical coherence all beat volume, and a coherent account of one problem maps onto one
+  REGION of the corpus - two techniques and a subject, rather than findings scattered
+  across six subjects. Applied as a line in the class section so the ingest word count is
+  not read as a forecast.
+- **Choosing the home is a verification step, and it was the hardest call of the run.**
+  One finding's obvious homes were both wrong on their own stated boundaries -
+  `agent-chaining` owns event-wired chains, `fleet-orchestration` owns session
+  supervision, and neither is the orchestration/agency dial. The answer came from
+  reading each subject's opening boundary paragraph, which this corpus writes
+  explicitly. Applied to Phase 6. The corollary that a finding with an obvious home was
+  probably already covered is worth carrying: the interesting findings sit BETWEEN
+  subjects.
+- **The XL route worked and cost about as much as a technique.** Four fragment
+  candidates from the same talk folded into one dispatchable proposal instead of
+  becoming four leads that would be re-derived separately. Applied: fold the fragments
+  in, and write the spec as the ENGINE's input - bundle, category, technique slugs with
+  the decision rule each carries, the boundaries it must not absorb, the open questions -
+  rather than as prose about a gap.
+- **Three runs, six techniques, zero applications.** Not an accident any more. Every run
+  so far has landed upper-layer content and none has written a `<stack>--` document,
+  because writing one requires opening a real tree and no run has been asked to. The
+  cross-repo lane exists and has never fired. This is the method's standing blind spot
+  and the next run should either exercise it deliberately or the skill should stop
+  implying applications are a routine outcome.
+- **The corroboration budget went entirely unused.** First-party sources need no
+  corroboration lane for what they report about themselves, so the 3-fetch budget is a
+  constraint that binds on the roundup class and not on this one. No change.
+- **The registry found a subject-sized hole in the thing it does itself.** Nothing owns
+  generating a knowledge corpus from a codebase, which is what this repository's own
+  forge skill does daily. Worth naming as a general risk rather than a local irony: a
+  corpus is least likely to document the practice its own authors are too close to see.
