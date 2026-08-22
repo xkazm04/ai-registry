@@ -74,6 +74,8 @@ lanes:
       # A consumer three minors behind should be told so and left alone until a human
       # syncs. Merging is adopting; copying is consuming. Both are human acts.
       version_reports_staleness: true
+    scope: Skills that transplant to any repository. Skills that maintain THIS registry
+      (`/forge`, `/deepen`) live in `.claude/skills/` and are not part of this lane.
     note: Personas' skill library migrates into this lane; see the migration plan in the
       consuming repo. Until then the content here is Ascent's worked example.
   practices:

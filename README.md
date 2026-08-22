@@ -92,6 +92,7 @@ rewrites the other, and a reader that knows only one of them still works.
 | [`civic-intelligence`](knowledge/civic-intelligence/) | Watching public power with data: parliamentary records, legislation, public money, and the accountability methodology for publishing about real, named people. |
 | [`grant-funding`](knowledge/grant-funding/) | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |
 | [`llm-observability`](knowledge/llm-observability/) | Operating production LLM traffic as a product: telemetry and cost attribution, price books and usage governance, unit economics, judge-scoring of live traces, and federated benchmark sharing. |
+| [`game-production`](knowledge/game-production/) | Producing a game's systems and content at scale with machine assistance: systems canon and balance validation, the content pipeline and its acceptance ladder, generative asset production, engine integration, machine craft judgment, and production governance. |
 | [`recruiting`](knowledge/recruiting/) | Hiring people with machine assistance and staying defensible: role definition and intake, candidate evidence and its provenance, interviews and work samples, automated screening and its fairness gates, pipeline operations, candidate experience, governance and consent, and honest measurement of a small-sample process. |
 
 A bundle's two upper layers (Golden Path, Technique) carry **no** repo paths, file extensions or
@@ -130,7 +131,7 @@ every rung, and a decorative `stage` teaches readers to ignore the real ones. It
 the class of technique whose whole failure mode is being adopted at the wrong time, and it
 is carried into each bundle's `index.json` so a consumer can filter on it.
 
-### Skills (10)
+### Skills (8)
 
 | Skill | Category | Version | What it is for |
 | --- | --- | --- | --- |
@@ -140,10 +141,15 @@ is carried into each bundle's `index.json` so a consumer can filter on it.
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
 | [`flake-register`](skills/flake-register/SKILL.md) | `testing` | 0.1.0 | Quarantine an intermittent test as tracked debt - owner, cause, expiry. |
 | [`agent-guidance-bootstrap`](skills/agent-guidance-bootstrap/SKILL.md) | `ai-native` | 0.4.0 | Write or refresh a repo's `AGENTS.md` from evidence. |
-| [`domain-knowledge-forge`](skills/domain-knowledge-forge/SKILL.md) | `ai-native` | 1.2.0 | Extract a repository's domain knowledge into a four-layer RKB bundle, with a bounded agent pool. Carries [`LESSONS.md`](skills/domain-knowledge-forge/LESSONS.md). |
-| [`deepen`](skills/deepen/SKILL.md) | `ai-native` | 1.1.0 | Review and widen an existing bundle topic via research lanes, batch workers, or a saturation-ledger loop. Carries [`LESSONS.md`](skills/deepen/LESSONS.md). |
-| [`librarian`](skills/librarian/SKILL.md) | `ai-native` | 1.1.0 | Sweep every bundle for structural and quality decay, rank it, and dispatch the other engines at what needs work. Keeps coverage memory in [`librarian/`](librarian/index.md). |
+| [`librarian`](skills/librarian/SKILL.md) | `ai-native` | 1.1.1 | Sweep every bundle for structural and quality decay, rank it, and dispatch the other engines at what needs work. Keeps coverage memory in [`librarian/`](librarian/index.md). |
 | [`research`](skills/research/SKILL.md) | `ai-native` | 0.6.0 | Mine an external source - a video, an article, pasted notes - for what it changes here, and in the connected projects that consume it. Carries [`LESSONS.md`](skills/research/LESSONS.md). |
+
+The `skills/` lane publishes skills that transplant to **any** repository. The two skills that
+maintain *this* registry - [`/forge`](.claude/skills/forge/SKILL.md) (extract a repo's domain
+knowledge into a new bundle) and [`/deepen`](.claude/skills/deepen/SKILL.md) (raise an existing
+bundle above the repo it came from) - live in `.claude/skills/` instead. They are slash commands
+for anyone working *on* the registry, not library items to install elsewhere; `/librarian` sweeps
+the registry and dispatches them.
 
 `category` comes from a closed set: `ci-cd`, `testing`, `security`, `ai-native`, `docs`,
 `workflow`, `other`. Anything else is normalized to `other` at index time. `name` is a kebab-case

@@ -1,15 +1,15 @@
 ---
 name: librarian
-description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
+description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.1.0
+version: 1.1.1
 tags: registry, maintenance, coverage, dispatch, quality
 ---
 
 # Librarian
 
-The registry has three content engines and they are good. `domain-knowledge-forge`
+The registry has three content engines and they are good. `/forge`
 creates a bundle from a repository's ceiling. `deepen` raises one subject above any
 repository, with research lanes and a saturation ledger. `research` runs inward: it
 mines a source somebody handed us for what it changes here, and banks what it cannot
@@ -92,7 +92,7 @@ Choose the engine by what is missing:
 | finding | engine |
 | --- | --- |
 | subject is thin, stale, or contradicted | scoped `/deepen` |
-| subject does not exist but should | forge wave (`domain-knowledge-forge`) |
+| subject does not exist but should | forge wave (`/forge`) |
 | a banked lead in `sources/` came due | scoped `/deepen` at the subject the lead names |
 | missing `use_when`, dead link, bad frontmatter | fix in-session; no worker |
 | cap breach, misplaced subject | `apply-taxonomy.mjs`; no worker |

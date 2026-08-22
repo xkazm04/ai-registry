@@ -158,6 +158,19 @@
       "contentHash": "sha256:4bc961b13f80bf7e"
     },
     {
+      "name": "game-production",
+      "title": "Game production",
+      "path": "knowledge/game-production",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "game",
+      "subjects": 41,
+      "techniques": 241,
+      "applications": 109,
+      "files": 395,
+      "contentHash": "sha256:eafd96a53a8801fe"
+    },
+    {
       "name": "grant-funding",
       "title": "Grant funding",
       "path": "knowledge/grant-funding",
@@ -220,7 +233,7 @@
       "techniques": 793,
       "applications": 331,
       "files": 1258,
-      "contentHash": "sha256:75ab4193d19c5fc5"
+      "contentHash": "sha256:5c2ad4a129529e33"
     }
   ]
 }

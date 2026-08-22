@@ -24,6 +24,7 @@ knowledge/
 | `civic-intelligence/` | Watching public power with data: parliamentary records, legislation, public money, and the accountability methodology for publishing about real named people. |
 | `grant-funding/` | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |
 | `llm-observability/` | Operating production LLM traffic as a product: telemetry and cost attribution, price books and usage governance, unit economics, judge-scoring of live traces, and federated benchmark sharing. |
+| `game-production/` | Producing a game's systems and content at scale with machine assistance: systems canon and balance validation, the content pipeline and its acceptance ladder, generative asset production, engine integration, machine craft judgment, and production governance. |
 | `recruiting/` | Hiring people with machine assistance and staying defensible: role definition and intake, candidate evidence and its provenance, interviews and work samples, automated screening and its fairness gates, pipeline operations, candidate experience, governance and consent, and honest measurement of a small-sample process. |
 
 ## How the tree grows — and when a domain splits

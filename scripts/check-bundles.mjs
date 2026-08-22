@@ -164,6 +164,18 @@ const PURITY_PROFILES = {
     [/\.(?:tsx?|mjs|cjs|jsx|py|sql)\b/, 'source-file extension'],
     [/\b(?:CandiDate|Next\.js|React|TypeScript|SQLite|Postgres|PostgreSQL|Prisma|Greenhouse|Workday|SmartRecruiters|Ashby|Taleo|iCIMS|LinkedIn|OpenAI|GPT-[0-9]|Claude|Anthropic|Gemini|Mistral|Whisper|ElevenLabs)\b/, 'stack/vendor/model identifier'],
   ],
+  // Game-production domains: the analogue of a repo path is an engine content path; the
+  // analogue of a framework name is an engine, a digital-content-creation tool, or a
+  // generative model product. Engine-proprietary system names (a visual-scripting graph
+  // product, an ability-system product) are product identifiers too — the craft transplants
+  // to studios on other engines, so the upper layers must say "a visual scripting graph",
+  // not the brand. Published game titles used as quality anchors belong in an application,
+  // never upstairs. The denylist is a floor, not the whole rule.
+  game: [
+    [/\b(?:src|app|lib|components|features|scripts|Content|Source|Config)\//, 'repo or engine content path'],
+    [/\.(?:tsx?|mjs|cjs|jsx|cpp|uasset|umap|fbx|glb|blend|wav|png)\b/, 'source or asset file extension'],
+    [/\b(?:Unreal|UE5|Unity|Godot|Blender|Maya|Houdini|Substance|Mixamo|Blueprints?|Gameplay Ability System|Next\.js|React|TypeScript|SQLite|Zustand|Leonardo|Tripo|TripoSR|Hunyuan|Qwen|Midjourney|LayoutLab|PoF)\b/, 'engine/tool/model product identifier'],
+  ],
   // Applied when a bundle declares no profile: the domain-independent core only.
   generic: [
     [/\b(?:src|src-tauri|scripts)\//, 'repo path'],

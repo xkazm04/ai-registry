@@ -1,0 +1,5120 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "game-production",
+  "source": "knowledge/game-production/ (frontmatter only)",
+  "subjects": 41,
+  "techniques": 241,
+  "applications": 109,
+  "laws": 11,
+  "categories": [
+   "systems-canon",
+   "balance-validation",
+   "content-pipeline",
+   "asset-production",
+   "engine-integration",
+   "craft-judgment",
+   "production-governance"
+  ],
+  "layout": "nested",
+  "use_when_coverage": "241/241",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "aaa-craft-rubric-authoring": {
+   "category": "craft-judgment",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
+   "techniques": [
+    {
+     "slug": "capped-disqualifiers",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a strong artifact passed with a fatal defect",
+      "writing the hard-fail list of a craft rubric",
+      "weighted scores are washing out breakages"
+     ]
+    },
+    {
+     "slug": "ceiling-as-a-market-assumption",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a deliverable class cannot reach the top of its rubric",
+      "deciding how good a generated class is allowed to get",
+      "a team is grinding against an unstated quality limit"
+     ]
+    },
+    {
+     "slug": "checkable-against-the-stored-artifact",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "drafting or auditing rubric criteria",
+      "an examiner is answering from the brief rather than the artifact",
+      "deciding which lens a deliverable class routes to"
+     ]
+    },
+    {
+     "slug": "criterion-with-a-cited-source",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the criteria of a craft rubric",
+      "a criterion is being argued about as taste",
+      "importing a quality standard from another discipline"
+     ]
+    },
+    {
+     "slug": "lens-versioning-as-invalidation",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "changing a criterion threshold or a level anchor",
+      "comparing grades across time",
+      "a rubric edit is about to re-mean historical verdicts"
+     ]
+    },
+    {
+     "slug": "named-benchmark-anchors-per-level",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the quality levels of a craft rubric",
+      "scores cluster in the middle band",
+      "two reviewers disagree about what excellent means"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "ceiling-as-a-market-assumption",
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--ceiling-as-a-market-assumption.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "checkable-against-the-stored-artifact",
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--checkable-against-the-stored-artifact.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "criterion-with-a-cited-source",
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--criterion-with-a-cited-source.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "ability-authoring-to-engine": {
+   "category": "production-governance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
+   "techniques": [
+    {
+     "slug": "declared-vs-referenced-tag-audit",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring vocabulary hygiene across a content set",
+      "finding references to names nobody declared",
+      "finding declared names nobody uses"
+     ]
+    },
+    {
+     "slug": "few-shot-reference-plus-tag-registry",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing a generator that must name things the system already knows",
+      "stopping invented identifiers",
+      "teaching house style to an author"
+     ]
+    },
+    {
+     "slug": "refinement-mode-minimal-diff",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "iterating on an already-generated artifact",
+      "applying a one-line designer change request",
+      "keeping review cost proportional to the change"
+     ]
+    },
+    {
+     "slug": "server-derived-codegen-report",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording what a code generator actually produced",
+      "deciding whether a generated artifact counts as done",
+      "storing provenance for generated source"
+     ]
+    },
+    {
+     "slug": "strict-output-schema-with-derived-dependents",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the return shape for a generated artifact",
+      "deciding which fields to ask a generator for",
+      "removing silent contradictions from generated output"
+     ]
+    },
+    {
+     "slug": "tag-dialect-normalization",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an identifier exists in two syntaxes across a boundary",
+      "comparisons across a code/data seam return nothing",
+      "adopting generated output into a data store"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "declared-vs-referenced-tag-audit",
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/node--declared-vs-referenced-tag-audit.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "server-derived-codegen-report",
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/node--server-derived-codegen-report.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "few-shot-reference-plus-tag-registry",
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/process--few-shot-reference-plus-tag-registry.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "acceptance-verdict-spine": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/acceptance-verdict-spine.md",
+   "techniques": [
+    {
+     "slug": "explain-why-this-verdict",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operator asks why a unit is red",
+      "diagnosing a verdict takes a code bisect",
+      "a composed check reports a reason nobody can attribute"
+     ]
+    },
+    {
+     "slug": "first-non-pass-reporting-in-all-of",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "composing several checks into one unit verdict",
+      "a reason on screen cannot be attributed",
+      "deciding what an operator sees when five sub-checks fail"
+     ]
+    },
+    {
+     "slug": "gate-check-dependency-map",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a terminal shippability gate",
+      "a gate reports pass over a condemned upstream unit",
+      "an operator cannot tell what is blocking a check"
+     ]
+    },
+    {
+     "slug": "hardcoded-pass-antipattern",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing a gate that has never failed",
+      "reviewing generated pipeline code",
+      "a checklist row is authored rather than computed"
+     ]
+    },
+    {
+     "slug": "three-layer-merge-order",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "several authorities report on the same unit of work",
+      "two surfaces show different colours for one step",
+      "designing how an out-of-band runner reports back"
+     ]
+    },
+    {
+     "slug": "ungraded-marker-doctrine",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a producer reports its own success",
+      "an independent re-grade cannot resolve a checker",
+      "counting how much of a completion claim was actually verified"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "three-layer-merge-order",
+     "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/node--three-layer-merge-order.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "hardcoded-pass-antipattern",
+     "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/process--hardcoded-pass-antipattern.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "react",
+     "technique": "explain-why-this-verdict",
+     "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/react--explain-why-this-verdict.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "arpg-systems-canon": {
+   "category": "systems-canon",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/systems-canon/arpg-systems-canon/arpg-systems-canon.md",
+   "techniques": [
+    {
+     "slug": "added-increased-more-stacking",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning a stacking bucket to a new modifier",
+      "auditing a runaway damage build",
+      "writing the damage composition kernel"
+     ]
+    },
+    {
+     "slug": "ailments-scale-off-the-hit",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining a damage-over-time ailment",
+      "balancing a second damage channel",
+      "stopping an ailment build from scaling independently"
+     ]
+    },
+    {
+     "slug": "ilvl-gated-affix-tiers",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building an affix tier ladder",
+      "sizing item power against character level",
+      "auditing a progression that flattens or spikes"
+     ]
+    },
+    {
+     "slug": "layered-defenses-and-the-ehp-floor",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting a survivability requirement per level",
+      "judging whether a defence build is viable",
+      "deciding what avoidance is allowed to count for"
+     ]
+    },
+    {
+     "slug": "mitigation-order-and-soft-caps",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining how a defender reduces an incoming hit",
+      "displaying a mitigation percentage",
+      "reconciling two defence implementations"
+     ]
+    },
+    {
+     "slug": "rarity-is-an-affix-budget",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining rarity tiers for droppable items",
+      "generating item affixes at scale",
+      "reviewing a loot curve that runs away"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "mitigation-order-and-soft-caps",
+     "file": "knowledge/game-production/systems-canon/arpg-systems-canon/applications/node--mitigation-order-and-soft-caps.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "rarity-is-an-affix-budget",
+     "file": "knowledge/game-production/systems-canon/arpg-systems-canon/applications/process--rarity-is-an-affix-budget.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "asset-class-poly-budgeting": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
+   "techniques": [
+    {
+     "slug": "budget-shapes-output-not-just-caps",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the budget for one specific asset",
+      "output has invented detail nobody asked for",
+      "deciding whether to hand an asset its class maximum"
+     ]
+    },
+    {
+     "slug": "class-ceiling-vs-requested-budget",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the geometry gate",
+      "a mesh passed the gate but is not what was ordered",
+      "a generator accepts no budget parameter",
+      "an asset arrives with no class"
+     ]
+    },
+    {
+     "slug": "part-split-budget-division",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generating an asset as separate parts",
+      "a modular kit assembles into one shipped thing",
+      "the assembled result overruns while every part passed"
+     ]
+    },
+    {
+     "slug": "provider-face-limit-conversion",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring a budget into a generation request",
+      "adding a second generative provider",
+      "a provider exposes a face or density parameter"
+     ]
+    },
+    {
+     "slug": "quad-trap-detection",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a delivered mesh overruns its budget",
+      "writing the diagnostic for a budget failure",
+      "triaging whether to re-request or re-configure"
+     ]
+    },
+    {
+     "slug": "triangles-as-the-authored-unit",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining a geometry budget field",
+      "auditing a pipeline for unit drift",
+      "writing a budget into a brief or a spec"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "provider-face-limit-conversion",
+     "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/applications/node--provider-face-limit-conversion.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "class-ceiling-vs-requested-budget",
+     "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/applications/process--class-ceiling-vs-requested-budget.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "catalog-pipeline-authoring": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/catalog-pipeline-authoring.md",
+   "techniques": [
+    {
+     "slug": "archetype-view-coherence-ratchet",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a convention is followed by almost everything and enforced by nothing",
+      "declaring an invariant over an existing corpus",
+      "a step whose kind and rendering disagree"
+     ]
+    },
+    {
+     "slug": "direction-as-first-class-produce-input",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operator types a steer into a generation box",
+      "making a regeneration reproducible",
+      "a produced artifact whose provenance stops at who clicked the button"
+     ]
+    },
+    {
+     "slug": "packaging-exempt-two-state-rule",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "compiling-is-not-wiring",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a convention that most members follow and a few legitimately do not",
+      "an exemption that reads as silence",
+      "deciding whether a production line needs a terminal shipping step"
+     ]
+    },
+    {
+     "slug": "seed-entities-and-walker-coverage",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving a newly declared production line actually runs",
+      "measuring coverage across content classes",
+      "a walk that is green on one machine and red on another"
+     ]
+    },
+    {
+     "slug": "step-archetype-taxonomy",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the step vocabulary a content system draws from",
+      "deciding whether to add or retire a step kind",
+      "a content class that does not fit the existing kinds"
+     ]
+    },
+    {
+     "slug": "view-produce-accept-triad",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a production step must declare",
+      "a surface that shows one number while grading another",
+      "deciding whether a step is done"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "seed-entities-and-walker-coverage",
+     "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/node--seed-entities-and-walker-coverage.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "step-archetype-taxonomy",
+     "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/process--step-archetype-taxonomy.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "react",
+     "technique": "archetype-view-coherence-ratchet",
+     "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/react--archetype-view-coherence-ratchet.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "combat-pacing-and-dramatic-arc": {
+   "category": "balance-validation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/combat-pacing-and-dramatic-arc.md",
+   "techniques": [
+    {
+     "slug": "beat-taxonomy-climax-comeback-deadzone",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "converting a tension curve into designer-readable findings",
+      "deciding whether a lull is authored or accidental",
+      "diagnosing a fight that tests fine but feels flat"
+     ]
+    },
+    {
+     "slug": "difficulty-band-classification",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a survival or win-rate figure into a verdict a designer can act on",
+      "naming difficulty tiers",
+      "deciding where band boundaries sit"
+     ]
+    },
+    {
+     "slug": "encounter-duration-envelopes",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fight feels spongy or ends before it starts",
+      "setting length targets per encounter class",
+      "separating a health problem from a damage problem"
+     ]
+    },
+    {
+     "slug": "intensity-and-threat-tension-curve",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a pacing instrument from an event timeline",
+      "deciding how to normalize a drama metric",
+      "porting encounter pacing analysis to a different genre"
+     ]
+    },
+    {
+     "slug": "plain-language-fight-report",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "simulation output is being ignored by the people it was built for",
+      "writing the metric glossary that ships with a balance tool",
+      "deciding which numbers reach a designer at all"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "intensity-and-threat-tension-curve",
+     "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/node--intensity-and-threat-tension-curve.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "plain-language-fight-report",
+     "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/process--plain-language-fight-report.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "content-acceptance-tiering": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/content-acceptance-tiering.md",
+   "techniques": [
+    {
+     "slug": "config-complete-vs-runtime-verified",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the summary dot for a content item",
+      "deciding when content may advance a stage",
+      "a green dot is being derived from cheap checks"
+     ]
+    },
+    {
+     "slug": "deferred-as-honest-progress",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the status vocabulary for a content gate",
+      "a board is permanently red",
+      "an expensive gate cannot run in this environment"
+     ]
+    },
+    {
+     "slug": "derived-vs-toggled-acceptance",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a status field is editable by hand",
+      "adding a completion flag to a content record",
+      "a dashboard disagrees with the build"
+     ]
+    },
+    {
+     "slug": "never-fail-silently-reason-strings",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the verdict shape for a check",
+      "triage of a failing run takes hours",
+      "a deferral cannot be explained"
+     ]
+    },
+    {
+     "slug": "plain-language-tier-glossary",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "artists cannot read the acceptance board",
+      "naming the rungs of a ladder",
+      "an authoring surface must show acceptance state"
+     ]
+    },
+    {
+     "slug": "tier-ladder-design",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing an acceptance ladder for a new content domain",
+      "auditing whether an existing rung earns its place"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "config-complete-vs-runtime-verified",
+     "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/applications/node--config-complete-vs-runtime-verified.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "tier-ladder-design",
+     "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/applications/process--tier-ladder-design.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "content-drift-and-revision": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/content-drift-and-revision.md",
+   "techniques": [
+    {
+     "slug": "add-only-hydration",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "merging persisted state into an in-memory model",
+      "several writers update one record concurrently",
+      "produced artifacts go missing without an error"
+     ]
+    },
+    {
+     "slug": "batch-lease-on-a-non-reentrant-resource",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "many production jobs contend for one single-instance tool",
+      "a batch must not leave a half-regenerated corpus",
+      "deciding between per-job locking and a batch-wide lease"
+     ]
+    },
+    {
+     "slug": "bounded-revision-history",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operation overwrites a generated artifact in place",
+      "choosing a retention depth for regenerable content",
+      "an accidental re-produce needs to be recoverable"
+     ]
+    },
+    {
+     "slug": "content-hash-vs-status-drift",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing two observations of the same production line",
+      "a green dashboard may be describing content that has since changed",
+      "deciding what counts as content for change detection"
+     ]
+    },
+    {
+     "slug": "orphaned-artifact-visibility",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an entity or step is deleted or renamed",
+      "storage grows faster than the visible corpus",
+      "coverage numbers look better than the work performed"
+     ]
+    },
+    {
+     "slug": "produce-direction-stamping",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operator steers a generation with free text",
+      "a regeneration must not lose the last instruction",
+      "investigating why regenerated content changed"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "batch-lease-on-a-non-reentrant-resource",
+     "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/node--batch-lease-on-a-non-reentrant-resource.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "content-hash-vs-status-drift",
+     "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/node--content-hash-vs-status-drift.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "sql",
+     "technique": "bounded-revision-history",
+     "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/sql--bounded-revision-history.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "crash-forensics-attribution": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/crash-forensics-attribution.md",
+   "techniques": [
+    {
+     "slug": "caller-chain-decay",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "weighting stack frames by distance from the crash site",
+      "choosing between a frame window and a decay curve",
+      "tuning a triage scorer that over-trusts the top frame"
+     ]
+    },
+    {
+     "slug": "confidence-gates-report-unknown",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when a triage tool may name a subsystem",
+      "a scorer produces confident wrong answers",
+      "designing the outcome vocabulary of an attribution tool"
+     ]
+    },
+    {
+     "slug": "crash-signature-over-id-equality",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "matching a new crash against previously diagnosed ones",
+      "deduplicating a crash corpus",
+      "a known-crash lookup never finds anything"
+     ]
+    },
+    {
+     "slug": "engine-crash-vocabulary",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a diagnostic report for someone who did not write the crashing code",
+      "building a glossary for engine crash terms",
+      "a triage output keeps getting escalated for translation"
+     ]
+    },
+    {
+     "slug": "root-cause-to-fix-prompt",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a confirmed root cause into an actionable change request",
+      "feeding a diagnosis to an automated change process",
+      "cataloguing recurring engine defect classes"
+     ]
+    },
+    {
+     "slug": "weighted-evidence-directory-file-symbol",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring a call stack against subsystem candidates",
+      "building the naming dictionary a triage tool matches against",
+      "a triage tool keeps blaming the wrong subsystem"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "crash-signature-over-id-equality",
+     "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/node--crash-signature-over-id-equality.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "weighted-evidence-directory-file-symbol",
+     "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/node--weighted-evidence-directory-file-symbol.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "root-cause-to-fix-prompt",
+     "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/process--root-cause-to-fix-prompt.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "design-canon-as-executable-law": {
+   "category": "systems-canon",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/design-canon-as-executable-law.md",
+   "techniques": [
+    {
+     "slug": "archetype-aware-envelopes",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one band is wrong for half the content it grades",
+      "adding a new content kind to an existing checker",
+      "a check that never fires or always fires"
+     ]
+    },
+    {
+     "slug": "canon-as-single-source-of-thresholds",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "standing up a design canon that checks will read",
+      "deciding where a threshold number lives",
+      "resolving a disagreement between a design doc and a validator"
+     ]
+    },
+    {
+     "slug": "flag-your-own-shipped-defaults",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a new conformance checker passes everything on first run",
+      "calibrating thresholds without widening them",
+      "deciding whether a linter can be trusted"
+     ]
+    },
+    {
+     "slug": "parse-thresholds-from-prose",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "extracting a checker threshold out of a written rule",
+      "a canon edit broke the parse",
+      "writing patterns that survive rewording"
+     ]
+    },
+    {
+     "slug": "self-declared-budget-enforcement",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an artifact states its own cap or band",
+      "grading a measured value with no canon rule to cite",
+      "catching internal contradiction in generated content"
+     ]
+    },
+    {
+     "slug": "shape-check-vs-content-invariant",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "classifying what a check actually proves",
+      "a green dashboard over unvalidated numbers",
+      "deciding which authoring steps need the design rules in scope"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "flag-your-own-shipped-defaults",
+     "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/applications/node--flag-your-own-shipped-defaults.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "parse-thresholds-from-prose",
+     "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/applications/node--parse-thresholds-from-prose.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "canon-as-single-source-of-thresholds",
+     "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/applications/process--canon-as-single-source-of-thresholds.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "design-doc-compliance-scoring": {
+   "category": "craft-judgment",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/design-doc-compliance-scoring.md",
+   "techniques": [
+    {
+     "slug": "bidirectional-gap-detection",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "cross-checking a design document against an implementation",
+      "a document that has drifted out of date",
+      "classifying findings for triage"
+     ]
+    },
+    {
+     "slug": "coverage-vs-conformance-split",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a compliance or readiness metric",
+      "a dashboard number that moves for reasons nobody can explain",
+      "splitting a percentage that mixes measurement with reach"
+     ]
+    },
+    {
+     "slug": "declared-mapping-is-terminal",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "relating design items to implementation artifacts",
+      "a checklist cross-check reports suspiciously few findings",
+      "replacing fuzzy name matching with a declared relation"
+     ]
+    },
+    {
+     "slug": "evidence-age-envelope",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a dashboard shows a fresh timestamp over old evidence",
+      "choosing how long a verdict stays current",
+      "rolling up evidence of mixed ages"
+     ]
+    },
+    {
+     "slug": "no-neutral-constant-for-unmeasured",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scoring function needs a value for something nobody measured",
+      "auditing a metric for hidden defaults",
+      "designing the record type a score is computed from"
+     ]
+    },
+    {
+     "slug": "severity-weighted-scale-free-damping",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a list of defects into a score adjustment",
+      "a penalty term that caps out",
+      "comparing defect load across areas of different sizes"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "coverage-vs-conformance-split",
+     "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/applications/node--coverage-vs-conformance-split.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "severity-weighted-scale-free-damping",
+     "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/applications/node--severity-weighted-scale-free-damping.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "declared-mapping-is-terminal",
+     "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/applications/process--declared-mapping-is-terminal.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "difficulty-design-and-adaptation": {
+   "category": "balance-validation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/difficulty-design-and-adaptation.md",
+   "techniques": [
+    {
+     "slug": "four-term-difficulty-decomposition",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a difficulty complaint has no agreed cause",
+      "deciding which term a difficulty change should move",
+      "writing down what a difficulty setting actually scales",
+      "a balance figure assumes a player nobody has described"
+     ]
+    },
+    {
+     "slug": "player-chosen-challenge-and-adjustment-hazards",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing difficulty settings or opt-in modifiers",
+      "adding a system that adjusts difficulty from live performance",
+      "players have discovered how to game an adjustment",
+      "deciding whether an adjustment should be visible"
+     ]
+    },
+    {
+     "slug": "setting-bounded-overlapping-bands",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "combining a difficulty setting with live adjustment",
+      "an adaptive system is overriding the player's chosen setting",
+      "deciding how far a difficulty system may drift",
+      "difficulty settings feel like disjoint games"
+     ]
+    },
+    {
+     "slug": "skill-scaling-versus-power-scaling",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a higher difficulty tier",
+      "an elite variant is only a bigger version of its base",
+      "deciding what a new difficulty level should change",
+      "an opponent has become unbeatably fast or accurate"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "four-term-difficulty-decomposition",
+     "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/applications/node--four-term-difficulty-decomposition.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "node@24"
+    }
+   ]
+  },
+  "encounter-balance-simulation": {
+   "category": "balance-validation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/encounter-balance-simulation.md",
+   "techniques": [
+    {
+     "slug": "goal-seek-on-a-seeded-monotonic-lever",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "solving for the multiplier that hits a target survival rate",
+      "replacing manual slider hunting",
+      "deciding whether a solver may be trusted"
+     ]
+    },
+    {
+     "slug": "kill-share-and-damage-share-attribution",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fight fails its target and nobody knows which knob to turn",
+      "deciding what to nerf",
+      "reporting a simulation result to a designer"
+     ]
+    },
+    {
+     "slug": "monte-carlo-scenario-presets",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "standing up a balance harness",
+      "comparing a result against one taken months ago",
+      "deciding how many iterations a question needs"
+     ]
+    },
+    {
+     "slug": "one-shot-rate-and-ehp-floor-checks",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "law-and-check-share-one-source",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking a fight is shippable rather than merely balanced",
+      "measuring survivability against a stated hit",
+      "wiring a canon threshold into a harness"
+     ]
+    },
+    {
+     "slug": "per-cell-seed-derivation-for-order-independence",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a parameter sweep or heat map",
+      "a cell's numbers change when the sweep order changes",
+      "making a stochastic result quotable"
+     ]
+    },
+    {
+     "slug": "tier-band-peer-outlier-linting",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a new combatant has just been authored",
+      "screening a roster for balance outliers",
+      "budgeting an encounter before simulating it"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "goal-seek-on-a-seeded-monotonic-lever",
+     "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/node--goal-seek-on-a-seeded-monotonic-lever.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "per-cell-seed-derivation-for-order-independence",
+     "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/node--per-cell-seed-derivation-for-order-independence.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "monte-carlo-scenario-presets",
+     "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/process--monte-carlo-scenario-presets.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "engine-integration-safety": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
+   "techniques": [
+    {
+     "slug": "editor-thread-timeout-budgeting",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a timeout for a call into a heavyweight application",
+      "a slow but healthy call is reported as a failure",
+      "two ends of one call disagree about when to give up"
+     ]
+    },
+    {
+     "slug": "judge-by-log-markers-not-exit-code",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "law-and-check-share-one-source",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging a headless run of a heavyweight application",
+      "a process exits non-zero after succeeding",
+      "correlating several results out of one run log"
+     ]
+    },
+    {
+     "slug": "pid-scoped-teardown",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "cleaning up after a spawned application",
+      "writing a watchdog that must stop a run",
+      "a cleanup step is killing more than it started"
+     ]
+    },
+    {
+     "slug": "refuse-dont-kill-a-live-editor",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a precondition blocks an automated run",
+      "a tool wants to close or restart something to proceed",
+      "writing the refusal path of a driver"
+     ]
+    },
+    {
+     "slug": "single-instance-lease-and-drain",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two automated paths can drive the same application at once",
+      "designing a batch that needs exclusive access",
+      "a concurrent run produced garbage results"
+     ]
+    },
+    {
+     "slug": "transport-failure-taxonomy",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the error type of a client that drives another process",
+      "a failure message sent someone to fix the wrong thing",
+      "deciding when a failed call may be retried"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "editor-thread-timeout-budgeting",
+     "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--editor-thread-timeout-budgeting.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "transport-failure-taxonomy",
+     "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--transport-failure-taxonomy.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "refuse-dont-kill-a-live-editor",
+     "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/process--refuse-dont-kill-a-live-editor.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "engine-pitfall-corpus": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
+   "techniques": [
+    {
+     "slug": "binary-content-wall",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an automated author keeps producing plausible output for an artifact class it cannot actually produce",
+      "deciding what a knowledge block must state beyond its list of traps"
+     ]
+    },
+    {
+     "slug": "domain-scoped-injection-with-a-safe-superset",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "routing a growing corpus to individual tasks",
+      "a knowledge block has grown too large to inject whole",
+      "deciding what an unrecognised task descriptor should receive"
+     ]
+    },
+    {
+     "slug": "incident-entry-shape",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "converting a root-caused incident into a reusable entry",
+      "auditing an existing knowledge file for entries that cannot be re-verified"
+     ]
+    },
+    {
+     "slug": "introspect-before-you-call",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning automation against an API in a reduced execution mode",
+      "an existence check reports absence for something demonstrably present",
+      "deciding whether a pipeline step can run unattended"
+     ]
+    },
+    {
+     "slug": "known-asset-paths-over-invented-ones",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generated code references resources that do not exist",
+      "deciding what identifiers a generator must be handed before it authors anything"
+     ]
+    },
+    {
+     "slug": "provenance-on-every-entry",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a platform upgrade has landed and nobody knows which entries survived it",
+      "deciding how strongly to weigh a claim in a knowledge base",
+      "an entry is being contradicted by observed behaviour"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "domain-scoped-injection-with-a-safe-superset",
+     "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/node--domain-scoped-injection-with-a-safe-superset.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "incident-entry-shape",
+     "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/process--incident-entry-shape.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "game-economy-tuning": {
+   "category": "systems-canon",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/systems-canon/game-economy-tuning/game-economy-tuning.md",
+   "techniques": [
+    {
+     "slug": "economy-philosophy-multipliers",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "expressing a design stance on scarcity or generosity",
+      "comparing two tuning philosophies",
+      "preventing a design intent from dissolving into scattered edits"
+     ]
+    },
+    {
+     "slug": "faucet-sink-balance-band",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "specifying a currency's sources and drains",
+      "deciding whether an economy is balanced",
+      "auditing a design that has never had its net flow measured"
+     ]
+    },
+    {
+     "slug": "progression-curve-shape-tests",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "validating an experience or cost curve against its stated design",
+      "a curve feels wrong late but fine early",
+      "deciding whether to retune or rewrite a formula"
+     ]
+    },
+    {
+     "slug": "rarity-inflation-and-affix-saturation-alerts",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a loot system has stopped feeling rewarding",
+      "auditing drop tables and modifier pools at endgame",
+      "deciding which loot metric to instrument"
+     ]
+    },
+    {
+     "slug": "tornado-sensitivity-sweeps",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which tuning lever to pull first",
+      "prioritising which uncertain input to go measure",
+      "defending a tuning decision against intuition"
+     ]
+    },
+    {
+     "slug": "wealth-concentration-and-price-imbalance-alerts",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "aggregate net flow passes but players report the economy feels broken",
+      "setting alert thresholds for a currency",
+      "checking whether prices still constitute decisions"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "tornado-sensitivity-sweeps",
+     "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/node--tornado-sensitivity-sweeps.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "wealth-concentration-and-price-imbalance-alerts",
+     "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/node--wealth-concentration-and-price-imbalance-alerts.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "faucet-sink-balance-band",
+     "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/process--faucet-sink-balance-band.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "generated-asset-world-scale": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/generated-asset-world-scale/generated-asset-world-scale.md",
+   "techniques": [
+    {
+     "slug": "generator-normalization-band",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a delivered mesh still carries generator-default size",
+      "establishing the constant a pipeline detects against",
+      "a provider changed and sizes look different"
+     ]
+    },
+    {
+     "slug": "import-scale-derivation",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "computing the uniform scale for an import",
+      "someone is hand-tuning a scale value",
+      "deciding what a scale grade should report",
+      "a correction seems to have been applied twice"
+     ]
+    },
+    {
+     "slug": "nominal-extent-only-where-honest",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a table of default sizes per asset class",
+      "tempted to add a default so automation stops blocking",
+      "deciding whether a system may size an asset without asking"
+     ]
+    },
+    {
+     "slug": "reference-skeleton-size-check",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "validating a generated humanoid before rigging",
+      "retargeted animation slides or misses grips",
+      "deciding where the canonical character height lives"
+     ]
+    },
+    {
+     "slug": "unit-convention-at-the-engine-edge",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring an import path between an interchange format and an engine",
+      "an asset came in a hundred times too large or lying on its side",
+      "someone added a magic constant next to an import call"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "import-scale-derivation",
+     "file": "knowledge/game-production/asset-production/generated-asset-world-scale/applications/node--import-scale-derivation.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "generator-normalization-band",
+     "file": "knowledge/game-production/asset-production/generated-asset-world-scale/applications/process--generator-normalization-band.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "generated-mesh-acceptance": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/generated-mesh-acceptance.md",
+   "techniques": [
+    {
+     "slug": "defect-code-taxonomy-not-prose",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "consumers are regex-matching verdict text",
+      "designing a gate's output contract",
+      "routing a rejection to a remedy"
+     ]
+    },
+    {
+     "slug": "face-rig-shell-readiness",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a generated head can be rigged for expressions",
+      "gating an expensive downstream stage on a structural precondition",
+      "separating asset health from fitness for a job"
+     ]
+    },
+    {
+     "slug": "floater-vs-part-face-share-rule",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gate rejects legitimately multi-part assets",
+      "distinguishing debris from body parts",
+      "one count is conflating two populations"
+     ]
+    },
+    {
+     "slug": "stage-declared-grading",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "grade-against-what-ships-not-on-a-curve",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gate rejects everything at one pipeline stage",
+      "explaining a harsh verdict without softening it",
+      "routing a rejection to finishing or re-generation"
+     ]
+    },
+    {
+     "slug": "structural-scorecard",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building an automated geometry gate",
+      "choosing fail versus warn thresholds",
+      "turning mesh metrics into a routable verdict"
+     ]
+    },
+    {
+     "slug": "unmeasured-is-not-pass",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a gate's output contract",
+      "a dashboard is greener than the pipeline",
+      "a metric extractor is optional or versioned"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "structural-scorecard",
+     "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/applications/node--structural-scorecard.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "stage-declared-grading",
+     "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/applications/process--stage-declared-grading.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "generative-artifact-gating": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
+   "techniques": [
+    {
+     "slug": "auto-picked-vs-human-chosen-provenance",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording how a generated candidate was chosen",
+      "measuring how much of a line a human actually reviewed",
+      "migrating a pipeline that lacked a provenance field"
+     ]
+    },
+    {
+     "slug": "cite-evidence-not-descriptions",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the corrective message a rejected step hands back",
+      "a fix prompt is inventing target values",
+      "feeding a rejection back into a generator"
+     ]
+    },
+    {
+     "slug": "gate-before-every-credit-spend",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing verification in a multi-stage paid pipeline",
+      "a defect was discovered three paid stages downstream",
+      "deciding whether to skip a gate for speed"
+     ]
+    },
+    {
+     "slug": "generation-history-as-artifact",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "law-and-check-share-one-source",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a generative step persists",
+      "a gate cannot prove a generator ever ran",
+      "producing and grading halves of a step are drifting"
+     ]
+    },
+    {
+     "slug": "grade-the-selected-candidate",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check validates a selection index instead of the chosen asset",
+      "wiring the grading half of a generative step",
+      "a verdict must name what it judged"
+     ]
+    },
+    {
+     "slug": "placeholder-is-not-an-asset",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generative step reports green with no generator run",
+      "deciding the verdict for a seeded stand-in",
+      "auditing whether gates are sensitive to their own content"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "grade-the-selected-candidate",
+     "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/node--grade-the-selected-candidate.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "gate-before-every-credit-spend",
+     "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/process--gate-before-every-credit-spend.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "generative-provider-auditing": {
+   "category": "production-governance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/production-governance/generative-provider-auditing/generative-provider-auditing.md",
+   "techniques": [
+    {
+     "slug": "arena-benchmark-protocol",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "a-budget-shapes-the-output",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing generative model variants",
+      "selecting a critic or grader model",
+      "a provider released a new version worth evaluating"
+     ]
+    },
+    {
+     "slug": "capability-is-not-registry-membership",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "registering a generative provider in a pipeline",
+      "a provider supports more kinds than you validated",
+      "deciding whether output may ship commercially"
+     ]
+    },
+    {
+     "slug": "never-the-account-default",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "integrating a hosted generative service",
+      "output changed with no code change",
+      "reviewing a provider integration for audit gaps"
+     ]
+    },
+    {
+     "slug": "pin-a-model-per-asset-class",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adopting a generative model into an asset pipeline",
+      "a provider exposes several variants",
+      "an asset class keeps failing its budget"
+     ]
+    },
+    {
+     "slug": "record-negative-benchmarks-in-place",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model variant was evaluated and rejected",
+      "writing up a benchmark result",
+      "a rejected option keeps getting re-proposed"
+     ]
+    },
+    {
+     "slug": "refuse-with-reason-not-greyed-out",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a request targets an unregistered provider capability",
+      "designing the failure path of a generative call",
+      "an option must be unavailable in an authoring surface"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "capability-is-not-registry-membership",
+     "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/node--capability-is-not-registry-membership.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "pin-a-model-per-asset-class",
+     "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/node--pin-a-model-per-asset-class.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "arena-benchmark-protocol",
+     "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/process--arena-benchmark-protocol.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "image-to-3d-input-gating": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/image-to-3d-input-gating.md",
+   "techniques": [
+    {
+     "slug": "canonical-pose-rule",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing or briefing a source image for a character reconstruction",
+      "writing the pose criterion of an input rubric",
+      "reconstructions return fused limbs or asymmetric bodies"
+     ]
+    },
+    {
+     "slug": "multi-view-master-reference",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how many views a reconstruction needs",
+      "assembling a view set for a character",
+      "a reconstruction is inventing the back of the subject wrongly"
+     ]
+    },
+    {
+     "slug": "reference-role-tagging",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "handing more than one reference image to a reconstruction",
+      "references are fighting each other",
+      "deciding what a colour reference may and may not carry"
+     ]
+    },
+    {
+     "slug": "score-defect-verdict-protocol",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the response contract of an automated visual gate",
+      "a vision critic returns prose that nothing can act on",
+      "choosing thresholds for an input rubric"
+     ]
+    },
+    {
+     "slug": "single-subject-plain-background",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "preparing a source image for reconstruction",
+      "writing the isolation criterion of an input rubric",
+      "reconstructions come back with attached background geometry"
+     ]
+    },
+    {
+     "slug": "text-is-never-geometry",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing a source image that carries lettering or a logo",
+      "a reconstruction returns unreadable extruded relief",
+      "deciding what to strip from an input before generating"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "reference-role-tagging",
+     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "single-subject-plain-background",
+     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "score-defect-verdict-protocol",
+     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/process--score-defect-verdict-protocol.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "mesh-finishing-for-engine-readiness": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
+   "techniques": [
+    {
+     "slug": "crease-angle-and-custom-normals",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a reduced mesh shades faceted or blotchy",
+      "deciding whether to re-smooth generated geometry",
+      "a smoothing pass appears to do nothing"
+     ]
+    },
+    {
+     "slug": "headless-dcc-capability-limits",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "automating a content tool with no interactive session",
+      "an API call resolves but does nothing",
+      "planning which pipeline stages can run unattended"
+     ]
+    },
+    {
+     "slug": "high-to-low-bake-coverage",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning which texture channels a bake will produce",
+      "a material set is missing a channel",
+      "deciding whether a value may be derived or must be authored"
+     ]
+    },
+    {
+     "slug": "pack-existing-vs-smart-unwrap",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "consolidating several textured parts into one asset",
+      "choosing a UV layout mode",
+      "an unwrap destroyed usable seams"
+     ]
+    },
+    {
+     "slug": "rig-preset-and-bone-remap-binding",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "binding a generated character to a skeleton",
+      "retargeted animation deforms wrongly",
+      "choosing a target skeleton for an asset class"
+     ]
+    },
+    {
+     "slug": "unwrap-only-the-low-poly",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an unwrap hangs or never finishes",
+      "ordering a retopology and unwrap stage",
+      "a finishing run reports success with no usable texture coordinates"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "high-to-low-bake-coverage",
+     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/node--high-to-low-bake-coverage.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "unwrap-only-the-low-poly",
+     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/node--unwrap-only-the-low-poly.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "headless-dcc-capability-limits",
+     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/process--headless-dcc-capability-limits.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "motion-quality-gating": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/motion-quality-gating/motion-quality-gating.md",
+   "techniques": [
+    {
+     "slug": "absolute-not-curved-judgment",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "instructing a machine critic to grade craft",
+      "scores cluster in a narrow band",
+      "a batch review keeps promoting the least bad candidate"
+     ]
+    },
+    {
+     "slug": "asset-reality-ledger",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reconciling what a project references against what is on disk",
+      "an asset exists and the character does nothing",
+      "auditing a generated content set before a build"
+     ]
+    },
+    {
+     "slug": "filmstrip-sampling-discipline",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "feeding motion to a still-image critic",
+      "assembling frames from a capture directory",
+      "a critic reports defects nobody can see in the clip"
+     ]
+    },
+    {
+     "slug": "genre-response-latency-norms",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting responsiveness budgets per action class",
+      "publishing a norm table next to project data",
+      "a clip cannot be mapped to an action class"
+     ]
+    },
+    {
+     "slug": "montage-budget-and-root-motion-lint",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "linting a composed motion asset before it enters a build",
+      "a character drifts out of sync with its animation",
+      "animation memory grows without explanation"
+     ]
+    },
+    {
+     "slug": "six-dimension-motion-rubric",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the scoring card for a motion critic",
+      "deciding what dimensions movement is graded on",
+      "turning animation principles into checkable criteria"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "asset-reality-ledger",
+     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/node--asset-reality-ledger.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "filmstrip-sampling-discipline",
+     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/node--filmstrip-sampling-discipline.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "six-dimension-motion-rubric",
+     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/process--six-dimension-motion-rubric.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "procedural-level-planning": {
+   "category": "balance-validation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
+   "techniques": [
+    {
+     "slug": "algorithm-parameter-support-matrix",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one parameter panel drives several generation algorithms",
+      "a control appears to do nothing",
+      "adding a new generation backend behind an existing surface"
+     ]
+    },
+    {
+     "slug": "declare-what-each-engine-ignores",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "several generators accept the same request type",
+      "a designer cannot tell which inputs mattered",
+      "comparing two backends on one brief"
+     ]
+    },
+    {
+     "slug": "pacing-linter-rules",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking a generated room graph before anything is built from it",
+      "a level plays as a slog or a wall",
+      "encoding pacing knowledge a lead reviewer holds informally"
+     ]
+    },
+    {
+     "slug": "safe-room-and-boss-placement",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning structural roles to generated rooms",
+      "a generated level's ending fight sits next to the entrance",
+      "writing the placement half of a generation brief"
+     ]
+    },
+    {
+     "slug": "seed-determinism-contract",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "promising a designer that a seed reproduces a level",
+      "storing a generated plan for later regeneration",
+      "upgrading a generator that shipped seeded output"
+     ]
+    },
+    {
+     "slug": "zone-progression-linting",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring a new region into an existing world",
+      "checking that a world's zones are reachable and sensibly ordered",
+      "a player reports a difficulty wall between areas"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "declare-what-each-engine-ignores",
+     "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--declare-what-each-engine-ignores.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "pacing-linter-rules",
+     "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--pacing-linter-rules.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "safe-room-and-boss-placement",
+     "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/process--safe-room-and-boss-placement.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "production-coverage-measurement": {
+   "category": "production-governance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/production-governance/production-coverage-measurement/production-coverage-measurement.md",
+   "techniques": [
+    {
+     "slug": "audited-fact-drift-detection",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-verdict-is-bound-to-its-content",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a report derives grades from recorded environment facts",
+      "an item was renamed and its audit quietly stopped applying",
+      "deciding what to do with claims whose basis moved"
+     ]
+    },
+    {
+     "slug": "craft-ladder-and-medium-ceilings",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "a-verdict-is-bound-to-its-content",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting craft quality across a whole project",
+      "a generated medium cannot reach the commercial bar",
+      "deciding what a project-wide quality headline may claim"
+     ]
+    },
+    {
+     "slug": "engine-credibility-classes",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an unattended pass needs an independent gate",
+      "classifying what produced each item",
+      "an unrecognised producer is defaulting to a trusted grade"
+     ]
+    },
+    {
+     "slug": "headless-operability-gate",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "compiling-is-not-wiring",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a pipeline step may claim the top readiness rungs",
+      "a step only works with an operator present",
+      "auditing which of a pipeline's steps can actually be scheduled"
+     ]
+    },
+    {
+     "slug": "readiness-ladder",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a project-wide readiness scale",
+      "a status board reads greener than the build",
+      "deciding whether a workflow state deserves a rung"
+     ]
+    },
+    {
+     "slug": "source-provenance-marks",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a heuristic guess renders identically to a measured fact",
+      "choosing how to encode claim origin on a report",
+      "reconciling a self-declared value against an audited one"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "engine-credibility-classes",
+     "file": "knowledge/game-production/production-governance/production-coverage-measurement/applications/node--engine-credibility-classes.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "readiness-ladder",
+     "file": "knowledge/game-production/production-governance/production-coverage-measurement/applications/process--readiness-ladder.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "react",
+     "technique": "source-provenance-marks",
+     "file": "knowledge/game-production/production-governance/production-coverage-measurement/applications/react--source-provenance-marks.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "production-prompt-architecture": {
+   "category": "production-governance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/production-governance/production-prompt-architecture/production-prompt-architecture.md",
+   "techniques": [
+    {
+     "slug": "acceptance-criteria-appended-not-replaced",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "no-gate-self-certifies",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a producer is graded against criteria it was never shown",
+      "composing per-step criteria on top of a pipeline baseline",
+      "criteria seeded upstream keep disappearing from prompts"
+     ]
+    },
+    {
+     "slug": "domain-scoped-knowledge-injection",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a prompt carries constraints that cannot apply to its task",
+      "deciding which pitfalls and canon a task prompt should receive",
+      "a scoping change made prompts shorter and you need to know if it helped"
+     ]
+    },
+    {
+     "slug": "fixed-section-order",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the skeleton every production prompt must follow",
+      "prompts for adjacent tasks have diverged in structure",
+      "you cannot tell which prompt change caused a quality change"
+     ]
+    },
+    {
+     "slug": "scanned-project-state-do-not-recreate",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an automated producer keeps re-inventing systems that already exist",
+      "assembling the context section of a generation prompt",
+      "deciding how much project state a prompt should carry"
+     ]
+    },
+    {
+     "slug": "version-keyed-engine-facts",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a prompt states facts about the target engine or toolchain",
+      "the project upgraded and prompts still describe the old environment",
+      "deciding where environment claims in a prompt should come from"
+     ]
+    },
+    {
+     "slug": "wiring-requirements-section",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assembling a prompt whose output must run inside an existing system",
+      "generated artifacts compile but nothing happens at runtime",
+      "deciding what the output schema of a production prompt must require"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "fixed-section-order",
+     "file": "knowledge/game-production/production-governance/production-prompt-architecture/applications/node--fixed-section-order.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "acceptance-criteria-appended-not-replaced",
+     "file": "knowledge/game-production/production-governance/production-prompt-architecture/applications/process--acceptance-criteria-appended-not-replaced.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "production-work-prioritization": {
+   "category": "production-governance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/production-governance/production-work-prioritization/production-work-prioritization.md",
+   "techniques": [
+    {
+     "slug": "blocked-if-any-produced-feature-is-blocked",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a candidate is startable",
+      "propagating blocked state through a dependency graph",
+      "a candidate that produces several outputs has mixed blocker states"
+     ]
+    },
+    {
+     "slug": "curriculum-prerequisite-graph",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which areas of a project are even eligible to be worked next",
+      "auditing an ordering constraint someone asserted in a meeting"
+     ]
+    },
+    {
+     "slug": "fan-out-max-not-sum",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring how much downstream work a candidate unblocks",
+      "a hub item dominates every ranking",
+      "a candidate produces several outputs with overlapping dependents"
+     ]
+    },
+    {
+     "slug": "five-factor-weighted-scoring",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ranking eligible production candidates across a whole project",
+      "replacing an opaque priority number with an arguable one",
+      "auditing why a backlog ranking keeps surfacing the wrong item"
+     ]
+    },
+    {
+     "slug": "null-success-odds-with-sample-provenance",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a ranking factor forecasts whether work will succeed",
+      "a dashboard shows a success percentage on a young project",
+      "choosing between competing samples for a rate"
+     ]
+    },
+    {
+     "slug": "urgency-ladder-for-what-next",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operator faces a screen of mixed statuses and asks what to touch first",
+      "two surfaces of the same tool give contradictory next-step advice",
+      "a project is too young to support a scored ranking"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "five-factor-weighted-scoring",
+     "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/node--five-factor-weighted-scoring.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "null-success-odds-with-sample-provenance",
+     "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/node--null-success-odds-with-sample-provenance.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "urgency-ladder-for-what-next",
+     "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/process--urgency-ladder-for-what-next.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "prompt-fitness-and-evolution": {
+   "category": "production-governance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/prompt-fitness-and-evolution.md",
+   "techniques": [
+    {
+     "slug": "exclude-synthetic-fixtures-from-fitness",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the population for a fitness figure",
+      "auditing why two arms scored differently",
+      "computing quality statistics over an artifact store"
+     ]
+    },
+    {
+     "slug": "join-judge-verdicts-to-prompt-version",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "computing a fitness figure for a prompt version",
+      "attributing quality scores to a revision",
+      "reporting whether a prompt change helped"
+     ]
+    },
+    {
+     "slug": "min-trials-and-confidence-banded-conclusion",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "running a comparison between two prompt variants",
+      "deciding when a comparison may conclude",
+      "reporting the strength of a prompt result"
+     ]
+    },
+    {
+     "slug": "mutation-taxonomy",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proposing a revision to a production prompt",
+      "comparing two prompt variants",
+      "attributing a quality gain to a kind of change"
+     ]
+    },
+    {
+     "slug": "stamp-prompt-version-into-provenance",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring a generation step so its output can be attributed later",
+      "designing artifact provenance",
+      "preparing to run a prompt comparison"
+     ]
+    },
+    {
+     "slug": "unjudged-is-null-not-zero",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "aggregating quality scores with incomplete judging",
+      "designing a fitness or coverage statistic",
+      "deciding what an unscored artifact contributes"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "join-judge-verdicts-to-prompt-version",
+     "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/applications/node--join-judge-verdicts-to-prompt-version.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "min-trials-and-confidence-banded-conclusion",
+     "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/applications/process--min-trials-and-confidence-banded-conclusion.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "mutation-taxonomy",
+     "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/applications/process--mutation-taxonomy.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "quality-verdict-integrity": {
+   "category": "craft-judgment",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/quality-verdict-integrity.md",
+   "techniques": [
+    {
+     "slug": "calibration-against-confirmed-labels-only",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "claiming an automated grader agrees with human judgment",
+      "standing up a new grading standard",
+      "reporting the trustworthiness of a quality layer"
+     ]
+    },
+    {
+     "slug": "condemn-vs-elevate-asymmetry",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a verdict of uncertain provenance still applies",
+      "designing a gate that consumes stored verdicts",
+      "choosing whether a batch grader may skip work"
+     ]
+    },
+    {
+     "slug": "content-hash-binding",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "storing an automated verdict for later reuse",
+      "deciding whether a cached evaluation still applies",
+      "changing what a fingerprint covers"
+     ]
+    },
+    {
+     "slug": "rubric-version-supersession",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "changing a grading standard that has already graded work",
+      "discovering a defect in a grading harness",
+      "aggregating scores produced over a long period"
+     ]
+    },
+    {
+     "slug": "sibling-context-projection",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a grader reports cross-references as invented",
+      "grading one part of a multi-part artifact",
+      "deciding what context may accompany a judged payload"
+     ]
+    },
+    {
+     "slug": "stale-superseded-unknown-classification",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reading a stored verdict back",
+      "rendering quality state to a reviewer",
+      "migrating a fingerprinting scheme"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "condemn-vs-elevate-asymmetry",
+     "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/node--condemn-vs-elevate-asymmetry.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "content-hash-binding",
+     "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/node--content-hash-binding.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "calibration-against-confirmed-labels-only",
+     "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/process--calibration-against-confirmed-labels-only.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "realtime-combat-semantics": {
+   "category": "systems-canon",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/realtime-combat-semantics.md",
+   "techniques": [
+    {
+     "slug": "active-defense-two-axis-split",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a block parry or dodge",
+      "diagnosing combat that feels flat",
+      "deciding how gear should affect a defensive action"
+     ]
+    },
+    {
+     "slug": "death-via-state-tag-not-input-disable",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing death or incapacitation",
+      "defining which states block ability activation",
+      "diagnosing actions that fire after a combatant died"
+     ]
+    },
+    {
+     "slug": "hit-dedup-per-swing",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing a sweeping or lingering damage volume",
+      "diagnosing damage that varies with approach angle",
+      "reviewing a beam aura or piercing projectile"
+     ]
+    },
+    {
+     "slug": "real-time-timers-with-an-escapable-window",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring a duration or period on an ability",
+      "porting a turn-count effect to real time",
+      "reviewing a zone the player cannot seem to leave"
+     ]
+    },
+    {
+     "slug": "single-source-of-health-truth",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing a combat subsystem for parallel bookkeeping",
+      "adding a second system that writes health",
+      "diagnosing an interface bar that disagrees with the fight"
+     ]
+    },
+    {
+     "slug": "telegraph-or-homing-for-area-effects",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing an ability that resolves on an area",
+      "reviewing an attack players call unfair",
+      "grading an authored enemy move set"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "real-time-timers-with-an-escapable-window",
+     "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/node--real-time-timers-with-an-escapable-window.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "death-via-state-tag-not-input-disable",
+     "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/process--death-via-state-tag-not-input-disable.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "telegraph-or-homing-for-area-effects",
+     "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/process--telegraph-or-homing-for-area-effects.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "regeneration-vs-repair-economics": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
+   "techniques": [
+    {
+     "slug": "best-of-n-parameter-sweep",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generator is deterministic and re-rolling changes nothing",
+      "choosing among several generated attempts",
+      "looking for free quality before paying for more attempts"
+     ]
+    },
+    {
+     "slug": "bounded-refine-iteration",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a generate-critique-refine loop",
+      "a refinement cycle will not terminate",
+      "deciding what to emit when a retry budget runs out"
+     ]
+    },
+    {
+     "slug": "defect-class-to-remedy-map",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "routing a rejected generated asset to a remedy",
+      "deciding which defects a repair pass actually cures",
+      "a repair keeps running and changing nothing"
+     ]
+    },
+    {
+     "slug": "refuse-the-fix-that-cannot-help",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a router must decide whether to invoke a repair stage",
+      "an automated fix keeps running and changing nothing",
+      "granting an automated stage write access or heavy compute"
+     ]
+    },
+    {
+     "slug": "reroll-economics-per-credit",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether another paid generation is worth buying",
+      "setting a per-asset generation budget",
+      "justifying a repair stage against a re-roll"
+     ]
+    },
+    {
+     "slug": "score-basis-must-be-stated",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ranking generated attempts by a score",
+      "blending several quality measures into one number",
+      "a structurally perfect output keeps scoring mid-range"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "defect-class-to-remedy-map",
+     "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/applications/node--defect-class-to-remedy-map.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "bounded-refine-iteration",
+     "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/applications/process--bounded-refine-iteration.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "runtime-observation-evidence": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/runtime-observation-evidence.md",
+   "techniques": [
+    {
+     "slug": "behavioural-discriminators-over-symbolic-pass",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing what a behavioural assertion measures",
+      "a boolean check passes while the behaviour is wrong",
+      "calibrating a threshold for a runtime gate"
+     ]
+    },
+    {
+     "slug": "bounded-evidence-with-provenance",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a runtime verdict stores alongside itself",
+      "an audit cannot tell why a gate passed",
+      "evidence payloads are growing without bound"
+     ]
+    },
+    {
+     "slug": "deterministic-headless-timestep",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a runtime measurement varies between machines",
+      "building a headless observation run",
+      "choosing between a render-less and a rendering run mode"
+     ]
+    },
+    {
+     "slug": "observation-spine-contract",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "compiling-is-not-wiring",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the loop an agent follows when it changes a live runtime",
+      "two verification paths have drifted apart",
+      "deciding what verbs an observation layer exposes"
+     ]
+    },
+    {
+     "slug": "tiers-of-truth",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "naming the strength of a verification claim",
+      "designing an evidence ladder for a runtime",
+      "auditing whether a green check proves what it is quoted as proving"
+     ]
+    },
+    {
+     "slug": "unverifiable-is-not-fail",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-verdict-is-bound-to-its-content",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the outcome vocabulary of an automated gate",
+      "a failure rate is dominated by infrastructure gaps",
+      "deciding what a harness reports when it cannot run"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "behavioural-discriminators-over-symbolic-pass",
+     "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/node--behavioural-discriminators-over-symbolic-pass.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "unverifiable-is-not-fail",
+     "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/node--unverifiable-is-not-fail.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "tiers-of-truth",
+     "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/process--tiers-of-truth.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "shader-budget-authoring": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/shader-budget-authoring/shader-budget-authoring.md",
+   "techniques": [
+    {
+     "slug": "channel-packing",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a material is near its sampler ceiling",
+      "exporting single-channel material maps",
+      "a packed map is producing wrong roughness or occlusion"
+     ]
+    },
+    {
+     "slug": "feature-cost-with-a-cheaper-swap",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "costing an optional material feature",
+      "a material is over its soft cap",
+      "writing the message a budget tool prints when it refuses"
+     ]
+    },
+    {
+     "slug": "forbidden-feature-combinations",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two material features are enabled together and the result looks wrong",
+      "building a cost estimator that sums per-feature deltas",
+      "a frame-time regression appeared with no obvious cause"
+     ]
+    },
+    {
+     "slug": "hardware-tier-lighting-presets",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing global illumination settings for a build",
+      "deciding what the minimum-spec configuration runs",
+      "someone proposes shipping the maximum quality mode"
+     ]
+    },
+    {
+     "slug": "sampler-hard-and-soft-caps",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting a texture budget for a material class",
+      "a material fails to compile on sampler count",
+      "deciding whether an expensive material may ship"
+     ]
+    },
+    {
+     "slug": "surface-to-shading-model-map",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a plain-language surface brief into material settings",
+      "deciding which shading path a surface requires",
+      "building authoring guidance that must survive a renderer upgrade"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "feature-cost-with-a-cheaper-swap",
+     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/node--feature-cost-with-a-cheaper-swap.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "hardware-tier-lighting-presets",
+     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/process--hardware-tier-lighting-presets.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "surface-to-shading-model-map",
+     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/process--surface-to-shading-model-map.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "ship-pipeline-gating": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
+   "techniques": [
+    {
+     "slug": "editor-only-api-audit-for-shipping",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "code compiles in development and must survive a shipping configuration",
+      "auditing a source tree for capability that does not exist in the shipped build",
+      "a symbol resolves locally and fails on the build machine"
+     ]
+    },
+    {
+     "slug": "fail-closed-on-corrupt-gate-config",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gate cannot read its own thresholds",
+      "deciding what a check does when its configuration is missing",
+      "a linter silently fell back to built-in defaults"
+     ]
+    },
+    {
+     "slug": "post-cook-process-liveness-smoke",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a packaged artifact must be proven to start",
+      "a launcher exits and the real process is unobserved",
+      "deciding what a smoke test may and may not certify"
+     ]
+    },
+    {
+     "slug": "preflight-before-an-expensive-cook",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a long content-conversion or packaging run is about to start",
+      "adding a check to an expensive pipeline",
+      "deciding where in a pipeline a check belongs"
+     ]
+    },
+    {
+     "slug": "size-budget-and-growth-baseline",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "holding a distributable against a size budget",
+      "detecting slow growth across builds",
+      "a first build has no baseline to compare against"
+     ]
+    },
+    {
+     "slug": "validator-log-classification",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool reports success but its own log contains errors",
+      "judging a long-lived application driven into performing a task",
+      "deciding whether an exit code means anything"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "post-cook-process-liveness-smoke",
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/node--post-cook-process-liveness-smoke.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "preflight-before-an-expensive-cook",
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/node--preflight-before-an-expensive-cook.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "validator-log-classification",
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/process--validator-log-classification.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "spatial-audio-scene-authoring": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/spatial-audio-scene-authoring.md",
+   "techniques": [
+    {
+     "slug": "attenuation-falloff-and-distance-filtering",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "distance does not read in the mix",
+      "authoring an attenuation curve per zone",
+      "a small zone has no audible core"
+     ]
+    },
+    {
+     "slug": "event-priority-concurrency-cooldown",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a busy encounter turns into mush",
+      "defining an audio event catalog",
+      "deciding which sound dies when the voice limit binds"
+     ]
+    },
+    {
+     "slug": "occlusion-to-volume-and-filter",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a wall between listener and source must be audible",
+      "walls currently sound like distance",
+      "choosing occlusion levels for room types"
+     ]
+    },
+    {
+     "slug": "reverb-parameter-tables",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every space in the game sounds like the same reverb at different lengths",
+      "defining a reverb preset set",
+      "tuning a room to read as a specific place"
+     ]
+    },
+    {
+     "slug": "room-type-to-acoustic-profile",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a level's room graph into an audio scene",
+      "setting per-room-type audio defaults",
+      "a sound designer wants to override one room without losing regeneration"
+     ]
+    },
+    {
+     "slug": "two-d-vs-three-d-spatialization-choice",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an event class gets a world position",
+      "a first-person weapon or the player's own footsteps feel wrong",
+      "interface sound is being filtered by level geometry"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "room-type-to-acoustic-profile",
+     "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/applications/node--room-type-to-acoustic-profile.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "event-priority-concurrency-cooldown",
+     "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/applications/process--event-priority-concurrency-cooldown.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "subsystem-review-doctrine": {
+   "category": "craft-judgment",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/subsystem-review-doctrine.md",
+   "techniques": [
+    {
+     "slug": "four-pass-ordering",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a review procedure",
+      "a review produced confident findings on code nobody confirmed",
+      "deciding what a pass may conclude"
+     ]
+    },
+    {
+     "slug": "ground-truth-pass-before-proposals",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting a review of unfamiliar code",
+      "designing an automated review prompt",
+      "a reviewer keeps citing members that do not exist"
+     ]
+    },
+    {
+     "slug": "per-subsystem-check-sets",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a review checklist for a subsystem you own",
+      "a review keeps finding only generic issues",
+      "an existing checklist has stopped producing findings"
+     ]
+    },
+    {
+     "slug": "regression-diff-new-persisting-resolved",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting review results across repeated runs",
+      "a finding list is too long to read whole",
+      "showing whether quality is improving"
+     ]
+    },
+    {
+     "slug": "severity-by-consequence",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning severity to review findings",
+      "a finding queue is sorted by convenience",
+      "tooling severity is being copied into a report"
+     ]
+    },
+    {
+     "slug": "trace-one-interaction-end-to-end",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing a subsystem whose parts each look fine",
+      "hunting a defect that survives every per-file check",
+      "verifying a feature is actually wired"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "regression-diff-new-persisting-resolved",
+     "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/applications/node--regression-diff-new-persisting-resolved.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "ground-truth-pass-before-proposals",
+     "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/applications/process--ground-truth-pass-before-proposals.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "trace-one-interaction-end-to-end",
+     "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/applications/process--trace-one-interaction-end-to-end.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "tiling-texture-acceptance": {
+   "category": "asset-production",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/tiling-texture-acceptance.md",
+   "techniques": [
+    {
+     "slug": "biome-themed-tile-prompting",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generated environment textures all look the same regardless of the setting asked for",
+      "composing a material prompt for an environment class",
+      "an unknown environment class needs a defined result",
+      "keeping the words that request a material and the words that interpret it in agreement"
+     ]
+    },
+    {
+     "slug": "derive-only-what-the-source-encodes",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "refuse-rather-than-destroy",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning one generated artifact into a set of derived channels",
+      "a pipeline emits every material channel at equal confidence",
+      "deciding whether to guess a value or refuse it",
+      "labelling what a downstream consumer may trust"
+     ]
+    },
+    {
+     "slug": "luminance-heightfield-normal-derivation",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "producing a surface-direction map from a single colour image",
+      "a derived normal map introduced a seam",
+      "deciding between baking and deriving surface detail",
+      "a derived normal embosses painted markings"
+     ]
+    },
+    {
+     "slug": "seam-threshold-calibration",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the cutoff for an automated seam check",
+      "an automated check is rejecting good textures",
+      "defending a threshold someone wants to relax",
+      "re-tuning a check after the generator changed"
+     ]
+    },
+    {
+     "slug": "texel-density-and-uv-tiling",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how many times a texture repeats across a surface",
+      "one surface looks softer than the one beside it",
+      "choosing a texture resolution for an asset class",
+      "accepting a generated texture against a stated density"
+     ]
+    },
+    {
+     "slug": "wrap-around-edge-diff",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "accepting a generated texture that must repeat",
+      "a surface shows repeating lines in a build",
+      "deciding what to check before an import cycle",
+      "verifying a derived channel is still tileable"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "derive-only-what-the-source-encodes",
+     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/node--derive-only-what-the-source-encodes.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "wrap-around-edge-diff",
+     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/node--wrap-around-edge-diff.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "biome-themed-tile-prompting",
+     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/process--biome-themed-tile-prompting.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "unattended-build-loop": {
+   "category": "craft-judgment",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/craft-judgment/unattended-build-loop/unattended-build-loop.md",
+   "techniques": [
+    {
+     "slug": "budget-reservation-and-drain-not-kill",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "giving an autonomous loop a spend ceiling",
+      "running concurrent workers against a shared budget",
+      "deciding what to do with in-flight work when a cap trips"
+     ]
+    },
+    {
+     "slug": "completed-with-gaps-excluded-from-the-numerator",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an automated item is promoted despite failing checks",
+      "reporting a success rate that has a third outcome",
+      "letting downstream work proceed on partially verified input"
+     ]
+    },
+    {
+     "slug": "no-gate-self-certifies",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring a verification check into an automated loop",
+      "deciding what a check with no command may report",
+      "letting a producer report on its own output"
+     ]
+    },
+    {
+     "slug": "rollback-to-last-green",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an automated item exhausts its retries",
+      "recovering an unattended run that went red",
+      "resuming an interrupted automated run"
+     ]
+    },
+    {
+     "slug": "unreachable-success-preflight",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "launching an autonomous run against a target rate",
+      "configuring required checks for an automated loop",
+      "diagnosing a run that burned its budget with no progress"
+     ]
+    },
+    {
+     "slug": "verified-vs-self-reported-pass-rate",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting how much of a plan an automated run completed",
+      "choosing the stop condition for a loop",
+      "reconciling a builder's reported results against a plan"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "budget-reservation-and-drain-not-kill",
+     "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--budget-reservation-and-drain-not-kill.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "verified-vs-self-reported-pass-rate",
+     "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--verified-vs-self-reported-pass-rate.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "no-gate-self-certifies",
+     "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/process--no-gate-self-certifies.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "visual-script-to-code-transpilation": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/visual-script-to-code-transpilation.md",
+   "techniques": [
+    {
+     "slug": "declaration-definition-parity",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "emitting code in a language that separates declaration from definition",
+      "a generated member fails to link or fails to appear in an editor",
+      "reviewing a generator that writes two files per class"
+     ]
+    },
+    {
+     "slug": "event-override-signature-resolution",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "mapping a graph event node onto an engine callback",
+      "a ported system builds and its logic never runs",
+      "the same event node appears on objects of different kinds"
+     ]
+    },
+    {
+     "slug": "graph-type-to-code-type-mapping",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the type table for a graph-to-code port",
+      "a ported system compiles but mutates shared state",
+      "deciding what to do with a graph type the language has no equivalent for"
+     ]
+    },
+    {
+     "slug": "plain-language-jargon-layer",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool sits between a designer audience and an engineering audience",
+      "writing a glossary for engine or graph vocabulary",
+      "a generated artifact is correct but unreadable by the person who must approve it"
+     ]
+    },
+    {
+     "slug": "structural-round-trip-diff",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reconciling an exported graph against hand-written code",
+      "detecting drift after a port",
+      "deciding whether a generated file still matches its source graph"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "event-override-signature-resolution",
+     "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/applications/node--event-override-signature-resolution.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "plain-language-jargon-layer",
+     "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/applications/process--plain-language-jargon-layer.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "wiring-contract-doctrine": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/wiring-contract-doctrine.md",
+   "techniques": [
+    {
+     "slug": "contract-injection-into-prompts",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a checker rejects most of what the generator produces",
+      "writing the authoring prompt for generated content",
+      "deciding where a production rule should live"
+     ]
+    },
+    {
+     "slug": "cross-catalog-link-resolution",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "compiling-is-not-wiring",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "dependencies name siblings in other catalogs",
+      "finding orphaned content",
+      "an effect that fires and silently does nothing"
+     ]
+    },
+    {
+     "slug": "four-field-wiring-contract",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the done criteria for generated content",
+      "designing an artifact schema",
+      "reviewing a produced artifact"
+     ]
+    },
+    {
+     "slug": "no-gray-box-rule",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining what counts as done",
+      "a status board that is all green before anyone has played",
+      "review pressure to accept a compiling artifact"
+     ]
+    },
+    {
+     "slug": "placeholder-rejection",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking a filled-in wiring contract",
+      "designing the acceptance rule for a declaration field",
+      "a catalog that passes every check and nobody can play"
+     ]
+    },
+    {
+     "slug": "verification-must-name-a-tier",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the verification field of a wiring contract",
+      "deciding what a completion claim may assert",
+      "auditing verification text that reads as confident but proves nothing"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "placeholder-rejection",
+     "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/applications/node--placeholder-rejection.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "verification-must-name-a-tier",
+     "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/applications/node--verification-must-name-a-tier.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "contract-injection-into-prompts",
+     "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/applications/process--contract-injection-into-prompts.md",
+     "verified_on": "2026-08-20"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "grade-against-what-ships-not-on-a-curve": {
+   "statement": "Craft is judged in absolute terms against the standard of work that actually shipped, never relative to the batch, never relative to the artifact's own ambition, and never assuming the input was competent. Correctness is the floor, not a passing grade: a functional, generic result that a lead would hand back is placeholder work and must score as such. A rubric earns this by naming concrete reference standards per level and by stating each criterion as a bar an examiner can check against the stored artifact.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/capped-disqualifiers",
+    "aaa-craft-rubric-authoring/ceiling-as-a-market-assumption",
+    "aaa-craft-rubric-authoring/checkable-against-the-stored-artifact",
+    "aaa-craft-rubric-authoring/criterion-with-a-cited-source",
+    "aaa-craft-rubric-authoring/named-benchmark-anchors-per-level",
+    "asset-class-poly-budgeting/budget-shapes-output-not-just-caps",
+    "asset-class-poly-budgeting/class-ceiling-vs-requested-budget",
+    "design-canon-as-executable-law/archetype-aware-envelopes",
+    "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
+    "generated-mesh-acceptance/stage-declared-grading",
+    "generative-provider-auditing/arena-benchmark-protocol",
+    "image-to-3d-input-gating/canonical-pose-rule",
+    "motion-quality-gating/absolute-not-curved-judgment",
+    "motion-quality-gating/six-dimension-motion-rubric",
+    "production-coverage-measurement/craft-ladder-and-medium-ceilings",
+    "prompt-fitness-and-evolution/exclude-synthetic-fixtures-from-fitness",
+    "quality-verdict-integrity/sibling-context-projection",
+    "subsystem-review-doctrine/severity-by-consequence"
+   ]
+  },
+  "unmeasured-is-not-a-pass": {
+   "statement": "Absence of a measurement, a verdict, or a check must render as *not measured*, never as compliance, and never as a neutral number standing in for one. A step nobody has evaluated and a step evaluated as adequate are different epistemic states and must be different values; collapsing them is the single most common way a production dashboard lies. There is no neutral constant: an unmeasured thing is null, `unmeasured`, `ungauged`, `unknown` — a label, not a score. The corollary is that silence must never propagate upward as green.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/capped-disqualifiers",
+    "aaa-craft-rubric-authoring/checkable-against-the-stored-artifact",
+    "aaa-craft-rubric-authoring/lens-versioning-as-invalidation",
+    "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
+    "ability-authoring-to-engine/server-derived-codegen-report",
+    "acceptance-verdict-spine/first-non-pass-reporting-in-all-of",
+    "acceptance-verdict-spine/gate-check-dependency-map",
+    "acceptance-verdict-spine/hardcoded-pass-antipattern",
+    "acceptance-verdict-spine/three-layer-merge-order",
+    "acceptance-verdict-spine/ungraded-marker-doctrine",
+    "arpg-systems-canon/layered-defenses-and-the-ehp-floor",
+    "asset-class-poly-budgeting/class-ceiling-vs-requested-budget",
+    "asset-class-poly-budgeting/quad-trap-detection",
+    "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
+    "catalog-pipeline-authoring/direction-as-first-class-produce-input",
+    "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
+    "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
+    "catalog-pipeline-authoring/step-archetype-taxonomy",
+    "catalog-pipeline-authoring/view-produce-accept-triad",
+    "combat-pacing-and-dramatic-arc/beat-taxonomy-climax-comeback-deadzone",
+    "combat-pacing-and-dramatic-arc/plain-language-fight-report",
+    "content-acceptance-tiering/deferred-as-honest-progress",
+    "content-acceptance-tiering/derived-vs-toggled-acceptance",
+    "content-acceptance-tiering/never-fail-silently-reason-strings",
+    "content-acceptance-tiering/tier-ladder-design",
+    "content-drift-and-revision/orphaned-artifact-visibility",
+    "crash-forensics-attribution/confidence-gates-report-unknown",
+    "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "design-canon-as-executable-law/flag-your-own-shipped-defaults",
+    "design-canon-as-executable-law/shape-check-vs-content-invariant",
+    "design-doc-compliance-scoring/bidirectional-gap-detection",
+    "design-doc-compliance-scoring/coverage-vs-conformance-split",
+    "design-doc-compliance-scoring/declared-mapping-is-terminal",
+    "design-doc-compliance-scoring/evidence-age-envelope",
+    "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "difficulty-design-and-adaptation/four-term-difficulty-decomposition",
+    "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
+    "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
+    "encounter-balance-simulation/kill-share-and-damage-share-attribution",
+    "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
+    "encounter-balance-simulation/tier-band-peer-outlier-linting",
+    "engine-integration-safety/judge-by-log-markers-not-exit-code",
+    "engine-integration-safety/refuse-dont-kill-a-live-editor",
+    "engine-integration-safety/single-instance-lease-and-drain",
+    "engine-integration-safety/transport-failure-taxonomy",
+    "engine-pitfall-corpus/domain-scoped-injection-with-a-safe-superset",
+    "engine-pitfall-corpus/introspect-before-you-call",
+    "game-economy-tuning/faucet-sink-balance-band",
+    "game-economy-tuning/rarity-inflation-and-affix-saturation-alerts",
+    "game-economy-tuning/tornado-sensitivity-sweeps",
+    "game-economy-tuning/wealth-concentration-and-price-imbalance-alerts",
+    "generated-asset-world-scale/generator-normalization-band",
+    "generated-asset-world-scale/import-scale-derivation",
+    "generated-asset-world-scale/nominal-extent-only-where-honest",
+    "generated-mesh-acceptance/face-rig-shell-readiness",
+    "generated-mesh-acceptance/floater-vs-part-face-share-rule",
+    "generated-mesh-acceptance/structural-scorecard",
+    "generated-mesh-acceptance/unmeasured-is-not-pass",
+    "generative-artifact-gating/auto-picked-vs-human-chosen-provenance",
+    "generative-artifact-gating/grade-the-selected-candidate",
+    "generative-artifact-gating/placeholder-is-not-an-asset",
+    "generative-provider-auditing/capability-is-not-registry-membership",
+    "generative-provider-auditing/never-the-account-default",
+    "generative-provider-auditing/pin-a-model-per-asset-class",
+    "generative-provider-auditing/record-negative-benchmarks-in-place",
+    "generative-provider-auditing/refuse-with-reason-not-greyed-out",
+    "image-to-3d-input-gating/canonical-pose-rule",
+    "image-to-3d-input-gating/score-defect-verdict-protocol",
+    "image-to-3d-input-gating/single-subject-plain-background",
+    "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
+    "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
+    "mesh-finishing-for-engine-readiness/high-to-low-bake-coverage",
+    "mesh-finishing-for-engine-readiness/pack-existing-vs-smart-unwrap",
+    "motion-quality-gating/asset-reality-ledger",
+    "motion-quality-gating/genre-response-latency-norms",
+    "motion-quality-gating/six-dimension-motion-rubric",
+    "procedural-level-planning/algorithm-parameter-support-matrix",
+    "procedural-level-planning/declare-what-each-engine-ignores",
+    "procedural-level-planning/pacing-linter-rules",
+    "procedural-level-planning/zone-progression-linting",
+    "production-coverage-measurement/audited-fact-drift-detection",
+    "production-coverage-measurement/engine-credibility-classes",
+    "production-coverage-measurement/headless-operability-gate",
+    "production-coverage-measurement/readiness-ladder",
+    "production-prompt-architecture/domain-scoped-knowledge-injection",
+    "production-prompt-architecture/scanned-project-state-do-not-recreate",
+    "production-work-prioritization/blocked-if-any-produced-feature-is-blocked",
+    "production-work-prioritization/five-factor-weighted-scoring",
+    "production-work-prioritization/null-success-odds-with-sample-provenance",
+    "production-work-prioritization/urgency-ladder-for-what-next",
+    "prompt-fitness-and-evolution/min-trials-and-confidence-banded-conclusion",
+    "prompt-fitness-and-evolution/unjudged-is-null-not-zero",
+    "quality-verdict-integrity/calibration-against-confirmed-labels-only",
+    "quality-verdict-integrity/condemn-vs-elevate-asymmetry",
+    "quality-verdict-integrity/stale-superseded-unknown-classification",
+    "regeneration-vs-repair-economics/bounded-refine-iteration",
+    "regeneration-vs-repair-economics/defect-class-to-remedy-map",
+    "regeneration-vs-repair-economics/refuse-the-fix-that-cannot-help",
+    "regeneration-vs-repair-economics/reroll-economics-per-credit",
+    "regeneration-vs-repair-economics/score-basis-must-be-stated",
+    "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
+    "runtime-observation-evidence/deterministic-headless-timestep",
+    "runtime-observation-evidence/tiers-of-truth",
+    "runtime-observation-evidence/unverifiable-is-not-fail",
+    "shader-budget-authoring/forbidden-feature-combinations",
+    "shader-budget-authoring/sampler-hard-and-soft-caps",
+    "ship-pipeline-gating/editor-only-api-audit-for-shipping",
+    "ship-pipeline-gating/fail-closed-on-corrupt-gate-config",
+    "ship-pipeline-gating/post-cook-process-liveness-smoke",
+    "ship-pipeline-gating/preflight-before-an-expensive-cook",
+    "ship-pipeline-gating/size-budget-and-growth-baseline",
+    "ship-pipeline-gating/validator-log-classification",
+    "spatial-audio-scene-authoring/event-priority-concurrency-cooldown",
+    "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
+    "subsystem-review-doctrine/regression-diff-new-persisting-resolved",
+    "tiling-texture-acceptance/biome-themed-tile-prompting",
+    "tiling-texture-acceptance/derive-only-what-the-source-encodes",
+    "tiling-texture-acceptance/seam-threshold-calibration",
+    "tiling-texture-acceptance/texel-density-and-uv-tiling",
+    "tiling-texture-acceptance/wrap-around-edge-diff",
+    "unattended-build-loop/budget-reservation-and-drain-not-kill",
+    "unattended-build-loop/completed-with-gaps-excluded-from-the-numerator",
+    "unattended-build-loop/no-gate-self-certifies",
+    "unattended-build-loop/unreachable-success-preflight",
+    "unattended-build-loop/verified-vs-self-reported-pass-rate",
+    "visual-script-to-code-transpilation/structural-round-trip-diff",
+    "wiring-contract-doctrine/cross-catalog-link-resolution",
+    "wiring-contract-doctrine/placeholder-rejection",
+    "wiring-contract-doctrine/verification-must-name-a-tier"
+   ]
+  },
+  "one-authority-per-quantity": {
+   "statement": "Two systems answering the same question with two models is worse than having one model, and worse than having none: the disagreement is invisible until it is load-bearing. Each quantity has exactly one owning implementation; everything else adapts into it. A simpler legacy model may be retained for compatibility but must be barred from producing a verdict. The same rule governs content: a value that appears in sibling artifacts is single-sourced, and a contradiction between siblings is a defect in its own right.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/capped-disqualifiers",
+    "ability-authoring-to-engine/strict-output-schema-with-derived-dependents",
+    "ability-authoring-to-engine/tag-dialect-normalization",
+    "acceptance-verdict-spine/explain-why-this-verdict",
+    "acceptance-verdict-spine/gate-check-dependency-map",
+    "acceptance-verdict-spine/three-layer-merge-order",
+    "arpg-systems-canon/added-increased-more-stacking",
+    "arpg-systems-canon/ailments-scale-off-the-hit",
+    "arpg-systems-canon/mitigation-order-and-soft-caps",
+    "asset-class-poly-budgeting/part-split-budget-division",
+    "asset-class-poly-budgeting/provider-face-limit-conversion",
+    "asset-class-poly-budgeting/triangles-as-the-authored-unit",
+    "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
+    "catalog-pipeline-authoring/step-archetype-taxonomy",
+    "catalog-pipeline-authoring/view-produce-accept-triad",
+    "combat-pacing-and-dramatic-arc/intensity-and-threat-tension-curve",
+    "content-drift-and-revision/content-hash-vs-status-drift",
+    "crash-forensics-attribution/caller-chain-decay",
+    "crash-forensics-attribution/crash-signature-over-id-equality",
+    "crash-forensics-attribution/engine-crash-vocabulary",
+    "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
+    "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
+    "design-canon-as-executable-law/self-declared-budget-enforcement",
+    "design-doc-compliance-scoring/declared-mapping-is-terminal",
+    "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "encounter-balance-simulation/monte-carlo-scenario-presets",
+    "engine-integration-safety/editor-thread-timeout-budgeting",
+    "engine-integration-safety/pid-scoped-teardown",
+    "engine-integration-safety/single-instance-lease-and-drain",
+    "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
+    "game-economy-tuning/economy-philosophy-multipliers",
+    "generated-asset-world-scale/import-scale-derivation",
+    "generated-asset-world-scale/nominal-extent-only-where-honest",
+    "generated-asset-world-scale/reference-skeleton-size-check",
+    "generated-asset-world-scale/unit-convention-at-the-engine-edge",
+    "generated-mesh-acceptance/defect-code-taxonomy-not-prose",
+    "generative-artifact-gating/cite-evidence-not-descriptions",
+    "generative-artifact-gating/generation-history-as-artifact",
+    "generative-provider-auditing/capability-is-not-registry-membership",
+    "generative-provider-auditing/never-the-account-default",
+    "generative-provider-auditing/pin-a-model-per-asset-class",
+    "image-to-3d-input-gating/multi-view-master-reference",
+    "image-to-3d-input-gating/reference-role-tagging",
+    "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
+    "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
+    "motion-quality-gating/genre-response-latency-norms",
+    "procedural-level-planning/seed-determinism-contract",
+    "procedural-level-planning/zone-progression-linting",
+    "production-prompt-architecture/scanned-project-state-do-not-recreate",
+    "production-prompt-architecture/version-keyed-engine-facts",
+    "production-work-prioritization/blocked-if-any-produced-feature-is-blocked",
+    "production-work-prioritization/curriculum-prerequisite-graph",
+    "production-work-prioritization/fan-out-max-not-sum",
+    "production-work-prioritization/five-factor-weighted-scoring",
+    "production-work-prioritization/urgency-ladder-for-what-next",
+    "prompt-fitness-and-evolution/mutation-taxonomy",
+    "prompt-fitness-and-evolution/stamp-prompt-version-into-provenance",
+    "quality-verdict-integrity/content-hash-binding",
+    "quality-verdict-integrity/rubric-version-supersession",
+    "quality-verdict-integrity/sibling-context-projection",
+    "realtime-combat-semantics/death-via-state-tag-not-input-disable",
+    "realtime-combat-semantics/hit-dedup-per-swing",
+    "realtime-combat-semantics/single-source-of-health-truth",
+    "regeneration-vs-repair-economics/defect-class-to-remedy-map",
+    "runtime-observation-evidence/observation-spine-contract",
+    "shader-budget-authoring/channel-packing",
+    "shader-budget-authoring/hardware-tier-lighting-presets",
+    "shader-budget-authoring/surface-to-shading-model-map",
+    "spatial-audio-scene-authoring/attenuation-falloff-and-distance-filtering",
+    "spatial-audio-scene-authoring/event-priority-concurrency-cooldown",
+    "spatial-audio-scene-authoring/occlusion-to-volume-and-filter",
+    "spatial-audio-scene-authoring/reverb-parameter-tables",
+    "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
+    "spatial-audio-scene-authoring/two-d-vs-three-d-spatialization-choice",
+    "subsystem-review-doctrine/trace-one-interaction-end-to-end",
+    "tiling-texture-acceptance/biome-themed-tile-prompting",
+    "tiling-texture-acceptance/texel-density-and-uv-tiling",
+    "unattended-build-loop/rollback-to-last-green",
+    "visual-script-to-code-transpilation/structural-round-trip-diff",
+    "wiring-contract-doctrine/cross-catalog-link-resolution"
+   ]
+  },
+  "a-number-carries-its-unit-and-basis": {
+   "statement": "A quantity handed across a boundary without its unit and the assumption it was computed under is not information. A budget is meaningless unless it says which primitive it counts. A damage figure is meaningless without its type and its stacking bucket. A mitigation percentage does not exist for a defence that is soft-capped against the size of the incoming hit — only for a stated reference hit. A score is meaningless without the basis it was scored on. Where a producer and a consumer of a number disagree about its unit, the failure is silent, arrives late, and is expensive.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/ceiling-as-a-market-assumption",
+    "aaa-craft-rubric-authoring/named-benchmark-anchors-per-level",
+    "ability-authoring-to-engine/strict-output-schema-with-derived-dependents",
+    "arpg-systems-canon/added-increased-more-stacking",
+    "arpg-systems-canon/ailments-scale-off-the-hit",
+    "arpg-systems-canon/ilvl-gated-affix-tiers",
+    "arpg-systems-canon/layered-defenses-and-the-ehp-floor",
+    "arpg-systems-canon/mitigation-order-and-soft-caps",
+    "asset-class-poly-budgeting/class-ceiling-vs-requested-budget",
+    "asset-class-poly-budgeting/provider-face-limit-conversion",
+    "asset-class-poly-budgeting/quad-trap-detection",
+    "asset-class-poly-budgeting/triangles-as-the-authored-unit",
+    "combat-pacing-and-dramatic-arc/beat-taxonomy-climax-comeback-deadzone",
+    "combat-pacing-and-dramatic-arc/difficulty-band-classification",
+    "combat-pacing-and-dramatic-arc/encounter-duration-envelopes",
+    "combat-pacing-and-dramatic-arc/intensity-and-threat-tension-curve",
+    "combat-pacing-and-dramatic-arc/plain-language-fight-report",
+    "content-acceptance-tiering/never-fail-silently-reason-strings",
+    "content-drift-and-revision/bounded-revision-history",
+    "crash-forensics-attribution/caller-chain-decay",
+    "crash-forensics-attribution/confidence-gates-report-unknown",
+    "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
+    "design-canon-as-executable-law/archetype-aware-envelopes",
+    "design-canon-as-executable-law/parse-thresholds-from-prose",
+    "design-doc-compliance-scoring/coverage-vs-conformance-split",
+    "design-doc-compliance-scoring/evidence-age-envelope",
+    "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
+    "difficulty-design-and-adaptation/four-term-difficulty-decomposition",
+    "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
+    "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
+    "encounter-balance-simulation/kill-share-and-damage-share-attribution",
+    "encounter-balance-simulation/monte-carlo-scenario-presets",
+    "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
+    "engine-integration-safety/editor-thread-timeout-budgeting",
+    "engine-pitfall-corpus/incident-entry-shape",
+    "engine-pitfall-corpus/provenance-on-every-entry",
+    "game-economy-tuning/faucet-sink-balance-band",
+    "game-economy-tuning/rarity-inflation-and-affix-saturation-alerts",
+    "game-economy-tuning/tornado-sensitivity-sweeps",
+    "game-economy-tuning/wealth-concentration-and-price-imbalance-alerts",
+    "generated-asset-world-scale/generator-normalization-band",
+    "generated-asset-world-scale/import-scale-derivation",
+    "generated-asset-world-scale/unit-convention-at-the-engine-edge",
+    "generated-mesh-acceptance/defect-code-taxonomy-not-prose",
+    "generated-mesh-acceptance/floater-vs-part-face-share-rule",
+    "generated-mesh-acceptance/stage-declared-grading",
+    "generated-mesh-acceptance/structural-scorecard",
+    "generated-mesh-acceptance/unmeasured-is-not-pass",
+    "generative-provider-auditing/record-negative-benchmarks-in-place",
+    "image-to-3d-input-gating/reference-role-tagging",
+    "mesh-finishing-for-engine-readiness/high-to-low-bake-coverage",
+    "mesh-finishing-for-engine-readiness/unwrap-only-the-low-poly",
+    "motion-quality-gating/absolute-not-curved-judgment",
+    "motion-quality-gating/filmstrip-sampling-discipline",
+    "motion-quality-gating/genre-response-latency-norms",
+    "motion-quality-gating/montage-budget-and-root-motion-lint",
+    "motion-quality-gating/six-dimension-motion-rubric",
+    "procedural-level-planning/safe-room-and-boss-placement",
+    "procedural-level-planning/seed-determinism-contract",
+    "procedural-level-planning/zone-progression-linting",
+    "production-coverage-measurement/craft-ladder-and-medium-ceilings",
+    "production-coverage-measurement/source-provenance-marks",
+    "production-work-prioritization/fan-out-max-not-sum",
+    "production-work-prioritization/five-factor-weighted-scoring",
+    "production-work-prioritization/null-success-odds-with-sample-provenance",
+    "prompt-fitness-and-evolution/exclude-synthetic-fixtures-from-fitness",
+    "prompt-fitness-and-evolution/join-judge-verdicts-to-prompt-version",
+    "prompt-fitness-and-evolution/min-trials-and-confidence-banded-conclusion",
+    "prompt-fitness-and-evolution/unjudged-is-null-not-zero",
+    "quality-verdict-integrity/calibration-against-confirmed-labels-only",
+    "realtime-combat-semantics/active-defense-two-axis-split",
+    "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
+    "regeneration-vs-repair-economics/reroll-economics-per-credit",
+    "regeneration-vs-repair-economics/score-basis-must-be-stated",
+    "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
+    "runtime-observation-evidence/bounded-evidence-with-provenance",
+    "runtime-observation-evidence/deterministic-headless-timestep",
+    "shader-budget-authoring/channel-packing",
+    "shader-budget-authoring/feature-cost-with-a-cheaper-swap",
+    "shader-budget-authoring/sampler-hard-and-soft-caps",
+    "ship-pipeline-gating/size-budget-and-growth-baseline",
+    "spatial-audio-scene-authoring/attenuation-falloff-and-distance-filtering",
+    "spatial-audio-scene-authoring/occlusion-to-volume-and-filter",
+    "spatial-audio-scene-authoring/reverb-parameter-tables",
+    "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
+    "subsystem-review-doctrine/severity-by-consequence",
+    "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
+    "tiling-texture-acceptance/seam-threshold-calibration",
+    "tiling-texture-acceptance/texel-density-and-uv-tiling",
+    "unattended-build-loop/completed-with-gaps-excluded-from-the-numerator",
+    "unattended-build-loop/verified-vs-self-reported-pass-rate",
+    "visual-script-to-code-transpilation/plain-language-jargon-layer"
+   ]
+  },
+  "no-gate-self-certifies": {
+   "statement": "The party that produced an artifact may not be the authority that passes it. A producer's own claim of success is an input to a verdict, never the verdict; a generator that reports its output as valid gets that claim recorded and labelled as self-reported. The authority is a separate observer reading real state. Under automation this hardens further: an unattended process reports what it verified and what it merely asserted as two different numbers, and the one that counts is the verified one.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/checkable-against-the-stored-artifact",
+    "ability-authoring-to-engine/server-derived-codegen-report",
+    "acceptance-verdict-spine/gate-check-dependency-map",
+    "acceptance-verdict-spine/hardcoded-pass-antipattern",
+    "acceptance-verdict-spine/ungraded-marker-doctrine",
+    "catalog-pipeline-authoring/direction-as-first-class-produce-input",
+    "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
+    "content-acceptance-tiering/derived-vs-toggled-acceptance",
+    "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "design-canon-as-executable-law/flag-your-own-shipped-defaults",
+    "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "generative-artifact-gating/auto-picked-vs-human-chosen-provenance",
+    "generative-artifact-gating/gate-before-every-credit-spend",
+    "generative-artifact-gating/grade-the-selected-candidate",
+    "generative-provider-auditing/arena-benchmark-protocol",
+    "generative-provider-auditing/capability-is-not-registry-membership",
+    "image-to-3d-input-gating/score-defect-verdict-protocol",
+    "procedural-level-planning/declare-what-each-engine-ignores",
+    "production-coverage-measurement/engine-credibility-classes",
+    "production-coverage-measurement/headless-operability-gate",
+    "production-coverage-measurement/source-provenance-marks",
+    "production-prompt-architecture/acceptance-criteria-appended-not-replaced",
+    "prompt-fitness-and-evolution/min-trials-and-confidence-banded-conclusion",
+    "quality-verdict-integrity/calibration-against-confirmed-labels-only",
+    "quality-verdict-integrity/condemn-vs-elevate-asymmetry",
+    "regeneration-vs-repair-economics/best-of-n-parameter-sweep",
+    "regeneration-vs-repair-economics/bounded-refine-iteration",
+    "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
+    "runtime-observation-evidence/observation-spine-contract",
+    "runtime-observation-evidence/unverifiable-is-not-fail",
+    "ship-pipeline-gating/fail-closed-on-corrupt-gate-config",
+    "ship-pipeline-gating/validator-log-classification",
+    "subsystem-review-doctrine/four-pass-ordering",
+    "subsystem-review-doctrine/ground-truth-pass-before-proposals",
+    "tiling-texture-acceptance/derive-only-what-the-source-encodes",
+    "unattended-build-loop/no-gate-self-certifies",
+    "unattended-build-loop/verified-vs-self-reported-pass-rate",
+    "wiring-contract-doctrine/no-gray-box-rule"
+   ]
+  },
+  "law-and-check-share-one-source": {
+   "statement": "A rule written in prose for humans and a threshold typed into a linter will drift apart, and the drift is undetectable from either side. The check reads its numbers from the canonical statement of the law; a change to the prose propagates, and a failure to parse the prose is a loud error, never a silent fallback to a hardcoded default. The corollary at authoring time: the rule an artifact will be graded against is visible to whoever — or whatever — authors the number.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/criterion-with-a-cited-source",
+    "aaa-craft-rubric-authoring/lens-versioning-as-invalidation",
+    "ability-authoring-to-engine/few-shot-reference-plus-tag-registry",
+    "arpg-systems-canon/ilvl-gated-affix-tiers",
+    "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
+    "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
+    "catalog-pipeline-authoring/view-produce-accept-triad",
+    "content-acceptance-tiering/never-fail-silently-reason-strings",
+    "content-acceptance-tiering/plain-language-tier-glossary",
+    "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
+    "design-canon-as-executable-law/parse-thresholds-from-prose",
+    "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
+    "engine-integration-safety/judge-by-log-markers-not-exit-code",
+    "game-economy-tuning/economy-philosophy-multipliers",
+    "game-economy-tuning/faucet-sink-balance-band",
+    "game-economy-tuning/progression-curve-shape-tests",
+    "generative-artifact-gating/generation-history-as-artifact",
+    "procedural-level-planning/algorithm-parameter-support-matrix",
+    "procedural-level-planning/pacing-linter-rules",
+    "production-coverage-measurement/audited-fact-drift-detection",
+    "production-prompt-architecture/acceptance-criteria-appended-not-replaced",
+    "production-prompt-architecture/fixed-section-order",
+    "production-prompt-architecture/version-keyed-engine-facts",
+    "quality-verdict-integrity/rubric-version-supersession",
+    "shader-budget-authoring/surface-to-shading-model-map",
+    "ship-pipeline-gating/fail-closed-on-corrupt-gate-config",
+    "subsystem-review-doctrine/per-subsystem-check-sets",
+    "tiling-texture-acceptance/seam-threshold-calibration",
+    "visual-script-to-code-transpilation/declaration-definition-parity",
+    "wiring-contract-doctrine/contract-injection-into-prompts"
+   ]
+  },
+  "a-verdict-is-bound-to-its-content": {
+   "statement": "A quality judgment speaks only for the exact artifact it examined. Bind it to a content fingerprint; when the content changes, the verdict becomes evidence about the past, not a statement about the present. Report it as such rather than dropping it — a gap that is visible is survivable, and \"unjudged since the last change\" must never be readable as \"judged and passed\". Where provenance is unprovable, the asymmetry is deliberate: an unverifiable condemnation still condemns, an unverifiable pass does not elevate. Falling to the conservative side is what keeps the whole layer honest.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/lens-versioning-as-invalidation",
+    "acceptance-verdict-spine/explain-why-this-verdict",
+    "catalog-pipeline-authoring/direction-as-first-class-produce-input",
+    "content-drift-and-revision/content-hash-vs-status-drift",
+    "content-drift-and-revision/produce-direction-stamping",
+    "crash-forensics-attribution/crash-signature-over-id-equality",
+    "design-doc-compliance-scoring/evidence-age-envelope",
+    "encounter-balance-simulation/per-cell-seed-derivation-for-order-independence",
+    "engine-integration-safety/transport-failure-taxonomy",
+    "engine-pitfall-corpus/provenance-on-every-entry",
+    "generated-mesh-acceptance/stage-declared-grading",
+    "generative-artifact-gating/cite-evidence-not-descriptions",
+    "generative-artifact-gating/generation-history-as-artifact",
+    "generative-artifact-gating/grade-the-selected-candidate",
+    "image-to-3d-input-gating/multi-view-master-reference",
+    "motion-quality-gating/filmstrip-sampling-discipline",
+    "production-coverage-measurement/audited-fact-drift-detection",
+    "production-coverage-measurement/craft-ladder-and-medium-ceilings",
+    "prompt-fitness-and-evolution/join-judge-verdicts-to-prompt-version",
+    "prompt-fitness-and-evolution/stamp-prompt-version-into-provenance",
+    "quality-verdict-integrity/condemn-vs-elevate-asymmetry",
+    "quality-verdict-integrity/content-hash-binding",
+    "quality-verdict-integrity/rubric-version-supersession",
+    "quality-verdict-integrity/stale-superseded-unknown-classification",
+    "runtime-observation-evidence/bounded-evidence-with-provenance",
+    "runtime-observation-evidence/unverifiable-is-not-fail",
+    "ship-pipeline-gating/validator-log-classification",
+    "subsystem-review-doctrine/regression-diff-new-persisting-resolved"
+   ]
+  },
+  "compiling-is-not-wiring": {
+   "statement": "An artifact that builds, loads and validates but is never granted, registered, triggered or reachable is not done. Every produced artifact declares how it is granted, how it is activated, what it depends on, and how it is verified — and each of those must name something real, not a placeholder. This is the rule that separates a demonstrably complete feature from one that merely survives its own compiler.",
+   "techniques": [
+    "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
+    "ability-authoring-to-engine/server-derived-codegen-report",
+    "acceptance-verdict-spine/hardcoded-pass-antipattern",
+    "arpg-systems-canon/rarity-is-an-affix-budget",
+    "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
+    "content-acceptance-tiering/config-complete-vs-runtime-verified",
+    "design-doc-compliance-scoring/bidirectional-gap-detection",
+    "engine-pitfall-corpus/binary-content-wall",
+    "generated-mesh-acceptance/face-rig-shell-readiness",
+    "image-to-3d-input-gating/score-defect-verdict-protocol",
+    "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
+    "motion-quality-gating/asset-reality-ledger",
+    "production-coverage-measurement/headless-operability-gate",
+    "production-prompt-architecture/wiring-requirements-section",
+    "realtime-combat-semantics/death-via-state-tag-not-input-disable",
+    "runtime-observation-evidence/observation-spine-contract",
+    "subsystem-review-doctrine/trace-one-interaction-end-to-end",
+    "visual-script-to-code-transpilation/declaration-definition-parity",
+    "visual-script-to-code-transpilation/event-override-signature-resolution",
+    "wiring-contract-doctrine/cross-catalog-link-resolution",
+    "wiring-contract-doctrine/four-field-wiring-contract",
+    "wiring-contract-doctrine/no-gray-box-rule",
+    "wiring-contract-doctrine/placeholder-rejection"
+   ]
+  },
+  "refuse-rather-than-destroy": {
+   "statement": "A tool that drives someone's live workspace refuses and reports rather than clearing the way. It never terminates a process it did not itself spawn, never kills by name what it can only identify by name, and takes an exclusive lease on a non-reentrant resource rather than racing for it. When it cannot proceed, the honest outcome is a stated precondition failure — a refusal is a result, and it is a better one than a destroyed session. The same instinct governs teardown: drain what is in flight and count it, rather than cancelling and hiding the cost.",
+   "techniques": [
+    "ability-authoring-to-engine/refinement-mode-minimal-diff",
+    "content-drift-and-revision/add-only-hydration",
+    "content-drift-and-revision/batch-lease-on-a-non-reentrant-resource",
+    "content-drift-and-revision/bounded-revision-history",
+    "content-drift-and-revision/orphaned-artifact-visibility",
+    "crash-forensics-attribution/confidence-gates-report-unknown",
+    "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
+    "engine-integration-safety/pid-scoped-teardown",
+    "engine-integration-safety/refuse-dont-kill-a-live-editor",
+    "engine-integration-safety/single-instance-lease-and-drain",
+    "engine-pitfall-corpus/binary-content-wall",
+    "generative-provider-auditing/refuse-with-reason-not-greyed-out",
+    "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
+    "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
+    "mesh-finishing-for-engine-readiness/pack-existing-vs-smart-unwrap",
+    "mesh-finishing-for-engine-readiness/unwrap-only-the-low-poly",
+    "regeneration-vs-repair-economics/refuse-the-fix-that-cannot-help",
+    "shader-budget-authoring/forbidden-feature-combinations",
+    "ship-pipeline-gating/post-cook-process-liveness-smoke",
+    "subsystem-review-doctrine/ground-truth-pass-before-proposals",
+    "tiling-texture-acceptance/derive-only-what-the-source-encodes",
+    "unattended-build-loop/budget-reservation-and-drain-not-kill",
+    "unattended-build-loop/rollback-to-last-green",
+    "visual-script-to-code-transpilation/graph-type-to-code-type-mapping"
+   ]
+  },
+  "structural-proof-is-never-sufficient": {
+   "statement": "That an artifact exists, parses, compiles and has its properties set says nothing about whether it behaves correctly or looks right. Every ladder of evidence therefore has rungs above the structural ones, and a claim of completion names the rung it was proven at. The canonical failure is a subject that passed every existence, compile and wiring check and was motionless on screen. Behavioural and perceptual evidence are separate rungs precisely because nothing below them implies them.",
+   "techniques": [
+    "acceptance-verdict-spine/first-non-pass-reporting-in-all-of",
+    "acceptance-verdict-spine/three-layer-merge-order",
+    "arpg-systems-canon/layered-defenses-and-the-ehp-floor",
+    "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
+    "content-acceptance-tiering/config-complete-vs-runtime-verified",
+    "content-acceptance-tiering/deferred-as-honest-progress",
+    "content-acceptance-tiering/tier-ladder-design",
+    "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "design-canon-as-executable-law/shape-check-vs-content-invariant",
+    "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
+    "encounter-balance-simulation/tier-band-peer-outlier-linting",
+    "engine-integration-safety/judge-by-log-markers-not-exit-code",
+    "engine-pitfall-corpus/incident-entry-shape",
+    "engine-pitfall-corpus/introspect-before-you-call",
+    "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
+    "game-economy-tuning/progression-curve-shape-tests",
+    "generated-asset-world-scale/reference-skeleton-size-check",
+    "generated-mesh-acceptance/structural-scorecard",
+    "generative-artifact-gating/gate-before-every-credit-spend",
+    "generative-artifact-gating/placeholder-is-not-an-asset",
+    "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
+    "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
+    "motion-quality-gating/asset-reality-ledger",
+    "motion-quality-gating/filmstrip-sampling-discipline",
+    "motion-quality-gating/montage-budget-and-root-motion-lint",
+    "procedural-level-planning/safe-room-and-boss-placement",
+    "production-coverage-measurement/engine-credibility-classes",
+    "production-coverage-measurement/readiness-ladder",
+    "production-prompt-architecture/wiring-requirements-section",
+    "realtime-combat-semantics/active-defense-two-axis-split",
+    "realtime-combat-semantics/hit-dedup-per-swing",
+    "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
+    "realtime-combat-semantics/single-source-of-health-truth",
+    "realtime-combat-semantics/telegraph-or-homing-for-area-effects",
+    "runtime-observation-evidence/tiers-of-truth",
+    "ship-pipeline-gating/editor-only-api-audit-for-shipping",
+    "ship-pipeline-gating/post-cook-process-liveness-smoke",
+    "ship-pipeline-gating/preflight-before-an-expensive-cook",
+    "subsystem-review-doctrine/four-pass-ordering",
+    "subsystem-review-doctrine/per-subsystem-check-sets",
+    "subsystem-review-doctrine/trace-one-interaction-end-to-end",
+    "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
+    "tiling-texture-acceptance/wrap-around-edge-diff",
+    "unattended-build-loop/no-gate-self-certifies",
+    "visual-script-to-code-transpilation/event-override-signature-resolution",
+    "visual-script-to-code-transpilation/graph-type-to-code-type-mapping",
+    "wiring-contract-doctrine/four-field-wiring-contract",
+    "wiring-contract-doctrine/no-gray-box-rule",
+    "wiring-contract-doctrine/verification-must-name-a-tier"
+   ]
+  },
+  "a-budget-shapes-the-output": {
+   "statement": "A limit handed to a generative process is an instruction about the target, not merely a ceiling it must stay under. An over-generous budget measurably degrades the result, because the process spends what it is given. State budgets per class as the intended size of the thing, derive the budget for a part from the budget for the whole rather than repeating the whole's allowance, and grade what was delivered against what was requested — not only against the class ceiling. The same holds for runtime budgets: a declared headroom that nothing checks is a wish.",
+   "techniques": [
+    "arpg-systems-canon/rarity-is-an-affix-budget",
+    "asset-class-poly-budgeting/budget-shapes-output-not-just-caps",
+    "asset-class-poly-budgeting/part-split-budget-division",
+    "content-drift-and-revision/batch-lease-on-a-non-reentrant-resource",
+    "design-canon-as-executable-law/self-declared-budget-enforcement",
+    "engine-integration-safety/editor-thread-timeout-budgeting",
+    "generative-provider-auditing/arena-benchmark-protocol",
+    "generative-provider-auditing/pin-a-model-per-asset-class",
+    "image-to-3d-input-gating/text-is-never-geometry",
+    "motion-quality-gating/montage-budget-and-root-motion-lint",
+    "production-prompt-architecture/acceptance-criteria-appended-not-replaced",
+    "production-prompt-architecture/domain-scoped-knowledge-injection",
+    "regeneration-vs-repair-economics/best-of-n-parameter-sweep",
+    "regeneration-vs-repair-economics/bounded-refine-iteration",
+    "runtime-observation-evidence/bounded-evidence-with-provenance",
+    "shader-budget-authoring/feature-cost-with-a-cheaper-swap",
+    "shader-budget-authoring/hardware-tier-lighting-presets",
+    "shader-budget-authoring/sampler-hard-and-soft-caps",
+    "ship-pipeline-gating/size-budget-and-growth-baseline",
+    "spatial-audio-scene-authoring/event-priority-concurrency-cooldown",
+    "unattended-build-loop/budget-reservation-and-drain-not-kill",
+    "unattended-build-loop/unreachable-success-preflight",
+    "wiring-contract-doctrine/contract-injection-into-prompts"
+   ]
+  }
+ }
+}
