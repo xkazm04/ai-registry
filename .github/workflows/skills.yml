@@ -10,6 +10,17 @@ name: skills
 #
 # `version` runs on pull requests only. It compares against the merge base, which a push
 # to main does not have — and by then the decision it guards has already been made.
+#
+# ACTIONS ARE PINNED BY COMMIT, NOT BY TAG. `actions/checkout@v4` is a moving name: it is
+# an agreement to run whatever that publisher pushes to the tag next, resolved at build
+# time, with no review step between their push and our execution. A third-party action is
+# a dependency that runs inside the job with the job's identity - the narrowest tier of the
+# injected-code ladder, and still a party with execution privilege here. The trailing
+# comment carries the human-readable version; the SHA is what actually resolves.
+#
+# Pinning to a digest also freezes the deprecation clock, so the pin moved to the current
+# major rather than freezing v4 - which was three majors behind and already emitting a
+# Node 20 deprecation on every run. Bump deliberately, by resolving the tag again.
 on:
   push:
     branches: [main]
@@ -23,8 +34,8 @@ jobs:
     name: skill shape
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '20'
       # No install step: the gate is dependency-free by design.
@@ -36,13 +47,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # The gate diffs against the merge base. A shallow clone cannot resolve it,
           # and the checker exits 2 rather than reporting "no version problems" from a
           # comparison that never ran.
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '20'
       - name: Check every changed skill carries a version bump

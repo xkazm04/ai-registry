@@ -5,7 +5,7 @@ subject: ci-execution-trust
 technique: untrusted-contribution-lanes
 stack: process
 status: forged
-verified_on: 2026-08-21
+verified_on: 2026-08-22
 ---
 
 # A registry whose untrusted lane is the only lane
@@ -63,21 +63,44 @@ a build is: this repository's authors, and the two platform actions below.
 The technique's step-tier concern — each extension is another party with execution privilege,
 and the aggregate is rarely counted — is here countable, and the count is two.
 
-## The deviation: floating action references
+## Action references, pinned by commit
 
-Fourteen `uses:` lines across the two workflows reference `actions/checkout@v4` and
-`actions/setup-node@v4`. Both are floating major-version tags, which the injected-code ladder's
-rule rejects: a moving name is an agreement to run whatever that publisher pushes next,
-evaluated at build time, with no review step between the push and the execution.
+Sixteen `uses:` lines across the two workflows — twelve in `knowledge.yml`, four in
+`skills.yml` — reference `actions/checkout` and `actions/setup-node`. Every one names a commit
+SHA with the human-readable version in a trailing comment:
 
-The standard is a commit digest. The mitigating facts here are real but partial — the publisher
-is the platform vendor rather than an arbitrary third party, and the jobs hold no credentials
-for a compromised action to take. The residual exposure is code execution on a runner with a
-checkout of this repository, which for a public registry is a low-value target and not a zero
-one.
+```yaml
+- uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+- uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+```
 
-Recording it as a deviation rather than lowering the standard: the standard says pin by digest,
-and this repository does not.
+This was a recorded deviation until 2026-08-22. Both were previously `@v4` — floating
+major-version tags, which the injected-code ladder's rule rejects: a moving name is an
+agreement to run whatever that publisher pushes next, evaluated at build time, with no review
+step between the push and the execution.
+
+The workflow headers carry the reasoning rather than only the result, including the half that
+is easy to get wrong:
+
+> Pinning to a digest also freezes the deprecation clock, so the pin moved to the current major
+> rather than freezing v4 — which was three majors behind and already emitting a Node 20
+> deprecation on every run. Bump deliberately, by resolving the tag again.
+
+That is the cost this technique's rule quietly imposes and rarely states: a digest pin converts
+"silently current" into "explicitly stale", and a repository that pins without ever bumping has
+exchanged an unreviewed upgrade for an unreviewed freeze. The second is safer and it is not
+free. Pinning to a version already carrying a deprecation warning would have locked in decay
+under the appearance of rigour.
+
+The exposure that was closed was real but modest, and worth stating accurately rather than
+dramatically: the publisher is the platform vendor rather than an arbitrary third party, and
+the jobs hold no credentials for a compromised action to take. The residual risk was code
+execution on a runner holding a checkout of a public registry — a low-value target, and not a
+zero one.
+
+What remains unpinned is the runner image itself. `runs-on: ubuntu-latest` is the same class of
+moving reference one layer down, and it is not addressed here — see this bundle's
+`capability-typed-queues` application, which records it.
 
 ## What is deliberately absent, and what that costs
 
