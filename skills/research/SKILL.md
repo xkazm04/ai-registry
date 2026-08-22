@@ -3,7 +3,7 @@ name: research
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.4.0
+version: 0.5.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -98,6 +98,13 @@ That second class maps onto the layer contract almost exactly: strong evidence f
 **shape** of a technique, weak evidence for its universality. So its claims land well as
 decision rules with their conditions attached, and badly as unqualified assertions -
 which is a different editing job, not merely a higher trust level.
+
+Within the first-party class, the **release walkthrough** is the sub-class to seek out:
+a library author going through one version's changes. It is organised around *changes*,
+and a change carries its own motivation - the author says what was wrong before, because
+that is the reason the release exists. A feature demo shows the solution and hides the
+problem; a walkthrough shows both. Three of five accepted findings in one such run came
+from the stated failure modes rather than from the features.
 
 **Length is not yield.** A 3,000-word first-party talk has outproduced a 7,000-word
 roundup. The `--min-words` floor asks whether anything is there at all; it says nothing
@@ -266,19 +273,26 @@ impact as the tie-breaker and say which you picked and why.
    provenance check settles. Walk the subject's stated pipeline, name the point the
    source's claim lands on, and check whether anything owns it. A subject that is
    thorough from stage two onward is exactly where a missing stage one hides.
-3. **Read the neighbours, not just the gap.** A candidate phrased as "X is missing"
+3. **Hunt where a document declares its own completeness.** "The subject owns two
+   flows that are mirror images of each other", "the three cases where strictness is
+   still correct", "both naive policies fail" - an enumeration is a claim, it invites
+   exactly one question, and asking it is cheap. Two of the strongest findings across
+   four runs came from a source demonstrating a case an enumeration did not contain.
+   The corpus writes these claims in golden-path openings and in technique section
+   headings; they are the highest-yield thing to read once a candidate has a home.
+4. **Read the neighbours, not just the gap.** A candidate phrased as "X is missing"
    aims you at the half that is not built and away from the half that is, which is
    where a real defect is likelier to sit. Read the sibling techniques and one
    application before writing the finding up.
-4. **Name the home, and expect it to be contested.** A finding whose home is obvious was
+5. **Name the home, and expect it to be contested.** A finding whose home is obvious was
    probably already covered. The interesting ones sit between subjects, and picking
    wrong misfiles the technique where nobody looking for it will look. Read the
    candidate subjects' own boundary statements - this corpus states them explicitly, in
    the golden path's opening - and choose the subject whose stated job the finding
    answers, not the one whose slug matches. When two subjects describe the same
    boundary from opposite sides, say so in both notes rather than writing it twice.
-5. **Corroborate** per the table above, inside the 3-fetch budget.
-6. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
+6. **Corroborate** per the table above, inside the 3-fetch budget.
+7. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
    not a failure, and it goes in the note so nobody proposes it again.
 
 ### Phase 7 - Land what survived
@@ -295,7 +309,16 @@ Route by shape. Every content change is gate-clean before it is committed.
 | `practice` / `memory` | `practices/<slug>/`, `memory/<kind>/<slug>.md` | ASCII only in these lanes. One idea per file. |
 | `script` / `docs` | `scripts/`, `docs/` | Zero dependencies. Assert the instrument before the result. |
 | `law` | `_laws.md` | Only on convergence across runs. Record the lead; do not write the law. |
+| `amendment` | inside an existing technique | The case a well-forged technique does not cover. In a mature corpus this is often the higher-yield move and it is always the cheaper one - add the section, keep the file's voice, do not mint a competing technique beside it. |
 | `lead` | the source note | With a return condition, or it is not a lead, it is a shrug. |
+
+**When a rule inverts across bundles, name the discriminator - do not link.** Cross-bundle
+links are forbidden, and the situation is not a contradiction to resolve but a boundary to
+state: the same interaction pattern can be correct in one domain and disqualifying in
+another, and what the reader needs is the question that tells them which side they are on.
+State it in prose on the side you are writing, and record in the subject note that the
+other bundle holds the opposite technique, so a later run recognises the shape instead of
+re-litigating it.
 
 `XL` is specified, never half-built: write the spec or the handoff and link it from the
 source note. Two things make the difference between a spec somebody can execute and a

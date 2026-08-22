@@ -133,3 +133,41 @@
   generating a knowledge corpus from a codebase, which is what this repository's own
   forge skill does daily. Worth naming as a general risk rather than a local irony: a
   corpus is least likely to document the practice its own authors are too close to see.
+
+## 0.4.0 - 2026-08-22 - ai-registry (run 4: skill-library release walkthrough; bumped to 0.5.0 in the same change)
+
+- **An AMENDMENT is a first-class outcome and the method had no name for it.** Two of five
+  accepted findings were sections added to well-forged techniques rather than new
+  techniques - and both were sharper than most new techniques, because a mature document
+  that already reasons well about its subject makes the case it *misses* stand out. It is
+  also the cheaper move and the one that avoids minting a competing technique beside an
+  existing one. Applied to the Phase 7 routing table.
+- **Hunt where a document declares its own completeness.** "The subject owns two flows
+  that are mirror images of each other." "The three cases where strictness is still
+  correct." An enumeration is a claim; it invites exactly one question; asking it is
+  nearly free. Both amendments this run and the `hitl-approval` finding came from a
+  source demonstrating a case an enumeration did not contain. Applied to Phase 6, and it
+  is the most mechanically reusable heuristic any run has produced.
+- **When a rule inverts across bundles, name the discriminator - do not link.** One
+  finding contradicted a technique in another bundle that argues its position well. Not a
+  contradiction: the other bundle's harms are harms of MEASURING a person, and none
+  transfer to gathering what they know. Cross-bundle links are forbidden, so the boundary
+  condition goes in prose on the side being written, with a note in the subject file that
+  the other bundle holds the opposite. Applied to Phase 7.
+- **The release-walkthrough sub-class outperformed everything so far, per word.** It is
+  organised around changes, and a change carries the reason it was made - so the author
+  states the prior failure mode out loud. A feature demo shows the solution and hides the
+  problem. Applied to the source-class section as a thing to seek out rather than wait for.
+- **Seven picks worked, and the ceiling is the writing, not the verification.** Three
+  techniques and two amendments in one sitting. Verification was cheap because a
+  first-party source needs no corroboration lane; the cost was entirely in drafting. If a
+  run's picks are mostly amendments, the ceiling is higher than seven.
+- **FOUR runs, eleven techniques, ZERO applications, cross-repo lane never fired.** This
+  has now survived three consecutive lessons entries as a note, which means noting it is
+  not working. It is the method's defining gap: every run lands transplantable upper-layer
+  content and none has ever reconciled a claim against a real tree, which is the half the
+  layer contract says proves the standard is real. The next version should either make an
+  application a REQUIRED consideration at the triage gate - "which of these picks could be
+  verified against a connected project's code, and should be" - or the skill should stop
+  listing applications as a routine outcome. Deliberately not fixed here, because the
+  right fix is a gate change and this run had no application to write.
