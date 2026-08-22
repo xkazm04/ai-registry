@@ -11,9 +11,10 @@ extracted: 6
 picked: 1
 proposed: 1
 already_covered: 1
+accepted: 1
 declined: 0
 leads: 0
-untriaged: 4
+untriaged: 3
 dispatched: 1
 ---
 
@@ -91,12 +92,33 @@ symptom and only the third supplied the mechanism.
 | A5 | Seams are the mechanism that makes agent-driven change safe, not a byproduct | folded in as part of `seams-and-adapters` | `[10:14]` |
 
 `A2`, `A3` and `A5` are absorbed by the dispatched proposal and need no separate
-handling. **`A4` is the one still owed a decision.** It is small, it is the third
-independent sighting of the unattended-mode thread (run 2 added enumerated-versus-inferred
-scope; run 4's source demonstrated auto-approval as a default), and this source supplies a
-distinct case neither covered: the operator turns auto mode OFF before running a
-human-in-the-loop flow, because a blanket grant does not speed such a flow up - it deletes
-the turn the flow exists for. Left untriaged rather than landed.
+handling. **`A4` was landed separately, after the run**, once the operator picked it.
+
+## Accepted (late)
+
+### A4 - Some flows are deleted by a grant, not accelerated by one -> `hitl-approval / unattended-mode` (amended)
+
+Third independent sighting of the unattended-mode thread: run 2 added
+enumerated-versus-inferred scope, run 4's source demonstrated auto-approval shipping as a
+product default, and this source supplies the case neither covered - the operator turns
+auto mode **off** before running a human-in-the-loop flow.
+
+The technique's whole scope apparatus assumed a gate is a **tax** on a flow that would
+rather proceed, so a grant buys the flow back with ceilings and an audit trail. That is
+right for most flows and wrong for one class: a flow whose product **is** the human's
+answer. There the pause is not overhead around the work, it is the work, and the machine
+raised the question precisely because the answer is not derivable from what it holds.
+Auto-approving does not accelerate such a flow, it makes it *finish* - producing whatever
+the machine would have chosen unaided, under a record that a retrospective cannot
+distinguish from a run whose gates were answered.
+
+Landed as: a grant covers actions and never questions; the gate declares itself
+answer-bearing rather than relying on the grant's author to remember; and an operator who
+wants that flow unattended wants a different flow (defer it, answer it in advance, or
+accept a default **labelled as machine-chosen**). The general form is the part worth
+carrying beyond this subject: **before removing a wait, establish whether the wait was
+carrying anything.** A wait that guards an action can be granted away. A wait that carries
+information can only be moved, and moving it means somebody still answers.
 
 ## Not done, and deliberately
 

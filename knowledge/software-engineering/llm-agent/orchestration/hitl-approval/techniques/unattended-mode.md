@@ -116,6 +116,48 @@ while it is one night old. Retrospective review is unattended mode's half of
 the fatigue bargain: attention is not eliminated, it is *moved* to a batched,
 scheduled, cheaper position.
 
+## Some flows are deleted by a grant, not accelerated by one
+
+Every scope rule above assumes the gate is a **tax** on a flow that would rather proceed:
+the action is what the operator wants, the pause is the cost of assurance, and a grant
+buys the flow back. For most flows that is exactly right.
+
+It is wrong for a flow whose **product is the human's answer**. An elicitation round, a
+design review, a structural proposal, a plan the machine has drafted and cannot evaluate
+— in these the pause is not overhead wrapped around the work, it *is* the work. The
+machine has produced a question precisely because the answer is not derivable from
+anything it holds.
+
+Auto-approving such a flow does not make it faster. It makes it **finish**, having
+produced whatever the machine would have chosen unaided, wearing a record that says a
+decision was made. That record is worse than no record: a run with a gate that was never
+reached looks, in every retrospective surface this technique builds, exactly like a run
+whose gates were answered.
+
+The consequences for the grant:
+
+- **A grant covers actions, never questions.** If a gate's pending state carries a
+  question whose answer the machine cannot derive, that gate is outside every grant's
+  scope by construction, and the grant surface should make covering it impossible rather
+  than merely unlikely — the same posture the enumerated scope takes toward irreversible
+  deletions.
+- **The flow states its own requirement.** The gate declares that it is answer-bearing;
+  the grant honours the declaration. Leaving it to the grant's author to remember which
+  flows are which is a rule that holds until the day somebody grants broadly in a hurry,
+  which is the day it matters.
+- **An operator who wants such a flow to run unattended wants a different flow.** The
+  honest options are to defer it (queue the question for a batch later), to answer it
+  in advance (supply the decision as an input, which is a real answer and is recorded as
+  one), or to accept a machine-chosen default that is *labelled as machine-chosen* in the
+  output. All three are legitimate. What is not legitimate is a default that is
+  indistinguishable from a human's answer.
+
+The general form is worth stating because it recurs wherever a human step is
+automated away: **before removing a wait, establish whether the wait was carrying
+anything.** A wait that guards an action can be granted away with ceilings and an audit
+trail. A wait that carries information cannot be granted away at all — it can only be
+moved, and moving it means somebody still answers.
+
 ## The circuit breaker
 
 A grant states the conditions of its own suspension. Anomaly re-arms the
