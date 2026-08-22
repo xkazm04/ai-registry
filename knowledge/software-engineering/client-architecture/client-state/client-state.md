@@ -7,8 +7,11 @@ techniques:
   - store-slicing
   - status-fsms
   - async-race-guards
+  - optimistic-write-path
   - persistence-and-migration
+  - rehydration-narrowing
   - invalidation-strategy
+  - identity-scoped-eviction
   - singleton-lifecycle
 ---
 
@@ -157,6 +160,18 @@ request-shaped forms — tokens, keyed dedup, out-of-order handling, and where
 each guard belongs — are the
 [async-race-guards](./techniques/async-race-guards.md) technique.
 
+Those guards decide which *response* may write. The mutation path has its
+own race, and it is not the same one. A client that paints a change before
+the authority has agreed to it holds a value nothing has confirmed, and the
+naive recipe for retiring that value — snapshot, patch, revert on error —
+is defeated by two operations every real interface performs: a second
+action on the same entity while the first is in flight, and a refetch
+landing between the patch and the failure. Both end with a blind revert
+resurrecting a value the authority never agreed to. Serializing mutations
+per entity so a snapshot is always of settled state, and reverting only
+while what you wrote still holds, are the
+[optimistic-write-path](./techniques/optimistic-write-path.md) technique.
+
 ## Persistence is a versioned contract
 
 Everything persisted is a message to a future version of the application,
@@ -184,6 +199,16 @@ write-path hygiene — is the
 [persistence-and-migration](./techniques/persistence-and-migration.md)
 technique.
 
+An untrusted read also has a **direction**. A rehydrated value may narrow
+what the user sees; it must never silently widen it. The widening arrives
+through the front door: a mode restored without the companion values that
+bounded it, resolved to "no restriction" rather than to its default, so the
+user studies a screen they believe is filtered while nothing on it says
+otherwise. Which authority is entitled to call a stored value legal, how
+each field is guarded so one corrupt key does not discard the rest, and
+where a policy that has changed since the write is consulted, are the
+[rehydration-narrowing](./techniques/rehydration-narrowing.md) technique.
+
 ## Invalidation: events over polling
 
 A cache of server state is wrong the moment the authority changes; the
@@ -199,6 +224,20 @@ affected entries. Polling survives only as a demoted backstop — a slow
 refetch floor that catches missed events, not the primary freshness
 mechanism. Cache keys, patch-vs-invalidate, event granularity, and the floor
 are the [invalidation-strategy](./techniques/invalidation-strategy.md)
+technique.
+
+Staleness is not the only axis on which a cache becomes wrong. Every entry
+the client holds was fetched on behalf of somebody, and when that identity
+changes — a sign-out, an account switch, an expiry, a session revoked from
+another device — its entries are not stale but *illegitimate*: there is no
+timer counting down and no change event from the authority to announce it,
+and the cost of serving one is another account's data on this account's
+screen. The correction is structural rather than gradual — one owner wipes
+every user-scoped cache, the transitions that count as a flip are
+enumerated rather than inferred (a credential refresh is not one), and the
+persisted preferences that outlive the process are wiped along with the
+in-memory ones. That is the
+[identity-scoped-eviction](./techniques/identity-scoped-eviction.md)
 technique.
 
 ## Module lifetime and the replacement hazard
@@ -230,10 +269,19 @@ discriminator for which globals are actually state are the
   family, per-entity keying, legal transitions, failure as a state.
 - [async-race-guards](./techniques/async-race-guards.md) — latest-wins tokens,
   in-flight dedup keyed by argument, out-of-order response handling.
+- [optimistic-write-path](./techniques/optimistic-write-path.md) — the
+  per-entity mutation mutex, compare-and-swap before reverting, committing
+  the authority's response.
 - [persistence-and-migration](./techniques/persistence-and-migration.md) —
   what earns persistence, versioned shapes, migration chains, rehydration
   validation.
+- [rehydration-narrowing](./techniques/rehydration-narrowing.md) — narrow
+  never widen, partially persisted modes, per-field guards against the
+  owning vocabulary.
 - [invalidation-strategy](./techniques/invalidation-strategy.md) —
   event-driven surgical invalidation, cache keys, refetch floors.
+- [identity-scoped-eviction](./techniques/identity-scoped-eviction.md) — one
+  owner, an enumerated trigger list, wipe-everything as the safe default,
+  persisted preferences included.
 - [singleton-lifecycle](./techniques/singleton-lifecycle.md) — module state
   under live replacement, generation counters, the test-reset hatch.

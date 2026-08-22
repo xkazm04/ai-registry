@@ -10,6 +10,9 @@ techniques:
   - dated-corrections
   - doc-rot-detection
   - catch-up-markers
+  - cross-repo-drift-detection
+  - source-as-data-without-the-app
+  - checked-vs-skipped-denominators
 ---
 
 # Docs-as-code synchronization
@@ -26,7 +29,11 @@ coupled artifact of the source: the coupling is **declared as data**, the debt
 is **collected at the change boundary** rather than by periodic campaign, the
 prose is **corrected in place with dates and measurements**, the rot that
 slips through is **detected by scan**, and the batch repair that then becomes
-necessary anyway is **bounded by a marker**.
+necessary anyway is **bounded by a marker**. Three of the walls hold only
+once the described system stops sitting in the same tree as the prose: the
+coupling is then **queried across a repository boundary**, the checker must
+read the application's declarations **without the application's build**, and
+every number the report prints **carries what it could not check**.
 
 One law towers over this subject, inherited from the gate doctrine and paid
 for here in full: **a sync gate must observe the change it gates.** This
@@ -64,7 +71,20 @@ demands ([i18n](../../../client-architecture/i18n/i18n.md)), or how a changelog 
 ([release-pipeline](../../build-and-release/release-pipeline/release-pipeline.md)) — it owns the
 fact that each of those is a *coupled surface* a source change can owe.
 
-## The six load-bearing walls
+One neighbour sits close enough to need its seam stated in a sentence rather
+than a list. [docs-content-model](../../../ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md)
+owns documentation modelled as a typed catalog: what a topic record is, the
+referential invariants that hold inside one corpus, the projections derived
+from it, and the *shape* of the honest-metadata fields a record carries —
+including the review date, the checked-against version and the declared watch
+set that this subject's cross-boundary detector consumes. **A field on a
+record is a content-model decision; a query over it is a stewardship one.**
+That subject decides the field exists, what it is typed as, and what its
+absence is declared to mean; this subject decides what asks it a question,
+what that question costs, and how the answer is reported when it could not be
+asked at all.
+
+## The nine load-bearing walls
 
 ### 1. The coupling is data, not lore
 
@@ -165,6 +185,68 @@ landed, a hope recorded as a fact, poisoning the very range decision the
 marker exists to inform. The artifact and its honesty rules are
 [catch-up-markers](./techniques/catch-up-markers.md).
 
+### 7. Across a repository boundary, the coupling is a query
+
+The first six walls all assume one tree, where a single walk reaches the
+prose and the source it describes. When the documentation ships from one
+repository and the system it documents ships from another, every one of them
+degrades to nothing without announcing it: the local history is no evidence,
+because the prose can sit untouched for a year while the thing it describes is
+rewritten twice. What replaces them is a declaration and a query — each
+document names the source areas it makes claims about and the date a human
+last reviewed it against them, and the detector asks the *other* repository's
+history what changed under those areas since. Two mechanics decide whether it
+survives contact. The watch granularity is a **signal-to-noise** choice, not a
+precision one: name individual files and the flag fires on every typo until
+nobody bumps a review date again; name the whole repository and everything is
+always flagged, which carries the same information as flagging nothing. And
+the query is cached per distinct **(watch set, review date)** pair rather than
+per document, because documents cluster hard onto shared areas and shared
+review sittings — a check too slow to run is a check that gets moved to a
+nightly job and then forgotten. Note the direction, which is what makes this
+gateable at all where the surface-inventory's cross-repo obligation is not:
+the evidence is remote but the artifact that must change is local.
+[cross-repo-drift-detection](./techniques/cross-repo-drift-detection.md).
+
+### 8. The gate reads the source as data, not through the build
+
+Once documentation is typed records inside an application rather than files on
+disk, a checker over it needs the application's own declarations — and must
+not obtain them by importing the application, or it inherits the bundler, the
+aliases, the environment read at module scope, and every transitive import the
+registry happens to pull. Such a gate is **unavailable exactly when the build
+is broken**, which is the only moment anyone urgently wants its answer. Two
+doors avoid that, with opposite failure modes: pattern-scraping the source is
+cheap, dependency-free and survives anything — and is **silently partial**,
+matching the entries shaped as the pattern expects and skipping the rest
+without a sound; transpiling the file and evaluating it in a sandbox **with
+module resolution refused** is exact and fails loudly, the refusal being the
+design rather than a limitation — the day the data module grows an import, the
+gate stops at the line that reached outside and says so. The trap that decides
+which to trust for a completeness claim: **a partial scrape reports success
+over the fraction it managed to parse**, and the floor most implementations
+write against it — "at least one record" — cannot tell twelve from a hundred.
+[source-as-data-without-the-app](./techniques/source-as-data-without-the-app.md).
+
+### 9. Every number carries what could not be checked
+
+A drift report saying *zero drifted* on a machine without the other repository
+is true and worthless, and it is worth separating from the empty-success law
+it obviously belongs to, because the usual remedy does not reach it. The
+ordinary shape of that law is a broken instrument — something to catch. Here
+**nothing breaks**: working code takes a branch its author correctly
+anticipated, returns an empty list because there was genuinely nothing to
+query, and the lie is manufactured one level up where that empty list is summed
+with the genuinely clean ones. So the fix is not error handling but
+**arithmetic**: three states per unit rather than two, skips carrying a reason
+class rather than a single conflated count, a headline formatted as a fraction
+with the skipped figure printed even at zero, and an exit code that follows the
+denominator so a run that checked nothing is not green in the same way as a run
+that checked everything. And each signal states, next to itself, whether it can
+fail a build — because from outside, an enforced number and a decorative one
+look identical, which is how belief in enforcement outlives the enforcement.
+[checked-vs-skipped-denominators](./techniques/checked-vs-skipped-denominators.md).
+
 ## The economics: why per-change wins, and what it costs
 
 Per-change enforcement buys the cheapest possible repair — the author still
@@ -220,3 +302,12 @@ fifteen months, invisibly.
 - [catch-up-markers](./techniques/catch-up-markers.md) — the last-full-pass
   marker: range, coverage, honest gaps; recording what was done, never what
   is hoped.
+- [cross-repo-drift-detection](./techniques/cross-repo-drift-detection.md) —
+  the declared watch set and review date; querying the other repository's
+  history; granularity as signal-to-noise; one query per distinct pair.
+- [source-as-data-without-the-app](./techniques/source-as-data-without-the-app.md)
+  — reading the application's registries without its build; scrape versus
+  sandboxed evaluation; refused resolution; the partial parse that passes.
+- [checked-vs-skipped-denominators](./techniques/checked-vs-skipped-denominators.md)
+  — checked, skipped and drifted as three states; reason classes; fractions
+  on the headline; labelling which signals can fail.

@@ -10,6 +10,9 @@ techniques:
   - taste-budgets
   - one-shot-guarding
   - reduced-motion-mechanics
+  - content-bearing-degradation
+  - unprompted-motion-lifecycle
+  - loop-pause-governance
 ---
 
 # Motion system
@@ -175,6 +178,69 @@ owns; the motion system owns making it *honorable*. Two mechanics matter:
 The fallback design rules, and the taxonomy of what breaks under a global
 reset, are [reduced-motion-mechanics](./techniques/reduced-motion-mechanics.md).
 
+## Degrading a gesture may not delete its payload
+
+Reduction is only one of several reasons a gesture ends up not playing: a
+loop may be held, a surface may never have come into view, a page may never
+have started its animation machinery at all. Whatever the reason, the
+degraded branch renders *something*, and the rule that governs it is not the
+one most products learn first. The decorative rule — when motion is off,
+render nothing — is correct for the surface it was learned on and
+catastrophic one folder over. A component whose animation *reveals content*
+— a headline typed out, a figure counted up from zero, a build-up that ends
+on the data the reader came for — must render its resolved end state
+immediately: never nothing, never a skeleton that will not resolve, never a
+confident zero. The corollary most implementations miss is that a surface's
+own labels are claims about a running loop, so copy reading *live* or
+*auto-refreshing* has to relabel itself when the loop was never started, or
+the degraded surface goes on asserting a currency it no longer has. The
+litmus, the three failure shapes, and the relabelling discipline are
+[content-bearing-degradation](./techniques/content-bearing-degradation.md).
+
+That technique answers the *permission* question and stops at the budget
+one: how much fidelity a particular device can afford is measured, tiered
+work owned by the adaptive-fidelity doctrine, while this subject decides
+whether a gesture may run at all and what degrading it is allowed to delete.
+
+## Motion nobody asked for owes the user a lifecycle
+
+Motion divides by who started it, and everything difficult lives on one
+side of that line. A gesture answering a press is over before the user could
+object and owes them nothing beyond being fast. An autoplay carousel, an
+attract loop, a scroll-triggered reveal — nobody asked for those, and motion
+that starts itself must name what stops it and who may start it again.
+Three rules carry most of the weight. Past five seconds of running, a
+visible and operable stop is required rather than recommended — pausing on
+hover is not a control, because it does not exist for a keyboard and never
+completes on a touch surface. A stop is a stop,
+never a toggle, wherever the affordance can be triggered without deliberate
+aim: a keyboard user who presses the stop key twice must not have restarted
+what they just silenced. And a scroll reveal is a one-shot, because coming
+back into view is a reader returning to re-read, not a first arrival — a
+stagger replayed on every scroll-past reads as a glitch rather than a
+flourish. The lifecycle, the threshold, and the separation of a user's stop
+from a machine's transient pause are
+[unprompted-motion-lifecycle](./techniques/unprompted-motion-lifecycle.md).
+
+## Pause is one merged signal, not fifteen local ones
+
+A looping gesture is asked to stop by several independent deciders — the
+reduced-motion preference, the surface leaving the screen, the application
+window going to the background, a user pressing pause — and each is easy
+enough to implement locally that products implement all of them, repeatedly,
+in every animated component. The result is a loop that is correct only where
+somebody remembered every signal. The system instead merges a **closed,
+named set of deciders into one answer** that every loop reads, so a new
+decider is one edit and a stopped loop has one place to interrogate. Two
+mechanics decide whether such a pause can ever be lifted again: a pause
+armed by a signal the device may never un-fire has to be *timed*, or a
+tap-to-pause on a pointerless surface wedges the loop permanently; and a
+resumed loop recovers from the state the user can see, banking its remaining
+run time, because a clock that a backgrounded window froze will otherwise
+resume either far behind or in one enormous step. The merge, the fallback
+for a component mounted outside the coordinator, and the recovery rules are
+[loop-pause-governance](./techniques/loop-pause-governance.md).
+
 ## The techniques
 
 - [preset-vocabulary](./techniques/preset-vocabulary.md) — the named preset as
@@ -192,3 +258,13 @@ reset, are [reduced-motion-mechanics](./techniques/reduced-motion-mechanics.md).
   entrance tracking, the replay bug class, and reset policy mechanics.
 - [reduced-motion-mechanics](./techniques/reduced-motion-mechanics.md) —
   per-preset fallbacks over global kills, and the timing-window trap.
+- [content-bearing-degradation](./techniques/content-bearing-degradation.md)
+  — the decorative-versus-content-bearing litmus, the resolved end state a
+  degraded gesture owes its reader, and the liveness labels that must
+  relabel with it.
+- [unprompted-motion-lifecycle](./techniques/unprompted-motion-lifecycle.md)
+  — the visible-control threshold, stop-is-not-a-toggle, no implicit
+  re-arm, and one-shot discipline for scroll reveals.
+- [loop-pause-governance](./techniques/loop-pause-governance.md) — the
+  merged pause signal over a closed decider set, the timed pause that keeps
+  touch from wedging a loop, and recovery from a frozen clock.

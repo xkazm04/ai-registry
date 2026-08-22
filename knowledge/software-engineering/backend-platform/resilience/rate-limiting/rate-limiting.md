@@ -7,6 +7,8 @@ techniques:
   - algorithm-selection
   - refusal-contract
   - key-design
+  - untrusted-key-derivation
+  - unattributable-client-bucketing
   - limiter-topology
   - storm-hygiene
   - limit-observability
@@ -75,6 +77,19 @@ The consequences of that stance form the spine of this subject:
    the resource, and every actor sharing a key shares a fate. And any key
    derived from world-controlled input is an unbounded set: **an unbounded
    per-key state map is a memory leak with a policy name** (see key-design).
+   Upstream of that choice sits a harder one: on an unauthenticated door every
+   field that identifies the caller was written by the caller, so the key is
+   *derived* through an ordered ladder of sources, each admitted by a checkable
+   fact about the deployment rather than by the field's name — a forwarding
+   field trusted by name is a lever the attacker pulls to mint a fresh bucket
+   per request, which switches the limiter off for exactly the caller it exists
+   to stop (see untrusted-key-derivation). And when the ladder runs out, the
+   intuitive answer — one shared bucket for everyone unattributable — is a
+   denial of service you build yourself, because ordinary traffic arrives
+   unattributable in bulk and exhausts a single allowance; the answer is to
+   spread those callers across coarse buckets under an aggregate ceiling, and
+   to label the spreading value entropy rather than identity at the place it is
+   produced (see unattributable-client-bucketing).
 4. **One resource, one limiter.** Two independent limiters each enforcing N on
    the same resource through different doors enforce neither's number — the
    resource sees up to the sum. All doors that cause the work share the
@@ -160,7 +175,10 @@ number, window — rather than a constant buried in a condition, with the
 arithmetic that produced the number recorded beside it and overridable without a
 release, since its inputs are other people's configuration; every refusal
 carries a computed retry-after and is spelled as a verdict, distinct from
-failure; per-key state is bounded with a named reaper, so hostile cardinality
+failure; every key on an unauthenticated door comes from a ladder whose every
+rung names what makes it trustworthy, and the callers that ladder cannot
+attribute are spread rather than pooled into one shared allowance; per-key
+state is bounded with a named reaper, so hostile cardinality
 costs memory the design already budgeted; a rejection storm produces one
 summarizing log line per key per episode, not one line per rejection; and an
 operator can see, for any key, how close it is to its limit *before* the first
