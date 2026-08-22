@@ -171,3 +171,45 @@
   verified against a connected project's code, and should be" - or the skill should stop
   listing applications as a routine outcome. Deliberately not fixed here, because the
   right fix is a gate change and this run had no application to write.
+
+## 0.5.0 - 2026-08-22 - ai-registry (runs 5+6, parallel: a technique demo and a designer talk; bumped to 0.6.0 in the same change)
+
+- **The cross-repo lane finally fired, and its value was not what the method assumed.**
+  Five runs of lessons treated a missing application as a coverage gap - somewhere to
+  point at real code. The first one written showed the lane is worth more than that: the
+  tree's SHAPE confirmed the technique's central claim in a way no upper-layer reasoning
+  could. A four-term model said one term is the one nobody can set; the evaluator turned
+  out to carry a module context for every module it can build and none for that term,
+  because nothing in a codebase can own it. Nobody designed that. Applied to Phase 8 as
+  a question to ask of any tree you open: what could this not have been built to prove,
+  and does it prove it anyway? The negative confirmation is the strongest form.
+- **The mapping instrument was branch-blind and nobody had noticed for five runs.** It
+  reads the working tree, so it reported "no prior art" for a domain a sibling branch
+  covers in two subjects. Fixed in the script - it now prints the bundles scanned and the
+  branch - and applied to Phase 4. The general lesson is that an instrument's silence is
+  only as trustworthy as its scope, and this one had never declared its scope.
+- **A dispatch spec asserted a structural fact and was wrong.** It claimed a category was
+  flat and under its cap, reasoning from a subject count; the category was already nested,
+  and the placement rule forbids a category holding both subjects and subcategories. The
+  worker caught it, filed correctly, and reported the override. Applied: verify placement
+  against the taxonomy authority and state the resolved path and link depth in the brief.
+  Counting is not reading.
+- **Both dispatched workers overrode their briefs and both were right.** One rejected a
+  "prefer existing subjects" preference because the neighbours' own stated scopes excluded
+  the work; the other fixed the placement error. Applied: ask for the override and the
+  argument explicitly, because a brief that reads as non-negotiable buys compliance with a
+  mistake. Also applied: review the diff, never the report - the purity check on a
+  game-design subject was the one that mattered, since the source was made almost entirely
+  of game titles and one leak fails the gate for everybody. It was clean; the check was
+  still the point.
+- **A fourth source class: the designer talk.** Domain craft with no tooling in it, and
+  the first class whose findings never route to `software-engineering`. Its defining
+  property is that it has a PLACEMENT problem before it has a content problem - which is
+  how the branch-blindness above surfaced.
+- **Two workers in parallel plus the project lane in the main thread is one sitting.** The
+  bottleneck was waiting, not verification or writing. That argues for dispatching earlier
+  in a run rather than for picking less.
+- **One candidate is still owed a decision** (a blanket auto-approval grant deleting the
+  human turn a flow exists for - third sighting of that thread). Recorded as untriaged
+  rather than landed, which is the vocabulary working as intended two versions after it
+  was added.

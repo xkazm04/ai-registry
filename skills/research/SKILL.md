@@ -3,7 +3,7 @@ name: research
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.5.0
+version: 0.6.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -225,6 +225,12 @@ impact**, from a closed vocabulary that maps onto the scan's weights:
 `none` is honest and common. It is also the value that should make you ask whether the
 candidate belongs in `skills/` or `memory/` rather than in a bundle.
 
+**The instrument sees one branch.** It reads the working tree, so bundles that exist on
+other branches are invisible to it and it will report "no prior art" over a domain a
+sibling branch covers in depth. It now prints which bundles it scanned and on which
+branch; read that line. Before trusting an empty result for a domain this branch does not
+carry, run `git branch -a` and check. The corpus is bigger than any one checkout.
+
 **A near-empty is more dangerous than a total empty.** The instrument matches slugs, so
 it cannot see a concept that lives inside a document's prose. Zero hits usually means a
 real hole. Two or three weak, semantically unrelated hits mean one of two very different
@@ -338,6 +344,25 @@ note nobody acts on:
 Say plainly why it was proposed rather than written. A spec that does not argue its own
 `XL`-ness reads as an excuse.
 
+**Verify every structural claim in the spec against the authority, not against a count.**
+A dispatch that names the wrong category sends a worker to build in a folder the tooling
+rejects. On 2026-08-22 a spec asserted a category was flat and under its cap, from a
+subject count; the category was already nested, and the placement rule forbids a category
+holding both subjects and subcategories. Read `taxonomy.json` - it is the authority on
+placement - and state the resolved path and the resulting link depth in the dispatch.
+
+**Tell the worker to override you and say so.** Both workers dispatched on 2026-08-22
+overrode their briefs, both were right, and both explained the reasoning in their report:
+one rejected a placement preference because the neighbouring subjects' stated scopes
+excluded the work, the other corrected the category error above. A brief that reads as
+non-negotiable buys compliance with a mistake. Ask for the override and the argument.
+
+**Review the diff, never the report.** Run the gate yourself, grep the upper layers for
+purity against the source's own vocabulary (a game-design source is made of game titles;
+a vendor talk is made of product names), confirm `use_when` on every new technique, and
+open one cited line to see that it says what the citation claims. The check is the point,
+not the result.
+
 After content changes, regenerate in this order and never the reverse - the catalog's
 hash covers the index:
 
@@ -360,7 +385,18 @@ assumed.
 4. The registry-side artifact of a project change is an **application document**: you
    opened a real tree, so you are one of the few things allowed to write `verified_on`
    and `verified_against` truthfully. Write them.
-5. Never copy a project's paths, repo names or internals into a published registry
+5. **Look for the structural fact that confirms or refutes the technique, not just for a
+   place to point at.** An application whose content is "here is where this happens" is
+   a bookmark. The valuable one reports something the tree's *shape* says about the
+   standard - and the strongest form is negative. On 2026-08-22 a technique claimed one
+   term of a four-term model is the one nobody can set; the tree turned out to carry a
+   module context for every other term and none for that one, because nothing in a
+   codebase can own it. Nobody designed that; it fell out of the structure, and it is
+   better evidence than the code the run had just added. Ask what the tree could not
+   have been built to prove, and whether it proves it anyway.
+6. **Write what the realization CANNOT do.** A stack that judges rather than measures
+   should say so in the application, because the reader is deciding whether to copy it.
+7. Never copy a project's paths, repo names or internals into a published registry
    file. The application layer may cite code the project has chosen to make public;
    `librarian/` and the upper layers may not cite it at all.
 
