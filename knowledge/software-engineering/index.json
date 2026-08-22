@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 124,
-  "techniques": 765,
-  "applications": 308,
+  "subjects": 125,
+  "techniques": 770,
+  "applications": 309,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "132/765",
+  "use_when_coverage": "137/770",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5782,6 +5782,93 @@
     }
    ]
   },
+  "module-design": {
+   "category": "engineering-process",
+   "subcategory": "codebase-stewardship",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
+   "techniques": [
+    {
+     "slug": "locality-and-leverage",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "arguing that a boundary is in the wrong place",
+      "choosing between two competing structural proposals",
+      "deciding what to co-locate"
+     ]
+    },
+    {
+     "slug": "module-depth",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging whether a proposed abstraction is worth its interface",
+      "reviewing a module whose parameter list keeps growing",
+      "deciding whether to split a long unit of code"
+     ]
+    },
+    {
+     "slug": "seams-and-adapters",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a boundary should allow substitution",
+      "making untested code testable",
+      "choosing whether a dependency deserves an interface",
+      "planning to replace an external dependency"
+     ]
+    },
+    {
+     "slug": "structural-improvement-loop",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scheduling deliberate structural work",
+      "turning a vague complaint about the codebase into a reviewable proposal",
+      "deciding what a large refactor should produce before any code is written"
+     ]
+    },
+    {
+     "slug": "structure-is-not-delegable",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how much of a structural pass an agent may run",
+      "granting standing approval over an automated flow",
+      "arguing about which decisions should move onto the agent as capability rises"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "structural-improvement-loop",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/process--structural-improvement-loop.md",
+     "verified_on": "2026-08-22"
+    }
+   ]
+  },
   "motion": {
    "category": "ui-surfaces",
    "subcategory": "feedback-and-style",
@@ -10788,6 +10875,8 @@
     "migrations/transactional-ddl",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
+    "module-design/seams-and-adapters",
+    "module-design/structural-improvement-loop",
     "multi-project/project-identity-and-joins",
     "observability-telemetry/diagnostic-access",
     "outbound-notifications/compose-at-the-locale-layer",
@@ -11043,6 +11132,7 @@
     "model-routing/capability-floors",
     "model-routing/failover-horizon",
     "model-routing/routing-policy",
+    "module-design/structural-improvement-loop",
     "multi-project/passive-signal-ingestion",
     "observability-telemetry/remote-telemetry-economics",
     "outbound-notifications/channel-adapter-traits",
@@ -11386,6 +11476,8 @@
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
+    "module-design/locality-and-leverage",
+    "module-design/module-depth",
     "multi-project/cross-project-comparison",
     "multi-project/portfolio-drill-hierarchy",
     "observability-telemetry/remote-telemetry-economics",
@@ -11714,6 +11806,8 @@
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
     "model-routing/routing-policy",
+    "module-design/seams-and-adapters",
+    "module-design/structure-is-not-delegable",
     "multi-project/project-identity-and-joins",
     "multi-project/project-onboarding-lifecycle",
     "outbound-notifications/channel-adapter-traits",
@@ -11858,6 +11952,7 @@
     "modal-stack/focus-and-scroll-containment",
     "modal-stack/stack-ownership",
     "model-routing/consumer-overrides",
+    "module-design/structural-improvement-loop",
     "multi-project/passive-signal-ingestion",
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-onboarding-lifecycle",
@@ -12044,6 +12139,7 @@
     "model-routing/failover-horizon",
     "model-routing/model-identity",
     "model-routing/turn-classification",
+    "module-design/module-depth",
     "motion/preset-vocabulary",
     "multi-project/cross-project-comparison",
     "multi-project/passive-signal-ingestion",
@@ -12212,6 +12308,7 @@
     "modal-stack/anchored-positioning",
     "model-routing/candidate-ranking",
     "model-routing/capability-floors",
+    "module-design/structure-is-not-delegable",
     "multi-project/passive-signal-ingestion",
     "multi-project/portfolio-drill-hierarchy",
     "multi-project/project-onboarding-lifecycle",
