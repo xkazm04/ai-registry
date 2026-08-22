@@ -44,3 +44,49 @@
   than the source did. Writing to that project was correctly gated and correctly not
   invoked. The read/write asymmetry deserves a sharper statement in the method the first
   time the lane actually runs.
+
+## 0.2.0 - 2026-08-22 - ai-registry (run 2: agent-news roundup; bumped to 0.3.0 in the same change)
+
+- **Cross-run convergence corroborated an upper-layer technique with no web fetch, and it
+  only worked because run 1 wrote down what it did not pick.** Two independent vendors,
+  two independent runs, one rule (observed repetition promoted into a named skill). The
+  corroboration table listed three routes; this is a fourth, and it is the cheapest one
+  available. Applied, and it retroactively justifies v0.2.0's untriaged table as
+  load-bearing rather than tidy - a decline ledger alone would have destroyed the first
+  half of the pair.
+- **A near-empty from the mapping instrument is more dangerous than a total empty.** One
+  pick matched three semantically unrelated subjects and looked like a hole; it was a
+  SEAM inside a nine-technique subject whose golden path already produced the material.
+  Slug matching cannot see a concept living in prose. Zero hits usually means a hole;
+  two or three weak hits mean hole-or-seam and the golden path has to be read before
+  choosing. Applied to Phase 4. Writing the duplicate instead of the boundary was the
+  available failure and it was close.
+- **Real findings in a mature corpus are missing STAGES, not missing opinions.** All four
+  accepted findings were a decision the documents left to a default because nothing sat
+  at the point where it is made: whether to retrieve at all, when a memory becomes a
+  capability, which step a limit counts, what a provenance check settles. A subject that
+  is thorough from stage two onward is exactly where a missing stage one hides. Applied
+  to Phase 6 as a verification question, and it is probably the most transferable thing
+  either run has produced.
+- **Carrying my own read per row changed the operator's pick.** Run 1's table stated
+  prior art and left the judgment implicit; run 2 marked each row real / partial /
+  likely-catch / thin, and the operator took four "real" and skipped three of four
+  "likely catch". Applied to Phase 5 as a required column. Neutrality that withholds a
+  read does not remove the guess, it relocates it to the party with less context.
+- **The source was confidently wrong twice more, against things the corpus has measured.**
+  Throughput-buys-thinking is refuted by `effort-calibration`'s opening claim; agent
+  identity from a name is refuted twice over by `session-registry`. Two runs, four
+  inversions. The class row in the ledger is now earned at two observations, and the
+  finding is that yield is a property of WHERE a segment lands, not of the class: run 1
+  hit model and media subjects for one finding, run 2 hit `llm-agent` for four.
+- **Six picks is about one sitting.** Four techniques written and wired, two
+  verifications, one amendment. The 3-fetch budget bound for the first time (one search
+  plus two fetches, one of which 404'd on a moved support URL) - and one of those fetches
+  was spent recovering from a redirect. Not changing the number yet; recording that it is
+  now a real constraint rather than a theoretical one.
+- **A finding can be right and still not be a law.** The provenance asymmetry is general
+  enough to be a law and already IS one in a sibling bundle, but cross-bundle links are
+  forbidden and the skill's bar for minting one is convergence across runs - two runs
+  from a single channel is not that. Writing it as a technique with the law banked as a
+  lead behind a stated return condition was the correct application of a rule that
+  wanted to be broken. No change; the bar worked.

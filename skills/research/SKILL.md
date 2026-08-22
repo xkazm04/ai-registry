@@ -3,7 +3,7 @@ name: research
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.2.0
+version: 0.3.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -107,6 +107,7 @@ candidates that would otherwise consume the corroboration budget.
 | Application | Only with a tree you opened. `verified_on` is the date YOU resolved its citations; `verified_against` may be written only by something that read the tree. |
 | Currency signal | Yes, on its own. "A vendor shipped X" is exactly the class of fact a news source is reliable for, and it is a statement about the world, not about the standard. |
 | Lead | Yes, on its own. That is what a lead is. |
+| Golden path, technique - *via convergence* | Two independent sources, from different runs, reaching the same rule. This is the cheapest corroboration available and it costs no fetch, but it only exists if past runs wrote down what they saw. It is the reason the untriaged table is not bookkeeping. |
 | `skills/`, `practices/`, `memory/`, `scripts/`, `docs/` | Judgment, no gate. These are ours; the bar is whether it would survive `CODEOWNERS` review. |
 
 **A source that is contradicted is the best case, not a dead candidate.** Corroboration
@@ -193,6 +194,16 @@ impact**, from a closed vocabulary that maps onto the scan's weights:
 `none` is honest and common. It is also the value that should make you ask whether the
 candidate belongs in `skills/` or `memory/` rather than in a bundle.
 
+**A near-empty is more dangerous than a total empty.** The instrument matches slugs, so
+it cannot see a concept that lives inside a document's prose. Zero hits usually means a
+real hole. Two or three weak, semantically unrelated hits mean one of two very different
+things - a hole, or a **seam**: the concern already exists inside a subject under a
+different name, and what is missing is the boundary rather than the material. On
+2026-08-22 a candidate mapped to three spurious matches and turned out to be a seam
+inside a nine-technique subject whose golden path already produced the thing in
+question. Read the top prior-art subject's golden path before believing a near-empty,
+and prefer writing the boundary over writing a duplicate.
+
 ### Phase 5 - Triage with the operator (the cheap steering gate)
 
 ```
@@ -203,6 +214,12 @@ candidate belongs in `skills/` or `memory/` rather than in a bundle.
 ```
 
 Then ask: **"Which should I verify and (if real) land? (numbers / all / none / leads-only)"**
+
+**Carry your own read on every row**, in its own column: `real gap` / `partial` /
+`likely catch` / `thin`. It is the column that makes the gate work - on 2026-08-22 the
+operator took four rows marked real and skipped three of four marked likely-catch, which
+is a better allocation than either party would have reached alone. Withholding the read
+to seem neutral just moves the guesswork to the person with less context.
 
 Say the expected yield for the source class out loud before the table, so a small
 number reads as calibration rather than as failure. Flag any candidate that matches a
@@ -217,12 +234,20 @@ impact as the tie-breaker and say which you picked and why.
    "neighbourhood", not "same claim". Golden paths in this corpus routinely hedge
    better than their techniques do, and a correction written against a summary is a
    phantom fix - `deepen` names this its dominant failure mode and it is inherited here.
-2. **Read the neighbours, not just the gap.** A candidate phrased as "X is missing"
+2. **Ask where in the subject's own pipeline the claim happens.** Most real findings in
+   a mature corpus are not missing opinions, they are missing *stages*: a decision the
+   documents leave to a default because no technique sits at the point where it is
+   made. All four findings on 2026-08-22 had this shape - the decision to retrieve at
+   all, the promotion of a memory into a capability, the step a limit counts on, what a
+   provenance check settles. Walk the subject's stated pipeline, name the point the
+   source's claim lands on, and check whether anything owns it. A subject that is
+   thorough from stage two onward is exactly where a missing stage one hides.
+3. **Read the neighbours, not just the gap.** A candidate phrased as "X is missing"
    aims you at the half that is not built and away from the half that is, which is
    where a real defect is likelier to sit. Read the sibling techniques and one
    application before writing the finding up.
-3. **Corroborate** per the table above, inside the 3-fetch budget.
-4. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
+4. **Corroborate** per the table above, inside the 3-fetch budget.
+5. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
    not a failure, and it goes in the note so nobody proposes it again.
 
 ### Phase 7 - Land what survived
