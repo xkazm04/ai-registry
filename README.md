@@ -47,6 +47,8 @@ registry.yaml             # what this repository IS: its lanes, their specs and 
 CODEOWNERS                # who merges = who adopts
 catalog.json              # GENERATED index: bundles, skill versions, hashes, adopters, counts
 docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
+docs/forge-brief.md       # the per-wave contract for FOUNDING a bundle
+docs/harvest-brief.md     # the per-wave contract for JOINING a bundle that already exists
 docs/skills-lane.md       # the skills lane's format spec + the version-discipline rule
 docs/usage-lane.md        # the usage lane's format spec + what may never go in it
 docs/signals-lane.md      # the signals lane's format spec: verdicts, never pointers
@@ -85,7 +87,7 @@ rewrites the other, and a reader that knows only one of them still works.
 
 | Bundle | Covers |
 | --- | --- |
-| [`software-engineering`](knowledge/software-engineering/) | Building and operating software: UI surfaces, client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process, and engineering assessment (measuring maturity, delivery and adoption). |
+| [`software-engineering`](knowledge/software-engineering/) | Building and operating software: UI surfaces (including the published surfaces a product shows people who are not users yet), client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process, and engineering assessment (measuring maturity, delivery and adoption). |
 | [`media-generation`](knowledge/media-generation/) | Producing factual audiovisual content with generative models: narrative craft, research grounding, image generation and prompting, frame direction, production operations. |
 | [`civic-intelligence`](knowledge/civic-intelligence/) | Watching public power with data: parliamentary records, legislation, public money, and the accountability methodology for publishing about real, named people. |
 | [`grant-funding`](knowledge/grant-funding/) | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |

@@ -131,6 +131,13 @@ const PURITY_PROFILES = {
     [/\b(?:src|src-tauri|scripts|docs)\//, 'repo path'],
     [/\.(?:tsx?|rs|mjs|cjs|jsx)\b/, 'source-file extension'],
     [/\b(?:React|Tauri|Rust|TypeScript|JavaScript|Zustand|Tailwind|Vite|Vitest|SQLite|PostgreSQL|Postgres|Personas|UnifiedTable|ESLint|Zod)\b/, 'stack/product identifier'],
+    // The web-application names. Added when a harvest wave ran against a server-rendered
+    // web tree and every subject it produced sat one careless sentence away from naming
+    // the framework, the hosted database, the error-reporting service or the browser
+    // driver it was reconciled against. A floor is extended where the leaks actually
+    // come from; every one of these appears legitimately in applications today, and the
+    // gate has never applied a denylist to that layer.
+    [/\b(?:Next\.js|Nextjs|Supabase|Sentry|Playwright|Turbopack|Webpack|Framer|Vercel|Storybook|Cypress|Puppeteer|Figma|Jest)\b/, 'web stack/product identifier'],
   ],
   // Craft domains: the analogue of a repo path is a project asset id; the analogue of a
   // framework name is a tool product name.
