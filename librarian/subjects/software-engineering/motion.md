@@ -7,7 +7,7 @@ dry_streak: 0
 
 # motion
 
-First touch: [[2026-08-22-2]] — the 2026-08-22 harvest wave. Class: EXTENDS.
+First touch: [[2026-08-22-3]] — the 2026-08-22 harvest wave. Class: EXTENDS.
 
 ## State
 

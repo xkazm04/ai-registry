@@ -7,7 +7,7 @@ dry_streak: 0
 
 # lazy-section-addressability
 
-First touch: [[2026-08-22-2]] — the 2026-08-22 harvest wave. Class: NEW.
+First touch: [[2026-08-22-3]] — the 2026-08-22 harvest wave. Class: NEW.
 
 ## State
 

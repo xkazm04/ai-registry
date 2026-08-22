@@ -30,7 +30,7 @@ These are a record of this sweep, not an input to the next one. Recompute with
 
 ## What changed
 
-[[2026-08-22-2]] was a harvest wave: 10 read-only scouts over one repository's 56
+[[2026-08-22-3]] was a harvest wave: 10 read-only scouts over one repository's 56
 contexts, then 20 subject-workers - 14 new subjects and 6 extensions. It added a
 fifth subcategory under `ui-surfaces` (`published-surfaces`, five founding subjects)
 and left the top level at nine categories, deliberately, so the bundle keeps its
@@ -83,7 +83,7 @@ Nothing scored for an expired clock, a missing `use_when`, or a thin technique s
 
 ## Dispatched
 
-[[2026-08-22-2]] - the harvest wave above. 14 new subjects, 6 extensions, 97 new
+[[2026-08-22-3]] - the harvest wave above. 14 new subjects, 6 extensions, 97 new
 techniques, 34 new applications, all gate-clean.
 
 [[2026-08-22-1]] - one subject reconciled against an external world-class tree; the
