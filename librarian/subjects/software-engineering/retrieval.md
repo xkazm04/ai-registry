@@ -2,7 +2,7 @@
 domain: software-engineering
 subject: retrieval
 last_touched: 2026-08-22
-touched_by: research
+touched_by: research, external-reconcile
 dry_streak: 0
 ---
 
@@ -11,6 +11,21 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-08-22 - external reconcile, [[2026-08-22-7]]
+
+Gained `go--relevance-floors` against `weaviate/weaviate` @ `adcffc5`
+(1.40.0-dev). The autocut hint refuted from inside the chosen technique: it is
+a scale-free knee detector that cannot return empty - not a floor - and the
+document says so with the code. The worker was killed mid-run by a network
+outage; the director adopted the orphaned draft, ran the citation re-check
+personally (~15 probes, all landed), and trimmed 170 -> 137.
+
+Reconcile leads (convergence rule applies): a floor that drives FETCH DEPTH
+rather than post-filtering; the unset sentinel colliding with the strictest
+expressible floor (zero in the floor's own units); truncation reported to the
+log instead of the caller (count-carries-predicate owed to the caller, paid to
+the operator); the lexical lane borrowing another lane's floor units.
 
 ### 2026-08-22 - `/research`, from an external source
 

@@ -1,0 +1,36 @@
+---
+subject: structured-output
+domain: software-engineering
+last_touched: 2026-08-22
+touched_by: external-reconcile
+dry_streak: 0
+---
+
+# structured-output
+
+First touch: [[2026-08-22-7]], external reconcile against `vercel/ai`
+@ `ed857f5` (ai 7.0.77). Gained `node--schema-validation-and-repair`
+(uncovered) - second stack; single-stack debt cleared. Hint confirmed; the
+extraction-strategies alternative was tested and found to be one strategy, not
+a ladder.
+
+## Open leads (banked, convergence rule applies)
+
+- A budget of one is better spelled as a non-recursive call than a counter -
+  make the retry structurally incapable of a second attempt.
+- The repaired candidate must not overwrite the original in the failure
+  outcome: the give-up payload carries BOTH pre- and post-repair candidates.
+- Provider-side grammar constraint does not replace the door.
+- A validator-optional schema abstraction is a silent-strictness hazard:
+  never silently SKIP, the sibling of never silently coerce. (THIRD SIGHTING
+  of the opt-in-guard family - with the webhook gateway's no-key-no-dedup and
+  the protocol SDK's opt-in security checks. Cycle-3 candidate.)
+
+## Cross-subject proposals
+
+- The parallel repair hook for tool calls (repairToolCall) - same technique
+  shape, different artifact; possible shared_with case.
+- The four-state partial-parse verdict vocabulary (undefined-input /
+  successful-parse / repaired-parse / failed-parse) -> streaming-output.
+- Consider naming "structural completion of a truncated prefix" as a distinct
+  extraction strategy beside candidate-search ladders.

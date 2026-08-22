@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 129,
   "techniques": 793,
-  "applications": 331,
+  "applications": 335,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -2495,6 +2495,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "release-guarantees",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/go--release-guarantees.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "cross-process-exclusion",
@@ -5648,6 +5654,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "check-scheduling",
+     "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/go--check-scheduling.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "probe-caching",
@@ -10638,6 +10650,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "relevance-floors",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/go--relevance-floors.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "embedding-lifecycle",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--embedding-lifecycle.md",
@@ -12335,6 +12353,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "schema-validation-and-repair",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/applications/node--schema-validation-and-repair.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "artifact-lifecycle",
