@@ -137,7 +137,11 @@ skipped are
 ## What this subject does not own
 
 The pipeline's structure, including how an agent-generated plan is produced, belongs to
-[pipeline-authoring](../pipeline-authoring/pipeline-authoring.md). The suite's own economics —
+[pipeline-authoring](../pipeline-authoring/pipeline-authoring.md). Whether an agent-authored
+plan may be trusted to instruct your machines, and what an autonomous caller's credentials may
+reach, is [ci-execution-trust](../ci-execution-trust/ci-execution-trust.md). The capacity that
+absorbs machine-paced arrival — sizing it, typing it, and keeping one agent's leftovers out of
+the next job — is [runner-fleet](../runner-fleet/runner-fleet.md). The suite's own economics —
 partitioning, isolation, flake lifecycle — belong to
 [test-harness](../../build-and-release/test-harness/test-harness.md). Approval mechanics belong
 to [hitl-approval](../../../llm-agent/orchestration/hitl-approval/hitl-approval.md), and the
