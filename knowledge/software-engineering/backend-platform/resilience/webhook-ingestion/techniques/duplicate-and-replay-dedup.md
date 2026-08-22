@@ -61,6 +61,16 @@ concurrent arrival can slip through: two copies of one delivery arriving
 milliseconds apart (senders do this) both find "unseen" unless the mark is a
 uniqueness-enforced write, not a read-then-write.
 
+And when the dedup instrument *itself* fails — the identity lookup errors,
+the uniqueness claim cannot be taken — the delivery is **refused, not
+admitted**. Fail-closed here is nearly free: the sender's retry machinery
+exists precisely to re-present a refused delivery, so the cost of refusing
+is one retry; the cost of admitting unchecked is a possible duplicate that
+nothing downstream can ever unmint. An ingress that degrades to
+dedup-off when its mark store hiccups has chosen the permanent error over
+the transient one. The same discipline appears wherever a gate guards an
+irreversible act: when the gate's own machinery fails, the act waits.
+
 Downstream of the mint, responsibility changes hands: whether the *internal*
 processing of a minted event runs exactly once, retries, or requeues is
 delivery-guarantees' ground, not this technique's. The boundary artifact is

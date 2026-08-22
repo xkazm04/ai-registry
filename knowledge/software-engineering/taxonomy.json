@@ -256,6 +256,7 @@
           "title": "Codebase stewardship",
           "subjects": [
             "codebase-scanning",
+            "module-design",
             "dead-code",
             "docs-sync",
             "concurrent-vcs"
@@ -276,6 +277,8 @@
           "title": "Continuous integration",
           "subjects": [
             "pipeline-authoring",
+            "ci-execution-trust",
+            "runner-fleet",
             "machine-paced-delivery"
           ]
         }

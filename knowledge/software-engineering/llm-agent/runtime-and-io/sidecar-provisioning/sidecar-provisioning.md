@@ -5,6 +5,7 @@ subject: sidecar-provisioning
 status: forged
 techniques:
   - resolution-ladders
+  - grade-selection
   - atomic-downloads
   - source-pinning
   - process-isolation
@@ -81,6 +82,29 @@ dependencies mean the same thing by "found". The
 [resolution-ladders](./techniques/resolution-ladders.md) technique owns the
 ladder, the per-dependency overrides, and the diagnostic obligation — every
 resolution can report *which rung answered and what it rejected on the way*.
+
+## The ladder answers *where*; the grade answers *how good*
+
+Some dependencies do not resolve to one file. They resolve to a family of
+files that are interchangeable at the interface and unequal in what they
+produce — precision variants of the same weights, capacity tiers of the same
+model, an accelerated build and a plain one of the same engine. The ladder
+picks the rung; something still has to pick the member, and that second
+choice is what decides how good the product's answers are on this machine.
+
+It is a distinct axis, not a version and not a rung: no grade supersedes
+another, and the right one depends on the host and on the job. Three
+obligations follow. The capability keeps **one identity across its grades**,
+so that "this machine is running at a reduced grade" is a sentence with a
+subject. The ceiling is **derived from the host with headroom** for the
+working state the artifact accumulates, and it is recomputed when the
+hardware or the catalog moves. And a reduced grade is **reported, never
+substituted silently** — the verdict says which grade is in force and the
+output records the grade it was produced at, because two results from
+different grades are not comparable and a quality regression that is really
+a grade change is otherwise undiagnosable. The
+[grade-selection](./techniques/grade-selection.md) technique owns the axis,
+the derived ceiling, and the honest verdict.
 
 ## Arrival is atomic or it did not happen
 
@@ -196,6 +220,10 @@ Two rules fall out of the table:
 - [resolution-ladders](./techniques/resolution-ladders.md) — the uniform
   override → managed → system order, per-dependency overrides, resolution
   diagnostics.
+- [grade-selection](./techniques/grade-selection.md) — choosing among
+  interchangeable, unequal variants of one dependency: the host-derived
+  ceiling, measurement over label, per-capability floors, no silent
+  downgrade.
 - [atomic-downloads](./techniques/atomic-downloads.md) — partial-file staging
   and atomic rename, in-flight guards, throttled progress, resume-or-restart
   policy.

@@ -136,6 +136,17 @@ provider rejected):
 | **Transient failure** | network unreachable, timeout, provider 5xx, rate limit | Retry with backoff and jitter. The grant is presumed alive; marking it dead forces a needless human re-acquisition. |
 | **Ambiguous** | malformed response, unexpected status | Neither retry blindly nor kill; surface for diagnosis with the raw evidence preserved (sans secrets). |
 
+And the taxonomy must **survive the wire as a typed value at every seat
+that acts on it** — the serving side and the refreshing client both. The
+classic decay: the issuing side classifies rejections carefully, and the
+client that must choose between "surface dead, re-acquire" and "retry"
+receives only an error message and discriminates by matching a substring of
+its text. Substring matching is the tell that the taxonomy died at the
+boundary: it breaks on the first reworded message, silently misroutes
+anything unanticipated, and turns the table above into documentation
+instead of behavior. Whatever crosses the boundary carries the *kind* as a
+field, and the client branches on the field.
+
 The failure taxonomy deserves the same care as the happy path: retry-forever
 on a definitive rejection hammers the provider (and can escalate to account
 lockout), while kill-on-first-blip converts every tunnel and every provider

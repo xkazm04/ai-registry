@@ -15,6 +15,8 @@ else here and readable with no tool at all.
 | `domains/<domain>.md` | Per bundle: shape, last sweep, what is owed. |
 | `subjects/<domain>/<subject>.md` | Per subject: last touched, dry streak, open leads, declines with reasons. |
 | `runs/<YYYY-MM-DD>-<n>.md` | What one run swept, dispatched, accepted and declined. |
+| [`projects.md`](projects.md) | Which connected project relates to which bundle. Slugs and domains only. |
+| [`sources/index.md`](sources/index.md) | The ledger of external sources [`/research`](../skills/research/SKILL.md) has mined, and one note per run. |
 
 ## Bundles
 

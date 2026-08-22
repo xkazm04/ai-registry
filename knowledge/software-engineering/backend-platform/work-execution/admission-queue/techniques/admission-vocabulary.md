@@ -93,6 +93,18 @@ emit one verdict from the one vocabulary. Two failure shapes to refuse:
   is not an exception to the vocabulary; it is a writer that skipped the
   door. The set of paths that can start work must be enumerable, and all of
   them speak the verdict.
+- **Vocabulary erasure in transit.** The vocabulary must survive every
+  boundary between the gate and whoever acts on the verdict. The failure is
+  a wrapper above the gate that catches the refusal and re-throws something
+  else — a generic error, or the last *underlying* failure it happens to be
+  holding — so the caller, and every dashboard built on caller-visible
+  errors, cannot tell "refused by policy" from "the dependency broke". A
+  taxonomy computed perfectly two frames below an erasing boundary is a
+  deviation, not compliance; the test is what the *outermost* consumer can
+  branch on, not what the gate knew. The erased verdict's mirror image is
+  the caller that re-derives the reason by matching message text — the tell,
+  in either direction, that the verdict died in transit as data and
+  survived only as prose.
 
 ## The verdict is atomic, and it comes first
 

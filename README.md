@@ -13,7 +13,7 @@ The repository carries seven lanes, declared in [`registry.yaml`](registry.yaml)
 | `memory/` | Organizational memory notes, one fact per file. | Worked example. |
 | [`usage/`](docs/usage-lane.md) | Which skills actually get used - counts contributed by the installations that run them, one file per contributor. | Real, gated. Empty until an installation reports. |
 | [`signals/`](docs/signals-lane.md) | Whether the knowledge is still TRUE where it is used - stack versions, citation-resolution verdicts, deviations and consults, one file per contributor. | Real, gated. Empty until an installation reports. |
-| [`librarian/`](librarian/index.md) | Coverage memory for the maintenance loop - what was swept when, what was dispatched, and what was declined and why. | Real. Seeded by the founding sweep. |
+| [`librarian/`](librarian/index.md) | Coverage memory for the maintenance loop - what was swept when, what was dispatched, what external sources were mined, and what was declined and why. | Real. Seeded by the founding sweep. |
 
 The three example lanes (`skills`, `practices`, `memory`) are deliberately generic and synthetic -
 no company, no product, no proprietary code - so tooling that onboards, indexes and tracks a
@@ -56,6 +56,8 @@ scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only priva
 scripts/check-signals.mjs # the signals lane's gate: shape + the same privacy rule
 scripts/check-currency.mjs# REPORTS how old the knowledge is; never fails a build
 scripts/librarian-scan.mjs# REPORTS the maintenance scorecard; the instrument /librarian reads
+scripts/research-ingest.mjs# normalizes an external source into an auditable transcript
+scripts/research-map.mjs  # maps a claim's terms onto existing subjects: prior art, and where new goes
 scripts/apply-taxonomy.mjs# the ONLY thing allowed to move a subject (moves + rewrites links)
 scripts/lib/taxonomy.mjs  # the shared slug -> path resolver; nothing else may build a subject path
 scripts/lib/fleet.mjs     # the shared bulk-model dispatcher: retry, budget and model rotation
@@ -129,7 +131,7 @@ every rung, and a decorative `stage` teaches readers to ignore the real ones. It
 the class of technique whose whole failure mode is being adopted at the wrong time, and it
 is carried into each bundle's `index.json` so a consumer can filter on it.
 
-### Skills (7)
+### Skills (8)
 
 | Skill | Category | Version | What it is for |
 | --- | --- | --- | --- |
@@ -139,7 +141,8 @@ is carried into each bundle's `index.json` so a consumer can filter on it.
 | [`test-before-commit`](skills/test-before-commit/SKILL.md) | `testing` | 2.1.0 | Prove a change works before it is committed. Carries [`LESSONS.md`](skills/test-before-commit/LESSONS.md). |
 | [`flake-register`](skills/flake-register/SKILL.md) | `testing` | 0.1.0 | Quarantine an intermittent test as tracked debt - owner, cause, expiry. |
 | [`agent-guidance-bootstrap`](skills/agent-guidance-bootstrap/SKILL.md) | `ai-native` | 0.4.0 | Write or refresh a repo's `AGENTS.md` from evidence. |
-| [`librarian`](skills/librarian/SKILL.md) | `ai-native` | 1.0.1 | Sweep every bundle for structural and quality decay, rank it, and dispatch the other two at what needs work. Keeps coverage memory in [`librarian/`](librarian/index.md). |
+| [`librarian`](skills/librarian/SKILL.md) | `ai-native` | 1.1.1 | Sweep every bundle for structural and quality decay, rank it, and dispatch the other engines at what needs work. Keeps coverage memory in [`librarian/`](librarian/index.md). |
+| [`research`](skills/research/SKILL.md) | `ai-native` | 0.6.0 | Mine an external source - a video, an article, pasted notes - for what it changes here, and in the connected projects that consume it. Carries [`LESSONS.md`](skills/research/LESSONS.md). |
 
 The `skills/` lane publishes skills that transplant to **any** repository. The two skills that
 maintain *this* registry - [`/forge`](.claude/skills/forge/SKILL.md) (extract a repo's domain

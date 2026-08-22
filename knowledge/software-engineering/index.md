@@ -4,6 +4,12 @@ okf_bundle_name: software-engineering
 okf_bundle_title: Software engineering
 profile: rkb/0.1
 purity: software
+# Extra application stacks beyond the default set (react|rust|sql|node|process).
+# Declared for the external-reconcile lane: the world-class trees worth learning
+# from are not all written in the default stacks — sqlite is C, golang-migrate
+# and litestream are Go — and the lane would otherwise bend its target list to
+# the tooling instead of the material.
+stacks: [go, c]
 ---
 
 # Software engineering

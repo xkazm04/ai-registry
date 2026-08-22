@@ -4,6 +4,7 @@ type: golden-path
 subject: retrieval
 status: forged
 techniques:
+  - retrieval-triggering
   - chunking-and-indexing
   - embedding-lifecycle
   - hybrid-lane-fusion
@@ -30,6 +31,27 @@ owns the user-facing query grammar and presentation. Retrieval owns everything
 between: how the corpus is cut and indexed, which lanes answer a query, how
 their incomparable scores fuse into one order, where the honesty thresholds
 sit, and how any of it is known to work.
+
+## Before the query: whether to retrieve at all
+
+Everything below begins at *query*, and something upstream had to decide there
+should be one. Left unmodelled that decision defaults to “always”, which spends
+context budget on requests that never pointed outward and injects material the
+consumer will read as evidence — or it defaults to “whenever this call site
+remembered to”, which is the same decision made three incompatible ways.
+
+Retrieve when the request depends on something the model cannot be assumed to
+carry: a named specific belonging to this corpus, a period past the knowledge
+horizon, a precision it cannot be trusted to hold, or an explicit ask. Skip
+when the request is answerable from general competence. The errors are
+asymmetric — a false skip yields a confident ungrounded answer, a false
+retrieve yields waste the floors already exist to absorb — so the threshold
+sits off the midpoint, and a permissive first pass with a retrieve-after-the-
+fact escalation usually beats an expensive classifier. **A skip is not an
+empty result and neither is an outage**, which makes this stage three-valued
+for the same reason the floor is.
+[retrieval-triggering](./techniques/retrieval-triggering.md) owns the decision,
+its reason codes, and its calibration.
 
 ## No single lane suffices
 
@@ -152,6 +174,8 @@ memory subject demands when it labels recalled beliefs before injection.
 
 ## The techniques
 
+- [retrieval-triggering](./techniques/retrieval-triggering.md) — whether to consult
+  the corpus at all, the four triggers, skip-versus-empty, late retrieval.
 - [chunking-and-indexing](./techniques/chunking-and-indexing.md) — boundaries by
   structure, content-hash identity, idempotent re-ingest, index maintenance
   and drift repair.

@@ -24,6 +24,11 @@ observer's side, watching pipelines somebody else owns. This subject is the **pl
 itself**: the structure of work a delivery system executes on a change, who decided that
 structure, and when.
 
+Its two siblings take the plan from here. Whether the plan may be trusted to say what runs
+on your machines is [ci-execution-trust](../ci-execution-trust/ci-execution-trust.md);
+what the machines executing it are, and how many of them there should be, is
+[runner-fleet](../runner-fleet/runner-fleet.md).
+
 The distinction that governs everything below is one most teams never make, because the
 first version of a pipeline is always a hand-written file listing three commands and it
 works perfectly:

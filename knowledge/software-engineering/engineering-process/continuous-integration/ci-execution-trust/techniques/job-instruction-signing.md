@@ -1,0 +1,124 @@
+---
+layer: technique
+type: technique
+subject: ci-execution-trust
+technique: job-instruction-signing
+status: forged
+stage: fleet
+laws: [identity-survives-reuse, one-validation-door]
+shared_with: []
+use_when: [an external orchestrator instructs machines inside your network, reducing what one compromise buys, an auditor asks what proves a job was authorized]
+---
+
+# Job instruction signing
+
+Sign what will be executed where it is authored; verify it where it is executed; refuse to run
+what does not verify. The property this buys is precise and worth stating exactly: a
+compromised orchestrator can still delay, reorder, drop or replay work — it can no longer
+**invent** work.
+
+That is a large reduction and a partial one. Signing covers the instructions. It does not cover
+the code they check out, the dependencies that code pulls, or the runner they land on. Teams
+that adopt it as *the* answer rather than *an* answer end up with a well-signed pipeline that
+executes an attacker's commit.
+
+## What is in the signature
+
+Sign everything that determines behaviour:
+
+- **The commands**, exactly as they will run.
+- **The environment values defined by the plan** — a signature over commands but not over the
+  values they read is a signature over half the behaviour, and the unsigned half is the easier
+  one to abuse.
+- **Extension and plugin references, with their versions or digests.** An unsigned extension
+  reference is an unsigned command with extra steps.
+- **The repository context.** Without it, a signed step from one repository can be replayed
+  against another, which is a real attack and a subtle one.
+- **Expansion parameters** for anything that fans out, signed as the specification rather than
+  once per expanded unit, with the executing side verifying that each unit is a valid expansion
+  of the signed specification.
+
+What is deliberately *not* signed: values the runner or its environment contributes at
+execution time. Those cannot be known at authoring time, which is exactly why the boundary
+falls there — and it is why runner-contributed values must be treated as lower-trust than plan
+values by anything downstream.
+
+## The identity split is the whole design
+
+Per [one-validation-door](../../../../_laws.md#one-validation-door), signing and executing are
+two roles and must be two identities:
+
+- **The signer** holds the private key and produces instructions. It should do nothing else.
+- **The executor** holds public keys only and can verify but not sign.
+
+If both roles run on the same machine as the same identity, the control is decorative: anything
+that compromises the executor obtains the signing key and can author whatever it likes. The
+split has to be real — separate identities, separate credential scopes — not separate
+directories on one host.
+
+The strongest available form removes the private key from your machines entirely, delegating
+signing to a key-management service that signs on request and never releases the key. Then a
+compromise of the signer buys the ability to *request* signatures while it lasts, which is
+revocable and observable, rather than the key, which is neither.
+
+## Verification failure is a decision, and it has one default
+
+A job whose signature does not verify must not run. That is the default and it should stay the
+default.
+
+There is a legitimate rollout mode where verification failures are recorded but not enforced,
+used while the last unsigned sources are found. It is a migration state with an end date, and
+it needs two things or it becomes permanent: the failures must be routed somewhere a person
+reads, and the date must be on a calendar. A permanent warn-only mode is worse than not having
+signing, because it looks like a control.
+
+Verification is also the point where the instrument must be asserted: a verifier that cannot
+find any public key must fail closed, not skip verification. "No keys configured, therefore
+nothing to check, therefore pass" is the shape of every disabled-control incident.
+
+## Identity and rotation
+
+Per [identity-survives-reuse](../../../../_laws.md#identity-survives-reuse), each key carries a
+stable identifier that travels with the signature, so the verifier selects the matching key
+rather than trying all of them and so a key can be retired without ambiguity. Rotation is
+additive and planned from day one:
+
+1. Add the new key to the verifiers' set. They now accept both.
+2. Switch the signer to the new key.
+3. Retire the old key from the verifiers, after everything signed with it has drained.
+
+A key with no rotation procedure is a permanent key, and a permanent key is a single point of
+compromise with an indefinite horizon. Write the procedure before the first key is issued, not
+after the first incident.
+
+## What it costs, honestly
+
+- **Instructions authored outside the signing path stop working.** Steps typed into a dashboard,
+  triggered by hand, or generated by an unmigrated tool are unsigned by construction and each
+  needs a route through the signer or an explicit exemption.
+- **Templating and reuse across repositories get harder**, because repository context is in the
+  signature — which is the point, and is nonetheless a real cost against a real convenience.
+- **Key management becomes an ongoing task** with an owner, a rotation schedule, and a recovery
+  story for a lost key.
+
+## When NOT to adopt this
+
+- **Before the cheap controls.** Signing job instructions while a publishing credential sits in
+  a plaintext repository variable is buying the expensive lock for a door beside an open window.
+- **When you own both sides and the deciding side is not more exposed than the executing side.**
+  The control's value comes from distrusting the decider; where the decider is no more exposed
+  than the runner, it mostly buys audit rather than security — a real benefit, at a real cost,
+  and one to choose deliberately.
+- **Without the identity split.** Signing and verifying as one identity is ceremony.
+
+## Decision rules
+
+- Sign commands, plan-defined environment values, extension references with versions, repository
+  context, and expansion specifications.
+- Signer and executor are separate identities; the executor never holds a private key.
+- Prefer a key-management service that signs without releasing the key.
+- Default to refusing unverified jobs; warn-only is a migration with a date and a reader.
+- A verifier with no keys fails closed.
+- Keys carry stable identifiers; rotation is additive and written down before the first key.
+- Adopt after the cheaper controls, and only where the deciding side is genuinely the more
+  exposed one.

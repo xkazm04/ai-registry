@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 126,
-  "techniques": 768,
-  "applications": 311,
+  "subjects": 129,
+  "techniques": 793,
+  "applications": 331,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "768/768",
+  "use_when_coverage": "793/793",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -223,6 +223,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "priority-and-fairness",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/go--priority-and-fairness.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "admission-vocabulary",
@@ -547,6 +553,23 @@
       "ranking what to recall",
       "tuning how fast memory ages",
       "deciding what may be forgotten"
+     ]
+    },
+    {
+     "slug": "procedure-promotion",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door",
+      "creation-names-reaper",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a repeated observed workflow into a callable capability",
+      "deciding whether a distilled procedure should be recalled or invoked",
+      "capturing a task from a demonstration",
+      "auditing a library of auto-generated skills"
      ]
     },
     {
@@ -1706,6 +1729,97 @@
      "technique": "turn-model",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/react--turn-model.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "ci-execution-trust": {
+   "category": "engineering-process",
+   "subcategory": "continuous-integration",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/continuous-integration/ci-execution-trust/ci-execution-trust.md",
+   "techniques": [
+    {
+     "slug": "control-plane-execution-boundary",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between a hosted and a self-run delivery system",
+      "asking what a compromised orchestrator could do",
+      "placing a control and unsure which side it belongs on"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "injected-code-scope-ladder",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding lifecycle code to a build",
+      "auditing what runs before your commands do",
+      "adopting a third-party pipeline extension"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "job-instruction-signing",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an external orchestrator instructs machines inside your network",
+      "reducing what one compromise buys",
+      "an auditor asks what proves a job was authorized"
+     ],
+     "stage": "fleet"
+    },
+    {
+     "slug": "secret-materialization-discipline",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a pipeline needs a publishing or deployment credential",
+      "a secret appeared in a log",
+      "choosing where a build gets its credentials from"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "untrusted-contribution-lanes",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a repository accepts changes from outside the deploying team",
+      "opening a project to contributors",
+      "a build interpolates data from a change request"
+     ],
+     "stage": "team"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "untrusted-contribution-lanes",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/ci-execution-trust/applications/process--untrusted-contribution-lanes.md",
+     "verified_on": "2026-08-22"
     }
    ]
   },
@@ -2924,6 +3038,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "token-refresh-lifecycle",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/go--token-refresh-lifecycle.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "brokered-egress",
      "file": "knowledge/software-engineering/security/credential-vault/applications/rust--brokered-egress.md",
@@ -3027,6 +3147,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "transactions-and-units-of-work",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--transactions-and-units-of-work.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "query-construction",
@@ -4037,7 +4163,21 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "source-doc-mapping",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/applications/node--source-doc-mapping.md",
+     "verified_on": "2026-08-21",
+     "verified_against": "node@20"
+    },
+    {
+     "stack": "process",
+     "technique": "catch-up-markers",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/applications/process--catch-up-markers.md",
+     "verified_on": "2026-08-21"
+    }
+   ]
   },
   "draft-editing": {
    "category": "ui-surfaces",
@@ -4334,6 +4474,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "c",
+     "technique": "journal-and-durability-modes",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/c--journal-and-durability-modes.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "quiet-window-maintenance",
@@ -5569,6 +5715,22 @@
      ]
     },
     {
+     "slug": "human-performed-steps",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a task contains steps the machine must not perform itself",
+      "handing credentials or console work back to a person",
+      "deciding between automating a step and scripting it for a human",
+      "writing a capability that exists to work around a boundary"
+     ]
+    },
+    {
      "slug": "resume-after-decision",
      "status": "forged",
      "laws": [
@@ -6032,6 +6194,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "step-position-and-resumability",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/go--step-position-and-resumability.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "job-state-machines",
@@ -6669,6 +6837,22 @@
      ]
     },
     {
+     "slug": "orchestration-to-tool-migration",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what belongs on the tool surface",
+      "revisiting a pipeline built against an older model",
+      "choosing between a fixed stage and an on-demand tool",
+      "justifying an architecture change that changed no models"
+     ]
+    },
+    {
      "slug": "server-composition",
      "status": "forged",
      "laws": [
@@ -6728,6 +6912,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "transport-selection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--transport-selection.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "authentication-and-scoping",
@@ -7265,6 +7455,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "error-propagation",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/applications/go--error-propagation.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "idempotent-steps",
      "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/applications/rust--idempotent-steps.md",
@@ -7528,6 +7724,93 @@
      "technique": "turn-classification",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/rust--turn-classification.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "module-design": {
+   "category": "engineering-process",
+   "subcategory": "codebase-stewardship",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
+   "techniques": [
+    {
+     "slug": "locality-and-leverage",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "arguing that a boundary is in the wrong place",
+      "choosing between two competing structural proposals",
+      "deciding what to co-locate"
+     ]
+    },
+    {
+     "slug": "module-depth",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "judging whether a proposed abstraction is worth its interface",
+      "reviewing a module whose parameter list keeps growing",
+      "deciding whether to split a long unit of code"
+     ]
+    },
+    {
+     "slug": "seams-and-adapters",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a boundary should allow substitution",
+      "making untested code testable",
+      "choosing whether a dependency deserves an interface",
+      "planning to replace an external dependency"
+     ]
+    },
+    {
+     "slug": "structural-improvement-loop",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scheduling deliberate structural work",
+      "turning a vague complaint about the codebase into a reviewable proposal",
+      "deciding what a large refactor should produce before any code is written"
+     ]
+    },
+    {
+     "slug": "structure-is-not-delegable",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how much of a structural pass an agent may run",
+      "granting standing approval over an automated flow",
+      "arguing about which decisions should move onto the agent as capability rises"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "structural-improvement-loop",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/process--structural-improvement-loop.md",
+     "verified_on": "2026-08-22"
     }
    ]
   },
@@ -7825,6 +8108,12 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "remote-telemetry-economics",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/applications/node--remote-telemetry-economics.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "log-architecture",
      "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/applications/rust--log-architecture.md",
@@ -8069,7 +8358,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "exposure-controls",
+     "file": "knowledge/software-engineering/security/p2p-networking/applications/rust--exposure-controls.md",
+     "verified_on": "2026-08-21",
+     "verified_against": "rust@1.80"
+    }
+   ]
   },
   "packaging": {
    "category": "engineering-process",
@@ -8954,6 +9251,22 @@
      ]
     },
     {
+     "slug": "context-reachability",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what to inject into an agent prompt",
+      "choosing what degrades first under budget pressure",
+      "justifying a precomputed index or digest",
+      "diagnosing an agent that performs worse with context than without"
+     ]
+    },
+    {
      "slug": "continuation-prompts",
      "status": "forged",
      "laws": [
@@ -8978,6 +9291,21 @@
       "deciding whether a resumed session continues or rebuilds",
       "unchanged sessions keep flagging as stale",
       "tracing a behavior shift to the prompt version that caused it"
+     ]
+    },
+    {
+     "slug": "house-vocabulary-layer",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "output is verbose or generic and instructions to be concise are not working",
+      "an agent renames the project's own concepts",
+      "onboarding an agent onto an established domain",
+      "deciding what belongs in a persistent context file"
      ]
     },
     {
@@ -9481,6 +9809,22 @@
       "two limiters on one resource through different doors",
       "limiter on a proxy that traffic bypasses",
       "deciding fail-open or fail-closed when counting is down"
+     ]
+    },
+    {
+     "slug": "metered-step-selection",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which step in a flow a limit applies to",
+      "limiting abuse that costs almost nothing to produce",
+      "deciding between capping creation and capping export",
+      "auditing a limiter that never fires while the harm continues"
      ]
     },
     {
@@ -10273,6 +10617,23 @@
       "deciding which metric supports which claim",
       "paraphrase queries score far below verbatim ones"
      ]
+    },
+    {
+     "slug": "retrieval-triggering",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a request needs the corpus at all",
+      "cutting retrieval latency and context spend",
+      "diagnosing answers that were degraded by irrelevant recall",
+      "wiring a retrieval call into an agent turn"
+     ]
     }
    ],
    "applications": [
@@ -10378,6 +10739,12 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "storm-control",
+     "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/node--storm-control.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "circuit-breakers",
      "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/rust--circuit-breakers.md",
@@ -10388,6 +10755,113 @@
      "technique": "durable-retries",
      "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/rust--durable-retries.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "runner-fleet": {
+   "category": "engineering-process",
+   "subcategory": "continuous-integration",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/runner-fleet.md",
+   "techniques": [
+    {
+     "slug": "capability-typed-queues",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a job needs a specific platform or toolchain",
+      "adding a second kind of runner",
+      "a test suite silently skipped what it could not run"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "ephemeral-versus-warm-runners",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a build passes on one machine and fails on another",
+      "choosing how runners are provisioned",
+      "deciding what may persist between jobs"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "fleet-isolation-boundaries",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one fleet serves several repositories or teams",
+      "deciding which pools may reach production",
+      "an unrelated repository turned out to affect yours"
+     ],
+     "stage": "fleet"
+    },
+    {
+     "slug": "queue-depth-elasticity",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how many runners to run",
+      "builds wait at peak and machines idle at night",
+      "a scaling policy is thrashing"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "shared-cache-integrity",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a cache to a build",
+      "a build passed that should have failed",
+      "a cache is shared between repositories"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "shared-resource-serialization",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two deploys ran at once",
+      "a migration needs exclusive access",
+      "adding a deployment lock",
+      "builds queue behind each other unnecessarily"
+     ],
+     "stage": "team"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "capability-typed-queues",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/applications/process--capability-typed-queues.md",
+     "verified_on": "2026-08-21"
     }
    ]
   },
@@ -10480,6 +10954,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "next-run-computation",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/applications/go--next-run-computation.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "overlap-and-reentrancy",
@@ -10926,6 +11406,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "auto-rollback",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/go--auto-rollback.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "effectiveness-accounting",
      "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--effectiveness-accounting.md",
@@ -11171,6 +11657,22 @@
      ]
     },
     {
+     "slug": "grade-selection",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "derivation-names-recomputation",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which variant of a model or engine to provision",
+      "sizing a dependency against the machine it will run on",
+      "explaining why output quality changed without a version change",
+      "designing a download picker"
+     ]
+    },
+    {
      "slug": "model-storage-lifecycle",
      "status": "forged",
      "laws": [
@@ -11236,6 +11738,13 @@
      "technique": "atomic-downloads",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/rust--atomic-downloads.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "grade-selection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/rust--grade-selection.md",
+     "verified_on": "2026-08-21",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -12159,6 +12668,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "sync-observability",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/go--sync-observability.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "change-tracking-and-cursors",
@@ -13790,6 +14305,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "duplicate-and-replay-dedup",
+     "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/applications/go--duplicate-and-replay-dedup.md",
+     "verified_on": "2026-08-22"
+    },
+    {
      "stack": "rust",
      "technique": "delivery-logging-and-replay",
      "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/applications/rust--delivery-logging-and-replay.md",
@@ -13851,6 +14372,21 @@
       "review and apply drift when steps are added",
       "partial failure leaves user unable to retry",
       "provisional resources leak on draft expiry"
+     ]
+    },
+    {
+     "slug": "frontier-batched-elicitation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an elicitation flow feels slow at the tail",
+      "deciding how many questions a turn may carry",
+      "ordering questions whose answers unlock other questions",
+      "reducing the effort of agreeing with a proposal"
      ]
     },
     {
@@ -13936,6 +14472,9 @@
     "build-economics/capability-feature-gating",
     "build-economics/dev-variant-design",
     "chat-transcript/transcript-scroll",
+    "ci-execution-trust/control-plane-execution-boundary",
+    "ci-execution-trust/injected-code-scope-ladder",
+    "ci-execution-trust/untrusted-contribution-lanes",
     "client-state/invalidation-strategy",
     "codebase-scanning/dead-code-detection",
     "codebase-scanning/evidence-scoping",
@@ -14018,6 +14557,7 @@
     "maturity-ladders/present-vs-enforced",
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/client-integration",
+    "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/tool-schema-design",
     "mcp-tools/transport-selection",
     "mcp-tools/untrusted-result-handling",
@@ -14030,6 +14570,8 @@
     "migrations/transactional-ddl",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
+    "module-design/seams-and-adapters",
+    "module-design/structural-improvement-loop",
     "multi-project/project-identity-and-joins",
     "observability-telemetry/diagnostic-access",
     "outbound-notifications/compose-at-the-locale-layer",
@@ -14059,6 +14601,7 @@
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
     "rate-limiting/limiter-topology",
+    "rate-limiting/metered-step-selection",
     "realtime-events/event-registry",
     "release-pipeline/pipeline-staging",
     "release-pipeline/release-verification",
@@ -14071,6 +14614,9 @@
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
     "retry-backoff/circuit-breakers",
+    "runner-fleet/ephemeral-versus-warm-runners",
+    "runner-fleet/fleet-isolation-boundaries",
+    "runner-fleet/shared-cache-integrity",
     "scheduling/schedule-observability",
     "schema-driven-ui/action-consent-wiring",
     "schema-driven-ui/emitter-registry-sync",
@@ -14165,6 +14711,7 @@
     "build-economics/build-measurement",
     "build-economics/cache-budgeting",
     "chat-transcript/turn-model",
+    "ci-execution-trust/untrusted-contribution-lanes",
     "cicd-monitoring/failure-drill-down",
     "cicd-monitoring/transition-detection-and-notify",
     "client-fetch-cache/swr-design",
@@ -14243,6 +14790,7 @@
     "health-checks/three-state-outcomes",
     "hitl-approval/decision-records",
     "hitl-approval/gate-state-machines",
+    "hitl-approval/human-performed-steps",
     "hitl-approval/resume-after-decision",
     "hitl-approval/review-queues",
     "i18n/completeness-gates",
@@ -14287,6 +14835,7 @@
     "model-routing/capability-floors",
     "model-routing/failover-horizon",
     "model-routing/routing-policy",
+    "module-design/structural-improvement-loop",
     "multi-project/passive-signal-ingestion",
     "observability-telemetry/remote-telemetry-economics",
     "outbound-notifications/channel-adapter-traits",
@@ -14316,6 +14865,7 @@
     "plan-entitlements/entitlement-lifecycle-revocation",
     "proactive-nudges/notice-delivery-decoupling",
     "proactive-nudges/trigger-evaluators",
+    "prompt-assembly/context-reachability",
     "prompt-assembly/variable-interpolation",
     "prompt-safety/canary-tripwires",
     "prompt-safety/model-output-as-untrusted",
@@ -14345,8 +14895,10 @@
     "retrieval/embedding-lifecycle",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
+    "retrieval/retrieval-triggering",
     "retry-backoff/circuit-breakers",
     "retry-backoff/retry-observability",
+    "runner-fleet/capability-typed-queues",
     "scheduling/missed-run-semantics",
     "scheduling/schedule-observability",
     "scheduling/trigger-matching",
@@ -14369,6 +14921,7 @@
     "settings/typed-accessors",
     "sidecar-provisioning/atomic-downloads",
     "sidecar-provisioning/capability-detection",
+    "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/process-isolation",
     "sidecar-provisioning/resolution-ladders",
     "signed-artifacts/import-verification-flow",
@@ -14433,6 +14986,7 @@
     "webhook-ingestion/sender-authentication",
     "wizard-flows/ai-driven-elicitation",
     "wizard-flows/commit-boundary",
+    "wizard-flows/frontier-batched-elicitation",
     "wizard-flows/snapshot-and-resume"
    ]
   },
@@ -14519,6 +15073,7 @@
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/stop-reason-ledgers",
     "agent-memory/coverage-instrumentation",
+    "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
     "alerting/dedup-and-cooldown",
     "analytics-time-windows/baseline-as-window-start",
@@ -14611,6 +15166,7 @@
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/band-design",
     "maturity-ladders/rung-criteria",
+    "mcp-tools/orchestration-to-tool-migration",
     "measurement-honesty/lower-bound-disclosure",
     "measurement-honesty/minimum-sample-floors",
     "measurement-honesty/noise-band-and-hysteresis",
@@ -14630,6 +15186,8 @@
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
+    "module-design/locality-and-leverage",
+    "module-design/module-depth",
     "multi-project/cross-project-comparison",
     "multi-project/portfolio-drill-hierarchy",
     "observability-telemetry/remote-telemetry-economics",
@@ -14655,6 +15213,7 @@
     "proactive-nudges/attention-budgets",
     "proactive-nudges/efficacy-feedback",
     "prompt-assembly/context-budgeting",
+    "prompt-assembly/context-reachability",
     "prompt-safety/input-caps-and-clamps",
     "public-verdict-badge/embed-reach-attribution",
     "public-verdict-badge/embed-snippet-contract",
@@ -14664,6 +15223,7 @@
     "quality-gates/severity-by-construction",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
+    "rate-limiting/metered-step-selection",
     "readiness-passports/blocker-rollups",
     "readiness-passports/named-vs-capability-metadata",
     "readiness-passports/two-axis-readiness",
@@ -14677,7 +15237,9 @@
     "retrieval/hybrid-lane-fusion",
     "retrieval/ranking-budgets",
     "retrieval/retrieval-evaluation",
+    "retrieval/retrieval-triggering",
     "retry-backoff/retry-observability",
+    "runner-fleet/queue-depth-elasticity",
     "scheduling/cooldown-and-debounce",
     "schema-driven-ui/spec-validation-and-repair",
     "scoring-rubrics/normalization",
@@ -14726,6 +15288,7 @@
     "webhook-ingestion/duplicate-and-replay-dedup",
     "webhook-ingestion/payload-bounds",
     "wizard-flows/ai-driven-elicitation",
+    "wizard-flows/frontier-batched-elicitation",
     "wizard-flows/progress-communication"
    ]
   },
@@ -14737,6 +15300,7 @@
     "admission-queue/priority-and-fairness",
     "agent-chaining/chain-identity-and-rollup",
     "agent-memory/episodic-capture",
+    "agent-memory/procedure-promotion",
     "agent-memory/working-memory",
     "alerting/alert-lifecycle",
     "alerting/dedup-and-cooldown",
@@ -14753,6 +15317,7 @@
     "canvas-graph/render-budget",
     "chat-transcript/inline-structured-rows",
     "chat-transcript/turn-model",
+    "ci-execution-trust/job-instruction-signing",
     "cicd-monitoring/transition-detection-and-notify",
     "client-fetch-cache/cache-key-discipline",
     "client-fetch-cache/in-flight-dedup",
@@ -14829,6 +15394,7 @@
     "plan-entitlements/id-vs-label-split",
     "proactive-nudges/nudge-identity-dedup",
     "prompt-assembly/continuation-prompts",
+    "prompt-assembly/house-vocabulary-layer",
     "readiness-passports/blocker-rollups",
     "readiness-passports/fingerprint-provenance",
     "realtime-events/outbound-fan-out",
@@ -14844,6 +15410,7 @@
     "retrieval/chunking-and-indexing",
     "retrieval/hybrid-lane-fusion",
     "retry-backoff/durable-retries",
+    "runner-fleet/shared-resource-serialization",
     "scheduling/overlap-and-reentrancy",
     "schema-driven-ui/emitter-registry-sync",
     "scoring-rubrics/gap-ranking",
@@ -14851,6 +15418,7 @@
     "search/ranking-and-excerpts",
     "search/saved-views",
     "self-healing/incident-promotion",
+    "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/model-storage-lifecycle",
     "signed-artifacts/detached-signatures-and-key-identity",
     "signed-artifacts/import-verification-flow",
@@ -14904,6 +15472,7 @@
     "agent-chaining/run-conditions",
     "agent-memory/consolidation",
     "agent-memory/memory-governance",
+    "agent-memory/procedure-promotion",
     "agent-memory/rollup-compaction",
     "alerting/rule-authoring-validation",
     "analytics-time-windows/range-precedence-resolution",
@@ -14912,6 +15481,10 @@
     "authorization/dispatch-chokepoint-gating",
     "background-jobs/loop-supervision",
     "chat-transcript/markdown-and-code-rendering",
+    "ci-execution-trust/control-plane-execution-boundary",
+    "ci-execution-trust/injected-code-scope-ladder",
+    "ci-execution-trust/job-instruction-signing",
+    "ci-execution-trust/secret-materialization-discipline",
     "client-state/persistence-and-migration",
     "client-state/status-fsms",
     "client-state/store-slicing",
@@ -14959,6 +15532,8 @@
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
     "model-routing/routing-policy",
+    "module-design/seams-and-adapters",
+    "module-design/structure-is-not-delegable",
     "multi-project/project-identity-and-joins",
     "multi-project/project-onboarding-lifecycle",
     "outbound-notifications/channel-adapter-traits",
@@ -14987,6 +15562,7 @@
     "remediation-handoff/handoff-tenancy-and-idempotence",
     "remediation-roadmaps/sandbox-to-tracker-commit",
     "repo-manifest-standard/must-ignore-unknown",
+    "runner-fleet/fleet-isolation-boundaries",
     "schema-driven-ui/spec-validation-and-repair",
     "search/query-parsing",
     "self-healing/blast-radius-bounds",
@@ -15027,6 +15603,7 @@
     "agent-chaining/graph-to-wiring-translation",
     "agent-memory/decay-and-forgetting",
     "agent-memory/episodic-capture",
+    "agent-memory/procedure-promotion",
     "agent-memory/working-memory",
     "alerting/alert-lifecycle",
     "app-shell/shell-hosted-services",
@@ -15035,6 +15612,7 @@
     "background-jobs/loop-supervision",
     "build-economics/cache-budgeting",
     "build-economics/debug-artifact-economics",
+    "ci-execution-trust/secret-materialization-discipline",
     "cicd-monitoring/liveness-scoped-polling",
     "client-fetch-cache/in-flight-dedup",
     "client-fetch-cache/parse-and-derive-caches",
@@ -15085,6 +15663,7 @@
     "health-checks/check-scheduling",
     "health-checks/probe-caching",
     "hitl-approval/consent-gates",
+    "hitl-approval/human-performed-steps",
     "hitl-approval/resume-after-decision",
     "hitl-approval/review-queues",
     "hitl-approval/unattended-mode",
@@ -15102,6 +15681,7 @@
     "modal-stack/focus-and-scroll-containment",
     "modal-stack/stack-ownership",
     "model-routing/consumer-overrides",
+    "module-design/structural-improvement-loop",
     "multi-project/passive-signal-ingestion",
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-onboarding-lifecycle",
@@ -15129,6 +15709,9 @@
     "retrieval/chunking-and-indexing",
     "retry-backoff/durable-retries",
     "retry-backoff/storm-control",
+    "runner-fleet/ephemeral-versus-warm-runners",
+    "runner-fleet/queue-depth-elasticity",
+    "runner-fleet/shared-resource-serialization",
     "scheduling/overlap-and-reentrancy",
     "schema-driven-ui/host-capability-injection",
     "search/full-text-indexing",
@@ -15257,6 +15840,7 @@
     "form/server-error-mapping",
     "guided-tours/anchor-contracts",
     "health-checks/three-state-outcomes",
+    "hitl-approval/human-performed-steps",
     "i18n/catalog-architecture",
     "i18n/token-label-separation",
     "import-normalization/adapter-capability-tables",
@@ -15289,6 +15873,7 @@
     "model-routing/failover-horizon",
     "model-routing/model-identity",
     "model-routing/turn-classification",
+    "module-design/module-depth",
     "motion/preset-vocabulary",
     "multi-project/cross-project-comparison",
     "multi-project/passive-signal-ingestion",
@@ -15311,12 +15896,15 @@
     "plan-entitlements/price-book-authority",
     "plan-entitlements/tier-model-single-source",
     "prompt-assembly/capability-documentation",
+    "prompt-assembly/context-reachability",
+    "prompt-assembly/house-vocabulary-layer",
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/payoff-removal",
     "public-verdict-badge/customization-scope-guard",
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/neutral-state-vocabulary",
     "quality-gates/policy-projection",
+    "rate-limiting/metered-step-selection",
     "readiness-passports/named-vs-capability-metadata",
     "realtime-events/event-registry",
     "release-pipeline/version-single-truth",
@@ -15327,7 +15915,9 @@
     "repo-manifest-standard/pointers-not-embeds",
     "repo-manifest-standard/semver-additive-evolution",
     "repo-manifest-standard/spec-ships-with-artifact",
+    "retrieval/retrieval-triggering",
     "retry-backoff/error-classification-for-retry",
+    "runner-fleet/capability-typed-queues",
     "scheduling/trigger-matching",
     "schema-driven-ui/action-consent-wiring",
     "schema-driven-ui/emitter-registry-sync",
@@ -15443,6 +16033,7 @@
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/migrate-on-read",
     "maturity-ladders/ordinal-first-comparability",
+    "mcp-tools/orchestration-to-tool-migration",
     "media-playback/media-resource-lifecycle",
     "media-playback/playback-clock",
     "media-playback/timeline-scheduling",
@@ -15452,6 +16043,7 @@
     "modal-stack/anchored-positioning",
     "model-routing/candidate-ranking",
     "model-routing/capability-floors",
+    "module-design/structure-is-not-delegable",
     "multi-project/passive-signal-ingestion",
     "multi-project/portfolio-drill-hierarchy",
     "multi-project/project-onboarding-lifecycle",
@@ -15482,11 +16074,14 @@
     "repo-manifest-standard/generated-from-provenance",
     "retrieval/chunking-and-indexing",
     "retrieval/embedding-lifecycle",
+    "retrieval/retrieval-triggering",
+    "runner-fleet/shared-cache-integrity",
     "scheduling/next-run-computation",
     "scoring-rubrics/weight-design",
     "search/full-text-indexing",
     "self-healing/effectiveness-accounting",
     "settings/read-batching",
+    "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/model-storage-lifecycle",
     "signed-artifacts/canonical-hashing",
     "signed-artifacts/signature-lifecycle",

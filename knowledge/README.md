@@ -19,7 +19,7 @@ knowledge/
 
 | Domain | What it covers |
 |---|---|
-| `software-engineering/` | Building and operating software: UI surfaces, client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process (including continuous integration - how a delivery plan is authored, and what delivery owes a machine author), and engineering assessment (measuring maturity, delivery and adoption). |
+| `software-engineering/` | Building and operating software: UI surfaces, client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process (including continuous integration - how a delivery plan is authored, whether it may be trusted to instruct your machines, what those machines are, and what delivery owes a machine author), and engineering assessment (measuring maturity, delivery and adoption). |
 | `media-generation/` | Producing factual audiovisual content with generative models: narrative craft, research grounding, image generation and prompting, frame direction, production operations. |
 | `civic-intelligence/` | Watching public power with data: parliamentary records, legislation, public money, and the accountability methodology for publishing about real named people. |
 | `grant-funding/` | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |

@@ -91,7 +91,12 @@ keeping the attempt and log volume sane.)
   log volume), it has not been designed.
 - **Deny is a valid verb.** Budget exhaustion and pacing delays are policy
   outcomes, spelled and counted like breaker denials — never disguised as
-  dependency failures, never silent.
+  dependency failures, never silent. And the spelling must survive to the
+  surface callers actually see: a refusal classified precisely inside the
+  retry layer and then re-thrown above it as the last dependency error has
+  been disguised after all — the classification is judged at the outermost
+  boundary, where a human or a dashboard branches on it, not at the frame
+  that computed it.
 - **Per-item budgets structurally miss correlated failure — add a cross-item
   cap.** Every individual ladder can be under its own budget while the fleet,
   in aggregate, hammers a provider mid-incident; and a breaker that (correctly)
