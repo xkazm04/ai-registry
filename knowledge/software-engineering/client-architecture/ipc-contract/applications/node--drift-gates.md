@@ -43,6 +43,14 @@ blind-spot catalog with dates:
 
 ## The orphan hole — measured, and still the open one
 
+> **Superseded 2026-08-22.** The population below was re-measured by an
+> inventory walk rather than by grep, and the figures here are wrong in both
+> the count and the class description — see
+> [rust--drift-gates](rust--drift-gates.md) for the walk (35 orphans, split
+> 13 / 22), the mirror direction, and the inventory gate that finally closed
+> this hole. The paragraph is kept because the *shape* of the defect it
+> describes, and the reference-checker inversion below it, both held.
+
 ts-rs never deletes. The measured population (CLAUDE.md ts-rs section, three
 independent implementations converging on the count): **29 orphan bindings**
 whose Rust source is gone, producing no diff and no untracked file — invisible

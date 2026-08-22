@@ -9,6 +9,7 @@ techniques:
   - suppression-hygiene
   - quarantine-vs-delete
   - carrying-cost-economics
+  - configuration-union-proof
   - dead-code-detection@codebase-scanning
 ---
 
@@ -72,6 +73,15 @@ re-pointing edits, each named; and **attribute every downstream movement** — w
 gate baselines drop after the deletion, every drop is traced to a deleted file, or
 the deletion swept a bystander. The full sequence, including recording what was
 deliberately *not* deleted, is [deletion-protocols](./techniques/deletion-protocols.md).
+
+One precondition sits underneath the whole protocol and is easy to miss because it
+is invisible in the analyzer's output: **reachability was computed under one build
+configuration.** Where compile-time capability gates exist, the regions they exclude
+were never analysed at all, and a candidate list from a single configuration is a
+sample rather than a proof — measured once as a wave that verified green under the
+developer default and broke the shipping configuration in dozens of compile errors.
+The union rule, the gate-versus-exempt decision, and the verbatim-restore repair are
+[configuration-union-proof](techniques/configuration-union-proof.md).
 
 ### 3. Suppression rots
 
@@ -165,6 +175,9 @@ burying the living.
 - [carrying-cost-economics](./techniques/carrying-cost-economics.md) — per-edit build
   tax, catalog multipliers, false affordances, dependency retention, ranking by cost
   × confidence.
+- [configuration-union-proof](techniques/configuration-union-proof.md) — a candidate
+  list is scoped to the configuration that produced it; the union rule, compiling the
+  shipping shape before believing a lint, gating over exempting, verbatim restore.
 - [dead-code-detection](../codebase-scanning/techniques/dead-code-detection.md)
   *(shared, owned by codebase-scanning)* — reachability over refcounts, the
   shadow-declaration defeat, generator-never-deletes, the detection side of the

@@ -15,10 +15,10 @@ Coverage note for the `software-engineering` bundle. Part of [[index]]; graded a
 | | |
 | --- | --- |
 | Subjects | 143 |
-| Techniques | 890 |
-| Applications | 357 |
-| `use_when` written | 890/890 |
-| Version witness (`verified_against`) | 37/357 |
+| Techniques | 893 |
+| Applications | 361 |
+| `use_when` written | 893/893 |
+| Version witness (`verified_against`) | 37/361 |
 | Expired applications | 0 |
 | At-risk applications | 0 |
 | Never swept | 112/143 |
@@ -28,10 +28,14 @@ Coverage note for the `software-engineering` bundle. Part of [[index]]; graded a
 These are a record of this sweep, not an input to the next one. Recompute with
 `node scripts/librarian-scan.mjs --domain software-engineering`.
 
-**These numbers are the merged tree, not either lane's own.** Two waves ran against this
-bundle on the same day from different branches - an external-reconcile wave [[2026-08-22-2]]
-and a harvest [[2026-08-22-4]] - and each measured a shape the other could not see. A
-figure taken from either branch alone is wrong now.
+**These numbers are the merged tree, not any one lane's own.** Several waves ran against
+this bundle on the same day from different branches - an external-reconcile wave
+[[2026-08-22-2]], a research pass [[2026-08-22-3]], a harvest [[2026-08-22-4]] and a
+backend-refactor harvest that landed while the harvest branch was open - and each measured
+a shape the others could not see. A figure taken from any single branch is wrong now, and
+the count moved three times between this note being written and the merge landing. That is
+the argument for the vault's standing rule in one day's evidence: **record what a run DID,
+and recompute every number from the scan.**
 
 ## What changed
 
