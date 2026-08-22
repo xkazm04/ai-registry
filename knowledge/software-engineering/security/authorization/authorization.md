@@ -10,6 +10,7 @@ techniques:
   - declarative-requirements
   - authorization-audit
   - failure-direction
+  - identity-bearing-keys
 ---
 
 # Authorization & capability scoping
@@ -220,6 +221,29 @@ a query, not an archaeology project. What to record per decision, at which
 altitude, without logging secrets or drowning in volume, is the
 [authorization-audit](./techniques/authorization-audit.md) technique.
 
+## The strongest gate is the one that cannot be addressed around
+
+Everything above makes the decision unskippable. There is one construction
+that goes further and makes the *wrong answer unrepresentable*: compose the
+owner's identity into the storage address itself, rather than filtering by
+it. A caller holding a key built from its own identity cannot spell a
+reference to another owner's data, so a handler that somehow bypassed the
+gate still reads nothing it should not — the property survives the gate's
+own failure, which is a class of assurance no check can offer.
+
+It is not free, and its costs are unusual: the address composer must be the
+only place a key is built (a hand-assembled key is a tenancy hole with no
+error), every component must be sanitized against the store's *own* path and
+pattern syntax (a separator that is also the store's wildcard turns a prefix
+sweep into a cross-tenant sweep), and an identifier arriving from outside
+must be proved to exist before it is composed — because an unverified
+identifier does not fail, it mints a fresh empty tenant that no lifecycle
+pass will ever reach again. Where it fits, it is the cheapest strong
+tenancy available; where legitimate reads must span owners, it does not fit
+at all. The construction, its three failure modes, and the migration rule
+that follows from treating a key format as a storage contract are
+[identity-bearing-keys](./techniques/identity-bearing-keys.md).
+
 ## What is *not* this subject
 
 - **Authentication** — establishing identity. This subject consumes an
@@ -253,3 +277,7 @@ altitude, without logging secrets or drowning in volume, is the
   free of secrets.
 - [failure-direction](./techniques/failure-direction.md) — fail-closed rules
   for every degraded state the authorization subsystem itself can enter.
+- [identity-bearing-keys](./techniques/identity-bearing-keys.md) — composing
+  the owner into the storage address so a cross-tenant reference is
+  unrepresentable; the single composer, component sanitization against the
+  store's own syntax, prove-before-compose, and key formats as migrations.
