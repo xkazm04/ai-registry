@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 41,
   "techniques": 241,
-  "applications": 108,
+  "applications": 109,
   "laws": 11,
   "categories": [
    "systems-canon",
@@ -1405,7 +1405,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "four-term-difficulty-decomposition",
+     "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/applications/node--four-term-difficulty-decomposition.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "node@24"
+    }
+   ]
   },
   "encounter-balance-simulation": {
    "category": "balance-validation",
