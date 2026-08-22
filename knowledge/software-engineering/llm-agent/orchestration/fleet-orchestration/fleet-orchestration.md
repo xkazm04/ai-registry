@@ -10,6 +10,8 @@ techniques:
   - hibernation-and-resume
   - parallel-dispatch
   - result-harvest
+  - outbound-compute-plane
+  - substrate-reconciliation
 ---
 
 # Agent fleet orchestration
@@ -25,7 +27,12 @@ layer above: the registry that knows what the fleet *is*, the lifecycle model
 that tracks what each session is *doing*, the dispatch machinery that starts
 many sessions safely, the durability that lets the whole fleet survive an
 orchestrator restart, and the harvest phase that turns N scattered results
-into one answer.
+into one answer. Where the compute runs elsewhere, two more concerns join the
+set: the topology that connects an executor plane to the control plane
+(outbound-compute-plane), and the convergence pass that keeps the substrate
+- the containers and volumes sessions actually occupy - aligned with the
+registry, which is also how deletion reaches the machines
+(substrate-reconciliation).
 
 The dividing line is worth stating precisely, because it is where fleet
 systems rot first. Subprocess-lifecycle answers "is this process alive and how

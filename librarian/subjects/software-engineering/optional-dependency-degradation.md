@@ -17,3 +17,13 @@ First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: NEW.
 
 - **absence is a posture, malformation is an accident** (proposed law, not added). Three sightings in this subject; the worker argues it is a general configuration invariant rather than a resilience-only one. `failure-not-empty-success` is the nearest and is a different claim.
 - Cross-subject finding: a shared silent-downgrade credential factory underpins four other routes and may belong to a credential or authorization subject.
+
+## Touch log addition
+
+### 2026-08-22 - `/research`, from a practitioner codebase (second touch)
+
+Amended from [[../../sources/2026-08-22-onecli-repo]]: the fallback ladder
+gained its top rung, "a minted value" - generate what randomness or
+derivation can supply, never overwrite an operator's value, offer expensive
+one-time builds at the point of need. The subject owned degradation
+thoroughly; provisioning was the missing rung above the ladder.

@@ -43,6 +43,19 @@ reference-shaped check while being fully dead:
   by no behavior. The schema keeps them alive; the settings surface renders them;
   users set them; nothing branches. A dead knob is worse than dead code because it
   is a *live lie to the user*.
+- **Unexercised verifiers** — proof scripts, hand-run checks, verification
+  lanes whose only trigger is a human habit that lapsed. The class inverts the
+  usual carrying cost: other dead code merely rides along, but a dead check
+  *reads as coverage* — its existence is cited as safety while it silently
+  rots against the surface it once verified. No reference-shaped instrument
+  sees it, because it references plenty; the instrument that does is an
+  execution record (when did this last run, and did anyone look). The
+  observed base rate is brutal — one public tree found four of its six
+  hand-run proof scripts had rotted unnoticed, and deleted all six on the
+  spot with the note that the automated suite was the only form worth
+  keeping. That is the repair rule: a verifier is either wired into a lane
+  something actually runs, or it is deleted; a check that runs on memory and
+  goodwill is already dead, just not yet wrong.
 
 ## The blindness matrix
 

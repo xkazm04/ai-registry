@@ -4,9 +4,9 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 143,
-  "techniques": 893,
-  "applications": 373,
-  "laws": 9,
+  "techniques": 896,
+  "applications": 375,
+  "laws": 10,
   "categories": [
    "ui-surfaces",
    "client-architecture",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "893/893",
+  "use_when_coverage": "896/896",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -241,7 +241,8 @@
      "status": "forged",
      "laws": [
       "one-authority-per-vocabulary",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
@@ -3621,7 +3622,8 @@
       "derivation-names-recomputation",
       "creation-names-reaper",
       "gate-sees-target",
-      "one-authority-per-vocabulary"
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
@@ -6178,6 +6180,20 @@
      ]
     },
     {
+     "slug": "outbound-compute-plane",
+     "status": "forged",
+     "laws": [
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether the executor plane needs ingress",
+      "running executors on laptops or behind NAT",
+      "an executor wants a database connection",
+      "authenticating a spawned sandbox's first call home"
+     ]
+    },
+    {
      "slug": "parallel-dispatch",
      "status": "forged",
      "laws": [
@@ -6223,9 +6239,30 @@
       "a late finished signal races a lost verdict",
       "consumers keep their own copy of the status enum"
      ]
+    },
+    {
+     "slug": "substrate-reconciliation",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deleting a fleet entity must reach the machines that host it",
+      "containers or worktrees survive the records that justified them",
+      "two installations share one substrate daemon",
+      "a cleanup sweep is about to act on a partial listing"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "substrate-reconciliation",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/node--substrate-reconciliation.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "parallel-dispatch",
@@ -9090,6 +9127,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "seams-and-adapters",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/node--seams-and-adapters.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "process",
      "technique": "structural-improvement-loop",
@@ -12326,7 +12369,8 @@
      "slug": "storm-control",
      "status": "forged",
      "laws": [
-      "creation-names-reaper"
+      "creation-names-reaper",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
@@ -13856,6 +13900,20 @@
      ]
     },
     {
+     "slug": "mid-turn-steering",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a message arrives while the turn is still running",
+      "deciding between steering an in-flight turn and queueing a next one",
+      "a steer capability exists in some runtimes and not others",
+      "a user cannot tell whether their interjection was seen"
+     ]
+    },
+    {
      "slug": "phase-derivation",
      "status": "forged",
      "laws": [
@@ -14031,7 +14089,8 @@
      "laws": [
       "one-validation-door",
       "failure-not-empty-success",
-      "one-authority-per-vocabulary"
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
@@ -16670,6 +16729,7 @@
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/lifecycle-signals",
     "fleet-orchestration/result-harvest",
+    "fleet-orchestration/substrate-reconciliation",
     "form/server-error-mapping",
     "guided-tours/missing-anchor-degradation",
     "guided-tours/tour-lifecycle",
@@ -16836,6 +16896,7 @@
     "stream-proxy-hop/idle-heartbeat-injection",
     "stream-proxy-hop/upstream-status-normalization",
     "streaming-output/cancellation-and-finalization",
+    "streaming-output/mid-turn-steering",
     "streaming-output/stream-parsing",
     "structured-output/answer-coverage-gating",
     "structured-output/artifact-lifecycle",
@@ -17465,6 +17526,7 @@
     "executive-reporting/grounded-narrative-generation",
     "file-browsing/file-mutations",
     "fleet-orchestration/hibernation-and-resume",
+    "fleet-orchestration/outbound-compute-plane",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/session-registry",
@@ -17629,6 +17691,7 @@
     "fleet-orchestration/hibernation-and-resume",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/session-registry",
+    "fleet-orchestration/substrate-reconciliation",
     "guided-tours/tour-lifecycle",
     "health-checks/check-scheduling",
     "health-checks/probe-caching",
@@ -17980,6 +18043,15 @@
     "web-scraping/extraction-rule-dsl",
     "wizard-flows/branching-and-skipping",
     "wizard-flows/step-state-model"
+   ]
+  },
+  "verdict-survives-boundary": {
+   "statement": "A classified outcome reaches every boundary that acts on it as a typed value. A refusal enum erased into a generic error, a server-side failure taxonomy re-derived by matching message text, a policy denial re-thrown as the last underlying failure — in each, the classification exists where it was computed and dies where it mattered. The test is what the outermost consumer can branch on; a verdict that survives only as prose has not survived.",
+   "techniques": [
+    "admission-queue/admission-vocabulary",
+    "credential-vault/token-refresh-lifecycle",
+    "retry-backoff/storm-control",
+    "structured-output/schema-validation-and-repair"
    ]
   },
   "derivation-names-recomputation": {

@@ -93,6 +93,18 @@ being true, not what the code does instead.
 
 Fallbacks come in a small number of shapes, roughly in order of preference:
 
+- **A minted value.** The rung above every fallback: when the launcher can
+  *create* the dependency — a random secret, a derived connection string — it
+  does so, writing the generated value into the operator's own configuration
+  file and **never overwriting a value the operator set**. A minted secret is
+  not a degrade at all: the capability runs whole, and the operator inherits
+  a real value they can rotate. Generation is for what randomness or
+  derivation can supply; everything below this rung is for what it cannot (an
+  external account, a running daemon). One sibling rule rides with it: when a
+  missing dependency is expensive but locally buildable — an image, a corpus
+  — the launcher *offers* the one-time build at the point of need, with
+  declining still yielding a running system minus that capability, and the
+  offer naming the standalone command for later.
 - **A weaker substrate.** The data is still the user's data; it lives somewhere
   less durable — process memory, a local file, the browser. The consequence is
   a durability statement, and it is always stated as a loss ("cleared on

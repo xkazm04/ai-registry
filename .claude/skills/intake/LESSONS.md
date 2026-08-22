@@ -245,3 +245,27 @@
   lane-wide rename while this run was live. Worktree-from-HEAD kept the run isolated, and
   writing against HEAD's file layout (this file, at its old path) lets rename detection
   carry the append into the moved file instead of resurrecting the old one.
+
+## 0.6.0 - 2026-08-22 - ai-registry (run 9: practitioner codebase; no bump - lessons only)
+
+- **A sixth source class: the practitioner codebase, and it out-yields every transcript
+  class.** A cloned public tree produced three new techniques, two amendments and two
+  applications - the run's whole verification budget was reading the tree itself, so
+  corroboration was free. Two reading rules: mine the COMMENTS for reasons (this tree's
+  doc comments state failure modes with a candor talks never reach - "four of the six had
+  silently rotted", "runs but can never report"); and the class is the only one that can
+  authorize applications, so plan at least one application per run on this class - it is
+  the cheapest high-grade artifact available.
+- **A finding that resolves to a catch can be repaid as an application.** The substrate
+  seam matched `seams-and-adapters` completely; instead of a drop, the tree became the
+  technique's second application. Catch-plus-tree = application is a standing move on
+  this class.
+- **READMEs undersell; interfaces tell the truth.** The steering finding looked thin from
+  the marketing sentence ("redirects it right away") and turned out to carry a
+  three-clause contract in the harness interface (declared capability, refuse-between-
+  turns, observable join). On a codebase source, never triage an interaction claim from
+  prose alone - grep for the interface before scoring.
+- **Link depth is per-file, not per-subject.** Two of three new technique files shipped
+  with a three-level `_laws.md` path where four levels were needed; the gate caught one,
+  the sed fixed all. Count the segments from the file being written, not from the sibling
+  that was open in context.

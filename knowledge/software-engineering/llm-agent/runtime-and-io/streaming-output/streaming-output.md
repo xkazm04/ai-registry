@@ -10,6 +10,7 @@ techniques:
   - run-attribution
   - phase-derivation
   - cancellation-and-finalization
+  - mid-turn-steering
 ---
 
 # Streaming model output
@@ -70,7 +71,9 @@ producer said. Both are the same category error: letting the volatile store
 and the durable store share a writer.
 
 The [cancellation-and-finalization](./techniques/cancellation-and-finalization.md)
-technique owns the transition between the two.
+technique owns the transition between the two. Cancellation's constructive sibling — a
+mid-run message that redirects the turn instead of killing it — is
+[mid-turn-steering](./techniques/mid-turn-steering.md).
 
 ## Ownership: one run, one surface
 
@@ -191,3 +194,6 @@ technology handles worst if left undeclared.
 - [cancellation-and-finalization](./techniques/cancellation-and-finalization.md)
   — the stop path, idempotent finalization, outcome taxonomy, resource
   release, resume pointers.
+- [mid-turn-steering](./techniques/mid-turn-steering.md) — user input against
+  the live turn: steer as a declared capability, queue as its one degrade,
+  refuse-between-turns, and the observable join event.
