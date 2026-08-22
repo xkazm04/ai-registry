@@ -15,6 +15,7 @@ techniques:
   - evidence-based-auto-close
   - claim-carry-forward-rules
   - handoff-tenancy-and-idempotence
+  - finding-refutation-channel
 ---
 
 # Remediation handoff
@@ -247,3 +248,6 @@ counterexample.
 - [handoff-tenancy-and-idempotence](./techniques/handoff-tenancy-and-idempotence.md) —
   the claim write itself: ownership over every identifier, bounded batches,
   re-send safety, and refusing to reopen closed items.
+- [finding-refutation-channel](techniques/finding-refutation-channel.md) — the third
+  outcome beside done and failed: what a refutation carries, why it must write back
+  to the producer, and why a refusal rate of zero is an instrument alarm.

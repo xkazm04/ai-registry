@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 129,
-  "techniques": 793,
-  "applications": 323,
+  "techniques": 796,
+  "applications": 327,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "793/793",
+  "use_when_coverage": "796/796",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1410,6 +1410,11 @@
      "technique": "loop-supervision",
      "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/applications/rust--loop-supervision.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "tick-isolation",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/applications/rust--tick-isolation.md"
     }
    ]
   },
@@ -2395,6 +2400,11 @@
      "technique": "task-registry-design",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--task-registry-design.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "generated-file-hygiene",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/rust--generated-file-hygiene.md"
     }
    ]
   },
@@ -2592,6 +2602,11 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "commit-verification",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--commit-verification.md"
+    },
     {
      "stack": "process",
      "technique": "intent-ledgers",
@@ -3385,6 +3400,21 @@
       "deciding whether a deletion is worth its price",
       "a ratcheting gate stops ratcheting",
       "quoting a cost figure nobody can recompute"
+     ]
+    },
+    {
+     "slug": "configuration-union-proof",
+     "status": "forged",
+     "laws": [
+      "deletion-is-not-repair",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deleting code in a codebase with compile-time capability gates",
+      "a reachability report was produced under one build configuration",
+      "deciding between removing a symbol and exempting it"
      ]
     },
     {
@@ -6099,6 +6129,11 @@
      "technique": "call-wrapping",
      "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/react--call-wrapping.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "drift-gates",
+     "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/rust--drift-gates.md"
     }
    ]
   },
@@ -10215,6 +10250,21 @@
      ]
     },
     {
+     "slug": "finding-refutation-channel",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "handing a named target list to a worker you do not supervise",
+      "a brief carries counts produced by a text-shaped scan",
+      "a worker reports that the premise is false"
+     ]
+    },
+    {
      "slug": "handoff-tenancy-and-idempotence",
      "status": "forged",
      "laws": [
@@ -13052,6 +13102,20 @@
      ]
     },
     {
+     "slug": "negative-control-tests",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding tests that license a refactor",
+      "covering a recovery or crash path the normal suite never executes",
+      "a suite has been green since it was written"
+     ]
+    },
+    {
      "slug": "platform-quirk-absorption",
      "status": "forged",
      "laws": [
@@ -14452,6 +14516,7 @@
     "data-access/repo-testing",
     "data-retention/confirm-by-echo",
     "data-retention/dry-run-preview",
+    "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
     "delivery-analytics/off-platform-signal-detection",
@@ -14560,6 +14625,7 @@
     "release-pipeline/updater-chain",
     "release-pipeline/version-single-truth",
     "remediation-handoff/evidence-based-auto-close",
+    "remediation-handoff/finding-refutation-channel",
     "repo-manifest-standard/generated-from-provenance",
     "repo-manifest-standard/spec-ships-with-artifact",
     "retrieval/embedding-lifecycle",
@@ -14607,6 +14673,7 @@
     "templates-scaffolding/template-portability",
     "test-harness/isolation-lanes",
     "test-harness/live-app-harness",
+    "test-harness/negative-control-tests",
     "test-harness/suite-partitioning",
     "ui-controls/adoption-enforcement",
     "ui-controls/control-inventory-and-discovery",
@@ -14840,6 +14907,7 @@
     "release-pipeline/release-verification",
     "release-pipeline/updater-chain",
     "remediation-handoff/evidence-based-auto-close",
+    "remediation-handoff/finding-refutation-channel",
     "remediation-handoff/resolution-trailers",
     "remediation-roadmaps/coverage-guarantee",
     "repo-manifest-standard/must-ignore-unknown",
@@ -14909,6 +14977,7 @@
     "terminal-multiplexing/pty-management",
     "test-harness/live-app-harness",
     "test-harness/long-lane-certification",
+    "test-harness/negative-control-tests",
     "test-harness/platform-quirk-absorption",
     "time-travel-replay/timeline-derivation",
     "toasts-notifications/os-escalation",
@@ -14959,6 +15028,7 @@
     "connector-catalog/catalog-lifecycle",
     "credential-vault/encryption-at-rest",
     "credential-vault/rotation-and-remediation",
+    "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
@@ -15062,6 +15132,7 @@
     "data-retention/time-budgeted-batch-purge",
     "data-viz/scale-and-axis-design",
     "dead-code/carrying-cost-economics",
+    "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
     "delivery-analytics/attribution-channels",
@@ -15183,6 +15254,7 @@
     "release-pipeline/changelog-generation",
     "release-pipeline/size-budgets",
     "remediation-handoff/batch-shaping-for-one-session",
+    "remediation-handoff/finding-refutation-channel",
     "remediation-handoff/single-artifact-prompt-construction",
     "remediation-roadmaps/projected-gain-modelling",
     "repo-manifest-standard/generated-from-provenance",

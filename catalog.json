@@ -217,10 +217,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 129,
-      "techniques": 793,
-      "applications": 323,
-      "files": 1250,
-      "contentHash": "sha256:651e6deb4fe4753c"
+      "techniques": 796,
+      "applications": 327,
+      "files": 1257,
+      "contentHash": "sha256:35075ce0e6ee9e06"
     }
   ]
 }

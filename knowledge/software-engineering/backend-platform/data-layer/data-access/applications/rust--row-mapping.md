@@ -72,3 +72,59 @@ wrong policy for their consumer — not the primitive itself.
   `.unwrap_or_default()` over collected row sets — silent skip spelled
   three ways, outside both legal policies. The primitive that would have
   made them visible existed the whole time.
+
+## Naming the columns is a detector, not a style preference (2026-08-22)
+
+The lane that converted this crate's positional reads to named ones —
+**1,115 → 881 `row.get(<ordinal>)`, 346 → 293 wildcard selects**, across seven
+files completely — was justified in the abstract as readability and
+`ALTER TABLE` safety. It paid for itself concretely on the first file.
+
+`list_items_by_persona_id` (`src-tauri/db/src/repos/execution/executions.rs:262`)
+had returned `Err(InvalidColumnName("business_outcome"))` **on every invocation
+since 2026-05-11** — roughly three months. The commit that added the column
+touched three mappers at once; two read a wildcard and absorbed it silently,
+and the third, the only hand-written projection of the three, has been broken
+ever since. Its sole caller is the command behind the persona execution list,
+so a user-facing surface returned an error the entire time and nothing in the
+repository could have noticed: a column name is a string, no other caller
+shared the mapper, and the file's own test module never invoked the function.
+It surfaced because converting a positional read forces you to check the
+projection against the schema.
+
+Three rules came out of the conversion, each earned:
+
+- **Never infer a column name from a field name.** Every mapping was checked
+  three ways — the migration DDL, the explicit projection, the model struct —
+  which mattered five more times in seven files (`evidence_json`, two aliased
+  aggregates, `avg_dur`, `day`).
+- **Prefer a loud failure to a tolerant hatch.** `row_mapper!`'s `[opt]` escape
+  was used **zero** times in the conversion; three mappers were hand-written
+  rather than trade a `PREPARE`-time error for a silent `None`. One behaviour
+  change was named rather than buried: a mapper that previously leaned on
+  `[opt]` now fails at `PREPARE` when a column is missing.
+- **A case-only mutation does not prove a probe.** Every converted file gained
+  a schema-probe test, and each was proved capable of failing by corrupting a
+  column name and watching the probe name the table, column and offset. One
+  attempt failed to fail — mutating `detail` to `detaiL` passed, because the
+  store matches column names case-insensitively.
+
+## The corollary: static rules that key on column names go UP
+
+The census re-baseline after this lane recorded three rules **rising** —
+`ledger-field-addressed-by-string-key` by 3, `untimed-repo-query` and
+`unknown-money-as-zero` by 1 each — in exactly the repos the conversion
+rewrote. Nothing got worse. Explicit projections and named reads made the
+columns those rules match on **visible to a text-shaped analyzer for the first
+time**; a wildcard hides a column from static analysis exactly as effectively
+as it hides it from the compiler.
+
+So: **a rise in any rule that keys on a column name is evidence the conversion
+worked**, and a ratchet that only ever admits downward movement will read this
+as a regression and fight it. (`pool-get-unwrapped` rose 8 for the adjacent
+reason: the new schema-probe tests each open a database, and an unwrap inside
+a test is the assertion.) The general form is the deletion protocol's
+attribution duty applied to a *refactor*: every baseline movement, up or down,
+is traced to a specific change before the lane is believed — and the first
+draft of that re-baseline message claimed every movement was downward, which
+was wrong. Eyeballing a ratchet is not a check.

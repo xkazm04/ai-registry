@@ -12,6 +12,7 @@ techniques:
   - platform-quirk-absorption
   - flake-lifecycle
   - long-lane-certification
+  - negative-control-tests
 ---
 
 # Test harness architecture
@@ -207,3 +208,7 @@ a soak run misunderstands both; the design of these lanes is
 - [long-lane-certification](./techniques/long-lane-certification.md) — chaos /
   load / soak as scheduled lanes with statistical pass criteria, lane-health
   bookkeeping, and quarantine review.
+- [negative-control-tests](techniques/negative-control-tests.md) — proving a test
+  can fail before trusting it: choosing a mutation the system cannot absorb, and
+  why a process-global crash handler installed for quiet makes a whole suite
+  unfalsifiable.

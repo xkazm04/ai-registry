@@ -181,3 +181,68 @@ churns on regeneration from a Windows tree. Not fixed here — flagged.
 
 Gate green (`check-bundles.mjs`): 106 subjects · 632 techniques · 239
 applications, 4208 links checked.
+
+## 2026-08-22 — Rust-backend refactor campaign: findings folded into existing subjects
+
+Source: a multi-week backend refactor campaign in a desktop agent-orchestration
+app (the same tree the ipc-contract and data-access applications already cite).
+Contributed as **applications first, techniques only where the finding was a
+general procedure with no home** — no new subjects, no new categories.
+
+New applications (4):
+- `ipc-contract/rust--drift-gates` — the orphan blind spot re-measured by an
+  inventory walk (1,008 exported types / 1,039 committed artifacts / **35**
+  orphans), the class split nobody had named (**13** whose source type is alive
+  but stopped carrying the export derive, **22** deleted), the mirror direction
+  (**4** exports with no artifact), and the two-sided-allowlist inventory gate
+  that closed it.
+- `codegen/rust--generated-file-hygiene` — three generators that began failing a
+  formatting gate introduced after them, resolved by folding the formatter into
+  the generator rather than exempting the generated roots. The technique
+  prescribes the exclusion branch; this is the other branch, with its condition.
+- `concurrent-vcs/process--commit-verification` — three verification *checks*
+  that reported the wrong thing: a private index seeded by copy that staged a
+  reversed diff, a deletion check that grepped the commit message, a publish
+  whose refusal was laundered by a pipe.
+- `background-jobs/rust--tick-isolation` — 56 hand-rolled crash barriers into
+  one helper; why the log field names had to be unified (field names must be
+  literals), the optional parameter that was refused in favour of composition,
+  and what the consolidation deliberately did not fix.
+
+New techniques (3), each added to its golden path's list in the same change:
+- `dead-code/configuration-union-proof` — reachability is scoped to the
+  configuration it was computed under. A deletion wave verified green under the
+  developer default broke the shipping configuration in dozens of compile
+  errors. Union rule, gate-over-exempt, verbatim restore.
+- `test-harness/negative-control-tests` — proving a test can fail; choosing a
+  mutation the system cannot absorb (a case-only rename was absorbed by
+  case-insensitive name matching); and never quieting the harness's own capture.
+- `remediation-handoff/finding-refutation-channel` — the third outcome beside
+  done and failed. Measured refusal rates from four specialist lanes, and a
+  catalogue whose concern survived while **not one of its eight counts** did.
+
+Corrections to existing content:
+- `ipc-contract/node--drift-gates` — its **29** orphans is superseded by the
+  inventory walk above and was wrong about the class as well. Marked, dated,
+  and pointed at the new application rather than rewritten; the defect shape it
+  describes held, and the reference-checker inversion it documents held.
+- `data-access/rust--row-mapping` — extended with the lane that found a query
+  failing on **every call since 2026-05-11** by naming its columns, plus the
+  corollary that converting wildcards to explicit projections **raises** every
+  static rule keyed on a column name, and that rise is evidence the conversion
+  worked.
+
+Declined, deliberately:
+- A census of **ten** gates found green for reasons unrelated to what they check
+  (a dependency scanner erroring on its own config, a hook whose transcript walk
+  had never fired across 477 file-editing turns, a lint shipped at warn under a
+  `--quiet --max-warnings 99999` runner, …). `quality-gates/gate-liveness`
+  already states every mechanism, and that subject sits at 4 applications —
+  over the 1-3 guidance. The individually novel instances were placed in the
+  applications above instead. The unifying claim, recorded here rather than
+  duplicated into a document: **the common failure is not an absent gate, it is
+  a gate whose output shape is indistinguishable from success.**
+
+Gate green (`check-bundles.mjs`): software-engineering 124 subjects · 759
+techniques · 311 applications; 1777 concept documents · 4896 links checked;
+`bundle integrity OK`. Index and catalog rebuilt in order.
