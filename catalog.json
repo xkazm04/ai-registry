@@ -1,9 +1,9 @@
 {
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
-  "_note": "GENERATED FILE. Two producers write it and neither may clobber the other: Ascent's indexer owns the envelope (schema, registry, skills, practices, memory, counts) and carries forward every key it does not own; scripts/build-catalog.mjs owns 'bundles' (the knowledge lane) and each skill's 'invokes30d' + 'usageContributors', DERIVED from the usage/ lane — see docs/usage-lane.md. Hand-editing a derived count is overwritten on the next build. The skills/practices/memory entries below are still the hand-seeded example fixture until an indexer runs.",
+  "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
   "generatedAt": "2026-08-18T00:00:00Z",
-  "generatedBy": "hand-seeded",
+  "generatedBy": "scripts/build-catalog.mjs",
   "registry": {
     "fullName": "xkazm04/ai-registry",
     "defaultBranch": "main",
@@ -13,53 +13,11 @@
   },
   "skills": [
     {
-      "name": "ci-gate-check",
-      "version": "1.3.0",
-      "category": "ci-cd",
-      "path": "skills/ci-gate-check/SKILL.md",
-      "contentHash": "sha256:18ed6e9fa5141809",
-      "applicability": {
-        "dimensions": [
-          "D3"
-        ],
-        "appliesWhenBelow": 65
-      },
-      "adopters": [
-        "example-org/billing-api@1.3.0",
-        "example-org/checkout-service@1.3.0"
-      ],
-      "invokes30d": 0,
-      "lessons": 0,
-      "usageContributors": []
-    },
-    {
-      "name": "test-before-commit",
-      "version": "2.1.0",
-      "category": "testing",
-      "path": "skills/test-before-commit/SKILL.md",
-      "contentHash": "sha256:e9fcab53eea3e17a",
-      "applicability": {
-        "dimensions": [
-          "D2"
-        ],
-        "appliesWhenBelow": 65
-      },
-      "adopters": [
-        "example-org/billing-api@2.1.0",
-        "example-org/reporting-api@2.1.0"
-      ],
-      "invokes30d": 0,
-      "lessons": 3,
-      "lessonsPath": "skills/test-before-commit/LESSONS.md",
-      "lessonsHash": "sha256:cac6c35783a41496",
-      "usageContributors": []
-    },
-    {
       "name": "agent-guidance-bootstrap",
       "version": "0.4.0",
       "category": "ai-native",
       "path": "skills/agent-guidance-bootstrap/SKILL.md",
-      "contentHash": "sha256:d6bc7e0019cc473a",
+      "contentHash": "sha256-n1:d6bc7e0019cc473a",
       "applicability": {
         "dimensions": [
           "D1",
@@ -76,6 +34,330 @@
       "invokes30d": 0,
       "lessons": 0,
       "usageContributors": []
+    },
+    {
+      "name": "architect",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/architect/SKILL.md",
+      "contentHash": "sha256-n1:24ed261a53eccd69",
+      "adopters": [],
+      "invokes30d": 2,
+      "lessons": 0,
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "ci-bootstrap",
+      "version": "0.1.0",
+      "category": "ci-cd",
+      "path": "skills/ci-bootstrap/SKILL.md",
+      "contentHash": "sha256-n1:faaa2f82c4154080",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "ci-gate-check",
+      "version": "1.3.0",
+      "category": "ci-cd",
+      "path": "skills/ci-gate-check/SKILL.md",
+      "contentHash": "sha256-n1:18ed6e9fa5141809",
+      "applicability": {
+        "dimensions": [
+          "D3"
+        ],
+        "appliesWhenBelow": 65
+      },
+      "adopters": [
+        "example-org/billing-api@1.3.0",
+        "example-org/checkout-service@1.3.0"
+      ],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "ci-triage",
+      "version": "0.1.0",
+      "category": "ci-cd",
+      "path": "skills/ci-triage/SKILL.md",
+      "contentHash": "sha256-n1:ef7446d4d1424389",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "consult",
+      "version": "1.0.0",
+      "category": "ai-native",
+      "path": "skills/consult/SKILL.md",
+      "contentHash": "sha256-n1:92d6074b9065db47",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "explorer",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/explorer/SKILL.md",
+      "contentHash": "sha256-n1:a8a1a8c5f152c2d8",
+      "adopters": [],
+      "invokes30d": 2,
+      "lessons": 0,
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "flake-register",
+      "version": "0.1.0",
+      "category": "testing",
+      "path": "skills/flake-register/SKILL.md",
+      "contentHash": "sha256-n1:200d009557ea3158",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "friend",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/friend/SKILL.md",
+      "contentHash": "sha256-n1:ea602e7e7c69881f",
+      "adopters": [],
+      "invokes30d": 2,
+      "lessons": 0,
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "i18n-translate",
+      "version": "1.1.0",
+      "category": "workflow",
+      "path": "skills/i18n-translate/SKILL.md",
+      "contentHash": "sha256-n1:4ad7e20e2c1e57ea",
+      "adopters": [],
+      "invokes30d": 2,
+      "lessons": 1,
+      "lessonsPath": "skills/i18n-translate/LESSONS.md",
+      "lessonsHash": "sha256-n1:63df24e1d0175777",
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "kpi-sim",
+      "version": "1.0.0",
+      "category": "testing",
+      "path": "skills/kpi-sim/SKILL.md",
+      "contentHash": "sha256-n1:5eb5bb57635f5b64",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "leonardo",
+      "version": "1.0.0",
+      "category": "other",
+      "path": "skills/leonardo/SKILL.md",
+      "contentHash": "sha256-n1:9973956a6cf54fde",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "motionize",
+      "version": "1.0.0",
+      "category": "other",
+      "path": "skills/motionize/SKILL.md",
+      "contentHash": "sha256-n1:85c2ad7ee43eaeae",
+      "adopters": [],
+      "invokes30d": 2,
+      "lessons": 0,
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "mvp",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/mvp/SKILL.md",
+      "contentHash": "sha256-n1:5b2ab876454c3c6b",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "npm-updates",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/npm-updates/SKILL.md",
+      "contentHash": "sha256-n1:d747ca1163f1c682",
+      "adopters": [],
+      "invokes30d": 1,
+      "lessons": 0,
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "perfect",
+      "version": "2.3.0",
+      "category": "workflow",
+      "path": "skills/perfect/SKILL.md",
+      "contentHash": "sha256-n1:58ebbce8ae7b9aa7",
+      "adopters": [],
+      "invokes30d": 46,
+      "lessons": 8,
+      "lessonsPath": "skills/perfect/LESSONS.md",
+      "lessonsHash": "sha256-n1:cb69978737b6e09e",
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "project-populate",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/project-populate/SKILL.md",
+      "contentHash": "sha256-n1:b5b8f6b19b4477c9",
+      "adopters": [],
+      "invokes30d": 5,
+      "lessons": 0,
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "promote",
+      "version": "1.0.0",
+      "category": "ai-native",
+      "path": "skills/promote/SKILL.md",
+      "contentHash": "sha256-n1:8f5f48d81a36bc8c",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "research",
+      "version": "1.5.0",
+      "category": "ai-native",
+      "path": "skills/research/SKILL.md",
+      "contentHash": "sha256-n1:8f7ef8ae3f9bf193",
+      "adopters": [],
+      "invokes30d": 20,
+      "lessons": 5,
+      "lessonsPath": "skills/research/LESSONS.md",
+      "lessonsHash": "sha256-n1:63b6f47daf6a9c9d",
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "scan-sweep",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/scan-sweep/SKILL.md",
+      "contentHash": "sha256-n1:b160f054acc69c76",
+      "adopters": [],
+      "invokes30d": 15,
+      "lessons": 1,
+      "lessonsPath": "skills/scan-sweep/LESSONS.md",
+      "lessonsHash": "sha256-n1:9f46c7c1308a0c1f",
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "ship-loop",
+      "version": "2.1.0",
+      "category": "workflow",
+      "path": "skills/ship-loop/SKILL.md",
+      "contentHash": "sha256-n1:32f04dd0939f0688",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 2,
+      "lessonsPath": "skills/ship-loop/LESSONS.md",
+      "lessonsHash": "sha256-n1:a18ce0c54627487b",
+      "usageContributors": []
+    },
+    {
+      "name": "spark",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/spark/SKILL.md",
+      "contentHash": "sha256-n1:5dd825c7acf3da3b",
+      "adopters": [],
+      "invokes30d": 6,
+      "lessons": 1,
+      "lessonsPath": "skills/spark/LESSONS.md",
+      "lessonsHash": "sha256-n1:f194caf522eb2257",
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
+    },
+    {
+      "name": "test-before-commit",
+      "version": "2.1.0",
+      "category": "testing",
+      "path": "skills/test-before-commit/SKILL.md",
+      "contentHash": "sha256-n1:e9fcab53eea3e17a",
+      "applicability": {
+        "dimensions": [
+          "D2"
+        ],
+        "appliesWhenBelow": 65
+      },
+      "adopters": [
+        "example-org/billing-api@2.1.0",
+        "example-org/reporting-api@2.1.0"
+      ],
+      "invokes30d": 0,
+      "lessons": 3,
+      "lessonsPath": "skills/test-before-commit/LESSONS.md",
+      "lessonsHash": "sha256-n1:cac6c35783a41496",
+      "usageContributors": []
+    },
+    {
+      "name": "tiger",
+      "version": "2.1.0",
+      "category": "testing",
+      "path": "skills/tiger/SKILL.md",
+      "contentHash": "sha256-n1:910d159745b7e65c",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 2,
+      "lessonsPath": "skills/tiger/LESSONS.md",
+      "lessonsHash": "sha256-n1:1b157a16fe2ca09d",
+      "usageContributors": []
+    },
+    {
+      "name": "uat",
+      "version": "1.7.0",
+      "category": "testing",
+      "path": "skills/uat/SKILL.md",
+      "contentHash": "sha256-n1:33a6a8a9a14eefaa",
+      "adopters": [],
+      "invokes30d": 2,
+      "lessons": 10,
+      "lessonsPath": "skills/uat/LESSONS.md",
+      "lessonsHash": "sha256-n1:a3eef7d1d26b3c6c",
+      "usageContributors": [
+        "kazda-dev-box"
+      ]
     }
   ],
   "practices": [
@@ -83,7 +365,7 @@
       "id": "agent-guidance",
       "dimension": "D1",
       "path": "practices/agent-guidance/PRACTICE.md",
-      "contentHash": "sha256:1d1a694508b2ade1",
+      "contentHash": "sha256-n1:1d1a694508b2ade1",
       "starter": [
         "practices/agent-guidance/starter/AGENTS.md"
       ]
@@ -92,56 +374,56 @@
       "id": "supply-chain-security",
       "dimension": "D9",
       "path": "practices/supply-chain-security/PRACTICE.md",
-      "contentHash": "sha256:6d7d59fca5596028",
+      "contentHash": "sha256-n1:6d7d59fca5596028",
       "starter": [
-        "practices/supply-chain-security/starter/SECURITY.md",
-        "practices/supply-chain-security/starter/.github/workflows/supply-chain.yml"
+        "practices/supply-chain-security/starter/.github/workflows/supply-chain.yml",
+        "practices/supply-chain-security/starter/SECURITY.md"
       ]
     }
   ],
   "memory": [
     {
-      "kind": "semantic",
-      "slug": "service-naming-and-ownership",
-      "path": "memory/semantic/service-naming-and-ownership.md",
-      "contentHash": "sha256:6c4cbce9f5e4d910",
-      "confidence": 1,
-      "namespace": "platform",
-      "source": "architecture-review"
-    },
-    {
-      "kind": "procedural",
-      "slug": "rolling-back-a-bad-release",
-      "path": "memory/procedural/rolling-back-a-bad-release.md",
-      "contentHash": "sha256:60ff79113bba0aa9",
-      "confidence": 1,
-      "namespace": "platform",
-      "source": "incident-retro"
-    },
-    {
       "kind": "episodic",
       "slug": "2026-06-required-checks-decision",
       "path": "memory/episodic/2026-06-required-checks-decision.md",
-      "contentHash": "sha256:1255ff229a7463b3",
+      "contentHash": "sha256-n1:1255ff229a7463b3",
       "confidence": 1,
       "namespace": "engineering",
       "source": "decision-record"
     },
     {
+      "kind": "procedural",
+      "slug": "rolling-back-a-bad-release",
+      "path": "memory/procedural/rolling-back-a-bad-release.md",
+      "contentHash": "sha256-n1:60ff79113bba0aa9",
+      "confidence": 1,
+      "namespace": "platform",
+      "source": "incident-retro"
+    },
+    {
+      "kind": "semantic",
+      "slug": "service-naming-and-ownership",
+      "path": "memory/semantic/service-naming-and-ownership.md",
+      "contentHash": "sha256-n1:6c4cbce9f5e4d910",
+      "confidence": 1,
+      "namespace": "platform",
+      "source": "architecture-review"
+    },
+    {
       "kind": "summary",
       "slug": "2026-h1-delivery-guardrails",
       "path": "memory/summary/2026-h1-delivery-guardrails.md",
-      "contentHash": "sha256:ce889b995019e46c",
+      "contentHash": "sha256-n1:ce889b995019e46c",
       "confidence": 0.6,
       "namespace": "engineering",
       "source": "half-year-review"
     }
   ],
   "counts": {
-    "skills": 3,
+    "skills": 25,
     "practices": 2,
     "memory": 4,
-    "lessons": 3
+    "lessons": 33
   },
   "bundles": [
     {
