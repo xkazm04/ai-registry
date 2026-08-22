@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 128,
   "techniques": 779,
-  "applications": 316,
+  "applications": 317,
   "laws": 9,
   "categories": [
    "ui-surfaces",
@@ -10490,6 +10490,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "storm-control",
+     "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/node--storm-control.md",
+     "verified_on": "2026-08-22"
+    },
     {
      "stack": "rust",
      "technique": "circuit-breakers",
