@@ -22,6 +22,11 @@ lanes:
   skills: reader
   practices: reader
   memory: reader
+  # knowledge/ — Ascent reads each bundle's GENERATED knowledge/<domain>/index.json (and only
+  # that file: counts are taken from its `meta` verbatim, never recomputed). Declared here
+  # because the indexer already walks it; a lane read but not declared is a role map that
+  # disagrees with the code that runs.
+  knowledge: reader
   # usage/ — one `usage/<contributor>.json` per contributing installation (root registry.yaml,
   # docs/usage-lane.md). Ascent indexes the lane and sums it into catalog.json's per-skill
   # `invokes30d` + `usageContributors`. It stays a READER on purpose: the installations that

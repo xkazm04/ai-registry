@@ -1,6 +1,6 @@
 # librarian
 
-Coverage memory for [`/librarian`](../skills/librarian/SKILL.md) - what the registry
+Coverage memory for [`/librarian`](../.claude/skills/librarian/SKILL.md) - what the registry
 looked like when it was last swept, what was done about it, and what was deliberately
 not done.
 
@@ -17,7 +17,7 @@ else here and readable with no tool at all.
 | `runs/<YYYY-MM-DD>-<n>.md` | What one run swept, dispatched, accepted and declined. |
 | [`watchlist.md`](watchlist.md) | Candidate public trees for the reconcile and scan loops, with evidence grades. |
 | [`projects.md`](projects.md) | Which connected project relates to which bundle. Slugs and domains only. |
-| [`sources/index.md`](sources/index.md) | The ledger of external sources [`/research`](../skills/research/SKILL.md) has mined, and one note per run. |
+| [`sources/index.md`](sources/index.md) | The ledger of external sources [`/intake`](../.claude/skills/intake/SKILL.md) has mined, and one note per run. |
 
 ## Bundles
 

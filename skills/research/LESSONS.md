@@ -1,215 +1,77 @@
 # Lessons - research
 
-## 0.1.0 - 2026-08-21 - ai-registry (run 1: mixed AI-news roundup; bumped to 0.2.0 in the same change)
+Append-only reflection lane. One entry per run that taught something. Format:
+`## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets. Merged from every copy of this skill on 2026-08-22 when it moved into the registry lane.
 
-- **The source class behaved exactly as designed for, which is the result worth
-  recording.** A weekly AI-news roundup produced twelve candidates from ~fourteen
-  segments; the one that was picked located a real hole in the corpus and stated the
-  rule for filling it backwards. Originating and authorizing really are different acts,
-  and the run is the first evidence that writing that rule into the method was right.
-- **Contradiction is the best corroboration outcome, and v0.1.0 had no slot for it.**
-  The corroboration table read as a pass/fail gate on the source's wording. What
-  actually happened is that the primary literature inverted the source's rule, and the
-  technique got written from the literature - sharper than either input. Applied to
-  SKILL.md as a named outcome, hence the bump. Generalises to any low-authority source:
-  ask whether it found something true while explaining it wrongly before dropping it.
-- **Untriaged is not declined.** Eleven of twelve candidates were never picked. The
-  Phase 9 frontmatter had no field for that state, and filing them as declines would
-  have fed the decline ledger judgments nobody made - which Phase 11 promotes into
-  standing rules after three sightings. Applied as a fifth outcome with its own table.
-- **The strip test paid at extraction time.** Seven segments died before any budget
-  reached them (a git-hosting launch, a desktop app, a music model, a robot). No change
-  needed; the ordering in Phase 3 was already right.
-- **An honest empty from the mapping instrument was the single most informative output
-  of the run.** "quantization" matching nothing across 250 subjects is what turned a
-  vague hunch into a located gap. The instrument's refusal to soften that is worth more
-  than its ranking.
-- **`--deep` is for vague terms, not technical nouns.** It cost ~10s reading every
-  document's `use_when` and changed nothing for slug-distinctive terms; it earned its
-  keep only on a behavioural phrase. Not written into the method at n=1, but the shape
-  of the rule is "deep when the term is a sentence, shallow when it is a noun".
-- **A shared checkout moved the branch out from under this run before it started.**
-  Another agent session on the same tree switched branches mid-flight. v0.1.0 carried
-  the pathspec-on-commit rule (inherited from a sibling lineage) but not the stronger
-  answer, which is to isolate in a worktree. Applied. The Windows-specific corollary is
-  real and cost one failed attempt: this corpus's deepest paths are long enough that a
-  scratch-directory prefix exceeds the platform path limit and the worktree
-  half-creates, so the worktree path has to be short.
-- **One pick did not come close to binding the 3-fetch budget.** One search plus one
-  fetch corroborated one technique. The budget is sized for four picks, not one; nothing
-  to change, but the number is now measured rather than assumed.
-- **The cross-repo lane was not exercised.** Reading a connected project for
-  corroboration turned out to be the highest-value part of the verification - it
-  supplied the application document and a real instance the technique teaches better
-  than the source did. Writing to that project was correctly gated and correctly not
-  invoked. The read/write asymmetry deserves a sharper statement in the method the first
-  time the lane actually runs.
+## 1.0 - 2026-08-12 - personas
 
-## 0.2.0 - 2026-08-22 - ai-registry (run 2: agent-news roundup; bumped to 0.3.0 in the same change)
+- **Before adding a cap/budget/limit, grep for an existing one on the same material.** Applied as Phase 6 Step 3b. A budget was added to a memory-projection path; the first implementation truncated each entry and announced the cut, which had local precedent and looked right. Reading the existing `pack_by_budget` showed the codebase had made the opposite call for that exact material — skip over-budget entries, because "a partial memory is worse than none". Reverting to the existing packer made the change smaller and let it delete a duplicated constant instead of adding a competing one. The general failure is not "the cap already exists" (easy to spot); it is "the cap exists and decided the opposite way" (invisible unless you read it).
+- **Read backgrounded tool output even after re-running it scoped.** Applied as Phase 6 Step 4b. Two wide greps timed out and were backgrounded; scoped re-runs answered the immediate question. Reading the backgrounded originals when they landed surfaced one reference the scoped versions had cut out, which escalated a one-module finding into a three-instance architectural pattern with a shipped-template victim. The reason a command was slow is usually that it covered ground the fast version does not.
+- **New source-type row: best-practices listicle.** Added to the Phase 3 yield calibration table. Profile is catch-dominant (~1:3 findings-to-catches) because a listicle enumerates a canonical checklist that a mature repo mostly satisfies. The specific trap is stretching for parity with the list's length. The specific prize is the item the repo deliberately inverts — that is a catch with a reason worth recording, not a gap.
+- **Risk language in a triage recommendation must be backed by a read, not by momentum.** Not applied as a rule edit (it is already covered by Phase 4's scoring-honesty rule; this is a fresh instance of an old failure). A recommendation characterized a dormant module as "an untested write path armed behind an env var". Both halves were false and both were one grep from being checked — and the evidence for one of them had already been read earlier in the session. Scoring honesty applies to the *risk* half of a finding, not only the relevance half.
 
-- **Cross-run convergence corroborated an upper-layer technique with no web fetch, and it
-  only worked because run 1 wrote down what it did not pick.** Two independent vendors,
-  two independent runs, one rule (observed repetition promoted into a named skill). The
-  corroboration table listed three routes; this is a fourth, and it is the cheapest one
-  available. Applied, and it retroactively justifies v0.2.0's untriaged table as
-  load-bearing rather than tidy - a decline ledger alone would have destroyed the first
-  half of the pair.
-- **A near-empty from the mapping instrument is more dangerous than a total empty.** One
-  pick matched three semantically unrelated subjects and looked like a hole; it was a
-  SEAM inside a nine-technique subject whose golden path already produced the material.
-  Slug matching cannot see a concept living in prose. Zero hits usually means a hole;
-  two or three weak hits mean hole-or-seam and the golden path has to be read before
-  choosing. Applied to Phase 4. Writing the duplicate instead of the boundary was the
-  available failure and it was close.
-- **Real findings in a mature corpus are missing STAGES, not missing opinions.** All four
-  accepted findings were a decision the documents left to a default because nothing sat
-  at the point where it is made: whether to retrieve at all, when a memory becomes a
-  capability, which step a limit counts, what a provenance check settles. A subject that
-  is thorough from stage two onward is exactly where a missing stage one hides. Applied
-  to Phase 6 as a verification question, and it is probably the most transferable thing
-  either run has produced.
-- **Carrying my own read per row changed the operator's pick.** Run 1's table stated
-  prior art and left the judgment implicit; run 2 marked each row real / partial /
-  likely-catch / thin, and the operator took four "real" and skipped three of four
-  "likely catch". Applied to Phase 5 as a required column. Neutrality that withholds a
-  read does not remove the guess, it relocates it to the party with less context.
-- **The source was confidently wrong twice more, against things the corpus has measured.**
-  Throughput-buys-thinking is refuted by `effort-calibration`'s opening claim; agent
-  identity from a name is refuted twice over by `session-registry`. Two runs, four
-  inversions. The class row in the ledger is now earned at two observations, and the
-  finding is that yield is a property of WHERE a segment lands, not of the class: run 1
-  hit model and media subjects for one finding, run 2 hit `llm-agent` for four.
-- **Six picks is about one sitting.** Four techniques written and wired, two
-  verifications, one amendment. The 3-fetch budget bound for the first time (one search
-  plus two fetches, one of which 404'd on a moved support URL) - and one of those fetches
-  was spent recovering from a redirect. Not changing the number yet; recording that it is
-  now a real constraint rather than a theoretical one.
-- **A finding can be right and still not be a law.** The provenance asymmetry is general
-  enough to be a law and already IS one in a sibling bundle, but cross-bundle links are
-  forbidden and the skill's bar for minting one is convergence across runs - two runs
-  from a single channel is not that. Writing it as a technique with the law banked as a
-  lead behind a stated return condition was the correct application of a rule that
-  wanted to be broken. No change; the bar worked.
+### Redesign proposal
 
-## 0.3.0 - 2026-08-22 - ai-registry (run 3: first-party practitioner talk; bumped to 0.4.0 in the same change)
+- **The skill has no step for "the finding grew while you were verifying it".** Three times in this run a Phase 6 verification materially changed a finding's size or shape after it had already been presented (one module → three gates → a shipped inert template), each time requiring an unsolicited correction message before the user could triage honestly. Phase 6 assumes verification precedes presentation and Phase 7 assumes findings are stable once printed. A future major version could add an explicit re-presentation contract: when verification changes a presented finding's scope, severity, or recommended shape, reprint that finding's row and restate the open question rather than appending prose. Not applied now because it is a structural change to the Phase 6/7 boundary, not a prompt refinement.
 
-- **The source CLASS is a reading instruction, not a trust level.** Three runs in, two
-  classes with near-opposite shapes. A second-hand survey is broad, shallow and reliable
-  only for "the world moved" - mine it for where to look. A first-party practitioner
-  account is authoritative about what they built and measured and not at all about what
-  works in general, because the sample is one. That maps onto the layer contract almost
-  exactly: strong evidence for a technique's SHAPE, weak evidence for its universality,
-  so its claims want their conditions attached rather than a higher confidence setting.
-  Applied as a section that runs before the strip test.
-- **Length is not yield.** 2,974 words outproduced 6,958. Density, first-hand-ness and
-  topical coherence all beat volume, and a coherent account of one problem maps onto one
-  REGION of the corpus - two techniques and a subject, rather than findings scattered
-  across six subjects. Applied as a line in the class section so the ingest word count is
-  not read as a forecast.
-- **Choosing the home is a verification step, and it was the hardest call of the run.**
-  One finding's obvious homes were both wrong on their own stated boundaries -
-  `agent-chaining` owns event-wired chains, `fleet-orchestration` owns session
-  supervision, and neither is the orchestration/agency dial. The answer came from
-  reading each subject's opening boundary paragraph, which this corpus writes
-  explicitly. Applied to Phase 6. The corollary that a finding with an obvious home was
-  probably already covered is worth carrying: the interesting findings sit BETWEEN
-  subjects.
-- **The XL route worked and cost about as much as a technique.** Four fragment
-  candidates from the same talk folded into one dispatchable proposal instead of
-  becoming four leads that would be re-derived separately. Applied: fold the fragments
-  in, and write the spec as the ENGINE's input - bundle, category, technique slugs with
-  the decision rule each carries, the boundaries it must not absorb, the open questions -
-  rather than as prose about a gap.
-- **Three runs, six techniques, zero applications.** Not an accident any more. Every run
-  so far has landed upper-layer content and none has written a `<stack>--` document,
-  because writing one requires opening a real tree and no run has been asked to. The
-  cross-repo lane exists and has never fired. This is the method's standing blind spot
-  and the next run should either exercise it deliberately or the skill should stop
-  implying applications are a routine outcome.
-- **The corroboration budget went entirely unused.** First-party sources need no
-  corroboration lane for what they report about themselves, so the 3-fetch budget is a
-  constraint that binds on the roundup class and not on this one. No change.
-- **The registry found a subject-sized hole in the thing it does itself.** Nothing owns
-  generating a knowledge corpus from a codebase, which is what this repository's own
-  forge skill does daily. Worth naming as a general risk rather than a local irony: a
-  corpus is least likely to document the practice its own authors are too close to see.
+## 1.1 - 2026-08-13 - personas
 
-## 0.4.0 - 2026-08-22 - ai-registry (run 4: skill-library release walkthrough; bumped to 0.5.0 in the same change)
+- **New source-type row: specification / standard / RFC.** Added to the Phase 3 yield table. Profile is medium-findings + many catches, but the findings are unusually actionable (2 of 4 shipped same-session). The mechanism is specific: a mature codebase has usually built a spec's *features* — those all resolve to catches — and skipped one of its *invariants*. So the rule is **read the MUST/SHOULD/MAY table before the feature tour.** On this run every feature in the source was already implemented, and the entire security finding came from one normative sentence about path containment that the repo had never checked, in five separate code paths.
+- **A landing page is not the source.** Applied as a Phase 2b subsection. The overview page of a multi-page spec site returned ~250 words of positioning — under the skill's own <300-word thinness floor — while the `/specification` subpage carried the whole normative contract. Following the existing rule literally would have aborted the run on a source that produced two shipped commits. The thinness check now explicitly fires *after* a bounded subpage pass.
+- **Separate "unify the construction" from "change the emitted value".** Not applied as a new rule (Phase 6 Step 3b already tells you to read before reusing; this is the wire-contract instance of it) but worth recording as a distinct shape. A cleanup finding wanted eight hand-rolled JSON literals unified — and the spec implied renaming a field value while doing it. The value in question is read by third-party clients and the current spelling was live-verified working. Unifying construction is validated by a compile; changing an emitted value is validated by a live test against the reader. Bundling them would have shipped a behavior change disguised as a refactor. Split them, ship the refactor, pin the value to a named constant with the reasoning beside it, and track the rename separately.
+- **The Edit-append rule for shared-by-date Lessons files protects others from you, not you from them.** Applied as a Phase 10b addition. A concurrent session `Write`-replaced the shared `Lessons/{date}-*.md` mid-run and erased a block that had been correctly Edit-appended minutes before. Recovery worked only because the harness surfaced the external modification inside the same turn. The rule as written (2026-04-14) is one-directional; the missing half is defensive — write the block late, and re-read it before the final summary.
+- **When a wrapper script errors, suspect your invocation before the codebase.** Not applied as a rule (too small). Mid-run, `run-rust-tests.mjs --features desktop <filter>` returned `Unrecognized option: 'features'` — the script already supplies that flag. In a session that was already routing around a concurrent session's compile breakage, this briefly read as a third external failure. Cost was small but the bias is worth naming: once a run has established "the environment is hostile", it stops checking its own arguments.
 
-- **An AMENDMENT is a first-class outcome and the method had no name for it.** Two of five
-  accepted findings were sections added to well-forged techniques rather than new
-  techniques - and both were sharper than most new techniques, because a mature document
-  that already reasons well about its subject makes the case it *misses* stand out. It is
-  also the cheaper move and the one that avoids minting a competing technique beside an
-  existing one. Applied to the Phase 7 routing table.
-- **Hunt where a document declares its own completeness.** "The subject owns two flows
-  that are mirror images of each other." "The three cases where strictness is still
-  correct." An enumeration is a claim; it invites exactly one question; asking it is
-  nearly free. Both amendments this run and the `hitl-approval` finding came from a
-  source demonstrating a case an enumeration did not contain. Applied to Phase 6, and it
-  is the most mechanically reusable heuristic any run has produced.
-- **When a rule inverts across bundles, name the discriminator - do not link.** One
-  finding contradicted a technique in another bundle that argues its position well. Not a
-  contradiction: the other bundle's harms are harms of MEASURING a person, and none
-  transfer to gathering what they know. Cross-bundle links are forbidden, so the boundary
-  condition goes in prose on the side being written, with a note in the subject file that
-  the other bundle holds the opposite. Applied to Phase 7.
-- **The release-walkthrough sub-class outperformed everything so far, per word.** It is
-  organised around changes, and a change carries the reason it was made - so the author
-  states the prior failure mode out loud. A feature demo shows the solution and hides the
-  problem. Applied to the source-class section as a thing to seek out rather than wait for.
-- **Seven picks worked, and the ceiling is the writing, not the verification.** Three
-  techniques and two amendments in one sitting. Verification was cheap because a
-  first-party source needs no corroboration lane; the cost was entirely in drafting. If a
-  run's picks are mostly amendments, the ceiling is higher than seven.
-- **FOUR runs, eleven techniques, ZERO applications, cross-repo lane never fired.** This
-  has now survived three consecutive lessons entries as a note, which means noting it is
-  not working. It is the method's defining gap: every run lands transplantable upper-layer
-  content and none has ever reconciled a claim against a real tree, which is the half the
-  layer contract says proves the standard is real. The next version should either make an
-  application a REQUIRED consideration at the triage gate - "which of these picks could be
-  verified against a connected project's code, and should be" - or the skill should stop
-  listing applications as a routine outcome. Deliberately not fixed here, because the
-  right fix is a gate change and this run had no application to write.
+## 1.1 - 2026-08-13 - personas (kpi-dashboard-design compare run)
 
-## 0.5.0 - 2026-08-22 - ai-registry (runs 5+6, parallel: a technique demo and a designer talk; bumped to 0.6.0 in the same change)
+Second run on 1.1 the same day, concurrent with the agent-plugins one above; both
+bumped independently (that run 1.1→1.2, this one 1.2→1.3).
 
-- **The cross-repo lane finally fired, and its value was not what the method assumed.**
-  Five runs of lessons treated a missing application as a coverage gap - somewhere to
-  point at real code. The first one written showed the lane is worth more than that: the
-  tree's SHAPE confirmed the technique's central claim in a way no upper-layer reasoning
-  could. A four-term model said one term is the one nobody can set; the evaluator turned
-  out to carry a module context for every module it can build and none for that term,
-  because nothing in a codebase can own it. Nobody designed that. Applied to Phase 8 as
-  a question to ask of any tree you open: what could this not have been built to prove,
-  and does it prove it anyway? The negative confirmation is the strongest form.
-- **The mapping instrument was branch-blind and nobody had noticed for five runs.** It
-  reads the working tree, so it reported "no prior art" for a domain a sibling branch
-  covers in two subjects. Fixed in the script - it now prints the bundles scanned and the
-  branch - and applied to Phase 4. The general lesson is that an instrument's silence is
-  only as trustworthy as its scope, and this one had never declared its scope.
-- **A dispatch spec asserted a structural fact and was wrong.** It claimed a category was
-  flat and under its cap, reasoning from a subject count; the category was already nested,
-  and the placement rule forbids a category holding both subjects and subcategories. The
-  worker caught it, filed correctly, and reported the override. Applied: verify placement
-  against the taxonomy authority and state the resolved path and link depth in the brief.
-  Counting is not reading.
-- **Both dispatched workers overrode their briefs and both were right.** One rejected a
-  "prefer existing subjects" preference because the neighbours' own stated scopes excluded
-  the work; the other fixed the placement error. Applied: ask for the override and the
-  argument explicitly, because a brief that reads as non-negotiable buys compliance with a
-  mistake. Also applied: review the diff, never the report - the purity check on a
-  game-design subject was the one that mattered, since the source was made almost entirely
-  of game titles and one leak fails the gate for everybody. It was clean; the check was
-  still the point.
-- **A fourth source class: the designer talk.** Domain craft with no tooling in it, and
-  the first class whose findings never route to `software-engineering`. Its defining
-  property is that it has a PLACEMENT problem before it has a content problem - which is
-  how the branch-blindness above surfaced.
-- **Two workers in parallel plus the project lane in the main thread is one sitting.** The
-  bottleneck was waiting, not verification or writing. That argues for dispatching earlier
-  in a run rather than for picking less.
-- **One candidate is still owed a decision** (a blanket auto-approval grant deleting the
-  human turn a flow exists for - third sighting of that thread). Recorded as untriaged
-  rather than landed, which is the vocabulary working as intended two versions after it
-  was added.
+- **An aggregator listing is not the source, and the thinness floor cannot catch it.** Applied as a Phase 2b subsection. The source URL was a skills.sh listing; WebFetch returned a fluent, well-over-300-word *summary* of the skill — third-person, behind a "Show more" the fetch could not expand — that even stated its own incompleteness in the last line. Nothing in the pipeline would have stopped a run from comparing a mature module against a paraphrase. This is a different failure from the landing-page rule added in 1.1: that one is caught by the word floor, this one sails past it because the summary is long enough. The fix is a hard rule (resolve to the repo) plus the `gh api .../git/trees/main?recursive=1` one-call path lookup — the guessed path 404'd, the tree listing did not. Also: fetch every file the artifact splits across; the 770-word SKILL.md deferred all worked examples to a 1,241-word `references/details.md`.
+- **Compare-mode runs must read the source as a checklist to FAIL, not a menu to shop.** Applied as a new Phase 3 subsection. When the invocation says "compare X with our implementation" the generative reading ("what can we take?") returns near-nothing against a mature module and tempts padding. Inverting to "which of these principles do we fail?" found both real defects. Two corollaries worth the words: the findings came from the source's *least* glamorous material (a one-word SMART bullet, an ASCII diagram) while its SQL and dashboard code — the parts that look like substance — were wholly inapplicable; and the catch table is the actual deliverable at these ratios (2 findings / 13 catches) and has to lead, not trail. Includes the rule that the outside checklist is not automatically the higher authority — this run declined its "cap at 5-7 KPIs" for a ranking the schema already stored, and recorded why so a future run does not re-litigate it.
+- **A column with a DEFAULT and no writer on the dominant creation path is invisible dead configuration.** Not applied as a skill rule — it is a project fact and went to that repo's `codebase-stack.md` — but the *grep shape* generalizes and is worth naming here. `dev_kpis.tier` had a migration, a NOT NULL default, two live consumers, a UI control and an agent op, and was still constant in practice because the highest-volume creator never emitted it. Greps for the column look healthy; what is absent is a writer. Phase 6's existing catalog-vs-runtime check (Step 1b) is the same instinct one level up — when a finding depends on a field *meaning* something, check who writes it, and check the dominant creator specifically.
+- **When a codebase has fixed an honesty bug once, grep the verdict function for its siblings.** Not applied (too close to Phase 6 Step 3b to earn its own step). The KPI dashboard already carried a documented fix for "unmeasured must not render as 0%" — applied at the bar renderer. The target-less case was the same bug one layer up, surviving because the earlier fix landed on the symptom rather than on the function computing the verdict. A repo that has written a comment explaining why one honesty case matters is a repo whose verdict function is worth re-reading in full.
+- **Do not attribute a baseline delta to your own change without isolating it.** Not applied (session hygiene, not method). A mid-run `cargo check` moved the warning count 213→214 and the obvious reading was that the just-written Rust caused it. Stashing only my own file and re-running showed 213 both with and without — the extra warning was a concurrent session's in-flight edit to a crate I had not touched. In a repo with parallel sessions, "the baseline moved" is not evidence about your diff until you have isolated your diff.
+
+## 1.3 - 2026-08-17 - personas (Chase AI Obsidian OS walkthrough)
+
+- **A capped grep proves presence, never absence.** Applied as Phase 6 Step 4c. Mid-run I told the user "no tray icon either" on the strength of a `head -8`ed grep; the repo has `src-tauri/src/tray.rs` with exactly the window show/focus sequence the accepted finding needed. Ripgrep emits in path order, so the cap cut the one file whose *name* matched the concept — it sorted behind eight `commands/**` matches on the word "s**tray**". The sharp part is the timing: the same run had, one tool call earlier, deliberately read a backgrounded wide grep to corroborate a *different* absence claim (Step 4b working as designed), and then made the next absence claim from a capped result anyway. Obeying 4b does not generalize on its own; absence needed its own rule. Presence claims are safe to cap, absence claims never are.
+- **Prefer the already-built-and-dark finding over the well-argued new feature.** Not applied as a rule (it is a ranking instinct, and Phase 7 already ranks). Worth naming: the strongest of three findings was a Tauri command that was implemented, registered, ts-rs-exported, and had zero callers anywhere — `get_recipe_outcome_tallies`. Nothing about it needed arguing; the product decision was already made by whoever wrote it, and only the wiring was owed. The two weaker findings both required persuading the user that a thing was worth existing. When a run surfaces an orphaned-but-complete surface, that is the one to lead with — and `docs/development/ipc-orphans.md`-style censuses go stale, so a command landing after the census is invisible to it.
+- **On a product-demo source, name where the source is WORSE, not just where it is ahead.** Not applied (the 1.3 compare-mode subsection already covers the adjacent case). The 1.3 rule says an outside checklist is not automatically the higher authority; this run showed the same move pays on a *non*-compare run. Two of twelve catches were places the repo's answer is strictly better — a machine-built vault index vs. the video's hand-maintained `index.md` files, and a 1,026-turn bench vs. "Haiku because it's smallest and cheapest". Writing down *why* the repo wins is what stops the next run on the next Obsidian video from re-proposing them as gaps.
+- **Codegen that lives in `predev`/`prebuild` has to be invoked by hand mid-session.** Not applied (project-shaped, but the class generalizes). `tsc` failed on three brand-new i18n keys until `scripts/i18n/gen-types.mjs` ran, and a new Tauri command needs `generate-command-names.mjs`. Both are wired into lifecycle hooks nobody runs during an in-session edit. When a repo generates a type tree from data files, run its generator immediately after touching the data, not at the gate.
+- **Shell cwd persists across tool calls, and a `cd` for a build step will silently redirect later searches.** Not applied (harness hygiene). After `cd src-tauri` for `cargo check`, the next repo-root grep searched the wrong tree and "found" my own new Rust file as a match for a TypeScript hook query. Caught only because the result was absurd. After any build step that changes directory, `cd` back explicitly or use absolute paths.
+
+## 1.4 - 2026-08-21 - personas
+
+- **A gate the skill names in prose is not the gate the repo runs.** This run audited the repo's own
+  `.claude/skills/` tree and found 12 skills each enumerating their own validation list; only 3 called
+  the canonical `npm run check`, and **zero** named `census:check` — which lefthook runs at pre-push. A
+  skill following its own instructions reported green and got stopped at push. Generalizes: when a repo
+  has one composite gate command, a skill should CALL it, never restate its parts. Applied in SKILL.md
+  Phase 8 (validation now routes through the composite gate).
+- **Prose rituals duplicated across skills are the drift surface, and the ledger proves it.** The
+  active-runs register/deregister ritual was prose in 23 skills with zero implementations. The file it
+  governs had reached 3,429 lines with two rival `## Active` sections, three "Recently completed"
+  sections, two incompatible entry formats, and 10 runs never closed. Deterministic steps (parse,
+  place, timestamp, compare, trim) belong in a script the skill calls; only judgment stays in prose.
+  Applied: `scripts/active-runs.mjs` + Phase 1.5/13h now invoke it.
+- **Split the iteration log out of SKILL.md.** 337 of 1,658 lines (20%) were history that loads on every
+  invocation and directs no behavior. `LESSONS.md` already established the on-demand-sibling contract in
+  this same directory; the log simply never used it. Now `ITERATION-LOG.md`.
+- **Absence claims still need uncapped greps — and presence claims need the RIGHT PATH.** Two near-misses
+  this run. (1) `git add <SKILL.md>` silently no-oped because git tracks 11 of 36 skills as lowercase
+  `skill.md`; Windows' case-insensitive FS let the edit land and the stage skip, so the commit looked
+  complete. Resolve real paths with `git ls-files` before staging. (2) A worktree probe "proved" a gate
+  failure was mine when the probe had merely changed relative-path resolution — the file-level argument
+  (did I touch what it reads?) was the correct test.
+
+### Redesign proposal — the isolated-index ritual must be ONE tool call, not a documented sequence
+
+- CLAUDE.md primitive #5 prescribes `IDX=$(mktemp); GIT_INDEX_FILE=$IDX git read-tree HEAD; git add …;
+  git commit …`. I followed it correctly and it still failed, because I split staging and commit across
+  two Bash calls and **shell env does not persist between them** — so the commit silently used the shared
+  index, reverted an entire prior task, and deleted a file, with green hooks and the right message.
+  Recovered via `git reset --mixed HEAD~1` (content was all on disk). The ritual is only safe as a single
+  invocation, which makes it exactly the kind of deterministic step that should be a script
+  (`scripts/git-scoped-commit.mjs`) rather than a documented sequence agents retype. NOT applied here —
+  it is CLAUDE.md-wide doctrine and the operator's call, not a /research change.

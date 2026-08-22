@@ -54,30 +54,50 @@ lanes:
     # every skill vanish from a consumer's index without erroring. If this lane outgrows
     # browsing, the answer is a coordinated spec bump, not a folder move.
     depth: fixed
-    # How a consumer resolves a skill name it holds in more than one place. This
-    # registry CANNOT enforce it — it cannot see a consumer's tiers — so it declares
-    # it, and the tool that syncs is what honours it. Declared here rather than left
-    # to each consumer because the failure it prevents is one the registry would
-    # cause: a merge here silently changing what a repository runs.
+    # How the reference harness resolves a skill name it finds in more than one place.
+    # This registry CANNOT enforce it — it cannot see a consumer's tiers — so it
+    # declares the truth and the rule that follows from it, and the operator-side
+    # instrument (scripts/fleet-audit.mjs) is what checks installations against it.
     resolution:
-      # Nearest to the work wins, outright. A tier is a location, not a ranking of
-      # quality: project = the repo being worked in, user = the operator's own
-      # library, registry = this repository.
-      order: [project, user, registry]
-      rule: nearest-wins
+      # The harness's own order, verbatim from its documentation: "enterprise overrides
+      # personal, and personal overrides project". Plugin skills are namespaced
+      # (/<plugin>:<skill>) and never collide; the bare name reaches the plugin only
+      # when no other source claims it. This is NOT nearest-wins, and the previous
+      # declaration here ([project, user, registry]) was wrong against the harness:
+      # a personal copy silently ran in six projects that carried newer copies.
+      harness_order: [enterprise, personal, project, plugin]
+      # The rule that makes the order irrelevant: a name that lives in this lane lives
+      # NOWHERE ELSE on an installation - not in the personal tier, not as a second
+      # project copy beside a plugin. Forks keep their own names.
+      rule: one-home-per-name
       # Deliberately false, and this is the load-bearing line. A higher version here
-      # does NOT displace a nearer copy. If it did, merging a pull request in this
+      # does NOT displace any copy. If it did, merging a pull request in this
       # repository would change the behaviour of every repository that ever adopted
       # the skill, without anyone there consenting or even being present.
       version_breaks_ties_across_tiers: false
-      # What a version IS for across tiers: reporting staleness, never resolving it.
+      # What a version IS for across sources: reporting staleness, never resolving it.
       # A consumer three minors behind should be told so and left alone until a human
-      # syncs. Merging is adopting; copying is consuming. Both are human acts.
+      # updates. Merging is adopting; installing or copying is consuming. Human acts.
       version_reports_staleness: true
-    scope: Skills that transplant to any repository. Skills that maintain THIS registry
-      (`/forge`, `/deepen`) live in `.claude/skills/` and are not part of this lane.
-    note: Personas' skill library migrates into this lane; see the migration plan in the
-      consuming repo. Until then the content here is Ascent's worked example.
+    # Distribution: this registry IS a plugin marketplace for the reference harness -
+    # one single-skill plugin per lane skill, generated from the lane and gated.
+    marketplace:
+      manifest: .claude-plugin/marketplace.json
+      generator: scripts/build-marketplace.mjs
+      name: ai-registry
+      plugin_per_skill: true
+      install: "claude plugin marketplace add xkazm04/ai-registry && claude plugin install <skill>@ai-registry --scope project"
+    # Per-repo overlay: a lane skill is generic; everything project-specific it needs
+    # lives in the consuming repo at the location its `## Project overlay` section names
+    # (default `.claude/<skill>/config.md`), and the skill runs without it.
+    overlay: .claude/<skill>/config.md
+    scope: Skills that transplant to any repository - the fleet's shared library. Skills
+      that maintain THIS registry (`/forge`, `/deepen`, `/librarian`, `/intake`) live in
+      `.claude/skills/` and are not part of this lane.
+    note: The shared library migrated into this lane on 2026-08-22 (22 skills from the
+      Personas workspace library and the connected projects, canonical bodies chosen on
+      evidence, project specifics moved to overlays). Six of the original worked-example
+      skills remain because they are real and generic.
   practices:
     path: practices/
     holds: Practices — the shape of a repo-level habit plus the starter artifacts it drops.
@@ -116,7 +136,7 @@ lanes:
     holds: Coverage memory for the maintenance loop — what the registry looked like when
       it was last swept, what was done about it, and what was deliberately not done.
       An Obsidian-navigable vault of markdown notes.
-    spec: skills/librarian/SKILL.md
+    spec: .claude/skills/librarian/SKILL.md
     depth: nested
     # Deliberately holds no counts a script can recompute. `librarian-scan.mjs` produces
     # those fresh every run — a carried-forward derived number drifts silently, and

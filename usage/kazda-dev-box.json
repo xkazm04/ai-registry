@@ -1,0 +1,85 @@
+{
+  "schema": "rkb-usage/1",
+  "contributor": "kazda-dev-box",
+  "app": "personas",
+  "generatedAt": "2026-08-22T17:24:57Z",
+  "windowDays": 30,
+  "skills": {
+    "architect": {
+      "invokes": 2,
+      "lastUsed": "2026-07-26T13:33:01Z"
+    },
+    "craft-loop": {
+      "invokes": 2,
+      "lastUsed": "2026-08-04T12:26:28Z"
+    },
+    "explorer": {
+      "invokes": 2,
+      "lastUsed": "2026-07-27T18:24:32Z"
+    },
+    "friend": {
+      "invokes": 2,
+      "lastUsed": "2026-07-28T11:02:15Z"
+    },
+    "gap-loop": {
+      "invokes": 4,
+      "lastUsed": "2026-08-04T12:54:17Z"
+    },
+    "green-loop": {
+      "invokes": 1,
+      "lastUsed": "2026-08-03T19:23:10Z"
+    },
+    "i18n-translate": {
+      "invokes": 2,
+      "lastUsed": "2026-08-05T21:20:27Z"
+    },
+    "motionize": {
+      "invokes": 2,
+      "lastUsed": "2026-07-28T10:12:43Z"
+    },
+    "npm-updates": {
+      "invokes": 1,
+      "lastUsed": "2026-08-09T12:11:51Z"
+    },
+    "passport-onboard": {
+      "invokes": 1,
+      "lastUsed": "2026-07-26T10:25:09Z"
+    },
+    "perfect": {
+      "invokes": 46,
+      "lastUsed": "2026-08-09T21:29:19Z"
+    },
+    "project-populate": {
+      "invokes": 5,
+      "lastUsed": "2026-07-30T08:43:38Z"
+    },
+    "prototype": {
+      "invokes": 5,
+      "lastUsed": "2026-08-09T13:11:29Z"
+    },
+    "readiness-loop": {
+      "invokes": 1,
+      "lastUsed": "2026-08-07T16:21:01Z"
+    },
+    "reflect-me": {
+      "invokes": 1,
+      "lastUsed": "2026-08-06T07:08:55Z"
+    },
+    "research": {
+      "invokes": 20,
+      "lastUsed": "2026-08-09T12:50:54Z"
+    },
+    "scan-sweep": {
+      "invokes": 15,
+      "lastUsed": "2026-08-05T13:57:15Z"
+    },
+    "spark": {
+      "invokes": 6,
+      "lastUsed": "2026-08-06T21:09:52Z"
+    },
+    "uat": {
+      "invokes": 2,
+      "lastUsed": "2026-08-07T20:46:26Z"
+    }
+  }
+}

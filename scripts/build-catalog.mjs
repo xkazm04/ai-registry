@@ -23,9 +23,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { hashBundle, sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 import { walkSubjects } from './lib/taxonomy.mjs';
+import { readLane, contentDigest } from './lib/skills-lane.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
+const SKILLS = path.join(ROOT, 'skills');
+const PRACTICES = path.join(ROOT, 'practices');
+const MEMORY = path.join(ROOT, 'memory');
 const USAGE = path.join(ROOT, 'usage');
 const CATALOG = path.join(ROOT, 'catalog.json');
 const checkOnly = process.argv.includes('--check');
@@ -163,21 +167,88 @@ if (fs.existsSync(USAGE)) {
 
 const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
 
-const skills = Array.isArray(catalog.skills)
-  ? catalog.skills.map((sk) => {
-      const row = usage.get(sk.name);
-      return {
-        ...sk,
-        invokes30d: row ? row.invokes : 0,
-        // Named so a reader can tell "nobody uses this" from "nobody reports on
-        // this" — a zero with no contributors means the lane has no witness, not
-        // that the skill is dead.
-        usageContributors: row ? [...row.contributors].sort() : [],
-      };
-    })
-  : catalog.skills;
+// -- the skills lane --------------------------------------------------------
+// The catalog's `skills` entries used to be a hand-seeded fixture waiting for an
+// external indexer to rewrite them — and nothing ever did, so the catalog described
+// three example skills while the lane held twenty. The registry is the authority on
+// its own lane; it reads the same files an indexer would and writes the same shape
+// (name, version, category, path, contentHash, lessons). Two producers computing one
+// truth from one source is not a conflict. What the registry CANNOT compute is
+// carried forward from the committed file, per skill, untouched: `adopters` (which
+// installations hold the skill at which version — an operator's fleet-audit writes
+// it; see scripts/fleet-audit.mjs) and `applicability` (a consumer's own dimension
+// mapping). A skill that left the lane leaves the catalog; nothing is invented.
+const prior = new Map((Array.isArray(catalog.skills) ? catalog.skills : []).map((s) => [s.name, s]));
+const laneSkills = readLane(SKILLS).filter((s) => s.exists && s.fm && s.fm.name);
+const skills = laneSkills.map((s) => {
+  const row = usage.get(s.name);
+  const old = prior.get(s.name) ?? {};
+  const entry = {
+    name: s.name,
+    version: s.fm.version ?? null,
+    category: s.fm.category ?? 'other',
+    path: `skills/${s.name}/SKILL.md`,
+    contentHash: s.contentHash,
+  };
+  if (old.applicability) entry.applicability = old.applicability;
+  if (old._drift) entry._drift = old._drift;
+  entry.adopters = Array.isArray(old.adopters) ? old.adopters : [];
+  entry.invokes30d = row ? row.invokes : 0;
+  entry.lessons = s.lessons;
+  if (s.lessonsPath) { entry.lessonsPath = s.lessonsPath; entry.lessonsHash = s.lessonsHash; }
+  // Named so a reader can tell "nobody uses this" from "nobody reports on this" —
+  // a zero with no contributors means the lane has no witness, not that the skill
+  // is dead.
+  entry.usageContributors = row ? [...row.contributors].sort() : [];
+  return entry;
+});
 
-const next = { ...catalog, skills, bundles };
+// -- the practices and memory lanes ----------------------------------------
+// Same rule, same reason: the registry reads its own lanes. Shape matches what the
+// reference consumer's indexer writes for these entries.
+const practices = [];
+if (fs.existsSync(PRACTICES)) {
+  for (const slug of fs.readdirSync(PRACTICES, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort()) {
+    const file = path.join(PRACTICES, slug, 'PRACTICE.md');
+    if (!fs.existsSync(file)) continue;
+    const raw = fs.readFileSync(file, 'utf8');
+    const fm = readFm(file);
+    const starterDir = path.join(PRACTICES, slug, 'starter');
+    const starter = [];
+    const walkStarter = (dir, rel) => {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+        const r = `${rel}/${e.name}`;
+        if (e.isDirectory()) walkStarter(path.join(dir, e.name), r); else starter.push(r);
+      }
+    };
+    if (fs.existsSync(starterDir)) walkStarter(starterDir, `practices/${slug}/starter`);
+    practices.push({ id: fm.id ?? slug, dimension: fm.dimension ?? null, path: `practices/${slug}/PRACTICE.md`, contentHash: contentDigest(raw), starter });
+  }
+}
+const memory = [];
+if (fs.existsSync(MEMORY)) {
+  for (const kind of fs.readdirSync(MEMORY, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort()) {
+    for (const f of fs.readdirSync(path.join(MEMORY, kind)).filter((x) => x.endsWith('.md') && !x.startsWith('_')).sort()) {
+      const file = path.join(MEMORY, kind, f);
+      const fm = readFm(file);
+      const conf = Number(fm.confidence);
+      memory.push({
+        kind: fm.kind ?? kind, slug: f.replace(/\.md$/, ''), path: `memory/${kind}/${f}`,
+        contentHash: contentDigest(fs.readFileSync(file, 'utf8')),
+        confidence: Number.isFinite(conf) ? conf : 1, namespace: fm.namespace ?? null, source: fm.source ?? null,
+      });
+    }
+  }
+}
+const counts = { skills: skills.length, practices: practices.length, memory: memory.length, lessons: skills.reduce((n, s) => n + (s.lessons ?? 0), 0) };
+
+const next = {
+  ...catalog,
+  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
+  generatedAt: catalog.generatedAt,
+  generatedBy: 'scripts/build-catalog.mjs',
+  skills, practices, memory, counts, bundles,
+};
 const serialized = `${JSON.stringify(next, null, 2)}\n`;
 
 if (checkOnly) {

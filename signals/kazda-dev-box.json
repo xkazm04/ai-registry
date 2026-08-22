@@ -1,0 +1,18 @@
+{
+  "schema": "rkb-signals/1",
+  "contributor": "kazda-dev-box",
+  "app": "ai-registry-scripts",
+  "generatedAt": "2026-08-22T17:22:10Z",
+  "windowDays": 30,
+  "stack": {
+    "node": 22,
+    "react": 19,
+    "next": 16,
+    "typescript": 6,
+    "tailwindcss": 4,
+    "vitest": 4,
+    "playwright": 1,
+    "vite": 8
+  },
+  "bundles": {}
+}

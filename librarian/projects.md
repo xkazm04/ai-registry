@@ -16,9 +16,10 @@ never published. See [`skills/research/SKILL.md`](../skills/research/SKILL.md), 
 | --- | --- | --- |
 | `ascent` | `software-engineering` | The maturity index for AI-native engineering, and the reference consumer of this repository's index. `engineering-assessment` is the category forged from it. |
 | `kp` | `recruiting`, `software-engineering` | A self-hostable hiring workspace: screening behind human approval gates, work samples, voice interviews. The `recruiting` bundle was forged from it. |
-| `personas` | `software-engineering`, `llm-observability` | A local-first desktop app for building and monitoring AI agent personas. Carries the skill library that migrates into `skills/`. |
-| `pof` | `software-engineering` | An AI companion for building UE5 C++ games. Runs its own research lineage; a game-production bundle sits on an unmerged forge branch. |
-| `systedo-case` | `media-generation`, `software-engineering` | An AI workspace for advertising: measures account performance and generates the content that follows from it. |
+| `personas` | `software-engineering`, `llm-observability` | A local-first desktop app for building and monitoring AI agent personas. The `software-engineering` bundle was forged from it, and it is the first installation wired to this registry: it pairs the clone, shares and adopts skills through the `skills/` lane, writes the `usage/` lane, and consults bundle indexes at persona runtime. |
+| `personas-web` | `software-engineering` | The public web companion to `personas`: a multi-locale marketing site, a product guide, a public roadmap, and a mock-driven demo of the agent-operations dashboard. Not yet forged from; its localization and CI-honesty doctrine are the first candidates. |
+| `pof` | `game-production`, `software-engineering` | An AI companion for building UE5 C++ games. The `game-production` bundle was forged from it (merged 2026-08-22). Runs its own research lineage. |
+| `systedo-case` | `media-generation`, `software-engineering` | An AI workspace for advertising: measures account performance and generates the content that follows from it. A `software-engineering` technique wave forged from it sits on `forge/adamant-2026-08`, unmerged. |
 
 ## What this map is for, and what it is not
 
