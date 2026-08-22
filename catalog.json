@@ -27,10 +27,7 @@
         "appliesWhenBelow": 65
       },
       "_drift": "INTENTIONAL: example-org/internal-tooling-cli sits one minor behind the registry (0.3.0 vs 0.4.0) so a consuming repo resolves to syncState 'stale'. See the README.",
-      "adopters": [
-        "example-org/checkout-service@0.4.0",
-        "example-org/internal-tooling-cli@0.3.0"
-      ],
+      "adopters": [],
       "invokes30d": 0,
       "lessons": 0,
       "usageContributors": []
@@ -41,7 +38,10 @@
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
       "contentHash": "sha256-n1:24ed261a53eccd69",
-      "adopters": [],
+      "adopters": [
+        "personas-web@plugin:1.0.0",
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 2,
       "lessons": 0,
       "usageContributors": [
@@ -71,10 +71,7 @@
         ],
         "appliesWhenBelow": 65
       },
-      "adopters": [
-        "example-org/billing-api@1.3.0",
-        "example-org/checkout-service@1.3.0"
-      ],
+      "adopters": [],
       "invokes30d": 0,
       "lessons": 0,
       "usageContributors": []
@@ -96,7 +93,14 @@
       "category": "ai-native",
       "path": "skills/consult/SKILL.md",
       "contentHash": "sha256-n1:92d6074b9065db47",
-      "adopters": [],
+      "adopters": [
+        "ascent@plugin:1.0.0",
+        "kp@plugin:1.0.0",
+        "personas-web@plugin:1.0.0",
+        "personas@plugin:1.0.0",
+        "pof@plugin:1.0.0",
+        "systedo-case@plugin:1.0.0"
+      ],
       "invokes30d": 0,
       "lessons": 0,
       "usageContributors": []
@@ -107,7 +111,10 @@
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
       "contentHash": "sha256-n1:a8a1a8c5f152c2d8",
-      "adopters": [],
+      "adopters": [
+        "personas-web@plugin:1.0.0",
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 2,
       "lessons": 0,
       "usageContributors": [
@@ -131,7 +138,10 @@
       "category": "workflow",
       "path": "skills/friend/SKILL.md",
       "contentHash": "sha256-n1:ea602e7e7c69881f",
-      "adopters": [],
+      "adopters": [
+        "personas-web@plugin:1.0.0",
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 2,
       "lessons": 0,
       "usageContributors": [
@@ -144,7 +154,11 @@
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
       "contentHash": "sha256-n1:4ad7e20e2c1e57ea",
-      "adopters": [],
+      "adopters": [
+        "kp@plugin:1.1.0",
+        "personas@plugin:1.1.0",
+        "systedo-case@plugin:1.1.0"
+      ],
       "invokes30d": 2,
       "lessons": 1,
       "lessonsPath": "skills/i18n-translate/LESSONS.md",
@@ -159,7 +173,9 @@
       "category": "testing",
       "path": "skills/kpi-sim/SKILL.md",
       "contentHash": "sha256-n1:5eb5bb57635f5b64",
-      "adopters": [],
+      "adopters": [
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 0,
       "lessons": 0,
       "usageContributors": []
@@ -170,7 +186,10 @@
       "category": "other",
       "path": "skills/leonardo/SKILL.md",
       "contentHash": "sha256-n1:9973956a6cf54fde",
-      "adopters": [],
+      "adopters": [
+        "personas-web@plugin:1.0.0",
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 0,
       "lessons": 0,
       "usageContributors": []
@@ -181,7 +200,10 @@
       "category": "other",
       "path": "skills/motionize/SKILL.md",
       "contentHash": "sha256-n1:85c2ad7ee43eaeae",
-      "adopters": [],
+      "adopters": [
+        "kp@1.0",
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 2,
       "lessons": 0,
       "usageContributors": [
@@ -194,7 +216,9 @@
       "category": "workflow",
       "path": "skills/mvp/SKILL.md",
       "contentHash": "sha256-n1:5b2ab876454c3c6b",
-      "adopters": [],
+      "adopters": [
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 0,
       "lessons": 0,
       "usageContributors": []
@@ -205,7 +229,10 @@
       "category": "workflow",
       "path": "skills/npm-updates/SKILL.md",
       "contentHash": "sha256-n1:d747ca1163f1c682",
-      "adopters": [],
+      "adopters": [
+        "personas-web@plugin:1.0.0",
+        "pof@plugin:1.0.0"
+      ],
       "invokes30d": 1,
       "lessons": 0,
       "usageContributors": [
@@ -218,7 +245,14 @@
       "category": "workflow",
       "path": "skills/perfect/SKILL.md",
       "contentHash": "sha256-n1:58ebbce8ae7b9aa7",
-      "adopters": [],
+      "adopters": [
+        "ascent@plugin:2.3.0",
+        "kp@plugin:2.3.0",
+        "personas-web@plugin:2.3.0",
+        "personas@plugin:2.3.0",
+        "pof@plugin:2.3.0",
+        "systedo-case@plugin:2.3.0"
+      ],
       "invokes30d": 46,
       "lessons": 8,
       "lessonsPath": "skills/perfect/LESSONS.md",
@@ -233,7 +267,12 @@
       "category": "workflow",
       "path": "skills/project-populate/SKILL.md",
       "contentHash": "sha256-n1:b5b8f6b19b4477c9",
-      "adopters": [],
+      "adopters": [
+        "ascent@plugin:1.0.0",
+        "kp@plugin:1.0.0",
+        "personas@plugin:1.0.0",
+        "systedo-case@plugin:1.0.0"
+      ],
       "invokes30d": 5,
       "lessons": 0,
       "usageContributors": [
@@ -246,7 +285,9 @@
       "category": "ai-native",
       "path": "skills/promote/SKILL.md",
       "contentHash": "sha256-n1:8f5f48d81a36bc8c",
-      "adopters": [],
+      "adopters": [
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 0,
       "lessons": 0,
       "usageContributors": []
@@ -257,7 +298,10 @@
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
       "contentHash": "sha256-n1:8f7ef8ae3f9bf193",
-      "adopters": [],
+      "adopters": [
+        "personas@plugin:1.5.0",
+        "pof@1.7"
+      ],
       "invokes30d": 20,
       "lessons": 5,
       "lessonsPath": "skills/research/LESSONS.md",
@@ -272,7 +316,12 @@
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
       "contentHash": "sha256-n1:b160f054acc69c76",
-      "adopters": [],
+      "adopters": [
+        "ascent@plugin:1.0.0",
+        "kp@plugin:1.0.0",
+        "personas@plugin:1.0.0",
+        "systedo-case@plugin:1.0.0"
+      ],
       "invokes30d": 15,
       "lessons": 1,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
@@ -287,7 +336,12 @@
       "category": "workflow",
       "path": "skills/ship-loop/SKILL.md",
       "contentHash": "sha256-n1:32f04dd0939f0688",
-      "adopters": [],
+      "adopters": [
+        "ascent@plugin:2.1.0",
+        "kp@plugin:2.1.0",
+        "personas@plugin:2.1.0",
+        "pof@plugin:2.1.0"
+      ],
       "invokes30d": 0,
       "lessons": 2,
       "lessonsPath": "skills/ship-loop/LESSONS.md",
@@ -300,7 +354,9 @@
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
       "contentHash": "sha256-n1:5dd825c7acf3da3b",
-      "adopters": [],
+      "adopters": [
+        "personas@plugin:1.0.0"
+      ],
       "invokes30d": 6,
       "lessons": 1,
       "lessonsPath": "skills/spark/LESSONS.md",
@@ -321,10 +377,7 @@
         ],
         "appliesWhenBelow": 65
       },
-      "adopters": [
-        "example-org/billing-api@2.1.0",
-        "example-org/reporting-api@2.1.0"
-      ],
+      "adopters": [],
       "invokes30d": 0,
       "lessons": 3,
       "lessonsPath": "skills/test-before-commit/LESSONS.md",
@@ -337,7 +390,12 @@
       "category": "testing",
       "path": "skills/tiger/SKILL.md",
       "contentHash": "sha256-n1:910d159745b7e65c",
-      "adopters": [],
+      "adopters": [
+        "ascent@plugin:2.1.0",
+        "kp@plugin:2.1.0",
+        "personas@plugin:2.1.0",
+        "systedo-case@plugin:2.1.0"
+      ],
       "invokes30d": 0,
       "lessons": 2,
       "lessonsPath": "skills/tiger/LESSONS.md",
@@ -350,7 +408,12 @@
       "category": "testing",
       "path": "skills/uat/SKILL.md",
       "contentHash": "sha256-n1:33a6a8a9a14eefaa",
-      "adopters": [],
+      "adopters": [
+        "ascent@plugin:1.7.0",
+        "kp@plugin:1.7.0",
+        "personas@plugin:1.7.0",
+        "systedo-case@plugin:1.7.0"
+      ],
       "invokes30d": 2,
       "lessons": 10,
       "lessonsPath": "skills/uat/LESSONS.md",
