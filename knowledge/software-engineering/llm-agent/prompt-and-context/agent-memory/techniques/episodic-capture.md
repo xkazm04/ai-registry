@@ -6,7 +6,7 @@ technique: episodic-capture
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper]
 shared_with: []
-use_when: [deciding where one episode ends and another begins, episodes ballooning into a second transcript store, two writers claiming the same sequential id]
+use_when: [deciding where one episode ends and another begins, episodes ballooning into a second transcript store, two writers claiming the same sequential id, a model swap silently thins what capture writes down]
 ---
 
 # Episodic capture
@@ -58,6 +58,35 @@ the one moment the context was already warm.
 Excerpts are the honest middle: when specific wording is load-bearing (a
 correction, a commitment, a quoted requirement), the episode quotes it
 verbatim, bounded, inside the distilled body.
+
+## The distiller is the ceiling, and it starves quietly
+
+Whatever intelligence writes the distilled body sets an upper bound on what
+the store can ever recall. Retrieval ranks over bodies; the raw pointer is
+consulted only by the rare consumer that already suspects something is
+missing, which is exactly the suspicion a thin body never raises. A weak
+distiller therefore does not fail loudly: it writes fewer and thinner claims
+per event, every downstream stage operates normally on what it is given, and
+the store starves with no symptom visible at any single read. Where this has
+been measured, swapping only the distilling model collapsed end-to-end answer
+quality, and the collapse was visible at ingest -- several times fewer claims
+extracted per event -- long before any consumer felt it. Two obligations
+follow:
+
+- **Instrument the distiller's yield.** Claims per captured event, tracked
+  as a health series, is the one place this failure shows up early. A drop
+  after a model or prompt change means the store is going blind, not that
+  the world went quiet.
+- **Price the write path in the open.** Judgment at capture time is priced
+  per event and recurs for everything the system ever experiences -- orders
+  of magnitude above mechanical recording of the same material. It is a
+  legitimate trade (it buys cheap, precise reads), but it is a bill that
+  scales with lived history, decided once and paid forever; a design that
+  puts reasoning on the write path should state the per-event spend it has
+  accepted. This pipeline's own answer is the generous-capture /
+  strict-consolidation split: distill lightly at the boundary while context
+  is warm, and defer the expensive judgment to the batched pass, where its
+  cost is amortized over a window instead of charged per event.
 
 ## Capture is generous; judgment is deferred
 

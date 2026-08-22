@@ -28,6 +28,19 @@ The finding met the corroboration bar by **cross-run convergence** - two indepen
 vendors shipping the same capture-and-promote feature across two runs - rather than by
 a fetched source.
 
+### 2026-08-22 - `/research`, from an external source (second touch)
+
+Three techniques amended from [[2026-08-22-shapes-of-agent-memory]], a
+first-party empirical study: `consolidation` gained the state-vs-event
+supersedence type check; `episodic-capture` gained the distiller-ceiling
+section (yield instrumentation + priced write path); `recall-injection`
+gained two sections - "Labeled is not applied" (critique-and-reconstruct
+before a recalled experience drives action; memory's value floats on the
+consumer-task gap) and "Eager recall buys over-answering" (the answer-side
+abstention discipline, with the should-abstain-in-denominator eval rule).
+Zero new files; the subject stays at ten techniques. The trained-experience
+architecture is banked as a lead with a return condition in the source note.
+
 ## Open leads
 
 - **The promotion door and `hitl-approval` overlap.** A procedure with unbounded

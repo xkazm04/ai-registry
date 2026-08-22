@@ -6,7 +6,7 @@ technique: judge-stability
 status: forged
 laws: [gate-sees-target, count-carries-predicate, one-authority-per-vocabulary]
 shared_with: []
-use_when: [frozen anchors started scoring differently, swapping the judge without breaking the trend, the judge keeps favoring its own kind]
+use_when: [frozen anchors started scoring differently, swapping the judge without breaking the trend, the judge keeps favoring its own kind, the winner's margin is smaller than the ruler's swing]
 ---
 
 # Judge stability
@@ -71,6 +71,21 @@ The unacceptable move is the silent one: swap judges, keep the chart.
 and report the agreement. This number is the ceiling on what any score
 difference can mean — a 0.3 delta between candidates is noise if the judge
 disagrees with itself by 0.4.
+
+**The instrument's swing bounds the claim.** Repeatability bounds what one
+judge's differences can mean; the sterner ceiling is the swing across
+*reasonable instruments*. Where the same outputs have been scored under two
+defensible judge-and-rubric stacks, the score has moved further with the
+stack than the gap between the candidates under comparison -- and a margin
+that sits inside that swing is a finding about the instrument, not about the
+candidates. So report the margin beside both bounds: self-agreement under
+the pinned packet, and, wherever a second instrument has scored identical
+outputs, the cross-instrument swing. Which bound dominates is itself a
+property of the scenario set -- the same pair of candidates can sit inside
+the swing on one suite and separate cleanly on a suite that stresses what
+actually differs between them. That is one more reason a number never
+travels without its protocol, and it cuts both ways: a tie under one suite
+is not evidence of equivalence, only of that suite's indifference.
 
 ## The biases are measured facts — design around them
 

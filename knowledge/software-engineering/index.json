@@ -689,7 +689,8 @@
      "use_when": [
       "deciding whether conflict flips a belief or just dents it",
       "a short correction ranks below the long belief it fixes",
-      "an import wants to bypass the judgment pass"
+      "an import wants to bypass the judgment pass",
+      "deciding whether a new fact closes an old one or coexists with it"
      ]
     },
     {
@@ -731,7 +732,8 @@
      "use_when": [
       "deciding where one episode ends and another begins",
       "episodes ballooning into a second transcript store",
-      "two writers claiming the same sequential id"
+      "two writers claiming the same sequential id",
+      "a model swap silently thins what capture writes down"
      ]
     },
     {
@@ -790,7 +792,9 @@
      "use_when": [
       "splitting a recall budget across tiers",
       "an oversized memory blocks everything behind it",
-      "the agent re-asks things it already knows"
+      "the agent re-asks things it already knows",
+      "a recalled experience steers a capable agent wrong",
+      "the agent answers plausibly where the honest answer is unknown"
      ]
     },
     {
@@ -5773,7 +5777,8 @@
      "use_when": [
       "frozen anchors started scoring differently",
       "swapping the judge without breaking the trend",
-      "the judge keeps favoring its own kind"
+      "the judge keeps favoring its own kind",
+      "the winner's margin is smaller than the ruler's swing"
      ]
     },
     {

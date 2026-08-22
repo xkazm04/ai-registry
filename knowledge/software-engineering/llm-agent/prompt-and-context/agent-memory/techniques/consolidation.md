@@ -6,7 +6,7 @@ technique: consolidation
 status: forged
 laws: [derivation-names-recomputation, one-validation-door]
 shared_with: []
-use_when: [deciding whether conflict flips a belief or just dents it, a short correction ranks below the long belief it fixes, an import wants to bypass the judgment pass]
+use_when: [deciding whether conflict flips a belief or just dents it, a short correction ranks below the long belief it fixes, an import wants to bypass the judgment pass, deciding whether a new fact closes an old one or coexists with it]
 ---
 
 # Consolidation
@@ -147,6 +147,20 @@ The discipline:
   successor; audit can still see the lineage. An overwritten belief leaves
   a system that was never wrong, which is a system that cannot be trusted
   about anything.
+- **States close; events accumulate.** Supersession applies only to
+  *state-valued* claims -- where the world holds one value at a time, so a
+  new value closes the old one's validity ("works at Acme" supersedes
+  "works at Beta"). *Event-valued* claims are additive records: "delivered
+  two reports this week" must never close "delivered three last week", or
+  every question that counts, sums, or compares across time becomes
+  unanswerable against a store that looks perfectly healthy. So the
+  distiller types the claim before it links it, and a candidate pair enters
+  supersedence at all only when both sides describe the same state of the
+  same subject. The distinction cannot be delegated to timestamps or
+  validity windows: temporal machinery records *when* a claim held, and
+  will close an additive event with a newer one if asked -- even the
+  strongest published forms of windowed supersedence leave this judgment
+  to the writer.
 - **Contradiction lowers confidence before it flips conclusions.** One
   conflicting episode against a many-times-reinforced belief is a reason to
   doubt, not yet a reason to reverse. Weight of evidence decides; recency
