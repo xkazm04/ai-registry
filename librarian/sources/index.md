@@ -26,6 +26,7 @@ when the run ends. A note quotes an anchor, never a corpus.
 
 | Date | Source | Kind | Words | Extracted | Accepted | Leads | Caught | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-22 | `youtube:3MP8D-mdheA` - "How To De-Slop A Codebase Ruined By AI" | practitioner-deep-dive (technique demo) | 2456 | 6 | 0 (+1 dispatched) | 0 | 1 | [[2026-08-22-de-slop-a-codebase]] |
 | 2026-08-22 | `youtube:gaDdrDdczO4` - "New Skills! v1.2..." | practitioner-deep-dive (skill-library release) | 2514 | 10 | 5 | 0 | 2 | [[2026-08-22-skills-v1-2-release]] |
 | 2026-08-22 | `youtube:u8Im0l_vwqM` - "Inside DeepWiki: How Cognition Builds Wikis for Devin at Scale" | practitioner-deep-dive | 2974 | 10 | 2 (+1 proposed) | 0 | 1 | [[2026-08-22-inside-deepwiki]] |
 | 2026-08-22 | `youtube:NC4h5kWH_-A` - "AI News: The AI Agent Race Just Exploded" | mixed-ai-news-roundup | 6958 | 10 | 4 | 1 | 2 | [[2026-08-22-ai-agent-race-exploded]] |
