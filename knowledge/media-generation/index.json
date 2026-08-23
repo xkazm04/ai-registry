@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 14,
-  "techniques": 84,
-  "applications": 32,
+  "techniques": 86,
+  "applications": 33,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -14,7 +14,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "84/84",
+  "use_when_coverage": "86/86",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -308,6 +308,20 @@
      ]
     },
     {
+     "slug": "performer-claims-need-a-person",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "casting a synthetic performer for promotional work",
+      "briefing a first-person line for a generated presenter",
+      "deciding whether a generated testimonial needs a label",
+      "recording what a reusable cast member is allowed to claim"
+     ]
+    },
+    {
      "slug": "precision-limit-propagation",
      "status": "forged",
      "laws": [
@@ -327,6 +341,13 @@
      "technique": "epistemic-draw-routing",
      "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/process--epistemic-draw-routing.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "process",
+     "technique": "performer-claims-need-a-person",
+     "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/process--performer-claims-need-a-person.md",
+     "verified_on": "2026-08-23",
+     "refresh_by": "2027-08-23"
     },
     {
      "stack": "react",
@@ -1081,6 +1102,21 @@
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
    "techniques": [
     {
+     "slug": "anchored-variation-slate",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a reviewer cannot say what they want but would recognise it",
+      "designing the divergence phase that runs before a review loop starts",
+      "a set of generated alternatives comes back looking like each other",
+      "deciding how many variants to show and what is allowed to make them differ"
+     ]
+    },
+    {
      "slug": "attribution-share-accounting",
      "status": "forged",
      "laws": [
@@ -1497,6 +1533,7 @@
     "evidence-bound-visuals/epistemic-draw-routing",
     "evidence-bound-visuals/figure-must-cite-a-fact",
     "evidence-bound-visuals/generous-strawman-rendering",
+    "evidence-bound-visuals/performer-claims-need-a-person",
     "evidence-bound-visuals/precision-limit-propagation",
     "frame-direction/plate-elements-text-split",
     "frame-direction/visual-function-vocabulary",
@@ -1540,6 +1577,7 @@
     "production-pipeline-phasing/phase-order-and-graduation",
     "production-pipeline-phasing/shared-clock-across-phases",
     "production-pipeline-phasing/worst-news-first-progress",
+    "review-iteration-loops/anchored-variation-slate",
     "review-iteration-loops/edit-plan-over-regeneration",
     "review-iteration-loops/refusal-as-valid-outcome",
     "video-assembly/derived-turn-markers",
@@ -1580,6 +1618,7 @@
     "generated-output-grading/regrade-without-regenerate",
     "generative-provider-routing/resolution-as-stage-property",
     "production-pipeline-phasing/asset-vs-disposable-render",
+    "review-iteration-loops/anchored-variation-slate",
     "review-iteration-loops/edit-plan-over-regeneration",
     "video-assembly/drift-correction",
     "visual-style-locking/draft-proofing-locked-ratchet"
