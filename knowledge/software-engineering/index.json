@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 143,
-  "techniques": 898,
-  "applications": 390,
+  "techniques": 899,
+  "applications": 391,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "898/898",
+  "use_when_coverage": "899/899",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16037,6 +16037,21 @@
      ]
     },
     {
+     "slug": "portable-provider-package",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second app needs the same voice engines the first one has",
+      "wrapping a voice engine behind an app route",
+      "letting a user compare engines by ear before committing"
+     ]
+    },
+    {
      "slug": "spoken-intent-parsing",
      "status": "forged",
      "laws": [
@@ -16095,6 +16110,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "portable-provider-package",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/node--portable-provider-package.md",
+     "verified_on": "2026-08-23"
+    },
     {
      "stack": "react",
      "technique": "duplex-agent-sessions",
@@ -17073,6 +17094,7 @@
     "voice-io/duplex-agent-sessions",
     "voice-io/engine-abstraction",
     "voice-io/on-device-vs-cloud",
+    "voice-io/portable-provider-package",
     "voice-io/spoken-intent-parsing",
     "voice-io/stt-pipeline",
     "voice-io/voice-ux-integration",
@@ -18177,6 +18199,7 @@
     "versioning-snapshots/version-identity",
     "voice-io/duplex-agent-sessions",
     "voice-io/engine-abstraction",
+    "voice-io/portable-provider-package",
     "web-scraping/extraction-rule-dsl",
     "wizard-flows/branching-and-skipping",
     "wizard-flows/step-state-model"
@@ -18188,7 +18211,8 @@
     "admission-queue/admission-vocabulary",
     "credential-vault/token-refresh-lifecycle",
     "retry-backoff/storm-control",
-    "structured-output/schema-validation-and-repair"
+    "structured-output/schema-validation-and-repair",
+    "voice-io/portable-provider-package"
    ]
   },
   "derivation-names-recomputation": {

@@ -11,6 +11,7 @@ techniques:
   - voice-ux-integration
   - on-device-vs-cloud
   - duplex-agent-sessions
+  - portable-provider-package
 ---
 
 # Voice input and output
@@ -210,6 +211,22 @@ what the repository intends.
 [duplex-agent-sessions](techniques/duplex-agent-sessions.md) owns that
 decision and its consequences.
 
+## The engine layer travels as a package
+
+The second product on the same machine that wants to speak should not
+re-implement the adapters, and should not download a local model the first
+product already installed. The engine layer becomes a package when it binds
+to its host through one narrow seam (configuration lookup, a shared
+per-user engine home, a log sink), keeps its own validation door and test
+fake, and leaves authentication, throttling and the persistence of the
+user's choice to the host route that wraps it. The preferred engine and the
+allowed set are the host's data; resolving them against live probes, with a
+fallback that stays visible at every boundary, is the package's job — and
+a compare-by-ear surface over the allowed set is how a user decides,
+rather than a benchmark deciding for them.
+[portable-provider-package](./techniques/portable-provider-package.md) owns
+the seam, the wrapper and the compare surface.
+
 ## The techniques
 
 - [stt-pipeline](./techniques/stt-pipeline.md) — capture, metering, endpointing,
@@ -233,3 +250,7 @@ decision and its consequences.
   runs the whole conversation: the transport-or-brain decision, the
   account-vs-session configuration split, drift-checking remote configuration,
   the audience-safe brief, transport reachability, and the verdict at hang-up.
+- [portable-provider-package](./techniques/portable-provider-package.md) — the
+  engine layer as a reusable package: the host seam, one dispatch and one
+  validation door, host-owned preference and package-owned resolution, the
+  route wrapper, compare-by-ear, and a shared per-user engine home.
