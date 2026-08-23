@@ -139,6 +139,15 @@
             "tracing",
             "time-travel-replay"
           ]
+        },
+        {
+          "id": "companion",
+          "title": "Companion",
+          "subjects": [
+            "companion-identity",
+            "companion-runtime",
+            "conversation-orchestration"
+          ]
         }
       ]
     },
