@@ -99,9 +99,28 @@ Open the governing subject, read the golden path, then the techniques it names.
   corpus does not know, that reason is worth contributing back - it is how the bundle got
   good in the first place.
 
-\`/consult <topic>\` runs this whole loop deliberately and logs the consult so the registry
-can see which knowledge is actually reached for. This rule exists so that the corpus is in
-front of you even when nobody invokes it.
+## The map: which subject governs which part of THIS repo
+
+\`.ai/registry-map.json\` is the generated join between this repository's contexts and the
+subjects above. Consult it **before searching the corpus by hand** - it turns "what does the
+standard say about this file?" into a lookup:
+
+- Each row is a context: its \`paths\`, and the subjects that govern it with a \`confidence\`
+  and the tokens that earned the match. Find the row whose \`paths\` cover the file you are
+  about to change.
+- Each pair carries a \`state\`: \`unknown\` (nobody has judged it), \`conformant\`,
+  \`deviation\` (with \`evidence\` naming the anchor and the consequence), or
+  \`not-applicable\`. **A \`deviation\` is a known, recorded gap** - do not rediscover it, and
+  do not treat it as licence to add another.
+- \`subjectIndex\` inverts it: given a subject slug, which contexts it governs.
+- A row marked \`governance: "weak"\` means the declared domains barely cover that context.
+  Treat guidance there with suspicion and say so; it is a coverage question for the
+  registry, not a standard to force onto the code.
+
+\`/conform\` is what fills the states in, a few pairs at a time, and writes the verdicts
+back. \`/consult <topic>\` runs the read loop deliberately and logs it so the registry can
+see which knowledge is actually reached for. This rule exists so that the corpus is in
+front of you even when nobody invokes either.
 `;
 
 const bundles = fs.readdirSync(KNOWLEDGE, { withFileTypes: true })

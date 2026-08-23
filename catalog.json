@@ -88,11 +88,22 @@
       "usageContributors": []
     },
     {
-      "name": "consult",
+      "name": "conform",
       "version": "1.0.0",
       "category": "ai-native",
+      "path": "skills/conform/SKILL.md",
+      "contentHash": "sha256-n1:8bc2a51f185071ae",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
+      "name": "consult",
+      "version": "1.1.0",
+      "category": "ai-native",
       "path": "skills/consult/SKILL.md",
-      "contentHash": "sha256-n1:92d6074b9065db47",
+      "contentHash": "sha256-n1:17359177d05de061",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -485,7 +496,7 @@
     }
   ],
   "counts": {
-    "skills": 25,
+    "skills": 26,
     "practices": 2,
     "memory": 4,
     "lessons": 34
