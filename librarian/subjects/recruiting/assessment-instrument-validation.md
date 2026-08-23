@@ -20,7 +20,7 @@ smallest cohort (n=121) is at once too small to fail and too small to pass
 (p=0.058/0.061 vs the regulation's 0.05) - the technique's INCONCLUSIVE
 exactly, published as an undifferentiated PASS.
 
-## Technique-edit candidate (single-sighted, banked)
+## Technique-edit candidate - LANDED in cycle N2-a ([[2026-08-23-9]])
 
 - The precedence rule "a real signal always beats the absence of one" is
   exploitable by whoever owns the harness: the regulation closes it - where

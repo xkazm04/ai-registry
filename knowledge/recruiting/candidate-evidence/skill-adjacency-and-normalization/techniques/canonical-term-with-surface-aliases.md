@@ -74,6 +74,18 @@ A well-formed term carries, at minimum:
 - **Never alias across languages by transliteration alone.** A form that merely
   looks like the term in another language is a surface only if practitioners
   actually write it.
+- **When resolving against a published external vocabulary, its search endpoint
+  is a retrieval surface, not a resolver.** A ranked full-text search exists to
+  put *something* plausible first, so it answers every query — including the
+  ones it should not: a term the vocabulary does not hold comes back as the
+  nearest description, and an ambiguous surface comes back as whichever
+  neighbour outranks the intended concept. Taking rank one as the resolution
+  invents an equivalence no human asserted, which is the same failure as
+  guessing a relationship, outsourced. A result becomes a resolution only when
+  the matched string is a declared surface of the returned concept — a check
+  the consumer performs, because retrieval surfaces rarely declare their match
+  type — and everything else is a candidate for the review queue, never an
+  alias entry.
 
 ## The authoring lint
 

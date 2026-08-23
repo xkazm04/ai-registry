@@ -49,6 +49,19 @@ checks were unmeasurable. Otherwise, a thin-but-present cohort makes it
 *inconclusive*. Only when every unresolved check was blocked by an empty cohort
 is the run *not evaluable*. And only when every check resolved true is it a pass.
 
+One boundary keeps that precedence honest: it holds only for absence the
+operator did not manufacture. "Not evaluable is never a violation" is a shield
+for the run, and left unqualified it is exploitable by exactly the party who
+owns the harness — stop collecting the evidence and no run can ever fail.
+Regulators that govern selection procedures close the same loophole the same
+way: where the operator failed to keep the records the assessment required,
+the failure itself supports an adverse inference. So the vocabulary carries
+the distinction: *not evaluable* because the world withheld the data routes to
+the harness owner as an unperformed run; *not evaluable* because the operator
+never built or kept the evaluability is a **compliance finding against the
+operator**, reported as its own state, and it never quietly rests in the
+protected verdict.
+
 ## The two rules that make the vocabulary hold
 
 **Inconclusive never certifies.** It is not a soft pass, it does not satisfy a
@@ -133,6 +146,12 @@ the weak group, floor is 5" tells them exactly what to do next.
 - **When rolling up many runs, report the four counts, never a percentage of
   passes.** A pass rate computed over runs that include inconclusives hides the
   exact thing the vocabulary exists to surface.
+- **When a run is not evaluable because required records were never collected
+  or kept, name the owner of that absence in the verdict.** Absence the
+  operator caused is not neutral: it is the one gap the operator could have
+  closed and did not, and an external assessor is entitled to read it against
+  them. The protected reading of *not evaluable* belongs only to absence the
+  operator did not control.
 
 ## When not to use it
 

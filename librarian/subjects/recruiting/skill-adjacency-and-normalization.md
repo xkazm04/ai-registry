@@ -35,6 +35,9 @@ string "R" in three languages).
 
 ## Convergence (director placed)
 
+- LANDED in cycle N2-a ([[2026-08-23-9]]): the family rule is placed - a
+  retrieval-surface-is-not-a-resolver decision rule in
+  canonical-term-with-surface-aliases. Original sighting record follows.
 - SEARCH DEFAULTS THAT MANUFACTURE CANDIDATES, sighting 2 of 2 in the same
   wave (with the register's alias default, [[2026-08-23-8]]): rank-1-as-
   resolution silently picks "monitor guest access" for "Access" and "Sass"

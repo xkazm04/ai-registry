@@ -34,6 +34,9 @@ byte-identical 31-byte answer, verified from raw responses by digest.
 
 ## Convergence (director placed)
 
+- LANDED in cycle N2-a ([[2026-08-23-9]]): the family rule is placed - a
+  verification-query section and a lead-not-evidence decision rule in
+  required-but-missing-as-a-blocking-gate. Original sighting record follows.
 - SEARCH DEFAULTS THAT MANUFACTURE CANDIDATES, sighting 1 of 2 IN THE SAME
   WAVE: use_first_name_alias defaults True - "Bob Smith" returns 26
   providers (23 ROBERT, 3 BOBBY, none named Bob); alias-off returns 0. The
