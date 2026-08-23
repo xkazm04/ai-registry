@@ -32,3 +32,4 @@ node_modules/
 # machine-written JSON of candidate lines is neither reviewable nor worth a diff. Keep
 # the file for as long as the review takes, then let it go.
 fleet-*.proposals.json
+.worktrees/
