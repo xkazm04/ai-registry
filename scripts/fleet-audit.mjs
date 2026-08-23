@@ -58,6 +58,17 @@ const lane = readLane(LANE).filter((s) => s.exists && s.fm?.name);
 const laneByName = new Map(lane.map((s) => [s.name, s]));
 const personalDir = path.join(os.homedir(), '.claude', 'skills');
 
+const laneReal = fs.realpathSync(LANE);
+/** A linked entry resolves into the lane: that is not a copy, it is THE file. */
+const isLaneLink = (dir) => {
+  try {
+    const st = fs.lstatSync(dir);
+    const real = fs.realpathSync(dir);
+    if (!st.isSymbolicLink() && path.resolve(real) === path.resolve(dir)) return false;
+    return path.resolve(real).startsWith(path.resolve(laneReal));
+  } catch { return false; }
+};
+
 const readCopy = (dir) => {
   // A copy in an installation: `<dir>/SKILL.md` (or a lowercase skill.md, which we flag).
   const upper = path.join(dir, 'SKILL.md');
@@ -87,7 +98,7 @@ const verdict = (laneSkill, copy) => {
 };
 
 const report = { generatedAt: new Date().toISOString(), lane: lane.length, projects: {}, skills: {}, personalShadows: [], summary: {} };
-for (const s of lane) report.skills[s.name] = { version: s.fm.version, copies: {}, plugins: [], personal: null };
+for (const s of lane) report.skills[s.name] = { version: s.fm.version, copies: {}, links: [], plugins: [], personal: null };
 
 // Personal tier.
 const personal = fs.existsSync(personalDir) ? fs.readdirSync(personalDir, { withFileTypes: true }) : [];
@@ -103,13 +114,21 @@ for (const e of personal) {
 // Projects.
 for (const [slug, p] of projects) {
   const root = p.path;
-  const row = { exists: fs.existsSync(root), copies: {}, deadBareFiles: [], lowercase: [], enabled: [], manifest: false, registryPointer: false, staleCommands: [] };
+  const row = { exists: fs.existsSync(root), copies: {}, linked: [], rules: [], deadBareFiles: [], lowercase: [], enabled: [], manifest: false, registryPointer: false, staleCommands: [] };
   report.projects[slug] = row;
   if (!row.exists) continue;
   const skillsDir = path.join(root, '.claude', 'skills');
   if (fs.existsSync(skillsDir)) {
     for (const e of fs.readdirSync(skillsDir, { withFileTypes: true })) {
-      if (e.isDirectory()) {
+      // A symlink dirent reports isDirectory() === false even when it points at one, so a
+      // linked skill is invisible to a directory-only test - which is exactly how this
+      // audit first reported "0 linked" over 51 live links.
+      if (e.isDirectory() || e.isSymbolicLink()) {
+        if (isLaneLink(path.join(skillsDir, e.name))) {
+          row.linked.push(e.name);
+          if (report.skills[e.name]) report.skills[e.name].links.push(slug);
+          continue;
+        }
         const copy = readCopy(path.join(skillsDir, e.name));
         if (copy?.lowercase) row.lowercase.push(e.name);
         if (laneByName.has(e.name) && copy) {
@@ -135,6 +154,8 @@ for (const [slug, p] of projects) {
       }
     } catch { /* unparseable settings: reported implicitly by an empty enabled list */ }
   }
+  const rulesDir = path.join(root, '.claude', 'rules');
+  if (fs.existsSync(rulesDir)) row.rules = fs.readdirSync(rulesDir).filter((f) => f.startsWith('ai-registry-'));
   const manifest = path.join(root, '.ai', 'manifest.yaml');
   if (fs.existsSync(manifest)) {
     row.manifest = true;
@@ -150,7 +171,7 @@ for (const [slug, p] of projects) {
 }
 
 // Summary + adopters.
-let copies = 0, inSync = 0, stale = 0, ahead = 0, diverged = 0, enabled = 0;
+let copies = 0, inSync = 0, stale = 0, ahead = 0, diverged = 0, enabled = 0, links = 0;
 const adopters = {};
 for (const [name, s] of Object.entries(report.skills)) {
   adopters[name] = [];
@@ -159,10 +180,11 @@ for (const [name, s] of Object.entries(report.skills)) {
     if (c.verdict === 'in_sync') inSync++; else if (c.verdict === 'stale') stale++; else if (c.verdict === 'ahead') ahead++; else diverged++;
     adopters[name].push(`${slug}@${c.version ?? 'unversioned'}`);
   }
+  for (const slug of s.links) { links++; adopters[name].push(`${slug}@link`); }
   for (const slug of s.plugins) { enabled++; adopters[name].push(`${slug}@plugin:${s.version}`); }
   adopters[name].sort();
 }
-report.summary = { copies, inSync, stale, ahead, diverged, pluginEnablements: enabled, personalShadows: report.personalShadows.length };
+report.summary = { links, copies, inSync, stale, ahead, diverged, pluginEnablements: enabled, personalShadows: report.personalShadows.length };
 
 if (writeAdopters) {
   const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
@@ -178,19 +200,21 @@ if (writeAdopters) {
 if (json) { console.log(JSON.stringify(report, null, 2)); process.exit(0); }
 
 console.log(`fleet audit — ${report.generatedAt.slice(0, 10)} — ${lane.length} lane skill(s), ${projects.length} project(s)\n`);
-console.log(`  copies in projects: ${copies}  (in_sync ${inSync} · stale ${stale} · ahead ${ahead} · diverged ${diverged})`);
+console.log(`  LINKED skills: ${links}  (one file, no version to compare - the link IS the lane)`);
+console.log(`  remaining copies: ${copies}  (in_sync ${inSync} · stale ${stale} · ahead ${ahead} · diverged ${diverged})`);
 console.log(`  plugin enablements: ${enabled}`);
 console.log(`  personal tier holds ${report.personalShadows.length} lane name(s)${report.personalShadows.length ? ' — THESE SHADOW EVERY PROJECT COPY: ' + report.personalShadows.join(', ') : ''}\n`);
-console.log('  skill                    lane      copies (project@version verdict) / plugins');
+console.log('  skill                    lane      where it runs (project:link = the lane file itself)');
 for (const [name, s] of Object.entries(report.skills).sort()) {
+  const ls = s.links.map((slug) => `${slug}:link`);
   const cs = Object.entries(s.copies).map(([slug, c]) => `${slug}@${c.version ?? '-'} ${c.verdict}`);
   const ps = s.plugins.map((slug) => `${slug}:plugin`);
-  const all = [...cs, ...ps];
+  const all = [...ls, ...cs, ...ps];
   console.log(`  ${name.padEnd(24)} ${String(s.version).padEnd(9)} ${all.length ? all.join(', ') : '—'}`);
 }
-console.log('\n  project        copies  enabled  dead-bare-files                     lowercase  manifest  registry-ptr  stale-cmds');
+console.log('\n  project        linked  rules  copies  dead-bare  lowercase  manifest  registry-ptr  stale-cmds');
 for (const [slug, p] of Object.entries(report.projects)) {
-  console.log(`  ${slug.padEnd(14)} ${String(Object.keys(p.copies).length).padEnd(7)} ${String(p.enabled.length).padEnd(8)} ${(p.deadBareFiles.join(',') || '-').slice(0, 34).padEnd(35)} ${String(p.lowercase.length).padEnd(10)} ${String(p.manifest).padEnd(9)} ${String(p.registryPointer).padEnd(13)} ${p.staleCommands.join(',') || '-'}`);
+  console.log(`  ${slug.padEnd(14)} ${String(p.linked.length).padEnd(7)} ${String(p.rules.length).padEnd(6)} ${String(Object.keys(p.copies).length).padEnd(7)} ${String(p.deadBareFiles.length).padEnd(10)} ${String(p.lowercase.length).padEnd(10)} ${String(p.manifest).padEnd(9)} ${String(p.registryPointer).padEnd(13)} ${p.staleCommands.join(',') || '-'}`);
 }
 if (writeAdopters) console.log(`\n  catalog.json adopters rewritten for ${report.adoptersWritten} skill(s)`);
 console.log('\n  Verdicts are against the LANE version and bytes. `ahead` means an installation carries a newer');

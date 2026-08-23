@@ -67,12 +67,15 @@ scripts/fleet-use-when.mjs# proposes the missing use_when lines, then applies th
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json from every lane (--check in CI)
 scripts/build-marketplace.mjs # regenerates .claude-plugin/marketplace.json from the skills lane (--check in CI)
+scripts/link-registry.mjs # OPERATOR-SIDE: links each project's .claude/skills + .claude/rules at this registry
+scripts/build-knowledge-rules.mjs # regenerates rules/ - the always-on knowledge context projects link (--check in CI)
 scripts/fleet-audit.mjs   # OPERATOR-SIDE: which installation runs which copy of which skill; writes adopters
 scripts/signals-collect.mjs   # OPERATOR-SIDE: folds connected projects' consult logs + stacks into signals/
 scripts/usage-from-personas.mjs # OPERATOR-SIDE: bootstraps usage/ from a Personas installation's own counts
 knowledge/<domain>/       # a Reference Knowledge Bundle - see knowledge/README.md
 knowledge/<domain>/taxonomy.json  # the authority on where every subject lives; max 10 folders/level
 knowledge/<domain>/index.json  # GENERATED: every subject, technique, law and application
+rules/ai-registry-*.md    # GENERATED: the always-on knowledge context, linked into each project's .claude/rules/
 skills/<name>/SKILL.md    # frontmatter: name, description, category, memory, version (+ harness keys)
 skills/<name>/LESSONS.md  # append-only reflection lane, beside the skill it is about
 skills/<name>/references/ # material the method loads on demand; scripts/, tools/, assets/ likewise
@@ -120,7 +123,15 @@ markdown is for humans and for the agent that decided to go deeper. It excludes 
 the reason above, and says so in its own `meta.excludes`. Regenerate with
 `node scripts/build-index.mjs` **before** `build-catalog.mjs`, whose hash covers it.
 
-**Consult it at the moment of decision.** The lane skill [`consult`](skills/consult/SKILL.md)
+**The corpus is present, not fetched.** `rules/ai-registry-*.md` are generated from the
+bundle indexes and **linked into each project's `.claude/rules/`**, where a rule with no
+`paths:` frontmatter loads in *every* session at `.claude/CLAUDE.md` priority. So an agent
+opens a session already holding the access contract and the subject map for the domains its
+project declares — no invocation, no copy, ~2k tokens. That closes the failure a
+consult-only design has: recall. A standard nobody remembers to look up is a standard that
+is not there at the moment the decision is made.
+
+**And consulted deliberately when it matters.** The lane skill [`consult`](skills/consult/SKILL.md)
 is how a connected project reads the right subject before a product, architecture or domain
 call: it resolves the registry (a sibling checkout or GitHub), matches the task against
 `use_when` triggers, reads the golden path and the techniques that apply, and logs the consult
@@ -218,12 +229,15 @@ Plain git is the baseline. Nothing below requires an account or a token.
 # read it
 git clone https://github.com/xkazm04/ai-registry.git
 
-# skills, door 1 - the plugin marketplace (versioned, cached, updated on request)
+# skills, door 1 - LINK (the default when one owner holds the registry and the consumers)
+node ai-registry/scripts/link-registry.mjs          # match every project to its manifest
+node ai-registry/scripts/link-registry.mjs --check  # verify; nothing to sync, so nothing drifts
+
+# skills, door 2 - the plugin marketplace (a second machine, a second person, or CI)
 claude plugin marketplace add xkazm04/ai-registry               # once per machine
 claude plugin install uat@ai-registry --scope project           # records adoption in .claude/settings.json
-claude plugin update uat@ai-registry                            # pull what the registry now carries
 
-# skills, door 2 - copy (the older model; still reviewed, still pinned by its version)
+# skills, door 3 - copy (the oldest model; still reviewed, still pinned by its version)
 cp -r ai-registry/skills/ci-gate-check <your-repo>/.claude/skills/
 
 # check what you have against what is current
@@ -236,10 +250,18 @@ A project points at the registry from its manifest, and names the bundles it con
 # .ai/manifest.yaml
 registry:
   remote: github:xkazm04/ai-registry
-  local: ../ai-registry          # optional sibling checkout, for /consult and the evidence gate
+  local: ../ai-registry             # the checkout this project links against
 knowledge:
-  domains: [software-engineering]
+  domains: [software-engineering]   # which bundles it consumes -> which rules get linked
+skills:                             # which shared skills it uses -> what link-registry links
+  - perfect
+  - uat
 ```
+
+That manifest is the whole declaration. The links themselves are machine state and
+gitignored — a link committed into a repo is a dangling path on the next machine — so
+`scripts/link-registry.mjs` is what makes a machine match the declaration, and `--check`
+is what tells you it no longer does.
 
 **Which copy runs, when a name exists in more than one place.** The reference harness
 resolves a same-named skill *enterprise over personal over project*; plugin skills are

@@ -41,6 +41,17 @@ lanes:
     format: OKF v0.1 profile (concept documents with YAML frontmatter; `type` required)
     gate: scripts/check-bundles.mjs
     depth: nested
+    # GENERATED, and the reason the corpus reaches a session at all. `rules/ai-registry-*.md`
+    # are built from the bundle indexes by scripts/build-knowledge-rules.mjs and LINKED into
+    # each project's .claude/rules/ by the linker, driven by that project's
+    # `knowledge.domains`. A rule with no `paths:` frontmatter loads in EVERY session at
+    # .claude/CLAUDE.md priority — so the standard is PRESENT without a skill being invoked.
+    # A consult-only design fails on recall: a standard nobody remembers to look up is a
+    # standard that is not there at the moment a decision is made.
+    rules:
+      path: rules/
+      generator: scripts/build-knowledge-rules.mjs
+      linked_into: <project>/.claude/rules/
     # No directory under knowledge/ holds more than this many child directories. Files
     # are not counted. Enforced by scripts/lib/taxonomy.mjs via the bundle gate.
     max_child_dirs: 10
@@ -79,8 +90,24 @@ lanes:
       # A consumer three minors behind should be told so and left alone until a human
       # updates. Merging is adopting; installing or copying is consuming. Human acts.
       version_reports_staleness: true
-    # Distribution: this registry IS a plugin marketplace for the reference harness -
-    # one single-skill plugin per lane skill, generated from the lane and gated.
+    # Distribution: two mechanisms, and the FIRST is the default. Both put one
+    # single-skill unit per lane skill in front of a consuming project.
+    # 1. LINK - the DEFAULT while one person owns the registry and every consumer. Each
+    #    project's .claude/skills/<name> is a symlink into this lane, made by the linker
+    #    from that project's .ai/manifest.yaml `skills:` declaration. One file on the
+    #    machine: editing a shared skill from any project edits the lane's file, and it is
+    #    live everywhere immediately. Nothing to sync, so nothing can drift; and because
+    #    one target reachable from several locations loads once, the personal-over-project
+    #    shadowing bug cannot occur. The link is machine state (gitignored); the
+    #    declaration is committed and reviewed exactly as `enabledPlugins` used to be.
+    distribution:
+      default: link
+      linker: scripts/link-registry.mjs
+      declaration: .ai/manifest.yaml (skills:)
+    # 2. MARKETPLACE - for a second machine, a second person, or CI: version-pinned,
+    #    cached, updated by an explicit human act. The right answer the moment an edit here
+    #    would change what somebody else's agent does with nobody present to review it.
+    #    Generated and gated continuously so it is ready the day it is needed.
     marketplace:
       manifest: .claude-plugin/marketplace.json
       generator: scripts/build-marketplace.mjs

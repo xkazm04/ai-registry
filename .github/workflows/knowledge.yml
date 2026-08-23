@@ -54,6 +54,12 @@ jobs:
       - name: Check each bundle's index is current
         run: node scripts/build-index.mjs --check
 
+      # The knowledge rules are a generated VIEW over the bundle indexes and are linked
+      # into every project's .claude/rules/, where they load in every session. A stale
+      # rule advertises subjects that moved or no longer exist.
+      - name: Check the generated knowledge rules are fresh
+        run: node scripts/build-knowledge-rules.mjs --check
+
   usage:
     name: usage lane
     runs-on: ubuntu-latest
