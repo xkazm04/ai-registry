@@ -1,0 +1,26 @@
+# Personas' consumer overlay — how the Personas desktop app uses this registry.
+#
+# The root `registry.yaml` beside it is the vendor-neutral authority on which lanes this
+# repository carries and what governs them; this file only says what ONE consumer does with
+# them. It sits beside `.ascent/registry.yaml` per the root file's rule: a second consumer
+# adds its own overlay, it does not rewrite the first. Unknown fields MUST be ignored.
+#
+# Written at pairing time (2026-08-23) by the Personas desktop app's pairing ritual.
+
+registry: 1
+consumer: personas-desktop
+
+# Personas' role in each lane the root registry.yaml declares. `reader` means the app reads
+# the lane and never writes to it in place. A lane absent from this list is left alone.
+lanes:
+  # knowledge/ — the Patterns surface reads the software-engineering bundle DIRECTLY from
+  # this clone (nested taxonomy layout; the app's Rust reader walks the tree, it does not
+  # consume index.json). Executions consult the same clone through the app's knowledge-root
+  # setting. Reads only; improvements travel back as pull requests.
+  knowledge: reader
+  # skills/ — the shared skill library. Adopt/sync copies out of the clone; publishing a
+  # skill is a pull request, never an in-place write.
+  skills: reader
+  # usage/ — one usage/<contributor>.json per contributing installation, counts only. This
+  # is the single lane Personas contributes to in place, per docs/usage-lane.md.
+  usage: contributor
