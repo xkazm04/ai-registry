@@ -12,6 +12,7 @@ techniques:
   - false-positive-economics
   - unmeasurable-criteria
   - policy-projection
+  - chokepoint-tag-registry
 ---
 
 # Quality gates & ratchets
@@ -256,6 +257,22 @@ itself a liveness problem, because a hook that was never installed reports
 nothing and looks identical to a hook that passed. The full protocol is
 [hook-hygiene](./techniques/hook-hygiene.md).
 
+## Gating a convention: making "everything goes through the wrapper" checkable
+
+A large family of standards is stated as routing: all metered calls go
+through this client, all writes go through this door, all addresses come
+from this composer. Each is a convention until something proves it, and the
+proof is unusually cheap — a static bijection between the wrapper's call
+sites, an inline identifier at each, and a registry row per identifier,
+checked in all three directions. What the bijection cannot see is the call
+that never touched the wrapper at all, so it is completed by a
+negative-space rule confining the underlying capability to the wrapper's own
+modules. Together they turn the convention into an invariant that a commit
+hook can refuse — and both halves carry limits strong enough that quoting
+the result without them overstates it. The construction, the extension to
+any second per-operation table, and the two disclaimers are
+[chokepoint-tag-registry](./techniques/chokepoint-tag-registry.md).
+
 ## Domain gates ride the same ladder
 
 Everything above is domain-agnostic scaffolding, and its test is that
@@ -306,3 +323,7 @@ is asked to refuse something.
 - [policy-projection](./techniques/policy-projection.md) — one enumeration
   rendered into every surface, display caps that are not data caps, and
   the effective policy travelling with the verdict.
+- [chokepoint-tag-registry](./techniques/chokepoint-tag-registry.md) — the
+  static call-site ↔ tag ↔ registry bijection, negative-space confinement of
+  the underlying capability, extending both to any second per-operation
+  table, and the two limits that bound what the result may claim.

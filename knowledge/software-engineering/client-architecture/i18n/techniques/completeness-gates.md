@@ -6,7 +6,7 @@ technique: completeness-gates
 status: forged
 laws: [gate-sees-target, count-carries-predicate, failure-not-empty-success]
 shared_with: []
-use_when: [a green report over an untranslated locale, extra keys surviving a source rename, a key absent from every locale at once]
+use_when: [a green report over an untranslated locale, extra keys surviving a source rename, a key absent from every locale at once, a linguistic ruling half-applied across a transcreated locale]
 ---
 
 # Completeness gates
@@ -50,7 +50,13 @@ make the value scan honest rather than noisy:
   next bulk-copy will try to pass; and it should be the same artifact as
   the translation glossary (see
   [interpolation-and-plurals](./interpolation-and-plurals.md)), or the two
-  drift.
+  drift. **Build the matcher by escaping each literal, never by
+  hand-writing one alternation**: the list is full of exactly the strings
+  that contain pattern metacharacters — a product name with parentheses, a
+  metric label carrying a placeholder, an `A/B` — and inlining one of them
+  raw either throws at load or, worse, silently changes what the whole
+  alternation matches. The entries are data; the pattern is derived from
+  them.
 - **Scope to live keys.** An untranslated value on a key no consumer
   references is not a user-visible defect — it is dead weight for the
   purge pass, and counting it dilutes the gate's signal. But liveness is
@@ -82,6 +88,50 @@ Every completeness number states its predicate
 "0 missing **keys**" and "0 untranslated **values**" are different claims,
 and a report that says only "0 missing" will be quoted as the second claim
 while proving only the first.
+
+## The fourth check: ruled decisions, where a locale is transcreated
+
+The two parities assume the only lie a locale can tell is an untranslated
+value. That holds while translation is a mapping. It stops holding the
+moment a locale is **transcreated** — rewritten for register, idiom and
+house voice rather than rendered word-for-word — because then the locale
+carries *rulings*: this construction is out, that loanword stays, this
+address form is the product's voice. A ruling is a standard like any other,
+and it decays the same way: half-applied, one recast at a time, invisible
+inside a diff of four hundred strings that a reviewer is skimming for
+meaning rather than counting occurrences of a phrase.
+
+Two mechanisms cover the two kinds of ruling, and they are mirror images:
+
+- **Ratchets, for a construction ruled out.** Count the occurrences of the
+  swept form in the target locale's column and gate on direction — it may
+  fall, never rise
+  ([ratchet-design](../../../engineering-process/standards-and-gates/quality-gates/techniques/ratchet-design.md)).
+  The value of this is entirely in the *rise*: a translator recasting an
+  unrelated sentence reintroduces the swept form naturally, because it is
+  the idiomatic thing to write, and nothing else in the pipeline would ever
+  notice. The ratchet is what makes a linguistic ruling survive the wave
+  after the one that applied it.
+- **Zero-movement guards, for a decision explicitly parked or ruled "no
+  change".** Not a floor and not a ceiling — the count must not move *at
+  all*. A partial sweep of something the owner declined to change is the
+  hardest defect in this whole subject to see by eye, and it is
+  indistinguishable from noise in a large diff. Any movement is the finding.
+
+The two lists are one list with two modes, and the mode is the ruling's
+current state — which means **moving an entry between them is part of
+acting on a ruling**. A decision that gets ruled "sweep it" while still
+sitting in the parked list fires the gate on the very work the ruling asked
+for; the sanctioned wave fails its own gate, and the natural reflex is to
+disable the check rather than reclassify the entry. Write the transition
+into the ruling procedure, and record in the gate which entries have already
+made that trip — the record is what stops the next author from reading a
+correct failure as a broken gate.
+
+Both mechanisms are counting checks over a locale column, so both inherit
+the counting discipline: state the predicate with the number, and treat a
+count of zero from a scanner that matched no files as an instrument failure
+rather than a clean locale.
 
 ## Where the gate runs: at the door, not in a report
 

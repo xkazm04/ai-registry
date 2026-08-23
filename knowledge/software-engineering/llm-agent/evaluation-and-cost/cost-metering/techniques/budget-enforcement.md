@@ -6,7 +6,7 @@ technique: budget-enforcement
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
-use_when: [enumerating every path that can start metered spend, a lowered ceiling still letting calls through, choosing fail-open or fail-closed when the store is down]
+use_when: [enumerating every path that can start metered spend, a lowered ceiling still letting calls through, choosing fail-open or fail-closed when the store is down, a ceiling that drains on cache hits or busy-rejections]
 ---
 
 # Budget enforcement
@@ -111,6 +111,71 @@ bubbles into a generic error path:
   override rather than erased as if the ceiling never fired. Unattended
   paths get no such door — there is nobody present to own the decision.
 
+## Guard ordering: the cheap refusal runs before the durable charge
+
+A real entry point stacks several guards — an oversized-payload rejection, a
+concurrency slot, a per-caller rate limit, the budget charge. They are
+usually written in the order they were added, and that order is a bug: **any
+guard that can refuse must run before any guard that commits durable state**,
+because a request refused after the charge has spent budget on zero provider
+work.
+
+The concrete instance is a concurrency limiter next to a budget charge. With
+the charge first, every request that loses the race for a slot still burns a
+unit of the ceiling and a unit of the caller's rate budget — so a traffic
+spike drains the day's budget through requests that were never served, and
+the ceiling's own refusals then look like demand. With the slot first, a
+server-busy rejection costs the caller nothing.
+
+The general rule, in the order the checks should appear:
+
+1. **Free, local refusals** — malformed or oversized input, decided from
+   metadata before the body is read.
+2. **Cheap, reversible reservations** — an in-process slot, a lease. Taken
+   before anything durable, released explicitly on every later failure.
+3. **Durable charges** — the rate ledger and the budget ledger, last,
+   because they are the only step whose undo is a compensating write.
+
+Steps 2 and 3 acquire an obligation the caller must discharge, so the
+contract has to be stated where it is granted: on success the caller holds a
+slot and *must* release it in its own cleanup path; on any refusal it holds
+nothing and must not. An entry point that releases a slot it never took is
+the mirror bug, and it is quieter.
+
+## Every non-provider outcome is a refund path — enumerate them with the charge
+
+Because the charge happens before the work, the charge is provisional, and
+**every outcome that does not reach the provider owes a refund**. The set is
+larger than it first looks, and the failure mode is not a wrong refund but a
+*missing* one: a ceiling that drains on repeats, so the product refuses
+paying customers while having spent nothing.
+
+The outcomes worth enumerating explicitly, because each is easy to forget:
+
+- a hit in the in-process cache;
+- a hit in the durable cache — did zero provider work, exactly like the
+  first, and is the one people miss because it is asynchronous;
+- a refusal by a *later* guard (a per-actor quota checked after the global
+  ceiling);
+- a thrown or aborted generation;
+- a degraded response served without contacting the provider at all —
+  a canned or demo result;
+- a result served from the caller's *own* credentials rather than the
+  product's, which costs the product nothing by construction.
+
+Two rules keep this honest. First, the refund set is written **at the charge
+site**, not discovered at each early return: a charge whose refund set is not
+enumerated where the charge is made is a ceiling that drains on repeats, and
+the next early return added to the function will not know it owes anything.
+Second, when a request charges more than one ledger — a global spend unit and
+a per-user quota unit — each early return must state which ledgers it
+refunds; a partial refund is worse than none, because it produces a
+discrepancy that reconciliation reports as unexplained spend.
+
+Refunds are also what makes the refusal counter interpretable. Blocked calls
+are counted; refunded charges must be counted too, or the ledger's totals and
+the provider's invoice diverge by an amount nobody can attribute.
+
 ## Ceilings change; caches must hear about it
 
 Enforcement reads two values per check — the ceiling and the accumulated
@@ -160,3 +225,10 @@ has a size, not a shrug.
   practice means fail-open, undeclared.
 - Zero recorded refusals ever: either every ceiling is generous beyond
   reach, or the gates are not actually on the paths that spend.
+- A durable charge committed before a guard that can still refuse — the
+  busy-rejection that costs budget.
+- An early return from the metered path with no statement of which ledgers
+  it refunds, or a refund set discovered at the returns instead of declared
+  at the charge.
+- A cache hit that is metered: the clearest proof the charge is not
+  provisional, and the fastest way to drain a ceiling on repeats.

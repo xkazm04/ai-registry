@@ -7,7 +7,23 @@ stack: node
 verified_on: 2026-08-22
 ---
 
-# Cache key discipline in TanStack Query's `query-core` (Node)
+# Cache key discipline in two node trees: a library core, and the consumer half it leaves open
+
+Two independent reconciliations of this technique landed on the same stack, from
+unrelated trees, and they are kept together because they complete each other. The library
+realization closes the *structural* half - the key is a value, the hash has one door, the
+axis audit is a lint rule - and states plainly that identity, tenant and locale are the
+caller's job, because a library cannot enumerate a host's implicit axes. The product
+realization is a caller doing exactly that job: server-resolved grounding folded into the
+hashed value, an ownership rewrite before hashing, and provider identity as its own bucket
+component. Read together they are the technique's two halves.
+
+Neither pin fits `verified_against`, whose contract is a stack runtime version, so each
+tree carries its own in prose: Tree A is `@tanstack/query-core` 5.102.0 at
+`TanStack/query` commit `40321a0`; Tree B is a product repository on node@22. Both were
+resolved on 2026-08-22.
+
+## Tree A - a framework-agnostic query cache
 
 How the framework-agnostic core behind TanStack Query realizes the
 cache-key-discipline technique. Citations are against `@tanstack/query-core`
@@ -16,7 +32,7 @@ reconciliation against an external tree — not the consumer repo the sibling
 `react--` applications cite — so the pin lives here in prose rather than in
 `verified_against`, whose contract is a stack runtime version.
 
-## 1. The key is a structure; the hash is the only string
+### 1. The key is a structure; the hash is the only string
 
 The technique's "delimit unambiguously" rule is designed out rather than
 enforced. A query key is typed `ReadonlyArray<unknown>`
@@ -40,7 +56,7 @@ Absent-versus-default is normalized, and the project pins it as intended:
 undefined-valued properties. "Not filtered" spelled two ways is one cache
 entry — the technique's fragmentation case, closed.
 
-## 2. One builder, three vocabularies, no call-site strings
+### 2. One builder, three vocabularies, no call-site strings
 
 `hashKey` is not merely available — it is the only door.
 `hashQueryKeyByOptions` (`src/utils.ts:220-226`) is a two-line wrapper
@@ -70,7 +86,7 @@ strings. `matchQuery` respects this: an `exact` filter re-hashes the
 *filter's* key using the *stored query's* options, not the caller's
 (`src/utils.ts:158`), so a custom hash function still invalidates correctly.
 
-## 3. The collision audit is shipped as a lint rule
+### 3. The collision audit is shipped as a lint rule
 
 The technique says collisions are found by audit, not by symptom, and step 1
 of that audit — enumerate every axis that changes the response — is
@@ -87,7 +103,7 @@ implicit one: an axis read from module scope inside the fetcher — current
 tenant, active locale, base URL — is not a free variable of the inspected
 closure.
 
-## 4. Deviations and boundaries
+### 4. Deviations and boundaries
 
 - **Non-JSON containers collapse to `{}` — a live collision.** `isPlainObject`
   (`src/utils.ts:361-390`) requires an `Object.prototype` prototype, so a
@@ -117,7 +133,7 @@ closure.
   Correct — a key changing under a live entry would orphan it — but it makes
   a hash-function change a shape change, wanting `buster`.
 
-## Reconciliation summary
+### Reconciliation summary
 
 Confirmed: keys derived, never hand-written; one builder shared across
 queries, mutations and defaults; canonical recursive serialization with
@@ -128,3 +144,126 @@ audit mechanized as a lint rule with a documented allowlist. Deviation:
 scope: implicit-axis inclusion (identity, tenant, locale) and cross-identity
 clear — a library cannot enumerate a host's axes, so that half lands on the
 consumer. In-memory key versioning is likewise absent by design.
+
+## Tree B - a metered generation cache behind one endpoint
+
+The cache here sits in front of an expensive, metered generation endpoint
+(`/api/ai`) shared by every tool in the product, with a two-level lifetime —
+an in-process L1 and a durable L2. Every tool answers the same question the
+technique asks ("what exactly changes the answer?") in one place: the mode
+descriptor table in `src/app/api/ai/modes.ts`.
+
+### One builder, and a per-tool declaration of what it hashes
+
+`hashAiInput(mode, locale, value, providerTag)` is the only key builder
+(`src/app/api/ai/dispatch.ts:144`). What varies per tool is the `value`, and
+the table makes that an explicit contract rather than a call-site habit:
+each mode's `prepare` returns `{ cacheValue, gen }`, where — per the table's
+own header (`modes.ts:28-33`) — "`cacheValue` is the EXACT value hashed into
+the response-cache key (see cacheKeyPolicy notes on each row); `gen` is the
+metered generation `cachedRespond` runs on a cache miss."
+
+Splitting the key input from the generator input is what makes the next two
+disciplines expressible at all: the two are deliberately *not* the same
+object.
+
+### Grounding is folded into the value, so a data change busts the key
+
+The implicit axis this product had to name is **server-resolved grounding**.
+The client sends a topic and a project id; the server resolves performance
+data, brand profile, competitor set and the trained voice profile before
+generating. None of that appears in the request, and all of it changes the
+answer — the technique's "if changing it changes the response, it is part of
+the key" applied to data the caller never sees.
+
+The `social` row (`modes.ts:572-595`) resolves grounding, brand and voice,
+assembles the full skill input, and returns **that** as `cacheValue`; the
+comment states the property directly: "cacheValue == the fully-grounded
+input, so a data/brand change busts the cache." A refreshed sync or an
+edited brand profile therefore produces a different key rather than serving
+yesterday's answer under today's data.
+
+### The effective-id rewrite
+
+The dataset-grounded rows are where the collision would have been. A caller
+supplies a `projectId`; the resolver returns `{ data, keyId }` where `keyId`
+is the **effective** identifier after ownership resolution — the caller's own
+project when it owns it, a base/demo identifier when it does not.
+`analysis` and `chat` (`modes.ts:599-615`) rewrite the key input before
+hashing:
+
+```js
+const cacheValue = data ? { ...value, projectId: keyId } : value;
+// the GENERATOR still gets the ORIGINAL value + data
+```
+
+Two effects, and the table's comment names both: an unowned id "degrades to
+base" so it cannot occupy a bucket alongside an owned one, and — because the
+generator keeps the original request — the rewrite is a keying decision only,
+never a change to what is generated. This is the technique's identity axis
+resolved *before* hashing rather than trusted from the wire.
+
+The honest-labelling companion sits beside it: `withDiagnosisMeta`
+(`modes.ts:295-302`) stamps a sample-provenance flag plus "the stable digest
+of the SERVER-rebuilt request … not a client-supplied one", so a surface can
+say truthfully that a run was demo-grounded rather than silently presenting
+it as real.
+
+### Provider identity is its own bucket component
+
+The product serves some callers from its own model credentials and others
+from their supplied ones (a per-user bring-your-own-model plan), with a
+per-operation model matrix on top. Same question, different answering model
+— the technique's "environment or endpoint when the client can point at more
+than one", in its paid form. `dispatch.ts:139-145`:
+
+```js
+const providerTag = byom ? `byom:${byom.vendor}:${byom.model ?? ""}:${byom.fastModel ?? ""}` : "app";
+const key = hashAiInput(mode, locale, value, providerTag);
+```
+
+with the reason inline: "The result depends on which provider serves it, so
+a BYOM caller gets its own cache bucket (vendor + chosen models) and never
+shares a non-BYOM caller's result — or another vendor/model's." Note that the
+tag is composed of the vendor *and* both model slots, which is fragmentation
+chosen deliberately over collision — the cheaper failure, as the technique
+prescribes.
+
+### What is not here
+
+No key-namespace version component. The cached value's shape is the tool's
+response object, which does change (fields are added to `meta` across
+releases), and the durable L2 outlives the process. This is the one axis of
+the technique the implementation does not carry — what stands in for it is
+expiry: L1 is a process-local map on a 15-minute TTL
+(`src/lib/ai/response-cache.ts:21`) and L2 entries carry an `expires`
+timestamp checked on read, with a native TTL field for the operator's own
+policy (`src/lib/ai/response-cache-store.firestore.ts:2-4`,
+`response-cache-store.local.ts:18-27`). Old shapes age out rather than
+becoming unfindable, which is a weaker guarantee than a version bump and
+bounded by the longest TTL a deploy can straddle.
+
+## What the pair proves
+
+The technique transplants across two trees that share nothing but a runtime, and each
+tree's deviation is the other's subject matter - which is the strongest reading available
+short of a live transplant test.
+
+- **The structural rules hold in both.** One builder, no call-site strings, and a key
+  input that is a value rather than a concatenation: Tree A enforces it in the type and
+  the single `hashKey` door, Tree B in a per-mode table whose `cacheValue` is declared
+  separately from the generator's input. Neither tree reached that shape by convention.
+- **The implicit-axis half is where they meet.** Tree A names identity, tenant and locale
+  as out of scope by construction and leaves the login-boundary escape fully open. Tree B
+  closes precisely that class: grounding the caller never sees is folded into the hashed
+  value, an unowned project id degrades to a base identifier *before* hashing, and the
+  serving provider is a key component. A library and a consumer, each holding the end the
+  other cannot.
+- **Both lack a key-namespace version, for different reasons and at different cost.**
+  Tree A needs none in memory and supplies `buster` past the process boundary; Tree B has
+  a durable L2 that outlives a deploy and stands on TTL expiry instead, which it records
+  as the weaker guarantee it is. The version-component rule is the one clause neither
+  tree satisfies where it matters.
+- **The remaining live defect is Tree A's alone:** `Map` and `Set` in a key both
+  serialize to `{}`, so two questions silently share one entry. A total serializer, or a
+  key type narrowed to what the serializer covers, is the standing fix.

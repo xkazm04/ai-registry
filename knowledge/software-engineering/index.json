@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 143,
-  "techniques": 896,
-  "applications": 383,
+  "techniques": 898,
+  "applications": 386,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "896/896",
+  "use_when_coverage": "898/898",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1580,6 +1580,21 @@
      ]
     },
     {
+     "slug": "identity-bearing-keys",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cross-tenant read must be unrepresentable rather than merely refused",
+      "a handler that skips the gate still must not see another owner's rows",
+      "deciding whether tenancy is a filter or an address"
+     ]
+    },
+    {
      "slug": "privilege-tiers",
      "status": "forged",
      "laws": [
@@ -1614,6 +1629,13 @@
      "technique": "failure-direction",
      "file": "knowledge/software-engineering/security/authorization/applications/go--failure-direction.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "identity-bearing-keys",
+     "file": "knowledge/software-engineering/security/authorization/applications/node--identity-bearing-keys.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "node@22"
     },
     {
      "stack": "rust",
@@ -3462,7 +3484,8 @@
      "use_when": [
       "enumerating every path that can start metered spend",
       "a lowered ceiling still letting calls through",
-      "choosing fail-open or fail-closed when the store is down"
+      "choosing fail-open or fail-closed when the store is down",
+      "a ceiling that drains on cache hits or busy-rejections"
      ]
     },
     {
@@ -6923,7 +6946,8 @@
      "use_when": [
       "a green report over an untranslated locale",
       "extra keys surviving a source rename",
-      "a key absent from every locale at once"
+      "a key absent from every locale at once",
+      "a linguistic ruling half-applied across a transcreated locale"
      ]
     },
     {
@@ -7043,6 +7067,13 @@
      "technique": "catalog-architecture",
      "file": "knowledge/software-engineering/client-architecture/i18n/applications/react--catalog-architecture.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "completeness-gates",
+     "file": "knowledge/software-engineering/client-architecture/i18n/applications/react--completeness-gates.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -11226,6 +11257,21 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "techniques": [
     {
+     "slug": "chokepoint-tag-registry",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving statically that no call escaped a declared wrapper",
+      "a new capability shipped unassignable in a policy table",
+      "a registry row whose call site was deleted"
+     ]
+    },
+    {
      "slug": "false-positive-economics",
      "status": "forged",
      "laws": [
@@ -11339,6 +11385,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "chokepoint-tag-registry",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--chokepoint-tag-registry.md",
+     "verified_on": "2026-08-22",
+     "verified_against": "node@22"
+    },
     {
      "stack": "node",
      "technique": "gate-liveness",
@@ -16565,6 +16618,7 @@
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/model-output-as-untrusted",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
+    "quality-gates/chokepoint-tag-registry",
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
@@ -16885,6 +16939,7 @@
     "public-claim-provenance/presentation-invariants-on-derived-values",
     "public-verdict-badge/neutral-state-vocabulary",
     "public-verdict-badge/outcome-branched-cache",
+    "quality-gates/chokepoint-tag-registry",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
     "quality-gates/ratchet-design",
@@ -17356,6 +17411,7 @@
     "async-ui-states/arrival-choreography",
     "audit-logging/append-only-design",
     "audit-logging/decision-records",
+    "authorization/identity-bearing-keys",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-supervision",
     "batch-undo-commit-window/bounded-fanout-commit",
@@ -17690,6 +17746,7 @@
     "alerting/alert-lifecycle",
     "app-shell/shell-hosted-services",
     "audit-logging/retention-and-partitioning",
+    "authorization/identity-bearing-keys",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-supervision",
     "batch-undo-commit-window/deferred-write-window",
@@ -17881,6 +17938,7 @@
     "authoring-block-vocabulary/vocabulary-as-translation-invariant",
     "authorization/declarative-requirements",
     "authorization/failure-direction",
+    "authorization/identity-bearing-keys",
     "authorization/privilege-tiers",
     "authorization/scope-design",
     "browser-credential-boundary/opaque-upstream-errors",
@@ -18028,6 +18086,7 @@
     "public-verdict-badge/customization-scope-guard",
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/neutral-state-vocabulary",
+    "quality-gates/chokepoint-tag-registry",
     "quality-gates/policy-projection",
     "rate-limiting/metered-step-selection",
     "readiness-passports/named-vs-capability-metadata",
