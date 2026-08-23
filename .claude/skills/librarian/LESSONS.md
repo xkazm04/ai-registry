@@ -40,3 +40,37 @@ its own. Step 7's "reflect" now has an artifact to land in.
   close-out regenerated over a sibling lane's note (recovered from git, merged, and
   "append, never regenerate" became a standing rule). Three lanes writing one vault
   is the design working - and the vault's integrity rules are what make it survivable.
+
+## 1.0 - 2026-08-23 - reflection on usability, run 2026-08-23-4
+
+- **Measure the consumer's path, not the corpus.** Every prior sweep graded supply:
+  counts, caps, `use_when` coverage, decay. This reflection asked what a consult costs
+  and whether it finds the subject, and found three things no supply metric could show:
+  the largest index is ~142K tokens and the consult skill's default step was "match by
+  hand" over it; the default router scored slugs only while the index had carried
+  `use_when` all along (a query phrased as a technique's own trigger ranked its subject
+  third); and six adopting projects had logged three consults in total, because no
+  agent guide ever said "consult". A standard that is reachable and never recalled has
+  the value of no standard. The bar now carries a reachability clause with the test
+  spelled out, so the next instrument change is measured the same way.
+- **Read the sibling's commits before writing a finding.** The recall gap had a fix in
+  flight on the same checkout - a rules file for consumers' standing context, a
+  per-repo subject map, a conform skill - committed while this reflection was
+  measuring the gap. The finding stands (it is measured), the recommendation changed
+  (watch `signals/` for consults next sweep, instead of proposing the mechanism again).
+- **A generated file committed by pathspec captures every sibling's uncommitted
+  inputs.** HEAD's catalog described the consult skill at a version and hash HEAD's
+  `SKILL.md` did not have, because the sibling rebuilt the catalog from this shared
+  tree while the skill edit sat uncommitted here. Nothing broke; it would have the
+  moment either session pushed alone. On a shared checkout, the session that edits a
+  skill commits it before anyone rebuilds the catalog - or `build-catalog --check`
+  becomes the thing that finds out.
+- **A free fleet can be entirely down, and the experiment must say so rather than
+  grade silence.** Both roster models failed at once - one by hanging past its
+  timeout, one by returning a 502 wrapped in an HTTP 200. The first script would have
+  spent forty-five minutes and graded empty answers as all-absent. The wrapped error
+  is now the dispatcher's fourth named failure mode; the experiment logs every call.
+- **The rungs were never defined.** The profile names `reconciled` and
+  `transplant-tested`; nothing said what earns them, so a lane that produced exactly
+  the substance of `reconciled` twenty-nine times could not claim it. The standard now
+  defines both. Promotion stays a reviewer's act.

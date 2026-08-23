@@ -18,7 +18,7 @@
  * survive its model disappearing mid-run, which is why `dispatch` rotates models on
  * retry rather than binding an item to one.
  *
- * ## The three failure modes it exists to absorb
+ * ## The four failure modes it exists to absorb
  *
  * 1. SILENT TRUNCATION. A reasoning model can spend an entire completion budget
  *    thinking and emit zero content tokens: `finish_reason: "length"` with an empty
@@ -36,6 +36,11 @@
  *    finding list. That is not agreement, and a caller counting votes must be able to
  *    tell "looked and found nothing" from "did not look" — so every result carries its
  *    model, attempt count and usage, and callers weight rather than tally.
+ * 4. AN ERROR WEARING A 200. The gateway can wrap an upstream failure in an HTTP 200
+ *    whose body is `{"error":...}` with no `choices`. Measured 2026-08-23: a 502
+ *    "Service temporarily overloaded" arrived as a 200 in about a second, and read as
+ *    success it was indistinguishable from mode 3. `callModel` reports it as a failure
+ *    carrying the upstream status, so the bench and the rotation see it.
  */
 
 const DEFAULT_ENDPOINT = 'https://opencode.ai/zen/v1/chat/completions';
@@ -106,6 +111,16 @@ export async function callModel({ endpoint, apiKey, model, system, user, maxToke
     const text = await res.text();
     if (!res.ok) return { ok: false, err: text.slice(0, 200), status: res.status, ms: Date.now() - t0 };
     const json = JSON.parse(text);
+    // A 4th failure mode, measured 2026-08-23: the gateway wraps an UPSTREAM failure in an
+    // HTTP 200 whose body is `{"error":{...}}` with no `choices` - "[502] Upstream error
+    // from Nvidia: Service temporarily overloaded" arrived as a 200 in ~1s. Read as
+    // success, it looks exactly like mode 3 (a model that never looked) and is retried
+    // on the same dead model. It is a transport failure; report it as one.
+    if (json.error && !json.choices) {
+      const msg = typeof json.error === 'string' ? json.error : json.error.message ?? JSON.stringify(json.error);
+      const upstream = /\[(\d{3})\]/.exec(msg)?.[1];
+      return { ok: false, err: msg.slice(0, 200), status: upstream ? Number(upstream) : 502, wrapped: true, ms: Date.now() - t0 };
+    }
     const choice = json.choices?.[0];
     return {
       ok: true,

@@ -3,7 +3,7 @@ name: consult
 description: "Consult the ai-registry's knowledge bundles before a product, architecture or domain decision: resolve the registry (local checkout or GitHub), pick the bundle(s) this repo consumes, match the task against subjects and techniques by their use_when triggers, read the golden path + the techniques that apply, apply them, and log the consult so the signals lane can count demand. Use before designing a feature, choosing a pattern, writing a prompt/rubric, or making a product call in any domain the registry covers (software engineering, recruiting, media generation, game production, LLM observability, grant funding, civic intelligence). Invoke with /consult <what you are about to decide or build> [--bundle <name>] [--deep]."
 category: ai-native
 memory: project
-version: 1.0.0
+version: 1.1.0
 tags: knowledge, rkb, consult, routing, signals
 argument-hint: "<topic or decision> [--bundle <name>] [--deep]"
 ---
@@ -46,11 +46,16 @@ says that no domain filter was declared. Resolution order for the registry root:
    carries each subject's `file`, and bundles are nested.
 2. **Pick the bundles.** `--bundle` wins; else the manifest's `knowledge.domains`; else
    all seven with a note.
-3. **Match.** Turn the task into 3-8 terms (nouns and the decision being made). Score
-   every technique's `use_when` and every subject's category/slug against them; prefer
-   `use_when` hits - that field was written to be matched. With a local checkout and
-   `--deep`, run `node <registry>/scripts/research-map.mjs "<term>" ... --top 6 --deep`
-   instead of matching by hand. Keep the top 3-6 techniques across at most 3 subjects.
+3. **Match.** Turn the task into 3-8 terms (nouns and the decision being made). With a
+   local checkout, ALWAYS route with the script - never by hand:
+   `node <registry>/scripts/research-map.mjs "<term>" ... --top 6`. It scores every
+   subject slug and every technique's `use_when` from `index.json` for zero context
+   tokens; `--deep` additionally opens each golden path for ITS `use_when`, which the
+   index does not carry - worth it for a broad decision, not for a named mechanism.
+   Remote-only: fetch the bundle's `index.json` and match by hand - knowing that the
+   largest bundle's index is well over 100K tokens, so fetch ONE bundle, named by the
+   manifest, and match against `use_when` before slugs. Keep the top 3-6 techniques
+   across at most 3 subjects.
 4. **Read the two upper layers.** The subject's `<subject>.md`, then each selected
    `techniques/<slug>.md`. Read the technique's opening boundary paragraph - the
    interesting material sits between subjects, and the golden path states who owns what.

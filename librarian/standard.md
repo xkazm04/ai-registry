@@ -46,21 +46,46 @@ No script decides these. A reviewer does, reading diffs.
 - **`status` means something.** Everything currently says `forged`. `reconciled` and
   `transplant-tested` are real rungs that have never been used, and nothing may
   self-promote into them - see below.
+- **Reachable on the path a consumer takes, for the price of one subject.** A consult
+  should cost the golden path plus the techniques that apply (about 12K tokens for a
+  six-technique subject) and nothing of the index, which is an address book for a
+  script, not a document for an agent - the largest bundle's index is over 140K
+  tokens. The test is mechanical and a reflection should run it: phrase a query the
+  way a technique's `use_when` is phrased and check that the DEFAULT routing path
+  ranks that subject first. On 2026-08-23 it ranked third, because the router scored
+  slugs only and read `use_when` under an opt-in flag; the index had carried the field
+  all along. Fixed in the router and the consult skill the same day, and kept here so
+  the next instrument change is measured the same way.
 
 ## Two known gaps in the standard itself
 
 Recorded here rather than quietly tolerated, because a bar with unmeasured clauses
 should say which ones they are.
 
-**The maturity ladder is unused.** The profile defines
-`draft -> forged -> reconciled -> transplant-tested`. Every one of the 1,508 concept
-documents says `forged`. So the registry has no signal for which claims have survived
-contact with a second codebase - the exact thing the four-layer design exists to make
-visible. Promoting a subject requires evidence a script cannot produce:
-`transplant-tested` means an agent in an unrelated codebase used the document unchanged
-and it held. Until somebody does that and records it, the rung stays empty and honest.
+**The maturity ladder is unused, and the lane that earns its second rung has run
+29 times without claiming it.** The profile defines
+`draft -> forged -> reconciled -> transplant-tested`. Every one of the 310 golden paths
+says `forged`. The rung names were never given definitions, so here they are, as the
+reviewer applies them:
 
-**Demand is unknown, not zero.** No installation reports to
-[`signals/`](../docs/signals-lane.md) yet, so every ranking is structure and decay only.
-A sweep must say this out loud rather than ranking as though nobody needs anything. The
-day a contributor appears, demand outranks every structural clause above.
+- `reconciled` - a subject with at least one application bound to an EXTERNAL tree at
+  a pinned version and commit, written by a worker who did not forge the subject,
+  every citation re-checked against the clone, and the reconciliation's hint fates
+  (confirmed / refuted / passed over) recorded in the subject's vault note. The
+  external-reconcile lane has produced exactly this for 29 software-engineering
+  subjects between 2026-08-20 and 2026-08-23; they are the candidates, and flipping
+  the field is a reviewer's act done as one mechanical pass after a human agrees to
+  the definition above - not something a worker or a sweep does.
+- `transplant-tested` - an agent in an unrelated codebase used the upper two layers
+  unchanged and recorded that they held. That is a consult with a deviation count, so
+  the signals lane is where this rung's evidence will come from. Nothing qualifies yet.
+
+**Demand is witnessed, small, and mostly unrecalled.** The first contributor reported
+on 2026-08-23: six connected projects, three consults in thirty days, three bundles
+witnessed, four deviations recorded - every consult found the repo short of the
+standard somewhere. Against 1,900 techniques that is a supply-to-demand ratio the
+corpus cannot justify by content alone, and the cause is measurable: all six projects
+declare their bundles in a manifest, and none of their agent guides tells an agent to
+consult before deciding. The knowledge is reachable and not recalled. Demand now
+outranks every structural clause above for the subjects it names; for the four bundles
+no consult has touched, demand is still unknown, not zero.

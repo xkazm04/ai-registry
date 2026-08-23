@@ -154,8 +154,18 @@ const tokenSet = (s) => new Set(tokens(s));
 const kebab = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
 // ---------------------------------------------------------------- deep pass
-// `use_when` is the frontmatter field written to be matched on, and the index does not
-// carry it. Reading it means opening every concept document, which is why it is opt-in.
+// `use_when` is the frontmatter field written to be matched on. TECHNIQUE use_when is
+// carried by index.json (build-index emits it), so the default pass scores it with no
+// file reads - see the technique loop below. What `--deep` adds is the GOLDEN PATH's
+// use_when, which the index does not carry, and a file-read fallback for any technique
+// entry that predates the index emitting the field.
+//
+// History, so nobody re-introduces the gap: until 2026-08-23 this comment claimed the
+// index did not carry use_when at all, and the default pass scored only slug overlap -
+// a query phrased exactly as a technique's routing trigger ("one delivery minted two
+// internal events") ranked its subject THIRD behind two slug-word coincidences. The
+// 1,900 routing phrases the corpus carries were unreachable on the path every consult
+// takes. Measured by the second full sweep (librarian run 2026-08-23-3).
 const useWhenOf = new Map(); // file -> string
 if (deep) {
   const readUseWhen = (file) => {
@@ -232,15 +242,17 @@ const scoreTerm = (term) => {
           score += W_TECHNIQUE_TOKEN * tshared.length;
           techHits.push(t.slug);
         }
-        if (deep) {
-          const uw = useWhenOf.get(`${slug}::${t.slug}`) ?? '';
-          if (uw) {
-            const ut = tokenSet(uw);
-            const ushared = [...tt].filter((w) => ut.has(w));
-            if (ushared.length) {
-              score += W_USE_WHEN_TOKEN * ushared.length;
-              if (!techHits.includes(t.slug)) techHits.push(t.slug);
-            }
+        // Technique use_when: from the index by default; the deep file-read map only
+        // fills in for an entry the index does not carry it for.
+        const uwIndexed = Array.isArray(t.use_when) ? t.use_when.join(' ') : '';
+        const uw = uwIndexed || (deep ? useWhenOf.get(`${slug}::${t.slug}`) ?? '' : '');
+        if (uw) {
+          const ut = tokenSet(uw);
+          const ushared = [...tt].filter((w) => ut.has(w));
+          if (ushared.length) {
+            score += W_USE_WHEN_TOKEN * ushared.length;
+            if (!techHits.includes(t.slug)) techHits.push(t.slug);
+            if (!why.some((w) => w.startsWith('use_when'))) why.push(`use_when shares ${ushared.join('+')}`);
           }
         }
       }
