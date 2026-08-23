@@ -60,6 +60,15 @@ Stack in parentheses; `zig`/`c`/`go` beyond the declared set would need
 | openzfs/zfs (c) | journal-and-durability-modes second c sighting, storage-accounting | reputed |
 | oven-sh/bun (zig/c++) | subprocess-lifecycle, streaming-output | reputed; stack question |
 
+### Standards and registers (wave N2, [[2026-08-23-8]]) - class B/C, no scan applies
+
+| counterpart | class | subjects served | grade |
+| --- | --- | --- | --- |
+| W3C/vc-data-model@2.0 (REC 2025-05-15) | B, schema+digest | CONSUMED for portable-hiring-records; ecosystem-compatibility section un-mined | measured: digest verified live |
+| US-EEOC/29-CFR-1607 (eCFR 2026-08-20) | B, procedure | CONSUMED for assessment-instrument-validation; bottom-line-vs-caselaw divergence unclaimed; 2025 rescission pressure - re-pin before reuse | measured: both published ratios reproduced |
+| CMS/NPPES-NPI-Registry (API v2.1) | C, register | CONSUMED for regulated-credential-gating; reactivation unexercised | measured: 12 queries, byte-identity finding |
+| EuropeanCommission/ESCO (v1.2.1) | C, taxonomy | CONSUMED for skill-adjacency-and-normalization; hierarchy-credit seam banked | measured: unversioned default is unreproducible |
+
 ### llm-observability counterparts (wave N1, [[2026-08-23-6]])
 
 | repo | subjects it could serve | grade |

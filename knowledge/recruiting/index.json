@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 190,
+  "applications": 194,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -589,6 +589,12 @@
      "technique": "judge-independent-of-generator",
      "file": "knowledge/recruiting/assessment/assessment-instrument-validation/applications/process--judge-independent-of-generator.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "spec",
+     "technique": "minimum-cohort-and-inconclusive-verdicts",
+     "file": "knowledge/recruiting/assessment/assessment-instrument-validation/applications/spec--minimum-cohort-and-inconclusive-verdicts.md",
+     "verified_on": "2026-08-23"
     }
    ]
   },
@@ -5077,6 +5083,12 @@
      "technique": "personal-data-egress-audit",
      "file": "knowledge/recruiting/sourcing-and-intake/portable-hiring-records/applications/node--personal-data-egress-audit.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "spec",
+     "technique": "versioned-record-envelope",
+     "file": "knowledge/recruiting/sourcing-and-intake/portable-hiring-records/applications/spec--versioned-record-envelope.md",
+     "verified_on": "2026-08-23"
     }
    ]
   },
@@ -5981,6 +5993,12 @@
    ],
    "applications": [
     {
+     "stack": "data",
+     "technique": "required-but-missing-as-a-blocking-gate",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/applications/data--required-but-missing-as-a-blocking-gate.md",
+     "verified_on": "2026-08-23"
+    },
+    {
      "stack": "process",
      "technique": "credential-cue-catalog-per-role-family",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/regulated-credential-gating/applications/process--credential-cue-catalog-per-role-family.md",
@@ -6772,6 +6790,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "data",
+     "technique": "canonical-term-with-surface-aliases",
+     "file": "knowledge/recruiting/candidate-evidence/skill-adjacency-and-normalization/applications/data--canonical-term-with-surface-aliases.md",
+     "verified_on": "2026-08-23"
+    },
     {
      "stack": "process",
      "technique": "bilingual-surface-parity-and-coverage-floors",
