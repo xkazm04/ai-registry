@@ -23,6 +23,7 @@ else here and readable with no tool at all.
 
 - [[software-engineering]] - 143 subjects; still the largest, and the 2026-08-22 harvest grew its transplant debt as well as its coverage
 - [[recruiting]] - 64 subjects, arrived from a parallel wave at 384/384 use_when
+- [[game-production]] - 41 subjects, arrived by forge 2026-08-22; never swept
 - [[grant-funding]] - 17 subjects
 - [[llm-observability]] - 16 subjects
 - [[civic-intelligence]] - 15 subjects
