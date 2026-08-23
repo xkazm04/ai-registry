@@ -182,6 +182,61 @@ churns on regeneration from a Windows tree. Not fixed here — flagged.
 Gate green (`check-bundles.mjs`): 106 subjects · 632 techniques · 239
 applications, 4208 links checked.
 
+## 2026-08-23 — voice-io: portable-provider-package forged, then deepen round 1 (spoken-output quality)
+
+Scope: one subject, operator-directed, two passes in one sitting. Pass 1 forged
+`portable-provider-package` from the kp `packages/voice-tts` realization (the
+engine layer as a package: host seam, one dispatch + one validation door,
+host-owned preference / package-owned resolution, route wrapper, compare by ear,
+shared per-user engine home). Pass 2 ran four lanes on the non-streaming gap:
+current practice (web), counter-evidence against the package's own claims
+(web), local-engine streaming specifics (web), and a training-data-blind
+control.
+
+Landed in voice-io (8 → 9 techniques):
+- **speech-ready-text** — display text to speakable text as one pure,
+  isomorphic door (markup removed, anchor text kept, phrases terminated, emoji
+  dropped, numbers deliberately NOT expanded: inflected-language expansion is
+  grammatical and belongs to a per-locale host normalizer); prosody that
+  travels is punctuation; chunk boundary rules (abbreviations, decimals,
+  initials, the ordinal dot of inflected languages, open quotes), min/max
+  sizes with the maximum an engine-declared capability, first chunk may end
+  at a clause mark; chunks are one utterance with one verdict, a late failure
+  is a truncation. Convergence: blind lane + current-practice lane + the
+  package's own measured defect (a 450-char paragraph = 10 s before sound on a
+  CPU engine) — 3 independent.
+- `portable-provider-package` **corrected** twice from the counter-evidence
+  lane: serializing local engines is a processor-budget choice, not a
+  correctness rule (every relevant engine has a resident mode); and the compare
+  surface needs like-for-like audio (listeners identify a lossy codec and
+  prefer the louder clip regardless of voice).
+- `tts-pipeline` segmentation section now defers boundary rules and sizes to
+  the new technique and states the half-real-time CPU figure.
+- Application `node--portable-provider-package` re-verified 2026-08-23 with the
+  chunking, like-for-like WAV and language correction landed in kp, and three
+  new deviations (per-call spawn, no loudness normalization, no Czech number
+  expansion) with return conditions.
+
+Counter-evidence verdicts: whole-clip-at-1200-chars WEAKENED (cap is not the
+fix; chunk); serialize-because-reload REFUTED as necessity; 60 s positive probe
+cache CONFIRMED with "invalidate on real failure, 429 is busy not down";
+MP3-vs-WAV compare WEAKENED; "Kokoro is English-only" WEAKENED (8 languages,
+no Czech/German — the Czech half confirmed); single default voice CONFIRMED as a
+default, weakened as "the right one" (voice choice moves trust; offer a picker).
+
+Banked leads (return conditions): resident engine workers (a host needing
+sub-second local TTFA); loudness normalization + silence trim on the compare
+surface (a host running a real listening test); per-locale number expansion
+for Czech (a Czech-first spoken surface); true streaming adapters over the
+cloud WebSocket / sherpa per-sentence callback (a relay-mode conversation
+plane adopting the package).
+
+Saturation ledger, voice-io: depth L2 (primary vendor docs + engine sources
+read; one L3 measurement on a real tree); last-pass yield 1 technique + 2
+corrections; dry-streak 0; clock: vendor landscape ~3 months (streaming
+endpoint shapes, chunk schedules) — next pass training-data-first, probing
+the standing claims above.
+
 ## 2026-08-22 — Rust-backend refactor campaign: findings folded into existing subjects
 
 Source: a multi-week backend refactor campaign in a desktop agent-orchestration

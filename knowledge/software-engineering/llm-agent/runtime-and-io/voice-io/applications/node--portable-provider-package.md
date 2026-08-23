@@ -72,14 +72,50 @@ per-user home, so one model download serves both apps.
   engines synthesized through the package (Piper Czech 2.8 s, Kokoro English 2.5 s
   for one sentence).
 
+- **Speech-ready text and chunking (added 2026-08-23, deepen round).**
+  `packages/voice-tts/src/text/normalize.ts` (`speechReady`) and
+  `text/segment.ts` (`segmentSpeech`) are pure and isomorphic; the validation
+  door applies `speechReady` when `format: "chat"` (`validate.ts:21-23`), and
+  `react/useTts.ts` runs the same two functions in the browser, then fetches
+  chunk N+1 while chunk N plays (lookahead 2) and reports `firstAudioMs` plus a
+  `{ spoken, total }` progress that survives a mid-utterance failure as a
+  truncation string. The chunk maximum is the engine's declared
+  `capabilities.maxClipChars` (cloud 1200, local 300); above it the registry
+  itself segments and joins WAV clips (`registry.ts:125-140`) so a whole-clip
+  host still gets one clip. Measured on this machine: a 450-char Czech
+  paragraph through Piper = 10.1 s synthesis for 57.7 s of audio, which is
+  the number that makes client-side pipelining mandatory rather than nice.
+- **Like-for-like compare.** The cloud adapter now requests raw 24 kHz PCM and
+  wraps it into WAV (`providers/elevenlabs.ts:84-86,104`) so all three
+  providers return `audio/wav`; the sample rate still differs (22.05 / 24 /
+  24 kHz) and is not yet shown next to the clip.
+- **Kokoro language claim corrected.** `capabilities.languages` lists the
+  eight languages the v1.0 pack actually speaks (`providers/kokoro.ts`); Czech
+  and German are absent, and the adapter comment says what a Czech sentence
+  does (English accent, not an error). The voice catalog grew to one female
+  and one male US voice plus one GB voice; only `af_heart` is verified by ear.
+
 ## Deviations
 
+- **Per-call sidecar spawn.** Both local adapters still spawn the engine per
+  synthesize call (`providers/piper.ts`, `providers/kokoro.ts` via
+  `node/spawn.ts`) and the registry serializes them. The technique's corrected
+  framing holds: the bound is a CPU-budget choice, but the model reload per
+  call is real cost (seconds for Kokoro's ~310 MB). Return condition: a host
+  that needs sub-second local time-to-first-audio — then a resident process
+  (Piper reads stdin line-by-line with the voice loaded once; sherpa-onnx's
+  node binding loads once and renders per sentence with a callback).
+- **No loudness normalization or leading-silence trim** on the compare
+  surface; the technique names them, kp does not do them yet.
+- **Numbers are not expanded for Czech.** `speechReady` deliberately leaves
+  digits alone; a per-locale normalizer is the host's and does not exist.
 - **Preference cannot be persisted from the compare surface.** kp has no settings
   row for voice yet; a pick in the panel is per-page-load and the durable choice
   is env-only. The technique wants the host to own persistence — kp owns it but
   only through onboarding, not through the UI.
-- **No streaming adapter.** Every shipped provider declares `streaming: false`;
-  the relay-mode conversation plane (`docs/architecture/voice-conversation-plane.md`)
+- **No streaming adapter.** Every shipped provider declares `streaming: false`
+  (chunked pipelining happens at the utterance level, above the adapters); the
+  relay-mode conversation plane (`docs/architecture/voice-conversation-plane.md`)
   still uses the conversation provider's own synthesis rather than this package.
 - **The desktop app does not consume the package.** Its engine layer is Rust
   (`companion/tts/mod.rs`) and only the *install layout* is shared; the TypeScript

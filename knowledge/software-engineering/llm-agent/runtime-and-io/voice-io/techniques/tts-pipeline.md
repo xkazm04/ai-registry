@@ -76,7 +76,12 @@ two synthesizes in the background — a pipeline in the literal sense. The
 constraints:
 
 - split at **sentence or clause boundaries only** — prosody resets at each
-  segment start, so a mid-phrase cut is audible as a robotic hiccup;
+  segment start, so a mid-phrase cut is audible as a robotic hiccup; the
+  boundary rules (abbreviations, decimals, ordinal dots, open quotes), the
+  minimum and maximum segment sizes, and the first-segment clause exception
+  are owned by [speech-ready-text](./speech-ready-text.md), and the maximum is
+  a capability the engine declares — a CPU engine renders at roughly half
+  real time, so a paragraph-sized segment on it is tens of seconds of silence;
 - segments inherit the utterance's identity plus a sequence number, and play
   strictly in order; a failed middle segment stops the utterance with an
   honest failure rather than skipping a sentence silently (a narration with

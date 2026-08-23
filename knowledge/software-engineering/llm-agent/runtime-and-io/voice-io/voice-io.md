@@ -12,6 +12,7 @@ techniques:
   - on-device-vs-cloud
   - duplex-agent-sessions
   - portable-provider-package
+  - speech-ready-text
 ---
 
 # Voice input and output
@@ -227,6 +228,19 @@ rather than a benchmark deciding for them.
 [portable-provider-package](./techniques/portable-provider-package.md) owns
 the seam, the wrapper and the compare surface.
 
+## What the product holds is written for the eye
+
+A chat reply is headings, bullets, emphasis, code, links and emoji — and an
+engine voices exactly what it is handed: "asterisk asterisk", an address
+read letter by letter, a stall on a code block. The queue and playback
+discipline cannot repair text that was never speakable. One pure door turns
+display text into speech-ready text before any engine sees it, and the
+same door owns where a stream of it is cut into chunks — the boundary
+rules (abbreviations, decimals, the ordinal dot of inflected languages,
+open quotes), the sizes, and the first-chunk-may-be-a-clause exception
+that wins time-to-first-audio.
+[speech-ready-text](./techniques/speech-ready-text.md) owns it.
+
 ## The techniques
 
 - [stt-pipeline](./techniques/stt-pipeline.md) — capture, metering, endpointing,
@@ -254,3 +268,7 @@ the seam, the wrapper and the compare surface.
   engine layer as a reusable package: the host seam, one dispatch and one
   validation door, host-owned preference and package-owned resolution, the
   route wrapper, compare-by-ear, and a shared per-user engine home.
+- [speech-ready-text](./techniques/speech-ready-text.md) — display text to
+  speakable text: the markup door, what not to expand, prosody that travels
+  (punctuation), chunk boundary rules and sizes, chunks as one utterance with
+  one verdict.

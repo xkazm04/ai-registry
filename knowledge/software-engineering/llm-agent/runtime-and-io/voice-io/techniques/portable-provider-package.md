@@ -61,11 +61,18 @@ character allowlist that keeps identifiers innocent when they become file
 paths or URL segments downstream, a language-tag shape check, a speed clamp.
 Adapters may then assume a bounded, sanitized request — which is what lets
 an adapter stay thirty lines of engine dialect instead of a second copy of
-the validation. The same door serializes local engines when the engine
-reloads its model per invocation: two concurrent calls double the latency
-and halve the memory headroom, and the door is the only place that knows
-which adapters have that physics (declared as a capability, never inferred
-from the adapter's name).
+the validation. The same door is where local engines are serialized — and
+the honest framing is that this is a **processor-budget choice, not a
+correctness rule**: two CPU syntheses at once each run at half speed, so a
+small concurrency bound is right whether the engine is spawned per call or
+kept resident. Spawning per call pays the model load (seconds for a
+several-hundred-megabyte model) on every utterance; the engines that matter
+all offer a resident mode — a long-lived process fed sentences on its
+input, or an in-process binding that loads once and renders per sentence
+with a callback — and a package that cares about time-to-first-audio
+locally moves to one of those, keeping the bound. The door is the only
+place that knows which adapters have that physics (declared as a
+capability, never inferred from the adapter's name).
 
 ## Preference is the host's, resolution is the package's
 
@@ -129,12 +136,22 @@ Quality claims about synthesis engines do not survive contact with a user's
 own language and use. A package worth reusing therefore ships the compare
 affordance as a first-class surface, not a lab hack: every allowed engine
 with its probe state, one sentence in the user's language, spoken by the
-engine they pick, with who-served-it and latency printed. Two rules keep it
+engine they pick, with who-served-it and latency printed. Three rules keep it
 honest. Engines that are not ready are shown disabled **with their reason
 and next step** — the compare surface doubles as the install diagnostic, and
 hiding an absent engine hides the fact that it could be installed. And the
 surface is gated to the audiences who choose engines: a candidate, a guest,
 an end user on a team deployment never sees a provider name.
+
+A third rule makes the comparison worth anything: **like for like**.
+Listeners in formal tests identify a lossy-compressed clip against an
+uncompressed one by the codec alone, and a louder clip is rated better
+regardless of voice — so an engine returning compressed audio is asked for
+raw samples and wrapped into the same container the local engines produce,
+sample rates are stated next to the clip, leading silence is trimmed, and
+where the product goes further it loudness-normalizes and randomizes the
+order. A compare that measures the codec or the gain has decided nothing
+about the voice.
 
 ## Sharing local engines across apps
 

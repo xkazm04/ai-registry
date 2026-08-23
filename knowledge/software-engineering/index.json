@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 143,
-  "techniques": 899,
+  "techniques": 900,
   "applications": 391,
   "laws": 12,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "899/899",
+  "use_when_coverage": "900/900",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16052,6 +16052,20 @@
      ]
     },
     {
+     "slug": "speech-ready-text",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an assistant reply is about to be spoken aloud",
+      "the voice reads asterisks or a URL character by character",
+      "choosing where to cut streamed text into synthesis chunks"
+     ]
+    },
+    {
      "slug": "spoken-intent-parsing",
      "status": "forged",
      "laws": [
@@ -17767,6 +17781,7 @@
     "usage-analytics/sink-abstraction",
     "versioning-snapshots/snapshot-scope",
     "voice-io/engine-abstraction",
+    "voice-io/speech-ready-text",
     "voice-io/spoken-intent-parsing",
     "web-scraping/extraction-rule-dsl",
     "web-scraping/llm-assisted-rule-authoring",
@@ -18212,7 +18227,8 @@
     "credential-vault/token-refresh-lifecycle",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
-    "voice-io/portable-provider-package"
+    "voice-io/portable-provider-package",
+    "voice-io/speech-ready-text"
    ]
   },
   "derivation-names-recomputation": {
