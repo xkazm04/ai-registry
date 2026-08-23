@@ -41,3 +41,7 @@ a template-literal type.
   deviation pair for a future node--handoff-payload-contracts.
 - Task path as human-readable chain identity + child telemetry nested under
   the delegate span -> chain-identity-and-rollup.
+
+## Applied to the technique layer
+
+- 2026-08-23-1: **the guard covers every chaining mechanism** (one-mechanism family) applied to `cycle-and-depth-guards` ([[2026-08-23-1]]).

@@ -37,3 +37,4 @@ v8's restructured monorepo has no client-side dataloader.
 ## Applied to the technique layer
 
 - 2026-08-22-3: **shape is not transactional state** applied to `transactions-and-units-of-work` ([[2026-08-22-3]]).
+- 2026-08-23-1: **once, or twice in agreement** (one-mechanism family) applied to `transactions-and-units-of-work` ([[2026-08-23-1]]).

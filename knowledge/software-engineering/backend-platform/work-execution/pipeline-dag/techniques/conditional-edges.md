@@ -47,6 +47,16 @@ evaluators are two dialects; they agree until the first nested-field access
 or type coercion difference, and then the preview lies about what the run
 will do — the most trust-destroying bug a branching UI can have.
 
+The subtler arrival of the same defect is a second *mechanism*: a per-node
+guard and a join expression, grown in different releases, each with its own
+expression language, its own coercion table, and its own record fidelity —
+one persisting the evaluated expression with its operands, the other a bare
+constant. A mature engine can legitimately carry both shapes; what it cannot
+carry is both *vocabularies*. The mechanisms share the evaluator, the
+operator set, and the branch-record format, or the author who learned one is
+silently wrong about the other — the same rule wherever one concern grows a
+second implementation.
+
 ## Unevaluable is not false
 
 Evaluation has **three** outcomes, not two: *fired*, *not fired*, and

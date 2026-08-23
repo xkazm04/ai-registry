@@ -33,3 +33,7 @@ the boolean over a closed result vocabulary.
   status vocabulary, a strong future go application.
 - Suspended-node special-casing at shutdown/deadline -> pause-and-gate-nodes
   lead for a future worker.
+
+## Applied to the technique layer
+
+- 2026-08-23-1: **a second mechanism shares the vocabulary** (one-mechanism family) applied to `conditional-edges` ([[2026-08-23-1]]).

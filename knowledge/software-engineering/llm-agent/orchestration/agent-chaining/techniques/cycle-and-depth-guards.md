@@ -118,6 +118,15 @@ legitimate thing the user usually wanted.
 - Depth lives in machinery-stamped provenance; participants cannot write it.
 - One enforcement point: the handoff decision. No handoff bypasses it, and
   the check runs before any downstream cost is incurred.
+- **The guard covers every chaining mechanism the product ships.** Chaining
+  rarely exists once: a drawn flow that calls another flow, and an agent
+  that delegates to a sub-agent, are two continuation paths in one product.
+  A hard bound on one and nothing on the other is half a guard — the loop
+  moves to the unguarded path, and the author who audited the capped
+  mechanism is silently wrong about the sibling. Each mechanism names its
+  own bound, or shares one; what never happens is one-capped-one-unbounded
+  by omission — the same rule wherever one concern grows a second
+  implementation.
 - Guard trips are typed stops with the tripped bound named — visible in the
   chain's record and in the authoring surface, because the person who drew
   the loop is the person who can fix it.

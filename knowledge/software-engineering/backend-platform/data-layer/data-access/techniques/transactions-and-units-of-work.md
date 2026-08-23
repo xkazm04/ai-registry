@@ -67,6 +67,20 @@ What does not work: detecting ambient state by side channel and silently
 skipping the begin — unless the *commit* is skipped symmetrically and
 failure semantics are re-examined, this converts "my operation is atomic"
 into "my operation is atomic sometimes", the worst kind of true statement.
+And the boundary itself must exist **once, or twice in agreement**. The
+drift never arrives as a rewrite; it arrives as a convenience — a small
+second wrapper for one subsystem's mutations, "just" begin-run-commit,
+written beside the real boundary rather than through it. The second wrapper
+starts equivalent and stops being so silently: it loses the error-cause
+chaining, pools the connection the real boundary would have evicted, guards
+with a shape check where the real one carries a type. Nobody chooses the
+weaker semantics; they accrue, because every improvement lands in the
+implementation its author knows about. When a subsystem genuinely needs its
+own wrapper, the wrapper delegates to the shared boundary or the two are
+tested against each other — the same discipline wherever one concern grows
+a second implementation, and in every sighting the second copy was where
+the guarantees quietly died.
+
 The subtler version of the same defect is **discriminating ambient state
 by shape** — deciding "we are already inside a transaction" because the
 handle lacks a `begin`, or because it has the methods a transaction would
