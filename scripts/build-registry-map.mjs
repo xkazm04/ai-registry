@@ -18,12 +18,15 @@
  *
  * ## Deterministic, and only as clever as it can justify
  *
- * Matching is scored, not guessed: an IDF-weighted overlap between a context's own words
- * (name, business feature, description, keywords, path segments, api surface, tables) and a
- * subject's identity (its slug, its techniques' slugs, and every technique's `use_when` -
- * the field written to be matched on). A token that appears in half the corpus carries
- * almost no weight; a rare one carries most of the score. Every emitted pair reports the
- * tokens that earned it, so a wrong match is visible rather than mysterious.
+ * Matching is scored, not guessed: a doubly-IDF-weighted overlap between a context's own
+ * words (name, business feature, description, keywords, path segments, api surface, tables)
+ * and a subject's identity (its slug, its techniques' slugs, and every technique's
+ * `use_when` - the field written to be matched on). A token counts only when it is
+ * distinctive on BOTH sides: rare among the corpus's subjects AND rare among this project's
+ * contexts. One-sided weighting is not a detail - measured, it put `test-harness` on 63% of
+ * one project's contexts, because every context's file list carries `*.test.ts` and `test`
+ * is rare among subjects while being near-universal among contexts. Every emitted pair
+ * reports the tokens that earned it, so a wrong match is visible rather than mysterious.
  *
  * Judgment stays out of here. Whether a context actually CONFORMS cannot be computed from
  * words - it needs someone to read the code against the technique - so this script never
@@ -190,10 +193,22 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   const N = subjects.length;
   const idf = (t) => Math.log((N + 1) / ((df.get(t) ?? 0) + 1)) + 1;
 
+  // The SECOND half of the same idea, and the join does not work without it. IDF over
+  // subjects asks "how distinctive is this token in the corpus"; it cannot see a token that
+  // is ubiquitous in the PROJECT. Every context's file list carries `*.test.ts`, so `test`
+  // is rare among subjects (high subject-idf) and near-universal among contexts - which put
+  // `test-harness` on 63% of one project's contexts as a top match. Weighting by both sides
+  // keeps a token only when it is distinctive in the corpus AND distinctive in the repo.
+  const bags = cm.contexts.map((c) => contextBag(c));
+  const cdf = new Map();
+  for (const b of bags) for (const t of b.keys()) cdf.set(t, (cdf.get(t) ?? 0) + 1);
+  const C = bags.length;
+  const cidf = (t) => Math.log((C + 1) / ((cdf.get(t) ?? 0) + 1)) + 1;
+
   const mapped = [];
   let unmatched = 0;
-  for (const c of cm.contexts) {
-    const cb = contextBag(c);
+  for (const [ci, c] of cm.contexts.entries()) {
+    const cb = bags[ci];
     const scored = [];
     for (const s of subjects) {
       let score = 0;
@@ -201,7 +216,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       for (const [t, w] of cb) {
         const sw = s.bag.get(t);
         if (!sw) continue;
-        const contribution = Math.sqrt(w * sw) * idf(t);
+        const contribution = Math.sqrt(w * sw) * idf(t) * cidf(t);
         score += contribution;
         hits.push([t, contribution]);
       }
