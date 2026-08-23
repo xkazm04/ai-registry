@@ -365,17 +365,17 @@
     },
     {
       "name": "spark",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:5dd825c7acf3da3b",
+      "contentHash": "sha256-n1:e9a02665c1c4136b",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:f194caf522eb2257",
+      "lessonsHash": "sha256-n1:3676891defdebf04",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -501,7 +501,7 @@
     "skills": 26,
     "practices": 2,
     "memory": 4,
-    "lessons": 36
+    "lessons": 37
   },
   "bundles": [
     {
@@ -554,7 +554,7 @@
       "techniques": 98,
       "applications": 47,
       "files": 166,
-      "contentHash": "sha256:831d573acac139a6"
+      "contentHash": "sha256:082db684ef1fee5a"
     },
     {
       "name": "media-generation",
@@ -589,11 +589,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 143,
-      "techniques": 900,
-      "applications": 391,
-      "files": 1439,
-      "contentHash": "sha256:454696543cd5e212"
+      "subjects": 146,
+      "techniques": 920,
+      "applications": 400,
+      "files": 1471,
+      "contentHash": "sha256:8465666957a1a635"
     }
   ]
 }

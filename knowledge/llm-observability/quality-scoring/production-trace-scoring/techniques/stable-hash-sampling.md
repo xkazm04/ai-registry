@@ -23,11 +23,21 @@ cycle) is wrong in ways that surface operationally, not statistically.
 ## The mechanism
 
 Sample membership is a **pure function of the trace's identity**: hash the
-trace id with a small, stable, dependency-free hash, and the trace is in
-the 1-in-N sample iff the hash falls in the 1/N bucket (hash mod N equals
-zero, or any fixed residue). Every input the decision needs travels with
-the candidate; no state is read, no coordination happens, no randomness is
-drawn.
+trace id with a small, stable, dependency-free hash, map the hash onto
+[0, 1), and admit the trace iff that value falls below the sampling rate.
+Every input the decision needs travels with the candidate; no state is
+read, no coordination happens, no randomness is drawn.
+
+The threshold form is the mechanism, not a stylistic choice. Because every
+trace's hash value is fixed, the admitted sets **nest** as the rate rises:
+raising 5% to 10% only *adds* traces, and every verdict already paid for
+stays in the sample. The tempting variant — hash mod N equals zero, or any
+fixed residue — loses exactly this: the residue classes of different
+moduli are not subsets of one another, so changing N re-draws the
+population and re-buys a sample's worth of verdicts, the same failure
+"reproducible across releases" below exists to prevent, reached through
+configuration instead of a toolchain. Mod-N is acceptable only where the
+rate is a constant that genuinely never moves.
 
 Three properties fall out, and each one is load-bearing:
 
@@ -56,9 +66,9 @@ Three properties fall out, and each one is load-bearing:
   membership to payload mutation (a late span changes the decision) and to
   payload size (hashing megabytes per candidate). Identity is minted once
   and immutable — the correct key by construction.
-- **N ≤ 1 means everything.** The degenerate configuration must judge every
-  trace, not divide by zero or judge none. Low-traffic deployments
-  legitimately run at 1.
+- **A rate of 1 means everything.** The degenerate configuration must judge
+  every trace, not divide by zero or judge none. Low-traffic deployments
+  legitimately run at the full rate.
 - **The sample decision is not the idempotency decision.** "In the sample"
   and "already scored" are independent gates composed in one predicate;
   keeping the composed predicate *pure* — all inputs passed in, no hidden

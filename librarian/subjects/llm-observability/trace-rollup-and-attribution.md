@@ -14,7 +14,7 @@ First touch: [[2026-08-23-6]], external reconcile against `Arize-ai/phoenix`
 Executed evidence: cursor codec exec'd verbatim, a 6-trace keyset harness, a
 NULL-ordering probe.
 
-## Measured disproof, cycle-ready
+## Measured disproof - LANDED in cycle N1-a ([[2026-08-23-7]]): cursor-column direction constraint written into the technique
 
 - `keyset-trace-pagination` prescribes the trace's LATEST event time as the
   cursor column and calls the consequence a benign re-appearance. Executed:

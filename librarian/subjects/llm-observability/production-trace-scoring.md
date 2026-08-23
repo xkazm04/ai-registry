@@ -15,7 +15,7 @@ allows). Single-stack debt cleared. Executed evidence: transliterated
 harnesses reproduced the repo's own committed expectation value; n=100k
 nesting proof; quantization replay.
 
-## Measured disproof, cycle-ready
+## Measured disproof - LANDED in cycle N1-a ([[2026-08-23-7]]): threshold form written into the technique; mod-N demoted with the measured reason
 
 - `stable-hash-sampling` words the mechanism as "hash mod N". Measured on the
   same 100k ids: threshold-on-[0,1) nests (s(0.05) within s(0.10) within
