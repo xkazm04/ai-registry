@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.0.0
+version: 1.1.0
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -114,6 +114,26 @@ Update each evaluated pair in `.ai/registry-map.json`, in place, changing nothin
 - **Never rewrite the matching fields** (`score`, `why`, `confidence`) - those belong to the
   generator, and hand-edited derived values drift silently.
 
+**When the right subject is missing entirely, ADD it.** Lexical matching misses a subject
+whose vocabulary differs from the repo's, and it misses it *silently* - scoring zero looks
+identical to not existing. Measured on the first run: a context about "Provider
+Integrations" is governed by `connector-catalog`, which scored **nothing**, because the repo
+says provider/integration where the subject says connector/catalog/adapter. Five wrong
+subjects ranked above it.
+
+So a corrected pairing is a first-class output, written into the row as a new entry:
+
+```json
+{ "subject": "connector-catalog", "bundle": "software-engineering",
+  "source": "conform", "confidence": "strong", "state": "unknown",
+  "evidence": "added by /conform: the matcher scored this at zero; the repo's vocabulary differs from the subject's" }
+```
+
+`source: "conform"` is what makes it survive regeneration - the builder carries added pairs
+forward exactly like verdicts, because a pairing somebody established by reading code is
+worth more than one a token overlap produced. Add the pair, then judge it like any other
+(usually in the next run; establishing the pairing is enough for this one).
+
 Then land the findings where this repo already tracks work: deviations become backlog items
 with their subject slug and anchor. A deviation that lives only in a JSON file is a
 deviation nobody will fix.
@@ -137,8 +157,13 @@ Two outputs go **to the registry**, not into this repo, and a run that produces 
 done more good than one that only fixed code:
 
 - **Coverage questions** - the `weak` contexts, and any pair where the governing subject
-  turned out not to govern. Either the project should declare another domain, or the corpus
-  has a hole. Name it plainly: "nothing in the declared domains covers X".
+  turned out not to govern. Distinguish three outcomes, because they have different fixes:
+  the corpus has a **hole** (forge lead); the corpus has the subject but the **matcher
+  missed it** (add the pair, as above); or the match was a **technique-shaped resonance** -
+  the context genuinely realizes one technique's doctrine, but that technique lives inside a
+  subject whose stated precondition the context fails. The last is the subtle one and it has
+  a cheap test: **route by the subject's precondition, not by its vocabulary.** Ask what the
+  golden path says it is *about* before asking whether any of its words appear here.
 - **Upward lessons** - where this repo does something *better* than the technique describes,
   or where the technique's rule broke down against a real case. That is how the corpus got
   good; it is worth a proposal, and the application layer is where evidence with a real

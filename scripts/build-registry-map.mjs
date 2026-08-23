@@ -259,6 +259,14 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     const best = r.subjects[0]?.score ?? 0;
     r.governance = best >= medianTop * WEAK_FRACTION ? 'governed' : 'weak';
     if (r.governance === 'weak') weak += 1;
+    // `strong` is now relative to the leader AND to the project: a context whose own leader
+    // is below the project median has no strong pairs, only a best guess among weak ones.
+    // Without this, a context nothing matches well reports five "strong" subjects purely
+    // because they are all close to a low leader - which is how five wrong subjects came
+    // back strong for a context whose real governing subject scored zero.
+    for (const s of r.subjects) {
+      if (s.confidence === 'strong' && best < medianTop) s.confidence = 'probable';
+    }
   }
 
   // The inverse view: which contexts a subject governs. This is what makes a bundle change
@@ -273,11 +281,13 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   // Carry forward every verdict somebody paid to produce; a regenerated map must never
   // silently discard evaluation work just because the matcher re-ran.
   let carried = 0;
+  let restored = 0;
   if (prev) {
     const prevPairs = new Map();
     for (const r of prev.contexts ?? []) for (const s of r.subjects ?? []) {
-      if (s.state && s.state !== 'unknown') prevPairs.set(`${r.context}|${s.subject}`, s);
+      if ((s.state && s.state !== 'unknown') || s.source === 'conform') prevPairs.set(`${r.context}|${s.subject}`, s);
     }
+    const byContext = new Map(mapped.map((r) => [r.context, r]));
     for (const r of mapped) for (const s of r.subjects) {
       const old = prevPairs.get(`${r.context}|${s.subject}`);
       if (old) {
@@ -285,8 +295,26 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
         if (old.evidence) s.evidence = old.evidence;
         if (old.evaluatedAt) s.evaluatedAt = old.evaluatedAt;
         if (old.evaluatedAgainst) s.evaluatedAgainst = old.evaluatedAgainst;
+        if (old.source) s.source = old.source;
         carried += 1;
+        prevPairs.delete(`${r.context}|${s.subject}`);
       }
+    }
+    // Anything left is a pair the matcher did NOT produce this time but somebody paid to
+    // establish: a verdict on a pair that has since dropped out of the ranking, or - the
+    // important case - a pairing a `/conform` run ADDED because lexical matching missed it.
+    //
+    // It misses more than you would guess. Measured on the first real run: a context about
+    // "Provider Integrations" was correctly governed by `connector-catalog`, which the
+    // matcher scored at zero, because the repo says provider/integration where the subject
+    // says connector/catalog/adapter. Word overlap cannot see a concept living under a
+    // different name, so the map has to be able to learn one and keep it.
+    for (const [key, old] of prevPairs) {
+      const ctx = key.slice(0, key.lastIndexOf('|'));
+      const row = byContext.get(ctx);
+      if (!row) continue;
+      row.subjects.push({ ...old, source: old.source ?? 'retained' });
+      restored += 1;
     }
   }
 
@@ -306,6 +334,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       weaklyGoverned: weak,
       medianTopScore: Math.round(medianTop * 10) / 10,
       carriedVerdicts: carried,
+      restoredPairs: restored,
     },
     subjectIndex,
     contexts: mapped,

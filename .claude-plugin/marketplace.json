@@ -76,7 +76,7 @@
       "name": "conform",
       "source": "./skills/conform",
       "description": "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / no",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "ai-native",
       "tags": [
         "conformance",
