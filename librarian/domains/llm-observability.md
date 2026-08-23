@@ -27,6 +27,15 @@ Coverage note for the `llm-observability` bundle. Part of [[index]]; graded agai
 These are a record of this sweep, not an input to the next one. Recompute with
 `node scripts/librarian-scan.mjs --domain llm-observability`.
 
+[[2026-08-23-6]] - the first reconcile wave outside software-engineering, and
+the bundle's first touch by the lane: Phoenix, Langfuse, promptfoo,
+lm-evaluation-harness, MLPerf Inference and LiteLLM. All six single-stack
+debts cleared in one wave (python declared as the bundle's second extra
+stack); two measured disproofs of technique text queued cycle-ready; three
+upstream-reportable bugs; one law-confirming sighting (nullable-never-zero,
+LiteLLM's 0.0 coercion) and one lossy-branch sighting (MLPerf's silent
+division skip) for the cross-bundle family.
+
 ## What is owed
 
 - a second stack for 6 subject(s) - the transplant claim is untested at one

@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
   "techniques": 98,
-  "applications": 41,
+  "applications": 47,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -443,6 +443,12 @@
    ],
    "applications": [
     {
+     "stack": "python",
+     "technique": "target-matrix-runs",
+     "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/python--target-matrix-runs.md",
+     "verified_on": "2026-08-23"
+    },
+    {
      "stack": "rust",
      "technique": "budget-preflight-and-ceiling",
      "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--budget-preflight-and-ceiling.md",
@@ -550,6 +556,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "python",
+     "technique": "fixed-task-vocabulary",
+     "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/python--fixed-task-vocabulary.md",
+     "verified_on": "2026-08-23"
+    },
     {
      "stack": "rust",
      "technique": "bounded-contributor-influence",
@@ -1084,6 +1096,12 @@
    ],
    "applications": [
     {
+     "stack": "python",
+     "technique": "cogs-by-construction",
+     "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/applications/python--cogs-by-construction.md",
+     "verified_on": "2026-08-23"
+    },
+    {
      "stack": "rust",
      "technique": "pricing-what-if-simulation",
      "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/applications/rust--pricing-what-if-simulation.md",
@@ -1398,6 +1416,12 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "stable-hash-sampling",
+     "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/applications/node--stable-hash-sampling.md",
+     "verified_on": "2026-08-23"
+    },
+    {
      "stack": "rust",
      "technique": "drift-classified-rescoring",
      "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/applications/rust--drift-classified-rescoring.md",
@@ -1505,6 +1529,12 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "unverified-vs-regressed-exit-states",
+     "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/node--unverified-vs-regressed-exit-states.md",
+     "verified_on": "2026-08-23"
+    },
+    {
      "stack": "rust",
      "technique": "paired-per-case-testing",
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/rust--paired-per-case-testing.md",
@@ -1604,6 +1634,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "python",
+     "technique": "keyset-trace-pagination",
+     "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/python--keyset-trace-pagination.md",
+     "verified_on": "2026-08-23"
+    },
     {
      "stack": "rust",
      "technique": "derived-trace-rollup",

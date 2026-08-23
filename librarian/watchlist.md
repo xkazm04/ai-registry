@@ -60,6 +60,17 @@ Stack in parentheses; `zig`/`c`/`go` beyond the declared set would need
 | openzfs/zfs (c) | journal-and-durability-modes second c sighting, storage-accounting | reputed |
 | oven-sh/bun (zig/c++) | subprocess-lifecycle, streaming-output | reputed; stack question |
 
+### llm-observability counterparts (wave N1, [[2026-08-23-6]])
+
+| repo | subjects it could serve | grade |
+| --- | --- | --- |
+| Arize-ai/phoenix (python) | CONSUMED for trace-rollup-and-attribution | measured: L4/83, adoption 86, rigor 82 |
+| langfuse/langfuse (node) | CONSUMED for production-trace-scoring; trace-rollup second sighting banked | measured: L4/79, adoption 92, rigor 72 |
+| promptfoo/promptfoo (node) | CONSUMED for quality-regression-gating | measured: L4/77, adoption 53, rigor 89 |
+| EleutherAI/lm-evaluation-harness (python) | CONSUMED for cross-provider-benchmark-operations | measured: L3/46, adoption 18, rigor 61 - excellence-without-AI |
+| mlcommons/inference (python) | CONSUMED for federated-benchmark-sharing | measured: L3/56, adoption 45, rigor 61 |
+| BerriAI/litellm (python) | CONSUMED for margin-and-unit-economics (weak hint); cost-metering seam for software-engineering | measured: L4/77, adoption 68, rigor 81 |
+
 ## Standing rules for consuming this list
 
 - A wave consumes at most one entry per subject; the worker's evidence-first

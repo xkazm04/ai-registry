@@ -95,9 +95,9 @@
       "contentHash": "sha256-n1:636b88d25df773a2",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:9e99016505116dc1",
+      "lessonsHash": "sha256-n1:7224bc236d7efe57",
       "usageContributors": []
     },
     {
@@ -501,7 +501,7 @@
     "skills": 26,
     "practices": 2,
     "memory": 4,
-    "lessons": 35
+    "lessons": 36
   },
   "bundles": [
     {
@@ -552,9 +552,9 @@
       "purity": "software",
       "subjects": 16,
       "techniques": 98,
-      "applications": 41,
-      "files": 160,
-      "contentHash": "sha256:56071585c756d687"
+      "applications": 47,
+      "files": 166,
+      "contentHash": "sha256:831d573acac139a6"
     },
     {
       "name": "media-generation",
@@ -564,10 +564,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 14,
-      "techniques": 84,
-      "applications": 32,
-      "files": 135,
-      "contentHash": "sha256:e9c2b2c9f86b4264"
+      "techniques": 86,
+      "applications": 33,
+      "files": 138,
+      "contentHash": "sha256:8cec531eaaa82d94"
     },
     {
       "name": "recruiting",
