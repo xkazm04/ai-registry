@@ -26,6 +26,7 @@ when the run ends. A note quotes an anchor, never a corpus.
 
 | Date | Source | Kind | Words | Extracted | Accepted | Leads | Caught | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-23 | `youtube:NUK_TBz46dM` - "Turn Claude Into A Web Design Genius in 3 Steps" | practitioner-deep-dive (technique demo) | 4037 | 6 | 1 | 0 | 5 | [[2026-08-23-seedance-web-design]] - mined under `/deepen`; one technique on `review-iteration-loops`, five catches, one corpus contradiction |
 | 2026-08-22 | `repo:onecli/onecli` @ ff7a192 | practitioner-codebase | n/a | 10 | 7 | 0 | 3 | [[2026-08-22-onecli-repo]] - three new techniques, two amendments, two applications |
 | 2026-08-22 | `web:linear.app/data` - "How teams build (Edition 01)" | vendor-telemetry-report | 4613 | 7 | 0 | 0 | 0 | [[2026-08-22-linear-how-teams-build]] - none picked; class characterised, 7 untriaged |
 | 2026-08-22 | `web:pinglin.tw` - "The Shapes of Agent Memory" | first-party-empirical-study | 13767 | 12 | 6 | 1 | 2 | [[2026-08-22-shapes-of-agent-memory]] - five amendments across agent-memory + eval-harness |
@@ -66,6 +67,34 @@ A feature demo shows the solution and hides the problem; a release walkthrough s
 
 Also confirmed across both: no corroboration fetch was needed in either run. The 3-fetch
 budget binds on second-hand surveys and never on this class.
+
+**First-party practitioner deep-dive, third observation (2026-08-23) - the failure mode
+finally showed itself, and the yield profile against a MATURE bundle is different.** The
+first two observations inferred the class's weakness from its structure; this one caught
+it in the act. A device rule ("if it is a mobile user, serve the still instead of the
+video") was stated with total confidence and is the named wrong answer in a subject the
+corpus already carries, which requires the page's own measured frame cost rather than a
+declaration the device makes about itself. That is precisely the shape the row predicts:
+a general recommendation inferred from one system where it happened to work.
+
+The yield profile is the other half. Five of six candidates were already covered - and in
+four of those the corpus was not tied but strictly better hedged, holding the same rule
+*with its condition attached* (a rights rule, a four-rung ladder, a measurement instead of
+a guess). Against a mature bundle this class should be expected to produce catches, not
+content, and **a catch is worth recording with the hedge that beat it**, because the hedge
+is the reusable argument for the layer contract. Fetch budget was touched for the first
+time in this class - not to corroborate what the practitioner did, which still needs no
+lane, but to check a claim they made about generation in general.
+
+**Cross-class, second sighting: the candidate a source explains badly is the one worth
+the budget.** The 2026-08-21 roundup named a real gap and inverted the rule for filling
+it; this practitioner named a real gap (no divergence phase before the review loop) and
+inverted its mechanism, calling for more amplitude where the literature says amplitude is
+the lever measured not to work. Both runs' single accepted finding came from their single
+badly-explained candidate, while every correctly-stated claim was already owned. The
+provisional reading, one sighting short of a rule: **a claim a source gets right is a
+claim the corpus probably already has**, so the corroboration budget belongs on the
+claims that sound wrong rather than on the ones that sound right.
 
 **First-party practitioner deep-dive, first observation (2026-08-22).** Its authority
 maps onto the layer contract almost exactly: strong evidence for the SHAPE of a
