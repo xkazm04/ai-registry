@@ -69,6 +69,11 @@ trees (restic, n8n's agent module). Twenty-five single-stack debts cleared
 across seven runs; the one-mechanism-or-two-that-agree family reached three
 sightings.
 
+[[2026-08-23-2]] - the seventh reconcile wave: Floating UI, TanStack Form,
+Vega-Lite and OpenMeter. Twenty-nine single-stack debts cleared across eight
+runs; a measured double-submit bug found in a current release; the
+lossy-branch-carries-a-counter family recognized at three sightings.
+
 ## What is owed
 
 - a second stack for the ~44 single-stack subjects the last scan showed - the

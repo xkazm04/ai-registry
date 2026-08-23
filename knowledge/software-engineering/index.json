@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 143,
   "techniques": 898,
-  "applications": 386,
+  "applications": 390,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -3562,6 +3562,12 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "spend-attribution",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--spend-attribution.md",
+     "verified_on": "2026-08-23"
+    },
+    {
      "stack": "rust",
      "technique": "budget-enforcement",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/rust--budget-enforcement.md",
@@ -4003,6 +4009,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "scale-and-axis-design",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/node--scale-and-axis-design.md",
+     "verified_on": "2026-08-23"
+    },
     {
      "stack": "react",
      "technique": "chart-loading-economics",
@@ -6399,6 +6411,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "submit-lifecycle",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/form/applications/node--submit-lifecycle.md",
+     "verified_on": "2026-08-23"
+    },
     {
      "stack": "react",
      "technique": "field-composition",
@@ -8938,6 +8956,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "anchored-positioning",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/applications/node--anchored-positioning.md",
+     "verified_on": "2026-08-23"
+    },
     {
      "stack": "react",
      "technique": "destructive-confirmation",

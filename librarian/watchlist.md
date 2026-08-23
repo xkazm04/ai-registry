@@ -36,6 +36,7 @@ Verified by scanning; high adoption expected. Sorted by expected signal.
 | posthog/posthog | reputed | publicly aggressive AI-assisted engineering culture; scan to verify |
 | cal-com/cal.com | reputed | same class; scan to verify |
 | n8n-io/n8n | measured: L5/89, adoption 92 - the register's #1 (consumed for agent-chaining, [[2026-08-22-11]]) | workflow automation, heavily agent-flavored |
+| openmeterio/openmeter | measured: L4/71, adoption 66 (consumed for cost-metering, [[2026-08-23-2]]) | usage metering; the commercial-infra-velocity pattern |
 | ghostty-org/ghostty | reputed | Mitchell Hashimoto's tree; publicly documented agent-assisted workflow (zig - stack would need declaring) |
 
 ## Track B - mastery candidates (external-reconcile lane)
