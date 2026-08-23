@@ -51,6 +51,7 @@ docs/rkb-profile.md       # the knowledge lane's format spec (an OKF profile)
 docs/skills-lane.md       # the skills lane's format spec: shape, sub-resources, versions, distribution, resolution
 docs/usage-lane.md        # the usage lane's format spec + what may never go in it
 docs/signals-lane.md      # the signals lane's format spec: verdicts, never pointers
+docs/reconcile-brief.md   # the external-reconcile lane's contract, and how it extends past repositories
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
 scripts/check-skills.mjs  # the skills lane's gate: shape, sub-resources, the version-bump rule
 scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only privacy rule
