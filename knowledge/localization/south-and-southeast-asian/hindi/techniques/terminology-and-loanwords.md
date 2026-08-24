@@ -111,6 +111,17 @@ here, and the termbase should record noun and verb renderings as two rows.
 Collapsing a settled split (रन करें because the noun is रन) produces the stilted
 compound the light-verb rules warn about.
 
+## HI-GENPLURAL · settle each loanword's generic plural in the termbase
+
+> **Trigger** — a transliterated noun used as a generic, uncounted plural:
+> a section header, a group label — no count placeholder governs it.
+> **Rule** — per noun, record in the termbase whether the generic plural
+> carries the English -s (*टूल्स*) or stays bare (*ट्रिगर*, *कनेक्टर*), and
+> apply the recorded form everywhere. Either convention is defensible; the
+> split between near-identical constructions is the defect.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave; the
+> plural rule only governs CLDR-category-selected counted messages.
+
 ## When not to use this
 
 Product-specific term rulings — what THIS product calls its own features, which

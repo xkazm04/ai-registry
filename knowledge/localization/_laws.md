@@ -54,6 +54,19 @@ canonical rendering absent in target — matched on a diacritics-folded stem), b
 ruling on each candidate is judgment: most candidates are legitimate senses, not
 violations, and a scripted rewrite from this signal destroys correct distinctions.
 
+## <a id="identical-source-identical-target"></a>Identical source, identical target
+
+When the same source-language value appears verbatim under two or more keys — a
+mirror pair across sections, near-duplicate feature keys — the target value must be
+identical across all occurrences. This is the sentence-level extension of
+one-concept-one-rendering: that law governs a recurring term across different
+sentences; this one governs a duplicated sentence across keys, where the observed
+drift is worse — one copy correctly translated, its twin left in the source language
+or reworded to say something else entirely. The check is mechanical (group keys by
+source value, compare targets) and the fix usually is too: copy the reviewed
+rendering to the twin. Five languages surfaced this independently in one review wave;
+it is a property of how catalogs grow, not of any language.
+
 ## <a id="the-authority-is-a-hypothesis"></a>The authority is a hypothesis until counted
 
 Style authorities disagree with each other, and termbases drift from the catalogs they

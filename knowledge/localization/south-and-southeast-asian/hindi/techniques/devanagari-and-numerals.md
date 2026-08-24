@@ -104,6 +104,17 @@ cultural product) — and then as a recorded, surface-scoped ruling
 cuts both ways: if a product's shipped corpus has settled on Latin digits, a
 reviewer restoring ०-९ "for authenticity" is creating drift, not fixing it).
 
+## HI-NASALMARK · one nasalization mark per word, catalog-wide
+
+> **Trigger** — an -एँ/-एं honorific imperative or nasalized verb form
+> (*हटाएँ/हटाएं*, *दिखाएं/दिखाएँ* for the same verb).
+> **Rule** — pick one mark — candrabindu ँ or anusvara ं — per word and
+> hold it everywhere. Both are readable; the mix is what reads unedited.
+> Record the house pick in the termbase the first time it is made.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave; the
+> nukta rule covers loanword consonants, not vowel nasalization on native
+> verb endings.
+
 ## When not to use this
 
 These rules govern Devanagari mechanics, not vocabulary — whether a word should

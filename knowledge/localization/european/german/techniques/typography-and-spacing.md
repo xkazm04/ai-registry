@@ -102,6 +102,18 @@ layout-engine implications. Decimal comma and dot-grouped thousands
 (1.234,56 €) are real and locale-defining, but they live in runtime number
 formatting, never hardcoded into string values.
 
+## DE-UMLAUT · umlauts are real characters, never ASCII digraphs
+
+> **Trigger** — ae/oe/ue where the word requires ä/ö/ü (*Groesse*, *aendern*,
+> *fuer*, *auswaehlen*).
+> **Rule** — a rendered catalog always carries the precomposed characters
+> ä/ö/ü/Ä/Ö/Ü. The digraph substitution is a legacy ASCII-keyboard
+> convention and reads as broken, not informal. When one appears, sweep the
+> whole batch it arrived in — this defect ships in clusters from a single
+> machine or copy-paste pass, not as scattered typos.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave; the
+> ß/ss rule covers a different substitution and did not anchor this one.
+
 ## When not to use this
 
 Do not run the bulk fixes inside placeholders, code spans, or message-format

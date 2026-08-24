@@ -118,6 +118,19 @@ copied, not localized — the count itself is the audit.
   guillemets, a quoted sentence-start may capitalize — a fine point worth one
   recorded house ruling rather than per-string debate.
 
+## FR-ACCENT · restore dropped diacritics batch-wide, not word-by-word
+
+> **Trigger** — a run of otherwise-correct French missing its diacritics
+> (*Generer*, *icone*, *integree*, *reinitialiser*) — a batch signature,
+> not scattered noise.
+> **Rule** — a typography defect distinct from apostrophes and dashes:
+> restore every missing accent in the string against standard orthography,
+> then check the sibling strings from the same batch — accent loss ships in
+> clusters from one ASCII-limited pass.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave (an
+> 11-key cluster in one section); the capitalization rule only covered
+> accents surviving uppercase, not accents dropped from running text.
+
 ## When not to apply this
 
 Do not impose France-French spacing on Canadian French, which sets no space

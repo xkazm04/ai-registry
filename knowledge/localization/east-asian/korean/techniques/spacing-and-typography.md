@@ -100,6 +100,17 @@ the meaning. Line-wrap behavior (space-break vs. syllable-break) is a layout
 setting; translators do not insert manual breaks and never rely on a
 specific wrap point. Korean has no hyphenation.
 
+## KO-DASH · one dash convention, the real glyph
+
+> **Trigger** — the source uses an em dash (or ASCII `--` standing in for
+> one) and the Korean target flattens it to ASCII or renders it
+> inconsistently across sibling strings of the same pattern.
+> **Rule** — normalize to the real em dash — and hold one convention
+> catalog-wide, the same discipline the ellipsis rule applies to `…`.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave that
+> surfaced both a `--`→— flattening and a source-side split on the
+> identical sentence pattern; the Korean counterpart to ZH-DASH.
+
 ## When not to apply
 
 Long-form prose surfaces (documentation, release notes) may legitimately
