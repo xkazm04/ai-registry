@@ -124,6 +124,33 @@ Be honest about the cost: an upgrade moves the person's amendments out of the
 live document. That is a real loss, and the mitigation is that it is loud, rare,
 versioned and recoverable — not that it does not happen.
 
+### When two applications ship law to one self
+
+The same procedure has a multi-application form, and it is the one that breaks
+first, because each product's seeding code was written as though it were alone on
+the disk. When two surfaces share one brain root — one companion, one person, two
+domains — **the self-model and the memory stay singular and the constitution may
+not.** Each surface's law is the law of its own surface, and neither is entitled
+to impose it on the other.
+
+Three rules keep that from becoming a fight over one file. Seeding is
+**seed-if-absent and never overwrite**, so a constitution already on disk — the
+other application's, or the person's own amendments — survives a first run that
+did not expect it, and re-running the seed is a no-op that reports the brain that
+now stands. Each shipped baseline carries an **origin marker** alongside its
+version stamp, so *whose law is this* is answerable by reading a few bytes rather
+than by diffing prose against every product's template. And the marker's absence
+is read as **provenance, not authorship**: a constitution without your marker is
+one you did not write, which covers the other product's baseline and the person's
+hand-edited file equally, and that is the same verdict either way for every
+decision that consults it.
+
+A surface that needs its own law *in addition to* the shared one appends it at
+assembly time from its own package rather than writing it into the person's file.
+Contracts belonging to a surface — its output format, its available actions, its
+tone for that medium — are surface law and never durable law; writing them to
+disk makes one product's rendering details binding on the other.
+
 ## Law that does not fit in the context it governs
 
 A long-lived constitution grows, and past a certain size it no longer fits in the

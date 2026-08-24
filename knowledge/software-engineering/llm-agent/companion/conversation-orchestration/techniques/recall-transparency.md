@@ -6,7 +6,7 @@ technique: recall-transparency
 status: forged
 laws: [count-carries-predicate, unknown-is-not-a-value]
 shared_with: []
-use_when: [a companion answers from memory the user cannot see, a grounding badge that cannot be opened, deciding what a turn will be remembered as]
+use_when: [a companion answers from memory the user cannot see, a grounding badge that cannot be opened, deciding what a turn will be remembered as, a recall strip that quotes the user's own words back at them]
 ---
 
 # Recall transparency
@@ -46,6 +46,81 @@ naming what was pulled into context. Its rules:
 - **It is quiet.** This is disclosure, not content. A recall strip that competes
   with the conversation for attention gets collapsed by the user permanently,
   and a permanently collapsed disclosure discloses nothing.
+
+## Surfacing is a filter, and it is not the retrieval filter
+
+The naive strip renders whatever the retriever returned. It reads, on a live
+product, like this: *remembered: "Please prepare a digest of today's queue…"* —
+the user's own instruction, from four minutes ago, quoted back at them as though
+it were knowledge. Every such chip is a small withdrawal from the credibility of
+the feature, and a user who has seen three of them has learned that the strip
+means nothing.
+
+So a **surfacing pass** sits between what was retrieved and what is shown.
+**Storage is never filtered** — every item is written and indexed regardless,
+because the store is the substrate everything downstream is consolidated from,
+and narrowing it to what happens to look presentable corrupts it for every future
+turn. What this pass narrows is the showing, and it drops three things:
+
+- **Near-echoes of the current message.** An item whose text sits inside the
+  query, or whose tokens the query already largely carries, is the user's own
+  words returning. This is the dominant case rather than an edge one, because a
+  companion that records the incoming message as an item before retrieving has
+  just made it the closest thing in the index to itself. Compare
+  **directionally** — what fraction of the *item's* tokens the query already
+  carries, not the symmetric overlap — since a long query assembled from many
+  terms would otherwise dismiss its single most grounding memory as an echo of
+  itself.
+- **The user's own bare commands from the same day.** A request is a thing asked,
+  not a thing learned, and it grounds nothing when it comes back a minute later.
+  Two qualifications keep the rule from over-reaching. A command from *another*
+  day may legitimately ground the answer and simply is not worth a chip — a
+  different disposition from being excluded. And a sentence that *opens* like an
+  instruction while stating a standing preference ("always put the local roles
+  first") is a fact about the user, which is precisely the most valuable thing
+  the store holds; recognise those explicitly, or the filter deletes its own best
+  material.
+- **Anything with nothing insight-like in it.** The item still grounds the
+  answer; it contributes no chip.
+
+Where the same predicate would also usefully narrow what is *injected* — an echo
+of the current message wastes recall budget as surely as it wastes a chip — that
+half of the decision belongs to the memory subject's injection stage and is
+stated there. This technique owns the window, and a surfacing pass that quietly
+becomes the retrieval policy has crossed the line described at the end of this
+file.
+
+## A chip reports an insight, not an excerpt
+
+What survives is not shown raw. Each surviving item yields **one short derived
+sentence** — its first sentence, stripped of role prefixes and markup, capped at
+roughly a line — and that is what the chip prints. Derive it **mechanically,
+inside the same turn**: a chip that costs a second model call is a chip that gets
+switched off the first time latency is measured, and the summary that would buy is
+not worth a round trip.
+
+Cap the strip at about two chips. The disclosure competes with the answer for the
+same attention, and the third chip is where a user starts reading past the whole
+row.
+
+**When nothing insight-like was used, show nothing.** An empty strip is the
+honest rendering of a turn that recalled things which taught the reader nothing
+new, and it is a different claim from the turn that recalled nothing at all —
+which the section above already separates from the turn whose recall record was
+lost. Padding the strip so it is never empty converts a signal into furniture.
+
+Note the asymmetry with the prompt, which is deliberate. The **instruction** tells
+the model to weave a memory into the prose as one natural sentence — *"yesterday
+this queue was 16"* — and never to block-quote the past back at the user, because
+recalled text reproduced verbatim inside an answer reads as a machine reciting a
+log. The **chip** is the audit trail for exactly that: it names what was used so
+the woven sentence can be checked, which is why it may be terse where the prose
+must be natural.
+
+One consequence of shipping this after the fact: turns recorded before the derived
+insight existed carry none, and therefore correctly render no chip. Backfilling a
+raw excerpt into them to make the history look uniform would reintroduce the
+defect in the one place nobody would think to look for it again.
 
 ## The correction door
 
@@ -113,6 +188,15 @@ validation — all of which belong to the memory subject and are reached through
 its own doors. The test for a boundary violation is simple: if this surface
 computes anything about a memory beyond how to display it, it has reimplemented
 a slice of the store and will drift from it.
+
+The surfacing pass above sits exactly on that line. *Which* items are retrieved
+and injected — the tiers, the budgets, the ranking, the packing — is the memory
+subject's, and this technique does not own any of it; the pass owns only which of
+the items already chosen are worth showing, and how each is reduced to a line.
+Two symptoms tell you it has drifted across: it starts scoring items rather than
+formatting them, or it becomes the only place a retrieval rule is written down —
+at which point the memory subject has an injection policy it cannot see, living
+in a display component.
 
 ## When not to use this
 

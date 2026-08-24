@@ -3,12 +3,13 @@ layer: golden-path
 type: golden-path
 subject: conversation-orchestration
 status: forged
-use_when: [a companion turn runs for minutes with nothing on screen, deciding what the ambient presence may say versus the full chat, teaching a model to narrate its own progress, a companion that should show rather than tell]
+use_when: [a companion turn runs for minutes with nothing on screen, deciding what the ambient presence may say versus the full chat, teaching a model to narrate its own progress, a companion that should show rather than tell, a companion answers a comparison as a wall of prose]
 techniques:
   - progress-beat-grammar
   - narration-promote-on-finish
   - recall-transparency
   - model-proposed-quick-replies
+  - structured-visual-replies
   - two-surface-doctrine
   - show-dont-tell-walkthrough
   - layered-avatar-state-machine
@@ -50,6 +51,18 @@ machine-actionable artifacts from settled model text is the structured-output
 subject's, operating on the settled record by design; the live-tail line sieve
 below is deliberately *not* that pipeline, because one of them is allowed to be
 wrong about an incomplete input and the other is not.
+
+A third border runs through the transcript itself, and it is easiest to cross
+while adding tables. The transcript renders typed rows for things that
+**happened** — a tool invocation, an approval request, an error — each a record
+of an event carrying its own identity, its position in the turn, and sometimes a
+lifecycle; that is the transcript's inline structured rows and it belongs next
+door. This subject owns the structure a model **composed as its answer**: a
+table or a small chart it drew because prose is the wrong shape for three
+comparable things, together with the standing instruction that taught it to and
+the width the drawing is given. The rule for picking is whether the structure
+records something the runtime did or *is* the answer in a better shape — the
+first is a row in the document, the second was authored in the conversation.
 
 ## The model narrates itself, because the runtime cannot
 
@@ -107,6 +120,14 @@ disagree with both. Both directions are
 [recall-transparency](./techniques/recall-transparency.md); what is stored and
 consolidated is the memory subject's.
 
+Disclosure is also not a dump of what the retriever returned. A strip that
+prints the user's own instruction back at them — *remembered: "prepare today's
+digest"* — is worse than no strip, because it teaches the reader that the
+feature reports nothing. So what is *shown* is filtered where what is *injected*
+is not: near-echoes of the current message and the user's own same-day commands
+drop out, each survivor is reduced to one mechanically derived sentence, and a
+turn that recalled nothing worth saying shows nothing at all.
+
 ## Next moves are proposed, bounded, and never self-executing
 
 A turn that ends in an empty input box hands the orchestration back to the user.
@@ -120,6 +141,35 @@ proposed it and goes stale with it**. And chips are **an accelerator, never the
 only path**: a surface where the chips are the interface has replaced a
 conversation with a wizard. The grammar, the bounds and the staleness rule are
 [model-proposed-quick-replies](./techniques/model-proposed-quick-replies.md).
+
+## The shape of the answer is part of the answer
+
+A companion answers in a column beside the user's work, and the default register
+of a capable model — a full, balanced, well-organised essay — is wrong there in a
+way no amount of "be concise" fixes. The standing instruction therefore governs
+**shape as well as content**: lead with the answer in a sentence or two, keep
+paragraphs short, and when three or more comparable things *are* the answer, stop
+enumerating and draw them. The model composes a compact table or a small chart
+inside its own completion; the boundary parses it out, caps it against what the
+surface can actually render, and hands back the prose with the fence removed.
+
+That cap is where the technique lives, because it has to fail in two different
+directions. A structurally wrong block is dropped whole and counted, since a
+half-drawn chart is a lie with a picture attached; a merely over-long one is
+truncated and kept, since eight rows of a ten-row answer is still the answer and
+discarding it is the worse outcome. Nothing there may raise — the parse sits
+between the model and the user, and an exception costs the prose too.
+
+The drawing then gets a width rule of its own. Prose keeps the transcript's
+side-aligned bubble because a paragraph needs a ragged edge and an identity
+gutter to read as speech; a table inherits neither, and every pixel it returns to
+the gutter is a column it cannot show. So structures render full-bleed beneath
+the bubble they belong to, scaling with their container over an intact coordinate
+system, with a floor below which they stop shrinking and scroll instead —
+because an axis label under the product's minimum readable size is not a small
+label, it is an absent one. The register, the cap, the counted drops and the
+width contract are
+[structured-visual-replies](./techniques/structured-visual-replies.md).
 
 ## One companion, two surfaces, one routing rule
 
@@ -234,9 +284,13 @@ exposed as text somewhere, so "working" survives the loss of the animation.
 - [narration-promote-on-finish](./techniques/narration-promote-on-finish.md) — the
   idempotent write, the terminal paths, the derived summary.
 - [recall-transparency](./techniques/recall-transparency.md) — forward preview,
-  correction door, turn-summary chip.
+  the surfacing filter and the derived insight, correction door, turn-summary
+  chip.
 - [model-proposed-quick-replies](./techniques/model-proposed-quick-replies.md) —
   proposal grammar, bounds, send-never-execute, staleness.
+- [structured-visual-replies](./techniques/structured-visual-replies.md) —
+  register contract, block grammar, the drop/truncate cap, counted discards,
+  full-bleed width and the readable floor.
 - [two-surface-doctrine](./techniques/two-surface-doctrine.md) — routing rule,
   ambient content contract, numbered options and the reserved zero.
 - [show-dont-tell-walkthrough](./techniques/show-dont-tell-walkthrough.md) —
