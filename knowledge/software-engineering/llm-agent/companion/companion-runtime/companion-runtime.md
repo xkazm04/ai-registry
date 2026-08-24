@@ -151,7 +151,15 @@ approved; the approval machinery itself is
 extraction of a validated payload from model text is
 [structured-output](../../prompt-and-context/structured-output/structured-output.md)'s.
 What this subject insists on is that the envelope those two subjects pass between
-them has exactly one definition. And one more thing the post-mortem of every
+them has exactly one definition. That insistence has to survive a process
+boundary and a language boundary intact, because the component that teaches a
+model is very often not the component that executes: where they are separate, the
+catalog crosses **as data on every request** and the far side names no kind of its
+own, which turns a generation step into a serialization step and leaves the count
+of authorities at one. It also has to survive a deploy, since a proposal waits for
+a person while the catalog it was validated against is code that ships — so the
+same table is consulted again at acceptance, and a proposal whose kind the catalog
+has since dropped is retired rather than run. And one more thing the post-mortem of every
 model-composed surface eventually teaches: **anything the model can compose, a
 person must be able to reset in one action.** A surface with no reset is a
 surface whose worst generated state is permanent.
@@ -219,7 +227,10 @@ of
 [proactive-nudges](../../orchestration/proactive-nudges/proactive-nudges.md) —
 budgets, quiet windows, dedup, efficacy — get consulted. Two gates in series,
 not one: this subject decides whether there is anything to say, that subject
-decides whether now is the time to say it.
+decides whether now is the time to say it. The same first gate governs the
+quietest form a report takes — a standing count — with one addition that
+placement makes necessary: a number is worth raising only where the click it
+invites can clear it.
 [signal-economy-contract](./techniques/signal-economy-contract.md) owns the
 first gate.
 
@@ -264,8 +275,10 @@ than a second application.
 - **Turn logic inside a transport.** A companion whose second surface is a
   rewrite rather than an adapter.
 - **The five-copy vocabulary.** An action catalog written down separately for
-  the prompt, the validator, the executor, the document and the surface — and
-  the model-composed surface with no way back to a good state.
+  the prompt, the validator, the executor, the document and the surface — its
+  cross-process form, a second catalog kept beside the prompt because the prompt
+  lives in another language — and the model-composed surface with no way back to
+  a good state.
 - **The self-directed reorganizer.** A background cycle that restructures the
   companion's own knowledge without proposing it first.
 - **The narrating housekeeper.** Autonomous maintenance reported as news
@@ -284,7 +297,9 @@ than a second application.
   conversation; interruption as an outcome.
 - [action-catalog-single-source](./techniques/action-catalog-single-source.md) —
   one declaration of the action vocabulary and four derivations; validation
-  symmetry; read versus approval-gated mutation; the reset path.
+  symmetry; the catalog as wire data when the teacher and the executor are
+  different processes; read versus approval-gated mutation; the proposal that
+  outlives its catalog; the reset path.
 - [autonomous-cycle-hosting](./techniques/autonomous-cycle-hosting.md) — cycle
   admission, single-flight, non-overlap with live turns, declared ceilings,
   propose-only mutation classes, restart safety.
@@ -293,4 +308,5 @@ than a second application.
   reconstruction on boot; why merging them fails in both directions.
 - [signal-economy-contract](./techniques/signal-economy-contract.md) — the
   report-or-absorb decision every autonomous outcome makes, before any
-  attention policy is consulted.
+  attention policy is consulted; and the count surfaced only where its own
+  affordance can clear it.

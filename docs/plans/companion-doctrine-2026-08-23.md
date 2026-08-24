@@ -56,3 +56,12 @@ proved wrong or thin, the Phase 1 subjects (that is the design-cycle loop the op
 Phase 1 and 2 run in parallel (independent repos/branches). Phase 3 starts after 2c links
 spark into kp and Phase 1's rules are linked into kp (`knowledge.domains` already includes
 software-engineering, so the regenerated rule picks the subjects up automatically).
+
+## Deepen wave 2026-08-24 (kp transplant lessons) - law ledger
+
+Minted: none (consistent with the forge decision). Standing candidates with counts:
+- hand-parity-is-debt: 5 recurrences across 2 repos (forge 4 + kp positive sighting). Strongest candidate for the next wave.
+- observation-does-not-create (an inspection door must not have the side effect it inspects for): 3 sightings, all kp (probe vs ensure_brain; GET-must-not-birth; preview-finish persists nothing). Adjacent to gate-sees-target, distinct.
+- signal-names-its-clearing-affordance: 3 sightings, single repo - below bar.
+- truncation-safety-depends-on-the-reader: 2 sightings but a REAL unstated tension - structured-visual-replies prescribes truncation (human reader), recall-injection forbids it (model reader). The discriminator is the reader; an implementer meeting both will read a contradiction. Next wave should state the pair even if no law is minted.
+Cross-subject finding (unowned): "a derivation of code memoized on process lifetime outlives the code it derives from" (two kp stale-cache incidents) - derivation-names-recomputation territory, belongs to whatever subject owns deploy/process lifetime.

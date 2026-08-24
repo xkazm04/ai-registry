@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 147,
-  "techniques": 926,
-  "applications": 402,
+  "techniques": 928,
+  "applications": 407,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "926/926",
+  "use_when_coverage": "928/928",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3148,6 +3148,23 @@
      ]
     },
     {
+     "slug": "brain-adoption-consent",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second application finds a companion brain already on the machine",
+      "deciding whether an agent may read a memory it did not write",
+      "adding a consent gate to a memory that already has users",
+      "offering a companion that works with no memory at all"
+     ]
+    },
+    {
      "slug": "capability-exercise-ledger",
      "status": "forged",
      "laws": [
@@ -3204,7 +3221,8 @@
       "adding a second channel that speaks as the same agent",
       "scoping a memory store by conversation",
       "deciding whether tasks belong to conversations",
-      "the companion must stay reachable while its host is down"
+      "the companion must stay reachable while its host is down",
+      "a second application wants to speak as the same companion on the same machine"
      ]
     },
     {
@@ -3224,6 +3242,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "brain-adoption-consent",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/node--brain-adoption-consent.md",
+     "verified_on": "2026-08-24"
+    },
     {
      "stack": "rust",
      "technique": "anchored-identity-diffs",
@@ -3256,13 +3280,16 @@
      "laws": [
       "one-authority-per-vocabulary",
       "derivation-names-recomputation",
-      "one-validation-door"
+      "one-validation-door",
+      "gate-sees-target"
      ],
      "shared_with": [],
      "use_when": [
       "a companion is gaining the ability to act and not only talk",
       "the model emits an action kind nothing executes",
-      "a model-composed surface has no way back to a good state"
+      "a model-composed surface has no way back to a good state",
+      "the component that teaches the model does not share a process or a language with the one that executes",
+      "an accepted proposal must run against a catalog that has changed since it was made"
      ]
     },
     {
@@ -3351,11 +3378,24 @@
      "use_when": [
       "autonomous work is producing more announcements than value",
       "deciding whether a background outcome deserves a person's attention",
-      "a companion narrates its own housekeeping"
+      "a companion narrates its own housekeeping",
+      "deciding where a companion's pending count is surfaced"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "action-catalog-single-source",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/node--action-catalog-single-source.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "node",
+     "technique": "signal-economy-contract",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/node--signal-economy-contract.md",
+     "verified_on": "2026-08-24"
+    },
     {
      "stack": "rust",
      "technique": "action-catalog-single-source",
@@ -3888,7 +3928,8 @@
      "use_when": [
       "a companion answers from memory the user cannot see",
       "a grounding badge that cannot be opened",
-      "deciding what a turn will be remembered as"
+      "deciding what a turn will be remembered as",
+      "a recall strip that quotes the user's own words back at them"
      ]
     },
     {
@@ -3903,6 +3944,22 @@
       "a companion is asked where something is",
       "choosing between a dimming tour and a companion walkthrough",
       "a highlight ring drifts off its target"
+     ]
+    },
+    {
+     "slug": "structured-visual-replies",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a companion answers a comparison as a numbered paragraph",
+      "a model-drawn table wraps every cell in a narrow panel",
+      "a malformed block from the model breaks the whole reply",
+      "deciding how wide a rendering inside a conversation may be"
      ]
     },
     {
@@ -3922,10 +3979,23 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "structured-visual-replies",
+     "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/node--structured-visual-replies.md",
+     "verified_on": "2026-08-24"
+    },
+    {
      "stack": "react",
      "technique": "narration-promote-on-finish",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--narration-promote-on-finish.md",
      "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "react",
+     "technique": "structured-visual-replies",
+     "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--structured-visual-replies.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -17040,8 +17110,10 @@
     "codebase-scanning/rule-precision-discipline",
     "codegen/drift-gating",
     "codegen/trigger-wiring",
+    "companion-identity/brain-adoption-consent",
     "companion-identity/capability-exercise-ledger",
     "companion-identity/disk-truth-db-index",
+    "companion-runtime/action-catalog-single-source",
     "companion-runtime/host-seam-contracts",
     "companion-runtime/metered-llm-seam",
     "concurrency-guards/cross-process-exclusion",
@@ -17323,6 +17395,7 @@
     "codegen/generator-failure-isolation",
     "codegen/task-registry-design",
     "companion-identity/anchored-identity-diffs",
+    "companion-identity/brain-adoption-consent",
     "companion-identity/capability-exercise-ledger",
     "companion-runtime/autonomous-cycle-hosting",
     "companion-runtime/signal-economy-contract",
@@ -17338,6 +17411,7 @@
     "connector-catalog/matching-and-ranking",
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
+    "conversation-orchestration/structured-visual-replies",
     "cost-metering/usage-ledgers",
     "credential-vault/acquisition",
     "credential-vault/health-probing",
@@ -18187,6 +18261,7 @@
     "client-state/status-fsms",
     "client-state/store-slicing",
     "companion-identity/anchored-identity-diffs",
+    "companion-identity/brain-adoption-consent",
     "companion-identity/one-mind-many-mouths",
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/metered-llm-seam",
@@ -18554,6 +18629,7 @@
     "connector-catalog/schema-driven-forms",
     "conversation-orchestration/layered-avatar-state-machine",
     "conversation-orchestration/progress-beat-grammar",
+    "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
     "cost-metering/price-tables",
     "credential-vault/health-probing",
@@ -18935,11 +19011,13 @@
    "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
    "techniques": [
     "agent-instruction-files/instruction-freshness",
+    "companion-identity/brain-adoption-consent",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
     "conversation-orchestration/progress-beat-grammar",
     "conversation-orchestration/recall-transparency",
+    "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",

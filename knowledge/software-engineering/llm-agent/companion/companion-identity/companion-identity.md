@@ -3,13 +3,14 @@ layer: golden-path
 type: golden-path
 subject: companion-identity
 status: forged
-use_when: [designing a long-lived personal AI companion, deciding what an agent may change about itself, choosing where a companion's durable self lives on disk, letting an agent build a profile of its user, adding a second channel that speaks as the same agent]
+use_when: [designing a long-lived personal AI companion, deciding what an agent may change about itself, choosing where a companion's durable self lives on disk, letting an agent build a profile of its user, adding a second channel that speaks as the same agent, a second application finds a companion brain already on the machine]
 techniques:
   - constitution-self-model-split
   - anchored-identity-diffs
   - disk-truth-db-index
   - operator-profile-synthesis
   - one-mind-many-mouths
+  - brain-adoption-consent
   - capability-exercise-ledger
 ---
 
@@ -35,8 +36,9 @@ line between them and building the door in it.
 This subject owns that line and everything that follows from it: the two
 documents and their two authors, the grammar of a legal change to the mutable
 one, the substrate the whole self lives on and travels in, what the companion may
-believe about its person, the one mind behind many addresses, and the discipline
-of keeping its self-description honest about what it can actually do.
+believe about its person, the one mind behind many addresses, who may adopt a
+self that was already on the disk, and the discipline of keeping its
+self-description honest about what it can actually do.
 
 ## Where this subject stops
 
@@ -217,6 +219,37 @@ conversation in progress. [one-mind-many-mouths](./techniques/one-mind-many-mout
 owns the substrate's scoping rules, the second-door contract, and the
 orthogonality of conversations and work.
 
+## Finding a self that is already there
+
+Making the truth a folder has a consequence that only appears once a second
+product wants a companion on the same machine: it arrives to find one already
+standing, with a law, a written identity and a year of episodes it did not write.
+Whether it may use them is **a consent decision and not a detection**, and the
+naive reading — the brain is right there, and remembering is better than not
+remembering — is exactly the failure. The memory belongs to the person and was
+accumulated under a different roof.
+
+The structural obstacle is that the ordinary read path creates: every reader
+routed through a seed-if-absent function means that *looking* births the tree the
+question was about. So one door is exempt — a probe that creates nothing, opens
+no index, and treats an absent brain as an answer — and it reports only what the
+person needs in order to choose: whether a brain is present, roughly how much is
+in it, how much of a self is written down, and whose law it is running on. Then
+the question is asked plainly, in whichever of its three shapes this machine
+poses, and skipping is always free.
+
+Two rules keep the gate from being decorative. **Implicit consent comes only from
+your own writes** — a surface may treat its own prior episodes as an answer
+already given, and must never treat the mere existence of a brain that way, since
+a brain another product made is somebody else's mind. And **memoryless is a real
+mode, not a failure**: the companion still answers, still keeps its law from the
+shipped baseline, touches nothing on disk, and says in one quiet line that it is
+not remembering — because "it remembered nothing" and "it may not remember" are
+different facts and only one of them is fixable.
+[brain-adoption-consent](./techniques/brain-adoption-consent.md) owns the
+non-creating probe, the two arms of the rule, the refusal that stays refused, and
+the honest memoryless mode.
+
 ## Behaviour wins over documentation
 
 The last discipline is the one most often skipped, and it is the one that keeps
@@ -259,6 +292,9 @@ derivation, the exercise protocol, and the three-state ledger.
   from their own words, built by default and cited without evidence.
 - **Amnesia by channel** — one companion, several stores, remembering different
   things depending on which door you came in.
+- **The silently adopted mind** — a second application finding a self on the disk
+  and reading it, or writing into it, because it was there; or asking the
+  question with a probe that created the brain it was sent to ask about.
 - **The confident phantom capability** — a self-description promising something
   that stopped working long ago, because nothing ever compared the description to
   the behaviour.
@@ -280,6 +316,10 @@ derivation, the exercise protocol, and the three-state ledger.
 - [one-mind-many-mouths](./techniques/one-mind-many-mouths.md) — a single
   unscoped substrate, the second-door contract, conversations and tasks as
   orthogonal, and what survives the host being down.
+- [brain-adoption-consent](./techniques/brain-adoption-consent.md) — the probe
+  that creates nothing, the three shapes of the question, implicit consent from
+  your own writes only, why there is no stored refusal, and memoryless as a
+  first-class mode.
 - [capability-exercise-ledger](./techniques/capability-exercise-ledger.md) — the
   inventory derived from the permitted-action list, the exercise ritual, and the
   three-state record where unexercised is not a pass.
