@@ -40,7 +40,14 @@ Build the style block from the medium's own decision vocabulary:
    ("soft window light from the left", "golden-hour backlight"), micro
    texture ("skin pores, fabric weave"), and a capture-medium register
    ("shot on film") that carries tonal character. Structure: subject →
-   camera → light → scene.
+   camera → light → scene. One boundary, measured (2025–26, image and
+   video probes alike): the model reads the *register* of camera terms,
+   not their numbers — prompts differing only in f-stop render the same
+   depth of field, and stated focal lengths do not produce their optical
+   geometry. Name the effect ("shallow depth of field, background softly
+   defocused", "wide low-angle framing") and treat any numeric setting as
+   an impression word in a physics costume until the project's own
+   controlled pair proves it does work on the target model.
 2. **Painterly styles: technique nouns plus substrate.** The named moves of
    the medium ("impasto, visible brushstrokes, glazing" for oil;
    "wet-on-wet, soft washes, translucent layers" for watercolor) and the

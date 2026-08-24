@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 14,
   "techniques": 86,
-  "applications": 34,
+  "applications": 35,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -557,6 +557,12 @@
      "technique": "trial-matrix-design",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/node--trial-matrix-design.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "process",
+     "technique": "trial-matrix-design",
+     "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/process--trial-matrix-design.md",
+     "verified_on": "2026-08-24"
     },
     {
      "stack": "process",
