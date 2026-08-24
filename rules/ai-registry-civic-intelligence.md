@@ -1,6 +1,6 @@
 # Civic intelligence - the subjects this registry carries
 
-`civic-intelligence` - 15 subjects, 91 techniques, 34 applications.
+`civic-intelligence` - 15 subjects, 92 techniques, 35 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### parliamentary-data

@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 14,
   "techniques": 86,
-  "applications": 35,
+  "applications": 36,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -669,6 +669,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "non-silent-elimination",
+     "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--non-silent-elimination.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "node@20"
+    },
     {
      "stack": "node",
      "technique": "refusal-reroute-hop",

@@ -16,6 +16,7 @@ techniques:
   - prose-register-gates
   - groundedness-scoring-triage
   - human-review-doors
+  - whole-artifact-invariants
 ---
 
 # LLM forensic gating
@@ -130,6 +131,37 @@ to pending but never silently to published, and terminal rejections that stay
 terminal. Without that discipline, "a human reviewed it" is an unauditable
 assertion — exactly the kind this domain exists to eliminate.
 
+## Per-claim gates and whole-artifact invariants
+
+Every gate named so far takes a claim, a citation, an identifier or a string
+as its subject, and asks whether that thing is admissible. That is one class
+of check, and a pipeline can hold a complete set of it and still publish a
+false artifact — which has been measured, not merely feared: through four
+audit rounds over one batch, with schema, membership, reference and register
+gates all green, the shipped text carried an amount whose digits a rewrite had
+eaten, two fabricated quotations, and counts that did not sum. No claim in
+that artifact failed a claim-level rule, because the damage was not in any
+claim. It was in the *transformation*, and nothing in the stack had the
+transformation as its subject.
+
+The second class does. A **whole-artifact invariant** takes the text that went
+into a pass and the text that came out, and asserts a relation between them —
+the digits are the same multiset, the structural balance did not worsen, the
+stated counts still close against the payload, the quoted spans are still
+locatable in the source. It has no opinion about whether any sentence is
+admissible, and it catches defects no rule was written for, which is exactly
+what per-claim gates cannot do. The rule for picking is the subject of the
+question: if you are asking whether *this assertion* may stand, the answer is
+a per-claim gate and the answer generalizes badly; if you are asking whether
+*the artifact* survived being edited, it is an invariant, and it needs a
+before-and-after pair to be asked at all. The two run at different moments —
+per-claim gates at the door where a verdict enters the store, invariants
+inside whatever pass rewrites reader-facing text before it emits — and neither
+substitutes for the other in either direction. The four invariants, the
+relative framing that keeps the syntax check usable, and the allowlist design
+that keeps the digit check honest are
+[whole-artifact-invariants](./techniques/whole-artifact-invariants.md).
+
 ## Failure modes of the naive reading
 
 - **Trusting the instruction sheet.** The contract said "only cite real
@@ -149,6 +181,11 @@ assertion — exactly the kind this domain exists to eliminate.
   grow rule by rule, each from a measured leak — and each rule needs its
   incident, its verified allowlist, and its regression cases kept next to it,
   or the next tightening pass will re-break what the last one fixed.
+- **Reading a full green board as a verified artifact.** A complete set of
+  per-claim gates says every claim it knew how to inspect is admissible. It
+  says nothing about what a rewriting pass did to the text between them, and
+  the audit that keeps returning green over a false artifact is the signature
+  of a stack with only one class of check in it.
 - **Letting the machine's verdict leak into published copy.** A passing
   verdict is still only a lead. The published surface must say which review
   actually happened — machine review is not human review, and copy that blurs
@@ -170,3 +207,8 @@ third, probabilistic triage after the deterministic gates and before the
 door — never instead of either — human door last, and the
 whole stack must be re-runnable as one command over stored verdicts, because
 the gate you cannot re-run is a gate you cannot trust was ever run.
+Whole-artifact invariants sit outside that order rather than inside it: they
+run wherever a pass rewrites text that already exists, in the pass itself, and
+they are the only member of the stack whose subject is the artifact instead of
+a claim within it — which is why a board that is green on every other line can
+still be green over something false.

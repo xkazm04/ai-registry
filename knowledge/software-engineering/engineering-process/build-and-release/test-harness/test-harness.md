@@ -13,6 +13,7 @@ techniques:
   - flake-lifecycle
   - long-lane-certification
   - negative-control-tests
+  - out-of-graph-artifacts
 ---
 
 # Test harness architecture
@@ -58,6 +59,19 @@ most of the purchased parallelism idle. The check is one ratio (slowest worker
 over mean worker), the fix is longest-first assignment from retained timing
 history, and the trap is the test with no history yet. See
 [history-driven-partitioning](./techniques/history-driven-partitioning.md).
+
+Both questions assume the harness already knows the code exists. That
+assumption fails at one boundary: every whole-project command ranges over a
+**declared membership list**, not over the checkout, so a project the list
+omits is outside every green the command can produce. Detached packages —
+built for another target, published on another cadence, written in another
+language — leave the graph for sound packaging reasons and take their coverage
+with them, and when they depend on an in-graph library by path they stop
+compiling because something *else* changed, with a green board throughout. The
+inventory is taken from the artifact side (what does this project ship, and
+which gated root reaches each one), and the answer for a loadable artifact is
+not a compile but a load. See
+[out-of-graph-artifacts](./techniques/out-of-graph-artifacts.md).
 
 ## The fidelity ladder — and what each rung buys
 
@@ -212,3 +226,7 @@ a soak run misunderstands both; the design of these lanes is
   can fail before trusting it: choosing a mutation the system cannot absorb, and
   why a process-global crash handler installed for quiet makes a whole suite
   unfalsifiable.
+- [out-of-graph-artifacts](./techniques/out-of-graph-artifacts.md) — the gate's
+  population is the declared build graph, not the repository: taking the ship
+  inventory, gating a detached root, loading rather than compiling a plugin, and
+  the boundary against partitioning and liveness.

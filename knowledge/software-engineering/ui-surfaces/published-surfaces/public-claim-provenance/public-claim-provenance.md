@@ -11,6 +11,7 @@ techniques:
   - presentation-invariants-on-derived-values
   - promise-only-what-ships
   - degraded-never-claims-live
+  - provenance-as-a-build-gate
 ---
 
 # Public claim provenance
@@ -188,6 +189,34 @@ If a floor is wanted, it is a separate labelled component or it is absent. The
 state machine is
 [degraded-never-claims-live](./techniques/degraded-never-claims-live.md).
 
+## An invariant nothing enforces is a preference
+
+Everything above is asserted at runtime, at the site where a value is
+declared or rendered, by code somebody remembered to write. That leaves one
+gap, and it is the gap through which this subject's failures actually arrive:
+the value that was added to a page by an author who was not thinking about
+provenance at all, in a file where nothing existed to notice. No render-time
+invariant fires, because no render-time invariant was wired to a value nobody
+classified. The rule was in the style guide; the number is on the page.
+
+The answer is to move one of the invariants out of runtime and into the
+build — to make a rendered figure with no provenance marker in its file a
+failing check rather than a review comment. Doing that well is almost entirely
+a question of what the check is allowed to trigger on: a static rule cannot
+see "a claim", so it must trigger on positive evidence that a value is one,
+which in practice means it stands on a formatting chokepoint and fires on
+calls through it, in render position, and nowhere else. It sacrifices recall
+on purpose, because a rule that flags array indices is a rule somebody turns
+off, and an off rule is worse than none — it looks like protection. Its escape
+hatch has to cost something on the page rather than in the configuration, so
+that waiving the rule discloses the missing source to the reader instead of to
+the linter. And once the rules exist they are worth extracting from the
+repository that grew them, since the doctrine is more portable than the
+codebase: a self-contained plugin with per-rule documentation naming what an
+adopter must remap. The trigger design, the file-scoped satisfiers, the
+reader-visible waiver and the packaging are
+[provenance-as-a-build-gate](./techniques/provenance-as-a-build-gate.md).
+
 ## Where this subject sits
 
 [Measurement honesty](../../../engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md)
@@ -288,3 +317,7 @@ subject's rules govern whether the surface derived it or someone typed it.
 - [degraded-never-claims-live](./techniques/degraded-never-claims-live.md) —
   the closed load-state vocabulary, the badge as a claim, and the rule against
   blending seeded and derived values.
+- [provenance-as-a-build-gate](./techniques/provenance-as-a-build-gate.md) —
+  making an uncited figure fail the build: triggering on positive evidence
+  through a formatting chokepoint, file-scoped satisfiers, an escape hatch the
+  reader can see, and the doctrine packaged for adopters.

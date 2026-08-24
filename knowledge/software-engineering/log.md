@@ -2,6 +2,35 @@
 
 Audit trail (OKF reserved file). Public-safe by rule.
 
+## 2026-08-23 — chat-transcript: what a terminal transcript taught the web one
+
+Source mined: `xai-org/grok-build` (the `xai-grok-pager` ratatui crate), read
+while redesigning a messaging surface. It renders a transcript in a terminal,
+so it owns every mechanic a browser hands out for free — which made its
+choices unusually legible.
+
+Added:
+- `chat-transcript/composer-turn-queue` (new technique): submit-while-busy is
+  always accepted and resolved into queue / interject / cancel — three intents,
+  three code paths; queued rows carry identities and versions; consecutive
+  follow-ups combine into one turn while displaying as the rows typed; cancel
+  keeps the draft and every terminal outcome converges on one finalizer.
+- `transcript-scroll`: the page-flip with a pin reserve (a sent prompt lands
+  at the top; a phantom spacer makes that a legitimate bottom so follow mode
+  cannot clamp it back), and the two-anchor rule — content anchor for re-wrap,
+  identity anchor for structural change, the latter discarded if the user
+  scrolled between arming and consumption.
+- `markdown-and-code-rendering`: named the checkpoint mechanism behind
+  "settled blocks are inert" (freeze at top-level block boundaries, mint
+  identities only once frozen, defer parsing on replay).
+- Applications `rust--composer-turn-queue`, `rust--transcript-scroll` citing
+  grok-build by path.
+
+Declined: optimistic echo (already in `turn-model`); frozen-prefix rendering
+as a separate technique (already the "inert settled blocks" rule, so it became
+a paragraph, not a document); the wheel/trackpad physics, display-Hz probe and
+cell diffing, which are terminal facts with no browser counterpart.
+
 ## 2026-08-20 — Ascent wave: the assessment seam joins the builder-side bundle
 
 Source: a maturity-assessment product read at `6a5a5f68` — an app whose *use case*
@@ -392,3 +421,40 @@ b1069a0a, personas d5fe056a4; every diff Director-reviewed against the
 techniques. Fleet always-loaded floor ~59k → ~46k tokens; both claude-code
 applications carry a dated post-sync addendum. ascent and systedo-case needed
 nothing.
+## 2026-08-24 — secondary-machine harvest wave: six projects join as consumers and pay their way in
+
+The mkdol box registered six checkouts (gravity, goat, tracklight, pumper, grant,
+politicas) as registry consumers and harvested their strongest practices in one
+subject-disjoint wave. Landed here: `cost-metering/reversible-debit-and-settle`
+(technique + node application from grant; gravity's `node--budget-enforcement`
+beside it), `codebase-scanning/verify-after-generate` (technique + process
+application — a generator that succeeds and corrupts, from gravity's dated
+incident), `test-harness/out-of-graph-artifacts` (technique, a genuine two-repo
+sighting: tracklight's detached client crate and pumper's cdylib plugins) plus
+`rust--negative-control-tests` (pumper's standing CI mutation control),
+`quality-gates/blocking-by-input-determinism` (tracklight — grade a gate's right
+to block by the determinism of its input, with a written promotion trigger),
+`data-access/cross-driver-invariant-parity` (technique + node application from
+grant — constraint substitution flips a violation from refuse to absorb),
+`web-scraping/soak-mode-and-verdict-replay` (technique + rust application from
+pumper), `client-state/store-dependency-topology` (technique + react application
+from goat), `public-claim-provenance/provenance-as-a-build-gate` (technique +
+react application from politicas' extractable lint plugin), and
+`embedded-db/single-writer-holder-discipline` (technique + node application from
+politicas). The goat drag-drop sighting joined the existing
+`react--ownership-boundaries` file as a second realization (the profile cannot
+yet express two provenances in one application — a convention debt, recorded).
+
+Declined, deliberately: pumper's budget-enforcement realization —
+`rust--budget-enforcement` already exists (Personas), and the filename contract
+admits one file per stack × technique. Its transplantable half
+(visibility-as-enforcement) is a lead for an EXTENDS, not a duplicate.
+
+Watch item from goat, seen three times in one repo: correct machinery built,
+reviewed and merged while the two lines that invoke it were never written — the
+cycle assert with no importer, a 2,183-line virtualization library with zero
+importers, an unreachable second assign path. One repo is one sighting; a second
+repo makes it a technique.
+
+Gate green (`check-bundles.mjs`): 146 subjects · 930 techniques · 412
+applications; bundle integrity OK. Index, catalog and rules rebuilt in order.

@@ -6,6 +6,7 @@ status: forged
 techniques:
   - gate-laddering
   - severity-by-construction
+  - blocking-by-input-determinism
   - ratchet-design
   - gate-liveness
   - hook-hygiene
@@ -55,6 +56,28 @@ lesson was measured independently in
 [swallowed-error-prevention](../../../backend-platform/resilience/error-handling/techniques/swallowed-error-prevention.md):
 a rule that only warns, at gates that ignore warnings, enforces nothing at
 either commit or merge — by construction.
+
+## Whether a check may block turns on its input, not on its findings
+
+Severity by construction says what a label can actually do. The prior
+question is what label the check has *earned*, and the usual answer grades
+the findings — security is serious, style is cosmetic. The durable axis is
+the input: **a gate may block when its verdict is a function of the tree it
+is gating**, and must not when the same commit can be refused next month by
+something nobody here changed. A published advisory landing overnight
+against a transitive dependency walls the next unrelated change with a
+finding that is entirely true and in no way attributable to its author —
+the one class of correct refusal that still spends the team's trust. This
+also separates the two advisory statuses that wear the same label: a lint
+gate held back by the repository's own backlog is advisory *on a schedule*
+and must carry the promotion trigger that ends it, while a gate reading an
+external feed is advisory *permanently*, and its trigger is to split the
+invocation so the deterministic half blocks. Writing that trigger next to
+the gate is what keeps a non-blocking gate from becoming an optional guard
+by attrition ([absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud)).
+The axis, the split, the clock an externally-fed gate needs, and the
+boundary against ratchets are
+[blocking-by-input-determinism](./techniques/blocking-by-input-determinism.md).
 
 ## Gates are laddered by cost
 
@@ -305,6 +328,10 @@ is asked to refuse something.
 - [severity-by-construction](./techniques/severity-by-construction.md) —
   tracing what a severity level can actually fail; advisory feedback vs
   enforcement; escalation paths for new rules.
+- [blocking-by-input-determinism](./techniques/blocking-by-input-determinism.md)
+  — grading blocking status by whether the input moves with the tree,
+  debt-shaped vs input-shaped advisory, splitting a bundled invocation, and
+  the written promotion trigger.
 - [ratchet-design](./techniques/ratchet-design.md) — committed baselines,
   fail-on-rise and fail-on-silent-drop, reviewed re-baselining, and
   graduating to a ban.

@@ -34,16 +34,18 @@
     },
     {
       "name": "architect",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
-      "contentHash": "sha256-n1:24ed261a53eccd69",
+      "contentHash": "sha256-n1:596165a5e271c13b",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/architect/LESSONS.md",
+      "lessonsHash": "sha256-n1:945fb1233d7540a9",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -120,16 +122,18 @@
     },
     {
       "name": "explorer",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:a8a1a8c5f152c2d8",
+      "contentHash": "sha256-n1:3275eee91d0e56fa",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/explorer/LESSONS.md",
+      "lessonsHash": "sha256-n1:e2e17a07b15f7cc8",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -195,24 +199,26 @@
     },
     {
       "name": "leonardo",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "other",
       "path": "skills/leonardo/SKILL.md",
-      "contentHash": "sha256-n1:9973956a6cf54fde",
+      "contentHash": "sha256-n1:450bbaa61227496f",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 0,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/leonardo/LESSONS.md",
+      "lessonsHash": "sha256-n1:8438390dc517193a",
       "usageContributors": []
     },
     {
       "name": "motionize",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "other",
       "path": "skills/motionize/SKILL.md",
-      "contentHash": "sha256-n1:85c2ad7ee43eaeae",
+      "contentHash": "sha256-n1:b3a6d09fc35a6ae9",
       "adopters": [
         "kp@1.0",
         "personas@plugin:1.0.0"
@@ -309,18 +315,18 @@
     },
     {
       "name": "research",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
-      "contentHash": "sha256-n1:8f7ef8ae3f9bf193",
+      "contentHash": "sha256-n1:d0495b07fd71208b",
       "adopters": [
         "personas@plugin:1.5.0",
         "pof@1.7"
       ],
       "invokes30d": 20,
-      "lessons": 5,
+      "lessons": 6,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:63b6f47daf6a9c9d",
+      "lessonsHash": "sha256-n1:f9d183945fffb2d2",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -501,7 +507,7 @@
     "skills": 26,
     "practices": 2,
     "memory": 4,
-    "lessons": 40
+    "lessons": 44
   },
   "bundles": [
     {
@@ -512,10 +518,10 @@
       "profile": "rkb/0.1",
       "purity": "civic",
       "subjects": 15,
-      "techniques": 91,
-      "applications": 34,
-      "files": 145,
-      "contentHash": "sha256:4bc961b13f80bf7e"
+      "techniques": 92,
+      "applications": 35,
+      "files": 147,
+      "contentHash": "sha256:9b01db9efc4b9a82"
     },
     {
       "name": "game-production",
@@ -552,9 +558,9 @@
       "purity": "software",
       "subjects": 16,
       "techniques": 98,
-      "applications": 47,
-      "files": 166,
-      "contentHash": "sha256:082db684ef1fee5a"
+      "applications": 49,
+      "files": 168,
+      "contentHash": "sha256:39ec82d442a01e02"
     },
     {
       "name": "localization",
@@ -567,7 +573,7 @@
       "techniques": 78,
       "applications": 26,
       "files": 121,
-      "contentHash": "sha256:b56520a5d918d5ff"
+      "contentHash": "sha256:032e2316d4411967"
     },
     {
       "name": "media-generation",
@@ -578,9 +584,9 @@
       "purity": "media",
       "subjects": 14,
       "techniques": 86,
-      "applications": 34,
-      "files": 139,
-      "contentHash": "sha256:e27196b6d76386d1"
+      "applications": 36,
+      "files": 141,
+      "contentHash": "sha256:ca0e1f604f767690"
     },
     {
       "name": "recruiting",
@@ -603,10 +609,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 147,
-      "techniques": 926,
-      "applications": 402,
-      "files": 1480,
-      "contentHash": "sha256:777e8bb5f6cb97f5"
+      "techniques": 938,
+      "applications": 419,
+      "files": 1509,
+      "contentHash": "sha256:217a7fdff3879e58"
     }
   ]
 }

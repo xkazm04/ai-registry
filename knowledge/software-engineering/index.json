@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 147,
-  "techniques": 928,
-  "applications": 407,
+  "techniques": 938,
+  "applications": 419,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "928/928",
+  "use_when_coverage": "938/938",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2293,6 +2293,21 @@
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/chat-transcript.md",
    "techniques": [
     {
+     "slug": "composer-turn-queue",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the send control is disabled while a turn runs",
+      "a user types a follow-up mid-answer and loses it",
+      "deciding whether \"stop\" and \"say something now\" are the same button",
+      "two quick follow-ups produce two separate machine turns"
+     ]
+    },
+    {
      "slug": "inline-structured-rows",
      "status": "forged",
      "laws": [
@@ -2387,6 +2402,20 @@
      "technique": "turn-model",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/react--turn-model.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "composer-turn-queue",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/rust--composer-turn-queue.md",
+     "verified_on": "2026-08-23",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "transcript-scroll",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/rust--transcript-scroll.md",
+     "verified_on": "2026-08-23",
+     "verified_against": "rust@1.85"
     }
    ]
   },
@@ -2835,6 +2864,21 @@
      ]
     },
     {
+     "slug": "store-dependency-topology",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "module-scoped singletons must initialize in an order nobody wrote down",
+      "undefined values at startup that only reproduce under production bundling",
+      "a deferred import appears in order to break a cycle"
+     ]
+    },
+    {
      "slug": "store-slicing",
      "status": "forged",
      "laws": [
@@ -2867,6 +2911,13 @@
      "technique": "status-fsms",
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--status-fsms.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "store-dependency-topology",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--store-dependency-topology.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -2995,6 +3046,21 @@
       "deciding whether a rule may read during emission",
       "cap survivors change from run to run"
      ]
+    },
+    {
+     "slug": "verify-after-generate",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "deletion-is-not-repair",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model-driven generator succeeded and its artifact must be trusted",
+      "repairing a corrupted generated artifact without deleting the correct copy",
+      "the generator is unreachable and something changed anyway"
+     ]
     }
    ],
    "applications": [
@@ -3003,6 +3069,12 @@
      "technique": "rule-precision-discipline",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--rule-precision-discipline.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "process",
+     "technique": "verify-after-generate",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/process--verify-after-generate.md",
+     "verified_on": "2026-08-24"
     },
     {
      "stack": "react",
@@ -4061,6 +4133,21 @@
      ]
     },
     {
+     "slug": "reversible-debit-and-settle",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "debiting a caller's balance before the provider call rather than after",
+      "a cancelled request billed for work it never received",
+      "a retry of a refunded request running the paid call for free",
+      "refunding only the undelivered portion of a multi-part job"
+     ]
+    },
+    {
      "slug": "spend-attribution",
      "status": "forged",
      "laws": [
@@ -4110,6 +4197,20 @@
      "technique": "spend-attribution",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--spend-attribution.md",
      "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "node",
+     "technique": "budget-enforcement",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--budget-enforcement.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
+     "technique": "reversible-debit-and-settle",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--reversible-debit-and-settle.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "node@24"
     },
     {
      "stack": "rust",
@@ -4266,6 +4367,21 @@
      ]
     },
     {
+     "slug": "cross-driver-invariant-parity",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "putting a second storage backend behind one repository interface",
+      "an invariant is declarative in one engine and a convention in the other",
+      "deciding what a hand-written driver double must enforce"
+     ]
+    },
+    {
      "slug": "layering-rules",
      "status": "forged",
      "laws": [
@@ -4335,6 +4451,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "cross-driver-invariant-parity",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--cross-driver-invariant-parity.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "transactions-and-units-of-work",
@@ -5931,6 +6054,21 @@
      ]
     },
     {
+     "slug": "single-writer-holder-discipline",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a single-writer file store is reported corrupt",
+      "backing up a store directory the application holds open",
+      "test files that pass alone fail together",
+      "a script that opens the store never exits"
+     ]
+    },
+    {
      "slug": "storage-accounting-and-pruning",
      "status": "forged",
      "laws": [
@@ -5952,6 +6090,13 @@
      "technique": "journal-and-durability-modes",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/c--journal-and-durability-modes.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "single-writer-holder-discipline",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/node--single-writer-holder-discipline.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "node@24"
     },
     {
      "stack": "rust",
@@ -11703,6 +11848,20 @@
       "a surface advertises a capability that is planned",
       "deciding what to say after a form is submitted"
      ]
+    },
+    {
+     "slug": "provenance-as-a-build-gate",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provenance rule keeps being restated in review and keeps being violated",
+      "designing a lint rule that must not cry wolf across an existing surface",
+      "packaging one team's editorial doctrine so another team can adopt it"
+     ]
     }
    ],
    "applications": [
@@ -11718,6 +11877,13 @@
      "technique": "derived-numerator-authored-denominator",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/public-claim-provenance/applications/react--derived-numerator-authored-denominator.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "provenance-as-a-build-gate",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/public-claim-provenance/applications/react--provenance-as-a-build-gate.md",
+     "verified_on": "2026-08-24",
      "verified_against": "react@19"
     }
    ]
@@ -11839,6 +12005,20 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "techniques": [
+    {
+     "slug": "blocking-by-input-determinism",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a check is permitted to block",
+      "a gate advisory since the day it was added",
+      "one invocation mixing deterministic and externally-moving checks"
+     ]
+    },
     {
      "slug": "chokepoint-tag-registry",
      "status": "forged",
@@ -15228,6 +15408,13 @@
      "verified_on": "2026-08-18"
     },
     {
+     "stack": "react",
+     "technique": "performance",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/react--performance.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "react@19"
+    },
+    {
      "stack": "rust",
      "technique": "pagination",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/rust--pagination.md",
@@ -15668,6 +15855,20 @@
      ]
     },
     {
+     "slug": "out-of-graph-artifacts",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a shipped artifact builds outside every gated build graph",
+      "a whole-project build flag read as covering the repository",
+      "a path dependency broke a project nothing compiles"
+     ]
+    },
+    {
      "slug": "platform-quirk-absorption",
      "status": "forged",
      "laws": [
@@ -15708,6 +15909,13 @@
      "technique": "fixture-economics",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--fixture-economics.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "negative-control-tests",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--negative-control-tests.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -16801,6 +17009,22 @@
       "telling a redesign apart from a block or outage",
       "deciding whether a collapsed run may tombstone entities"
      ]
+    },
+    {
+     "slug": "soak-mode-and-verdict-replay",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target",
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a detector is built but nobody trusts it enough to let it act",
+      "deciding whether enforcement is safe to turn on",
+      "a source has too little history to be judged"
+     ]
     }
    ],
    "applications": [
@@ -16821,6 +17045,13 @@
      "technique": "dedup-and-datasets",
      "file": "knowledge/software-engineering/integration/web-scraping/applications/rust--dedup-and-datasets.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "soak-mode-and-verdict-replay",
+     "file": "knowledge/software-engineering/integration/web-scraping/applications/rust--soak-mode-and-verdict-replay.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -17108,6 +17339,7 @@
     "codebase-scanning/ingestion-budget",
     "codebase-scanning/llm-assisted-scanning",
     "codebase-scanning/rule-precision-discipline",
+    "codebase-scanning/verify-after-generate",
     "codegen/drift-gating",
     "codegen/trigger-wiring",
     "companion-identity/brain-adoption-consent",
@@ -17129,6 +17361,7 @@
     "credential-vault/brokered-egress",
     "credential-vault/token-refresh-lifecycle",
     "data-access/batching-and-n-plus-one",
+    "data-access/cross-driver-invariant-parity",
     "data-access/repo-testing",
     "data-retention/confirm-by-echo",
     "data-retention/dry-run-preview",
@@ -17243,6 +17476,8 @@
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/model-output-as-untrusted",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
+    "public-claim-provenance/provenance-as-a-build-gate",
+    "quality-gates/blocking-by-input-determinism",
     "quality-gates/chokepoint-tag-registry",
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
@@ -17311,6 +17546,7 @@
     "test-harness/isolation-lanes",
     "test-harness/live-app-harness",
     "test-harness/negative-control-tests",
+    "test-harness/out-of-graph-artifacts",
     "test-harness/suite-partitioning",
     "ui-controls/adoption-enforcement",
     "ui-controls/control-inventory-and-discovery",
@@ -17323,6 +17559,7 @@
     "web-scraping/dry-run-preview",
     "web-scraping/llm-assisted-rule-authoring",
     "web-scraping/shape-change-detection",
+    "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/ingress-topology",
     "webhook-ingestion/payload-bounds",
     "webhook-ingestion/sender-authentication",
@@ -17379,6 +17616,7 @@
     "browser-credential-boundary/opaque-upstream-errors",
     "build-economics/build-measurement",
     "build-economics/cache-budgeting",
+    "chat-transcript/composer-turn-queue",
     "chat-transcript/turn-model",
     "ci-execution-trust/untrusted-contribution-lanes",
     "cicd-monitoring/failure-drill-down",
@@ -17450,6 +17688,7 @@
     "embedded-db/connection-pooling",
     "embedded-db/extension-lifecycle",
     "embedded-db/quiet-window-maintenance",
+    "embedded-db/single-writer-holder-discipline",
     "embedded-preview/convention-discovery",
     "embedded-preview/cross-frame-protocol",
     "embedded-preview/dev-server-registry",
@@ -17713,6 +17952,7 @@
     "audit-logging/decision-records",
     "background-jobs/tick-isolation",
     "codebase-scanning/finding-lifecycle",
+    "codebase-scanning/verify-after-generate",
     "codegen/commit-vs-derive-policy",
     "companion-identity/constitution-self-model-split",
     "conformance-checking/checker-false-positive-discipline",
@@ -18012,6 +18252,7 @@
     "test-harness/flake-lifecycle",
     "test-harness/history-driven-partitioning",
     "test-harness/long-lane-certification",
+    "test-harness/out-of-graph-artifacts",
     "test-harness/suite-partitioning",
     "time-travel-replay/accrual-overlays",
     "time-travel-replay/estimate-labeling",
@@ -18063,6 +18304,7 @@
     "canvas-graph/edge-management",
     "canvas-graph/graph-layout",
     "canvas-graph/render-budget",
+    "chat-transcript/composer-turn-queue",
     "chat-transcript/inline-structured-rows",
     "chat-transcript/turn-model",
     "ci-execution-trust/job-instruction-signing",
@@ -18085,6 +18327,7 @@
     "concurrent-vcs/shared-resource-arbitration",
     "connector-catalog/catalog-as-data",
     "connector-catalog/matching-and-ranking",
+    "cost-metering/reversible-debit-and-settle",
     "cost-metering/spend-attribution",
     "data-retention/erasure-requests",
     "data-viz/encoding-vocabulary",
@@ -18432,6 +18675,7 @@
     "conversation-orchestration/layered-avatar-state-machine",
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
+    "cost-metering/reversible-debit-and-settle",
     "cost-metering/usage-ledgers",
     "credential-vault/brokered-egress",
     "credential-vault/token-refresh-lifecycle",
@@ -18449,6 +18693,7 @@
     "drag-drop/cross-surface-handoff",
     "drag-drop/drag-lifecycle",
     "embedded-db/connection-pooling",
+    "embedded-db/single-writer-holder-discipline",
     "embedded-db/storage-accounting-and-pruning",
     "embedded-preview/dev-server-registry",
     "embedded-preview/injected-instrumentation-with-fallback",
@@ -18613,6 +18858,7 @@
     "client-state/async-race-guards",
     "client-state/rehydration-narrowing",
     "client-state/status-fsms",
+    "client-state/store-dependency-topology",
     "codebase-scanning/evidence-scoping",
     "codebase-scanning/llm-assisted-scanning",
     "codegen/generated-file-hygiene",
@@ -18635,6 +18881,7 @@
     "credential-vault/health-probing",
     "credential-vault/rotation-and-remediation",
     "credential-vault/token-refresh-lifecycle",
+    "data-access/cross-driver-invariant-parity",
     "data-access/query-construction",
     "data-access/row-mapping",
     "data-retention/per-tenant-retention-policy",
@@ -18838,7 +19085,8 @@
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
     "voice-io/portable-provider-package",
-    "voice-io/speech-ready-text"
+    "voice-io/speech-ready-text",
+    "web-scraping/soak-mode-and-verdict-replay"
    ]
   },
   "derivation-names-recomputation": {
@@ -18866,6 +19114,7 @@
     "client-state/invalidation-strategy",
     "client-state/persistence-and-migration",
     "codebase-scanning/incremental-scanning",
+    "codebase-scanning/verify-after-generate",
     "codegen/commit-vs-derive-policy",
     "codegen/drift-gating",
     "codegen/generated-file-hygiene",
@@ -19000,10 +19249,15 @@
    "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
    "techniques": [
     "agent-instruction-files/enforcement-demotion",
+    "client-state/store-dependency-topology",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
+    "data-access/cross-driver-invariant-parity",
     "mcp-tools/transport-selection",
+    "public-claim-provenance/provenance-as-a-build-gate",
+    "quality-gates/blocking-by-input-determinism",
     "structured-output/schema-validation-and-repair",
+    "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/duplicate-and-replay-dedup"
    ]
   },
@@ -19011,6 +19265,7 @@
    "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
    "techniques": [
     "agent-instruction-files/instruction-freshness",
+    "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/metered-llm-seam",
@@ -19021,7 +19276,8 @@
     "conversation-orchestration/two-surface-doctrine",
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",
-    "structured-output/schema-validation-and-repair"
+    "structured-output/schema-validation-and-repair",
+    "web-scraping/soak-mode-and-verdict-replay"
    ]
   }
  }

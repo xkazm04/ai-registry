@@ -121,6 +121,14 @@ initialization-order cycles that surface as inexplicable undefined values at
 startup — often only in production bundling, where module evaluation order
 differs from development.
 
+The three patterns above are prevention, and they hold while the graph fits in
+one author's memory. Once it does not — or once a cycle has already formed and
+somebody has reached for a deferred import to survive it — the graph has to be
+declared and checked rather than remembered, which is
+[store-dependency-topology](./store-dependency-topology.md). That technique
+does not replace these patterns; a declared cycle is still a cycle, and
+removing it is still the restructuring described here.
+
 ## The store is not the universe
 
 Slicing organizes what belongs in the store; equally important is what does

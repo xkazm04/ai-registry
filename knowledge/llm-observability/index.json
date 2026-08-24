@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
   "techniques": 98,
-  "applications": 47,
+  "applications": 49,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -110,6 +110,12 @@
      "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/process--analytical-copy-partitioning.md",
      "verified_on": "2026-08-20",
      "refresh_by": "2026-11-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "backend-parity-as-contract",
+     "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/rust--backend-parity-as-contract.md",
+     "verified_on": "2026-08-24"
     },
     {
      "stack": "rust",
@@ -887,6 +893,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "metadata-attribution-keys",
+     "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/node--metadata-attribution-keys.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "node@24"
+    },
     {
      "stack": "process",
      "technique": "dual-clock-event-time",
