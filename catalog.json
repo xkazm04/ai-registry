@@ -512,10 +512,10 @@
       "profile": "rkb/0.1",
       "purity": "civic",
       "subjects": 15,
-      "techniques": 91,
-      "applications": 34,
-      "files": 145,
-      "contentHash": "sha256:4bc961b13f80bf7e"
+      "techniques": 92,
+      "applications": 35,
+      "files": 147,
+      "contentHash": "sha256:9b6741814a933547"
     },
     {
       "name": "game-production",
@@ -552,9 +552,9 @@
       "purity": "software",
       "subjects": 16,
       "techniques": 98,
-      "applications": 47,
-      "files": 166,
-      "contentHash": "sha256:082db684ef1fee5a"
+      "applications": 49,
+      "files": 168,
+      "contentHash": "sha256:0837a2ddd48d7c1d"
     },
     {
       "name": "media-generation",
@@ -565,9 +565,9 @@
       "purity": "media",
       "subjects": 14,
       "techniques": 86,
-      "applications": 33,
-      "files": 138,
-      "contentHash": "sha256:8cec531eaaa82d94"
+      "applications": 34,
+      "files": 139,
+      "contentHash": "sha256:5f945e46db803e1b"
     },
     {
       "name": "recruiting",
@@ -590,10 +590,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 146,
-      "techniques": 921,
-      "applications": 402,
-      "files": 1474,
-      "contentHash": "sha256:937ac0d53b6f724c"
+      "techniques": 930,
+      "applications": 412,
+      "files": 1493,
+      "contentHash": "sha256:51333a18dd1a0434"
     }
   ]
 }

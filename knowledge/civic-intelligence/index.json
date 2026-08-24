@@ -4,8 +4,8 @@
   "bundle": "civic-intelligence",
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
-  "techniques": 91,
-  "applications": 34,
+  "techniques": 92,
+  "applications": 35,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -14,7 +14,7 @@
    "accountability-method"
   ],
   "layout": "nested",
-  "use_when_coverage": "91/91",
+  "use_when_coverage": "92/92",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -857,6 +857,21 @@
       "defining what an analyst model may return for one unit of work",
       "a model's outputs drift in shape or invent fields across a batch"
      ]
+    },
+    {
+     "slug": "whole-artifact-invariants",
+     "status": "forged",
+     "laws": [
+      "deterministic-code-owns-numbers",
+      "disclose-never-repair",
+      "incident-anchored-doctrine"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a pass rewrites prose that will publish, and the source text still exists",
+      "every per-claim gate is green and the artifact is still wrong",
+      "auditing a batch of machine-edited text against the source it was edited from"
+     ]
     }
    ],
    "applications": [
@@ -871,6 +886,12 @@
      "technique": "structured-verdict-schemas",
      "file": "knowledge/civic-intelligence/accountability-method/llm-forensic-gating/applications/node--structured-verdict-schemas.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "whole-artifact-invariants",
+     "file": "knowledge/civic-intelligence/accountability-method/llm-forensic-gating/applications/node--whole-artifact-invariants.md",
+     "verified_on": "2026-08-24"
     },
     {
      "stack": "process",
@@ -1687,6 +1708,7 @@
     "legislative-change-tracking/amendment-instruction-grammar",
     "llm-forensic-gating/groundedness-scoring-triage",
     "llm-forensic-gating/structured-verdict-schemas",
+    "llm-forensic-gating/whole-artifact-invariants",
     "political-compass-from-votes/disclosed-scoring-rule",
     "politician-performance-scoring/participatory-reweighting",
     "politician-performance-scoring/saturation-caps",
@@ -1758,6 +1780,7 @@
     "legislative-change-tracking/committee-routing-reconstruction",
     "legislative-change-tracking/statute-citation-extraction",
     "llm-forensic-gating/hallucinated-reference-sweep",
+    "llm-forensic-gating/whole-artifact-invariants",
     "parliamentary-data-modeling/cross-term-registry-loading",
     "parliamentary-data-modeling/membership-window-modeling",
     "political-compass-from-votes/non-positional-abstention-handling",
@@ -1833,6 +1856,7 @@
     "legislative-change-tracking/bill-fate-dating",
     "llm-forensic-gating/human-review-doors",
     "llm-forensic-gating/prose-register-gates",
+    "llm-forensic-gating/whole-artifact-invariants",
     "politician-performance-scoring/formula-lineage-stamping",
     "public-money-attribution/public-body-classification",
     "state-budget-analysis/consolidated-vs-headline-figures",

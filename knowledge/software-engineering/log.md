@@ -330,3 +330,41 @@ Declined, deliberately:
 Gate green (`check-bundles.mjs`): software-engineering 124 subjects · 759
 techniques · 311 applications; 1777 concept documents · 4896 links checked;
 `bundle integrity OK`. Index and catalog rebuilt in order.
+
+## 2026-08-24 — secondary-machine harvest wave: six projects join as consumers and pay their way in
+
+The mkdol box registered six checkouts (gravity, goat, tracklight, pumper, grant,
+politicas) as registry consumers and harvested their strongest practices in one
+subject-disjoint wave. Landed here: `cost-metering/reversible-debit-and-settle`
+(technique + node application from grant; gravity's `node--budget-enforcement`
+beside it), `codebase-scanning/verify-after-generate` (technique + process
+application — a generator that succeeds and corrupts, from gravity's dated
+incident), `test-harness/out-of-graph-artifacts` (technique, a genuine two-repo
+sighting: tracklight's detached client crate and pumper's cdylib plugins) plus
+`rust--negative-control-tests` (pumper's standing CI mutation control),
+`quality-gates/blocking-by-input-determinism` (tracklight — grade a gate's right
+to block by the determinism of its input, with a written promotion trigger),
+`data-access/cross-driver-invariant-parity` (technique + node application from
+grant — constraint substitution flips a violation from refuse to absorb),
+`web-scraping/soak-mode-and-verdict-replay` (technique + rust application from
+pumper), `client-state/store-dependency-topology` (technique + react application
+from goat), `public-claim-provenance/provenance-as-a-build-gate` (technique +
+react application from politicas' extractable lint plugin), and
+`embedded-db/single-writer-holder-discipline` (technique + node application from
+politicas). The goat drag-drop sighting joined the existing
+`react--ownership-boundaries` file as a second realization (the profile cannot
+yet express two provenances in one application — a convention debt, recorded).
+
+Declined, deliberately: pumper's budget-enforcement realization —
+`rust--budget-enforcement` already exists (Personas), and the filename contract
+admits one file per stack × technique. Its transplantable half
+(visibility-as-enforcement) is a lead for an EXTENDS, not a duplicate.
+
+Watch item from goat, seen three times in one repo: correct machinery built,
+reviewed and merged while the two lines that invoke it were never written — the
+cycle assert with no importer, a 2,183-line virtualization library with zero
+importers, an unreachable second assign path. One repo is one sighting; a second
+repo makes it a technique.
+
+Gate green (`check-bundles.mjs`): 146 subjects · 930 techniques · 412
+applications; bundle integrity OK. Index, catalog and rules rebuilt in order.

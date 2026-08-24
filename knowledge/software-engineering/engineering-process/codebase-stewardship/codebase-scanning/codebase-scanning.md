@@ -12,6 +12,7 @@ techniques:
   - dead-code-detection
   - ingestion-budget
   - evidence-scoping
+  - verify-after-generate
 ---
 
 # Codebase scanning & triage
@@ -152,6 +153,42 @@ inventory of what *should* exist reconciled against what does. The
 reachability analysis, the shadow-declaration defeat, and the protocol for
 actually deleting are [dead-code-detection](./techniques/dead-code-detection.md).
 
+## The scan's own output can be wrong on a green run
+
+Everything above treats the scan as the instrument and the codebase as the
+target. Turn it around: a scan that writes a durable artifact — a context map,
+an inventory, a taxonomy other tooling reads at task start — has made that
+artifact a target in its own right, and the model that produced it can finish
+cleanly and still emit a corrupt one. Duplicated entities, a prune that took
+the wrong side, a parent left unset because the model chose a create where an
+update belonged: none of it is malformed, so nothing downstream trips over it,
+and every consumer reads it as truth until someone looks. The consuming side
+therefore owes the artifact a **post-generation audit** over a small fixed set
+of invariants, a repair protocol that names the tool which would destroy the
+correct copy, and — when the generator cannot be reached at all — a dated
+owed-work journal that the next session drains rather than a hand-written
+substitute. That protocol is
+[verify-after-generate](./techniques/verify-after-generate.md).
+
+It sits deliberately close to three neighbours and overlaps none of them.
+Generator failure isolation, in the build-and-release subject, is the
+*runner's* contract for generators that hang, crash, or exit zero having
+touched nothing — its whole premise is a generator that did not produce, where
+this technique's premise is one that produced and lied; and generated-file
+hygiene is the artifact's self-declaration, which redirects a human's edit but
+asserts nothing about whether the contents are right. This subject's own
+[llm-assisted-scanning](./techniques/llm-assisted-scanning.md) is the same
+unreliable narrator seen from the producer's seat — how a scanner contains a
+model it is calling — while this technique is the seat of the repository being
+scanned, which has no access to the scanner's internals and only the artifact
+to go on. And the drift journal is not a catch-up marker: a marker anchors a
+batch repair against accumulated, unenforced drift and records what a full
+pass covered, whereas the journal is a per-session queue of specific
+regenerations owed, drained and cleared by the next session that finds the
+generator alive. The rule for picking: if you own the generator, the codegen
+subject's techniques are yours; if you merely consume its artifact and read it
+as truth, this one is.
+
 ## Scanning a codebase you do not control
 
 Everything above assumes the scanner may read its target freely and calibrate
@@ -242,3 +279,7 @@ delivered ranked, with "thirty-five more withheld" printed underneath.
 - [dead-code-detection](./techniques/dead-code-detection.md) — reachability
   over refcounts, the shadow-declaration defeat, generator-never-deletes
   orphans, deletion as a verified protocol.
+- [verify-after-generate](./techniques/verify-after-generate.md) — the
+  consumer's audit of an artifact a model generator succeeded at writing:
+  invariant checks bought by incidents, a repair protocol that names its
+  anti-remedy, and an offline drift journal the next session drains.

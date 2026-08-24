@@ -10,6 +10,7 @@ techniques:
   - extension-lifecycle
   - storage-accounting-and-pruning
   - db-self-instrumentation
+  - single-writer-holder-discipline
 ---
 
 # Embedded database operations
@@ -162,6 +163,35 @@ thresholds mean "slow" for a local store, and how the instrument feeds the
 quiet-window gauge and the pruning report — is
 [db-self-instrumentation](./techniques/db-self-instrumentation.md).
 
+## The store is a directory, and the machine is full of processes
+
+Everything above reasons about one process and its own store: the pool it
+builds, the durability contract it signs, the maintenance it schedules, the
+rows it reaps. That framing is complete right up until the store is a
+directory that admits one writer and sits somewhere any process on the machine
+can open — at which point a whole second failure surface appears, and none of
+the in-process instruments can see any of it. A pool reports which pooled
+caller is hoarding a connection; it cannot report that a development server
+another session started an hour ago is holding the directory.
+
+The signature of that class is a diagnosis that looks finished and is wrong.
+The store panics on every open, so it is corrupt; it reproduces on a copy, so
+it is definitely the data; the restore begins, and the restore destroys a
+healthy store whose only defect was having an owner. Every step of that
+reasoning is a normal engineering step, and the corrective is a single habit
+placed ahead of all of them: **the first question of any "the database is
+broken" report is who else has this open.** From that question the rest
+follows — that a copy of a held store is torn by construction and therefore
+proves nothing, that a permission error moving the directory is the check
+succeeding rather than an obstacle, that held and damaged are not exclusive
+and only an at-rest re-test decides, that a backup is a checkpoint you take
+while holding the connection yourself rather than a copy of a live directory,
+that test files booting the store contend instead of failing, and that every
+script and every runtime which opens the store names the event that closes it.
+The full cross-process discipline, including the lock-marker trap in copies
+and the lockstep rule for layered handle memos, is
+[single-writer-holder-discipline](./techniques/single-writer-holder-discipline.md).
+
 ## The second database is the forgotten one
 
 Applications that embed one database eventually embed two: a vector sidecar,
@@ -212,3 +242,8 @@ that motivated elevating the rule from advice to standard.
 - [db-self-instrumentation](./techniques/db-self-instrumentation.md) —
   per-table latency rings, slow-operation counting, thresholds for a local
   store, the instrument's own budget.
+- [single-writer-holder-discipline](./techniques/single-writer-holder-discipline.md) —
+  the cross-process axis: holder-before-corruption diagnosis, checkpointed
+  backups that strip the lock marker, contention as the default explanation
+  for parallel test flakiness, explicit exit for every store-opening process,
+  layered handle memos closing in lockstep.

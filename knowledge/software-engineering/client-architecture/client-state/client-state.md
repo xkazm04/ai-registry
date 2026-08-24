@@ -5,6 +5,7 @@ subject: client-state
 status: forged
 techniques:
   - store-slicing
+  - store-dependency-topology
   - status-fsms
   - async-race-guards
   - optimistic-write-path
@@ -107,6 +108,20 @@ Slices need to talk — completing a run updates activity, changing a
 selection resets dependent panels — and cross-slice coupling is where sliced
 designs rot back into a monolith. The patterns that keep the seams clean are
 the [store-slicing](./techniques/store-slicing.md) technique.
+
+Those patterns are prevention, and prevention is a property of the people
+writing the code. Past a certain number of slices and module-scoped services
+the graph outgrows any one author's memory, and the edge that closes a loop is
+added by somebody who believed they were editing a leaf. The remedy is to stop
+inferring the graph from the imports and **declare it as data** — one manifest
+of nodes and their dependencies, from which initialization order is derived
+rather than hand-maintained, against which acyclicity is asserted on a path the
+application already evaluates, and out of which the graph can be emitted and
+looked at instead of argued about. The declared topology, the derived order,
+the assertion that actually runs, and the accessor that survives the windows a
+correct order still leaves open are the
+[store-dependency-topology](./techniques/store-dependency-topology.md)
+technique.
 
 ## Status is a machine, not a pile of booleans
 
@@ -265,6 +280,9 @@ discriminator for which globals are actually state are the
 
 - [store-slicing](./techniques/store-slicing.md) — slice boundaries, selective
   subscription, cross-slice signals without import cycles.
+- [store-dependency-topology](./techniques/store-dependency-topology.md) — the
+  dependency manifest as data, derived initialization order, an acyclicity
+  assertion that runs unasked, the retrying lazy accessor.
 - [status-fsms](./techniques/status-fsms.md) — enumerated status per operation
   family, per-entity keying, legal transitions, failure as a state.
 - [async-race-guards](./techniques/async-race-guards.md) — latest-wins tokens,

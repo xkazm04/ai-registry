@@ -40,3 +40,15 @@ price dimensionality); probes confirmation-heavy — production-trace-scoring
 verdict "well-cooked" (4/6 unchanged), provider-normalization forecast
 "round 4 confirmation-only". Yield curve: r1 high (hole + 3 substantive) →
 r2 moderate-high → r3 moderate/low. Saturation onset measured, not assumed.
+
+## 2026-08-24 — secondary-machine harvest: two applications from grant and tracklight
+
+`llm-call-telemetry-model/node--metadata-attribution-keys` (grant: org pays,
+person attributed, AsyncLocalStorage carriage, deterministic `polar:` ids,
+best-effort 2s-boxed emission) and
+`analytics-store-design/rust--backend-parity-as-contract` (tracklight: one
+conformance suite over three backends as three required CI checks; the parity
+gap pinned both ways — defaults that actually work, and typed Unsupported where
+a method is refused). The tracklight report's claim that parity_gap_methods
+asserts Unsupported did not survive contact with the code — it pins the
+opposite half, and the application records both. Gate green.

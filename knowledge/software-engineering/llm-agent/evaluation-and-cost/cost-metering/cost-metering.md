@@ -8,6 +8,7 @@ techniques:
   - preflight-estimation
   - usage-ledgers
   - budget-enforcement
+  - reversible-debit-and-settle
   - spend-attribution
   - spend-observability
 ---
@@ -163,6 +164,31 @@ cache invalidation when a ceiling changes, and the fail-open/fail-closed
 decision when the ledger itself is unavailable are the
 [budget-enforcement](./techniques/budget-enforcement.md) technique.
 
+## A prepaid debit is a claim, and claims get withdrawn
+
+Some products cannot meter after the fact. Where the caller holds a balance
+rather than an invoice — a token wallet, purchased credits, a hard ceiling
+with nobody to bill afterwards — affordability has to be settled *before* the
+call, which inverts the order: the money moves, then the work happens. That
+debit is a claim about work not yet done, and a claim that cannot be
+withdrawn is an overcharge waiting for its first cancellation.
+
+The withdrawal is harder than it sounds, and in three separate ways. It needs
+an identity, because a refund that lands on the wrong reference is
+indistinguishable from no refund at all. It needs a *lifecycle*, because the
+dangerous window is the one between a successful debit and the work starting
+— where the caller's own error handling has not begun and never will if the
+request is abandoned — and closing that window by arming an automatic
+withdrawal creates the mirror bug of refunding work that was actually
+delivered. And it needs its idempotency to survive its own reversal: a charge
+reference that has been debited *and* refunded still matches the next retry,
+which then runs the paid work against a debit that no longer exists. The
+handle, the arm-and-disarm pair, the partial amount read at withdrawal time,
+and the closed-attempt walk are the
+[reversible-debit-and-settle](./techniques/reversible-debit-and-settle.md)
+technique. Products that bill after the fact do not need it and should not
+build it.
+
 ## Periods have one owner
 
 "This month's spend" sounds unambiguous and is not: calendar month or rolling
@@ -203,6 +229,9 @@ surfaces show and which anomalies they must make visible is the
   confidence.
 - **Advisory ceilings.** A budget whose enforcement points cannot be
   enumerated is a report, and gets labeled as one.
+- **An upfront debit whose reversal has no identity.** Money taken before
+  the work is a claim; a claim whose withdrawal cannot be paired back to it
+  is an overcharge the ledger will never be able to explain.
 - **Per-consumer period math.** Any surface computing its own month boundary
   instead of consuming the one returned with the data.
 - **Spend rows on telemetry retention.** Ledger rows live on the product's
@@ -222,6 +251,10 @@ surfaces show and which anomalies they must make visible is the
 - [budget-enforcement](./techniques/budget-enforcement.md) — ceilings per
   scope; enumerable enforcement points; what a blocked call reports;
   invalidation on ceiling change; fail-open vs fail-closed.
+- [reversible-debit-and-settle](./techniques/reversible-debit-and-settle.md) —
+  the upfront debit's undo handle; arming a refund on cancellation and
+  disarming it on settle; partial amounts read at reversal time; an
+  idempotency key that must not free-pass a retry after it was refunded.
 - [spend-attribution](./techniques/spend-attribution.md) — multi-axis tagging
   at write time; the unattributed bucket as a counted first-class citizen;
   rollup honesty.

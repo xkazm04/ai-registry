@@ -10,6 +10,7 @@ techniques:
   - transactions-and-units-of-work
   - batching-and-n-plus-one
   - repo-testing
+  - cross-driver-invariant-parity
 ---
 
 # Repository & data-access layering
@@ -191,6 +192,20 @@ their own discipline:
   endpoints, safe membership-list construction, and detection by counting
   are [batching-and-n-plus-one](./techniques/batching-and-n-plus-one.md).
 
+## When two engines sit behind one surface
+
+The enumerable surface makes a second backend cheap to add — implement the
+interface, choose the driver at composition time, change no call site. What
+it does not make cheap is keeping the two honest, because the surface
+constrains shape while a caller depends on *behaviour*. Most operations port
+without incident; the exceptions are the handful of guarantees one engine
+states declaratively and the other has no vocabulary for at all, which is
+also the handful the money and identity paths were built on. Holding those
+equal — naming the invariants above both drivers, substituting a derived
+identity where a constraint cannot exist, and refusing to let the two
+engines' opposite failure shapes reach callers — is
+[cross-driver-invariant-parity](./techniques/cross-driver-invariant-parity.md).
+
 ## When the full pattern is the wrong tool
 
 The doctrine above is calibrated for an application's operational store —
@@ -230,3 +245,7 @@ in incident reports.
   query-count detection.
 - [repo-testing](./techniques/repo-testing.md) — real engine over mocks,
   per-test isolation, fixtures through the front door, corruption drills.
+- [cross-driver-invariant-parity](./techniques/cross-driver-invariant-parity.md)
+  — two backends, one promise: invariants named above the drivers, constraint
+  substitution by derived identity, one parity suite run twice, and what a
+  hand-written double must enforce to be worth trusting.

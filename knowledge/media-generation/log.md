@@ -96,3 +96,12 @@ triage in [[2026-08-23-one-person-marketing-team]].
   file. Recorded in the skill's LESSONS.
 - Gate-clean (`check-bundles`) at each commit; currency unchanged (0 expired,
   0 at-risk).
+
+## 2026-08-24 — secondary-machine harvest: non-silent-elimination gets its application
+
+`generative-provider-routing/node--non-silent-elimination` (gravity's imaging
+router): the record of elimination rather than the hop — closed why vocabulary,
+guard order, unsupported's positional asymmetry, and constraint outranking
+vendor error in the message a caller finally sees. Complements
+`node--refusal-reroute-hop`, which follows the hop through the same file. Gate
+green.

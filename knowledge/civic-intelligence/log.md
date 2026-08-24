@@ -33,3 +33,12 @@ validated this bundle's content. Public-safe by rule.
   queue, promotes nothing); + dated tooling/benchmark application.
   Counter-evidence: constrained decoding does NOT retire post-hoc gates
   (syntax-only guarantee); all six existing techniques verified unchanged.
+
+## 2026-08-24 — secondary-machine harvest: whole-artifact invariants join the forensic gate
+
+`llm-forensic-gating/whole-artifact-invariants` (technique + node application
+from politicas): digit multiset preservation, relative syntax balance,
+arithmetic closure, quotation locatability — motivated by the recorded failure
+where every per-claim gate passed while the artifact was false. Boundary drawn
+in the golden path: per-claim gates own the claims, whole-artifact invariants
+own the rewrite. Gate green.

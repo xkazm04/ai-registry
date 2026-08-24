@@ -10,6 +10,7 @@ techniques:
   - dedup-and-datasets
   - scrape-scheduling
   - shape-change-detection
+  - soak-mode-and-verdict-replay
 ---
 
 # Web scraping & extraction rules
@@ -119,6 +120,17 @@ that instrument panel, and it feeds the response loop: quarantine the suspect
 harvest (never reconcile it — a collapsed extraction must not tombstone half
 the dataset), alert with the failed rules named, and route into re-authoring.
 
+A freshly built detector is not yet allowed to do any of that. Between "it
+judges correctly" and "its verdicts may stop a pipeline" sits a rollout the
+detector usually loses — armed on day one and blamed for the first false
+quarantine, or left observing forever into a table nobody reads. The
+discipline that survives it is to ship judging always-on with the
+*consequences* behind one flag, gate the flip on a replay of the verdicts
+already recorded rather than a re-judging of history against today's
+thresholds, climb a hysteretic ladder whose recovery is earned, and report a
+source nobody could judge as unmonitored instead of healthy. That is
+[soak-mode-and-verdict-replay](./techniques/soak-mode-and-verdict-replay.md).
+
 ## Datasets, not piles
 
 A harvest is not the product; the **dataset** is — the accumulated, deduped,
@@ -200,3 +212,7 @@ Stated once, as obligations rather than tips:
 - [shape-change-detection](./techniques/shape-change-detection.md) — the
   instrument panel that converts silent extraction collapse into a loud,
   named, actionable failure.
+- [soak-mode-and-verdict-replay](./techniques/soak-mode-and-verdict-replay.md)
+  — the detector's rollout: judging always on with consequences behind a flag,
+  a rollout gate that replays stored verdicts, an earned-recovery ladder, and
+  honest unmonitored states.
