@@ -110,6 +110,25 @@ text (`Koneksi aktif`, not `Koneksi adalah aktif` — the latter is flatly
 ungrammatical with an adjective predicate, which is how this rule sometimes
 graduates from style to grammar).
 
+## ID-DIMANA-PRED · an embedded "di mana" question needs its predicate
+
+> **Trigger** — *di mana* heads a legitimate embedded question (not the
+> relative-clause misuse the calque rule already covers).
+> **Rule** — the question still needs an explicit predicate: *di mana X
+> berada/terletak*, not bare *di mana X*. A predicate-less form reads
+> elliptical and foreign even though the question-word use is grammatical.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave.
+
+## ID-BE-ADJ-IMP · English "Be + adjective" imperatives restructure around the verb
+
+> **Trigger** — an imperative "Be specific", "Be concise", "Be careful"
+> calqued as *Jadilah* + adjective.
+> **Rule** — grammatical but reads as self-help-book register no UI string
+> intends. Restructure around the verb of the requested action: *jelaskan
+> secara spesifik*, *ringkaslah* — not the copula-imperative.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave; the
+> declarative-copula rule covers *adalah*'s optionality, not this shape.
+
 ## When NOT to apply
 
 These rules govern review of drafted strings; they are not a license for

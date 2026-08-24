@@ -90,6 +90,17 @@ even mid-sentence — 50%, $12, 3 项 — never full-width digits （０１２�
 Full-width digits are a legacy-input artifact; a single stray ％ in a catalog
 of half-width ones is a bug to fix, not a precedent to count.
 
+## ZH-DASH · the parenthetical dash is doubled and unspaced
+
+> **Trigger** — an em-dash setting off a parenthetical clause.
+> **Rule** — Chinese uses the doubled, unspaced **——**, never a single
+> `—` with English-style surrounding spaces. The single-spaced-dash calque
+> travels with translated copy and recurs independently across unrelated
+> strings.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave where
+> six strings carried the calque beside two correct doubled-dash instances;
+> ZH-FULLWIDTH's glyph list did not enumerate the dash.
+
 ## When not to use this technique
 
 Do not apply these rules inside do-not-translate content: code blocks, CLI

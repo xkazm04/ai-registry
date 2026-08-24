@@ -117,6 +117,17 @@ English passive is usually rewritten as active-with-omitted-subject, because
 Japanese passive carries an adversative shading（削除されました can read as
 "was deleted, to my detriment"）that neutral status text does not want.
 
+## JA-TE-ADJ-CONCESSIVE · "safe to X" takes 〜ても, not a bare て-clause
+
+> **Trigger** — a て-form clause immediately followed by an adjective or
+> adjectival noun asserting a quality that holds *regardless of* — not
+> because of — the clause's action (the English "safe/fine/OK to X" frame).
+> **Rule** — use the concessive 〜ても, never bare 〜して: a bare て-form
+> makes the reader parse a causal or sequential link ("having done X,
+> therefore adjective") that inverts the source's actual claim.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave; the
+> four named triggers above did not cover this construction shape.
+
 ## When not to apply this technique
 
 These rules calibrate *UI prose*. Marketing copy deliberately breaks several

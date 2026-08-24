@@ -90,6 +90,18 @@ problem three ways audits clean rule-by-rule and still reads incoherent;
 mixed slash styles (*postoupil/a* beside *navrhl(a)*) are a terminology-class
 defect even though each is individually defensible.
 
+## CS-GENDER-2P · second-person past-tense agreement under tykání
+
+> **Trigger** — an informal-address (tykání) string uses a second-person
+> past-tense or conditional form (*abys*, *kdybys* + l-participle) and the
+> code cannot know the addressee's gender.
+> **Rule** — the l-participle agrees with the addressee (*formoval* vs
+> *formovala*), so a bare masculine is wrong for roughly half of users.
+> Recast to a present-tense or impersonal frame that carries no gender
+> agreement — the same preference order as the third-person case above.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave; the
+> third-person rule's trigger explicitly did not reach this form.
+
 ## When NOT to apply this technique
 
 When the code *does* know the gender — a profile field, a grammatical-gender

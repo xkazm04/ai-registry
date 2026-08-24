@@ -108,6 +108,18 @@ and a finding cites the family:
   (*répondue par des preuves* is ungrammatical). Rebuild with an active or a
   supporting phrase (*avec des preuves à l'appui*).
 
+## FR-NOUNADJUNCT · noun-adjunct compounds take a connector
+
+> **Trigger** — an English noun-adjunct compound ("example intents", "agent
+> status", "connector types") carried into French as bare noun+noun
+> apposition.
+> **Rule** — French compounds two nouns with a connector, usually *de* /
+> *des*: *exemples d'intentions*, never *intentions exemples*. Choose the
+> connector the head noun governs, then check the catalog for that pairing
+> before inventing one.
+> **Provenance** — harvested 2026-08 from a cross-locale review wave; the
+> calqued-geometry rules here did not list this shape.
+
 ## When not to apply this
 
 These rules govern prose the product authors. Do not rebuild quoted material,
