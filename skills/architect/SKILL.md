@@ -5,7 +5,7 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.0.0
+version: 1.1.0
 ---
 # Architect
 
@@ -13,9 +13,42 @@ Heavy-hitter codebase scan for **structural patterns** — both weak ones to upg
 
 This is the highest-risk, highest-payoff skill in the suite. It pairs with `/research` (external sources) and `/explorer` (per-area paper cuts) — those handle the small and the medium; `/architect` handles the large.
 
-This skill is **personas-specific.** It uses `.claude/codebase-context.md` and `.claude/codebase-stack.md` for taxonomy (with `context-map.json` at the repo root as the machine-readable file→context authority), and the Obsidian vault for a durable backlog of architectural decisions that span multiple sessions.
+The method is **repo-agnostic**: it reads whatever context sources the repo actually has for its taxonomy, and keeps a vault for a durable backlog of architectural decisions that span multiple sessions. Everything one repository is — its vault root, context documents, gates, area menu, conventions — lives in the overlay below, and every key has a default, so the run works in a repo that carries no overlay at all.
 
 **Deliverable contract — every finding ends as an artifact.** An architect run that produces observations without enforcement artifacts is a failed run. Each finding that survives triage must terminate as exactly one of: **(a)** an ADR-style vault note (Phase 7b/8a), **(b)** a lint rule / CI gate / structural-test proposal (Phase 7B), or **(c)** a scoped rollout plan with per-PR steps (the ADR's Rollout section). Only `drop` verdicts are artifact-free, and they are recorded with a reason. If you reach Phase 12 with a surviving finding that has none of the three, the run is not done.
+
+## Project overlay
+
+Everything project-specific lives in ONE overlay the run reads in Phase 0: **`.claude/architect/config.md` in the consuming repo** (tracked, so it travels with the clone and survives the vault, which is not version-controlled). **The scan runs with no overlay at all** — every key below has a default — but say so in the Phase 0 opening line when defaults are in force, and never paste one repo's overlay into this file.
+
+Overlay shape: YAML frontmatter for scalars, markdown `##` sections for lists and prose. Keys (default in brackets):
+
+```yaml
+---
+product: "<product name>"             # scan-note header  [the repo directory name]
+stack: "<one-line stack description>" # sub-agent briefs  [detected from package.json / Cargo.toml / manifest, else "unknown"]
+vault: ["<abs obsidian root>", ...]   # candidate roots, first existing wins  [<repo>/.architect]
+vault_subdir: Architect               # namespace inside the vault; "" = the root itself  [Architect]
+context_map: context-map.json         # machine-readable file->context authority  [context-map.json if present, else none]
+coverage_context_source: ""           # which name set the memory outbox anchors to  [the context map's names]
+base_branch: master                   # rollouts fork from / land on it  [detected from origin/HEAD, else current]
+worktree_root: .claude/worktrees      # where Phase 7a puts its worktree  [.claude/worktrees]
+active_runs_ledger: ""                # path of a live-sessions ledger if the repo keeps one  [none; git status only]
+---
+```
+
+| Section | What it carries | Default when absent |
+|---|---|---|
+| `## Context sources` | the documents Phase 1 reads, in order, each with one line on what it is for (architecture digest, area taxonomy, project rules, design system) | `context-map.json` if present, else `CLAUDE.md` (then `AGENTS.md`); missing sources are **noted, never fatal** |
+| `## Area menu` | the numbered options for Q2b and what each maps to | derived from the context map's groups (or the repo's top-level source directories), capped at 8 |
+| `## Theme menu` | extra themes beyond the built-in nine | the built-in nine only |
+| `## Gates` | `baseline:` (commands Phase 7c snapshots), `step:` (per-commit), `final:` (Phase 7e), `slow:` (run in background) | detect from `package.json` scripts (`check`/`typecheck`, `lint`, `test`) and the toolchain (`cargo check` when `Cargo.toml` exists, `npx tsc --noEmit` when a tsconfig does); say what was detected |
+| `## Repo law` | the convention digest pasted verbatim into briefs and enforced in 7g: i18n contract, design tokens, shared-component catalog, error handling, IPC discipline, out-of-scope walls | "read the repo's CLAUDE.md/AGENTS.md first; reuse before building" |
+| `## Docs vehicles` | which files a Phase 7B codification may append to, and what belongs in each | the repo's rules file (`CLAUDE.md`/`AGENTS.md`); a second architecture digest if `## Context sources` names one |
+| `## Lint vehicle` | how the repo writes a custom lint rule (config file, rule directory, naming, registration, default severity) | read the repo's linter config and follow whatever custom-rule shape is already there; if none exists, propose `docs` instead |
+| `## Test guard vehicle` | the test runner and where a structural test lives | the runner in `package.json` scripts (or the toolchain's default), test beside the code it guards |
+| `## Smoke` | how to run the app and exercise a surface for Phase 7h | say plainly that the change was NOT visually verified |
+| `## Baseline exclusions` | known-noisy migrations that must never become findings | none |
 
 ## Interaction conventions
 
@@ -64,18 +97,13 @@ Theme is required for scan mode — `pick for me` (option 10) is fine, but a one
 ```
 Area? (Enter = pick for me)
   1. other -> type a hint (path fragment, keyword, or context id)
-  2. agents
-  3. vault
-  4. orchestration
-  5. triggers
-  6. execution
-  7. templates
-  8. deployment
-  9. platform
+  2. {area 1}
+  ...
+  9. {area 8}
   10. pick for me   <- default
 ```
 
-Numeric options 2–9 map 1:1 to the 8 groups in `codebase-context.md` — same mapping as `/explorer`. Option 1's free text falls through to the existing area resolver. Scan is bounded to that area but still cross-cutting within it; same parallel-agent shape as scan mode.
+Numeric options 2–9 are the overlay's `## Area menu`; with no overlay, derive up to 8 from the context map's groups (or the repo's top-level source directories) and print what you derived them from. Option 1's free text falls through to the existing area resolver. Scan is bounded to that area but still cross-cutting within it; same parallel-agent shape as scan mode.
 
 If the user's first message is ambiguous about mode (e.g. just `/architect`), present Q1; if they typed `resume` directly, skip to Phase 9.
 
@@ -83,13 +111,12 @@ If the user's first message is ambiguous about mode (e.g. just `/architect`), pr
 
 ## Constants
 
-- **Codebase reference files:**
-  - `.claude/codebase-context.md` — DB-derived feature map. Used to resolve area scope and target file lists.
-  - `.claude/codebase-stack.md` — hand-curated architecture, conventions, engine internals. Heavily consulted in scan mode.
-  - `context-map.json` (repo root) — machine-readable file→context map; the authority when codebase-context.md and reality disagree.
-  - `.claude/CLAUDE.md` — project rules (especially "Concurrent CLI sessions" + "Parallel-safety primitives").
-  - `.claude/Design.md` — design system canonical reference (rebuilt 2026-07-26, grounded in typography.css + designTokens.ts + globals.css).
-- **Vault root** (resolved at Phase 0): `C:/Users/kazda/Documents/Obsidian/personas`
+- **Codebase reference files** — whatever the overlay's `## Context sources` names, in its order. With no overlay, resolve in this order and use what exists:
+  - `context-map.json` (repo root, or the overlay's `context_map`) — machine-readable file→context map; the authority for area scope and target file lists, and the tiebreak when a prose doc and reality disagree.
+  - `CLAUDE.md` (then `AGENTS.md`, then `.claude/CLAUDE.md`) — project rules, including any parallel-session/isolation primitives the repo declares.
+  - Any architecture digest, area taxonomy or design-system doc the overlay maps in — these are what make scan mode deep rather than generic.
+  - A source that is missing is **noted in the opening line, never fatal.** With no context source at all, derive a provisional taxonomy from the repo's top-level source directories and say the scan is running provisional.
+- **Vault root** (resolved at Phase 0; `$VAULT/<vault_subdir>/` throughout, written below as `Architect/` for the default subdir):
   - `Architect/scans/` — one note per scan run, the synthesis output
   - `Architect/decisions/` — one ADR per accepted decision (Markdown, ADR-style)
   - `Architect/backlog.md` — durable queue of accepted decisions with status
@@ -108,29 +135,32 @@ If the user's first message is ambiguous about mode (e.g. just `/architect`), pr
 
 ## Coordination — Active-Runs Ledger
 
-Before materially editing the working tree (which `/architect` always does in Phase 7 — Execute), register this session in `.claude/active-runs.md` per the convention in [`CLAUDE.md` → Concurrent CLI sessions](../../CLAUDE.md). Read the file's `## Active` section first; if any `started`-status entry overlaps your area-mode scope and is <2h old, surface the conflict to the user before proceeding. Overlap on `.claude/active-runs.md` itself is expected and is not a conflict.
+**Only when the overlay names an `active_runs_ledger`.** With no ledger declared, `git status` is the whole coordination surface: note foreign uncommitted work, never sweep it into your commits, and skip the rest of this section.
+
+Before materially editing the working tree (which `/architect` always does in Phase 7 — Execute), register this session in the ledger, following the format conventions at the top of the ledger file itself. Read its `## Active` section first; if any `started`-status entry overlaps your area-mode scope and is <2h old, surface the conflict to the user before proceeding. Overlap on the ledger file itself is expected and is not a conflict.
 
 **Ledger edits are a single bash invocation** (read + append/move in one command) — parallel sessions rewrite the file between an Edit-tool read and its write, so multi-step edits lose entries. Always edit the ledger in the **main checkout**, even when the code work happens in a worktree.
 
 **Declared paths for `/architect`:**
-- Obsidian: `Architect/scans/<run>.md`, `Architect/decisions/<adr>.md`, `Architect/backlog.md`, `Architect/strong-patterns.md`, `Architect/weak-patterns.md`, `Lessons/{date}-architect.md`
-- Working tree (varies by area mode): typically a subset of `src-tauri/src/<area>/`, `src/features/<area>/`, `.planning/architect/<run>.md`
-- Always: `.claude/active-runs.md`
+- Vault: `Architect/scans/<run>.md`, `Architect/decisions/<adr>.md`, `Architect/backlog.md`, `Architect/strong-patterns.md`, `Architect/weak-patterns.md`, `Lessons/{date}-architect.md`
+- Working tree (varies by area mode): the area's file paths as the context source lists them
+- Always: the ledger itself
 
 **At session end** (Phase 7 commit lands, the user closes without execute, or the run aborts): move your entry to the top of `## Recently completed`. Update `Status` to `completed (commit: <sha>)` or `aborted (<reason>)`. Trim entries older than 14 days while you're there.
 
-Full design rationale: [`docs/architecture/cli-coordination.md`](../../../docs/architecture/cli-coordination.md).
-
 ---
 
-## Phase 0: Resolve vault path
+## Phase 0: Read the overlay, resolve the vault
+
+Read `.claude/architect/config.md` if it exists (§ Project overlay). Resolve `VAULT` = the first `vault` candidate that exists; if none does, fall back to `<repo>/.architect/` — the same schema, still an Obsidian-openable folder — and **create it**. A missing vault is never a reason to abort:
 
 ```bash
-VAULT="C:/Users/kazda/Documents/Obsidian/personas"
-[ -d "$VAULT" ] || { echo "No personas vault at $VAULT. Aborting."; exit 1; }
+VAULT=""
+for c in "${VAULT_CANDIDATES[@]}"; do [ -d "$c" ] && { VAULT="$c"; break; }; done
+[ -n "$VAULT" ] || { VAULT="$PWD/.architect"; mkdir -p "$VAULT"; echo "No configured vault found - using fallback $VAULT"; }
 ```
 
-Record `$VAULT` for the rest of the run.
+Record `$VAULT` (and `vault_subdir`, default `Architect`) for the rest of the run, and open with one line saying which vault won and whether an overlay was found. Git-ignore a fallback vault if a concurrent agent shares the branch.
 
 ### Bootstrap (one-time per vault)
 
@@ -204,16 +234,15 @@ If any of these are missing, create them:
 
 ## Phase 1: Load context & memory
 
-### 1a. Required-file check
+### 1a. Context-source check
 
-For each of `codebase-context.md`, `codebase-stack.md`, `CLAUDE.md` under `.claude/`:
-- If missing → stop and instruct accordingly (`/refresh-context` for the first two).
+Resolve the overlay's `## Context sources` (or the defaults in § Constants). Report which exist and which do not in one line. **Nothing here stops the run** — a missing source narrows the scan, and saying so is the honest opening. If the repo has a command that regenerates a missing source and the overlay names it, offer it as a `Next?` option rather than blocking.
 
 ### 1b. Read in order
 
-1. `.claude/codebase-stack.md` — **most important** for architect. The Engine section, the conventions, the framework-vs-plugin boundary. Read in full.
-2. `.claude/codebase-context.md` — area taxonomy, file paths.
-3. `.claude/CLAUDE.md` + `.claude/Design.md` — project rules and design system.
+1. The **architecture digest** the overlay names first — most important for architect: engine internals, conventions, module boundaries. Read in full.
+2. The **area taxonomy** (context map, or the doc the overlay maps to it) — area scope, file paths.
+3. The repo's **rules file** and any design-system doc the overlay names.
 4. `$VAULT/Architect/strong-patterns.md` — to know what's already considered load-bearing (avoid re-flagging strengths as "discoveries").
 5. `$VAULT/Architect/weak-patterns.md` — to know what's already on the radar.
 6. `$VAULT/Architect/backlog.md` — to know what's pending or in-progress.
@@ -223,7 +252,7 @@ For each of `codebase-context.md`, `codebase-stack.md`, `CLAUDE.md` under `.clau
 
 ### 1c. Snapshot freshness
 
-Same check as research/explorer. Warn if `codebase-context.md` is >30 days old or commits have advanced >200.
+Same check as research/explorer. If the area taxonomy carries a generation timestamp or commit count, warn (never stop) when it is >30 days old or commits have advanced >200 since it was written — a context that has been split or renamed since scores wrong.
 
 ### 1d. Aging strong-patterns review
 
@@ -266,21 +295,21 @@ Pick the angles that match the theme. Examples:
 - `data-modeling` → angles 1, 2, plus "migration history" and "schema-vs-types drift".
 - `testing-strategy` → angles 5 (deeply), plus "fixture duplication" and "test harness reach".
 - `async-patterns` → angles 1, 2, 3, 4.
-- `type-safety` → angles 2, 4, plus "any-leak audit" and "ts-error-on-master surfaces".
+- `type-safety` → angles 2, 4, plus "any-leak audit" and "type-errors-on-the-base-branch surfaces".
 - `build-tooling` → angles 4, 5, plus "config drift across packages" and "lock file health".
 
-If `area` mode, every angle is bounded to files within the area's contexts in `codebase-context.md`.
+If `area` mode, every angle is bounded to the files the area's contexts list in the area taxonomy.
 
 ### 3b. Sub-agent prompt template
 
 Each sub-agent prompt should be **self-contained** — they don't have your context. Use `Explore` (read-only) for all of them.
 
 ```
-You are scanning the personas codebase for {angle name}.
+You are scanning the {product} codebase ({stack}) for {angle name}.
 
 Theme: {theme}
-{If area mode:} Scope: only files under {area paths from codebase-context.md}
-Background: {1 paragraph from codebase-stack.md relevant to the theme}
+{If area mode:} Scope: only files under {area paths from the area taxonomy}
+Background: {1 paragraph from the architecture digest relevant to the theme}
 
 Specific questions:
 1. {question 1 tailored to angle}
@@ -393,7 +422,7 @@ For strong-pattern:
     Type:           strong-pattern
     Reach:          {concrete count}
     Why it works:   {2-3 sentences}
-    Codification:   {how to promote - lint rule? Design.md section? CLAUDE.md note?}
+    Codification:   {how to promote - lint rule? a docs vehicle? a test guard?}
     Risk to losing: {what would happen if it drifts - concrete bug shape}
 ```
 
@@ -464,29 +493,29 @@ Codification is on by default if the user picks `codify` for any pattern (new or
 
 ## Phase 7: Execute (one decision, this session)
 
-This is the high-rigor execution path, with full validation. Isolation follows CLAUDE.md's parallel-safety primitives, not ad-hoc branching.
+This is the high-rigor execution path, with full validation. Isolation follows the repo law's parallel-safety rules where it declares any, not ad-hoc branching.
 
 ### 7a. Isolation: worktree by default
 
-Per CLAUDE.md's **parallel-safety primitives**, multi-file work MUST NOT happen on `master` next to other sessions. Architect rollouts are almost always multi-file, so the default is a dedicated worktree:
+Multi-file work MUST NOT happen on the base branch next to other sessions. Architect rollouts are almost always multi-file, so the default is a dedicated worktree under the overlay's `worktree_root` (default `.claude/worktrees`):
 
 ```
 Isolation for this decision:
 
-  1. worktree .claude/worktrees/architect-{slug}   <- default (mandatory for multi-file rollouts)
-  2. commit on current checkout                    <- only if the rollout touches a single file
+  1. worktree {worktree_root}/architect-{slug}   <- default (mandatory for multi-file rollouts)
+  2. commit on current checkout                  <- only if the rollout touches a single file
 
 Pick 1 or 2 (Enter = 1).
 ```
 
 If option 1:
 ```bash
-git worktree add .claude/worktrees/architect-{slug} -b worktree-architect-{slug}
-cd .claude/worktrees/architect-{slug}
+git worktree add {worktree_root}/architect-{slug} -b worktree-architect-{slug}
+cd {worktree_root}/architect-{slug}
 ```
-Work and commit inside the worktree; vault writes and `.claude/active-runs.md` edits still target the main checkout/vault paths. After the branch is merged into `master` and confirmed in `git log master`, clean up (Phase 12 ritual): `git worktree remove .claude/worktrees/architect-{slug}` then `git branch -D worktree-architect-{slug}`.
+Work and commit inside the worktree; vault writes and ledger edits still target the main checkout/vault paths. After the branch is merged into `{base_branch}` and confirmed in `git log {base_branch}`, clean up (Phase 12 ritual): `git worktree remove {worktree_root}/architect-{slug}` then `git branch -D worktree-architect-{slug}`.
 
-Option 2 is legitimate only for genuinely single-file changes. If the user insists on the main checkout for a multi-file rollout, warn once (citing CLAUDE.md's primitive 2), then honor it — the ADR is what gives the change its identity either way.
+Option 2 is legitimate only for genuinely single-file changes. If the user insists on the main checkout for a multi-file rollout, warn once (citing the repo law's isolation rule if it has one), then honor it — the ADR is what gives the change its identity either way.
 
 ### 7b. Write the ADR first
 
@@ -562,14 +591,7 @@ In a fresh worktree (7a option 1) the tree starts clean — skip straight to ste
      Default to option 2 if the user doesn't pick — commit-on-top is the principle.
    - **Yours from this session** — paths only this session has authored. Normal.
 
-3. **Capture validation baselines:**
-   ```bash
-   npx tsc --noEmit              # baseline TS errors
-   npm run lint                  # baseline warning count
-   cd src-tauri && cargo check && cd ..
-   npm run test -- --run         # baseline test pass/fail
-   ```
-   Record the numbers in the ADR's `## Pre-flight baseline` section. Subsequent commits compare to this baseline — `npm run lint` going from 10086 → 10089 warnings is a regression caused by *you*, not the in-flight other-author work (whose net contribution to the baseline is captured in the snapshot you just took).
+3. **Capture validation baselines** — run the overlay's `## Gates` → `baseline:` commands (with no overlay, the detected typecheck / lint / test / compile commands; print what you detected). Record the numbers in the ADR's `## Pre-flight baseline` section. Subsequent commits compare to this baseline — a lint count going from 10086 → 10089 warnings is a regression caused by *you*, not the in-flight other-author work (whose net contribution to the baseline is captured in the snapshot you just took). In a repo with a large pre-existing warning baseline the metric is **delta on the files this diff touched**, never an absolute count.
 
 **Forbidden during pre-flight (and at every later phase):**
 - `git stash` — never. Not even with `--keep-index`.
@@ -596,12 +618,8 @@ For each step in the ADR's Rollout section:
 
 After the last step:
 
-1. Run all validation commands one more time, fully:
-   - `npx tsc --noEmit`
-   - `npm run lint`
-   - `cargo check` in `src-tauri/`
-   - `npm run test -- --run`
-2. Walk through the ADR's regression checklist. For each item, verify it works (run the actual code path if possible — `npm run tauri dev` and exercise the surface).
+1. Run the overlay's `## Gates` → `final:` commands in full (default: the same set the baseline snapshotted). Long gates go `run_in_background` and their output is read before the next state-changing action.
+2. Walk through the ADR's regression checklist. For each item, verify it works — run the actual code path if the overlay's `## Smoke` says how.
 3. **If any checklist item is unverified, do not mark the ADR as `shipped`.** Mark `in-progress` with a "needs verification" note and queue the verification as a follow-up.
 
 ### 7f. Update ADR status
@@ -612,17 +630,15 @@ When all rollout steps are committed and regression checklist passes:
 
 If only some steps shipped, status stays `in-progress` and the ADR records which steps remain.
 
-### 7g. Frontend changes — non-negotiable
+### 7g. Repo law — non-negotiable
 
-If any commit touches `src/**/*.tsx`:
-- Honor i18n contract: all user-facing strings via `useTranslation()` + keys in `src/i18n/locales/en.json`, translated into all 14 locales in the same change (`translate-extract` → per-locale subagents → `translate-merge`; the `i18n-no-gaps` pre-commit hook blocks gaps). No hardcoded English in JSX, placeholder, title, aria-label.
-- Status tokens via `tokenLabel()` from `src/i18n/tokenMaps.ts`.
-- Error messages via `resolveErrorTranslated()`.
-- Use semantic design tokens (Design.md §8).
+Every commit honors the overlay's `## Repo law` in full: its i18n contract (which locale files a new string must land in, and by which pipeline), its design-token and shared-component rules, its error-handling and IPC discipline, its out-of-scope walls. With no overlay, read the repo's rules file and follow what it states; where it states nothing, match the shape of the surrounding code rather than inventing one.
+
+If a rollout step cannot honor the repo law, do not ship it half-converted — split that step out and record it in the ADR as remaining.
 
 ### 7h. Visual verification
 
-For UI-affecting decisions: launch `npm run tauri dev`, exercise the affected surface, confirm. State explicitly when you have NOT visually verified — never claim "looks good" from code review alone.
+For UI-affecting decisions: follow the overlay's `## Smoke` to run the app, exercise the affected surface, confirm. With no `## Smoke`, state explicitly that you have NOT visually verified — never claim "looks good" from code review alone.
 
 ---
 
@@ -637,43 +653,45 @@ For each pattern marked `codify`, ask:
 ```
 How should "{pattern title}" be codified? Pick one or more:
 
-  1. lint-rule    - write a custom ESLint rule that flags non-conforming code
-  2. docs-stack   - append a section to .claude/codebase-stack.md (loaded by all skills)
-  3. docs-claude  - append a convention to .claude/CLAUDE.md (project rules; surfaces in every session)
+  1. lint-rule    - write a custom lint rule that flags non-conforming code
+  2. docs-arch    - append a section to the architecture digest (loaded by all skills)
+  3. docs-rules   - append a convention to the repo's rules file (surfaces in every session)
   4. test-guard   - add a structural test that asserts the pattern (fails if drift introduced)
-  5. multiple     - pick a combination (e.g. "1+2" = lint rule + stack docs)
+  5. multiple     - pick a combination (e.g. "1+2" = lint rule + architecture docs)
 ```
 
+Options 2 and 3 name the files the overlay's `## Docs vehicles` maps; with no overlay, 3 is the repo's rules file and 2 is offered only if a second architecture digest exists.
+
 **Rule of thumb for which vehicle fits:**
-- Pattern is a code shape (call site discipline, hook usage, type contract) → `lint-rule` is strongest. Falls back to `docs-stack` if the pattern is too contextual to lint mechanically.
-- Pattern is an architectural boundary (framework vs plugin, IPC contract, where things live) → `docs-stack` so future skills load it.
-- Pattern is a project-wide convention humans need to know (i18n, design tokens, error handling) → `docs-claude` so it surfaces in CLAUDE.md and is loaded into every session.
+- Pattern is a code shape (call site discipline, hook usage, type contract) → `lint-rule` is strongest. Falls back to `docs-arch` if the pattern is too contextual to lint mechanically.
+- Pattern is an architectural boundary (module vs plugin, IPC contract, where things live) → `docs-arch` so future skills load it.
+- Pattern is a project-wide convention humans need to know (i18n, design tokens, error handling) → `docs-rules` so it is loaded into every session.
 - Pattern can be detected by file scan but not in a single file's AST (cross-file invariant, count threshold) → `test-guard` (a vitest test that walks the tree).
 
 If the user picks `multiple`, codify each vehicle in a separate atomic commit.
 
 ### 7B.b. Lint rule vehicle
 
-1. Read `eslint.config.js` and `eslint-rules/` to learn the project's custom-rule conventions (rule file shape, naming, registration).
-2. Write a new rule under `eslint-rules/<rule-name>.cjs` (the existing pattern — see `enforce-base-modal.cjs` et al.). Follow the existing custom rules' shape — name format, severity, message, fix function if mechanically auto-fixable.
-3. Register the rule in `eslint.config.js`. Default severity: `warn` (matches the project's "warnings as known migration" baseline). Only use `error` if the user explicitly says "ship blocker."
-4. Run `npm run lint` and capture the new warning count. Compare to baseline. If the new count is enormous (>500 warnings), warn the user — the rule is too noisy and either the pattern isn't actually as load-bearing as thought, or the rule needs scope narrowing. Pause for guidance.
-5. Commit: `architect: codify <pattern> as ESLint rule` — body explains the rule, threshold, and current warning count.
+1. Read the linter config and any existing custom-rule directory (the overlay's `## Lint vehicle` names both) to learn the project's custom-rule conventions — rule file shape, naming, registration. If the repo has no custom-rule mechanism at all, say so and fall back to a docs vehicle.
+2. Write the new rule where the existing ones live, following their shape — name format, severity, message, fix function if mechanically auto-fixable.
+3. Register it in the linter config. Default severity: `warn` (a new rule over existing code is a migration, not a wall). Only use `error` if the user explicitly says "ship blocker."
+4. Run the lint gate and capture the new warning count. Compare to baseline. If the new count is enormous (>500 warnings), warn the user — the rule is too noisy and either the pattern isn't actually as load-bearing as thought, or the rule needs scope narrowing. Pause for guidance.
+5. Commit: `architect: codify <pattern> as lint rule` — body explains the rule, threshold, and current warning count.
 
-### 7B.c. Docs vehicle (stack or claude)
+### 7B.c. Docs vehicle (architecture digest or rules file)
 
-1. Read the target file (`.claude/codebase-stack.md` or `.claude/CLAUDE.md`).
-2. Find the right insertion point — for stack: a section like "Strong patterns" or under the architecture section it relates to; for CLAUDE.md: under "Important Conventions" with a subsection.
+1. Read the target file the overlay's `## Docs vehicles` names.
+2. Find the right insertion point — for the digest: a "Strong patterns" section or the architecture section it relates to; for the rules file: under its conventions heading, with a subsection.
 3. Write the section: name, why it works (the "load-bearing" reasoning from the strong-pattern entry), canonical example with `file:line` reference, anti-shape to avoid, optional pointer to the lint rule if `multiple` was picked.
 4. Keep it concise — 10-25 lines. Long convention docs go unread.
 5. Commit: `architect: codify <pattern> in <file>` — body quotes the appended section.
 
 ### 7B.d. Test guard vehicle
 
-1. Read existing structural tests if any (`Grep "describe.*('structural'|'invariant'"` in `src/**/*.test.ts`).
-2. Write a vitest test under the most relevant location (typically `src/__tests__/structural/<pattern>.test.ts`).
-3. The test should walk the file tree (use `fast-glob` or Node `fs`), grep for the anti-shape, and assert zero violations. Provide a clear failure message that points the offender to the strong-patterns entry and the rule.
-4. Run `npm run test -- --run` and confirm the new test passes against current code.
+1. Read existing structural tests if any (grep the test tree for `structural` / `invariant` describes).
+2. Write the test with the repo's own runner (the overlay's `## Test guard vehicle`, else the runner in `package.json` scripts or the toolchain default), in the location the repo already puts such tests.
+3. The test should walk the file tree, grep for the anti-shape, and assert zero violations. Provide a clear failure message that points the offender to the strong-patterns entry and the rule.
+4. Run the test gate and confirm the new test passes against current code.
 5. Commit: `architect: codify <pattern> as structural test guard`.
 
 ### 7B.e. Update the strong-patterns entry
@@ -682,8 +700,8 @@ In `$VAULT/Architect/strong-patterns.md`, update the entry:
 - `Codification status: lint-rule-added | docs-written | test-guard-added` (or combination — list all that were added)
 - Add `Codified: {date}` line.
 - Add `Codification ADR: [[Architect/decisions/{date}-codify-{slug}]]` (see 7B.f).
-- If a docs vehicle was used, link to the file: `Docs at: .claude/codebase-stack.md#<anchor>`.
-- If a lint vehicle was used: `Lint rule: eslint-rules/<rule-name>.cjs`.
+- If a docs vehicle was used, link to the file: `Docs at: <file>#<anchor>`.
+- If a lint vehicle was used: `Lint rule: <rule file path>`.
 
 ### 7B.f. Mini-ADR
 
@@ -894,9 +912,9 @@ Triage:
 
 Same logic as `/research` and `/explorer`: read all `Lessons/*-architect.md`, look for repeated drop reasons. After 3+ observations, propose adding to `$VAULT/Patterns/architect-preferences.md`.
 
-### 10e. codebase-stack.md update check
+### 10e. Architecture-digest update check
 
-Did this run discover a structural fact about the codebase that future runs need to know? Architect runs are *especially* prone to this — sub-agent reports often surface boundaries the skill didn't have on its map. If yes, edit `.claude/codebase-stack.md` directly with the new fact, tagged with run date.
+Did this run discover a structural fact about the codebase that future runs need to know? Architect runs are *especially* prone to this — sub-agent reports often surface boundaries the skill didn't have on its map. If yes, edit the architecture digest (the overlay's first `## Context sources` entry; with no overlay, the repo's rules file) directly with the new fact, tagged with run date.
 
 ### 10f. Update coverage.md
 
@@ -994,18 +1012,18 @@ Architect run complete.
     Aging surfaced: {A} (from prior runs >=60d old)
     Aging actioned: {codified: K, snoozed: S, dropped: D}
 
-  Files updated:
-    + Obsidian/personas/Architect/scans/{date}-{slug}.md
-    + Obsidian/personas/Lessons/{date}-architect.md
-    + Obsidian/personas/Architect/decisions/{date}-{slug}.md  (x {N})
-    ~ Obsidian/personas/Architect/backlog.md
-    ~ Obsidian/personas/Architect/weak-patterns.md  (if any weak findings)
-    ~ Obsidian/personas/Architect/strong-patterns.md  (if any strong findings)
-    ~ Obsidian/personas/Architect/coverage.md
+  Files updated:   ($VAULT = {resolved vault root})
+    + $VAULT/Architect/scans/{date}-{slug}.md
+    + $VAULT/Lessons/{date}-architect.md
+    + $VAULT/Architect/decisions/{date}-{slug}.md  (x {N})
+    ~ $VAULT/Architect/backlog.md
+    ~ $VAULT/Architect/weak-patterns.md  (if any weak findings)
+    ~ $VAULT/Architect/strong-patterns.md  (if any strong findings)
+    ~ $VAULT/Architect/coverage.md
     {if pattern promoted:}
-    ~ Obsidian/personas/Patterns/architect-preferences.md
-    {if codebase-stack.md updated:}
-    ~ .claude/codebase-stack.md
+    ~ $VAULT/Patterns/architect-preferences.md
+    {if the architecture digest was updated:}
+    ~ {digest path}
 
   Next?
     1. /architect resume     - execute next decision ({Q} pending)   <- default if Q > 0
@@ -1023,7 +1041,7 @@ Architect run complete.
 
 - **Cadence** — once a week is plenty. Architect runs are heavy; the backlog absorbs the inventory and resume mode amortizes the work.
 - **Scan vs resume** — alternate. Scan to fill the queue, resume to drain it. A backlog of 20 pending items means the next session should be resume, not scan.
-- **Coexist with uncommitted work.** This skill's pattern is the canonical reference cited by CLAUDE.md's parallel-safety primitives — keep it aligned with that section. Architect never requires a clean baseline on a shared checkout: inspect what's there, edit only its own paths, stage only those paths, and verify the staged index before every commit (Phase 7d step 6). Never `git stash`, never `git reset --hard`, never `git checkout --` someone else's work. Physical isolation comes from the worktree default (Phase 7a), not from cleaning the shared tree.
+- **Coexist with uncommitted work.** Where the repo law declares parallel-safety primitives, this is the pattern they describe — keep the two aligned. Architect never requires a clean baseline on a shared checkout: inspect what's there, edit only its own paths, stage only those paths, and verify the staged index before every commit (Phase 7d step 6). Never `git stash`, never `git reset --hard`, never `git checkout --` someone else's work. Physical isolation comes from the worktree default (Phase 7a), not from cleaning the shared tree.
 - **Conflict signal** — if a finding contradicts a `strong-pattern` already in the vault, treat it as the most interesting finding of the run. Either the strong-pattern entry is stale (codebase moved on) or the new finding is wrong. Either way, the answer changes the model meaningfully.
 - **Drift signal** — if 3 consecutive scans on different themes produce backlog items but zero get executed via resume, the user is using architect as a brainstorming tool, not a shipping tool. Surface this in self-reflection: ask whether to lower the bar for execution or accept that the backlog is the artifact.
 - **Tech swaps are the riskiest** — never propose a swap with reach ≥100 files unless smell strength is 5. A reach-280 swap (the react-hook-form example) is a multi-week project; the ADR's Rollout section should reflect that with 5–10+ atomic PRs.
@@ -1033,17 +1051,17 @@ Architect run complete.
 This skill declares `contexts: tracked` — the Personas app measures per-context memory coverage for it. When run inside a Personas-managed repo (a `.personas/` dir exists, or the app dispatched this run), before finishing append JSON lines to `.personas/memory-outbox.jsonl` at the repo root (append, never rewrite) — one node per context you meaningfully worked on:
 
 ```json
-{"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name from .claude/codebase-context.md>","skill":"architect"}
+{"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name the app knows>","skill":"architect"}
 ```
 
 **Which name — this is the part that silently fails.** The ingest anchors a node
 by matching `context` against the names the app actually knows, case-insensitively.
 A name it does not recognize is NOT an error: the node is stored with a null
-context and simply never counts toward coverage. Use the **product-level context
-names in `.claude/codebase-context.md`** (49 names under 8 groups — the taxonomy
-CLAUDE's project map describes). Do NOT use repo-root `context-map.json`: it is a
-stale (2026-07-10) Vibeman auto-map with 236 mechanical names like
-`tauri:engine [3/10]` and `plugins/dev-tools [2/3]`, none of which the app knows.
+context and simply never counts toward coverage. Use the name set the overlay's
+`coverage_context_source` declares; with no overlay, use the context map's names.
+**A repo whose map and whose app disagree must say so in the overlay** — a
+mechanically generated map and a product-level taxonomy can share almost no names,
+and anchoring to the wrong one loses every node silently.
 
 Always set both `"skill":"architect"` and `"context":"<name>"` — together they drive the per-skill context-coverage % (last 30 days). The app ingests and deletes the file when the session ends. Skip silently when not Personas-managed.
 

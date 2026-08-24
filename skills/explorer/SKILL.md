@@ -5,13 +5,41 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.0.0
+version: 1.1.0
 ---
 # Explorer
 
-Wander a logical section of the personas codebase, surface exactly **10 items** worth fixing, let the user triage, then execute the accepted ones in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
+Wander a logical section of a codebase, surface exactly **10 items** worth fixing, let the user triage, then execute the accepted ones in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
 
-This skill is **personas-specific.** It uses `.claude/codebase-context.md` (refreshed by `/refresh-context`) as the natural area taxonomy, and the Obsidian vault for run records, coverage tracking, and cross-run learning.
+The method is **repo-agnostic**: it takes its area taxonomy from whatever context source the repo has, and keeps a vault for run records, coverage tracking, and cross-run learning. Everything one repository is lives in the overlay below, each key with a default, so a repo that carries no overlay still gets a full sweep.
+
+## Project overlay
+
+Everything project-specific lives in ONE overlay the run reads in Phase 0: **`.claude/explorer/config.md` in the consuming repo** (tracked, so it travels with the clone and survives the vault, which is not version-controlled). **The sweep runs with no overlay at all** — every key below has a default — but say so in the Phase 0 opening line when defaults are in force, and never paste one repo's overlay into this file.
+
+Overlay shape: YAML frontmatter for scalars, markdown `##` sections for lists and prose. Keys (default in brackets):
+
+```yaml
+---
+product: "<product name>"             # sweep-note header  [the repo directory name]
+stack: "<one-line stack description>" # what the scan expects to read  [detected from package.json / Cargo.toml / manifest, else "unknown"]
+vault: ["<abs obsidian root>", ...]   # candidate roots, first existing wins  [<repo>/.explorer]
+vault_subdir: Explorer                # namespace inside the vault; "" = the root itself  [Explorer]
+context_map: context-map.json         # the area taxonomy's machine-readable source  [context-map.json if present, else none]
+coverage_context_source: ""           # which name set the memory outbox anchors to  [the context map's names]
+active_runs_ledger: ""                # path of a live-sessions ledger if the repo keeps one  [none; git status only]
+---
+```
+
+| Section | What it carries | Default when absent |
+|---|---|---|
+| `## Context sources` | the documents Phase 1 reads, in order, each with one line on what it is for (area taxonomy, architecture digest, project rules) | `context-map.json` if present, else `CLAUDE.md` (then `AGENTS.md`); a missing source is **noted, never fatal** |
+| `## Area menu` | the numbered options for Q1 and what each maps to | derived from the context map's groups (or the repo's top-level source directories), capped at 8 |
+| `## Category menu` | extra categories beyond the built-in eight | the built-in eight only |
+| `## Gates` | the validation each executed item must pass, keyed by what it touched | detect from `package.json` scripts (`check`/`typecheck`, `lint`, `test`) and the toolchain (`cargo check` when `Cargo.toml` exists, `npx tsc --noEmit` when a tsconfig does); say what was detected |
+| `## Repo law` | the conventions an executed item must honor: i18n contract (which locale files a new string lands in, by which pipeline), design tokens, shared-component catalog, error handling, boundary wrappers | "read the repo's CLAUDE.md/AGENTS.md first; reuse before building" |
+| `## Baseline exclusions` | known-noisy migrations that must never become items (a large lint baseline the repo fixes as-you-touch, a half-done extraction) | none — but if the linter reports thousands of warnings of one rule, treat that rule as a baseline and say so |
+| `## Smoke` | how to run the app and exercise a surface for visual verification | state plainly that the change was NOT visually verified |
 
 ## Interaction conventions
 
@@ -30,18 +58,13 @@ Ask **two** numbered-menu questions, in this order. Numeric input picks the opti
 ```
 Area? (Enter = pick for me)
   1. other -> type a hint (path fragment, keyword, or context id)
-  2. agents
-  3. execution
-  4. observability
-  5. automation
-  6. collaboration
-  7. security
-  8. plugins
-  9. platform
+  2. {area 1}
+  ...
+  9. {area 8}
   10. pick for me   <- default
 ```
 
-Numeric options 2–9 map 1:1 to the 8 groups in `codebase-context.md` (`Agent Platform`, `Execution Engine`, `Observability`, `Automation & Pipelines`, `Team Collaboration`, `Security & Credentials`, `Plugin Ecosystem`, `Platform Infrastructure`). Option 1's free text falls through to the Phase 2a resolver (path fragment / keyword / exact context id). Option 10 / Enter triggers Phase 2b auto-pick.
+Numeric options 2–9 are the overlay's `## Area menu`; with no overlay, derive up to 8 from the context map's groups (or the repo's top-level source directories) and print what you derived them from. Option 1's free text falls through to the Phase 2a resolver (path fragment / keyword / exact context id). Option 10 / Enter triggers Phase 2b auto-pick.
 
 ### Q2 — Category
 
@@ -67,11 +90,12 @@ If the user replies just "go" or "wander" or types `/explorer` with no arguments
 
 ## Constants
 
-- **Codebase reference files** (always loaded):
-  - `.claude/codebase-context.md` — feature map rendered from `context-map.json` (8 groups, 49 contexts). The natural area taxonomy.
-  - `.claude/codebase-stack.md` — hand-curated architecture, conventions, engine internals.
-  - `.claude/CLAUDE.md` — project rules (i18n, design tokens, error handling, lint baseline, parallel safety).
-- **Vault root** (resolved at Phase 0):
+- **Codebase reference files** (always loaded) — whatever the overlay's `## Context sources` names, in its order. With no overlay, resolve in this order and use what exists:
+  - `context-map.json` (repo root, or the overlay's `context_map`) — the machine-readable area taxonomy: contexts, file lists, keywords, entry points.
+  - `CLAUDE.md` (then `AGENTS.md`, then `.claude/CLAUDE.md`) — project rules: conventions, error handling, any lint baseline, parallel-session discipline.
+  - Any architecture digest or feature map the overlay maps in — these are what let the wander go deeper than a file listing.
+  - A missing source is **noted in the opening line, never fatal.** With none at all, derive a provisional taxonomy from the repo's top-level source directories and say the sweep is running provisional.
+- **Vault root** (resolved at Phase 0; `$VAULT/<vault_subdir>/` throughout, written below as `Explorer/` for the default subdir):
   - `Explorer/sweeps/` — one note per run, the canonical artifact
   - `Explorer/state.md` — informational claim board (which areas are being explored *right now*)
   - `Explorer/coverage.md` — heatmap of last visit per area + yield density
@@ -84,14 +108,17 @@ If the user replies just "go" or "wander" or types `/explorer` with no arguments
 
 ---
 
-## Phase 0: Resolve vault path
+## Phase 0: Read the overlay, resolve the vault
+
+Read `.claude/explorer/config.md` if it exists (§ Project overlay). Resolve `VAULT` = the first `vault` candidate that exists; if none does, fall back to `<repo>/.explorer/` — the same schema, still an Obsidian-openable folder — and **create it**. A missing vault is never a reason to abort:
 
 ```bash
-VAULT="C:/Users/kazda/Documents/Obsidian/personas"
-[ -d "$VAULT" ] || { echo "No personas vault at $VAULT. Aborting."; exit 1; }
+VAULT=""
+for c in "${VAULT_CANDIDATES[@]}"; do [ -d "$c" ] && { VAULT="$c"; break; }; done
+[ -n "$VAULT" ] || { VAULT="$PWD/.explorer"; mkdir -p "$VAULT"; echo "No configured vault found - using fallback $VAULT"; }
 ```
 
-Record `$VAULT` for the rest of the run.
+Record `$VAULT` (and `vault_subdir`, default `Explorer`) for the rest of the run, and open with one line saying which vault won and whether an overlay was found. Git-ignore a fallback vault if a concurrent agent shares the branch.
 
 ### Bootstrap (one-time per vault)
 
@@ -143,16 +170,15 @@ Don't create `Lessons/` (already shared with `/research`).
 
 ## Phase 1: Load context & memory
 
-### 1a. Required-file check
+### 1a. Context-source check
 
-For each of `codebase-context.md` and `codebase-stack.md` under `.claude/`:
-- If missing → stop and instruct the user to run `/refresh-context`.
+Resolve the overlay's `## Context sources` (or the defaults in § Constants). Report which exist and which do not in one line. **Nothing here stops the run** — a missing source narrows the wander, and saying so is the honest opening. If the repo has a command that regenerates one and the overlay names it, offer it as a `Next?` option rather than blocking.
 
 ### 1b. Read in order
 
-1. `.claude/codebase-context.md` — to learn the area taxonomy (8 groups, 49 contexts, file paths, keywords).
-2. `.claude/codebase-stack.md` — to learn engine internals and conventions.
-3. `.claude/CLAUDE.md` — to learn project rules (i18n, design tokens, error handling, lint baseline).
+1. The **area taxonomy** — groups, contexts, file paths, keywords, entry points.
+2. The **architecture digest** the overlay names, if any — engine internals and conventions.
+3. The repo's **rules file** — conventions, error handling, any lint baseline; plus the overlay's `## Repo law`.
 4. `$VAULT/Architect/strong-patterns.md` (if present) — to know the canonical shapes the codebase has been observed to do well. When you propose a fix in Phase 5, **prefer the shape of an existing strong pattern** over inventing a new one. Reference the pattern in the item's `strong_pattern_ref` field.
 5. `$VAULT/Patterns/explorer-preferences.md` — to deprioritize finding shapes the user has rejected before.
 6. `$VAULT/Explorer/state.md` — to know what *other* explorers are working on right now.
@@ -166,10 +192,10 @@ In `$VAULT/Explorer/state.md`, any entry whose `claimed_at` is older than 2 hour
 
 ### 1d. Snapshot freshness
 
-Parse the `Generated:` line in `codebase-context.md`. If >30 days old OR `git rev-list --count HEAD` has advanced by >200 since `git_commit_count` in the snapshot footer, warn but continue:
+If the area taxonomy carries a generation timestamp or commit count, compare it to now. If >30 days old OR `git rev-list --count HEAD` has advanced by >200 since it was written, warn but continue:
 ```
-Warning: codebase-context.md may be stale ({N} commits / {D} days since last refresh).
-Consider running /refresh-context after this session.
+Warning: the area taxonomy may be stale ({N} commits / {D} days since it was generated).
+Consider regenerating it after this session.
 ```
 
 ---
@@ -178,11 +204,11 @@ Consider running /refresh-context after this session.
 
 ### 2a. If user gave a hint
 
-Resolve the hint to one or more contexts in `codebase-context.md`:
-- Exact group name (e.g. `vault`) → all contexts under that group.
-- Exact context id (e.g. `agent-chat-interface`) → that single context.
-- Path fragment (e.g. `agents/sub_chat`) → contexts whose `Files:` overlap.
-- Keyword (e.g. `i18n`) → contexts whose `Keywords:` match.
+Resolve the hint to one or more contexts in the area taxonomy:
+- Exact group name → all contexts under that group.
+- Exact context id → that single context.
+- Path fragment → contexts whose file lists overlap.
+- Keyword → contexts whose keywords match.
 
 If the resolution is ambiguous (>3 plausible areas), present a short numbered list and ask "which one?" before continuing.
 
@@ -220,7 +246,7 @@ Append an entry to `$VAULT/Explorer/state.md` under the `## Active` section:
 
 This is **informational, not a lock.** Other explorers reading this file will pick a different area. There's no enforcement, but the user said only one explorer runs at a time, so this is sufficient for awareness.
 
-Also append one entry to the repo ledger `.claude/active-runs.md` under `## Active` (per CLAUDE.md "Concurrent CLI sessions"), declaring the area's paths as your scope. If an existing `started` entry <2h old overlaps those paths, surface the conflict to the user before scanning.
+**If the overlay names an `active_runs_ledger`**, also append one entry to it under `## Active`, following the format conventions at the top of that file, declaring the area's paths as your scope. If an existing `started` entry <2h old overlaps those paths, surface the conflict to the user before scanning. With no ledger declared, `git status` is the whole coordination surface: note foreign uncommitted work and never sweep it into your commits.
 
 Print the claim line to the user so they know what's recorded.
 
@@ -234,14 +260,14 @@ Read enough of the area to identify 10 items. Budget your tool calls — don't r
 
 For an area with N files:
 - N ≤ 5: read all of them.
-- 5 < N ≤ 20: read all entry-point files (from `codebase-context.md` `Entry points:` line) + a random sampling of the rest, capped at 10 file reads.
+- 5 < N ≤ 20: read all entry-point files (the taxonomy's entry points for the context; failing that, the files the rest of the area imports most) + a random sampling of the rest, capped at 10 file reads.
 - N > 20: read all entry points + grep-discover the largest files (`Glob` then sort by line count) + sample 5–8 of those.
 
 Use `Read` with offset/limit when files are >500 lines — read top + bottom + a middle slice rather than the full file.
 
 ### 4b. What to look for, by category
 
-**Hard exclusion — lint-baseline migrations.** The ~10k-warning baseline (`custom/no-raw-*-classes` design-token migration, `custom/no-hardcoded-jsx-text` i18n extraction) is fix-as-you-touch per CLAUDE.md, never a standalone item. Do NOT surface "migrate raw Tailwind classes in X" or "extract N hardcoded strings from Y" as items. i18n/ui items must be *structural* defects (wrong mechanism, broken behavior), not baseline backlog.
+**Hard exclusion — lint-baseline migrations.** Anything the overlay's `## Baseline exclusions` lists is fix-as-you-touch, never a standalone item. With no overlay, detect the same shape: a lint rule reporting warnings in the thousands is a declared migration, not a finding. Do NOT surface "migrate the raw utility classes in X" or "extract N hardcoded strings from Y" as items. Such items must be *structural* defects (wrong mechanism, broken behavior), not baseline backlog.
 
 For `quality`:
 - Dead code, unreachable branches, unused exports.
@@ -252,13 +278,13 @@ For `quality`:
 
 For `dx`:
 - Test setup boilerplate that could be a fixture.
-- Type-unsafe IPC call sites (raw `invoke` instead of `invokeWithTimeout`).
-- Repeated try/catch boilerplate that should use `toastCatch` / `silentCatch` / `resolveError`.
-- Build-time hot-paths (large bundles, slow rebuilds) — use `npm run build` output if recent.
+- Call sites bypassing the repo's own typed wrapper for a boundary (a raw client call where the repo law names a wrapper).
+- Repeated try/catch boilerplate that should use the repo's error helpers.
+- Build-time hot-paths (large bundles, slow rebuilds) — use recent build output if there is any.
 - Missing error context (errors thrown without enough info to debug).
 
 For `ui`:
-- Hand-rolled duplicates of shared primitives (spinner, empty state, modal backdrop, tooltip — see CATALOG.md table in CLAUDE.md).
+- Hand-rolled duplicates of shared primitives (spinner, empty state, modal backdrop, tooltip — check the repo's shared-component catalog before calling one missing).
 - Visual bugs (overflow, alignment, contrast). Only flag if you can reproduce or strongly suspect from the code.
 - Inconsistent spacing/radius/shadow vs the design tokens.
 - Missing loading / empty / error states on user-facing components.
@@ -281,10 +307,10 @@ For `bug`:
 - Errors swallowed silently (catch with empty body or just `console.log`).
 
 For `i18n`:
-- Status tokens displayed raw (should use `tokenLabel()`).
-- Error messages bypassing `resolveErrorTranslated()`.
-- Constants with `label:` instead of `labelKey:`.
-- New feature-scoped `i18n/` dirs or parallel locale data (forbidden — everything goes through `src/i18n/locales/en.json`).
+- Status tokens displayed raw where the repo law names a token-label helper.
+- Error messages bypassing the repo's translated-error path.
+- Constants carrying a literal label where the convention is a key.
+- Feature-scoped locale directories or parallel locale data that route around the repo's single catalog.
 - NOT bulk string extraction — that's the lint-baseline exclusion above.
 
 For `a11y`:
@@ -320,7 +346,7 @@ Drop any candidate whose anchor was plausibly fixed or reworked by a recent comm
 ### 4e. Stop conditions
 
 - 10 items found → stop scanning, move to Phase 5.
-- Exhausted the area without 10 items → widen scope by pulling in the *adjacent* context from the same group in `codebase-context.md`. Note the widening in the run record. If still <10 after widening twice, stop with what you have and explain the shortfall.
+- Exhausted the area without 10 items → widen scope by pulling in the *adjacent* context from the same group in the area taxonomy. Note the widening in the run record. If still <10 after widening twice, stop with what you have and explain the shortfall.
 - Tool budget exceeded (>40 file reads) → stop with what you have.
 
 **Do not pad the list** with low-value items just to hit 10. Quality over quota. If you stop short, the run record explains why.
@@ -345,11 +371,11 @@ For each of the 10 (or fewer) items, capture:
   evidence: "<2-3 sentence explanation of the gap, with verbatim code snippet if helpful>"
   suggested_fix: "<1-2 sentence shape of the fix - not the fix itself>"
   strong_pattern_ref: "<wikilink to Architect/strong-patterns#... entry>" | null
-  i18n_impact: "<none | adds keys to en.json (all locales!) | touches existing keys>"
+  i18n_impact: "<none | adds new strings (every locale in the same change!) | touches existing keys>"
   cluster_hint: "<other ids that ship naturally with this one, or 'standalone'>"
 ```
 
-**On `strong_pattern_ref`:** if the suggested fix matches the shape of an entry in `Architect/strong-patterns.md` (e.g. proposing memoization on a Zustand selector when the strong pattern "Zustand slice + useShallow" exists), set `strong_pattern_ref` to the wikilink. The fix should then **conform to the canonical example** in that entry, not invent a new shape. If no strong pattern applies, leave it null.
+**On `strong_pattern_ref`:** if the suggested fix matches the shape of an entry in `Architect/strong-patterns.md` (proposing a shape the digest already records as load-bearing), set `strong_pattern_ref` to the wikilink. The fix should then **conform to the canonical example** in that entry, not invent a new shape. If no strong pattern applies, leave it null.
 
 ### Severity rubric (be honest)
 
@@ -429,10 +455,7 @@ For each accepted item, execute it **in this same session**. Same default as `/r
 **Single accepted item with a clear anchor (Option A):**
 1. Apply the edit at `anchor`.
 2. Run validation:
-   - Rust → `cargo check` in `src-tauri/` (needs `--features desktop`)
-   - TypeScript → `npx tsc --noEmit`
-   - i18n (if locales touched) → `npm run check:i18n:strict`
-   - Frontend → `npm run lint` (warnings OK; errors must be fixed)
+   Run what the overlay's `## Gates` maps to what the item touched; with no overlay, the detected typecheck / lint / test / compile commands — print what you detected. Lint warnings at the repo's known baseline are OK; errors, and NEW warnings in the files you touched, are not.
 3. **Stage scoped + verify + commit in ONE Bash invocation** (concurrent sessions rewrite the index between separate calls):
    ```bash
    git add path/one path/two && git diff --cached --stat
@@ -450,19 +473,17 @@ For each accepted item, execute it **in this same session**. Same default as `/r
 **Item that needs more thought (Option D — escape hatch):**
 Record it in the run record as `decided: deferred` with the reason. Do NOT write a handoff file. The run record is the future search target. Use sparingly — prefer A or B.
 
-### Frontend changes — non-negotiable
+### Repo law — non-negotiable
 
-If any accepted item touches `src/**/*.tsx`:
-- Honor i18n contract: all user-facing strings via `useTranslation()` + keys in `src/i18n/locales/en.json`. No hardcoded English in JSX, placeholder, title, aria-label.
-- **New en.json keys must be translated into all 13 other locales in the same commit** (the `i18n-no-gaps` pre-commit hook blocks gaps). For 1–3 keys use the translate pipeline (`translate-extract.mjs` → per-locale fill → `translate-merge.mjs`). If an item would add many keys, defer it — that's a session of its own, not a paper cut.
-- Status tokens via `tokenLabel()` from `src/i18n/tokenMaps.ts`; error messages via `resolveErrorTranslated()`.
-- Use semantic design tokens (Design.md §8) and shared components from the catalog — no raw white/black/shadow utilities, no hand-rolled primitives.
+Every accepted item honors the overlay's `## Repo law` in full: its i18n contract (which locale files a new string must land in, and by which pipeline — a repo with a no-gap pre-commit hook will block you otherwise), its token-label and translated-error helpers, its design tokens and shared-component catalog, its boundary wrappers. With no overlay, read the repo's rules file and follow what it states; where it states nothing, match the shape of the surrounding code rather than inventing one.
 
-If you can't honor these in the change, defer the item — don't ship it half-converted.
+**A string-adding item in a many-locale repo is not a paper cut.** If an item would add more than a handful of keys, defer it — that's a session of its own.
+
+If you can't honor the repo law in the change, defer the item — don't ship it half-converted.
 
 ### Frontend visual verification
 
-If a change is visually meaningful (UI category, or any change to a rendered component shape), state explicitly that you have NOT visually verified, OR start `npm run dev` and exercise the affected surface in a browser before committing. Don't claim "looks good" from code review alone.
+If a change is visually meaningful (UI category, or any change to a rendered component shape), follow the overlay's `## Smoke` to run the app and exercise the affected surface before committing. With no `## Smoke`, state explicitly that you have NOT visually verified. Don't claim "looks good" from code review alone.
 
 ---
 
@@ -606,7 +627,7 @@ Update or insert the row for this area:
 
 ### 9g. Release the claim
 
-Remove the entry written in Phase 3 from `$VAULT/Explorer/state.md`, and move the `.claude/active-runs.md` entry to the top of `## Recently completed` with the resulting commit SHA(s) (or `aborted (<reason>)`).
+Remove the entry written in Phase 3 from `$VAULT/Explorer/state.md`, and — if a ledger was used — move its entry to the top of `## Recently completed` with the resulting commit SHA(s) (or `aborted (<reason>)`).
 
 ---
 
@@ -627,13 +648,13 @@ Explorer run complete.
   Coverage update: last visit {date} -> {today}, yield density {X}/{Y}
 
   Files updated:
-    + Obsidian/personas/Explorer/sweeps/{date}-{slug}.md
-    + Obsidian/personas/Lessons/{date}-explorer.md
-    ~ Obsidian/personas/Explorer/coverage.md
-    ~ Obsidian/personas/Explorer/passes.md  (if any declines)
-    ~ Obsidian/personas/Explorer/state.md   (claim released)
+    + $VAULT/Explorer/sweeps/{date}-{slug}.md
+    + $VAULT/Lessons/{date}-explorer.md
+    ~ $VAULT/Explorer/coverage.md
+    ~ $VAULT/Explorer/passes.md  (if any declines)
+    ~ $VAULT/Explorer/state.md   (claim released)
     {if pattern promoted:}
-    ~ Obsidian/personas/Patterns/explorer-preferences.md
+    ~ $VAULT/Patterns/explorer-preferences.md
 
   Next?
     1. /explorer {staleest adjacent area}                <- default
@@ -659,17 +680,17 @@ If zero items were accepted, frame the run as a successful pass over a healthy a
 This skill declares `contexts: tracked` — the Personas app measures per-context memory coverage for it. When run inside a Personas-managed repo (a `.personas/` dir exists, or the app dispatched this run), before finishing append JSON lines to `.personas/memory-outbox.jsonl` at the repo root (append, never rewrite) — one node per context you meaningfully worked on:
 
 ```json
-{"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name from .claude/codebase-context.md>","skill":"explorer"}
+{"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name the app knows>","skill":"explorer"}
 ```
 
 **Which name — this is the part that silently fails.** The ingest anchors a node
 by matching `context` against the names the app actually knows, case-insensitively.
 A name it does not recognize is NOT an error: the node is stored with a null
-context and simply never counts toward coverage. Use the **product-level context
-names in `.claude/codebase-context.md`** (49 names under 8 groups — the taxonomy
-CLAUDE's project map describes). Do NOT use repo-root `context-map.json`: it is a
-stale (2026-07-10) Vibeman auto-map with 236 mechanical names like
-`tauri:engine [3/10]` and `plugins/dev-tools [2/3]`, none of which the app knows.
+context and simply never counts toward coverage. Use the name set the overlay's
+`coverage_context_source` declares; with no overlay, use the context map's names.
+**A repo whose map and whose app disagree must say so in the overlay** — a
+mechanically generated map and a product-level taxonomy can share almost no names,
+and anchoring to the wrong one loses every node silently.
 
 Always set both `"skill":"explorer"` and `"context":"<name>"` — together they drive the per-skill context-coverage % (last 30 days). The app ingests and deletes the file when the session ends. Skip silently when not Personas-managed.
 
