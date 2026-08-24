@@ -123,3 +123,21 @@ The honest summary: standard streams when parenthood can carry identity;
 streamable HTTP when it cannot; and never HTTP *without* doing the identity
 work, because the transport that can serve many callers will — including the
 callers never invited.
+
+## Horizon: one binding, two carriers (dated 2026-08)
+
+The protocol's declared direction (2026-08 roadmap, Transports WG) is to
+unify on Streamable HTTP as the **single binding** — spoken over the network
+for remote servers and over stdin/stdout for local ones — because the
+protocol increasingly leans on HTTP specifics (headers, status codes) that
+today need a second stdio-only design or simply don't exist locally. If it
+lands, "two transports" becomes "one transport, two carriers."
+
+What that changes and what it does not: the **framing** is the mutable part —
+a server that hand-rolls stdio message framing instead of leaving it to an
+SDK is building on the exact layer slated to move. The **decision logic of
+this technique is the durable part** and survives unification intact:
+identity-by-parenthood versus identity-by-credential, and reach-of-a-pipe
+versus reach-of-a-listener, are properties of *who spawned what and who can
+route to it*, not of the bytes' shape. Keep investing in the table above;
+keep the framing behind a library seam.

@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-08-22
-touched_by: research, external-reconcile
+last_touched: 2026-08-24
+touched_by: research, external-reconcile, deepen
 dry_streak: 0
 ---
 
@@ -34,6 +34,32 @@ Gained `node--transport-selection` against
 stack; the single-stack debt is cleared. Hint held and was strengthened: the
 dual-era tree makes the technique's claims visible as a literal diff.
 
+### 2026-08-24 - `/deepen`, source-driven (MCP roadmap post, 2026-08-22)
+
+Counter-evidence pass against the golden path and both spec-facing techniques
+came back **all-confirmed** — every standing claim (stateless sessions, MRTR
+elicitation, sampling/logging deprecation, handle discipline, task handles)
+matches the shipped 2026-07-28 spec as reported by multiple independent
+secondary sources. No corrections needed; that is the result.
+
+Two earned widenings, both from *shipped* spec rather than roadmap
+speculation:
+
+- `authentication-and-scoping` gained **client identity** (CIMD replacing
+  dynamic client registration, mandatory RFC 9207 issuer validation,
+  issuer-bound credentials, DPoP-bound tokens) — a real coverage gap: the
+  technique governed tokens and scopes but not how a client proves who it is.
+  Includes a dated (2026-08) note on the open non-interactive-agent-identity
+  question and the honest interim pattern.
+- `transport-selection` gained a dated **horizon section** on the declared
+  HTTP-over-stdio unification: framing is the mutable layer (keep it behind
+  an SDK seam), the identity/reach decision logic is durable. Added because
+  it changes what a consumer building a server today should invest in, not
+  because the roadmap is spec.
+
+Declined as not-knowledge: SDK developer-experience priority (tooling churn),
+and writing any roadmap item into a technique as if it were standing spec.
+
 ## Open leads
 
 - **The seam with `prompt-assembly/context-reachability`**, landed the same run: granting
@@ -42,6 +68,24 @@ dual-era tree makes the technique's claims visible as a literal diff.
 - **The orchestration/agency dial is under-covered corpus-wide.** Two of three picks this
   run were about it. That is a `/deepen` target on its own rather than something to wait
   for a source to raise.
+
+From the 2026-08 roadmap (each with a return condition — none is spec yet):
+
+- **Tasks extension (SEP-2663) → core promotion.** Golden path already
+  describes the poll-based handle correctly. Return when a spec release
+  actually promotes it (quarterly cadence; check ~2026-11) — at that point
+  "extension" wording in the golden path becomes stale.
+- **Server-initiated events (webhooks/channels).** Would soften the standing
+  claim that "polling remains the correctness path." Return when the
+  Triggers & Events WG ships something normative; until then the claim is
+  correct and load-bearing.
+- **Agent identity via workload identity federation / token exchange.**
+  The auth technique now carries the dated open-question note; return when
+  a SEP lands to replace the interim pre-provisioned-token pattern.
+- **Progressive discovery for 100+ tool catalogs.** The practice is already
+  in the golden path and client-integration as host-side discipline; return
+  when a protocol-level mechanism ships, which would move it from "host
+  curation" to "wire feature."
 
 From the reconcile (convergence rule applies):
 
