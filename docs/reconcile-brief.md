@@ -138,10 +138,14 @@ run on a bundle whose consult path is unknown:
   **media-generation** by `systedo-case`. Four bundles have a consumer whose agent
   guide now carries the registry rules file and a subject map - the consult baseline is
   3 consults and 4 deviations on 2026-08-23, and the next sweep reads whether it moved.
-- **civic-intelligence** and **grant-funding** have NO connected project. Reconciling
-  them produces world-facing value only - a reader of the public registry - which no
-  instrument here measures. The lane runs on them last, and only after the operator
-  accepts unmeasured value or a consumer connects.
+- **civic-intelligence** and **grant-funding** have no consumer on the authoring
+  device - and the operator has since confirmed consumers EXIST on other devices
+  (correction of 2026-08-24; this brief first read the absence as absence).
+  `librarian/projects.md` maps one machine's checkouts, so a missing row there is
+  absence of a local checkout, not of a consumer. What remains true: no signals
+  contributor witnesses these bundles yet, so their demand is unknown-not-zero until
+  the consuming devices report. The lane may run on them; the run note says whose
+  demand it is serving and that it is not yet witnessed.
 - The `use_when` phrases in these bundles are already written as decision moments
   ("deciding whether a registry's negative answer should block an applicant",
   "reviewing a derived clip before publish", "red verdicts appear on runs nothing
@@ -234,8 +238,9 @@ with documented difficulty systems - weak A); aaa-craft-rubric-authoring (D).
    is already witnessed. Four subjects, not fourteen: the B-class ones with an
    executable artifact.
 3. **civic-intelligence third, as the class B/C instrument pilot**, because its
-   validators are the best in the corpus - and with the operator's explicit acceptance
-   that the value is unmeasured until a consumer connects.
+   validators are the best in the corpus. Its consumers live on other devices
+   (see above); the wave notes that its demand is real but unwitnessed until a
+   signals contributor reports from one of them.
 4. **grant-funding** after civic proves class C.
 5. **media-generation and game-production**: the class-A subjects ride in any wave with
    a free slot; the class-D residue gets accepted-debt notes, not workers.

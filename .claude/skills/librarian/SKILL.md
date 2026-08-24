@@ -3,7 +3,7 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.1.1
+version: 1.2.0
 tags: registry, maintenance, coverage, dispatch, quality
 ---
 
@@ -94,6 +94,7 @@ Choose the engine by what is missing:
 | subject is thin, stale, or contradicted | scoped `/deepen` |
 | subject does not exist but should | forge wave (`/forge`) |
 | a banked lead in `sources/` came due | scoped `/deepen` at the subject the lead names |
+| subject is single-source (one stack, one origin) | `/reconcile` wave against an external counterpart |
 | missing `use_when`, dead link, bad frontmatter | fix in-session; no worker |
 | cap breach, misplaced subject | `apply-taxonomy.mjs`; no worker |
 
