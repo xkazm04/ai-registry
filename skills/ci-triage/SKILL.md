@@ -5,6 +5,7 @@ category: ci-cd
 memory: project
 version: 0.1.0
 tags: triage, failure, logs, diagnosis, proposal
+argument-hint: "[run-url-or-log]"
 ---
 
 # CI triage

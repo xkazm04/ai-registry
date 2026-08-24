@@ -5,6 +5,7 @@ category: testing
 memory: project
 version: 0.1.0
 tags: flaky, quarantine, register, debt, review
+argument-hint: "[test-id | review]"
 ---
 
 # Flake register

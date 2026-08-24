@@ -5,6 +5,7 @@ category: ci-cd
 memory: project
 version: 1.3.0
 tags: pre-push, gate, lint, typecheck, tests
+argument-hint: "[--fix]"
 ---
 
 # CI gate check

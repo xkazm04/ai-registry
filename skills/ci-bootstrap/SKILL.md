@@ -5,6 +5,7 @@ category: ci-cd
 memory: project
 version: 0.1.0
 tags: bootstrap, gate, ratchet, workflow, first-ci
+argument-hint: "[project-root]"
 ---
 
 # CI bootstrap

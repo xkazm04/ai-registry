@@ -5,6 +5,7 @@ category: testing
 memory: project
 version: 2.1.0
 tags: verification, regression, red-green, review
+argument-hint: "[change description]"
 ---
 
 # Test before commit

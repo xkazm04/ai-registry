@@ -4,6 +4,7 @@ category: workflow
 memory: vault
 description: Populate a newly managed repository with the data Personas needs to maintain and develop it - a context map, a feature (use-case) inventory, a triaged KPI set, and optionally simulated KPI data for a product that has not shipped yet. Contexts and features are assigned autonomously; KPIs are negotiated with the operator wave by wave. Scopeable - run all four lanes or just the ones you name. Dispatched by the passport wall, or run standalone with /project-populate.
 version: 1.1.0
+argument-hint: "[contexts|features|kpis|kpi-sim ...]"
 ---
 
 # Project Populate

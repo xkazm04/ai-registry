@@ -4,6 +4,7 @@ description: Promote a specific, already-existing pattern in this repo into the 
 category: ai-native
 memory: none
 version: 1.0.0
+argument-hint: "<what to promote> [--file <path[:line]>] [--kind <kind>] [--topic <area/cluster>]"
 ---
 
 # Promote — self-insert a pattern into the knowledge library

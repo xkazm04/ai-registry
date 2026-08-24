@@ -4,6 +4,7 @@ description: Simulated User Acceptance Testing driven by Characters (representat
 version: 1.7.0
 category: testing
 memory: project
+argument-hint: "init|update|run|recertify|drain|promote [args]"
 ---
 
 # Simulated UAT — Character-driven acceptance
