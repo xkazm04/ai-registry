@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 146,
-  "techniques": 920,
+  "techniques": 921,
   "applications": 400,
   "laws": 12,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "920/920",
+  "use_when_coverage": "921/921",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6582,6 +6582,21 @@
       "attaching durability to existing event chokepoints",
       "a restart forgot sessions that were still running",
       "reconciling mirror claims before serving new work"
+     ]
+    },
+    {
+     "slug": "heterogeneous-model-panels",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a month-scale decision rests on one model's opinion",
+      "grokking a new tool or release with no in-house experience",
+      "a debate transcript is being read as evidence",
+      "deciding whether N calls should be one model sampled N times or N models convened once"
      ]
     },
     {
@@ -17280,6 +17295,7 @@
     "feed/live-prepend",
     "file-browsing/listing-and-refresh",
     "fleet-orchestration/durable-fleet-state",
+    "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/lifecycle-signals",
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/substrate-reconciliation",
@@ -17682,6 +17698,7 @@
     "feed/reverse-chronology-semantics",
     "file-browsing/file-mutations",
     "file-browsing/selection-model",
+    "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",
     "form/error-aggregation-and-focus",

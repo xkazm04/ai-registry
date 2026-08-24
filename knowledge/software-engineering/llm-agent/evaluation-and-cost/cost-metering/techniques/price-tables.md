@@ -50,6 +50,17 @@ A usable rate entry is more granular than "this model costs X":
   a convention in someone's head. This is
   [a count carrying its predicate](../../../../_laws.md#count-carries-predicate)
   applied to a rate.
+- **Threshold schedules, where the rate depends on the call itself.**
+  Several providers price the *same* unit class differently by the call's
+  own context length — one rate up to a published token threshold, a
+  higher rate (input commonly doubling) beyond it — while others sell the
+  full window at a flat rate. A single per-class number is therefore not
+  always a rate; sometimes it is a schedule, and flattening it misprices
+  exactly the calls that dominate spend — the longest ones — and in the
+  dangerous direction, underestimation. The entry carries the schedule,
+  the estimator prices against the call's *projected* size, and the
+  sanity bound evaluates actuals against the tier the call actually
+  landed in, not the headline rate.
 - **All the unit classes the provider meters, not just two.** Providers
   invent unit classes faster than "input/output" admits: cached-context
   reads and writes at their own rates, batch-discounted units, reasoning
@@ -132,5 +143,7 @@ already written. The clean contract:
   defaults to a mid-tier price, one to zero — so callers cannot even say
   which failure mode they got.
 - A blended per-call rate applied to a direction-split workload.
+- A headline per-token rate applied to a workload that routinely crosses
+  the provider's long-context threshold.
 - A units-times-rate "audit" of meter-reported spend treated as the truth
   when the two disagree — the table is the estimate; the meter is the bill.
