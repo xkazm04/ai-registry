@@ -49,6 +49,20 @@ technique predicts: counts and enforcement states, not paths.
   (Also the machine-owned-regions violation: two generators, one
   artifact.)
 
+## Post-sync addendum (same day)
+
+The sync wave of 2026-08-24 closed four of the five findings: the dead
+goal-analysis rule and the spec count (personas-web af7950a — the count
+was removed rather than re-pinned, the stronger move), the census count
+re-measured 201→204 with date and method inline (personas d5fe056a4),
+and the stale warning-about-staleness resolved by removing the
+superseded machine-owned block whole — hand-editing inside the fence was
+correctly refused. The phantom-gate finding closed the honest way, not
+the enforcing way: the doc-sync section now opens "this rule stands
+unenforced — honor-system", keeping the 0/2,367 measurement; the hook
+repair remains deliberately deferred (operator-workflow decision,
+tracked in the repo's deferred-fixes ledger).
+
 ## Tooling exists for the mechanical half
 
 The audit's paths-and-commands line is gate-able today: agents-lint

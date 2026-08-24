@@ -65,6 +65,19 @@ shared-component manifest). Both are the technique's overflow case:
 candidates for loaded-on-touch placement (`paths:`-scoped rules, nested
 files, or pointer-to-artifact), not for a bigger root.
 
+## Post-sync addendum (same day)
+
+A four-worker sync wave landed the technique's fixes on 2026-08-24
+(commits af7950a personas-web, 19fb247d kp, b1069a0a pof, d5fe056a4
+personas). New floors: personas 67,867 B (~17.0k tokens, was ~25k — Rust
+and i18n sections moved to `paths:`-scoped `.claude/rules/` files), pof
+23,883 B (~6.0k, was ~12.5k — the shared-component manifest relocated the
+same way), kp 28,420 B (~7.1k — AGENTS.md digest un-forked to a pure
+bridge, duplicate map block removed), personas-web ~18.0k B (~4.5k).
+Fleet total dropped from ~59k to ~46k always-loaded tokens; the remaining
+personas overweight is hand-curated correction history, retained
+deliberately.
+
 ## External evidence consulted for the same reading
 
 Two 2026 measurements frame what the floor buys: developer-written

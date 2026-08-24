@@ -385,3 +385,10 @@ inverse). New stack `claude-code` registered in index.md.
 Gate green (`check-bundles.mjs`): 147 subjects · 926 techniques · 402
 applications; 3219 concept documents · 7463 links checked; `bundle integrity
 OK`. Index, rules and catalog rebuilt.
+
+Sync wave (same day, operator-approved): four parallel workers landed the
+deviations on current branches — personas-web af7950a, kp 19fb247d, pof
+b1069a0a, personas d5fe056a4; every diff Director-reviewed against the
+techniques. Fleet always-loaded floor ~59k → ~46k tokens; both claude-code
+applications carry a dated post-sync addendum. ascent and systedo-case needed
+nothing.
