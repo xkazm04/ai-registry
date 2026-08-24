@@ -80,6 +80,24 @@ Collapsing the first into the third is the failure this technique exists to prev
    a lost qualified applicant, and it is the only step that can convert *not evidenced*
    into a fact.
 
+## The verification query is part of the gate
+
+The route in step 3 ends at a lookup — a register, an authority's search
+endpoint — and the query's own defaults decide what comes back as much as the
+record does. Search surfaces default toward *retrieval*: a name search that
+silently widens given names to their formal variants, a ranked full-text
+endpoint that returns the nearest description when nothing matches the term.
+Those defaults are right for a human browsing and wrong for a gate, because a
+widened result set reads as evidence: a query for a person who does not appear
+under the searched name can return a page of confident-looking near-matches,
+every one of them somebody else. **A retrieval hit is not a resolution.** The
+gate treats a lookup result as evidence about the candidate only when the match
+is on an exact identifier, or the surface's widening behaviour was explicitly
+pinned off, or a human confirmed the specific row. Anything looser is a
+candidate the search manufactured — and both directions of the error land on a
+real person: the manufactured match attaches someone else's disqualification,
+and the widened miss buries the real record under neighbours.
+
 ## A screen, not a verdict — and the finding should say so
 
 The gap object's own text carries its status. A finding that reads "this candidate lacks
@@ -113,6 +131,10 @@ scroll.
 - **When multiple preconditions are unmet, emit them all.** Truncating to the first one
   produces a candidate who resolves one gap and is knocked back by the next, which is a
   cruelty the system had the information to avoid.
+- **When a verification lookup matched on anything other than an exact identifier,
+  the result is a lead, not evidence.** Record which query produced it and which
+  widening was in force; conclude nothing about the candidate from it without a
+  human confirming the row is the same person.
 - **When the gate fires, record the decision with its actor and its rule**, so the file
   reads as something that happened rather than as an unexplained low ranking.
 

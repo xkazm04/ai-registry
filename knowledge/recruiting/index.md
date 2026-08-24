@@ -4,6 +4,7 @@ okf_bundle_name: recruiting
 okf_bundle_title: Recruiting
 profile: rkb/0.1
 purity: recruiting
+stacks: [spec, data]
 ---
 
 # Recruiting

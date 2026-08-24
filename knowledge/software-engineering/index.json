@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 143,
-  "techniques": 901,
-  "applications": 393,
+  "subjects": 146,
+  "techniques": 921,
+  "applications": 402,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "901/901",
+  "use_when_coverage": "921/921",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3057,6 +3057,256 @@
     }
    ]
   },
+  "companion-identity": {
+   "category": "llm-agent",
+   "subcategory": "companion",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
+   "techniques": [
+    {
+     "slug": "anchored-identity-diffs",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "identity-survives-reuse",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent proposes a change to its own description",
+      "designing the approval surface for self-edits",
+      "a self-document is being rewritten wholesale by the model"
+     ]
+    },
+    {
+     "slug": "capability-exercise-ledger",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent's self-description lists things it can do",
+      "a capability quietly stopped working",
+      "writing documentation of what a companion is able to do"
+     ]
+    },
+    {
+     "slug": "constitution-self-model-split",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what an agent may change about itself",
+      "writing a companion's identity documents",
+      "a rule keeps getting overwritten by the agent's own learning"
+     ]
+    },
+    {
+     "slug": "disk-truth-db-index",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing where a companion's durable self lives",
+      "designing export and import of an agent's accumulated identity",
+      "a database and a folder of notes both claim to be the source of truth"
+     ]
+    },
+    {
+     "slug": "one-mind-many-mouths",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a second channel that speaks as the same agent",
+      "scoping a memory store by conversation",
+      "deciding whether tasks belong to conversations",
+      "the companion must stay reachable while its host is down"
+     ]
+    },
+    {
+     "slug": "operator-profile-synthesis",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent is building a model of its user",
+      "deciding what a companion may infer about a person's character",
+      "designing a personalization feature that reads someone's own history"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "anchored-identity-diffs",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--anchored-identity-diffs.md",
+     "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "rust",
+     "technique": "disk-truth-db-index",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--disk-truth-db-index.md",
+     "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "rust",
+     "technique": "operator-profile-synthesis",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--operator-profile-synthesis.md",
+     "verified_on": "2026-08-23"
+    }
+   ]
+  },
+  "companion-runtime": {
+   "category": "llm-agent",
+   "subcategory": "companion",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/companion-runtime.md",
+   "techniques": [
+    {
+     "slug": "action-catalog-single-source",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a companion is gaining the ability to act and not only talk",
+      "the model emits an action kind nothing executes",
+      "a model-composed surface has no way back to a good state"
+     ]
+    },
+    {
+     "slug": "autonomous-cycle-hosting",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a companion does work between conversations",
+      "two maintenance passes overlapped",
+      "deciding what a background pass may change without asking"
+     ]
+    },
+    {
+     "slug": "headless-turn-stream",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "verdict-survives-boundary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second transport needs to run companion turns",
+      "two messages arrive on one conversation at once",
+      "stopping a turn leaves state behind"
+     ]
+    },
+    {
+     "slug": "host-seam-contracts",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second channel needs the same companion brain",
+      "the companion cannot be constructed in a test",
+      "deciding what a companion runtime may import from its host"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "metered-llm-seam",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "unknown-is-not-a-value",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a background or reactive model call to a companion",
+      "a spend dashboard cannot explain an invoice",
+      "deciding where model access lives in a companion runtime"
+     ]
+    },
+    {
+     "slug": "operative-working-set",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a companion needs to know what is happening right now",
+      "a restart made the companion confidently wrong about the present",
+      "deciding whether a runtime fact belongs in durable memory"
+     ]
+    },
+    {
+     "slug": "signal-economy-contract",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "autonomous work is producing more announcements than value",
+      "deciding whether a background outcome deserves a person's attention",
+      "a companion narrates its own housekeeping"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "action-catalog-single-source",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/rust--action-catalog-single-source.md",
+     "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "rust",
+     "technique": "host-seam-contracts",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/rust--host-seam-contracts.md",
+     "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "rust",
+     "technique": "metered-llm-seam",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/rust--metered-llm-seam.md",
+     "verified_on": "2026-08-23"
+    }
+   ]
+  },
   "concurrency-guards": {
    "category": "backend-platform",
    "subcategory": "work-execution",
@@ -3493,6 +3743,132 @@
      "technique": "schema-driven-forms",
      "file": "knowledge/software-engineering/integration/connector-catalog/applications/react--schema-driven-forms.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "conversation-orchestration": {
+   "category": "llm-agent",
+   "subcategory": "companion",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/conversation-orchestration.md",
+   "techniques": [
+    {
+     "slug": "layered-avatar-state-machine",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a permanent companion presence looks switched off",
+      "the face disagrees with the conversation",
+      "reduced motion removes the only busy signal"
+     ]
+    },
+    {
+     "slug": "model-proposed-quick-replies",
+     "status": "forged",
+     "laws": [
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every turn ends in a blank input box",
+      "a suggestion chip performs an action",
+      "chips from an old turn still offered three exchanges later"
+     ]
+    },
+    {
+     "slug": "narration-promote-on-finish",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "derivation-names-recomputation",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "live progress disappears when a turn settles",
+      "an interrupted turn shows no account of what it did",
+      "the same trail is written twice on a re-observed settlement"
+     ]
+    },
+    {
+     "slug": "progress-beat-grammar",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a long turn produces no observable events to narrate",
+      "teaching a model to report its own progress",
+      "a progress line leaked into the visible answer"
+     ]
+    },
+    {
+     "slug": "recall-transparency",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a companion answers from memory the user cannot see",
+      "a grounding badge that cannot be opened",
+      "deciding what a turn will be remembered as"
+     ]
+    },
+    {
+     "slug": "show-dont-tell-walkthrough",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a companion is asked where something is",
+      "choosing between a dimming tour and a companion walkthrough",
+      "a highlight ring drifts off its target"
+     ]
+    },
+    {
+     "slug": "two-surface-doctrine",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether content goes to the chat or the ambient presence",
+      "the ambient surface is turning into a small chat window",
+      "a decision needs an answer without leaving the work"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "react",
+     "technique": "narration-promote-on-finish",
+     "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--narration-promote-on-finish.md",
+     "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "react",
+     "technique": "two-surface-doctrine",
+     "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--two-surface-doctrine.md",
+     "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "rust",
+     "technique": "progress-beat-grammar",
+     "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/rust--progress-beat-grammar.md",
+     "verified_on": "2026-08-23"
     }
    ]
   },
@@ -16579,6 +16955,10 @@
     "codebase-scanning/rule-precision-discipline",
     "codegen/drift-gating",
     "codegen/trigger-wiring",
+    "companion-identity/capability-exercise-ledger",
+    "companion-identity/disk-truth-db-index",
+    "companion-runtime/host-seam-contracts",
+    "companion-runtime/metered-llm-seam",
     "concurrency-guards/cross-process-exclusion",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/isolated-index-commits",
@@ -16858,6 +17238,10 @@
     "codegen/drift-gating",
     "codegen/generator-failure-isolation",
     "codegen/task-registry-design",
+    "companion-identity/anchored-identity-diffs",
+    "companion-identity/capability-exercise-ledger",
+    "companion-runtime/autonomous-cycle-hosting",
+    "companion-runtime/signal-economy-contract",
     "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/release-guarantees",
     "concurrency-guards/single-flight-primitives",
@@ -16868,6 +17252,8 @@
     "conformance-checking/fixture-repo-testing",
     "connector-catalog/adapter-normalization",
     "connector-catalog/matching-and-ranking",
+    "conversation-orchestration/narration-promote-on-finish",
+    "conversation-orchestration/show-dont-tell-walkthrough",
     "cost-metering/usage-ledgers",
     "credential-vault/acquisition",
     "credential-vault/health-probing",
@@ -17169,6 +17555,7 @@
     "background-jobs/tick-isolation",
     "codebase-scanning/finding-lifecycle",
     "codegen/commit-vs-derive-policy",
+    "companion-identity/constitution-self-model-split",
     "conformance-checking/checker-false-positive-discipline",
     "connector-catalog/catalog-lifecycle",
     "credential-vault/encryption-at-rest",
@@ -17270,9 +17657,12 @@
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
     "codegen/generator-failure-isolation",
+    "companion-identity/operator-profile-synthesis",
+    "companion-runtime/signal-economy-contract",
     "concurrency-guards/attempt-attribution",
     "concurrent-vcs/commit-verification",
     "conformance-checking/pass-ratio-comparability",
+    "conversation-orchestration/recall-transparency",
     "cost-metering/preflight-estimation",
     "cost-metering/spend-attribution",
     "cost-metering/spend-observability",
@@ -17523,6 +17913,10 @@
     "client-state/singleton-lifecycle",
     "client-state/status-fsms",
     "codebase-scanning/finding-lifecycle",
+    "companion-identity/anchored-identity-diffs",
+    "companion-identity/disk-truth-db-index",
+    "companion-identity/one-mind-many-mouths",
+    "companion-runtime/headless-turn-stream",
     "concurrency-guards/attempt-attribution",
     "concurrency-guards/guard-key-design",
     "concurrency-guards/idempotency-by-design",
@@ -17704,8 +18098,13 @@
     "client-state/rehydration-narrowing",
     "client-state/status-fsms",
     "client-state/store-slicing",
+    "companion-identity/anchored-identity-diffs",
+    "companion-identity/one-mind-many-mouths",
+    "companion-runtime/action-catalog-single-source",
+    "companion-runtime/metered-llm-seam",
     "concurrency-guards/single-flight-primitives",
     "connector-catalog/shipped-vs-operator-ownership",
+    "conversation-orchestration/model-proposed-quick-replies",
     "cost-metering/budget-enforcement",
     "credential-vault/acquisition",
     "credential-vault/brokered-egress",
@@ -17857,6 +18256,9 @@
     "client-state/invalidation-strategy",
     "client-state/singleton-lifecycle",
     "codegen/generator-failure-isolation",
+    "companion-runtime/autonomous-cycle-hosting",
+    "companion-runtime/headless-turn-stream",
+    "companion-runtime/operative-working-set",
     "concurrency-guards/release-guarantees",
     "concurrent-vcs/intent-ledgers",
     "concurrent-vcs/isolated-index-commits",
@@ -17864,6 +18266,9 @@
     "conformance-checking/fixture-repo-testing",
     "connector-catalog/catalog-lifecycle",
     "connector-catalog/schema-driven-forms",
+    "conversation-orchestration/layered-avatar-state-machine",
+    "conversation-orchestration/narration-promote-on-finish",
+    "conversation-orchestration/show-dont-tell-walkthrough",
     "cost-metering/usage-ledgers",
     "credential-vault/brokered-egress",
     "credential-vault/token-refresh-lifecycle",
@@ -18048,12 +18453,19 @@
     "codebase-scanning/llm-assisted-scanning",
     "codegen/generated-file-hygiene",
     "codegen/task-registry-design",
+    "companion-identity/constitution-self-model-split",
+    "companion-identity/one-mind-many-mouths",
+    "companion-runtime/action-catalog-single-source",
+    "companion-runtime/host-seam-contracts",
     "concurrency-guards/guard-key-design",
     "conformance-checking/declared-then-proven",
     "conformance-checking/finding-severity-ladder",
     "connector-catalog/adapter-normalization",
     "connector-catalog/catalog-as-data",
     "connector-catalog/schema-driven-forms",
+    "conversation-orchestration/layered-avatar-state-machine",
+    "conversation-orchestration/progress-beat-grammar",
+    "conversation-orchestration/two-surface-doctrine",
     "cost-metering/price-tables",
     "credential-vault/health-probing",
     "credential-vault/rotation-and-remediation",
@@ -18255,6 +18667,8 @@
    "statement": "A classified outcome reaches every boundary that acts on it as a typed value. A refusal enum erased into a generic error, a server-side failure taxonomy re-derived by matching message text, a policy denial re-thrown as the last underlying failure — in each, the classification exists where it was computed and dies where it mattered. The test is what the outermost consumer can branch on; a verdict that survives only as prose has not survived.",
    "techniques": [
     "admission-queue/admission-vocabulary",
+    "companion-runtime/headless-turn-stream",
+    "companion-runtime/signal-economy-contract",
     "credential-vault/token-refresh-lifecycle",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
@@ -18290,8 +18704,12 @@
     "codegen/drift-gating",
     "codegen/generated-file-hygiene",
     "codegen/trigger-wiring",
+    "companion-identity/capability-exercise-ledger",
+    "companion-identity/disk-truth-db-index",
+    "companion-runtime/action-catalog-single-source",
     "conformance-checking/claim-write-back",
     "conformance-checking/pass-ratio-comparability",
+    "conversation-orchestration/narration-promote-on-finish",
     "cost-metering/price-tables",
     "cost-metering/spend-observability",
     "credential-vault/health-probing",
@@ -18412,20 +18830,28 @@
     "wizard-flows/progress-communication"
    ]
   },
-  "absent-guard-is-loud": {
-   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
-   "techniques": [
-    "mcp-tools/transport-selection",
-    "structured-output/schema-validation-and-repair",
-    "webhook-ingestion/duplicate-and-replay-dedup"
-   ]
-  },
   "unknown-is-not-a-value": {
    "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
    "techniques": [
+    "companion-identity/operator-profile-synthesis",
+    "companion-runtime/metered-llm-seam",
+    "companion-runtime/operative-working-set",
+    "conversation-orchestration/progress-beat-grammar",
+    "conversation-orchestration/recall-transparency",
+    "conversation-orchestration/two-surface-doctrine",
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",
     "structured-output/schema-validation-and-repair"
+   ]
+  },
+  "absent-guard-is-loud": {
+   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
+   "techniques": [
+    "companion-identity/operator-profile-synthesis",
+    "companion-runtime/autonomous-cycle-hosting",
+    "mcp-tools/transport-selection",
+    "structured-output/schema-validation-and-repair",
+    "webhook-ingestion/duplicate-and-replay-dedup"
    ]
   }
  }

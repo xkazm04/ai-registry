@@ -10,6 +10,7 @@ techniques:
   - causal-arrow-discipline
   - epistemic-draw-routing
   - generous-strawman-rendering
+  - performer-claims-need-a-person
 ---
 
 # Evidence-bound visuals
@@ -18,7 +19,8 @@ A picture in a factual piece is not decoration on top of the argument — it is
 part of the argument, and it makes claims with a grammar of its own. An axis
 with fine ticks claims precision. An arrow claims causation. Two series on a
 shared scale claim comparability. A number on screen claims that somebody
-checked it. The subject of this document is keeping those claims honest:
+checked it. A person on screen saying "I used this" claims a person. The
+subject of this document is keeping those claims honest:
 making sure no rendered element asserts more than the sourced fact behind it
 supports, and routing every element that *could* be checked to a drawing
 process that can be held accountable.
@@ -136,6 +138,14 @@ revise rather than merely contradict.
 - It is not visual style. Style decides how things look; this decides what
   things are allowed to *say*. The two are orthogonal, and conflating them
   is how "make it cleaner" quietly becomes "make it claim more".
+- It is not confined to journalism. The subject is written for factual
+  work because that is where the grammar was learned, but the governing law
+  is about a rendered claim outrunning its evidence, and a frame can do
+  that in any register. Promotional work meets it in a sharper form than
+  most reporting does — see
+  [performer-claims-need-a-person](./techniques/performer-claims-need-a-person.md) —
+  because an advertisement is where the incentive to assert an unsourced
+  experience is strongest.
 - It is not a prohibition on generated imagery. Most of the screen, most of
   the time, is legitimately the model's — atmosphere, objects, metaphor.
   The discipline concerns the minority of pixels a viewer could check, and
@@ -154,6 +164,9 @@ revise rather than merely contradict.
   them.
 - **The lettered plate** — model-drawn text accepted because it happened to
   look right, breaking the accountability boundary silently.
+- **The invented witness** — a synthetic performer asserting first-person
+  experience, manufacturing the one thing no render can source: somebody
+  it happened to.
 - **The cardboard strawman** — the to-be-reversed position drawn feebly, so
   the reversal refutes nothing and the piece argues instead of thinks.
 - **The polish regression** — a later pass "improving" a deliberately
@@ -177,3 +190,6 @@ revise rather than merely contradict.
 - [generous-strawman-rendering](./techniques/generous-strawman-rendering.md) —
   full-strength evidence for positions the piece will reverse, minus
   conclusion-grade marks.
+- [performer-claims-need-a-person](./techniques/performer-claims-need-a-person.md) —
+  a synthetic performer may present, but a first-person experience claim
+  asserts an experiencer; the judgment is recorded at cast time.

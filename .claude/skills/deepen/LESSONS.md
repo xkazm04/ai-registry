@@ -68,3 +68,56 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   is platform-dependent under `core.autocrlf`. Flagged rather than fixed -
   scope discipline - but a gate whose output depends on the checkout is a gate
   worth distrusting.
+
+## 1.1.0 - 2026-08-23 - media-generation (external source as the specimen, twice in one day)
+
+- **A URL is a legitimate `/deepen` input, and the source note is where the run
+  survives.** Two runs today were handed YouTube links rather than a domain. The
+  scan step still ran — but staleness contributed nothing (a corpus forged four
+  days ago has no expired clocks), so the *source itself* was the event and the
+  demand signal. What made both runs cheap was the `librarian/sources/` ledger:
+  its question is "has this been mined", and it does not care which skill mined
+  it. A run that lands one technique and five catches has produced five results;
+  only the ledger keeps the catches from being re-derived next time.
+- **Sub-class predicts yield better than source quality does.** A technique
+  demonstration and a beginner walkthrough are different instruments: the first
+  is grounded, specific and almost entirely already owned; the second sprays
+  surface, states everything weakly, and its value concentrates in what it does
+  *by accident*. Today's walkthrough taught nothing the bundle lacked and
+  demonstrated, carefully and unknowingly, a defect the corpus had no name for.
+  Watch what a source does, not what it claims.
+- **The instrument lesson recurs in a new costume: vocabulary, not counting.**
+  `research-map` reported `PRIOR ART: none` for "spokesperson avatar reuse"
+  while `generated-shot-sourcing` owned the concept dead-centre — the corpus
+  writes "identity drift", the field writes "character consistency". Slug
+  overlap is recall over the corpus's *own* naming, so it is weakest exactly
+  where an external source uses the field's dialect, which is the normal case
+  for the lane the tool serves. An empty result read as a coverage hole would
+  have forged a duplicate subject. Third occurrence of "verify the instrument
+  before reporting a content gap", and the first where the instrument was
+  behaving as documented.
+- **Counter-evidence that refutes the SOURCE is as valuable as counter-evidence
+  that refutes the corpus.** Two of five catches had the corpus contradicting
+  the practitioner: choppy AI-video cuts read as an aesthetic choice are the
+  identity budget, and per-batch spend totals are the number
+  `cost-per-usable-economics` exists to warn against. Neither produced an edit.
+  A pass whose main output is "the corpus was right, and here is precisely
+  where the source is wrong" is not a dry pass.
+- **A defect demonstrated beats a rule asserted — the software-engineering
+  lesson, confirmed off a repo.** That run's best find was the specimen
+  violating a registry claim; this one's was a pipeline whose real QA gate
+  rejects a bad logo and never reads the script. Both are only visible because
+  the neighbouring claim existed first. But the inverse rule held too: the
+  source's cost receipts stayed in the source note as claims and never entered
+  the corpus as facts.
+- **A working tree can carry another run's finished, uncommitted work.** Today's
+  first run left a complete technique + golden-path wiring uncommitted, and a
+  background index rebuild swept it into this run's `index.json` — coupling two
+  runs' atomic commits through a generated file. Resolved by committing the
+  prior run first, under its own message. Worth a pre-flight `git status` at
+  scan time: the batch-mode rule "never touch shared files" assumes the tree is
+  clean, and a generated index is the shared file most likely to prove it isn't.
+- Purity floor extended-by-collision, not by narrowing: a procedure step opening
+  "**Resolve** a pairing…" tripped the media denylist on a video-tool product
+  name used as an ordinary English verb. Reworded. The gate was right to be
+  blunt; a denylist that exempts verbs stops being a floor.

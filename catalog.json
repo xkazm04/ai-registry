@@ -95,9 +95,9 @@
       "contentHash": "sha256-n1:636b88d25df773a2",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:9e99016505116dc1",
+      "lessonsHash": "sha256-n1:7224bc236d7efe57",
       "usageContributors": []
     },
     {
@@ -365,17 +365,17 @@
     },
     {
       "name": "spark",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:5dd825c7acf3da3b",
+      "contentHash": "sha256-n1:e9a02665c1c4136b",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:f194caf522eb2257",
+      "lessonsHash": "sha256-n1:3676891defdebf04",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -501,7 +501,7 @@
     "skills": 26,
     "practices": 2,
     "memory": 4,
-    "lessons": 35
+    "lessons": 37
   },
   "bundles": [
     {
@@ -552,9 +552,9 @@
       "purity": "software",
       "subjects": 16,
       "techniques": 98,
-      "applications": 41,
-      "files": 160,
-      "contentHash": "sha256:b7703683411dcbd4"
+      "applications": 47,
+      "files": 166,
+      "contentHash": "sha256:082db684ef1fee5a"
     },
     {
       "name": "media-generation",
@@ -564,10 +564,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 14,
-      "techniques": 84,
-      "applications": 32,
-      "files": 135,
-      "contentHash": "sha256:e9c2b2c9f86b4264"
+      "techniques": 86,
+      "applications": 33,
+      "files": 138,
+      "contentHash": "sha256:8cec531eaaa82d94"
     },
     {
       "name": "recruiting",
@@ -578,9 +578,9 @@
       "purity": "recruiting",
       "subjects": 64,
       "techniques": 384,
-      "applications": 190,
-      "files": 642,
-      "contentHash": "sha256:6e81093803d35285"
+      "applications": 194,
+      "files": 646,
+      "contentHash": "sha256:20849fe055435880"
     },
     {
       "name": "software-engineering",
@@ -589,11 +589,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 143,
-      "techniques": 901,
-      "applications": 393,
-      "files": 1442,
-      "contentHash": "sha256:0a0bc318d8bf1d63"
+      "subjects": 146,
+      "techniques": 921,
+      "applications": 402,
+      "files": 1474,
+      "contentHash": "sha256:937ac0d53b6f724c"
     }
   ]
 }

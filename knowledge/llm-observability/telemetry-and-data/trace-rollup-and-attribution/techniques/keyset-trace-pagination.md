@@ -23,17 +23,29 @@ under concurrent writes by construction.
 
 ## The cursor is a composite, always
 
-Page on **(activity timestamp, id)**, not on the timestamp alone. Timestamps
+Page on **(ordering timestamp, id)**, not on the timestamp alone. Timestamps
 collide — batch ingestion lands many rows in the same millisecond — and a
 cursor on a non-unique column either skips the colliding siblings or loops
 on them. The id tie-break makes the order total; any stable unique column
 works, but it must be part of both the ORDER BY and the cursor predicate.
-For a trace list, the activity timestamp is the trace's *latest* event time
-(that is what "newest first" means for an entity that grows), which has a
-consequence worth stating: a trace that receives a late span moves to the
-front and can legitimately be seen again by a client that paged past it
-earlier. That is correct behavior — the trace genuinely has new activity —
-but clients deduplicate by id, not by assuming disjoint pages.
+
+And the ordering column obeys one constraint the tie-break cannot rescue:
+**it must be immutable, or mutable only in the direction that duplicates.**
+For an entity that grows, mutation direction and traversal direction
+interact asymmetrically. Under a newest-first traversal, a key that moves
+*later* carries a row from behind the cursor to in front of it, where
+"strictly after this position" can never reach it — a silent skip, the
+exact failure this technique exists to prevent. A key that moves *earlier*
+can only carry a row backward across the cursor, where it is seen a second
+time and deduplicated by id — the benign case. So the trace's *latest*
+event time — the intuitive "newest first" column for a growing entity — is
+precisely the column a newest-first traversal cannot page on: every late
+span moves it in the skipping direction. Page on the trace's *start* time
+(minted once, or mutable only earlier under late-arriving spans), accept
+that newest-*started* is not newest-*active*, and let clients deduplicate
+by id for the rows the benign direction re-serves. A surface that truly
+needs activity ordering restarts from the head rather than paging through
+a mutating order.
 
 Encode the cursor opaquely (the pair, serialized) and validate it on
 receipt: a malformed cursor is a client error, never a silent fresh-start

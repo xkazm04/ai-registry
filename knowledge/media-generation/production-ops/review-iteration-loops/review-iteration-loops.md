@@ -3,8 +3,9 @@ layer: golden-path
 type: golden-path
 subject: review-iteration-loops
 status: forged
-use_when: [turning creator notes on generated work into a revision, designing the feedback surface of a generation pipeline, deciding whether to edit or regenerate after review, keeping quality gates and attribution honest across revisions]
+use_when: [turning creator notes on generated work into a revision, designing the feedback surface of a generation pipeline, deciding whether to edit or regenerate after review, keeping quality gates and attribution honest across revisions, a reviewer cannot say what they want but would recognise it]
 techniques:
+  - anchored-variation-slate
   - edit-plan-over-regeneration
   - note-taxonomy-focus-scope-order
   - refusal-as-valid-outcome
@@ -29,6 +30,36 @@ answered with **the smallest set of edits that addresses the notes, and
 nothing else changes** — because a reviewed artifact is not raw output any
 more; it is a ledger of decisions, and every untouched line is a decision
 being kept.
+
+## Before the loop: the one phase that is allowed to diverge
+
+Everything above describes what happens once a reviewer has said something, and
+it presumes a reviewer who can. The phase before that presumption holds is
+short, it is real, and it obeys inverted rules — so it is worth naming rather
+than leaving as the undefined space where a project begins.
+
+A reviewer who looks at generated work, knows it is wrong, and has no vocabulary
+for what would be right cannot enter this loop at all: there is no note to type,
+and free text will fail them one step earlier than it fails everyone else. What
+serves them is **selection over description** — a small slate of genuinely
+different candidates, rendered and shown together, from which they pick a
+direction they could recognise but never brief. The parameter that appears to
+control such a slate is how *far* the candidates should sit from the work in
+hand, and it is the wrong one: asking a generator to be more different, without
+supplying anything to be different *toward*, moves it toward the centre of its
+own distribution, so an unanchored set converges instead of spreading. Direction
+comes only from material introduced from outside — named reference artifacts,
+one per candidate. The mechanism, the measured basis for distrusting the
+amplitude dial, and the hazards of a slate used as an evasion are
+[anchored-variation-slate](./techniques/anchored-variation-slate.md).
+
+The phase is bounded, and its boundary is what connects it to the rest of this
+subject. Divergence is free precisely while nothing has accrued against a
+version — no approval, no gate verdict, no attribution row. The moment a
+candidate is chosen, all three begin accumulating and the rules invert: from
+there on, feedback is answered with the smallest set of edits. A slate re-run to
+answer a note is not a return to exploration, it is regeneration with a better
+story, and it burns exactly the capital the next section is about.
 
 ## Review capital, and how regeneration burns it
 
@@ -146,9 +177,19 @@ strengthen a claim but never retract one converges on confidence, not truth.
   "this fact is dead".
 - **Vanishing consideration** — untouched work indistinguishable from
   unconsidered work.
+- **The unanchored slate** — variants asked to be different with nothing to be
+  different toward; they converge on the model's modal answer and read as three
+  flavours of one thing.
+- **The decoy slate** — alternatives built so a reviewer can be shown options,
+  never meant to ship; a decision already made, charging the reviewer for the
+  appearance of making it.
 
 ## The techniques
 
+- [anchored-variation-slate](./techniques/anchored-variation-slate.md) — the
+  divergence phase before the loop: one named reference anchor per candidate,
+  amplitude as a limit rather than a source, shown together and terminating on
+  the choice.
 - [edit-plan-over-regeneration](./techniques/edit-plan-over-regeneration.md) —
   the revision engine emits operations, not artifacts; smallest set that
   answers the notes; everything else byte-identical.

@@ -60,6 +60,26 @@ Stack in parentheses; `zig`/`c`/`go` beyond the declared set would need
 | openzfs/zfs (c) | journal-and-durability-modes second c sighting, storage-accounting | reputed |
 | oven-sh/bun (zig/c++) | subprocess-lifecycle, streaming-output | reputed; stack question |
 
+### Standards and registers (wave N2, [[2026-08-23-8]]) - class B/C, no scan applies
+
+| counterpart | class | subjects served | grade |
+| --- | --- | --- | --- |
+| W3C/vc-data-model@2.0 (REC 2025-05-15) | B, schema+digest | CONSUMED for portable-hiring-records; ecosystem-compatibility section un-mined | measured: digest verified live |
+| US-EEOC/29-CFR-1607 (eCFR 2026-08-20) | B, procedure | CONSUMED for assessment-instrument-validation; bottom-line-vs-caselaw divergence unclaimed; 2025 rescission pressure - re-pin before reuse | measured: both published ratios reproduced |
+| CMS/NPPES-NPI-Registry (API v2.1) | C, register | CONSUMED for regulated-credential-gating; reactivation unexercised | measured: 12 queries, byte-identity finding |
+| EuropeanCommission/ESCO (v1.2.1) | C, taxonomy | CONSUMED for skill-adjacency-and-normalization; hierarchy-credit seam banked | measured: unversioned default is unreproducible |
+
+### llm-observability counterparts (wave N1, [[2026-08-23-6]])
+
+| repo | subjects it could serve | grade |
+| --- | --- | --- |
+| Arize-ai/phoenix (python) | CONSUMED for trace-rollup-and-attribution | measured: L4/83, adoption 86, rigor 82 |
+| langfuse/langfuse (node) | CONSUMED for production-trace-scoring; trace-rollup second sighting banked | measured: L4/79, adoption 92, rigor 72 |
+| promptfoo/promptfoo (node) | CONSUMED for quality-regression-gating | measured: L4/77, adoption 53, rigor 89 |
+| EleutherAI/lm-evaluation-harness (python) | CONSUMED for cross-provider-benchmark-operations | measured: L3/46, adoption 18, rigor 61 - excellence-without-AI |
+| mlcommons/inference (python) | CONSUMED for federated-benchmark-sharing | measured: L3/56, adoption 45, rigor 61 |
+| BerriAI/litellm (python) | CONSUMED for margin-and-unit-economics (weak hint); cost-metering seam for software-engineering | measured: L4/77, adoption 68, rigor 81 |
+
 ## Standing rules for consuming this list
 
 - A wave consumes at most one entry per subject; the worker's evidence-first
