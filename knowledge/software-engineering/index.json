@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 146,
-  "techniques": 921,
-  "applications": 400,
+  "subjects": 147,
+  "techniques": 926,
+  "applications": 402,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "921/921",
+  "use_when_coverage": "926/926",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -676,6 +676,104 @@
      "technique": "stop-reason-ledgers",
      "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--stop-reason-ledgers.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "agent-instruction-files": {
+   "category": "llm-agent",
+   "subcategory": "prompt-and-context",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
+   "techniques": [
+    {
+     "slug": "enforcement-demotion",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a style or formatting rule keeps being violated despite being in the instruction file",
+      "deciding whether a new rule should be prose or a hook",
+      "an instruction file reads like a linting config",
+      "the file claims a rule is enforced and the claim has not been verified"
+     ]
+    },
+    {
+     "slug": "instruction-freshness",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing an instruction file that has not been reviewed in months",
+      "an agent confidently followed guidance that turned out stale",
+      "deciding how to record a measured fact in the file",
+      "a refactor or stack bump landed and the file was not part of the change"
+     ]
+    },
+    {
+     "slug": "line-earning",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a rule belongs in the always-loaded instruction file",
+      "an instruction file has grown past the point where agents follow it",
+      "reviewing a machine-generated repo overview before committing it",
+      "an agent keeps repeating a mistake the file was supposed to prevent"
+     ]
+    },
+    {
+     "slug": "machine-owned-regions",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool writes or rewrites blocks inside a hand-written instruction file",
+      "deciding whether generated content belongs in the always-loaded file",
+      "a hand edit inside a generated block keeps reappearing reverted",
+      "two generators claim the same derived content"
+     ]
+    },
+    {
+     "slug": "single-source-topology",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a repo serves more than one coding harness",
+      "deciding where the canonical instruction file lives",
+      "per-tool instruction files have drifted apart",
+      "structuring instruction files in a monorepo",
+      "the always-loaded floor has outgrown its budget and needs scoped overflow"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "instruction-freshness",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--instruction-freshness.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "claude-code@2"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "single-source-topology",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--single-source-topology.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "claude-code@2"
     }
    ]
   },
@@ -16909,6 +17007,7 @@
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-instruction-files/enforcement-demotion",
     "alerting/evaluation-loop",
     "alerting/rule-authoring-validation",
     "app-shell/entitlement-gating",
@@ -17617,6 +17716,8 @@
     "adoption-measurement/mentor-learner-pairing",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/stop-reason-ledgers",
+    "agent-instruction-files/instruction-freshness",
+    "agent-instruction-files/line-earning",
     "agent-memory/coverage-instrumentation",
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
@@ -17868,6 +17969,7 @@
     "admission-queue/drain-and-shutdown",
     "admission-queue/priority-and-fairness",
     "agent-chaining/chain-identity-and-rollup",
+    "agent-instruction-files/single-source-topology",
     "agent-memory/episodic-capture",
     "agent-memory/procedure-promotion",
     "agent-memory/working-memory",
@@ -18407,6 +18509,7 @@
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/run-conditions",
     "agent-chaining/stop-reason-ledgers",
+    "agent-instruction-files/single-source-topology",
     "agent-memory/memory-value-model",
     "alerting/escalation-routing",
     "analytics-time-windows/calendar-arithmetic",
@@ -18668,6 +18771,7 @@
     "agent-addressable-ui/build-time-source-stamping",
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-instruction-files/machine-owned-regions",
     "agent-memory/consolidation",
     "agent-memory/memory-value-model",
     "app-shell/badge-and-attention",
@@ -18816,9 +18920,21 @@
     "wizard-flows/progress-communication"
    ]
   },
+  "absent-guard-is-loud": {
+   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
+   "techniques": [
+    "agent-instruction-files/enforcement-demotion",
+    "companion-identity/operator-profile-synthesis",
+    "companion-runtime/autonomous-cycle-hosting",
+    "mcp-tools/transport-selection",
+    "structured-output/schema-validation-and-repair",
+    "webhook-ingestion/duplicate-and-replay-dedup"
+   ]
+  },
   "unknown-is-not-a-value": {
    "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
    "techniques": [
+    "agent-instruction-files/instruction-freshness",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
@@ -18828,16 +18944,6 @@
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",
     "structured-output/schema-validation-and-repair"
-   ]
-  },
-  "absent-guard-is-loud": {
-   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
-   "techniques": [
-    "companion-identity/operator-profile-synthesis",
-    "companion-runtime/autonomous-cycle-hosting",
-    "mcp-tools/transport-selection",
-    "structured-output/schema-validation-and-repair",
-    "webhook-ingestion/duplicate-and-replay-dedup"
    ]
   }
  }

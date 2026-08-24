@@ -349,3 +349,39 @@ techniques · 400 applications; 3093 concept documents · 7341 links checked;
 media-generation application (`process--capability-to-vendor-plan.md`) sits
 uncommitted in the tree from other work; its index entry was deliberately not
 committed here.
+
+## 2026-08-24 — deepen→forge: agent-instruction-files (coverage hole, demand-driven)
+
+Operator asked whether the bundle covers CLAUDE.md/AGENTS.md authoring; the scan
+found only a use_when clause on `house-vocabulary-layer`. Per doctrine a coverage
+hole is forged, not deepened around: new subject
+`llm-agent/prompt-and-context/agent-instruction-files` — golden path + 5
+techniques (line-earning, enforcement-demotion, single-source-topology,
+machine-owned-regions, instruction-freshness) + 2 claude-code applications read
+from the six-project fleet on 2026-08-24.
+
+Three research lanes: (1) blind training-data draft (banked in session
+scratchpad), (2) web with mandatory counter-evidence, (3) harness-facts via docs.
+Convergence earned every technique. Counter-evidence highlights that shaped the
+upper layers:
+- arXiv:2602.11988 (n=300+138 tasks): context files buy no general success gain,
+  >20% cost; generated repo overviews slightly hurt. arXiv:2601.20404 (n=10
+  repos/124 PRs): −28.6% median runtime, −16.6% output tokens. Both truths live
+  in the golden path qualitatively; numbers with n in the applications.
+- arXiv:2510.14842 refutes position-based "lost in the middle" folklore for
+  instruction lists (the Sanglard agent.md article leans on it): compliance
+  falls with instruction COUNT, roughly uniformly. Landed as the dilution
+  paragraph.
+- AGENTS.md nearest-wins vs concatenating harnesses: a real spec divergence;
+  landed as the combination-semantics trap.
+
+Fleet read (n=6): floors 4.2k–25k tokens (personas the 6x outlier); 43/43 cited
+paths resolve but five staleness findings all sit in counts/enforcement claims
+(incl. a stale warning-about-staleness and a Stop hook measured 0 firings in
+2,367 edits) — the exhibits inside `claude-code--instruction-freshness.md`.
+Sibling cross-link added from prompt-assembly (owned assembler vs authored-for
+inverse). New stack `claude-code` registered in index.md.
+
+Gate green (`check-bundles.mjs`): 147 subjects · 926 techniques · 402
+applications; 3219 concept documents · 7463 links checked; `bundle integrity
+OK`. Index, rules and catalog rebuilt.

@@ -163,19 +163,19 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:4ad7e20e2c1e57ea",
+      "contentHash": "sha256-n1:2be9b4cb892f613b",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
         "systedo-case@plugin:1.1.0"
       ],
       "invokes30d": 2,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/i18n-translate/LESSONS.md",
-      "lessonsHash": "sha256-n1:63df24e1d0175777",
+      "lessonsHash": "sha256-n1:f69998867dbbf4cc",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -373,9 +373,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 3,
+      "lessons": 4,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:27b5ac0469ccbc8f",
+      "lessonsHash": "sha256-n1:0e5ca511ad94c273",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -501,7 +501,7 @@
     "skills": 26,
     "practices": 2,
     "memory": 4,
-    "lessons": 38
+    "lessons": 40
   },
   "bundles": [
     {
@@ -567,7 +567,7 @@
       "techniques": 78,
       "applications": 26,
       "files": 121,
-      "contentHash": "sha256:d3d9c19a3547cc00"
+      "contentHash": "sha256:b56520a5d918d5ff"
     },
     {
       "name": "media-generation",
@@ -580,7 +580,7 @@
       "techniques": 86,
       "applications": 34,
       "files": 139,
-      "contentHash": "sha256:e392075a948b2dae"
+      "contentHash": "sha256:e27196b6d76386d1"
     },
     {
       "name": "recruiting",
@@ -602,11 +602,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 146,
-      "techniques": 921,
-      "applications": 400,
-      "files": 1472,
-      "contentHash": "sha256:b5cada29271b355a"
+      "subjects": 147,
+      "techniques": 926,
+      "applications": 402,
+      "files": 1480,
+      "contentHash": "sha256:777e8bb5f6cb97f5"
     }
   ]
 }
