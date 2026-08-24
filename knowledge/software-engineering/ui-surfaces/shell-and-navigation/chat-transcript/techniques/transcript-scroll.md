@@ -101,6 +101,43 @@ Scroll position is **per conversation, remembered while the surface lives**:
   come with the unseen-count affordance already visible, so the restoration
   does not silently hide that the conversation moved on.
 
+## The page-flip: a sent prompt lands at the top, with a reserve below
+
+When the user sends, the most useful place for their prompt is the **top of
+the viewport**, with the answer growing beneath it — the reader's eye is
+already there and the whole answer arrives into empty space. The naive
+implementation scrolls the prompt to the top and then, one frame later, the
+pin-to-tail logic clamps the viewport back down because the document is not
+yet tall enough to legitimately scroll that far. The result is the jump every
+user has felt.
+
+The rule: **the page-flip adds a reserve.** A phantom spacer below the last
+row makes the top-pinned pose a *legitimate* scroll bottom, so follow mode
+and the flip agree instead of fighting. As the answer streams in, the reserve
+shrinks by exactly the height the answer added, and it shifts if content
+above the prompt changes height. Follow mode stays armed throughout — the
+flip is a one-shot suppression of the *next* auto-scroll, not a
+disengagement — so the user is still "at latest" for every subsequent row.
+The reserve is owned by the same single scroll authority as the pin, never by
+the composer that triggered the send.
+
+## Two anchors, and the one that must go stale
+
+Position is held across two different disturbances, and they need different
+anchors:
+
+- **Re-wrap** (width or font change): the anchor is *content* — which row,
+  which logical line within it, how far into its wrapped sub-rows — so a
+  narrower column re-pins the same words, not the same pixel offset.
+- **Structural change** (older turns prepended, a row removed): the anchor
+  is the *identity of a row* plus its offset, armed immediately before the
+  mutation invalidates layout and consumed by the very next layout pass.
+
+The second anchor has a rule most implementations miss: **it is discarded if
+the user scrolled between arming and consumption.** An anchor that survives
+a user scroll re-asserts a position the user already left, which is the
+yank arriving one frame late.
+
 ## What this technique refuses
 
 - **Scroll as notification.** New content never moves a disengaged viewport —

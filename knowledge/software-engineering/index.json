@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 143,
-  "techniques": 900,
-  "applications": 391,
+  "techniques": 901,
+  "applications": 393,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "900/900",
+  "use_when_coverage": "901/901",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2195,6 +2195,21 @@
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/chat-transcript.md",
    "techniques": [
     {
+     "slug": "composer-turn-queue",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the send control is disabled while a turn runs",
+      "a user types a follow-up mid-answer and loses it",
+      "deciding whether \"stop\" and \"say something now\" are the same button",
+      "two quick follow-ups produce two separate machine turns"
+     ]
+    },
+    {
      "slug": "inline-structured-rows",
      "status": "forged",
      "laws": [
@@ -2289,6 +2304,20 @@
      "technique": "turn-model",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/react--turn-model.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "composer-turn-queue",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/rust--composer-turn-queue.md",
+     "verified_on": "2026-08-23",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "transcript-scroll",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/rust--transcript-scroll.md",
+     "verified_on": "2026-08-23",
+     "verified_against": "rust@1.85"
     }
    ]
   },
@@ -16813,6 +16842,7 @@
     "browser-credential-boundary/opaque-upstream-errors",
     "build-economics/build-measurement",
     "build-economics/cache-budgeting",
+    "chat-transcript/composer-turn-queue",
     "chat-transcript/turn-model",
     "ci-execution-trust/untrusted-contribution-lanes",
     "cicd-monitoring/failure-drill-down",
@@ -17480,6 +17510,7 @@
     "canvas-graph/edge-management",
     "canvas-graph/graph-layout",
     "canvas-graph/render-budget",
+    "chat-transcript/composer-turn-queue",
     "chat-transcript/inline-structured-rows",
     "chat-transcript/turn-model",
     "ci-execution-trust/job-instruction-signing",

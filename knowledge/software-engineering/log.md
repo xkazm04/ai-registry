@@ -2,6 +2,35 @@
 
 Audit trail (OKF reserved file). Public-safe by rule.
 
+## 2026-08-23 — chat-transcript: what a terminal transcript taught the web one
+
+Source mined: `xai-org/grok-build` (the `xai-grok-pager` ratatui crate), read
+while redesigning a messaging surface. It renders a transcript in a terminal,
+so it owns every mechanic a browser hands out for free — which made its
+choices unusually legible.
+
+Added:
+- `chat-transcript/composer-turn-queue` (new technique): submit-while-busy is
+  always accepted and resolved into queue / interject / cancel — three intents,
+  three code paths; queued rows carry identities and versions; consecutive
+  follow-ups combine into one turn while displaying as the rows typed; cancel
+  keeps the draft and every terminal outcome converges on one finalizer.
+- `transcript-scroll`: the page-flip with a pin reserve (a sent prompt lands
+  at the top; a phantom spacer makes that a legitimate bottom so follow mode
+  cannot clamp it back), and the two-anchor rule — content anchor for re-wrap,
+  identity anchor for structural change, the latter discarded if the user
+  scrolled between arming and consumption.
+- `markdown-and-code-rendering`: named the checkpoint mechanism behind
+  "settled blocks are inert" (freeze at top-level block boundaries, mint
+  identities only once frozen, defer parsing on replay).
+- Applications `rust--composer-turn-queue`, `rust--transcript-scroll` citing
+  grok-build by path.
+
+Declined: optimistic echo (already in `turn-model`); frozen-prefix rendering
+as a separate technique (already the "inert settled blocks" rule, so it became
+a paragraph, not a document); the wheel/trackpad physics, display-Hz probe and
+cell diffing, which are terminal facts with no browser counterpart.
+
 ## 2026-08-20 — Ascent wave: the assessment seam joins the builder-side bundle
 
 Source: a maturity-assessment product read at `6a5a5f68` — an app whose *use case*

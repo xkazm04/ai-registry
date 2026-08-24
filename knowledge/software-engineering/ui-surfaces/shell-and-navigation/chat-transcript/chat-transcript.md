@@ -10,6 +10,7 @@ techniques:
   - transcript-scroll
   - turn-metadata
   - markdown-and-code-rendering
+  - composer-turn-queue
 ---
 
 # Chat transcript rendering
@@ -165,6 +166,20 @@ rules keep that viable:
   the top, with position held stable; the initial paint is the recent window,
   which is also what the ready gate measures.
 
+## The composer never says no
+
+The writer is busy most of the time the reader wants to write. A send control
+that disables itself while a turn runs has no model for what the user meant;
+the standard is that **every submission while busy is accepted** and resolved
+into one of three intents — queued for after the turn, interjected into it at
+a safe point, or a cancel that leaves the draft untouched. Queued prompts are
+transcript rows with identities from the moment they are accepted, and
+consecutive follow-ups are delivered as one turn while displayed as the rows
+the user typed. The [composer-turn-queue](./techniques/composer-turn-queue.md)
+technique owns the three intents, the queue's identity and versioning, and
+the single convergence point every terminal outcome — including cancel —
+passes through.
+
 ## Accessibility posture
 
 - The transcript is a **log**: announced politely and coarsely. New settled
@@ -197,3 +212,7 @@ rules keep that viable:
 - [markdown-and-code-rendering](./techniques/markdown-and-code-rendering.md) —
   the sanitizing render door, code blocks and copy affordances,
   streaming-stable incremental rich text.
+- [composer-turn-queue](./techniques/composer-turn-queue.md) — submit while
+  busy is always accepted: queue, interject and cancel as three distinct
+  intents, visible identified queue rows, follow-ups that combine into one
+  turn, drafts that survive everything.

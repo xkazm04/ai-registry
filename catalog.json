@@ -554,7 +554,7 @@
       "techniques": 98,
       "applications": 41,
       "files": 160,
-      "contentHash": "sha256:56071585c756d687"
+      "contentHash": "sha256:b7703683411dcbd4"
     },
     {
       "name": "media-generation",
@@ -590,10 +590,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 143,
-      "techniques": 900,
-      "applications": 391,
-      "files": 1439,
-      "contentHash": "sha256:454696543cd5e212"
+      "techniques": 901,
+      "applications": 393,
+      "files": 1442,
+      "contentHash": "sha256:0a0bc318d8bf1d63"
     }
   ]
 }

@@ -103,6 +103,19 @@ stability rules:
   processes each provisional render, not just the settled text — a smuggled
   construct that "exists" only mid-stream is still on screen.
 
+"Settled blocks are inert" has a precise mechanism worth naming: the
+**checkpoint**. The renderer tracks the last *top-level* block boundary in
+the accumulated source (a blank line outside any fence), freezes everything
+rendered up to it, and re-parses only the tail — turning a per-token cost
+that grows with the turn into one bounded by the current block. Two
+corollaries follow. Anything that assigns identity during rendering — link
+reference ids, code-span highlight state — is assigned only once the block
+is frozen, so a provisional tail cannot mint identities the settled render
+must then honour. And **replay is deferred**: when history is hydrated
+rather than streamed, chunks are appended with rendering off and parsed
+once at the end; running the incremental path over a whole stored turn
+recomputes every checkpoint for nobody.
+
 At settlement, one final parse of the authoritative settled text replaces
 the provisional tail — quietly identical to what is on screen in the normal
 case, and the correcting authority in the edge cases.
