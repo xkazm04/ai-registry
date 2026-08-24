@@ -301,3 +301,51 @@ Declined, deliberately:
 Gate green (`check-bundles.mjs`): software-engineering 124 subjects · 759
 techniques · 311 applications; 1777 concept documents · 4896 links checked;
 `bundle integrity OK`. Index and catalog rebuilt in order.
+
+## 2026-08-24 — deepen (source-driven): multi-model practice video against the llm-agent lane
+
+Source: a practitioner video on multi-model agent harnesses ("combine compute,
+don't select compute": opinion fan-out, multi-round debate, plan-fanout with an
+architect seat), ingested as one research input for a /deepen pass over
+llm-agent. Transcript pulled in full; every claim mapped against prior art
+before drafting.
+
+New technique (1), on lane convergence (field sighting + literature):
+- `fleet-orchestration/heterogeneous-model-panels` — N sessions, one question,
+  N model families. The counter-evidence lane set the spine: equal-compute
+  studies show homogeneous debate ≈ self-consistency voting and
+  simultaneous-revision rounds form a martingale, so round one is the product,
+  rounds get a cap, and the voting baseline (N samples of the best model) is
+  the bar a panel must beat. Masked seats (own-family bias, already measured in
+  judge-stability); synthesizer seat for build shapes; verdicts carry
+  concordance structure and per-seat cost.
+
+Correction to existing content:
+- `cost-metering/price-tables` — a rate is sometimes a *schedule*: several
+  providers now price the same unit class by the call's own context length
+  (input commonly doubling past a published threshold) while others sell the
+  full window flat. Verified against current vendor pricing pages 2026-08-24;
+  the video sighted the same trap independently on a third vendor.
+
+Verified-and-left-untouched:
+- `judge-stability` — the video's "never reveal model names to co-agents; they
+  get weird" is an anecdotal field echo of own-family preference / presentation
+  sensitivity, which the technique already states with measured evidence. The
+  mechanism claim ("sabotage") stays unadopted: single-source, no measurement.
+- `comparison-modes` / `eval-harness` — "take public leaderboards with a grain
+  of salt, run private benchmarks on your own use case" is already the
+  subject's stance (matrix runs, frozen instruments).
+
+Declined, deliberately:
+- The video's model landscape (tier lists, per-model opinions, pricing-war
+  reads, vendor picks) — product-named currency signal, not knowledge; upper
+  layers are transplant-clean and no consumer application needed the roster.
+- "In-loop vs out-loop / software factory" framing — rhetoric over mechanism;
+  everything mechanical in it is already fleet-orchestration + result-harvest.
+
+Gate green (`check-bundles.mjs`): software-engineering 146 subjects · 921
+techniques · 400 applications; 3093 concept documents · 7341 links checked;
+`bundle integrity OK`. Index rebuilt. Note for the next pass: an untracked
+media-generation application (`process--capability-to-vendor-plan.md`) sits
+uncommitted in the tree from other work; its index entry was deliberately not
+committed here.
