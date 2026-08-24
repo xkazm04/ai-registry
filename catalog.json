@@ -557,6 +557,19 @@
       "contentHash": "sha256:082db684ef1fee5a"
     },
     {
+      "name": "localization",
+      "title": "Localization",
+      "path": "knowledge/localization",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "localization",
+      "subjects": 13,
+      "techniques": 78,
+      "applications": 26,
+      "files": 121,
+      "contentHash": "sha256:d3d9c19a3547cc00"
+    },
+    {
       "name": "media-generation",
       "title": "Media generation",
       "path": "knowledge/media-generation",
@@ -565,9 +578,9 @@
       "purity": "media",
       "subjects": 14,
       "techniques": 86,
-      "applications": 33,
-      "files": 138,
-      "contentHash": "sha256:8cec531eaaa82d94"
+      "applications": 34,
+      "files": 139,
+      "contentHash": "sha256:e392075a948b2dae"
     },
     {
       "name": "recruiting",
@@ -590,10 +603,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 146,
-      "techniques": 920,
+      "techniques": 921,
       "applications": 400,
-      "files": 1471,
-      "contentHash": "sha256:8465666957a1a635"
+      "files": 1472,
+      "contentHash": "sha256:b5cada29271b355a"
     }
   ]
 }

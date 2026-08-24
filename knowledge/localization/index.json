@@ -1,0 +1,1497 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "localization",
+  "source": "knowledge/localization/ (frontmatter only)",
+  "subjects": 13,
+  "techniques": 78,
+  "applications": 26,
+  "laws": 6,
+  "categories": [
+   "european",
+   "east-asian",
+   "south-and-southeast-asian",
+   "right-to-left"
+  ],
+  "layout": "nested",
+  "use_when_coverage": "78/78",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "arabic": {
+   "category": "right-to-left",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/right-to-left/arabic/arabic.md",
+   "techniques": [
+    {
+     "slug": "bidirectional-text-and-interpolation",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating Arabic strings containing placeholders or Latin runs",
+      "reviewing RTL rendering defects",
+      "deciding where directional isolates or marks are needed"
+     ]
+    },
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Arabic strings that read translated",
+      "fixing calqued word order",
+      "deciding sentence structure for Arabic instructional copy"
+     ]
+    },
+    {
+     "slug": "plural-and-count-agreement",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or auditing Arabic plural variants",
+      "approving a source message format for an ar locale",
+      "a count placeholder appears in any Arabic string"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing register and address forms for Arabic UI copy",
+      "auditing imperatives and button labels in an ar catalog",
+      "deciding a gender-neutrality strategy"
+     ]
+    },
+    {
+     "slug": "script-and-typography",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis",
+      "one-concept-one-rendering"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing punctuation and numerals in an ar catalog",
+      "setting typography rules for Arabic UI text",
+      "deciding Eastern vs Western digits for a market"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a tech term renders in Arabic",
+      "auditing transliterations and Latin tokens in an ar catalog",
+      "building or reviewing an Arabic termbase"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "bidirectional-text-and-interpolation",
+     "file": "knowledge/localization/right-to-left/arabic/applications/process--bidirectional-text-and-interpolation.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "register-and-address",
+     "file": "knowledge/localization/right-to-left/arabic/applications/process--register-and-address.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "bengali": {
+   "category": "south-and-southeast-asian",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
+   "techniques": [
+    {
+     "slug": "bengali-script-and-numerals",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis",
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing Bengali punctuation and digit script",
+      "reviewing loanword spellings for conjunct or nukta drift",
+      "debugging broken ligatures in transliterated words"
+     ]
+    },
+    {
+     "slug": "classifiers-and-quantity",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating or auditing strings with counts and plural categories",
+      "choosing a Bengali classifier for a counted noun",
+      "reviewing plural-suffix use in singular-category strings"
+     ]
+    },
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Bengali strings that read as translated",
+      "rewriting calqued sentence structure",
+      "deciding whether an \"is\" sentence needs a verb at all"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing or auditing the address register of Bengali UI text",
+      "reviewing imperative and possessive forms",
+      "deciding whether a politeness word belongs in a string"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an English tech term transliterates or translates",
+      "building or auditing a Bengali termbase",
+      "handling Bangladesh vs West Bengal vocabulary divergence"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "budgeting width and line-height for Bengali UI text",
+      "shortening Bengali strings for buttons and narrow columns",
+      "reviewing wrapped or clipped Bengali layouts"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "classifiers-and-quantity",
+     "file": "knowledge/localization/south-and-southeast-asian/bengali/applications/process--classifiers-and-quantity.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "terminology-and-loanwords",
+     "file": "knowledge/localization/south-and-southeast-asian/bengali/applications/process--terminology-and-loanwords.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "chinese": {
+   "category": "east-asian",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/east-asian/chinese/chinese.md",
+   "techniques": [
+    {
+     "slug": "character-width-and-typography",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing punctuation in a zh catalog",
+      "deciding the CJK-Latin spacing convention",
+      "choosing quote glyphs for a variant"
+     ]
+    },
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "clean-strings-stay-untouched",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing zh strings that smell machine-translated",
+      "refining MT output into idiomatic Chinese",
+      "writing audit rules for translationese"
+     ]
+    },
+    {
+     "slug": "measure-words-and-quantity",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "one-concept-one-rendering"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating strings with interpolated counts",
+      "wording plural-variant key families for zh",
+      "choosing classifiers for a product's countable nouns"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing 您 vs 你 for a product",
+      "auditing register consistency in a zh catalog",
+      "softening imperatives in Chinese UI copy"
+     ]
+    },
+    {
+     "slug": "terminology-and-variants",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoping Simplified vs Traditional for a release",
+      "settling zh renderings for product concepts",
+      "auditing term drift across a zh catalog"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing zh control labels and microcopy",
+      "setting length budgets for Chinese UI slots",
+      "checking casing of Latin islands in zh strings"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "de-anglicization-constructions",
+     "file": "knowledge/localization/east-asian/chinese/applications/process--de-anglicization-constructions.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "terminology-and-variants",
+     "file": "knowledge/localization/east-asian/chinese/applications/process--terminology-and-variants.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "czech": {
+   "category": "european",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/european/czech/czech.md",
+   "techniques": [
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Czech strings that are grammatical but read translated",
+      "drafting Czech from an English source",
+      "citing a construction defect in a typed audit finding"
+     ]
+    },
+    {
+     "slug": "gender-neutral-forms",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing Czech strings about a person of unknown gender",
+      "putting a name or title placeholder next to an agreeing word",
+      "choosing between slash forms and impersonal recasts"
+     ]
+    },
+    {
+     "slug": "plural-and-count-agreement",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or auditing any Czech string with an interpolated count",
+      "expanding plural branches for cs",
+      "debugging a string that reads wrong at count 1 or 3"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing formal vs informal address for a Czech product",
+      "auditing a catalog for register drift",
+      "deciding whether a word is too bookish or too colloquial for the UI"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to borrow naturalize or translate a term into Czech",
+      "pinning grammatical gender for a loanword",
+      "auditing a Czech catalog for term drift and false friends"
+     ]
+    },
+    {
+     "slug": "typography-and-spacing",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "setting up mechanical checks for a Czech catalog",
+      "fixing quotes dashes and spaces in Czech strings",
+      "deciding where a non-breaking space is required"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "wording buttons",
+      "menu items and progress states in Czech",
+      "fitting Czech strings into tight layouts",
+      "deciding between infinitive and imperative on a control"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "de-anglicization-constructions",
+     "file": "knowledge/localization/european/czech/applications/process--de-anglicization-constructions.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "plural-and-count-agreement",
+     "file": "knowledge/localization/european/czech/applications/process--plural-and-count-agreement.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "french": {
+   "category": "european",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/european/french/french.md",
+   "techniques": [
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing French strings that read translated",
+      "rebuilding English sentence shapes into French ones",
+      "deciding whether a construction finding is a defect or taste"
+     ]
+    },
+    {
+     "slug": "plural-and-agreement",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing plural messages for French",
+      "auditing counters and stat lines for agreement",
+      "deciding gender policy for unknown referents"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the address policy for a French product",
+      "reviewing tone and formality in French strings",
+      "deciding how error messages address the reader"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a term stays English or goes native in French",
+      "pinning gender and agreement for borrowed nouns",
+      "auditing a French catalog for term drift"
+     ]
+    },
+    {
+     "slug": "typography-and-spacing",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sweeping a French catalog for punctuation and spacing defects",
+      "choosing the non-breaking space policy for a French locale",
+      "reviewing quotes dashes and apostrophes in French strings"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing French labels buttons and navigation for interface conventions",
+      "fixing French strings that overflow their controls",
+      "setting casing policy for a French catalog"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "terminology-and-loanwords",
+     "file": "knowledge/localization/european/french/applications/process--terminology-and-loanwords.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "typography-and-spacing",
+     "file": "knowledge/localization/european/french/applications/process--typography-and-spacing.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "german": {
+   "category": "european",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/european/german/german.md",
+   "techniques": [
+    {
+     "slug": "capitalization-and-compounds",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "auditing casing in a German catalog",
+      "deciding how to render an English noun stack in German",
+      "checking ß/ss and all-caps strings"
+     ]
+    },
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing German strings that read translated",
+      "running a construction audit over a German catalog",
+      "typing a \"sounds English\" impression as a citable finding"
+     ]
+    },
+    {
+     "slug": "length-and-compression",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "German strings overflow a control",
+      "budgeting layout for German expansion",
+      "shortening a label without losing meaning"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing Sie or du for a product",
+      "auditing register drift in conversational strings",
+      "deciding a gender-inclusive form policy"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a German term is borrowed or translated",
+      "auditing term consistency in a German catalog",
+      "an English loanword needs German grammar"
+     ]
+    },
+    {
+     "slug": "typography-and-spacing",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing punctuation and spacing in a German catalog",
+      "fixing quotes dashes or ellipses in German strings",
+      "spacing numbers units and percent signs"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "de-anglicization-constructions",
+     "file": "knowledge/localization/european/german/applications/process--de-anglicization-constructions.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "register-and-address",
+     "file": "knowledge/localization/european/german/applications/process--register-and-address.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "hindi": {
+   "category": "south-and-southeast-asian",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/south-and-southeast-asian/hindi/hindi.md",
+   "techniques": [
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing machine or crowd translations for English-shaped Hindi",
+      "fixing word order and postposition placement",
+      "reviewing light-verb and passive constructions"
+     ]
+    },
+    {
+     "slug": "devanagari-and-numerals",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Devanagari text for script correctness",
+      "deciding danda versus period or Latin versus Devanagari digits",
+      "debugging rendering or truncation of Hindi strings"
+     ]
+    },
+    {
+     "slug": "gender-and-agreement",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "one-concept-one-rendering"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning gender to a loanword",
+      "phrasing strings with interpolated placeholders",
+      "mapping plural messages to CLDR categories for Hindi"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing or auditing the address register of a Hindi catalog",
+      "writing imperatives for buttons and instructions",
+      "reviewing verb agreement with आप"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a term is transliterated or translated or left Latin",
+      "setting the Hindi-vs-Hinglish register for a product",
+      "resolving disputes about a settled rendering"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing Hindi button labels and headers",
+      "fitting Hindi into length-constrained surfaces",
+      "reviewing typography conventions like ellipsis and quotes in a catalog"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "devanagari-and-numerals",
+     "file": "knowledge/localization/south-and-southeast-asian/hindi/applications/process--devanagari-and-numerals.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "terminology-and-loanwords",
+     "file": "knowledge/localization/south-and-southeast-asian/hindi/applications/process--terminology-and-loanwords.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "indonesian": {
+   "category": "south-and-southeast-asian",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/south-and-southeast-asian/indonesian/indonesian.md",
+   "techniques": [
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "clean-strings-stay-untouched",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing machine-translated Indonesian for naturalness",
+      "deciding active vs passive voice in Indonesian copy",
+      "fixing relative-clause and preposition calques"
+     ]
+    },
+    {
+     "slug": "quantity-and-plurality",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating counted or plural strings into Indonesian",
+      "deciding whether to reduplicate a noun",
+      "reviewing message-format plural blocks for the id locale"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing Anda vs kamu for a product",
+      "auditing second-person pronouns in an Indonesian catalog",
+      "writing imperative or possessive copy in Indonesian"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an English tech term stays English or takes an Indonesian form",
+      "building or auditing an Indonesian termbase",
+      "fixing loanword drift in a catalog"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing Indonesian control labels and headings",
+      "budgeting layout for Indonesian strings",
+      "choosing verb forms for buttons vs status text"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "terminology-and-loanwords",
+     "file": "knowledge/localization/south-and-southeast-asian/indonesian/applications/process--terminology-and-loanwords.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "ui-conventions-and-length",
+     "file": "knowledge/localization/south-and-southeast-asian/indonesian/applications/process--ui-conventions-and-length.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "japanese": {
+   "category": "east-asian",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/east-asian/japanese/japanese.md",
+   "techniques": [
+    {
+     "slug": "character-width-and-typography",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing Japanese strings for width and punctuation defects",
+      "setting a house convention for Japanese-Latin boundaries",
+      "checking line-breaking behavior for a Japanese layout"
+     ]
+    },
+    {
+     "slug": "counting-and-quantity",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating strings with counts or plural branches into Japanese",
+      "choosing a counter word for a quantified noun",
+      "auditing Japanese strings for plural-machinery leakage"
+     ]
+    },
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Japanese strings for translationese",
+      "rewriting a machine-translation pass into natural Japanese",
+      "placing placeholders correctly in Japanese sentences"
+     ]
+    },
+    {
+     "slug": "register-and-politeness",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing sentence endings for Japanese UI text",
+      "reviewing register consistency across a catalog",
+      "deciding whether a string is a label or a sentence"
+     ]
+    },
+    {
+     "slug": "terminology-and-katakana-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a new term renders in Japanese",
+      "setting or auditing a chōonpu convention",
+      "catching katakana false friends in a translated catalog"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fitting Japanese text into constrained UI containers",
+      "planning length and layout budgets for a Japanese locale",
+      "reviewing Japanese labels for length and abbreviation defects"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "counting-and-quantity",
+     "file": "knowledge/localization/east-asian/japanese/applications/process--counting-and-quantity.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "register-and-politeness",
+     "file": "knowledge/localization/east-asian/japanese/applications/process--register-and-politeness.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "korean": {
+   "category": "east-asian",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/east-asian/korean/korean.md",
+   "techniques": [
+    {
+     "slug": "counting-and-quantity",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating count and quantity strings into Korean",
+      "reviewing plural-format blocks for the ko locale",
+      "choosing counters for a termbase"
+     ]
+    },
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Korean translations for calqued English structure",
+      "refining machine-translated Korean",
+      "writing typed findings for translated-smelling strings"
+     ]
+    },
+    {
+     "slug": "particles-and-interpolation",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating strings with interpolated placeholders into Korean",
+      "auditing particle correctness around placeholders",
+      "designing source strings that will interpolate names in Korean"
+     ]
+    },
+    {
+     "slug": "register-and-honorifics",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the register mix for a new Korean product surface",
+      "auditing register consistency across a catalog",
+      "reviewing button and label endings"
+     ]
+    },
+    {
+     "slug": "spacing-and-typography",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Korean punctuation and spacing in a catalog",
+      "deciding how Latin terms embed in Korean strings",
+      "settling full-width versus half-width punctuation questions"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or auditing a Korean termbase",
+      "deciding whether a product term transliterates or translates",
+      "settling a loanword's Hangul spelling"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "particles-and-interpolation",
+     "file": "knowledge/localization/east-asian/korean/applications/process--particles-and-interpolation.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "register-and-honorifics",
+     "file": "knowledge/localization/east-asian/korean/applications/process--register-and-honorifics.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "russian": {
+   "category": "european",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/european/russian/russian.md",
+   "techniques": [
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating strings with interpolated entities into case-demanding positions",
+      "auditing Russian text for English structural calques",
+      "reviewing possessives and prepositions in a translated catalog"
+     ]
+    },
+    {
+     "slug": "gender-and-aspect",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing perfective or imperfective for a UI verb",
+      "writing past-tense or predicate strings about a user or an interpolated entity",
+      "auditing Russian strings for gender-agreement exposure"
+     ]
+    },
+    {
+     "slug": "plural-and-count-agreement",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating any string with a numeric placeholder",
+      "auditing plural forms in a Russian catalog",
+      "deciding what to do when the runtime offers fewer plural slots than Russian needs"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing or auditing the address register of a Russian catalog",
+      "reviewing imperatives and pronoun forms in UI strings",
+      "deciding verb form for a button versus an instruction"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a tech term is transliterated or translated",
+      "auditing register consistency of loanwords in a Russian catalog",
+      "handling Latin-script terms and brand names inside Cyrillic text"
+     ]
+    },
+    {
+     "slug": "typography-and-spacing",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "sweeping a Russian catalog for punctuation and glyph defects",
+      "setting typographic conventions before a translation wave",
+      "reviewing quotes dashes and ellipses in Russian strings"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "plural-and-count-agreement",
+     "file": "knowledge/localization/european/russian/applications/process--plural-and-count-agreement.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "terminology-and-loanwords",
+     "file": "knowledge/localization/european/russian/applications/process--terminology-and-loanwords.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "spanish": {
+   "category": "european",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/european/spanish/spanish.md",
+   "techniques": [
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Spanish strings that read as translated",
+      "auditing for false friends and calques",
+      "rewriting machine-translation output"
+     ]
+    },
+    {
+     "slug": "plural-and-gender-agreement",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating strings with count placeholders",
+      "handling gender agreement around interpolated values",
+      "writing copy for an unknown or mixed-gender referent"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "the-authority-is-a-hypothesis",
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing tú or usted for a product",
+      "auditing a catalog for register drift",
+      "writing imperatives and possessives in Spanish strings"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a term stays English or gets a Spanish word",
+      "choosing regionally neutral vocabulary",
+      "building or auditing a Spanish termbase"
+     ]
+    },
+    {
+     "slug": "typography-and-punctuation",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or auditing Spanish punctuation and glyphs",
+      "deciding whether a UI string needs inverted marks",
+      "handling numbers and quotes in Spanish strings"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing Spanish labels and controls",
+      "fixing overflow in Spanish UI",
+      "deciding casing or verb form for a button or heading"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "register-and-address",
+     "file": "knowledge/localization/european/spanish/applications/process--register-and-address.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "typography-and-punctuation",
+     "file": "knowledge/localization/european/spanish/applications/process--typography-and-punctuation.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  },
+  "vietnamese": {
+   "category": "south-and-southeast-asian",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/south-and-southeast-asian/vietnamese/vietnamese.md",
+   "techniques": [
+    {
+     "slug": "classifiers-and-quantity",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "format-skeleton-is-inviolable"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "translating strings with interpolated counts into Vietnamese",
+      "writing or auditing plural blocks in a vi catalog",
+      "choosing classifiers for counted nouns"
+     ]
+    },
+    {
+     "slug": "de-anglicization-constructions",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Vietnamese translations for English-shaped constructions",
+      "fixing bị/được valence in status strings",
+      "deciding word order and pronoun density in vi strings"
+     ]
+    },
+    {
+     "slug": "diacritics-and-typography",
+     "status": "forged",
+     "laws": [
+      "format-skeleton-is-inviolable",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing Vietnamese text for orthography and punctuation defects",
+      "setting normalization and encoding policy for a vi catalog",
+      "adjudicating tone-mark placement variants"
+     ]
+    },
+    {
+     "slug": "register-and-address",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a product addresses the Vietnamese user",
+      "reviewing pronoun and register choices in a vi catalog",
+      "writing button labels and imperatives in Vietnamese"
+     ]
+    },
+    {
+     "slug": "terminology-and-loanwords",
+     "status": "forged",
+     "laws": [
+      "one-concept-one-rendering",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing Vietnamese renderings for technical terms",
+      "deciding whether a term stays borrowed or gets translated",
+      "consolidating term drift in a vi catalog"
+     ]
+    },
+    {
+     "slug": "ui-conventions-and-length",
+     "status": "forged",
+     "laws": [
+      "every-finding-cites-an-anchor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting length budgets for Vietnamese UI strings",
+      "reviewing casing in a vi catalog",
+      "fixing wrapping and truncation of Vietnamese labels"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "diacritics-and-typography",
+     "file": "knowledge/localization/south-and-southeast-asian/vietnamese/applications/process--diacritics-and-typography.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "terminology-and-loanwords",
+     "file": "knowledge/localization/south-and-southeast-asian/vietnamese/applications/process--terminology-and-loanwords.md",
+     "verified_on": "2026-08-24"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "format-skeleton-is-inviolable": {
+   "statement": "Whatever the message-format system, a translated value keeps the source value's machine-readable skeleton byte-identical: every placeholder name, every rich-tag name, every syntax keyword, every brace. The words move; the skeleton does not. A renamed placeholder or a translated syntax keyword is not a style defect — it is a runtime failure that ships silently, because the string still reads fine to every human reviewer. Any audit that types errors marks a skeleton break **critical** unconditionally, and any bulk-write path refuses a value whose placeholder set differs from the source's.",
+   "techniques": [
+    "arabic/bidirectional-text-and-interpolation",
+    "arabic/plural-and-count-agreement",
+    "bengali/bengali-script-and-numerals",
+    "bengali/classifiers-and-quantity",
+    "chinese/measure-words-and-quantity",
+    "czech/plural-and-count-agreement",
+    "french/plural-and-agreement",
+    "hindi/de-anglicization-constructions",
+    "hindi/gender-and-agreement",
+    "indonesian/quantity-and-plurality",
+    "japanese/counting-and-quantity",
+    "japanese/de-anglicization-constructions",
+    "korean/particles-and-interpolation",
+    "russian/de-anglicization-constructions",
+    "russian/plural-and-count-agreement",
+    "spanish/plural-and-gender-agreement",
+    "vietnamese/classifiers-and-quantity",
+    "vietnamese/diacritics-and-typography"
+   ]
+  },
+  "the-source-locale-is-the-source-of-truth": {
+   "statement": "Translation consumes the source catalog; it never edits it. A source string that is ambiguous, concatenated from fragments, missing a plural, or carrying a hardcoded format is a **source defect**: it caps quality for every locale at once, and the fix belongs to the source's owner, not to whichever localizer hit it first. Source defects are recorded in a durable register and surfaced — never silently worked around in one locale, which hides the defect while the other locales keep paying for it.",
+   "techniques": [
+    "arabic/bidirectional-text-and-interpolation",
+    "arabic/plural-and-count-agreement",
+    "french/plural-and-agreement",
+    "french/ui-conventions-and-length",
+    "german/length-and-compression",
+    "indonesian/ui-conventions-and-length",
+    "japanese/ui-conventions-and-length",
+    "korean/counting-and-quantity",
+    "korean/particles-and-interpolation",
+    "russian/plural-and-count-agreement",
+    "spanish/plural-and-gender-agreement",
+    "spanish/typography-and-punctuation",
+    "vietnamese/classifiers-and-quantity"
+   ]
+  },
+  "every-finding-cites-an-anchor": {
+   "statement": "A translation error exists when a finding can cite the rule it breaks: a termbase row, a style rule with an identifier, a grammar rule, a format contract clause, a length budget. \"This feels translated\" with no anchor is taste, and acting on taste is how review loops degrade strings that were already right. The productive response to a real defect with no anchor is to **mint the anchor** — add the rule, with an identifier, to the artifact that should have held it — so one review pays for every string audited after it. This law is what turns a pile of per-language style notes into a compounding system.",
+   "techniques": [
+    "arabic/de-anglicization-constructions",
+    "arabic/register-and-address",
+    "bengali/de-anglicization-constructions",
+    "bengali/register-and-address",
+    "bengali/ui-conventions-and-length",
+    "chinese/character-width-and-typography",
+    "chinese/de-anglicization-constructions",
+    "chinese/register-and-address",
+    "chinese/ui-conventions-and-length",
+    "czech/de-anglicization-constructions",
+    "french/de-anglicization-constructions",
+    "french/typography-and-spacing",
+    "german/de-anglicization-constructions",
+    "german/register-and-address",
+    "hindi/register-and-address",
+    "indonesian/de-anglicization-constructions",
+    "indonesian/register-and-address",
+    "japanese/register-and-politeness",
+    "korean/de-anglicization-constructions",
+    "korean/register-and-honorifics",
+    "russian/register-and-address",
+    "spanish/de-anglicization-constructions",
+    "spanish/register-and-address",
+    "vietnamese/de-anglicization-constructions",
+    "vietnamese/register-and-address",
+    "vietnamese/ui-conventions-and-length"
+   ]
+  },
+  "clean-strings-stay-untouched": {
+   "statement": "A refine pass rewrites only what a typed finding flagged. Unanchored \"improve it again\" passes measurably degrade translations that were already right, and a wholesale overwrite of a human-reviewed catalog is a regression by definition. The discipline holds at every scale: per string (no drive-by rephrasing), per batch (gated refine), and per system (sparse patches over full-catalog rewrites, so a clean value cannot be accidentally rewritten in a merge).",
+   "techniques": [
+    "arabic/de-anglicization-constructions",
+    "bengali/de-anglicization-constructions",
+    "chinese/de-anglicization-constructions",
+    "french/typography-and-spacing",
+    "german/de-anglicization-constructions",
+    "hindi/de-anglicization-constructions",
+    "hindi/ui-conventions-and-length",
+    "indonesian/de-anglicization-constructions",
+    "japanese/de-anglicization-constructions",
+    "korean/de-anglicization-constructions",
+    "spanish/ui-conventions-and-length",
+    "vietnamese/de-anglicization-constructions",
+    "vietnamese/diacritics-and-typography"
+   ]
+  },
+  "one-concept-one-rendering": {
+   "statement": "Within one product and one locale, a domain concept has exactly one rendering, decided once and recorded in the termbase. Two good translations of one concept is a defect even though neither is wrong — and its inverse holds too: one settled word must not be reused for a second concept. Independent translators working disjoint sections **will** split terms; this is a certainty to budget for with a consolidation pass, not a risk to hope against. The consolidation signal is mechanical (term present in source, canonical rendering absent in target — matched on a diacritics-folded stem), but the ruling on each candidate is judgment: most candidates are legitimate senses, not violations, and a scripted rewrite from this signal destroys correct distinctions.",
+   "techniques": [
+    "arabic/register-and-address",
+    "arabic/script-and-typography",
+    "arabic/terminology-and-loanwords",
+    "bengali/terminology-and-loanwords",
+    "chinese/measure-words-and-quantity",
+    "chinese/terminology-and-variants",
+    "czech/terminology-and-loanwords",
+    "french/terminology-and-loanwords",
+    "german/terminology-and-loanwords",
+    "hindi/gender-and-agreement",
+    "hindi/terminology-and-loanwords",
+    "indonesian/register-and-address",
+    "indonesian/terminology-and-loanwords",
+    "japanese/terminology-and-katakana-loanwords",
+    "korean/terminology-and-loanwords",
+    "russian/terminology-and-loanwords",
+    "spanish/terminology-and-loanwords",
+    "vietnamese/terminology-and-loanwords"
+   ]
+  },
+  "the-authority-is-a-hypothesis": {
+   "statement": "Style authorities disagree with each other, and termbases drift from the catalogs they govern. Before enforcing any rule — a published style guide's row, a glossary entry, a register decision — count its actual occurrences in the catalog it is about to be applied to. When the catalog is coherent and the authority is absent, the catalog wins and the authority's row is corrected in place, with the ruling recorded so no later run re-litigates it. A product may deliberately overrule its house authority; that is legitimate exactly when the overruling is written down where the rule lives.",
+   "techniques": [
+    "arabic/script-and-typography",
+    "arabic/terminology-and-loanwords",
+    "bengali/bengali-script-and-numerals",
+    "bengali/terminology-and-loanwords",
+    "chinese/character-width-and-typography",
+    "chinese/register-and-address",
+    "chinese/terminology-and-variants",
+    "czech/register-and-address",
+    "czech/terminology-and-loanwords",
+    "french/register-and-address",
+    "french/terminology-and-loanwords",
+    "german/terminology-and-loanwords",
+    "german/typography-and-spacing",
+    "hindi/devanagari-and-numerals",
+    "hindi/terminology-and-loanwords",
+    "indonesian/terminology-and-loanwords",
+    "japanese/character-width-and-typography",
+    "japanese/terminology-and-katakana-loanwords",
+    "korean/register-and-honorifics",
+    "korean/spacing-and-typography",
+    "korean/terminology-and-loanwords",
+    "russian/terminology-and-loanwords",
+    "spanish/register-and-address",
+    "spanish/terminology-and-loanwords",
+    "vietnamese/terminology-and-loanwords"
+   ]
+  }
+ }
+}

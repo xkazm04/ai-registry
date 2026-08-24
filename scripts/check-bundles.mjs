@@ -183,6 +183,20 @@ const PURITY_PROFILES = {
     [/\.(?:tsx?|mjs|cjs|jsx|cpp|uasset|umap|fbx|glb|blend|wav|png)\b/, 'source or asset file extension'],
     [/\b(?:Unreal|UE5|Unity|Godot|Blender|Maya|Houdini|Substance|Mixamo|Blueprints?|Gameplay Ability System|Next\.js|React|TypeScript|SQLite|Zustand|Leonardo|Tripo|TripoSR|Hunyuan|Qwen|Midjourney|LayoutLab|PoF)\b/, 'engine/tool/model product identifier'],
   ],
+  // Localization domains: the analogue of a repo path is a message-catalog path; the
+  // analogue of a framework name is an i18n library, a TMS/CAT product or a machine-
+  // translation vendor. Standards bodies and named public style authorities (CLDR, MQM,
+  // Unicode, a vendor's published localization style guide cited as provenance) are NOT
+  // banned — a language technique genuinely rests on them the way a law is cited, and a
+  // rule that hid its authority would be taste again. The consuming product's own name
+  // ("Personas" is deliberately absent: it is also the ordinary plural noun — and, in
+  // several target languages, an ordinary word) stays out by the floor-not-whole-rule
+  // convention: workers keep every fleet product name downstairs.
+  localization: [
+    [/\b(?:messages|locales|translations|i18n)\//, 'catalog path'],
+    [/\.(?:tsx?|mjs|cjs|jsx|po|xliff|arb|properties)\b/, 'source or catalog file extension'],
+    [/\b(?:KandiDate|next-intl|i18next|react-intl|FormatJS|Lingui|Crowdin|Lokalise|Transifex|Weblate|Smartling|Phrase|DeepL|Google Translate|memoQ|Trados)\b/, 'i18n library/TMS/MT product identifier'],
+  ],
   // Applied when a bundle declares no profile: the domain-independent core only.
   generic: [
     [/\b(?:src|src-tauri|scripts)\//, 'repo path'],
