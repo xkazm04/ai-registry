@@ -51,11 +51,15 @@ benchmark.
 
 ## The two rules the matrix earned
 
-1. **Practices compose selectively, not additively.** The winning house
-   recipe is shot grammar + one lighting statement + imperfection cues
-   (+ timeline blocks when the beat needs a cut) — not the pile. The
-   stacked cell is the adjective-pile failure mode reproduced at the
-   practice level.
+1. **Practices compose selectively, not additively.** For the register
+   this matrix tested (documentary realism), the strongest composition was
+   shot grammar + one lighting statement + imperfection cues (+ timeline
+   blocks when the beat needs a cut) — not the pile. The stacked cell is
+   the adjective-pile failure mode reproduced at the practice level. The
+   verdict ranks practices *within one register*; which register a scene
+   should be in — genre, lighting mood, lens feel — is upstream craft
+   knowledge, not a single house recipe, and lives with the
+   cinematic-language subject.
 2. **Unspecified on-screen text is a standing hazard**: a boat hull
    rendered letter-shaped noise unprompted (per plate-elements-text-split,
    glyphs belong to the drawn layer or must be spelled out verbatim).
