@@ -331,15 +331,15 @@
       "version": "1.6.0",
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
-      "contentHash": "sha256-n1:d0495b07fd71208b",
+      "contentHash": "sha256-n1:e019f0010214e751",
       "adopters": [
         "personas@plugin:1.5.0",
         "pof@1.7"
       ],
       "invokes30d": 20,
-      "lessons": 6,
+      "lessons": 7,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:f9d183945fffb2d2",
+      "lessonsHash": "sha256-n1:5b3654d076c3ce0e",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -520,7 +520,7 @@
     "skills": 27,
     "practices": 2,
     "memory": 4,
-    "lessons": 46
+    "lessons": 47
   },
   "bundles": [
     {
@@ -622,10 +622,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 147,
-      "techniques": 941,
+      "techniques": 942,
       "applications": 423,
-      "files": 1516,
-      "contentHash": "sha256:f43a413bbc07a278"
+      "files": 1517,
+      "contentHash": "sha256:6d9343a349bd9e5e"
     }
   ]
 }

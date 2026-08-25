@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-08-22
+last_touched: 2026-08-25
 touched_by: research
 dry_streak: 0
 ---
@@ -60,3 +60,8 @@ architecture is banked as a lead with a return condition in the source note.
 ## Declines
 
 None.
+
+## 2026-08-25 - /intake run 12 ([[2026-08-25-awesome-graph-engineering]])
+
+- `procedure-promotion` gained two measured sections from the 2026 skills field study: the artifact carries actions not facts (65.7% vs 4.5%), and selection-at-scale is the silent failure (actual-use precision 29.6% -> 3.3% at pools 5 -> 100, success flat; cap and scope the live pool, merge confusable siblings, measure actual-use).
+- Golden path gained the store-shape paragraph: two independent sightings (shapes-study hybrid-ties-flat; a graph vendor own-ablation +2%) that topology buys marginal recall; value lives in the transitions. Temporal-KG supersedence resolved as a catch - consolidation already outreasons it.

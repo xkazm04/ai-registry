@@ -36,3 +36,8 @@ None.
 
 - New technique `brief-carries-the-session` (what a fresh worker does and does not inherit; primary: the harness's subagent reference). Registered in the golden path. `agent-chaining/handoff-payload-contracts` is the chain-side sibling; boundary stated in the source note, not linked.
 - New application `rust--brief-carries-the-session`: three worker classes in one companion tree, each carrying the session a different way (restated invariants with a pinning test; records injected into a sessionless call; context-map pointers). Negative finding: no brief tells the worker what it cannot see.
+
+## 2026-08-25 - /intake run 12 ([[2026-08-25-awesome-graph-engineering]])
+
+- New technique `coordination-failure-triage` from the MAST corpus (1,600+ traces): classify against the three-class taxonomy before redesigning; specification+verification ~63% of failures; the measured interventions are briefs and gates. Independent convergence with runs 10/11.
+- Lead banked in the source note: transactional tool use / compensation has no owner in the corpus.

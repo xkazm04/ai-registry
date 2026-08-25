@@ -88,6 +88,58 @@ item in this subject does: when it later behaves wrongly, the question is what
 it was learned from, and a capability with no trail back to its evidence cannot
 be debugged, only deleted.
 
+## What the artifact contains: actions, not facts
+
+The 2026 field measurement of skills in coding harnesses (8,135 controlled
+trials across two harnesses and three benchmarks) settled what a promoted
+procedure is *for*: in transcript-labelled successful uses, **procedural
+anchoring — stabilised setup steps, tool orderings, verification checks,
+pitfall avoidance — accounted for 65.7% of the value; explicit knowledge
+injection for 4.5%.** Skills usually do not work by supplying missing
+facts; they work by stabilising action. Two consequences for what the
+promotion door admits:
+
+- **Write the artifact as sequence and checks, not as background.** The
+  facts a procedure needs are mostly reachable at run time; the ordering
+  that avoids the known trap is not. A promoted procedure padded with
+  explanation is paying the injection cost for the 4.5% mechanism.
+- **Distill; never promote the trace.** The same study measured promoted,
+  compressed procedures against replaying raw successful workflows:
+  +6.06 points (CI +0.76 to +11.36), and environment-setup failures fell
+  from 5.3% to 0.2% — because a raw trace carries the exploration, failed
+  branches and noise of its first run into every future one. This is the
+  subject's raw-transcripts-are-not-memory rule holding one layer up, and
+  it was measured twice independently in the same year.
+
+## Selection is the scaling failure
+
+The same measurement followed promoted libraries as they grow, and the
+degradation is not where the accretion warning below expects it. As pools
+grew from 5 to 100 items, offline retrieval sagged (embedding precision
+88.3%→76.9%, agent selection 70.0%→63.7%) — but **the precision of what
+agents actually invoked during execution collapsed from 29.6% to 3.3%**,
+while task success stayed roughly flat, because exact invocation of the
+"right" skill proved neither sufficient nor strictly necessary. Confusable
+near-duplicate neighbours stressed selection more than pool size itself.
+Read together: a growing library fails silently, not loudly — the agent
+keeps succeeding *around* the library while using it almost at random, and
+aggregate success hides that the promotion investment has stopped paying.
+
+- **Cap the live pool and scope it.** A session gets the procedures its
+  declared domain earns, not the whole library; the selection surface is a
+  budget like every other injection in this subject.
+- **Treat confusable siblings as a merge-or-differentiate signal.** Two
+  procedures whose descriptions a selector confuses are one procedure with
+  a parameter, or two procedures whose `use_when` boundaries need to name
+  each other. Leaving them adjacent taxes every future selection.
+- **Measure actual-use precision, not offline retrieval.** The offline
+  number degraded gently and would have passed review; the in-execution
+  number is the one that collapsed. The invocation accounting this
+  technique already requires is the instrument — record *which* procedure
+  the run invoked against which the task needed, per
+  [gate-sees-target](../../../../_laws.md#gate-sees-target) logic: audit
+  the behaviour, not the index.
+
 ## One promotion door
 
 Promotion is a mutation of the agent's capability surface, and it gets exactly

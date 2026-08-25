@@ -58,6 +58,19 @@ attention by residence alone; it is **recalled** under a budget
 explicitly — instead of being made implicitly, forever, by whatever happens
 to be lying around.
 
+One implementation seat the hierarchy deliberately does not fix: the
+consolidated store's **shape** — flat, indexed, or graph. The measured
+record now carries two independent results pointing the same way: a
+first-party study found hybrid graph-plus-index recall tying a flat index,
+and a graph-memory vendor's own ablation found its graph variant worth
+about two points over its non-graph base. Meanwhile the parts of the
+"temporal knowledge graph" designs that demonstrably carry value —
+supersedence with validity windows, invalidation instead of deletion — are
+obligations this subject already imposes on *any* shape (see
+consolidation). Choose the store's shape for operational reasons — query
+patterns, tooling, scale; expect recall quality to come from the
+transitions, not the topology.
+
 ## Raw transcripts are not memory
 
 The most common failure of agent memory is to declare the conversation log

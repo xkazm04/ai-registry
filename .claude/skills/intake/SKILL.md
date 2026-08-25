@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.7.0
+version: 0.8.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -107,6 +107,20 @@ which is a different editing job, not merely a higher trust level.
   their own earlier advice. Items that touch **this registry's own machinery** (how
   skills, rules and workers are loaded) outrank items about bundle content, because the
   registry consumes the harness the listicle describes.
+
+- **Paper aggregator** (an awesome-list or survey repo of research papers). Triage at
+  **cluster level, never item level** - map the list's own taxonomy onto the corpus's
+  subjects, present clusters with one or two anchor papers each, and read at most ~3
+  papers per run, chosen where a bundle or a connected project could act on the result.
+  A paper is authoritative for **its measurement, in its protocol**, and weak for its
+  framework - framework papers are the class's marketing; measurements, failure
+  taxonomies and negative results are its substance, and they survive the strip test
+  where architectures do not. Reading a picked paper IS the extraction for this class,
+  so the fetch budget is per-paper (~2 each: abstract, then full text) rather than the
+  run-wide 3. A vendor paper gets its counter-evidence lane in the same pass - the
+  competing vendor's benchmark of the same system is one fetch and is usually the
+  cheapest honest number available. The cluster map itself goes in the source note: it
+  is what makes the next 300-paper list a one-table triage.
 
 Within the first-party class, the **release walkthrough** is the sub-class to seek out:
 a library author going through one version's changes. It is organised around *changes*,

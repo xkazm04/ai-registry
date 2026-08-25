@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 147,
-  "techniques": 941,
+  "techniques": 942,
   "applications": 423,
   "laws": 12,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "941/941",
+  "use_when_coverage": "942/942",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6902,6 +6902,23 @@
       "deciding whether to fork the conversation or start a fresh session",
       "a worker re-derived something the dispatcher already knew",
       "choosing which worker class runs a task"
+     ]
+    },
+    {
+     "slug": "coordination-failure-triage",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a multi-agent run failed and the fix is being chosen",
+      "deciding whether to redesign topology or briefs",
+      "auditing a batch of failed traces",
+      "budgeting design effort between specification",
+      "coordination and verification",
+      "a proposed fix adds more agents or more rounds"
      ]
     },
     {
@@ -17473,6 +17490,7 @@
     "executive-reporting/expiring-share-links",
     "executive-reporting/grounded-narrative-generation",
     "file-browsing/listing-and-refresh",
+    "fleet-orchestration/coordination-failure-triage",
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/lifecycle-signals",
     "fleet-orchestration/parallel-dispatch",
@@ -18187,6 +18205,7 @@
     "feed/reverse-chronology-semantics",
     "file-browsing/file-mutations",
     "file-browsing/selection-model",
+    "fleet-orchestration/coordination-failure-triage",
     "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",

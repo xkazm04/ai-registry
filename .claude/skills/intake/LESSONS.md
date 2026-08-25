@@ -349,3 +349,35 @@
   (`git worktree add <short> master`, cherry-pick, rebase, push). Long scratch paths
   fail `worktree remove` on this platform. And a red pre-push hook on the consumer is
   the operator's call, not the run's - report, do not `--no-verify`.
+
+## 0.7.0 - 2026-08-25 - ai-registry (run 12: paper aggregator, 284 papers; bumped to 0.8.0 in the same change)
+
+- **New source class: the paper aggregator, and it triages by cluster or not at all.**
+  284 items collapsed into 7 rows by mapping the list taxonomy onto bundle subjects;
+  3 reads, all productive. Item-level triage would have burned the run on titles.
+  Applied as a class row with its own per-paper fetch budget (reading a picked paper
+  IS the extraction for this class).
+- **The operator scepticism was the correct prior, and the class row now encodes it:
+  frameworks are marketing, measurements are substance.** The ~80-paper coordination
+  cluster produced exactly one landing - the failure-taxonomy paper - and the whole
+  workflow-search space was declined as a class. Negative results and failure
+  taxonomies survive the strip test; architectures do not.
+- **The corpus beat a systems paper on its own headline idea.** Temporal-KG
+  supersedence resolved to a catch because consolidation already carries the
+  mechanism AND its limitation (windowed supersedence leaves the state-vs-event
+  judgment to the writer). A catch where the corpus outreasons the paper is worth
+  recording verbatim - it is the strongest available answer to "do papers bring
+  practical value".
+- **A vendor paper's counter-lane is the competing vendor's paper - one fetch.** The
+  competitor's own ablation (graph +2%) did more damage to the graph-memory pitch
+  than any critique could, and it converged with the shapes-study hybrid-ties-flat
+  into a convergence-earned golden-path paragraph. Second-sighting rule satisfied by
+  two parties with opposite interests - the best kind.
+- **Cross-run convergence is compounding: the failure-taxonomy paper's measured
+  interventions (+9.4 role specs, +15.6 verification) ARE run 10's task-envelope and
+  brief-carries-the-session, measured by someone else.** When a paper's remedy is a
+  technique the corpus already carries, cite the measurement into the technique
+  rather than minting a sibling.
+- **The scholar-link tell.** Aggregator entries linking to a search query rather than
+  a stable id mark the thin tail; stable-id density per section is a cheap relevance
+  prior for the next list.

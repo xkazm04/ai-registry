@@ -14,6 +14,7 @@ techniques:
   - outbound-compute-plane
   - substrate-reconciliation
   - brief-carries-the-session
+  - coordination-failure-triage
 ---
 
 # Agent fleet orchestration
@@ -253,3 +254,8 @@ the N-times spend is worth it at all (see heterogeneous-model-panels).
   what a dispatched worker does not inherit from its dispatcher, and the
   brief sections that restate it: invariants, settled decisions, load-bearing
   files, and what the worker cannot see.
+- [coordination-failure-triage](./techniques/coordination-failure-triage.md) —
+  classify failed runs against the measured three-class taxonomy
+  (specification ~42%, misalignment ~37%, verification ~21%) before
+  redesigning anything; the cheap measured fixes are briefs and gates, not
+  topology.
