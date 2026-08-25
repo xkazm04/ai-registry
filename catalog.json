@@ -379,9 +379,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:0e5ca511ad94c273",
+      "lessonsHash": "sha256-n1:a0052eb3c5dc98d1",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -507,7 +507,7 @@
     "skills": 26,
     "practices": 2,
     "memory": 4,
-    "lessons": 44
+    "lessons": 45
   },
   "bundles": [
     {
@@ -583,10 +583,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 15,
-      "techniques": 93,
-      "applications": 38,
-      "files": 151,
-      "contentHash": "sha256:f9effb253bc5de6a"
+      "techniques": 94,
+      "applications": 39,
+      "files": 153,
+      "contentHash": "sha256:48cb4d99062160e8"
     },
     {
       "name": "recruiting",

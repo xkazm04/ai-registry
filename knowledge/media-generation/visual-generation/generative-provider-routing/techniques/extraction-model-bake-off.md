@@ -76,6 +76,23 @@ is a weekend of local compute or a metered bill that scales with ambition.
   The same weights can honour a schema strictly on one endpoint and ignore it
   entirely on another — including two endpoints run by the same vendor. Verify
   enforcement per endpoint, never inherit it from the model's name.
+- **Instruction channel is not a detail — it decides whether steering lands
+  at all.** Measured 2026-08-25: corrective text placed in JSON-schema *field
+  descriptions* was ignored outright, output byte-identical, while the same
+  words in the **main prompt** moved the field sharply and cut definitional
+  contradictions by 68%. Schema descriptions constrain structure; they do not
+  instruct. Before concluding a model cannot do something, confirm it was
+  actually asked in the channel it reads.
+- **Reliability is measurable without any ground truth.** Three probes cost
+  nothing and catch fields that fluent output hides: an **internal
+  contradiction** check across fields whose definitions conflict; an
+  **invariance** check on properties that should barely vary within one source;
+  and a **cheap measurable proxy** for any field with a physical correlate. A
+  field that answers nearly the same value regardless of input is *inert* and
+  carries no information, however plausible each answer looks.
+- **Steering that moves an answer has not shown the answer is right.** A field
+  can flip from one constant to a different constant and remain equally inert.
+  Re-measure inertness after every fix, not just the distribution.
 - **Leave genuinely contestable fields ungraded and route them to a human.**
   A truth set padded with judgement calls stops measuring truth. Surface those
   splits as adjudications; each ruling becomes truth for every later run.

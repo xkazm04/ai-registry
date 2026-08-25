@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 15,
-  "techniques": 93,
-  "applications": 38,
+  "techniques": 94,
+  "applications": 39,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -14,7 +14,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "93/93",
+  "use_when_coverage": "94/94",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -595,6 +595,21 @@
      ]
     },
     {
+     "slug": "replication-as-comprehension-test",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "validating that a controlled vocabulary actually carries meaning",
+      "checking whether an annotation is rich enough to act on",
+      "deciding which schema fields to keep",
+      "no ground truth exists for a labelling task"
+     ]
+    },
+    {
      "slug": "trial-matrix-design",
      "status": "forged",
      "laws": [
@@ -656,6 +671,13 @@
      "technique": "trial-matrix-design",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/node--trial-matrix-design.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "process",
+     "technique": "replication-as-comprehension-test",
+     "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/process--replication-as-comprehension-test.md",
+     "verified_on": "2026-08-25",
+     "refresh_by": "2026-11-25"
     },
     {
      "stack": "process",
@@ -1694,6 +1716,7 @@
     "evidence-bound-visuals/figure-must-cite-a-fact",
     "frame-direction/per-beat-rejection",
     "generated-output-grading/cross-provider-flip-analysis",
+    "generated-output-grading/replication-as-comprehension-test",
     "generated-output-grading/trial-matrix-design",
     "generated-output-grading/two-grader-disagreement-rule",
     "generated-output-grading/unconditional-fail-criteria",
@@ -1766,6 +1789,7 @@
     "evidence-bound-visuals/precision-limit-propagation",
     "frame-direction/plate-elements-text-split",
     "frame-direction/visual-function-vocabulary",
+    "generated-output-grading/replication-as-comprehension-test",
     "generative-provider-routing/extraction-model-bake-off",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/engine-arbitration-order",

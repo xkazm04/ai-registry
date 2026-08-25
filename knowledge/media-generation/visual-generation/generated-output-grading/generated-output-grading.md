@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: generated-output-grading
 status: forged
-use_when: [judging generated images at scale, choosing between image models or providers, deciding whether a failure is the prompt or the model, building a quality gate for a generation pipeline]
+use_when: [judging generated images at scale, choosing between image models or providers, deciding whether a failure is the prompt or the model, building a quality gate for a generation pipeline, validating that a controlled vocabulary carries meaning]
 techniques:
   - unconditional-fail-criteria
   - vision-model-grading-schema
@@ -11,6 +11,7 @@ techniques:
   - regrade-without-regenerate
   - cross-provider-flip-analysis
   - trial-matrix-design
+  - replication-as-comprehension-test
 ---
 
 # Generated output grading
