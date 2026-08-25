@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 147,
-  "techniques": 942,
-  "applications": 423,
+  "subjects": 148,
+  "techniques": 948,
+  "applications": 427,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "942/942",
+  "use_when_coverage": "948/948",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -676,6 +676,129 @@
      "technique": "stop-reason-ledgers",
      "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--stop-reason-ledgers.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "agent-cli-transport": {
+   "category": "llm-agent",
+   "subcategory": "runtime-and-io",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
+   "techniques": [
+    {
+     "slug": "availability-probe",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a local agent binary can serve a request",
+      "a cached login artifact might be stale or ineligible",
+      "a health check must not spend tokens"
+     ]
+    },
+    {
+     "slug": "dated-capability-matrix",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "encoding what a given agent CLI supports",
+      "an adapter hardcodes flags a version bump may break",
+      "deciding whether a feature can rely on schema-constrained output"
+     ]
+    },
+    {
+     "slug": "fallback-ladder",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the agent binary is missing on a deployment",
+      "designing keyless or offline product behavior",
+      "a managed platform cannot spawn local binaries"
+     ]
+    },
+    {
+     "slug": "output-normalization",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "parsing an agent CLI's output into an answer",
+      "an envelope changed shape after a tool upgrade",
+      "log noise or user hooks corrupted a structured parse"
+     ]
+    },
+    {
+     "slug": "permission-stance-enforcement",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a repository scan must be provably unable to write",
+      "configuring an unattended editing agent session",
+      "an approval mode was silently downgraded by the tool"
+     ]
+    },
+    {
+     "slug": "subscription-auth-selection",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing whose bill a spawned agent run lands on",
+      "an API key in the host environment could silently switch billing",
+      "a batch workload must run on the operator's flat-rate seat"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "output-normalization",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--output-normalization.md",
+     "verified_on": "2026-08-25",
+     "verified_against": "claude-code@2.1.245"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "subscription-auth-selection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--subscription-auth-selection.md",
+     "verified_on": "2026-08-25",
+     "verified_against": "claude-code@2.1.245"
+    },
+    {
+     "stack": "codex-cli",
+     "technique": "permission-stance-enforcement",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/codex-cli--permission-stance-enforcement.md",
+     "verified_on": "2026-08-25",
+     "verified_against": "codex-cli@0.139.0"
+    },
+    {
+     "stack": "cursor-cli",
+     "technique": "permission-stance-enforcement",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/cursor-cli--permission-stance-enforcement.md",
+     "verified_on": "2026-08-25"
     }
    ]
   },
@@ -15141,7 +15264,9 @@
       "one-validation-door",
       "gate-sees-target"
      ],
-     "shared_with": [],
+     "shared_with": [
+      "agent-cli-transport"
+     ],
      "use_when": [
       "deciding what a child may inherit",
       "a dash-prefixed value arrived as a flag",
@@ -15156,7 +15281,9 @@
       "failure-not-empty-success",
       "identity-survives-reuse"
      ],
-     "shared_with": [],
+     "shared_with": [
+      "agent-cli-transport"
+     ],
      "use_when": [
       "choosing when a polite stop becomes a kill",
       "the parent died but its helpers did not",
@@ -17398,6 +17525,7 @@
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-cli-transport/permission-stance-enforcement",
     "agent-instruction-files/enforcement-demotion",
     "alerting/evaluation-loop",
     "alerting/rule-authoring-validation",
@@ -17678,6 +17806,9 @@
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/run-conditions",
     "agent-chaining/stop-reason-ledgers",
+    "agent-cli-transport/availability-probe",
+    "agent-cli-transport/fallback-ladder",
+    "agent-cli-transport/output-normalization",
     "agent-memory/coverage-instrumentation",
     "agent-memory/recall-injection",
     "agent-memory/rollup-compaction",
@@ -18571,6 +18702,8 @@
     "accessibility/primitive-level-a11y",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/run-conditions",
+    "agent-cli-transport/permission-stance-enforcement",
+    "agent-cli-transport/subscription-auth-selection",
     "agent-memory/consolidation",
     "agent-memory/memory-governance",
     "agent-memory/procedure-promotion",
@@ -18923,6 +19056,7 @@
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/run-conditions",
     "agent-chaining/stop-reason-ledgers",
+    "agent-cli-transport/fallback-ladder",
     "agent-instruction-files/single-source-topology",
     "agent-memory/memory-value-model",
     "alerting/escalation-routing",
@@ -19173,6 +19307,7 @@
    "statement": "A classified outcome reaches every boundary that acts on it as a typed value. A refusal enum erased into a generic error, a server-side failure taxonomy re-derived by matching message text, a policy denial re-thrown as the last underlying failure — in each, the classification exists where it was computed and dies where it mattered. The test is what the outermost consumer can branch on; a verdict that survives only as prose has not survived.",
    "techniques": [
     "admission-queue/admission-vocabulary",
+    "agent-cli-transport/output-normalization",
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
     "credential-vault/token-refresh-lifecycle",
@@ -19189,6 +19324,7 @@
     "agent-addressable-ui/build-time-source-stamping",
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-cli-transport/dated-capability-matrix",
     "agent-instruction-files/machine-owned-regions",
     "agent-memory/consolidation",
     "agent-memory/memory-value-model",
@@ -19339,26 +19475,11 @@
     "wizard-flows/progress-communication"
    ]
   },
-  "absent-guard-is-loud": {
-   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
-   "techniques": [
-    "agent-instruction-files/enforcement-demotion",
-    "client-state/store-dependency-topology",
-    "companion-identity/operator-profile-synthesis",
-    "companion-runtime/autonomous-cycle-hosting",
-    "data-access/cross-driver-invariant-parity",
-    "fleet-orchestration/brief-carries-the-session",
-    "mcp-tools/transport-selection",
-    "public-claim-provenance/provenance-as-a-build-gate",
-    "quality-gates/blocking-by-input-determinism",
-    "structured-output/schema-validation-and-repair",
-    "web-scraping/soak-mode-and-verdict-replay",
-    "webhook-ingestion/duplicate-and-replay-dedup"
-   ]
-  },
   "unknown-is-not-a-value": {
    "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
    "techniques": [
+    "agent-cli-transport/availability-probe",
+    "agent-cli-transport/dated-capability-matrix",
     "agent-instruction-files/instruction-freshness",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
@@ -19373,6 +19494,26 @@
     "p2p-networking/peer-state-honesty",
     "structured-output/schema-validation-and-repair",
     "web-scraping/soak-mode-and-verdict-replay"
+   ]
+  },
+  "absent-guard-is-loud": {
+   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
+   "techniques": [
+    "agent-cli-transport/fallback-ladder",
+    "agent-cli-transport/permission-stance-enforcement",
+    "agent-cli-transport/subscription-auth-selection",
+    "agent-instruction-files/enforcement-demotion",
+    "client-state/store-dependency-topology",
+    "companion-identity/operator-profile-synthesis",
+    "companion-runtime/autonomous-cycle-hosting",
+    "data-access/cross-driver-invariant-parity",
+    "fleet-orchestration/brief-carries-the-session",
+    "mcp-tools/transport-selection",
+    "public-claim-provenance/provenance-as-a-build-gate",
+    "quality-gates/blocking-by-input-determinism",
+    "structured-output/schema-validation-and-repair",
+    "web-scraping/soak-mode-and-verdict-replay",
+    "webhook-ingestion/duplicate-and-replay-dedup"
    ]
   }
  }

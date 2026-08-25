@@ -123,6 +123,7 @@
           "subjects": [
             "streaming-output",
             "subprocess-lifecycle",
+            "agent-cli-transport",
             "mcp-tools",
             "terminal-multiplexing",
             "sidecar-provisioning",

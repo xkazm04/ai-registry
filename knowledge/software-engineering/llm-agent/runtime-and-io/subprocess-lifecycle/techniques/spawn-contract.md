@@ -5,7 +5,7 @@ subject: subprocess-lifecycle
 technique: spawn-contract
 status: forged
 laws: [one-validation-door, gate-sees-target]
-shared_with: []
+shared_with: [agent-cli-transport]
 use_when: [deciding what a child may inherit, a dash-prefixed value arrived as a flag, the wrong binary ran on another machine]
 ---
 

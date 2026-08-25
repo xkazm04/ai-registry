@@ -114,6 +114,31 @@ what was claimed wrongly.**
 - **Vary by caller.** A relaxed mode for the batch path is a second door
   wearing the first one's name.
 
+## The schema can carry the epistemic contract
+
+Field-level checks prove each value is well-formed; the door's deepest
+service is proving the fields **agree about what the artifact claims**.
+A grounded-answer artifact is the canonical case: it carries the answer
+text, its citations, and an `answered` flag — and the four combinations
+are not equally coherent. Answered with citations is an answer; refused
+with no citations is a refusal; the other two are defects wearing a
+costume. Answered-without-citations is an ungrounded claim presenting as
+a grounded one; refused-with-citations is evidence gathered and then
+disowned, which usually means the producer changed its mind mid-artifact.
+A cross-field validator that rejects both incoherent quadrants turns the
+epistemic contract into a structural check — the claim-versus-evidence
+judgment fails at the door, typed, rather than downstream as a reader's
+suspicion (the same demand
+[verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)
+makes of classifications generally). The pattern generalises to any
+artifact whose fields jointly assert something no single field asserts:
+a confidence that must be low when the evidence list is empty, a verdict
+enum that forbids a remediation field, a refusal arm that must carry a
+reason and nothing else. Write the invariant into the schema's own
+cross-field validation, where every producer and every repair attempt
+meets it — a repair that "fixes" shape by breaking coherence is exactly
+the deletion-shaped repair the loop below forbids.
+
 ## The repair loop
 
 The producer that emitted a near-miss is the cheapest tool for fixing it —
