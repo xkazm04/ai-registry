@@ -17,6 +17,7 @@ techniques:
   - prompt-budget-limits
   - prompt-dialect-matching
   - medium-vocabulary-locking
+  - verbatim-text-locking
 ---
 
 # Image prompt composition
@@ -85,7 +86,9 @@ This split reshapes the prompt itself. The prompt must:
   layer that binds to facts, and a generated glyph, however well-formed,
   belongs to no fact. A pipeline with no compositing layer may legitimately
   let a typography-capable model set text; it then owns per-character
-  proofreading and gives up the fact-binding the split provides;
+  proofreading and gives up the fact-binding the split provides — the
+  contract for that architecture, where the words *are* the artwork, is
+  [verbatim-text-locking](./techniques/verbatim-text-locking.md);
 - avoid **text-magnet nouns** — objects whose identity is writing (a ledger,
   a signpost, a certificate) invite the model to write on them, and it will
   (see shape-language-over-nouns);

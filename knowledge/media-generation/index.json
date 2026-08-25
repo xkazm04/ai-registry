@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 15,
-  "techniques": 94,
+  "techniques": 96,
   "applications": 39,
   "laws": 8,
   "categories": [
@@ -14,7 +14,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "94/94",
+  "use_when_coverage": "96/96",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -431,6 +431,22 @@
       "drawing charts or comparisons from researched facts",
       "designing the fact-record schema",
       "reviewing a frame that looks suspiciously clean"
+     ]
+    },
+    {
+     "slug": "screenshots-claim-a-record",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generating an interface or social-platform screenshot for a factual or promotional piece",
+      "a brief asks for a \"realistic\" screenshot of a real platform",
+      "deciding whether a generated mockup needs a label",
+      "reviewing generated frames that depict posts",
+      "messages",
+      "dashboards or live streams"
      ]
     }
    ],
@@ -952,6 +968,21 @@
      "use_when": [
       "generating more than one image for the same project",
       "a batch of outputs no longer looks like one project"
+     ]
+    },
+    {
+     "slug": "verbatim-text-locking",
+     "status": "forged",
+     "laws": [
+      "checkability-routes-the-pixel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the model, not a compositor, must set text inside the image",
+      "generating typography posters, packaging, interface mockups or documents where the words are the artwork",
+      "generated text comes back misspelled, invented, or as placeholder strings",
+      "deciding what to proofread before a text-bearing render is accepted"
      ]
     }
    ],
@@ -1727,6 +1758,7 @@
     "generative-provider-routing/vendor-fact-ledger",
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/prompt-budget-limits",
+    "image-prompt-composition/verbatim-text-locking",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/no-engine-means-no-video",
     "platform-format-adaptation/format-as-measured-template",
@@ -1787,6 +1819,7 @@
     "evidence-bound-visuals/generous-strawman-rendering",
     "evidence-bound-visuals/performer-claims-need-a-person",
     "evidence-bound-visuals/precision-limit-propagation",
+    "evidence-bound-visuals/screenshots-claim-a-record",
     "frame-direction/plate-elements-text-split",
     "frame-direction/visual-function-vocabulary",
     "generated-output-grading/replication-as-comprehension-test",
@@ -1824,6 +1857,7 @@
     "generated-output-grading/vision-model-grading-schema",
     "image-prompt-composition/negative-prompting",
     "image-prompt-composition/shape-language-over-nouns",
+    "image-prompt-composition/verbatim-text-locking",
     "platform-format-adaptation/sound-off-first-design"
    ]
   },

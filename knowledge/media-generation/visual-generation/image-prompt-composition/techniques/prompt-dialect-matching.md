@@ -34,6 +34,24 @@ ordering or weighting trick can recover:
 - **Community-finetuned niches** can bind a dialect even tighter: models
   trained on a tagged image-board corpus respond to that corpus's exact
   tag vocabulary and quality-tag conventions, and to nothing else as well.
+- **Instruction-following multimodal models** — a language model that
+  emits images, rather than an image model with a language encoder in
+  front of it — read the prompt as a **brief**, not as a caption. They
+  reward what a brief rewards: the artifact's type and purpose stated
+  first ("a one-page infographic explaining X for first-year students"),
+  then the content it must carry, then the look, then the constraints.
+  They parse structure: a fielded prompt (a JSON object with `type`,
+  `layout`, `style`, `content`, `constraints` keys) is a legitimate
+  serialization of the same contract, and is the natural one when an
+  agent, not a person, is the author. They render specified text and
+  apply world knowledge to unspecified detail — which is why an
+  unspecified slot is filled with a plausible invention rather than left
+  blank, and why the contract must close every slot it cares about (see
+  [verbatim-text-locking](./verbatim-text-locking.md)). And they expose
+  **no negative channel**: exclusions are positive prose, as on the
+  distilled class, and the model will otherwise helpfully "improve" the
+  brief — including by returning a board of variants where one image was
+  wanted, unless the brief states the output's cardinality.
 
 The same split governs **emphasis syntax**. Parenthesis weighting,
 attention multipliers and section-break markers are features of specific
@@ -76,6 +94,13 @@ and **dominance prose** ("only", "nothing but", "dominated by").
 - **When a pipeline serves both dialect classes**, the adapter boundary is
   the compiler, not the author: authors write the contract once and never
   target a model directly.
+- **When the target is a brief-reading model, lead with what the image is
+  for, and close every slot.** The purpose line does on this class what
+  the medium line does on token readers — it sets the frame everything
+  else is interpreted in. Then state exact text, exact counts, the format,
+  and "exactly one image": what the brief leaves open, the model fills,
+  and it fills well enough that the invention is not noticed until it
+  ships.
 - **When emphasis syntax appears load-bearing** — removing it visibly
   changes the image — record which runtime that observation was made on;
   it is a per-runtime fact, not part of the style contract.

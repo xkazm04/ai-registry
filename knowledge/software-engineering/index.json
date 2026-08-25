@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 147,
   "techniques": 941,
-  "applications": 422,
+  "applications": 423,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -774,6 +774,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--single-source-topology.md",
      "verified_on": "2026-08-24",
      "verified_against": "claude-code@2"
+    },
+    {
+     "stack": "node",
+     "technique": "single-source-topology",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--single-source-topology.md",
+     "verified_on": "2026-08-25",
+     "verified_against": "node@22"
     }
    ]
   },

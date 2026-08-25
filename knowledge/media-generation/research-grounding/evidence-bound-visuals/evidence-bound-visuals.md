@@ -11,6 +11,7 @@ techniques:
   - epistemic-draw-routing
   - generous-strawman-rendering
   - performer-claims-need-a-person
+  - screenshots-claim-a-record
 ---
 
 # Evidence-bound visuals
@@ -19,7 +20,8 @@ A picture in a factual piece is not decoration on top of the argument — it is
 part of the argument, and it makes claims with a grammar of its own. An axis
 with fine ticks claims precision. An arrow claims causation. Two series on a
 shared scale claim comparability. A number on screen claims that somebody
-checked it. A person on screen saying "I used this" claims a person. The
+checked it. A person on screen saying "I used this" claims a person. A
+rendered screenshot of a platform claims a record. The
 subject of this document is keeping those claims honest:
 making sure no rendered element asserts more than the sourced fact behind it
 supports, and routing every element that *could* be checked to a drawing
@@ -193,3 +195,7 @@ revise rather than merely contradict.
 - [performer-claims-need-a-person](./techniques/performer-claims-need-a-person.md) —
   a synthetic performer may present, but a first-person experience claim
   asserts an experiencer; the judgment is recorded at cast time.
+- [screenshots-claim-a-record](./techniques/screenshots-claim-a-record.md) —
+  a generated interface or platform screenshot asserts that a state existed
+  on a system; system, actors and state are each real or labelled, and
+  invented counts never sit on real chrome.

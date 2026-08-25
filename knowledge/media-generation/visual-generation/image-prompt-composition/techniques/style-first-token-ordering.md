@@ -67,6 +67,17 @@ annotations do not port across models; order does.
 
 ## Decision rules
 
+- **When the target reads the prompt as a brief rather than a caption**
+  (the instruction-following class in
+  [prompt-dialect-matching](./prompt-dialect-matching.md)), the first line
+  names the artifact and its purpose, and the style block follows it. Loss
+  is not the mechanism on that class — comprehension is — and the purpose
+  line is what the rest is interpreted against. The priority logic is
+  unchanged: what must survive misreading goes first; on a brief-reader
+  that is what the image is *for*. One exception survives from the
+  token-reading rule: a format outside the model's defaults (an unusual
+  aspect ratio, a non-phone screen shape) still goes before everything,
+  because the framing prior is set before the brief is understood.
 - **When a model reproduces the style and the opening of the subject but
   nothing after a certain point, suspect truncation before incompetence.**
   Confirm cheaply: re-run with only the style block plus the first subject

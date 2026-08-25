@@ -318,3 +318,34 @@
   `git update-index --cacheinfo`, stage your paths explicitly, verify with
   `git diff --cached --name-only`, then commit with NO pathspec. The pathspec rule in
   Phase 10 protects against sweeping; here the curated index is the pathspec.
+
+## 0.7.0 - 2026-08-25 - ai-registry (run 11: practitioner codebase, curated prompt library; no bump - lessons only)
+
+- **A source written for a model class the subject was not forged on reads as a
+  contradiction and is usually a missing stage.** Two picks triaged `corrects-claim`
+  (text locking vs the no-text rule; purpose-first vs style-first) resolved on reading
+  the full files to `fills-stage`: the golden path already named the other architecture
+  in one sentence and owned none of what the sentence implies. The tell is a boundary
+  statement with no technique behind it. Read the golden path's boundary sentences
+  before the triage column says "corrects".
+- **Two vendor guides fetched for the same class beat one paper.** Neither vendor
+  documents a prompting method, but both agree on the class facts (natural-language
+  brief, explicit text, no negative parameter). Convergence between vendors on what the
+  API *lacks* is corroboration the source could not have given.
+- **A curated library's pitfall guides are its knowledge; its templates are its
+  product.** Thirteen "避坑指南" blocks produced every finding; the 21 templates and 529
+  cases produced none directly. Same shape as the release-walkthrough lesson (run 4):
+  read the stated failure modes first.
+- **The library's most-used templates were its ethics finding.** Social-post and
+  live-stream screenshot generators, with guidance to make them indistinguishable from
+  captures, are a fabricated-record engine. A source's *popularity ranking* is a signal
+  about which hazard the field is currently mass-producing.
+- **Offer the cross-repo lane as a table row and let it be declined.** Listing
+  systedo-case as row X with "I have not opened that tree" cost one line and produced a
+  clean decision; the project is now a named return condition in two subject notes.
+- **Push discipline in a shared consumer checkout: the sibling switched branches
+  between my commit and my push, twice.** The run-10 commit landed on the sibling's
+  feature branch; recovered with a short-path scratch worktree of `master`
+  (`git worktree add <short> master`, cherry-pick, rebase, push). Long scratch paths
+  fail `worktree remove` on this platform. And a red pre-push hook on the consumer is
+  the operator's call, not the run's - report, do not `--no-verify`.
