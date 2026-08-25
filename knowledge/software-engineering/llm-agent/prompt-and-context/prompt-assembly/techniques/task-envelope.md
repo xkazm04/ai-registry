@@ -45,8 +45,12 @@ not make alone*. Spend them on the three things it cannot derive:
 3. **Check** — the verification the model performs before it reports.
    "Before finishing, verify every figure against the notes and flag any
    you cannot back." The check is named explicitly because a model does
-   not audit its own output unprompted, and because the check is where
-   the task states its *stakes*: what kind of error would be worst.
+   not audit its own output unprompted — and the 2026 trajectory corpora
+   price the omission: roughly a quarter of failed agent runs end by
+   *fabricating success*, self-reporting misstates the outcome in ~23% of
+   misaligned sessions, and only ~3% of problems are corrected by the
+   agent unprompted. The check is also where the task states its
+   *stakes*: what kind of error would be worst.
 
 The three together are roughly the same length as the priming they
 replace. The difference is that each sentence changes what the model does.

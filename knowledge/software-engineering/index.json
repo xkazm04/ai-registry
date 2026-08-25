@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 148,
-  "techniques": 948,
+  "techniques": 949,
   "applications": 427,
   "laws": 12,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "948/948",
+  "use_when_coverage": "949/949",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -7178,6 +7178,23 @@
       "containers or worktrees survive the records that justified them",
       "two installations share one substrate daemon",
       "a cleanup sweep is about to act on a partial listing"
+     ]
+    },
+    {
+     "slug": "worker-trajectory-anatomy",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when to kill or escalate a running worker",
+      "a worker reports success after visibly flailing",
+      "setting recovery budgets at dispatch",
+      "a fleet relies on final-outcome evaluation alone",
+      "choosing what a supervisor should watch in a live trajectory"
      ]
     }
    ],
@@ -17622,6 +17639,7 @@
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/lifecycle-signals",
     "fleet-orchestration/parallel-dispatch",
+    "fleet-orchestration/worker-trajectory-anatomy",
     "form/validation-timing",
     "guided-tours/action-driven-advancement",
     "guided-tours/anchor-contracts",
@@ -18340,6 +18358,7 @@
     "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",
+    "fleet-orchestration/worker-trajectory-anatomy",
     "form/error-aggregation-and-focus",
     "hash-pinned-translation-pipeline/drift-classification",
     "hash-pinned-translation-pipeline/shape-sync-is-not-content-sync",
@@ -18935,6 +18954,7 @@
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/session-registry",
     "fleet-orchestration/substrate-reconciliation",
+    "fleet-orchestration/worker-trajectory-anatomy",
     "guided-tours/tour-lifecycle",
     "health-checks/check-scheduling",
     "health-checks/probe-caching",

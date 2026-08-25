@@ -644,10 +644,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 148,
-      "techniques": 948,
+      "techniques": 949,
       "applications": 427,
-      "files": 1528,
-      "contentHash": "sha256:325edab569ce9bef"
+      "files": 1529,
+      "contentHash": "sha256:2dc50a26412aaa66"
     }
   ]
 }

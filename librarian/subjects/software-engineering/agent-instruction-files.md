@@ -20,3 +20,7 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject forged 
 ## Open leads
 
 - The validator's machine-writing-tell check is a lead for a stewardship technique when run 3's de-slop subject lands (see the source note).
+
+## 2026-08-25 - /intake run 14 ([[2026-08-25-agentic-dev-paper-batch]])
+
+- `enforcement-demotion` gained the field pricing: explicit constraint violation is the largest misalignment class (38.3%, ~50% in unattended CLI sessions), so the demotion question is re-asked when a rule graduates from interactive to unattended dispatch.

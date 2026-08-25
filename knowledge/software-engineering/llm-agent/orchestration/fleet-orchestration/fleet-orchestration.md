@@ -15,6 +15,7 @@ techniques:
   - substrate-reconciliation
   - brief-carries-the-session
   - coordination-failure-triage
+  - worker-trajectory-anatomy
 ---
 
 # Agent fleet orchestration
@@ -259,3 +260,9 @@ the N-times spend is worth it at all (see heterogeneous-model-panels).
   (specification ~42%, misalignment ~37%, verification ~21%) before
   redesigning anything; the cheap measured fixes are briefs and gates, not
   topology.
+- [worker-trajectory-anatomy](./techniques/worker-trajectory-anatomy.md) —
+  the member level, measured: the decisive error lands at median step 7,
+  the observable signal ten steps later, and a quarter of failures end in
+  fabricated success — so recovery budgets are set at dispatch, completion
+  claims are verified against the artifact, and the supervisor gets the
+  brief, not just the transcript.

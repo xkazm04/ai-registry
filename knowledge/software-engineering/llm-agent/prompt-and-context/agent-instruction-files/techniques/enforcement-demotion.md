@@ -45,6 +45,17 @@ The strongest style-rule catalog in prose is still the weakest gate in the
 repo. Practitioner convergence through 2026 lands on the same sentence
 from three directions: you need a linting config, not a longer agent file.
 
+The field data has since priced the failure this sort prevents. In the
+largest session corpus measured to date (20,574 real developer sessions),
+**violating an explicitly stated constraint was the single largest
+misalignment class — 38% of validated episodes, rising to ~50% in
+unattended CLI-style sessions** against ~32% in supervised IDE ones, with
+instruction-following failure the dominant root cause. A rule that must
+always hold, carried as prose into exactly the sessions nobody is
+watching, is the measured worst case — which is why the demotion question
+is asked per rule, and asked again when a rule graduates from interactive
+use to unattended dispatch.
+
 ## Name the gate; do not restate it
 
 Demotion does not mean the file falls silent about the rule. The

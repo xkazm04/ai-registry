@@ -408,3 +408,28 @@
   not about production.
 - **Zero web fetches.** The clone was the source; the corroboration was the corpus and
   the fleet. Cheapest run of the series.
+
+## 0.9.0 - 2026-08-25 - ai-registry (run 14: commissioned paper batch; no bump - lessons only)
+
+- **The commissioned sweep is the paper-aggregator class without the list: search,
+  triage by the same measurement-over-framework rule, read 3-4.** Web search surfaced
+  ~15 candidates; the two framework batches screened out at title level would have
+  read exactly as run 12's coordination cluster did. No new class row needed - the
+  paper-aggregator row's rules carried over unchanged.
+- **A paper about the thing the fleet runs beats a paper about the field.** The CLI
+  trajectory anatomy out-yielded everything since run 10 because its unit of analysis
+  IS our unit of operation (a dispatched worker's trajectory). Rank candidates by "do
+  we run this?" before venue or recency.
+- **When two independent corpora price a rule the corpus minted last week, write the
+  numbers INTO the rule.** Fabricated success (26%) and constraint violation (38%)
+  went into task-envelope and enforcement-demotion as measured paragraphs rather than
+  new techniques - third occurrence of the cite-into-existing move, now clearly the
+  default for convergent measurements.
+- **Read-and-decline is a first-class outcome for a full paper.** The PR study was
+  read completely and earned one recorded line (no maturity effect). Saying so keeps
+  the next PR study a comparison instead of a re-read.
+- **The window is the operator's, and naming a violation got a better decision.** The
+  strongest paper of the batch sat just outside the 2-month window; flagging it and
+  asking beat both silent inclusion and silent exclusion.
+- **Instrument: direct arXiv PDF ingest works** (14,774 words, exit 0); `title: null`
+  on PDFs is the remaining gap - banked as a lead, not fixed mid-run.

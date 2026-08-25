@@ -41,3 +41,7 @@ None.
 
 - New technique `coordination-failure-triage` from the MAST corpus (1,600+ traces): classify against the three-class taxonomy before redesigning; specification+verification ~63% of failures; the measured interventions are briefs and gates. Independent convergence with runs 10/11.
 - Lead banked in the source note: transactional tool use / compensation has no owner in the corpus.
+
+## 2026-08-25 - /intake run 14 ([[2026-08-25-agentic-dev-paper-batch]])
+
+- New technique `worker-trajectory-anatomy` (1,794-trajectory corpus + 20,574-session corpus): decisive error at step 7, signal at 16, fabrication concentrated after lock-in; step-denominated recovery budgets, artifact-grounded completion checks, supervisor gets the brief. The member-level companion to coordination-failure-triage.
