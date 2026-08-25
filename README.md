@@ -204,11 +204,13 @@ slash commands for anyone working *on* the registry, not library items.
 slug and must match the directory. `description` is one paragraph - it is how an agent decides
 whether to use the skill without reading the body, so it carries the trigger first.
 
-### Practices (2)
+### Practices (4)
 
 | Practice | Dimension | Starter |
 | --- | --- | --- |
 | [`agent-guidance`](practices/agent-guidance/PRACTICE.md) | D1 | [`AGENTS.md`](practices/agent-guidance/starter/AGENTS.md) |
+| [`local-first-readme`](practices/local-first-readme/PRACTICE.md) | D5 | [`README.md`](practices/local-first-readme/starter/README.md) |
+| [`open-contribution`](practices/open-contribution/PRACTICE.md) | D5 | [`.github/` templates](practices/open-contribution/starter/.github/PULL_REQUEST_TEMPLATE.md), [`CODEOWNERS`](practices/open-contribution/starter/CODEOWNERS), [`CODE_OF_CONDUCT.md`](practices/open-contribution/starter/CODE_OF_CONDUCT.md) |
 | [`supply-chain-security`](practices/supply-chain-security/PRACTICE.md) | D9 | [`SECURITY.md`](practices/supply-chain-security/starter/SECURITY.md), [`supply-chain.yml`](practices/supply-chain-security/starter/.github/workflows/supply-chain.yml) |
 
 A practice describes the **shape** of what good looks like, never a repo's actual content. Its
@@ -278,6 +280,9 @@ the catalog's per-skill `adopters`.
 
 ## How a change gets in
 
+This is the short form; the full contributor guide - per-lane gates, the privacy rule,
+issue and AI-assistance expectations - is [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 1. Branch, edit `skills/<name>/SKILL.md` (or anything in its directory), **bump `version`**.
 2. Append an entry to that skill's `LESSONS.md`: `## <version used> - <YYYY-MM-DD> - <project>`
    followed by `-` bullets. Record the version the run *used*, not the bump target.
@@ -322,4 +327,5 @@ never current.
 
 ## License
 
-Public domain / CC0. Copy anything here into your own registry and change it to fit.
+Public domain / [CC0 1.0](LICENSE). Copy anything here into your own registry and change
+it to fit.

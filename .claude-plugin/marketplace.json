@@ -27,7 +27,7 @@
       "name": "architect",
       "source": "./skills/architect",
       "description": "Heavy structural codebase scan - surfaces weak patterns to upgrade and strong patterns to codify, producing ADR-style decisions with a durable cross-session backlog. The highest-risk / highest-payoff scan in the suite; walks the context map area by area.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow"
     },
     {
@@ -104,7 +104,7 @@
       "name": "explorer",
       "source": "./skills/explorer",
       "description": "Wander one logical area of a codebase, surface 10 items worth fixing, triage with the user, then execute the accepted ones in-session. Daily low-friction quality sweeps with per-context coverage memory.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow"
     },
     {
@@ -132,7 +132,7 @@
       "name": "i18n-translate",
       "source": "./skills/i18n-translate",
       "description": "Copywriting-grade, context-aware localization for any managed app - a transcreation loop (draft -> typed MQM estimate -> gated refine) with an engineering guardrail. Portable across i18n stacks via a per-repo contract artifact; keeps a glossary, per-locale style guides, and gold exemplar pairs in the target repo so run N+1 stays consistent with run N. Invoke with /i18n-translate <mode> [locale] [s",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow"
     },
     {
@@ -146,14 +146,14 @@
       "name": "leonardo",
       "source": "./skills/leonardo",
       "description": "Generate images with OpenAI gpt-image-2 (primary) or Leonardo AI (fallback), remove backgrounds, analyze with Gemini vision, and write SVG. For brand assets, UI illustrations, backgrounds, and icons.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "other"
     },
     {
       "name": "motionize",
       "source": "./skills/motionize",
       "description": "Upgrade a generic UI icon or loading/empty state into a traced, motion-animated SVG. Generates flat trace-friendly art (via /leonardo tools), validates with Qwen vision, vectorizes to a clean multi-path SVG, and emits a motion reveal component driven by the shared motion-preset library (draw, staggered-draw, fade-pop, float, pulse, hover-response, success-settle). For icon + loading-state visual u",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "other"
     },
     {
@@ -169,6 +169,22 @@
       "description": "Fetch npm package updates, analyze new features, and identify improvement opportunities for this app. Use when the user wants to explore what's new in dependencies or plan next development directions.",
       "version": "1.0.0",
       "category": "workflow"
+    },
+    {
+      "name": "onboarding",
+      "source": "./skills/onboarding",
+      "description": "Take a fresh clone of an app repo to a running, honestly-labelled install in one conversation: probe runtime deps, ask which connector capabilities the operator wants, collect keys into .env.local without ever echoing a secret, verify by booting the app, and hand back a capability matrix with three honest states per group (works / degraded with a stated fallback / hidden). Runs on generic defaults",
+      "version": "0.3.0",
+      "category": "workflow",
+      "tags": [
+        "onboarding",
+        "setup",
+        "env",
+        "secrets",
+        "capability-matrix",
+        "doctor",
+        "fresh-clone"
+      ]
     },
     {
       "name": "perfect",
@@ -203,7 +219,7 @@
       "name": "research",
       "source": "./skills/research",
       "description": "Extract actionable improvements for a project from external sources (video, blog, article, raw text). Scores ideas against the codebase, buckets into Code / Template / Credential, and persists findings to an Obsidian memory vault.",
-      "version": "1.5.0",
+      "version": "1.7.1",
       "category": "ai-native"
     },
     {
@@ -233,8 +249,8 @@
     {
       "name": "spark",
       "source": "./skills/spark",
-      "description": "Turn a vague product idea (a \"sparkle\") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Uses the context map to target exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a wo",
-      "version": "1.0.0",
+      "description": "Turn a vague product idea (a \"sparkle\") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director r",
+      "version": "1.1.0",
       "category": "workflow"
     },
     {

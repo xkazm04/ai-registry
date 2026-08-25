@@ -328,10 +328,10 @@
     },
     {
       "name": "research",
-      "version": "1.6.0",
+      "version": "1.7.1",
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
-      "contentHash": "sha256-n1:e019f0010214e751",
+      "contentHash": "sha256-n1:070b45651509a7d5",
       "adopters": [
         "personas@plugin:1.5.0",
         "pof@1.7"
@@ -468,6 +468,28 @@
       ]
     },
     {
+      "id": "local-first-readme",
+      "dimension": "D5",
+      "path": "practices/local-first-readme/PRACTICE.md",
+      "contentHash": "sha256-n1:946627079a7fe159",
+      "starter": [
+        "practices/local-first-readme/starter/README.md"
+      ]
+    },
+    {
+      "id": "open-contribution",
+      "dimension": "D5",
+      "path": "practices/open-contribution/PRACTICE.md",
+      "contentHash": "sha256-n1:1568faaa7b57a6d7",
+      "starter": [
+        "practices/open-contribution/starter/.github/ISSUE_TEMPLATE/bug_report.md",
+        "practices/open-contribution/starter/.github/ISSUE_TEMPLATE/feature_request.md",
+        "practices/open-contribution/starter/.github/PULL_REQUEST_TEMPLATE.md",
+        "practices/open-contribution/starter/CODE_OF_CONDUCT.md",
+        "practices/open-contribution/starter/CODEOWNERS"
+      ]
+    },
+    {
       "id": "supply-chain-security",
       "dimension": "D9",
       "path": "practices/supply-chain-security/PRACTICE.md",
@@ -518,7 +540,7 @@
   ],
   "counts": {
     "skills": 27,
-    "practices": 2,
+    "practices": 4,
     "memory": 4,
     "lessons": 47
   },
@@ -599,7 +621,7 @@
       "techniques": 96,
       "applications": 39,
       "files": 155,
-      "contentHash": "sha256:1cfe8e2a9bce100a"
+      "contentHash": "sha256:439d4eeae010b84f"
     },
     {
       "name": "recruiting",
@@ -621,11 +643,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 147,
-      "techniques": 942,
-      "applications": 423,
-      "files": 1517,
-      "contentHash": "sha256:6d9343a349bd9e5e"
+      "subjects": 148,
+      "techniques": 948,
+      "applications": 427,
+      "files": 1528,
+      "contentHash": "sha256:f397e66be7bcad4f"
     }
   ]
 }
