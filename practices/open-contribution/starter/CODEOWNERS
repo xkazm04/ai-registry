@@ -1,0 +1,25 @@
+# Starter CODEOWNERS for the open-contribution practice.
+# Replace <owner> (a team like @org/platform in a real org, not an individual) and the
+# example paths with this repo's law files, then delete lines that do not apply.
+#
+# The idea: anyone can touch these files; merging them requires the owner. Keep the list
+# short enough to recite - protection that covers everything protects nothing, it just
+# makes the owner the bottleneck.
+
+# Plans and billing - a wrong merge here charges someone money.
+# /src/billing/                 <owner>
+# /src/plans/                   <owner>
+
+# Tenancy - a wrong merge here shows someone else's data.
+# /src/tenancy/                 <owner>
+
+# The LLM chokepoint - every model call flows through it; changes need tests, always.
+# /src/llm/                     <owner>
+
+# Agent law - what every agent in the repo obeys.
+# /.claude/                     <owner>
+# /CLAUDE.md                    <owner>
+# /AGENTS.md                    <owner>
+
+# CI workflows - the gate itself.
+# /.github/workflows/           <owner>
