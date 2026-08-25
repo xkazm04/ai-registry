@@ -45,3 +45,7 @@ None.
 ## 2026-08-25 - /intake run 14 ([[2026-08-25-agentic-dev-paper-batch]])
 
 - New technique `worker-trajectory-anatomy` (1,794-trajectory corpus + 20,574-session corpus): decisive error at step 7, signal at 16, fabrication concentrated after lock-in; step-denominated recovery budgets, artifact-grounded completion checks, supervisor gets the brief. The member-level companion to coordination-failure-triage.
+
+## 2026-08-25 - /intake run 15 ([[2026-08-25-karpathy-coding-file]])
+
+- `worker-trajectory-anatomy` now closes on law 13 `silent-state-is-ungoverned`: the error-to-signal gap IS unsurfaced state; every remedy is a conversion of it.

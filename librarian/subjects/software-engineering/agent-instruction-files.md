@@ -24,3 +24,7 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject forged 
 ## 2026-08-25 - /intake run 14 ([[2026-08-25-agentic-dev-paper-batch]])
 
 - `enforcement-demotion` gained the field pricing: explicit constraint violation is the largest misalignment class (38.3%, ~50% in unattended CLI sessions), so the demotion question is re-asked when a rule graduates from interactive to unattended dispatch.
+
+## 2026-08-25 - /intake run 15 ([[2026-08-25-karpathy-coding-file]])
+
+- New technique `restraint-amplifier-balance`: the composition count - pure-prohibition files produce compliant agents that stop volunteering; each restraint cluster ships with its licensed outlet, written checkably. First technique citing law 13.

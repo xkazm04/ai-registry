@@ -433,3 +433,31 @@
   asking beat both silent inclusion and silent exclusion.
 - **Instrument: direct arXiv PDF ingest works** (14,774 words, exit 0); `title: null`
   on PDFs is the remaining gap - banked as a lead, not fixed mid-run.
+
+## 0.9.0 - 2026-08-25 - ai-registry (run 15: practitioner-judgment relay; bumped to 0.10.0 in the same change)
+
+- **OPERATOR FEEDBACK, verbatim in substance: "we are focused on low level numbers and
+  practices often invalid in couple of months or across different llm providers -
+  either the resources suck or we lack ability to create higher level perspective on
+  top of the researched content."** The second clause was correct. Runs 10-14 landed
+  clean granular material and never proposed the synthesis; the operator had to. The
+  numbers were not waste - they were the corroboration the law layer requires - but
+  the skill treated corroboration as the product. Applied as the altitude column
+  (law / doctrine / technique / dated fact), a standing preference for the highest
+  altitude the corroboration supports, and a mandatory cross-run convergence check:
+  a finding sharing a root with two prior runs lands as the root.
+- **The law was already paid for when this run started.** Five independent sightings
+  sat in the ledger; the source's only real contribution was phrasing the root well
+  enough to see it. A judgment source is the right trigger for a law pass exactly
+  because it carries shape without numbers - read it ASKING "which of our measured
+  findings is this the qualitative form of?"
+- **A run can change the skill and the corpus in the same motion.** The altitude rule
+  was applied to this run's own triage before it was written into the file - the
+  table the operator picked from already carried the column. Dogfood the change in
+  the run that mints it.
+- **"Unoriginal" praise is a class marker.** The source itself says the advice is
+  ordinary senior-engineer judgment that now must be written down because agents
+  arrive with zero acculturation every session. That is the registry's founding
+  premise said backwards, and it is why judgment relays will keep resolving to
+  catches-plus-roots rather than techniques: the techniques are already here; the
+  roots are what they still lack.

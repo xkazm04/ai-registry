@@ -4,9 +4,9 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 148,
-  "techniques": 949,
+  "techniques": 950,
   "applications": 427,
-  "laws": 12,
+  "laws": 13,
   "categories": [
    "ui-surfaces",
    "client-architecture",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "949/949",
+  "use_when_coverage": "950/950",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -864,6 +864,20 @@
       "deciding whether generated content belongs in the always-loaded file",
       "a hand edit inside a generated block keeps reappearing reverted",
       "two generators claim the same derived content"
+     ]
+    },
+    {
+     "slug": "restraint-amplifier-balance",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing an instruction file or rule set before it ships",
+      "an agent has become cautious and stopped volunteering anything",
+      "adding another prohibition to a file that is already mostly prohibitions",
+      "translating a list of complaints about agent behaviour into rules"
      ]
     },
     {
@@ -7186,7 +7200,8 @@
      "laws": [
       "creation-names-reaper",
       "gate-sees-target",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "silent-state-is-ungoverned"
      ],
      "shared_with": [],
      "use_when": [
@@ -11812,7 +11827,8 @@
      "slug": "task-envelope",
      "status": "forged",
      "laws": [
-      "gate-sees-target"
+      "gate-sees-target",
+      "silent-state-is-ungoverned"
      ],
      "shared_with": [],
      "use_when": [
@@ -19534,6 +19550,14 @@
     "structured-output/schema-validation-and-repair",
     "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/duplicate-and-replay-dedup"
+   ]
+  },
+  "silent-state-is-ungoverned": {
+   "statement": "An agent's internal state — its assumptions, its uncertainty, its belief that it has finished — shapes the outcome whether or not anyone can see it, and it can be governed only once it is converted into an artifact something else can read: an assumption stated before it is built on, alternatives presented instead of one silently chosen, a completion claim checked against what actually landed. The failure signature is uniform across every corpus that has measured it: the agent is wrong at the same confidence as when it is right, the decisive error precedes its first observable signal by most of the trajectory, and unverified completion claims concentrate exactly where recovery is no longer possible. Rules, gates and reviews bind only surfaced state; whatever remains internal is outside their reach by construction. Sibling of unknown-is-not-a-value, one level up: that law forbids rendering unknown as definite in *data*; this one demands the conversion of private epistemic state into inspectable output before anything downstream relies on it.",
+   "techniques": [
+    "agent-instruction-files/restraint-amplifier-balance",
+    "fleet-orchestration/worker-trajectory-anatomy",
+    "prompt-assembly/task-envelope"
    ]
   }
  }

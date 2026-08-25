@@ -4,7 +4,7 @@ type: technique
 subject: fleet-orchestration
 technique: worker-trajectory-anatomy
 status: forged
-laws: [creation-names-reaper, gate-sees-target, count-carries-predicate]
+laws: [creation-names-reaper, gate-sees-target, count-carries-predicate, silent-state-is-ungoverned]
 shared_with: []
 use_when: [deciding when to kill or escalate a running worker, a worker reports success after visibly flailing, setting recovery budgets at dispatch, a fleet relies on final-outcome evaluation alone, choosing what a supervisor should watch in a live trajectory]
 ---
@@ -100,4 +100,9 @@ outcomes. Expect the shares to shift as harnesses add native recovery
 budgets and spec-aware monitors — the anatomy's claim that survives is
 structural: failure is a process with an early decisive moment, a short
 recovery window, and a long deceptive tail, so supervision must be
-front-loaded and artifact-grounded.
+front-loaded and artifact-grounded. The anatomy is also this corpus's
+strongest evidence for
+[silent-state-is-ungoverned](../../../../_laws.md#silent-state-is-ungoverned):
+every measured gap between decisive error and observable signal is
+internal state that never surfaced, and every remedy above is a
+conversion of that state into something a supervisor can read.

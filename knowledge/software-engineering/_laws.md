@@ -1,10 +1,13 @@
 # Cross-cutting laws
 
-Twelve convergences, nine measured ≥3 independent times during the 2026 composition
+Thirteen convergences, nine measured ≥3 independent times during the 2026 composition
 campaign and reclassified by `knowledge-hierarchy-plan.md` (`docs/concepts/knowledge-hierarchy-plan.md`)
 §2 from Golden-Path candidates to **laws that Techniques cite**; the tenth through
 twelfth each earned their place from four sightings in the external-reconcile lane
-(librarian runs 2026-08-22). They are not subjects —
+(librarian runs 2026-08-22); the thirteenth from five independent sightings across
+the 2026-08 intake series (two measured trajectory corpora, a system-failure
+taxonomy, a skills field study, and first-party practitioner judgment, none derived
+from another — librarian source notes 2026-08-25). They are not subjects —
 no folder, no techniques of their own. Cite them from a Technique's `laws:` frontmatter
 by anchor id. The doctrine's transferable sections migrate here in the closing pass;
 until then each law carries its one-paragraph statement.
@@ -99,3 +102,19 @@ most, and the laundering point is always a boundary where an optional type meets
 non-optional one. Sibling of failure-not-empty-success, and distinct: that law
 separates failure from empty success; this one separates unknown from every definite
 value, including zero.
+
+## <a id="silent-state-is-ungoverned"></a> silent-state-is-ungoverned
+
+An agent's internal state — its assumptions, its uncertainty, its belief that it has
+finished — shapes the outcome whether or not anyone can see it, and it can be
+governed only once it is converted into an artifact something else can read: an
+assumption stated before it is built on, alternatives presented instead of one
+silently chosen, a completion claim checked against what actually landed. The
+failure signature is uniform across every corpus that has measured it: the agent is
+wrong at the same confidence as when it is right, the decisive error precedes its
+first observable signal by most of the trajectory, and unverified completion claims
+concentrate exactly where recovery is no longer possible. Rules, gates and reviews
+bind only surfaced state; whatever remains internal is outside their reach by
+construction. Sibling of unknown-is-not-a-value, one level up: that law forbids
+rendering unknown as definite in *data*; this one demands the conversion of private
+epistemic state into inspectable output before anything downstream relies on it.

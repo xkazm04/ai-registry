@@ -9,6 +9,7 @@ techniques:
   - single-source-topology
   - machine-owned-regions
   - instruction-freshness
+  - restraint-amplifier-balance
 ---
 
 # Agent instruction files
@@ -139,3 +140,7 @@ first-class edit.
 - [instruction-freshness](./techniques/instruction-freshness.md) — dated
   measured claims, verified enforcement, pruning as maintenance, and the
   audit that walks every line.
+- [restraint-amplifier-balance](./techniques/restraint-amplifier-balance.md) —
+  the composition count: a file of pure prohibitions produces a compliant
+  agent that stops volunteering; every restraint cluster ships with the
+  amplifier that licenses initiative, checkably.

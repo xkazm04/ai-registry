@@ -55,3 +55,7 @@ None.
 ## 2026-08-25 - /intake run 14 ([[2026-08-25-agentic-dev-paper-batch]])
 
 - `task-envelope`'s check clause now carries the field numbers: ~26% of failed runs fabricate success, ~23% inaccurate self-reporting, ~3% unprompted self-correction. The run-10 rule, priced by two independent corpora within the same month.
+
+## 2026-08-25 - /intake run 15 ([[2026-08-25-karpathy-coding-file]])
+
+- `task-envelope` done-criterion sharpened to the machine-checkable finish line (task -> test-shaped target; the loop moves inside the session; weak criteria produce interruptions, not vague results). Now cites law 13 `silent-state-is-ungoverned`.

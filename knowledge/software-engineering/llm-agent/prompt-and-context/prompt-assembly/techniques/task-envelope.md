@@ -4,7 +4,7 @@ type: technique
 subject: prompt-assembly
 technique: task-envelope
 status: forged
-laws: [gate-sees-target]
+laws: [gate-sees-target, silent-state-is-ungoverned]
 shared_with: []
 use_when: [writing the task layer for a delegated or dispatched call, a prompt opens with a role or expertise claim, deciding what the first lines of a task prompt should buy, a worker finished but the result does not match what was asked, an unattended session must decide on its own when it is done]
 ---
@@ -41,7 +41,17 @@ not make alone*. Spend them on the three things it cannot derive:
    lets the dispatcher's review be a comparison rather than an
    impression. A task without one runs until the model's own sense of
    completeness fires — which is late, or early, and never the same
-   twice.
+   twice. The strongest form is **machine-checkable**: rephrase the task
+   as a finish line the model can verify without you — "fix the bug"
+   becomes "write a test that reproduces it, then make it pass";
+   "add validation" becomes "write tests for the invalid inputs, then
+   make them pass"; "refactor X" becomes "tests pass before and after".
+   Models loop well against criteria they can check themselves; phrased
+   this way, the iteration moves inside the session and the operator is
+   needed only at the ends. And the cost of a weak criterion is not a
+   vague result — it is *interruptions*: every clarifying question that
+   pulls the operator back mid-run is a criterion that was not specified
+   up front.
 3. **Check** — the verification the model performs before it reports.
    "Before finishing, verify every figure against the notes and flag any
    you cannot back." The check is named explicitly because a model does

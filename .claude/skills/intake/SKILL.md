@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.9.0
+version: 0.10.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -285,6 +285,17 @@ and prefer writing the boundary over writing a duplicate.
 ```
 
 Then ask: **"Which should I verify and (if real) land? (numbers / all / none / leads-only)"**
+
+**Carry an altitude on every row**, and prefer the highest altitude the corroboration
+supports: `law` (a convergence across runs, provider-portable, clock-proof) /
+`doctrine` (a design stance) / `technique` / `dated fact` (a number or vendor
+behaviour with a shelf life). Dated facts are not lesser - they are the corroboration
+the upper layers need - but a run that lands ONLY dated facts must say why nothing
+higher was earned, and the cross-run convergence check is mandatory: when this run's
+finding and two prior runs' findings share a root, the landing is the root, proposed
+at law or golden-path level, with the numbers cited into it. The operator's standing
+critique (2026-08-25): low-level numbers and per-provider practices age in months;
+the synthesis step must come from the skill, not from the operator.
 
 **Carry your own read on every row**, in its own column: `real gap` / `partial` /
 `likely catch` / `thin`. It is the column that makes the gate work - on 2026-08-22 the
