@@ -8,7 +8,7 @@ without anybody having to remember, and so demand has a name before the
 **Slugs and domains only.** No paths, no hosts, no internals. This lane is public under
 the same rule as `usage/` and `signals/`, and the machine-readable half that resolves a
 slug to a checkout on one machine is `.projects.local.json` - gitignored, local, and
-never published. See [`skills/research/SKILL.md`](../skills/research/SKILL.md), Phase 8.
+never published. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake/SKILL.md), Phase 8.
 
 ## The map
 

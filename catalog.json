@@ -259,6 +259,19 @@
       ]
     },
     {
+      "name": "onboarding",
+      "version": "0.3.0",
+      "category": "workflow",
+      "path": "skills/onboarding/SKILL.md",
+      "contentHash": "sha256-n1:639867536dbf6d63",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/onboarding/LESSONS.md",
+      "lessonsHash": "sha256-n1:538b1b530a630ffd",
+      "usageContributors": []
+    },
+    {
       "name": "perfect",
       "version": "2.3.0",
       "category": "workflow",
@@ -504,10 +517,10 @@
     }
   ],
   "counts": {
-    "skills": 26,
+    "skills": 27,
     "practices": 2,
     "memory": 4,
-    "lessons": 45
+    "lessons": 46
   },
   "bundles": [
     {
@@ -586,7 +599,7 @@
       "techniques": 94,
       "applications": 39,
       "files": 153,
-      "contentHash": "sha256:48cb4d99062160e8"
+      "contentHash": "sha256:ca1e35f1fd78cba3"
     },
     {
       "name": "recruiting",
@@ -609,10 +622,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 147,
-      "techniques": 938,
-      "applications": 419,
-      "files": 1509,
-      "contentHash": "sha256:217a7fdff3879e58"
+      "techniques": 941,
+      "applications": 422,
+      "files": 1515,
+      "contentHash": "sha256:4af46086022e48d6"
     }
   ]
 }

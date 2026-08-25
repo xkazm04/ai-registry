@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.6.0
+version: 0.7.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -98,6 +98,15 @@ That second class maps onto the layer contract almost exactly: strong evidence f
 **shape** of a technique, weak evidence for its universality. So its claims land well as
 decision rules with their conditions attached, and badly as unqualified assertions -
 which is a different editing job, not merely a higher trust level.
+
+- **Second-hand practitioner listicle** (a creator's "N mistakes / N tips", relaying
+  vendor documentation with some first-hand pain). Reliable for **where the vendor's
+  rules moved**; every number it quotes is a lossy pointer to a primary source - a
+  study, a reference page, a pricing page - and is written from the primary, never from
+  the quote. Its single most trustworthy sentence is the one where the creator retracts
+  their own earlier advice. Items that touch **this registry's own machinery** (how
+  skills, rules and workers are loaded) outrank items about bundle content, because the
+  registry consumes the harness the listicle describes.
 
 Within the first-party class, the **release walkthrough** is the sub-class to seek out:
 a library author going through one version's changes. It is organised around *changes*,
@@ -379,9 +388,14 @@ assumed.
 
 1. Resolve the project from `.projects.local.json`. Do not guess a path.
 2. Confirm with the operator before touching a project tree at all.
-3. Work on a **branch** in that repo. Atomic commit. **Never push.** Report the branch
-   name and let a human open the pull request there - merging is adopting, on both
-   sides of the bridge.
+3. Commit atomically **with a pathspec** on the project's default branch - the fleet
+   has one owner and one machine, so a branch-and-PR round trip protects nobody (see
+   the single-owner doctrine in memory). The two exceptions: the tree has another
+   session's uncommitted work in files you touch, or the change is larger than a few
+   lines a reviewer can read in the diff - then a branch, and say why. **Never push**
+   from a run; the operator pushes when they have read the diff.
+   An operator's triage pick that names the project ("with impact on X") *is* the
+   confirmation in step 2 - do not ask twice.
 4. The registry-side artifact of a project change is an **application document**: you
    opened a real tree, so you are one of the few things allowed to write `verified_on`
    and `verified_against` truthfully. Write them.
@@ -418,16 +432,18 @@ assumed.
 
 ### Phase 10 - Commit
 
-- **A branch, always.** Never `main`. The registry's governance model is that merging
-  is a human act, and a research run is exactly the kind of automation that erodes it
-  if it is allowed to land directly.
-- **Check for parallel sessions before branching.** This checkout is routinely shared
-  with other agent sessions, and two of them cannot be on different branches: on
-  2026-08-21 another session switched the branch out from under this one mid-run. When
-  anything else is live in the tree, run the whole thing in `git worktree add <short
-  path> -b <branch>` instead of switching in place. Keep the worktree path SHORT - the
-  deepest bundle paths are long enough that a scratch-directory prefix blows past the
-  platform path limit and the worktree half-creates.
+- **Direct to `main`, with a pathspec.** Since the 2026-08-23 single-owner redesign
+  the registry commits routine work straight to `main`; the gates (`check-bundles`,
+  `check-skills`, `build-index --check`) are the review, and the operator pushes after
+  reading the log. A branch is for a run whose diff is too large to read in one
+  sitting or that the operator asked to hold back - not the default.
+- **Check for parallel sessions before touching the tree.** This checkout is routinely
+  shared with other agent sessions: on 2026-08-21 another session switched the branch
+  out from under this one mid-run, and on 2026-08-23 a directory-wide `git add` swept a
+  sibling's in-flight instrument into a commit. When anything else is live, regenerate
+  index/catalog only from files you own, and if a branch is needed after all, take it
+  as `git worktree add <short path> -b <branch>` - keep the path SHORT, the deepest
+  bundle paths blow past the platform limit under a scratch-directory prefix.
 - **Commit with a pathspec**: `git commit -m "..." -- <your paths>`. A worktree isolates
   the checkout but shares the object store and the branch namespace, and a pathspec-less
   commit still takes whatever is staged.

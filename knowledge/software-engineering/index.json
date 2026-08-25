@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 147,
-  "techniques": 938,
-  "applications": 419,
+  "techniques": 941,
+  "applications": 422,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "938/938",
+  "use_when_coverage": "941/941",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6883,6 +6883,21 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
    "techniques": [
     {
+     "slug": "brief-carries-the-session",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the task for a dispatched session",
+      "a worker ignored a rule the dispatcher considered settled",
+      "deciding whether to fork the conversation or start a fresh session",
+      "a worker re-derived something the dispatcher already knew",
+      "choosing which worker class runs a task"
+     ]
+    },
+    {
      "slug": "durable-fleet-state",
      "status": "forged",
      "laws": [
@@ -7025,6 +7040,13 @@
      "technique": "substrate-reconciliation",
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/node--substrate-reconciliation.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "rust",
+     "technique": "brief-carries-the-session",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--brief-carries-the-session.md",
+     "verified_on": "2026-08-25",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -9687,6 +9709,21 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
    "techniques": [
     {
+     "slug": "cache-continuity",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a continuing conversation may change tier mid-stream",
+      "a cheaper tier turned out to cost more",
+      "justifying a sticky-session rule",
+      "a speed or effort toggle flipped mid-conversation and spend jumped",
+      "choosing between routing per call and routing per conversation"
+     ]
+    },
+    {
      "slug": "candidate-ranking",
      "status": "forged",
      "laws": [
@@ -9824,6 +9861,13 @@
      "technique": "routing-policy",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/react--routing-policy.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "cache-continuity",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/rust--cache-continuity.md",
+     "verified_on": "2026-08-25",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -11601,6 +11645,21 @@
      ]
     },
     {
+     "slug": "task-envelope",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the task layer for a delegated or dispatched call",
+      "a prompt opens with a role or expertise claim",
+      "deciding what the first lines of a task prompt should buy",
+      "a worker finished but the result does not match what was asked",
+      "an unattended session must decide on its own when it is done"
+     ]
+    },
+    {
      "slug": "variable-interpolation",
      "status": "forged",
      "laws": [
@@ -11626,6 +11685,13 @@
      "technique": "layered-composition",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--layered-composition.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "task-envelope",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--task-envelope.md",
+     "verified_on": "2026-08-25",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -17472,6 +17538,7 @@
     "plan-entitlements/price-book-authority",
     "proactive-nudges/quiet-windows",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/task-envelope",
     "prompt-safety/canary-tripwires",
     "prompt-safety/cross-language-rule-parity",
     "prompt-safety/model-output-as-untrusted",
@@ -18161,6 +18228,7 @@
     "migrations/pre-migration-snapshots",
     "migrations/schema-drift-detection",
     "modal-stack/destructive-confirmation",
+    "model-routing/cache-continuity",
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
@@ -19253,6 +19321,7 @@
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
     "data-access/cross-driver-invariant-parity",
+    "fleet-orchestration/brief-carries-the-session",
     "mcp-tools/transport-selection",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",

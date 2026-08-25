@@ -93,6 +93,24 @@ is a weekend of local compute or a metered bill that scales with ambition.
 - **Steering that moves an answer has not shown the answer is right.** A field
   can flip from one constant to a different constant and remain equally inert.
   Re-measure inertness after every fix, not just the distribution.
+- **Never show a judge the candidate answer.** A model asked "is this right?"
+  while looking at a proposed value answers a different, easier question: "is
+  this acceptable?" Measured 2026-08-25 on the same 36 frames, an anchored
+  judge disagreed on 40% of fields and a blind one on 50% — a fifth of the
+  real disagreement suppressed, and up to +31 points on a single field. The
+  anchored pass also produced flatly self-contradictory output, keeping a value
+  it declared unanswerable in the same response. Have the arbiter answer from
+  the artefact alone; compare afterwards, in code.
+- **Qualify the arbiter before trusting it to make truth.** A bigger or more
+  expensive model is not automatically the better *perceiver*. Measured on the
+  same task: the frontier reasoning model scored **75%** against hand-labelled
+  truth where the small local vision model scored **94%** — the proposed judge
+  was worse than the model it was judging, on exactly the fields where an
+  independent answer existed. Reasoning depth does not substitute for a
+  purpose-built perceptual encoder, and a judge reaching the artefact through a
+  tool call is not seeing it the way a native encoder does. Score every
+  candidate arbiter against known truth *first*; an unqualified arbiter
+  manufactures confident noise and launders it as ground truth.
 - **Leave genuinely contestable fields ungraded and route them to a human.**
   A truth set padded with judgement calls stops measuring truth. Surface those
   splits as adjudications; each ruling becomes truth for every later run.

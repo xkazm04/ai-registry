@@ -12,6 +12,7 @@ techniques:
   - capability-documentation
   - fingerprinting-and-cache-keys
   - continuation-prompts
+  - task-envelope
 ---
 
 # Prompt assembly & context budgeting
@@ -270,3 +271,6 @@ a span enters; safety decides *how it is wrapped*.
 - [continuation-prompts](./techniques/continuation-prompts.md) — resuming
   after interruption: what carries over versus what re-derives, distilled
   resume context, and staleness checks before continuing.
+- [task-envelope](./techniques/task-envelope.md) — what the task layer's
+  opening lines buy: a locate pointer, a done criterion and a self-check in
+  place of role priming, which the measured record shows buys nothing.

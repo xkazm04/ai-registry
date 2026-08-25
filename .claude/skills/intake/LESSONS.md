@@ -269,3 +269,45 @@
   with a three-level `_laws.md` path where four levels were needed; the gate caught one,
   the sed fixed all. Count the segments from the file being written, not from the sibling
   that was open in context.
+
+## 0.6.0 - 2026-08-25 - ai-registry (run 10: second-hand practitioner listicle; bumped to 0.7.0 in the same change)
+
+- **The skill's commit phases had drifted from the house rules by two days.** Phase 8
+  and Phase 10 still said "a branch, always, never main / never push the project" -
+  written under the multi-party model the operator retired on 2026-08-23. A skill that
+  contradicts the doctrine in memory makes every run re-litigate it. Applied: both
+  phases now commit direct with a pathspec and reserve the branch for the two cases
+  that still earn one. The general rule: when governance changes, grep every skill's
+  commit phase the same day.
+- **Two references still pointed at the skill's old name.** The ledger header and the
+  local bridge's comment said `skills/research` after the rename to `intake`; the
+  2026-08-23 runs then went through `/deepen` because nothing said where a URL goes.
+  Applied: pointers fixed, and `/deepen` carries a one-paragraph routing note. A rename
+  is not done until `grep -r <old name>` is empty.
+- **A listicle's numbers are pointers, not facts - and the primary is usually one fetch
+  away.** "162 personas across 2,500 prompts" was 162 roles x 2,410 questions; "7x more
+  tokens" was about a different feature than the item it decorated. All three accepted
+  findings were written from the primary the number pointed at. Applied as a new
+  source-class row. Corollary worth naming: a **derived** rule (the cache break-even
+  at 1/8 of the incumbent's price) is stronger than anything the source said, because
+  it comes from the vendor's published ratios and can be re-derived when they move.
+- **Operator scope is a decline reason, and it is a good one.** Sixteen candidates
+  were declined in one sentence: "no significant value for our current projects". The
+  note records each with enough anchor to re-propose on a different day, and marks the
+  two (6, 17) that are real gaps declined on scope rather than merit. Do not argue a
+  scope decline; record it so it does not cost a second triage.
+- **The cross-repo lane produced the run's best evidence, twice.** Both the
+  brief-carries-the-session and cache-continuity applications found the connected
+  tree doing the right thing *for a different reason than the technique gives* (a
+  pinning test on restated invariants; one prompt family per tier chosen for an
+  awareness regression). Convergence between a tree's recorded reason and the
+  technique's argument is a stronger corroboration than either alone, and it is only
+  visible when the application asks "why did they build it this way" rather than
+  "where is the instance".
+- **`--deep` was not needed at three picks.** The operator asked for "quality deep
+  research"; three primaries inside the 3-fetch budget covered three picks exactly. The
+  budget binds at pick four. Not applied - a per-pick lane borrowed from `/deepen` is
+  the design if a run ever needs it; bank it as a lead rather than build it unexercised.
+- **Python is not on this machine.** Two scripted edit batches printed a Store prompt
+  and changed nothing; the harness reported success because the shell did. Use the
+  editor tool or `sed`/heredocs here; check `git diff --stat` after any scripted edit.

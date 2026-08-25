@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-08-22
+last_touched: 2026-08-25
 touched_by: research
 dry_streak: 0
 ---
@@ -31,3 +31,8 @@ and never said how the compute connects or how the substrate is kept aligned.
 ## Declines
 
 None.
+
+## 2026-08-25 - /intake run 10 ([[2026-08-25-19-claude-code-mistakes]])
+
+- New technique `brief-carries-the-session` (what a fresh worker does and does not inherit; primary: the harness's subagent reference). Registered in the golden path. `agent-chaining/handoff-payload-contracts` is the chain-side sibling; boundary stated in the source note, not linked.
+- New application `rust--brief-carries-the-session`: three worker classes in one companion tree, each carrying the session a different way (restated invariants with a pinning test; records injected into a sessionless call; context-map pointers). Negative finding: no brief tells the worker what it cannot see.

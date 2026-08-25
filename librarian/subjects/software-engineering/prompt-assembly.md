@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-08-22
+last_touched: 2026-08-25
 touched_by: research
 dry_streak: 0
 ---
@@ -45,3 +45,9 @@ away from checking something it would otherwise have found.
 ## Declines
 
 None.
+
+## 2026-08-25 - /intake run 10 ([[2026-08-25-19-claude-code-mistakes]])
+
+- New technique `task-envelope` (locate / done / check in place of role priming; primary: Zheng et al. EMNLP 2024 Findings). Registered in the golden path. The subject's identity layer is left alone - the technique distinguishes product identity from per-task priming.
+- New application `rust--task-envelope` (verified against a companion tree at 874281302): three dispatched-worker prompts read; locate and done present, check absent and added cross-repo with tests.
+- Gap noticed, not filled: no A/B on envelope content exists anywhere in the fleet. Return when a dev-op ledger has enough verdicts to compare.

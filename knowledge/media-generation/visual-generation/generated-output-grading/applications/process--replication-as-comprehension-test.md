@@ -118,10 +118,50 @@ came out of it, and both are now enforced by a preflight guard:
   before using a loaded 22 GB model can never pass — the memory in use *is* the
   model. A naive check reads that as a resource failure and halts a healthy run.
 
+## The adjudication pass ran, and it failed — twice over
+
+The obvious way to settle the contested fields is a stronger model as arbiter:
+show it the frame and the annotation, take its corrections as truth, and a
+36-frame corpus becomes ~500 graded fields. It was run on the same 36 frames
+(a frontier reasoning model, reaching the image through a file-read tool). It
+does not work, for two separate reasons, and both generalise.
+
+**1. Anchoring. Showing a judge the candidate answer contaminates it.**
+Anchored, it disagreed with the annotator on **40%** of fields; blind — the
+same model, same frames, never shown the local answer — **50%**, positive on 13
+of 14 fields and up to **+31** on `lighting_direction`. About a fifth of the
+real disagreement was suppressed by the ratification effect. The anchored pass
+also contradicted itself outright: it kept `indeterminate` on 33 of 36 frames
+while listing that field unanswerable on only 4, and on `depth_of_field` it
+kept a value it declared unanswerable in the same response 9 times. A judge
+shown a proposal answers "is this acceptable", not "what is true".
+
+**2. The arbiter was never qualified — and it was the worse perceiver.**
+Scored against the small hand-labelled truth set, on the only fields where an
+independent answer exists:
+
+| | vs hand-labelled truth |
+|---|---|
+| local vision model (18 GB, on one consumer card) | **94%** |
+| frontier reasoning model, proposed as arbiter | **75%** |
+
+It called a plainly eye-level frame `low-angle` — precisely the field the local
+model got right. So the blind pass's 50% disagreement rate **cannot** be read
+as a 50% error rate for the annotator: where the disagreement is checkable, the
+purpose-built vision model is more often correct. Reasoning depth does not
+substitute for a perceptual encoder, and a model reaching an image through a
+tool call is not seeing it the way a native encoder does.
+
+`n=8` graded fields on 2 frames — suggestive, not conclusive, and stated that
+way. It is nevertheless decisive for the operative choice: this arbiter cannot
+be used to manufacture ground truth, and an unqualified arbiter would have
+laundered confident noise into the corpus as truth.
+
 ## Not established here
 
 `n=4` for the round trip: the per-field split is a signal to act on, not a
 published measurement. The round trip also cannot attribute a miss — generator
-ignoring the brief and annotator misreading the replica are indistinguishable
-from the score, and separating them needs a third party on the replica. That
-adjudication pass is written but unrun, blocked on API credit.
+ignoring the brief and annotator misreading the replica remain
+indistinguishable from the score. The remaining route to a real truth set is
+hand-labelling frames, or finding an arbiter that first clears the truth set
+it is meant to extend.

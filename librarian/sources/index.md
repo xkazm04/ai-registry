@@ -1,7 +1,8 @@
 # The source ledger
 
-Every external source [`/research`](../../skills/research/SKILL.md) has mined, one line
-each, newest first. One note per run sits beside this file.
+Every external source [`/intake`](../../.claude/skills/intake/SKILL.md) has mined, one
+line each, newest first. (`/deepen` may also write here when it is handed a URL; the
+ledger does not care which skill mined a source, only that one did.) One note per run sits beside this file.
 
 This ledger answers one question in one second: **has this been mined already?** A
 re-ingested video costs a full extraction round to rediscover declines that are already
@@ -26,6 +27,7 @@ when the run ends. A note quotes an anchor, never a corpus.
 
 | Date | Source | Kind | Words | Extracted | Accepted | Leads | Caught | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-25 | `youtube:icM0ewXGvAw` - "19 Claude Code Mistakes \"Pro\" Users Are Still Making" | second-hand-practitioner-listicle | 4465 | 19 | 3 | 1 | 0 | [[2026-08-25-19-claude-code-mistakes]] - three techniques (`task-envelope`, `brief-carries-the-session`, `cache-continuity`), three rust applications, one correction; cross-repo self-check lines in the companion's worker prompts; 16 declined on operator scope |
 | 2026-08-23 | `youtube:yCACmFTiCto` - "Turn Claude Into a One Person Marketing Team" | practitioner-tutorial (beginner walkthrough) | 9483 | 8 | 1 | 1 | 5 | [[2026-08-23-one-person-marketing-team]] - mined under `/deepen`; one technique on `evidence-bound-visuals` (synthetic-testimonial defect the source demonstrates), two corpus contradictions, aggregator topology banked |
 | 2026-08-23 | `youtube:NUK_TBz46dM` - "Turn Claude Into A Web Design Genius in 3 Steps" | practitioner-deep-dive (technique demo) | 4037 | 6 | 1 | 0 | 5 | [[2026-08-23-seedance-web-design]] - mined under `/deepen`; one technique on `review-iteration-loops`, five catches, one corpus contradiction |
 | 2026-08-22 | `repo:onecli/onecli` @ ff7a192 | practitioner-codebase | n/a | 10 | 7 | 0 | 3 | [[2026-08-22-onecli-repo]] - three new techniques, two amendments, two applications |

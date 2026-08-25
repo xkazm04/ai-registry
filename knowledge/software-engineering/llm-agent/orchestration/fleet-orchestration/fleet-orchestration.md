@@ -13,6 +13,7 @@ techniques:
   - heterogeneous-model-panels
   - outbound-compute-plane
   - substrate-reconciliation
+  - brief-carries-the-session
 ---
 
 # Agent fleet orchestration
@@ -248,3 +249,7 @@ the N-times spend is worth it at all (see heterogeneous-model-panels).
   one question across N different models: independence before exchange,
   round caps, masked seats, the synthesizer seat, and when the voting
   baseline should win instead.
+- [brief-carries-the-session](./techniques/brief-carries-the-session.md) —
+  what a dispatched worker does not inherit from its dispatcher, and the
+  brief sections that restate it: invariants, settled decisions, load-bearing
+  files, and what the worker cannot see.

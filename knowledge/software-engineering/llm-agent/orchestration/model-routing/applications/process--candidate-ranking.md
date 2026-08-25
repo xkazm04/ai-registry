@@ -154,7 +154,13 @@ killed mid-flight.
   estimate before the context-window and rate checks run, which is
   failover-horizon's "a mitigation that consumes tokens is charged against the
   budget already checked" — but the quality premise is a vendor claim, and no
-  technique in this bundle rests on it. Also observed: the two windows disagree
+  technique in this bundle rests on it. A *sourced* reason for the pin does
+  exist, and it is a cost claim rather than a quality one: within the cache
+  lifetime the incumbent model re-reads the conversation's prefix at a tenth of
+  base price while any other model writes it at 1.25× —
+  [cache-continuity](../techniques/cache-continuity.md). The sticky window
+  should be justified by that arithmetic and sized to the cache horizon, not to
+  a hallucination folklore. Also observed: the two windows disagree
   (sticky 30 min, handoff context 3 h), which produced spurious handoffs on
   session-id reuse.
 

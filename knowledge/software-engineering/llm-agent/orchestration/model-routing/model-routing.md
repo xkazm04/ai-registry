@@ -13,6 +13,7 @@ techniques:
   - model-identity
   - failover-horizon
   - candidate-ranking
+  - cache-continuity
 ---
 
 # Model routing & provider policy
@@ -108,6 +109,12 @@ The consequences of that stance form the spine of this subject:
    Eligibility is decided by policy and floors; order is decided by
    what the roster is doing this hour, ranked by commensurable terms with
    guardrails that demote rather than reorder (see candidate-ranking).
+10. **A continuing conversation carries a cached prefix, and the prefix is
+    keyed to the model that wrote it.** The class table prices a call as if
+    it arrived alone; a warm turn on the incumbent re-reads its prefix at a
+    tenth of base price while any other model writes it at 1.25×. Route by
+    class where the class has its own prompt family; never swap the model
+    under a shared context (see cache-continuity).
 
 ## The classes and their contracts
 

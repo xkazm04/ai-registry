@@ -15,6 +15,13 @@ stale claims), **widen** (convergence-earned techniques, dated field application
 **validate** (benchmarks where a claim hinges on a measurement). Validated across four
 bundles: interactive, 3-wide and 8-wide batch, and a 3-round loop on a fresh domain.
 
+**A URL is `/intake`'s input, not this skill's.** When the session starts from a link
+somebody sent rather than from a subject we chose, route it to `/intake` - it owns the
+ingest instrument, the source ledger, the source-class reading and the corroboration
+table, and it dispatches `/deepen` for anything subject-sized that survives. Two runs on
+2026-08-23 went through here instead and produced good findings; they also skipped the
+untriaged table and the decline ledger, which is the memory that makes run N+1 cheap.
+
 ## The cycle
 
 1. **Scan** - score every subject: deterministic signals first (technique/application
