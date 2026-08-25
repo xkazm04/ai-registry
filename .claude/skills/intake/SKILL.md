@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.8.0
+version: 0.9.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -121,6 +121,17 @@ which is a different editing job, not merely a higher trust level.
   competing vendor's benchmark of the same system is one fetch and is usually the
   cheapest honest number available. The cluster map itself goes in the source note: it
   is what makes the next 300-paper list a one-table triage.
+
+- **App/tutorial aggregator** (a monorepo of small runnable example apps). Cluster-triage
+  like the paper aggregator, but the yield lives in the repo's **operational periphery**
+  - its CI gates, validators, eval ladders, release discipline - not in any app's
+  architecture, because a mature corpus outclasses tutorial-grade app content by
+  construction. The apps themselves resolve almost entirely to catches; the two things
+  worth per-item attention are entries that instantiate one of OUR laws in code (a
+  cheap corroborating tree) and entries whose *popularity* signals a hazard or demand.
+  One shallow clone replaces per-item fetches; on this platform verify the checkout
+  completed (`git ls-tree HEAD` vs `ls` - a path casualty aborts checkout silently and
+  the clone's `-q` eats the error; restore missing dirs with `git checkout HEAD -- <dir>`).
 
 Within the first-party class, the **release walkthrough** is the sub-class to seek out:
 a library author going through one version's changes. It is organised around *changes*,

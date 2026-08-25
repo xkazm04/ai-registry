@@ -11,6 +11,24 @@ This lane holds the skills that transplant to **any** repository — the fleet's
 library. The skills that maintain *this* registry (`/forge`, `/deepen`, `/librarian`,
 `/intake`) live in `.claude/skills/` and are not library items.
 
+## Checks beyond structure
+
+`check-skills.mjs` is the structural gate. Two further tiers exist or are adopted
+direction (ladder pattern from the public agent-skills eval repos, kept where it
+earns its place):
+
+- **Trigger & routing** — `node scripts/check-skill-triggers.mjs` lints every
+  skill description pairwise for vocabulary near-collision (advisory; `--strict`
+  fails at containment ≥ 0.6; `TRIGGER_FLOOR` tunes the report). A selector that
+  confuses two skills is the measured scaling failure of skill libraries — see
+  `agent-memory/procedure-promotion`, "Selection is the scaling failure". Two
+  colliding skills are one skill with a parameter, or two whose descriptions
+  must name their boundary.
+- **Deterministic script tests and behavioral evals** — not yet standing. A lane
+  skill that ships scripts should carry its own `test_*.mjs` beside them; the
+  harness's plugin-eval schema is the target for behavioral cases when a skill's
+  behaviour, not its structure, regresses. Adopt per skill when one earns it.
+
 ## The shape
 
 ```

@@ -131,7 +131,10 @@ aggregate success hides that the promotion investment has stopped paying.
 - **Treat confusable siblings as a merge-or-differentiate signal.** Two
   procedures whose descriptions a selector confuses are one procedure with
   a parameter, or two procedures whose `use_when` boundaries need to name
-  each other. Leaving them adjacent taxes every future selection.
+  each other. Leaving them adjacent taxes every future selection — and the
+  cheap standing guard is static: lint the library's descriptions pairwise
+  for vocabulary near-collision on every change, so a confusable pair is
+  caught at admission rather than discovered in the invocation ledger.
 - **Measure actual-use precision, not offline retrieval.** The offline
   number degraded gently and would have passed review; the in-execution
   number is the one that collapsed. The invocation accounting this

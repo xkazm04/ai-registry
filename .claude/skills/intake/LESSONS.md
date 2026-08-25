@@ -381,3 +381,30 @@
 - **The scholar-link tell.** Aggregator entries linking to a search query rather than
   a stable id mark the thin tail; stable-id density per section is a cheap relevance
   prior for the next list.
+
+## 0.8.0 - 2026-08-25 - ai-registry (run 13: app aggregator; bumped to 0.9.0 in the same change)
+
+- **New source class: the app/tutorial aggregator - mine the periphery, not the apps.**
+  All three landings came from CI gates, validators and one law-instantiating schema;
+  every app-architecture cluster resolved to catches against forged bundles. The class
+  row encodes it, with the checkout-verification instrument lesson (a Windows path
+  casualty silently halved the clone; git ls-tree vs ls caught it).
+- **The best ecosystem lesson was operational, and adopting it beat describing it.**
+  The source's five-tier skill eval ladder became a running instrument
+  (`check-skill-triggers.mjs`) in the same run that read it - and proving the new
+  instrument (lower the floor, check the distribution) surfaced that today's lane
+  passes with its top pair at 0.41 vs the 0.45 floor. An adopted check is a stronger
+  landing than a documented pattern; reach for it when the source's periphery fits the
+  registry's zero-dep doctrine.
+- **A decline can cite the doctrine, and the doctrine cuts both ways.** Hash-chained
+  audit trails were declined by the same single-owner rule that retired branch
+  ceremony here - tamper-evidence defends against a party that would falsify the
+  record, and this fleet has one party. Writing the decline against a named doctrine
+  makes it durable: the next hash-chain demo is a one-line catch.
+- **A tutorial tree can corroborate a law even when it cannot anchor an application.**
+  The typed-RAG entry enforced answered<->citations mutual exclusion with tests -
+  grade-lower than a practitioner tree, but as a *sighting* beside the fleet's own
+  enum-armed schemas it carried an amendment. Tutorial code is evidence about shapes,
+  not about production.
+- **Zero web fetches.** The clone was the source; the corroboration was the corpus and
+  the fleet. Cheapest run of the series.

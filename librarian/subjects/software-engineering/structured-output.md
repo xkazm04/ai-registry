@@ -1,7 +1,7 @@
 ---
 subject: structured-output
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-08-25
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -39,3 +39,7 @@ a ladder.
 
 - 2026-08-22-8: **never silently skip** (opt-in-guard family) applied to `schema-validation-and-repair`; the technique also now cites the new `verdict-survives-boundary` law ([[2026-08-22-8]]).
 - 2026-08-22-10: `schema-validation-and-repair` now cites BOTH promoted laws - `absent-guard-is-loud` and `unknown-is-not-a-value` - as the only technique anchoring each family in one file ([[2026-08-22-10]]).
+
+## 2026-08-25 - /intake run 13 ([[2026-08-25-awesome-llm-apps]])
+
+- `schema-validation-and-repair` gained "The schema can carry the epistemic contract": cross-field validators reject the incoherent quadrants (answered-without-citations; refused-with-citations), generalised to any artifact whose fields jointly assert what none asserts alone. Sighting: a tutorial tree enforcing it with tests, plus the fleet's own enum-armed review-resolution schema as convergence. (Edit itself reached HEAD via a sibling session's commit f0463ff, which swept the in-flight file - content correct, attribution noted here.)

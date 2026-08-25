@@ -65,3 +65,7 @@ None.
 
 - `procedure-promotion` gained two measured sections from the 2026 skills field study: the artifact carries actions not facts (65.7% vs 4.5%), and selection-at-scale is the silent failure (actual-use precision 29.6% -> 3.3% at pools 5 -> 100, success flat; cap and scope the live pool, merge confusable siblings, measure actual-use).
 - Golden path gained the store-shape paragraph: two independent sightings (shapes-study hybrid-ties-flat; a graph vendor own-ablation +2%) that topology buys marginal recall; value lives in the transitions. Temporal-KG supersedence resolved as a catch - consolidation already outreasons it.
+
+## 2026-08-25 - /intake run 13 ([[2026-08-25-awesome-llm-apps]])
+
+- One sentence added to `procedure-promotion`'s confusable-siblings rule: static pairwise description linting as the standing admission guard. The registry now runs its own (`scripts/check-skill-triggers.mjs`).
