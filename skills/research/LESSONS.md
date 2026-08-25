@@ -83,3 +83,32 @@ bumped independently (that run 1.1→1.2, this one 1.2→1.3).
 - **Three couplings had to be re-seated, not deleted.** (1) The catalog buckets B and C assumed one product's template and connector directories; they are now overlay-declared and simply absent in a repo that ships no catalog. (2) Phase 12's release-log machinery assumed one config file, one content directory and exactly 14 locale files; it now skips entirely unless the overlay declares `## Release log`. (3) The active-runs ledger and its helper script are optional - with no ledger declared, `git status` is the whole coordination surface.
 - **Worked examples survive anonymization better than rules do.** The catalog-vs-runtime trap and the core-vs-plugin routing rule were written as one product's facts ("87 connectors", "dev-tools plugin"). Both generalize cleanly once the *denominator question* is stated as the rule and the product's real numbers move to the overlay's `## Domain notes` - and the general form is the more useful one, because the trap is not specific to connectors.
 - **The engine survived untouched.** Source ingestion, web augmentation, the yield-calibration table, host-infrastructure-first, the capped-grep rule, scoring honesty, the security escalation rule, the four execution options and the mandatory atomic commit are all method. Re-seating changed where the run gets its facts, never how it reasons.
+
+## 1.6.0 — 2026-08-25 — personas
+
+- **New source type: a sibling product's codebase, read as an invariant checklist.** Apache Maka states
+  its runtime invariants in prose ("a terminal header must be supported by a terminal fact"; "a path move
+  is diagnostic, identity mismatch is a hard gate"). Against a mature repo those sentences test directly:
+  4 findings / 9 catches / a large n/a block, and all three shipped findings were the same idea — a header
+  claiming a state the facts do not support — in three places. Two moves made it work: (1) name the
+  product's central mechanism in the opening line (Maka runs its own model/tool loop, Personas spawns a
+  CLI) so whole chapters go n/a in one sentence instead of four dead findings; (2) the strongest finding
+  was one clause in a 4,700-word chapter — compare-mode's "least glamorous material" rule held again.
+  Worth a row in the Phase 3 calibration table: *sibling product codebase → medium findings, many
+  catches, unusually actionable because the invariants are already phrased as tests.*
+- **Attribute a red gate before reacting to it.** In a shared checkout both the clippy errors and all
+  three census rises this run were in another session's dirty files (one clippy hit already at HEAD).
+  First move on any red gate: `git status --porcelain`, then a file-level check of whether the failing
+  site is in a file you committed. Ten minutes; it prevented "fixing" someone else's in-flight code. And
+  the attribution itself needs the discipline of §4c: my first pass grepped empty outputs (I passed
+  golden-path names to `--rule`, which returned zero rules) and would have "proved" innocence from
+  nothing — assert the list is non-empty before grepping it.
+- **Shared dirty files get committed as HEAD + your hunk, never as the working copy.** Applied to
+  Phase 13c in this bump (1.6.0 → 1.7.0): `git show HEAD:<path>` + re-apply your edit programmatically
+  + `hash-object -w` + `update-index --cacheinfo` into the isolated index. Three commits, three shared
+  files, zero foreign lines. The isolated index was only ever half the ritual; this is the other half.
+- **Prose payloads never go inline in shell.** A `node -e '…'` with an apostrophe in the text (`vault's`)
+  and a quoted heredoc both broke bash quoting this run — one loudly, one as a silent no-op caught only
+  because the next command errored. Write the payload with the Write tool (or to a file) and let the
+  shell see only a path. Same family as the 2026-08-20 cwd-drift lesson: the tool answers a different
+  question than the one asked, plausibly.

@@ -1,6 +1,6 @@
 ---
 name: research
-version: 1.6.0
+version: 1.7.0
 description: Extract actionable improvements for a project from external sources (video, blog, article, raw text). Scores ideas against the codebase, buckets into Code / Template / Credential, and persists findings to an Obsidian memory vault.
 argument-hint: "[source or question]"
 category: ai-native
@@ -1202,6 +1202,26 @@ Use **explicit `git add <path>` per file**, NOT `git add -A` or `git add .`. Thi
 2. The files edited by an in-session implementation (if the user said "implement right away")
 3. The release-log config + every declared locale file (if Phase 12 ran)
 4. Any new files created during the run
+
+**A file that was already dirty before you touched it is not yours to `git add`.** In a checkout
+shared with other sessions, the files a research run most often needs — a changelog, a census
+`rules.json`, a feature doc — are exactly the ones a sibling is mid-edit in, and `git add <path>`
+stages the *whole working file*, sweeping their hunks under your message. The isolated index protects
+you from their `git add`; it does nothing for a file both of you edit. Run 2026-08-25 hit this on
+three files in three commits and used this shape each time, inside the single-invocation ritual:
+
+```bash
+git show HEAD:<path> > base          # the committed version
+# re-apply ONLY your change to `base` programmatically — a JSON push, a string
+# replace, a line splice — the same edit you made to the working copy
+BLOB=$(git hash-object -w mine)
+GIT_INDEX_FILE="$IDX" git update-index --cacheinfo "100644,$BLOB,<path>"
+```
+
+The working copy keeps both edits for the sibling's own commit; yours carries exactly your hunk.
+Keep the edit as a small script so it can run twice (working copy now, HEAD copy at commit time),
+and assert the anchor matches exactly once. Verify afterwards with `git diff --stat -- <path>`: only
+the sibling's lines should still be pending.
 
 ### 13d. Write the commit message
 
