@@ -82,3 +82,29 @@ path). If a second repo shows it, it is a technique.
 - grant's registration commits sit on `chore/decommission-datahub`, not main.
 - Project-side commits (manifests, overlay migrations) are local, not pushed —
   push per repo when convenient.
+
+## Operator decisions — 2026-08-24, end of day
+
+Recorded during the wave-2 continuation, binding until revisited:
+
+- **Grant auth: deferred.** No production timeline, audience, or auth strategy
+  yet. Conformance rows marked `deferred`; containment stays; no auth schemes
+  invented. Revisit at productionization.
+- **Data retention: deferred — keeping expired data is the pattern.** No
+  deletion/expiry policies fleet-wide; non-destructive visibility and lossless
+  maintenance remain in scope. Revisit retention after the production dynamic
+  resolves.
+
+## Wave-2b close — 2026-08-25: full coverage
+
+All six projects reached ZERO `deviation` rows against the software-engineering
+bundle. Standing: 6 `deferred` rows fleet-wide, all under the two operator
+decisions above (grant authorization ×2 + one retention-shaped row each in
+grant, tracklight, pumper, politicas; goat carries its auth deferral as 5
+suppressed findings in `.ai/findings.json`). The signals lane cannot express
+`deferred` (counts are consults/deviations/citations only), so the deviations
+map is simply empty there; the per-project conformance files are the record.
+
+Wave-2b also left every repo with CI fully green — for pumper, the first
+fully-green run in the repo's history (six masked reds fixed in sequence, none
+quarantined).

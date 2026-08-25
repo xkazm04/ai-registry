@@ -2,7 +2,7 @@
   "schema": "rkb-signals/1",
   "contributor": "mkdol-dev-box",
   "app": "ai-registry-scripts",
-  "generatedAt": "2026-08-25T00:30:00Z",
+  "generatedAt": "2026-08-25T08:00:00Z",
   "windowDays": 30,
   "stack": {
     "node": 24,
@@ -73,23 +73,6 @@
         "accessibility": 1,
         "dead-code": 1,
         "module-design": 1
-      },
-      "deviations": {
-        "test-harness": 4,
-        "embedded-db": 9,
-        "docs-sync": 4,
-        "migrations": 1,
-        "authorization": 2,
-        "rate-limiting": 1,
-        "repo-manifest-standard": 2,
-        "retrieval": 3,
-        "streaming-output": 1,
-        "async-ui-states": 1,
-        "client-state": 2,
-        "codebase-scanning": 1,
-        "drag-drop": 1,
-        "module-design": 2,
-        "undo-history": 2
       }
     },
     "llm-observability": {},
