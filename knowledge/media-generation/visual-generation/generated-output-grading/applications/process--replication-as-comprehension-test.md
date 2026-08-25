@@ -9,7 +9,7 @@ verified_on: 2026-08-25
 refresh_by: 2026-11-25
 ---
 
-# Geometry transfers, tone does not — a round trip over 36 animation frames, August 2026
+# Most of the vocabulary carries — a round trip over 36 animation frames, August 2026
 
 The replication-as-comprehension-test technique says a controlled vocabulary
 earns its place by surviving a round trip. This is the run that produced it,
@@ -43,28 +43,53 @@ cinematography at all.
 
 ## What the round trip found
 
-Mean craft fidelity **77% (n=4)** — and the mean is the least useful number in
-the run. The per-field transfer rate splits cleanly in two:
+Mean craft fidelity **80% over all 36 frames**.
 
-| transfers at 100% | partial | fails half the time |
-|---|---|---|
-| `camera_angle`, `depth_of_field`, `composition`, `lighting_direction`, `texture` | `shot_size` 75%, `lens_impression` 75% | `exposure`, `lighting_key`, `lighting_quality`, `contrast` — all 50% |
+| field | transfer rate |
+|---|---|
+| `depth_of_field` | 94% |
+| `contrast` | 89% |
+| `composition` | 86% |
+| `camera_angle`, `lighting_key`, `lighting_quality` | 81% |
+| `shot_size` | 76% |
+| `lighting_direction` | 75% |
+| `exposure`, `texture` | 64% |
 
-**Geometric vocabulary transfers; tonal vocabulary does not.** Where the camera
-was, what was in focus, how the frame was composed, which direction the light
-came from, what the surface looked like — all survive intact. How bright, how
-deep the shadows, how hard the edges, how much separation — half of these are
-lost in the round trip.
+Most of the vocabulary carries. Two fields lag clearly: **`exposure`** — the
+replicas skew darker than their sources (10 came back `dark` against 4 in the
+originals), so the generator has a tonal prior that overrides the brief — and
+**`texture`**, where a house style that should be near-invariant across one
+source scattered instead.
 
-The tonal misses run in a consistent direction (`high-key -> low-key`,
-`hard -> soft`), which makes them a **generator prior** rather than a schema
-defect: Flux 2 has a house tonal style that overrides the brief. The fields
-stay; the phrasing needs strengthening.
+`lens_impression` is **excluded**, not reported. Its apparent 86% is 31 of 36
+`indeterminate -> indeterminate`: a null matching a null. A field that answers
+one constant scores perfectly on a round trip while carrying no information,
+which makes agreement a trap wherever a null value is legal. Score only the
+frames where the source field committed to something.
 
-## Converging evidence: the same fields fail two independent tests
+### A four-frame pilot said something else, and was wrong
 
-Before the round trip, two cheap probes needing no ground truth condemned the
-same subset:
+The first pass over **4 frames** showed a clean split — geometric vocabulary
+(angle, depth of field, composition, light direction, texture) at 100%, tonal
+vocabulary (exposure, key, shadow quality, contrast) at 50% — and "geometry
+transfers, tone does not" was an attractive, quotable finding.
+
+At n=36 it does not survive. `contrast` went 50% -> 89%, `lighting_key` and
+`lighting_quality` 50% -> 81%, while `texture` fell 100% -> 64% and became one
+of the two *weakest* fields. The pilot was noise in **both** directions, and
+the tidiness of the split was itself the warning sign: real per-field rates
+rarely sort into two clean bands.
+
+The pilot was published as "a signal to act on, not a published measurement".
+That hedge is the only reason this correction is cheap — the claim was never
+load-bearing. Per-field rates over a handful of items should be treated as
+hypothesis generation and nothing more, however clean the pattern looks.
+
+## Cheap probes that need no ground truth
+
+Independently of the round trip, three probes costing nothing found real
+defects. They are the durable part of this run — each measures the annotator
+directly, rather than inferring from a downstream comparison:
 
 - **Definitional contradiction.** 22 of 36 frames came back both `high-key`
   *and* `high-contrast` — near-contradictory, since high-key means filled
@@ -78,8 +103,13 @@ same subset:
   a lens register. A field that answers the same regardless of input carries no
   information.
 
-Two independent instruments condemning the same fields is what promotes this
-from a lead to a finding.
+A four-frame pilot appeared to corroborate these from the other direction, and
+that reading was retracted at n=36: `lighting_key` and `contrast` transfer at
+81% and 89% once the sample is real. **The probes stand on their own
+measurements; they were never confirmed by the round trip.** Recording that
+distinction matters, because "two instruments agree" is the argument that
+promotes a lead to a finding — and it must not be claimed on the strength of a
+sample too small to have agreed with anything.
 
 ## The instruction-channel result
 
@@ -117,6 +147,29 @@ came out of it, and both are now enforced by a preflight guard:
 - **An already-resident model satisfies its own budget.** Demanding 20 GB free
   before using a loaded 22 GB model can never pass — the memory in use *is* the
   model. A naive check reads that as a resource failure and halts a healthy run.
+
+Completing the 36-frame batch then took four attempts, and the lessons cost
+more than the run did:
+
+- **Watch the system commit charge, not free RAM.** Commit reached **167.5 GB
+  of a 176.8 GB limit (95%)** while VRAM was only 69% used. Commit exhaustion
+  is what surfaces as `HostBuffer.read_file_slice failed`, and free-RAM
+  headroom does not predict it.
+- **A preflight cannot bound growth.** The generation engine's footprint climbs
+  across a batch — 33 GB observed — and its `/free` endpoint unloads models
+  without returning the process's accumulated memory. Only a restart reclaims
+  it. Recycling the engine every N generations turned a run that stalled into
+  one that oscillates 52% → 94% → 52% and finishes.
+- **Reclaim stale engines *before* measuring, not after.** Three relaunches
+  were refused by a correct preflight because the previous run's engine was
+  still resident holding 32.9 GB. Recycling first took free RAM from 6.7 GB to
+  39.9 GB and the run proceeded. Measuring before reclaiming diagnoses a
+  memory problem that reclamation would have removed.
+- **A hung stage produces no error.** Every failure here presented as silence —
+  a stalled queue, a vanished process, a closed socket — never an exception at
+  the call site. The traceback that finally named the cause was in the
+  redirected stderr of a detached run, unread for three attempts. Read the
+  error file first; symptom-reading is slower and wrong more often.
 
 ## The adjudication pass ran, and it failed — twice over
 
