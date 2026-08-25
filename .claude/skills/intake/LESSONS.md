@@ -311,3 +311,10 @@
 - **Python is not on this machine.** Two scripted edit batches printed a Store prompt
   and changed nothing; the harness reported success because the shell did. Use the
   editor tool or `sed`/heredocs here; check `git diff --stat` after any scripted edit.
+- **A generated file shared with a sibling session is committed from the INDEX, not with a
+  pathspec.** `catalog.json` regenerated with my hash AND a sibling's uncommitted skill; a
+  pathspec commit takes the working-tree file whole, sweeping the sibling in. The move:
+  `git show HEAD:catalog.json`, apply only your hunk, `git hash-object -w` +
+  `git update-index --cacheinfo`, stage your paths explicitly, verify with
+  `git diff --cached --name-only`, then commit with NO pathspec. The pathspec rule in
+  Phase 10 protects against sweeping; here the curated index is the pathspec.
