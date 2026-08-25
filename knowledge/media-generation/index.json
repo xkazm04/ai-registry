@@ -3,8 +3,8 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 19,
-  "techniques": 121,
+  "subjects": 20,
+  "techniques": 127,
   "applications": 44,
   "laws": 9,
   "categories": [
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "121/121",
+  "use_when_coverage": "127/127",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1902,6 +1902,85 @@
    ],
    "applications": []
   },
+  "trailer-structure": {
+   "category": "narrative-craft",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/narrative-craft/trailer-structure/trailer-structure.md",
+   "techniques": [
+    {
+     "slug": "cue-first-assembly",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "starting a promotional cut and deciding what to lay down first",
+      "choosing between candidate cues",
+      "building a tool that plans or checks a trailer's structure"
+     ]
+    },
+    {
+     "slug": "dynamic-reset",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "placing the drop to near-silence before a promotional cut's peak",
+      "isolating one line or one image inside a dense montage",
+      "diagnosing a cut that is loud throughout and therefore emphatic nowhere"
+     ]
+    },
+    {
+     "slug": "escalation-without-mechanism",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the rising middle of a promotional cut",
+      "diagnosing a montage that is busy but does not build",
+      "deciding how many rungs a cut of a given length can carry"
+     ]
+    },
+    {
+     "slug": "length-ladder",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deriving shorter promotional cuts from a long one",
+      "deciding what to drop when a cut must lose half its runtime",
+      "keeping a family of cuts consistent across a campaign"
+     ]
+    },
+    {
+     "slug": "promise-ledger",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing a promotional cut against the work it advertises",
+      "deciding whether an assembled line or juxtaposition is honest",
+      "auditing a campaign that converted well and disappointed on delivery"
+     ]
+    },
+    {
+     "slug": "withholding-budget",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a promotional cut may show of a work with a turn or a reveal",
+      "arbitrating between conversion pressure and preserving the work's experience",
+      "planning a multi-cut campaign where later cuts want to reveal more"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "video-assembly": {
    "category": "production-ops",
    "subcategory": null,
@@ -2294,6 +2373,7 @@
     "short-form-narrative-structure/question-stack-architecture",
     "short-form-narrative-structure/reversal-anatomy",
     "sound-effect-generation/trailer-punctuation-grammar",
+    "trailer-structure/escalation-without-mechanism",
     "video-assembly/derived-turn-markers",
     "video-assembly/music-spotting-against-picture"
    ]
@@ -2334,6 +2414,7 @@
     "narrative-engine-selection/fit-vs-hazard-axes",
     "review-iteration-loops/attribution-share-accounting",
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "trailer-structure/promise-ledger",
     "video-assembly/gap-and-refusal-honesty",
     "video-assembly/multitrack-timeline-discipline"
    ]

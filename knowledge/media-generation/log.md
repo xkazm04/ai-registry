@@ -174,3 +174,64 @@ guard order, unsupported's positional asymmetry, and constraint outranking
 vendor error in the message a caller finally sees. Complements
 `node--refusal-reroute-hop`, which follows the hop through the same file. Gate
 green.
+
+## 2026-08-25 — new subject: `trailer-structure` joins `narrative-craft`
+
+The bundle covered the promotional cut in exactly one sentence, in
+`platform-format-adaptation/derived-short-contract`, and that sentence pushed it
+away: the derived short "produces a causal chain in miniature, **not a
+trailer**". That exile was correct and it left the ground unowned.
+
+**The boundary the subject is built on**, and the reason it is not a variant of
+`short-form-narrative-structure`: that subject governs a piece which must pay
+every debt it opens; this one governs a piece whose entire function is to open a
+debt another artifact will pay. Almost every neighbouring rule inverts across
+that line — a withheld answer that "reads as not having one" there is the product
+here; the rule that the cut's peak need not be the work's peak is meaningless
+there. The neighbour's beat-linking test and act-as-question architecture apply
+unchanged and are cited rather than restated, and the opening seconds are left to
+`hook-shape-selection`, which already owns opening-shape selection and already
+bans the announced fact.
+
+Six techniques: **promise-ledger** (what the cut promises against what the work
+can pay, including promises made by assembly — the cobbled line is a machine for
+manufacturing implications out of true parts, which is
+`output-never-outruns-evidence` operating on the cut rather than on a figure);
+**withholding-budget** (spend / imply / hold per named asset, bound to the
+campaign rather than to a cut, because the real breach is drift between cuts);
+**escalation-without-mechanism** (`causality-over-sequence` — a trailer's rungs
+raise stakes and never explain, so closure replaces mechanism and an "and then"
+chain is flat for the neighbour's exact reason); **dynamic-reset** (the stop
+before the peak, and the form's only true silence); **cue-first-assembly** (the
+cue is the structure and the picture is fitted to it — the dependency order most
+often inverted by anyone arriving from a general video-editing model);
+**length-ladder** (shortening removes whole parts in a known order and never
+scales them uniformly).
+
+Two things deliberately NOT written down:
+
+- **No applications yet.** The subject describes a form nothing in reach has
+  built. An application is the one layer where real file paths and product names
+  belong, and inventing one would put a fabricated realization in the layer whose
+  whole value is that it is real. Owed once a format template is actually
+  implemented.
+- **No parameter tables.** The material contains one hard external number (a
+  2:30 theatrical ceiling with a single annual exception per distributor) and one
+  genuinely measured central tendency (mean 122.8s over 6,926 releases,
+  1930–2025 — which also refutes the widely repeated "trailers keep getting
+  longer"; the peak was the late 1960s and the trough the late 1980s). Everything
+  else that looked like a number was a synthesized reconstruction, so per
+  `format-as-measured-template`'s refusal rule it stays out. The gaps are
+  fixable; a laundered estimate would not be visible enough to fix.
+
+Two disputes are carried as disputes rather than resolved, because the
+practitioners genuinely disagree and both sides have records: whether the
+four-part spine is the grammar or a habit worth discarding for mood (the
+specialty lane discards it deliberately), and whether withholding the work's turn
+is a craft rule or a conversion cost. On the second the notable finding is that
+the pressure toward revelation is **measurement** — audience testing's most
+consistent report is that the cut did not show enough — so a doctrine treating
+every revealing cut as incompetence would mis-diagnose every campaign that made
+the trade knowingly.
+
+Gate green (`check-bundles`) — 16 subjects · 98 techniques · 37 applications.
