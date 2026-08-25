@@ -4,9 +4,9 @@ type: technique
 subject: companion-runtime
 technique: action-catalog-single-source
 status: forged
-laws: [one-authority-per-vocabulary, derivation-names-recomputation, one-validation-door]
+laws: [one-authority-per-vocabulary, derivation-names-recomputation, one-validation-door, gate-sees-target]
 shared_with: []
-use_when: [a companion is gaining the ability to act and not only talk, the model emits an action kind nothing executes, a model-composed surface has no way back to a good state]
+use_when: [a companion is gaining the ability to act and not only talk, the model emits an action kind nothing executes, a model-composed surface has no way back to a good state, the component that teaches the model does not share a process or a language with the one that executes, an accepted proposal must run against a catalog that has changed since it was made]
 ---
 
 # One source for the action catalog
@@ -83,6 +83,47 @@ before the action is bound, not after it is approved. A model-supplied identifie
 is a guess until something looks it up, and an unresolvable one drops the
 proposal rather than executing against whatever the identifier happens to hit.
 
+## When the consumers do not share a process, the catalog travels as data
+
+The five consumers are rarely five files in one program. The one that teaches the
+model is often somewhere else entirely — another process, another language,
+sometimes another deployment — because the model call and the application get
+built with different tools by different people. The arrangement that suggests
+itself is then two catalogs: one where the actions are implemented, and one
+beside the prompt, kept in step by a comment. That is the five-copy failure with
+a process boundary drawn through the middle of it, and the boundary makes it
+worse rather than better — no compiler, no type checker and no test in either
+tree can now see both copies at once.
+
+The discipline that survives the crossing is to **ship the catalog as data on
+every request and let the far side name nothing.** The teaching text is rendered
+from the table that arrived; the validator that reads the model's output matches
+against the table that arrived; neither file contains an action's identifier, so
+neither can teach nor accept something the declaring side did not send. What was
+a generation step inside one program becomes a serialization step across two, and
+the property is unchanged: one declaration, and the consumers hold no vocabulary
+of their own.
+
+Two consequences follow, and both are correct behaviour rather than edges to be
+worked around. A request that carries no catalog **teaches nothing and accepts
+nothing** — the far side has no list to render and an empty table to match
+against, so the model is never told it may act, and a fence emitted anyway is
+rejected. That is the right default for a turn nobody asked to be actionable, and
+it is safe by construction rather than by a flag somebody remembered to set. And
+the catalog on the wire is *what was shipped this turn*, not what the far side
+was built against, so adding an action needs no coordinated release of the other
+side — which is precisely the coupling a duplicated catalog would have created.
+
+The pin is a **set-equality assertion on the declaring side**: the identifiers the
+table declares, the identifiers the wire form carries, the identifiers the
+validator accepts, and the identifiers the executor resolves are the same set —
+not a subset, not a sample. Pinning membership instead ("the catalog contains this
+kind") stays green while a sixth kind is added to the executor and never taught.
+And give the assertion one more line than feels necessary: **that the set is not
+empty.** Set-equality over two empty derivations passes, and empty-against-empty
+is the exact shape in which this family of guard reads green while reading nothing
+([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+
 ## Reads may proceed; mutations are proposed
 
 The catalog carries the read/mutate distinction per kind because that is where
@@ -95,6 +136,33 @@ The property this technique guarantees for that gate is that the envelope it
 displays and the envelope the executor runs are **the same object**, not two
 renderings of one intent — otherwise the disclosure a person approved and the
 action performed are related only by convention.
+
+## A proposal outlives the reply, and may outlive the catalog
+
+A proposed mutation waits for a person, and people answer on their own time. For
+the length of that wait the proposal is a stored row and the catalog is code, and
+code deploys. So the catalog is consulted **twice about one action**: once when
+the model's output is turned into a proposal, and again at the moment somebody
+accepts it. The second consultation is not belt-and-braces. The first validated
+against a catalog that no longer necessarily exists, and it validated parameters
+naming things — a record, a destination, a role — that were true when the
+sentence was written and need not be now.
+
+The approval subject owns the wait, the verdict, and running the approved thing
+exactly once. What this technique adds is that the check at acceptance goes
+through **the same validator, deriving from the same table**, rather than through
+a second check the executor keeps privately. Two validators for one envelope is
+the five-copy failure wearing a timestamp
+([one-validation-door](../../../../_laws.md#one-validation-door)).
+
+The case worth naming is the kind the catalog no longer carries, because the
+instinct is to treat it as an error. It is not an error: it is a proposal that
+outlived its vocabulary, and the honest resolution is to **retire it on the
+person's behalf, with a stated reason**, rather than leave an accept affordance
+that can only ever fail. The same holds for a stored payload that no longer
+satisfies the shape its kind declares. A catalog that loses a kind is a normal
+event; a queue filling with permanently unclickable rows is what happens when it
+is treated as an exceptional one.
 
 ## Anything a model can compose, a person can reset
 

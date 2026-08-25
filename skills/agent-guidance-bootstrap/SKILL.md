@@ -5,6 +5,7 @@ category: ai-native
 memory: project
 version: 0.4.0
 tags: agents-md, onboarding, context, conventions
+argument-hint: "[project-root]"
 ---
 
 # Agent guidance bootstrap

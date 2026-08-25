@@ -331,6 +331,96 @@ Gate green (`check-bundles.mjs`): software-engineering 124 subjects · 759
 techniques · 311 applications; 1777 concept documents · 4896 links checked;
 `bundle integrity OK`. Index and catalog rebuilt in order.
 
+## 2026-08-24 — deepen (source-driven): multi-model practice video against the llm-agent lane
+
+Source: a practitioner video on multi-model agent harnesses ("combine compute,
+don't select compute": opinion fan-out, multi-round debate, plan-fanout with an
+architect seat), ingested as one research input for a /deepen pass over
+llm-agent. Transcript pulled in full; every claim mapped against prior art
+before drafting.
+
+New technique (1), on lane convergence (field sighting + literature):
+- `fleet-orchestration/heterogeneous-model-panels` — N sessions, one question,
+  N model families. The counter-evidence lane set the spine: equal-compute
+  studies show homogeneous debate ≈ self-consistency voting and
+  simultaneous-revision rounds form a martingale, so round one is the product,
+  rounds get a cap, and the voting baseline (N samples of the best model) is
+  the bar a panel must beat. Masked seats (own-family bias, already measured in
+  judge-stability); synthesizer seat for build shapes; verdicts carry
+  concordance structure and per-seat cost.
+
+Correction to existing content:
+- `cost-metering/price-tables` — a rate is sometimes a *schedule*: several
+  providers now price the same unit class by the call's own context length
+  (input commonly doubling past a published threshold) while others sell the
+  full window flat. Verified against current vendor pricing pages 2026-08-24;
+  the video sighted the same trap independently on a third vendor.
+
+Verified-and-left-untouched:
+- `judge-stability` — the video's "never reveal model names to co-agents; they
+  get weird" is an anecdotal field echo of own-family preference / presentation
+  sensitivity, which the technique already states with measured evidence. The
+  mechanism claim ("sabotage") stays unadopted: single-source, no measurement.
+- `comparison-modes` / `eval-harness` — "take public leaderboards with a grain
+  of salt, run private benchmarks on your own use case" is already the
+  subject's stance (matrix runs, frozen instruments).
+
+Declined, deliberately:
+- The video's model landscape (tier lists, per-model opinions, pricing-war
+  reads, vendor picks) — product-named currency signal, not knowledge; upper
+  layers are transplant-clean and no consumer application needed the roster.
+- "In-loop vs out-loop / software factory" framing — rhetoric over mechanism;
+  everything mechanical in it is already fleet-orchestration + result-harvest.
+
+Gate green (`check-bundles.mjs`): software-engineering 146 subjects · 921
+techniques · 400 applications; 3093 concept documents · 7341 links checked;
+`bundle integrity OK`. Index rebuilt. Note for the next pass: an untracked
+media-generation application (`process--capability-to-vendor-plan.md`) sits
+uncommitted in the tree from other work; its index entry was deliberately not
+committed here.
+
+## 2026-08-24 — deepen→forge: agent-instruction-files (coverage hole, demand-driven)
+
+Operator asked whether the bundle covers CLAUDE.md/AGENTS.md authoring; the scan
+found only a use_when clause on `house-vocabulary-layer`. Per doctrine a coverage
+hole is forged, not deepened around: new subject
+`llm-agent/prompt-and-context/agent-instruction-files` — golden path + 5
+techniques (line-earning, enforcement-demotion, single-source-topology,
+machine-owned-regions, instruction-freshness) + 2 claude-code applications read
+from the six-project fleet on 2026-08-24.
+
+Three research lanes: (1) blind training-data draft (banked in session
+scratchpad), (2) web with mandatory counter-evidence, (3) harness-facts via docs.
+Convergence earned every technique. Counter-evidence highlights that shaped the
+upper layers:
+- arXiv:2602.11988 (n=300+138 tasks): context files buy no general success gain,
+  >20% cost; generated repo overviews slightly hurt. arXiv:2601.20404 (n=10
+  repos/124 PRs): −28.6% median runtime, −16.6% output tokens. Both truths live
+  in the golden path qualitatively; numbers with n in the applications.
+- arXiv:2510.14842 refutes position-based "lost in the middle" folklore for
+  instruction lists (the Sanglard agent.md article leans on it): compliance
+  falls with instruction COUNT, roughly uniformly. Landed as the dilution
+  paragraph.
+- AGENTS.md nearest-wins vs concatenating harnesses: a real spec divergence;
+  landed as the combination-semantics trap.
+
+Fleet read (n=6): floors 4.2k–25k tokens (personas the 6x outlier); 43/43 cited
+paths resolve but five staleness findings all sit in counts/enforcement claims
+(incl. a stale warning-about-staleness and a Stop hook measured 0 firings in
+2,367 edits) — the exhibits inside `claude-code--instruction-freshness.md`.
+Sibling cross-link added from prompt-assembly (owned assembler vs authored-for
+inverse). New stack `claude-code` registered in index.md.
+
+Gate green (`check-bundles.mjs`): 147 subjects · 926 techniques · 402
+applications; 3219 concept documents · 7463 links checked; `bundle integrity
+OK`. Index, rules and catalog rebuilt.
+
+Sync wave (same day, operator-approved): four parallel workers landed the
+deviations on current branches — personas-web af7950a, kp 19fb247d, pof
+b1069a0a, personas d5fe056a4; every diff Director-reviewed against the
+techniques. Fleet always-loaded floor ~59k → ~46k tokens; both claude-code
+applications carry a dated post-sync addendum. ascent and systedo-case needed
+nothing.
 ## 2026-08-24 — secondary-machine harvest wave: six projects join as consumers and pay their way in
 
 The mkdol box registered six checkouts (gravity, goat, tracklight, pumper, grant,

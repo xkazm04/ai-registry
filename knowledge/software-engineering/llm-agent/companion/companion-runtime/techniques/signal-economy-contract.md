@@ -6,7 +6,7 @@ technique: signal-economy-contract
 status: forged
 laws: [verdict-survives-boundary, count-carries-predicate, failure-not-empty-success]
 shared_with: []
-use_when: [autonomous work is producing more announcements than value, deciding whether a background outcome deserves a person's attention, a companion narrates its own housekeeping]
+use_when: [autonomous work is producing more announcements than value, deciding whether a background outcome deserves a person's attention, a companion narrates its own housekeeping, deciding where a companion's pending count is surfaced]
 ---
 
 # The report-or-absorb contract
@@ -99,6 +99,34 @@ from the outside unless absence and emptiness are recorded differently
 This is the failure mode the contract most easily creates: having correctly
 taught the system not to announce its maintenance, the system now has no way to
 say that its maintenance stopped. The record is what closes it.
+
+## A count is a report, and it goes where it can be cleared
+
+Not every report is a message. The cheapest form a companion has is a **standing
+count** — proposals awaiting an answer, commitments coming due — and it faces the
+same gate: a number that changes nothing anybody would do is narration with a
+numeral in it. But a count carries something a message does not, which is an
+implied affordance. A person who sees one believes that acting on it makes it go
+down.
+
+Hence the placement rule: **a count is surfaced where the affordance that clears
+it lives.** Folding a companion's pending count into a badge that already exists
+is the tempting move — the badge is built, it is already read, and one more
+number looks free. It is free only if the place that badge leads to can resolve
+the thing being counted. Where it cannot, the number rises and never falls by any
+action available from where it was shown, and the person learns to read that
+badge as decoration. The predicate a count carries
+([count-carries-predicate](../../../../_laws.md#count-carries-predicate)) is not
+only what was counted and how; on a surface it is also **what makes it smaller**,
+and a count whose predicate has no reachable answer costs more than an absent one
+because it spends attention on a dead end.
+
+The same test governs registering a companion's work in a host's existing
+approval or review taxonomy. If nothing in that taxonomy's resolution path has a
+branch that can close the companion's item, joining it mints a queue entry that
+only accumulates. The correct move is the one that looks smaller: put the count
+on the companion's own surface, beside the accept and the decline it refers to,
+and leave the host's taxonomy alone.
 
 ## The ratio is the instrument
 

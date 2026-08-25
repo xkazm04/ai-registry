@@ -10,6 +10,7 @@ techniques:
   - hibernation-and-resume
   - parallel-dispatch
   - result-harvest
+  - heterogeneous-model-panels
   - outbound-compute-plane
   - substrate-reconciliation
 ---
@@ -191,6 +192,13 @@ nobody was accountable for noticing the missing third of it. Stragglers get a
 policy, not an infinite wait; partial failure is a first-class outcome with
 its own shape, distinct from success and from total failure.
 
+One fleet shape inverts the usual fan-out: **N sessions, one question, N
+different models** — a panel convened so that independently trained members
+answer the same decision-shaped question and the run's product is the
+structure of their agreement, not any one answer. Dispatch, roster, and
+harvest apply unchanged; what changes is what the aggregate means, and when
+the N-times spend is worth it at all (see heterogeneous-model-panels).
+
 ## Invariants
 
 - **The registry is the only truth, and it survives restart.** In-memory
@@ -236,3 +244,7 @@ its own shape, distinct from success and from total failure.
 - [result-harvest](./techniques/result-harvest.md) — per-session results into
   a run-level aggregate, partial-failure accounting, and the straggler
   policy.
+- [heterogeneous-model-panels](./techniques/heterogeneous-model-panels.md) —
+  one question across N different models: independence before exchange,
+  round caps, masked seats, the synthesizer seat, and when the voting
+  baseline should win instead.

@@ -101,7 +101,8 @@
             "prompt-safety",
             "retrieval",
             "agent-memory",
-            "structured-output"
+            "structured-output",
+            "agent-instruction-files"
           ]
         },
         {

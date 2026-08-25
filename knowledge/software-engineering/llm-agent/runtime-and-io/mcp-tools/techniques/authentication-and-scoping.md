@@ -84,6 +84,40 @@ listing is a brochure, invocation is a transaction. Where the catalog itself
 leaks strategy or structure, close the brochure too; but decide it as policy,
 not by accident of which handler someone remembered to guard.
 
+## Client identity: a durable reference, not per-server enrollment
+
+The 2026-07-28 authorization revision settled how a *client* proves who it is,
+and the shape generalizes. Per-server dynamic registration — every client
+enrolling with every server it meets, minting a fresh identity each time — is
+deprecated in favor of **Client ID Metadata Documents (CIMD)**: the client's
+identity *is* an HTTPS URL it controls, serving a static metadata document,
+and that one identity works against every server. The principle underneath is
+worth extracting: an identity that is a **durable, independently verifiable
+reference** beats an identity minted per relationship, because revocation,
+reputation, and audit all attach to one name instead of N enrollment records
+nobody can correlate.
+
+Two hardening obligations shipped alongside it and belong in any
+implementation review:
+
+- **Issuer validation is mandatory** (RFC 9207): the client verifies that the
+  authorization response actually came from the issuer it started the flow
+  with, closing the mix-up class of attacks.
+- **Credentials are issuer-bound**, and where the deployment supports it,
+  access tokens are **DPoP-bound** — the caller must demonstrate possession
+  of a key, not mere possession of the token string. Bearer-token discipline
+  in this technique is the floor; proof-of-possession is the direction the
+  protocol has declared (finalizing DPoP adoption is a stated priority of the
+  2026-08 roadmap), so a design choosing today should not build anything that
+  *assumes* tokens stay bearer.
+
+What remains open — dated 2026-08 — is **non-interactive agent identity**:
+an agent acting with nobody present to complete an OAuth dance. The declared
+direction is workload identity federation and standard token exchange rather
+than protocol-invented mechanisms. Until that lands, the honest pattern for
+unattended callers remains a pre-provisioned per-consumer capability token
+with a named reaper, exactly as above.
+
 ## Audience and the no-passthrough rule
 
 Two obligations from the protocol's authorization model that generalize

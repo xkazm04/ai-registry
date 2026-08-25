@@ -6,7 +6,7 @@ technique: one-mind-many-mouths
 status: forged
 laws: [one-validation-door, identity-survives-reuse, one-authority-per-vocabulary]
 shared_with: []
-use_when: [adding a second channel that speaks as the same agent, scoping a memory store by conversation, deciding whether tasks belong to conversations, the companion must stay reachable while its host is down]
+use_when: [adding a second channel that speaks as the same agent, scoping a memory store by conversation, deciding whether tasks belong to conversations, the companion must stay reachable while its host is down, a second application wants to speak as the same companion on the same machine]
 ---
 
 # One mind, many mouths
@@ -137,6 +137,33 @@ Two disciplines make the degraded mode real rather than theoretical:
 - **The degraded channel says what it lost.** It states which capabilities are
   unavailable rather than silently having fewer of them, so the person is not
   left inferring the companion's condition from failures.
+
+## When the second mouth is a second application
+
+Everything above assumes the channels are built by whoever built the companion.
+The harder case, and the one that arrives once the substrate is a folder, is a
+**separate product** on the same machine that wants to speak as the same
+companion to the same person — a different codebase, a different domain, its own
+release cycle, reaching the same brain root.
+
+That case is sound, and the discriminator is not "does it ship its own text". It
+is **whether the self is the same self**: one person, one accumulated identity,
+one episode stream that both surfaces write into and both surfaces read back.
+Under that condition the second application may carry its own domain
+constitution — the law of *its* surface — while the self-model and the memory
+stay singular; the partition and its rules are
+[constitution-self-model-split](./constitution-self-model-split.md)'s. What it may
+never do is fork the self: a second brain root, a private episode store, or a
+constitution it overwrites on somebody else's disk each turn it into a different
+companion wearing a shared name, which is the outcome the caveat below is about.
+
+Two obligations follow from the second application not being able to see the
+first. Its first contact with the brain is an **adoption decision**, not a
+detection — it probes without creating and asks before it reads or writes a self
+it did not author ([brain-adoption-consent](./brain-adoption-consent.md)). And the
+parity contract stated above becomes load-bearing rather than advisory: two
+products on independent release cycles writing one record format will drift, and
+the drift surfaces as episodes the other's consolidation pass silently skips.
 
 ## When not to use this
 

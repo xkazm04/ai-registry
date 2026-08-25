@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 146,
-  "techniques": 930,
-  "applications": 412,
+  "subjects": 147,
+  "techniques": 938,
+  "applications": 419,
   "laws": 12,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "930/930",
+  "use_when_coverage": "938/938",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -676,6 +676,104 @@
      "technique": "stop-reason-ledgers",
      "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/rust--stop-reason-ledgers.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "agent-instruction-files": {
+   "category": "llm-agent",
+   "subcategory": "prompt-and-context",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
+   "techniques": [
+    {
+     "slug": "enforcement-demotion",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a style or formatting rule keeps being violated despite being in the instruction file",
+      "deciding whether a new rule should be prose or a hook",
+      "an instruction file reads like a linting config",
+      "the file claims a rule is enforced and the claim has not been verified"
+     ]
+    },
+    {
+     "slug": "instruction-freshness",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing an instruction file that has not been reviewed in months",
+      "an agent confidently followed guidance that turned out stale",
+      "deciding how to record a measured fact in the file",
+      "a refactor or stack bump landed and the file was not part of the change"
+     ]
+    },
+    {
+     "slug": "line-earning",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a rule belongs in the always-loaded instruction file",
+      "an instruction file has grown past the point where agents follow it",
+      "reviewing a machine-generated repo overview before committing it",
+      "an agent keeps repeating a mistake the file was supposed to prevent"
+     ]
+    },
+    {
+     "slug": "machine-owned-regions",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool writes or rewrites blocks inside a hand-written instruction file",
+      "deciding whether generated content belongs in the always-loaded file",
+      "a hand edit inside a generated block keeps reappearing reverted",
+      "two generators claim the same derived content"
+     ]
+    },
+    {
+     "slug": "single-source-topology",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a repo serves more than one coding harness",
+      "deciding where the canonical instruction file lives",
+      "per-tool instruction files have drifted apart",
+      "structuring instruction files in a monorepo",
+      "the always-loaded floor has outgrown its budget and needs scoped overflow"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "instruction-freshness",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--instruction-freshness.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "claude-code@2"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "single-source-topology",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--single-source-topology.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "claude-code@2"
     }
    ]
   },
@@ -3122,6 +3220,23 @@
      ]
     },
     {
+     "slug": "brain-adoption-consent",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second application finds a companion brain already on the machine",
+      "deciding whether an agent may read a memory it did not write",
+      "adding a consent gate to a memory that already has users",
+      "offering a companion that works with no memory at all"
+     ]
+    },
+    {
      "slug": "capability-exercise-ledger",
      "status": "forged",
      "laws": [
@@ -3178,7 +3293,8 @@
       "adding a second channel that speaks as the same agent",
       "scoping a memory store by conversation",
       "deciding whether tasks belong to conversations",
-      "the companion must stay reachable while its host is down"
+      "the companion must stay reachable while its host is down",
+      "a second application wants to speak as the same companion on the same machine"
      ]
     },
     {
@@ -3198,6 +3314,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "brain-adoption-consent",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/node--brain-adoption-consent.md",
+     "verified_on": "2026-08-24"
+    },
     {
      "stack": "rust",
      "technique": "anchored-identity-diffs",
@@ -3230,13 +3352,16 @@
      "laws": [
       "one-authority-per-vocabulary",
       "derivation-names-recomputation",
-      "one-validation-door"
+      "one-validation-door",
+      "gate-sees-target"
      ],
      "shared_with": [],
      "use_when": [
       "a companion is gaining the ability to act and not only talk",
       "the model emits an action kind nothing executes",
-      "a model-composed surface has no way back to a good state"
+      "a model-composed surface has no way back to a good state",
+      "the component that teaches the model does not share a process or a language with the one that executes",
+      "an accepted proposal must run against a catalog that has changed since it was made"
      ]
     },
     {
@@ -3325,11 +3450,24 @@
      "use_when": [
       "autonomous work is producing more announcements than value",
       "deciding whether a background outcome deserves a person's attention",
-      "a companion narrates its own housekeeping"
+      "a companion narrates its own housekeeping",
+      "deciding where a companion's pending count is surfaced"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "action-catalog-single-source",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/node--action-catalog-single-source.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "node",
+     "technique": "signal-economy-contract",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/node--signal-economy-contract.md",
+     "verified_on": "2026-08-24"
+    },
     {
      "stack": "rust",
      "technique": "action-catalog-single-source",
@@ -3862,7 +4000,8 @@
      "use_when": [
       "a companion answers from memory the user cannot see",
       "a grounding badge that cannot be opened",
-      "deciding what a turn will be remembered as"
+      "deciding what a turn will be remembered as",
+      "a recall strip that quotes the user's own words back at them"
      ]
     },
     {
@@ -3877,6 +4016,22 @@
       "a companion is asked where something is",
       "choosing between a dimming tour and a companion walkthrough",
       "a highlight ring drifts off its target"
+     ]
+    },
+    {
+     "slug": "structured-visual-replies",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a companion answers a comparison as a numbered paragraph",
+      "a model-drawn table wraps every cell in a narrow panel",
+      "a malformed block from the model breaks the whole reply",
+      "deciding how wide a rendering inside a conversation may be"
      ]
     },
     {
@@ -3896,10 +4051,23 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "structured-visual-replies",
+     "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/node--structured-visual-replies.md",
+     "verified_on": "2026-08-24"
+    },
+    {
      "stack": "react",
      "technique": "narration-promote-on-finish",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--narration-promote-on-finish.md",
      "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "react",
+     "technique": "structured-visual-replies",
+     "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--structured-visual-replies.md",
+     "verified_on": "2026-08-24",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -6727,6 +6895,21 @@
       "attaching durability to existing event chokepoints",
       "a restart forgot sessions that were still running",
       "reconciling mirror claims before serving new work"
+     ]
+    },
+    {
+     "slug": "heterogeneous-model-panels",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a month-scale decision rests on one model's opinion",
+      "grokking a new tool or release with no in-house experience",
+      "a debate transcript is being read as evidence",
+      "deciding whether N calls should be one model sampled N times or N models convened once"
      ]
     },
     {
@@ -17125,6 +17308,7 @@
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-instruction-files/enforcement-demotion",
     "alerting/evaluation-loop",
     "alerting/rule-authoring-validation",
     "app-shell/entitlement-gating",
@@ -17158,8 +17342,10 @@
     "codebase-scanning/verify-after-generate",
     "codegen/drift-gating",
     "codegen/trigger-wiring",
+    "companion-identity/brain-adoption-consent",
     "companion-identity/capability-exercise-ledger",
     "companion-identity/disk-truth-db-index",
+    "companion-runtime/action-catalog-single-source",
     "companion-runtime/host-seam-contracts",
     "companion-runtime/metered-llm-seam",
     "concurrency-guards/cross-process-exclusion",
@@ -17447,6 +17633,7 @@
     "codegen/generator-failure-isolation",
     "codegen/task-registry-design",
     "companion-identity/anchored-identity-diffs",
+    "companion-identity/brain-adoption-consent",
     "companion-identity/capability-exercise-ledger",
     "companion-runtime/autonomous-cycle-hosting",
     "companion-runtime/signal-economy-contract",
@@ -17462,6 +17649,7 @@
     "connector-catalog/matching-and-ranking",
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
+    "conversation-orchestration/structured-visual-replies",
     "cost-metering/usage-ledgers",
     "credential-vault/acquisition",
     "credential-vault/health-probing",
@@ -17519,6 +17707,7 @@
     "feed/live-prepend",
     "file-browsing/listing-and-refresh",
     "fleet-orchestration/durable-fleet-state",
+    "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/lifecycle-signals",
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/substrate-reconciliation",
@@ -17841,6 +18030,8 @@
     "adoption-measurement/mentor-learner-pairing",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/stop-reason-ledgers",
+    "agent-instruction-files/instruction-freshness",
+    "agent-instruction-files/line-earning",
     "agent-memory/coverage-instrumentation",
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
@@ -17922,6 +18113,7 @@
     "feed/reverse-chronology-semantics",
     "file-browsing/file-mutations",
     "file-browsing/selection-model",
+    "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",
     "form/error-aggregation-and-focus",
@@ -18092,6 +18284,7 @@
     "admission-queue/drain-and-shutdown",
     "admission-queue/priority-and-fairness",
     "agent-chaining/chain-identity-and-rollup",
+    "agent-instruction-files/single-source-topology",
     "agent-memory/episodic-capture",
     "agent-memory/procedure-promotion",
     "agent-memory/working-memory",
@@ -18311,6 +18504,7 @@
     "client-state/status-fsms",
     "client-state/store-slicing",
     "companion-identity/anchored-identity-diffs",
+    "companion-identity/brain-adoption-consent",
     "companion-identity/one-mind-many-mouths",
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/metered-llm-seam",
@@ -18635,6 +18829,7 @@
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/run-conditions",
     "agent-chaining/stop-reason-ledgers",
+    "agent-instruction-files/single-source-topology",
     "agent-memory/memory-value-model",
     "alerting/escalation-routing",
     "analytics-time-windows/calendar-arithmetic",
@@ -18680,6 +18875,7 @@
     "connector-catalog/schema-driven-forms",
     "conversation-orchestration/layered-avatar-state-machine",
     "conversation-orchestration/progress-beat-grammar",
+    "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
     "cost-metering/price-tables",
     "credential-vault/health-probing",
@@ -18899,6 +19095,7 @@
     "agent-addressable-ui/build-time-source-stamping",
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-instruction-files/machine-owned-regions",
     "agent-memory/consolidation",
     "agent-memory/memory-value-model",
     "app-shell/badge-and-attention",
@@ -19051,6 +19248,7 @@
   "absent-guard-is-loud": {
    "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
    "techniques": [
+    "agent-instruction-files/enforcement-demotion",
     "client-state/store-dependency-topology",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
@@ -19066,12 +19264,15 @@
   "unknown-is-not-a-value": {
    "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
    "techniques": [
+    "agent-instruction-files/instruction-freshness",
     "client-state/store-dependency-topology",
+    "companion-identity/brain-adoption-consent",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
     "conversation-orchestration/progress-beat-grammar",
     "conversation-orchestration/recall-transparency",
+    "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",

@@ -5,7 +5,7 @@ description: Copywriting-grade, context-aware localization for any managed app -
 argument-hint: <mode> [locale] [scope]
 memory: project
 contexts: tracked
-version: 1.1.0
+version: 1.2.0
 ---
 
 # i18n-translate — copywriting-grade, context-aware localization
@@ -127,6 +127,29 @@ repo under `docs/i18n/` — they are project truth, not skill-internal state:
 Before translating anything, **read all four**. Bootstrap any that are missing
 (for exemplars on a brand-new locale: translate the 8 class-examples first,
 polish them hard, seed the file from those).
+
+### The registry language subject — the sixth anchor source (when linked)
+
+If the project's `.ai/manifest.yaml` declares the `localization` knowledge domain,
+the registry carries a **language subject** for each supported locale
+(`knowledge/localization/<category>/<language>/` in the registry checkout named by
+`registry.local`): a golden path plus techniques holding **anchored rules with
+stable IDs** (`CS-NOM`, `DE-FORMAL`, `AR-BIDI-ISOLATE`, `JA-COUNTER`, …) — register,
+plural/count agreement, typography, de-anglicization constructions, terminology
+policy, each with provenance from a published style authority.
+
+Division of labor: the registry subject holds everything true of the LANGUAGE for
+any product; the repo's `style-<locale>.md` shrinks to the HOUSE deltas — register
+choice within the language's options, house rulings that overrule the authority
+(recorded, per the bundle's laws), product-specific length budgets. Do not restate
+registry rules in the repo style guide; cite their IDs. In Pass A, walk the
+subject's techniques for the string class at hand; in Pass B, **cite rule IDs as
+anchors** in error records (`key · span · category · severity · CS-NOM · fix`); a
+native rejection no registry rule explains is a candidate NEW rule — propose it
+upstream to the registry subject rather than minting a repo-local orphan, unless
+it is genuinely house-specific. In a fan-out, feed each worker its locale's
+technique files — that is what lets a smaller model review at expert quality: the
+expertise is in the bundle; the worker recognizes and cites.
 
 ---
 

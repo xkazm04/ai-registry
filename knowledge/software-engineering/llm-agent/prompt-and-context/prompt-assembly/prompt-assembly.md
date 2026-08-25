@@ -83,6 +83,12 @@ distillation pass, the synthesis report each get their own assembler,
 because they have different layers and budgets — but *within* a family
 there is exactly one.
 
+The inverse case — authoring content for an assembler you do not control,
+as a repo owner writes the standing instruction file a coding harness
+injects — is the sibling subject
+[agent-instruction-files](../agent-instruction-files/agent-instruction-files.md);
+this subject governs systems that own their assembler.
+
 And the door must **seal**. An assembler whose output is an ordinary
 string invites the one defect that quietly reverses everything above:
 call sites concatenating onto the *result* after assembly returns. Those

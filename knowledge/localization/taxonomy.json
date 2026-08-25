@@ -1,0 +1,49 @@
+{
+  "$comment": "AUTHORITY on where every subject lives. The folder tree is DERIVED from this file, never the other way round: moves go through scripts/apply-taxonomy.mjs and nothing else. Languages are grouped by the localization problems they share (script, direction, plural system), not by genealogy — that is what a localizer browses by.",
+  "schema": "rkb-taxonomy/1",
+  "bundle": "localization",
+  "layout": "nested",
+  "categories": [
+    {
+      "id": "european",
+      "title": "European languages",
+      "order": 1,
+      "subjects": [
+        "czech",
+        "french",
+        "german",
+        "russian",
+        "spanish"
+      ]
+    },
+    {
+      "id": "east-asian",
+      "title": "East Asian languages",
+      "order": 2,
+      "subjects": [
+        "chinese",
+        "japanese",
+        "korean"
+      ]
+    },
+    {
+      "id": "south-and-southeast-asian",
+      "title": "South & Southeast Asian languages",
+      "order": 3,
+      "subjects": [
+        "bengali",
+        "hindi",
+        "indonesian",
+        "vietnamese"
+      ]
+    },
+    {
+      "id": "right-to-left",
+      "title": "Right-to-left languages",
+      "order": 4,
+      "subjects": [
+        "arabic"
+      ]
+    }
+  ]
+}

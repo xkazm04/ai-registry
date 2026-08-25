@@ -3,6 +3,20 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets. Merged from every copy of this skill on 2026-08-22 when it moved into the registry lane.
 
+## 1.1.0 - 2026-08-24 - ai-registry (design session)
+
+- **Language mastery moved out of the repos and into the knowledge lane.** The
+  per-repo `constructions-<locale>.md` idea (anchored rules with IDs, minted by
+  reviews) proved to be transplantable language knowledge wearing a repo-local
+  coat: every project shipping Czech rebuilt `CS-FORMAL` from the same Microsoft
+  guide. A `localization` bundle now carries one subject per language (13 at
+  launch, covering the fleet's locales), techniques holding the anchored rules —
+  kp's CS-/DE-/FR- IDs preserved verbatim so existing review records keep
+  resolving. v1.2 adds the registry subject as the sixth anchor source and
+  shrinks the repo style guide to house deltas. New-rule flow inverts: a native
+  rejection with no ID is now an upstream proposal to the bundle by default,
+  repo-local only when genuinely house-specific.
+
 ## 1.0 - 2026-08-12 - kp
 
 First run of this skill at full scale: 6,399 keys × 4 locales, a source-copy

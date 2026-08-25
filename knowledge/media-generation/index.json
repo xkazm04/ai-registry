@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 14,
-  "techniques": 86,
-  "applications": 34,
+  "subjects": 15,
+  "techniques": 92,
+  "applications": 37,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -14,10 +14,109 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "86/86",
+  "use_when_coverage": "92/92",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
+  "cinematic-language": {
+   "category": "visual-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
+   "techniques": [
+    {
+     "slug": "camera-position-semantics",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding where the camera stands for a beat and what that stance should say",
+      "every generated shot comes out eye-level and mid-distance",
+      "a character must feel powerful, vulnerable, watched, or trapped without dialogue",
+      "auditing a shot list for frames that contradict their beat's meaning"
+     ]
+    },
+    {
+     "slug": "genre-visual-contracts",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a brief names a genre or mood and must become an ensemble of concrete choices",
+      "choosing the register for a piece before lighting and camera decisions",
+      "mixing two genres without producing mud",
+      "a stylized piece reads as parody when homage was intended"
+     ]
+    },
+    {
+     "slug": "lens-effect-language",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a shot needs a specific spatial or optical feel (compression, distortion, isolation)",
+      "translating lens and stock vocabulary into prompts a model honors",
+      "a generated image is sharp everywhere and reads as video, not cinema",
+      "choosing the era and texture signal of a piece"
+     ]
+    },
+    {
+     "slug": "lighting-as-dramatic-instrument",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the mood of a scene before any other visual choice",
+      "a generated scene is evenly lit and expressively flat",
+      "a brief says \"dramatic\", \"romantic\", \"ominous\" and must become concrete light",
+      "deciding what a frame should leave in darkness"
+     ]
+    },
+    {
+     "slug": "movement-motivation",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether and how the camera moves in a shot",
+      "generated clips drift aimlessly or sit inert",
+      "a beat needs dread, intimacy, urgency, or release expressed through motion",
+      "a camera move must be written so a model executes it"
+     ]
+    },
+    {
+     "slug": "scene-grammar-progression",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assembling multiple generated clips into a scene that reads as directed",
+      "planning a shot list for a beat sequence before generation",
+      "characters teleport or flip sides between consecutive clips",
+      "deciding whether a beat needs a cut or a camera move"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "genre-visual-contracts",
+     "file": "knowledge/media-generation/visual-generation/cinematic-language/applications/process--genre-visual-contracts.md",
+     "verified_on": "2026-08-24",
+     "refresh_by": "2027-02-24"
+    }
+   ]
+  },
   "content-research-grounding": {
    "category": "research-grounding",
    "subcategory": null,
@@ -560,6 +659,12 @@
     },
     {
      "stack": "process",
+     "technique": "trial-matrix-design",
+     "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/process--trial-matrix-design.md",
+     "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
      "technique": "unconditional-fail-criteria",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/process--unconditional-fail-criteria.md",
      "verified_on": "2026-08-19"
@@ -675,6 +780,13 @@
      "technique": "refusal-reroute-hop",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "process",
+     "technique": "capability-to-vendor-plan",
+     "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/process--capability-to-vendor-plan.md",
+     "verified_on": "2026-08-24",
+     "refresh_by": "2026-11-24"
     },
     {
      "stack": "process",
@@ -1526,36 +1638,30 @@
   }
  },
  "laws": {
-  "output-never-outruns-evidence": {
-   "statement": "A rendered artifact may never be more precise, more certain, or more causal than the fact behind it. A crisp axis is a precision claim; an arrow is a causal claim; a chart launders confidence unless the confidence propagates into the drawing. Every figure on screen must trace to a sourced fact, and the fact's grade caps the rendering.",
+  "style-is-restated-not-remembered": {
+   "statement": "Visual consistency across many generation calls comes from restating the full style contract on every call. Reference images alone measurably drift within a single batch; there is no short form, and no call may opt out of the style half of its prompt.",
    "techniques": [
-    "content-research-grounding/evidence-grading-ladder",
-    "content-research-grounding/pre-linked-causal-mechanisms",
-    "content-research-grounding/provenance-signal-asymmetry",
-    "content-research-grounding/scale-conversion-of-numbers",
-    "content-research-grounding/unknowns-as-constraints",
-    "creator-voice-and-tone/delivery-rate-budgeting",
-    "creator-voice-and-tone/dial-vs-subject-property",
-    "evidence-bound-visuals/causal-arrow-discipline",
+    "cinematic-language/genre-visual-contracts",
+    "cinematic-language/lighting-as-dramatic-instrument",
     "evidence-bound-visuals/epistemic-draw-routing",
-    "evidence-bound-visuals/figure-must-cite-a-fact",
-    "evidence-bound-visuals/generous-strawman-rendering",
-    "evidence-bound-visuals/performer-claims-need-a-person",
-    "evidence-bound-visuals/precision-limit-propagation",
-    "frame-direction/plate-elements-text-split",
-    "frame-direction/visual-function-vocabulary",
-    "narrative-engine-selection/adjudication-honesty-tells",
-    "narrative-engine-selection/engine-arbitration-order",
-    "narrative-engine-selection/fit-vs-hazard-axes",
-    "review-iteration-loops/attribution-share-accounting",
-    "review-iteration-loops/follow-up-that-can-kill-a-fact",
-    "video-assembly/gap-and-refusal-honesty",
-    "video-assembly/multitrack-timeline-discipline"
+    "generated-output-grading/trial-matrix-design",
+    "image-prompt-composition/assigned-colour-roles",
+    "image-prompt-composition/medium-vocabulary-locking",
+    "image-prompt-composition/negative-prompting",
+    "image-prompt-composition/prompt-dialect-matching",
+    "image-prompt-composition/style-first-token-ordering",
+    "image-prompt-composition/two-block-style-and-action",
+    "video-assembly/generated-shot-sourcing",
+    "visual-style-locking/approved-reference-sheet",
+    "visual-style-locking/consistency-control-arm",
+    "visual-style-locking/style-block-restated-every-call",
+    "visual-style-locking/style-onboarding-from-sample"
    ]
   },
   "unmeasured-is-not-pass": {
    "statement": "A quality gate may never report pass for something it did not check. \"Unmeasured\" is a first-class verdict, distinct from pass and fail, and enforcement coverage — what fraction of the promise is actually checked — is reported alongside the verdict. Craft parameters ship only with measurements behind them; an impression is not a number.",
    "techniques": [
+    "cinematic-language/lens-effect-language",
     "content-research-grounding/evidence-grading-ladder",
     "content-research-grounding/prior-declaration-and-steel-man",
     "content-research-grounding/provenance-signal-asymmetry",
@@ -1597,6 +1703,8 @@
   "causality-over-sequence": {
    "statement": "Between any two adjacent beats of a factual narrative you must be able to say \"but\" or \"therefore\". If the only honest connector is \"and then\", the beats have no causal relationship and what you have is a list, not a story. The same facts arranged causally give the viewer a reason to stay; arranged sequentially they give a reason to leave. Every structural choice — engine, act architecture, frame order — inherits this test.",
    "techniques": [
+    "cinematic-language/movement-motivation",
+    "cinematic-language/scene-grammar-progression",
     "content-research-grounding/pre-linked-causal-mechanisms",
     "content-research-grounding/tension-finding-taxonomy",
     "creator-voice-and-tone/engine-tone-separation",
@@ -1615,6 +1723,33 @@
     "short-form-narrative-structure/reversal-anatomy",
     "video-assembly/derived-turn-markers",
     "video-assembly/music-spotting-against-picture"
+   ]
+  },
+  "output-never-outruns-evidence": {
+   "statement": "A rendered artifact may never be more precise, more certain, or more causal than the fact behind it. A crisp axis is a precision claim; an arrow is a causal claim; a chart launders confidence unless the confidence propagates into the drawing. Every figure on screen must trace to a sourced fact, and the fact's grade caps the rendering.",
+   "techniques": [
+    "content-research-grounding/evidence-grading-ladder",
+    "content-research-grounding/pre-linked-causal-mechanisms",
+    "content-research-grounding/provenance-signal-asymmetry",
+    "content-research-grounding/scale-conversion-of-numbers",
+    "content-research-grounding/unknowns-as-constraints",
+    "creator-voice-and-tone/delivery-rate-budgeting",
+    "creator-voice-and-tone/dial-vs-subject-property",
+    "evidence-bound-visuals/causal-arrow-discipline",
+    "evidence-bound-visuals/epistemic-draw-routing",
+    "evidence-bound-visuals/figure-must-cite-a-fact",
+    "evidence-bound-visuals/generous-strawman-rendering",
+    "evidence-bound-visuals/performer-claims-need-a-person",
+    "evidence-bound-visuals/precision-limit-propagation",
+    "frame-direction/plate-elements-text-split",
+    "frame-direction/visual-function-vocabulary",
+    "narrative-engine-selection/adjudication-honesty-tells",
+    "narrative-engine-selection/engine-arbitration-order",
+    "narrative-engine-selection/fit-vs-hazard-axes",
+    "review-iteration-loops/attribution-share-accounting",
+    "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "video-assembly/gap-and-refusal-honesty",
+    "video-assembly/multitrack-timeline-discipline"
    ]
   },
   "edit-do-not-regenerate": {
@@ -1642,24 +1777,6 @@
     "image-prompt-composition/negative-prompting",
     "image-prompt-composition/shape-language-over-nouns",
     "platform-format-adaptation/sound-off-first-design"
-   ]
-  },
-  "style-is-restated-not-remembered": {
-   "statement": "Visual consistency across many generation calls comes from restating the full style contract on every call. Reference images alone measurably drift within a single batch; there is no short form, and no call may opt out of the style half of its prompt.",
-   "techniques": [
-    "evidence-bound-visuals/epistemic-draw-routing",
-    "generated-output-grading/trial-matrix-design",
-    "image-prompt-composition/assigned-colour-roles",
-    "image-prompt-composition/medium-vocabulary-locking",
-    "image-prompt-composition/negative-prompting",
-    "image-prompt-composition/prompt-dialect-matching",
-    "image-prompt-composition/style-first-token-ordering",
-    "image-prompt-composition/two-block-style-and-action",
-    "video-assembly/generated-shot-sourcing",
-    "visual-style-locking/approved-reference-sheet",
-    "visual-style-locking/consistency-control-arm",
-    "visual-style-locking/style-block-restated-every-call",
-    "visual-style-locking/style-onboarding-from-sample"
    ]
   },
   "refusal-is-a-state": {
