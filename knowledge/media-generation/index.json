@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 15,
-  "techniques": 92,
-  "applications": 37,
+  "techniques": 93,
+  "applications": 38,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -14,7 +14,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "92/92",
+  "use_when_coverage": "93/93",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -712,6 +712,21 @@
      ]
     },
     {
+     "slug": "extraction-model-bake-off",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a model to label or extract structured fields at corpus scale",
+      "deciding whether a local model can replace a metered API for a bulk job",
+      "a frontier model is assumed best without measurement",
+      "comparing candidate vision or extraction models"
+     ]
+    },
+    {
      "slug": "non-silent-elimination",
      "status": "forged",
      "laws": [
@@ -793,6 +808,13 @@
      "technique": "cost-per-usable-economics",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/process--cost-per-usable-economics.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "process",
+     "technique": "extraction-model-bake-off",
+     "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/process--extraction-model-bake-off.md",
+     "verified_on": "2026-08-25",
+     "refresh_by": "2026-11-25"
     },
     {
      "stack": "process",
@@ -1677,6 +1699,7 @@
     "generated-output-grading/unconditional-fail-criteria",
     "generated-output-grading/vision-model-grading-schema",
     "generative-provider-routing/cost-per-usable-economics",
+    "generative-provider-routing/extraction-model-bake-off",
     "generative-provider-routing/non-silent-elimination",
     "generative-provider-routing/vendor-fact-ledger",
     "image-prompt-composition/medium-vocabulary-locking",
@@ -1743,6 +1766,7 @@
     "evidence-bound-visuals/precision-limit-propagation",
     "frame-direction/plate-elements-text-split",
     "frame-direction/visual-function-vocabulary",
+    "generative-provider-routing/extraction-model-bake-off",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/engine-arbitration-order",
     "narrative-engine-selection/fit-vs-hazard-axes",

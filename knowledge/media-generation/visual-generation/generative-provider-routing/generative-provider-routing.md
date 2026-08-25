@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: generative-provider-routing
 status: forged
-use_when: [wiring a second generation vendor into a pipeline, handling safety refusals from an image model, deciding which vendor serves which generation stage, auditing generation spend]
+use_when: [wiring a second generation vendor into a pipeline, handling safety refusals from an image model, deciding which vendor serves which generation stage, auditing generation spend, choosing a model to label or extract at corpus scale]
 techniques:
   - capability-to-vendor-plan
   - refusal-reroute-hop
@@ -11,6 +11,7 @@ techniques:
   - vendor-fact-ledger
   - cost-per-usable-economics
   - resolution-as-stage-property
+  - extraction-model-bake-off
 ---
 
 # Generative provider routing
