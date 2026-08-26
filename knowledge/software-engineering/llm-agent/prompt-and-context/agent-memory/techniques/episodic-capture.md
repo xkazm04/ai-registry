@@ -6,7 +6,7 @@ technique: episodic-capture
 status: forged
 laws: [identity-survives-reuse, creation-names-reaper]
 shared_with: []
-use_when: [deciding where one episode ends and another begins, episodes ballooning into a second transcript store, two writers claiming the same sequential id, a model swap silently thins what capture writes down]
+use_when: [deciding where one episode ends and another begins, episodes ballooning into a second transcript store, two writers claiming the same sequential id, a model swap silently thins what capture writes down, one oversized item crowds a distillation batch]
 ---
 
 # Episodic capture
@@ -87,6 +87,57 @@ follow:
   strict-consolidation split: distill lightly at the boundary while context
   is warm, and defer the expensive judgment to the batched pass, where its
   cost is amortized over a window instead of charged per event.
+
+## The batch is the ceiling's other half
+
+Distiller strength is the input the model vendor controls. There is a second
+input to the same ceiling that the designer controls entirely: **how much
+material the pass is handed at once.** Over-stuff a distillation batch and
+claims per unit of content fall — the same starvation symptom as a weak
+distiller, arriving from the opposite cause, and therefore needing the
+opposite fix. Reading "few claims per event" as a model problem when it is a
+batch-size problem buys an expensive upgrade that changes nothing.
+
+What degrades first is not the claims but the judgments *between* them.
+Deciding that two events belong together, that one supersedes another, that a
+third is the second sighting of a pattern — these are cross-item calls made by
+the same pass that is running out of room, and they are what a crowded batch
+drops first. This holds whatever shape the consolidated store takes: a flat
+store still needs supersedence detected, and supersedence is a cross-item
+judgment. The store's topology is optional; the pass that would have noticed
+is not.
+
+The control surface is two caps, not one:
+
+- **A batch cap** — total material per pass — which is the budget everyone
+  remembers to set.
+- **A per-item cap** — the most any single item may contribute to that budget
+  — which is the one that decides whether the budget is *shared*. Without it,
+  one pasted wall of text consumes the pass and every other item in the window
+  goes unheard.
+
+The second cap matters more than its size suggests, because the items it
+protects vanish by default. A batch reports what it distilled, and nothing
+names what it crowded out unless the packer is built to say so — so an
+over-stuffed pass reads, from every downstream surface, exactly like a quiet
+week. Instrument accordingly: claims per event catches the weak distiller, and
+**items admitted against items eligible** catches the crowded one — the same
+[count-carries-predicate](../../../../_laws.md#count-carries-predicate)
+obligation recall already owes. Two numbers, two different diseases, and the
+store dies of either.
+
+**Overflow defers; it does not drop.** A cap that discards what it could not
+fit converts a budget into a hole in the record, and the hole is permanent
+because nothing downstream knows to look for it. The honest packer bounds the
+*pass*, not the *history*: it keeps the overflow ordered, hands the next pass
+the boundary it stopped at, and says which end it dropped from. Then a crowded
+batch costs latency rather than memory, and "capped" and "lost" stay different
+words. A packer that defers can also afford to be strict, which is what makes
+the per-item cap safe to set aggressively.
+
+Two independently built systems have converged on the same per-item excerpt
+cap for this reason, which is weak evidence for any particular number and
+strong evidence for the shape.
 
 ## Capture is generous; judgment is deferred
 

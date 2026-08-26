@@ -4,9 +4,9 @@ type: technique
 subject: agent-memory
 technique: decay-and-forgetting
 status: forged
-laws: [creation-names-reaper, deletion-is-not-repair]
+laws: [creation-names-reaper, deletion-is-not-repair, unknown-is-not-a-value]
 shared_with: []
-use_when: [deciding whether a memory may be forgotten, stale beliefs crowd out fresh recall, a refuted belief still gets recalled]
+use_when: [deciding whether a memory may be forgotten, stale beliefs crowd out fresh recall, a refuted belief still gets recalled, a fact that was true for a window is still recited after the window closed]
 ---
 
 # Decay and forgetting
@@ -207,8 +207,9 @@ A belief discovered to be *false* is not a decay case. Letting refuted
 beliefs fade on the importance curve leaves them recallable — asserting
 confidently — for their whole remaining half-life. Wrongness is handled by
 **supersedence** at the consolidation layer, immediately, with the
-contradiction preserved as lineage. Decay handles the other axis: things
-that were true and simply stopped mattering.
+contradiction preserved as lineage. Decay handles a second axis: things
+that were true and simply stopped mattering. There is a third, and neither
+mechanism can see it.
 
 The same boundary seen from the other side is
 [deletion-is-not-repair](../../../../_laws.md#deletion-is-not-repair): when memory
@@ -218,3 +219,54 @@ capture screening), not a purge of the artifacts that made the failure
 visible. A store that gets emptied every time it embarrasses its owner
 converges on an agent with no past, which is the failure the whole subject
 exists to prevent.
+
+## The fact that expires by its own terms
+
+Some claims arrive with their own end date written into them: a leave that runs
+until October, a constraint that holds until the migration ships, a rate that
+applies for this quarter. They are the third case, and they are invisible to
+both mechanisms above.
+
+Supersedence cannot reach them, because nothing arrives to supersede. October
+produces no replacement fact; the world simply moves past the claim and files
+no notice. And decay cannot reach them either, because on every input the score
+reads they look healthy — recently written, well grounded, high confidence,
+often *heavily* retrieved, since a claim about the current quarter is exactly
+what queries about the current quarter match. That last property is the trap:
+a time-boxed fact banks its retrieval bonus precisely during the window in
+which it is true, and then spends it staying alive afterwards. The store's own
+usage signal keeps its most confidently wrong items in the recall set.
+
+The rule: **when a captured claim states its own validity boundary, store the
+boundary as a field, not as prose inside the body.** This is
+[creation-names-reaper](../../../../_laws.md#creation-names-reaper) at the level of
+the individual item rather than the category — the claim named its reaper when
+it was written, and the only job is to not throw that away.
+
+Three consequences follow from where the boundary is read:
+
+- **At capture, not at recall.** The context that dates a claim — "until
+  October", "for this sprint", "before the cutover" — is present when the
+  episode is written and gone by the time anything retrieves it. A pipeline
+  that defers the question re-asks "is this still true?" on every read,
+  forever, which is the read-time judgment the whole hierarchy exists to
+  perform once.
+- **On the boundary, not on a score.** Retiring an expired item needs no
+  threshold, no conjunction and no argument about weight. The conjunctive
+  gate exists because an unattended sweep is *guessing* whether something
+  still matters; here the item already answered. Expiry is a separate,
+  simpler exit from the same store, and it runs on its own clause.
+- **Category half-lives cannot substitute.** A half-life is a property of a
+  kind; an expiry is a property of one claim. Most preferences outlive the
+  year and this one dies on the fourteenth, and no per-kind curve fits both
+  without being wrong for one of them.
+
+Expiring is still forgetting, so it inherits the discipline above unchanged:
+an expired item demotes and leaves its tombstone, and the beliefs it grounded
+are re-judged in the same pass. What it does not inherit is the grace period —
+a claim past its own stated end has nothing to be spared for.
+
+The honest bound: a claim that states no boundary does not get one invented.
+Most facts have no expiry, guessing at one manufactures a deletion date out of
+nothing, and an absent boundary is [unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value),
+not a default. This clause only ever fires on what the source actually said.

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 148,
   "techniques": 950,
-  "applications": 428,
+  "applications": 430,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -1090,6 +1090,20 @@
      "technique": "consolidation",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--consolidation.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "decay-and-forgetting",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--decay-and-forgetting.md",
+     "verified_on": "2026-08-26",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "episodic-capture",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--episodic-capture.md",
+     "verified_on": "2026-08-26",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
