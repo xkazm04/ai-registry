@@ -606,9 +606,9 @@
       "purity": "localization",
       "subjects": 14,
       "techniques": 84,
-      "applications": 26,
-      "files": 128,
-      "contentHash": "sha256:85eb8f38799ee2c1"
+      "applications": 27,
+      "files": 129,
+      "contentHash": "sha256:8e79d6c4e3a79139"
     },
     {
       "name": "media-generation",

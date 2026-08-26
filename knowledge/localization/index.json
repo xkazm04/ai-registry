@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 14,
   "techniques": 84,
-  "applications": 26,
+  "applications": 27,
   "laws": 7,
   "categories": [
    "european",
@@ -1349,7 +1349,14 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "canonical-and-derived-split",
+     "file": "knowledge/localization/craft/translation-pipeline-topology/applications/process--canonical-and-derived-split.md",
+     "verified_on": "2026-08-26"
+    }
+   ]
   },
   "vietnamese": {
    "category": "south-and-southeast-asian",
