@@ -67,6 +67,35 @@ editor's discipline moves upstream into prompting.
 - Screen-direction words belong in the prompt vocabulary: "screen-left",
   "screen-right", "toward camera", "away from camera".
 
+## When prose cannot hold the geography
+
+Axis and eyeline discipline carries screen *direction* across clips; it does
+not carry *position and scale*. A scene whose meaning depends on where things
+stand — a landmark the character approaches, an object with a fixed spot and
+a fixed size relative to a person — will scatter take to take no matter how
+carefully the prose states it, because positional language ("to the right of
+the hydrant, twice a person's height") is re-interpreted per generation. The
+fix is to stop asking language to do a drawing's job: **author a schematic —
+the location plate with positions marked and sizes stated as ratios to a
+person — and attach it as a reference on every take, with the prompt
+rewritten around it.** Then pin the characters to named landmarks in the
+frame ("he stands under the tree, frame left") rather than to abstract
+directions. The schematic is generated in seconds from the location image;
+what it replaces is the brute-force lottery of re-rolling until geography
+happens to hold, which is the expensive way to buy the same consistency.
+
+## The seam can be an action, not only a frame
+
+Anchoring a shot's head to the previous shot's tail holds a seam inside one
+location; it cannot cross a scene change, where the next clip shares no
+pixels with the last. The grammar that survives the crossing is the match
+cut, and for generated material it is *briefed*, not found in the edit:
+**state the boundary action identically in both briefs** — "open on the same
+gesture that closes the previous scene: same hand, same motion, same
+framing" — then cut on the action. The repeated beat carries continuity
+across the location change the way a tail anchor carries it within one, and
+it costs two sentences instead of a conditioning input.
+
 ## Failure modes
 
 - **The mood reel** — beautiful unrelated clips; no establishment, no

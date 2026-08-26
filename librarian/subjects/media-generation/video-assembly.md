@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-08-26
+last_touched: 2026-08-27
 dry_streak: 0
 ---
 
@@ -26,3 +26,9 @@ First note: [[2026-08-26-joyai-echo]] - /intake run 23. Subject predates the not
 - **Paired memory anchors on the modality that can be empty.** The source selects its audio memory window by maximum spectral energy and then picks the video frame from *that window's* time range - audio chooses the moment, video follows, because a frame is representative anywhere while a voice only exists where there is energy. Real, narrow, one implementation. Return when a second system selects cross-modal memory slots on an informativeness proxy rather than on position.
 - Neither amendment has an application. Return when a connected tree runs a chain long enough for compounding drift to be measurable - the measurement is a comparison against the *origin*, not against the neighbour, and that is precisely the review nobody runs.
 - Untriaged from the same source: a memory slot that records *why* its selection degraded (falls back to center selection on exception and writes the reason into the slot's metadata). Provenance-of-degradation; small, but the shape fits this subject's document-of-record posture.
+
+## 2026-08-27 - /intake run 24 ([[2026-08-27-video-workflow-batch]])
+
+- NEW technique `motion-plate-library`: the layout-reel/animatic split of traditional animation restored as a sourcing channel - appearance-free motion plates (flat, low-detail, cheapest tier) banked by motion class and restyled at use with the project's references. The plate is the asset, the bound render the disposable; live footage normalizes into a plate too. Sits beside generated-shot-sourcing, which keeps frame-exact continuity cases.
+- Two amendments on `generated-shot-sourcing`: **extensions are briefed from the output, not the brief** (the accepted clip is the authority on what happened; the prompt-writer analyzes actual frames before writing the continuation; the clip wins conflicts with intent - 2 sources) and **the anchor imports its maker's texture** (an image-model start frame carries its smoothed finish into the whole clip; mint anchors from the motion model itself - still-subject clip, or a cuts-every-second brief that harvests an angle library; references over anchors when staging must stay free - the rung decision now carries texture provenance and staging freedom as costs, not just control as a benefit).
+- The conditioning ladder is becoming this subject's spine: three of the last four findings here attach to it. If a fifth arrives, consider promoting the ladder plus its riders into the golden path body rather than accreting sections.

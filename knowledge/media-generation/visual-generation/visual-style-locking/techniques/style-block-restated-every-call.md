@@ -82,6 +82,28 @@ references are an amplifier on top of it, never a replacement for it.
   the style block — and prefer styles whose blocks are compact over
   abbreviating a verbose one per-call.
 
+## The block is a default, and an override is scoped and recorded
+
+Restating the block does not mean every shot renders under identical
+conditions — a midday exterior and a soft interior legitimately need
+different lighting clauses. The undisciplined fix is editing the block for
+one shot and pasting the edit forward, which is the fork this technique
+exists to prevent. The disciplined form: **the style block is the project's
+default; a shot that needs its own look overrides only the named slot, only
+for its own scope, and the override is recorded where the block is recorded.**
+The compiler emits default-plus-override per call; every slot the override
+does not name still comes from the block. A change to the default then
+propagates to every shot that did not override it — one edit, everywhere —
+and the overrides survive it untouched.
+
+When a language model is the compiler — expanding a script into per-shot
+prompts — the same discipline takes document form: one connected shot list,
+the style block glued to its head, every shot *named* so edits can be
+addressed ("rewrite shot 3, nothing else changes") instead of re-prompted
+loose. The single document is the compiler function of this technique worn
+as a conversation: the alternative, one chat per shot, is per-call style
+re-derivation with extra steps.
+
 ## What survives and what degrades
 
 Restating the block guarantees the *contract* arrives; it does not make the

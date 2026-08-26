@@ -4,7 +4,7 @@ type: technique
 subject: image-prompt-composition
 technique: identity-split-from-state
 status: forged
-laws: [style-is-restated-not-remembered]
+laws: [style-is-restated-not-remembered, cost-per-usable-output]
 shared_with: []
 use_when:
   - a named character or product recurs across many generated frames or shots
@@ -113,6 +113,44 @@ Three things make this the default mistake rather than a careless one.
 - **When a subject stops recurring, it does not need this** — a one-off
   figure in a single frame is described in the action clause like anything
   else; the split is overhead with nothing to be constant with.
+
+## State that must persist gets promoted to a reference
+
+The split files expression, posture and condition under *state* because they
+change per frame. Some state does not: a character who gets soaked mid-scene
+stays soaked for every subsequent shot, an outfit change holds until the next
+one, damage accumulates. Persistent state sits between the two halves — it is
+state by nature and identity by duration — and describing it in the action
+clause fails in a characteristic way: each take re-samples the model's idea of
+"soaked", so the state renders differently shot to shot, and while the model
+improvises the state it lets go of the face.
+
+The rule: **a state that must hold across more than one take is authored as
+its own reference variant, before generation, not requested in text at
+generation time.** Make the second sheet — same identity, new state — approve
+it like any reference, and switch sheets at the transition shot. The prompt
+then names which variant each shot uses instead of describing the state. Still
+variants cost a fraction of a rejected clip, which is the whole economics of
+the move: the cheap medium absorbs the iteration so the expensive one does not
+([cost-per-usable-output](../../../_laws.md#cost-per-usable-output) is the
+law under it).
+
+## The voice is a second identity surface
+
+Where the subject speaks, the split already puts timbre and register in the
+identity block. That is the text half, and it obeys the same asymmetry as
+every other channel in this corpus: text holds the nameable attributes — low,
+unhurried, intimate — and loses the actual timbre, which no vocabulary pins
+down. The reference half is built the way an approved render becomes a style
+reference: **the first take whose voice is accepted becomes the voice's
+reference asset.** Extract its audio, keep it with the subject's other
+reference material, and attach it — labeled as a voice reference for that
+subject, matching the labeling rule for images — to every subsequent
+generation where the subject speaks. Some platforms only accept video-shaped
+references; a container conversion around the same audio satisfies them. The
+descriptor still travels in the identity block on every call: reference plus
+restated text, both channels, the same two-channel lock the visual side runs
+on.
 
 ## What this does not buy
 

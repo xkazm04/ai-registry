@@ -11,6 +11,7 @@ techniques:
   - gap-and-refusal-honesty
   - derived-turn-markers
   - generated-shot-sourcing
+  - motion-plate-library
 ---
 
 # Video assembly

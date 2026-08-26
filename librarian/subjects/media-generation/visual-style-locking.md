@@ -1,7 +1,7 @@
 ---
 subject: visual-style-locking
 domain: media-generation
-last_touched: 2026-08-26
+last_touched: 2026-08-27
 dry_streak: 0
 ---
 
@@ -37,3 +37,9 @@ Worth recording rather than forgetting: **this subject's rules were forged
 against a constant with no mutable attributes, and quietly depend on that.**
 Anything here phrased as "restate it in full" should be re-read that way if a
 future run brings a constant that changes.
+
+## 2026-08-27 - /intake run 24 ([[2026-08-27-video-workflow-batch]])
+
+- Amendment on `approved-reference-sheet`: **when the sheet holds a subject, not a style** - "varied subjects, one style" inverts to one-subject-varied-views, the identity-bearing surface appears exactly once at maximum scale (erase the face from the full-body panel; a small face is a low-resolution identity reproduced faithfully; two faces make the motion model pick unpredictably), neutral ground raises usable yield. Two independent creators in one batch converged on the decapitated-panel move.
+- Amendment on `style-block-restated-every-call`: **the block is a default, and an override is scoped and recorded** - per-scene look changes override only the named slot, only for their scope, recorded where the block is recorded; a default edit propagates to every non-overriding shot. When an LLM is the compiler, the discipline takes document form: one connected shot list, style block at head, shots named for addressable edits. This answers the note above about constants with mutable attributes for the *style* case: the constant does not mutate - it is shadowed, per scope, on the record.
+- Cross-repo, same run: the react application re-verified against a real tree (verified_on moved to 2026-08-27). Two structural facts landed in it: the tree takes the *no-override* side of the new amendment and its shape says why (a one-video plate cut has no scene that earns its own register - no style field exists on the scene spec); and the both-channels contract leaked at exactly one caller because the image half rides an optional field no type forces - the production path generated text-only against an approved sheet until this run closed it. The leak shape (compiler owns the text half by construction; nothing owns the attachment) is worth watching for in any two-channel contract.

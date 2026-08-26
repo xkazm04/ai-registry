@@ -1,7 +1,7 @@
 ---
 subject: image-prompt-composition
 domain: media-generation
-last_touched: 2026-08-26
+last_touched: 2026-08-27
 dry_streak: 0
 ---
 
@@ -32,3 +32,8 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject predate
 - Pass rate of locked text under style pressure is unmeasured anywhere in the fleet; the technique requires recording it - the first project to do so is the application.
 - `identity-split-from-state` has no application. Return when a connected project generates a set with a recurring character and the identity blocks can be string-diffed for real - the diff is the measurement and nothing in the fleet has run it.
 - "Reserve identity labels for people, never objects" was extracted from the same source and left untriaged; it may belong as a decision rule here rather than as anything of its own.
+
+## 2026-08-27 - /intake run 24 ([[2026-08-27-video-workflow-batch]])
+
+- Two amendments on `identity-split-from-state`. **Persistent state gets promoted to a reference**: state that must hold across takes (soaked, an outfit change, damage) is identity for the span it persists; describing it in text re-samples it per take while the model lets go of the face - author the variant sheet up front, switch at the transition, name the variant instead of describing the state. **The voice is a second identity surface**: the descriptor in the identity block is the text half; the accepted take's extracted audio is the reference half - the two-channel lock at the audio modality, corroborated corpus-internally by the both-channels asymmetry rather than by any fetch.
+- The subject's identity row now spans text block, image sheet (via visual-style-locking's amended reference-sheet), state variants and voice. That is four surfaces of one concern; if a fifth arrives (motion signature? gait?), identity may deserve its own subject rather than a row and a scatter of amendments.

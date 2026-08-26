@@ -118,6 +118,45 @@ Three consequences for the assembly:
   still travel with every call. A bank plus a shortened prompt is the
   reference-only failure wearing a longer memory.
 
+## An extension is briefed from the output, not the brief
+
+Extension modes — continue this clip forward or backward — are anchoring at
+its strongest: the model analyzes the accepted clip and holds its subjects
+and space. What they expose is a prompt-side error the anchor cannot fix:
+briefing the continuation from the original intent. The accepted clip has
+*diverged* from its brief — that is what generation does — and a continuation
+written against the brief re-asserts things that are not on screen, which the
+model then has to reconcile. **The accepted clip is the authority on what
+happened.** Before briefing an extension, have the prompt-writer analyze the
+actual output — where each subject stands, what they are mid-way through,
+where the frame ends — and write the continuation against that, with the
+prior brief carried only as intent context. When the two conflict, the clip
+wins; the alternative is a seam where a character snaps back to where the
+brief thought they were.
+
+## The anchor imports its maker's texture
+
+A frame anchor conditions more than composition: the clip inherits the
+anchor's *finish*. A still minted by an image model carries that model's
+surface character — often a smoothed, over-clean quality that reads worse in
+motion than at rest — and the motion model preserves it faithfully for the
+whole clip. Two consequences:
+
+- **When a frame anchor is needed, consider minting it from the motion model
+  itself.** Brief a clip in which the subject holds still, pull the frame you
+  like; the anchor now carries the texture the finished clip is supposed to
+  have. The same move harvests coverage: a brief that asks the camera to cut
+  to a new angle every second turns one clip into an angle library of a
+  location or subject — cheap probe stills at the motion model's finish,
+  priced per usable frame rather than per render.
+- **When staging must stay free, prefer references over frame anchors.** A
+  frame anchor locks the composition of the head; identity and style
+  references condition *who and how* while leaving *where and when* to the
+  brief, which is what permits in-clip cuts, reveals, and blocking the anchor
+  never showed. The ladder's rungs are ordered by control, but control of the
+  head is not free — it spends staging freedom and imports texture, and both
+  costs belong in the rung decision.
+
 ## Baked-in audio is a mix decision a model made
 
 Current models ship clips with native synchronized audio — dialogue,

@@ -77,6 +77,37 @@ Two limits govern the sheet, and conflating them causes real defects:
   honestly first — the sheet is paid-for evidence, and "unpriced" renders
   count as unknown cost, not zero.
 
+## When the sheet holds a subject, not a style
+
+The sheet descends from the character sheet, and when it carries an actual
+character — an identity a motion model must hold, rather than a look — one of
+its rules inverts and two tighten. "Varied subjects, one style" inverts to
+**one subject, varied views**: the useful identity sheet shows the same face
+and build from the angles the shots will need, because a view the sheet never
+demonstrated is a view the first generation will improvise.
+
+The two tighter rules exist because a motion model *locks onto* an identity
+sheet rather than imitating it:
+
+- **The identity-bearing surface appears exactly once, at maximum scale.** A
+  sheet with the face in two panels — a close-up and a small head on a
+  full-body shot — gives the model two candidates, and it picks
+  unpredictably per take, which reads as identity drift downstream. Worse,
+  the small face is a low-resolution identity, and the model reproduces its
+  poverty of detail faithfully. The fix is cheap and looks strange: keep the
+  full-body panel for build and costume and *remove its face*, so the
+  close-up is the only face on the sheet. Practitioners converge on this
+  independently because the alternative is rediscovered per project as
+  mid-sequence drift.
+- **Neutral, uncluttered ground.** A plain backdrop measurably raises the
+  usable fraction of a batch, because nothing competes with the subject for
+  the model's attention — and nothing from the sheet's background leaks into
+  shots as invented set dressing.
+
+The rest of the sheet discipline carries over unchanged: approved views
+only, lineage per image, the window and the send count still different
+numbers.
+
 ## When not to use it
 
 Before any render has been approved there is no sheet, and generating

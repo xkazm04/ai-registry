@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 113,
+  "techniques": 115,
   "applications": 42,
   "laws": 8,
   "categories": [
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "113/113",
+  "use_when_coverage": "115/115",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -92,6 +92,21 @@
       "a beat needs dread, intimacy, urgency, or release expressed through motion",
       "a camera move must be written so a model executes it",
       "the generator takes a camera path or action script alongside the prompt"
+     ]
+    },
+    {
+     "slug": "performance-direction",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a character must act, dance, fight, or gesture in a generated shot",
+      "generated performance comes back as vague flailing or inert standing",
+      "a beat's meaning depends on what the performer does, not where the camera is",
+      "writing action clauses for a model that renders motion over seconds"
      ]
     },
     {
@@ -990,7 +1005,8 @@
      "slug": "identity-split-from-state",
      "status": "forged",
      "laws": [
-      "style-is-restated-not-remembered"
+      "style-is-restated-not-remembered",
+      "cost-per-usable-output"
      ],
      "shared_with": [],
      "use_when": [
@@ -1868,6 +1884,22 @@
      ]
     },
     {
+     "slug": "motion-plate-library",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "edit-do-not-regenerate",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a motion sequence will be reused across projects with different subjects or looks",
+      "sourcing a shot whose choreography is known but whose appearance is not final",
+      "a recurring shot class (product turn, drive-by, fight beat) is regenerated from scratch every project",
+      "deciding whether to generate a styled shot fresh or restyle an existing animation"
+     ]
+    },
+    {
      "slug": "multitrack-timeline-discipline",
      "status": "forged",
      "laws": [
@@ -2010,7 +2042,8 @@
      "stack": "react",
      "technique": "style-block-restated-every-call",
      "file": "knowledge/media-generation/visual-generation/visual-style-locking/applications/react--style-block-restated-every-call.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-27",
+     "verified_against": "react@19"
     }
    ]
   }
@@ -2036,6 +2069,7 @@
     "review-iteration-loops/partial-regeneration-seams",
     "sound-effect-generation/envelope-first-briefing",
     "video-assembly/generated-shot-sourcing",
+    "video-assembly/motion-plate-library",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/style-block-restated-every-call",
@@ -2046,6 +2080,7 @@
    "statement": "A quality gate may never report pass for something it did not check. \"Unmeasured\" is a first-class verdict, distinct from pass and fail, and enforcement coverage — what fraction of the promise is actually checked — is reported alongside the verdict. Craft parameters ship only with measurements behind them; an impression is not a number.",
    "techniques": [
     "cinematic-language/lens-effect-language",
+    "cinematic-language/performance-direction",
     "content-research-grounding/evidence-grading-ladder",
     "content-research-grounding/prior-declaration-and-steel-man",
     "content-research-grounding/provenance-signal-asymmetry",
@@ -2097,6 +2132,7 @@
    "statement": "Between any two adjacent beats of a factual narrative you must be able to say \"but\" or \"therefore\". If the only honest connector is \"and then\", the beats have no causal relationship and what you have is a list, not a story. The same facts arranged causally give the viewer a reason to stay; arranged sequentially they give a reason to leave. Every structural choice — engine, act architecture, frame order — inherits this test.",
    "techniques": [
     "cinematic-language/movement-motivation",
+    "cinematic-language/performance-direction",
     "cinematic-language/scene-grammar-progression",
     "content-research-grounding/pre-linked-causal-mechanisms",
     "content-research-grounding/tension-finding-taxonomy",
@@ -2169,6 +2205,7 @@
     "review-iteration-loops/partial-regeneration-seams",
     "sound-effect-generation/layered-element-assembly",
     "video-assembly/drift-correction",
+    "video-assembly/motion-plate-library",
     "visual-style-locking/draft-proofing-locked-ratchet"
    ]
   },
@@ -2216,6 +2253,7 @@
     "generative-provider-routing/cost-per-usable-economics",
     "generative-provider-routing/resolution-as-stage-property",
     "generative-provider-routing/vendor-fact-ledger",
+    "image-prompt-composition/identity-split-from-state",
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/prompt-dialect-matching",
     "narrative-engine-selection/fit-vs-hazard-axes",
@@ -2223,6 +2261,7 @@
     "production-pipeline-phasing/phase-order-and-graduation",
     "sound-effect-generation/layered-element-assembly",
     "video-assembly/generated-shot-sourcing",
+    "video-assembly/motion-plate-library",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/rejections-as-negative-evidence"
    ]

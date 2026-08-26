@@ -8,6 +8,7 @@ techniques:
   - lighting-as-dramatic-instrument
   - camera-position-semantics
   - movement-motivation
+  - performance-direction
   - lens-effect-language
   - scene-grammar-progression
   - genre-visual-contracts
@@ -66,6 +67,10 @@ the rest at neutral.
 - [movement-motivation](./techniques/movement-motivation.md) — the
   emotional grammar of camera movement, motivated versus unmotivated
   moves, and the speed adverb that every move needs.
+- [performance-direction](./techniques/performance-direction.md) — the
+  performer's half of the same discipline: action specified as enumerated,
+  countable beats anchored to the frame, never as category verbs that
+  sample the training mean.
 - [lens-effect-language](./techniques/lens-effect-language.md) — focal
   and optical psychology translated into described effects: perspective,
   depth of field, lens character, texture and era signals.

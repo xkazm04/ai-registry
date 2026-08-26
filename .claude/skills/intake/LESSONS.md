@@ -835,3 +835,34 @@
 - Transcript over 256KB: the Read tool caps out; chunk by offset. Five reads
   covered it; the run's context cost was dominated by the transcript, which is
   the argument for keeping Phase 3 extraction in-context rather than re-reading.
+
+## 0.12.0 - 2026-08-27 - video-workflow-batch (8 sources, first batch run)
+
+- **Batch ingest works, and the batch produces a signal a single source
+  cannot: within-batch convergence.** Eight tutorials, deduped at extraction
+  into 15 candidates; every candidate carried by 2+ independent creators
+  landed on verification (5/5). Not cross-run convergence - the sources share
+  an ecosystem - but it separates one creator's habit from a field's
+  practice, which is what triage needs. Record the source count per row.
+- **A batch also reveals clusters.** Five of ten accepted findings sat on
+  multi-clip sequence continuity - a missing STAGE between the bundle's
+  image subjects and its assembly subject that no single video would have
+  shown. When several sources' findings share a neighbourhood, say so at
+  triage; the cluster is itself a finding about the bundle.
+- **Vendor-channel tutorials are first-party practitioner accounts wearing an
+  ad.** The densest source of the batch (6 findings originated or
+  corroborated) was the platform's own channel. The strip test deletes the
+  sponsor along with the product names; what it cannot save are the
+  tool-selection claims ("best model for faces"), which were the batch's
+  least durable sentences and landed nowhere.
+- **The cross-repo lane's best find was a leak shape, not a technique
+  sighting: the contract with one caller outside it.** The consumer enforced
+  the text half of a two-channel contract through a compiler no call can
+  skip, while the image half rode an optional field - so production ran
+  text-only against an approved reference sheet for weeks, beside a
+  playground that measured conditioning 67/33. When verifying a contract in
+  a tree, enumerate the CALLERS of the optional half; the compiler proves
+  only the mandatory half.
+- 26,578 words across 8 sources ≈ one good talk's yield. Two sources yielded
+  zero (a sponsored speedrun; an off-domain builder video). A batch buys
+  coverage, not per-source efficiency - price it that way at triage.

@@ -1,7 +1,7 @@
 ---
 subject: cinematic-language
 domain: media-generation
-last_touched: 2026-08-26
+last_touched: 2026-08-27
 dry_streak: 0
 ---
 
@@ -24,3 +24,9 @@ First note: [[2026-08-26-joyai-echo]] - /intake run 23. Subject predates the not
 
 - The subject has one application and no dated evidence on the control-channel case. Return when a connected project drives a generator with a camera path rather than prose - then the amendment's split (what the controller owns vs what the prose keeps) is checkable against a real control surface.
 - Unwritten: whether the meanings in this subject's movement grammar survive translation into a keystroke-and-duration control vocabulary at all, or whether a driven camera simply has no register. Nobody has looked.
+
+## 2026-08-27 - /intake run 24 ([[2026-08-27-video-workflow-batch]])
+
+- NEW technique `performance-direction`: the subject's decision stack (genre, light, camera, movement, lens) had no performer - character action was nobody's stage. The rule is the countability doctrine extended into time: enumerated observable beats, never category verbs ("dances" samples the training mean). Beats anchored to named props/landmarks; negative constraints close the freedom between beats; register words ride alongside, never replace. One paragraph carries the typed-input echo: when the platform takes an audio track, the beat grid is an input the prose directs within - the same discriminator shape as movement-motivation's camera clause.
+- Two amendments on `scene-grammar-progression`: **the schematic spatial anchor** (prose cannot hold position and scale take-to-take; author the location plate with positions marked and sizes as person-ratios, attach per take, pin subjects to named landmarks - this owns the "teleporting cast" failure at its spatial root; zero prior art corpus-wide for the mechanism) and **the briefed match cut** (identical boundary action stated in both briefs, cut on action - the seam grammar that crosses location changes where tail-anchoring cannot).
+- Source class note: all three findings came from vendor-channel and sponsor-funded workflow tutorials, and all three survive the strip test with the sponsor deleted. The batch's 2-source candidates all landed.

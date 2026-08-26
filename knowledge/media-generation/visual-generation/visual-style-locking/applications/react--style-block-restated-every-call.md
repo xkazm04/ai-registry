@@ -5,7 +5,8 @@ subject: visual-style-locking
 technique: style-block-restated-every-call
 stack: react
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-27
+verified_against: react@19
 ---
 
 # React: compiling and restating the style contract per call
@@ -83,3 +84,34 @@ conditioned request must land on the reference-honoring provider, because a
 sibling vendor's API silently ignores reference images), and it asserts an
 absolute bar rather than `locked > control`, which "at n=1 … would be a coin
 flip dressed as a test."
+
+## Re-verified 2026-08-27: the override question, and the gap the contract hid
+
+Two structural facts, both read from the tree rather than claimed by it.
+
+**The tree takes the no-override side of the default-with-override rule, and
+its shape says why.** The technique's 2026-08-27 amendment allows a scoped,
+recorded override of the block for a scene that needs its own look. This
+codebase has no override anywhere: every generation path takes one
+project-level block, the scene spec type carries no style field, and the
+art-direction prompt instructs the director to "compose within it rather than
+against it." That is not an unbuilt feature — it is the boundary case the
+amendment implies: a cut of *plates for one narrated video* has no scene that
+earns its own register, so the stricter policy (no overrides, compose within)
+is correct for this shape. The override discipline is for multi-scene
+cinematic work where a midday exterior and a soft interior legitimately
+diverge. A tree that wanted overrides would need a style delta on the scene
+spec; nothing here has a place to put one, which is the structure saying the
+project never needed it.
+
+**A contract everyone honors can still have one caller outside it.** The
+labeling clause, the reference plumbing, the routing constraint and the
+measured control-arm all existed — and the production Frames path still
+generated text-only, because passing `references` was the one step no type
+forced. Found and closed on 2026-08-27 (the production and alternatives paths
+now send the newest approved proofs, capped by a send-count constant declared
+beside the window constant so the two numbers cannot be conflated). The
+lesson for the technique: "every call goes through one compiler" governs the
+*text* half by construction, but the *image* half rides a separate optional
+field, and an optional field is where the contract leaks. The pipeline's
+compiler owns the prompt; nothing owned the attachment.
