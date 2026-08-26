@@ -704,3 +704,58 @@
   arrangements are not identifying), and the carve-out is what turned it into a
   decision rule a team can apply: not "have I changed enough" but "which of what
   I kept is functional and which is identifying".
+
+## 0.11.0 - 2026-08-26 - jd-opensource/JoyAI-Echo
+
+- **New class: research-model release** - engine plus operating instructions in
+  one tree. Rank the artifacts before reading: first-party prompt-engineering
+  documents, then config-plus-the-code-that-reads-it, then the README a distant
+  last. Three of four findings came from two shipped system prompts; zero came
+  from the README; zero web fetches were needed for the whole run because every
+  document claim had an implementation in the same checkout.
+- **Diff the sibling instructions first in any multi-project release.** The
+  single cheapest move of the run. Two shot-prompt writers from one lab
+  disagreed about camera language, and that disagreement *is* the discriminator
+  - a boundary drawn by people who had to draw it, delivered for free. A
+  single-system repo cannot produce this. Generalisation: when a source
+  contradicts *itself* across two artifacts, that is the highest-value thing in
+  it, higher than anything it states confidently once.
+- **Look for the rule that silently depends on a property of its one example.**
+  The restatement law held for years because its constant was always a *style*,
+  and a style has no moods. The precondition (a restated block may contain
+  nothing that varies) was invisible until a source made the constant a
+  character. This is a repeatable hunt, and it is different from the
+  enumeration hunt already in the method: not "what does this list omit" but
+  "what is this rule quietly assuming about the only case it was forged
+  against". Both findings 1 and 4 have exactly this shape - finding 4's
+  keep/demote/strip enumeration assumed *separability*, which was free until a
+  model emitted one waveform.
+- **Two independent implementations of one policy inside a single source beat
+  a second source.** The bank pinning its earliest slots and the attention
+  cache holding a persistent sink are different mechanisms at different
+  altitudes reaching the same rule. That is convergence *within* a first-party
+  account, and it answers the class's standing weakness (sample size one) for
+  the specific claim - the policy is about the problem, not about either
+  implementation. Worth looking for deliberately: when a repo solves the same
+  thing twice, the shared part is the finding.
+- **Read the validator, not just the value.** `max_size: 7` is a number;
+  `_trim()` keeping a fixed prefix is the policy; the cache's `validate()`
+  asserting `0 < sink < window` and `chunk <= window - sink` is the *reason*,
+  and it produced both bounds that made the landed amendment more than a
+  restatement of a default. Assertions in a source are the author telling you
+  what they think can go wrong.
+- **Escalation of the 0.10.0 catalog lesson: HEAD itself can be the broken
+  party.** Last run's rule was "never regenerate the catalog over a sibling's
+  uncommitted work". This run found HEAD's committed `catalog.json` already
+  counting two technique files the sibling had not committed, so
+  `build-catalog` FATALs for *everyone* until they land - the guard is correct
+  and the tree is wedged by someone else's partial commit. Correct move is
+  unchanged and now has a second reason: restore both derived artifacts to
+  HEAD, commit content plus your own bundle's index, and say plainly in the
+  report whose commit owes the regeneration. Check `git show HEAD:catalog.json`
+  against `git show HEAD:knowledge/<bundle>/index.json` before assuming a
+  mismatch you observe is yours.
+- **A `cd` in an `&&` chain silently skipped a heredoc write.** The shell's cwd
+  persists between calls, so a re-issued `cd` failed, and only the first of two
+  file writes was gated on it. Verify files exist after a batched write rather
+  than trusting the exit code of the batch.

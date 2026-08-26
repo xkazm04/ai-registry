@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.11.0
+version: 0.12.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -138,6 +138,26 @@ which is a different editing job, not merely a higher trust level.
   findings came from that file and the rules page, and none from the README. Check the
   client's types before concluding an engine is unreadable, and expect the benchmark
   claims to be the least useful thing present.
+
+- **Research-model release** (a lab's open-weights drop: paper links, real
+  inference code, checkpoints hosted elsewhere). The inverse of the vendor
+  repository and a much better source, because **the engine and the operating
+  instructions ship in one tree** - a claim in a document is checkable against
+  the code that implements it, in-run, with no fetch. The README is still an
+  advertisement and still the least useful file present. Yield sits, in order,
+  in the **first-party prompt-engineering artifacts** (system prompts, bundled
+  skills, checked-in example cases - written to make the authors' own model
+  work, so every rule in them is a failure mode the team paid for), then in
+  **config plus the code that reads it** (a default is a claim; the function
+  consuming it is the proof), then far behind in the README. Its signature
+  property, and the reason to seek the class out: **a release shipping two
+  sibling systems hands you discriminators for free.** Two instruction
+  documents from one lab that contradict each other are not a contradiction to
+  resolve - they are a boundary already drawn by people who had to draw it, and
+  the discriminating question is usually visible in the diff. On 2026-08-26 two
+  shot-prompt writers released together took opposite sides on whether to
+  describe camera motion, and the answer (is the camera a typed input?) landed
+  as an amendment at almost no cost. **Diff the sibling instructions first.**
 
 - **App/tutorial aggregator** (a monorepo of small runnable example apps). Cluster-triage
   like the paper aggregator, but the yield lives in the repo's **operational periphery**
