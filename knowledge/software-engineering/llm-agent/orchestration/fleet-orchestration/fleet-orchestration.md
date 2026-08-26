@@ -202,6 +202,36 @@ structure of their agreement, not any one answer. Dispatch, roster, and
 harvest apply unchanged; what changes is what the aggregate means, and when
 the N-times spend is worth it at all (see heterogeneous-model-panels).
 
+## The operator's medium is chosen, and chat is the wrong default
+
+The interface through which a person drives the fleet is a design decision
+with the same weight as the registry, and it inherits a default nobody
+chose: chat. Chat is how the underlying harnesses launched, and chat's
+framing is synchronous — a conversation implies a reply is coming, so the
+operator sits in it and waits, and a fleet of long-running sessions turns
+its one human into a polling loop. The sessions are simultaneously too slow
+for conversation and too fast for neglect, and a medium built for
+turn-taking serves neither.
+
+The medium that matches the fleet's actual latency profile is the **work
+item**: a task assigned with no expectation of an immediate reply, and a
+result that arrives as a reviewable proposal on the operator's cadence
+rather than the session's. Both halves of the loop change shape. Inbound,
+tasks enter the fleet the way work enters any async system — an item with
+an owner, not a message with a cursor blinking after it. Outbound, results
+accumulate into a decision surface the operator visits deliberately — a
+digest of what is ready for judgment, on a cadence the operator sets —
+rather than N live streams competing for attention. The decision surface
+itself, its batching and its durable pending records, is
+[hitl-approval](../hitl-approval/hitl-approval.md)'s ground (see
+[review-queues](../hitl-approval/techniques/review-queues.md)); what this
+subject owns is the consequence for fleet design: dispatch and harvest are
+built to be driven *through* such a surface, and an interactive attachment
+is the exception a person opts into, not the room the fleet lives in. The
+same asymmetry as the drive-medium rule above, seen from the human side:
+watching is a mode, and the fleet must run correctly for an operator whose
+mode is absent.
+
 ## Invariants
 
 - **The registry is the only truth, and it survives restart.** In-memory

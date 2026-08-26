@@ -102,6 +102,44 @@ replace. The difference is that each sentence changes what the model does.
   branch, deleting, spending money — and even then it sits beside the
   positive instruction, not in place of it.
 
+## When done is not knowable, the envelope inverts
+
+Everything above assumes the done criterion exists before the work starts —
+true for a bug, a translation, a refactor, and for most dispatched work. It
+is false for discovery: the task whose point is to find out what the
+artifact should be. There, no one can state done in advance, because the
+criterion is learned by using something that does not yet exist — the
+oldest finding of iterative development, and it survives the change of
+author. Faking a done criterion for a discovery task produces confident
+convergence on a guess.
+
+The rule for that case is the envelope inverted, not abandoned:
+
+- **State the problem and the hard constraints; leave the shape open.** A
+  discovery prompt earns its vagueness — the model's proposal is the point,
+  and a path prescribed up front spends the operator's guess where the
+  model's search would have done better. Prescribing the route is a
+  separate defect from prescribing the finish line, and only the second
+  ever belongs in a task layer: "single binary, no dependencies,
+  pixel-identical output" constrains the destination and costs nothing;
+  "first parse the config, then..." constrains the search.
+- **The deliverable of a discovery task is the done criterion, not the
+  artifact.** Manifest something cheap, interact with it, and harvest what
+  the interaction taught — that harvest is the locate/done/check envelope
+  for the *next* dispatch. A discovery loop that never graduates into
+  enveloped tasks is not iterating, it is wandering.
+- **Steer by differential choice, not by specification.** Between rounds,
+  picking among two or three manifested variants transmits more intent per
+  operator-minute than prose amendments to the brief; the choice is a
+  measurement of what the operator wants that the operator could not have
+  written down.
+
+The discriminating question, asked before writing the task layer: *could I
+recognize done without seeing a candidate?* Yes — write the three-part
+envelope above, as tightly as the answer allows. No — write the problem,
+the constraints that are genuinely fixed, and plan for the artifact to be
+disposable.
+
 ## What this does not settle
 
 The study measured factual accuracy on question answering. Whether a

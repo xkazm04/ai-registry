@@ -810,3 +810,28 @@
   run's most decision-relevant number.
 - Instrument gotcha: a heredoc carrying a file that itself contains fenced-code
   backticks fails on this platform. Use the Write tool for scripts.
+
+## 0.12.0 - 2026-08-26 - dhh-lex-fridman
+
+- **The podcast interview leaks the counterexample to its own advice.** A
+  practitioner essay edits practice into agreement with its thesis; five hours
+  of conversation cannot. This run's best finding came from the gap between
+  what the source SAID (be as vague as you can) and what it NARRATED DOING (a
+  tightly-enveloped dispatch: single binary, pixel-identical, do not stop).
+  For this sub-class, mine the anecdotes against the advice - the contrast is
+  the discriminator, and it is the one artifact the speaker did not curate.
+- **A "contradiction" of a technique is usually its unstated precondition.**
+  The source appeared to invert `task-envelope`; reading the file showed the
+  technique silently assumes a knowable done criterion, and the source's claim
+  was the complement case. Third sighting of this shape (2026-08-21 precision
+  tier, 2026-08-23 amplitude): when a credible source inverts a forged rule,
+  look for the predicate both sides are conditioning on before drafting a
+  correction.
+- **3.7x the record length, median yield.** 54,597 words produced three
+  amendments - same as a 76-word product announcement produced four landings.
+  The craft fraction of a general-audience podcast is maybe a third, and the
+  extractable fraction of that follows the class, not the wordcount. Do not
+  scale the extraction pass to the transcript; scale it to the class.
+- Transcript over 256KB: the Read tool caps out; chunk by offset. Five reads
+  covered it; the run's context cost was dominated by the transcript, which is
+  the argument for keeping Phase 3 extraction in-context rather than re-reading.

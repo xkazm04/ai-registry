@@ -95,6 +95,39 @@ the *same* question under the same evidence.
   session's output; the fleet's harvest still accounts for every seat,
   including proposers whose plans were discarded.
 
+## The produce–review pair: the two-seat form for routine work
+
+The rule above — panels are for decision-shaped questions, not generation —
+leaves routine generation with no way to buy decorrelation at all, and
+routine generation is where most of a fleet's output comes from. The cheap
+form that fills the gap is sequential and asymmetric: **one seat produces
+the artifact, one seat from a different family reviews it**, every time, as
+the standing shape of the pipeline rather than a convened event. It is not
+a panel — there is no simultaneous elicitation, no concordance structure,
+no N-times multiplier — but it is bought with the same currency: a reviewer
+trained apart from the producer does not share the producer's blind spots,
+where a same-family reviewer re-runs them and calls the result a review.
+The correlated-judges argument in
+[judgment-guardbands](../../../evaluation-and-cost/judgment-guardbands/judgment-guardbands.md)
+is the same fact from the scoring side: an average over correlated biases
+is a more confident version of the same bias, and a same-family
+produce–review pair is that average with two samples.
+
+Three rules keep the pair honest:
+
+- **The review seat is fixed by policy, not picked per run.** "Producer's
+  family ≠ reviewer's family" is a one-line routing constraint; left to
+  per-run convenience it decays to whichever model is already warm, which
+  is the producer's.
+- **Stacking further reviewers pays only while they are differently
+  sourced.** A second reviewer from a third family keeps finding new
+  classes of defect; a second reviewer from either seated family mostly
+  re-finds. Diversity, not count, is the axis that buys coverage.
+- **The pair does not replace the panel where the panel is owed.** A
+  month-scale decision still gets simultaneous independent elicitation;
+  the pair is a generation-pipeline discipline, and its verdicts are
+  review findings, never concordance evidence.
+
 ## Smells
 
 - The debate transcript circulated as the deliverable, concordance structure
