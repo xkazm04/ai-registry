@@ -4,6 +4,31 @@ Audit trail (OKF reserved file). One block per event that changed or
 validated this bundle's content. Public-safe by rule: no private paths, no
 operator preferences — those live consumer-side.
 
+## 2026-08-26 — intake run: the audio-generation category
+
+- Trigger: /intake on a 76-word vendor product announcement (a
+  section-by-section song editor). The source itself yielded one catch —
+  its headline feature is this bundle's `edit-do-not-regenerate` law,
+  stated at lower altitude — plus a currency signal; the operator's
+  structural question ("does audio deserve a home?") became the run's body.
+- New category `audio-generation` (order 4), three subjects:
+  `music-prompt-composition` (5t), `generated-music-acceptance` (5t),
+  `sound-effect-generation` (4t); two process applications carrying the
+  dated 2026-08 vendor landscape and rights tiers, one node application
+  verified against a consumer tree the same day (a cue rendered at exact
+  duration through a server-side seam — 10.000s briefed, 10.032s measured).
+- `review-iteration-loops` gains `partial-regeneration-seams`: continuous
+  media add a seam to the edit plan — kept regions by reference, declared
+  per-seam continuity, the anchor region whose edits are global. Written
+  against primary vendor schema docs, not the announcement.
+- Boundary prose (the four-way discriminator: producing / placing /
+  plumbing / judging) added on the two neighbouring bundles' audio
+  subjects and baked into the new golden paths. No standalone audio
+  domain: every domain here is named for a job, not a substrate, and the
+  consumer test splits audio consumers across jobs.
+- Gates: check-bundles green at each step; purity sweep of the new upper
+  layers against the run's own vendor vocabulary — clean.
+
 ## 2026-08-20 — deepen run: image-prompt-composition
 
 - Trigger: /deepen undercooked scan (deterministic signals + gap thesis);

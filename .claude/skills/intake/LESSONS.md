@@ -461,3 +461,35 @@
   premise said backwards, and it is why judgment relays will keep resolving to
   catches-plus-roots rather than techniques: the techniques are already here; the
   roots are what they still lack.
+
+## 0.10.0 - 2026-08-26 - composer-song-editor
+
+- **An exit-3 stops the mining lane, not the session.** The thinnest source ever
+  (76 words) arrived with an operator question attached - where does audio live? -
+  and the question, not the transcript, carried a category-sized run. Credit the
+  yield honestly: the note names the question as the body and the source as one
+  catch plus one clock. The class (vendor product announcement) is characterized
+  in the note: reliable only for "the vendor shipped it", and its best use is as a
+  pointer at the vendor's docs, which is where the one strip-test survivor of this
+  run actually came from.
+- **The best catch of the run was a law outrunning a product.** The announcement's
+  headline feature IS `edit-do-not-regenerate`, forged before the product existed
+  and cited by 13 documents. Worth saying in triage tables when it happens: "the
+  corpus states the vendor's pitch at higher altitude" reads as calibration, and
+  it is the strongest form of already-covered.
+- **Structure questions get instrument evidence, not opinion.** The operator asked
+  domain-vs-category; the decisive facts were mechanical - research-map filed a
+  hypothetical music subject under `visual-generation` (a category that cannot
+  hold it), every existing domain is job-named rather than substrate-named, and
+  the consumer test split audio users across four bundles that are each correct.
+  The four-way discriminator (producing / placing / plumbing / judging) landed as
+  boundary prose on both sides per the no-cross-links rule.
+- **A same-day consumer tree turns a forge into a verification.** The category was
+  written in the morning and one of its techniques was measured in a real tree by
+  evening (10.000s briefed, 10.032s delivered) - and the tree pushed back
+  usefully: the vendor delivered a different bitrate than requested, which is the
+  acceptance subject's measure-don't-trust doctrine demonstrated unprompted. An
+  application written the day its subject is born beats a process-only launch.
+- **Platform note.** The Windows shell resets cwd between calls unpredictably
+  under sandboxing; a mid-run `cd knowledge && grep` left later relative paths
+  silently wrong until re-anchored. Use absolute paths or re-`pwd` after any cd.

@@ -7,6 +7,7 @@ use_when: [turning creator notes on generated work into a revision, designing th
 techniques:
   - anchored-variation-slate
   - edit-plan-over-regeneration
+  - partial-regeneration-seams
   - note-taxonomy-focus-scope-order
   - refusal-as-valid-outcome
   - scope-vs-preference-signals
@@ -88,6 +89,15 @@ the review, the gates, and the accounting as the price. The discipline that
 protects all three is [edit-plan-over-regeneration](./techniques/edit-plan-over-regeneration.md):
 the revision engine's output is a *list of operations*, not a new artifact,
 and the burden of proof runs against every operation in the list.
+
+Discrete media end there. Continuous media — audio, video, an image region —
+add a boundary the operation list cannot see: the **seam** between kept and
+regenerated material, a property neither side owns, where every per-region
+gate can pass while the piece breaks at the join. Kept sections are held by
+reference to the stored original, continuity at each seam is a declared
+setting rather than a hope, and one region always anchors the global frame —
+so an edit to *that* region is a global restyle wearing a local edit's
+clothes ([partial-regeneration-seams](./techniques/partial-regeneration-seams.md)).
 
 ## Feedback is typed, and the types carry precedence
 
@@ -193,6 +203,10 @@ strengthen a claim but never retract one converges on confidence, not truth.
 - [edit-plan-over-regeneration](./techniques/edit-plan-over-regeneration.md) —
   the revision engine emits operations, not artifacts; smallest set that
   answers the notes; everything else byte-identical.
+- [partial-regeneration-seams](./techniques/partial-regeneration-seams.md) —
+  continuous media add seams to the edit plan: kept regions by reference,
+  continuity per seam as a declared setting, and the anchor region whose
+  edits are global.
 - [note-taxonomy-focus-scope-order](./techniques/note-taxonomy-focus-scope-order.md) —
   a closed vocabulary of note kinds, each mapped to its minimal operation.
 - [refusal-as-valid-outcome](./techniques/refusal-as-valid-outcome.md) —

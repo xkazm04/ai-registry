@@ -20,6 +20,7 @@ never published. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake
 | `personas-web` | `software-engineering` | The public web companion to `personas`: a multi-locale marketing site, a product guide, a public roadmap, and a mock-driven demo of the agent-operations dashboard. Not yet forged from; its localization and CI-honesty doctrine are the first candidates. |
 | `pof` | `game-production`, `software-engineering` | An AI companion for building UE5 C++ games. The `game-production` bundle was forged from it (merged 2026-08-22). Runs its own research lineage. |
 | `systedo-case` | `media-generation`, `software-engineering` | An AI workspace for advertising: measures account performance and generates the content that follows from it. A `software-engineering` technique wave forged from it sits on `forge/adamant-2026-08`, unmerged. |
+| `gravitone` | `media-generation`, `software-engineering` | A content-creation studio for trailer-shaped pieces: research, script, frames, score, cut over a captioned asset library. The first consumer of the `audio-generation` category — its Score phase renders spotting cues through a server-side music seam (2026-08-26), and the fixture cut already spoke the spotting doctrine before the engine existed. |
 
 ## What this map is for, and what it is not
 

@@ -197,3 +197,17 @@ players rather than visible to profilers.
   a world convention onto narration, and the mix stops making sense at exactly one class.
 - **The silent placeholder.** A generated scene references sounds that do not exist, in
   paths shaped like real ones, and the gap is found by a player.
+
+## Where this subject ends
+
+One question sorts audio work that lands nearby: are you **placing** sound in a
+simulated space, **producing** it to a creative brief, **plumbing** it through a
+product's I/O, or **judging a person** by it? This subject owns only the first —
+zones, emitters, budgets, the rationing of playback. Making the assets the scene
+references (music, effects, ambiences — generated or recorded) is a production
+craft with its own acceptance standards, upstream of everything here: this
+subject assumes the sound exists and decides where it lives and when it may
+play. A scene generator that starts producing audio content has crossed a craft
+boundary, and the placeholder rule above is the treaty line — the scene names
+what it needs and says honestly what is missing; it does not fill the gap
+itself.

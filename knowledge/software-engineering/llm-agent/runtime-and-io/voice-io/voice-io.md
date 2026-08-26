@@ -64,6 +64,14 @@ session.
   If the interface has no room for a live capture indicator, it has no room
   for a microphone.
 
+One boundary question sorts audio work that lands near this subject: are you
+**plumbing** sound through a product, **producing** it to a creative brief,
+**placing** it in a simulated space, or **judging a person** by it? This
+subject owns only the first — channels, engines, consent, latency. Producing
+music or sound design, spatializing audio in a world, and drawing conclusions
+about a speaker are three different crafts with their own standards, and each
+is disqualified by rules that are correct here (and vice versa).
+
 ## The engine layer is swappable, and the product outlives every engine
 
 Both pipelines terminate in an **engine** — a transcription model or a

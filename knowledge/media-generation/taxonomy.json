@@ -37,6 +37,16 @@
       ]
     },
     {
+      "id": "audio-generation",
+      "title": "Audio generation",
+      "order": 4,
+      "subjects": [
+        "music-prompt-composition",
+        "generated-music-acceptance",
+        "sound-effect-generation"
+      ]
+    },
+    {
       "id": "production-ops",
       "title": "Production operations",
       "order": 5,

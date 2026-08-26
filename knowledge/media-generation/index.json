@@ -3,18 +3,19 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 15,
-  "techniques": 96,
-  "applications": 39,
+  "subjects": 18,
+  "techniques": 111,
+  "applications": 42,
   "laws": 8,
   "categories": [
    "narrative-craft",
    "research-grounding",
    "visual-generation",
+   "audio-generation",
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "96/96",
+  "use_when_coverage": "111/111",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -576,6 +577,96 @@
     }
    ]
   },
+  "generated-music-acceptance": {
+   "category": "audio-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/generated-music-acceptance.md",
+   "techniques": [
+    {
+     "slug": "brief-conformance-listen",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "first listen of a delivered generated piece",
+      "acceptance keeps drifting into taste",
+      "a track was approved in the studio and rejected in context",
+      "deciding pass or fail on properties the brief stated in words"
+     ]
+    },
+    {
+     "slug": "generated-audio-defect-taxonomy",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated track fails and nobody can say how",
+      "deciding whether to repair a take or re-render a section or reroll",
+      "the same failure keeps recurring across takes",
+      "pricing what usable audio actually costs"
+     ]
+    },
+    {
+     "slug": "loudness-and-peak-acceptance",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generated cues differ audibly in level across one production",
+      "delivering audio to a platform or broadcaster with a loudness spec",
+      "a track distorts after transcoding",
+      "setting the measurement pass for delivered audio"
+     ]
+    },
+    {
+     "slug": "rights-and-provenance-record",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "clearing generated music for commercial use",
+      "an asset's generation circumstances need reconstructing after the fact",
+      "a production changes vendor plans mid-project",
+      "deciding what to record at the moment of generation"
+     ]
+    },
+    {
+     "slug": "structure-verification-against-plan",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "verifying delivered audio against the section plan that briefed it",
+      "a cue must hit picture events at exact offsets",
+      "an ear-check keeps missing structural misses",
+      "deciding which acceptance checks a script should run"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "rights-and-provenance-record",
+     "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/applications/process--rights-and-provenance-record.md",
+     "verified_on": "2026-08-26",
+     "refresh_by": "2026-11-26"
+    }
+   ]
+  },
   "generated-output-grading": {
    "category": "visual-generation",
    "subcategory": null,
@@ -1001,6 +1092,103 @@
     }
    ]
   },
+  "music-prompt-composition": {
+   "category": "audio-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/audio-generation/music-prompt-composition/music-prompt-composition.md",
+   "techniques": [
+    {
+     "slug": "duration-and-tempo-locking",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing a cue that must hit picture events",
+      "translating a cue list row into a generator brief",
+      "a delivered cue is the right music at the wrong length",
+      "choosing a tempo so musical accents land on cuts"
+     ]
+    },
+    {
+     "slug": "lyrics-for-singability",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing lyrics a vocal model will perform",
+      "sung lines come back smeared or with words dropped",
+      "fitting words to a section whose tempo and duration are fixed",
+      "deciding what belongs in the lyric field versus the style field"
+     ]
+    },
+    {
+     "slug": "reference-track-anchoring",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting a music brief from an existing track",
+      "cues across one production drift apart in identity",
+      "a temp track has colonized everyone's expectations",
+      "deciding whether a reference is safe to hand a generator"
+     ]
+    },
+    {
+     "slug": "section-plan-as-the-brief",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing a generator on a full piece rather than a loop",
+      "a one-shot prose prompt keeps returning takes that are wrong in different places",
+      "a piece will need revision after review",
+      "deciding how much structure to specify versus leave to the model"
+     ]
+    },
+    {
+     "slug": "sonic-style-vocabulary",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a style directive keeps producing generic results",
+      "describing a musical identity in words a generator can act on",
+      "an underscore brief returned a singer",
+      "keeping one musical identity stable across many cues"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "duration-and-tempo-locking",
+     "file": "knowledge/media-generation/audio-generation/music-prompt-composition/applications/node--duration-and-tempo-locking.md",
+     "verified_on": "2026-08-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "section-plan-as-the-brief",
+     "file": "knowledge/media-generation/audio-generation/music-prompt-composition/applications/process--section-plan-as-the-brief.md",
+     "verified_on": "2026-08-26",
+     "refresh_by": "2026-11-26"
+    }
+   ]
+  },
   "narrative-engine-selection": {
    "category": "narrative-craft",
    "subcategory": null,
@@ -1365,6 +1553,22 @@
      ]
     },
     {
+     "slug": "partial-regeneration-seams",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "style-is-restated-not-remembered",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "applying an edit plan to audio or video rather than text",
+      "one section of a generated piece must change while the rest is kept",
+      "a regenerated region satisfies its brief but the result breaks at the joins",
+      "deciding whether a section edit is local or secretly global"
+     ]
+    },
+    {
      "slug": "refusal-as-valid-outcome",
      "status": "forged",
      "laws": [
@@ -1500,6 +1704,73 @@
      "verified_on": "2026-08-19"
     }
    ]
+  },
+  "sound-effect-generation": {
+   "category": "audio-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/audio-generation/sound-effect-generation/sound-effect-generation.md",
+   "techniques": [
+    {
+     "slug": "envelope-first-briefing",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "describing a sound effect in words",
+      "a generated effect is the right idea with the wrong shape",
+      "an effect must fit an exact slot in a cut",
+      "tuning how literally a generator follows an effect description"
+     ]
+    },
+    {
+     "slug": "layered-element-assembly",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a designed sound needs weight and definition and size at once",
+      "one-call composites keep failing on a single axis",
+      "building a signature sound a production will reuse",
+      "deciding whether to generate a finished effect or its parts"
+     ]
+    },
+    {
+     "slug": "loop-seam-acceptance",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generating an ambience or bed that will repeat",
+      "a loop develops an audible pulse in use",
+      "deciding whether to declare loop intent or repair a seam in post",
+      "accepting a looping deliverable"
+     ]
+    },
+    {
+     "slug": "trailer-punctuation-grammar",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the effects pass of a trailer or short piece",
+      "effects feel scattered rather than structural",
+      "deciding which sound goes on which cut",
+      "a piece has hits everywhere and impact nowhere"
+     ]
+    }
+   ],
+   "applications": []
   },
   "video-assembly": {
    "category": "production-ops",
@@ -1726,6 +1997,11 @@
     "image-prompt-composition/prompt-dialect-matching",
     "image-prompt-composition/style-first-token-ordering",
     "image-prompt-composition/two-block-style-and-action",
+    "music-prompt-composition/reference-track-anchoring",
+    "music-prompt-composition/section-plan-as-the-brief",
+    "music-prompt-composition/sonic-style-vocabulary",
+    "review-iteration-loops/partial-regeneration-seams",
+    "sound-effect-generation/envelope-first-briefing",
     "video-assembly/generated-shot-sourcing",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/consistency-control-arm",
@@ -1746,6 +2022,9 @@
     "creator-voice-and-tone/voice-profile-from-accepted-work",
     "evidence-bound-visuals/figure-must-cite-a-fact",
     "frame-direction/per-beat-rejection",
+    "generated-music-acceptance/brief-conformance-listen",
+    "generated-music-acceptance/loudness-and-peak-acceptance",
+    "generated-music-acceptance/structure-verification-against-plan",
     "generated-output-grading/cross-provider-flip-analysis",
     "generated-output-grading/replication-as-comprehension-test",
     "generated-output-grading/trial-matrix-design",
@@ -1759,6 +2038,7 @@
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/verbatim-text-locking",
+    "music-prompt-composition/duration-and-tempo-locking",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/no-engine-means-no-video",
     "platform-format-adaptation/format-as-measured-template",
@@ -1770,7 +2050,9 @@
     "production-pipeline-phasing/worst-news-first-progress",
     "review-iteration-loops/anchored-variation-slate",
     "review-iteration-loops/edit-plan-over-regeneration",
+    "review-iteration-loops/partial-regeneration-seams",
     "review-iteration-loops/refusal-as-valid-outcome",
+    "sound-effect-generation/loop-seam-acceptance",
     "video-assembly/derived-turn-markers",
     "video-assembly/drift-correction",
     "visual-style-locking/consistency-control-arm",
@@ -1791,6 +2073,8 @@
     "frame-direction/motif-establish-vary-payoff",
     "frame-direction/one-function-per-visual",
     "frame-direction/visual-function-vocabulary",
+    "music-prompt-composition/duration-and-tempo-locking",
+    "music-prompt-composition/lyrics-for-singability",
     "narrative-engine-selection/engine-catalogue-by-viewer-pleasure",
     "narrative-engine-selection/no-engine-means-no-video",
     "platform-format-adaptation/derived-short-contract",
@@ -1799,6 +2083,7 @@
     "short-form-narrative-structure/but-therefore-beat-linking",
     "short-form-narrative-structure/question-stack-architecture",
     "short-form-narrative-structure/reversal-anatomy",
+    "sound-effect-generation/trailer-punctuation-grammar",
     "video-assembly/derived-turn-markers",
     "video-assembly/music-spotting-against-picture"
    ]
@@ -1822,8 +2107,10 @@
     "evidence-bound-visuals/screenshots-claim-a-record",
     "frame-direction/plate-elements-text-split",
     "frame-direction/visual-function-vocabulary",
+    "generated-music-acceptance/rights-and-provenance-record",
     "generated-output-grading/replication-as-comprehension-test",
     "generative-provider-routing/extraction-model-bake-off",
+    "music-prompt-composition/reference-track-anchoring",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/engine-arbitration-order",
     "narrative-engine-selection/fit-vs-hazard-axes",
@@ -1838,11 +2125,15 @@
    "techniques": [
     "creator-voice-and-tone/spoken-delivery-direction",
     "frame-direction/motif-establish-vary-payoff",
+    "generated-music-acceptance/generated-audio-defect-taxonomy",
     "generated-output-grading/regrade-without-regenerate",
     "generative-provider-routing/resolution-as-stage-property",
+    "music-prompt-composition/section-plan-as-the-brief",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "review-iteration-loops/anchored-variation-slate",
     "review-iteration-loops/edit-plan-over-regeneration",
+    "review-iteration-loops/partial-regeneration-seams",
+    "sound-effect-generation/layered-element-assembly",
     "video-assembly/drift-correction",
     "visual-style-locking/draft-proofing-locked-ratchet"
    ]
@@ -1853,6 +2144,7 @@
     "evidence-bound-visuals/epistemic-draw-routing",
     "frame-direction/motion-intent-authoring",
     "frame-direction/plate-elements-text-split",
+    "generated-music-acceptance/structure-verification-against-plan",
     "generated-output-grading/unconditional-fail-criteria",
     "generated-output-grading/vision-model-grading-schema",
     "image-prompt-composition/negative-prompting",
@@ -1874,6 +2166,7 @@
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
     "review-iteration-loops/refusal-as-valid-outcome",
     "review-iteration-loops/scope-vs-preference-signals",
+    "sound-effect-generation/loop-seam-acceptance",
     "video-assembly/gap-and-refusal-honesty",
     "video-assembly/generated-shot-sourcing"
    ]
@@ -1881,6 +2174,8 @@
   "cost-per-usable-output": {
    "statement": "Generation economics are computed over usable outputs, not renders. A cheaper render that fails the brief more often is the more expensive plate; price per usable unit inverts price per call often enough that the naive metric misroutes real money.",
    "techniques": [
+    "generated-music-acceptance/brief-conformance-listen",
+    "generated-music-acceptance/generated-audio-defect-taxonomy",
     "generated-output-grading/cross-provider-flip-analysis",
     "generated-output-grading/regrade-without-regenerate",
     "generative-provider-routing/capability-to-vendor-plan",
@@ -1892,6 +2187,7 @@
     "narrative-engine-selection/fit-vs-hazard-axes",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/phase-order-and-graduation",
+    "sound-effect-generation/layered-element-assembly",
     "video-assembly/generated-shot-sourcing",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/rejections-as-negative-evidence"
