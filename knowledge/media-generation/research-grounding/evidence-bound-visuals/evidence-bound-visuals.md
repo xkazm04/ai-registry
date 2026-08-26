@@ -12,6 +12,7 @@ techniques:
   - generous-strawman-rendering
   - performer-claims-need-a-person
   - screenshots-claim-a-record
+  - slots-claim-their-subjects
 ---
 
 # Evidence-bound visuals
@@ -21,7 +22,9 @@ part of the argument, and it makes claims with a grammar of its own. An axis
 with fine ticks claims precision. An arrow claims causation. Two series on a
 shared scale claim comparability. A number on screen claims that somebody
 checked it. A person on screen saying "I used this" claims a person. A
-rendered screenshot of a platform claims a record. The
+rendered screenshot of a platform claims a record. And a generated figure
+sitting in a slot the piece has labelled claims the subject named on that
+label, while asserting nothing itself. The
 subject of this document is keeping those claims honest:
 making sure no rendered element asserts more than the sourced fact behind it
 supports, and routing every element that *could* be checked to a drawing
@@ -65,6 +68,48 @@ craft. This is why the discipline cannot live in taste or review vigilance
 alone; the most likely person to break it is the most conscientious one,
 polishing. It has to live in structure: fields that carry the limits, gates
 that refuse renders that exceed them.
+
+## Two families: laundered grades, and invented referents
+
+The three forms above share a starting point — a real fact whose grade the
+render strips. There is a second family, and it fails differently enough that
+treating it as a fourth kind of laundering misroutes the remedy: **the claim
+has no referent at all.** Nothing was overstated, because there was nothing to
+overstate. There is no grade to propagate, so every mechanism this subject
+builds around propagating grades passes it silently.
+
+The subject has met this family twice, from unrelated directions, and the
+pair is what names it:
+
+- **The claim rides on the element.** A synthetic performer says "I used
+  this", and the line asserts an experiencer who does not exist. Catchable at
+  the element, because the element speaks.
+- **The claim rides on the position.** A generated figure fills a slot the
+  surrounding artifact has labelled with a real subject, and asserts that
+  subject while saying nothing whatsoever. Not catchable at the element,
+  because the element is innocent and the assembly is where the claim lives.
+
+The root under both: **the piece can assert what the mark does not.** An
+element is not a self-contained claim; it inherits the assertions of the
+copy, schema and premise around it. The grammar at the top of this document
+reads marks, and reading marks is necessary but not sufficient — the same
+mark is honest in one position and an overclaim in another.
+
+Two consequences follow, and both are structural rather than matters of care:
+
+- **Asset review does not cover the second family, by construction.**
+  Generated material is judged in batch, one crop at a time, in the one view
+  where the slot is not visible. At least one pass over the *assembled*
+  surface is coverage, not polish — and per
+  [unmeasured-is-not-pass](../../_laws.md#unmeasured-is-not-pass), a pipeline
+  that only reviews assets should say that positional claims are unchecked
+  rather than let element approval read as approval of the page.
+- **The honest remedy is usually to break the claim, not to soften it.**
+  Where a grade can be propagated, propagate it. Where there is no referent,
+  there is nothing to hedge: remove the element from the denoting position,
+  supply the real subject, or decline the position visibly. Trimming away the
+  region where the invention became obvious removes the evidence and keeps
+  the practice.
 
 ## Two moves make the discipline enforceable
 

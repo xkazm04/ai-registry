@@ -57,6 +57,9 @@ like better work in the specific dimension the pipeline is optimising.
 
 ## The trigger is the line, not the face
 
+(Strictly: not the face *for this technique*. A face alone can still overclaim
+by position — see the caveat below and its sibling technique.)
+
 Two independent properties decide the case, and neither is the problem
 alone:
 
@@ -69,7 +72,15 @@ experience. A real person's testimonial has a real experiencer. It is the
 
 - **Synthetic performer, no experience claim** — narrates, demonstrates,
   presents. Ordinary generated material; the subject's usual routing
-  applies, and nothing here constrains it.
+  applies, and nothing *here* constrains it. One caveat, and it is a
+  different technique rather than an exception to this one: a silent
+  performer can still be claimed by where it sits. If the surrounding
+  artifact labels the position with a real subject — a roster, a stated
+  count, a product premise about named people — the figure asserts that
+  subject without opening its mouth, and
+  [slots-claim-their-subjects](./slots-claim-their-subjects.md) governs it.
+  The trigger here is the line; the trigger there is the position, and a
+  frame can fail either test independently.
 - **Synthetic performer, first-person experience claim** — "I used", "it
   worked for me", "my mornings". Asserts an experiencer who does not
   exist. This is not a prompt-quality problem and no amount of realism

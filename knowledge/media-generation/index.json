@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 111,
+  "techniques": 112,
   "applications": 42,
   "laws": 8,
   "categories": [
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "111/111",
+  "use_when_coverage": "112/112",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -448,6 +448,20 @@
       "reviewing generated frames that depict posts",
       "messages",
       "dashboards or live streams"
+     ]
+    },
+    {
+     "slug": "slots-claim-their-subjects",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generating figures for a piece whose surrounding copy names real people or places",
+      "filling a roster or directory layout with generated imagery",
+      "deciding whether a silent generated figure needs a label",
+      "reviewing a render whose caption supplies an identity the image does not"
      ]
     }
    ],
@@ -2106,6 +2120,7 @@
     "evidence-bound-visuals/performer-claims-need-a-person",
     "evidence-bound-visuals/precision-limit-propagation",
     "evidence-bound-visuals/screenshots-claim-a-record",
+    "evidence-bound-visuals/slots-claim-their-subjects",
     "frame-direction/plate-elements-text-split",
     "frame-direction/visual-function-vocabulary",
     "generated-music-acceptance/rights-and-provenance-record",

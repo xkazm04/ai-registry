@@ -666,3 +666,41 @@
   inside an existing technique, not a new one. `ui cloning` was empty and is a
   real hole. Same instrument output, opposite meanings; only opening the top
   prior-art file separates them.
+- **A convergence pair earns a golden-path root, and the root is not either
+  sighting restated.** Two runs had seen a synthetic testimonial with no witness
+  and a silent generated figure in a labelled slot. Written as a third instance
+  it would have been another technique about generated people. Written as the
+  root it became a second *family* alongside the corpus's three laundering
+  forms - claims with no referent at all, which pass every grade-propagation
+  mechanism silently because there is no grade. The test that found it: ask what
+  the sightings share that the existing structure cannot express.
+- **A well-forged technique that declares your case out of scope is telling you
+  to write a sibling, not an amendment.** `performer-claims-need-a-person` says
+  "the trigger is the line, not the face" and has a two-property test requiring a
+  spoken claim; the new case has no line. Amending it would have meant rewriting
+  its thesis, which is not an amendment. The rule: amend when the case extends
+  the technique's trigger, mint a sibling when the case has a *different*
+  trigger, and state the boundary in both files either way. The default toward
+  amendments still holds - this was the exception, and the exception is legible.
+- **The best catch is one where the corpus holds the correct procedure and the
+  source recommends its exact inverse.** Finding 3 resolved almost entirely to
+  `style-onboarding-from-sample`, which already said the sample must never be a
+  conditioning input. Do not stop at "already covered" - ask *why the source's
+  advice felt safe to follow*, because that is the residue. Here it was an
+  unmodelled layer (structure) whose presence made the corpus's own recommended
+  step (restyle) read as compliance while the identifying layer passed through.
+- **A run's own catalog must never be regenerated from a tree holding another
+  session's uncommitted work.** `build-catalog` swept a parallel session's
+  LESSONS.md edit into catalog.json (lessons 47 to 48). Hand-patching a
+  generated JSON back is worse than the disease - the first string replace hit
+  the wrong occurrence. Correct move: `git checkout HEAD -- catalog.json`, leave
+  it out of the commit, and say in the report that it needs regenerating once
+  the sibling lands. A stale derived artifact is visible and self-healing; a
+  committed one asserting a count that is not in HEAD is neither.
+- **Legal-adjacent findings stay engineering-grade by finding the discipline's
+  own discriminator.** The trade-dress candidate could have become alarmism. One
+  fetch supplied both the correction (the identifying unit is the *combination*,
+  so swapping the cheapest axis clears nothing) and the carve-out (functional
+  arrangements are not identifying), and the carve-out is what turned it into a
+  decision rule a team can apply: not "have I changed enough" but "which of what
+  I kept is functional and which is identifying".

@@ -55,6 +55,46 @@ reusable theme — forkable, adjustable, applicable to subjects the sample
 never contained. Capture without readback is imitation; capture with
 readback is acquisition.
 
+## When the appeal is the structure, this technique does not apply
+
+The procedure above separates a sample's *style* from its *subject* and keeps
+only the style, as words. There is a third layer it does not model, and
+mistaking it for style is the technique's most consequential misuse:
+**structure** — layout, the arrangement and proportion of zones, navigation
+architecture, the order in which a surface reveals things.
+
+Style onboarding discards structure by design (step 4 regenerates on the
+project's own subjects), so when what someone admired was the structure, this
+path quietly delivers nothing they wanted. That much is merely disappointing.
+The dangerous case is the inverse move: keeping the sample's structure whole
+and running a restyle across it. That reads as compliance with this technique
+— a new palette, new type, a block the owner edited — while the layer that
+actually identifies the source passes through untouched.
+
+Two facts make the inversion worse than it looks:
+
+- **The identifying unit is the combination, not any single axis.** Palette,
+  type, zone arrangement, navigation architecture and recurring motifs are
+  assessed together as an overall impression. Swapping the one axis that is
+  cheapest to change does not clear the set, and it is cheapest to change
+  precisely because it carries the least of the structure's work.
+- **Restyling to unrecognisability is not the mitigation.** A restyle
+  performed so that nobody can tell what the surface was derived from is an
+  act aimed at the *audience's perception*, which is the thing the
+  combination is assessed against. Concealment is not differentiation, and
+  intent to conceal is not neutral evidence about the derivation.
+
+The honest question is not "have I changed enough of it" — a threshold nobody
+can compute from inside the work — but **which of what I kept is functional
+and which is identifying.** A table is a table; a search field is a search
+field; a sort control does what sort controls do. Those are unremarkable and
+convergently designed. A *particular* arrangement, proportion and reveal
+order, distinctive rather than dictated by the task, is the part that came
+from somewhere. Separating the two is a brief-time judgment made by someone
+who can actually make it, and it is not delegable to the generator, which
+cannot see the provenance, or to the restyle, which does not touch the layer
+in question.
+
 ## Decision rules
 
 - When the user's brief is an image rather than words, onboard from the
@@ -64,6 +104,11 @@ readback is acquisition.
 - When the sample's owner is not the user, treat the sample as inspiration
   for a description, never as a conditioning input — the derived block plus
   a freshly generated sheet is the deliverable.
+- When the sample's owner is not the user and what is wanted is its
+  *structure* rather than its look, this technique has nothing to offer and
+  a restyle is not a substitute for it — settle the functional/identifying
+  split at brief time, before anything is generated on top of the borrowed
+  arrangement.
 - When a captured style is reused on a second project, re-proof it there
   before trusting it — a block extracted from one context has been
   validated only within that context; cross-project stability is a claim
