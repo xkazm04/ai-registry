@@ -616,3 +616,11 @@
   on stdin. `PYTHONUTF8=1` fixes the decode; nothing fixes the backslashes reliably -
   write the patch script to a file and run it. Companion to the existing `py` note.
 
+- **Take the connected project's baseline BEFORE the cross-repo change.** Phase 8 landed
+  an upgrade in six trees and only then tried to build the one risky member. It failed,
+  and proving the run innocent cost a full reinstall-and-rebuild cycle. The build was
+  already red on the outgoing version, in a different phase - the upgrade had unblocked
+  an early failure and let the build reach a second, older defect. A post-upgrade failure
+  in a DIFFERENT phase from the pre-upgrade one is a question about ordering, not a
+  conclusion about cause. Cost of the baseline: one build that was going to be run
+  anyway. Phase 8 should take it before touching the tree, not after.

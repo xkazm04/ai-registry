@@ -119,6 +119,22 @@ Two habits close it, and both are cheap:
   cannot see. Diff it against the release's mitigations on every framework
   bump; for everything the suite does reach, the suite is still the instrument.
 
+- **Take the baseline before you upgrade, not after.** Establish that the build,
+  the suite and the start-up were green on the *outgoing* version, in this
+  checkout, today. Without that, a failure after the bump is uninterpretable: it
+  is equally consistent with "the upgrade broke it" and with "the upgrade let the
+  build get far enough to reach a defect that was always there."
+
+That last case is not hypothetical and it is the one that wastes an afternoon. A
+framework release changes which of your latent defects fires **first**. When an
+upgrade repairs or relaxes the check that used to fail early, the run advances
+into later stages that have never executed in this codebase, and whatever is
+wrong there surfaces for the first time - wearing the upgrade's name. The
+signature is a post-upgrade failure in a *different phase* from the pre-upgrade
+one: not the same error later, a new error further along. Read the failing phase
+before reading the version number, and treat "it broke after the bump" as a
+question about ordering rather than a conclusion about cause.
+
 And carry one correction back into the tiering above: **a release's label is not
 its effect.** A release classified as security can carry a performance
 regression for whoever used the disabled capability; a release classified as

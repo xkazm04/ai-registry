@@ -90,6 +90,38 @@ pathspec over the manifest and lockfile only. Five were patch bumps
 (16.3.0 → 16.3.3); pof was a minor bump (16.2.10 → 16.3.3) and is the one that
 warranted the technique's heavier tier.
 
+## The baseline that was not taken, and what it cost
+
+Five members took a patch bump; one took a minor (16.2.10 -> 16.3.3) and was the
+only one worth verifying. Its typecheck passed and its production build failed,
+in the file-tracing phase, with a Windows resource exhaustion (`os error 1450`)
+while reading a header inside a game-engine installation under `Program Files`.
+
+The instinct - the minor bump broke the build - was wrong, and the only thing
+that could settle it was the baseline nobody had taken. Reinstalling the outgoing
+version and rebuilding showed **the build was already failing before the upgrade**,
+in an earlier phase and for an unrelated reason: a client component reaching a
+Node-only module, which the bundler rejects at chunking time. So the two versions
+fail at different stages:
+
+| version | phase reached | failure |
+| --- | --- | --- |
+| 16.2.10 (outgoing) | chunking | a client bundle importing a Node-only module |
+| 16.3.3 (incoming) | file tracing | tracer walks an external engine install, handle exhaustion |
+
+The upgrade did not cause the second failure; it stopped the *first* one from
+blocking, and the build advanced into a phase this codebase had not reached in a
+long time, where a second latent defect was waiting. That defect is independent of
+any framework version: an API route computes a well-known install location with a
+constant `path.join(...)` of string literals, and the tracer resolves constant path
+expressions and pulls the resolved tree into the build graph. The tree happens to
+be a game engine - hundreds of thousands of files - so the trace exhausts handles
+rather than merely being slow.
+
+Both defects predate this run and neither is a framework problem. What the run
+demonstrates is the diagnostic cost of the missing baseline: without it, the
+security upgrade was the obvious suspect, and it was innocent.
+
 ## What this realization cannot do
 
 - **It does not measure the regression it names.** The AVIF claim is a size
@@ -100,6 +132,10 @@ warranted the technique's heavier tier.
   reconstructed by grepping six config files during one incident. Nothing keeps
   it, so the next framework bump re-derives it — the habit is documented here
   and not yet instrumented.
+- **One member still has no green build, on either version.** The upgrade was
+  shipped anyway, and that was the right call - two unauthenticated RCEs outrank a
+  build that was already red - but it means the fleet cannot currently distinguish
+  a regression from the status quo in that project. The baseline is owed, not taken.
 - **The exposure window went unmeasured.** The gap between the 2026-08-25
   publication and the 2026-08-26 upgrade is known only because this run
   happened to look; no lane was watching, and a fleet that learns of a critical
