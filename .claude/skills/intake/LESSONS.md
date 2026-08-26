@@ -519,3 +519,48 @@
 - **A sibling session ran its own intake between my runs and took the run number.**
   Renumber from the ledger, never from memory; the ledger is the authority on run
   count as on everything else.
+
+## 0.10.0 - 2026-08-26 - next-16-3-3-fleet
+
+- **New source class: the operator dispatch.** No URL, no transcript - a version
+  number, an observation about the fleet, and a framing. It is authoritative about
+  LOCAL facts (the version numbers checked out exactly) and unreliable about the
+  GLOBAL frame (the subject it asked for could not be built). Near-inverse of the news
+  roundup, which is reliable that the world moved and unreliable about why. Verify a
+  dispatch's premises against the trees and its framing against the corpus; the second
+  is where it fails. Class row added to the ledger.
+- **The most valuable thing a dispatch can be is wrong in a checkable way.** This one
+  asked for a performance-tracking topic because "each minor feature can improve our
+  performance." The named release was two critical unauthenticated RCEs whose AVIF fix
+  is a *removal*. Accepting the framing would have produced a performance topic and
+  left six checkouts inside two advisory ranges. The premise was checkable in two
+  fetches - check it first, always, and check it before the corpus work, not after.
+- **Run the denylist before promising the topic.** The literal ask - a `knowledge/`
+  subject on a named framework - was unbuildable: the framework, its bundlers and its
+  view library are all on the `software` purity denylist. This is checkable in one
+  grep at triage time and it reshapes the entire run, so it belongs in Phase 4 or
+  earlier. Say the split out loud (transportable half -> technique prose, product-named
+  half -> application + instrument) rather than half-building the ask.
+- **Read the four neighbours' boundary statements before declining an XL.** I declined
+  a subject proposal at triage on the grounds that three subjects covered it. During
+  verification all four candidate homes turned out to scope explicitly *away* from the
+  concern. The decline did not survive its own run. Boundary statements are cheap to
+  read and this corpus writes them in the golden path's opening - read them at triage,
+  not at landing, or the triage read is guesswork wearing a confidence.
+- **A contradicted premise and a real gap can be the same finding.** Rows 1 and 2 were
+  presented as separate techniques and landed as one amendment. Two techniques there
+  would have been padding: they are one insight seen from the risk side and the benefit
+  side. Merging is a reportable outcome, not a shortfall - say which rows merged and why.
+- **Instrument the fleet fact rather than filing it.** The "fleet version ledger"
+  candidate would have been a file stale by the next release. Written as a script with
+  a `--min` floor lane and an exit code, it answers the same question forever and turns
+  every future advisory into one command.
+- **The new instrument caught the run's own defect within a minute of existing.**
+  `npm install <pkg>@<version>` rewrites an exact pin to a caret range; the upgrade had
+  silently changed four projects' pinning policy while fixing their vulnerability -
+  the same class of defect as the finding itself. Build the instrument BEFORE the
+  cross-repo commits, not after, and run it against your own work first.
+- **Overriding a triage row is allowed for the runner too.** Row 7 said "extend
+  fleet-audit"; the script's own charter is the skills lane, so it became a sibling
+  instrument instead. The skill asks workers to override and argue - the same duty
+  applies to the session holding the skill.

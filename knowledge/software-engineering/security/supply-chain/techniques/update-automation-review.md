@@ -4,9 +4,9 @@ type: technique
 subject: supply-chain
 technique: update-automation-review
 status: forged
-laws: [gate-sees-target, failure-not-empty-success]
+laws: [gate-sees-target, failure-not-empty-success, absent-guard-is-loud]
 shared_with: []
-use_when: [deciding if green checks justify merging a dependency bump, one manifest bump dragging strangers into the lockfile, months of claimed automation with zero proposals]
+use_when: [deciding if green checks justify merging a dependency bump, one manifest bump dragging strangers into the lockfile, months of claimed automation with zero proposals, a framework patch release that mitigates by disabling a capability, judging an upgrade by the label on its release notes]
 ---
 
 # Update automation review
@@ -75,6 +75,57 @@ Group updates by ecosystem and cadence window rather than letting them
 arrive as a continuous trickle: a scheduled weekly batch gets a sitting
 of real attention; thirty proposals dripping in daily get thirty
 reflexive approvals.
+
+## When the dependency is the framework
+
+Tiering by version number prices the *size* of a change; it says nothing about
+the *reach* of the package being changed. A framework is not one input among
+many — it owns the build, the request path, and the defaults every module
+inherits without asking. When a framework moves, behavior changes in code
+nobody edited, and the version number is a poor guide to how much: a patch
+release can retire a capability that a major release would have deprecated
+politely.
+
+The sharpest instance is the **security patch that mitigates by removal**. When
+a vulnerability lives in a transitive native library rather than in the
+framework's own code, the repair available on the framework's timeline is often
+not a repair at all but a shutdown — the affected capability is switched off in
+the patched release and stays off until the upstream fix propagates. The
+advisory reads as a fix; what ships is a subtraction, and it lands on exactly
+those installations that had configured the capability *on*.
+
+This is why "your tests cover your use" is not the whole story for a framework
+bump. There is a third reason green is not enough, and it is structural:
+**declaratively requested capabilities have no test surface.** A suite asserts
+behavior it calls. A capability the application requests in configuration and
+the framework delivers on its own — an image format, a caching mode, a bundler
+default, a compression setting — is asserted by no call site, so nothing fails
+when it disappears
+([gate-sees-target](../../../_laws.md#gate-sees-target)). The config row is
+still there, still valid, still parsed; it is simply no longer honored. That is
+silent degradation to a default with the operator's intent still sitting in the
+file
+([absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud)).
+
+Two habits close it, and both are cheap:
+
+- **Read the mitigations, not just the fixes.** A fix says what was wrong; a
+  mitigation says what the maintainer turned off to make it right. The
+  mitigation is the line that lands on your configuration, and it is routinely
+  a sentence in the advisory rather than an entry in the changelog.
+- **Keep the declarative-capability inventory.** List what the application asks
+  the framework for in configuration rather than in code. It is a short list —
+  that is the point — and it is exactly the part of the surface the suite
+  cannot see. Diff it against the release's mitigations on every framework
+  bump; for everything the suite does reach, the suite is still the instrument.
+
+And carry one correction back into the tiering above: **a release's label is not
+its effect.** A release classified as security can carry a performance
+regression for whoever used the disabled capability; a release classified as
+performance can carry a behavior change. The vendor's headline describes the
+maintainer's motivation, not the delta on your system. Classify the bump by
+what it does to the surface you configured, and let the version number and the
+label set the starting tier rather than the final one.
 
 ## The exposure window is the metric
 

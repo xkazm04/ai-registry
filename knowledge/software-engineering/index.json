@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 148,
   "techniques": 950,
-  "applications": 427,
+  "applications": 428,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -961,13 +961,15 @@
      "status": "forged",
      "laws": [
       "creation-names-reaper",
-      "deletion-is-not-repair"
+      "deletion-is-not-repair",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "deciding whether a memory may be forgotten",
       "stale beliefs crowd out fresh recall",
-      "a refuted belief still gets recalled"
+      "a refuted belief still gets recalled",
+      "a fact that was true for a window is still recited after the window closed"
      ]
     },
     {
@@ -982,7 +984,8 @@
       "deciding where one episode ends and another begins",
       "episodes ballooning into a second transcript store",
       "two writers claiming the same sequential id",
-      "a model swap silently thins what capture writes down"
+      "a model swap silently thins what capture writes down",
+      "one oversized item crowds a distillation batch"
      ]
     },
     {
@@ -15428,17 +15431,27 @@
      "status": "forged",
      "laws": [
       "gate-sees-target",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "deciding if green checks justify merging a dependency bump",
       "one manifest bump dragging strangers into the lockfile",
-      "months of claimed automation with zero proposals"
+      "months of claimed automation with zero proposals",
+      "a framework patch release that mitigates by disabling a capability",
+      "judging an upgrade by the label on its release notes"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "update-automation-review",
+     "file": "knowledge/software-engineering/security/supply-chain/applications/next--update-automation-review.md",
+     "verified_on": "2026-08-26",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "node",
      "technique": "secret-scanning-architecture",
@@ -19517,6 +19530,7 @@
     "agent-cli-transport/availability-probe",
     "agent-cli-transport/dated-capability-matrix",
     "agent-instruction-files/instruction-freshness",
+    "agent-memory/decay-and-forgetting",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
     "companion-identity/operator-profile-synthesis",
@@ -19548,6 +19562,7 @@
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "structured-output/schema-validation-and-repair",
+    "supply-chain/update-automation-review",
     "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/duplicate-and-replay-dedup"
    ]

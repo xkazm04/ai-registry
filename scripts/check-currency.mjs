@@ -72,6 +72,12 @@ const horizonDays = (() => {
  */
 const WINDOW_DAYS = {
   react: 183,
+  // A server-rendering web framework on an active security patch line. Half the react
+  // window, and the reason is not churn but exposure: a citation against this stack is
+  // routinely a claim about a default that a PATCH release can retire (supply-chain /
+  // update-automation-review, "When the dependency is the framework"). This clock
+  // protects the fleet, not the prose.
+  next: 90,
   node: 183,
   rust: 274,
   sql: 365,
