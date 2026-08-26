@@ -604,11 +604,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "localization",
-      "subjects": 13,
-      "techniques": 78,
+      "subjects": 14,
+      "techniques": 84,
       "applications": 26,
-      "files": 121,
-      "contentHash": "sha256:032e2316d4411967"
+      "files": 128,
+      "contentHash": "sha256:85eb8f38799ee2c1"
     },
     {
       "name": "media-generation",
@@ -621,7 +621,7 @@
       "techniques": 111,
       "applications": 42,
       "files": 176,
-      "contentHash": "sha256:d85da28ab154adfc"
+      "contentHash": "sha256:bc01792263190a31"
     },
     {
       "name": "recruiting",

@@ -3,18 +3,19 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "localization",
   "source": "knowledge/localization/ (frontmatter only)",
-  "subjects": 13,
-  "techniques": 78,
+  "subjects": 14,
+  "techniques": 84,
   "applications": 26,
-  "laws": 6,
+  "laws": 7,
   "categories": [
    "european",
    "east-asian",
    "south-and-southeast-asian",
-   "right-to-left"
+   "right-to-left",
+   "craft"
   ],
   "layout": "nested",
-  "use_when_coverage": "78/78",
+  "use_when_coverage": "84/84",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1244,6 +1245,112 @@
     }
    ]
   },
+  "translation-pipeline-topology": {
+   "category": "craft",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
+   "techniques": [
+    {
+     "slug": "canonical-and-derived-split",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "coverage-is-counted-not-claimed"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether machine-translated files belong in the main branch",
+      "designing where a site fetches translations from",
+      "reviewing a pr that adds generated locale files to source control",
+      "choosing a fallback behavior for untranslated content",
+      "auditing which committed translations carry a quality claim"
+     ]
+    },
+    {
+     "slug": "canonical-fallback-serving",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what to serve when a translation is not yet published",
+      "wiring a language switcher to a partially translated corpus",
+      "launching a new language before its translation is complete",
+      "keeping the source-language reading path unchanged after adding i18n",
+      "a switcher offers a language the store cannot deliver"
+     ]
+    },
+    {
+     "slug": "hand-authored-exception-contract",
+     "status": "forged",
+     "laws": [
+      "the-source-locale-is-the-source-of-truth",
+      "clean-strings-stay-untouched"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a landing page deserves better than machine translation",
+      "deciding whether a hand-written translation should be a flag on the language registry",
+      "a committed human translation has drifted from the canonical page",
+      "choosing which pages qualify for hand authoring",
+      "the machine pipeline overwrote a human-written page"
+     ]
+    },
+    {
+     "slug": "language-registry-single-source",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where the list of supported languages lives",
+      "a language switcher offers a language the build does not produce",
+      "adding a new target language to a translation pipeline",
+      "translation matrix and export matrix disagree about language sets",
+      "a pipeline half-runs for a partially configured language"
+     ]
+    },
+    {
+     "slug": "sharded-translation-ci",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed",
+      "clean-strings-stay-untouched",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a translation ci job times out before publishing anything",
+      "sizing translation batches against a runner time limit",
+      "parallel language jobs overwrite each other on push",
+      "deciding what should trigger the machine-translation workflow",
+      "a full-catalog translation run restarts from zero every attempt"
+     ]
+    },
+    {
+     "slug": "source-hash-translation-cache",
+     "status": "forged",
+     "laws": [
+      "clean-strings-stay-untouched",
+      "the-source-locale-is-the-source-of-truth"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing incremental re-translation for a large corpus",
+      "deciding what goes into a translation cache key",
+      "making a ci translation job resumable after cancellation",
+      "avoiding re-translating unchanged source files",
+      "sharing translation progress across runners"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "vietnamese": {
    "category": "south-and-southeast-asian",
    "subcategory": null,
@@ -1388,6 +1495,12 @@
     "russian/plural-and-count-agreement",
     "spanish/plural-and-gender-agreement",
     "spanish/typography-and-punctuation",
+    "translation-pipeline-topology/canonical-and-derived-split",
+    "translation-pipeline-topology/canonical-fallback-serving",
+    "translation-pipeline-topology/hand-authored-exception-contract",
+    "translation-pipeline-topology/language-registry-single-source",
+    "translation-pipeline-topology/sharded-translation-ci",
+    "translation-pipeline-topology/source-hash-translation-cache",
     "vietnamese/classifiers-and-quantity"
    ]
   },
@@ -1436,6 +1549,9 @@
     "japanese/de-anglicization-constructions",
     "korean/de-anglicization-constructions",
     "spanish/ui-conventions-and-length",
+    "translation-pipeline-topology/hand-authored-exception-contract",
+    "translation-pipeline-topology/sharded-translation-ci",
+    "translation-pipeline-topology/source-hash-translation-cache",
     "vietnamese/de-anglicization-constructions",
     "vietnamese/diacritics-and-typography"
    ]
@@ -1491,6 +1607,15 @@
     "spanish/register-and-address",
     "spanish/terminology-and-loanwords",
     "vietnamese/terminology-and-loanwords"
+   ]
+  },
+  "coverage-is-counted-not-claimed": {
+   "statement": "Self-reported completeness runs short — a reviewer asked to audit two hundred strings audits a hundred and thirty and honestly reports success. Every sweep states the number actually reviewed against the number assigned, short batches are re-run against the **current** catalog (never the original snapshot, which reverts the first pass's fixes), and the honest percentage goes in the summary. A locale whose untranslated strings fall back silently to the source language extends this law downward: key parity proves nothing about translatedness, so coverage there means values checked, not keys present.",
+   "techniques": [
+    "translation-pipeline-topology/canonical-and-derived-split",
+    "translation-pipeline-topology/canonical-fallback-serving",
+    "translation-pipeline-topology/language-registry-single-source",
+    "translation-pipeline-topology/sharded-translation-ci"
    ]
   }
  }

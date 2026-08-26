@@ -44,6 +44,14 @@
       "subjects": [
         "arabic"
       ]
+    },
+    {
+      "id": "craft",
+      "title": "Localization craft",
+      "order": 5,
+      "subjects": [
+        "translation-pipeline-topology"
+      ]
     }
   ]
 }

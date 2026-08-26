@@ -493,3 +493,29 @@
 - **Platform note.** The Windows shell resets cwd between calls unpredictably
   under sandboxing; a mid-run `cd knowledge && grep` left later relative paths
   silently wrong until re-anchored. Use absolute paths or re-`pwd` after any cd.
+
+## 0.10.0 - 2026-08-26 - ai-registry (run 17: curriculum repo; no bump - lessons only)
+
+- **"Spec plus execution" collapses the XL lag, and the worker pool is the spec.** The
+  operator picked execution over banking; the spec never existed as a document - it
+  became three parallel forge briefs plus a director-written golden path, and the
+  subject landed gate-clean in one session. When the operator is present to review,
+  the dispatchable-spec artifact is overhead; write it only when execution is
+  deferred.
+- **Partition by the work's own axis, and say why when the operator suggests another.**
+  The operator offered per-language workers; the subject is language-agnostic process
+  craft, so the split was per-technique (two each, three workers). Naming the axis
+  choice in the plan - not silently substituting - is what kept it a decision instead
+  of a disagreement.
+- **All three workers overrode the same brief error, independently, with the same
+  argument.** The director's law-link depth was wrong (four ups; the sibling files
+  prove three). Third occurrence of "link depth is per-file, count from the file being
+  written" - and the strongest yet for the override-and-argue clause in briefs: a
+  brief error briefed as non-negotiable would have shipped three times.
+- **A deferred category's return condition fired and was recognized.** The i18n waves
+  deferred a `craft` category "until a non-skill consumer needs it"; this source was
+  that consumer. Deferred-with-condition beats deferred-vaguely exactly here: the
+  trigger was checkable, so the arrival was a decision already made.
+- **A sibling session ran its own intake between my runs and took the run number.**
+  Renumber from the ledger, never from memory; the ledger is the authority on run
+  count as on everything else.
