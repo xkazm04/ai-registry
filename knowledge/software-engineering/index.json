@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 148,
-  "techniques": 950,
+  "techniques": 952,
   "applications": 430,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "950/950",
+  "use_when_coverage": "952/952",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6693,6 +6693,20 @@
      ]
     },
     {
+     "slug": "overshoot-and-restore",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent is reducing something under a test gate",
+      "a cleanup or compression run finished all-green",
+      "deciding when an optimization loop is allowed to stop"
+     ]
+    },
+    {
      "slug": "scenario-design",
      "status": "forged",
      "laws": [
@@ -6705,6 +6719,20 @@
       "deciding what belongs in a scenario cache key",
       "improvement shows up but the exam changed underneath",
       "coverage reported without naming which regions"
+     ]
+    },
+    {
+     "slug": "unaided-baseline-screening",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "admitting a generated scenario into the suite",
+      "scores barely moved when the material under test was removed",
+      "a model upgrade landed and the suite quietly got easier"
      ]
     }
    ],
@@ -11766,7 +11794,8 @@
      "use_when": [
       "setting floors and elastic lines before assembly",
       "each section fits its cap but the total still overflows",
-      "deciding whether heavy material rides every call"
+      "deciding whether heavy material rides every call",
+      "deciding whether shrinking a standing layer repays the authoring cost"
      ]
     },
     {
@@ -17675,6 +17704,7 @@
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
     "eval-harness/judge-stability",
+    "eval-harness/unaided-baseline-screening",
     "executive-reporting/expiring-share-links",
     "executive-reporting/grounded-narrative-generation",
     "file-browsing/listing-and-refresh",
@@ -17984,6 +18014,7 @@
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
     "eval-harness/eval-economics",
+    "eval-harness/overshoot-and-restore",
     "executive-reporting/grounded-narrative-generation",
     "executive-reporting/provenance-caveats",
     "executive-reporting/single-ranked-next-move",
@@ -18389,7 +18420,9 @@
     "eval-harness/certification-levels",
     "eval-harness/comparison-modes",
     "eval-harness/judge-stability",
+    "eval-harness/overshoot-and-restore",
     "eval-harness/scenario-design",
+    "eval-harness/unaided-baseline-screening",
     "executive-reporting/denominator-naming",
     "executive-reporting/provenance-caveats",
     "feed/event-clustering",

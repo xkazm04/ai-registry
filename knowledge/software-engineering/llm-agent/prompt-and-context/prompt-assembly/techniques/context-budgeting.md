@@ -6,7 +6,7 @@ technique: context-budgeting
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
-use_when: [setting floors and elastic lines before assembly, each section fits its cap but the total still overflows, deciding whether heavy material rides every call]
+use_when: [setting floors and elastic lines before assembly, each section fits its cap but the total still overflows, deciding whether heavy material rides every call, deciding whether shrinking a standing layer repays the authoring cost]
 ---
 
 # Context budgeting
@@ -100,6 +100,48 @@ The candidates are recognizable: reference documentation, extended
 capability detail, long exemplars, historical context. The counter-signal
 is material the model needs on *most* calls — pointer-chasing that fires
 every time is the inline cost plus a round trip.
+
+## The ceiling is one constraint; the recurring bill is the other
+
+Everything above is a fitting problem, and fitting problems stop being
+interesting the moment there is room. That is the trap. A section comfortably
+inside its allowance is still billed **on every call**, so the window has two
+independent constraints and only one of them ever trips a ladder: the ceiling
+fires visibly and rarely, the recurring bill accrues silently and always. A
+standing layer at half its allowance has no fitting problem and may still be
+the most expensive line in the system.
+
+Which makes shrinking a standing layer an *investment* rather than hygiene,
+and investments are authorized by arithmetic. The work of rewriting a layer
+smaller — whoever or whatever does it — is a one-time cost repaying a
+per-inclusion saving, so the decision number is a **break-even in
+inclusions**, not a token count:
+
+> one-time authoring cost ÷ saving per inclusion = the number of future calls
+> after which the shrink has paid for itself.
+
+Compute it before commissioning the work. Material included a handful of
+times a week will not repay a serious rewrite inside its own useful life;
+material on the standing path of every call repays almost anything. A
+published measurement of this loop is worth carrying as a scale anchor: an
+automated pass that halved a reference document repaid its own cost only
+after roughly two thousand uncached inclusions.
+
+**And the denominator moves with cache state**, which inverts the intuition
+in one important case. A prefix sitting in a provider's cache re-reads at
+roughly a tenth of base rate, so the same shrink saves about an order of
+magnitude less per call while it stays cached — pushing the break-even out by
+the same factor. Worse, the edit itself invalidates the entry and the next
+call rewrites it at above base rate (the multipliers and their derivation live
+with the routing subject's cache-continuity technique). **A large, stable,
+cached standing layer can therefore cost more to compress than to keep.** The
+material that actually repays compression is material that is large *and*
+re-billed at full rate: layers volatile enough to keep invalidating the
+prefix, and calls that carry no shared prefix at all — one-shot and
+fan-out work, where nothing is cached by construction and every token is paid
+new. As with any other price in this system, a saving is not a saving without
+the cache state it assumes
+([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
 
 ## Measure the spend, or the allocation is fiction
 

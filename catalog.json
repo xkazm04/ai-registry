@@ -337,9 +337,9 @@
         "pof@1.7"
       ],
       "invokes30d": 20,
-      "lessons": 7,
+      "lessons": 8,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:5b3654d076c3ce0e",
+      "lessonsHash": "sha256-n1:2c4aa5fe7e9a76c5",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -542,7 +542,7 @@
     "skills": 27,
     "practices": 4,
     "memory": 4,
-    "lessons": 47
+    "lessons": 48
   },
   "bundles": [
     {
@@ -618,10 +618,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 18,
-      "techniques": 111,
+      "techniques": 113,
       "applications": 42,
-      "files": 176,
-      "contentHash": "sha256:1f3b75a4ba54f817"
+      "files": 178,
+      "contentHash": "sha256:c47b61f54e7940ee"
     },
     {
       "name": "recruiting",
@@ -644,10 +644,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 148,
-      "techniques": 950,
+      "techniques": 952,
       "applications": 430,
-      "files": 1533,
-      "contentHash": "sha256:0753ac5033847792"
+      "files": 1535,
+      "contentHash": "sha256:6bc47cba80c24ddb"
     }
   ]
 }

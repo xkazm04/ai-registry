@@ -5,6 +5,8 @@ subject: eval-harness
 status: forged
 techniques:
   - scenario-design
+  - unaided-baseline-screening
+  - overshoot-and-restore
   - assertion-vs-judgment
   - judge-stability
   - comparison-modes
@@ -126,6 +128,32 @@ key's scope, and what invalidates it, is written down where the cache lives
 ([_laws: derivation-names-recomputation_](../../../_laws.md#derivation-names-recomputation)).
 Full treatment in [scenario-design](./techniques/scenario-design.md).
 
+## A pass is evidence only where a failure was reachable
+
+Everything above assumes the scenario could have gone red. That assumption is
+load-bearing and it is not free, because the candidate arrives already knowing
+things. A scenario drawn from the material under test is frequently answerable
+*without* that material — from the model's prior alone — and such a scenario
+passes honestly, scores normally, and measures the model rather than the
+system. It cannot be spotted by reading it; it has to be screened, by running
+the scenario against a candidate deprived of the thing under test and
+discarding everything the deprived run satisfies. What survives is the suite;
+what was extracted was intake. The deprivation chosen *is* the claim the suite
+supports, which is why it is written down beside it
+([unaided-baseline-screening](./techniques/unaided-baseline-screening.md)).
+
+The same assumption fails from the other end whenever the harness is used not
+as a gate but as a **bound on a search** — an agent told to shrink, prune, or
+tighten something until the suite complains. There the incentives invert: the
+null change is always green, so an all-green run is compatible with having
+done nothing, and "stopped early" and "reached the limit" are spelled
+identically. The corrective is to require the run to cross the boundary at
+least once and then restore the minimum that clears it, keeping both states —
+the failing attempt is the only coordinate the run produces
+([overshoot-and-restore](./techniques/overshoot-and-restore.md)). The two
+compose in one order only: screen the suite, then push against it, because
+pushing against unscreened scenarios finds a boundary that is not there.
+
 ## Assert what you can, judge only what you must
 
 Between "exact string match" and "ask a judge" lies a wide band of
@@ -184,6 +212,12 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [scenario-design](./techniques/scenario-design.md) — captured vs generated
   scenarios, versioned fixture identity, deliberately scoped cache keys,
   coverage of the ugly cases.
+- [unaided-baseline-screening](./techniques/unaided-baseline-screening.md) —
+  the deprived-candidate control, choosing what to withhold, post-cutoff and
+  synthetic material, re-screening on candidate upgrade.
+- [overshoot-and-restore](./techniques/overshoot-and-restore.md) — the
+  asymmetric incentive in a reduction run, requiring a failure, minimal
+  restoration, the phantom bound over an unscreened suite.
 - [assertion-vs-judgment](./techniques/assertion-vs-judgment.md) — the
   deterministic band, when a judge is genuinely necessary, rubric-anchored
   judgment, the structured verdict channel.

@@ -759,3 +759,54 @@
   persists between calls, so a re-issued `cd` failed, and only the first of two
   file writes was gated on it. Verify files exist after a batched write rather
   than trusting the exit code of the batch.
+
+## 0.12.0 - 2026-08-26 - knowledge-compressor (run 23)
+
+- **A source's method can be the finding while its result is not.** The article's
+  headline (documentation halves) was measured on one synthetic article written
+  to have the redundant texture of real docs, and it did not transfer to this
+  corpus at all. Its *loop* transferred completely, once corrected. For the
+  first-party class, read the procedure as the deliverable and treat the number
+  as an artifact of the test material until something replicates it.
+- **The second observation of the first-party row holds, and sharpens.** Both
+  technique-level findings came from the author's stated failure modes ("one
+  risk with this agentic process is that the agent might play it safe"), not
+  from features. That is now twice, counting the release-walkthrough run. **A
+  practitioner describing what nearly went wrong outproduces the same
+  practitioner describing what works** - promote this to the class row when a
+  third run sees it.
+- **Zero fetches, three findings at technique level.** The first run in the
+  series to spend nothing from the corroboration budget and still land above
+  dated-fact altitude. What paid for it: corpus-internal convergence (the same
+  move already existed in two other subjects, against other unknowns) and a
+  prior run's banked vendor arithmetic (`cache-continuity`, 2026-08-25). The
+  untriaged tables and banked derivations are the reason the budget went unspent
+  - that is the compounding the vocabulary was designed for, showing up.
+- **When the corpus already holds a move twice, the third sighting is a boundary
+  job, not an import.** `negative-control-tests` and lane ablation were already
+  here. The finding was not "add ablation" but "name what each of the three
+  deprives, and what is unknown in each" - which is why both new files close with
+  a boundary section and the subject note records the pair.
+- **Build the corrected method, not the published one - and say so in the lane
+  doc.** The compression lane implements the source's loop with two mandatory
+  changes and states the composition order, because run in the other order it
+  destroys content while reporting success. A lane doc that reproduced the
+  source faithfully would have been a trap with a citation.
+- **Read the instrument's output before trusting its number.** `compression-scan`
+  counted overlapping shingles as separate repetitions and reported 74.3% where
+  the truth was 15.1%. Caught by looking at the printed spans and noticing one
+  passage listed nine times. The naive figure would have licensed exactly the
+  destructive pass the lane exists to prevent: **the instrument nearly authorized
+  its own worst outcome on run one.** Self-test now asserts the merge.
+- **A negative result is the deliverable when the operator asked for a build.**
+  The lane shipped complete and its first answer is "do not run the expensive
+  half on this corpus" (mean repetition 0.94%; top document two-thirds
+  irreducible under a real screen). Reporting that as a finished build rather
+  than as a failed experiment is correct - the screening instrument earning its
+  cost by saying no is the instrument working.
+- **Run the screen on yourself, in the honest order.** The Phase 1 trial worked
+  because predictions were written to a file *before* the document was opened.
+  Any other order is unfalsifiable. Cost: one file, two minutes; it produced the
+  run's most decision-relevant number.
+- Instrument gotcha: a heredoc carrying a file that itself contains fenced-code
+  backticks fails on this platform. Use the Write tool for scripts.
