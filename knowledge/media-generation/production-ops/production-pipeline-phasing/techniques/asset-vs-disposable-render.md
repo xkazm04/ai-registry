@@ -6,7 +6,7 @@ technique: asset-vs-disposable-render
 status: forged
 laws: [cost-per-usable-output, edit-do-not-regenerate]
 shared_with: []
-use_when: [deciding what pipeline output to persist, choosing render fidelity for trials versus finals, designing deletion for projects that own generated media]
+use_when: [deciding what pipeline output to persist, choosing render fidelity for trials versus finals, rehearsing an expensive medium in a cheaper one, designing deletion for projects that own generated media]
 ---
 
 # Asset vs disposable render
@@ -52,6 +52,37 @@ denominator is usable outputs, and trials are never usable outputs, so every
 unit of fidelity spent on them raises the price of the real one. A pipeline
 with a single global quality setting has decided to pay winner prices for
 every loser and should at minimum know it has.
+
+## A probe may change medium, and the crossing is lossy
+
+Fidelity is not the only axis a probe moves along. When the expensive medium's
+price is dominated by a dimension a cheaper medium simply lacks — duration,
+motion, sound — the honest probe is often not a low-fidelity render of the
+expensive thing but a *different artifact*: stills that rehearse a sequence's
+composition and order, a timed still sequence that rehearses its rhythm, a
+motion draft with no materials or lighting that rehearses its blocking. Each
+rung is cheap precisely because it has dropped a dimension, so each settles
+some decisions and is **structurally silent** on the rest.
+
+That silence is the risk the cheapness buys. A sequence that reads correctly
+as a row of pictures can be badly paced the moment it moves; blocking approved
+without materials says nothing about whether the final surfaces read. Treating
+a passed probe as approval of the expensive render is a gate reporting pass
+for what it never checked
+([unmeasured-is-not-pass](../../../_laws.md#unmeasured-is-not-pass)) — and the
+resulting defect surfaces *after* the expensive spend, which is the one
+outcome phasing exists to prevent.
+
+- **Name the dimension the probe dropped, at the moment you choose the probe.**
+  The rung follows the decision being made — composition and order, rhythm,
+  blocking, finish — and every dimension above it stays explicitly unsettled
+  rather than quietly approved.
+- **Probe the whole span you intend to ship, not its opening.** A cheap probe
+  invites partial coverage, because the cost that made it cheap scales with
+  the span it covers. A grid that rehearses a sequence's first beats and stops
+  leaves the tail unprobed at exactly the fidelity that would have caught it —
+  and the tail is where a generator's invention runs longest without
+  correction.
 
 ## Storage policy per class
 

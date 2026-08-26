@@ -57,7 +57,10 @@ final-render prices for candidates is the within-phase version of the same
 mistake the phase order exists to prevent — and it is the mistake the
 [cost-per-usable-output](../../_laws.md#cost-per-usable-output) law prices:
 economics are computed over usable outputs, and a candidate is not yet a
-usable output.
+usable output. Fidelity is not the only axis available: a probe may drop a
+whole dimension — motion, duration, sound — rehearsing an expensive medium in
+a cheaper one, and when it does, the dimensions it dropped are left unsettled,
+never approved.
 
 ## Two kinds of artifact, two lifecycles
 

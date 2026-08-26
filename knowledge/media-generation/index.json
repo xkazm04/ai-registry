@@ -1402,6 +1402,7 @@
      "use_when": [
       "deciding what pipeline output to persist",
       "choosing render fidelity for trials versus finals",
+      "rehearsing an expensive medium in a cheaper one",
       "designing deletion for projects that own generated media"
      ]
     },

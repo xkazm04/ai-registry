@@ -624,3 +624,45 @@
   in a DIFFERENT phase from the pre-upgrade one is a question about ordering, not a
   conclusion about cause. Cost of the baseline: one build that was going to be run
   anyway. Phase 8 should take it before touching the tree, not after.
+
+## 0.11.0 - 2026-08-26 - stop-building-ai-slop
+
+- **Length is not yield, tested at the far end.** 14,649 words - the longest
+  source the ledger has taken, more than double the previous roundup record -
+  produced one amendment. The method has asserted this since 2026-08-22 on the
+  evidence of a short talk beating a long roundup; this run is the other tail
+  and it holds. The `--min-words` floor asks whether anything is there; the
+  class predicts how much is worth having. Nothing about the word count did.
+- **Practitioner tutorial (course walkthrough), second observation - the row is
+  earned.** 2026-08-23: 9,483 words, 1 accepted. This run: 14,649 words, 1
+  accepted. The class is a *demonstration transcript* and its ratio of
+  narrated-clicking to stated-reasoning is the worst in the ledger. Predict 1-2
+  and say so before the table.
+- **Mine a tutorial's residue, never its curriculum.** Every candidate that
+  survived the strip test came from something the creator did in passing; the
+  five things the course set out to teach produced nothing at all. The accepted
+  finding came from a 40-second cost aside, and the strongest unpicked
+  candidate came from the creator silently trimming a video to hide a defect.
+  For this class, read for the workarounds, not the steps.
+- **A source's demonstrated failure outranks its stated advice, and can be the
+  better half of one finding.** The accepted amendment has two bullets: the
+  first is the source's advice generalised, the second is the source's own
+  unremarked failure (a probe covering only the opening, and the render
+  breaking past it). The second bullet is the one the corroborating literature
+  did not supply. Watch for the moment a creator fixes something on camera
+  without naming it as a lesson - that is the class's densest seam.
+- **The enumeration hunt found this one too - four runs, four times.** The gap
+  was two worked examples inside a technique's third section, both silently on
+  the same axis. "This document lists its cases - is the list complete?" remains
+  the highest-yield read available once a candidate has a home.
+- **Corroboration that sharpens beats corroboration that confirms.** The single
+  fetch turned "use a cheap medium to preview an expensive one" (a tip) into
+  "each rung dropped a dimension, and the dropped dimension is unsettled, not
+  approved" (a rule with a law behind it). Budget the fetch for the pick most
+  likely to be *reshaped*, not the one most likely to be validated.
+- **A near-empty and a total empty in the same mapping call, read differently
+  and both correctly.** `storyboard` was empty over 111 techniques but the
+  concept lived under other words - a seam, so the landing was a boundary
+  inside an existing technique, not a new one. `ui cloning` was empty and is a
+  real hole. Same instrument output, opposite meanings; only opening the top
+  prior-art file separates them.
