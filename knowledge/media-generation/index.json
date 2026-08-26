@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 112,
+  "techniques": 113,
   "applications": 42,
   "laws": 8,
   "categories": [
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "112/112",
+  "use_when_coverage": "113/113",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -90,7 +90,8 @@
       "deciding whether and how the camera moves in a shot",
       "generated clips drift aimlessly or sit inert",
       "a beat needs dread, intimacy, urgency, or release expressed through motion",
-      "a camera move must be written so a model executes it"
+      "a camera move must be written so a model executes it",
+      "the generator takes a camera path or action script alongside the prompt"
      ]
     },
     {
@@ -986,6 +987,20 @@
      ]
     },
     {
+     "slug": "identity-split-from-state",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a named character or product recurs across many generated frames or shots",
+      "a recurring subject's face, build or livery drifts between outputs that share a style",
+      "writing the prompt-compiler slot for a subject that has both a fixed identity and a changing mood",
+      "reviewing a shot-prompt generator whose per-shot descriptions were written by a model"
+     ]
+    },
+    {
      "slug": "medium-vocabulary-locking",
      "status": "forged",
      "laws": [
@@ -1848,7 +1863,8 @@
       "briefing a generative video model to produce shots for a cut",
       "deciding between text-only and image-anchored conditioning for a shot",
       "accepting or rejecting generated clips into an assembly",
-      "handling clips that arrive with their own baked-in audio"
+      "handling clips that arrive with their own baked-in audio",
+      "a subject drifts steadily across a long sequence of generated shots"
      ]
     },
     {
@@ -1874,7 +1890,8 @@
      "use_when": [
       "deciding where music enters and exits a cut",
       "briefing a music generator or composer per cue",
-      "reviewing a scored cut that feels wallpapered"
+      "reviewing a scored cut that feels wallpapered",
+      "the generator emits picture and its whole soundtrack together as one inseparable output"
      ]
     }
    ],
@@ -2007,6 +2024,7 @@
     "evidence-bound-visuals/epistemic-draw-routing",
     "generated-output-grading/trial-matrix-design",
     "image-prompt-composition/assigned-colour-roles",
+    "image-prompt-composition/identity-split-from-state",
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/negative-prompting",
     "image-prompt-composition/prompt-dialect-matching",

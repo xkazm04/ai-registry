@@ -22,3 +22,18 @@ First note: [[2026-08-26-stop-building-ai-slop]] - /intake run 22. Subject preda
 ## Open leads
 
 - The registry has no subject on generating a *product surface* from another product's surface; this landed in media-generation because the reference-governance vocabulary lives here. If a software-engineering run hits the same shape, the discriminator to state is that this technique governs references for generated imagery, not codegen from a shipped competitor UI. Return when such a run appears.
+
+## 2026-08-26 - /intake run 23 ([[2026-08-26-joyai-echo]]) - boundary, no change here
+
+Considered as the home for `identity-split-from-state` and did not take it. The
+rule is that a verbatim-restated block may hold nothing that varies, which is a
+statement about this subject's central mechanism - but its bite only appears
+when the constant stops being a *look* and starts being a *subject*, because a
+style has no moods and never forced the question. The block anatomy lives in
+[[image-prompt-composition]] and that is where the correction landed, against
+its "three blocks, three scopes" enumeration.
+
+Worth recording rather than forgetting: **this subject's rules were forged
+against a constant with no mutable attributes, and quietly depend on that.**
+Anything here phrased as "restate it in full" should be re-read that way if a
+future run brings a constant that changes.

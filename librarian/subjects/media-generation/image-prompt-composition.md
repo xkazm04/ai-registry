@@ -1,7 +1,7 @@
 ---
 subject: image-prompt-composition
 domain: media-generation
-last_touched: 2026-08-25
+last_touched: 2026-08-26
 dry_streak: 0
 ---
 
@@ -11,7 +11,7 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject predate
 
 ## State
 
-9 techniques, 2 applications (process, react). Golden path names both architectures (compositor renders text / model renders text) and now points at the technique for the second.
+10 techniques, 2 applications (process, react). Golden path names both architectures (compositor renders text / model renders text) and now points at the technique for the second. Its anatomy table now declares **four** blocks, not three.
 
 ## 2026-08-25 - /intake run 11
 
@@ -19,7 +19,16 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject predate
 - `prompt-dialect-matching` gained a third dialect class (instruction-following multimodal models: brief-readers, JSON as serialization, no negative channel, state cardinality) and a decision rule; `style-first-token-ordering` gained the brief-reader rule with the aspect-ratio exception kept.
 - Two triage reads downgraded from corrects-claim to fills-stage on reading the files: the corpus was right and incomplete, not wrong.
 
+## 2026-08-26 - /intake run 23 ([[2026-08-26-joyai-echo]])
+
+- New technique `identity-split-from-state`, and the golden path's "three blocks, three scopes" enumeration corrected to four. The subject's own completeness claim was the finding: a recurring **subject** has a project-lifetime identity and a per-image state, and the anatomy folded the whole subject into the per-image block.
+- The point worth remembering: the restatement law had an unstated precondition that stayed hidden because the constant was always a *style*, and a style has no moods. The precondition only becomes visible when the constant is a character. Look for this shape elsewhere - a rule that is silently relying on a property of the one example it was forged against.
+- Second-order rule inside it, which I would not have reached alone: when a language model writes the per-shot prompts, constrain it against **rewording**, not toward consistency. A faithful paraphrase satisfies "keep it consistent" and is a fresh sample.
+- Boundary held: `visual-style-locking` was the rival home and lost. It owns carrying a *look*; this owns the block anatomy and stated the enumeration that broke. Recorded on both sides - see [[visual-style-locking]].
+
 ## Open leads (banked, with return conditions)
 
 - No application on the text-capable class yet. Return when a connected project (systedo-case is the candidate) generates text-bearing images and can be dated.
 - Pass rate of locked text under style pressure is unmeasured anywhere in the fleet; the technique requires recording it - the first project to do so is the application.
+- `identity-split-from-state` has no application. Return when a connected project generates a set with a recurring character and the identity blocks can be string-diffed for real - the diff is the measurement and nothing in the fleet has run it.
+- "Reserve identity labels for people, never objects" was extracted from the same source and left untriaged; it may belong as a decision rule here rather than as anything of its own.

@@ -6,7 +6,7 @@ technique: generated-shot-sourcing
 status: forged
 laws: [cost-per-usable-output, refusal-is-a-state, style-is-restated-not-remembered]
 shared_with: []
-use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio]
+use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots]
 ---
 
 # Generated-shot sourcing
@@ -59,6 +59,65 @@ cut nobody made. Budget duration the way spotting budgets cues: the brief
 states the clip's length to the second, because the timeline slot it must
 fill already exists.
 
+## Adjacency anchoring does not scale to a chain
+
+Conditioning a shot on its predecessor's tail is the right first move and it
+has a ceiling that arrives sooner than it looks. The rung is defined by
+adjacency: it fixes the seam between shot N-1 and shot N, and it is measured
+against the shot next to it. Over a pair, that is the whole problem. Over
+thirty shots it is not, because **each link's reference is a generation, not
+the original.** Shot 20 is anchored to shot 19's rendering of the subject,
+which was anchored to shot 18's, and whatever the model got slightly wrong at
+each hop is faithfully preserved and built on at the next. Every seam passes
+inspection; the sequence still ends somewhere else than it started. This is
+the characteristic long-form failure and it is invisible to exactly the review
+that adjacency anchoring is designed to satisfy — comparing neighbours, which
+always match.
+
+The systems built for multi-minute output answer it the same way, and the
+answer is a second reference class rather than a better link:
+
+> **Pin the origin, roll the recent.** Carry a bounded bank of accepted
+> material forward, in which the earliest slots are permanently pinned and
+> never evicted, and only the remainder is first-in-first-out. Identity is
+> then held to where the sequence started as well as to where it currently
+> is.
+
+Two bounds make it work, and both are worth asserting rather than assuming:
+
+- **The pinned portion is strictly smaller than the bank**, or nothing rolls
+  and the sequence stops responding to what just happened. Continuity is not
+  only a claim about the origin; a shot also has to follow the one before it.
+- **The rolling portion is at least one full step wide**, or the window
+  cannot advance — the new material has nowhere to land. A bank whose free
+  space is smaller than one shot's contribution silently degrades into a
+  fixed reference set.
+
+One release aimed at roughly five minutes of continuous story implements this
+at two independent levels: a shot-level bank of seven paired audio-video slots
+of which the first three are pinned, and, in its interactive sibling, a
+per-layer attention cache combining a persistent sink with recent history
+under a validator that asserts both bounds above. Neither borrows from the
+other; they are different mechanisms at different altitudes reaching the same
+policy, which is the strongest argument available that the policy is about
+long horizons rather than about either implementation.
+
+Three consequences for the assembly:
+
+- **Pinning promotes early shots into permanent evidence.** A drifted or
+  merely mediocre opening shot does not wash out of a chain that pins it — it
+  becomes the thing everything downstream is held to. The first few shots of a
+  long sequence are therefore the most expensive review in the run, and only
+  *accepted* material is ever pinned. This is the one place where generating
+  the opening cheap and provisional is the wrong economy.
+- **Which slots were pinned is provenance.** It belongs with the clip
+  alongside the prompt, the rung and the anchors, for the same reason: a shot
+  whose reference set is unknown cannot be re-briefed, only regenerated.
+- **The bank is not a substitute for restating the contract.** It is the image
+  half of conditioning at sequence scale, and the style and identity blocks
+  still travel with every call. A bank plus a shortened prompt is the
+  reference-only failure wearing a longer memory.
+
 ## Baked-in audio is a mix decision a model made
 
 Current models ship clips with native synchronized audio — dialogue,
@@ -68,6 +127,14 @@ Decide per clip, explicitly: keep it as an atmosphere lane, demote it under
 the cut's own voice and music, or strip it. A generated clip's baked audio
 never silently occupies the voice or music lane — the cut's narration and
 score are authored against picture, not inherited from a generator's guess.
+
+Those three options all presuppose that the baked audio is *separable* from
+the picture and, increasingly, that its own layers are separable from each
+other. Where a model generates speech, effects and score jointly as one
+waveform, none of the three survives contact: demoting the music demotes the
+dialogue with it, and stripping the track strips the performance. The mix
+decision then has to be made before generation, in the shot brief — see
+music-spotting-against-picture, which owns that decision and where it moves to.
 
 ## Acceptance and economics
 

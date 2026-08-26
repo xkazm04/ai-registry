@@ -18,6 +18,7 @@ techniques:
   - prompt-dialect-matching
   - medium-vocabulary-locking
   - verbatim-text-locking
+  - identity-split-from-state
 ---
 
 # Image prompt composition
@@ -33,19 +34,26 @@ invents a new one per call. The principal reading is that a prompt is a
 questions the model will otherwise answer for you: what stays constant across
 the whole project, what changes per image, and what must never appear at all.
 
-## The anatomy: three blocks, three scopes
+## The anatomy: four blocks, four scopes
 
 Every production prompt decomposes into blocks scoped to different lifetimes:
 
 | Block | Scope | Holds | Changes |
 | --- | --- | --- | --- |
 | **Style** | the project | technique, palette with assigned roles, finish, line quality, what is banned | never, within a project |
-| **Subject / action** | one image | what this frame depicts — composition, elements, spatial relations, reserved space | every call |
+| **Subject identity** | the project, one per recurring subject | what a returning character or product *is* — build, face, hair, the cut and colour of what it wears, voice timbre | never, while the subject recurs |
+| **Subject / action** | one image | what this frame depicts — composition, elements, spatial relations, reserved space, and each present subject's current expression and posture | every call |
 | **Constraint** | the architecture | the unconditional exclusions — typically "no text of any kind" — plus the negative prompt where the model takes one | never, anywhere |
 
 The order on the page is the order above, and it is load-bearing (see
 style-first-token-ordering): the block that must survive truncation goes
-first. The separation is what makes the subject **swappable** — you can
+first. The identity row is the one most projects discover late: a
+project with no recurring subject genuinely has three blocks, and the fourth
+appears the moment the same character has to come back looking like herself.
+Its scope is per-subject rather than global, and the split between it and the
+action block runs *through* the description of one person — see
+identity-split-from-state, which is where the boundary is drawn and why
+leaving it undrawn defeats restatement. The separation is what makes the subject **swappable** — you can
 replace the action block wholesale and the result still belongs to the
 project, which is the entire definition of a locked style. A practitioner who
 can say "I had a style lock, replaced the action" has this subject; one who

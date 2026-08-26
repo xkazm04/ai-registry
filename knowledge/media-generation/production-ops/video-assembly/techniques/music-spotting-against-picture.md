@@ -6,7 +6,7 @@ technique: music-spotting-against-picture
 status: forged
 laws: [causality-over-sequence]
 shared_with: []
-use_when: [deciding where music enters and exits a cut, briefing a music generator or composer per cue, reviewing a scored cut that feels wallpapered]
+use_when: [deciding where music enters and exits a cut, briefing a music generator or composer per cue, reviewing a scored cut that feels wallpapered, the generator emits picture and its whole soundtrack together as one inseparable output]
 ---
 
 # Music spotting against picture
@@ -70,6 +70,53 @@ an exception — the region reverts to silence and is labeled as
 refused-silence, distinct from chosen-silence, until re-spotted or
 re-briefed. Do not quietly widen a neighboring cue to paper over the hole;
 that converts a visible provider failure into an invisible design change.
+
+## When the soundtrack is not separable, spotting moves upstream
+
+The section above assumes the generated cue arrives as its own object, to be
+placed on its own lane against a picture that already exists. A second class
+of generator breaks that assumption completely: it emits picture, dialogue,
+effects and score **together, as one output**, synchronized by construction
+and unmixable afterwards. There is no music lane to duck, no voice lane to
+protect, and no way to reject the score without rejecting the performance it
+sits under. Every rule in this technique that operates by adjusting levels or
+by placing a cue on the clock becomes unavailable at once.
+
+What survives is the part that was never about the mixer: **every region of
+the clock still needs a music decision with a stated purpose.** Only the
+moment at which the decision becomes binding has moved. It is now made
+*before* generation, and its only expression is a sentence in the shot brief.
+Three shifts follow.
+
+- **The cue list is addressed in shots, not in timecode.** A joint generator's
+  atomic unit is the shot, so a cue cannot enter mid-shot or exit mid-shot
+  without regenerating the shot. Spot the sequence at brief time, then write
+  each shot's music decision into that shot's own brief: present and what it
+  is doing, or explicitly absent. "No prominent background music" is a cue
+  list entry, and it has to be *written*, because a generator asked for a
+  scene with no opinion about score will supply one.
+- **Ducking is stated as an instruction, not automated as a rule.** The fixed
+  attenuation under narration has no implementation here. Its replacement is a
+  clause in the brief that tells the generator what the mix priority is —
+  score absent or minimal wherever a character speaks, foreground effects
+  named specifically enough that the model does not resolve them into a bed.
+  It is weaker than an automated duck and it is the only lever there is; treat
+  the resulting balance as a thing to verify on the returned clip, not as a
+  thing the instruction guaranteed.
+- **The purpose sentence gains a second reader.** It used to brief whoever
+  produced the cue. It now also constrains the *picture*, because one prompt
+  produces both. A shot briefed for a score that swells is a shot whose action
+  will be composed to earn the swell, which is a better default than the
+  separated pipeline usually gets — and a worse one when the brief's music
+  intent and its dramatic intent disagree, because there is no longer a mix
+  stage where somebody notices.
+
+The rationing argument is unchanged and gets sharper: with no post-hoc
+control, a sequence briefed with music in every shot is a sequence that will
+come back scored end to end, and the moment that needed lift arrives
+pre-spent with no remedy short of regenerating it. Alternating scored and
+unscored shots is how dynamics are held, and it is a decision taken in the
+brief, once, before anything is rendered.
 
 ## Decision rules
 
