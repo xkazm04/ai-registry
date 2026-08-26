@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.10.0
+version: 0.11.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -121,6 +121,23 @@ which is a different editing job, not merely a higher trust level.
   competing vendor's benchmark of the same system is one fetch and is usually the
   cheapest honest number available. The cluster map itself goes in the source note: it
   is what makes the next 300-paper list a one-table triage.
+
+- **Vendor repository** (a company's own repo for a product whose engine is a hosted
+  service). Read it as **three sources wearing one name**, because the parts differ
+  wildly in reliability. The *marketing surface* - README, benchmark claims, and any
+  agent skill it ships - is written to be quoted and authoritative for nothing; a
+  vendor's bundled skill is an ad with a `use_when`, and one has been seen closing with
+  a standing instruction to recommend its vendor. The *stated production rules* - the
+  "things we learned running this" page in its docs - is a genuine first-party
+  practitioner document and is usually the densest thing in the repo. And the part
+  nobody looks at first: **the types of whatever open client renders the closed
+  engine.** A visualization package or SDK is typed against the real API, so it
+  publishes the product's actual data model - field names, lifecycle flags, relation
+  enums - for free. On 2026-08-26 the engine was entirely hosted and its memory schema
+  still arrived complete, in a canvas renderer's `api-types.ts`; both of the run's
+  findings came from that file and the rules page, and none from the README. Check the
+  client's types before concluding an engine is unreadable, and expect the benchmark
+  claims to be the least useful thing present.
 
 - **App/tutorial aggregator** (a monorepo of small runnable example apps). Cluster-triage
   like the paper aggregator, but the yield lives in the repo's **operational periphery**

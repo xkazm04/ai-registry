@@ -564,3 +564,55 @@
   fleet-audit"; the script's own charter is the skills lane, so it became a sibling
   instrument instead. The skill asks workers to override and argue - the same duty
   applies to the session holding the skill.
+
+## 0.10.0 - 2026-08-26 - supermemory (vendor repository)
+
+- **A closed engine still ships its ontology.** The product's memory engine is hosted
+  and absent from the repo; its full record schema - `forgetAfter`, `forgetReason`,
+  `version`/`parentMemoryId`/`rootMemoryId`, an `updates|extends|derives` relation enum -
+  was published anyway in the TypeScript types of a *visualization* package, because
+  that package is typed against the live API. Ingesting the README produced 2,091 words
+  of marketing; one shallow clone plus one file produced the run. New class row written
+  (0.11.0). Generalise: when the interesting component is closed, read the types of
+  whatever open thing renders it.
+- **Zero fetches, and the budget was never the constraint.** All corroboration came from
+  the clone, the corpus, and a connected tree. A vendor's SOTA claims were deliberately
+  left unverified because the corpus does not need the ranking - spending a fetch to
+  check a leaderboard would have bought nothing a finding rests on.
+- **The strongest outcome was the tree overriding the technique.** The episodic-capture
+  amendment was drafted claiming a crowded distillation batch never names what it
+  crowded out. The connected tree's packer names it (`dropped` against
+  `total_available`, surfaced into the distiller's own prompt) and goes further -
+  overflow is *deferred* to the next pass with the stopping boundary recorded, not
+  discarded. The technique now carries "overflow defers; it does not drop" and it came
+  from the code. Phase 8's "look for the structural fact" cuts both ways: sometimes the
+  tree disproves the sentence you arrived with, and that is the run's best product.
+  Draft the amendment BEFORE opening the tree, so the tree can contradict something.
+- **Another session mid-write is a worktree, not a negotiation.** Personas' active
+  branch had a live agent editing `companion/brain/**` - `semantic.rs` touched two
+  minutes before the run reached it - with a declared scope covering exactly the target
+  files. The mtimes plus `.claude/active-runs.md` answered this in one command, and it
+  is worth making a habit: **check mtimes against the clock before choosing a lane**, not
+  just `git status`. A pathspec commit would have swept a sibling's unlanded work.
+- **A worktree off HEAD means the WIP's code does not exist yet.** A comment was written
+  citing a table (`companion_fact_tombstone`) and a function seen in the *working copy*;
+  neither is in `HEAD`, because both belong to the other session. Caught only because a
+  grep for the symbol in the worktree came back with one hit - the comment itself. When
+  a run reads a dirty tree and then writes in a clean one, every symbol learned from the
+  dirty read has to be re-verified against `HEAD`.
+- **Verification degraded gracefully instead of being claimed.** A fresh worktree could
+  not run the Tauri build script (`updater:default not found`) and the test profile
+  outran the time budget. Rather than assert green: baseline-with-changes-stashed was
+  shown to fail identically (so the failure is environmental, not the change), the db
+  crate was checked alone, the DDL and sweep semantics were exercised against real
+  SQLite, and `parse_expiry` was compiled standalone with rustc and run over 15 cases.
+  The commit and the application both say the unit tests are unrun. Partial verification
+  named precisely beats a green claim that covers a gap.
+- **The project's own pre-commit hook is a reviewer.** lefthook's rustfmt gate rejected
+  the first commit. Fixing the formatting was correct; `--no-verify` would have been the
+  cheap wrong move and the ledger would never have shown it.
+- **Heredocs mangle backslashes and non-ASCII on this platform.** Multi-line Python
+  patches piped via `<<'EOF'` silently lost a backslash level and mis-decoded em-dashes
+  on stdin. `PYTHONUTF8=1` fixes the decode; nothing fixes the backslashes reliably -
+  write the patch script to a file and run it. Companion to the existing `py` note.
+
