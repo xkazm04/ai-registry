@@ -1075,3 +1075,50 @@ and two classes had been explicitly deferred to "the next reflect". This is that
 - Landed from run 28's own operations, because it was verified in-run rather than
   reasoned about: a pathspec commit cannot see unstaged new files, so every new document
   needs an explicit `git add` by name first. Cost one failed commit.
+
+## 0.12.0 - 2026-08-27 - herdr (single repo, first-party agent-runtime class)
+
+Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
+
+- **New class: the first-party agent-runtime repository.** An open-source product whose
+  subject matter IS agent infrastructure, so its tree carries production rules for
+  agents building it, a skill for agents driving it, and the hooks that enforce both.
+  Characterised in the ledger at one sighting.
+- **The bundled-skill prediction was wrong and is now a question.** The 2026-08-26
+  vendor-repository lesson says a vendor's bundled skill is "an ad with a `use_when`",
+  from one that closed by instructing agents to recommend its vendor. This one inverts
+  it completely: a *negative* description ("Do not use merely because a task could
+  benefit from a background terminal, delegation, or parallel work") and a first
+  instruction that halts the skill when a runtime precondition is unmet. The durable
+  form is not a prediction but a read: **a bundled skill is written under invocation
+  pressure; read which way that pressure resolved.** Amended the class note rather than
+  the method, since both observations are single-vendor.
+- **When the source implements the primitive, its code is the primary source.** Spent 2
+  of 3 fetches hunting a terminal-behaviour citation - the control-sequence reference
+  does not state the property, and the obvious multiplexer FAQ does not discuss it. The
+  answer was in the tree already open, in the vendored emulator's own API contract,
+  stated outright. **Check the tree for the citation before spending the budget on the
+  web, whenever the source is an implementation of the thing being claimed.** This is
+  the strongest form of "prefer primary" and it costs nothing.
+- **A contested home was worth more than the finding.** Two candidates proposed as
+  separate techniques merged into one after reading the *neighbour* subject rather than
+  the candidate's own. `fleet-orchestration/lifecycle-signals` already owned the state
+  machine; what it did not own was the case where its own tier one does not exist. The
+  general move: when a candidate looks like a duplicate of a neighbour, read the
+  neighbour for **its stated precondition**, and check whether the source's situation
+  satisfies it. Here it did not, and that gap was the entire technique. Recorded on both
+  sides per Phase 7.
+- **Taking a golden path's numbered rule literally, against its own headline tenant.**
+  Phase 6's enumeration hunt keeps paying, but the sharpening is *which* counterexample
+  to look for: the rule failed on the subject's primary tenant, not an exotic one. A
+  thorough document is least suspicious of its main case. Ask "which tenant breaks this"
+  and try the obvious one first.
+- **Precision about the mechanism changed the fix.** The easy write-up - "the ring misses
+  output" - was wrong: the ring is byte-faithful and keeps every byte; what it cannot do
+  is reconstruct history the terminal never retained. The wrong version would have sent
+  readers to raise the buffer budget forever. Worth a standing check when correcting a
+  claim: **state what the mechanism actually does, then what it therefore cannot
+  deliver** - not the symptom.
+- Operationally clean: the parallel session that held voice-io WIP committed mid-run, so
+  index/catalog regeneration was safe. Verified with `git status` before regenerating
+  rather than assuming, per the shared-checkout rule.

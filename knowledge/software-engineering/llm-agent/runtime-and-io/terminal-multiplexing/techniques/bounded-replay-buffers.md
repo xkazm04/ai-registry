@@ -6,7 +6,7 @@ technique: bounded-replay-buffers
 status: forged
 laws: [count-carries-predicate, creation-names-reaper]
 shared_with: []
-use_when: [sizing a backend tail buffer in bytes not lines, replay doubles or drops at the attach seam, reading an unwatched session's screen without rendering it]
+use_when: [sizing a backend tail buffer in bytes not lines, replay doubles or drops at the attach seam, reading an unwatched session's screen without rendering it, asking the ring for history a full-screen program never sent it]
 ---
 
 # Bounded replay buffers
@@ -131,6 +131,53 @@ harvest — that is a durable record written at wire speed alongside the
 ring, per the neighbor technique's "the live buffer is not the system of
 record". The ring is never scraped at session end and called the
 transcript.
+
+## The alternate screen is where the ring's promise ends
+
+The ring's guarantee has a boundary, and it falls exactly on this subject's
+most demanding tenant. A program that switches the terminal to the
+**alternate screen** — the second, fixed-size grid that full-screen
+applications draw on — gets a buffer with *no scrollback of its own*. That is
+the defining property of the mode, not an implementation choice: on the
+alternate screen the scrollable area is the visible area, so a row pushed off
+the top is not saved anywhere. The host's scrollback never receives it,
+because the host was never sent it as scrolled-off content — it was sent the
+repaints of a grid that overwrote itself in place.
+
+The consequence for the ring is precise, and it is not that the ring stops
+filling. The ring is byte-faithful and keeps every byte. But replaying those
+bytes into an emulator reconstructs **the current screen**, not a transcript,
+because that is all the bytes ever described. Worse, a full-screen program
+repaints continuously, so a byte-bounded tail is dominated by redraws of the
+present and evicts the past faster than a line-oriented child's would. Asking
+for more lines cannot recover history the terminal never retained, and a
+caller who reads "increase the buffer" as the fix will raise the budget
+forever without ever seeing the content they want.
+
+State it as the condition on the tail's promise: **whatever the user missed
+is waiting in the ring only for children that scroll.** For a full-screen
+occupant, the occupant's own transcript lives inside the occupant's
+application state, and the multiplexer's buffers are not a route to it.
+
+That leaves two honest recoveries, in order:
+
+- **Drive the occupant's own scroll interface.** The application that owns
+  the history will page through it if asked the way a user would — wheel
+  input it already understands — so a read that needs more than the screen
+  can request pages, stitch the overlapping captures, and return the viewport
+  to the bottom when it finishes. This is a *mutation of the session's view*
+  wearing a read's clothing, so it is gated hard: only while the occupant is
+  idle (a read that would scroll a working session is refused with a
+  distinguishable error, not silently degraded), never for a session the user
+  has manually scrolled, never for the passive sources — the visible grid, the
+  detection buffer, styled reads, output waits, subscriptions — and never for
+  an application that does not report wheel input at all.
+- **Ask the occupant to write the answer down.** When paging cannot reach it,
+  the fallback is to have the program persist its own output to a file and
+  return the path. Reach for this *after* the read fails, not before: making
+  every caller pre-arrange file output taxes the common case to serve the
+  rare one, and it moves a terminal problem into a filesystem the caller now
+  has to clean up.
 
 ## Rings name their reaper
 

@@ -10,6 +10,7 @@ techniques:
   - pty-management
   - keystroke-injection
   - multiplexer-state
+  - occupant-state-detection
 ---
 
 # Terminal emulation & multiplexing
@@ -199,6 +200,37 @@ expressible and reproducible. The
 notation, the typed-versus-pasted distinction, and the timing discipline for
 driving full-screen programs.
 
+## Driving requires knowing who is home
+
+Injection answers *how* to send a keystroke. It does not answer *whether to
+send one now*, and for a hosted program that question has teeth: a write
+aimed at a session showing a confirmation dialog does not reach the
+program's input loop, it answers the dialog. So a multiplexer that offers
+programmatic control owes its callers one more thing — a reading of the
+**occupant's** state, distinct from the session's attachment rung above.
+
+The neighbour already owns the state machine this feeds. Fleet
+orchestration's
+[lifecycle-signals](../../orchestration/fleet-orchestration/techniques/lifecycle-signals.md)
+tracks what each session is doing, and its best channel is the session's own
+runtime announcing transitions. This subject's contribution begins where
+that channel is absent: the occupant is a third-party interactive program
+that emits no hooks and offers only the screen it paints. Turning that into
+a signal worth acting on is a terminal problem — it is about which region of
+which buffer to read and how much to believe it — and so it belongs here,
+with the result handed upward as an observation like any other.
+
+Two rules carry most of the value. The classifier reads a buffer the **user
+cannot scroll**, because a verdict that changes with the scrollbar is a
+verdict about the viewer rather than the session. And the vocabulary keeps
+an explicit **unclassifiable** state that no caller may read as completion —
+an occupant sitting in an overlay the rules do not model is not finished, and
+saying so is the difference between a driver that waits and one that
+harvests nothing and calls it a result. The
+[occupant-state-detection](./techniques/occupant-state-detection.md)
+technique owns the channel ranking, the manifest-as-data discipline, and the
+contract each state implies for whoever is driving.
+
 ## The manager is a singleton with a lifecycle
 
 All of the above needs an owner: one **manager**, keyed by session identity,
@@ -239,7 +271,13 @@ Two rules fall out of the table:
 1. **The ring never blinks.** On every rung where the child is alive the
    backend ring is filling — it is the existence-cost resource that makes
    every other teardown safe, because whatever the user missed is waiting in
-   the tail.
+   the tail. With one condition, and it lands on this subject's most
+   demanding tenant: a child drawing on the **alternate screen** has no
+   scrollback to lose rows into, so its ring holds repaints of the current
+   grid rather than a transcript, and no budget increase recovers what the
+   terminal never retained. The tail's promise is a promise to children that
+   scroll; [bounded-replay-buffers](./techniques/bounded-replay-buffers.md)
+   owns the boundary and the two recoveries.
 2. **Downward is cheap and automatic; upward is deliberate.** Parking and
    detaching happen by budget without asking; attaching happens only on
    explicit user or automation intent, because it spends attention-column
@@ -264,3 +302,8 @@ Two rules fall out of the table:
 - [multiplexer-state](./techniques/multiplexer-state.md) — the session-keyed
   manager, focus routing, per-session view state, survival across code
   reload.
+- [occupant-state-detection](./techniques/occupant-state-detection.md) —
+  reading a hosted program's readiness off the screen when it emits no
+  lifecycle hooks: channel ranking, the unscrollable detection buffer,
+  per-occupant manifests as reloadable data, and the unknown state that
+  never means done.

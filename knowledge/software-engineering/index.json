@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 149,
-  "techniques": 958,
+  "techniques": 959,
   "applications": 434,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "958/958",
+  "use_when_coverage": "959/959",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16088,7 +16088,8 @@
      "use_when": [
       "sizing a backend tail buffer in bytes not lines",
       "replay doubles or drops at the attach seam",
-      "reading an unwatched session's screen without rendering it"
+      "reading an unwatched session's screen without rendering it",
+      "asking the ring for history a full-screen program never sent it"
      ]
     },
     {
@@ -16116,6 +16117,22 @@
       "deciding what identifies a session",
       "keystrokes land in the wrong terminal",
       "sessions reset when moved between panes"
+     ]
+    },
+    {
+     "slug": "occupant-state-detection",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "driving a hosted interactive program that emits no lifecycle hooks",
+      "automation typed into a confirmation dialog it did not know was open",
+      "deciding whether a quiet session is thinking or waiting for you",
+      "a status classifier changed its verdict because the user scrolled"
      ]
     },
     {
@@ -17990,6 +18007,7 @@
     "templates-scaffolding/integrity-and-provenance",
     "templates-scaffolding/readiness-prerequisites",
     "templates-scaffolding/template-portability",
+    "terminal-multiplexing/occupant-state-detection",
     "test-harness/isolation-lanes",
     "test-harness/live-app-harness",
     "test-harness/negative-control-tests",
@@ -19521,6 +19539,7 @@
     "templates-scaffolding/readiness-prerequisites",
     "templates-scaffolding/template-anatomy",
     "terminal-multiplexing/keystroke-injection",
+    "terminal-multiplexing/occupant-state-detection",
     "test-harness/fixture-economics",
     "time-travel-replay/renderer-reuse",
     "toasts-notifications/announcement-accessibility",
@@ -19736,6 +19755,7 @@
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",
     "structured-output/schema-validation-and-repair",
+    "terminal-multiplexing/occupant-state-detection",
     "web-scraping/soak-mode-and-verdict-replay"
    ]
   },

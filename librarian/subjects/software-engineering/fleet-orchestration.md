@@ -22,6 +22,30 @@ fence stack), plus `node--substrate-reconciliation` verified against the
 public tree @ ff7a192. Both were missing *stages*: the GP owned the registry
 and never said how the compute connects or how the substrate is kept aligned.
 
+### 2026-08-27 - `/intake`, boundary only (no content change)
+
+Run 29 ([[../../sources/2026-08-27-herdr]]) proposed a session-lifecycle
+technique and this subject won the contest for the state machine — correctly.
+`lifecycle-signals` already owns the tiers, the sweeper, the door and the
+precedence rules, and the finding would have duplicated it.
+
+What landed instead, in `terminal-multiplexing`, is the **supplier** for the
+case `lifecycle-signals` does not cover: the occupant emits no hooks and no
+event stream, so the only channel is the screen it paints. `lifecycle-signals`
+ranks raw output as its weakest evidence ("a hung process can animate
+forever") and stops there; the new `occupant-state-detection` is how that
+weakest channel is made good enough to hand to this subject's door — ranked
+sub-channels inside the screen, a buffer the user cannot scroll, and an
+explicit unclassifiable state that no caller may read as completion.
+
+The discriminator, stated the same way on both sides: **does the occupant
+announce its own transitions?** Yes → tier one here. No → the terminal
+subject classifies and reports in, and everything this subject says about
+arbitration applies unchanged. See [[terminal-multiplexing]].
+
+Nothing in this subject needed editing. Recorded so a later run recognises the
+seam instead of re-litigating it.
+
 ## Open leads
 
 - The boundary between substrate-reconciliation's inward direction and
