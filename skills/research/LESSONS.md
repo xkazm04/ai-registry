@@ -112,3 +112,46 @@ bumped independently (that run 1.1→1.2, this one 1.2→1.3).
   because the next command errored. Write the payload with the Write tool (or to a file) and let the
   shell see only a path. Same family as the 2026-08-20 cwd-drift lesson: the tool answers a different
   question than the one asked, plausibly.
+
+## 1.7.1 — 2026-08-26 — personas (openhuman → Athena companion)
+
+- **A peer codebase is a source type the Phase 3 yield table doesn't have, and it behaves like a
+  product demo.** Read `tinyhumansai/openhuman` (Rust+Tauri+React local-first AI, the same shape as
+  the consuming repo) against Athena: **4 findings / 11 catches, ~1:3**, three shipped. Proposed row:
+  *peer codebase / competitor repo → low findings + many catches; the findings come from the source's
+  LEAST glamorous material.* Here they were a read-only diagnostic tool, an SVG score bar, and one
+  enum variant in a learning cache — while its orchestration control plane, its agent-teams graph and
+  its 560-file agent module were all catches or n/a. A generative reading gravitates to the big
+  subsystems and finds nothing; compare-mode's "which of these do we FAIL" is what surfaced all three.
+  NOT applied to SKILL.md: one run is thin evidence for reshaping a table 8+ projects read.
+
+- **For a large-repo source, read the module READMEs, never the source first.** 5,820 files is not
+  readable, and Phase 2b's landing-page rule has a sibling trap here: the repo root README is
+  marketing. What worked, in three calls: `gh api .../git/trees/main?recursive=1` once, then
+  `cut -d/ -f1-3 | sort | uniq -c | sort -rn` to find where the mass is (`agent/` 560, `memory/` 189),
+  then fetch `<module>/README.md`. Four READMEs (~40KB) carried the entire design — public surface,
+  calls-into, called-by, persistence, gotchas. Opening `.rs` files first would have cost 10x for less.
+
+- **When a finding's fix trips a census rule, fixing it is usually cheap AND improves the change —
+  budget for it instead of reaching for `--update`.** Two violations introduced, two fixed, net census
+  **−11**. The FTS one forced the test to seed through the production writer (`episodic::append_episode`)
+  instead of hand-syncing `companion_fts`, so the test now also fails if that writer stops mirroring.
+  The bigint one removed a `bigint` field from a generated binding — a wire type `JSON.parse` can never
+  produce. Neither fix was a workaround; both were the better code.
+
+- **Fault-inject any test whose whole point is a refusal.** The end-to-end "a forgotten fact stays
+  forgotten" test passed on first run, which proves nothing — a refusal test passes trivially if the
+  candidate never appears. Disabling the gate (`if false && is_forgotten(..)`) made it fail at the
+  expected assertion, then restore + re-verify. Cheap, and it is the only thing separating a behavior
+  gate from a data gate.
+
+- **Anchor path needles at a separator when attributing census drift.** My attribution script matched
+  `src/lib.rs` as a substring and reported `src-tauri/db/src/lib.rs` as mine across three separate
+  rules — three false "you broke this" panics on a file I never opened. Same family as §4c: the tool
+  answered a different question than the one asked, plausibly. Compare against the exact dirty set
+  (`git diff --name-only HEAD`), not a hand-written substring list.
+
+- **Grepping your own long-running command's output can hide the finding.** Backgrounded a 25-minute
+  crate-test run through `grep -E "^> cargo|^error|test result"` — the summary said `10 failed` and the
+  failing test NAMES had been filtered out by my own pipe, so the file could not answer "which". Had to
+  re-run. Log raw, filter on read.

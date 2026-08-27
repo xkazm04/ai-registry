@@ -617,11 +617,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 18,
-      "techniques": 115,
-      "applications": 42,
-      "files": 180,
-      "contentHash": "sha256:c6246ad0cdfa2947"
+      "subjects": 19,
+      "techniques": 118,
+      "applications": 44,
+      "files": 186,
+      "contentHash": "sha256:df56aec320f475d9"
     },
     {
       "name": "recruiting",

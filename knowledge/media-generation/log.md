@@ -4,6 +4,50 @@ Audit trail (OKF reserved file). One block per event that changed or
 validated this bundle's content. Public-safe by rule: no private paths, no
 operator preferences — those live consumer-side.
 
+## 2026-08-27 — forge from a run: character-identity-continuity
+
+- Trigger: a trailer-consistency spike on a single-GPU studio pipeline that
+  measured, rather than assumed, whether one character survives across a cut.
+  Six still lanes, two motion lanes, a face ruler calibrated on real film
+  before anything was generated.
+- New subject `character-identity-continuity` under `visual-generation`
+  (7 subjects, under the cap), three techniques:
+  `identity-ruler-calibration`, `reference-admitted-late`,
+  `camera-position-not-focal-length`; two process applications.
+- The load-bearing catch is a **sign error in the obvious instrument**. A
+  self-supervised image embedding — which `visual-style-locking` correctly
+  recommends for separating *style* — inverts on identity: two different
+  actors in matching costume under matching light scored 0.28 while one actor
+  across a cut scored 0.50–0.59. The property that makes it the right style
+  instrument makes it the wrong identity instrument. A pipeline that skipped
+  calibration would have published numbers meaning the reverse of their claim,
+  with nothing in the output looking wrong. `identity-ruler-calibration` makes
+  the inversion check a stop condition, not a caveat.
+- Second catch: **conditioning at full strength replaces rather than
+  conditions**, and the failure scores perfectly — 0.168 identity, better than
+  real film, on a lane where two of three shots were the reference image
+  again at a difference of 0.0002. Hence the mandatory second axis, and
+  `reference-admitted-late`, whose ablation assigns the fix to timing rather
+  than to the reference crop that arrived with it.
+- Third catch is test design: prompt-and-seed discipline scored 0.486 on a
+  shot list varying only in focal length and 0.764 — past the different-actor
+  ceiling — on the same list rewritten to move the camera. The technique did
+  not change; the test did.
+- **Confirmed and left untouched**: `generated-shot-sourcing`'s claim that
+  adjacency anchoring does not scale to a chain. Last-frame chaining drifted
+  to 0.6262 by the third clip against reference conditioning's 0.1887. The
+  bundle already owned this; the run is evidence for it, not a new node, and
+  the new subject hands over at the cut rather than restating it.
+- Instrument note: an identity embedding must **refuse** outside its domain.
+  Every "different person" verdict in the first motion scoring came from a
+  12–28 px face; every real face measured 125 px or more. The floor reversed a
+  conclusion already drawn in the same session. Wide shots are routinely
+  unscoreable for identity — a fact about how trailers are shot, and the
+  reason continuity across a mixed sequence is a two-instrument measurement.
+- Gates: `check-bundles` green (19 subjects · 118 techniques · 44
+  applications); index and catalog rebuilt; currency unaffected — both new
+  applications are `process` and carry no derived clock.
+
 ## 2026-08-26 — intake run: the audio-generation category
 
 - Trigger: /intake on a 76-word vendor product announcement (a

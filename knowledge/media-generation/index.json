@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 18,
-  "techniques": 115,
-  "applications": 42,
+  "subjects": 19,
+  "techniques": 118,
+  "applications": 44,
   "laws": 8,
   "categories": [
    "narrative-craft",
@@ -15,10 +15,77 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "115/115",
+  "use_when_coverage": "118/118",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
+  "character-identity-continuity": {
+   "category": "visual-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/visual-generation/character-identity-continuity/character-identity-continuity.md",
+   "techniques": [
+    {
+     "slug": "camera-position-not-focal-length",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a test that a continuity technique must pass",
+      "a consistency batch passes easily and the result feels unearned",
+      "writing the shot list for a continuity probe",
+      "a fixed seed is being used to hold a batch together"
+     ]
+    },
+    {
+     "slug": "identity-ruler-calibration",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing an instrument to score character consistency",
+      "someone reports a consistency number with no scale under it",
+      "a batch scores well on identity but looks wrong",
+      "deciding whether a wide shot can be scored at all",
+      "building a regression probe for a character pipeline"
+     ]
+    },
+    {
+     "slug": "reference-admitted-late",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a character reference is overriding the requested camera or staging",
+      "every shot in a batch comes back looking like the reference image",
+      "choosing how strongly to condition on a character reference",
+      "a reference-conditioned clip opens on the reference and drifts to the briefed shot"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "identity-ruler-calibration",
+     "file": "knowledge/media-generation/visual-generation/character-identity-continuity/applications/process--identity-ruler-calibration.md",
+     "verified_on": "2026-08-27"
+    },
+    {
+     "stack": "process",
+     "technique": "reference-admitted-late",
+     "file": "knowledge/media-generation/visual-generation/character-identity-continuity/applications/process--reference-admitted-late.md",
+     "verified_on": "2026-08-27"
+    }
+   ]
+  },
   "cinematic-language": {
    "category": "visual-generation",
    "subcategory": null,
@@ -2049,36 +2116,12 @@
   }
  },
  "laws": {
-  "style-is-restated-not-remembered": {
-   "statement": "Visual consistency across many generation calls comes from restating the full style contract on every call. Reference images alone measurably drift within a single batch; there is no short form, and no call may opt out of the style half of its prompt.",
-   "techniques": [
-    "cinematic-language/genre-visual-contracts",
-    "cinematic-language/lighting-as-dramatic-instrument",
-    "evidence-bound-visuals/epistemic-draw-routing",
-    "generated-output-grading/trial-matrix-design",
-    "image-prompt-composition/assigned-colour-roles",
-    "image-prompt-composition/identity-split-from-state",
-    "image-prompt-composition/medium-vocabulary-locking",
-    "image-prompt-composition/negative-prompting",
-    "image-prompt-composition/prompt-dialect-matching",
-    "image-prompt-composition/style-first-token-ordering",
-    "image-prompt-composition/two-block-style-and-action",
-    "music-prompt-composition/reference-track-anchoring",
-    "music-prompt-composition/section-plan-as-the-brief",
-    "music-prompt-composition/sonic-style-vocabulary",
-    "review-iteration-loops/partial-regeneration-seams",
-    "sound-effect-generation/envelope-first-briefing",
-    "video-assembly/generated-shot-sourcing",
-    "video-assembly/motion-plate-library",
-    "visual-style-locking/approved-reference-sheet",
-    "visual-style-locking/consistency-control-arm",
-    "visual-style-locking/style-block-restated-every-call",
-    "visual-style-locking/style-onboarding-from-sample"
-   ]
-  },
   "unmeasured-is-not-pass": {
    "statement": "A quality gate may never report pass for something it did not check. \"Unmeasured\" is a first-class verdict, distinct from pass and fail, and enforcement coverage — what fraction of the promise is actually checked — is reported alongside the verdict. Craft parameters ship only with measurements behind them; an impression is not a number.",
    "techniques": [
+    "character-identity-continuity/camera-position-not-focal-length",
+    "character-identity-continuity/identity-ruler-calibration",
+    "character-identity-continuity/reference-admitted-late",
     "cinematic-language/lens-effect-language",
     "cinematic-language/performance-direction",
     "content-research-grounding/evidence-grading-ladder",
@@ -2126,6 +2169,53 @@
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/draft-proofing-locked-ratchet",
     "visual-style-locking/rejections-as-negative-evidence"
+   ]
+  },
+  "refusal-is-a-state": {
+   "statement": "Generative providers refuse, and a refusal is a routing decision: re-route to another provider or surface it honestly — never blind-retry the same request, and never let a refusal masquerade as an empty success. No elimination is silent; the trail of who declined and why is part of the output.",
+   "techniques": [
+    "character-identity-continuity/identity-ruler-calibration",
+    "frame-direction/per-beat-rejection",
+    "generative-provider-routing/capability-to-vendor-plan",
+    "generative-provider-routing/non-silent-elimination",
+    "generative-provider-routing/refusal-reroute-hop",
+    "production-pipeline-phasing/long-run-as-background-job",
+    "production-pipeline-phasing/shared-clock-across-phases",
+    "production-pipeline-phasing/worst-news-first-progress",
+    "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "review-iteration-loops/refusal-as-valid-outcome",
+    "review-iteration-loops/scope-vs-preference-signals",
+    "sound-effect-generation/loop-seam-acceptance",
+    "video-assembly/gap-and-refusal-honesty",
+    "video-assembly/generated-shot-sourcing"
+   ]
+  },
+  "style-is-restated-not-remembered": {
+   "statement": "Visual consistency across many generation calls comes from restating the full style contract on every call. Reference images alone measurably drift within a single batch; there is no short form, and no call may opt out of the style half of its prompt.",
+   "techniques": [
+    "character-identity-continuity/reference-admitted-late",
+    "cinematic-language/genre-visual-contracts",
+    "cinematic-language/lighting-as-dramatic-instrument",
+    "evidence-bound-visuals/epistemic-draw-routing",
+    "generated-output-grading/trial-matrix-design",
+    "image-prompt-composition/assigned-colour-roles",
+    "image-prompt-composition/identity-split-from-state",
+    "image-prompt-composition/medium-vocabulary-locking",
+    "image-prompt-composition/negative-prompting",
+    "image-prompt-composition/prompt-dialect-matching",
+    "image-prompt-composition/style-first-token-ordering",
+    "image-prompt-composition/two-block-style-and-action",
+    "music-prompt-composition/reference-track-anchoring",
+    "music-prompt-composition/section-plan-as-the-brief",
+    "music-prompt-composition/sonic-style-vocabulary",
+    "review-iteration-loops/partial-regeneration-seams",
+    "sound-effect-generation/envelope-first-briefing",
+    "video-assembly/generated-shot-sourcing",
+    "video-assembly/motion-plate-library",
+    "visual-style-locking/approved-reference-sheet",
+    "visual-style-locking/consistency-control-arm",
+    "visual-style-locking/style-block-restated-every-call",
+    "visual-style-locking/style-onboarding-from-sample"
    ]
   },
   "causality-over-sequence": {
@@ -2222,24 +2312,6 @@
     "image-prompt-composition/shape-language-over-nouns",
     "image-prompt-composition/verbatim-text-locking",
     "platform-format-adaptation/sound-off-first-design"
-   ]
-  },
-  "refusal-is-a-state": {
-   "statement": "Generative providers refuse, and a refusal is a routing decision: re-route to another provider or surface it honestly — never blind-retry the same request, and never let a refusal masquerade as an empty success. No elimination is silent; the trail of who declined and why is part of the output.",
-   "techniques": [
-    "frame-direction/per-beat-rejection",
-    "generative-provider-routing/capability-to-vendor-plan",
-    "generative-provider-routing/non-silent-elimination",
-    "generative-provider-routing/refusal-reroute-hop",
-    "production-pipeline-phasing/long-run-as-background-job",
-    "production-pipeline-phasing/shared-clock-across-phases",
-    "production-pipeline-phasing/worst-news-first-progress",
-    "review-iteration-loops/follow-up-that-can-kill-a-fact",
-    "review-iteration-loops/refusal-as-valid-outcome",
-    "review-iteration-loops/scope-vs-preference-signals",
-    "sound-effect-generation/loop-seam-acceptance",
-    "video-assembly/gap-and-refusal-honesty",
-    "video-assembly/generated-shot-sourcing"
    ]
   },
   "cost-per-usable-output": {
