@@ -1,7 +1,7 @@
 ---
 subject: job-coordination
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 touched_by: intake
 dry_streak: 0
 ---
@@ -76,3 +76,47 @@ terms.
 - **The one self-terminating recurring kind.** The source had a single recurring action
   that stops on its own while every other kind chains forever. Untriaged, thin, anchor in
   the source note. Worth a look if a later run touches recurring-work vocabulary.
+
+
+## 2026-08-28 - /intake cross-repo lane ([[2026-08-27-openexecutive-virtual-executive]])
+
+The amendment landed the day before was taken into a connected `rust` consumer
+and **confirmed from the direction that makes it hardest to notice**. The
+existing `rust--terminal-state-recovery` application was extended rather than
+duplicated; `verified_on` moved to 2026-08-28 and `verified_against: rust@1.96`
+added, both earned - every citation in the document was re-resolved.
+
+The structural fact, which nobody designed: the consumer had built a
+heartbeat-lease leader election, whose own module doc states that several
+processes run against one local store and that each runs its own copy of every
+background loop. That module deferred the gating to "a later phase" and scoped
+the deferral to the background **loops**. The boot recovery sweep runs about a
+hundred lines before leadership is even constructed, and its passes key on
+state alone - so a follower marks the leader's live work failed. **Loop gating
+was deferred as the safe simplification, and the one caller that could not
+safely wait was not on the list**: a follower's loops merely duplicate work
+going forward, a follower's sweep destroys work already in flight.
+
+This sharpens the amendment rather than merely instancing it. The amendment
+says the constraint gets misattributed to the claim. Here there is no claim to
+misattribute it to - the sweeps are unconditional statements - so the ceiling
+is recorded **nowhere at all**: no config pins the instance count, no comment
+says single-instance, and the limit survives only as a premise in a sentence
+("their processes died when the app last exited") that stopped being true when
+a different module shipped. **A limit carried by a stale comment is worse than
+one carried by the wrong line**, and it is the form the amendment's diagnostic
+still catches, because the diagnostic reads the sweep's condition rather than
+the prose.
+
+Fix landed in the consumer the same day: a read-only lease peek before the
+destructive passes, deferring to a live leader, single-instance behaviour
+byte-for-byte unchanged. Not compile-verified - the consumer's build fails on
+this machine before the compiler runs, for a pre-existing reason confirmed by
+reverting the change and reproducing the identical failure.
+
+Also landed as a currency correction: two of the application's structural
+citations had gone stale to one cause (a large startup closure lifted into a
+module of named phase functions, and the engine's execution methods moved out
+of the module root). The file survived the move and its contents did not, so
+the old line numbers now resolve to unrelated registration entries - the
+failure mode a line citation has when only the contents move.
