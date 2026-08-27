@@ -45,3 +45,9 @@ First note: [[2026-08-26-joyai-echo]] - /intake run 23. Subject predates the not
 - `motion-plate-library` got its **first corroboration** (independent creator, one run after forge) and a fourth source: the built previz - LLM-driven 3D blockout with meter-exact numbers, viewport render as the plate. Building is the only source where motion is exact rather than sampled.
 - `storyboard-grid-conditioning` third independent author, and a new section: boards chain (N+1 conditioned on N), panels repair (identity re-stated), the panel count is a pacing contract on the clip cap.
 - Ladder-promotion pressure now at six riders; the note from run 25 stands and strengthens.
+
+## 2026-08-27 - /intake run 27 ([[2026-08-27-video-editing-batch]])
+
+- NEW technique `cut-compiled-from-source` (9th): the timeline-as-document doctrine taken to its strongest form - the edit authored as a declarative composition and compiled, promoting partial-regeneration-seams' symbolic-source escape clause to an authoring decision. The payoffs: source edits (byte-identical by representation, not by audit), scoped style swaps, edit styles as standing contracts, and a critique pass that reads interval arithmetic instead of watching pixels. Boundary: the footage inside clips stays pixel-land.
+- `derived-turn-markers` gained the voice-led derivation source: the word-timed transcript as the reference frame captions, overlays, cut points and highlight selection derive from. Three independent authors in one 4-video batch.
+- The subject is now 9 techniques and its center of gravity has shifted: conditioning channels on the sourcing side, compiled-source on the assembly side. The golden-path rebuild flagged twice is now overdue - next structural pass should reorganize around sourcing channels / assembly source / lanes+honesty.

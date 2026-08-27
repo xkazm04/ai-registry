@@ -13,6 +13,7 @@ techniques:
   - generated-shot-sourcing
   - motion-plate-library
   - storyboard-grid-conditioning
+  - cut-compiled-from-source
 ---
 
 # Video assembly

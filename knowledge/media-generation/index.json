@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 19,
-  "techniques": 120,
+  "techniques": 121,
   "applications": 44,
   "laws": 9,
   "categories": [
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "120/120",
+  "use_when_coverage": "121/121",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1909,6 +1909,22 @@
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
    "techniques": [
     {
+     "slug": "cut-compiled-from-source",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "checkability-routes-the-pixel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or choosing the authoring form for an edit's overlay and assembly layer",
+      "an edit must be reproducible, restyled wholesale, or applied as a standing template to new footage",
+      "reviewing a cut for defects that are relations between elements rather than pixels",
+      "deciding what a machine edit-assistant should emit"
+     ]
+    },
+    {
      "slug": "derived-turn-markers",
      "status": "forged",
      "laws": [
@@ -2196,6 +2212,7 @@
     "review-iteration-loops/partial-regeneration-seams",
     "review-iteration-loops/refusal-as-valid-outcome",
     "sound-effect-generation/loop-seam-acceptance",
+    "video-assembly/cut-compiled-from-source",
     "video-assembly/derived-turn-markers",
     "video-assembly/drift-correction",
     "visual-style-locking/consistency-control-arm",
@@ -2335,6 +2352,7 @@
     "review-iteration-loops/edit-plan-over-regeneration",
     "review-iteration-loops/partial-regeneration-seams",
     "sound-effect-generation/layered-element-assembly",
+    "video-assembly/cut-compiled-from-source",
     "video-assembly/drift-correction",
     "video-assembly/motion-plate-library",
     "visual-style-locking/draft-proofing-locked-ratchet"
@@ -2353,6 +2371,7 @@
     "image-prompt-composition/shape-language-over-nouns",
     "image-prompt-composition/verbatim-text-locking",
     "platform-format-adaptation/sound-off-first-design",
+    "video-assembly/cut-compiled-from-source",
     "video-assembly/storyboard-grid-conditioning"
    ]
   },

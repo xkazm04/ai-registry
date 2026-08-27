@@ -75,6 +75,30 @@ author is not finished.
   anything reports pass. Carrying a verdict across versions is reporting
   pass for something that was not checked.
 
+## The plan can land as annotations in the working surface
+
+An edit plan is usually imagined as a list handed to the reviewer; where
+the work lives in a tool with a native annotation channel — markers on a
+timeline, comments on a document — the stronger form is to **render the
+plan as annotations in that channel**: each proposed operation a marker at
+its position, carrying its why as the note. Three properties fall out:
+
+- **Review happens where the reviewer already works**, against the
+  material at the marked position, not in a side document they must map
+  back by hand.
+- **Approval is legible in place** — the reviewer keeps, edits, or deletes
+  markers, and the surviving set *is* the approved plan.
+- **Application is deterministic and separate.** A script walks the
+  approved markers and performs the edits; the model proposed, the human
+  disposed, and the mechanical step that touches the artifact contains no
+  judgment at all. This is the refuse-before-apply ordering built into the
+  workflow's shape: nothing executes until a person has seen it standing
+  on the material it will change.
+
+The pattern's boundary is the same as the plan's: markers are operations
+wearing the tool's clothes, and a marker whose note cannot say what it
+will do and why is not a proposal — it is a mystery with a timestamp.
+
 ## The tell, and the audit
 
 The reliable smell of regeneration-in-disguise is **an edit list longer than

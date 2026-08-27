@@ -972,3 +972,20 @@
   the only near-total loss was the model-ranking video (dated comparative
   facts). Sponsorship predicts nothing; demonstrated-mechanics density
   predicts everything.
+
+## 0.12.0 - 2026-08-27 - video-editing-batch (4 sources, operator-dispatched lane)
+
+- **A themed batch dispatched against a named consumer feature is the
+  highest yield-per-word shape observed**: the dispatch defines what "real"
+  means at triage, and the X-lane experiment executes in-run instead of
+  banking as a lead. 7.6k words produced a technique, three amendments, an
+  executed probe, and a plan appendix.
+- **When the operator gates an experiment on what the sources reveal
+  ("allowed if videos discover X"), record the discovery explicitly before
+  running it.** The videos established the editor's scriptability; the
+  probe then ran under a satisfied condition, not an assumed one - and the
+  probe's negative half (the one-time preference gate) was worth as much as
+  the positive half.
+- The strongest source was 699 words: a builder narrating their own
+  connector. Fourth consecutive run where length predicted nothing; the
+  ledger's class table already says this - trust it at triage time.

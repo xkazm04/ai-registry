@@ -618,10 +618,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 19,
-      "techniques": 120,
+      "techniques": 121,
       "applications": 44,
-      "files": 188,
-      "contentHash": "sha256:47e4d359c62fcdf7"
+      "files": 189,
+      "contentHash": "sha256:c3469ac0f2304796"
     },
     {
       "name": "recruiting",

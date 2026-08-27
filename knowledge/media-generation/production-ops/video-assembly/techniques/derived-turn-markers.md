@@ -52,6 +52,36 @@ computes is an impression wearing a number.
    derived value. The failure mode being prevented is precisely multiple
    copies of a structural fact aging at different rates.
 
+## The voice-led cut derives from the timed transcript
+
+For narrated and dialogue-led work, the semantic source with the highest
+yield is the **word-timed transcript**: every word of the voice lane with
+its start and end. It is cheap to produce (speech recognition emits it;
+subtitle formats carry it), and once it exists it is the queryable form of
+the material the voice lane's structure lives in — so a whole family of
+positions derive from it rather than being typed:
+
+- **Captions and word-synced emphasis** read their windows straight off the
+  word timings; a caption placed by hand against speech is the typed-marker
+  defect at its smallest grain.
+- **Overlay entrances** anchor to the phrase they annotate — the stat card
+  fires when its figure is spoken, wherever that moment now is.
+- **Cut points respect speech units.** A cut that lands mid-sentence is
+  computable from the transcript before anyone watches it; boundaries
+  belong at phrase edges and rhetorical pivots, and the transcript is where
+  those live as data.
+- **Selection is a transcript operation.** Finding the strongest minute of
+  an hour — the highlight reel, the cold-open hook — is reading text with
+  timings attached, and the chosen spans carry their own in and out points
+  back to the timeline.
+
+Practitioners converge on this from independent directions (an overlay
+compiler transcribing word-by-word before it places anything; an editor
+exporting timed subtitles as the handoff to a design tool; an assistant
+doing highlight selection over the editor's own transcript), because it is
+the same fact each time: the voice lane wins collisions, so the voice
+lane's timing is the reference frame everything else derives from.
+
 ## The coincidence trap
 
 The insidious version of the defect is the constant that is *currently

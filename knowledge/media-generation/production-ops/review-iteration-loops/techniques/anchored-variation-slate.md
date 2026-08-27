@@ -51,6 +51,18 @@ asking for difference were not sixteen sources of difference. Treat that as the
 governing fact of this technique: **you cannot phrase your way out of a narrow
 distribution; you have to put something into the request from outside it.**
 
+One decision rule about what happens *after* the pick, learned by a
+practitioner who priced both paths: **when the production tool can express
+the winning design, adopt the idea and rebuild it natively — the generated
+candidate never enters the deliverable.** A slate render adopted directly
+drags its whole revision loop along (every later tweak is another
+generation round, priced in credits and latency and misses); the same
+design rebuilt in the editor's own primitives is changed in seconds by the
+person who owns it. The slate's product is the *decision*, and treating the
+render as a probe rather than a deliverable is the asset-vs-disposable
+classification applied to ideation: the pick is the asset, the pixels that
+carried it are not.
+
 An **anchor** is that outside material — a specific artifact whose direction the
 candidate should take, named per variant. Anchors are a structural lever because
 they do not ask the generator to search harder; they relocate where it searches
