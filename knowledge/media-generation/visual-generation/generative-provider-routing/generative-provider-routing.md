@@ -139,8 +139,9 @@ step, not a re-roll that voids the grading already done.
   softened request instead of hopping vendors.
 - **The false empty success** — a safety block presenting as zero images and
   being passed to the caller as a completed call.
-- **The silent near-miss** — a request field a vendor ignores, producing
-  on-time, on-budget output that fails the brief with no error anywhere.
+- **The silent near-miss** — a request field a vendor ignores, or one the
+  router never sends because the caller set nothing, producing on-time,
+  on-budget output that fails the brief with no error anywhere.
 - **The phantom re-route** — an avoid-steer that quietly lands back on the
   avoided vendor because the chain had nowhere else to go.
 - **The unexplained fallback** — an asset served by the second-choice vendor

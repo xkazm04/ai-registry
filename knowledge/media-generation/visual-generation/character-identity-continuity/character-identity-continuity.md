@@ -3,10 +3,11 @@ layer: golden-path
 type: golden-path
 subject: character-identity-continuity
 status: forged
-use_when: [generating many shots that must show the same person, deciding how to condition a recurring character across a sequence, choosing an instrument to measure whether a character held, diagnosing why a batch reads as two different actors, designing the experiment that tests a continuity technique]
+use_when: [generating many shots that must show the same person, deciding how to condition a recurring character across a sequence, choosing what a character reference image may show, choosing an instrument to measure whether a character held, diagnosing why a batch reads as two different actors, designing the experiment that tests a continuity technique]
 techniques:
   - identity-ruler-calibration
   - reference-admitted-late
+  - reference-shows-only-invariants
   - camera-position-not-focal-length
 ---
 
@@ -82,6 +83,30 @@ briefed shot part-way through. The head of every clip is then the same
 picture, which is a slideshow at clip scale. Trimming clip heads is the cheap
 mitigation; timing the reference is the real one.
 
+## The reference asserts more than the face
+
+Timing returns control of the frame. It does not return control of the
+performer, because a reference image is a photograph of a face *doing
+something* — with an expression, an eyeline, a head angle and a light on it —
+and the conditioning channel carries all of that alongside the identity it was
+supplied for. Whatever state the reference happens to show becomes the batch's
+constant.
+
+What follows is the failure the two axes above cannot see. The camera obeys,
+the staging obeys, the frames are genuinely different pictures — and the same
+face wears the same expression through beats briefed as grief, fury and
+relief. The identity instrument scores it at its best, because a recognition
+embedding is built to be invariant to expression; the difference instrument is
+satisfied, because the pictures really do differ; and every shot passes on its
+own. A sequence with one performance in it is a continuity failure that no
+continuity measurement in this subject reports.
+
+The rule is the prose rule applied to a channel that cannot be edited with
+words: **the reference may show only what should never vary, and a state that
+must vary needs a reference of its own.** An image cannot be scrubbed, only
+composed — reference-shows-only-invariants holds what to compose it out of,
+and what the trade costs at each end.
+
 ## Consistency is measured against real material, or it is not measured
 
 Per [unmeasured-is-not-pass](../../_laws.md#unmeasured-is-not-pass), an
@@ -129,6 +154,9 @@ reported as unscored and never silently dropped from an average.
   material underneath it, so nobody can say whether it is good.
 - **The slideshow that scores perfectly** — a reference reproduced instead of
   incorporated, measured on identity alone and celebrated.
+- **The one performance** — a batch whose camera obeys and whose face never
+  changes, holding the reference's expression and eyeline through every beat
+  and scoring its best identity number while it does.
 - **The zoom that passed for coverage** — a consistency test whose shots vary
   only in focal length, which does not test the thing that breaks.
 - **The confident tiny face** — a wide shot scored rather than refused, its
@@ -149,6 +177,10 @@ reported as unscored and never silently dropped from an average.
 - [reference-admitted-late](./techniques/reference-admitted-late.md) — giving
   the brief the frame first and the reference the face afterwards; the
   operating window, and the cost at each end of it.
+- [reference-shows-only-invariants](./techniques/reference-shows-only-invariants.md) —
+  what a character reference may show, why a state that must vary needs a
+  reference of its own, and measuring how much state a generator carries
+  along with the face.
 - [camera-position-not-focal-length](./techniques/camera-position-not-focal-length.md) —
   designing a continuity test whose shots actually differ, and why a fixed
   seed plus a longer lens is a test that passes without asking anything.

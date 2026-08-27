@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
-  "techniques": 127,
-  "applications": 44,
+  "techniques": 128,
+  "applications": 48,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "127/127",
+  "use_when_coverage": "128/128",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -69,6 +69,22 @@
       "choosing how strongly to condition on a character reference",
       "a reference-conditioned clip opens on the reference and drifts to the briefed shot"
      ]
+    },
+    {
+     "slug": "reference-shows-only-invariants",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing or minting the character reference image a batch will condition on",
+      "every shot in a batch comes back with the same expression eyeline or head angle",
+      "a beat's meaning depends on the character's expression and the output ignores it",
+      "identity holds everywhere except the shots briefed for peak emotion",
+      "deciding whether one reference image is enough for a sequence with emotional range"
+     ]
     }
    ],
    "applications": [
@@ -82,6 +98,12 @@
      "stack": "process",
      "technique": "reference-admitted-late",
      "file": "knowledge/media-generation/visual-generation/character-identity-continuity/applications/process--reference-admitted-late.md",
+     "verified_on": "2026-08-27"
+    },
+    {
+     "stack": "process",
+     "technique": "reference-shows-only-invariants",
+     "file": "knowledge/media-generation/visual-generation/character-identity-continuity/applications/process--reference-shows-only-invariants.md",
      "verified_on": "2026-08-27"
     }
    ]
@@ -965,7 +987,8 @@
      "use_when": [
       "an asset arrived from an unexpected vendor",
       "a whole chain came up empty and the error must explain why",
-      "a request field would be silently ignored by a vendor"
+      "a request field would be silently ignored by a vendor",
+      "a request body is assembled by omitting the fields the caller left unset"
      ]
     },
     {
@@ -1015,14 +1038,15 @@
      "stack": "node",
      "technique": "non-silent-elimination",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--non-silent-elimination.md",
-     "verified_on": "2026-08-24",
-     "verified_against": "node@20"
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "refusal-reroute-hop",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1900,7 +1924,29 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "envelope-first-briefing",
+     "file": "knowledge/media-generation/audio-generation/sound-effect-generation/applications/node--envelope-first-briefing.md",
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "loop-seam-acceptance",
+     "file": "knowledge/media-generation/audio-generation/sound-effect-generation/applications/node--loop-seam-acceptance.md",
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "trailer-punctuation-grammar",
+     "file": "knowledge/media-generation/audio-generation/sound-effect-generation/applications/node--trailer-punctuation-grammar.md",
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
+    }
+   ]
   },
   "trailer-structure": {
    "category": "narrative-craft",
@@ -2249,6 +2295,7 @@
     "character-identity-continuity/camera-position-not-focal-length",
     "character-identity-continuity/identity-ruler-calibration",
     "character-identity-continuity/reference-admitted-late",
+    "character-identity-continuity/reference-shows-only-invariants",
     "cinematic-language/lens-effect-language",
     "cinematic-language/performance-direction",
     "content-research-grounding/evidence-grading-ladder",
@@ -2348,6 +2395,14 @@
     "visual-style-locking/style-onboarding-from-sample"
    ]
   },
+  "typed-input-owns-its-channel": {
+   "statement": "When a generator takes a dimension of the output as a typed input — a camera path, a music track as the beat grid, a per-character emotion dial — the prose stops describing that dimension and directs within it. Two authorities over one channel do not average: the exact input and the suggestive sentence resolve into a compromise that matches neither, and the symptom reads as under-direction, inviting more prose and making it worse. The craft the prose carried does not evaporate; it moves upstream, to whoever authors the typed input. The discriminating question is always the same: does anything other than the prose set this channel?",
+   "techniques": [
+    "character-identity-continuity/reference-shows-only-invariants",
+    "cinematic-language/movement-motivation",
+    "cinematic-language/performance-direction"
+   ]
+  },
   "causality-over-sequence": {
    "statement": "Between any two adjacent beats of a factual narrative you must be able to say \"but\" or \"therefore\". If the only honest connector is \"and then\", the beats have no causal relationship and what you have is a list, not a story. The same facts arranged causally give the viewer a reason to stay; arranged sequentially they give a reason to leave. Every structural choice — engine, act architecture, frame order — inherits this test.",
    "techniques": [
@@ -2376,13 +2431,6 @@
     "trailer-structure/escalation-without-mechanism",
     "video-assembly/derived-turn-markers",
     "video-assembly/music-spotting-against-picture"
-   ]
-  },
-  "typed-input-owns-its-channel": {
-   "statement": "When a generator takes a dimension of the output as a typed input — a camera path, a music track as the beat grid, a per-character emotion dial — the prose stops describing that dimension and directs within it. Two authorities over one channel do not average: the exact input and the suggestive sentence resolve into a compromise that matches neither, and the symptom reads as under-direction, inviting more prose and making it worse. The craft the prose carried does not evaporate; it moves upstream, to whoever authors the typed input. The discriminating question is always the same: does anything other than the prose set this channel?",
-   "techniques": [
-    "cinematic-language/movement-motivation",
-    "cinematic-language/performance-direction"
    ]
   },
   "output-never-outruns-evidence": {
