@@ -37,6 +37,35 @@ shows the solution and hides the problem; a walkthrough shows both. Three of fiv
 accepted findings in one such run came from the stated failure modes rather than from
 the features.
 
+### Sub-class: the dialogue
+
+Two practitioners with the same job comparing their **own** systems on camera. Not a
+survey wearing two faces - nothing here is relayed news, so both halves are first-party
+and the operating half is nearly the whole source.
+
+The pairing changes where the yield sits, and it is worth naming for one reason:
+
+> **Where two practitioners chose opposite defaults, the discriminator is already drawn.**
+
+A single account's weakness is universality, and the standing corrective is to land its
+claims as decision rules with their conditions attached. A dialogue supplies some of those
+conditions for free. On 2026-08-27 the two split on where the agent conversation should
+live - one moving all multi-user interaction into the agent's own threads for context
+locality, the other keeping agents in public chat because that is what made them legible
+to a company adopting them - and neither was wrong. That is the same property a
+research-model release has when a lab ships two sibling instruction documents that
+contradict each other: a boundary drawn by people who had to draw it. **Diff the
+practitioners, not just the transcript.**
+
+Convergence is the other signal and it is the stronger one. Two people who disagree about
+tooling and still reach the same rule unprompted have produced something closer to a
+practice than either could alone - it is not cross-run convergence, but it separates one
+person's habit from a shared constraint. The 2026-08-27 run's entire yield came from the
+one thing both volunteered without being asked.
+
+Yield profile: fetch budget usually unspent (0 of 3 on first observation), and length is
+again not the proxy - 8,347 words produced one finding because the operator picked one row.
+
 ## Second-hand practitioner listicle
 
 A creator's "N mistakes / N tips", relaying vendor documentation with some first-hand

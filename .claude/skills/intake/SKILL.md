@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.13.0
+version: 0.14.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -97,6 +97,7 @@ index, not a substitute for it.
 | **second-hand survey** | is this a digest of other people's news? | *that* the world moved, nothing else |
 | **first-party practitioner account** | did they build the thing they are describing? | what they did and measured (n=1) |
 | ↳ *release walkthrough* | is it organised around one version's changes? | the stated failure modes - seek this out |
+| ↳ *dialogue* | are two practitioners comparing their OWN systems? | their disagreements - each one is a discriminator already drawn |
 | **second-hand practitioner listicle** | is it relaying vendor docs with some real pain? | where the vendor's rules moved |
 | **second-hand practitioner review** | is it a demo of someone else's release? | that it shipped; the fetch carries the rest |
 | **practitioner build-walkthrough** | a personal tool they actually use daily? | the operating half only - see below |
@@ -347,19 +348,30 @@ impact as the tie-breaker and say which you picked and why.
    check whether it denied too much.** On 2026-08-27 a subject insisted its two
    pipelines are "not mirror images" - correct, and that framing had hidden for months
    that their *doors* do mirror and only one of the two had ever been built.
-4. **Read the neighbours, not just the gap.** A candidate phrased as "X is missing"
+4. **Find what the subject mentions in one place and measures in another.** The third
+   hunt, beside the missing stage and the enumeration, and the one that survives a
+   corpus getting mature: a real finding is often not an omission but an **asymmetry**.
+   On 2026-08-27 a subject named the human reviewer as its bottleneck in one technique's
+   prose and modelled the machine bottleneck in another with four measures, distribution
+   discipline and an ordered demand-reduction section - so it sized its first server
+   against machine-paced arrival and routed the whole output into a second server whose
+   rate was never written down. **Neither the slug map nor a summary can see this**: two
+   files that both "cover" a concept score identically, and only opening both reveals
+   that one gets a model and the other gets a sentence. When a candidate looks
+   already-covered because some file says the words, ask which file *measures* it.
+5. **Read the neighbours, not just the gap.** A candidate phrased as "X is missing"
    aims you at the half that is not built and away from the half that is, which is
    where a real defect is likelier to sit. Read the sibling techniques and one
    application before writing the finding up.
-5. **Name the home, and expect it to be contested.** A finding whose home is obvious was
+6. **Name the home, and expect it to be contested.** A finding whose home is obvious was
    probably already covered. The interesting ones sit between subjects, and picking
    wrong misfiles the technique where nobody looking for it will look. Read the
    candidate subjects' own boundary statements - this corpus states them explicitly, in
    the golden path's opening - and choose the subject whose stated job the finding
    answers, not the one whose slug matches. When two subjects describe the same
    boundary from opposite sides, say so in both notes rather than writing it twice.
-6. **Corroborate** per the table above, inside the 3-fetch budget.
-7. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
+7. **Corroborate** per the table above, inside the 3-fetch budget.
+8. **Drop honestly.** A picked candidate that resolves to already-covered is a catch,
    not a failure, and it goes in the note so nobody proposes it again.
 
 ### Phase 7 - Land what survived

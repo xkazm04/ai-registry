@@ -1175,3 +1175,60 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   that rests on the post alone is marked as such rather than inheriting the others'
   corroboration.
 
+
+## 0.13.0 - 2026-08-27 - managing-15-agents-solo-founder
+
+- **New sub-class, the practitioner DIALOGUE: two first-party accounts compared.** The
+  ledger carried the single first-party account already; two of them in conversation is
+  not just more of the same, it changes where the yield sits. A single account is
+  authoritative about one person and weak about universality, and the standing corrective
+  is to land its claims as rules with conditions attached. **A dialogue supplies some of
+  those conditions for free: where two practitioners with the same job chose opposite
+  defaults, the boundary is already drawn.** These two split on where the agent
+  conversation should live - the agent's own threads for context locality, or public chat
+  because that is what made background agents legible to a company adopting them - and
+  neither was wrong. Same property as a lab shipping two contradicting sibling instruction
+  documents. **Diff the practitioners, not just the transcript.** Where they converge
+  unprompted is the other signal, and that is what carried this run: both said, without
+  being asked, that they deliberately ship less than they could.
+- **A triage read that verification corrects DOWNWARD is the run working, not failing.**
+  I marked the pick "real gap" on the framing "the corpus models machine throughput and
+  has missed that the human is the constraint." Phase 6 step 1 killed that: the corpus
+  says it in its own words, in a technique the map did not surface as the primary hit.
+  Had I written the correction I triaged, it would have been a phantom fix against a claim
+  the corpus already makes - `deepen`'s dominant failure mode, inherited here, and the
+  reason step 1 is step 1. Say the corrected read out loud to the operator; the narrower
+  finding was the better one.
+- **The generalisable shape: when a corpus states a constraint in prose in one technique
+  and models it thoroughly in another, the finding is the ASYMMETRY between them.** Not an
+  omission - an unequal treatment. Here the machine bottleneck had four measures,
+  distribution discipline, denominators and an ordered demand-reduction section; the human
+  bottleneck had one sentence, no capacity model, and only per-item slimming. The subject
+  sized its first server against machine-paced arrival and routed the entire output into a
+  second server whose rate was never written down. **This is invisible to the slug map and
+  invisible to a summary** - two files that both "cover" a concept score identically. Only
+  opening both reaches it. Add to the Phase 6 repertoire beside the missing-stage and
+  enumeration hunts: *find the concept the subject mentions in one place and measures in
+  another.*
+- **Enumeration hunt, fourth consecutive run, and this one was in the opening paragraph.**
+  "Two consequences follow, and the second one is the one that gets missed." An
+  enumeration is a claim, it invites exactly one question, and the third consequence was
+  the entire finding. The golden-path opening remains the highest-yield paragraph in any
+  subject.
+- **Ask what the two failure modes sharing a queue look like, because they can be
+  opposites.** The source's real gift was that an overloaded machine queue *stalls* while
+  an overloaded human gate *accelerates* - rising throughput against an empty backlog is
+  the failure, not the win. That single asymmetry is what let the technique separate a
+  stall from a rubber stamp with four measures and give them opposite remedies. A
+  constraint whose overload signature resembles success is worth hunting for on its own.
+- **Landing only what the operator picked kept the technique honest.** Two untriaged rows
+  were the obvious mechanisms for the technique's own levers, and folding them in
+  unverified would have been padding wearing a decision rule's clothes. The technique names
+  the levers generically and says so; the note records both mechanisms with anchors so they
+  attach to it later rather than competing with it. `XL` folding (Phase 7) applies to a
+  subject-sized SPEC, not to a technique - do not import it as a licence to absorb
+  unverified neighbours.
+- **0 of 3 fetches, as the class row predicts** - four runs now where a first-party source
+  corroborated corpus-internally plus training-data convergence. The convergence here was
+  bottleneck analysis and the code-review batch-size literature, neither of which needed
+  the source in front of me, which is exactly the bar the corroboration table sets.
