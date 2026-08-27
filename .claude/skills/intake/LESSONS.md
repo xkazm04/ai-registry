@@ -1232,3 +1232,50 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   corroborated corpus-internally plus training-data convergence. The convergence here was
   bottleneck analysis and the code-review batch-size literature, neither of which needed
   the source in front of me, which is exactly the bar the corroboration table sets.
+
+## 0.13.0 - 2026-08-27 - best-engineers-focus-on-system-design
+
+- **A hand-off target is a checkable claim, and checking it took one read.** The accepted
+  technique did not come from the source. `structure-is-not-delegable` partitions design
+  decisions on whether the outcome is scoreable inside the run, owns the unscoreable half
+  superbly, and hands the scoreable half to another technique - whose subject turned out
+  to be the LLM tool surface, not an engineer choosing between two implementations. The
+  class had been defined twice in this bundle and owned by nobody. **Promote this beside
+  the enumeration hunt in Phase 6.3: an enumeration that delegates a case to another
+  document is a claim ABOUT that document, and following the link is the cheapest check
+  available.** Second time in three runs that a "does not apply where..." sentence was the
+  highest-value thing on the page.
+- **The interview is graded, not segmented - a new sub-shape of the first-party class.**
+  A roundup is ten items in a trench coat and must be split on segment boundaries. An
+  interview is one continuous gradient and the grade runs one way: the first ~20 minutes
+  (his own systems, his own numbers) produced everything, the last ~10 (curiosity,
+  learning, motorcycles) produced nothing. Read the first third closely, skim the rest,
+  and do not mistake the tail's emptiness for a thin source.
+- **A concept returning zero across a mature bundle is the finding - second sighting.**
+  `vertical scal` returns ZERO across 149 subjects. The DuckDB run said the same thing
+  with `olap` five sources ago. This is now a repeatable instrument rather than an
+  anecdote: **probe the concept vocabulary, not the product vocabulary, and treat a zero
+  as a missing stage until three checks say otherwise.** Product names returning zero is
+  the purity floor working correctly and means nothing.
+- **The near-empty discipline earned its keep in the opposite direction.** The map's top
+  hit looked like a seam (`metric-forecasting`, which forecasts growth curves). Opening it
+  showed a subject that scopes itself to *whether a projection may be displayed* - a
+  dashboard discipline. Had I trusted the slug I would have written a correction into a
+  subject that does not hold the claim. The hole was real and the nearest neighbour was
+  the proof.
+- **XL folding worked, and the placement section had to argue against itself.** Five
+  fragments that each looked standalone at extraction went into one dispatch. But the
+  resolved category (`backend-platform/resilience`) is the *least-bad* home, not an
+  obvious one, and saying so - with both rejected alternatives and an explicit instruction
+  to override - is what makes it dispatchable rather than a decision smuggled into a brief.
+  A spec that hides its own weak joint buys compliance with a mistake.
+- **Parallel-session hazard, in its most concrete form yet.** The checkout gained two
+  commits mid-run, including a bump of this skill from 0.13.0 to 0.14.0. Re-checking HEAD
+  before staging was what kept the corpus correct: the sibling's commit had NOT regenerated
+  `index.json`, so my regeneration had to carry both techniques, and a naive "their file is
+  untracked, stay away from the index" would have committed a stale index. **Diff the
+  shared derived artifacts against the CURRENT HEAD immediately before staging, not against
+  the tree you started from.** Record the version the run *used*, not the one on disk when
+  it ends.
+- **0 of 3 fetches - fifth consecutive zero-fetch run for a first-party source.** The class
+  row's fetch prediction is now the most reliable line in the reference file.

@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 149,
-  "techniques": 960,
+  "techniques": 962,
   "applications": 435,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "960/960",
+  "use_when_coverage": "962/962",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -8968,6 +8968,23 @@
      "stage": "solo"
     },
     {
+     "slug": "human-gate-capacity",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "changes are merged faster than anyone could have read them",
+      "the reviewer is named as the bottleneck but never measured",
+      "one person both dispatches the agents and approves their merges",
+      "deciding whether to widen the autonomous path or send fewer changes"
+     ],
+     "stage": "solo"
+    },
+    {
      "slug": "pre-authorship-verification",
      "status": "forged",
      "laws": [
@@ -10265,6 +10282,21 @@
       "judging whether a proposed abstraction is worth its interface",
       "reviewing a module whose parameter list keeps growing",
       "deciding whether to split a long unit of code"
+     ]
+    },
+    {
+     "slug": "scoreable-designs-are-built-not-argued",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a design argument has run longer than building both options would take",
+      "choosing between implementations whose difference is measurable",
+      "deciding what an agent should produce before a design decision is made",
+      "a benchmark is being quoted to settle a structural question"
      ]
     },
     {
@@ -17913,6 +17945,7 @@
     "lazy-section-addressability/ssr-gating-decision-tree",
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
+    "machine-paced-delivery/human-gate-capacity",
     "machine-paced-delivery/pre-authorship-verification",
     "machine-paced-delivery/proposal-not-push",
     "markdown-vault/knowledge-integrity-lint",
@@ -17934,6 +17967,7 @@
     "migrations/transactional-ddl",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
+    "module-design/scoreable-designs-are-built-not-argued",
     "module-design/seams-and-adapters",
     "module-design/structural-improvement-loop",
     "multi-project/project-identity-and-joins",
@@ -18637,6 +18671,7 @@
     "long-form-reading-surface/scroll-spy-reading-band",
     "long-form-reading-surface/server-parsed-once-reused",
     "machine-paced-delivery/agent-readable-build-outcomes",
+    "machine-paced-delivery/human-gate-capacity",
     "machine-paced-delivery/verification-throughput-as-constraint",
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/band-design",
@@ -18664,6 +18699,7 @@
     "model-routing/policy-governance",
     "module-design/locality-and-leverage",
     "module-design/module-depth",
+    "module-design/scoreable-designs-are-built-not-argued",
     "multi-project/cross-project-comparison",
     "multi-project/portfolio-drill-hierarchy",
     "observability-telemetry/remote-telemetry-economics",
@@ -19796,6 +19832,7 @@
     "data-access/cross-driver-invariant-parity",
     "deployment-contract/direct-push-delivery",
     "fleet-orchestration/brief-carries-the-session",
+    "machine-paced-delivery/human-gate-capacity",
     "mcp-tools/transport-selection",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
