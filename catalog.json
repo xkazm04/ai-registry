@@ -392,9 +392,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 5,
+      "lessons": 8,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:a0052eb3c5dc98d1",
+      "lessonsHash": "sha256-n1:5f5c157fd19cbe25",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -542,7 +542,7 @@
     "skills": 27,
     "practices": 4,
     "memory": 4,
-    "lessons": 48
+    "lessons": 51
   },
   "bundles": [
     {
@@ -595,7 +595,7 @@
       "techniques": 98,
       "applications": 49,
       "files": 168,
-      "contentHash": "sha256:39ec82d442a01e02"
+      "contentHash": "sha256:8762443ec12ebd54"
     },
     {
       "name": "localization",
@@ -644,10 +644,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 149,
-      "techniques": 959,
-      "applications": 434,
-      "files": 1547,
-      "contentHash": "sha256:8b344adac33e61a5"
+      "techniques": 960,
+      "applications": 435,
+      "files": 1549,
+      "contentHash": "sha256:5a6b2a24406c4ba7"
     }
   ]
 }

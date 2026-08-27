@@ -1,7 +1,7 @@
 ---
 subject: embedded-db
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-08-27
 dry_streak: 0
 ---
 
@@ -37,3 +37,38 @@ single-stack debt cleared. `c` declared as a bundle extra stack for this.
 ## Applied to the technique layer
 
 - 2026-08-22-3: **opposite persistence of the two halves** applied to `journal-and-durability-modes` ([[2026-08-22-3]]).
+
+## 2026-08-27 — intake, the analytical quadrant ([[2026-08-27-duckdb-changing-physics-of-analytics]])
+
+**The golden path's opening definition denied too much and was corrected.** It defined
+embedded as "against a file the application owns, on a machine the application does not",
+and all seven techniques were transactional-embedded disciplines. Two clarifications
+added: *embedded* is a **placement, not a location** (server-side accelerator, CLI step,
+sandboxed runtime all qualify; the duties enumerated are the end-user placement's, which
+is the hardest one), and form factor is **independent of workload shape**.
+
+Gained `analytical-reads-off-the-serving-store` (8th technique) + a `node` application.
+The technique's strongest claim is not from the source: **an analytical read routed
+through a single-writer store buys the entire contention surface of
+`single-writer-holder-discipline` for a workload that never needed exclusion**, and the
+tell is an operating instruction rather than a benchmark — an analysis script that must
+run against a copy because something holds the store. Two connected trees carry that
+instruction verbatim, and one of them pays it to benchmark the incumbent at all.
+
+## Open leads (added 2026-08-27)
+
+- **The remote-scan case is unaddressed.** The new technique assumes the analytical
+  engine reads a local export. An in-process columnar engine scanning object storage
+  changes the freshness contract and reintroduces a wire the technique's argument
+  assumes away. Return when a connected project's analytical path reads remote objects.
+- **Storage-decision-names-its-call-site** (proposed rule, not added). A storage decision
+  that was measured, documented and never landed is invisible to every gate. May belong
+  to an engineering-process subject rather than here — see open question 4 of
+  `docs/subject-proposal-storage-engine-selection.md`.
+
+## Cross-bundle boundary (do not link)
+
+`llm-observability/analytics-store-design/analytical-copy-partitioning` holds the same
+fork from the other end: it shapes the derived copy, this subject decides which reads
+leave the serving store. Same fork, opposite ends, discriminator stated in prose on each
+side. Neither absorbs the other; cross-bundle links are forbidden.

@@ -11,6 +11,7 @@ techniques:
   - storage-accounting-and-pruning
   - db-self-instrumentation
   - single-writer-holder-discipline
+  - analytical-reads-off-the-serving-store
 ---
 
 # Embedded database operations
@@ -26,6 +27,32 @@ chosen by someone else, next to a user who is trying to get work done. The
 subject of this document is that transfer of duty: **the application is the
 database operator**, and operator work that is not written as code simply
 does not happen.
+
+Two clarifications before the duties, because the opening sentence is a
+description of the commonest case rather than a definition, and reading it as
+one costs a decision later.
+
+The first is that *embedded* names a **placement, not a location**. What the
+form factor buys is the absence of a wire — the engine is a library linked
+into a process, and which process that is remains a free choice. The usual
+placement is the end-user application above, but the same engine is equally at
+home as an accelerator inside a server, as a step in a command-line pipeline,
+or compiled into a sandboxed runtime with no filesystem to own at all. The
+operational duties below are the end-user placement's, which is the hardest
+one; a placement with an operator present relaxes them, and none of them
+disappear because the engine moved.
+
+The second is that the form factor is **independent of the engine's workload
+shape**, and that every duty enumerated below belongs to the *transactional*
+shape — the journal contract, the pool, the single-writer directory, the
+maintenance window. There is a second in-process quadrant, organised for scans
+rather than transactions, whose operating contract is largely the complement
+of this one: no durability contract to sign, because its data is a
+reproducible copy; no writer to exclude; and a different, cheaper set of
+things that can go wrong. Which quadrant a given read belongs in is a decision
+most applications inherit rather than make, and
+[analytical-reads-off-the-serving-store](./techniques/analytical-reads-off-the-serving-store.md)
+is the one place in this subject where that inheritance is challenged.
 
 Boundaries, so the neighbors stay crisp: how the schema evolves across
 releases is [migrations](../migrations/migrations.md); how queries are
@@ -192,6 +219,36 @@ The full cross-process discipline, including the lock-marker trap in copies
 and the lockstep rule for layered handle memos, is
 [single-writer-holder-discipline](./techniques/single-writer-holder-discipline.md).
 
+## The query that should not have come here
+
+Everything above operates the store the application has. There is one read
+class that is better served by not sending it here at all, and it arrives too
+late to be caught by the reasoning that chose the engine.
+
+The store was acquired for the transactional job. Later, a question that is
+not transactional shows up — a tally over the whole history, a rollup, a
+self-join of the largest table against itself — and the store *answers* it.
+The numbers are right; the only symptom is that it takes a while. So it stays,
+and the serving store silently becomes the analysis store. No decision record
+will show this, because the decision was never made: it was inherited from the
+fact that the engine was already a dependency, which is not one of the axes
+that settles the question.
+
+The standard: **analytical reads over a large table leave the transactional
+store once they are frequent or need to feel interactive** — not to a service,
+but to an exported canonical copy read by a column-oriented engine in the same
+process, which keeps every reason the store was embedded. The threshold is
+query *shape* rather than row count, and the condition that usually decides it
+is the one no latency comparison shows: a long scan through a single-writer
+directory buys the whole contention surface of
+[single-writer-holder-discipline](./techniques/single-writer-holder-discipline.md)
+for a workload that never needed it. An analysis script carrying an
+instruction to run against a copy of the store is that bill arriving. The
+three conditions, the reconciliation rules that keep one authority while two
+engines read it, and which of this subject's duties the second quadrant
+retires are
+[analytical-reads-off-the-serving-store](./techniques/analytical-reads-off-the-serving-store.md).
+
 ## The second database is the forgotten one
 
 Applications that embed one database eventually embed two: a vector sidecar,
@@ -247,3 +304,8 @@ that motivated elevating the rule from advice to standard.
   backups that strip the lock marker, contention as the default explanation
   for parallel test flakiness, explicit exit for every store-opening process,
   layered handle memos closing in lockstep.
+- [analytical-reads-off-the-serving-store](./techniques/analytical-reads-off-the-serving-store.md) —
+  form factor and workload shape as independent axes, the three conditions
+  that move an analytical read out, contention as the uncounted cost, the
+  derived copy's reconciliation rules, and which duties the second quadrant
+  retires.

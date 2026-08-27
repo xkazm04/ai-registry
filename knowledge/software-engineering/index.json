@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 149,
-  "techniques": 959,
-  "applications": 434,
+  "techniques": 960,
+  "applications": 435,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "959/959",
+  "use_when_coverage": "960/960",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6257,6 +6257,21 @@
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
    "techniques": [
     {
+     "slug": "analytical-reads-off-the-serving-store",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an aggregate or self-join over the largest table has become user-perceptible",
+      "an analysis script must be run against a copy because something holds the store",
+      "deciding whether a second embedded engine is worth its sync cost",
+      "adding a reporting surface to an application that already has a store"
+     ]
+    },
+    {
      "slug": "connection-pooling",
      "status": "forged",
      "laws": [
@@ -6362,6 +6377,13 @@
      "technique": "journal-and-durability-modes",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/c--journal-and-durability-modes.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "analytical-reads-off-the-serving-store",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/node--analytical-reads-off-the-serving-store.md",
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -19392,6 +19414,7 @@
     "docs-sync/source-doc-mapping",
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/cross-surface-handoff",
+    "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/extension-lifecycle",
     "embedded-preview/cross-frame-protocol",
     "entity-lifecycle/archive-restore-semantics",
@@ -19633,6 +19656,7 @@
     "docs-sync/source-doc-mapping",
     "draft-editing/completeness-derivation",
     "draft-editing/dirty-tracking",
+    "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/db-self-instrumentation",
     "embedded-preview/convention-discovery",
     "eval-harness/eval-economics",
