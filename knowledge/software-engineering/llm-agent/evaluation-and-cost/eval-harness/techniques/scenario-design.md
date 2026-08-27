@@ -35,9 +35,9 @@ scores across versions as if they were one series.
 
 **Captured reality.** Real inputs promoted into fixtures: a transcript that
 exposed a defect, a request that produced a bad answer, an edge case a user
-actually hit. These are representative by construction — the distribution
-they sample is the true one — and each carries a story, which makes failures
-interpretable. Their weakness is coverage: they accumulate slowly, cluster
+actually hit. Their *inputs* are representative by construction — the
+distribution they sample is the true one — and each carries a story, which
+makes failures interpretable. Their *labels* are not (below). Their weakness is coverage: they accumulate slowly, cluster
 around past incidents, and systematically miss the failure the system has
 not had yet. Every production incident should leave a scenario behind as its
 sediment; a defect fixed without a scenario is a defect the suite has agreed
@@ -54,6 +54,61 @@ a second layer of non-determinism: regenerating the set produces a
 The mature suite uses both, in ratio to maturity: young systems lean on
 generation because nothing has been captured yet; the ratio shifts toward
 captured reality as incidents accrue.
+
+## A captured input arrives with an outcome, not a label
+
+Capturing reality is two acquisitions wearing one name, and they have
+opposite reliability. The **input and its context** come from production and
+are exactly what the system will meet. The **expected property** — the third
+part of a scenario, the part that decides pass from fail — does not come from
+production at all. It gets back-filled from whatever the product happened to
+record, and what the product records is a *workflow outcome*: an alert
+someone closed, a suggestion someone rejected, a result someone did not
+return to.
+
+A workflow outcome is not a ground truth and usually cannot be turned into
+one, because several distinct truths produce the identical record. One
+closure can mean the finding was wrong; or it was right and has already been
+dealt with elsewhere; or it was right and the risk was consciously accepted;
+or it was never read and the queue needed clearing. Promoting that single
+record into an expected property renders four states as one definite value
+([_laws: unknown-is-not-a-value_](../../../../_laws.md#unknown-is-not-a-value)),
+and the suite then scores the system for reproducing a bookkeeping artifact.
+
+The corpus already refuses this collapse where the stakes are visible: a
+delivered prompt that a user waved away is recorded as a deliberately
+ambiguous weak negative rather than a rejection
+([efficacy-feedback](../../../orchestration/proactive-nudges/techniques/efficacy-feedback.md)),
+and a dismissed finding is kept distinguishable from a resolved one because
+the difference is the only precision signal the producing system will ever
+get
+([evidence-based-auto-close](../../../orchestration/remediation-handoff/techniques/evidence-based-auto-close.md)).
+A suite that harvests those same records as labels discards exactly the
+distinction those subjects were built to preserve.
+
+Three questions before a production record becomes an expected property, and
+they are cheap enough to ask of every source:
+
+- **How was this record created?** By whom, through which affordance, under
+  what pressure. A record produced by a queue-clearing gesture and one
+  produced by a considered judgment look identical in the table.
+- **Does it answer the suite's question?** The product asked "is this
+  actionable for you, now"; the suite is asking "is this true". Those coincide
+  less often than the column name suggests.
+- **Are different outcomes grouped into one category?** Collapsing happens at
+  write time, in the product, for the product's reasons — so the grouping is
+  usually invisible downstream and has to be checked at the source.
+
+The corrective is **manual re-labelling of the subsets that matter**, not of
+the whole capture. Ambiguous regions and the cases the decision actually
+turns on get a human verdict against the suite's own question; the rest keeps
+its provenance and is used for coverage rather than for scoring. The bar is
+not a perfect label set — it is a label set accurate enough to support the
+decision being made, and the honest way to hold that bar is to record, per
+scenario, where its expected property came from. A suite whose labels have
+mixed provenance and no marking cannot tell a regression from a mislabel, and
+the machinery for telling them apart downstream
+([failure-attribution](./failure-attribution.md)) has nothing to read.
 
 ## The cache key is an instrument-stability decision
 
@@ -116,6 +171,43 @@ they are enumerable as a checklist because they recur across every domain:
   plausibly receive but was not tuned for.
 - **Stress compositions** — several independently-handled features in one
   request, where integration seams fail.
+- **Distractors** — a well-formed, in-distribution input that contains more
+  than one plausible target, only one of which the system was asked about.
+  Distinct from adversarial: nothing here is planted, nothing instructs, and
+  a careless reader would call the case clean.
+
+The last region is the one that goes missing, and the mechanism is worth
+stating because it operates while everyone is being careful. **Curating a
+scenario set removes distractors as a side effect of tidying it.** A case
+gets trimmed to the part that matters, the surrounding material is dropped
+as irrelevant, near-miss neighbours are deduplicated away — each edit
+defensible, and together they produce a set in which every input has exactly
+one thing worth looking at. Production never has that property. So the suite
+measures the system on a task the system will not be given: *identify the
+salient item*, when the real task is *evaluate the designated item, which may
+not be the salient one*.
+
+The failure it hides is specific. Given a designated target and a neighbour
+that looks more like what the system is hunting for, a model will reason
+about the neighbour — and it will produce a fluent, well-structured, entirely
+plausible answer about the wrong object. Nothing about the output flags it;
+the assertions pass, the judge scores it fairly, and only a reader who knows
+which item was designated can see the substitution. Any suite whose scenarios
+ask about a designated item *inside* a larger context needs this region, and
+the scenario is built by keeping the neighbours the tidying pass wanted to
+delete.
+
+A note on a rule that inverts elsewhere, so it is not mistaken for a
+contradiction. In assessment design — where the instrument measures a
+*person's* judgment — planted distractors are disqualifying, because a case
+with one right answer surrounded by wrong ones has a key, and a key converts
+a judgment probe into a retrieval test. Both rules are correct, and one
+question separates them: **is the distractor captured or planted?** Here it
+is a property of an input the system will really receive, and excluding it
+makes the suite easier than reality. There it is a property the designer
+invented, and including it makes the instrument measure something other than
+what it claims. Captured distractors are coverage; planted ones are an answer
+key.
 
 Tag scenarios by which region they cover, and report coverage *by region*,
 never as a bare count — five hundred polite scenarios and zero adversarial

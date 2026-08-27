@@ -1,5 +1,51 @@
 # Lessons - intake (formerly research)
 
+## 0.14.0 - 2026-08-27 - evaluate-llms-before-production
+
+- **The enumeration hunt is now the dominant finding shape, and this run says why.**
+  All four landings came from a sentence in which a forged document claimed its own
+  completeness - five ugly-case regions, "representative by construction", "the only
+  mode that supports a gate", and a subject that distrusted green twice and red never.
+  The neighbourhood was the corpus's most mature, which is exactly the condition:
+  **in a mature subject there are no missing opinions, only over-broad claims.** When
+  prior art comes back thick, stop looking for holes and start reading for enumerations.
+- **A hybrid whose halves are a listicle and a first-party account splits by paragraph,
+  not by section.** The published structure was eight numbered how-to sections; the
+  first-party half was individual sentences scattered inside them ("we did not treat
+  precision and recall as interchangeable", "the model may focus on the wrong value").
+  Every landing came from such a sentence and every catch came from a section heading.
+  The build-walkthrough's discriminating question generalises further than its own row:
+  *is the author describing a practice, or reporting what happened to their system?* -
+  and for a written source it has to be asked per paragraph.
+- **Corpus-internal convergence can come from a lane nobody would map to.** The
+  strongest corroboration of the run - that a workflow outcome is not a label - was
+  already written twice in the same bundle, in a nudge-efficacy technique and a
+  finding-auto-close technique. No term in the Phase 4 map would have surfaced them;
+  they were found by grepping the *concept* ("dismissed") rather than the candidate's
+  vocabulary. **When a candidate says "X is not ground truth", grep the corpus for the
+  workflow verb, not for the eval noun.**
+- **A cross-bundle inversion is worth a subject note on the side you did NOT edit.**
+  The distractor rule inverts between the eval bundle (mandatory) and the assessment
+  bundle (disqualifying). The skill already says to record it in the subject note; this
+  run had to *create* the note on the recruiting side to do so, which is correct and
+  should be stated - the note whose subject was not touched is the one that stops the
+  next run re-litigating the inversion, so its absence is not a reason to skip it.
+- **Landing above the source's altitude is a compression, not an addition.** The source
+  gave a three-tier metric table. The durable rule was that the third tier is just more
+  of the second, leaving two roles and one sentence. The operator's standing critique is
+  usually read as "synthesise across runs"; this run is the cheaper case - **synthesise
+  within the source, by asking which of its categories collapse.**
+- **Eighth consecutive zero-fetch run.** Every one of them carried its own primary
+  material or corroborated corpus-internally. The 3-fetch budget has not bound in eight
+  runs; the classes where it binds (review, listicle, paper) simply have not arrived.
+  Worth saying out loud so the streak is not read as a rule about sources in general.
+- **Shared-checkout hazard, third consecutive run.** A parallel session landed four
+  techniques, two applications and a whole practices lane mid-run, and its in-flight
+  application failed the bundle gate. Two things worked: running the gate and reading
+  *whose* failure it was before touching anything, and leaving `index.json` /
+  `catalog.json` regenerated-but-uncommitted. The second is now three-for-three and
+  should probably be the documented default rather than a per-run judgment call.
+
 ## 0.1.0 - 2026-08-21 - ai-registry (run 1: mixed AI-news roundup; bumped to 0.2.0 in the same change)
 
 - **The source class behaved exactly as designed for, which is the result worth
