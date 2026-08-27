@@ -233,3 +233,80 @@ loop would then end with an explicit cross-context pass rather than a backlog of
 items each blocked on a different round. Proposing rather than applying: it
 weakens the one rule that makes parallel sweeps safe, and that trade needs the
 operator's judgement, not mine.
+
+## 2.1 - 2026-08-27 - gravity (yield audit of the run above)
+
+The operator challenged the previous entry's numbers: 13 contexts, 22 lenses, 28
+findings. The challenge was right and the cause was the method - specifically the
+v2.0 rewrite recorded above, not the session that ran it.
+
+**The measurement, same repository, a fortnight apart:**
+
+| | lenses | findings/context | findings per LENS-PASS |
+|---|---|---|---|
+| v1.0 `--optimize` | 6 | 16.3 | **1.63** |
+| v2.0 `--stabilize` | 22 | 2.2 | **0.098** |
+
+A 17x collapse in yield per lens-pass, from 3.6x MORE lenses. And the diagnostic
+that rules out "the codebase was clean": **0 of 13 rounds reached the 5-finding
+cap.** A binding cap makes rounds cluster at the cap; these clustered at 1-3. The
+budget was never the limit - it was the ANCHOR.
+
+Two causes, both introduced by the v2.0 rewrite:
+
+- **I deleted v1.0's yield floor.** It read "around 20 findings on a healthy
+  context. Under ~10 usually means you stopped at the surface - dig again before
+  declaring clean." I replaced it with "Under-filling the budget is fine and
+  common on a healthy area; say so." That inverts the pressure from *you failed,
+  look again* to *few is fine*, and nothing else in the method pushed back.
+
+- **The budget and the package contradicted each other.** A 22-lens package
+  against a 5-item budget is exhausted by lens three. The other nineteen had
+  nowhere to put a finding, so they became coverage RECORDING - the ledger reads
+  22/22 and the round reports a clean tail it never had room to hear. That is
+  coverage theater, produced by the skill whose highest-value finding class is
+  coverage theater, in the same file that teaches how to spot it.
+
+**The root confusion, worth naming because it is easy to repeat: I tuned the
+FINDING budget while reasoning about the WORK budget.** How much a round builds is
+decided by the routing rules - S builds, M clears a ratio, L never does - not by
+how many findings exist. Raising the finding budget raises the BACKLOG, which is
+the artefact the operator triages, and leaves build volume exactly where routing
+put it. Find generously, build conservatively; they are different dials.
+
+**Rebalanced and then VALIDATED rather than asserted.** Budget 12/context (20 for
+`--one`), per-tier allowances (deep 3, matched 2, tail 1), lifetime cap 40, and
+the floor restored with counter-pressure: under 6 is a signal about the PASS, not
+the codebase, and a genuinely clean round must now state what it read and which
+hypotheses it traced. Re-swept one context that had returned 2 findings / 0
+fixed: **6 findings and 2 fixes from two of its fifteen files.** Both fixes were
+real - colliding render ids from a stale-closure counter, and a documented
+"caller revokes when done" contract that no caller in the repository had ever
+honoured.
+
+**The re-sweep also found the previous run's most embarrassing miss.** A repo-wide
+grep in round 6 had already PRINTED the colliding-id site; I read the `set*`
+updaters on the two lines it showed, saw they used their arguments correctly, and
+moved on without reading the line above them where the id was being taken from
+render state. The grep did its job. The budget had nowhere to put another finding
+and the anchor said the round was done.
+
+### Three more ways a verification step passed while verifying nothing
+
+All three were mine, all three in this session, all three now in SKILL.md:
+
+- **`; echo "TC=$?"` reports a red gate and commits anyway.** I had already fixed
+  the `| tail` variant in v2.1 and then wrote the printing variant, which is the
+  same failure wearing the fix's clothes. *Reading* an exit code is not asserting
+  it. Only `&&`-chaining is.
+- **A whole-tree gate under a concurrent session is not a verdict on you.** A
+  sibling agent mid-write made `tsc` red; the failing path was theirs and I
+  committed into a red tree without checking whose it was. The parallel-session
+  rules covered STAGING and stopped there. Verification has the same hazard and
+  is easier to miss, because the output looks like it is about you.
+- **A source-scanning gate matched its own comment.** The probe for the blob-URL
+  contract passed against a deliberately broken subject because
+  "revokeObjectURL" survived in the prose describing the fix. Strip comments
+  before matching. Notably I had applied exactly this in round 1 and did not
+  carry it forward - and the fail-before is the only step that caught it, both
+  times.

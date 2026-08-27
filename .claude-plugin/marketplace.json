@@ -226,7 +226,7 @@
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
       "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands the safe fixes itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "category": "workflow",
       "tags": [
         "sweep",
