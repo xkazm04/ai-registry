@@ -11,8 +11,39 @@ dry_streak: 0
 First touch: forged 2026-08-27 from
 [[../../../docs/subject-proposal-scale-investment-timing]], raised by `/intake` from
 [[../../sources/2026-08-27-best-engineers-focus-on-system-design]]. Placed at
-`backend-platform/resilience` (8 of a cap of 10). Five techniques, no applications
-yet - never reconciled against real code.
+`backend-platform/resilience` (8 of a cap of 10). Five techniques, one `process`
+application.
+
+## The application, and the upward lesson it produced
+
+`process--ceiling-as-deadline-not-trigger` reconciles the ceiling technique against
+this registry's OWN taxonomy cap, which turns out to be a near-perfect instance of the
+technique's form: a figure (10 child directories), an axis that explicitly states what
+is NOT on it (files are not counted), a method applied at four enforcement sites, and
+- the part most stated ceilings omit - its predicate written in the same comment that
+defines the number ("a browsing limit, not a structural truth"). It is instrumented by
+a gate rather than by memory, which is `absent-guard-is-loud` satisfied literally.
+
+**It deviates on the technique's central claim, and the deviation is correct.** The cap
+is used as a TRIGGER, not a deadline. The technique's own boundary covers it: runway
+exists to buy an incremental method for an expensive, risky, hard-to-reverse
+remediation, and re-nesting a category is a script run. The discriminator that came out
+of writing it: not the size of the system, but **whether the remediation has a failure
+mode worth rehearsing.**
+
+**The upward lesson amended the technique.** Beside the cap sits `COLLAPSE_AT = 6` -
+split above ten, recombine only below six - with the reason stated: without the gap, a
+category oscillating around the threshold rewrites every link inside it on alternating
+contributions. That is the same defence as runway aimed at the opposite cost profile.
+Runway separates trigger from limit in TIME for a dear-and-rare remediation; hysteresis
+separates them in VALUE for a cheap-and-frequent one. The generalisation the draft
+lacked: **never let one number serve as both the alarm and the action.** Now a section
+in the technique.
+
+Honest limits recorded in the application: the figure is asserted rather than derived
+(nobody measured that ten is right, and the source comment says so), and nothing here
+exercises the runway calculation, which remains carried on published practice alone. A
+serving system under real growth is the realization to look for next.
 
 ## Why it exists
 

@@ -129,6 +129,34 @@ time is now a first-class option** — a headroom purchase whose only job is to 
 the runway that makes the safe method available again. Bought time is expensive and it
 is almost always cheaper than the alternative it protects against.
 
+## When the remediation is cheap and repeatable, the defence is hysteresis
+
+Runway exists because the remediation is expensive, risky and hard to reverse. There is
+a second family of ceilings where the remediation is none of those — a limit on how
+many children a structure may hold, a partition count, a shard's row budget, anything
+whose correction is a mechanical, reversible, validated operation. There the deadline
+framing buys nothing, and a trigger is the cheaper control.
+
+But a bare trigger has its own failure in that family, and it is not the one runway
+guards against. A count that oscillates around a single threshold performs the
+remediation on alternating changes, forever — splitting, merging, splitting again —
+and each performance carries whatever cost the operation does have, which for
+structural remediations is usually that every reference into the moved thing has to be
+rewritten. The system is never wrong and never stops working.
+
+The defence is a **second, lower threshold for coming back**: split above the cap,
+recombine only when the count falls well below it, and state the gap. The gap is not a
+tuning parameter to be minimised; it is sized so that ordinary variation cannot cross
+it in both directions.
+
+Read the two together, because they are the same instruction aimed at opposite cost
+profiles: **never let one number serve as both the alarm and the action.** Where the
+remediation is dear and rare, separate them in time and call the distance runway. Where
+it is cheap and frequent, separate them in value and call the distance hysteresis. The
+question that picks between them is not the size of the system but whether the
+remediation has a failure mode worth rehearsing — replacing a live datastore does,
+rearranging directories under a link checker does not.
+
 ## When not to apply it
 
 **When the ceiling is not reachable.** Plenty of systems will never approach their

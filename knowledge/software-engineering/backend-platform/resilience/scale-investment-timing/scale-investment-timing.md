@@ -236,9 +236,10 @@ maintaining headcount as an *input* it reads, never as a recommendation it makes
 ## The techniques
 
 - [ceiling-as-deadline-not-trigger](./techniques/ceiling-as-deadline-not-trigger.md)
-  — the ceiling's three parts, why an uninstrumented ceiling is an absent guard, the
-  runway calculation that converts a limit into a start date, and the replacement
-  method the runway buys.
+  — the ceiling's three parts, the difference between a ceiling in utilisation and one
+  in headroom, why an uninstrumented ceiling is an absent guard, the runway calculation
+  that converts a limit into a start date, and the hysteresis that replaces runway
+  where the remediation is cheap and repeatable.
 - [next-order-of-magnitude-only](./techniques/next-order-of-magnitude-only.md) — axis
   selection and the worst-constant rule, sizing the increment, horizon decay, and the
   irreversibility test that says when to build further than one increment.

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 150,
   "techniques": 967,
-  "applications": 435,
+  "applications": 436,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -13899,7 +13899,14 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "ceiling-as-deadline-not-trigger",
+     "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/applications/process--ceiling-as-deadline-not-trigger.md",
+     "verified_on": "2026-08-27"
+    }
+   ]
   },
   "scheduling": {
    "category": "backend-platform",
