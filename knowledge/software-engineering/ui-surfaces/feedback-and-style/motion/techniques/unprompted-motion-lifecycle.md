@@ -7,7 +7,7 @@ status: forged
 laws:
   - creation-names-reaper
 shared_with: []
-use_when: [adding an autoplay carousel or attract loop, deciding whether a surface owes a visible pause control, a scroll reveal replays every time a section passes]
+use_when: [adding an autoplay carousel or attract loop, deciding whether a surface owes a visible pause control, a scroll reveal replays every time a section passes, a parallax is being made one-shot]
 ---
 
 # Unprompted motion lifecycle
@@ -125,9 +125,9 @@ The rule: **a scroll reveal plays once per surface, per visit, and holds its
 revealed state afterward.** Coming into view is an implementation event, not
 a first-appearance event — the same confusion catalogued in
 [one-shot-guarding](./one-shot-guarding.md), which owns the guard mechanics.
-What this technique adds is the *policy*: for unprompted reveals the answer
-is always one-shot, and a surface that wants replay on every pass needs an
-argument, not a default.
+What this technique adds is the *policy*: for scroll-*triggered* reveals the
+answer is always one-shot, and a surface that wants replay on every pass
+needs an argument, not a default.
 
 Two adjacent rules complete the shape:
 
@@ -139,6 +139,41 @@ Two adjacent rules complete the shape:
   produces a jump the user reads as a flicker, so the honest form is an
   instant switch, stated as such rather than discovered by the animation
   engine at run time.
+
+## Scroll-triggered is not scroll-driven
+
+Everything above governs a reveal that scroll **fires**: the surface crosses
+a threshold, a timed gesture starts, and it runs to completion on its own
+clock regardless of what the user does next. A second and genuinely
+different class shares the word "scroll" and inverts the rule, so the two
+are worth separating before the one-shot policy is applied to something it
+would break.
+
+In a **scroll-driven** gesture, the scroll offset is not a trigger — it is
+the input axis itself (see
+[gesture-decomposition](./gesture-decomposition.md)). The property is a pure
+function of position: at this offset the layer sits here, at that offset it
+sits there, and there is no elapsed time anywhere in the definition. The
+user is not starting an animation by scrolling; they are *scrubbing* one.
+
+That difference reverses the reversal rule. Re-hiding on the way back is the
+defect this technique names for a triggered reveal, and it is the correct
+and unavoidable behavior for a driven one — the same graph read backwards,
+which is what the reader asked for by scrolling up. **Applying one-shot to a
+scroll-driven gesture is a bug**: it would freeze a mapping at whatever
+value it held when the guard fired and leave the surface unresponsive to the
+very input that defines it.
+
+The rest of this technique still applies, with one substitution. A driven
+gesture is unprompted motion — nobody asked for a parallax — so it owes the
+same reduced-motion answer, and travel is exactly what a reduction removes.
+But it owes no stop control, because it has no run of its own to stop: it
+is already stopped whenever the user is. The lifecycle obligation of a
+driven gesture is bounded travel, not a pause affordance.
+
+The test that separates them in review: **if the user stopped scrolling
+mid-gesture, would anything keep moving?** If yes, it is triggered, and it
+is a one-shot. If no, it is driven, and one-shot does not apply to it.
 
 ## Cadence comes from elapsed time, not from counted ticks
 

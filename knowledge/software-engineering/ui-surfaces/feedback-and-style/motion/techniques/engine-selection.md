@@ -6,22 +6,23 @@ technique: engine-selection
 status: forged
 laws: []
 shared_with: []
-use_when: [choosing the engine for each gesture, deciding whether a gesture can be interrupted mid-flight, entrances stop playing with nothing erroring]
+use_when: [choosing the engine for each gesture, deciding whether a gesture can be interrupted mid-flight, entrances stop playing with nothing erroring, a gesture is getting too complex to keep writing in code]
 ---
 
 # Engine selection
 
-Every gesture in the vocabulary runs on one of three engines: the style
-layer's **declarative keyframes**, a **scripted frame loop** you own, or an
-**animation library** someone else owns. Teams usually compare them on
-expressiveness. The comparison that decides architectures is different:
-**who owns the gesture, what can turn it off, and what happens when it is
-interrupted.**
+Every gesture in the vocabulary runs on one of four engines: the style
+layer's **declarative keyframes**, a **scripted frame loop** you own, an
+**animation library** someone else owns, or an **authored timeline played
+back as data** that no one writes in code at all. Teams usually compare
+them on expressiveness. The comparison that decides architectures is
+different: **who owns the gesture, what can turn it off, and what happens
+when it is interrupted.**
 
 ## The ownership question
 
 For every preset, the system must be able to answer: *what runs this, and
-what can disable it?* The three engines answer very differently.
+what can disable it?* The four engines answer very differently.
 
 **Declarative keyframes** are owned by the platform. Nothing in application
 code can globally disable them short of an explicit universal style rule —
@@ -65,6 +66,17 @@ reduction story intact, or the escape quietly becomes an accessibility
 hole (the coverage discipline is
 [reduced-motion-mechanics](./reduced-motion-mechanics.md)).
 
+**An authored timeline played back as data** inverts every answer above.
+The gesture is not written in code at all: it is built in a motion-design
+tool, exported as a document of keyframes (or as rendered footage), and
+shipped as an asset that a small runtime plays. Ownership moves to whoever
+owns the source file — which is usually the designer, and which is the
+point. Nothing in the product can retune it, no global switch reduces it
+because it is not animation as far as the platform is concerned, and its
+reduced-motion story must be authored as a **second exported variant** or
+it has none. Its cost is fixed and front-loaded: an asset to download and
+decode, versioned outside the code review that catches everything else.
+
 ## The interruption story
 
 Interruption is the sharpest *behavioral* difference and worth choosing on:
@@ -82,6 +94,39 @@ one-shot reveal is born, plays, and dies — nothing retargets it. Spending a
 scripted spring on a gesture that is never interrupted buys nothing and
 costs main-thread frames.
 
+## The line where code stops paying
+
+The fourth engine exists because the first three stop being the cheaper
+option at a knowable point, and teams pass it without noticing — a gesture
+that "just needs a few more keyframes" becomes a thousand-line choreography
+module maintained by whoever touched it last. Three shapes are past the
+line: **character movement** (anything that reads as a body moving rather
+than a property changing), **shape morphing** between forms that are not
+interpolations of each other, and **many-layer set pieces** where a dozen
+elements are timed against each other to the frame.
+
+The discriminator is one question, and it is not about complexity:
+
+> **Does this gesture have to respond to input while it is running?**
+
+If it does, it must be code, because an exported timeline can only be
+scrubbed or played — it cannot recompute itself against a value that did not
+exist when it was authored. That is precisely the strength of the first
+three engines, and it is why the expensive scripted machinery is worth
+maintaining for drags, cursor-linked motion and retargetable springs.
+
+If it does not — if the gesture plays the same way every time — then
+complexity is no longer an argument for code. It is an argument against it.
+An exported timeline is authored where the craft is, reviewed by looking at
+it, and costs the product a decoder rather than a maintainer. Rebuilding it
+in code buys nothing but ownership of a thing nobody on the team wants to
+own.
+
+The trap worth naming: a gesture past the line usually **does** have a
+trigger, and a trigger is not an input. Playing a set piece when a step
+completes is still fire-and-forget. Only motion that must read a changing
+value *during* playback is disqualified from export.
+
 ## A default worth defending
 
 A defensible allocation for a product-sized vocabulary:
@@ -95,6 +140,9 @@ A defensible allocation for a product-sized vocabulary:
 - **A full animation library is adopted only when** the scripted needs
   outgrow what a small owned engine can carry — and its global switches are
   then inventoried and fenced on day one.
+- **Exported timelines carry the set pieces**, and are inventoried like any
+  other asset: each one paired with its reduced variant, and each one
+  answerable for why it is not code.
 
 Mixed engines are fine; *unknown* ownership is not. The failure mode this
 technique exists to prevent is discovering, in production, that your motion
