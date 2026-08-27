@@ -346,10 +346,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:fb06faecf58a7750",
+      "contentHash": "sha256-n1:51a92a405ffa24ea",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 2,
+      "lessons": 3,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:d7e91388c2eb887b",
+      "lessonsHash": "sha256-n1:5726de9cb06aa215",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -542,7 +542,7 @@
     "skills": 27,
     "practices": 4,
     "memory": 4,
-    "lessons": 52
+    "lessons": 53
   },
   "bundles": [
     {
