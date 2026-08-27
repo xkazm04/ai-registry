@@ -8,6 +8,7 @@ techniques:
   - chunking-and-indexing
   - embedding-lifecycle
   - hybrid-lane-fusion
+  - relationship-proximity-lane
   - ranking-budgets
   - relevance-floors
   - retrieval-evaluation
@@ -76,7 +77,15 @@ lexical-only has chosen to fail on every query phrased in the user's words
 instead of the corpus's. Additional lanes earn seats the same way: a recency
 lane covers "what just happened", which both matchers systematically
 under-rank; a pinned always-include tier covers items whose relevance is
-constitutional rather than query-dependent. And a new lane must be a strict
+constitutional rather than query-dependent. Where the corpus stores typed
+relations, a fifth seat covers the item that matches *nothing* about the
+query and is one edge from something that does — the objection to the top
+hit, the constraint behind the decision — which no similarity matcher can
+reach; it is unlike the others in being a function of results rather than of
+the query, and
+[relationship-proximity-lane](./techniques/relationship-proximity-lane.md)
+holds the consequences, including the one that qualifies the paragraph below.
+And a new lane must be a strict
 *addition*: run alongside the existing lanes and unioned in, so the richer
 configuration is a superset of the leaner one — never a replacement whose own
 blind spot silently costs recall the old path had. The craft of combining
@@ -184,6 +193,9 @@ memory subject demands when it labels recalled beliefs before injection.
   embedder.
 - [hybrid-lane-fusion](./techniques/hybrid-lane-fusion.md) — lane roster, score
   normalization across incomparable scales, fusion strategies, tiers, dedup.
+- [relationship-proximity-lane](./techniques/relationship-proximity-lane.md) —
+  expansion along typed relations, why it is not a peer lane, correlated
+  evidence, per-relation policy, and when a stored graph earns no seat.
 - [ranking-budgets](./techniques/ranking-budgets.md) — shared budget vs per-lane
   quotas, overfetch-then-select, size-aware cuts, diversity.
 - [relevance-floors](./techniques/relevance-floors.md) — thresholds, honest

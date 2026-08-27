@@ -6,6 +6,11 @@
 **Resolved path:** `knowledge/software-engineering/backend-platform/data-layer/storage-engine-selection/`
 **Raised by:** `/intake`, 2026-08-27, from
 [`librarian/sources/2026-08-27-duckdb-changing-physics-of-analytics.md`](../librarian/sources/2026-08-27-duckdb-changing-physics-of-analytics.md)
+**Extended:** `/intake`, 2026-08-27, from
+[`librarian/sources/2026-08-27-latticedb.md`](../librarian/sources/2026-08-27-latticedb.md)
+— techniques 7 and 8, and a second reconciliation tree. The second source is an
+independent vendor with the opposite storage layout to the first, which is why
+technique 8 could be written as a boundary rather than as either one's pitch.
 **Engine:** `domain-knowledge-forge` — read [`forge-brief.md`](forge-brief.md) first; it is the contract.
 
 ---
@@ -67,7 +72,7 @@ the general case**, of which that is one route through the decision.
 
 ## Proposed techniques
 
-Six, with the decision rule each must carry. The first two are the fragments
+Eight, with the decision rule each must carry. The first two are the fragments
 this run's source produced that were deliberately not banked separately.
 
 ### 1. `single-host-baseline-before-distribution`
@@ -157,6 +162,79 @@ benchmark native engines at full fidelity without the evaluation becoming an
 adoption by accident — and it is what makes a later "we measured it and did not
 land it" checkable from outside, because the product manifest still declares
 only what actually runs.
+
+### 7. `a-dataset-is-not-a-workload`
+
+**Rule:** a workload class is claimed by a *reader on the request path*, never
+by the presence of the data its engine would serve. Enumerate the readers of
+the relation, the vector column, the text column; classify each as request
+path, offline job, export, or admin view. A class with no request-path reader
+is a record the system keeps, not a workload it has.
+
+This is the negative half technique 3 needs to be decidable, and it is the
+test that most cheaply prevents the expensive mistake in this subject. Owning
+the data an engine is good at feels like having its workload, and a schema is
+the most persuasive possible argument for a decision nobody has actually made.
+
+It rests on two trees, and the second one is what makes it a rule rather than
+an observation. The reconciliation tree below *had* the workload — a real
+graph, real traversal queries — and measured the dedicated engine losing. The
+second tree (`personas`, written up as an application in the `retrieval`
+subject, 2026-08-27) has the opposite shape: **two typed relation stores,
+neither with a request-path reader.** One of them carries a table, a reverse
+index built for inbound traversal, a six-name relation vocabulary and an
+eight-line module ending `Phase 0: stub. Phase 2: traverse, add_edge,
+contradict_scan` — and no writer and no reader anywhere in the tree. Priced
+by data, it is a graph workload; priced by readers, it is a record.
+
+The drafter must also write the inverse error, which is rarer and worse:
+concluding a class is absent because nobody named it. Relations hide in
+foreign keys and path hierarchies; analytical shapes hide in offline scripts.
+The question is whether the *query* exists, not whether someone built the
+schema for it.
+
+### 8. `a-multi-modal-engine-consolidates-seams-not-costs`
+
+**Rule:** when one engine claims several workload classes, price the change as
+seams removed, not as latency won — and read its benchmark suite for the class
+it does **not** measure, because that omission follows from its storage layout
+and is not a gap in its marketing.
+
+An engine spanning transactional, relational-traversal, text and similarity
+retrieval in one query language is a real reduction in assembled machinery:
+without it those are separate indexes with separate syntaxes, combined either
+in several round trips or in a query nobody wants to maintain. That is the
+genuine claim and it is about *seams*.
+
+What it is not is a performance argument, and the reason is structural. The
+classes such an engine consolidates are, at ordinary application scale, mostly
+the classes where every candidate was already fast enough — the reconciliation
+tree measured exactly that outcome in three of its five classes and recorded a
+rule against adding an engine in each. The class that *did* justify a second
+engine there was the analytical aggregate, and a row-oriented multi-modal
+engine cedes it: a query touching most of the data will lose to a columnar
+layout, which is a property of the layout and not a tuning problem. A
+benchmark suite covering point lookup, bounded traversal, similarity and text
+while omitting the aggregate is therefore honest and complete about what the
+engine is, and silent about the only class that moved the decision.
+
+Two further rules the drafter should carry, both cheap:
+
+- **The combining query is the one no per-class benchmark measures.** Every
+  published figure isolates a class. If the reason to adopt is that one query
+  spans three of them, the number that decides is a number nobody publishes,
+  and the evaluation has to produce it locally.
+- **Read a comparison table for its per-row measurement provenance.** The
+  originating source for this technique states, above its own table, which
+  single row was measured head to head on one machine and which rows are
+  third-party figures on hardware it does not control — and says to treat the
+  rest as "worth investigating on your own data", not as a result. That
+  disclosure is the exception; its absence elsewhere is the default, and a
+  table without it is a set of numbers from different machines in one grid.
+  This belongs here rather than in a measurement-presentation subject because
+  it is the *reader's* obligation, and cross-bundle links are forbidden — the
+  `recruiting` bundle holds the publisher's side of the same boundary. State
+  the discriminator in prose; do not link.
 
 ## The reconciliation tree
 

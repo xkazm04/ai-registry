@@ -6,7 +6,7 @@ technique: hybrid-lane-fusion
 status: forged
 laws: [identity-survives-reuse, count-carries-predicate]
 shared_with: []
-use_when: [merging candidate lists from several matchers, adding raw scores from incomparable scales, nearest-neighbor hits leaking across scopes]
+use_when: [merging candidate lists from several matchers, adding raw scores from incomparable scales, nearest-neighbor hits leaking across scopes, fusing a lane whose input is another lane's output]
 ---
 
 # Hybrid lane fusion
@@ -91,6 +91,29 @@ identifier, semantically at high similarity" is the explanation surface
 fusion owes its consumer, and the raw material the
 [retrieval-evaluation](./retrieval-evaluation.md) technique needs when a
 ranking regression has to be attributed to a lane.
+
+### Convergence is evidence only across *independent* lanes
+
+The rule above has a precondition that is invisible while every lane is a
+matcher over the query, and false the moment one is not. Two lanes corroborate
+because they reached the same item by unrelated routes; the lexical and
+semantic lanes qualify, and so does recency. **A lane seeded from another
+lane's output does not.**
+
+An expansion lane — relation traversal being the common case, but any
+"more like this result" step has the same shape — surfaces an item *because*
+some other lane ranked its neighbour. Summing both contributions counts one
+piece of evidence twice, weighted hardest exactly where the seeding lane was
+most confident. The visible symptom is not an error but a slice that has
+quietly become a depth-first tour of one region of the corpus: every item in
+it is genuinely related, so diversity cuts pass it, and the query's other
+senses are simply absent.
+
+Before fusing, state for each pair of lanes whether either one's input depends
+on the other's output. Dependent lanes are fused as a tier beneath their seed,
+or attributed to the seed and fused once as attached context — never summed as
+peers. The roster's admission question gains a second half: a lane must name
+the failure it covers, **and** the lanes it is not independent of.
 
 ## A lane's blind predicates are re-imposed downstream
 
