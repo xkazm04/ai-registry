@@ -1483,3 +1483,74 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   run's work and left HEAD's index pointing at a file HEAD does not contain.
   Diffing the generated files for the sibling's slug before staging is a
   two-second check and it decided the whole commit strategy here.
+
+## 0.14.0 - 2026-08-27 - openwiki-self-correcting-memory
+
+- **Verify structural claims against the AUTHORITY, never against the data
+  lying around. Second sighting, and this is now settled rather than advice.**
+  Mapping this registry's contribution lane I read the two live `signals/`
+  files, found `consults` and `deviations`, and concluded there was no channel
+  for a verification verdict. The checker accepts a third key, `citations`,
+  carrying `resolved`/`moved`/`gone` per application, keyed by slug and never a
+  path, counts-only with the privacy rationale in the failure message. The
+  finding was already drafted. **Data shows what contributors happened to send;
+  only the validator says what the lane is.** The 2026-08-22 category-nesting
+  error was the same mistake against `taxonomy.json`.
+- **The corrected finding was strictly stronger than the wrong one, and that is
+  the pattern rather than the consolation.** "The schema is missing a field"
+  became "the channel is specified, the collector - the lane's only writer - has
+  no code path that emits it, and the consuming scan reads one of its three
+  counts." Specified, unpopulated, half-consumed is a far better technique than
+  add-a-field, and it generalises into a test worth reusing: **a contribution
+  channel exists if the collector emits it unasked, not if the validator would
+  accept it.** When a structural claim is corrected, re-ask what the corrected
+  structure teaches before rewriting - the second draft is usually the finding.
+- **Read the real implementation before prescribing to a subject the registry
+  itself implements.** The `citations` design supplied the technique's central
+  move, which I did not have and would not have invented: **a count crosses a
+  publish boundary that an anchor cannot.** For any subject where this registry
+  is itself an instance, the tree is primary source, not illustration.
+- **When two picked rows turn out to be one decision, land one file and say
+  so.** Rows 1+7 were two rules about the artifact's own verification state;
+  rows 5+4 were a collector and its ordering precondition. Four files would have
+  been padding and would have taken a mature nine-technique subject to thirteen.
+  Landed as two, with the merge stated in the source note so the operator can
+  see their picks were not dropped. The reverse move also applied: pick 8 landed
+  as an amendment rather than a twelfth technique, because its prior art
+  (`gate-liveness`) was real and the boundary was better written inside the
+  existing verdict-vocabulary file.
+- **The asymmetry hunt beat the enumeration hunt this run.** The best knowledge
+  finding was not a missing list member: `docs-sync` *measures* what a report may
+  claim across four techniques and merely *mentions* the document's own review
+  date - the exact field wall 7's detector consumes to pick its query window.
+  Neither a slug map nor a summary can see this, because both files "cover"
+  freshness and score identically. **When a candidate looks already-covered
+  because some file says the words, ask which file MEASURES it.**
+- **A contested home is a signal to argue from the subject's stated job, not to
+  bank a lead.** Pick 9 mapped to four subjects and fit none by slug. It landed
+  in `telemetry-pii-redaction` on the argument that every technique there rests
+  on an assumption the finding breaks - the sensitive value passing through as a
+  value - which is a stronger test than proximity and is reusable.
+- **The contradicted pick was again the best one.** Fifth run in a row. The
+  source's whole-set reconciliation contract is right and its retraction signal
+  (omission) is wrong, which makes forgetting and deciding byte-identical - the
+  silent rewrite `dated-corrections` opens by rejecting, moved from the sentence
+  to the set.
+- **New class row worth naming: the paired single-voice source.** A vendor's
+  release walkthrough plus that vendor's own repository is a two-artifact channel
+  corpus - within-batch convergence is VOID, and saying so before triage stopped
+  eight candidates from being scored as though two independent sources carried
+  them. Distinct from the channel corpus in one way that matters: the two halves
+  have different reliability (the blog states what was wrong before; the repo's
+  "stated production rules" half is dense while its benchmark claims are the
+  least useful thing present), so route per artifact, not per source.
+- **0 of 3 fetches - seventh consecutive zero-fetch run** for a source carrying
+  its own primary material. The only thing a fetch could have bought was the
+  vendor's benchmark percentages, which the landings deliberately do not cite:
+  the replay *protocol* was the finding, not the numbers it produced.
+- **Expected yield was right about shape and low about count** (predicted
+  amendments and catches, got eight landings from eight picks). The reason is
+  worth carrying: when the source's subject matter IS the registry's subject
+  matter, the fraction touching our own machinery is far higher than for an
+  ordinary vendor source, and the usual n=1 discount does not apply to what the
+  tree can be read against directly.

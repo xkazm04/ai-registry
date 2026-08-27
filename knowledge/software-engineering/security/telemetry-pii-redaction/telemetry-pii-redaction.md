@@ -11,6 +11,7 @@ techniques:
   - redact-at-the-cap
   - hook-coverage-gaps
   - redaction-invariants-as-tests
+  - exclusion-bounds-reads-not-output
 ---
 
 # Telemetry PII redaction
@@ -206,6 +207,31 @@ becomes a ratchet toward uselessness. The planting method, the absence
 assertion, the clean-survival case and the regression case for each cap are
 [redaction-invariants-as-tests](./techniques/redaction-invariants-as-tests.md).
 
+## When the payload is composed, there is nothing to scrub
+
+Everything above assumes the sensitive value **passes through** — it exists as
+a value in a field, which is what a keyed drop, a pattern pass, a cap and an
+absence assertion all need. When the outbound artifact is *composed* rather
+than copied — a generated report, a written summary, a synthesized description
+of a system — the assumption fails completely, and every control above becomes
+inapplicable rather than merely weaker: the fact was reconstructed from other
+material, so no string ever entered the pipeline for a scrubber to match.
+
+The reflex is an exclusion list naming what the generator may not read, and it
+is worth having, but it bounds *reads* and not output — a fact withheld at the
+read boundary stays derivable from the material that remained, through the
+tests that exercise it, the configuration that names it and the history that
+references it. So the two guarantees are written down separately, because a
+reader supplies the stronger one from context: *this material was not read* is
+what an exclusion delivers; *this material is not described* is a different
+claim needing a control at the publish boundary, where the artifact exists and
+can be judged. That check is a classifier or a reviewer rather than a pattern,
+which makes it a sampling control with a false-negative rate — reported as
+coverage, never as a clean bill — and makes the read-side exclusion its
+partner rather than its alternative, since it is what shrinks the population
+the expensive judgement has to cover.
+[exclusion-bounds-reads-not-output](./techniques/exclusion-bounds-reads-not-output.md).
+
 ## Where this subject stops, and the neighbours start
 
 Three subjects border this one and all four talk about scrubbing, so the
@@ -283,3 +309,7 @@ not repairable after the fact.
 - [redaction-invariants-as-tests](./techniques/redaction-invariants-as-tests.md)
   — absence assertions on the serialised output, a clean-survival case
   against over-redaction, and a regression case per cap.
+- [exclusion-bounds-reads-not-output](./techniques/exclusion-bounds-reads-not-output.md)
+  — why a composed payload defeats every scrubbing control, the two guarantees
+  an exclusion list is read as making, and the publish-boundary judgement that
+  has to replace the absence assertion.
