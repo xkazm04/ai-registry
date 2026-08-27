@@ -892,3 +892,64 @@
   altitude guidance's synthesis step worked exactly as written - the
   operator was offered the law-level landing at triage rather than a third
   local paragraph.
+
+## 0.12.0 - 2026-08-27 - control-center-dashboard
+
+- **New class, first observation: the practitioner build-walkthrough of a
+  personal tool.** A hybrid whose two halves have opposite reliability, which
+  is what makes it worth naming. The *tour* half is a feature demo - it shows
+  the solution, hides the problem, and improvises its explanations on camera.
+  The *operating* half - the handful of sentences about a tool the builder has
+  actually run daily for months - is a genuine first-party account. The
+  discriminating question is cheap and it decided every row in this run's
+  triage: **is he describing what the tool does, or what happened to him while
+  using it?** All three findings came from the second half; the tour produced
+  nothing but catches and proper nouns. One observation, so it goes here and
+  not into the class list in SKILL.md.
+- **The class's build narration is evidence, and it is the honest part.** This
+  source left the agent run timers on screen: 15 minutes to a complete-looking
+  shell, then 20, 23, 31 and 157 minutes plus a further 41-minute prompt, all
+  of it defect repair. Creators hide the failure in a demo and show it in a
+  build log, because the build log is the flex. Read the timers.
+- **A near-empty that is a seam can sit inside ONE bundle.** The skill already
+  warns that a near-empty may be a seam rather than a hole. This run found the
+  seam's two sides in the same bundle: `grant-funding` prices source-counting
+  in three techniques across two subjects, and its own ingest subject discards
+  the count one merge earlier. The tell was that the prior-art hit
+  (`stable-dedup-key-selection`) was *thorough* - it resolved cross-source
+  overlap two different ways and both were correct, which is what a subject
+  looks like when it has answered a neighbouring question so well that nobody
+  noticed it never answered this one. Grepping the bundle for the *consumer* of
+  a number is a cheaper way to find the producer's gap than reading the
+  producer.
+- **A source that implements a good idea badly is worth more than one that
+  implements it well.** The tool counts how many newsletters carried a story,
+  and AI newsletters relay each other wholesale - so its number measures
+  promotion, not corroboration. The corrected premise (record carriers at
+  *publisher* granularity; a republisher contributes its origin's identifier)
+  is the half the technique would not have had if the source had been right.
+  Third run in which the corrected-premise pattern produced the stronger
+  finding.
+- **The enumeration case generalises past this source and is worth carrying in
+  the head during Phase 3.** A brief that lists parts supplies a
+  machine-checkable done criterion by accident, and the model satisfies *that*
+  one. It is the same defect as a padded findings list: counting the artifacts
+  produced instead of checking that any of them resolves. Worth noticing that
+  `/intake`'s own "report the counts and let them be small" rule is this
+  technique applied to itself.
+- **Shared-checkout operations: a shared append-only file needs surgical
+  staging, not a pathspec.** A pathspec protects files you did not touch; it
+  does nothing for `librarian/sources/index.md`, which both sessions append to.
+  The move that works: rebuild the file as `git show HEAD:<path>` plus your own
+  row, `git add` it, commit, then restore the working-tree version carrying
+  both rows. Here the sibling committed mid-run and the problem dissolved, but
+  the sequence is the one to reach for and it does not depend on that luck.
+  Not yet a SKILL.md line; one sighting.
+- **Yield again independent of length.** 5,750 words, three findings - the same
+  count as a 2,974-word talk and a 54,597-word interview. Four data points now
+  say the `--min-words` floor answers "is anything there", nothing more.
+- **Zero fetches, third consecutive run.** Budget 3, spent 0. Every finding was
+  corroborated by corpus-internal convergence plus training-data convergence.
+  The fetch budget is looking less like a constraint and more like a signal:
+  when a mature corpus supplies the other half of a claim, reaching for the web
+  is usually a sign the claim has no home yet.
