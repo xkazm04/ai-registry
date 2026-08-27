@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 149 subjects, 960 techniques, 435 applications.
+`software-engineering` - 150 subjects, 969 techniques, 437 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -23,7 +23,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 ### backend-platform
 - **data-layer** - data-access, embedded-db, migrations, sync-replication
 - **platform-observability** - alerting, metrics-rollups, observability-telemetry, outbound-notifications
-- **resilience** - error-handling, optional-dependency-degradation, rate-limiting, retry-backoff, self-healing, stream-proxy-hop, webhook-ingestion
+- **resilience** - error-handling, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
 - **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, job-coordination, pipeline-dag, scheduling
 
 ### operations

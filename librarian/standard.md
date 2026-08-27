@@ -57,7 +57,7 @@ No script decides these. A reviewer does, reading diffs.
   all along. Fixed in the router and the consult skill the same day, and kept here so
   the next instrument change is measured the same way.
 
-## Two known gaps in the standard itself
+## Three known gaps in the standard itself
 
 Recorded here rather than quietly tolerated, because a bar with unmeasured clauses
 should say which ones they are.
@@ -80,12 +80,86 @@ reviewer applies them:
   unchanged and recorded that they held. That is a consult with a deviation count, so
   the signals lane is where this rung's evidence will come from. Nothing qualifies yet.
 
-**Demand is witnessed, small, and mostly unrecalled.** The first contributor reported
-on 2026-08-23: six connected projects, three consults in thirty days, three bundles
-witnessed, four deviations recorded - every consult found the repo short of the
-standard somewhere. Against 1,900 techniques that is a supply-to-demand ratio the
-corpus cannot justify by content alone, and the cause is measurable: all six projects
-declare their bundles in a manifest, and none of their agent guides tells an agent to
-consult before deciding. The knowledge is reachable and not recalled. Demand now
-outranks every structural clause above for the subjects it names; for the four bundles
-no consult has touched, demand is still unknown, not zero.
+**Demand is witnessed, uneven, and no longer small.** Two installations report as of
+2026-08-27. The picture changed sharply between them and the earlier version of this
+paragraph - written when one contributor had reported three consults - is superseded:
+
+| | |
+| --- | --- |
+| Contributors | 2 (2026-08-23, 2026-08-25) |
+| Bundles witnessed | 7 of 8; only `localization` is unwitnessed |
+| Consults in window | 87 |
+| Deviations | 6 |
+
+One installation consulted **46 distinct `software-engineering` subjects 83 times in
+thirty days**. That is the recall problem being solved somewhere, and it retires the
+supply-to-demand argument this paragraph used to make against the whole corpus - for
+that bundle. It does not generalize: the other contributor recorded three consults, and
+five bundles have never been consulted by anybody who reports.
+
+Two readings of that installation's **zero deviations across 83 consults**, and the
+standard does not pick one: either the tree genuinely conforms, or the deviation path
+was never exercised. The other contributor's three consults produced four deviations
+using the same collector, which is the reason not to assume the first reading. Unknown
+is not zero, and it is not conformance either.
+
+**Under the same gap: `demandKnown` is a boolean over three states, and it merges two
+of them.** The scan asks only whether any installation named a bundle. That yields:
+
+- **Unknown** - no installation names it. `localization`, today.
+- **Witnessed and silent** - an installation names it and reported no consults at all.
+  Four bundles today: `llm-observability`, `media-generation`, `grant-funding`,
+  `civic-intelligence`.
+- **Demand** - a consult count. Three bundles.
+
+The middle state is the informative one and the instrument cannot express it: it is an
+installation that has the bundle wired and reaches for nothing in it. `media-generation`
+is the sharpest case - the supply side moved 39 techniques in six days while the demand
+side stayed at zero. A sweep should say which of the three it is ranking on, in words,
+until the scan can.
+
+Demand outranks every structural clause above for the subjects it names.
+
+**Currency is instrumented for a tenth of the corpus, and drift is unranked.** Measured
+2026-08-27:
+
+| | |
+| --- | --- |
+| Applications | 934 |
+| Runtime-bearing (non-`process`) | 704 |
+| Carrying `verified_against` | 74 - **11%** |
+| Of those, drifted against a reported fleet major | 17 - **23% of what is measurable** |
+| Invisible to drift detection | 630 - **89% of runtime-bearing** |
+| Bundles where that is 100% | `recruiting`, `civic-intelligence`, `grant-funding` |
+
+Two distinct failures sit under one heading.
+
+*The coverage half, and it is worse than a blind spot.* A runtime-bearing application
+without `verified_against` cannot drift, because nothing can compute that it has. It
+therefore does not read as UNKNOWN in any report - it reads as **not drifted**, which is
+the one wrong answer of the three. `check-currency.mjs` says this about itself in a
+comment - "a fact about our instrumentation, not about the document" - and it is right,
+which is why `0 expired · 0 at risk` must never be read as a health statement.
+
+**This is demonstrated, not theorised.** On 2026-08-27 a worker sent to clear the single
+drifted application in `media-generation` found the folder's OTHER application rotted
+identically against the same source file - eight citations moved by the same refactor -
+and it had escaped every scan the registry runs because it carried no witness at all.
+One folder, two rotted documents, one of them invisible. The registry-wide drift figure
+is therefore a **lower bound over 11% of the runtime corpus**, not a count.
+
+*The ranking half.* Where drift IS computable it scores zero attention points, because
+the scan's weights have no drift term. A quarter of everything measurable has drifted
+and no sweep would ever surface it.
+
+**Why this is recorded as a gap and not added to the floor above.** A clause worth
+points has to exist in `librarian-scan.mjs` or this table disagrees with what runs, and
+the obvious clause - *a runtime-bearing application carries no version witness* - would
+flag 630 documents at once. That is not a worklist, it is a flood, and it would bury
+the six real items a sweep actually found. The defect is systemic and the remedy is
+systematic: one backfill pass that stamps witnesses from each consumer's declared
+manifest, after which a floor clause becomes affordable and honest. Until somebody runs
+that pass, the sweep reports the coverage figure in words and does not rank on it.
+
+What every run can do meanwhile, and what this one did: **everything newly landed
+carries a version witness.** The gap stops growing even while nobody is closing it.

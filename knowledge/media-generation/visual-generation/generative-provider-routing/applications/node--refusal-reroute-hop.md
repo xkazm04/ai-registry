@@ -5,7 +5,8 @@ subject: generative-provider-routing
 technique: refusal-reroute-hop
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-27
+verified_against: node@24
 ---
 
 # Node — refusal re-route hop in a server-side imaging router
@@ -22,12 +23,14 @@ The router's header comment states the operating fact the technique rests on
 outright, and "the fix that works in practice is a cross-vendor re-route, not
 a retry — so `reroutable` errors walk to the next CONFIGURED provider, and
 everything else throws immediately." The walk itself is `run()`/`walk()`
-(`router.ts:147-281`): each provider in `orderFor(cap, steer)` is tried at
-most once; a thrown `ImagingError` with `reroutable` set pushes a
-`{provider, why}` step onto `trail` and continues (`router.ts:246-255`);
-non-reroutable kinds throw on the spot. The spend ceiling is checked once,
+(`router.ts:203-402`): each provider in `orderFor(cap, steer)` is tried at
+most once; a thrown `ImagingError` is pushed onto `trail` as a
+`{provider, why}` step whatever its kind, and only then does `reroutable`
+decide whether the loop continues or the error is rethrown
+(`router.ts:372-375`) — so a non-reroutable kind throws on the spot and still
+leaves its record. The spend ceiling is checked once,
 before any vendor is touched, and an `over-budget` throw "never reroutes"
-(`router.ts:160-164`) — you cannot route around your own budget.
+(`router.ts:240-244`) — you cannot route around your own budget.
 
 ## Reading refusals off two very different wires
 
@@ -44,7 +47,7 @@ Each adapter maps its vendor's refusal spelling onto the single internal kind
   caller nothing" (`google.ts:118-121`, `docs/imaging.md:106-109`).
 - **Leonardo** — surfaces its safety block as a terminal poll status rather
   than an error: `status === "NSFW"` maps to the same `"refused"` kind
-  (`lib/imaging/providers/leonardo.ts:196-204`), so one layer up the two
+  (`lib/imaging/providers/leonardo.ts:224-232`), so one layer up the two
   vendors are indistinguishable.
 
 ## The recovery move callers get
@@ -63,13 +66,13 @@ vendor is planned and keyed.
 
 A refused style-locked generation must not "recover" onto a vendor that
 ignores reference images. `generate()` attaches a constraint
-(`router.ts:283-297`): requests carrying references only route to providers
+(`router.ts:404-418`): requests carrying references only route to providers
 with `supportsReferences: true` — declared `false` on the Leonardo adapter
-because its v1 API silently drops references (`leonardo.ts:91-94`,
-`types.ts:186-199`). The router comment names the stake: "an unconditioned
+because its v1 API silently drops references (`leonardo.ts:116-118`,
+`types.ts:187-199`). The router comment names the stake: "an unconditioned
 image in the wrong style is not a cheaper success, it is a failure that looks
 like one." When the constraint empties the chain, the error message leads
-with the constraint, not the vendor error (`router.ts:258-276`).
+with the constraint, not the vendor error (`router.ts:379-397`).
 
 ## What survives the hop
 

@@ -6,7 +6,7 @@ technique: non-silent-elimination
 status: forged
 laws: [refusal-is-a-state, unmeasured-is-not-pass]
 shared_with: []
-use_when: [an asset arrived from an unexpected vendor, a whole chain came up empty and the error must explain why, a request field would be silently ignored by a vendor]
+use_when: [an asset arrived from an unexpected vendor, a whole chain came up empty and the error must explain why, a request field would be silently ignored by a vendor, a request body is assembled by omitting the fields the caller left unset]
 ---
 
 # Non-silent elimination
@@ -41,6 +41,16 @@ recorded reason, because each demands a different fix:
    [unmeasured-is-not-pass](../../../_laws.md#unmeasured-is-not-pass) a call
    that ignored half its request must not present as a pass. Fix: route to a
    vendor that honours the field, or drop the field on purpose, visibly.
+
+   The same elimination has an **outbound door** the trail cannot see: a field
+   the router itself never sends. Where a request body is assembled by omitting
+   whatever the caller left unset, a caller who sets nothing hands the dial to
+   the vendor's own default — and a vendor default is a decision nobody on this
+   side of the wire made. Inbound and outbound produce the identical artefact:
+   an on-time, on-budget output that quietly ignored the brief. The tell is a
+   layer that writes down a doctrine about a dial and then has no code path that
+   carries one. Fix: give the dial a default at the layer that holds the
+   doctrine, so the value that ships is one this side chose.
 3. **No credential** — the vendor is planned but not keyed in this
    deployment. Skip it, at any position, but record it: an unconfigured
    primary is *why* the caller is billed for the fallback, and it is the
@@ -75,6 +85,10 @@ One record, three destinations — and all three, not any one:
 
 ## Decision rules
 
+- When a layer documents a doctrine about a request field, it must send a
+  value for that field rather than omitting it when the caller set none —
+  an omitted field hands the default to the vendor, and a default the vendor
+  owns is an elimination with no record anywhere and no owner to ask.
 - Record the elimination at the moment of the decision, in the loop that
   made it — not reconstructed afterwards from logs. Reconstruction drifts.
 - Keep elimination reasons closed-vocabulary (the four kinds plus the error
