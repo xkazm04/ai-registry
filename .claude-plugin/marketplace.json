@@ -225,9 +225,18 @@
     {
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
-      "description": "End-to-end context sweep: reads one feature-area's code once, evaluates it through every scan lens (references/lenses.md), and by default FIXES the accepted S/M findings in-session with atomic commits - one session owns one context end to end. Pass --ideas-only to emit findings to the Personas memory outbox for backlog triage instead of fixing. L moonshot items are always triaged, never auto-built",
-      "version": "1.0.0",
-      "category": "workflow"
+      "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands the safe fixes itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly",
+      "version": "2.1.0",
+      "category": "workflow",
+      "tags": [
+        "sweep",
+        "quality",
+        "stabilization",
+        "backlog",
+        "coverage",
+        "registry",
+        "atomic-commits"
+      ]
     },
     {
       "name": "ship-loop",
