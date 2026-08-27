@@ -1,6 +1,18 @@
 # Subject proposal — `scale-investment-timing`
 
-**Status:** proposed, dispatch-ready. This is a forge input, not knowledge.
+**Status:** EXECUTED 2026-08-27. Forged at
+`knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/`
+— golden path plus five techniques, gate-clean. See
+[`librarian/subjects/software-engineering/scale-investment-timing.md`](../librarian/subjects/software-engineering/scale-investment-timing.md)
+for how the four open questions resolved and where the draft overrode this brief.
+Two overrides worth noting here: technique 2 was renamed
+`ceiling-as-deadline-not-trigger` because the dispatched name
+(`run-the-architecture-to-its-stated-limit`) invites the exact failure the literature
+identifies, and technique 5 was shortened to `migration-reason-audit`. Applications
+outstanding — the subject has not been reconciled against real code.
+
+This document is retained as the record of what was dispatched. It is a forge input,
+not knowledge.
 **Bundle:** `software-engineering`
 **Category:** `backend-platform` → subcategory `resilience`
 **Resolved path:** `knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/`

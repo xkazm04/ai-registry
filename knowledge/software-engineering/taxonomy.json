@@ -191,7 +191,8 @@
             "self-healing",
             "webhook-ingestion",
             "stream-proxy-hop",
-            "optional-dependency-degradation"
+            "optional-dependency-degradation",
+            "scale-investment-timing"
           ]
         },
         {

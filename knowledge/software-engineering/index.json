@@ -3,8 +3,8 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 149,
-  "techniques": 962,
+  "subjects": 150,
+  "techniques": 967,
   "applications": 435,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "962/962",
+  "use_when_coverage": "967/967",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -13821,6 +13821,86 @@
     }
    ]
   },
+  "scale-investment-timing": {
+   "category": "backend-platform",
+   "subcategory": "resilience",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/scale-investment-timing.md",
+   "techniques": [
+    {
+     "slug": "ceiling-as-deadline-not-trigger",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "stating when the current architecture runs out",
+      "deciding when a replacement programme has to start",
+      "a team is arguing about whether it is at scale yet"
+     ]
+    },
+    {
+     "slug": "migration-reason-audit",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a platform or infrastructure migration is proposed on growth grounds",
+      "deciding whether a proposed rewrite is buying capacity or something else",
+      "a migration's justification changes each time it is questioned"
+     ]
+    },
+    {
+     "slug": "next-order-of-magnitude-only",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sizing a system for growth it has not yet seen",
+      "choosing which load axis to design against",
+      "deciding whether to build past the next increment"
+     ]
+    },
+    {
+     "slug": "size-the-system-to-its-maintainers",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a design is being sized for growth",
+      "the team operating a system has shrunk",
+      "delivery has slowed on a system nobody changed",
+      "deciding whether to consolidate or automate an operational surface"
+     ]
+    },
+    {
+     "slug": "vertical-headroom-before-distribution",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a proposal would distribute a workload that currently runs on one node",
+      "deciding between a larger machine and more machines",
+      "justifying a partitioned or clustered design"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "scheduling": {
    "category": "backend-platform",
    "subcategory": "work-execution",
@@ -18024,6 +18104,7 @@
     "runner-fleet/ephemeral-versus-warm-runners",
     "runner-fleet/fleet-isolation-boundaries",
     "runner-fleet/shared-cache-integrity",
+    "scale-investment-timing/vertical-headroom-before-distribution",
     "scheduling/schedule-observability",
     "schema-driven-ui/action-consent-wiring",
     "schema-driven-ui/emitter-registry-sync",
@@ -18757,6 +18838,11 @@
     "retrieval/retrieval-triggering",
     "retry-backoff/retry-observability",
     "runner-fleet/queue-depth-elasticity",
+    "scale-investment-timing/ceiling-as-deadline-not-trigger",
+    "scale-investment-timing/migration-reason-audit",
+    "scale-investment-timing/next-order-of-magnitude-only",
+    "scale-investment-timing/size-the-system-to-its-maintainers",
+    "scale-investment-timing/vertical-headroom-before-distribution",
     "scheduling/cooldown-and-debounce",
     "schema-driven-ui/spec-validation-and-repair",
     "scoring-rubrics/normalization",
@@ -19766,6 +19852,9 @@
     "retrieval/embedding-lifecycle",
     "retrieval/retrieval-triggering",
     "runner-fleet/shared-cache-integrity",
+    "scale-investment-timing/ceiling-as-deadline-not-trigger",
+    "scale-investment-timing/next-order-of-magnitude-only",
+    "scale-investment-timing/size-the-system-to-its-maintainers",
     "scheduling/next-run-computation",
     "scoring-rubrics/weight-design",
     "search/full-text-indexing",
@@ -19836,6 +19925,7 @@
     "mcp-tools/transport-selection",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
+    "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",
     "web-scraping/soak-mode-and-verdict-replay",
