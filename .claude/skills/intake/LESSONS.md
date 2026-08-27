@@ -1030,3 +1030,48 @@
   check whether it denied too much.** `voice-io` insists its two pipelines are
   not mirror images (correct), and that framing had hidden for months the fact
   that their *doors* do mirror and only one was built.
+
+## 0.12.0 - 2026-08-27 - reflect (runs 24-28; bumped to 0.13.0 in the same change)
+
+Six runs had accumulated at 0.12.0 - the longest lessons-only stretch in the series -
+and two classes had been explicitly deferred to "the next reflect". This is that pass.
+
+- **The file hit its size budget, and that was the real finding.** SKILL.md was 550
+  lines against a ~500 guidance, and the pending additions were worth ~80 more. The
+  class list had grown from 2 classes to 9 and was 102 lines of pure reference material
+  sitting inside a procedure document. Extracted to
+  `references/source-classes.md` (239 lines, the established repo pattern), leaving a
+  routing table plus the three cross-cutting rules inline: 551 -> 545 while absorbing
+  two new classes, a whole new lane, and six method additions. **A skill that grows one
+  lesson at a time needs a periodic structural pass, not just appends** - reflect is
+  where that happens, because it is the only phase that reads the whole file.
+- **The split's one risk is that the moved material stops being read**, so Phase 2 now
+  names the reference file as a step rather than trusting the earlier pointer. A
+  reference file a procedure never tells you to open is a deleted file.
+- **Two classes landed that single runs had correctly refused to land.** Both the
+  build-walkthrough (run 26) and the practitioner review (run 28) wrote "one sighting,
+  so it goes here and not in SKILL.md". Holding them was right, and the payoff is that
+  they arrived together and turned out to share a discriminator - **a hybrid source's
+  halves have opposite reliability, and one question separates them** - which is now a
+  cross-cutting rule rather than two isolated class rows. The two-sighting discipline
+  produced a better abstraction than either sighting would have.
+- **The batch lane was invisible in the method for four runs that used it.** Runs 24-27
+  developed within-batch convergence, author-deduping, the channel-corpus sub-class, the
+  cluster-as-finding rule and batch pricing entirely in LESSONS. Anything the skill does
+  repeatedly and does not describe is a procedure being re-derived from memory each
+  time. Worth a standing check at reflect: *what did the last N runs do that this file
+  does not mention?*
+- **The fetch-budget contradiction resolved into a class property.** Three consecutive
+  runs spent zero of three fetches and concluded the budget was a signal that a claim
+  had no home; run 28 spent two and they carried the entire technique. Neither lesson
+  was wrong - they held different classes. First-party accounts and batches corroborate
+  corpus-internally; reviews, listicles and papers are lossy pointers to a primary that
+  states the constraints they omit. **The synthesis is the deliverable here**, per the
+  operator's 2026-08-25 standing critique: two runs' numbers disagreeing is usually a
+  missing discriminator, not a measurement error.
+- **Held deliberately, still at one sighting:** the surgical staging recipe for a shared
+  append-only file (`git show HEAD:<path>` + your row, add, commit, restore). Run 26
+  flagged it as not-yet-a-line and nothing since has needed it. Held.
+- Landed from run 28's own operations, because it was verified in-run rather than
+  reasoned about: a pathspec commit cannot see unstaged new files, so every new document
+  needs an explicit `git add` by name first. Cost one failed commit.

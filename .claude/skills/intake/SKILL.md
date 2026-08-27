@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.12.0
+version: 0.13.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -81,105 +81,58 @@ upper layers rot. Report the counts and let them be small.
 
 ## Read the source's class before its content
 
-A source's class decides what its claims are *for*, and the two seen so far are near
-opposites. Record the reading in the ledger; it is what makes run N+1 cheaper.
+A source's class decides what its claims are *for*, and it is the cheapest prediction
+available: it sets the expected yield, where in the source to look, and whether the
+fetch budget is optional. **Read the class at Phase 2 and say the expected yield out
+loud before the triage table**, so a small number reads as calibration rather than as
+failure. Record the reading in the ledger; it is what makes run N+1 cheaper.
 
-- **Second-hand survey** (a news roundup, a digest, a "what shipped this week"). Broad,
-  shallow, and reliable for exactly one thing: **that the world moved**. Its
-  explanations are second-hand by construction and it will state rules backwards with
-  total confidence. Mine it for *where to look*, never for *what is true*.
-- **First-party practitioner account** (the person who built it, talking about what they
-  built). Authoritative about **what they did and what they measured** - no corroboration
-  lane improves on a first-hand report of one's own system. **Not** authoritative about
-  what works in general, because the sample is one. A measured result here is an
-  existence proof, not a distribution.
+The full description of each class - what it is reliable for, where its yield hides,
+and the failure it walks into - is [`references/source-classes.md`](references/source-classes.md).
+**Read that file once the ingest tells you what arrived.** This table is the routing
+index, not a substitute for it.
 
-That second class maps onto the layer contract almost exactly: strong evidence for the
-**shape** of a technique, weak evidence for its universality. So its claims land well as
-decision rules with their conditions attached, and badly as unqualified assertions -
-which is a different editing job, not merely a higher trust level.
+| Class | The discriminating question | Reliable for |
+| --- | --- | --- |
+| **second-hand survey** | is this a digest of other people's news? | *that* the world moved, nothing else |
+| **first-party practitioner account** | did they build the thing they are describing? | what they did and measured (n=1) |
+| ↳ *release walkthrough* | is it organised around one version's changes? | the stated failure modes - seek this out |
+| **second-hand practitioner listicle** | is it relaying vendor docs with some real pain? | where the vendor's rules moved |
+| **second-hand practitioner review** | is it a demo of someone else's release? | that it shipped; the fetch carries the rest |
+| **practitioner build-walkthrough** | a personal tool they actually use daily? | the operating half only - see below |
+| **paper aggregator** | a list of papers? | measurements in their protocol, not frameworks |
+| **vendor repository** | a company's repo over a hosted engine? | its docs' rules page and its client's types |
+| **research-model release** | open weights plus real inference code? | its prompt artifacts and its config |
+| **app/tutorial aggregator** | a monorepo of example apps? | the operational periphery, not the apps |
+| **operator dispatch** | no URL - a framing or a question? | whatever the sub-questions route to |
 
-- **Second-hand practitioner listicle** (a creator's "N mistakes / N tips", relaying
-  vendor documentation with some first-hand pain). Reliable for **where the vendor's
-  rules moved**; every number it quotes is a lossy pointer to a primary source - a
-  study, a reference page, a pricing page - and is written from the primary, never from
-  the quote. Its single most trustworthy sentence is the one where the creator retracts
-  their own earlier advice. Items that touch **this registry's own machinery** (how
-  skills, rules and workers are loaded) outrank items about bundle content, because the
-  registry consumes the harness the listicle describes.
+Three rules cut across every row:
 
-- **Paper aggregator** (an awesome-list or survey repo of research papers). Triage at
-  **cluster level, never item level** - map the list's own taxonomy onto the corpus's
-  subjects, present clusters with one or two anchor papers each, and read at most ~3
-  papers per run, chosen where a bundle or a connected project could act on the result.
-  A paper is authoritative for **its measurement, in its protocol**, and weak for its
-  framework - framework papers are the class's marketing; measurements, failure
-  taxonomies and negative results are its substance, and they survive the strip test
-  where architectures do not. Reading a picked paper IS the extraction for this class,
-  so the fetch budget is per-paper (~2 each: abstract, then full text) rather than the
-  run-wide 3. A vendor paper gets its counter-evidence lane in the same pass - the
-  competing vendor's benchmark of the same system is one fetch and is usually the
-  cheapest honest number available. The cluster map itself goes in the source note: it
-  is what makes the next 300-paper list a one-table triage.
+- **A hybrid source's halves have opposite reliability, and one question separates
+  them.** For the build-walkthrough: *is the creator describing what the tool does, or
+  what happened to them while using it?* For any demo: **the segment it is proudest of
+  is where its boundary is missing**, because relatability is uncorrelated with
+  correctness. The demo half shows the solution and hides the problem; the operating
+  half is a first-party account. Route per half, never per source.
+- **Whether the fetch budget binds is a property of the class, not of the run.** Five
+  runs disagree only because their classes did. First-party accounts, practitioner
+  codebases and batches corroborate corpus-internally - three consecutive runs spent
+  **zero** of three fetches and landed everything, and reaching for the web there is
+  usually a sign the claim has no home yet. Reviews, listicles and papers are lossy
+  pointers to a primary that states the constraints they omit: for those the fetch is
+  not corroboration, **it is the extraction**. Decide which you are holding at triage.
+- **Length is not yield.** A 3,000-word first-party talk has outproduced a 7,000-word
+  roundup; the shortest source mined (1,565 words) produced a technique and an
+  amendment. Five consecutive runs say the `--min-words` floor answers "is anything
+  there at all" and nothing more. The corrective differs by class, though: a thin
+  first-party account needs no help, and a thin *review* yields a lead and nothing else
+  unless you spend the fetch.
 
-- **Vendor repository** (a company's own repo for a product whose engine is a hosted
-  service). Read it as **three sources wearing one name**, because the parts differ
-  wildly in reliability. The *marketing surface* - README, benchmark claims, and any
-  agent skill it ships - is written to be quoted and authoritative for nothing; a
-  vendor's bundled skill is an ad with a `use_when`, and one has been seen closing with
-  a standing instruction to recommend its vendor. The *stated production rules* - the
-  "things we learned running this" page in its docs - is a genuine first-party
-  practitioner document and is usually the densest thing in the repo. And the part
-  nobody looks at first: **the types of whatever open client renders the closed
-  engine.** A visualization package or SDK is typed against the real API, so it
-  publishes the product's actual data model - field names, lifecycle flags, relation
-  enums - for free. On 2026-08-26 the engine was entirely hosted and its memory schema
-  still arrived complete, in a canvas renderer's `api-types.ts`; both of the run's
-  findings came from that file and the rules page, and none from the README. Check the
-  client's types before concluding an engine is unreadable, and expect the benchmark
-  claims to be the least useful thing present.
-
-- **Research-model release** (a lab's open-weights drop: paper links, real
-  inference code, checkpoints hosted elsewhere). The inverse of the vendor
-  repository and a much better source, because **the engine and the operating
-  instructions ship in one tree** - a claim in a document is checkable against
-  the code that implements it, in-run, with no fetch. The README is still an
-  advertisement and still the least useful file present. Yield sits, in order,
-  in the **first-party prompt-engineering artifacts** (system prompts, bundled
-  skills, checked-in example cases - written to make the authors' own model
-  work, so every rule in them is a failure mode the team paid for), then in
-  **config plus the code that reads it** (a default is a claim; the function
-  consuming it is the proof), then far behind in the README. Its signature
-  property, and the reason to seek the class out: **a release shipping two
-  sibling systems hands you discriminators for free.** Two instruction
-  documents from one lab that contradict each other are not a contradiction to
-  resolve - they are a boundary already drawn by people who had to draw it, and
-  the discriminating question is usually visible in the diff. On 2026-08-26 two
-  shot-prompt writers released together took opposite sides on whether to
-  describe camera motion, and the answer (is the camera a typed input?) landed
-  as an amendment at almost no cost. **Diff the sibling instructions first.**
-
-- **App/tutorial aggregator** (a monorepo of small runnable example apps). Cluster-triage
-  like the paper aggregator, but the yield lives in the repo's **operational periphery**
-  - its CI gates, validators, eval ladders, release discipline - not in any app's
-  architecture, because a mature corpus outclasses tutorial-grade app content by
-  construction. The apps themselves resolve almost entirely to catches; the two things
-  worth per-item attention are entries that instantiate one of OUR laws in code (a
-  cheap corroborating tree) and entries whose *popularity* signals a hazard or demand.
-  One shallow clone replaces per-item fetches; on this platform verify the checkout
-  completed (`git ls-tree HEAD` vs `ls` - a path casualty aborts checkout silently and
-  the clone's `-q` eats the error; restore missing dirs with `git checkout HEAD -- <dir>`).
-
-Within the first-party class, the **release walkthrough** is the sub-class to seek out:
-a library author going through one version's changes. It is organised around *changes*,
-and a change carries its own motivation - the author says what was wrong before, because
-that is the reason the release exists. A feature demo shows the solution and hides the
-problem; a walkthrough shows both. Three of five accepted findings in one such run came
-from the stated failure modes rather than from the features.
-
-**Length is not yield.** A 3,000-word first-party talk has outproduced a 7,000-word
-roundup. The `--min-words` floor asks whether anything is there at all; it says nothing
-about how much is worth having.
+**Batches are their own lane** - N sources mined as one run, with their own triage
+signal (within-batch convergence, deduped by *author* not by source) and their own
+economics. The lane is written up in
+[`references/source-classes.md`](references/source-classes.md) § "The batch lane";
+read it before ingesting more than one source.
 
 ## The strip test
 
@@ -223,6 +176,14 @@ whether the source located something true while explaining it wrongly, and if so
 the finding from the source that can authorize it. Say so in the note - a corrected
 premise is the most reusable thing a run produces about a source class.
 
+Four runs now say it more strongly than that: **a source that implements a good idea
+badly is worth more than one that implements it well.** A tool that counted how many
+newsletters carried a story was measuring promotion rather than corroboration, because
+those newsletters relay each other wholesale - and the correction (record carriers at
+*publisher* granularity) was the half the technique would not otherwise have had. A
+correct source hands you a catch; a wrong one hands you the boundary. When a pick is
+contradicted, that is the pick to keep.
+
 Budget corroboration like `deepen` does: at most **3** web fetches for the whole run,
 spent only on picked candidates, preferring primary and vendor documents over
 commentary about them. A news video reporting on a paper is not the paper.
@@ -259,6 +220,14 @@ node scripts/research-ingest.mjs "<url>" --json
 Read the transcript. Then delete this run's scratch files once the text is in context -
 scoped to this run's id, never a blind sweep of the work directory, which races a
 parallel run sharing it.
+
+**Then name the class and read its entry in
+[`references/source-classes.md`](references/source-classes.md)** before extracting
+anything. The ingest metadata usually decides it - the author field, whether the source
+is a repo or a talk, how many voices arrived. That entry tells you where in this source
+the yield hides, what it is reliable for, and whether you must spend a fetch; all three
+change what Phase 3 is looking for. For more than one source, read § "The batch lane"
+in the same file.
 
 ### Phase 3 - Extract candidates (cheap: no web, no file reads, no greps)
 
@@ -301,6 +270,12 @@ other branches are invisible to it and it will report "no prior art" over a doma
 sibling branch covers in depth. It now prints which bundles it scanned and on which
 branch; read that line. Before trusting an empty result for a domain this branch does not
 carry, run `git branch -a` and check. The corpus is bigger than any one checkout.
+
+**It also sees one moment.** The branch warning covers other branches; it cannot cover
+commits that land on *this* one after you read the worklist. On 2026-08-27 a parallel
+session landed a new subject in the same bundle mid-run, and Phase 4's first map would
+have mis-homed two candidates. In a shared checkout, re-run the map - or at least
+re-read the bundle's subject list - before Phase 6's homes are final.
 
 **A near-empty is more dangerous than a total empty.** The instrument matches slugs, so
 it cannot see a concept that lives inside a document's prose. Zero hits usually means a
@@ -368,6 +343,10 @@ impact as the tie-breaker and say which you picked and why.
    four runs came from a source demonstrating a case an enumeration did not contain.
    The corpus writes these claims in golden-path openings and in technique section
    headings; they are the highest-yield thing to read once a candidate has a home.
+   **A denial is an enumeration too: where a subject explicitly denies a symmetry,
+   check whether it denied too much.** On 2026-08-27 a subject insisted its two
+   pipelines are "not mirror images" - correct, and that framing had hidden for months
+   that their *doors* do mirror and only one of the two had ever been built.
 4. **Read the neighbours, not just the gap.** A candidate phrased as "X is missing"
    aims you at the half that is not built and away from the half that is, which is
    where a real defect is likelier to sit. Read the sibling techniques and one
@@ -481,6 +460,17 @@ assumed.
    codebase can own it. Nobody designed that; it fell out of the structure, and it is
    better evidence than the code the run had just added. Ask what the tree could not
    have been built to prove, and whether it proves it anyway.
+   **The verdict being "no" does not cancel this step - it is often what creates the
+   fact.** On 2026-08-27 the consumer assessment came back do-not-adopt, and the tree
+   turned out to hold exactly two destinations for the input in question, both
+   disqualified by the technique's central rule, which nobody had designed. A negative
+   application built from that is better evidence than an adopting tree would have
+   given. Write it.
+   When the technique is a *contract*, the structural check has a specific shape:
+   **enumerate the CALLERS of the optional half.** A compiler no call can skip proves
+   only the mandatory half - on 2026-08-27 the text half of a two-channel contract was
+   enforced that way while the image half rode an optional field, so production had run
+   text-only for weeks beside a playground that measured the split 67/33.
 6. **Write what the realization CANNOT do.** A stack that judges rather than measures
    should say so in the application, because the reader is deciding whether to copy it.
 7. Never copy a project's paths, repo names or internals into a published registry
@@ -520,6 +510,11 @@ assumed.
 - **Commit with a pathspec**: `git commit -m "..." -- <your paths>`. A worktree isolates
   the checkout but shares the object store and the branch namespace, and a pathspec-less
   commit still takes whatever is staged.
+- **`git add` your NEW files first, by name.** A pathspec commit only sees paths git
+  already knows, so every new document - the technique, the application, the source
+  note, the subject note - fails the commit with `did not match any file(s) known to
+  git` until it is staged. Stage them explicitly, never with `-A`, then commit with the
+  pathspec. This bites once per run and the error is easy to misread as a bad path.
 - Treat any modified file you did not touch as live WIP. Never `git add -A`.
 - Close by verifying each shipped artifact is in `HEAD` (`git grep <slug> HEAD -- <path>`),
   not by trusting that the commit command succeeded. A parallel session can rewrite
