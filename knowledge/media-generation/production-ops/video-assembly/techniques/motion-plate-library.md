@@ -40,11 +40,19 @@ properties follow:
   the same plate has carried a rally car, a comically tiny buggy, and an
   armoured vehicle, because nothing in it said otherwise.
 
-Plates come from three sources: a from-scratch brief in the stripped idiom;
+Plates come from four sources: a from-scratch brief in the stripped idiom;
 an accepted styled clip whose motion earned reuse, normalized down to a
-plate; or **live footage** — a real recorded sequence run through the same
+plate; **live footage** — a real recorded sequence run through the same
 normalization, which imports real-world camera physics and blocking into
-the library at the price of one conversion.
+the library at the price of one conversion; or a **built previz** — a
+blockout staged in an actual 3D scene, with the camera path and subject
+motion authored to real numbers (height and offset in meters, travel at a
+human pace over stated seconds) and the viewport render used as the plate.
+Building is the only source that makes the motion *exact* rather than
+sampled: the camera flies the path that was typed, to the meter — and with
+a language model driving the 3D tool, the blockout costs a prompt, not a
+modeling session. State every number in that prompt; a blockout is worth
+building precisely because it leaves nothing to guess.
 
 ## The binding pass
 

@@ -44,6 +44,20 @@ the same lifecycle every style goes through.
    the style locks through the standard gate. The block plus the approved
    sheet — not the original sample — are now the project's locked style.
 
+## A sample set must agree before it teaches
+
+Capture also runs from several samples, and the plural case adds one gate
+the single-sample procedure never needed: **the set must be coherent before
+the readback runs.** A vision model handed five frames describes what they
+share — and if they only mostly share a style, what they share is a hybrid
+nobody chose, which then haunts every generation ratified against it. The
+check is cheap and belongs at collection time: read the returned block
+against each sample individually, and when the block describes some frames
+better than others, the outliers leave the set before anything else
+happens. Curating the set *is* the first edit of the style; a mixed set
+laundered through capture produces a mixed style with a clean-looking
+lineage.
+
 ## Why the readback matters more than it looks
 
 The naive alternative — attach the sample image to every generation and skip

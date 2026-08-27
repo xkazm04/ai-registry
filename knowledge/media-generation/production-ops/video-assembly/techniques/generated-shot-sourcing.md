@@ -47,6 +47,17 @@ Choose the lowest rung that satisfies the shot's contract. Every rung up
 costs more preparation; every rung skipped is paid for later in rejected
 takes.
 
+One construction rule on rung 3 that practitioners learn as a mid-clip
+glitch: **the two anchors must be cut from one cloth.** Head and tail
+frames generated as separate requests disagree about everything the prompt
+did not pin — the set dressing shifts, the light moves — and the model,
+interpolating between two worlds that never matched, breaks visibly in the
+middle of the move. Generate both anchors in a single image instead: one
+request, two panels, the same scene with only the camera changed, then
+split the panels into start and end frames. Shared provenance is what
+leaves the model nothing to reconcile, and it costs one still instead of
+two.
+
 ## Clip caps are a structural constraint
 
 Models emit seconds, not scenes — single-digit to low-double-digit seconds

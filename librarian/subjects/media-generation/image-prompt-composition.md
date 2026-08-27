@@ -43,3 +43,7 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject predate
 - NEW technique `reference-role-map`: the labeling rule (say what the images are FOR) generalized to heterogeneous multi-reference calls - every attachment one named role in a map at the prompt's head, negative scope where bleed is likely ("controls the style, not the content"), map labels reused in the beats, one card multiplied into a group by language. The anatomy's constraint that the disambiguating half arrives before the ambiguous material now has a third instance (style first, identity first, roles first).
 - Run 24's state-promotion amendment widened on a second independent sighting one day later: the rule is about recurrence, not characters - a location the story damages is authored twice (intact + ruined, edited with change-nothing-else).
 - Currency: two platforms in this batch bind a VOICE to the character card at creation - run 24's voice-as-second-identity amendment is now a product surface. No content change; the amendment's framing holds.
+
+## 2026-08-27 - /intake run 26 ([[2026-08-27-video-workflow-batch-3]])
+
+- Voice section widened on a second independent sighting: the reference asset can be **extracted from the first accepted take or authored up front in a voice tool** with the animation conditioned on the audio; the rule is the ordering (reference before the second line), not the route. The typed-input law shows up here too - audio conditioning holds the voice channel.

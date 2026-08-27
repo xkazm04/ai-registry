@@ -92,6 +92,17 @@ the drawing and the space share a coordinate system and the prose does not.
 Positions, sizes, routes — when the claim is spatial, annotate the image
 instead of describing it.
 
+The camera has a schematic too: the **blocking frame**. Some angles cannot
+be reached by describing them — over-the-shoulder is the canonical case,
+because the camera must sit in one exact spot the prose keeps missing. A
+neutral stand-in scene (a plain room, a mannequin figure, staged in any
+simple 3D viewer) lets the shot be *placed* instead: walk the camera to the
+spot, export the frame, and attach it with its role scoped hard — "camera
+reference only: match this angle, height and lens feel; ignore the
+placeholder's content entirely." The gray render carries the pose; the
+character and location sheets carry everything else; and the scope line is
+what keeps the stand-in's emptiness from leaking into the shot.
+
 ## The seam can be an action, not only a frame
 
 Anchoring a shot's head to the previous shot's tail holds a seam inside one

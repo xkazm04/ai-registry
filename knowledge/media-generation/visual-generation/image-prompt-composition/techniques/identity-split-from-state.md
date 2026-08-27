@@ -148,10 +148,15 @@ every other channel in this corpus: text holds the nameable attributes — low,
 unhurried, intimate — and loses the actual timbre, which no vocabulary pins
 down. The reference half is built the way an approved render becomes a style
 reference: **the first take whose voice is accepted becomes the voice's
-reference asset.** Extract its audio, keep it with the subject's other
-reference material, and attach it — labeled as a voice reference for that
-subject, matching the labeling rule for images — to every subsequent
-generation where the subject speaks. Some platforms only accept video-shaped
+reference asset.** The asset can be minted from either direction —
+extracted from the first generated take whose voice was approved, or
+authored up front in a voice tool and approved before any video exists,
+with the animation then conditioned on the audio. Either way the ordering
+is the rule: the reference exists before the subject's second line is
+generated, because a video model left to cast the voice itself re-casts it
+per scene. Keep it with the subject's other reference material, and attach
+it — labeled as a voice reference for that subject, matching the labeling
+rule for images — to every subsequent generation where the subject speaks. Some platforms only accept video-shaped
 references; a container conversion around the same audio satisfies them. The
 descriptor still travels in the identity block on every call: reference plus
 restated text, both channels, the same two-channel lock the visual side runs

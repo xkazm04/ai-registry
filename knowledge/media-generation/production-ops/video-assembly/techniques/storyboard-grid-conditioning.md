@@ -61,6 +61,28 @@ acceptable. The storyboard carries *what each shot looks like*; the beats
 carry *what happens and when*; the style block still travels in full,
 because a plan is not a look.
 
+## Boards chain, panels repair, and the count is a pacing contract
+
+Three operations turn a single board into a production surface:
+
+- **A sequence longer than one board is a chain of boards.** Generate board
+  N+1 with board N attached as reference and a continue-from-here brief;
+  the panels pick up where the last board ended, and two nine-panel boards
+  carry an eighteen-shot story with one continuity seam instead of
+  seventeen. The chain obeys the same rule as clip extension: the new board
+  is briefed from what the previous board actually shows.
+- **A wrong panel is repaired, not a wrong board.** Redraw the one panel
+  with everything else held — and re-state the subject's identity in the
+  repair prompt, because a panel redrawn without it matches the note and
+  loses the face. This is the edit-plan discipline at board scale: the
+  reviewed panels are capital, and a full re-roll spends them to fix one.
+- **The panel count is a claim on the clip's duration.** A generation that
+  runs out of time mid-board simply never reaches the last panels — the
+  ending silently vanishes. When panels are dense relative to the clip cap,
+  the brief says so: pace to cover every panel and land on the final one.
+  A board the clip cannot finish is a pacing defect, and it is fixed in the
+  brief or by splitting the board, never by hoping.
+
 ## Decision rules
 
 - When shot order and composition are decided, condition on a grid rather

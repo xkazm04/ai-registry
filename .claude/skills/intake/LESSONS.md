@@ -953,3 +953,22 @@
   The fetch budget is looking less like a constraint and more like a signal:
   when a mature corpus supplies the other half of a claim, reaching for the web
   is usually a sign the claim has no home yet.
+
+## 0.12.0 - 2026-08-27 - video-workflow-batch-3 (11 sources, ONE creator)
+
+- **The channel corpus is its own sub-class and inverts batch economics.**
+  One voice voids within-batch convergence entirely; triage leans on
+  corpus-vs-source novelty and cross-run corroboration. Yield profile:
+  amendments and corroborations, never new subjects. Recognize it at ingest
+  (author column) and say the expectation before the table.
+- **Three related batches in three days built a corroboration ladder no
+  single run could.** Techniques forged from one source in run 24 are now
+  multi-author corroborated (motion plates, storyboard grids, voice
+  references) because the operator sequenced related material while it was
+  fresh. When an operator feeds a themed series, the skill should track
+  which prior landings are still single-source and read each new batch
+  against that list first.
+- A batch whose every video is sponsor-linked still yielded six amendments;
+  the only near-total loss was the model-ranking video (dated comparative
+  facts). Sponsorship predicts nothing; demonstrated-mechanics density
+  predicts everything.
