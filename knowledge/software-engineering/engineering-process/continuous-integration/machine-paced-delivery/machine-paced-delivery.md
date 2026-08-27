@@ -9,6 +9,7 @@ techniques:
   - agent-readable-build-outcomes
   - scoped-delivery-access-for-agents
   - proposal-not-push
+  - human-gate-capacity
   - pre-authorship-verification
 ---
 
@@ -26,7 +27,7 @@ The thesis is one sentence:
 > When authorship becomes cheap, **verification becomes the product**, and every part of
 > delivery that assumed a human author starts failing in a way that looks like slowness.
 
-Two consequences follow, and the second one is the one that gets missed. The first is
+Three consequences follow, and the last two are the ones that get missed. The first is
 capacity: more changes need more verification, and a verification queue that was invisible at
 human pace becomes the dominant cost at machine pace. The second is *legibility*: verification
 output was designed to be read by a person who already has the context, scrolling a log.
@@ -34,6 +35,13 @@ An agent reading the same output has no context, cannot scroll usefully, and pay
 token of it. A build failure that a person diagnoses in fifteen seconds can cost an agent
 several minutes and several attempts, and the difference is entirely in the shape of the
 output, not in the difficulty of the bug.
+
+The third is that **one step in the path was always human and stays that way.** Every change
+that clears verification arrives at a merge decision, and that decision is a server with a
+fixed rate, no dashboard, and an overload mode that reads as productivity. The first two
+consequences can be bought or engineered out of; capacity is a purchase and legibility is a
+format. The third cannot, and it is the one that ends up accountable for everything the other
+two let through.
 
 **This subject's floor is lower than it looks.** Most of delivery engineering starts paying at
 a team, a fleet, an organization. This one starts at one person, because one person with
@@ -115,6 +123,33 @@ contract, the classes of change that require a human author, and the review cues
 machine-authored change reviewable at volume are
 [proposal-not-push](./techniques/proposal-not-push.md).
 
+## The merge decision is the second constraint
+
+The rule above routes every autonomous change through one person, and a person has a rate. At
+human authorship pace that rate never mattered, because authorship and review arrived at
+roughly the same speed and the queue between them never grew. Machine pace scales the first
+server and leaves the second exactly where it was — and the second is the one accountable for
+what ships.
+
+The overload does not look like overload, which is the whole difficulty. A machine queue past
+capacity stalls, visibly, and someone complains. A human gate past capacity *accelerates*: the
+changes are approved anyway, faster and less read, and the system reports rising throughput
+against an empty backlog. The guard is gone and nothing failed to announce it, which is the
+condition [absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud) forbids. What the
+reviewer is reading at that rate is the proposal's shape and the green check beside it — a
+proxy, and per [gate-sees-target](../../../_laws.md#gate-sees-target) a proxy agrees with its
+target everywhere except the case the gate was built for.
+
+So the gate gets measured like the queue does: what arrives, how long a verdict takes, how old
+the oldest pending item is, and how often a merged change needs repairing afterwards. Those
+four separate the two failures that share this queue — a stall, where nothing is decided, and a
+rubber stamp, where everything is — and they have opposite remedies. The remedy for the second
+is not a faster reviewer, because there is no such purchase: it is fewer changes arriving, or a
+narrower class of change that needs a verdict at all, bounded by the classes `proposal-not-push`
+will not delegate at any arrival rate. The measures, the two signatures, the ordered levers, and
+the reason a one-person gate is a check rather than an independent review are
+[human-gate-capacity](./techniques/human-gate-capacity.md).
+
 ## Verify before the change exists
 
 The cheapest verification is the one that happens before a commit does. When the author is an
@@ -143,8 +178,11 @@ reach, is [ci-execution-trust](../ci-execution-trust/ci-execution-trust.md). The
 absorbs machine-paced arrival — sizing it, typing it, and keeping one agent's leftovers out of
 the next job — is [runner-fleet](../runner-fleet/runner-fleet.md). The suite's own economics —
 partitioning, isolation, flake lifecycle — belong to
-[test-harness](../../build-and-release/test-harness/test-harness.md). Approval mechanics belong
-to [hitl-approval](../../../llm-agent/orchestration/hitl-approval/hitl-approval.md), and the
+[test-harness](../../build-and-release/test-harness/test-harness.md). Approval mechanics — how
+a pause is presented, queued, recorded and resumed — belong to
+[hitl-approval](../../../llm-agent/orchestration/hitl-approval/hitl-approval.md), which owns
+whether a single decision can be made well; what stays here is the *rate* at which those
+decisions are demanded, and whether that rate is one a person can meet. The
 handoff from a detected problem to a working fix belongs to
 [remediation-handoff](../../../llm-agent/orchestration/remediation-handoff/remediation-handoff.md).
 What is here is the delivery system's obligations *to* a machine author, and its obligations to
@@ -160,5 +198,7 @@ the humans who remain accountable for what that author produces.
   read and write as separate grants, per-action audit, revocation, expiry at issue.
 - [proposal-not-push](./techniques/proposal-not-push.md) — autonomous work as a reviewable
   proposal, the changes an agent may not author, and reviewability at volume.
+- [human-gate-capacity](./techniques/human-gate-capacity.md) — the merge gate as a server with
+  a fixed rate, the rubber stamp separated from the stall, and demand as the only lever.
 - [pre-authorship-verification](./techniques/pre-authorship-verification.md) — the gate run
   before the commit, from declared commands only, timeboxed.
