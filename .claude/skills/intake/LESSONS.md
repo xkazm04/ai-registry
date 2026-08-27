@@ -1122,3 +1122,56 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
 - Operationally clean: the parallel session that held voice-io WIP committed mid-run, so
   index/catalog regeneration was safe. Verified with `git status` before regenerating
   rather than assuming, per the shared-checkout rule.
+
+## 0.13.0 - 2026-08-27 - duckdb-changing-physics-of-analytics (single web source, operator-dispatched at a named weakness)
+
+- **When an operator dispatches a source at a weakness they have felt, check the FLEET
+  before the web.** The run's real corroboration was not the post and not a fetch - a
+  connected project held a 392-line measured decision guide over the exact question,
+  with four dated cases, cross-engine correctness checksums, and negative results. 1 of
+  3 fetches spent, and the canonical primary 403'd twice at its own host before the
+  author's independent write-up supplied the mechanism. The class rule already says
+  reaching for the web is usually a sign the claim has no home yet; the stronger version
+  is that an operator-felt weakness is *evidence* the claim has a home, because the
+  operator felt it somewhere.
+- **Survey connected projects with `git grep`, never `grep -r`.** An untracked sweep
+  counted vendored `node_modules` and put a manufactured fact in front of the operator at
+  triage ("both projects adopted this engine"). The tracked-files answer was the exact
+  opposite - both evaluated it, neither adopted it - and the opposite was the finding.
+  It is also ~100x faster; the untracked sweep timed out at 120s on one tree. A
+  dependency claim must come from the tracked manifest, and a manifest claim should be
+  read as "declared", never as "used".
+- **A concept returning zero prior art is a finding; a product name returning zero is the
+  purity floor working.** `research-map` returned zero for `postgres`, `sqlite` AND
+  `olap`. The first two are the upper layers correctly refusing product names and say
+  nothing about coverage. The third is a hole. Reading all three the same way would have
+  either dismissed the run or manufactured three gaps. Add the discrimination to the
+  Phase 4 near-empty guidance: **classify each zero as concept-zero or name-zero before
+  interpreting it.**
+- **A category whose subjects all begin AFTER some decision is a stage-zero hole, and it
+  is visible without reading a single document.** `data-layer`'s four subjects each
+  presuppose the engine (the seam above it, operating it, evolving its schema, converging
+  two of them). The Phase 6 instruction to find the missing *stage* generalises up a
+  level: run it on the category's subject list, not only on one subject's pipeline. It
+  cost one `ls` and it framed the whole run.
+- **The strongest finding of the run was a gap between two states of a decision**, and no
+  gate can see it: a project measured a 43x win, wrote it as a numbered rule, named the
+  workload - and that workload still imports the incumbent. A document recommending an
+  engine and a script not using it are each individually valid. Worth generalising into
+  the cross-repo lane: when a tree contains a written recommendation, **check the import
+  graph before crediting it**, because "decided" and "landed" look identical in prose.
+- **The best consumer-tree finding this run was a dependency boundary, not a decision.**
+  A private benchmark-only manifest with its own lockfile, gitignored install, and a
+  stated reason ("kept OUT of the product package.json so these native engines never
+  touch the app's dependency tree or CI") is how an engine gets evaluated at full
+  fidelity without being adopted by accident - and it is what made the un-adoption
+  checkable from outside. Phase 8 step 5 says to look for the structural fact the tree
+  could not have been built to prove; this was one the tree was built to prove and it was
+  still the most copyable thing present.
+- **The hybrid class held: a vendor announcement wrapped around a systems-design essay.**
+  The commercial relationship was announced in the same post that argued for the system,
+  which is exactly the provenance that must not author a standard alone - and did not.
+  Recorded in the spec's provenance section per-technique, so the one proposed technique
+  that rests on the post alone is marked as such rather than inheriting the others'
+  corroboration.
+
