@@ -7,8 +7,9 @@ status: forged
 laws:
   - gate-sees-target
   - failure-not-empty-success
+  - one-validation-door
 shared_with: []
-use_when: [deciding whether an in-process guard is enough, the lock holder died without releasing, choosing fail-open or fail-closed for duplicates]
+use_when: [deciding whether an in-process guard is enough, the lock holder died without releasing, choosing fail-open or fail-closed for duplicates, deciding how hard a leader election has to be defended]
 ---
 
 # Cross-process exclusion
@@ -80,6 +81,50 @@ clock is suspect. The design must pre-decide its direction and document it:
 The direction is per-operation, derived from what a duplicate actually costs —
 never a property of the lock library.
 
+## The cost of a duplicate can be engineered, not only measured
+
+Both directions above take the cost of a duplicate as an *input*: work out
+what doubling would do, then choose. There is a third move that changes the
+input instead of reading it. **Route every effect the holder produces through
+a serialization point the contenders already share, and the cost of a
+duplicate falls to near zero by construction.** Where the guarded work
+proposes its effects to an ordered log, a conditional write, or any other
+single door that applies them deterministically and answers a repeat as
+redundant, two briefly overlapping holders produce two proposals of which one
+applies and one is a no-op. Nothing diverges; some work is done twice.
+
+That reclassifies the guard itself, which is the part worth writing down. A
+lease whose holder can corrupt shared state is a **safety mechanism**, and
+its TTL, its skew margin and its handover behaviour are correctness
+parameters that have to be defended against the worst case. A lease over
+effects that are already serialized and idempotent is an **availability and
+cost knob**: it exists so that N processes do not all run the same
+maintenance, and the worst a badly sized TTL buys is duplicated work or a gap
+where nobody is running. Sizing it becomes a budget question rather than an
+argument about corruption — and the difference should be stated in the
+design, because a reader who cannot tell which kind of lease they are looking
+at will defend the cheap one and neglect the expensive one.
+
+Two conditions carry the whole reclassification, and neither survives being
+assumed:
+
+- **Every effect goes through the door, with no side channel.** One direct
+  write that bypasses the serialization point restores the full correctness
+  burden for the entire lease, and it will be the write somebody adds later
+  for a good local reason. The door is only a door while it is the only one
+  (law: one-validation-door).
+- **The holder's worklist lives in the shared state, not in its memory.** A
+  holder that accumulates queued work in process loses it at handover and its
+  successor starts from nothing, which turns a harmless overlap into lost
+  work at precisely the moment the lease changed hands. Where the queue is
+  part of the replicated state the successor resumes where its predecessor
+  stopped, and losing the lease stops being an event worth reacting to beyond
+  stopping the loops.
+
+This is the belt-and-suspenders stance one level up: idempotency does not
+merely cover the duplicates a guard cannot see (see idempotency-by-design),
+it can demote the guard from a correctness argument to a cost one.
+
 ## Clocks lie, holders pause
 
 Two humility rules for anything staleness-based. First, timestamps compared
@@ -102,6 +147,9 @@ cannot reach into the future where the pause ends.
   real skew.
 - Choose fail-open-loudly or fail-closed per operation, from the cost of a
   duplicate; write the direction down where the next reader will look.
+- Before defending a TTL against the worst case, ask whether the effects can
+  be routed through one serialized, idempotent door instead — a guard over
+  such effects is a cost knob, not a safety mechanism, and should say so.
 - Population checks are for advisory, coarse exclusion of expensive work —
   never the sole wall for correctness.
 - Where a paused holder could resume into a lost lease, carry a fencing token

@@ -34,8 +34,12 @@ Three adjectives govern every choice, and they pull against each other:
 - **Fast** — the common dashboard read must be an index seek, not a scan,
   because the store grows monotonically and the dashboard is opened daily.
 - **Portable** — the same logical model must survive on an embedded relational
-  store, a networked relational store, a document store, and an analytical
-  warehouse, because deployments differ and migrations happen.
+  store, a networked relational store, a document store, an analytical
+  warehouse, and an *embedded* analytical engine, because deployments differ
+  and migrations happen. That last one is the quadrant this list omitted for
+  as long as "embedded" and "transactional" were treated as the same word:
+  a column-oriented engine linked into the process, reading an exported copy
+  with no wire and no per-query price.
 - **Honest** — a query the current backend cannot answer correctly must say
   so, not return something that merely looks like an answer.
 
@@ -116,8 +120,9 @@ success. Both are found by reading the query surface, not the schema — see
 The same store interface fronts backends with wildly different powers: an
 embedded relational store that can do everything, a document store that
 cannot aggregate server-side, an analytical warehouse that aggregates
-brilliantly but should never serve point reads. Two disciplines keep this
-honest:
+brilliantly but should never serve point reads, and an embedded analytical
+engine that shares the warehouse's strengths and refusals while sharing the
+embedded store's deployment. Two disciplines keep this honest:
 
 - **Parity is a contract, not an aspiration.** One backend is designated the
   reference; every interface method is either implemented to the reference's

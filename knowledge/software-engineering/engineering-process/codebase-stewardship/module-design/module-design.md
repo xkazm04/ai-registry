@@ -10,6 +10,7 @@ techniques:
   - locality-and-leverage
   - structural-improvement-loop
   - structure-is-not-delegable
+  - scoreable-designs-are-built-not-argued
 ---
 
 # Module design
@@ -208,6 +209,31 @@ the division of labour, the boundary against the argument that decisions should
 migrate toward the agent as capability rises, and the honest statement of what
 would have to change for the claim to stop holding.
 
+## And the decisions a harness can settle
+
+That claim partitions design decisions on whether the outcome is **scoreable
+inside the run**, and it takes the half that is not. The other half is real and
+it is larger than it used to be. Where candidates differ in a way a harness can
+observe — an access pattern forced by a key's shape, a serialization cost, a
+layout's effect on contention — the argument is the expensive way to decide, and
+it was only ever preferred because building every candidate cost days. Agent
+authorship moved that price by an order of magnitude, which moves the threshold
+rather than the principle: decisions that used to sit below the line, settled in
+a meeting because three implementations were obviously not worth it, are now
+above it.
+
+The discipline is what keeps this from becoming decoration. One harness over
+substitutable implementations, not three benchmarks; the human still states
+which workload represents the product, because that is the same act as choosing
+the candidate one rung lower; and the check happens before the harness is
+commissioned — name which result would change the decision, and if none would,
+the decision was never scoreable and the number produced will be quoted anyway.
+That last failure is the taste argument's mirror image and it is the more
+expensive of the two, because it does not look like an opinion.
+[scoreable-designs-are-built-not-argued](./techniques/scoreable-designs-are-built-not-argued.md)
+owns the harness contract, the undelegable residue, and the cases where
+measurement is the wrong instrument.
+
 ## Failure modes this standard exists to prevent
 
 - **The structure nobody chose** — a long run of locally correct changes,
@@ -252,3 +278,8 @@ would have to change for the claim to stop holding.
   division of labour, why a blanket approval grant deletes this flow, the
   boundary against capability-driven migration of decisions, and what would
   falsify the claim.
+- [scoreable-designs-are-built-not-argued](./techniques/scoreable-designs-are-built-not-argued.md)
+  — the other half of that partition: one harness over substitutable
+  candidates, the workload choice that stays with the human, the hazard of
+  cheap numbers on unscoreable decisions, and when measurement is the wrong
+  instrument.

@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 149,
-  "techniques": 959,
-  "applications": 434,
+  "subjects": 150,
+  "techniques": 969,
+  "applications": 437,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "959/959",
+  "use_when_coverage": "969/969",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3674,13 +3674,15 @@
      "status": "forged",
      "laws": [
       "gate-sees-target",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "one-validation-door"
      ],
      "shared_with": [],
      "use_when": [
       "deciding whether an in-process guard is enough",
       "the lock holder died without releasing",
-      "choosing fail-open or fail-closed for duplicates"
+      "choosing fail-open or fail-closed for duplicates",
+      "deciding how hard a leader election has to be defended"
      ]
     },
     {
@@ -3735,7 +3737,8 @@
      "use_when": [
       "picking the second-caller policy per operation",
       "a boolean flag trampled by a second key",
-      "callers retrying a refusal that looks like failure"
+      "callers retrying a refusal that looks like failure",
+      "an expensive durable write paid once per caller"
      ]
     }
    ],
@@ -4721,13 +4724,15 @@
      "status": "forged",
      "laws": [
       "failure-not-empty-success",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "creation-names-reaper"
      ],
      "shared_with": [],
      "use_when": [
       "deleting expired rows at volume",
       "a cleanup job is being killed before it finishes",
-      "reporting what a purge actually did"
+      "reporting what a purge actually did",
+      "purging data that spans an object store and its index"
      ]
     }
    ],
@@ -6257,6 +6262,21 @@
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
    "techniques": [
     {
+     "slug": "analytical-reads-off-the-serving-store",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an aggregate or self-join over the largest table has become user-perceptible",
+      "an analysis script must be run against a copy because something holds the store",
+      "deciding whether a second embedded engine is worth its sync cost",
+      "adding a reporting surface to an application that already has a store"
+     ]
+    },
+    {
      "slug": "connection-pooling",
      "status": "forged",
      "laws": [
@@ -6362,6 +6382,13 @@
      "technique": "journal-and-durability-modes",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/c--journal-and-durability-modes.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "analytical-reads-off-the-serving-store",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/node--analytical-reads-off-the-serving-store.md",
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -7879,6 +7906,23 @@
      ]
     },
     {
+     "slug": "fixed-policy-amendable-plan",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "silent-state-is-ungoverned",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a dispatched executor hits a fact that makes its assigned plan wrong",
+      "an agent widened its own scope and nothing recorded that it had",
+      "deciding which mid-run changes an executor may make alone and which must escalate",
+      "every deviation from the brief routes to a human and low-risk work has become slower",
+      "the task's constraints live in the same context the executor can rewrite"
+     ]
+    },
+    {
      "slug": "gate-state-machines",
      "status": "forged",
      "laws": [
@@ -8942,6 +8986,23 @@
       "an agent is diagnosing build failures",
       "designing a checker's output",
       "a gate reports a wall of text"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "human-gate-capacity",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "changes are merged faster than anyone could have read them",
+      "the reviewer is named as the bottleneck but never measured",
+      "one person both dispatches the agents and approves their merges",
+      "deciding whether to widen the autonomous path or send fewer changes"
      ],
      "stage": "solo"
     },
@@ -10246,6 +10307,21 @@
      ]
     },
     {
+     "slug": "scoreable-designs-are-built-not-argued",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a design argument has run longer than building both options would take",
+      "choosing between implementations whose difference is measurable",
+      "deciding what an agent should produce before a design decision is made",
+      "a benchmark is being quoted to settle a structural question"
+     ]
+    },
+    {
      "slug": "seams-and-adapters",
      "status": "forged",
      "laws": [
@@ -10333,7 +10409,19 @@
      "use_when": [
       "choosing the engine for each gesture",
       "deciding whether a gesture can be interrupted mid-flight",
-      "entrances stop playing with nothing erroring"
+      "entrances stop playing with nothing erroring",
+      "a gesture is getting too complex to keep writing in code"
+     ]
+    },
+    {
+     "slug": "gesture-decomposition",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a prototype video arrives and no preset fits it",
+      "a gesture needs several properties moving on different curves",
+      "deciding what a gesture's input actually is"
      ]
     },
     {
@@ -10421,7 +10509,8 @@
      "use_when": [
       "adding an autoplay carousel or attract loop",
       "deciding whether a surface owes a visible pause control",
-      "a scroll reveal replays every time a section passes"
+      "a scroll reveal replays every time a section passes",
+      "a parallax is being made one-shot"
      ]
     }
    ],
@@ -13764,6 +13853,99 @@
      "technique": "capability-typed-queues",
      "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/applications/process--capability-typed-queues.md",
      "verified_on": "2026-08-21"
+    }
+   ]
+  },
+  "scale-investment-timing": {
+   "category": "backend-platform",
+   "subcategory": "resilience",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/scale-investment-timing.md",
+   "techniques": [
+    {
+     "slug": "ceiling-as-deadline-not-trigger",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "stating when the current architecture runs out",
+      "deciding when a replacement programme has to start",
+      "a team is arguing about whether it is at scale yet"
+     ]
+    },
+    {
+     "slug": "migration-reason-audit",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a platform or infrastructure migration is proposed on growth grounds",
+      "deciding whether a proposed rewrite is buying capacity or something else",
+      "a migration's justification changes each time it is questioned"
+     ]
+    },
+    {
+     "slug": "next-order-of-magnitude-only",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sizing a system for growth it has not yet seen",
+      "choosing which load axis to design against",
+      "deciding whether to build past the next increment"
+     ]
+    },
+    {
+     "slug": "size-the-system-to-its-maintainers",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a design is being sized for growth",
+      "the team operating a system has shrunk",
+      "delivery has slowed on a system nobody changed",
+      "deciding whether to consolidate or automate an operational surface"
+     ]
+    },
+    {
+     "slug": "vertical-headroom-before-distribution",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a proposal would distribute a workload that currently runs on one node",
+      "deciding between a larger machine and more machines",
+      "justifying a partitioned or clustered design"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "ceiling-as-deadline-not-trigger",
+     "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/applications/process--ceiling-as-deadline-not-trigger.md",
+     "verified_on": "2026-08-27"
+    },
+    {
+     "stack": "process",
+     "technique": "size-the-system-to-its-maintainers",
+     "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/applications/process--size-the-system-to-its-maintainers.md",
+     "verified_on": "2026-08-27"
     }
    ]
   },
@@ -17875,6 +18057,7 @@
     "health-checks/probe-design",
     "hitl-approval/consent-gates",
     "hitl-approval/cosmetic-vs-enforced-threshold-invariant",
+    "hitl-approval/fixed-policy-amendable-plan",
     "hitl-approval/gate-state-machines",
     "hitl-approval/unattended-mode",
     "i18n/completeness-gates",
@@ -17891,6 +18074,7 @@
     "lazy-section-addressability/ssr-gating-decision-tree",
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
+    "machine-paced-delivery/human-gate-capacity",
     "machine-paced-delivery/pre-authorship-verification",
     "machine-paced-delivery/proposal-not-push",
     "markdown-vault/knowledge-integrity-lint",
@@ -17912,6 +18096,7 @@
     "migrations/transactional-ddl",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
+    "module-design/scoreable-designs-are-built-not-argued",
     "module-design/seams-and-adapters",
     "module-design/structural-improvement-loop",
     "multi-project/project-identity-and-joins",
@@ -17968,6 +18153,7 @@
     "runner-fleet/ephemeral-versus-warm-runners",
     "runner-fleet/fleet-isolation-boundaries",
     "runner-fleet/shared-cache-integrity",
+    "scale-investment-timing/vertical-headroom-before-distribution",
     "scheduling/schedule-observability",
     "schema-driven-ui/action-consent-wiring",
     "schema-driven-ui/emitter-registry-sync",
@@ -18615,6 +18801,7 @@
     "long-form-reading-surface/scroll-spy-reading-band",
     "long-form-reading-surface/server-parsed-once-reused",
     "machine-paced-delivery/agent-readable-build-outcomes",
+    "machine-paced-delivery/human-gate-capacity",
     "machine-paced-delivery/verification-throughput-as-constraint",
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/band-design",
@@ -18642,6 +18829,7 @@
     "model-routing/policy-governance",
     "module-design/locality-and-leverage",
     "module-design/module-depth",
+    "module-design/scoreable-designs-are-built-not-argued",
     "multi-project/cross-project-comparison",
     "multi-project/portfolio-drill-hierarchy",
     "observability-telemetry/remote-telemetry-economics",
@@ -18699,6 +18887,11 @@
     "retrieval/retrieval-triggering",
     "retry-backoff/retry-observability",
     "runner-fleet/queue-depth-elasticity",
+    "scale-investment-timing/ceiling-as-deadline-not-trigger",
+    "scale-investment-timing/migration-reason-audit",
+    "scale-investment-timing/next-order-of-magnitude-only",
+    "scale-investment-timing/size-the-system-to-its-maintainers",
+    "scale-investment-timing/vertical-headroom-before-distribution",
     "scheduling/cooldown-and-debounce",
     "schema-driven-ui/spec-validation-and-repair",
     "scoring-rubrics/normalization",
@@ -18986,6 +19179,7 @@
     "companion-identity/one-mind-many-mouths",
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/metered-llm-seam",
+    "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/single-flight-primitives",
     "connector-catalog/shipped-vs-operator-ownership",
     "conversation-orchestration/model-proposed-quick-replies",
@@ -19159,6 +19353,7 @@
     "credential-vault/brokered-egress",
     "credential-vault/token-refresh-lifecycle",
     "data-retention/per-tenant-retention-policy",
+    "data-retention/time-budgeted-batch-purge",
     "data-viz/chart-loading-economics",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
@@ -19192,6 +19387,7 @@
     "health-checks/check-scheduling",
     "health-checks/probe-caching",
     "hitl-approval/consent-gates",
+    "hitl-approval/fixed-policy-amendable-plan",
     "hitl-approval/human-performed-steps",
     "hitl-approval/resume-after-decision",
     "hitl-approval/review-queues",
@@ -19392,6 +19588,7 @@
     "docs-sync/source-doc-mapping",
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/cross-surface-handoff",
+    "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/extension-lifecycle",
     "embedded-preview/cross-frame-protocol",
     "entity-lifecycle/archive-restore-semantics",
@@ -19633,6 +19830,7 @@
     "docs-sync/source-doc-mapping",
     "draft-editing/completeness-derivation",
     "draft-editing/dirty-tracking",
+    "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/db-self-instrumentation",
     "embedded-preview/convention-discovery",
     "eval-harness/eval-economics",
@@ -19706,6 +19904,9 @@
     "retrieval/embedding-lifecycle",
     "retrieval/retrieval-triggering",
     "runner-fleet/shared-cache-integrity",
+    "scale-investment-timing/ceiling-as-deadline-not-trigger",
+    "scale-investment-timing/next-order-of-magnitude-only",
+    "scale-investment-timing/size-the-system-to-its-maintainers",
     "scheduling/next-run-computation",
     "scoring-rubrics/weight-design",
     "search/full-text-indexing",
@@ -19772,9 +19973,11 @@
     "data-access/cross-driver-invariant-parity",
     "deployment-contract/direct-push-delivery",
     "fleet-orchestration/brief-carries-the-session",
+    "machine-paced-delivery/human-gate-capacity",
     "mcp-tools/transport-selection",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
+    "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",
     "web-scraping/soak-mode-and-verdict-replay",
@@ -19787,6 +19990,7 @@
     "agent-instruction-files/restraint-amplifier-balance",
     "deployment-contract/deployment-config-as-code",
     "fleet-orchestration/worker-trajectory-anatomy",
+    "hitl-approval/fixed-policy-amendable-plan",
     "prompt-assembly/task-envelope"
    ]
   }

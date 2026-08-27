@@ -1122,3 +1122,364 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
 - Operationally clean: the parallel session that held voice-io WIP committed mid-run, so
   index/catalog regeneration was safe. Verified with `git status` before regenerating
   rather than assuming, per the shared-checkout rule.
+
+## 0.13.0 - 2026-08-27 - duckdb-changing-physics-of-analytics (single web source, operator-dispatched at a named weakness)
+
+- **When an operator dispatches a source at a weakness they have felt, check the FLEET
+  before the web.** The run's real corroboration was not the post and not a fetch - a
+  connected project held a 392-line measured decision guide over the exact question,
+  with four dated cases, cross-engine correctness checksums, and negative results. 1 of
+  3 fetches spent, and the canonical primary 403'd twice at its own host before the
+  author's independent write-up supplied the mechanism. The class rule already says
+  reaching for the web is usually a sign the claim has no home yet; the stronger version
+  is that an operator-felt weakness is *evidence* the claim has a home, because the
+  operator felt it somewhere.
+- **Survey connected projects with `git grep`, never `grep -r`.** An untracked sweep
+  counted vendored `node_modules` and put a manufactured fact in front of the operator at
+  triage ("both projects adopted this engine"). The tracked-files answer was the exact
+  opposite - both evaluated it, neither adopted it - and the opposite was the finding.
+  It is also ~100x faster; the untracked sweep timed out at 120s on one tree. A
+  dependency claim must come from the tracked manifest, and a manifest claim should be
+  read as "declared", never as "used".
+- **A concept returning zero prior art is a finding; a product name returning zero is the
+  purity floor working.** `research-map` returned zero for `postgres`, `sqlite` AND
+  `olap`. The first two are the upper layers correctly refusing product names and say
+  nothing about coverage. The third is a hole. Reading all three the same way would have
+  either dismissed the run or manufactured three gaps. Add the discrimination to the
+  Phase 4 near-empty guidance: **classify each zero as concept-zero or name-zero before
+  interpreting it.**
+- **A category whose subjects all begin AFTER some decision is a stage-zero hole, and it
+  is visible without reading a single document.** `data-layer`'s four subjects each
+  presuppose the engine (the seam above it, operating it, evolving its schema, converging
+  two of them). The Phase 6 instruction to find the missing *stage* generalises up a
+  level: run it on the category's subject list, not only on one subject's pipeline. It
+  cost one `ls` and it framed the whole run.
+- **The strongest finding of the run was a gap between two states of a decision**, and no
+  gate can see it: a project measured a 43x win, wrote it as a numbered rule, named the
+  workload - and that workload still imports the incumbent. A document recommending an
+  engine and a script not using it are each individually valid. Worth generalising into
+  the cross-repo lane: when a tree contains a written recommendation, **check the import
+  graph before crediting it**, because "decided" and "landed" look identical in prose.
+- **The best consumer-tree finding this run was a dependency boundary, not a decision.**
+  A private benchmark-only manifest with its own lockfile, gitignored install, and a
+  stated reason ("kept OUT of the product package.json so these native engines never
+  touch the app's dependency tree or CI") is how an engine gets evaluated at full
+  fidelity without being adopted by accident - and it is what made the un-adoption
+  checkable from outside. Phase 8 step 5 says to look for the structural fact the tree
+  could not have been built to prove; this was one the tree was built to prove and it was
+  still the most copyable thing present.
+- **The hybrid class held: a vendor announcement wrapped around a systems-design essay.**
+  The commercial relationship was announced in the same post that argued for the system,
+  which is exactly the provenance that must not author a standard alone - and did not.
+  Recorded in the spec's provenance section per-technique, so the one proposed technique
+  that rests on the post alone is marked as such rather than inheriting the others'
+  corroboration.
+
+
+## 0.13.0 - 2026-08-27 - managing-15-agents-solo-founder
+
+- **New sub-class, the practitioner DIALOGUE: two first-party accounts compared.** The
+  ledger carried the single first-party account already; two of them in conversation is
+  not just more of the same, it changes where the yield sits. A single account is
+  authoritative about one person and weak about universality, and the standing corrective
+  is to land its claims as rules with conditions attached. **A dialogue supplies some of
+  those conditions for free: where two practitioners with the same job chose opposite
+  defaults, the boundary is already drawn.** These two split on where the agent
+  conversation should live - the agent's own threads for context locality, or public chat
+  because that is what made background agents legible to a company adopting them - and
+  neither was wrong. Same property as a lab shipping two contradicting sibling instruction
+  documents. **Diff the practitioners, not just the transcript.** Where they converge
+  unprompted is the other signal, and that is what carried this run: both said, without
+  being asked, that they deliberately ship less than they could.
+- **A triage read that verification corrects DOWNWARD is the run working, not failing.**
+  I marked the pick "real gap" on the framing "the corpus models machine throughput and
+  has missed that the human is the constraint." Phase 6 step 1 killed that: the corpus
+  says it in its own words, in a technique the map did not surface as the primary hit.
+  Had I written the correction I triaged, it would have been a phantom fix against a claim
+  the corpus already makes - `deepen`'s dominant failure mode, inherited here, and the
+  reason step 1 is step 1. Say the corrected read out loud to the operator; the narrower
+  finding was the better one.
+- **The generalisable shape: when a corpus states a constraint in prose in one technique
+  and models it thoroughly in another, the finding is the ASYMMETRY between them.** Not an
+  omission - an unequal treatment. Here the machine bottleneck had four measures,
+  distribution discipline, denominators and an ordered demand-reduction section; the human
+  bottleneck had one sentence, no capacity model, and only per-item slimming. The subject
+  sized its first server against machine-paced arrival and routed the entire output into a
+  second server whose rate was never written down. **This is invisible to the slug map and
+  invisible to a summary** - two files that both "cover" a concept score identically. Only
+  opening both reaches it. Add to the Phase 6 repertoire beside the missing-stage and
+  enumeration hunts: *find the concept the subject mentions in one place and measures in
+  another.*
+- **Enumeration hunt, fourth consecutive run, and this one was in the opening paragraph.**
+  "Two consequences follow, and the second one is the one that gets missed." An
+  enumeration is a claim, it invites exactly one question, and the third consequence was
+  the entire finding. The golden-path opening remains the highest-yield paragraph in any
+  subject.
+- **Ask what the two failure modes sharing a queue look like, because they can be
+  opposites.** The source's real gift was that an overloaded machine queue *stalls* while
+  an overloaded human gate *accelerates* - rising throughput against an empty backlog is
+  the failure, not the win. That single asymmetry is what let the technique separate a
+  stall from a rubber stamp with four measures and give them opposite remedies. A
+  constraint whose overload signature resembles success is worth hunting for on its own.
+- **Landing only what the operator picked kept the technique honest.** Two untriaged rows
+  were the obvious mechanisms for the technique's own levers, and folding them in
+  unverified would have been padding wearing a decision rule's clothes. The technique names
+  the levers generically and says so; the note records both mechanisms with anchors so they
+  attach to it later rather than competing with it. `XL` folding (Phase 7) applies to a
+  subject-sized SPEC, not to a technique - do not import it as a licence to absorb
+  unverified neighbours.
+- **0 of 3 fetches, as the class row predicts** - four runs now where a first-party source
+  corroborated corpus-internally plus training-data convergence. The convergence here was
+  bottleneck analysis and the code-review batch-size literature, neither of which needed
+  the source in front of me, which is exactly the bar the corroboration table sets.
+
+## 0.13.0 - 2026-08-27 - best-engineers-focus-on-system-design
+
+- **A hand-off target is a checkable claim, and checking it took one read.** The accepted
+  technique did not come from the source. `structure-is-not-delegable` partitions design
+  decisions on whether the outcome is scoreable inside the run, owns the unscoreable half
+  superbly, and hands the scoreable half to another technique - whose subject turned out
+  to be the LLM tool surface, not an engineer choosing between two implementations. The
+  class had been defined twice in this bundle and owned by nobody. **Promote this beside
+  the enumeration hunt in Phase 6.3: an enumeration that delegates a case to another
+  document is a claim ABOUT that document, and following the link is the cheapest check
+  available.** Second time in three runs that a "does not apply where..." sentence was the
+  highest-value thing on the page.
+- **The interview is graded, not segmented - a new sub-shape of the first-party class.**
+  A roundup is ten items in a trench coat and must be split on segment boundaries. An
+  interview is one continuous gradient and the grade runs one way: the first ~20 minutes
+  (his own systems, his own numbers) produced everything, the last ~10 (curiosity,
+  learning, motorcycles) produced nothing. Read the first third closely, skim the rest,
+  and do not mistake the tail's emptiness for a thin source.
+- **A concept returning zero across a mature bundle is the finding - second sighting.**
+  `vertical scal` returns ZERO across 149 subjects. The DuckDB run said the same thing
+  with `olap` five sources ago. This is now a repeatable instrument rather than an
+  anecdote: **probe the concept vocabulary, not the product vocabulary, and treat a zero
+  as a missing stage until three checks say otherwise.** Product names returning zero is
+  the purity floor working correctly and means nothing.
+- **The near-empty discipline earned its keep in the opposite direction.** The map's top
+  hit looked like a seam (`metric-forecasting`, which forecasts growth curves). Opening it
+  showed a subject that scopes itself to *whether a projection may be displayed* - a
+  dashboard discipline. Had I trusted the slug I would have written a correction into a
+  subject that does not hold the claim. The hole was real and the nearest neighbour was
+  the proof.
+- **XL folding worked, and the placement section had to argue against itself.** Five
+  fragments that each looked standalone at extraction went into one dispatch. But the
+  resolved category (`backend-platform/resilience`) is the *least-bad* home, not an
+  obvious one, and saying so - with both rejected alternatives and an explicit instruction
+  to override - is what makes it dispatchable rather than a decision smuggled into a brief.
+  A spec that hides its own weak joint buys compliance with a mistake.
+- **Parallel-session hazard, in its most concrete form yet.** The checkout gained two
+  commits mid-run, including a bump of this skill from 0.13.0 to 0.14.0. Re-checking HEAD
+  before staging was what kept the corpus correct: the sibling's commit had NOT regenerated
+  `index.json`, so my regeneration had to carry both techniques, and a naive "their file is
+  untracked, stay away from the index" would have committed a stale index. **Diff the
+  shared derived artifacts against the CURRENT HEAD immediately before staging, not against
+  the tree you started from.** Record the version the run *used*, not the one on disk when
+  it ends.
+- **0 of 3 fetches - fifth consecutive zero-fetch run for a first-party source.** The class
+  row's fetch prediction is now the most reliable line in the reference file.
+
+## 0.14.0 - 2026-08-27 - agentic-engineering-practical-guide (single web article, first-party practitioner account)
+
+- **In a first-party account, read the failure list first and the recommendations last.**
+  This is the run that isolates it cleanly: 15 candidates, 8 of them straight catches, and
+  every accepted word came from the author's "they also exposed weaknesses" section. A
+  recommendation is what the author believes; a stated failure is what their system did to
+  them. Only the second is reliably absent from a mature corpus - **because the corpus was
+  built from other people's recommendations too.** This generalises the release-walkthrough
+  note ("three of five accepted findings came from the stated failure modes") from a
+  sub-class to the whole class, and it should change where Phase 3 spends its attention:
+  extract the failure list exhaustively, extract the recommendations as catch candidates.
+- **Name the guide shape as a hazard.** A guide *reads* high-yield - organised, confident,
+  comprehensive, section per concern - and is structurally low-yield, because
+  comprehensiveness over known ground is precisely what a mature bundle already has. The
+  recommendation half of this source could have been written from the corpus. Do not let a
+  well-organised source raise the expected yield; it predicts catches, not findings.
+- **The headline was already owned; the finding was three paragraphs further down.** The
+  picked candidate's thesis - put the trust boundary where the agent cannot edit it - is
+  owned by a golden-path section titled "The gate lives in the substrate, not the prompt",
+  anchored to a law, with two corollaries the source never reaches. Had the run landed the
+  headline it would have shipped a duplicate into a subject that says it better. **Phase 6
+  step 1 earned its place again: the pick's headline and the pick's finding were different
+  claims, and only opening the file separated them.**
+- **A completeness claim does not stop being good hunting ground after it has been hunted
+  once.** `hitl-approval`'s "the subject owns two flows that are mirror images of each
+  other" yielded a third flow on run 4 and a fourth on this run, from two unrelated
+  sources, four months apart in corpus time. Run 4's own subject note had even banked the
+  observation ("three flows now, and the opening still says two") and the frame was still
+  never rewritten. Add to Phase 6 step 3: **a stale enumeration is a standing lead, not a
+  spent one** - re-read it every time a source lands nearby, and check the subject note for
+  whether a previous run already flagged it.
+- **The denial hunt (step 3's second half) fired for the second consecutive run.**
+  `gate-state-machines` says approval transitions are driven only by a human. True for
+  verdicts; read across the whole harness record it forbids the amendment lane the source
+  measured as the *normal* case in 173 real harnesses. The corrective is not to weaken the
+  denial but to name the distinction it was missing - a verdict says a gated thing may take
+  effect, an amendment says the route changed inside a scope already granted.
+- **Fold the failure modes in; do not let them become five thin candidates.** Three of the
+  source's five measured weaknesses became sections of the one technique (asymmetric cost
+  of the fixed tier, the reaper on task-scoped records, and the boundary in "what this
+  cannot do") rather than separate rows. The XL folding rule from run 32 applies below XL
+  too: fragments from one source that share a mechanism belong in one document.
+- **Declining a pick is a result and the reason is the reusable part.** Row 2 - risk
+  proportionality - lost cleanly to an existing section with four named triggers and an
+  explicit complement. The one non-identical edge (the corpus prices over-gating as *human
+  attention* depletion, the source measured it as *task latency*) was real and too thin to
+  carry a technique. Writing that edge down is what stops the next run re-proposing it and
+  what would let a second sighting promote it later.
+- **The derived-artifact hazard ran the OTHER direction this time.** Run 32's lesson was
+  "diff shared derived artifacts against current HEAD before staging". Here the sibling
+  session ran `build-index` mid-run and swept this run's in-flight technique into *its*
+  regeneration, then kept landing files - so `index.json` went from current to stale to
+  containing my technique but not theirs, while their new file was never in HEAD.
+  **Regenerating would have committed an index referencing a file absent from HEAD, which
+  breaks a clean clone; the safe move is to commit content only and leave the generated
+  files to whichever session lands last.** The asymmetry is worth stating as a rule: an
+  index missing your content is stale and recoverable, an index citing content that does
+  not exist is broken. **When they conflict, prefer stale.**
+- **0 of 3 fetches - sixth consecutive zero-fetch run for a first-party source.** The class
+  row's fetch prediction remains the most reliable line in the reference file.
+- **Two heredoc/quoting failures cost real time on this platform.** A `bash` heredoc writing
+  the technique died on "unexpected EOF", and a `python -c` inside a double-quoted shell
+  string had its backticks command-substituted (which would have silently mangled markdown
+  had the assert not caught it). For prose documents containing backticks, apostrophes and
+  em dashes, use the file-writing tools directly rather than shell heredocs.
+
+## 0.14.0 - 2026-08-27 - picomq-durable-streams
+
+- **A new class row earned its place: the open-source infrastructure engine.**
+  Not the vendor-repository row (that one assumes a hosted engine and sends
+  you to the client types). Here the engine, ~14k words of design docs and a
+  wire specification ship in one permissively-licensed tree, which is the
+  *research-model release* row's structural property - claims checkable
+  against implementing code, in-run, no fetch - occurring outside a model
+  release. Worth adding to the routing table on a second sighting; recorded
+  here rather than edited into the reference on one.
+- **Do not price a repository run off the ingest word count.** The ingest
+  returned 453 words because that is what a repository landing page renders;
+  the tree held roughly thirty times that in design docs alone, and every
+  finding came from the thirty. The `--min-words` floor answers "is anything
+  there at all" and for this class it is not even answering that - it is
+  measuring the wrong file. Stated an expected yield off it anyway and was
+  wrong within one phase.
+- **Project age predicts the reliability of adoption claims, not the density
+  of design decisions.** 15 commits, days old, and the reasoning "its most
+  reliable claim is that it exists" was sound for a *currency* read and
+  useless for a *design* read. A young infrastructure project has just
+  finished making every hard choice it will make and written the reasons down
+  while fresh. Discount its maturity claims, not its design docs.
+- **Check in-tree docs against in-tree code as routine, not as a spot check.**
+  Four greps. It produced the whole run: the write-path doc describes group
+  commit as knob-free and self-tuning, the shipped config carries a 250 ms
+  timer, an 8 MiB cap and a 50-deep in-flight pool. The prose is the design
+  the authors wanted, the configuration is the one they shipped, and the gap
+  is where the boundary condition lives.
+- **The sibling-systems property is not specific to research-model releases.**
+  The reference file names it for labs shipping two contradicting instruction
+  documents. Here one repository implemented group commit twice - a timer-
+  driven pipelined version in the write path, a timer-free serial version in
+  the metadata sink - and the discriminator was visible in the diff without a
+  judgement call: serial flushes self-close on the previous flush, pipelined
+  flushes cannot and must reintroduce a timer. **Look for the same mechanism
+  implemented twice in one tree**; it is cheaper to read than either half.
+- **Fifth confirmation that a source implementing a good idea badly beats one
+  implementing it well** - and the strongest instance yet, because a single
+  source did both and the gap between its halves *was* the technique. Accurate
+  docs would have yielded a plausible rule with no boundary attached.
+- **Sixth consecutive paying run for the enumeration hunt.**
+  `single-flight-primitives` lists four second-caller policies and closes by
+  instructing the reader to pick one explicitly - which is what makes an
+  incomplete list consequential. Merge was the missing fifth. When a document
+  both enumerates and instructs the reader to choose from the enumeration,
+  the omission is a defect rather than a gap.
+- **Three findings, three amendments, zero new techniques.** At 150 subjects
+  this keeps being the right shape: every home already existed and was wrong
+  or incomplete rather than absent. Two of the three *corrected* standing text
+  (a four-item list that should be five; an ordering rule stated
+  unconditionally that inverts across a store boundary).
+- **0 of 3 fetches - sixth consecutive zero-fetch run** for a source carrying
+  its own primary material. The class row's fetch prediction remains the most
+  reliable line in the reference file.
+- **Shared-checkout hazard, new variant: my own regeneration swept a parallel
+  session's untracked work into the derived artifacts.** `index.json` was
+  clean at run start, so the modification was mine - `build-index` scans the
+  tree, and the tree held another session's two untracked techniques. Fix that
+  worked and should be the standing move: `git worktree add` at HEAD (short
+  path), copy in only the files I own, regenerate there, copy the artifacts
+  back. Produces a self-consistent commit and touches nothing of theirs.
+  **Regenerating derived artifacts is a write to shared state, not a read.**
+- **Tooling note for this platform:** long quoted heredocs and `node -e` with
+  single-quoted shell strings both break on apostrophes in prose. Write the
+  script to a file and run it; do not fight the quoting on note-sized content.
+
+## 0.14.0 - 2026-08-27 - kciter-animation-design (single web article, methodology essay)
+
+- **New sub-class: the methodology essay, and it inverts this skill's cheapest
+  filter.** A first-party practitioner account where the author is teaching a
+  method rather than reporting a system. The source was mathematics and design
+  vocabulary - graphs, damping coefficients, piecewise functions - and carried
+  essentially no proper nouns, so **the strip test killed nothing**. Every
+  candidate survived into Phase 6. The skill's economics assume the strip test
+  does most of the culling for free; when it does not, the whole run's cost
+  moves into prior-art verification and the triage table has to be built from
+  file reads rather than from the map. Budget the run accordingly: this one
+  spent its entire effort between Phase 4 and Phase 6.
+- **`research-map` produced its first TOTAL empty over well-covered material.**
+  `spring physics` returned "PRIOR ART: none. The corpus has never heard of
+  this - that is a finding, not a miss." The corpus covers springs in depth in
+  `engine-selection` (retargeting from position *and* velocity, the interruption
+  story, the shared scripted engine) and the consumer evidence file records a
+  real rAF spring engine. The documented near-empty rule says a *near*-empty may
+  be a seam; this run says the same doubt applies to a **total** empty, and the
+  check is one grep of the neighbourhood before believing it. Had the zero been
+  trusted the run would have written a spring technique beside one that existed.
+- **The corollary is the more useful half: the real gap was invisible to the
+  instrument for exactly the same reason.** No slug expresses "the contract
+  assumes a timed curve". A slug map cannot find a missing *assumption*, only a
+  missing *word* - so on a mature subject, expect the instrument to be silent
+  precisely where the finding is.
+- **A cheap mechanical form of the asymmetry hunt: check a contract's mandatory
+  fields against what its sibling technique permits.** `preset-vocabulary`
+  required four declarations; `engine-selection` recommends an engine that
+  cannot supply two of them; `taste-budgets` filed that same engine as a third,
+  incompatible thing. Three files, one subject, mutually contradictory, and
+  every one of them individually well written. The cross product of "what must
+  be declared" against "what is blessed elsewhere" is a finite list and it takes
+  one read per file.
+- **Four candidates that are one finding must land as one finding.** The
+  operator's standing critique (synthesis comes from the skill, not the
+  operator) had a clean instance here: three amendments and a new technique all
+  followed from one root - a contract forged for the fire-and-forget timed
+  gesture. Landing them separately would have produced four correct edits and no
+  statement of what they share. The golden path took the boundary section; the
+  amendments hang beneath it.
+- **Scoping an over-broad claim beats deleting it.** `unprompted-motion-lifecycle`
+  said "for unprompted reveals the answer is **always** one-shot". That is right
+  for scroll-triggered and a bug for scroll-driven. The edit changed "unprompted"
+  to "scroll-*triggered*" and added the boundary section - the original rule
+  keeps its force where it was earned. A denial that denied too much is repaired
+  by naming its domain, not by weakening its verb.
+- **An enumeration in an opening sentence is as good a target as one in a
+  heading.** "Every gesture in the vocabulary runs on one of three engines" was
+  line one of the technique, and the missing member was the source's closing
+  section. Fifth consecutive run where an enumeration produced a finding.
+- **0 of 3 fetches - sixth consecutive zero-fetch first-party run**, with an
+  additional reason worth recording for this sub-class: the claims are
+  mathematics, which is training-data convergent, so there was nothing a fetch
+  could add that reading the corpus could not settle.
+- **Parallel-session hazard, a new and sharper variant: the race is between the
+  staging-area CHECK and the staging COMMAND, not between the run and the
+  commit.** A sibling intake run committed the shared `librarian/sources/index.md`
+  - carrying this run's already-inserted row - in that window. The surgical
+  "rebuild the ledger from HEAD plus my row" then read the *new* HEAD and
+  inserted the row a second time. Verifying the artifact in HEAD caught it and a
+  one-line follow-up commit fixed it. **When rebuilding a shared append-only file
+  from HEAD, check whether HEAD already contains your line before inserting it** -
+  the idempotent form is a grep, not a splice.
+- **Also confirmed: do not commit `index.json`/`catalog.json` when another
+  session has uncommitted content.** The regeneration swept four references to a
+  sibling's in-flight technique. Committing them would have published another
+  run's work and left HEAD's index pointing at a file HEAD does not contain.
+  Diffing the generated files for the sibling's slug before staging is a
+  two-second check and it decided the whole commit strategy here.

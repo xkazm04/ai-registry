@@ -109,6 +109,51 @@ low-volume deployments on weak backends without any warehouse at all — the
 honest version of "we are too small to fork", stated with its O(matched
 rows) cost rather than hidden.
 
+## Amendment: the copy does not have to be a warehouse
+
+Everything above prices the fork as a warehouse decision — a remote store,
+billed by data scanned, minutes behind, operationally its own thing. That
+framing makes the trigger a *scale* question and leaves exactly two answers
+beneath it: better composites on the row store, or summing in the service at
+O(matched rows). There is a third, and it changes where the trigger sits.
+
+The analytical side of the fork can be **an in-process columnar engine
+reading an exported copy**: a library linked into the same service, no wire,
+no per-query price, and a bulk load from a flat export that is a scan rather
+than an index build — commonly standing the analytical path up in a small
+fraction of the time the query it replaces was taking. Every structural rule
+in this technique survives that substitution unchanged, because they are
+rules about the *role*, not the topology: it receives and never originates,
+it never enforces, it mirrors the logical schema, and enforcement still reads
+the row store.
+
+What changes is the economics, and therefore the decision:
+
+- **The trigger drops.** "Too small to fork" was an argument about warehouse
+  overhead. Where the destination is a linked library over a file, the
+  overhead being weighed is close to zero, and a deployment that correctly
+  refused a warehouse may still be well past the point where scanning in the
+  service is the wrong answer.
+- **It dominates the client-side interim stage rather than competing with
+  it.** Both pull the matching rows out of the row store; one then sums them
+  row-at-a-time in application code, the other hands them to an engine built
+  for grouped scans. Where the interim stage was chosen for deployment
+  simplicity, that reason no longer discriminates.
+- **Partition grain stops being a pricing decision** and becomes an ordinary
+  freshness and file-size decision, since nothing is billed by bytes touched.
+  The date partitioning above is still worth keeping for pruning and replay;
+  it is simply no longer what makes the query affordable.
+
+The discriminator for which destination, once forking is decided: **a
+warehouse earns its keep when the copy must be queried by people and systems
+outside this service** — shared SQL access, other teams' tooling, retention
+measured in years, volumes past what one host should scan. Below that, the
+copy has one consumer, and a consumer that links the engine does not need a
+service to talk to. Note that the neighbouring engineering bundle holds this
+same boundary from the application side, where the question is which reads
+leave a serving store rather than how the copy is shaped; the two are the same
+fork seen from opposite ends, and neither should absorb the other.
+
 ## When not to use this
 
 - Below the trigger. The premature warehouse is the domain's most popular

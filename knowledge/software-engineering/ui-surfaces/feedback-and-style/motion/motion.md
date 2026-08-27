@@ -4,6 +4,7 @@ type: golden-path
 subject: motion
 status: forged
 techniques:
+  - gesture-decomposition
   - preset-vocabulary
   - engine-selection
   - performance-discipline
@@ -71,6 +72,70 @@ globally incoherent, and unauditable. The full shape of the library — what a
 preset must declare, and when a new one earns existence — is
 [preset-vocabulary](./techniques/preset-vocabulary.md).
 
+## A gesture is decomposed before it is named
+
+A vocabulary answers "which preset?" for motion that already exists as a
+word. It does not answer the question that actually blocks people: a
+composite movement arrives — as a prototype recording, as a sentence in a
+ticket, as something someone can picture and not describe — matching no
+preset and resisting expression as a single curve. The reflex at that moment
+is to write it inline, and per-component keyframes return through the one
+door the vocabulary left open.
+
+The step that closes it is mechanical. Every animation is a value changing as
+a function of some input, so the first decision is **what the input is** —
+elapsed time, a quantity the user moves continuously, or an event selecting a
+new target — because that choice constrains the engine, the budget, and
+whether one-shot policy applies at all. The second is to stop looking for one
+expression and **cut the movement into pieces**: segments along the input
+axis, states separated by conditions, and properties separated into
+independent tracks. Pieces reassemble by exactly three patterns, and the
+payoff is not expressiveness but the ability to retune one part without
+re-judging the whole.
+
+What comes out is a preset proposal complete enough to accept or reject:
+intent, input axis, tracks, per-track timing and character, transition
+conditions, fallback. The decomposition itself, the three assembly patterns,
+and the discriminator between them are
+[gesture-decomposition](./techniques/gesture-decomposition.md).
+
+## The contract assumes a timed, self-running gesture
+
+The preset contract — a duration class, an easing role, a fallback — was
+written for the gesture this system sees most: one curve, started by
+something, running to completion on its own clock. Entrances, success
+settles, ambient life. It is worth saying plainly which gestures that
+contract does *not* fit, because each of the three bends a different one of
+its assumptions, and a system that has not noticed pushes exactly those
+gestures back out into per-component code.
+
+- **Continuous, physics-carried motion has no duration.** A spring is
+  parameterized by stiffness and damping and ends when it converges; the same
+  preset legitimately runs for different lengths of time on consecutive
+  plays. It cannot declare a duration class, it cannot be audited against a
+  millisecond cap, and its reduction is an instant settle rather than a
+  shorter curve. What it declares instead is a **settle bound**.
+- **Input-driven motion has no clock of its own.** Where the input axis is a
+  quantity the user moves — scroll offset, pointer position, drag distance —
+  the gesture is a mapping, not a timeline, and the user is the clock.
+  Reversal is correct rather than a defect, so the one-shot policy that
+  governs triggered reveals is a bug when applied here. It owes bounded
+  travel and a reduced form; it owes no stop control, because it is already
+  stopped whenever the user is.
+- **A composite gesture is more than one curve.** Separate properties
+  carrying separate communicative jobs need separate tracks, each with its
+  own timing and character. Timing and character therefore belong to the
+  track, not to the gesture.
+
+None of the three is exotic and none is an exception to be waved through. The
+rule the system holds instead: **intent and reduced-motion fallback are
+declared once per gesture; timing and character are declared per track**, and
+a track declares either a duration class with an easing role or its physics
+parameters with a settle bound. The vocabulary consequences are in
+[preset-vocabulary](./techniques/preset-vocabulary.md); the lifecycle
+consequences for input-driven motion are in
+[unprompted-motion-lifecycle](./techniques/unprompted-motion-lifecycle.md).
+
 ## Taste is budgeted
 
 Motion spends the user's attention, and attention is not the product's to
@@ -133,8 +198,18 @@ silently — no error, no log, just entrances that stop happening, discovered
 by a user. A system must be able to answer "what owns this gesture, and what
 can turn it off?" for every preset in the vocabulary; where the answer
 includes "a global switch outside our code", the system has a kill switch it
-did not install. The trade space — and the interruption story each engine
-buys — is [engine-selection](./techniques/engine-selection.md).
+did not install.
+
+A fourth engine exists and is usually reached too late: an **authored
+timeline played back as data**, built in a motion-design tool and shipped as
+an asset rather than as code. Character movement, shape morphing between
+unrelated forms, and many-layer set pieces are past the point where writing
+more keyframes is the cheaper option, and the question that settles it is
+not complexity but **whether the gesture must respond to input while it is
+running**. If it must, it stays code; if it merely plays, complexity is an
+argument against code rather than for it. The trade space, the ownership
+story each engine carries, and the interruption behavior each buys are
+[engine-selection](./techniques/engine-selection.md).
 
 ## One-shot means one-shot
 
@@ -243,12 +318,16 @@ for a component mounted outside the coordinator, and the recovery rules are
 
 ## The techniques
 
+- [gesture-decomposition](./techniques/gesture-decomposition.md) — naming a
+  gesture's input axis, cutting it into pieces, and the three patterns that
+  reassemble them into something the vocabulary can accept.
 - [preset-vocabulary](./techniques/preset-vocabulary.md) — the named preset as
-  the unit of the system: intent, duration class, per-preset fallback, and
-  the bar a new preset must clear.
+  the unit of the system: intent, per-track timing and character, per-preset
+  fallback, and the bar a new preset must clear.
 - [engine-selection](./techniques/engine-selection.md) — declarative keyframes
-  vs scripted springs vs animation libraries: ownership, kill-switch hazards,
-  and what each buys you when a gesture is interrupted.
+  vs scripted springs vs animation libraries vs exported timelines: ownership,
+  kill-switch hazards, what each buys you when a gesture is interrupted, and
+  the point where code stops being the cheaper option.
 - [performance-discipline](./techniques/performance-discipline.md) —
   compositor-friendly properties, frame writes outside reactive state, the
   shared engine, and the layout-thrash audit.
@@ -264,7 +343,8 @@ for a component mounted outside the coordinator, and the recovery rules are
   relabel with it.
 - [unprompted-motion-lifecycle](./techniques/unprompted-motion-lifecycle.md)
   — the visible-control threshold, stop-is-not-a-toggle, no implicit
-  re-arm, and one-shot discipline for scroll reveals.
+  re-arm, one-shot discipline for scroll-triggered reveals, and why
+  scroll-driven motion is exempt from it.
 - [loop-pause-governance](./techniques/loop-pause-governance.md) — the
   merged pause signal over a closed decider set, the timed pause that keeps
   touch from wedging a loop, and recovery from a frozen clock.

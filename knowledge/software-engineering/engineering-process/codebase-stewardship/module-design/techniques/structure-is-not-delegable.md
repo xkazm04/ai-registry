@@ -190,3 +190,9 @@ function of a generator — the structure's quality is measurable within the
 pipeline, and the migration argument governs it. The distinguishing question is
 not "is this code" but "does a harness observe the consequence of this
 decision before anyone has to live with it."
+
+Where the answer is yes, the decision is not merely outside this technique — it
+has a method of its own, and it is not discussion:
+[scoreable-designs-are-built-not-argued](./scoreable-designs-are-built-not-argued.md)
+owns building the candidates and measuring them, along with the part of the
+judgment that stays human even there.

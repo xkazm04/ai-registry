@@ -346,10 +346,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "1.0.0",
+      "version": "2.1.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:b160f054acc69c76",
+      "contentHash": "sha256-n1:51a92a405ffa24ea",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 1,
+      "lessons": 3,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:9f46c7c1308a0c1f",
+      "lessonsHash": "sha256-n1:5726de9cb06aa215",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -392,9 +392,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 5,
+      "lessons": 8,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:a0052eb3c5dc98d1",
+      "lessonsHash": "sha256-n1:5f5c157fd19cbe25",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -542,7 +542,7 @@
     "skills": 27,
     "practices": 4,
     "memory": 4,
-    "lessons": 48
+    "lessons": 53
   },
   "bundles": [
     {
@@ -595,7 +595,7 @@
       "techniques": 98,
       "applications": 49,
       "files": 168,
-      "contentHash": "sha256:39ec82d442a01e02"
+      "contentHash": "sha256:8762443ec12ebd54"
     },
     {
       "name": "localization",
@@ -617,11 +617,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 19,
-      "techniques": 122,
+      "subjects": 20,
+      "techniques": 128,
       "applications": 48,
-      "files": 194,
-      "contentHash": "sha256:ca81549a27c8a222"
+      "files": 201,
+      "contentHash": "sha256:8d7330f9c7ba3026"
     },
     {
       "name": "recruiting",
@@ -643,11 +643,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 149,
-      "techniques": 959,
-      "applications": 434,
-      "files": 1547,
-      "contentHash": "sha256:8b344adac33e61a5"
+      "subjects": 150,
+      "techniques": 969,
+      "applications": 437,
+      "files": 1561,
+      "contentHash": "sha256:2f01888f76d4134b"
     }
   ]
 }

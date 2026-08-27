@@ -8,7 +8,7 @@ laws:
   - one-validation-door
   - failure-not-empty-success
 shared_with: []
-use_when: [picking the second-caller policy per operation, a boolean flag trampled by a second key, callers retrying a refusal that looks like failure]
+use_when: [picking the second-caller policy per operation, a boolean flag trampled by a second key, callers retrying a refusal that looks like failure, an expensive durable write paid once per caller]
 ---
 
 # Single-flight primitives
@@ -48,7 +48,7 @@ the atomic test-and-insert and the token discipline.
 ## What the second caller gets
 
 The primitive answers "you may not start"; the *policy* for what happens next
-is per-operation, and there are four honest options:
+is per-operation, and there are five honest options:
 
 - **Refuse** — return a distinguishable already-in-flight outcome. Right for
   user-triggered actions where the honest answer is "that is already
@@ -68,10 +68,57 @@ is per-operation, and there are four honest options:
   arrivals during flight into one follow-up run. Right for sync/refresh
   shapes where the latest state is what matters and intermediate runs are
   waste.
+- **Merge** — admit the second caller's work *into* the operation already in
+  flight, or into the next one, so N callers holding N *different* payloads
+  are satisfied by a single execution. Merge is easy to mistake for join and
+  trades differently: join returns one shared result because both callers
+  wanted the same thing, and coalesce keeps only the last arrival and throws
+  the rest away as waste. Merge discards nothing and duplicates nothing —
+  every caller's work is carried and every caller gets its own outcome. It is
+  also the only policy here that lowers the *cost* of the guarded operation
+  rather than the number of times it runs, which makes it the one to reach
+  for whenever that operation has a large fixed cost and a small marginal
+  one: a durable flush paying a full round trip whatever the payload weighs,
+  a commit paying one synchronization, a call to a remote store billed per
+  request rather than per byte.
 
 Refuse is the correct *default* — it is the only option with no new machinery
 and no new failure modes — but the choice should be recorded per operation,
 not left to whatever the first implementer found convenient.
+
+## Closing a merge window
+
+Merge is the one policy that needs a rule for when the batch stops accepting
+arrivals, and the cheapest such rule is to have no configured window at all:
+**wait for the first caller, then take without waiting whatever else has
+already queued behind it, and run.** The batch is then precisely what
+accumulated while the previous execution was running. Nothing is tuned, a
+caller arriving alone waits one execution and not a millisecond longer, and
+the batch grows on its own exactly as fast as arrivals do — which is the
+property a fixed window has to be re-tuned to chase.
+
+That rule holds only while executions are **serial**, and the boundary is
+worth stating because crossing it fails quietly. The window is closed by the
+previous execution finishing, so it depends on there being exactly one to
+point at. Pipeline the operation for throughput — several executions in
+flight at once — and "whatever arrived during the previous one" no longer
+identifies a batch: arrivals can land in the buffer with no execution
+scheduled to carry them, waiting on an arrival that may never come. A
+pipelined merge has to close its window explicitly, on elapsed time or
+accumulated size, and it inherits the tuning problem the serial form never
+had. Decide in that order — serial and self-closing first, pipelining only
+when one execution at a time provably cannot reach the throughput required,
+and count the timer as part of what pipelining costs.
+
+The buffer is unbounded until someone bounds it. Callers keep arriving
+whether or not the flush is keeping up, so the merge point needs a cap in the
+currency that actually grows — bytes or entries not yet durable — and a
+stated verdict for the moment the cap is reached. Refusing the arrival with a
+distinguishable over-capacity outcome is the honest answer (law:
+failure-not-empty-success): it hands the decision back to a caller that can
+slow down or shed, where a buffer that silently keeps growing converts a
+throughput problem into an out-of-memory one, and the crash takes every
+un-flushed caller's work with it.
 
 ## Scalar flags do not scale past one key
 
@@ -93,8 +140,11 @@ conditions.
   check/insert pair with a gap is the race it was meant to close.
 - Return refusals that name the in-flight twin; "false" is not a refusal, it
   is a shrug the caller cannot act on.
-- Pick the second-caller policy (refuse / join / queue / coalesce) explicitly
-  per operation and record it; default to refuse.
+- Pick the second-caller policy (refuse / join / queue / coalesce / merge)
+  explicitly per operation and record it; default to refuse. Where the
+  operation's cost is dominated by a fixed per-execution charge, merge is the
+  policy that pays for itself, and its window should close on the previous
+  execution rather than on a configured interval.
 - Keep the primitive keyed even when today's population is a single key.
 - Expose list(); an in-flight set that cannot be inspected turns every stuck
   guard into a source-reading exercise.

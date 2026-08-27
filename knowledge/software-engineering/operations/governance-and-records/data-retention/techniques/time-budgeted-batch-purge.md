@@ -4,9 +4,9 @@ type: technique
 subject: data-retention
 technique: time-budgeted-batch-purge
 status: forged
-laws: [failure-not-empty-success, count-carries-predicate]
+laws: [failure-not-empty-success, count-carries-predicate, creation-names-reaper]
 shared_with: []
-use_when: [deleting expired rows at volume, a cleanup job is being killed before it finishes, reporting what a purge actually did]
+use_when: [deleting expired rows at volume, a cleanup job is being killed before it finishes, reporting what a purge actually did, purging data that spans an object store and its index]
 ---
 
 # Time-budgeted batch purge
@@ -94,6 +94,33 @@ Order deletions so that dependent rows go before the rows they reference,
 or lean on declared cascades where the store enforces them — but know the
 yield either way, because a cascading delete of a batch of a thousand may
 remove far more than a thousand rows and blow the batch's real cost budget.
+
+That ordering rule assumes one store and one transaction. **Where the thing
+being purged lives in two stores — bytes in an object store and the row that
+indexes them, a file on disk and its catalogue entry — the rule inverts, and
+the discriminator is whether a single transaction covers both deletes.** It
+cannot: no transaction spans a blob store and a database. So the purge is two
+steps with a crash window between them, and the order chosen decides what
+that window leaks.
+
+Delete the **payload first and the reference second.** A crash in between
+leaves a reference to bytes that are already gone, and that is a leak the
+system can find: the next pass reads the same entry, re-issues a delete that
+harmlessly does nothing, and removes it. The reverse order leaves bytes that
+nothing references — no index names them, no pass will ever visit them, and
+the only way to recover them is a full enumeration of the store diffed
+against the catalogue, which is the operation the catalogue existed to make
+unnecessary. One direction leaks a retryable pointer, the other leaks storage
+nobody can name; only the first has a reaper
+([creation-names-reaper](../../../../_laws.md#creation-names-reaper)).
+
+Two obligations follow from choosing that order. The reference is now
+evidence that the payload *may* exist rather than proof that it does, so
+every reader of the catalogue treats a missing payload as an ordinary
+outcome and not as corruption. And because the window is entered on every
+crash rather than exceptionally, the delete of the payload has to be
+idempotent — a second delete of an already-deleted object is a success, not
+an error to escalate.
 
 Rank by a **store-authoritative** timestamp — insertion order the store
 itself stamped — not by a time field the caller supplied. A backdated or

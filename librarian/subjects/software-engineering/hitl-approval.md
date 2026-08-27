@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: hitl-approval
-last_touched: 2026-08-22
-touched_by: harvest
+last_touched: 2026-08-27
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -11,6 +11,42 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-08-27 - `/intake` (run 33)
+
+Gained `fixed-policy-amendable-plan` (10 -> 11 techniques) and a new golden-path
+section, "What none of the three flows governs: the machine's own terms". Source:
+[[2026-08-27-agentic-engineering-practical-guide]] - a first-party practitioner
+account of one coding-agent harness, 173 recorded harnesses over four weeks.
+
+**The open lead below about the opening paragraph is now larger, not smaller: there
+are four flows.** The three the subject owned all gate an *action*. The fourth
+governs the machine's **terms** - the scope it was given, the route it intends, the
+definition of done - which the subject had treated as static from dispatch, because
+both repairs look wrong on sight: a plan the executor cannot amend is defeated by
+the first fact arriving after dispatch, and a plan it can amend is a policy whose
+first edit removes whichever constraint was working. The resolution is to split the
+record by **write authority rather than by content**, at which point the split
+becomes a trigger predicate like any other in this subject.
+
+**The subject had denied too much, and the denial is what hid this.**
+`gate-state-machines` states that approval transitions are driven only by a human -
+correct for verdicts, and read across the whole harness record it forbids the
+amendment lane the source measured as the normal case. An amendment is not a
+verdict: a verdict says a gated thing may take effect, an amendment says the route
+changed inside a scope already granted. Conflating them fails both ways - every
+amendment treated as a verdict buries the human, a verdict treated as an amendment
+lets the executor approve itself.
+
+Method note, and it is the same enumeration run 4 hunted: "two flows that are mirror
+images of each other" has now yielded a third flow (run 4) and a fourth (run 33)
+from two unrelated sources. **A completeness claim does not stop being good hunting
+ground after it has been hunted once.**
+
+Also worth recording: the source's *headline* claim - put the boundary where the
+agent cannot edit it - was **already owned and better**, by the golden path's "The
+gate lives in the substrate, not the prompt". The landing came from the source's
+failure list, not from its thesis.
 
 ### 2026-08-22 - harvest wave (run 4)
 
@@ -53,17 +89,24 @@ hunting ground.** The claim "two flows, mirror images" invites exactly one quest
 
 ## Open leads
 
-- **This subject is now at ten techniques, and nothing enforces a ceiling.** Two
-  concurrent waves each added to it while respecting the observed house maximum of nine
-  in isolation; the union is ten. Neither wave was wrong and the gate does not check.
+- **This subject is now at eleven techniques, and nothing enforces a ceiling.** No
+  longer a two-wave coincidence: a third pass (run 33) crossed it again, deliberately,
+  each addition defensible on its own. Two concurrent waves each respected the observed
+  house maximum of nine in isolation; the union was ten, and intake made eleven.
+  No wave was wrong and the gate does not check.
   The next structure pass should decide whether nine is a real bar worth enforcing or an
   observation that has been overtaken - and if it is real, which of the ten is a section
   of another rather than a technique of its own.
-- **Three flows now, and the golden path's opening still says two.** The research pass
-  stated the third; the framing paragraph was written when there were two. A `/deepen`
-  pass should decide whether the opening is rewritten around three flows or whether the
-  third is deliberately a subordinate case. The harvest's three techniques do not touch
-  that framing - they sit under the clock, not under the flow taxonomy.
+- **Four flows now, and the golden path's opening still says two.** Run 4 stated the
+  third, run 33 the fourth; the framing paragraph was written when there were two, and
+  each pass has added a section rather than rewriting the frame. This is the subject's
+  largest structural debt and it should not absorb a fifth addition untouched. A
+  `/deepen` pass should decide the real taxonomy, because the four are not one list:
+  review and consent gate an *action* at two different moments, the third removes the
+  machine from the action entirely, and the fourth governs the *terms* rather than any
+  action at all. The plausible reframing is two axes - what is gated (an action or the
+  scope) and who acts (the machine or the human) - rather than a flow list that grows
+  by one every time somebody hunts the enumeration.
 - **`resume-after-decision` and the runbook's resumability overlap.** Stated once, in the
   research technique, by reference. Check the seam if either is deepened.
 - **`paired-tables-assert-their-relation`** (proposed law, not added). When two tables key
