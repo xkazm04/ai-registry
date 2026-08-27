@@ -11,8 +11,9 @@ dry_streak: 0
 First touch: forged 2026-08-27 from
 [[../../../docs/subject-proposal-scale-investment-timing]], raised by `/intake` from
 [[../../sources/2026-08-27-best-engineers-focus-on-system-design]]. Placed at
-`backend-platform/resilience` (8 of a cap of 10). Five techniques, one `process`
-application.
+`backend-platform/resilience` (8 of a cap of 10). Five techniques, two `process`
+applications - both reconciled against this registry itself, which turned out to be a
+legitimate instance twice over rather than a convenience.
 
 ## The application, and the upward lesson it produced
 
@@ -103,6 +104,31 @@ technique rests on literature or on training-data convergence.
   ignored, so the technique argues that hiring, end-of-life, concentration risk and
   operational familiarity can each carry a migration alone. What it demands is that
   the reason be *stated*, because an unstated reason cannot be satisfied more cheaply.
+
+## The second application
+
+`process--size-the-system-to-its-maintainers`, written against the technique with the
+thinnest evidence in the subject. The registry is close to a pure case of the
+generation-versus-operating split - authored overwhelmingly by agent sessions, merged
+by one person - and it does the thing the technique asks for and almost nobody does:
+**the maintaining headcount is recorded where decisions get made**, in `CODEOWNERS`,
+with the failure mode named in the file's own header comment ("a personal owner becomes
+an unmergeable pull request the week that person changes team"). The risk is legible in
+advance rather than discovered during a resignation.
+
+The best evidence in it was produced by the session that wrote it. Two agent sessions
+in one checkout caused a bundle-integrity failure neither session's own work caused,
+plus two derived-file conflicts needing manual resolution - **operational surface per
+maintainer rising as a direct function of generation capacity, arriving through
+coordination rather than code volume.** Nobody designed that demonstration; it fell out
+of the working conditions, which is the strongest form this evidence takes.
+
+Three honest limits recorded: it does NOT test the falling-headcount claim (the
+denominator is one by policy, not attrition), the over-built/under-staffed diagnostic
+has no design-time ratio to compare against, and nothing in it recommends single-owner
+ownership. **The subject's central temporal claim therefore still has no confirming
+instance** - a system that measurably lost maintainers while keeping its architecture
+is the realization to hunt for next.
 
 ## Open leads (banked, convergence rule applies)
 
