@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-08-26
+last_touched: 2026-08-27
 touched_by: intake
 dry_streak: 0
 ---
@@ -71,3 +71,51 @@ None.
 
 - `task-envelope` gained "When done is not knowable, the envelope inverts": the technique's precondition, stated. For discovery tasks (the done criterion is learned by using something that does not exist yet) the vague prompt is correct; its deliverable is the done criterion for the next dispatch, and steering happens by differential choice among manifested variants. The finish-line/route split named: constraining the destination costs nothing, constraining the search spends the operator's guess where the model's search does better.
 - The source demonstrated both modes itself: a library translation dispatched with a textbook envelope (single binary, pixel-identical, do not stop) beside a greenfield app built vague-then-steer. The discriminator came from the source's own contrast, not its stated advice.
+
+
+## 2026-08-27 - /intake, from an open-tree vendor repository ([[2026-08-27-openexecutive-virtual-executive]])
+
+Gained `cache-breakpoint-allocation` (9 -> 10 techniques). Registered bidirectionally.
+
+**The missing stage was the cut itself.** `layered-composition` orders the layers by
+volatility and stops at *one implicit boundary* - everything upstream of the first
+volatile byte - which is the right model only for a provider that infers one.
+`context-budgeting` prices compression against cache state.
+`model-routing/cache-continuity` prices tier switches against the prefix treated as a
+single monolithic asset. Three files surround the decision and none owns it: that
+declared cut points are a **scarce request-wide budget** shared with tool declarations
+and message history, that each block carries its own lifetime, and that allocating them
+has a rule.
+
+The rule landed as: spend a cut point only at a cadence boundary, merge adjacent layers
+that change on the same cadence. The golden path layer table already carries a *Changes*
+column, so the technique names that column the allocation map - **cut where the column
+changes value, not where the topic does**. Splitting same-cadence layers is the common
+waste and it is committed for reasons that feel like tidiness (one block per concern, per
+owner, per table row).
+
+Folded in rather than banked separately, per the standing critique that synthesis comes
+from the skill: **the admission rule is the same question as the merge rule.** The house
+slogan *no dynamic content in a cached block* is the wrong discriminator - it bans
+process-stable computed values (a resolved timezone, an account identity) which are as
+stable as constants for the whole life of the block, while permitting a hand-authored
+string some caller rewrites per request. The test is mechanical: *can this value change
+before this block expires?* The source own code violated its own contributor guide on
+exactly this point and justified it correctly in a comment.
+
+Also landed: blast radius runs downstream, so the cost of a layer is its position times
+its cadence and never its size - which inverts the intuition that big layers are
+expensive. And a `count-carries-predicate` caution on advertised hit rates: a
+steady-state figure measured over late turns of long conversations excludes every cold
+start and every fan-out call, and the two numbers differ by enough to reverse a caching
+decision.
+
+## Open leads
+
+- **Non-negotiable segments outside the user-overridable region.** The source appends an
+  identity block *after* a user persona override so a custom prompt cannot silently drop
+  it, and degrades a placeholder substitution to append rather than to a no-op when the
+  user deleted the placeholder. Sits between `layered-composition` (owned sections) and
+  `variable-interpolation` (a missing variable is a loud failure) and may be a seam rather
+  than a technique. Return on a second independent source, or when a connected project
+  grows a user-editable system prompt with mandatory segments.

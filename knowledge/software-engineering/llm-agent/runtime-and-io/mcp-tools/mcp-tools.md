@@ -11,6 +11,7 @@ techniques:
   - server-composition
   - client-integration
   - untrusted-result-handling
+  - egress-argument-gating
 ---
 
 # Tool protocols (MCP)
@@ -229,3 +230,6 @@ same obligations as the wire itself:
   the inbound defense: results as attacker-controlled input, injection
   fencing, provenance, and the application-level gates the model cannot
   provide for itself.
+- [egress-argument-gating](./techniques/egress-argument-gating.md) — the
+  outbound defense: deciding from a call's arguments whether it hands a
+  resource outside the sanctioned set, over a schema the host does not own.

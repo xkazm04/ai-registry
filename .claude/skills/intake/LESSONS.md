@@ -1483,3 +1483,74 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   run's work and left HEAD's index pointing at a file HEAD does not contain.
   Diffing the generated files for the sibling's slug before staging is a
   two-second check and it decided the whole commit strategy here.
+
+
+## 0.14.0 - 2026-08-27 - openexecutive-virtual-executive
+
+- **The vendor-repository row has the wrong discriminating variable.** The class
+  entry is built around the engine being a hosted service, which is why it
+  sends you to the client types: a closed client is all you get. This source
+  had a hosted engine and a fully open application tree, and the "stated
+  production rules" third was not a page but nine hundred files. **Ask what
+  fraction of the product is in the tree, not whether the engine is hosted.**
+  Closed client gives one types file; open client gives every operating rule
+  the team learned, in comments nobody wrote for an audience.
+- **New high-yield shape, and it is cheap: diff a tree's rulebook against its
+  own code.** Three of five accepted candidates had one form - the prose states
+  an absolute, the code knowingly breaks it for a stated correct reason, and
+  the prose never names the reason. A contributor guide said *never put dynamic
+  content in a cached block* while the cache builder put two computed values
+  there and justified each as *process-stable*. Four artifacts blamed a queue
+  claim for forcing single-instance while the comment beside the claim said it
+  was safe across processes. This is the contradicted-source pattern arriving
+  from inside one source, and it is cheaper than the usual form: no fetch can
+  adjudicate what the code settles. **The delta between a repo's rules and its
+  code is pre-filtered to the rules the team found too simple to follow** -
+  exactly the population a mature corpus has not absorbed.
+- **The asymmetry hunt has a second, more mechanical form: compare the two
+  halves of a seam the corpus states as one.** `mcp-tools` models the inbound
+  question in a full technique and gives egress one bullet inside another
+  technique. Both files "cover" the seam and score identically to a slug map.
+  The generalisation of "which file *measures* it" is **which file has a
+  mechanism and which has a policy** - a sentence stating that something must
+  be constrained is a policy, and a policy with no mechanism beside it is the
+  cheapest gap in a mature corpus to find and the most likely to be mistaken
+  for coverage.
+- **A subject can be thorough about a mechanism and silent about the number
+  that mechanism decides.** `job-coordination` models process death across five
+  techniques - verdicts, evidence, lineage, registry reconciliation - and never
+  says that the recovery sweep, not the claim, caps the executor count. Third
+  hunt beside missing-stage and enumeration, and it generalises: **when a
+  subject is exhaustive about how something works, ask what operational number
+  it silently determines.**
+- **Fold the correction into the technique it corrects, not beside it.** Rows
+  2 and 3 were separate candidates (allocate the cut points; the admission rule
+  is wrong) and are one finding - the merge rule and the admission rule are the
+  same question asked about a block's boundary and its contents. Same for rows
+  4 and 5. Landing them separately would have produced four correct documents
+  and no statement of what they share. Fifth run confirming the operator
+  critique that synthesis is the skill's job.
+- **A README metric is usually a count with its predicate stripped.** An
+  advertised steady-state cache hit rate is measured over the most favourable
+  population available - late turns of long conversations, excluding every cold
+  start and fan-out call. It went into the technique as a `count-carries-predicate`
+  caution rather than as a cited number. Treat any headline percentage in a
+  marketing surface this way by default.
+- **Seventh consecutive zero-fetch run** for a source carrying its own primary
+  material. The shallow clone is the extraction for any open tree; verify it
+  with `git ls-tree HEAD | wc -l` against a `find` count before reading (894 =
+  894 here, no path casualties).
+- **Parallel-session hazard, a third variant: the sibling registered its new
+  technique AFTER this run's `build-index`.** The generated files were
+  therefore stale against the tree the moment they were written - my two
+  techniques present, theirs absent - and committing them would have published
+  an index that omits content HEAD contains. The check that caught it was
+  grepping the sibling's slug in `index.json` and finding *zero*, which reads
+  like the safe answer and is the dangerous one. **Grep for both slugs, not
+  just your own: yours present + theirs absent is the contamination signature
+  for a mid-run race, and the fix is the same - do not commit the generated
+  files.**
+- **Tooling, re-confirmed the hard way:** a quoted heredoc still broke on
+  apostrophes in prose on this platform, mid-run, exactly as the 0.13.0 lesson
+  says. Write the script to a file the first time; the lesson is right and I
+  paid the second time for testing it.

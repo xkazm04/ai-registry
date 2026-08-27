@@ -11,6 +11,7 @@ techniques:
   - context-budgeting
   - capability-documentation
   - fingerprinting-and-cache-keys
+  - cache-breakpoint-allocation
   - continuation-prompts
   - task-envelope
 ---
@@ -268,6 +269,10 @@ a span enters; safety decides *how it is wrapped*.
 - [fingerprinting-and-cache-keys](./techniques/fingerprinting-and-cache-keys.md)
   — what goes in the digest, session staleness, per-layer granularity, and
   the fingerprint as the prompt's version stamp.
+- [cache-breakpoint-allocation](./techniques/cache-breakpoint-allocation.md)
+  — cutting the ordered stack into cached blocks: cut points as a scarce
+  request-wide budget, merging by cadence, matching lifetimes, and the
+  variability-within-lifetime rule for what a cached block admits.
 - [continuation-prompts](./techniques/continuation-prompts.md) — resuming
   after interruption: what carries over versus what re-derives, distilled
   resume context, and staleness checks before continuing.
