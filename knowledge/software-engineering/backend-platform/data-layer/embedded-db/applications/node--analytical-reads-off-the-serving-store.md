@@ -17,8 +17,11 @@ on the axis the technique says does not decide. Together they are a better
 argument for the rule than either would be alone, because the failure survives
 having been studied.
 
-Citations are against politicas at `68f10e4` (2026-08-27) and the grant-writing
-tree at `6d7f240` (2026-08-25).
+Citations are against politicas at `a034b06` (2026-08-27) and the grant-writing
+tree at `6d7f240` (2026-08-25). The politicas pin is one commit ahead of where
+this document was researched (`68f10e4`): the run that wrote it also landed the
+status block described below, so the pin names the tree as it now stands rather
+than the one that produced the finding.
 
 ## The measurement exists, and it is unambiguous
 
@@ -75,6 +78,19 @@ adoption. A decision recorded in a document and a decision present in the
 import graph are different states, and only the second one runs. The gap is
 invisible to every gate in the repository, because a document that recommends
 an engine and a script that does not use it are each individually valid.
+
+**Recorded, after this document was written.** The guide now carries a status
+block under R3 naming the gap — current state, why the deferral is defensible
+(the 43× win is on an *offline* CLI path, so nobody is waiting on the 5.6 s),
+and the three conditions that would flip it. That is worth reporting precisely
+because it is the cheap half: it changes no code, adds no dependency, and does
+not make the hybrid any more real. What it does is stop the recommendation
+reading as a description. A decision this subject's technique would have the
+team revisit is now revisitable, because the document says which of its own
+rules it has not executed — and the missing condition turned out to be one the
+guide's own threshold rule never had. **R4 gates on row count; the deferral is
+justified by audience.** A guide that had asked *who waits* rather than *how
+many rows* would have reached the same answer without needing the exception.
 
 The dependency boundary makes the gap legible and is worth copying on its own
 terms. `scripts/db-bench/package.json` is a private, benchmark-only manifest
