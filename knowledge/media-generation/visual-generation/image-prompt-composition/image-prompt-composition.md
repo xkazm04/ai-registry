@@ -19,6 +19,7 @@ techniques:
   - medium-vocabulary-locking
   - verbatim-text-locking
   - identity-split-from-state
+  - reference-role-map
 ---
 
 # Image prompt composition
@@ -152,6 +153,11 @@ subject block spends its tokens on the countable elements, earliest first.
 
 - **Per-image style re-derivation.** Free prose per image; every image its own
   look. The tell: no two outputs could be mistaken for the same project.
+- **The unmapped attachment pile.** Several references of different kinds sent
+  with no role map, so identities blend, the style guide's subject leaks into
+  the scene, and dialogue lands on the wrong character — see
+  reference-role-map, which is where multi-reference calls keep their
+  authority straight.
 - **Reference-image faith.** Trusting an attached style reference to carry the
   look without restating the text block. Drift arrives mid-batch. Worse, a
   reference image is an *untrusted input*: legible text or metadata inside it

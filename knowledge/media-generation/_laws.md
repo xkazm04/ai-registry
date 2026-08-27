@@ -58,3 +58,14 @@ parameters ship only with measurements behind them; an impression is not a numbe
 Generation economics are computed over usable outputs, not renders. A cheaper render
 that fails the brief more often is the more expensive plate; price per usable unit
 inverts price per call often enough that the naive metric misroutes real money.
+
+## <a id="typed-input-owns-its-channel"></a>A typed input owns its channel
+
+When a generator takes a dimension of the output as a typed input — a camera path, a
+music track as the beat grid, a per-character emotion dial — the prose stops describing
+that dimension and directs within it. Two authorities over one channel do not average:
+the exact input and the suggestive sentence resolve into a compromise that matches
+neither, and the symptom reads as under-direction, inviting more prose and making it
+worse. The craft the prose carried does not evaporate; it moves upstream, to whoever
+authors the typed input. The discriminating question is always the same: does anything
+other than the prose set this channel?

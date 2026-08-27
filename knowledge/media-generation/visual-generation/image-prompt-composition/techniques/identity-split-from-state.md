@@ -128,7 +128,12 @@ improvises the state it lets go of the face.
 The rule: **a state that must hold across more than one take is authored as
 its own reference variant, before generation, not requested in text at
 generation time.** Make the second sheet — same identity, new state — approve
-it like any reference, and switch sheets at the transition shot. The prompt
+it like any reference, and switch sheets at the transition shot. The rule is
+not about characters; it is about recurrence. A location the story damages
+gets authored twice — intact and ruined, the second edited from the first
+with an explicit instruction to change nothing else — for exactly the same
+reason: asked to imagine "the destroyed version" at generation time, the
+model invents a different ruin per take. The prompt
 then names which variant each shot uses instead of describing the state. Still
 variants cost a fraction of a rejected clip, which is the whole economics of
 the move: the cheap medium absorbs the iteration so the expensive one does not

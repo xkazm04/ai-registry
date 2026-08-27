@@ -579,10 +579,10 @@
       "profile": "rkb/0.1",
       "purity": "funding",
       "subjects": 17,
-      "techniques": 104,
+      "techniques": 105,
       "applications": 38,
-      "files": 164,
-      "contentHash": "sha256:2f719a191e7ec068"
+      "files": 165,
+      "contentHash": "sha256:31e94c240ca9cf05"
     },
     {
       "name": "llm-observability",
@@ -618,10 +618,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 19,
-      "techniques": 118,
+      "techniques": 120,
       "applications": 44,
-      "files": 186,
-      "contentHash": "sha256:df56aec320f475d9"
+      "files": 188,
+      "contentHash": "sha256:462d76d9a1f1840f"
     },
     {
       "name": "recruiting",
@@ -647,7 +647,7 @@
       "techniques": 952,
       "applications": 430,
       "files": 1535,
-      "contentHash": "sha256:0d7309f843a601fc"
+      "contentHash": "sha256:e1661b2d452ac3f4"
     }
   ]
 }

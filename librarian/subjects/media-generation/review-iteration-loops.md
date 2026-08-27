@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: review-iteration-loops
-last_touched: 2026-08-26
+last_touched: 2026-08-27
 touched_by: intake
 dry_streak: 0
 ---
@@ -35,3 +35,8 @@ image inpainting masks.
   that renders cues (see [[2026-08-26-composer-song-editor]]) has no
   section-edit path at all so far. When it grows one, the seam check is the
   application to write.
+
+## 2026-08-27 - /intake run 25 ([[2026-08-27-video-workflow-batch-2]])
+
+- `partial-regeneration-seams` gained **the edit pass is itself lossy**: generative edits re-encode and soften what they touch; chains accumulate smoothing and speckle artifacts (copy-of-a-copy). Three moves practitioners converge on independently: every edit applies to the stored original (kept-by-reference extended to the chain), composite the edited region over the original's pixels, and mechanical deletions take the deterministic tool. Three independent practitioners across runs 24 and 25.
+- Currency: one platform ships native partial video editing (hover a region, regenerate only it, pay only that region) - the subject's seam frame reaching video as a product surface. The per-seam gate discipline is what the product does not yet show; watch for it.

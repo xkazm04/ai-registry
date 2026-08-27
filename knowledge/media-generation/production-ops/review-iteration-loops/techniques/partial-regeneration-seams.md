@@ -64,6 +64,30 @@ review it, and restart the capital accounting as the global change it is.
 The honest plan for "make the intro orchestral" on a synth track is a fresh
 draft with a restarted review clock, not thirty edits.
 
+## The edit pass is itself lossy
+
+In generative pixel media the edit operation has a cost the edit-plan
+arithmetic does not show: **each generative pass re-encodes what it
+touches, and re-encoding softens.** One edit trades a little crispness for
+the change; a chain of edits — fix the hat, then the hands, then the
+background, each applied to the previous edit's output — accumulates the
+loss visibly, as smoothing, plastic texture, and speckled compression
+artifacts, until the asset reads as a copy of a copy. Practitioners meet
+this independently and converge on the same three moves:
+
+- **Every edit applies to the stored original, never to a previous edit's
+  output.** Kept-by-reference already says this for the kept regions; this
+  extends it to the *chain* — three notes on one image are three edits from
+  the original (or one combined edit), not a three-generation lineage.
+- **Composite when the tooling allows it.** The strongest form keeps the
+  original's pixels everywhere and takes only the edited region from the
+  new render — masked over the original, so the loss is confined to the
+  region that had to change.
+- **Mechanical changes take the deterministic tool.** Removing an object on
+  a clean ground, cropping, covering — an ordinary editor does these with
+  zero generative loss, and reaching for the model where a rectangle would
+  do spends quality on nothing.
+
 ## Decision rules
 
 - When a note names one region, hold every other region by reference and set

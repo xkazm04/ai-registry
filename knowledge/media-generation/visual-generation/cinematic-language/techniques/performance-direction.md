@@ -4,7 +4,7 @@ type: technique
 subject: cinematic-language
 technique: performance-direction
 status: forged
-laws: [causality-over-sequence, unmeasured-is-not-pass]
+laws: [causality-over-sequence, unmeasured-is-not-pass, typed-input-owns-its-channel]
 shared_with: []
 use_when:
   - a character must act, dance, fight, or gesture in a generated shot
@@ -61,9 +61,13 @@ can do neither, and a direction that cannot fail cannot succeed.
 Where a generator accepts an audio track as a typed input, timing moves out
 of the prose: attach the actual music and direct the performance against it
 ("each move lands on the beat"), and the track becomes the clock the beats
-are executed on. The camera discriminator of this subject's movement grammar
-applies here unchanged — when a channel is held by a typed input, the prose
-stops fighting it and directs *within* it.
+are executed on. The same holds for the growing set of performance dials —
+per-character emotion selectors with intensity, where the platform offers
+them: the dial holds the emotional register, the beats hold the actions, and
+the prose does not re-describe the feeling the dial already set. This is
+[a-typed-input-owns-its-channel](../../../_laws.md#typed-input-owns-its-channel),
+the same law the camera grammar obeys: when a channel is held by a typed
+input, the prose stops fighting it and directs *within* it.
 
 ## Decision rules
 

@@ -59,6 +59,15 @@ cut nobody made. Budget duration the way spotting budgets cues: the brief
 states the clip's length to the second, because the timeline slot it must
 fill already exists.
 
+Dialogue makes the cap bind sooner than it looks, because **a spoken line is
+a duration claim**: the words take the seconds they take at a natural pace,
+and a model handed more dialogue than the clip can hold does not refuse — it
+compresses, and the cast rushes through lines with no room for reactions,
+close-ups, or air. Budget dialogue the way duration is budgeted: count the
+seconds the lines need at performance pace, and when a dialogue-heavy beat
+exceeds them, split it across shots at brief time — the exchange in one, the
+reaction in the next — rather than letting the cap squeeze the delivery.
+
 ## Adjacency anchoring does not scale to a chain
 
 Conditioning a shot on its predecessor's tail is the right first move and it
@@ -156,6 +165,43 @@ whole clip. Two consequences:
   never showed. The ladder's rungs are ordered by control, but control of the
   head is not free — it spends staging freedom and imports texture, and both
   costs belong in the rung decision.
+- **The import is also the lever.** Because the clip inherits the anchor's
+  finish, anything baked into the anchor rides into the motion for free —
+  which makes the anchor the right place to bind the look. Grading the
+  reference stills *before* animation carries the contrast, the palette, and
+  the lighting into every clip generated from them, far more reliably than
+  describing the same grade in the motion prompt; the prompt asks, the anchor
+  simply *is*. One pass over a handful of stills grades a whole scene's worth
+  of clips, at still prices.
+
+## The moving reference
+
+A clip can condition a generation the way a still does, and the channel has
+two distinct uses that want opposite handling:
+
+- **Continuity carry.** Extending a scene from the *whole previous clip*
+  rather than its tail frame. A frame anchor carries geometry and identity
+  and resets everything else — the pacing, the built tension, the mood
+  arrive at zero, which is why frame-chained scenes read as a series of
+  restarts. The full clip carries what the frame cannot: how the scene was
+  moving when it ended. Where the platform accepts a video reference for
+  continuation, it dominates tail-frame anchoring for mood-bearing scenes,
+  and it composes with the rule that the *brief* for the continuation is
+  still written from an analysis of that same output.
+- **Choreography transfer.** An external clip — staged, licensed, or
+  sourced — as the movement model for a shot: the fight's blocking, the
+  camera's path, the pacing of a chase. This is the moving reference at its
+  most powerful and most dangerous, because an unscoped clip conditions
+  *everything* it shows — its style, its cast, its color — into the shot.
+  The reference map's negative scope is mandatory here, not optional: the
+  clip "controls choreography, blocking, pacing and camera, never identity,
+  style, or setting." Scoped, it moves a whole fight's worth of direction in
+  one attachment; unscoped, it is a restyle nobody ordered.
+
+Both uses obey one mechanical rule: **trim the reference to exactly the
+span you mean.** A clip reference is read whole, and every second beyond
+the intended material is unscoped instruction — the cheapest edit in the
+pipeline is cutting the reference before it conditions anything.
 
 ## Baked-in audio is a mix decision a model made
 

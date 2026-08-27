@@ -12,6 +12,7 @@ techniques:
   - derived-turn-markers
   - generated-shot-sourcing
   - motion-plate-library
+  - storyboard-grid-conditioning
 ---
 
 # Video assembly

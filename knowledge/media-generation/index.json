@@ -4,9 +4,9 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 19,
-  "techniques": 118,
+  "techniques": 120,
   "applications": 44,
-  "laws": 8,
+  "laws": 9,
   "categories": [
    "narrative-craft",
    "research-grounding",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "118/118",
+  "use_when_coverage": "120/120",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -150,7 +150,8 @@
      "slug": "movement-motivation",
      "status": "forged",
      "laws": [
-      "causality-over-sequence"
+      "causality-over-sequence",
+      "typed-input-owns-its-channel"
      ],
      "shared_with": [],
      "use_when": [
@@ -166,7 +167,8 @@
      "status": "forged",
      "laws": [
       "causality-over-sequence",
-      "unmeasured-is-not-pass"
+      "unmeasured-is-not-pass",
+      "typed-input-owns-its-channel"
      ],
      "shared_with": [],
      "use_when": [
@@ -1138,6 +1140,21 @@
      ]
     },
     {
+     "slug": "reference-role-map",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generation call carries more than two or three reference attachments",
+      "identities blend, styles bleed, or dialogue lands on the wrong character in a multi-reference call",
+      "scaling a shot from one conditioned subject to a cast, props, and a location",
+      "a crowd or group must render from a single reference"
+     ]
+    },
+    {
      "slug": "shape-language-over-nouns",
      "status": "forged",
      "laws": [
@@ -1992,6 +2009,21 @@
       "reviewing a scored cut that feels wallpapered",
       "the generator emits picture and its whole soundtrack together as one inseparable output"
      ]
+    },
+    {
+     "slug": "storyboard-grid-conditioning",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing a multi-shot generation whose shot order and compositions are already decided",
+      "a prose shot list keeps being reordered, merged, or partially ignored by the model",
+      "carrying a whole scene's plan into one generation call instead of per-shot requests",
+      "choosing panel count and layout for a storyboard image"
+     ]
     }
    ],
    "applications": [
@@ -2179,6 +2211,7 @@
     "generative-provider-routing/capability-to-vendor-plan",
     "generative-provider-routing/non-silent-elimination",
     "generative-provider-routing/refusal-reroute-hop",
+    "image-prompt-composition/reference-role-map",
     "production-pipeline-phasing/long-run-as-background-job",
     "production-pipeline-phasing/shared-clock-across-phases",
     "production-pipeline-phasing/worst-news-first-progress",
@@ -2203,6 +2236,7 @@
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/negative-prompting",
     "image-prompt-composition/prompt-dialect-matching",
+    "image-prompt-composition/reference-role-map",
     "image-prompt-composition/style-first-token-ordering",
     "image-prompt-composition/two-block-style-and-action",
     "music-prompt-composition/reference-track-anchoring",
@@ -2245,6 +2279,13 @@
     "sound-effect-generation/trailer-punctuation-grammar",
     "video-assembly/derived-turn-markers",
     "video-assembly/music-spotting-against-picture"
+   ]
+  },
+  "typed-input-owns-its-channel": {
+   "statement": "When a generator takes a dimension of the output as a typed input — a camera path, a music track as the beat grid, a per-character emotion dial — the prose stops describing that dimension and directs within it. Two authorities over one channel do not average: the exact input and the suggestive sentence resolve into a compromise that matches neither, and the symptom reads as under-direction, inviting more prose and making it worse. The craft the prose carried does not evaporate; it moves upstream, to whoever authors the typed input. The discriminating question is always the same: does anything other than the prose set this channel?",
+   "techniques": [
+    "cinematic-language/movement-motivation",
+    "cinematic-language/performance-direction"
    ]
   },
   "output-never-outruns-evidence": {
@@ -2311,7 +2352,8 @@
     "image-prompt-composition/negative-prompting",
     "image-prompt-composition/shape-language-over-nouns",
     "image-prompt-composition/verbatim-text-locking",
-    "platform-format-adaptation/sound-off-first-design"
+    "platform-format-adaptation/sound-off-first-design",
+    "video-assembly/storyboard-grid-conditioning"
    ]
   },
   "cost-per-usable-output": {
@@ -2334,6 +2376,7 @@
     "sound-effect-generation/layered-element-assembly",
     "video-assembly/generated-shot-sourcing",
     "video-assembly/motion-plate-library",
+    "video-assembly/storyboard-grid-conditioning",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/rejections-as-negative-evidence"
    ]

@@ -866,3 +866,29 @@
 - 26,578 words across 8 sources ≈ one good talk's yield. Two sources yielded
   zero (a sponsored speedrun; an off-domain builder video). A batch buys
   coverage, not per-source efficiency - price it that way at triage.
+
+## 0.12.0 - 2026-08-27 - video-workflow-batch-2 (12 sources, ~5 voices)
+
+- **Count voices, not videos.** Six of twelve sources were one creator; a
+  batch's convergence column must dedupe by author or it manufactures
+  corroboration out of one practitioner's habit. The signal that survived
+  the dedupe (cross-author, cross-platform) predicted landings as well as
+  run 24's did.
+- **Back-to-back related batches compound.** Four of ten landings were
+  widenings of the previous day's amendments, each corroborated by an
+  independent source the second batch supplied. Mining a related batch
+  while the first is fresh converts single-source landings into
+  corroborated ones at the cost of a sentence each - sequencing is a lever
+  the operator controls.
+- **Re-map against HEAD mid-run in a shared checkout.** A parallel session
+  landed a new subject in the same bundle between runs; Phase 4's first map
+  would have mis-homed two candidates. The instrument's own branch warning
+  covers other branches - it cannot cover commits that land after you read
+  the worklist. Cheap fix: re-run the map (or at least re-read the bundle's
+  subject list) before Phase 6 homes are final.
+- **A law can land from intake when the sightings are cross-run.** Three
+  consecutive runs, three channels (camera, beat grid, emotion), one shape;
+  the law wrote itself as the root and the three techniques cite it. The
+  altitude guidance's synthesis step worked exactly as written - the
+  operator was offered the law-level landing at triage rather than a third
+  local paragraph.

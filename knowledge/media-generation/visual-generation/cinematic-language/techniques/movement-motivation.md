@@ -4,7 +4,7 @@ type: technique
 subject: cinematic-language
 technique: movement-motivation
 status: forged
-laws: [causality-over-sequence]
+laws: [causality-over-sequence, typed-input-owns-its-channel]
 shared_with: []
 use_when:
   - deciding whether and how the camera moves in a shot

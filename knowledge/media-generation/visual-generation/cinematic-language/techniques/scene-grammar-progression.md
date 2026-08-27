@@ -84,6 +84,14 @@ directions. The schematic is generated in seconds from the location image;
 what it replaces is the brute-force lottery of re-rolling until geography
 happens to hold, which is the expensive way to buy the same consistency.
 
+The same principle covers motion through the space: **a path drawn directly
+on the image is a trajectory instruction the model follows literally.** A
+line traced across the establishing shot routes a character down a street or
+a bird over a city more exactly than any sentence about direction, because
+the drawing and the space share a coordinate system and the prose does not.
+Positions, sizes, routes — when the claim is spatial, annotate the image
+instead of describing it.
+
 ## The seam can be an action, not only a frame
 
 Anchoring a shot's head to the previous shot's tail holds a seam inside one
@@ -95,6 +103,16 @@ gesture that closes the previous scene: same hand, same motion, same
 framing" — then cut on the action. The repeated beat carries continuity
 across the location change the way a tail anchor carries it within one, and
 it costs two sentences instead of a conditioning input.
+
+The other seam that survives anything is the **cutaway insert**: a neutral
+shot that belongs to the world but to neither side of the cut — the bird on
+the branch, the street the scene lives on, the object about to matter. A
+cutaway resets the viewer's frame, so the shot after it owes no continuity
+to the shot before it; dropped between two clips that refuse to match, it
+converts a broken seam into an ordinary rhythm. They are cheap to bank in
+quantity — one location image briefed as a montage of its own details yields
+a strip of them — and a cut that owns a handful of cutaways can join almost
+anything to almost anything.
 
 ## Failure modes
 
