@@ -1671,3 +1671,65 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   a few minutes early and loses nothing; committing the generated pair would
   publish an index over content HEAD does not have. The discriminator is whether
   the file is authored or derived, not whether both sessions touched it.
+
+## 0.14.0 - 2026-08-27 - latticedb (vendor documentation set + operator dispatch)
+
+- **For a vendor in a crowded class, the densest first-party document is the page
+  arguing against its own product, and it can be found by name.** The class file says
+  to expect the marketing surface to be worthless and to check the client's types.
+  Here the engine was open-source so the types were moot - but the *comparison guides*
+  played the role the file assigns to the "things we learned running this" page. "vs
+  Kuzu" and "vs SQLite" state which single row was measured head to head and which are
+  third-party figures on hardware they do not control, put that caveat ABOVE the table
+  rather than in a footnote, and devote a titled section to what the archived rival did
+  better. Every accepted finding came from those two pages. **Read the pages named
+  after competitors before the landing page.** Proposed as a `vendor repository` row
+  amendment; one observation.
+- **A vendor disclosing its measurement provenance is not more adoptable - it is a
+  better source.** The disclosures are the reusable part, and the rule extracted from
+  them is a rule about reading everyone else's tables. Do not let honesty about
+  benchmarks read as evidence about the product; they are independent.
+- **The enumeration hunt paid a seventh consecutive time, and the enumeration was a
+  lane roster.** `retrieval`'s "No single lane suffices" lists four lanes; all four are
+  similarity-or-policy matchers over the query, so none can surface the item that
+  DISAGREES with the top hit. A roster is the highest-value enumeration shape found so
+  far, because a roster that is complete-looking gets implemented faithfully and the
+  omission then propagates into every consumer.
+- **The best finding came from the vendor implementing its own pitch wrongly, for the
+  fifth run running.** Its flagship query computes BM25 relevance and discards it into
+  a boolean filter while vector distance alone orders the result - in the headline
+  example of an engine whose whole claim is answering the lanes together. That produced
+  the `hybrid-lane-fusion` amendment (convergence is evidence only across INDEPENDENT
+  lanes). A correct source hands you a catch; a wrong one hands you the boundary.
+- **New shape: the faithful implementation as evidence.** The application is negative
+  and its force comes from the tree implementing the standard *completely* - four lanes,
+  the budget rule learned as a scar, the floor ordered before fusion with a test
+  asserting it. Because nothing is wrong with the implementation, the gap can only be
+  in the standard. **When a connected tree matches a subject's enumeration item for
+  item, stop looking for its defects and start looking for what the enumeration omits.**
+- **"A dataset is not a workload" needed two trees with opposite shapes to become a
+  rule.** One HAD the workload and measured the engine losing; the other had the data
+  and no workload at all. Either alone is an anecdote; the pair is a test (enumerate the
+  readers, classify each as request path / offline / export / admin). Folded into a
+  dispatch-ready spec rather than banked - four fragments in one document beat four
+  leads re-derived one at a time, and this is the second run to fold rather than bank.
+- **Operator dispatch sub-questions split three ways again, and only the third paid.**
+  Second consecutive confirmation. "Worth it for our projects" was answered by two
+  trees, "for a future use case" by a return condition, "over other alternatives"
+  carried both spec techniques.
+- **A shared checkout with THREE live sessions: the ledger row was swept by a
+  sibling's commit.** I held `librarian/sources/index.md` back because a sibling had a
+  staged row in it; by the time that cleared, two further commits had landed and one of
+  them carried my row into `ff254b9`. Content correct, attribution theirs, nothing lost.
+  The prior lesson (authored files are safe to co-commit, derived files are not) held -
+  and gains a corollary: **holding an authored file back does not protect it, it just
+  transfers the commit.** Commit authored files promptly; the sweep risk runs both ways.
+- **Index/catalog regeneration was deliberately skipped and turned out not to be owed.**
+  Two sessions were mid-run when the content landed, so running a global generator would
+  have published an index over content HEAD did not have. A sibling regenerated after
+  landing and picked my technique up. **In a busy checkout, check `build-index --check`
+  at the END rather than assuming a regeneration is owed.**
+- **Cross-repo scope was cut by tree state, not by the finding.** One project was clean
+  and took a documentation change plus two rules; the other had its whole data-crate
+  mid-refactor under another session, so it took a decision record and no code. Say
+  which half was cut and why - a run that silently narrows reads as a run that finished.
