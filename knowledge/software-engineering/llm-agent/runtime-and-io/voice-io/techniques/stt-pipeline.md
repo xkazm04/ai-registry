@@ -4,7 +4,7 @@ type: technique
 subject: voice-io
 technique: stt-pipeline
 status: forged
-laws: [failure-not-empty-success, creation-names-reaper]
+laws: [failure-not-empty-success, creation-names-reaper, verdict-survives-boundary]
 shared_with: []
 use_when: [mic denied but the affordance shows nothing, empty transcript while the meter was moving, a partial transcript fired a real action]
 ---
@@ -160,3 +160,31 @@ each partial may rewrite earlier words as more context arrives. The contract:
   whose level profile was mostly non-speech deserves a caution on its
   transcript, because the user cannot otherwise distinguish "it heard me
   badly" from "I was in a loud room".
+
+## A stage further down gets a different empty
+
+The rule above — empty is a claim, and an empty final over speech-shaped
+levels is an anomaly — is written about the **engine's** output, and it does
+not survive being applied one stage later without inverting. When a
+[transcript-normalization](./transcript-normalization.md) stage sits between
+the transcript and its destination, that stage has an empty result which is
+**correct**: filler-only input ("um", a throat-clear, a false start abandoned
+immediately) reduces to nothing, and nothing is the right answer.
+
+So a pipeline with a cleanup stage carries two empties that look identical on
+the wire and mean opposite things:
+
+| Where | Empty means | Correct response |
+| --- | --- | --- |
+| engine output, levels showed speech | anomaly — heard audio, produced no words | surface it; offer retry |
+| engine output, levels showed silence | the user said nothing | the no-speech state, quietly |
+| normalizer output | the words carried no content | drop the segment, silently — a success |
+
+The failure this prevents is specific and it is the one an integration reaches
+by default: routing the normalizer's legitimate empty into the anomaly path
+above, so the product raises "heard audio, produced no words" every time
+somebody clears their throat, and trains the user to ignore the one message
+that was load-bearing. Each stage's empty is classified **by that stage**, as
+a typed outcome, and the classification travels
+([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary))
+— it is not re-derived downstream from the length of a string.

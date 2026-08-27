@@ -989,3 +989,44 @@
 - The strongest source was 699 words: a builder narrating their own
   connector. Fourth consecutive run where length predicted nothing; the
   ledger's class table already says this - trust it at triage time.
+
+## 0.12.0 - 2026-08-27 - s1-mini-transcript-cleanup (single source, operator-dispatched)
+
+- **New class: the second-hand practitioner review** (a creator demoing a
+  vendor release). Behaves like the practitioner listicle but worse in one
+  specific way, and the rule is sharp enough to carry into SKILL.md at the
+  next reflect: **a demo is organised around a happy path, so it states no
+  operating constraints.** Every section of this run's new technique - the
+  required control-line grammar, greedy-only decoding, the output ceiling, the
+  behavioral-toggle trap, and "empty output is expected" - was in the model
+  card and none of it was in the 1,565-word video. **For this class the fetch
+  is not corroboration, it is the extraction.** Budget the fetch at triage,
+  not after.
+- **The segment a demo is proudest of is where its boundary is missing.** The
+  video's most persuasive pitch ("clean the correction before it reaches the
+  coding agent") was the one placement where the rule inverts. A demo reaches
+  for its most relatable example and relatability is uncorrelated with
+  correctness. Read the best segment as a candidate counter-case.
+- **Shortest source mined to date (1,565 words) and a good run.** Fifth
+  consecutive run where length predicted nothing - but the mechanism here was
+  different from the previous four: it was not a dense source, it was a thin
+  source plus an operator question that forced a primary fetch. Recorded
+  because the corrective differs: a thin first-party account needs no help; a
+  thin *review* needs the fetch or it yields a lead and nothing else.
+- **An operator question with three lanes outperformed the source.** "Do we
+  have this path / what does installing it require / is it worth adopting"
+  routed to prior-art mapping, a primary-source fetch, and the cross-repo lane
+  respectively. The middle lane carried the entire technique. When a dispatch
+  arrives with sub-questions, treat each as its own lane rather than
+  collapsing them into "mine this video".
+- **Write the negative application.** The consumer verdict was do-not-adopt
+  and the instinct was to record nothing. The tree turned out to prove the
+  technique's central rule structurally - it holds exactly two dictation
+  destinations and the reader/reasoner split disqualifies both, which nobody
+  designed - and that is better evidence than an adopting tree would have
+  given. Phase 8 step 5 already says to look for the structural fact; this run
+  is the case where the fact only existed because the answer was no.
+- Corpus shape worth reusing: **where a subject explicitly denies a symmetry,
+  check whether it denied too much.** `voice-io` insists its two pipelines are
+  not mirror images (correct), and that framing had hidden for months the fact
+  that their *doors* do mirror and only one was built.

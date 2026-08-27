@@ -13,6 +13,7 @@ techniques:
   - duplex-agent-sessions
   - portable-provider-package
   - speech-ready-text
+  - transcript-normalization
 ---
 
 # Voice input and output
@@ -249,6 +250,35 @@ open quotes), the sizes, and the first-chunk-may-be-a-clause exception
 that wins time-to-first-audio.
 [speech-ready-text](./techniques/speech-ready-text.md) owns it.
 
+## What the user speaks is written for the ear
+
+The mirror of that door is missing from most voice products, and it is the
+one this subject was slowest to name. Display text is written for the eye and
+must be prepared before it is spoken; a transcript is a record of *speech* and
+must be prepared before it is **written down**. Fillers, false starts, a
+self-correction arriving three words late, spoken numbers and addresses,
+sentence boundaries that exist only as breath — the capture pipeline is right
+to preserve all of it, and the destination is usually wrong to receive it.
+
+The stage between transcript and destination is not the normalization the
+parser already does. Those two point in opposite directions: the parser
+normalizes **to discard**, producing a match key nobody reads, and is free to
+be lossy; this stage normalizes **to keep**, and its output is the artifact
+the user sends and later re-reads. A pipeline carrying only one of them has
+not noticed it needs two.
+
+The decision that governs the stage is what sits downstream. It pays where
+the transcript is the artifact — a message, a note, a ticket, a document read
+by a person. It **costs** where the transcript is an instruction to something
+that reasons, because a small normalizer sees one utterance while the model
+downstream holds the whole thread, and a rewrite in between is a lossy edit by
+the less-informed party applied to input the better-informed party will never
+see in the original. The stage is also optional by construction — every
+consumer must already handle un-normalized text, which is what lets it be off,
+absent, or out of language coverage without any consumer changing.
+[transcript-normalization](./techniques/transcript-normalization.md) owns the
+decision, the transform contract, the typed outcome, and the cut.
+
 ## The techniques
 
 - [stt-pipeline](./techniques/stt-pipeline.md) — capture, metering, endpointing,
@@ -280,3 +310,8 @@ that wins time-to-first-audio.
   speakable text: the markup door, what not to expand, prosody that travels
   (punctuation), chunk boundary rules and sizes, chunks as one utterance with
   one verdict.
+- [transcript-normalization](./techniques/transcript-normalization.md) — heard
+  text to written text: reader-versus-reasoner destinations, the transform
+  contract and its input-derived output ceiling, the destination as a typed
+  parameter, why per-segment cleanup cannot resolve self-corrections, and the
+  five-arm outcome where empty-by-design is a success.

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 149,
-  "techniques": 957,
-  "applications": 433,
+  "techniques": 958,
+  "applications": 434,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "957/957",
+  "use_when_coverage": "958/958",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -17269,13 +17269,28 @@
      "status": "forged",
      "laws": [
       "failure-not-empty-success",
-      "creation-names-reaper"
+      "creation-names-reaper",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
       "mic denied but the affordance shows nothing",
       "empty transcript while the meter was moving",
       "a partial transcript fired a real action"
+     ]
+    },
+    {
+     "slug": "transcript-normalization",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "dictated text lands in a message or a note and reads like speech",
+      "deciding whether a cleanup pass belongs before a model or after it",
+      "a cleanup stage returned an empty string and the pipeline called it an error"
      ]
     },
     {
@@ -17326,6 +17341,13 @@
      "technique": "stt-pipeline",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/react--stt-pipeline.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "transcript-normalization",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/react--transcript-normalization.md",
+     "verified_on": "2026-08-27",
+     "verified_against": "react@19.2.6"
     },
     {
      "stack": "rust",
@@ -19057,6 +19079,7 @@
     "voice-io/engine-abstraction",
     "voice-io/speech-ready-text",
     "voice-io/spoken-intent-parsing",
+    "voice-io/transcript-normalization",
     "web-scraping/extraction-rule-dsl",
     "web-scraping/llm-assisted-rule-authoring",
     "webhook-ingestion/delivery-logging-and-replay",
@@ -19531,6 +19554,8 @@
     "structured-output/schema-validation-and-repair",
     "voice-io/portable-provider-package",
     "voice-io/speech-ready-text",
+    "voice-io/stt-pipeline",
+    "voice-io/transcript-normalization",
     "web-scraping/soak-mode-and-verdict-replay"
    ]
   },
