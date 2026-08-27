@@ -127,18 +127,26 @@ Demand outranks every structural clause above for the subjects it names.
 | --- | --- |
 | Applications | 934 |
 | Runtime-bearing (non-`process`) | 704 |
-| Carrying `verified_against` | 73 - **10%** |
-| Of those, drifted against a reported fleet major | 18 - **25% of what is measurable** |
-| Bundles with zero version witnesses | 4 (`civic-intelligence`, `grant-funding`, `localization`, `recruiting` - 294 applications) |
+| Carrying `verified_against` | 74 - **11%** |
+| Of those, drifted against a reported fleet major | 17 - **23% of what is measurable** |
+| Invisible to drift detection | 630 - **89% of runtime-bearing** |
+| Bundles where that is 100% | `recruiting`, `civic-intelligence`, `grant-funding` |
 
 Two distinct failures sit under one heading.
 
-*The coverage half.* A runtime-bearing application without `verified_against` cannot
-drift, because nothing can compute that it has. `check-currency.mjs` says this about
-itself in a comment - "a fact about our instrumentation, not about the document" - and
-it is right, which is why `0 expired · 0 at risk` must never be read as a health
-statement. It is a statement about 10% of the runtime corpus. For four bundles it is a
-statement about nothing at all.
+*The coverage half, and it is worse than a blind spot.* A runtime-bearing application
+without `verified_against` cannot drift, because nothing can compute that it has. It
+therefore does not read as UNKNOWN in any report - it reads as **not drifted**, which is
+the one wrong answer of the three. `check-currency.mjs` says this about itself in a
+comment - "a fact about our instrumentation, not about the document" - and it is right,
+which is why `0 expired · 0 at risk` must never be read as a health statement.
+
+**This is demonstrated, not theorised.** On 2026-08-27 a worker sent to clear the single
+drifted application in `media-generation` found the folder's OTHER application rotted
+identically against the same source file - eight citations moved by the same refactor -
+and it had escaped every scan the registry runs because it carried no witness at all.
+One folder, two rotted documents, one of them invisible. The registry-wide drift figure
+is therefore a **lower bound over 11% of the runtime corpus**, not a count.
 
 *The ranking half.* Where drift IS computable it scores zero attention points, because
 the scan's weights have no drift term. A quarter of everything measurable has drifted
@@ -147,7 +155,7 @@ and no sweep would ever surface it.
 **Why this is recorded as a gap and not added to the floor above.** A clause worth
 points has to exist in `librarian-scan.mjs` or this table disagrees with what runs, and
 the obvious clause - *a runtime-bearing application carries no version witness* - would
-flag 631 documents at once. That is not a worklist, it is a flood, and it would bury
+flag 630 documents at once. That is not a worklist, it is a flood, and it would bury
 the six real items a sweep actually found. The defect is systemic and the remedy is
 systematic: one backfill pass that stamps witnesses from each consumer's declared
 manifest, after which a floor clause becomes affordable and honest. Until somebody runs

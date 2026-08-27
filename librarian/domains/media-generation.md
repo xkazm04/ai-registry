@@ -19,10 +19,10 @@ Coverage note for the `media-generation` bundle. Part of [[index]]; graded again
 | Techniques | 122 | 83 |
 | Applications | 48 | 32 |
 | `use_when` written | 122/122 | 83/83 |
-| Version witness (`verified_against`) | 6/48 | 0/32 |
+| Version witness (`verified_against`) | 7/48 | 0/32 |
 | Expired applications | 0 | 0 |
-| Never swept | 7/19 | 14/14 |
-| Attention points | 41 | 54 |
+| Never swept | 6/19 | 14/14 |
+| Attention points | 38 | 54 |
 | Cap breaches | none | none |
 | Taxonomy errors | 0 | 0 |
 
@@ -61,9 +61,11 @@ techniques in six days while the demand side stayed at zero.
   been reconciled or transplant-tested.
 - **A coupling probe** for `character-identity-continuity` - see that note; the
   subject has no measurement of its own on the state axis.
-- **A version witness for 42 of 48 applications.** 24 are `process`-stack and
-  legitimately cannot carry one; the remaining gap is real. Everything landed
-  this sweep carries `node@24`.
+- **A version witness for 10 of the 17 runtime-bearing applications.** 24 of 48
+  are `process`-stack and legitimately cannot carry one. The remaining gap is
+  real and it is not merely a blind spot: an application with no witness reads
+  as *not drifted* rather than *unknown*, which this sweep proved the hard way -
+  see [[generative-provider-routing]]. Everything landed here carries `node@24`.
 
 ## Highest attention after this sweep
 
@@ -73,13 +75,11 @@ techniques in six days while the demand side stayed at zero.
 - **short-form-narrative-structure** (5) - single stack (process); never swept
 - **frame-direction** (3) - never swept
 - **generated-output-grading** (3) - never swept; holds the strongest banked
-  proposal from this sweep
-- **generative-provider-routing** (3) - never swept; also holds the bundle's
-  only drifted application (`node@20` against a fleet on 24)
+  proposal from this sweep, and is the natural next dispatch
 
 ## Dispatched
 
-### 2026-08-27 - two workers, both landed
+### 2026-08-27 - three workers, all landed
 
 - [[sound-effect-generation]] - the registry's last zero-application subject.
   Re-scoped mid-flight when the subject note showed the zero was a *deliberate*
@@ -88,6 +88,12 @@ techniques in six days while the demand side stayed at zero.
 - [[character-identity-continuity]] - 3 techniques against a floor of 4, one
   day old. One technique earned on three-lane convergence after four
   refutations; three other candidates dropped, one banked.
+- [[generative-provider-routing]] - chosen on three converging signals rather
+  than on points. Cleared the bundle's only drifted application (13 citations
+  corrected, the error union found to have grown, a declared gap found closed),
+  adjudicated the banked proposal down to an **amendment** on a one-voice
+  count, and found a SECOND rotted application that no scan could see because
+  it carried no witness. **The bundle now has zero drifted applications.**
 
 ## Declined
 
@@ -99,13 +105,13 @@ techniques in six days while the demand side stayed at zero.
   the second stack has to be a second *tree*, which is `/reconcile`'s engine
   and its own sitting. Declined for this run, not for good; the counterpart is
   confirmed available.
-- **Sweeping the seven never-swept subjects to clear the flag.** "Never swept"
+- **Sweeping the remaining never-swept subjects to clear the flag.** "Never swept"
   is a gap in what we know, not a defect in the subject - [[standard]] says so
   itself. Sweeping for the counter is padding.
 
 ## Banked from this sweep, not placed
 
-Cross-subject findings from two workers' reads. Held rather than written,
+Cross-subject findings from three workers' reads. Held rather than written,
 because placing content into a subject no worker verified is exactly what the
 proposal rule guards. See [[2026-08-27-1]] for the full text.
 
@@ -115,13 +121,15 @@ proposal rule guards. See [[2026-08-27-1]] for the full text.
   family; it is **one** sighting, because the bundle's own convergence
   doctrine counts voices rather than instances and this is one tree behind one
   vendor seam. **Return when a second tree shows it.**
-- **The omit-when-undefined wire pattern** hands a dial's ownership to the
-  vendor default silently, so a documented doctrine goes unenforced at the
-  chokepoint built to enforce it. Candidate inversion of
-  `generative-provider-routing`'s `non-silent-elimination`, which frames the
-  failure as a field the vendor ignores; this is a field never sent. That
-  subject is the natural next dispatch here - it also holds the bundle's only
-  drifted application.
+- ~~**The omit-when-undefined wire pattern.**~~ **Adjudicated 2026-08-27** and
+  landed as an amendment, not a technique - the inversion framing was rejected
+  on mechanism and the sighting count is one voice, not two. See
+  [[generative-provider-routing]]. What remains banked is the GENERAL claim -
+  *a default nobody sets is owned by whoever is furthest from the decision* -
+  for `software-engineering`, **on a second independent voice**.
+- **`sound-effect-generation` owes the dated application** for that same
+  omission sighting; it is that subject's module, so the routing worker
+  correctly did not write it.
 - **A performer-blind grading schema** - `generated-output-grading`. The
   strongest of the four proposals.
 - **Capability-absence-with-remedy** - cross-bundle, likely
