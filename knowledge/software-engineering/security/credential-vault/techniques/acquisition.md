@@ -6,7 +6,7 @@ technique: acquisition
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
-use_when: [routing a provider to its best acquisition mode, credential fails inside automation days after entry, a tool refresh silently killed the vault's copy]
+use_when: [routing a provider to its best acquisition mode, credential fails inside automation days after entry, a tool refresh silently killed the vault's copy, writing the setup instructions a user follows to connect a provider]
 ---
 
 # Acquisition
@@ -74,6 +74,68 @@ and required scopes/settings (instructions versioned, because consoles move),
 mask the paste field, validate immediately on submit, and never re-display
 the pasted value. Ambition here is honest reduction of error, not elimination.
 
+## When the installer is the registrant
+
+Every mode above assumes one deployed instance holding a registered identity
+at the provider. That assumption is doing quiet work: it is the reason a
+grant-flow credential is the ceiling, and the reason the provenance table
+below can say the vault owns the client relationship and may re-consent on
+its own.
+
+A tool distributed as source and run once per user has no such identity. It
+cannot ship client credentials — every copy would carry them, extractable by
+anyone who has a copy — so each install registers *its own* client in the
+user's provider console, and the user hand-carries a client identifier and
+secret back into the application through a clipboard. The ladder's ceiling
+is reached by walking its floor: a delegated grant flow whose precondition
+is a guided manual entry.
+
+Record it as its own provenance case rather than as a grant flow, because it
+inherits from both parents and the refresh engine needs to know which. The
+token refreshes like a grant-flow credential. The registration it refreshes
+*against* is owned by the human, who can delete or restrict it in a console
+the vault cannot see — so the failure arrives as a grant-flow credential
+that stops refreshing for a reason no rotation path can fix, and the honest
+recovery is "the human must re-register", which is a manual credential's
+answer.
+
+### The consent screen is also a verdict about you
+
+Least-privilege posture starts at the consent screen — but the consent
+screen is not only where scopes are requested. It is where the provider
+renders its own judgment of the requester, and for a self-registered client
+that judgment is *always* unverified. Nothing is wrong; the client was
+created minutes ago by the very person now being warned about it. The signal
+is structurally uninformative in this architecture, and will remain so
+however trustworthy the tool is.
+
+Which is exactly what makes the instruction hazardous. **A setup guide must
+never resolve the provider's trust prompt on the user's behalf.** Explaining
+why the warning appears, and what it does and does not mean here, is
+documentation. "Click through, it is safe" is a stranger answering a
+question the provider deliberately addressed to the user — and the author
+cannot know the answer for the reader's copy, because the thing being
+vouched for is the reader's own registration and whatever else they later
+point it at. The durable damage is not to that install. It is that a reader
+taught to click past that screen clicks past the identical screen the next
+time, for a client they did not create.
+
+### A scope in a document is a scope granted N times
+
+The same asymmetry governs defaults. The scope named in a setup instruction
+is the scope users will grant, because almost nobody narrows a documented
+default — the instruction is the path of least resistance and it was written
+by someone assumed to know. An unrestricted grant written into a guide is
+not one careless decision; it is one author's sentence, honoured by every
+install, on credentials whose blast radius each reader owns alone.
+
+So for a tool acquired this way, the least-privilege work happens in the
+*instructions*, not in the code. Name the narrowest scope set the feature
+needs, at the step where the reader is choosing; state what each is for, so
+a reader who wants less can tell what they are giving up; and write the
+revocation path in the same breath as the grant, because the user is the
+only party who can execute it.
+
 ## One door in: validation before admission
 
 Whatever the mode, admission is singular
@@ -119,6 +181,12 @@ may do later:
   diagnosis the provenance field answers instantly.
 - A **manual** credential can only be replaced by the human; rotation policy
   for it means *reminding*, not executing.
+- A **self-registered grant** — a grant flow against a client the *user*
+  registered — refreshes like a grant flow and dies like a manual one. The
+  vault may refresh the token and may not re-establish the client; when the
+  registration goes away, the only recovery is to send the human back to the
+  console. Classifying it as grant-flow buys a rotation attempt that cannot
+  succeed and a diagnosis that never resolves.
 
 Provenance also scopes retirement: revoking a foraged credential upstream
 would break the tool it was foraged from — the vault retires *its copy* and

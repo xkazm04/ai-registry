@@ -4,7 +4,7 @@
   "bundle": "grant-funding",
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
-  "techniques": 104,
+  "techniques": 105,
   "applications": 38,
   "laws": 8,
   "categories": [
@@ -14,7 +14,7 @@
    "grant-operations"
   ],
   "layout": "nested",
-  "use_when_coverage": "104/104",
+  "use_when_coverage": "105/105",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -918,6 +918,21 @@
       "a jurisdiction has no structured feed",
       "designing the source registry for a multi-market corpus",
       "deciding what runs by default vs behind a flag"
+     ]
+    },
+    {
+     "slug": "dedup-records-who-carried-it",
+     "status": "forged",
+     "laws": [
+      "provenance-per-field",
+      "small-samples-stay-silent"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "resolving overlap between two sources covering the same publisher",
+      "a downstream verdict wants to know how many sources agreed",
+      "deciding what the upsert may overwrite",
+      "an aggregator is about to be counted as an independent source"
      ]
     },
     {
@@ -1914,6 +1929,7 @@
     "funder-intelligence-index/k-anonymity-suppression",
     "funder-intelligence-index/rfp-difficulty-scoring",
     "funder-intelligence-index/win-probability-confidence-bands",
+    "grant-source-landscape/dedup-records-who-carried-it",
     "impact-reporting/per-funder-track-record",
     "nonprofit-verification/verification-passport",
     "submission-filing/crowd-verified-filing-profiles",
@@ -2005,6 +2021,7 @@
     "funder-intelligence-index/consent-scoped-contribution",
     "funder-research/provenance-and-confidence-per-row",
     "grant-matching/explainable-match-reasons",
+    "grant-source-landscape/dedup-records-who-carried-it",
     "grant-source-landscape/stable-dedup-key-selection",
     "grant-taxonomy-design/append-only-codes-with-migrations",
     "impact-reporting/four-section-report-model",

@@ -9,6 +9,7 @@ techniques:
   - curated-floor-vs-live-feed
   - market-readiness-tiering
   - stable-dedup-key-selection
+  - dedup-records-who-carried-it
   - close-date-normalization
   - relevance-precision-filtering
 ---
@@ -113,6 +114,12 @@ when it can satisfy a small, enforced contract:
   does, a hash of the record's *identity fields only* — never of the whole
   payload, which mutates between fetches and would turn every re-ingest into
   a duplicate ([stable-dedup-key-selection](./techniques/stable-dedup-key-selection.md)).
+- **A recorded carrier.** Where two sources cover the same publisher, the
+  merge decides which payload wins — and that decision is the last moment
+  the corpus knows how many publishers asserted the row at all. The
+  surviving row carries the set of sources that supplied it, recorded at
+  publisher granularity so that two adapters onto one upstream count once
+  ([dedup-records-who-carried-it](./techniques/dedup-records-who-carried-it.md)).
 - **A resolvable public reference.** Every row must trace back to a live web
   page — stored, or deterministically constructable from the key. An
   opportunity nobody can find on the funder's own surface is a rumor, and
@@ -171,6 +178,9 @@ product does; the landscape discipline is what keeps the foundation honest.
   where the product can be trusted.
 - [stable-dedup-key-selection](./techniques/stable-dedup-key-selection.md) —
   identity-field keys that survive refresh and make upserts actually upsert.
+- [dedup-records-who-carried-it](./techniques/dedup-records-who-carried-it.md) —
+  keeping the carrier set through the merge, at publisher granularity, so
+  downstream verdicts can ask how many sources agreed.
 - [close-date-normalization](./techniques/close-date-normalization.md) —
   publisher deadline conventions, multi-cutoff resolution, and honest nulls
   for impossible dates.

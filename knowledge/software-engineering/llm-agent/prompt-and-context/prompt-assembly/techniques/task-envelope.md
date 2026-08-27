@@ -6,7 +6,7 @@ technique: task-envelope
 status: forged
 laws: [gate-sees-target, silent-state-is-ungoverned]
 shared_with: []
-use_when: [writing the task layer for a delegated or dispatched call, a prompt opens with a role or expertise claim, deciding what the first lines of a task prompt should buy, a worker finished but the result does not match what was asked, an unattended session must decide on its own when it is done]
+use_when: [writing the task layer for a delegated or dispatched call, a prompt opens with a role or expertise claim, deciding what the first lines of a task prompt should buy, a worker finished but the result does not match what was asked, a brief lists the parts to build, an unattended session must decide on its own when it is done]
 ---
 
 # Task envelope
@@ -101,6 +101,54 @@ replace. The difference is that each sentence changes what the model does.
   forbidden action is *plausible and costly* — pushing to a shared
   branch, deleting, spending money — and even then it sits beside the
   positive instruction, not in place of it.
+
+## An enumeration is a done criterion, and it is the wrong one
+
+The Done rule above assumes the failure is *absence* — no criterion, so the
+run stops when the model's own sense of completeness fires. There is a
+commoner failure, and it is worse because it looks like success: the brief
+supplies a criterion by accident, and the model satisfies that one.
+
+A brief that lists the parts to build — five tabs, four endpoints, three
+report sections — is an enumeration, and an enumeration is machine-checkable.
+The model can verify it without help and will: *did I produce a thing for
+each named item?* The check passes when every named part exists, and
+existence is the one property a generator can always deliver. So the run
+terminates confidently, on time, having built every surface in the list with
+nothing behind any of them — dead links, filler rows, a settings page that
+saves to nowhere. This is not the late-or-early failure of a missing
+criterion. It fires exactly when it should, on the wrong axis.
+
+Read it through [gate-sees-target](../../../../_laws.md#gate-sees-target):
+a self-check that reads the brief's list is a gate that sees the *shape* of
+the work rather than the work. It passes precisely in the case that should
+fail it, because the parts existing is what it was built to confirm.
+
+**Probe the leaf, not the shape.** The cheapest falsification of an
+enumerated build is one traversal — follow a single item from the surface it
+appears on to the data it claims to show, and back. A survey of the parts
+confirms the thing the model already checked; one leaf traversal tests the
+thing it did not. A build whose every link is dead is falsified by clicking
+one, in seconds, before any of the repair budget is committed.
+
+**In the brief, name a path through rather than a set of parts.** "A
+dashboard with news, mentions, reminders, audience and tasks tabs"
+enumerates, and a stub satisfies it. "Opening the news tab shows items
+fetched within the last hour, and clicking one opens the source it came
+from" traverses, and a stub cannot. The traversal criterion is not longer
+than the list; it is the same brief written along the axis the enumeration
+left free. One traversal per surface family is enough — the point is to
+name a criterion whose satisfaction requires the parts to be connected, not
+to specify the whole product.
+
+The cost of getting this wrong is paid in repair rather than in rework, and
+it is not small. One first-party report of a five-surface enumerated brief:
+a complete-looking shell in about fifteen minutes, then several further
+sessions of defect-driven correction, the longest single run over two and a
+half hours. That is one account of one build — an existence proof for the
+ratio, not a rate — but the shape of it is the point. The fifteen minutes
+bought a demonstration; the criterion that would have made those minutes
+buy a working leaf was one sentence.
 
 ## When done is not knowable, the envelope inverts
 

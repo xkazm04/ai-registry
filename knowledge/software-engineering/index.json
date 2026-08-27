@@ -4404,7 +4404,8 @@
      "use_when": [
       "routing a provider to its best acquisition mode",
       "credential fails inside automation days after entry",
-      "a tool refresh silently killed the vault's copy"
+      "a tool refresh silently killed the vault's copy",
+      "writing the setup instructions a user follows to connect a provider"
      ]
     },
     {
@@ -11882,6 +11883,7 @@
       "a prompt opens with a role or expertise claim",
       "deciding what the first lines of a task prompt should buy",
       "a worker finished but the result does not match what was asked",
+      "a brief lists the parts to build",
       "an unattended session must decide on its own when it is done"
      ]
     },
