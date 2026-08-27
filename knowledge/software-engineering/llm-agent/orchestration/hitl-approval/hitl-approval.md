@@ -14,6 +14,7 @@ techniques:
   - severity-sla-ladder
   - cosmetic-vs-enforced-threshold-invariant
   - fail-loud-classification-default
+  - fixed-policy-amendable-plan
 ---
 
 # Human-in-the-loop approval
@@ -67,6 +68,32 @@ same vocabulary the other two flows use.
 [human-performed-steps](./techniques/human-performed-steps.md) owns it, including
 the rule that a capability existing only to compensate for a tooling gap states
 the condition under which it should be deleted.
+
+## What none of the three flows governs: the machine's own terms
+
+All three flows above gate an **action**. None of them governs the **scope** the
+machine was given — the allowed paths, the forbidden operations, the checks that
+define done, and against those, the route it currently intends to take. That
+record is normally written once at dispatch and treated as static, and the habit
+holds because both repairs look wrong on sight: a plan the executor cannot amend
+is defeated by the first fact that arrives after dispatch, and a plan it *can*
+amend is a policy whose first edit removes whichever constraint was working.
+
+The resolution is to split the record by **write authority rather than by
+content**. The trust boundary — what may change, what must not happen, how
+success is checked, when to stop and ask — is fixed and lives outside the
+executor's working context. The route inside that boundary is the executor's to
+revise, and every revision leaves a record naming the fact that made the old one
+wrong. Which side a mid-run change falls on is then a trigger predicate like any
+other in this subject: inside the boundary it is an amendment and no gate fires;
+requiring the boundary to move, it is an escalation, and the executor may propose
+the new policy but never adopt it
+([fixed-policy-amendable-plan](./techniques/fixed-policy-amendable-plan.md)).
+
+This is the flow that keeps the gate map mostly white space under sustained
+autonomous work. Without it, every unforeseen fact reaches the operator as an
+approval request, and the attention budget the rest of this subject exists to
+protect is spent on events where no judgment was ever required.
 
 ## When a gate is mandatory
 
@@ -273,3 +300,6 @@ the machine with nobody ever having seen it.
 - [fail-loud-classification-default](./techniques/fail-loud-classification-default.md)
   — an unreadable payload classifies to the most severe bucket with a marker
   saying why; the quiet default is the one that gets things waved through.
+- [fixed-policy-amendable-plan](./techniques/fixed-policy-amendable-plan.md) —
+  the fourth flow: the executor's scope split by write authority, so a route
+  change records itself and only a boundary change reaches a human.

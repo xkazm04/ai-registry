@@ -1279,3 +1279,69 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   it ends.
 - **0 of 3 fetches - fifth consecutive zero-fetch run for a first-party source.** The class
   row's fetch prediction is now the most reliable line in the reference file.
+
+## 0.14.0 - 2026-08-27 - agentic-engineering-practical-guide (single web article, first-party practitioner account)
+
+- **In a first-party account, read the failure list first and the recommendations last.**
+  This is the run that isolates it cleanly: 15 candidates, 8 of them straight catches, and
+  every accepted word came from the author's "they also exposed weaknesses" section. A
+  recommendation is what the author believes; a stated failure is what their system did to
+  them. Only the second is reliably absent from a mature corpus - **because the corpus was
+  built from other people's recommendations too.** This generalises the release-walkthrough
+  note ("three of five accepted findings came from the stated failure modes") from a
+  sub-class to the whole class, and it should change where Phase 3 spends its attention:
+  extract the failure list exhaustively, extract the recommendations as catch candidates.
+- **Name the guide shape as a hazard.** A guide *reads* high-yield - organised, confident,
+  comprehensive, section per concern - and is structurally low-yield, because
+  comprehensiveness over known ground is precisely what a mature bundle already has. The
+  recommendation half of this source could have been written from the corpus. Do not let a
+  well-organised source raise the expected yield; it predicts catches, not findings.
+- **The headline was already owned; the finding was three paragraphs further down.** The
+  picked candidate's thesis - put the trust boundary where the agent cannot edit it - is
+  owned by a golden-path section titled "The gate lives in the substrate, not the prompt",
+  anchored to a law, with two corollaries the source never reaches. Had the run landed the
+  headline it would have shipped a duplicate into a subject that says it better. **Phase 6
+  step 1 earned its place again: the pick's headline and the pick's finding were different
+  claims, and only opening the file separated them.**
+- **A completeness claim does not stop being good hunting ground after it has been hunted
+  once.** `hitl-approval`'s "the subject owns two flows that are mirror images of each
+  other" yielded a third flow on run 4 and a fourth on this run, from two unrelated
+  sources, four months apart in corpus time. Run 4's own subject note had even banked the
+  observation ("three flows now, and the opening still says two") and the frame was still
+  never rewritten. Add to Phase 6 step 3: **a stale enumeration is a standing lead, not a
+  spent one** - re-read it every time a source lands nearby, and check the subject note for
+  whether a previous run already flagged it.
+- **The denial hunt (step 3's second half) fired for the second consecutive run.**
+  `gate-state-machines` says approval transitions are driven only by a human. True for
+  verdicts; read across the whole harness record it forbids the amendment lane the source
+  measured as the *normal* case in 173 real harnesses. The corrective is not to weaken the
+  denial but to name the distinction it was missing - a verdict says a gated thing may take
+  effect, an amendment says the route changed inside a scope already granted.
+- **Fold the failure modes in; do not let them become five thin candidates.** Three of the
+  source's five measured weaknesses became sections of the one technique (asymmetric cost
+  of the fixed tier, the reaper on task-scoped records, and the boundary in "what this
+  cannot do") rather than separate rows. The XL folding rule from run 32 applies below XL
+  too: fragments from one source that share a mechanism belong in one document.
+- **Declining a pick is a result and the reason is the reusable part.** Row 2 - risk
+  proportionality - lost cleanly to an existing section with four named triggers and an
+  explicit complement. The one non-identical edge (the corpus prices over-gating as *human
+  attention* depletion, the source measured it as *task latency*) was real and too thin to
+  carry a technique. Writing that edge down is what stops the next run re-proposing it and
+  what would let a second sighting promote it later.
+- **The derived-artifact hazard ran the OTHER direction this time.** Run 32's lesson was
+  "diff shared derived artifacts against current HEAD before staging". Here the sibling
+  session ran `build-index` mid-run and swept this run's in-flight technique into *its*
+  regeneration, then kept landing files - so `index.json` went from current to stale to
+  containing my technique but not theirs, while their new file was never in HEAD.
+  **Regenerating would have committed an index referencing a file absent from HEAD, which
+  breaks a clean clone; the safe move is to commit content only and leave the generated
+  files to whichever session lands last.** The asymmetry is worth stating as a rule: an
+  index missing your content is stale and recoverable, an index citing content that does
+  not exist is broken. **When they conflict, prefer stale.**
+- **0 of 3 fetches - sixth consecutive zero-fetch run for a first-party source.** The class
+  row's fetch prediction remains the most reliable line in the reference file.
+- **Two heredoc/quoting failures cost real time on this platform.** A `bash` heredoc writing
+  the technique died on "unexpected EOF", and a `python -c` inside a double-quoted shell
+  string had its backticks command-substituted (which would have silently mangled markdown
+  had the assert not caught it). For prose documents containing backticks, apostrophes and
+  em dashes, use the file-writing tools directly rather than shell heredocs.
