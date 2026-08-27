@@ -987,7 +987,8 @@
      "use_when": [
       "an asset arrived from an unexpected vendor",
       "a whole chain came up empty and the error must explain why",
-      "a request field would be silently ignored by a vendor"
+      "a request field would be silently ignored by a vendor",
+      "a request body is assembled by omitting the fields the caller left unset"
      ]
     },
     {
@@ -1037,14 +1038,15 @@
      "stack": "node",
      "technique": "non-silent-elimination",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--non-silent-elimination.md",
-     "verified_on": "2026-08-24",
-     "verified_against": "node@20"
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "refusal-reroute-hop",
      "file": "knowledge/media-generation/visual-generation/generative-provider-routing/applications/node--refusal-reroute-hop.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
