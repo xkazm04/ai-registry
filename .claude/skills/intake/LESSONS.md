@@ -1345,3 +1345,141 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   string had its backticks command-substituted (which would have silently mangled markdown
   had the assert not caught it). For prose documents containing backticks, apostrophes and
   em dashes, use the file-writing tools directly rather than shell heredocs.
+
+## 0.14.0 - 2026-08-27 - picomq-durable-streams
+
+- **A new class row earned its place: the open-source infrastructure engine.**
+  Not the vendor-repository row (that one assumes a hosted engine and sends
+  you to the client types). Here the engine, ~14k words of design docs and a
+  wire specification ship in one permissively-licensed tree, which is the
+  *research-model release* row's structural property - claims checkable
+  against implementing code, in-run, no fetch - occurring outside a model
+  release. Worth adding to the routing table on a second sighting; recorded
+  here rather than edited into the reference on one.
+- **Do not price a repository run off the ingest word count.** The ingest
+  returned 453 words because that is what a repository landing page renders;
+  the tree held roughly thirty times that in design docs alone, and every
+  finding came from the thirty. The `--min-words` floor answers "is anything
+  there at all" and for this class it is not even answering that - it is
+  measuring the wrong file. Stated an expected yield off it anyway and was
+  wrong within one phase.
+- **Project age predicts the reliability of adoption claims, not the density
+  of design decisions.** 15 commits, days old, and the reasoning "its most
+  reliable claim is that it exists" was sound for a *currency* read and
+  useless for a *design* read. A young infrastructure project has just
+  finished making every hard choice it will make and written the reasons down
+  while fresh. Discount its maturity claims, not its design docs.
+- **Check in-tree docs against in-tree code as routine, not as a spot check.**
+  Four greps. It produced the whole run: the write-path doc describes group
+  commit as knob-free and self-tuning, the shipped config carries a 250 ms
+  timer, an 8 MiB cap and a 50-deep in-flight pool. The prose is the design
+  the authors wanted, the configuration is the one they shipped, and the gap
+  is where the boundary condition lives.
+- **The sibling-systems property is not specific to research-model releases.**
+  The reference file names it for labs shipping two contradicting instruction
+  documents. Here one repository implemented group commit twice - a timer-
+  driven pipelined version in the write path, a timer-free serial version in
+  the metadata sink - and the discriminator was visible in the diff without a
+  judgement call: serial flushes self-close on the previous flush, pipelined
+  flushes cannot and must reintroduce a timer. **Look for the same mechanism
+  implemented twice in one tree**; it is cheaper to read than either half.
+- **Fifth confirmation that a source implementing a good idea badly beats one
+  implementing it well** - and the strongest instance yet, because a single
+  source did both and the gap between its halves *was* the technique. Accurate
+  docs would have yielded a plausible rule with no boundary attached.
+- **Sixth consecutive paying run for the enumeration hunt.**
+  `single-flight-primitives` lists four second-caller policies and closes by
+  instructing the reader to pick one explicitly - which is what makes an
+  incomplete list consequential. Merge was the missing fifth. When a document
+  both enumerates and instructs the reader to choose from the enumeration,
+  the omission is a defect rather than a gap.
+- **Three findings, three amendments, zero new techniques.** At 150 subjects
+  this keeps being the right shape: every home already existed and was wrong
+  or incomplete rather than absent. Two of the three *corrected* standing text
+  (a four-item list that should be five; an ordering rule stated
+  unconditionally that inverts across a store boundary).
+- **0 of 3 fetches - sixth consecutive zero-fetch run** for a source carrying
+  its own primary material. The class row's fetch prediction remains the most
+  reliable line in the reference file.
+- **Shared-checkout hazard, new variant: my own regeneration swept a parallel
+  session's untracked work into the derived artifacts.** `index.json` was
+  clean at run start, so the modification was mine - `build-index` scans the
+  tree, and the tree held another session's two untracked techniques. Fix that
+  worked and should be the standing move: `git worktree add` at HEAD (short
+  path), copy in only the files I own, regenerate there, copy the artifacts
+  back. Produces a self-consistent commit and touches nothing of theirs.
+  **Regenerating derived artifacts is a write to shared state, not a read.**
+- **Tooling note for this platform:** long quoted heredocs and `node -e` with
+  single-quoted shell strings both break on apostrophes in prose. Write the
+  script to a file and run it; do not fight the quoting on note-sized content.
+
+## 0.14.0 - 2026-08-27 - kciter-animation-design (single web article, methodology essay)
+
+- **New sub-class: the methodology essay, and it inverts this skill's cheapest
+  filter.** A first-party practitioner account where the author is teaching a
+  method rather than reporting a system. The source was mathematics and design
+  vocabulary - graphs, damping coefficients, piecewise functions - and carried
+  essentially no proper nouns, so **the strip test killed nothing**. Every
+  candidate survived into Phase 6. The skill's economics assume the strip test
+  does most of the culling for free; when it does not, the whole run's cost
+  moves into prior-art verification and the triage table has to be built from
+  file reads rather than from the map. Budget the run accordingly: this one
+  spent its entire effort between Phase 4 and Phase 6.
+- **`research-map` produced its first TOTAL empty over well-covered material.**
+  `spring physics` returned "PRIOR ART: none. The corpus has never heard of
+  this - that is a finding, not a miss." The corpus covers springs in depth in
+  `engine-selection` (retargeting from position *and* velocity, the interruption
+  story, the shared scripted engine) and the consumer evidence file records a
+  real rAF spring engine. The documented near-empty rule says a *near*-empty may
+  be a seam; this run says the same doubt applies to a **total** empty, and the
+  check is one grep of the neighbourhood before believing it. Had the zero been
+  trusted the run would have written a spring technique beside one that existed.
+- **The corollary is the more useful half: the real gap was invisible to the
+  instrument for exactly the same reason.** No slug expresses "the contract
+  assumes a timed curve". A slug map cannot find a missing *assumption*, only a
+  missing *word* - so on a mature subject, expect the instrument to be silent
+  precisely where the finding is.
+- **A cheap mechanical form of the asymmetry hunt: check a contract's mandatory
+  fields against what its sibling technique permits.** `preset-vocabulary`
+  required four declarations; `engine-selection` recommends an engine that
+  cannot supply two of them; `taste-budgets` filed that same engine as a third,
+  incompatible thing. Three files, one subject, mutually contradictory, and
+  every one of them individually well written. The cross product of "what must
+  be declared" against "what is blessed elsewhere" is a finite list and it takes
+  one read per file.
+- **Four candidates that are one finding must land as one finding.** The
+  operator's standing critique (synthesis comes from the skill, not the
+  operator) had a clean instance here: three amendments and a new technique all
+  followed from one root - a contract forged for the fire-and-forget timed
+  gesture. Landing them separately would have produced four correct edits and no
+  statement of what they share. The golden path took the boundary section; the
+  amendments hang beneath it.
+- **Scoping an over-broad claim beats deleting it.** `unprompted-motion-lifecycle`
+  said "for unprompted reveals the answer is **always** one-shot". That is right
+  for scroll-triggered and a bug for scroll-driven. The edit changed "unprompted"
+  to "scroll-*triggered*" and added the boundary section - the original rule
+  keeps its force where it was earned. A denial that denied too much is repaired
+  by naming its domain, not by weakening its verb.
+- **An enumeration in an opening sentence is as good a target as one in a
+  heading.** "Every gesture in the vocabulary runs on one of three engines" was
+  line one of the technique, and the missing member was the source's closing
+  section. Fifth consecutive run where an enumeration produced a finding.
+- **0 of 3 fetches - sixth consecutive zero-fetch first-party run**, with an
+  additional reason worth recording for this sub-class: the claims are
+  mathematics, which is training-data convergent, so there was nothing a fetch
+  could add that reading the corpus could not settle.
+- **Parallel-session hazard, a new and sharper variant: the race is between the
+  staging-area CHECK and the staging COMMAND, not between the run and the
+  commit.** A sibling intake run committed the shared `librarian/sources/index.md`
+  - carrying this run's already-inserted row - in that window. The surgical
+  "rebuild the ledger from HEAD plus my row" then read the *new* HEAD and
+  inserted the row a second time. Verifying the artifact in HEAD caught it and a
+  one-line follow-up commit fixed it. **When rebuilding a shared append-only file
+  from HEAD, check whether HEAD already contains your line before inserting it** -
+  the idempotent form is a grep, not a splice.
+- **Also confirmed: do not commit `index.json`/`catalog.json` when another
+  session has uncommitted content.** The regeneration swept four references to a
+  sibling's in-flight technique. Committing them would have published another
+  run's work and left HEAD's index pointing at a file HEAD does not contain.
+  Diffing the generated files for the sibling's slug before staging is a
+  two-second check and it decided the whole commit strategy here.
