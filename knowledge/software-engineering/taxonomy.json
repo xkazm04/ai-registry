@@ -310,7 +310,8 @@
             "pipeline-authoring",
             "ci-execution-trust",
             "runner-fleet",
-            "machine-paced-delivery"
+            "machine-paced-delivery",
+            "deployment-contract"
           ]
         }
       ]

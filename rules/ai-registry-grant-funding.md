@@ -1,6 +1,6 @@
 # Grant funding - the subjects this registry carries
 
-`grant-funding` - 17 subjects, 104 techniques, 38 applications.
+`grant-funding` - 17 subjects, 105 techniques, 38 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### funding-landscape

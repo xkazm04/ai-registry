@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 148 subjects, 952 techniques, 430 applications.
+`software-engineering` - 149 subjects, 957 techniques, 433 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -39,7 +39,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 ### engineering-process
 - **build-and-release** - build-economics, codegen, packaging, release-pipeline, test-harness
 - **codebase-stewardship** - codebase-scanning, concurrent-vcs, dead-code, docs-sync, module-design
-- **continuous-integration** - ci-execution-trust, machine-paced-delivery, pipeline-authoring, runner-fleet
+- **continuous-integration** - ci-execution-trust, deployment-contract, machine-paced-delivery, pipeline-authoring, runner-fleet
 - **standards-and-gates** - knowledge-registry, multi-project, quality-gates, repo-manifest-standard
 
 ### engineering-assessment

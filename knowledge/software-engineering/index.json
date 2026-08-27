@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 148,
-  "techniques": 952,
-  "applications": 430,
+  "subjects": 149,
+  "techniques": 957,
+  "applications": 433,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "952/952",
+  "use_when_coverage": "957/957",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5310,6 +5310,116 @@
      "file": "knowledge/software-engineering/client-architecture/demo-data-plane/applications/react--runtime-dispatch-not-build-flag.md",
      "verified_on": "2026-08-22",
      "verified_against": "react@19"
+    }
+   ]
+  },
+  "deployment-contract": {
+   "category": "engineering-process",
+   "subcategory": "continuous-integration",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/continuous-integration/deployment-contract/deployment-contract.md",
+   "techniques": [
+    {
+     "slug": "deploy-gate-coupling",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a platform deploys on push while the pipeline is still running",
+      "production shipped from a commit whose checks later failed",
+      "choosing between platform-coupled deploys and gate-first pushing",
+      "a deploy and a verification race the same event"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "deployment-config-as-code",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an environment setting exists only in a provider dashboard",
+      "re-creating a deployment on a fresh account or machine",
+      "a deploy behaves differently and no diff explains it",
+      "deciding where a platform setting should live"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "direct-push-delivery",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a single owner is deciding whether to push the default branch directly",
+      "review ceremony exists with nobody to review",
+      "the default branch has been red for days",
+      "designing a push-time gate",
+      "an agent-heavy loop makes branch ceremony the bottleneck"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "environment-promotion",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a change reaches production",
+      "a preview environment exists but nobody looks at it",
+      "rolling back a bad deploy",
+      "production was rebuilt from the same commit and behaved differently"
+     ],
+     "stage": "solo"
+    },
+    {
+     "slug": "platform-build-parity",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a hosted build fails while the delivery system is green",
+      "a hosted build resolves dependencies differently than local",
+      "pinning a runtime version for a deploy target",
+      "the platform builds with a command nobody reviewed"
+     ],
+     "stage": "solo"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "environment-promotion",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/deployment-contract/applications/node--environment-promotion.md",
+     "verified_on": "2026-08-27"
+    },
+    {
+     "stack": "node",
+     "technique": "platform-build-parity",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/deployment-contract/applications/node--platform-build-parity.md",
+     "verified_on": "2026-08-27"
+    },
+    {
+     "stack": "process",
+     "technique": "direct-push-delivery",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/deployment-contract/applications/process--direct-push-delivery.md",
+     "verified_on": "2026-08-27"
     }
    ]
   },
@@ -17680,6 +17790,8 @@
     "delivery-analytics/off-platform-signal-detection",
     "delivery-analytics/review-coverage-rate",
     "demo-data-plane/runtime-dispatch-not-build-flag",
+    "deployment-contract/direct-push-delivery",
+    "deployment-contract/platform-build-parity",
     "design-tokens/cross-language-token-parity",
     "design-tokens/density-and-scale-axes",
     "design-tokens/token-enforcement",
@@ -17989,6 +18101,8 @@
     "demo-data-plane/network-faithful-mocks",
     "demo-data-plane/one-interface-many-planes",
     "demo-data-plane/runtime-dispatch-not-build-flag",
+    "deployment-contract/deploy-gate-coupling",
+    "deployment-contract/direct-push-delivery",
     "design-tokens/token-enforcement",
     "device-pairing/timing-defenses",
     "diff-comparison/computation-offload",
@@ -19219,6 +19333,8 @@
     "demo-data-plane/fixture-self-consistency",
     "demo-data-plane/one-interface-many-planes",
     "demo-data-plane/runtime-dispatch-not-build-flag",
+    "deployment-contract/deployment-config-as-code",
+    "deployment-contract/platform-build-parity",
     "design-tokens/cross-language-token-parity",
     "design-tokens/density-and-scale-axes",
     "design-tokens/motion-tokens",
@@ -19409,6 +19525,8 @@
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
     "credential-vault/token-refresh-lifecycle",
+    "deployment-contract/deploy-gate-coupling",
+    "deployment-contract/environment-promotion",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
     "voice-io/portable-provider-package",
@@ -19462,6 +19580,7 @@
     "delivery-analytics/delivery-metric-denominators",
     "demo-data-plane/fixture-self-consistency",
     "demo-data-plane/seeded-determinism",
+    "deployment-contract/environment-promotion",
     "design-tokens/theme-architecture",
     "diff-comparison/computation-offload",
     "docs-content-model/derived-navigation-projection",
@@ -19606,6 +19725,7 @@
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
     "data-access/cross-driver-invariant-parity",
+    "deployment-contract/direct-push-delivery",
     "fleet-orchestration/brief-carries-the-session",
     "mcp-tools/transport-selection",
     "public-claim-provenance/provenance-as-a-build-gate",
@@ -19620,6 +19740,7 @@
    "statement": "An agent's internal state — its assumptions, its uncertainty, its belief that it has finished — shapes the outcome whether or not anyone can see it, and it can be governed only once it is converted into an artifact something else can read: an assumption stated before it is built on, alternatives presented instead of one silently chosen, a completion claim checked against what actually landed. The failure signature is uniform across every corpus that has measured it: the agent is wrong at the same confidence as when it is right, the decisive error precedes its first observable signal by most of the trajectory, and unverified completion claims concentrate exactly where recovery is no longer possible. Rules, gates and reviews bind only surfaced state; whatever remains internal is outside their reach by construction. Sibling of unknown-is-not-a-value, one level up: that law forbids rendering unknown as definite in *data*; this one demands the conversion of private epistemic state into inspectable output before anything downstream relies on it.",
    "techniques": [
     "agent-instruction-files/restraint-amplifier-balance",
+    "deployment-contract/deployment-config-as-code",
     "fleet-orchestration/worker-trajectory-anatomy",
     "prompt-assembly/task-envelope"
    ]
