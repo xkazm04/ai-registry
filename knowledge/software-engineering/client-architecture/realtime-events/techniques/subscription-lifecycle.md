@@ -68,10 +68,58 @@ above. The correct topology:
   handshake). The singleton's creation names its reaper: last-out releases,
   or an explicit registry shutdown does.
 
-The fan-out loop has one sharp edge: a consumer's callback may detach other
+The fan-out loop has two sharp edges, and only the first is about the
+correctness of the set. The first: a consumer's callback may detach other
 consumers (or itself) mid-dispatch. Iterate over a snapshot of the set, and
 define whether a consumer detached mid-dispatch still receives the in-flight
 event (either answer is fine; undefined is not).
+
+## The second sharp edge: dispatch outside the registry's own lock
+
+Snapshotting the subscriber set answers *what* the loop iterates over. It says
+nothing about *what the dispatcher is still holding while it iterates*, and the
+default — take the registry's lock, snapshot under it, dispatch without ever
+releasing it — is a deadlock waiting for one blocking subscriber.
+
+The cycle needs only two ordinary things to close, and any interactive system
+already has both. A subscriber callback that can block: a hand-off into a
+bounded queue that parks when the queue is backed up, which is what delivering
+to a rendering surface usually is. And a second party that takes the registry's
+lock to *read* it: the same surface, enumerating subscriptions to paint them.
+Then the producer holds the lock and waits on the surface's queue while the
+surface waits on the lock, and neither moves again. The symptom is a wholly
+wedged system whose stacks show both parties parked in code that is innocent on
+its own, which is why this is found by reading a thread dump and essentially
+never by reading the dispatcher.
+
+Two rules make the cycle structurally impossible, and both are needed:
+
+- **The dispatcher snapshots under the lock and invokes after releasing it.**
+  A parked subscriber may hold its own thread of control; it must never be
+  holding the registry's lock while it does. This is the rule the snapshot
+  discipline above is most often mistaken for — snapshotting is about set
+  mutation, releasing is about lock ownership, and a loop can get the first
+  right while getting the second wrong.
+- **A subscriber whose delivery can park detaches that hand-off from the
+  callback.** The dispatcher runs on the producer's thread, and a subscriber
+  that borrows it for an unbounded wait has taken the producer hostage no
+  matter who holds which lock. Detaching costs a thread's worth of scheduling
+  and buys the producer's independence from every consumer's health.
+
+The second rule trades away an ordering guarantee, and the trade is worth
+stating because it reads as a regression: once the hand-off is detached, an
+interim frame can arrive out of order. That is the correct price, and the
+reason is the reconciliation rule this subject already runs on — a surface that
+resyncs from the settled record on its next paint loses nothing durable to a
+reordered interim frame, while a producer stalled on a surface loses the work
+itself.
+
+Write the regression test the day the fix lands, because this defect returns
+the moment someone consolidates the dispatcher back under a single lock. The
+test needs no timing: a subscriber parked on a wait that never completes stands
+in for the backed-up queue, and the assertion is that the dispatcher finishes
+anyway. Against the pre-fix dispatcher it hangs — which is the only evidence
+that it tests the thing it claims to.
 
 ## The early-arrival buffer
 

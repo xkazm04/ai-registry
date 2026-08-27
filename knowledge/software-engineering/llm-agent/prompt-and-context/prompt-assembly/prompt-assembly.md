@@ -9,6 +9,7 @@ techniques:
   - house-vocabulary-layer
   - variable-interpolation
   - context-budgeting
+  - history-compaction
   - capability-documentation
   - fingerprinting-and-cache-keys
   - cache-breakpoint-allocation
@@ -61,6 +62,15 @@ byte-identical (which is what provider-side prefix caching and local
 fingerprinting both need); and it reads as an argument — who I am, what I
 must not do, what I can do, what I know, what you want — instead of a
 sediment core.
+
+Every layer in that table is authored: someone writes it, derives it, or
+selects it per call. A multi-turn tool-using conversation carries a sixth thing
+that none of those verbs describes — the accumulated record of the turns
+already taken — and it is the only part of the prompt that grows as a
+consequence of the system working. It sits between context and task, it is
+governed by the protocol rather than by this assembler, and spending it down is
+[history-compaction](./techniques/history-compaction.md)'s subject rather than
+a rung on the context layer's ladder.
 
 ## Composition is code, not concatenation
 
@@ -263,6 +273,10 @@ a span enters; safety decides *how it is wrapped*.
 - [context-budgeting](./techniques/context-budgeting.md) — per-layer
   allocation, degradation ladders, summarization thresholds, truncation
   that names its drops, lazy expansion of heavy sections.
+- [history-compaction](./techniques/history-compaction.md) — spending down
+  the one layer nobody authored: the pairing invariant a cut must not break,
+  repairing a record left malformed by an interrupted turn, and compacting
+  both before the request and on the provider's refusal.
 - [capability-documentation](./techniques/capability-documentation.md) — the
   ability layer derived from the live registry, doctrine↔registry sync,
   and conditional rendering of what is actually active.

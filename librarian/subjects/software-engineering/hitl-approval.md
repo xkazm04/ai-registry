@@ -123,3 +123,31 @@ hunting ground.** The claim "two flows, mirror images" invites exactly one quest
 ## Declines
 
 None.
+
+## 2026-08-27 - /intake, from a coding-agent harness tree ([[2026-08-27-whip-coding-agent-harness]])
+
+Two sections added to `consent-gates`, plus a `use_when` entry. A seam, not a hole - the
+technique already owns "the scope of subsequent is the design decision" and names three
+axes (agent, capability, target).
+
+**It warns only about the tuple collapsing too wide.** The narrow failure is quieter and
+concentrated in one place: wherever the capability axis is not an operation the system
+defined but **a string the agent composed** - a command line, a query, a request path.
+There is no capability to key on and no target to separate from it, so the grant records
+the literal action, the next invocation differs by one argument and misses it, and the
+asking never stops. The fatigue trade the first-use grant exists to make never happens,
+and the human learns to answer without reading: the exact failure the gate was built to
+prevent, reached by way of a gate that fired correctly every single time.
+
+Remedy landed: declare how many leading tokens of a composed action constitute its
+identity, treat the rest as its target. Flags are never counted (an added flag would
+silently reshape the grant), and an unknown prefix falls back to the whole literal string
+- this rule may only ever fail toward asking too often.
+
+Second section from the asymmetry hunt: the technique gives **four** dimensions of
+disclosure for the *action* and says nothing about disclosing the *grant*, which is the
+half that outlives the moment. So the remember-this path renders the rule it is about to
+install, in the terms the gate will later match on, before installing it. Landed with its
+cheapest justification rather than a principled one: a human shown "this will allow
+<verb> <subcommand> with any arguments, in this workspace" is the **only** available audit
+of the prefix table, because in isolation every entry in that table looks reasonable.

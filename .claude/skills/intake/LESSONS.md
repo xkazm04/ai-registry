@@ -1600,3 +1600,74 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   apostrophes in prose on this platform, mid-run, exactly as the 0.13.0 lesson
   says. Write the script to a file the first time; the lesson is right and I
   paid the second time for testing it.
+## 0.14.0 - 2026-08-27 - whip-coding-agent-harness
+
+- **A new sub-class, and it is the highest-yield thing seen in this class so
+  far: the comparative-design corpus.** An open tree that carries first-party
+  teardowns of its RIVALS - four of them here, each cited `file:line` into that
+  rival's source, plus a PTY probe of five competitors' first paint. The
+  property to seek: **every "what we should NOT take, and why" section is a
+  discriminator someone was forced to draw.** This is the research-model-release
+  class's sibling-instruction property at much higher density - one release
+  gives you one boundary, a teardown corpus gives you a section of them per
+  rival, already argued and already attributed. Four of six landings came from
+  the teardowns rather than from the engine's own architecture docs, and the
+  teardown directory is NOT where the README points. Read it first.
+- **High relevance predicts a high catch rate, and the prediction was
+  instructively wrong.** Calling the expected yield out loud at Phase 2 said: a
+  coding-agent harness lands on `llm-agent/runtime-and-io` (8 subjects, the
+  densest area here), so expect picked rows to resolve to already-covered. Zero
+  did. The reason is worth carrying: **the corpus held every concept in this
+  source and was missing stated boundaries in five places.** When a source lands
+  squarely on a mature area, budget verification for enumerations and
+  asymmetries, not for concept gaps - the concept gaps are genuinely gone and
+  the boundaries genuinely are not.
+- **The enumeration hunt paid twice on the same file in two consecutive runs.**
+  picomq added `merge` as a sixth second-caller policy to
+  `single-flight-primitives`; this run scoped `join` (written for a computation;
+  pointed at a durable resource the execution recurs and the one-shot completion
+  signal cannot). **A file that yielded to the enumeration hunt once is a good
+  bet to yield again** - its enumerations are load-bearing enough to be written
+  down and therefore load-bearing enough to be incomplete.
+- **A near-total empty on the map is worth more than a total empty, confirmed
+  again and in the strong direction.** `broadcast observer deadlock` returned
+  ONE hit across 337 subjects, and it was spurious. Reading the top prior-art
+  subject settled hole-versus-seam in a single pass: a seam, inside an
+  enumeration that says "the fan-out loop has ONE sharp edge" and offers a
+  remedy (snapshot the set) that answers a different question (set mutation)
+  than the one the deadlock asks (lock ownership during dispatch).
+- **New hunt shape, and it found the run's largest landing: audit the layer
+  table for a layer nobody authored.** `prompt-assembly`'s five layers -
+  identity, policy, capability, context, task - are each written, derived or
+  selected. The tool-use transcript is none of those verbs and is the only part
+  of the prompt that grows *because the system is working correctly*, so nothing
+  owned it. Generalizable: **wherever a subject enumerates its parts by who
+  produces them, look for the part that produces itself.**
+- **When the missing stage is a producer rather than a stage.**
+  `mid-turn-steering` models its mechanism completely and models exactly one
+  producer, the human - and its sharpest rule ("a steer with no turn in flight
+  refuses loudly, never queues") inverts for machine producers because the
+  rule's own stated justification rests on the caller having a second door. The
+  tell was purely lexical and cheap: the technique's vocabulary is "the user",
+  "the caller", throughout. **Grep a technique for who it says is acting; a
+  single actor named everywhere is a producer axis nobody drew.**
+- **Two triage rows merging on verification is a good outcome, not a triage
+  error.** Rows 3 and 4 were the pairing invariant and the reactive-compaction
+  path; verification showed one root (our accounting versus their protocol) and
+  they landed as one technique. Per the standing critique that synthesis must
+  come from the skill, the merge is the skill doing its job - but say so in the
+  note, because the counts otherwise read as a miscount.
+- **Parallel-session hazard, and the sibling's 0.14.0 lesson was already on
+  disk when I hit it.** Same checkout, sibling actively writing (a file two
+  minutes old), gate failing on THEIR untracked application. Confirmed their
+  conclusion independently: do not commit `index.json`/`catalog.json`. Adding
+  one detail they did not have - **the gate's failure list is the ownership
+  test.** One problem, naming only a path I never touched, is positive evidence
+  my own content is clean; it is not a reason to fix their file, and fixing it
+  would have raced their session.
+- **Shared librarian files are additive and safe to commit; generated files are
+  not.** `librarian/sources/index.md`, a shared subject note and this file all
+  carried both sessions' content. Committing them publishes the sibling's notes
+  a few minutes early and loses nothing; committing the generated pair would
+  publish an index over content HEAD does not have. The discriminator is whether
+  the file is authored or derived, not whether both sessions touched it.

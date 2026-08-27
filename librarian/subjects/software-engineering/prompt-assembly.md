@@ -119,3 +119,50 @@ decision.
   `variable-interpolation` (a missing variable is a loud failure) and may be a seam rather
   than a technique. Return on a second independent source, or when a connected project
   grows a user-editable system prompt with mandatory segments.
+
+## 2026-08-27 - /intake, from a coding-agent harness tree ([[2026-08-27-whip-coding-agent-harness]])
+
+Gained `history-compaction` (10 -> 11 techniques). Registered bidirectionally, with a
+paragraph added to the golden path's layer-table section.
+
+**The missing stage was the transcript itself.** The layer table has five rows - identity,
+policy, capability, context, task - and every one of them is *authored*: someone writes it,
+derives it, or selects it per call. A multi-turn tool-using conversation carries a sixth
+thing none of those verbs describes, and it is the only part of the prompt that grows as a
+consequence of the system working correctly. `context-budgeting` is thorough from stage two
+onward, which is exactly where a missing stage one hides.
+
+Triaged as two candidates and merged on verification, because both are one root: **our
+accounting versus their protocol.** Three invariants, all failing in the same silent
+direction:
+
+- **Pairing.** `context-budgeting`'s "cut at semantic boundaries" is insufficient here
+  because the boundary is supplied by the protocol, not the reader: a tail of the last N
+  messages opening with a result whose call is gone reads perfectly as prose and is
+  rejected as protocol. Cuts are defined over call/result groups; the summary may not be
+  inserted between a pair either; call ids must survive every rewrite.
+- **Resume.** A third regime `continuation-prompts` does not enumerate. Not "preserved",
+  not "lost", but **carried and structurally broken** - the record intact and missing the
+  half of a pair that will never arrive, because the execution died with the turn. Repair
+  with synthesized "did not complete" results before assembly. That repair is also the
+  cheapest crash detector available, and a non-empty one is a report, not routine.
+- **Size.** `context-budgeting` reserves "safety margin for counting error", hedging two
+  estimates: an advertised window that is not what the request is measured against, and a
+  local counter that may not be the provider's. A hedge is not a guarantee, so the reactive
+  path exists - compact once on the provider's refusal and retry - guarded by a
+  once-per-turn flag, without which a misclassified rejection becomes a compact/retry loop
+  that shrinks the conversation to nothing and bills a summarization per iteration.
+
+Closing section earns its place from the *economy* the source documents (route
+summarization to a cheaper model): compaction is the one place model-generated text is
+promoted into a standing layer of every later prompt, so its errors are not transient, and
+anything load-bearing that exists only in the transcript is one compaction away from gone.
+
+## Open leads
+
+- **Untriaged, from the same source:** the `@`-mention expansion discriminator, already
+  drawn by two implementations taking opposite sides - explicit mention rewritten into a
+  synthetic read tool-call/result pair (so the model will not re-read it, and compaction
+  treats it as a tool result rather than a giant user message) versus ambient IDE state
+  injected as a mention-only reminder. Sits on `context-reachability`. Return when a second
+  source draws it, or when a connected project grows file mentions.

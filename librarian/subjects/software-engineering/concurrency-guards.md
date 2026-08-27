@@ -74,3 +74,41 @@ is the consequence for lease sizing.
   classification framing is not, and reads as doctrine rather than technique.
   One sighting. **Return on a second independent one**, then propose at
   doctrine level rather than as a technique.
+
+## 2026-08-27 - /intake, from a coding-agent harness tree ([[2026-08-27-whip-coding-agent-harness]])
+
+`single-flight-primitives` amended for the second time in two runs, both times against its
+own enumeration. picomq's run added `merge` as a sixth second-caller policy; this run
+**scopes `join`**.
+
+Join is written for a **computation**: one execution, N waiters, one result, finished.
+Pointed at the *establishment of a durable resource* - a connection, a session, a spawned
+server that drops and returns - the execution recurs, and the natural broadcast primitive
+for join (a one-shot completion signal that wakes all waiters at once) is one-shot **by
+construction** in most concurrency models. So the first reconnect performs it a second
+time and the process dies at the moment it was recovering. The source's own note: "the
+first implementation re-closed on reconnect and panicked."
+
+Three rules landed, plus a `use_when` entry and a decision rule: the signal means "the
+first attempt settled", not "usable" (settled covers failure too, which is what makes the
+fire-once invariant unbreakable); callers read live state under the lock afterwards, never
+the signal; every watcher carries the generation that spawned it, or a stale drop event
+tears down a healthy resource.
+
+The reusable half is the closing distinction: single-flight over a computation guards
+**work** and yields a value that is delivered and forgotten; over a resource it guards
+**establishment** and yields state with a lifetime - so the guard needs a generation and
+the signal needs a meaning that survives being observed forever.
+
+Boundary noted, not linked: `mcp-tools/client-integration` says only "treats reconnects as
+routine rather than exceptional" and models catalog freshness in detail beside it. That is
+the same boundary from the protocol side; the mechanism lives here because the source hits
+it in three unrelated subsystems.
+
+## Open leads
+
+- **Untriaged, from the same source:** `guard-key-design` enumerates the identity axes and
+  says entity is "almost always included" - a shell command's side effects are attributable
+  to no path, so it takes a single global guard while per-path writes run in parallel. The
+  enumeration does not contain the case where the entity axis cannot be determined. Return
+  if a second source draws the same boundary.

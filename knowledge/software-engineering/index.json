@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 150,
-  "techniques": 969,
-  "applications": 437,
+  "techniques": 975,
+  "applications": 438,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "969/969",
+  "use_when_coverage": "975/975",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3738,7 +3738,8 @@
       "picking the second-caller policy per operation",
       "a boolean flag trampled by a second key",
       "callers retrying a refusal that looks like failure",
-      "an expensive durable write paid once per caller"
+      "an expensive durable write paid once per caller",
+      "a readiness signal that cannot fire again after a reconnect"
      ]
     }
    ],
@@ -6815,6 +6816,21 @@
      ]
     },
     {
+     "slug": "failure-attribution",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a suite went red and nobody knows what to change",
+      "the aggregate improved but the same failures recur",
+      "deciding whether a failing case is a defect or a bad label"
+     ]
+    },
+    {
      "slug": "judge-stability",
      "status": "forged",
      "laws": [
@@ -6828,6 +6844,21 @@
       "swapping the judge without breaking the trend",
       "the judge keeps favoring its own kind",
       "the winner's margin is smaller than the ruler's swing"
+     ]
+    },
+    {
+     "slug": "metric-role-contract",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "declaring what an eval run decides before it runs",
+      "a result improves one metric and worsens another",
+      "a composite is about to average metrics with different consequences"
      ]
     },
     {
@@ -7856,6 +7887,7 @@
      "shared_with": [],
      "use_when": [
       "grant tuple silently widened to whole capability",
+      "a stored grant never matches because the action is a composed string",
       "re-ask initializes from defaults not stored answer",
       "autonomy dial cached at startup blocks revocation"
      ]
@@ -8498,7 +8530,8 @@
      "use_when": [
       "closing the set of verdicts a job can end in",
       "an orphaned running row blocks new runs forever",
-      "choosing per-job verdicts for a boot recovery sweep"
+      "choosing per-job verdicts for a boot recovery sweep",
+      "a second executor double-fires work the claim already protects"
      ]
     }
    ],
@@ -9350,6 +9383,21 @@
       "reviewing an install flow that writes a spawn command",
       "deciding which tool calls stop for a human",
       "two servers exporting the same tool name"
+     ]
+    },
+    {
+     "slug": "egress-argument-gating",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "gating outbound tool calls over a third-party argument schema",
+      "an allow-list passed a share nobody on it can read",
+      "deciding whether to allow-list argument keys or scan every value"
      ]
     },
     {
@@ -11972,6 +12020,20 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
    "techniques": [
     {
+     "slug": "cache-breakpoint-allocation",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "allocating a fixed number of cache cut points across prompt layers",
+      "a cheap-looking prompt edit multiplied the bill",
+      "deciding whether a computed value may sit in a cached block"
+     ]
+    },
+    {
      "slug": "capability-documentation",
      "status": "forged",
      "laws": [
@@ -12039,6 +12101,21 @@
       "deciding whether a resumed session continues or rebuilds",
       "unchanged sessions keep flagging as stale",
       "tracing a behavior shift to the prompt version that caused it"
+     ]
+    },
+    {
+     "slug": "history-compaction",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cut tail orphans a result from the call it answers",
+      "the provider rejects a prompt the budget said fits",
+      "resuming a session whose last turn died mid-call"
      ]
     },
     {
@@ -13557,7 +13634,8 @@
      "use_when": [
       "merging candidate lists from several matchers",
       "adding raw scores from incomparable scales",
-      "nearest-neighbor hits leaking across scopes"
+      "nearest-neighbor hits leaking across scopes",
+      "fusing a lane whose input is another lane's output"
      ]
     },
     {
@@ -13571,6 +13649,23 @@
       "allocating seats before or after seeing candidates",
       "item counts filling wildly different window shares",
       "near-duplicates each claiming their own seat"
+     ]
+    },
+    {
+     "slug": "relationship-proximity-lane",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the corpus stores typed relations between items",
+      "deciding whether an edge table earns a place in recall",
+      "a stored graph that nothing queries at request time",
+      "expanding a candidate set along relations",
+      "choosing between a relation store and relations inside the existing store"
      ]
     },
     {
@@ -13638,6 +13733,13 @@
      "technique": "hybrid-lane-fusion",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--hybrid-lane-fusion.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "relationship-proximity-lane",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--relationship-proximity-lane.md",
+     "verified_on": "2026-08-27",
+     "verified_against": "rust@1.80.0"
     }
    ]
   },
@@ -18038,7 +18140,9 @@
     "error-handling/swallowed-error-prevention",
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
+    "eval-harness/failure-attribution",
     "eval-harness/judge-stability",
+    "eval-harness/metric-role-contract",
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/expiring-share-links",
     "executive-reporting/grounded-narrative-generation",
@@ -18083,6 +18187,7 @@
     "maturity-ladders/present-vs-enforced",
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/client-integration",
+    "mcp-tools/egress-argument-gating",
     "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/tool-schema-design",
     "mcp-tools/transport-selection",
@@ -18356,6 +18461,7 @@
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
     "eval-harness/eval-economics",
+    "eval-harness/failure-attribution",
     "eval-harness/overshoot-and-restore",
     "executive-reporting/grounded-narrative-generation",
     "executive-reporting/provenance-caveats",
@@ -18461,6 +18567,7 @@
     "proactive-nudges/notice-delivery-decoupling",
     "proactive-nudges/trigger-evaluators",
     "prompt-assembly/context-reachability",
+    "prompt-assembly/history-compaction",
     "prompt-assembly/variable-interpolation",
     "prompt-safety/canary-tripwires",
     "prompt-safety/model-output-as-untrusted",
@@ -18492,6 +18599,7 @@
     "repo-manifest-standard/must-ignore-unknown",
     "repo-manifest-standard/pointers-not-embeds",
     "retrieval/embedding-lifecycle",
+    "retrieval/relationship-proximity-lane",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
     "retrieval/retrieval-triggering",
@@ -18761,7 +18869,9 @@
     "error-handling/swallowed-error-prevention",
     "eval-harness/certification-levels",
     "eval-harness/comparison-modes",
+    "eval-harness/failure-attribution",
     "eval-harness/judge-stability",
+    "eval-harness/metric-role-contract",
     "eval-harness/overshoot-and-restore",
     "eval-harness/scenario-design",
     "eval-harness/unaided-baseline-screening",
@@ -18855,8 +18965,10 @@
     "pipeline-dag/conditional-edges",
     "proactive-nudges/attention-budgets",
     "proactive-nudges/efficacy-feedback",
+    "prompt-assembly/cache-breakpoint-allocation",
     "prompt-assembly/context-budgeting",
     "prompt-assembly/context-reachability",
+    "prompt-assembly/history-compaction",
     "prompt-safety/input-caps-and-clamps",
     "public-claim-provenance/derived-numerator-authored-denominator",
     "public-claim-provenance/no-data-source-labelled-inline",
@@ -18883,6 +18995,7 @@
     "repo-manifest-standard/generated-from-provenance",
     "retrieval/hybrid-lane-fusion",
     "retrieval/ranking-budgets",
+    "retrieval/relationship-proximity-lane",
     "retrieval/retrieval-evaluation",
     "retrieval/retrieval-triggering",
     "retry-backoff/retry-observability",
@@ -19068,6 +19181,7 @@
     "plan-entitlements/id-vs-label-split",
     "proactive-nudges/nudge-identity-dedup",
     "prompt-assembly/continuation-prompts",
+    "prompt-assembly/history-compaction",
     "prompt-assembly/house-vocabulary-layer",
     "rate-limiting/unattributable-client-bucketing",
     "readiness-passports/blocker-rollups",
@@ -19084,6 +19198,7 @@
     "repo-manifest-standard/semver-additive-evolution",
     "retrieval/chunking-and-indexing",
     "retrieval/hybrid-lane-fusion",
+    "retrieval/relationship-proximity-lane",
     "retry-backoff/durable-retries",
     "runner-fleet/shared-resource-serialization",
     "scheduling/overlap-and-reentrancy",
@@ -19226,6 +19341,7 @@
     "markdown-vault/vault-as-database",
     "maturity-ladders/migrate-on-read",
     "mcp-tools/authentication-and-scoping",
+    "mcp-tools/egress-argument-gating",
     "mcp-tools/server-composition",
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
@@ -19596,6 +19712,7 @@
     "error-handling/taxonomy-design",
     "error-handling/user-facing-mapping",
     "eval-harness/judge-stability",
+    "eval-harness/metric-role-contract",
     "executive-reporting/bad-news-labelling",
     "executive-reporting/single-ranked-next-move",
     "feed/reverse-chronology-semantics",
@@ -19883,6 +20000,7 @@
     "plan-entitlements/price-book-authority",
     "plan-entitlements/tier-model-single-source",
     "proactive-nudges/attention-budgets",
+    "prompt-assembly/cache-breakpoint-allocation",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/derived-numerator-authored-denominator",
@@ -19953,6 +20071,7 @@
     "conversation-orchestration/recall-transparency",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "mcp-tools/egress-argument-gating",
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",
     "structured-output/schema-validation-and-repair",
