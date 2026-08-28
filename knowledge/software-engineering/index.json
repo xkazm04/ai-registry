@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 150,
-  "techniques": 979,
-  "applications": 439,
+  "techniques": 980,
+  "applications": 440,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "979/979",
+  "use_when_coverage": "980/980",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -10356,6 +10356,13 @@
      "refresh_by": "2026-11-20"
     },
     {
+     "stack": "process",
+     "technique": "capability-floors",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/process--capability-floors.md",
+     "verified_on": "2026-08-28",
+     "refresh_by": "2026-11-28"
+    },
+    {
      "stack": "react",
      "technique": "routing-policy",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/react--routing-policy.md",
@@ -17793,6 +17800,22 @@
      ]
     },
     {
+     "slug": "negotiated-representation-probe",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "about to author extraction rules against a page",
+      "the target has no API but might publish an alternate representation",
+      "deciding whether a machine-readable variant of a page replaces scraping or merely cheapens it",
+      "a long-stable rule set collapses after a redesign"
+     ]
+    },
+    {
      "slug": "scrape-scheduling",
      "status": "forged",
      "laws": [
@@ -18767,6 +18790,7 @@
     "voice-io/voice-ux-integration",
     "web-scraping/dry-run-preview",
     "web-scraping/extraction-rule-dsl",
+    "web-scraping/negotiated-representation-probe",
     "web-scraping/scrape-scheduling",
     "web-scraping/shape-change-detection",
     "webhook-ingestion/delivery-logging-and-replay",
@@ -20130,6 +20154,7 @@
     "ui-controls/control-inventory-and-discovery",
     "undo-history/undo-model-selection",
     "voice-io/tts-pipeline",
+    "web-scraping/negotiated-representation-probe",
     "wizard-flows/progress-communication"
    ]
   },
@@ -20157,6 +20182,7 @@
     "structured-output/schema-validation-and-repair",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "terminal-multiplexing/occupant-state-detection",
+    "web-scraping/negotiated-representation-probe",
     "web-scraping/soak-mode-and-verdict-replay"
    ]
   },

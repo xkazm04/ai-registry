@@ -10,6 +10,7 @@ techniques:
   - dedup-and-datasets
   - scrape-scheduling
   - shape-change-detection
+  - negotiated-representation-probe
   - soak-mode-and-verdict-replay
 ---
 
@@ -25,10 +26,12 @@ becomes those particular fields.
 Scraping is the interface of last resort, and a principal-quality
 implementation says so out loud. Before authoring a single rule, exhaust the
 alternatives in order: an official API, a feed, an export, a negotiated data
-license. Each of those is a *contract* — someone promised the shape, versioned
-it, and will hear about it when they break it. A page is not a contract. Its
-owner may redesign it tonight, without notice, owing you nothing. Everything
-distinctive about scraping engineering follows from that single asymmetry:
+license — and the cheapest one to check, an alternate *representation* of the
+very page you were about to scrape, which costs one request to ask for. Each
+of those is a *contract* — someone promised the shape, versioned it, and will
+hear about it when they break it. A page is not a contract. Its owner may
+redesign it tonight, without notice, owing you nothing. Everything distinctive
+about scraping engineering follows from that single asymmetry:
 
 1. **Rules break silently, and they break in the shape of plausible
    emptiness.** An API breaks loudly — status codes, schema errors. A
@@ -55,6 +58,16 @@ distinctive about scraping engineering follows from that single asymmetry:
 - **The "page" is really a document you control** (uploads, exports,
   attachments) — that is import normalization, not scraping: no politeness
   problem, no shape-change adversary.
+- **The server will hand out another representation of the same page** — ask
+  before authoring anything. If the publisher *authored* that representation,
+  this is the feed branch above and rules infrastructure is overhead. If an
+  intermediary merely converted the same markup on the fly, you have bought a
+  cheaper parse stage and nothing else — the shape-change adversary is
+  untouched, because a derived representation is not a contract. Telling those
+  two apart is
+  [negotiated-representation-probe](./techniques/negotiated-representation-probe.md),
+  and getting it wrong in the optimistic direction is how a detector becomes a
+  blindfold.
 - **One-off retrieval** — a human copy-paste or a throwaway script beats
   building rule infrastructure. This subject is about *repeated* extraction,
   where rules, datasets, and schedules earn their cost.
@@ -66,14 +79,19 @@ matter because each stage has a different failure story:
 
 | Stage | Job | Fails how |
 | --- | --- | --- |
-| **Acquire** | fetch the page (plain fetch, or a rendering engine when content is script-assembled) | network errors, blocks, rate limits — *loud* failures |
+| **Acquire** | fetch the page — after asking what representations exist (plain fetch, or a rendering engine when content is script-assembled) | network errors, blocks, rate limits — *loud* failures; an unhonoured type preference fails *silently* |
 | **Parse** | markup → traversable tree | almost never; parsers are forgiving by design, which pushes failure downstream |
 | **Extract** | run the authored rules over the tree | *silently* — rules miss and produce nothing |
 | **Normalize & validate** | coerce types, trim, canonicalize; reject records missing required fields | validation is the tripwire that converts silent misses into visible failures |
 | **Reconcile** | merge the harvest into the dataset by identity — insert, update, tombstone | wrong identity corrupts the dataset invisibly |
 | **Observe** | record what the run did, against what was expected | omitted entirely, in most amateur scrapers |
 
-The acquire stage owns legitimacy mechanics: honoring the site's published
+The acquire stage owns two things. The first is asking what it is being given:
+a fetch that never states a preferred type has silently decided the answer,
+and the type the response *declares* is the only evidence of what arrived — a
+server is free to disregard the preference and answer as though none was sent
+([negotiated-representation-probe](./techniques/negotiated-representation-probe.md)).
+The second is legitimacy mechanics: honoring the site's published
 crawl preferences, identifying the client honestly, spacing requests, backing
 off on pressure signals (see [rate-limiting](../../backend-platform/resilience/rate-limiting/rate-limiting.md)
 for the receiving side of that conversation, and
