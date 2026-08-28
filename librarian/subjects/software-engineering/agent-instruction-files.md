@@ -74,3 +74,92 @@ composition balance, and a span rule — eight techniques, and the newest two ar
 only ones that are not about the file's text. If a ninth candidate arrives that is
 also not about the text, the subject may be carrying two concerns and the boundary
 should be stated before it is grown further.
+
+## 2026-08-28 — /intake, [[../../sources/2026-08-28-audit-your-agent-files]]
+
+Two more techniques (8 → 10) from a newsletter essay on configuration hygiene.
+The source's own content was almost entirely already covered — the value was
+that it pointed at a question the subject had never asked, and the corpus and
+one vendor primary answered it better than the source did.
+
+**`substrate-coupled-expiry` — the subject audits the file against the repo and
+never against the model.** `instruction-freshness` ends "couple the file to
+change, not to calendars", and every trigger it lists is repo-side: a stack
+bump, a command rename, a restructure, a deletion. Its audit's fourth check asks
+whether a rule's failure mode still exists *in the repo*. Nothing asks whether
+the *agent* still has that failure — so a line can be perfectly accurate and
+completely inert, and no existing check can see that state.
+
+The subject's own **denial** is what hid it, which is the third run in a row
+where an enumeration or a denial was the instrument. By rejecting calendar
+cadence in favour of change-coupling, `instruction-freshness` ruled out the only
+schedule that catches substrate drift — a model upgrade produces no diff to
+couple to. The corrective preserves the denial rather than reversing it: the
+change list simply has a **second column** (a model generation lands, the
+harness ships natively what the file instructed around), and both are datable.
+
+`line-earning` is the same seam from the other side, and it says so out loud —
+its behavior-changing half concedes *"the honest way to know is the line's
+origin story."* An origin story is evidence about the model that failed.
+
+**The instrument was already in the subject, at the wrong polarity.**
+`capability-before-steering` — landed by a parallel session *during this run* —
+isolates a capability gap by asking whether a failure "persists at the top of a
+fresh, minimal file." Run that same rig with the rule **absent** and it measures
+`line-earning`'s second half directly. The subject had built one door of a
+two-door apparatus and had not noticed the other side. Had this run written
+against the pre-read state of the subject it would have minted a competing
+apparatus beside it.
+
+The fetch supplied the two things that made it a technique rather than a
+platitude: expiry is **not uniform** (restraints go first, because they are a
+fossil record of one generation's failure modes — so an expired restraint
+suppresses behaviour the current model would have got right, which is
+`restraint-amplifier-balance`'s loss reached by a route that subject does not
+model: a file that *became* all-cage rather than one authored that way), and
+expired lines **contradict rather than idle** (two lines can each pass
+`line-earning` and be a defect as a pair — invisible to any audit that walks
+lines one at a time, which is what the freshness checklist does).
+
+**`sibling-floor-ownership` — the half the subject explicitly declined.** The
+golden path's opening names the siblings the harness loads and leaves them
+alone. But they are not the harness's furniture; they are capabilities a person
+installed one at a time, authored by strangers, and the subject's stated
+position — paid, advisory, always-loaded, uncuttable per task — holds for them
+word for word while they are usually the *larger* half of what the agent reads.
+`creation-names-reaper` is the anchor: each install is locally justified,
+nothing schedules the retention decision, and the admission funnel runs per line
+on a diff while an install produces no diff at all.
+
+## The previous run's prediction fired, and here is the boundary it asked for
+
+The 2026-08-27 note said: *if a ninth candidate arrives that is also not about
+the file's text, the subject may be carrying two concerns and the boundary
+should be stated before it is grown further.* It arrived — `sibling-floor-ownership`
+is not about the file's text — so the boundary, as asked:
+
+The cleave is **what you authored versus what actually loads.**
+
+- *Authoring* (7): `line-earning`, `enforcement-demotion`, `single-source-topology`,
+  `machine-owned-regions`, `restraint-amplifier-balance`, `instruction-freshness`,
+  `substrate-coupled-expiry`. All ask what a line should say, or whether it still
+  earns its place. `capability-before-steering` sits here too despite not being
+  about text — it is a pre-filter on the admission funnel, and its output is a
+  decision about whether to write a line.
+- *What loads* (2): `workspace-ancestry-isolation` (the span the file governs is
+  wider than the repo) and `sibling-floor-ownership` (the floor contains authors
+  who are not you). Both are cases where a perfectly authored file is an
+  incomplete account of the agent's actual context.
+
+**Not a split yet, and the reason is specific**: at two techniques the second
+cluster has no internal structure — no ordering between them, no shared
+decision rule, nothing one needs from the other. A subject earns its own
+golden path when its techniques constrain each other, and these two currently
+only share a negation. Splitting now would produce a subject whose golden path
+is one sentence.
+
+*Return condition, sharper than last run's:* a **third** what-loads technique
+that has a dependency on one of the existing two — an ordering, a shared budget,
+a case where resolving the span changes how the sibling floor is audited. That
+is the point at which the cluster has a golden path to write. A third
+independent one is not enough; the count was never the signal.

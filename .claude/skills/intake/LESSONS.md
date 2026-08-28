@@ -1978,3 +1978,57 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   consumer application. **The project was named in the invocation and still declined at
   the gate** - the invocation confirms the lane, it does not pre-approve the row. No tree
   was touched. Decline reasons owed; asked batched.
+
+## 0.14.0 - 2026-08-28 - audit-your-agent-files
+
+- **The listicle row's tiebreaker did the whole triage.** *Items that touch this
+  registry's own machinery outrank items about bundle content* - every picked row was
+  machinery, and the three the operator picked were the three the tiebreaker promoted.
+  On a source whose subject was already forged four days earlier, that rule is what
+  separated two real findings from nine catches. It has now earned its place as the
+  first thing to apply on this class, not a note at the end of the row.
+- **A subject's explicit denial is now three-for-three as the highest-yield hunt.**
+  Run over `microsoft/AutoSaddler` found a seven-item failure enumeration that denied
+  too much; the herdr run found a golden path denying a symmetry; this run found
+  `instruction-freshness` saying "couple the file to change, not to calendars" - a
+  denial that ruled out the only schedule capable of catching the drift it did not
+  model. **The pattern to look for is a denial whose stated reason is sound and whose
+  scope is one axis too narrow.** The corrective is almost never to reverse the denial:
+  here it was to give its change list a second column, which preserves the original
+  argument intact. A correction that has to overturn the subject's reasoning is usually
+  the wrong correction.
+- **Check whether the subject already owns the instrument at the wrong polarity.**
+  The accepted technique needed a way to measure whether a line still changes behaviour.
+  `capability-before-steering` already had the rig - a failure that "persists at the top
+  of a fresh, minimal file" isolates a capability gap - and running it with the rule
+  *absent* instead of present measures the other thing entirely. Before writing a new
+  apparatus, read the neighbouring techniques for one that runs the same experiment in
+  the other direction. New step for Phase 6: after naming the home, ask which existing
+  technique already builds the rig the finding needs.
+- **Phase 4's "one moment" warning is not hypothetical and it changed this run's
+  output.** A parallel session landed two techniques into the picked subject between the
+  map call and the write. Re-reading was load-bearing: one of them supplied the
+  instrument above, and writing against the pre-read state would have minted a competing
+  apparatus beside it. The re-read cost one file read.
+- **The reverse of the shared-checkout hazard also happens: a sibling session's
+  directory-wide commit swept this run's ledger row into *its* commit.** The skill warns
+  about sweeping others' WIP; it does not warn that your own in-flight lines can be
+  taken. Write the ledger row late, or verify after committing which commit actually
+  carries it (`git log -S<slug> -- <path>`). Outcome was harmless here - the row is in
+  `HEAD` under someone else's message - but the run note would have been wrong about
+  where it landed.
+- **For a relay class, the fetch's value was the mechanism, not the number.** The source
+  flattened its primary to "instruction value can expire". The primary carried *why*
+  (guardrails written for a weaker model become wrong for a stronger one) and *a second
+  cost* (lines from different generations contradict each other across layers), and
+  those two turned a cadence recommendation into a technique with a sort and an
+  instrument. Also worth recording: **the primary stated no removal procedure at all** -
+  it reported the result and offered a tool. The relay's protocol was the only candidate
+  procedure either source carried. A relay can be the one holding the method even when
+  the primary holds the evidence.
+- 2 of 3 fetches; one wasted guessing a vendor URL rather than searching for it first.
+  Search before fetching when the URL is not in the source.
+- Zero declines. Ten rows went unpicked and are recorded untriaged with anchors; the
+  personalization paper is flagged as a cross-run convergence candidate against the
+  2026-08-22 pair that `agent-memory/procedure-promotion` rests on. Decline reasons owed:
+  none, because nothing was declined.

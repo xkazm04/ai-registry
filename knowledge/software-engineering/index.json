@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 150,
-  "techniques": 982,
+  "techniques": 984,
   "applications": 440,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "982/982",
+  "use_when_coverage": "984/984",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -897,6 +897,22 @@
      ]
     },
     {
+     "slug": "sibling-floor-ownership",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing installed agent capabilities rather than a repository's own file",
+      "an owner cannot list which capabilities their agent loads",
+      "two installed capabilities have overlapping trigger descriptions",
+      "deciding whether an installed capability still earns its share of the discovery budget",
+      "an agent behaves in ways no repository file explains"
+     ]
+    },
+    {
      "slug": "single-source-topology",
      "status": "forged",
      "laws": [
@@ -910,6 +926,22 @@
       "per-tool instruction files have drifted apart",
       "structuring instruction files in a monorepo",
       "the always-loaded floor has outgrown its budget and needs scoped overflow"
+     ]
+    },
+    {
+     "slug": "substrate-coupled-expiry",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model or harness upgrade landed and the instruction file was not part of the change",
+      "deciding whether a rule that still reads correctly is still doing anything",
+      "an instruction file has accreted across several model generations",
+      "an agent has become cautious and the file is mostly old prohibitions",
+      "deciding what to remove from a file that passes every freshness check"
      ]
     },
     {
@@ -18178,6 +18210,7 @@
     "agent-cli-transport/permission-stance-enforcement",
     "agent-instruction-files/capability-before-steering",
     "agent-instruction-files/enforcement-demotion",
+    "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
     "alerting/evaluation-loop",
     "alerting/rule-authoring-validation",
@@ -18931,6 +18964,7 @@
     "agent-chaining/stop-reason-ledgers",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/line-earning",
+    "agent-instruction-files/sibling-floor-ownership",
     "agent-memory/coverage-instrumentation",
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
@@ -19561,6 +19595,7 @@
     "admission-queue/drain-and-shutdown",
     "agent-addressable-ui/uninstrumented-degradation",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-instruction-files/sibling-floor-ownership",
     "agent-memory/decay-and-forgetting",
     "agent-memory/episodic-capture",
     "agent-memory/procedure-promotion",
@@ -20200,6 +20235,7 @@
     "agent-cli-transport/availability-probe",
     "agent-cli-transport/dated-capability-matrix",
     "agent-instruction-files/instruction-freshness",
+    "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/decay-and-forgetting",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",

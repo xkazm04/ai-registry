@@ -12,6 +12,8 @@ techniques:
   - restraint-amplifier-balance
   - capability-before-steering
   - workspace-ancestry-isolation
+  - substrate-coupled-expiry
+  - sibling-floor-ownership
 ---
 
 # Agent instruction files
@@ -138,6 +140,37 @@ maintenance practice: claims carry their measurement date, enforcement
 claims are verified against the gate actually firing, and pruning is a
 first-class edit.
 
+## The reader improves, and that rots the file too
+
+Freshness couples the file to change rather than to the calendar, and
+every change it names is repo-side — a renamed command, a moved
+directory, a deleted file. The file's other reader moves on its own
+schedule: when the model improves, nothing in the repository changes and
+a line can still become inert. A guardrail minted against a weakness the
+model no longer has keeps charging the dilution tax, and worse, now
+suppresses behavior the current model would have got right — so a
+correct, freshly audited line is not yet an earning one.
+[substrate-coupled-expiry](./techniques/substrate-coupled-expiry.md)
+owns the second axis: which lines expire (the judgment-shaped ones —
+unreachability never expires), the held-out trial that measures removal
+directly instead of trusting a line's origin story, and stamping a rule
+with the substrate it was minted against so the next upgrade sorts the
+file mechanically.
+
+## The floor is bigger than your file
+
+The harness loads the file with siblings, and the siblings are not the
+harness's own furniture — they are capabilities a person installed one
+at a time, authored by strangers and maintained on somebody else's
+cadence. They are paid on every session, advisory, and uncuttable per
+task: the position stated above holds for them word for word, and they
+are usually the larger half of what the agent actually reads. Yet the
+admission funnel runs per line, on a diff, and an install produces no
+diff. [sibling-floor-ownership](./techniques/sibling-floor-ownership.md)
+extends the standard to that half — enumerate before judging, review
+descriptions rather than bodies, and treat installing and keeping as the
+two separate decisions only one of which anybody ever makes.
+
 ## Failure modes this standard exists to prevent
 
 - **The generated overview** — a machine-written tour of what the tree
@@ -154,6 +187,12 @@ first-class edit.
   than no claim, because it retires the agent's own caution.
 - **The two-audience document** — onboarding narrative for humans merged
   with agent instructions, bloating both and serving neither.
+- **The cage without its animal** — a restraint minted against a failure
+  mode the current model no longer has; accurate, inert, and actively
+  suppressing behavior the model would now get right.
+- **The unauthored floor** — a catalog of installed capabilities, each
+  admitted on its own merits and the aggregate on nobody's, loading
+  descriptions into every session that the owner can no longer enumerate.
 
 ## The techniques
 
@@ -184,3 +223,11 @@ first-class edit.
   the governed span: the ancestry walk past the repo root, upward
   inheritance and downward injection, the sibling layout that empties the
   span, and asserting the loaded set instead of the layout.
+- [substrate-coupled-expiry](./techniques/substrate-coupled-expiry.md) —
+  the second rot axis: the model improves and accurate lines go inert;
+  restraints expire first, expired lines contradict rather than idle, and
+  the held-out trial replaces the origin story as the measurement.
+- [sibling-floor-ownership](./techniques/sibling-floor-ownership.md) —
+  the installed half of the always-loaded floor: the discovery budget
+  nobody authored, install versus retain as separate decisions, the
+  collision and contradiction that only the whole listing reveals.
