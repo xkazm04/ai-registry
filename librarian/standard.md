@@ -80,86 +80,105 @@ reviewer applies them:
   unchanged and recorded that they held. That is a consult with a deviation count, so
   the signals lane is where this rung's evidence will come from. Nothing qualifies yet.
 
-**Demand is witnessed, uneven, and no longer small.** Two installations report as of
-2026-08-27. The picture changed sharply between them and the earlier version of this
-paragraph - written when one contributor had reported three consults - is superseded:
+**Demand is witnessed, volatile, and this section may not quote it.** Written
+2026-08-27, corrected 2026-08-28 after one day made every figure in it wrong.
 
-| | |
-| --- | --- |
-| Contributors | 2 (2026-08-23, 2026-08-25) |
-| Bundles witnessed | 7 of 8; only `localization` is unwitnessed |
-| Consults in window | 87 |
-| Deviations | 6 |
+The correction is the lesson, so it goes first. The 2026-08-27 version of this paragraph
+carried a table: two contributors, seven of eight bundles witnessed, 87 consults, six
+deviations, and an argument built on four bundles being *witnessed and silent*. One day
+later a contributor's collector re-ran and the reading was three bundles witnessed, 43
+consults, **63 deviations**, and not one witnessed-silent bundle. Nothing was wrong with
+either measurement. The signals lane is a 30-day rolling window over installations that
+regenerate on their own schedule, so **a reading of it has a shelf life of about a day.**
 
-One installation consulted **46 distinct `software-engineering` subjects 83 times in
-thirty days**. That is the recall problem being solved somewhere, and it retires the
-supply-to-demand argument this paragraph used to make against the whole corpus - for
-that bundle. It does not generalize: the other contributor recorded three consults, and
-five bundles have never been consulted by anybody who reports.
+**A standard is a bar, not a dashboard.** Numbers belong in the instrument, run fresh;
+this file holds what is true regardless of the reading. Run
+[`check-currency.mjs`](../scripts/check-currency.mjs) and
+[`librarian-scan.mjs`](../scripts/librarian-scan.mjs) for the reading, and treat any
+figure quoted here as a dated illustration that has probably already moved.
 
-Two readings of that installation's **zero deviations across 83 consults**, and the
-standard does not pick one: either the tree genuinely conforms, or the deviation path
-was never exercised. The other contributor's three consults produced four deviations
-using the same collector, which is the reason not to assume the first reading. Unknown
-is not zero, and it is not conformance either.
+What is structurally true, and was true under both readings:
 
-**Under the same gap: `demandKnown` is a boolean over three states, and it merges two
-of them.** The scan asks only whether any installation named a bundle. That yields:
+- **Demand is real, concentrated, and does not generalize.** One installation does the
+  overwhelming majority of the consulting, and it consults one bundle. Several bundles
+  have never been consulted by anybody who reports, under any reading so far.
+- **A consult that finds nothing wrong and a consult that was never made are different
+  facts, and the collector cannot always tell you which you have.** Whichever way the
+  deviation count moves between runs, ask whether the tree changed or the collection did
+  before reading it as conformance.
+- **Demand outranks every structural clause above for the subjects it names** - but only
+  for the run that read it. Do not carry a demand ranking forward.
 
-- **Unknown** - no installation names it. `localization`, today.
+**Under the same gap: `demandKnown` is a boolean over three states, and it merges two of
+them.** The scan asks only whether any installation named a bundle. That yields:
+
+- **Unknown** - no installation names it.
 - **Witnessed and silent** - an installation names it and reported no consults at all.
-  Four bundles today: `llm-observability`, `media-generation`, `grant-funding`,
-  `civic-intelligence`.
-- **Demand** - a consult count. Three bundles.
+- **Demand** - a consult count.
 
-The middle state is the informative one and the instrument cannot express it: it is an
-installation that has the bundle wired and reaches for nothing in it. `media-generation`
-is the sharpest case - the supply side moved 39 techniques in six days while the demand
-side stayed at zero. A sweep should say which of the three it is ranking on, in words,
-until the scan can.
+The middle state is the informative one and the instrument cannot express it: an
+installation that has a bundle wired and reaches for nothing in it. It is also the state
+that evaporates fastest - the four bundles that held it on 2026-08-27 had dropped to
+*unknown* by the next morning, which is the difference between "nobody needed this" and
+"nobody told us", collapsing into one boolean twice in two days. Until the scan can say
+which, **a sweep states in words which of the three it is ranking on, and on what date.**
 
-Demand outranks every structural clause above for the subjects it names.
 
-**Currency is instrumented for a tenth of the corpus, and drift is unranked.** Measured
-2026-08-27:
-
-| | |
-| --- | --- |
-| Applications | 934 |
-| Runtime-bearing (non-`process`) | 704 |
-| Carrying `verified_against` | 74 - **11%** |
-| Of those, drifted against a reported fleet major | 17 - **23% of what is measurable** |
-| Invisible to drift detection | 630 - **89% of runtime-bearing** |
-| Bundles where that is 100% | `recruiting`, `civic-intelligence`, `grant-funding` |
+**Most of the corpus cannot be checked for drift, and nothing ranks the part that can.**
+Written 2026-08-27; its proposed remedy corrected 2026-08-28, because the remedy was
+forbidden by the format spec. Run
+[`check-currency.mjs`](../scripts/check-currency.mjs) for the reading - as of 2026-08-28
+it was roughly nine in ten runtime-bearing applications, with three bundles at all of
+them, but per the gap above that figure is an illustration and not a constant.
 
 Two distinct failures sit under one heading.
 
 *The coverage half, and it is worse than a blind spot.* A runtime-bearing application
 without `verified_against` cannot drift, because nothing can compute that it has. It
-therefore does not read as UNKNOWN in any report - it reads as **not drifted**, which is
-the one wrong answer of the three. `check-currency.mjs` says this about itself in a
-comment - "a fact about our instrumentation, not about the document" - and it is right,
-which is why `0 expired · 0 at risk` must never be read as a health statement.
+therefore does not report as UNKNOWN anywhere - it reads as **not drifted**, which is
+the one wrong answer of the three. This is why `0 expired · 0 at risk` must never be
+read as a health statement: it is a statement about the witnessed slice only.
 
 **This is demonstrated, not theorised.** On 2026-08-27 a worker sent to clear the single
 drifted application in `media-generation` found the folder's OTHER application rotted
 identically against the same source file - eight citations moved by the same refactor -
-and it had escaped every scan the registry runs because it carried no witness at all.
-One folder, two rotted documents, one of them invisible. The registry-wide drift figure
-is therefore a **lower bound over 11% of the runtime corpus**, not a count.
+and it had escaped every gate the registry runs because it carried no witness at all.
+One folder, two rotted documents, one of them uncounted. **Any drift count is a lower
+bound over the witnessed slice, never a count over the corpus.**
 
 *The ranking half.* Where drift IS computable it scores zero attention points, because
-the scan's weights have no drift term. A quarter of everything measurable has drifted
-and no sweep would ever surface it.
+the scan's weights have no drift term. A sweep would never surface it.
 
-**Why this is recorded as a gap and not added to the floor above.** A clause worth
-points has to exist in `librarian-scan.mjs` or this table disagrees with what runs, and
-the obvious clause - *a runtime-bearing application carries no version witness* - would
-flag 630 documents at once. That is not a worklist, it is a flood, and it would bury
-the six real items a sweep actually found. The defect is systemic and the remedy is
-systematic: one backfill pass that stamps witnesses from each consumer's declared
-manifest, after which a floor clause becomes affordable and honest. Until somebody runs
-that pass, the sweep reports the coverage figure in words and does not rank on it.
+**The remedy is NOT a backfill, and saying so was this section's own error.** The
+2026-08-27 version proposed "one backfill pass that stamps witnesses from each
+consumer's declared manifest". That is forbidden, in terms, by
+[`docs/rkb-profile.md`](../docs/rkb-profile.md) §3.1:
 
-What every run can do meanwhile, and what this one did: **everything newly landed
-carries a version witness.** The gap stops growing even while nobody is closing it.
+> `verified_against` is written going forward, never backfilled. Only something that has
+> actually read the cited tree can state it truthfully.
+
+And it is forbidden for the right reason. Stamping a version read out of a consumer's
+`package.json` would assert that a document's citations *were checked at* that version,
+when nothing checked them at all - laundering a runtime fact into a verification claim,
+which is [unmeasured-is-not-pass](../knowledge/media-generation/_laws.md#unmeasured-is-not-pass)
+wearing a maintenance hat. `check-currency.mjs` had carried a comment saying exactly this since
+before the gap was written; the gap was drafted without reading it. **The instrument
+disagreeing with the standard is worth more than either agreeing quietly.**
+
+The only honest closure is **re-verification**: something reads the cited tree, resolves
+the citations, and writes the witness as a by-product. That is a worker per subject, not
+a script over the corpus - which makes the gap expensive to close, not cheap, and that
+is the true statement about it.
+
+**Why it is still not a floor clause.** A clause worth points must exist in
+`librarian-scan.mjs` or this table disagrees with what runs, and *a runtime-bearing
+application carries no version witness* would flag hundreds of documents at once. That
+is a flood, not a worklist, and it would bury the handful of real items a sweep finds.
+So the sweep **reports the coverage in words and does not rank on it.**
+
+What every run can do meanwhile, and what these runs did: **everything newly landed or
+re-verified carries a witness**, so the gap stops growing while nobody is closing it.
+And on 2026-08-28 `check-currency.mjs` was taught to report the uncomputable population
+as its own line - it had been saying "backfilling would be inventing data" only in the
+case where NOTHING carried a witness, which went quiet at the first one and stayed quiet
+through the next six hundred, exactly when a reader most needs the denominator.
