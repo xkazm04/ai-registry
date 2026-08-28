@@ -114,7 +114,8 @@
             "model-routing",
             "hitl-approval",
             "remediation-handoff",
-            "proactive-nudges"
+            "proactive-nudges",
+            "plan-review"
           ]
         },
         {

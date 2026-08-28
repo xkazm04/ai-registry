@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 150,
-  "techniques": 984,
-  "applications": 440,
+  "subjects": 151,
+  "techniques": 989,
+  "applications": 442,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "984/984",
+  "use_when_coverage": "989/989",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -12037,6 +12037,107 @@
     }
    ]
   },
+  "plan-review": {
+   "category": "llm-agent",
+   "subcategory": "orchestration",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md",
+   "techniques": [
+    {
+     "slug": "decision-sized-slicing",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a task is about to be handed to a planning agent",
+      "a plan arrived too large to disagree with",
+      "deciding whether a task is genuinely indivisible",
+      "slice boundaries are being argued after the plan is written"
+     ]
+    },
+    {
+     "slug": "fresh-posture-self-challenge",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "silent-state-is-ungoverned",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second reviewing agent is not affordable yet",
+      "one agent both drafts and critiques in a single pass",
+      "deciding when a cheap self-review must be replaced by a separate reader",
+      "a self-review has stopped producing revisions"
+     ]
+    },
+    {
+     "slug": "informational-fold-in",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a derived number would help at an existing approval",
+      "someone proposes a new gate for an advisory figure",
+      "a rough estimate is about to be persisted next to real measurements",
+      "an informational field has started blocking things"
+     ]
+    },
+    {
+     "slug": "objection-before-artifacts",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a plan is about to be approved and nobody has argued against it",
+      "premise-level problems keep surfacing after the code is written",
+      "designing what a chartered critic is allowed to raise",
+      "an objection list is long and gets cleared in two minutes"
+     ]
+    },
+    {
+     "slug": "silent-decision-surfacing",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a plan reads as obviously correct and nobody can say why",
+      "deciding which choices in a proposal were never actually chosen",
+      "a team has good written rationale and still cannot explain its own conventions",
+      "routing a recurring choice into a standing instruction file"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "decision-sized-slicing",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/applications/process--decision-sized-slicing.md",
+     "verified_on": "2026-08-28"
+    },
+    {
+     "stack": "process",
+     "technique": "objection-before-artifacts",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/applications/process--objection-before-artifacts.md",
+     "verified_on": "2026-08-28"
+    }
+   ]
+  },
   "proactive-nudges": {
    "category": "llm-agent",
    "subcategory": "orchestration",
@@ -18385,6 +18486,8 @@
     "plan-entitlements/capability-gate-predicates",
     "plan-entitlements/deployment-mode-short-circuit",
     "plan-entitlements/price-book-authority",
+    "plan-review/fresh-posture-self-challenge",
+    "plan-review/objection-before-artifacts",
     "proactive-nudges/quiet-windows",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-assembly/task-envelope",
@@ -18730,6 +18833,9 @@
     "pipeline-dag/pause-and-gate-nodes",
     "plan-entitlements/capability-gate-predicates",
     "plan-entitlements/entitlement-lifecycle-revocation",
+    "plan-review/fresh-posture-self-challenge",
+    "plan-review/objection-before-artifacts",
+    "plan-review/silent-decision-surfacing",
     "proactive-nudges/notice-delivery-decoupling",
     "proactive-nudges/trigger-evaluators",
     "prompt-assembly/context-reachability",
@@ -19132,6 +19238,9 @@
     "pipeline-authoring/pipeline-plan-auditability",
     "pipeline-authoring/step-identity-stability",
     "pipeline-dag/conditional-edges",
+    "plan-review/decision-sized-slicing",
+    "plan-review/informational-fold-in",
+    "plan-review/silent-decision-surfacing",
     "proactive-nudges/attention-budgets",
     "proactive-nudges/efficacy-feedback",
     "prompt-assembly/cache-breakpoint-allocation",
@@ -20251,6 +20360,7 @@
     "mcp-tools/egress-argument-gating",
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",
+    "plan-review/informational-fold-in",
     "structured-output/schema-validation-and-repair",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "terminal-multiplexing/occupant-state-detection",
@@ -20275,6 +20385,7 @@
     "knowledge-registry/verification-is-contributed",
     "machine-paced-delivery/human-gate-capacity",
     "mcp-tools/transport-selection",
+    "plan-review/informational-fold-in",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
@@ -20291,6 +20402,10 @@
     "deployment-contract/deployment-config-as-code",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
+    "plan-review/decision-sized-slicing",
+    "plan-review/fresh-posture-self-challenge",
+    "plan-review/objection-before-artifacts",
+    "plan-review/silent-decision-surfacing",
     "prompt-assembly/task-envelope"
    ]
   }

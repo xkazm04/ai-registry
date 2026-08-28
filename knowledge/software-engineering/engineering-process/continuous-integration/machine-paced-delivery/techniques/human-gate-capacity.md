@@ -102,6 +102,11 @@ happening on. In order:
 - **Send fewer changes.** The arrival rate at the gate is a decision the team is already making
   and usually not looking at. Capacity that produces changes nobody has the hours to review has
   not produced delivery; it has produced a queue with a rubber stamp on the end of it.
+  The same argument applies one stage earlier, at the gate where plans are approved
+  rather than changes merged; the two queues overload independently, and a team that
+  measures one and reports the other as healthy has moved the queue rather than
+  shortened it. What arrives at the plan gate, and at what size, is
+  [plan-review](../../../../llm-agent/orchestration/plan-review/plan-review.md)'s.
 - **Make each verdict cheaper** — owned by `proposal-not-push`, and worth doing first because
   it is cheap. Know its ceiling: shape and scope work buys a constant factor, and a constant
   factor does not absorb an order-of-magnitude change in arrival. A team that has done all of

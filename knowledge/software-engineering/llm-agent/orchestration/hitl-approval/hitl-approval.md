@@ -165,6 +165,15 @@ a restart, a deploy, or a crash silently discards the question — and a
 discarded question defaults to whatever the code does next, which is never a
 decision anyone made.
 
+The trigger predicate has one more input than the table shows. It may key on the
+**class of the pending record** as well as on the consequence of the action: an item
+that is an untriaged risk and an item that is a decision already made silently belong
+at different stages of the pipeline, even when they wait on the same surface. The
+taxonomy of those record classes belongs to whichever subject produces them; for a
+plan, that is [plan-review](../plan-review/plan-review.md), which is also where the
+"real thing" the human decides on is worked out when the gated artifact is a plan
+rather than a diff.
+
 ## The decision is a record, not an event
 
 An approval that exists only as a state flip is unauditable and unboundable.

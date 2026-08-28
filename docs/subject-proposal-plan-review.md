@@ -1,8 +1,15 @@
 # Subject proposal — `plan-review`
 
-**Status:** PROPOSED 2026-08-28. Not forged. This document is a forge input, not
-knowledge; it is retained as the record of what was dispatched and why it was
-proposed rather than written.
+**Status:** EXECUTED 2026-08-28, same session as the intake that raised it. Forged at
+`knowledge/software-engineering/llm-agent/orchestration/plan-review/` — golden path,
+five techniques, two `process` applications, gate-clean. See
+[`librarian/subjects/software-engineering/plan-review.md`](../librarian/subjects/software-engineering/plan-review.md)
+for how the five open questions resolved. Overrides worth noting here: technique 5
+(`informational-fold-in`) was kept as a technique against the brief's "drop it if one
+paragraph", because four of its rules are stated nowhere else in the corpus; and claim 2
+("a single-agent self-review is refinement") was sharpened by the literature into a
+priced, degraded rung rather than adopted as a slogan. This document is retained as the
+record of what was dispatched. It is a forge input, not knowledge.
 **Bundle:** `software-engineering`
 **Category:** `llm-agent` → subcategory `orchestration`
 **Resolved path:** `knowledge/software-engineering/llm-agent/orchestration/plan-review/`

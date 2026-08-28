@@ -34,18 +34,18 @@
     },
     {
       "name": "architect",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
-      "contentHash": "sha256-n1:596165a5e271c13b",
+      "contentHash": "sha256-n1:1a674c99c858ffee",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:945fb1233d7540a9",
+      "lessonsHash": "sha256-n1:5989b14c581dd87f",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -552,7 +552,7 @@
     "skills": 27,
     "practices": 5,
     "memory": 4,
-    "lessons": 55
+    "lessons": 56
   },
   "bundles": [
     {
@@ -631,7 +631,7 @@
       "techniques": 128,
       "applications": 48,
       "files": 201,
-      "contentHash": "sha256:b392af10ac8cdc97"
+      "contentHash": "sha256:f9afc8cc077ab6db"
     },
     {
       "name": "recruiting",
@@ -653,11 +653,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 150,
-      "techniques": 984,
-      "applications": 440,
-      "files": 1579,
-      "contentHash": "sha256:70b682ebb46892ba"
+      "subjects": 151,
+      "techniques": 989,
+      "applications": 442,
+      "files": 1587,
+      "contentHash": "sha256:a401394f47070bb9"
     }
   ]
 }

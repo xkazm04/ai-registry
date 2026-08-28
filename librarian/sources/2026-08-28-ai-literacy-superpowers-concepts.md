@@ -16,6 +16,7 @@ already_covered: 13
 declined: 0
 untriaged: 4
 dispatched: 1
+executed: 1
 fetches: 0 of 3
 ---
 
@@ -54,6 +55,12 @@ folds the four fragments in as proposed techniques with the routing rule, the le
 priority, the inadmissibility rule and the escalation ladder each carrying its
 decision rule, placement verified against `taxonomy.json` (orchestration holds 6 of
 10), and five open questions the drafter decides.
+
+**Executed in the same session** (operator instruction, and now the skill's rule at
+0.17.0): one forge worker, read-only reconciliation across all seven bridged trees,
+gate-clean on first report, two process applications against this registry's own
+`architect` plan gate and the forge/deepen director pattern. The subject note carries
+the five resolved questions and the two overrides.
 
 ## Two asymmetry findings, both inverse
 
