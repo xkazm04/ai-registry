@@ -49,6 +49,49 @@ A correction that will still be trusted in a year has five parts:
    grounds that did not depend on the broken number — recording that **the
    conclusion survives on better grounds**, which is itself a finding.
 
+## Retraction is a verb, never an absence
+
+Everything above assumes the claim is *changed*. A claim can also be
+**withdrawn** — it should not have been made, there is nothing to restate,
+and the honest record says so. Withdrawal carries a failure mode that only
+appears once claims are tracked as a set rather than as sentences, which is
+where a machine-maintained corpus arrives quickly.
+
+The set-level maintenance contract that tends to emerge is sound: the worker
+receives the complete current claim set for a document and submits the
+complete intended set. Unchanged claims keep their identity, revised claims
+update in place, new claims are minted. One authoritative state per pass, no
+orphans, no half-applied merges — this is the right shape, and the reason it
+is worth naming is that it comes with one very attractive wrong detail.
+
+The wrong detail is making **omission** the retraction signal: a claim absent
+from the submitted set is treated as withdrawn. It is attractive because it
+needs no vocabulary and no extra field, and it is wrong because it makes
+*forgetting* and *deciding* produce byte-identical results. A worker that ran
+out of context, mis-parsed the page, or simply summarised loosely deletes
+established knowledge, and the record of the deletion is a gap — no date, no
+reason, no author, nothing for the next reader to evaluate. That is precisely
+the silent rewrite this technique opens by rejecting, relocated from the
+sentence to the set, and it is
+[deletion-is-not-repair](../../../../_laws.md#deletion-is-not-repair) at the
+one site where the disappearance is unobservable by construction.
+
+So retraction is stated. A submission carries its withdrawals explicitly, each
+with a reason, and a claim that is simply missing is a **validation error the
+runtime refuses** — not a signal it acts on. The cost is one field and one
+check; what it buys is that every disappearance had an author.
+
+Note that a durability guard does not substitute for this, and the confusion
+is common: a runtime that refuses to finish until the reconciled set is
+persisted has proven the *write* completed. It has proven nothing about
+whether the omission was *intended*. Durability and intent are different
+properties, and only one of them can be established by the writer.
+
+The diagnostic is a single question against the record: **why did this claim
+disappear?** If the artifact cannot answer it — if the only evidence is that
+something used to be there and now is not — omission is the retraction signal
+in that system, whatever the design document says.
+
 ## Corrections of corrections are normal, not embarrassing
 
 The exemplar contains a correction whose own measurement was wrong — a

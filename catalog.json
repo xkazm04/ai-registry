@@ -349,7 +349,7 @@
       "version": "2.2.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:5f37ef650908d381",
+      "contentHash": "sha256-n1:e68f15cc01b5f8af",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 5,
+      "lessons": 6,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:09acfea7d5f1e9d4",
+      "lessonsHash": "sha256-n1:1dae044c3b875ea8",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -552,7 +552,7 @@
     "skills": 27,
     "practices": 5,
     "memory": 4,
-    "lessons": 55
+    "lessons": 56
   },
   "bundles": [
     {
@@ -631,7 +631,7 @@
       "techniques": 128,
       "applications": 48,
       "files": 201,
-      "contentHash": "sha256:8d7330f9c7ba3026"
+      "contentHash": "sha256:6577cff2d2e150db"
     },
     {
       "name": "recruiting",
@@ -654,10 +654,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 150,
-      "techniques": 975,
-      "applications": 438,
-      "files": 1568,
-      "contentHash": "sha256:0bcbae4cb89ac1bf"
+      "techniques": 979,
+      "applications": 439,
+      "files": 1573,
+      "contentHash": "sha256:3f0e5b9cc15158be"
     }
   ]
 }

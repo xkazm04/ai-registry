@@ -13,6 +13,8 @@ techniques:
   - cross-repo-drift-detection
   - source-as-data-without-the-app
   - checked-vs-skipped-denominators
+  - earned-verification-state
+  - repair-rides-the-open-page
 ---
 
 # Docs-as-code synchronization
@@ -29,7 +31,10 @@ coupled artifact of the source: the coupling is **declared as data**, the debt
 is **collected at the change boundary** rather than by periodic campaign, the
 prose is **corrected in place with dates and measurements**, the rot that
 slips through is **detected by scan**, and the batch repair that then becomes
-necessary anyway is **bounded by a marker**. Three of the walls hold only
+necessary anyway is **bounded by a marker**. Two of the walls hold wherever a
+corpus is maintained faster than a person can reread it: the document's own
+freshness claim must be **earned by a completed recheck**, and the repair
+itself **rides whatever page is already open**. Three more hold only
 once the described system stops sitting in the same tree as the prose: the
 coupling is then **queried across a repository boundary**, the checker must
 read the application's declarations **without the application's build**, and
@@ -84,7 +89,7 @@ absence is declared to mean; this subject decides what asks it a question,
 what that question costs, and how the answer is reported when it could not be
 asked at all.
 
-## The nine load-bearing walls
+## The eleven load-bearing walls
 
 ### 1. The coupling is data, not lore
 
@@ -247,6 +252,47 @@ fail a build — because from outside, an enforced number and a decorative one
 look identical, which is how belief in enforcement outlives the enforcement.
 [checked-vs-skipped-denominators](./techniques/checked-vs-skipped-denominators.md).
 
+### 10. The document's own freshness claim is earned, or it blinds the detector
+
+Eight walls govern what an *instrument* may claim. The document also makes a
+claim — its review date, its checked-against version — and wall 7's detector
+consumes exactly that field to decide which window of the other repository's
+history to ask about. A date advanced by a run that verified nothing therefore
+does more than mislead a reader: it moves the detector's horizon past the
+changes it existed to find, and the detector goes on reporting clean because it
+is now asking about a window in which nothing happened. So the stamp advances
+only on a **completed recheck over a non-empty population** — never on a clean
+preflight, never on an empty coupling, never on an interrupted run. The
+corollary is the state the vocabulary lacks: staleness is written **onto the
+artifact** and is durable there, because a finding in a scan stream has a
+*dismiss* transition and a document that has been in dispute for a year reads
+exactly as current as one nobody questioned. And *stale* is suspended belief
+with three resolutions, not a synonym for wrong — reaffirm, correct, retract —
+of which reaffirming a claim whose evidence merely moved is the common case and
+must stay cheap.
+[earned-verification-state](./techniques/earned-verification-state.md).
+
+### 11. Repair rides the page that is already open
+
+Walls 2 and 6 name two collectors, both triggered from outside the document: a
+diff, or a campaign. A third one decides whether claim-level freshness is
+affordable at all — the document being **open**. A worker that opened a page to
+document something else resolves that page's outstanding staleness on the way
+past, while the context it needs is already loaded, and total maintenance cost
+then scales with how much the source changed rather than with how large the
+corpus grew. Two conditions make it work and one limitation is permanent.
+Detection stays exhaustive while only *resolution* is opportunistic — sampling
+the detection instead leaves the stale population unknown, which is the one
+thing this design cannot tolerate. The deterministic walk runs **before** the
+no-op short-circuit, because *no source changed since the last run* and *every
+claim is still bound to live evidence* are different questions, and the claims
+an earlier run deliberately deferred belong to no subsequent diff. And it never
+converges on cold pages: a document nobody opens is detected stale on every run
+and repaired on none, so the batch lane stays the backstop and the cold set
+belongs in the marker's consciously-skipped list, where a permanent hole becomes
+a scoped debt.
+[repair-rides-the-open-page](./techniques/repair-rides-the-open-page.md).
+
 ## The economics: why per-change wins, and what it costs
 
 Per-change enforcement buys the cheapest possible repair — the author still
@@ -255,9 +301,13 @@ price of a nag on many changes and a dismissal ritual on the internal-only
 ones. Batch catch-up buys silence between passes at the price of repairs made
 without context, at campaign cost, against a range that grew while nobody
 watched (the exemplar's one full catch-up rewrote 84 topics in a single
-sitting). The mature system runs both: per-change as the primary collector,
-batch as the recovery lane, the marker as the ledger between them. What the
-economics do not tolerate is the third posture this subject's counter-example
+sitting). Opportunistic repair buys the cheapest repair of all — the page is
+already open and the context already loaded — at the price of a tail it
+structurally cannot reach. The mature system runs all three: per-change as the
+primary collector, opportunistic repair riding whatever work is already in
+flight, batch as the recovery lane for what neither caught, and the marker as
+the ledger between them. What the
+economics do not tolerate is the fourth posture this subject's counter-example
 manufactured by accident: the *belief* in per-change enforcement with no
 live mechanism behind it — all of the nag design's reputation cost was paid
 in documentation, and none of its drift prevention was ever delivered, for
@@ -311,3 +361,9 @@ fifteen months, invisibly.
 - [checked-vs-skipped-denominators](./techniques/checked-vs-skipped-denominators.md)
   — checked, skipped and drifted as three states; reason classes; fractions
   on the headline; labelling which signals can fail.
+- [earned-verification-state](./techniques/earned-verification-state.md) — the
+  stamp earned by a completed recheck; durable uncertainty on the artifact;
+  stale as suspended belief with three resolutions; binding at the proposition.
+- [repair-rides-the-open-page](./techniques/repair-rides-the-open-page.md) —
+  the third collector; exhaustive detection with opportunistic resolution; the
+  walk before the no-op; the cold tail that only the batch lane reaches.

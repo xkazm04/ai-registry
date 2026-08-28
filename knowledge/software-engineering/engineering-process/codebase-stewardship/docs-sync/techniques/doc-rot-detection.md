@@ -4,7 +4,7 @@ type: technique
 subject: docs-sync
 technique: doc-rot-detection
 status: forged
-laws: [failure-not-empty-success, derivation-names-recomputation]
+laws: [failure-not-empty-success, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
 use_when: [deciding whether an uncheckable document counts as clean, timestamp checks keep missing claims false at birth, each scan examines a different sample of docs]
 ---
@@ -88,6 +88,56 @@ honest coverage claim. An unstable cutoff makes every scan a different
 sample and every trend line a fiction. Per the parent pipeline's law, the
 truncation is disclosed — a rot report that silently examined a third of
 the tree is itself a rotting document about the scan.
+
+## Proving the loop converges, not just that the sensor fires
+
+A seeded violation proves the scanner can go red
+([gate-liveness](../../../standards-and-gates/quality-gates/techniques/gate-liveness.md)),
+and every rot scan needs that test. It cannot establish the two properties
+that decide whether this discipline is working, because both are properties of
+the *loop* — detect, repair, re-detect — rather than of the detector.
+
+The harness that can: **replay the source's own history through checkpoints.**
+Take a real sequence of commits, stop at defined points, run the full update at
+each stop, and classify every claim in the corpus at every checkpoint into four
+populations:
+
+- **supported** — the claim holds against the source at this checkpoint;
+- **stale** — it held at an earlier checkpoint and the source has since moved
+  past it;
+- **fabricated** — it was true at *no* point in the history;
+- **unverifiable** — it cannot be confirmed or refuted against the source at
+  all.
+
+Two things make this different from a fixture suite, and both are the point.
+
+**The sequence is the subject.** State at checkpoint N is the product of the
+repairs made at N-1, so what the numbers describe is convergence: a corpus that
+spikes to a large stale fraction after a big commit and returns to near zero at
+the next checkpoint is behaving correctly, and one whose stale fraction ratchets
+upward is not — a distinction no single-point test can express. Report the
+trajectory, not the endpoint.
+
+**The commit sequence must contain reverts.** New features, behaviour changes
+and bug fixes all move claims in one direction, and a detector that only ever
+*adds* staleness scores perfectly on a monotonic history. A revert is the only
+change that asks whether the loop can restore a claim it previously flagged —
+and getting that wrong is expensive in a specific way, because the repair pass
+rewrites accurate prose to match a state the source has already abandoned.
+Include a revert, or the harness cannot see the failure mode that costs
+correct content.
+
+The fabricated population is the one seeding cannot reach at all: a seeded
+violation is a known-bad input constructed by the tester, whereas fabrication is
+content the *writer* invented, so its rate is only observable over a corpus the
+writer actually produced. Where documentation is machine-authored, this is the
+number that matters most and the one no gate test will ever surface.
+
+Each population is reported as a fraction of the claims examined, never as a
+bare count
+([count-carries-predicate](../../../../_laws.md#count-carries-predicate)) —
+a corpus that grows between checkpoints will otherwise show rising staleness
+while improving.
 
 ## What the scan feeds
 

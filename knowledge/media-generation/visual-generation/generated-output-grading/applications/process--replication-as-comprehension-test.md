@@ -212,9 +212,13 @@ laundered confident noise into the corpus as truth.
 
 ## Not established here
 
-`n=4` for the round trip: the per-field split is a signal to act on, not a
-published measurement. The round trip also cannot attribute a miss — generator
+`n=36` for the round trip, on one source, one annotator, one generator. The
+per-field rates belong to that triple: 36 frames sampled from a single
+animated compilation is not a claim about live action or any other register,
+and the `exposure` skew is credited to *a* generator prior on the strength of
+one generator — a second generator is what would separate a generator prior
+from a schema defect. The round trip also cannot attribute a miss — generator
 ignoring the brief and annotator misreading the replica remain
 indistinguishable from the score. The remaining route to a real truth set is
-hand-labelling frames, or finding an arbiter that first clears the truth set
-it is meant to extend.
+hand-labelling more frames, or finding an arbiter that first clears the truth
+set it is meant to extend.

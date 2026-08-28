@@ -211,8 +211,8 @@ field.
     `file:line` for every claim.
 
     ## Flow
-    - the steps that reproduce or expose it, as bullets — user action → code
-      path → observed result
+    - the steps that reproduce or expose it, as bullets - user action -> code
+      path -> observed result
     - for a proposal: the steps the fix takes, in build order
 
     ## Expected impact
@@ -454,7 +454,7 @@ backlog as open work:
 Each BACKLOGGED finding:
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...","evidence":"<code block or file:line list — the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2}
 ```
 
 `body` is the §4.10 form verbatim — the four `## ` sections, newline-escaped in

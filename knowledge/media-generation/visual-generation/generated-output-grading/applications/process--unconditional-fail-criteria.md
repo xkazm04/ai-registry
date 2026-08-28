@@ -5,7 +5,7 @@ subject: generated-output-grading
 technique: unconditional-fail-criteria
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-28
 ---
 
 # Process — an 11-point rubric with text leakage as the veto
@@ -49,7 +49,7 @@ layer at any level of quality elsewhere." The definition errs wide ("Any
 glyph, rune or letter-like mark"), exactly the generous-violation phrasing the
 technique prescribes, and the same field leads the machine-grading schemas
 that automate this rubric (`hasText` first in
-`pipeline/build-style-trials.mts:78-88` and `pipeline/direct-frames.mts:150-159`).
+`pipeline/build-style-trials.mts:78-88` and `pipeline/direct-frames.mts:159-168`).
 
 ## The caveats that keep the rubric honest
 

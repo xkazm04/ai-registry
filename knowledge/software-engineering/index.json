@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 150,
-  "techniques": 975,
-  "applications": 438,
+  "techniques": 979,
+  "applications": 439,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "975/975",
+  "use_when_coverage": "979/979",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5975,13 +5975,45 @@
      "status": "forged",
      "laws": [
       "failure-not-empty-success",
-      "derivation-names-recomputation"
+      "derivation-names-recomputation",
+      "count-carries-predicate"
      ],
      "shared_with": [],
      "use_when": [
       "deciding whether an uncheckable document counts as clean",
       "timestamp checks keep missing claims false at birth",
       "each scan examines a different sample of docs"
+     ]
+    },
+    {
+     "slug": "earned-verification-state",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a review date advanced on a run that checked nothing",
+      "deciding what a freshness stamp on a document is allowed to mean",
+      "a rot finding was triaged away and the document still reads as current",
+      "one document is current in one paragraph and two quarters stale in another"
+     ]
+    },
+    {
+     "slug": "repair-rides-the-open-page",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "claim-level freshness is detected cheaply but too expensive to repair by sweep",
+      "deciding who resolves a stale claim and at what moment",
+      "a quiet period erased work an earlier run deliberately deferred",
+      "maintenance cost grows with corpus size instead of with change volume"
      ]
     },
     {
@@ -8783,6 +8815,23 @@
       "a gate quietly lost half its coverage",
       "mismatch reports do not say which side failed"
      ]
+    },
+    {
+     "slug": "verification-is-contributed",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "identity-survives-reuse",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a published claim could be false in every consumer and the registry cannot tell",
+      "deciding what may cross a publish boundary that forbids evidence",
+      "a contribution schema measures consumers against the standard in every field",
+      "a verification channel is specified and no contributor populates it"
+     ]
     }
    ],
    "applications": [
@@ -8809,6 +8858,12 @@
      "technique": "standard-versus-consumer-split",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--standard-versus-consumer-split.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "verification-is-contributed",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--verification-is-contributed.md",
+     "verified_on": "2026-08-27"
     }
    ]
   },
@@ -16172,6 +16227,21 @@
      ]
     },
     {
+     "slug": "exclusion-bounds-reads-not-output",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an ignore list is being read as a promise about what ships",
+      "a generated artifact may describe an area nobody let the generator read",
+      "deciding whether an input filter satisfies a confidentiality requirement",
+      "absence assertions pass and the sensitive topic is still described"
+     ]
+    },
+    {
      "slug": "hook-coverage-gaps",
      "status": "forged",
      "laws": [
@@ -18125,6 +18195,7 @@
     "docs-content-model/catalog-referential-invariants",
     "docs-sync/coupled-surface-inventory",
     "docs-sync/cross-repo-drift-detection",
+    "docs-sync/repair-rides-the-open-page",
     "docs-sync/same-change-enforcement",
     "docs-sync/source-as-data-without-the-app",
     "docs-sync/source-doc-mapping",
@@ -18294,6 +18365,7 @@
     "sync-replication/projection-security",
     "sync-replication/topology-declaration",
     "telemetry-pii-redaction/emit-site-inventory",
+    "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "telemetry-pii-redaction/hook-coverage-gaps",
     "telemetry-pii-redaction/redaction-invariants-as-tests",
     "templates-scaffolding/integrity-and-provenance",
@@ -18444,6 +18516,8 @@
     "docs-sync/catch-up-markers",
     "docs-sync/checked-vs-skipped-denominators",
     "docs-sync/doc-rot-detection",
+    "docs-sync/earned-verification-state",
+    "docs-sync/repair-rides-the-open-page",
     "docs-sync/same-change-enforcement",
     "docs-sync/source-as-data-without-the-app",
     "draft-editing/debounced-save-groups",
@@ -18860,6 +18934,7 @@
     "docs-sync/checked-vs-skipped-denominators",
     "docs-sync/cross-repo-drift-detection",
     "docs-sync/dated-corrections",
+    "docs-sync/doc-rot-detection",
     "docs-sync/same-change-enforcement",
     "draft-editing/completeness-derivation",
     "embedded-db/db-self-instrumentation",
@@ -19156,6 +19231,7 @@
     "job-coordination/lease-renewal",
     "job-coordination/step-position-and-resumability",
     "judgment-guardbands/judgment-integrity-record",
+    "knowledge-registry/verification-is-contributed",
     "lazy-section-addressability/always-present-anchor-wrappers",
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
@@ -19884,6 +19960,7 @@
     "credential-vault/token-refresh-lifecycle",
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/environment-promotion",
+    "knowledge-registry/verification-is-contributed",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
     "voice-io/portable-provider-package",
@@ -19945,6 +20022,7 @@
     "docs-content-model/derived-navigation-projection",
     "docs-sync/cross-repo-drift-detection",
     "docs-sync/doc-rot-detection",
+    "docs-sync/earned-verification-state",
     "docs-sync/source-doc-mapping",
     "draft-editing/completeness-derivation",
     "draft-editing/dirty-tracking",
@@ -20072,10 +20150,13 @@
     "conversation-orchestration/recall-transparency",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "docs-sync/earned-verification-state",
+    "knowledge-registry/verification-is-contributed",
     "mcp-tools/egress-argument-gating",
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",
     "structured-output/schema-validation-and-repair",
+    "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "terminal-multiplexing/occupant-state-detection",
     "web-scraping/soak-mode-and-verdict-replay"
    ]
@@ -20093,6 +20174,7 @@
     "data-access/cross-driver-invariant-parity",
     "deployment-contract/direct-push-delivery",
     "fleet-orchestration/brief-carries-the-session",
+    "knowledge-registry/verification-is-contributed",
     "machine-paced-delivery/human-gate-capacity",
     "mcp-tools/transport-selection",
     "public-claim-provenance/provenance-as-a-build-gate",
