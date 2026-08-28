@@ -396,3 +396,84 @@ routing rule in this skill that can say no. Design/feature stopped being gates
 gates. Exercised on the 154 pending ideas; the retrospective on all three
 rules in one day is in the personas run ledger `eval-triage` and in this
 file's next entry.
+
+## 2.6.0 - 2026-08-29 - personas (retrospective: three routing rules in 36 hours)
+
+Three routing rules ran back to back on one operator's deck, each executed by
+Opus subagents in worktrees and merged by the same coordinator. This entry is
+the calibration data, not the doctrine.
+
+| Rule | Input | Auto-accept | Executed: built / already / demoted | Demotion rate | Could it say NO? |
+| --- | --- | --- | --- | --- | --- |
+| 1 reward/risk (S auto, M by RRR) | 240 wave findings | 149 | 129 / 3 / 18 | 12% | no (backlog only) |
+| 2 net delta (positive + no gate) | 149 pending | 85 (+30 operator, +19 escalations) | 89 / 8 / 21 | 18% | no (backlog only) |
+| 3 measured evaluation (better/not-better/unmeasurable) | 154 pending | 57 | 52 / 0 / 4 | 7% | **yes: 36 rejected with figures** |
+
+What the numbers say:
+
+- **Rule 2 was careless in exactly one place: the `uncertain` band.** 46 ideas
+  were `uncertain` because nobody checked the claim. Rule 3 measured them: 25
+  were `not-better` (premise false, file not in this repo, already fixed) and
+  21 `unmeasurable`. **Zero were better.** An "uncertain" that is never resolved
+  is a backlog entry that costs a human decision for nothing.
+- **Rule 3 found 26 ideas that belong to a different codebase** (a Next.js /
+  imaging project, ingested on 2026-08-27 before the waves). No earlier rule
+  could have found them because none of them *read the cited file*; the
+  measurement step forces the read. That alone justified the rule.
+- **Executors demoted 6 of rule 2's 85 auto-accepts** (7%) — mostly hard
+  gates the classifier under-called (contract/policy) and premises that were
+  false on contact with the code. Rule 3's demotions in wave 3: WAVE3_DEMOTED
+  of 57, all hard gates or architecture (the two repeat offenders — the
+  spotlight z-index and the settings-component relocation — were demoted for
+  the THIRD time; a rule that keeps re-accepting an idea three executors
+  refused needs a "demoted twice → reject" clause, added below).
+- **Re-measurement held.** Wave 3 executors re-measured the Evaluation's
+  After on the real change: of 52 built items, the figure matched or
+  exceeded the prediction in all but a handful; the deviations were
+  informative, not embarrassing — a census drop that never existed (the rule
+  did not match the site), a "14 new registry entries" that turned out to be 0,
+  two fixes that had to change shape (a refcount that cannot make two panes
+  paint one holder; a blanket hydrate guard that would have regressed
+  dead-session retry). Executors also caught three Evaluation premises that
+  were stale ("panel renders nowhere" — it renders; "13 alias importers" —
+  5). The measurement is good enough to route on and not good enough to build
+  from blind, which is the right division of labour.
+- **Cost.** Rule 3's classification cost ~5x rule 2's per idea (Sonnet with
+  Grep/Read against the code vs. Sonnet reading prose): ~180k vs ~35k tokens
+  per 30 ideas. It paid for itself in the 36 rejections alone (each would have
+  cost an operator decision or an executor run of ~200k tokens).
+
+What backfired, and the balancing added:
+
+1. **Rules 1 and 2 could only accept or defer**, so the backlog grew
+   monotonically (240 → 154 pending after two waves). A gate that cannot say
+   no is not a gate. Rule 3 says no; the deck shrank to 61.
+2. **Executors were trusted to demote, and did — repeatedly, for the same
+   items.** Added: an idea demoted by two independent executors is
+   `not-better` by measurement (two builds attempted, zero landed) and is
+   rejected, not re-queued.
+3. **The Evaluation is a small-sample probe, and executors found stale
+   premises in ~10% of accepted items.** That is the expected failure mode of
+   sampling; the mitigation is already in the executor brief (re-verify the
+   Before, re-measure the After) and it worked. Do not raise the probe budget;
+   keep the executor's re-measure mandatory.
+4. **Unmeasurable is doing two jobs** — genuinely subjective (taste, product
+   direction) and "measurable but I did not have the instrument" (a perf claim
+   with no benchmark). The second kind should name the missing instrument as a
+   finding of its own, so the next sweep can build it. Added to §4.10.
+5. **The mechanics, not the rule, caused the actual damage** this week: two
+   `node_modules/.bin` wipes from worktree cleanup, one dead Vite child, 44
+   findings dropped by the ingest cap. None of it was the routing rule. They
+   are recorded in the operator's memory and the coordinator scripts, and they
+   argue for a coordinator that owns cleanup with verified steps, not for a
+   softer rule.
+
+Verdict on direction: **good, with one over-correction to watch.** The
+measured rule is the first one that produced a smaller backlog AND a lower
+demotion rate on what it accepted. The risk is the mirror of rule 2's: an
+evaluator that cannot find a figure will be tempted to write `not-better`
+instead of `unmeasurable` and reject something real. The 36 rejections were
+spot-checked (26 other-repo, 4 already fixed, the rest premise-false with the
+disagreeing figure attached) — none looked like a real defect rejected for
+want of a number. Keep the rejection reason mandatory and figure-bearing so
+that check stays cheap.

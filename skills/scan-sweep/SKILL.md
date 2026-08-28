@@ -317,6 +317,21 @@ order the queue and calibrate the delta — they just no longer gate it.
 **Pure churn measures the same on both sides** and is therefore `not-better`
 — rejected, with the identical figures as the reason. That is the intent.
 
+**Two demotions are a measurement.** An idea that two independent executors
+turned back (each with a reason) has been measured twice at the point of
+build with the same result: it does not land. Treat it as `not-better` —
+reject it with both reasons attached — rather than re-queuing it for a third
+attempt. Measured 2026-08-29: three ideas reached a third executor and were
+demoted a third time, at ~200k tokens each.
+
+**Name the missing instrument.** `unmeasurable` covers two different things:
+a benefit that has no figure (taste, product direction), and a benefit that
+HAS a figure nobody can take yet (a performance claim with no benchmark, a
+resilience claim with no fault injector). For the second kind, say which
+instrument is missing in the Evaluation's After line — that sentence is a
+finding of its own for the next round, and it keeps `unmeasurable` from
+becoming the drawer where measurable-but-inconvenient claims go.
+
 ### The four vetoes — they override every route above
 
 An item is backlogged regardless of size or RRR when it:
