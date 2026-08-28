@@ -19,6 +19,7 @@ else here and readable with no tool at all.
 | [`projects.md`](projects.md) | Which connected project relates to which bundle. Slugs and domains only. |
 | [`sources/index.md`](sources/index.md) | The ledger of external sources [`/intake`](../.claude/skills/intake/SKILL.md) has mined, and one note per run. |
 | [`inbox.md`](inbox.md) | Leads originated INSIDE a connected project - a sweep landed a fix and the rule generalized. Folded here by [`scripts/leads-collect.mjs`](../scripts/leads-collect.mjs); triaged like any other source, and authorized by none. |
+| [`harvest/index.md`](harvest/index.md) | The graded source queue [`/harvest`](../.claude/skills/harvest/SKILL.md) drains through the `/intake` method, its coverage-gap research targets, and its A/B impact ledger. |
 
 ## Bundles
 
