@@ -3,7 +3,7 @@ domain: media-generation
 subject: null
 last_swept: 2026-08-27
 layout: nested
-demand_known: witnessed-silent
+demand_known: unknown  # was witnessed-silent on 2026-08-27; see below
 ---
 
 # Media generation
@@ -33,23 +33,26 @@ The bundle grew by five subjects and 39 techniques in six days, all of it from
 `/intake` runs mining video-craft sources. This sweep is the first time the
 librarian has dispatched at content here.
 
-## Demand: witnessed, and silent
+## Demand: it was witnessed-and-silent for one day
 
-**This is a third state and the note now names it.** One installation
-(`mkdol-dev-box`, 2026-08-25) lists `media-generation` among its bundles and
-reported `{}` - zero consults, zero deviations, zero citations, in a 30-day
-window. The scan reads that as `demandKnown: true`, and the previous version of
-this note said `false`. Neither is right:
+**Corrected 2026-08-28.** On 2026-08-27 one installation listed `media-generation`
+among its bundles and reported `{}` - zero consults in a 30-day window - and this note
+argued that as a third state the scan cannot express: not *unknown*, not *demand*, but
+**witnessed and silent**, somebody with the bundle wired reaching for nothing in it.
 
-- **Unknown** would be no installation naming the bundle at all.
-- **Demand** would be a consult count.
-- **Witnessed-silent** is what we have: somebody has this bundle wired and
-  consulted nothing from it in a month.
+By the next morning that installation's collector had re-run and no longer named this
+bundle at all. `demandKnown` is `false` now: demand here is **unknown**, which is the
+weaker statement, and the state this note was built on lasted about a day.
 
-That is a measured instance of the second gap [[standard]] already names -
-*"the knowledge is reachable and not recalled"* - and `media-generation` is now
-the cleanest case of it in the registry, because the supply side moved 39
-techniques in six days while the demand side stayed at zero.
+The three-state argument survives - it is in [[standard]] and it is right - but the
+example evaporating overnight is the more useful half, and it is why that section no
+longer quotes a reading. The signals lane is a rolling window over installations that
+regenerate on their own schedule. **A demand fact about this bundle is true for roughly
+a day; recompute it, never carry it forward.**
+
+What is unchanged and still worth saying: this bundle's supply side moved 39 techniques
+in six days, and no installation has ever reported consulting it. Whether that is
+*nobody needs it* or *nobody has told us* is exactly what the boolean cannot say.
 
 ## What is owed
 
