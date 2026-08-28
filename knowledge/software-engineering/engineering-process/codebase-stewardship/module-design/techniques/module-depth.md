@@ -149,6 +149,39 @@ different module rather than a mode flag in this one.
 The general form: hide what callers should not have to reason about; expose what
 they legitimately need to vary. Both halves are load-bearing, and depth pursued
 as a maximum only ever gets the first one right.
+## A variation is data until it changes a guarantee
+
+The rule above sends a caller's different need to "a different module rather
+than a mode flag." The inverse mistake is as common, and the rule invites it:
+promoting *every* variation into a unit. A regional rate, a retry count, a
+step that can be switched on or off — each gets a named subtype or a sibling
+module, because the name is meaningful and the mechanism is available, and the
+result is a lattice: one unit per combination of settings, growing as the
+product of the dimensions, none of them carrying behaviour. They differ by
+constants and are read as if they differed by design.
+
+The discriminator is what the variation changes, not how many callers want
+it. **When two variants differ only in values, the variation is data — one
+unit, parameterised by a record the caller constructs, with a named
+constructor per combination worth naming. When they differ in what is
+guaranteed — an invariant, an ordering, a failure behaviour, a meaning callers
+reason about — the variation is a unit.** Features that can be switched or
+combined independently are always the first kind: a unit per combination is a
+unit per subset, and that count does not survive a third dimension.
+
+This does not contradict the options-bag failure above; it is its counterpart,
+and one question separates them. An options bag fails when its entries are
+*decisions the module exists to make*, handed back to callers one at a time. A
+configuration record succeeds when its entries are values the module never had
+an opinion about. Ask whether the module would be wrong to choose a default.
+If it would — the rate is the caller's fact — it is a parameter. If it would
+not — the retry policy is the module's job — it is a decision, and a parameter
+for it is symptom one of the sequence above. A flag that switches a whole step
+on or off sits on the line: data in shape, a decision in effect, and it couples
+the step to the module that hosts it. The honest move there is usually to lift
+the step out entirely, so the module receives input the step has already
+processed and the flag has nothing left to switch.
+
 
 ## When not to use it
 

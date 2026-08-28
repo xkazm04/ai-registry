@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 touched_by: intake
 dry_streak: 0
 ---
@@ -11,6 +11,32 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-08-28 - `/intake`, from a practitioner listicle on design canon
+
+Three amendments, no new technique, from
+[[../../sources/2026-08-28-six-things-mistaken-for-good-oop]].
+
+- `seams-and-adapters` gained "An adapter that refuses a verb is not an adapter":
+  subtyping is a substitution promise, a substitute that narrows the guarantee has
+  broken it, the fix is in the interface (split at the capability that differs),
+  with inheritance-for-reuse as the accidental form of the same promise. The
+  contract-suite section had only ever caught a drifting *double*.
+- `module-depth` gained "A variation is data until it changes a guarantee": the
+  counterpart of the options-bag failure. The existing rule sent a different need to
+  "a different module, not a mode flag" and, read alone, invited a unit per
+  combination of settings. Discriminator: would the module be wrong to choose a
+  default?
+- `locality-and-leverage` gained one sentence: the type-erasure tell for a wrong
+  abstraction (the shared unit can only be typed at the top of the hierarchy).
+
+**The corpus carried every item at module altitude under its own vocabulary**; the
+map reported "liskov", "mixin" and "duplication" as holes and all three were
+present as substitutability, the contract suite and the wrong-abstraction rule.
+The source supplied the class-hierarchy instance the mechanism-neutral subject never
+names. Lead banked: a unit-kind selection rule (classes for invariants, functions for
+stateless work) - the subject chooses boundaries and never says what kind of unit
+sits inside one; needs a second source before it becomes golden-path doctrine.
 
 ### 2026-08-27 - `/intake`, from a first-party practitioner interview
 

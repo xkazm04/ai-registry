@@ -2032,3 +2032,29 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   personalization paper is flagged as a cross-run convergence candidate against the
   2026-08-22 pair that `agent-memory/procedure-promotion` rests on. Decline reasons owed:
   none, because nothing was declined.
+
+## 0.15.0 - 2026-08-28 - six-things-mistaken-for-good-oop
+
+- **A listicle on design canon is its own reading, and its yield is the mechanism-level
+  instance of a rule the corpus holds one altitude up.** No vendor, nothing to fetch,
+  nothing that "moved"; corroboration is training-data convergence plus the home
+  subject's own neighbours. Predicted "mostly catches, one or two amendments, zero
+  fetches" before the table; got two catches, three amendments folded from five items,
+  one lead, 0 of 3 fetches. Write at the corpus's altitude and cite the mechanism as
+  an example - `module-design` is mechanism-neutral by its own golden path, and letting
+  a class-hierarchy video pull it down to class vocabulary would have been the "video
+  authors an upper layer" failure in a subtler coat.
+- **The map's zero on a canon term is usually a vocabulary miss, not a hole.** "liskov",
+  "mixin", "duplication" all came back as "the corpus has never heard of this", and all
+  three were present as substitutability, the contract suite and "duplication is
+  cheaper than the wrong abstraction". Extends the 2026-08-22 near-empty lesson to the
+  total empty: on a term with a textbook name, read the home before believing the zero.
+- **The highest-yield seam was a rule with one side written.** `module-depth` said "a
+  different need is a different module, not a mode flag" - correct, and read alone it
+  invites a unit per combination of settings, which is what the source demonstrated.
+  Same shape as the 2026-08-27 denial lesson: a decision rule stated in one direction
+  is an enumeration of one, and the cheap question is what happens on the other side.
+- Unattended run: picks made on registry impact, said so in the note. Folding five items
+  into two amendments (shared roots: substitution promise; data-vs-unit) is the
+  spec-lane "fold the fragments" rule applied at S/M scale, and it read better than five
+  sections would have.

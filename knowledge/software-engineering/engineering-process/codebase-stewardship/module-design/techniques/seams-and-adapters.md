@@ -112,6 +112,37 @@ them together pin how the caller is written rather than what it achieves, and
 they turn every subsequent structural improvement into a test-editing exercise —
 which is how a suite becomes the thing that prevents refactoring instead of
 enabling it.
+## An adapter that refuses a verb is not an adapter
+
+The contract suite catches a double that drifts. It also catches something it
+was not written for, and naming it saves the argument each time it appears: an
+adapter that satisfies the interface's signature and refuses part of its
+behaviour. A read-only variant that throws on write. A backend that no-ops a
+verb it cannot support. A subtype introduced to borrow one implementation,
+which inherits every promise of its parent and intends to keep one of them.
+Each type-checks as a substitute and fails as one, and the failure surfaces at
+the single call site written against the promise, at runtime, in whichever
+environment first passes the narrow thing where the wide one was expected.
+
+The rule: **subtyping is a substitution promise, and a substitute that narrows
+the guarantee has broken the promise, not implemented it.** The fix is never in
+the narrow adapter. It is in the interface, which was drawn one capability too
+wide: split it at the capability that differs — the readers' contract from the
+writers', the query surface from the mutation surface — let each consumer name
+only the contract it uses, and the narrow thing stops being a lie and becomes a
+complete adapter of a smaller seam. The static check that then rejects the
+wrong argument is the same check the runtime error was making, moved to where
+it costs nothing. The detection signal is the one
+[module-depth](./module-depth.md) gives for the merged module — no two callers
+touch the same subset of the interface — read from the adapter's side: no
+adapter implements the whole of it.
+
+The corollary for reuse: taking an implementation by inheritance in order to
+borrow a method makes the same promise by accident. If the relationship needed
+is *has one of these* rather than *can stand in for one of these*, it is
+composition — hold the dependency, call it, and substitute it at the seam that
+already exists — and no contract is created for anyone to honour.
+
 
 ## A seam nobody substitutes at probably does not hold
 

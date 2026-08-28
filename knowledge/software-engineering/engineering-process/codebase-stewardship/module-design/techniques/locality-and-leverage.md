@@ -37,7 +37,11 @@ helper that grows a mode flag on its first divergence and a second flag on its
 next, until it encodes the union of two jobs and belongs to neither. The
 similarity was a coincidence of the present tense. Duplication is cheaper than
 the wrong abstraction, and the test for which is which is not "do these look the
-same" but "would a change to one of them require a change to the other."
+same" but "would a change to one of them require a change to the other." A cheaper tell arrives before the first divergence: when the shared unit can
+only be typed at the top of the hierarchy — it returns an untyped record
+because the things it unifies have no common type — the similarity was in the
+shape of the steps and not in their meaning, and the abstraction has already
+erased what its callers needed.
 
 Co-location is also physical, not only logical. Where a directory's name no
 longer predicts its contents, or where implementing one feature requires editing
