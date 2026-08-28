@@ -1,6 +1,6 @@
 ---
 domain: software-engineering
-last_swept: 2026-08-22
+last_swept: 2026-08-28
 layout: nested
 demand_known: false
 ---
@@ -74,6 +74,67 @@ Vega-Lite and OpenMeter. Twenty-nine single-stack debts cleared across eight
 runs; a measured double-submit bug found in a current release; the
 lossy-branch-carries-a-counter family recognized at three sightings.
 
+## 2026-08-28 — a four-round `/deepen` loop, one subject at a time
+
+Not a sweep; a loop. Scores recomputed fresh before every round from
+`librarian-scan`, top candidate taken each time, ledger written per subject.
+Selection ran on the demand signal throughout — a reporting installation now
+contributes deviation counts, so this is the first pass on this bundle where
+demand ranked candidates rather than structure alone.
+
+| Round | Subject | Yield |
+| --- | --- | --- |
+| 1 | [[accessibility]] | `assistive-tech-divergence` + a two-file correction |
+| 2 | [[quality-gates]] | `enforcement-binding` + a `gate-laddering` amendment |
+| 3 | [[error-handling]] | `cancellation-attribution` |
+| 4 | [[authorization]] | `delegated-authority` |
+
+989 -> 993 techniques. Four new, one per round, each on lane convergence; one
+correction; two amendments; five counter-evidence confirmations that produced
+no edit and are recorded in the subject notes rather than lost.
+
+**Nothing saturated.** Dry streak is 0 on all four; not one round came back
+without an earned technique, which for a bundle this mature was not the
+forecast. Round 2 in particular was forecast confirmation-heavy — a
+ten-technique subject with dense law wiring — and was not.
+
+### The pattern this loop found, worth carrying into the next one
+
+**Three of four gaps sat at the edge of a condition the original forge could
+safely assume**, and in two cases the corpus had *written the assumption down*
+and then reasoned no further:
+
+- `accessibility` said announcements behave a certain way "on most
+  platform/reader combinations" — the hedge was correct, load-bearing, and
+  undeveloped for six techniques.
+- `error-handling`'s neighbour bounded itself with "on an ordinary request the
+  ambiguity barely exists" — true of the traffic it was forged against, no
+  longer true generally, and precisely why the general case was missing.
+- `authorization` graded channels because it was forged where the channel *is*
+  the originator.
+
+This is a cheaper gap-thesis than scanning for missing topics: **grep a subject
+for its own qualifiers — "most", "usually", "barely", "on an ordinary" — and
+ask whether the excluded case is still rare.** Offered to the next loop as a
+scan heuristic, not yet promoted to the skill; three sightings in one domain is
+one domain.
+
+Second, smaller: two rounds found their gap by reading *inbound references from
+other subjects* rather than the subject itself. `authorization` had three
+neighbours deferring an entitlement model to it that it did not have. A
+reference that resolves is not a reference that is answered.
+
+### Registry-local, and a real cost
+
+The whole loop ran against a tree with a concurrent session active in
+`game-production`, `media-generation`, `localization` and the harvest lane.
+Every round, `build-index` and `build-knowledge-rules` swept that session's
+in-flight files into shared generated outputs, and `build-catalog` eventually
+refused to write at all — correctly, its consistency check catching exactly
+this. Handled by restoring foreign generated files to HEAD and committing
+path-scoped, four times. It worked, and it is not free: **`catalog.json` is
+deliberately left stale** and needs one regeneration in a quiet tree.
+
 ## What is owed
 
 - a second stack for the ~44 single-stack subjects the last scan showed - the
@@ -81,3 +142,13 @@ lossy-branch-carries-a-counter family recognized at three sightings.
   recompute before the next wave
 - a reporting installation - demand is still UNKNOWN, not zero
 - the maturity ladder - everything still says `forged`
+- **one `build-catalog.mjs` run in a quiet tree** — left stale by the
+  2026-08-28 loop on purpose rather than regenerated across another run's
+  in-flight files
+- `accessibility` is still single-stack (`react`) and still tops the worklist
+  on that plus the fleet's highest deviation count; the debt is a reconcile-lane
+  job (a non-web accessible-UI tree), not a research one
+- `scripts/check-skills.mjs` exits 1 on trunk as of 2026-08-28 — an em-dash
+  inside a fenced code block in `skills/architect/SKILL.md`. Not this lane's to
+  fix, recorded because a red gate on the binding rung is the first number
+  [[quality-gates]] says to check
