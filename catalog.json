@@ -34,18 +34,18 @@
     },
     {
       "name": "architect",
-      "version": "1.2.0",
+      "version": "1.4.0",
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
-      "contentHash": "sha256-n1:1a674c99c858ffee",
+      "contentHash": "sha256-n1:c3f2a6bf71126a15",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 2,
+      "lessons": 5,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:5989b14c581dd87f",
+      "lessonsHash": "sha256-n1:c346b692ba8057db",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -552,7 +552,7 @@
     "skills": 27,
     "practices": 5,
     "memory": 4,
-    "lessons": 56
+    "lessons": 59
   },
   "bundles": [
     {
@@ -655,9 +655,9 @@
       "purity": "software",
       "subjects": 151,
       "techniques": 989,
-      "applications": 442,
-      "files": 1587,
-      "contentHash": "sha256:a401394f47070bb9"
+      "applications": 443,
+      "files": 1588,
+      "contentHash": "sha256:d6448c63b52c6a43"
     }
   ]
 }

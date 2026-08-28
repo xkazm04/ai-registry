@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
   "techniques": 989,
-  "applications": 442,
+  "applications": 443,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -6758,13 +6758,18 @@
      "slug": "crash-capture",
      "status": "forged",
      "laws": [
-      "creation-names-reaper"
+      "creation-names-reaper",
+      "gate-sees-target",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "naming the last-resort handler for each execution context",
       "deciding which fields may survive into a crash report",
-      "the same startup crash ships every few seconds"
+      "the same startup crash ships every few seconds",
+      "error reporting is a framework hook and handlers catch their own failures",
+      "a streaming or long-lived response reports failure in-band",
+      "error rates look low on the best-maintained code paths"
      ]
     },
     {
@@ -10708,6 +10713,12 @@
      "technique": "preset-vocabulary",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--preset-vocabulary.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "reduced-motion-mechanics",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/applications/react--reduced-motion-mechanics.md",
+     "verified_on": "2026-08-28"
     }
    ]
   },
@@ -18400,6 +18411,7 @@
     "embedded-preview/origin-validation",
     "entity-lifecycle/blast-radius-computation",
     "entity-lifecycle/bulk-deletion-rails",
+    "error-handling/crash-capture",
     "error-handling/swallowed-error-prevention",
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
@@ -20381,6 +20393,7 @@
     "companion-runtime/autonomous-cycle-hosting",
     "data-access/cross-driver-invariant-parity",
     "deployment-contract/direct-push-delivery",
+    "error-handling/crash-capture",
     "fleet-orchestration/brief-carries-the-session",
     "knowledge-registry/verification-is-contributed",
     "machine-paced-delivery/human-gate-capacity",
