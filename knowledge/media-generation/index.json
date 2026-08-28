@@ -889,7 +889,8 @@
      "use_when": [
       "automating judgement of generated images",
       "designing the fields a vision grader must fill",
-      "deciding what a machine grader can and cannot be trusted with"
+      "deciding what a machine grader can and cannot be trusted with",
+      "a failure everyone can see never shows up in the grades"
      ]
     }
    ],
@@ -898,7 +899,8 @@
      "stack": "node",
      "technique": "trial-matrix-design",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/node--trial-matrix-design.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-28",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -917,7 +919,7 @@
      "stack": "process",
      "technique": "unconditional-fail-criteria",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/process--unconditional-fail-criteria.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-28"
     },
     {
      "stack": "process",
