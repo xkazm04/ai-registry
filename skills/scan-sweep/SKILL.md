@@ -281,6 +281,23 @@ An item is backlogged regardless of size or RRR when it:
 "ask" band collapses to backlog. S still auto-builds — that is the whole point of
 the size class — and L still never does.
 
+**What the backlog is FOR — and what never goes in it.** The Personas idea
+backlog (the memory outbox → `dev_ideas` → the Quick Answer triage deck) is the
+surface where a HUMAN or Athena decides. It holds exactly three things: the
+**ask** band, every **L**, and anything a veto turned back. An item the routing
+table already approved (an S, or an M that clears the bar) does **not** need a
+decision and must not be parked there — it is executed, in this CLI session:
+by the sweep itself in a single-context round, or, in a **coordinator wave**
+(many contexts, workers that return results instead of committing), by
+subagents the coordinator dispatches from the returned list, one context per
+subagent, each re-checking vetoes 2 and 3 before building and demoting to the
+backlog what fails them. Vetoes 1 and 4 are parallel-session vetoes: under a
+single coordinator they do not bind, and an S a worker turned back only for
+"outside my paths" or "shared surface" is still an S. A backlog full of
+approved-but-unbuilt S items is a sweep that stopped one step early — measured
+2026-08-28: 149 of 240 backlogged wave findings were auto-approvable by the
+sweep's own table.
+
 ## 6. The registry lane — knowledge feeds the lenses, deviations are one lens, leads flow back
 
 Skip this section entirely when the repo declares no registry. When
