@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 touched_by: intake
 dry_streak: 0
 ---
@@ -128,3 +128,37 @@ test-harness owns the deterministic lane and defers non-determinism here.
 ## Declines
 
 None.
+
+## 2026-08-28 — /intake, [[../../sources/2026-08-28-autosaddler-harness-optimization]]
+
+Amendment to `failure-attribution`: a **seventh owner**, the tool surface, placed
+between pipeline and prompt. Technique count unchanged (10).
+
+Occasioned by a research release whose patch taxonomy treats tool definitions and
+implementations as a first-class surface separate from prompts. The six owners
+describe a single-call system completely — asked, assembled, sent, answered,
+handled — and an agent is not that shape: it acts through a contract it did not
+write, versioned separately from the prompt and injected by the harness.
+
+**The finding is the misrouting, not the missing row.** Walk an agentic tool
+failure through the funnel's own tells and it fails the prompt's tell (*a person
+reading only the prompt would make the same mistake* — they would not) and fails
+the pipeline's tell (*raw output and recorded outcome disagree* — they agree), so
+it lands in **model**, the residual, whose prescribed response is a model migration
+or an accepted limit. A strictly correct application of the technique therefore
+produces the exact mis-attribution the technique was written to prevent, and
+prescribes the most expensive available fix for what a rewritten tool description
+would have solved.
+
+This is the second amendment in two runs where `failure-attribution`'s
+most-upstream-first funnel was found to be complete for the system it was forged
+against and incomplete for an adjacent one. **The reusable check: for each owner,
+ask what its tell does with a failure it does not own.** A funnel is only as good
+as the exclusivity of its tells, and a residual bucket at the end will silently
+absorb everything the tells fail to catch.
+
+**Open, not pursued:** the source's four-way reflection classification (fixed /
+regressed / still-failing / still-passing) was left untriaged. The *regressed* cell
+is the one a shallow reflection loop never computes, and `quality-scoring`'s
+`paired-per-case-testing` sits in a different bundle — so if that candidate returns,
+it is a cross-bundle boundary to state rather than a technique to write here.

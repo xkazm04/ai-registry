@@ -6,7 +6,7 @@ technique: failure-attribution
 status: forged
 laws: [failure-not-empty-success, gate-sees-target, count-carries-predicate]
 shared_with: []
-use_when: [a suite went red and nobody knows what to change, the aggregate improved but the same failures recur, deciding whether a failing case is a defect or a bad label]
+use_when: [a suite went red and nobody knows what to change, the aggregate improved but the same failures recur, deciding whether a failing case is a defect or a bad label, an agent-based system failed and both the prompt and the model look correct]
 ---
 
 # Failure attribution
@@ -38,7 +38,7 @@ the system is only one of the candidates. Acting on a red case without
 attributing it is how a team spends a week hardening a prompt against a
 dataset error.
 
-## The six owners
+## The seven owners
 
 Every failing case is owned by exactly one of these. Assign the *most
 upstream* one that explains it — a bad label produces a wrong-looking output
@@ -63,6 +63,15 @@ shipped.
   applied at the wrong step, a retry that returned a stale result. *Tell:*
   the raw output and the recorded outcome disagree. *Response:* fix the code
   around the call.
+- **Tool surface.** The system acts through tools, and the case failed at
+  one — the description made the wrong tool look right, the schema could
+  not express the correct call, the parameter names were ambiguous enough
+  to be filled plausibly and wrongly, or the tool returned a failure the
+  agent could not act on and retried unchanged. *Tell:* the agent's
+  reasoning is sound given what the tool told it about itself. *Response:*
+  fix the tool's contract — its description, its schema, its error
+  messages — not the instructions about it. Absent in single-call systems;
+  in agentic ones it is where a large share of red cases actually live.
 - **Prompt.** The model had everything it needed, in a usable form, and was
   not told what to do with it — an unstated constraint, an ambiguous
   instruction, a framing that makes the wrong thing salient. *Tell:* a person
@@ -75,7 +84,40 @@ The ordering is the technique. It is a strict funnel, and the last two are
 the ones teams reach for first — which is why the ordering has to be
 mechanical rather than intuitive.
 
-## Two of the six are not the system
+## The tool surface was the missing owner, and it hides as the model
+
+The first six owners describe a single-call system completely: something
+is asked, assembled, sent, answered, and handled. An agent is not that
+shape. It acts through a tool contract it did not write and cannot see the
+implementation of, and that contract is a distinct authored artifact —
+versioned separately from the prompt, frequently owned by a different
+team, and injected by the harness rather than composed by the prompt
+author.
+
+The reason it needs its own row is that the funnel's own tells route tool
+failures to the wrong owner. An agent that calls the right tool with wrong
+arguments because a field name was ambiguous is not a **prompt** failure:
+the prompt's tell is that *a person reading only the prompt would make the
+same mistake*, and a person reading only the prompt would not — the prompt
+was fine. It is not a **pipeline** failure either: that tell is that *the
+raw output and the recorded outcome disagree*, and here they agree
+perfectly, the agent genuinely did the wrong thing. Failing both tells, the
+case falls through to **model** — the residual bucket, whose response is "a
+different model, or an accepted limit written down as one."
+
+So the funnel's most expensive outcome is exactly the one it was built to
+prevent, and it is reached by following the technique correctly. The
+correction is cheap because the fix is cheap: a rewritten tool description
+or a tightened schema is a smaller change than a model migration, and it is
+usually the one that was needed.
+
+Where automated repair loops operate on this taxonomy, the split matters
+for a second reason: a tool-surface fix is a change to code or contract,
+while a prompt fix is text — and those are not interchangeable remedies
+even when both are available. The instruction-file subject owns that
+ordering from the other side.
+
+## Two of the seven are not the system
 
 Label and dataset failures are the reason attribution cannot be skipped.
 Both produce a red case; neither is a defect; and the "fix" for either one,
@@ -118,7 +160,7 @@ because a suite result cannot tell you *why* it moved.
 
 ## A class with no owner is a product decision
 
-Some classes resist all six. The recurring shape is a genuine ambiguity in
+Some classes resist all seven. The recurring shape is a genuine ambiguity in
 the task: cases where competent reviewers disagree about the right answer,
 which means the suite is asking a question the product has not decided.
 

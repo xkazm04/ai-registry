@@ -1861,3 +1861,67 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
 - Gate note: `build-index --check` was stale on arrival from an earlier commit that
   added a technique without rebuilding the index. Phase 1 caught it, which is what
   Phase 1 is for; regenerated and folded in rather than left for the next run.
+
+## 0.14.0 - 2026-08-28 - autosaddler-harness-optimization
+
+- **A research release's README advertises a METHOD, and a method's advertisement is
+  made of its DISTINCTIONS.** The `research-model release` row says the README is the
+  least useful file present, and it is right about reliability and wrong about yield.
+  This run got the README and nothing else - no prompt artifacts, no config, no
+  architecture guide - and landed three findings, because what a paper claims as novel
+  is a patch taxonomy, a session-type taxonomy, a four-way outcome classification. **A
+  taxonomy survives the strip test where a benchmark number does not.** The contrast
+  that makes this a routing rule rather than a happy accident: a vendor repository's
+  README advertises a PRODUCT and is therefore made of names, which is why the row
+  correctly sends you to the client's types there. Amend the class entry: for a
+  research release, the README is low-reliability and **medium-yield on taxonomies
+  only** - read it for the distinctions the authors are claiming, and disbelieve
+  everything else on the page.
+- **A hazard's best statement is often one operational sentence in a reproduction
+  recipe.** Finding 1 came from step 3 of a "how to reproduce our smoke run" section -
+  the kind of prose the extraction phase skims because it is full of paths and
+  commands. Recipes are where a first-party author records what actually bit them,
+  and they are the closest thing a research release has to the "things we learned
+  running this" page the vendor-repository row prizes. **Read the reproduction
+  instructions, not just the method description.**
+- **The enumeration hunt paid a ninth consecutive run, and this time in a subject's
+  STRUCTURE rather than its prose.** Both accepted techniques came from denials that
+  no sentence states: `agent-instruction-files` sorts loading into three categories
+  that all describe files an author placed deliberately, and sorts fixes into gate-or-
+  prose where both branches presuppose an agent that CAN perform the behavior. Neither
+  is written down as a claim of completeness - it is a claim made by the shape of a
+  taxonomy. **Extend the hunt: a subject's technique roster is itself an enumeration,
+  and the question is what a candidate could be that no existing technique's framing
+  admits.**
+- **When a funnel has a residual bucket, check each tell against the failures it does
+  NOT own.** Finding 3's value was not "a row is missing" but "the existing tells
+  misroute, and the residual absorbs the misroute." A strictly correct application of
+  `failure-attribution` sends an agentic tool failure to `model` and prescribes a model
+  migration for a tool-description bug. **Any most-upstream-first taxonomy ending in a
+  catch-all deserves this check**, and it is cheap: take a failure class the taxonomy
+  predates and walk it through the tells in order.
+- **A method with a paper is not automatically a subject.** The triage carried an `XL`
+  new-subject proposal on a near-empty map (no slug matches "harness optimization") and
+  it dissolved on verification - the material decomposed cleanly across two mature
+  subjects under different names. This is the near-empty signature the SKILL already
+  warns about, arriving in a new disguise: **a named method with its own vocabulary
+  reads like a hole because its NAME is absent, while its content is distributed.**
+  Before proposing a subject for a named method, decompose the method into its steps
+  and map each step separately.
+- **Triage read accuracy: 3 for 3 on "real gap", and one of the three was mis-shaped.**
+  Rows 1-3 were all marked `real gap` and all survived, but row 3 was carried as a
+  technique and resolved as an amendment. That is the right direction to be wrong in
+  and it cost nothing. Worth carrying into the table: **the shape column is a weaker
+  prediction than the read column**, because shape depends on what the target file
+  already contains and the read does not.
+- **Fetch economics, ninth consecutive locally-corroborated run.** 1 of 3 fetches, and
+  it was extraction rather than corroboration - it settled a mechanism and then handed
+  over a second half the source never mentioned (lazy downward loading), a fallback,
+  and a verification instrument. **When a finding rests on a harness's discovery or
+  resolution rule, the vendor's own documentation is worth the fetch even when the
+  corpus already "has" the mechanism** - the corpus had the concatenation behaviour and
+  not the absence of a repo-root boundary, and the finding doubled in size.
+- Zero declines: the operator picked 3 of 14 and left 9 unpicked. Recorded as untriaged
+  with anchors and nearest prior art, per the vocabulary rule. Row 4 (the *regressed*
+  cell a shallow reflection loop never computes) flagged in both the note and the
+  subject note as the likeliest real finding on a second look.

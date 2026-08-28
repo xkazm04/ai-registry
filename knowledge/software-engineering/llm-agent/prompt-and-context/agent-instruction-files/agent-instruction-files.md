@@ -10,6 +10,8 @@ techniques:
   - machine-owned-regions
   - instruction-freshness
   - restraint-amplifier-balance
+  - capability-before-steering
+  - workspace-ancestry-isolation
 ---
 
 # Agent instruction files
@@ -85,6 +87,35 @@ technique also owns the trap inside the convergence: harnesses disagree on
 harnesses concatenate everything they find — so a monorepo author cannot
 assume override behavior and must write nested files as additive.
 
+## Text is not always the instrument
+
+The file answers failures the agent *would* not avoid. It cannot answer
+failures the agent *could* not avoid — an absent tool, a denied permission,
+a schema that makes the correct call unexpressible — and a line written
+against one of those cannot succeed while still charging the dilution tax
+to every line that could.
+[capability-before-steering](./techniques/capability-before-steering.md)
+owns the question that precedes both the admission test and the
+enforcement sort: could the agent have complied at all? Its signature in a
+repository is a rule restated with escalating force across several
+revisions, which is nearly always a capability gap being sharpened as
+though it were a wording problem.
+
+## The file governs a span, not a repository
+
+The author decides what the lines say; the harness decides where they
+land, and *where* is broader than the repository. Discovery is an ancestry
+walk with no boundary at the repo root — every directory from the launch
+point up to the filesystem root contributes, all of it concatenated rather
+than overridden — plus, lazily, the per-directory files beneath the launch
+point that get touched. So the governed region is a cone, and any
+directory a program creates inside it is briefed by a file written about
+something else. This is the case where a well-earned, freshly maintained
+file is nonetheless wrong, and it is
+[workspace-ancestry-isolation](./techniques/workspace-ancestry-isolation.md)'s
+subject: generated workspaces, evaluation sandboxes and cloned third-party
+trees, where the fix is positional rather than editorial.
+
 ## Parts of the file are not yours
 
 Instruction files accrete machine-written regions: a framework stamps its
@@ -144,3 +175,12 @@ first-class edit.
   the composition count: a file of pure prohibitions produces a compliant
   agent that stops volunteering; every restraint cluster ships with the
   amplifier that licenses initiative, checkably.
+- [capability-before-steering](./techniques/capability-before-steering.md) —
+  the question before the admission test: could the agent have complied?
+  Capability gaps get a capability fix and no line; the mechanical check,
+  the two short-circuit tells, and the ordering an automated loop must
+  follow.
+- [workspace-ancestry-isolation](./techniques/workspace-ancestry-isolation.md) —
+  the governed span: the ancestry walk past the repo root, upward
+  inheritance and downward injection, the sibling layout that empties the
+  span, and asserting the loaded set instead of the layout.

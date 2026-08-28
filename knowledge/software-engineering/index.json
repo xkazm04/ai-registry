@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 150,
-  "techniques": 980,
+  "techniques": 982,
   "applications": 440,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "980/980",
+  "use_when_coverage": "982/982",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -809,6 +809,22 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
    "techniques": [
     {
+     "slug": "capability-before-steering",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent keeps failing the same way and the instruction file keeps growing",
+      "deciding whether an observed failure should produce a new line at all",
+      "a rule has been restated three times and still is not followed",
+      "triaging which of a batch of agent failures are worth writing text about",
+      "an automated loop is proposing instruction-file edits from failed runs"
+     ]
+    },
+    {
      "slug": "enforcement-demotion",
      "status": "forged",
      "laws": [
@@ -894,6 +910,22 @@
       "per-tool instruction files have drifted apart",
       "structuring instruction files in a monorepo",
       "the always-loaded floor has outgrown its budget and needs scoped overflow"
+     ]
+    },
+    {
+     "slug": "workspace-ancestry-isolation",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent runs inside a directory some tool created rather than a repo someone chose",
+      "a harness generates scratch workspaces or candidate checkouts under an existing tree",
+      "an evaluation must measure the agent rather than the repository it was launched in",
+      "a cloned third-party tree is about to be read by an agent",
+      "a session picks up instructions nobody on the team wrote"
      ]
     }
    ],
@@ -6859,7 +6891,8 @@
      "use_when": [
       "a suite went red and nobody knows what to change",
       "the aggregate improved but the same failures recur",
-      "deciding whether a failing case is a defect or a bad label"
+      "deciding whether a failing case is a defect or a bad label",
+      "an agent-based system failed and both the prompt and the model look correct"
      ]
     },
     {
@@ -18143,7 +18176,9 @@
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/graph-to-wiring-translation",
     "agent-cli-transport/permission-stance-enforcement",
+    "agent-instruction-files/capability-before-steering",
     "agent-instruction-files/enforcement-demotion",
+    "agent-instruction-files/workspace-ancestry-isolation",
     "alerting/evaluation-loop",
     "alerting/rule-authoring-validation",
     "app-shell/entitlement-gating",
@@ -18440,6 +18475,7 @@
     "agent-cli-transport/availability-probe",
     "agent-cli-transport/fallback-ladder",
     "agent-cli-transport/output-normalization",
+    "agent-instruction-files/capability-before-steering",
     "agent-memory/coverage-instrumentation",
     "agent-memory/recall-injection",
     "agent-memory/rollup-compaction",
@@ -20193,6 +20229,7 @@
     "agent-cli-transport/permission-stance-enforcement",
     "agent-cli-transport/subscription-auth-selection",
     "agent-instruction-files/enforcement-demotion",
+    "agent-instruction-files/workspace-ancestry-isolation",
     "client-state/store-dependency-topology",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",

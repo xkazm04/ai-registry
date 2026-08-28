@@ -191,11 +191,16 @@ pushing against unscreened scenarios finds a boundary that is not there.
 The screening rules above distrust a green result. The same distrust is owed
 to a red one, and it is the half a harness usually skips: a failing case is
 evidence that something between the scenario and the score is wrong, and the
-system under test is only one of the candidates. Six layers can own a
+system under test is only one of the candidates. Seven layers can own a
 failure — the label, the dataset, the input construction, the pipeline, the
-prompt, the model — and they are checked in that order, most upstream first,
-because a wrong label produces a wrong-looking output further down and
-attributing it to the model is how the wrong fix gets shipped.
+tool surface, the prompt, the model — and they are checked in that order,
+most upstream first, because a wrong label produces a wrong-looking output
+further down and attributing it to the model is how the wrong fix gets
+shipped. The tool surface is the row that only agentic systems have, and
+the one the other six quietly route to the model: a call made wrongly
+because a schema was ambiguous fails the prompt's tell and the pipeline's
+tell alike, so a strictly followed funnel lands it in the residual bucket
+and prescribes a model change for a description problem.
 
 Two of the six are not the system at all. A case whose expected property is
 wrong, and a case that is unrepresentative of anything a user will do, both
@@ -285,9 +290,10 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [assertion-vs-judgment](./techniques/assertion-vs-judgment.md) — the
   deterministic band, when a judge is genuinely necessary, rubric-anchored
   judgment, the structured verdict channel.
-- [failure-attribution](./techniques/failure-attribution.md) — the six
-  owners of a red case, the two that are not the system, attributing a sample
-  and acting on classes.
+- [failure-attribution](./techniques/failure-attribution.md) — the seven
+  owners of a red case, the tool surface that only agentic systems have and
+  that the funnel misroutes to the model, the two that are not the system,
+  attributing a sample and acting on classes.
 - [judge-stability](./techniques/judge-stability.md) — the pinned judge
   packet, anchor-set drift measurement, inter-judge disagreement, the
   own-family preference bias.

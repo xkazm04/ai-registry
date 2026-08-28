@@ -654,10 +654,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 150,
-      "techniques": 980,
+      "techniques": 982,
       "applications": 440,
-      "files": 1575,
-      "contentHash": "sha256:ca27129cd9ae95c2"
+      "files": 1577,
+      "contentHash": "sha256:f9b239e72d2cb3a4"
     }
   ]
 }
