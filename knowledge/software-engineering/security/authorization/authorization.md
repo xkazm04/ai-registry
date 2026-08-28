@@ -11,6 +11,7 @@ techniques:
   - authorization-audit
   - failure-direction
   - identity-bearing-keys
+  - delegated-authority
 ---
 
 # Authorization & capability scoping
@@ -197,6 +198,40 @@ annotation forms, the "unannotated operation fails the build" rule, and the
 tooling contract are the
 [declarative-requirements](./techniques/declarative-requirements.md) technique.
 
+## When the performer is not the requester
+
+Everything so far grades one caller making one request. The moment anything
+in the system performs work *for* someone rather than *by* them — an
+intermediary forwarding, a worker draining a queue somebody else filled, an
+automated runner acting for a person, one component invoking another more
+powerful than its own caller — the model needs a part it does not yet have,
+because the callee runs with **its own** privileges and nothing about the
+call arranges otherwise. No rule is violated; the intermediary was allowed to
+do what it did, and only the reason was wrong.
+
+Stated against this subject's own framing: **a tier is a property of a
+channel, an authority is a property of a run**, and the two coincide only in
+the single-hop case a tier table is built for. Where anything forwards, the
+channel is a proxy for the originator, and a proxy graded higher than the
+thing it stands for is the hole. So the originating authority is *carried* as
+a typed value across every boundary that acts on it, never inferred at the
+far end from the fact that the call arrived over a trusted channel — the
+trusted channel is the deputy
+([verdict-survives-boundary](../../_laws.md#verdict-survives-boundary)). The
+scope intersection rule extends across hops unchanged: effective authority is
+the intersection of every authority in the chain, narrowing at each one, and
+narrowing on a second axis too — what the delegation is good for, and at
+which downstream component it may be presented.
+
+Two properties are kept, not one: **on whose behalf**, and **by whom**. An
+intermediary that carries the originator's own credential gets the scope
+right and destroys the account, leaving nothing able to separate what a
+person did from what the machinery did for them. The chain, the per-hop
+narrowing, the two-subject audit line, and deferred work as delegation with a
+gap in it (capture at enqueue, check at execute, refuse what cannot be
+resolved) are
+[delegated-authority](./techniques/delegated-authority.md).
+
 ## Decisions are auditable — especially the refusals
 
 An authorization decision is a security event, and the denied ones are the
@@ -277,6 +312,10 @@ that follows from treating a key format as a storage contract are
   free of secrets.
 - [failure-direction](./techniques/failure-direction.md) — fail-closed rules
   for every degraded state the authorization subsystem itself can enter.
+- [delegated-authority](./techniques/delegated-authority.md) — ambient
+  authority as the default bug, carrying the originating authority as a
+  value, per-hop narrowing on both axes, the two-subject audit line, and
+  deferred work as delegation across time.
 - [identity-bearing-keys](./techniques/identity-bearing-keys.md) — composing
   the owner into the storage address so a cross-tenant reference is
   unrepresentable; the single composer, component sanitization against the

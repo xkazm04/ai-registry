@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 992,
+  "techniques": 993,
   "applications": 443,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "992/992",
+  "use_when_coverage": "993/993",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1886,6 +1886,22 @@
       "choosing where an operation's requirement lives",
       "an annotated operation still dispatches ungated",
       "deciding whether unannotated operations may register"
+     ]
+    },
+    {
+     "slug": "delegated-authority",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "something in the system performs work for a caller rather than by a caller",
+      "an audit trail cannot say who a privileged action was actually for",
+      "deciding what authority a queued job runs with when it finally executes"
      ]
     },
     {
@@ -18377,6 +18393,7 @@
     "audit-logging/tamper-evidence",
     "authoring-block-vocabulary/vocabulary-as-translation-invariant",
     "authorization/declarative-requirements",
+    "authorization/delegated-authority",
     "authorization/dispatch-chokepoint-gating",
     "authorization/scope-design",
     "background-jobs/startup-sweeps",
@@ -19410,6 +19427,7 @@
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/decay-and-forgetting",
+    "authorization/delegated-authority",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
     "companion-identity/operator-profile-synthesis",
@@ -20013,6 +20031,7 @@
     "authoring-block-vocabulary/enum-guarded-block-payloads",
     "authoring-block-vocabulary/vocabulary-as-translation-invariant",
     "authorization/declarative-requirements",
+    "authorization/delegated-authority",
     "authorization/failure-direction",
     "authorization/identity-bearing-keys",
     "authorization/privilege-tiers",
@@ -20256,6 +20275,7 @@
    "techniques": [
     "admission-queue/admission-vocabulary",
     "agent-cli-transport/output-normalization",
+    "authorization/delegated-authority",
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
     "credential-vault/token-refresh-lifecycle",
