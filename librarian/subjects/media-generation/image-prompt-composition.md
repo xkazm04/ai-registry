@@ -1,7 +1,7 @@
 ---
 subject: image-prompt-composition
 domain: media-generation
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 dry_streak: 0
 ---
 
@@ -47,3 +47,10 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject predate
 ## 2026-08-27 - /intake run 26 ([[2026-08-27-video-workflow-batch-3]])
 
 - Voice section widened on a second independent sighting: the reference asset can be **extracted from the first accepted take or authored up front in a voice tool** with the animation conditioned on the audio; the rule is the ordering (reference before the second line), not the route. The typed-input law shows up here too - audio conditioning holds the voice channel.
+
+## 2026-08-28 - /intake run 35 ([[2026-08-28-media-generation-batch-4]])
+
+- `medium-vocabulary-locking` gained **the named-work quality proxy**. The technique owned the impression-word failure ("hyperrealistic", "8K") and its drift toward the over-sharpened synthetic register. This is the failure that looks like the *cure* for it, because it is specific where those were vague: naming a celebrated production to set the fidelity bar. A caption-trained model has no channel separating a title's production values from its content, so the admired work's designs arrive alongside its render quality.
+- **What makes it durable is that it half-works.** The render quality genuinely improves, so the prompt appears to have succeeded and the design problem is found later by whoever recognises the source. Rewording does not clear it - the source tried twice for "something different at that fidelity" and got the same lineage with the hue rotated, because the request still contained the attractor. The exposure is not "did I name a work" but "did I name a work known for *this kind of subject*": the effect is strongest exactly where the subject class overlaps the work's signature subject, and negligible elsewhere.
+- Landed as a three-step split: production values into the medium kit in this technique's own vocabulary; the subject designed against the attractor **feature by feature with named inversions** (not "different", which moves toward the training mean); the attractor's signature features into the exclusions beside the style's opposites. The closing line is the one that earns its place in a vocabulary technique: **a proper noun is a content token wearing a quality adjective's clothes** - the one impression word that gets more dangerous the more precisely it is chosen.
+- Untriaged from the same batch, with anchors: **constraint is conserved** - pinning slots redistributes the model's freedom into the unpinned ones rather than removing it, and forfeits the engine's own direction. Two independent voices give *opposite* advice on in-prompt timestamps (one gets four controlled cuts, the other calls it a cage that costs top-tier results), so the discriminator is already drawn for whoever picks it up.

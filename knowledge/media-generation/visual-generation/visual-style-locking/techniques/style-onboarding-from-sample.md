@@ -6,7 +6,7 @@ technique: style-onboarding-from-sample
 status: forged
 laws: [style-is-restated-not-remembered]
 shared_with: []
-use_when: [a user arrives with a look they cannot describe, importing a house style from existing published work, seeding a new theme from a single admired image]
+use_when: [a user arrives with a look they cannot describe, importing a house style from existing published work, seeding a new theme from a single admired image, a captured style reproduces the surface of a body of work but none of its editorial decisions, capturing a style stage no model can read the evidence for]
 ---
 
 # Style onboarding from sample
@@ -68,6 +68,50 @@ into **words the user can edit**, which is what turns a borrowed look into a
 reusable theme — forkable, adjustable, applicable to subjects the sample
 never contained. Capture without readback is imitation; capture with
 readback is acquisition.
+
+## A house style is several captures, and the evidence decides each one
+
+Everything above captures one thing: the look of a frame. A *house style* — a
+recognisable body of published work somebody wants to produce more of — is not
+one thing, and trying to capture it as one produces a block that describes the
+surface and reproduces none of the decisions. Its stages are separable, they
+fail independently, and each one is learnable only from evidence of a
+different kind:
+
+- **What gets shown, and when.** The rule mapping a script to the visuals that
+  carry it — the choice to answer a statistic with a counter, a comparison with
+  a map, a turning point with a graph. This is not visible in any single frame;
+  it is a *correspondence*, and it is learnable only from finished work paired
+  with its timed transcript, asked what was being said, what was on screen, and
+  why that answered this. The pairing is the whole instrument, and a timed
+  transcript is cheap to obtain from the work itself.
+- **How it looks.** The visual system — the procedure above, run over a
+  collected set of stills, with the coherence gate that section already
+  demands.
+- **How it moves.** The motion signature — frame cadence, how elements enter,
+  what the camera does, which layers hold still. Here the readback is
+  unavailable: capture presumes a model that can read the evidence back into
+  the grammar, and a sequence of frames is not evidence anything in the
+  pipeline can currently read as motion.
+
+**That third stage is the finding, and it generalises past this instance.**
+Where no channel can read the evidence, the stage does not get skipped and it
+does not get guessed — it gets **hand-authored**, and what makes hand-authoring
+tractable is a decomposition supplied before the writing starts. Split the
+frame into its asset classes — text, primary subject, ground, secondary
+dressing, camera — and state each one's behaviour separately. A practitioner
+who cannot write "the house motion style" in the abstract can answer five
+narrow questions about what each class does, and the union of those answers is
+the block.
+
+Two consequences worth carrying. **The capture method is a property of the
+evidence, not of the operator's convenience** — the temptation is to run every
+stage through the same readback because one of them worked, which yields a
+confident block about a stage nothing actually read. And a hand-authored stage
+is a *hypothesis with a named author*, so it carries its origin like any other
+block and earns its proofing round the same way; it is the least validated
+part of the style and should be the first thing the reference sheet is read
+against.
 
 ## When the appeal is the structure, this technique does not apply
 

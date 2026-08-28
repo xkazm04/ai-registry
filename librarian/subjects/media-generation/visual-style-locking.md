@@ -1,7 +1,7 @@
 ---
 subject: visual-style-locking
 domain: media-generation
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 dry_streak: 0
 ---
 
@@ -47,3 +47,10 @@ future run brings a constant that changes.
 ## 2026-08-27 - /intake run 26 ([[2026-08-27-video-workflow-batch-3]])
 
 - `style-onboarding-from-sample` gained the plural-capture gate: **a sample set must agree before it teaches**. The readback describes what the frames share; a mixed set captures a hybrid nobody chose with clean-looking lineage. Check the block against each sample, evict outliers at collection time - curating the set is the first edit of the style.
+
+## 2026-08-28 - /intake run 35 ([[2026-08-28-media-generation-batch-4]])
+
+- `style-onboarding-from-sample` gained **the house-style decomposition**, one run after it gained the plural-capture gate. The technique captures the look of a frame; a *house style* - a recognisable body of published work somebody wants more of - has separable stages that fail independently, and each is learnable only from evidence of a different kind. *What gets shown and when* is a correspondence, invisible in any single frame, learnable only from finished work paired with its timed transcript. *How it looks* is the existing procedure. *How it moves* has no readback at all, because nothing in the pipeline reads a frame sequence back into the grammar.
+- **The third stage is the finding and it generalises past this instance: where no channel can read the evidence, the stage is neither skipped nor guessed - it is hand-authored, and a decomposition supplied before the writing starts is what makes hand-authoring tractable.** Split the frame into asset classes (text, primary subject, ground, secondary dressing, camera) and state each one's behaviour; a practitioner who cannot write "the house motion style" in the abstract can answer five narrow questions whose union is the block.
+- Two consequences carried: **the capture method is a property of the evidence, not of the operator's convenience** - the temptation is to run every stage through the readback because one stage worked, which yields a confident block about a stage nothing actually read; and a hand-authored stage is a hypothesis with a named author, so it is the least validated part of the style and the first thing the reference sheet should be read against.
+- Adjacent and NOT landed: whether a style ratified on stills is ratified for motion at all. The lock lifecycle (drafted -> proofed -> locked) proofs on renders, and `style-block-restated-every-call` already owns restating the contract at the still-to-motion hop - but *ratification* is a different question and the run did not earn it. Return if a second source describes a style that passed on stills and broke in motion.

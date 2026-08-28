@@ -91,6 +91,20 @@ So decide them:
 - **Even light and a plain field.** The light in the reference is the light
   the face may keep. Even light is the least-wrong thing to import when each
   shot brings its own lighting brief.
+- **A field at mid tone, and "plain" is not the same decision.** Plainness is
+  about *content* — nothing behind the subject competing for the channel. The
+  ground's **brightness** is a second choice hiding inside the first, and the
+  default everyone reaches for, a white sweep, is the wrong end of it. The
+  reference does not carry only the light's direction; it carries the frame's
+  tonal centre, and a subject rendered against blown white was exposed for
+  white. Drop that reference into a brightly lit scene and the exposure
+  compounds: the face comes back washed, the shadow structure that made it
+  recognisable flattened out, and — because the batch is internally
+  consistent and every shot is competently lit — nothing reads as broken. A
+  mid-grey field gives the conditioning the least-committed tonal centre
+  available, which is the same argument as even light, applied to the axis
+  most reference sheets never decide. The tell is a character who is
+  reliably a little brighter than the room they are standing in.
 - **Only the wardrobe that is genuinely invariant.** A costume that changes by
   scene is state wearing an identity costume, and it belongs in a per-scene
   reference rather than in the one every shot sees.
@@ -164,6 +178,9 @@ the room.
   need a rescue.
 - When a reference is cropped to buy back the camera, do not expect the crop
   to buy back the performance — different failure, different fix.
+- When the batch comes back consistently brighter than its scenes, look at
+  the reference's ground before the lighting briefs; a white field is an
+  exposure instruction nobody wrote.
 - When the generator changes, re-run the coupling probe before reusing the
   reference set; a new conditioning path can move a loosely coupled channel to
   hard-coupled with no other visible symptom.

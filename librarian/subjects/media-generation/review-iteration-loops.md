@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: review-iteration-loops
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 touched_by: intake
 dry_streak: 0
 ---
@@ -45,3 +45,11 @@ image inpainting masks.
 
 - `edit-plan-over-regeneration` gained **the plan lands as annotations in the working surface**: proposals rendered as native markers with notes, approved in place (surviving markers ARE the approved plan), applied by a deterministic script. Propose/approve/apply with the mechanical step containing no judgment - refuse-before-apply built into the workflow's shape.
 - `anchored-variation-slate` gained the post-pick rule: **generate to see, rebuild natively** - when the production tool can express the winner, the slate's product is the decision and the render never enters the deliverable. First-party pricing from a 10-year editor: the direct-adopt loop costs quota, fiddly round-trips, and half-hour misses.
+
+## 2026-08-28 - /intake run 35 ([[2026-08-28-media-generation-batch-4]])
+
+- `partial-regeneration-seams` gained **the two operations time-based media has and a still does not**. The technique's "mechanical changes take the deterministic tool" bullet was written for pixels - remove on a clean ground, crop, cover. A clip adds **excise an interval** and **reverse one**, and the defect's own *extent* chooses among them: bounded interval -> excise; interval whose motion runs backwards -> reverse; bounded region clear of the subject -> reframe; whole clip -> the only row that earns a new sample. The economics are `cost-per-usable-output` arriving one stage later: a re-roll does not fix a defect, it re-enters the lottery that produced it, and the cheapest usable output is often a rejected render with ninety per cent of its duration intact.
+- The boundary is what makes reversal a rule rather than a trick: **time-symmetric motion only** - a barrier, a mechanism, drifting smoke, a swinging weight - and never gait, a mouth on screen, flame, dissipating smoke, or anything spilling, shattering or burning. Reversal takes the whole span, including the elements that were already correct.
+- Gate disposition landed with it: a clip whose only failing defect has an editorial remedy is **accepted with a named repair**, and the repair travels as provenance - nobody downstream can see from a clean timeline that a shot is holding a crop it must not lose or a reversal it must not re-cut through.
+- Same technique, second amendment: **a multi-panel sheet has no addressable region.** A one-panel fix re-renders every panel and the model re-decides the others while it is there, so the composite the technique already prefers becomes compulsory - and the step nobody performs is to **diff the panels you did not ask about**.
+- Frontmatter gained the two law citations the new material genuinely rests on (`cost-per-usable-output`, `refusal-is-a-state`).

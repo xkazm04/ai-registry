@@ -6,7 +6,7 @@ technique: generated-shot-sourcing
 status: forged
 laws: [cost-per-usable-output, refusal-is-a-state, style-is-restated-not-remembered]
 shared_with: []
-use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps]
+use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps, animating a designed graphic whose artwork must stay exact across the shot, a walk or other cyclic movement comes back stiff from an anchored generation]
 ---
 
 # Generated-shot sourcing
@@ -57,6 +57,49 @@ request, two panels, the same scene with only the camera changed, then
 split the panels into start and end frames. Shared provenance is what
 leaves the model nothing to reconcile, and it costs one still instead of
 two.
+
+### Rung 3 over an exact graphic: the anchors are a diff, not a pair
+
+The paired-panel rule is written for a photographed world, where the two
+anchors differ by a camera and the model's job is to move between two views
+of one scene. A designed graphic — a map, a chart, a board, a diagram — breaks
+that assumption, because its identity is *exact* rather than approximate.
+Asked to animate one, a motion model re-synthesises the artwork every frame,
+and the coastline, the axis labels and the pinned photograph all quietly
+become different coastlines, labels and photographs. This is not the drift the
+rung was built to resist; it is destruction, and no adherence setting reaches
+it, because the model was never holding the graphic in the first place — it
+was redrawing it.
+
+So the instruction is never "animate the graphic". The anchors are authored as
+**two stills identical everywhere except the one element that changes**, and
+the motion request is left with nothing to invent:
+
+1. **Mint the base state** — the graphic with the changing element absent. The
+   clean map, the empty board, the unplotted axes.
+2. **Mint each later state from the state before it as a reference**, with a
+   prompt that names the single addition and instructs that nothing else
+   change. The chain matters: state 3 derived from state 1 disagrees with
+   state 2 about everything the prompt did not pin, which is the paired-panel
+   failure arriving through a different door.
+3. **Hand the states to the motion model in order.** Two states are a
+   head-and-tail request and the interpolation is the animation — the route
+   draws itself across a map the model had no reason to touch. Three or more
+   fall off that mechanism entirely, because head-and-tail takes exactly two
+   frames; those go as ordered references with a brief that walks the build.
+
+Two things this buys that a motion prompt cannot. The animation is *correct by
+construction* rather than by luck, since the only thing that can move is the
+thing that differs. And the graphic's exactness survives, which is the whole
+requirement — a chart that redraws itself mid-shot is not a rougher chart, it
+is a different claim.
+
+The cost is that each state is a generation conditioned on the last, so the
+chain drifts the way any chain does: expect small tonal or texture shifts
+between distant states, gate the last state against the first, and keep chains
+short. Where the graphic's exactness is load-bearing for a factual claim, this
+rung is the floor and not the ceiling — a graphic that must be *right* is
+composited from a deterministic render, not sampled.
 
 ## Clip caps are a structural constraint
 
@@ -222,6 +265,17 @@ whole clip. Two consequences:
   never showed. The ladder's rungs are ordered by control, but control of the
   head is not free — it spends staging freedom and imports texture, and both
   costs belong in the rung decision.
+- **An anchor can also over-pin the motion, and cyclic movement is where it
+  shows.** A frame is one phase of whatever is moving, and where the movement
+  is a *cycle* — a gait, a swing, a stroke, a wingbeat — the anchor fixes not
+  only how the limbs look but where in the cycle they are. Pin every member of
+  a symmetric pair at once and there is no phase left to infer: the model has
+  been told both arms are here, at this instant, and what comes back is a
+  stiff figure translating rather than walking. Pin *one* member, mid-stroke,
+  and leave its counterpart out of frame or unresolved; the model reconstructs
+  the opposition, which is the part it is good at. The general form is the
+  rung's own logic taken one step: an anchor should carry the pose the shot
+  opens on, not the mechanism the shot depends on continuing.
 - **The import is also the lever.** Because the clip inherits the anchor's
   finish, anything baked into the anchor rides into the motion for free —
   which makes the anchor the right place to bind the look. Grading the

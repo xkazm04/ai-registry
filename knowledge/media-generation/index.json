@@ -1122,7 +1122,9 @@
      "use_when": [
       "writing a style block for a specific artstyle family",
       "a style reads generically despite detailed prompting",
-      "realism adjectives are making outputs look worse"
+      "realism adjectives are making outputs look worse",
+      "an original design keeps arriving as a recognisable existing one",
+      "a named film or studio is being used to set the quality bar"
      ]
     },
     {
@@ -1714,14 +1716,18 @@
      "laws": [
       "edit-do-not-regenerate",
       "style-is-restated-not-remembered",
-      "unmeasured-is-not-pass"
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output",
+      "refusal-is-a-state"
      ],
      "shared_with": [],
      "use_when": [
       "applying an edit plan to audio or video rather than text",
       "one section of a generated piece must change while the rest is kept",
       "a regenerated region satisfies its brief but the result breaks at the joins",
-      "deciding whether a section edit is local or secretly global"
+      "deciding whether a section edit is local or secretly global",
+      "a generated clip is wrong in one span or one corner and a re-roll is the only remedy anyone has proposed",
+      "one panel of a multi-panel reference or storyboard sheet is wrong"
      ]
     },
     {
@@ -2109,7 +2115,9 @@
       "handling clips that arrive with their own baked-in audio",
       "a subject drifts steadily across a long sequence of generated shots",
       "planning a scene that will be built by chaining extensions",
-      "a pipeline's derived durations must survive a model's fixed generation steps"
+      "a pipeline's derived durations must survive a model's fixed generation steps",
+      "animating a designed graphic whose artwork must stay exact across the shot",
+      "a walk or other cyclic movement comes back stiff from an anchored generation"
      ]
     },
     {
@@ -2271,7 +2279,9 @@
      "use_when": [
       "a user arrives with a look they cannot describe",
       "importing a house style from existing published work",
-      "seeding a new theme from a single admired image"
+      "seeding a new theme from a single admired image",
+      "a captured style reproduces the surface of a body of work but none of its editorial decisions",
+      "capturing a style stage no model can read the evidence for"
      ]
     }
    ],
@@ -2363,6 +2373,7 @@
     "production-pipeline-phasing/shared-clock-across-phases",
     "production-pipeline-phasing/worst-news-first-progress",
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "review-iteration-loops/partial-regeneration-seams",
     "review-iteration-loops/refusal-as-valid-outcome",
     "review-iteration-loops/scope-vs-preference-signals",
     "sound-effect-generation/loop-seam-acceptance",
@@ -2525,6 +2536,7 @@
     "narrative-engine-selection/fit-vs-hazard-axes",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/phase-order-and-graduation",
+    "review-iteration-loops/partial-regeneration-seams",
     "sound-effect-generation/layered-element-assembly",
     "video-assembly/generated-shot-sourcing",
     "video-assembly/motion-plate-library",

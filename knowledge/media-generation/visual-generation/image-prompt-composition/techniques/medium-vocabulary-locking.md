@@ -10,6 +10,8 @@ use_when:
   - writing a style block for a specific artstyle family
   - a style reads generically despite detailed prompting
   - realism adjectives are making outputs look worse
+  - an original design keeps arriving as a recognisable existing one
+  - a named film or studio is being used to set the quality bar
 ---
 
 # Medium vocabulary locking
@@ -74,6 +76,54 @@ In every family, close the block with the style's *opposites* as
 exclusions: the adjacent looks the model drifts toward (photo finish from
 painterly, 3D render from flat, illustration gloss from photographic).
 
+## Naming a work to set the bar imports the work
+
+The impression words above are the common failure. There is a second one that
+looks like the *cure* for them, because it is specific where they were vague:
+reaching for a named production — a film, a studio, a franchise, a
+photographer — to say how good the output should be. "At the fidelity of that
+film" feels like a medium decision. It is not one, and it fails in a way the
+adjective pile does not.
+
+A caption-trained model has no channel that separates a title's *production
+values* from its *content*. The name is one token cluster, and everything that
+co-occurred with it comes back together: ask for a celebrated creature film's
+level of detail while designing an original creature, and what arrives is that
+film's creature — its ear shape, its skin palette, its marking language —
+rendered beautifully. The render quality genuinely improves, which is what
+makes the failure durable: the prompt appears to have worked, and the design
+problem is discovered later by someone who recognises the source. Rewording
+does not clear it. Two attempts at "something different, at that fidelity"
+returned the same lineage with the hue rotated, because the request still
+contained the attractor.
+
+The failure is strongest exactly where it is least visible: when the subject
+class you are designing overlaps the named work's signature subject. A title
+famous for humanoid creatures poisons a humanoid-creature brief and barely
+touches a still life. So the exposure is not "did I name a work" alone, it is
+"did I name a work *known for this kind of subject*".
+
+The correction is to split the two axes the name had fused, and to spend the
+second one deliberately:
+
+1. **Ask for the production values in medium vocabulary** — the render
+   decisions the admired work made, in this technique's own terms: subsurface
+   translucency, motivated key with a cool practical fill, fine skin
+   micro-texture, physically plausible cloth. This is the half that was
+   legitimate, and it survives the name's removal intact.
+2. **Design the subject against the attractor, feature by feature.** Not
+   "different", which moves toward the training mean — name the specific
+   inversions: rounded ears where the attractor's are pointed, an antler crown
+   where it has hair, a heavy silhouette where it is tall and slender. Each
+   inversion is a decision the block can hold and a reviewer can check.
+3. **Put the attractor's signature features in the exclusions**, alongside the
+   style's opposites, for the same reason and by the same mechanism.
+
+The general rule, and the reason this sits in a technique about vocabulary:
+**a proper noun is a content token wearing a quality adjective's clothes.** It
+is the one impression word that gets *more* dangerous the more precisely it is
+chosen.
+
 ## Decision rules
 
 - **When a style reads generic**, audit the block for impression words and
@@ -85,6 +135,9 @@ painterly, 3D render from flat, illustration gloss from photographic).
 - **When two style families must blend**, pick the dominant medium's kit
   as the base and import at most one or two terms from the other; two full
   kits fight, and the model resolves the fight per-image.
+- **When a named work is carrying the quality bar**, split it: production
+  values into the medium kit, the work's signature features into the
+  exclusions, and the subject designed against them feature by feature.
 - **Vocabulary claims are measurable — treat them so.** A term earns its
   place in the project's kit by a controlled pair (block with and without
   it); a kit assembled from folklore is the kitchen-sink negative prompt

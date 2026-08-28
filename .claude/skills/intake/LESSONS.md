@@ -2108,3 +2108,43 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   into two amendments (shared roots: substitution promise; data-vs-unit) is the
   spec-lane "fold the fragments" rule applied at S/M scale, and it read better than five
   sections would have.
+
+## 0.17.0 - 2026-08-28 - media-generation-batch-4 (12 sources, 6 voices)
+
+- **An enumeration near the top of a long technique file is not the file's coverage,
+  and the longer the file the more it lies.** A candidate was triaged as a real gap
+  because `generated-shot-sourcing`'s conditioning ladder enumerates four rungs and a
+  video reference is on none of them. The same file owns it in full two hundred lines
+  later, under its own heading, with the split and the boundary. The operator skipped
+  the row and was right. This is the counterpart of the 2026-08-22 near-empty lesson
+  and the 2026-08-28 vocabulary-miss lesson, one layer in: Phase 6 says read the file,
+  and in a file over ~250 lines "read the file" cannot mean read the head and the
+  section the map pointed at. Grep the file for the candidate's concept before
+  believing an enumeration excludes it.
+- **A subject that keeps taking amendments is telling you its shape is wrong, and
+  intake is the wrong engine to fix it.** `video-assembly` had already flagged, twice,
+  that its conditioning ladder was accreting riders and owed a `/deepen` rebuild. This
+  run added two more sections, and the triage error above is the same debt surfacing
+  as a reader failure rather than as a complaint. When a subject note carries a
+  standing rebuild flag, the honest options are dispatch it or land nothing there -
+  not land two and re-flag it harder. Say so in the note when you do it anyway.
+- **Cross-author disagreement inside a batch is worth more than cross-author
+  agreement.** The two agreements this batch produced (draft-resolution ladder,
+  per-clip generated audio) were both catches against techniques the corpus already
+  held more precisely. The one *disagreement* - two independent voices giving opposite
+  advice on in-prompt timestamps - is the highest-altitude candidate the run surfaced,
+  because a discriminator arrives already drawn. Add disagreement to the batch triage
+  signal beside convergence; it is rarer and it does not need a dedupe.
+- **Demonstrated-*failure* density predicts yield better than demonstrated-mechanics
+  density.** Sources that showed something going wrong and what they did next produced
+  six of seven landings; sources that showed finished results produced one. The
+  single highest-yield source in a 29k-word batch was its shortest first-party account
+  at 1,174 words, and it earned that by narrating three defects and three different
+  repairs. Sharpens the 2026-08-27 batch rule rather than replacing it.
+- Fourth batch at one bundle in two days: **seven landings, all amendments, zero new
+  techniques.** Predicted before the table and it is the right shape - say the expected
+  yield out loud when the bundle has been widened 26 times this week, so an
+  amendment-only run reads as saturation rather than as a weak batch.
+- 0 of 3 fetches, eleventh consecutive corpus-internal run. Every landing corroborated
+  either by the amended technique's own stated principle extended to a case it did not
+  cover, or by training-data convergence reached without the source in view.

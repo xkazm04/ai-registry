@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: character-identity-continuity
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 touched_by: librarian
 dry_streak: 0
 ---
@@ -105,3 +105,10 @@ worker's read - see [[2026-08-27-1]].
   the beats lose.
 - `video-assembly` / `generated-shot-sourcing` - close the loop on the import
   law's two signs.
+
+## 2026-08-28 - /intake run 35 ([[2026-08-28-media-generation-batch-4]])
+
+- `reference-shows-only-invariants` gained **the ground's brightness as an axis hiding inside "plain"**. The composition list already said "even light and a plain field", and plainness is a claim about *content* - nothing behind the subject competing for the channel. Brightness is a second decision inside the first, and the default everyone reaches for, a white sweep, is the wrong end of it: a subject rendered against blown white was exposed for white, and dropped into a brightly lit scene the exposure compounds - the face returns washed and the shadow structure recognition runs on is flattened.
+- Why it hides: the batch stays internally consistent and every shot is competently lit, so nothing reads as broken and no instrument in the subject reports it. The identity embedding is built to be robust to exposure, the difference axis is satisfied, and per-shot review passes. **The tell is a character reliably a little brighter than the room they are standing in.** Same argument as even light, applied to the axis most reference sheets never decide.
+- Corroborated by convergence rather than by the source: mid-grey grounds are standard practice in turnaround and product capture precisely because they give the least-committed tonal centre.
+- Untriaged from the same batch, with an anchor: **identity anchors are not only for faces** - any prop that must survive a cut needs its own sheet. Scope widening of this subject, whose four techniques all presume a performer. Nobody verified it; recorded so it is not re-derived.
