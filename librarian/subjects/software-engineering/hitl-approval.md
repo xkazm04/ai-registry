@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: hitl-approval
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 touched_by: intake
 dry_streak: 0
 ---
@@ -151,3 +151,25 @@ install, in the terms the gate will later match on, before installing it. Landed
 cheapest justification rather than a principled one: a human shown "this will allow
 <verb> <subcommand> with any arguments, in this workspace" is the **only** available audit
 of the prefix table, because in isolation every entry in that table looks reasonable.
+
+## 2026-08-28 - intake, ai-literacy-superpowers Concepts batch
+
+Amended `decision-records` with a section the technique's own calibration loop
+invited: the trigger loop reads approval-near-100% as a dead gate because it assumes
+the record's subject is an action. When the subject is an **objection** raised by a
+reader chartered to disagree, the six fields are identical and the reading inverts -
+mostly rejected with rationale is healthy, critical mostly accepted means plans arrive
+underprepared, and the why is mandatory on every disposition because it is the
+engagement. Recorded as the inverse asymmetry: the corpus had the instrument, the
+source supplied the case one step outside its domain.
+
+The larger finding is not this subject's and was deliberately kept out of it:
+[[2026-08-28-ai-literacy-superpowers-concepts]] found that four plan-stage readers
+(slicer, challenger, decision-surfacer, self-challenger) map near this subject and
+land inside none of its eleven techniques - this subject owns the pause and stops at
+"the human decides on the real thing". Dispatched as
+`docs/subject-proposal-plan-review.md` (sibling in `orchestration`), with the
+boundary stated there: `plan-review` produces artifacts *for* this subject's decision
+surface and must not re-mint the emit/persist/dispose ordering, which is this
+subject's. When the spec is forged, this golden path should gain one sentence
+pointing at it where it says "not a summary produced by the gated party".

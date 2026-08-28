@@ -1,7 +1,7 @@
 ---
 subject: machine-paced-delivery
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-08-28
 touched_by: intake
 dry_streak: 0
 ---
@@ -67,3 +67,20 @@ argues the subject's floor is one person. If a future reconcile puts this
 subject against a large-team tree, check whether the independence section still
 reads correctly there - it is written from the one-person case outward, and the
 team case may want the inverse framing.
+
+## 2026-08-28 - intake, ai-literacy-superpowers Concepts batch
+
+Amended `human-gate-capacity` (landed yesterday) with the case its own floor
+creates: at one person and a fleet, the four measures - arrival, dwell, backlog age,
+post-merge repair - describe the individual who is the queue, and the overload
+signature is a claim about their state. New section before the decision rules:
+count never score (the ego-depletion account is d=0.04 in the 2016 RRR; task-switching
+cost and vigilance decrement are what is robust), advisory and local (never a
+persisted assessment of the person), and the stop decided before the session because
+the metacognition that would notice fatigue draws on the capacity being spent. Two
+decision rules added. Source: [[2026-08-28-ai-literacy-superpowers-concepts]] rows 12
+and 25, corroborated from training data rather than the page.
+
+Still owed from yesterday: the subject has no application for `human-gate-capacity`;
+the measures it prescribes have not been taken on any connected tree. The new Phase 8
+paired-proof rule makes that the shape of the next X-lane run here.

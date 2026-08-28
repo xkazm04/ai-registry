@@ -137,6 +137,40 @@ The approval mechanics themselves — how the pause is presented and recorded �
 belongs here is that the gate's rate and its independence are two separate claims, and a
 delivery system at machine pace tends to lose both at once while reporting neither.
 
+## At the floor, the gate's numbers are a record about a person
+
+At one person and a fleet, the four measures stop describing a queue and start
+describing the individual who *is* the queue. Dwell is how long they took; post-merge
+repair is how often they were wrong; and the overload signature — verdicts arriving
+faster as a session runs longer — is a statement about their state at 21:00 that the
+merge log renders in the same colour as 09:00's. The measures are still the right
+ones. What changes is what may be done with them, and three rules keep the
+measurement on the right side of that line.
+
+- **Count, never score.** Report the proxies separately — continuous span,
+  decisions per hour, distinct work streams touched, the hour itself — and never fold
+  them into one fatigue or fitness number. The inputs cannot support the precision a
+  composite implies, and a composite about a person is a claim about them rather than
+  a count of what they did. The popular decision-fatigue account rests on an
+  ego-depletion effect a twenty-three-lab replication measured at d ≈ 0.04; what is
+  robust is task-switching cost and the vigilance decrement over sustained time on
+  task. So every inference read off the counts is flagged as inferred and defeasible,
+  and nothing about the person — whether a break was rest, what their good hours are —
+  is assumed rather than asked.
+- **Advisory, and local.** At the floor these numbers never block a merge, never fail
+  a check, and never persist an assessment of the person into a shared tree. A count
+  and a timestamp may be kept, locally, where the person can see them and switch them
+  off; "that looks like too many" may be said and must not be stored. A gate metric
+  that scores its own reviewer has become a record about a human, and the reviewer
+  will route around it the way authors route around a bad linter — by turning it off.
+- **Decide the stop on a full reservoir.** The corrective to a falling dwell late in a
+  session is not "review more carefully": the metacognition that would notice the
+  decline draws on the capacity being spent, so by the time a reviewer feels they
+  should stop, the judgment making that call is the one not to trust. The stop is
+  decided *before* the session, while the deciding judgment is still the kind worth
+  trusting, and the one time-boxed remedy the numbers may suggest is to re-review the
+  last approvals the next morning.
+
 ## Decision rules
 
 - The merge gate is a server. Publish its arrival rate and its dwell distribution beside the
@@ -152,3 +186,6 @@ delivery system at machine pace tends to lose both at once while reporting neith
 - Publish no gate metric without a named response to it, including an accepted service level.
 - A gate whose reviewer commissioned the work is a check, not an independent review; record it
   as what it is.
+- At the one-person floor the gate metrics are about the reviewer: count, never score; advisory,
+  never a gate; local, never a persisted judgment.
+- Decide the stop before the session, not during it.

@@ -1,5 +1,42 @@
 # Lessons - intake (formerly research)
 
+## 0.15.0 - 2026-08-28 - ai-literacy-superpowers-concepts (bumped to 0.16.0 in the same change)
+
+- **The dispatch arrived as two things at once - a batch to mine and a phase to add -
+  and split-at-Phase-3 handled both.** The phase is the X lane's first *proof* gate:
+  the lane was opt-in and confirmation-gated, and an application's `verified_on` only
+  ever said a tree was opened, never that the change did anything. Paired proof at any
+  scale before a cross-repo commit, status from a closed set, `unproven` does not
+  commit. The 2026-08-27 67/33 probe is the existence proof that an in-run A/B at n=1
+  is cheap and decisive.
+- **Real-gap-only is now the unattended rule (Phase 5).** The operator asked for it on
+  this run; it is the right default for any run with nobody at the table, because an
+  unattended verifier should spend on rows that can change the corpus and leave the
+  judgment calls (`partial`, `likely catch`) recorded with anchors for a person.
+- **A documentation corpus from one author is a channel corpus whose cluster is the
+  finding.** Four pages, four readers built to one shape, one missing stage
+  (`plan-review`). Fold the fragments into a spec; do not mint four techniques beside
+  `hitl-approval`. The batch-lane rule held; the class file gained the observation.
+- **The asymmetry hunt paid twice in the INVERSE direction.** Prior runs found a
+  concept mentioned in one file and measured in another. This run found the corpus
+  holding the instrument and the source supplying the case where its domain is one
+  case wider: `decision-records` reads its distribution for an actor and the reading
+  inverts for an objection; `human-gate-capacity` measures the gate and at the floor
+  the gate is a person. New Phase 6 question: **read a technique's calibration loop and
+  ask what it measures when the gated party is not an actor.**
+- **Machinery items from a well-implemented source still outrank content** - the
+  tiered-sources rule came from the smallest page in the batch (the model-cards page)
+  and landed in the skill, not a bundle. The listicle tiebreaker generalises past the
+  listicle.
+- Zero fetches, tenth consecutive corpus-internal run; the source's primaries are
+  training-data-resident and are listed in the spec for the drafter to fetch. One
+  ingest exit 2 (transient 503), retried clean - the exit-code split did its job.
+- Nav chrome was ~170 lines per page on a documentation site; strip it before reading
+  or the token budget goes to menus. Worth a `--strip-nav` flag on `research-ingest`
+  if a third doc-site batch arrives.
+- Zero declines (unattended). 13 catches, 4 untriaged partials with anchors, 2 leads
+  with return conditions. Decline reasons owed: none.
+
 ## 0.14.0 - 2026-08-27 - evaluate-llms-before-production
 
 - **The enumeration hunt is now the dominant finding shape, and this run says why.**

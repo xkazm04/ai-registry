@@ -106,3 +106,37 @@ is a defect upstream of the gate. Decision latency says whether the queue and
 its notifications are working. None of these can be read from state flips;
 all of them fall out of records with the six fields, which is the argument
 for the six fields.
+
+## When the gated artifact is an objection, read the distribution backwards
+
+The trigger loop above assumes the record's subject is an **action** the machine
+wants to take, so approval near 100% means the gate has fallen below the judgment
+threshold. The same six fields, the same append-only chain and the same atomic write
+serve a second subject: a **challenge**. A reader chartered to disagree — a person, or
+a read-only agent whose only job is to find what is wrong with a plan or a change —
+raises objections, and the human disposes each one. Nothing about the record changes.
+The reading inverts, and a team that carries the action reading into the objection
+record tunes exactly the wrong thing.
+
+| Distribution | Under the action reading | Under the objection reading |
+| --- | --- | --- |
+| mostly rejected, with substantive rationale | the machine keeps proposing what humans refuse — a defect upstream | **healthy**: real concerns raised, engaged with, decided against for reasons |
+| critical items mostly accepted | the gate is working | the plans arrive underprepared; the defect is upstream of the review, not in it |
+| low-severity items mostly deferred | noise the trigger should have filtered | the challenger's charter is tuned toward the unimportant; narrow it |
+| consistently empty | nothing is reaching the gate | either the plans are strong or the challenger is not challenging — the only test is to read a few records beside their plans |
+
+The **why** field does the discriminating, which is why its rule flips too. For an
+action, a mandatory rationale on every approval spends the attention budget this
+subject protects, and the field is optional on approval for that reason. For an
+objection, the rationale *is* the engagement the gate exists to force: "rejected —
+already covered by the constraint on X" is a decision, "looks fine" is not, and a
+blank disposition is indistinguishable from a thoughtful one. So on an objection
+record the why is mandatory on every disposition, and a disposition without one is
+the rubber stamp of the fatigue section wearing a different coat.
+
+One cross-record signal is available only when both readings run on the same
+pipeline: objections raised late — against the change rather than the plan —
+trending upward says the plan-time challenger's charter is too loose, because
+premise-level problems are reaching the stage where a premise-level objection costs
+the tests and the implementation. What a plan-stage challenger is and when it must
+run is not this technique's; that it produces records this technique can read is.

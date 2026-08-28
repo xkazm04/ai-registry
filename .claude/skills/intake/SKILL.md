@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.15.0
+version: 0.16.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -190,6 +190,16 @@ Budget corroboration like `deepen` does: at most **3** web fetches for the whole
 spent only on picked candidates, preferring primary and vendor documents over
 commentary about them. A news video reporting on a paper is not the paper.
 
+**Tier sources; never count them.** Convergence means *independent* sources reaching
+one rule, and most sources are not independent: a relay is downstream of the primary
+it relays, so three relays agreeing with each other are one observation, and three
+relays disagreeing with a fresher primary are evidence of the primary's *past* state,
+not a vote against its current one. Rank by tier - standard or vendor document, then
+repository or paper, then first-party account, then commentary - let the highest tier
+present win a conflict, and record the conflict in the note instead of resolving it by
+majority. The ledger already dedupes carriers at publisher granularity; this is the
+rule that granularity was serving.
+
 ## Procedure
 
 ### Phase 0 - Bootstrap (idempotent)
@@ -321,8 +331,12 @@ Say the expected yield for the source class out loud before the table, so a smal
 number reads as calibration rather than as failure. Flag any candidate that matches a
 prior run's decline or a banked lead as `reconsider?` with the earlier reason.
 
-Only picked candidates go deep. If the run is unattended, pick using the registry
-impact as the tie-breaker and say which you picked and why.
+Only picked candidates go deep. If the run is unattended, **only rows whose own read
+is `real gap` advance**; pick among them with the registry impact as the tie-breaker
+and say which you picked and why. `partial` and `likely catch` rows are recorded
+untriaged with their anchors - unverified, never declined - because an unattended run
+should spend its verification budget where the corpus can change and leave the
+judgment calls to a person (operator rule, 2026-08-28).
 
 ### Phase 6 - Verify the picks
 
@@ -453,18 +467,49 @@ assumed.
 
 1. Resolve the project from `.projects.local.json`. Do not guess a path.
 2. Confirm with the operator before touching a project tree at all.
-3. Commit atomically **with a pathspec** on the project's default branch - the fleet
+   An operator's triage pick that names the project ("with impact on X") *is* the
+   confirmation - do not ask twice. It confirms the lane, not the row: a named project
+   was still declined at the gate on 2026-08-28.
+3. **Pair the proof before the commit - at any scale, but never at none.** A registry
+   technique is a claim about a standard; a change to a connected project is a claim
+   that the technique *improves that project*, and the second claim is not evidence
+   for itself. Before any cross-repo commit, run a **paired comparison** on the tree
+   and record it in the application document under a `proof:` field.
+   - **Name the measurable first** - the number the technique says will move: a
+     split, a rate, a latency, a count of violations, a token cost. No measurable, no
+     commit; a change whose effect cannot be named is a lead, not a landing.
+   - **Prefer A/B: the same input through both arms**, with and without the change,
+     on the same instrument. Any scale is admissible - one prompt, one fixture, one
+     session - as long as both arms exist and the arm count travels with the number
+     (the `count-carries-predicate` law). The 2026-08-27 playground that measured a
+     channel split 67/33 was an in-run A/B at n=1, and it decided the landing.
+   - **Fall back to before/after only when a control is impossible**, and then under
+     the rules the corpus already holds for that shape
+     (`adoption-measurement/before-after-outcome-pairing`): the same instrument on
+     both sides, the change instant fixed, and **never invent the missing half** - a
+     missing baseline is a `no-before` status, not a cohort average.
+   - **Write the status from a closed set**: `ab-paired`, `before-after`,
+     `structural-only` (step 6 found the structural fact and no behavioural arm was
+     runnable), `unproven`. `unproven` does not commit: the diff stays uncommitted
+     or goes to a branch, and the note says what proof would take.
+   - **A negative proof is a landing too.** Two arms that measure no difference are
+     the application's most useful sentence - the reader is deciding whether to copy
+     the technique, and "it did not move X here" is worth more than a bookmark.
+   The proof measures the *impact* on this tree; the structural fact in step 6
+   measures whether the tree *confirms the standard*. They are different claims, and
+   an application may carry either without the other - but a cross-repo commit needs
+   the first.
+4. Commit atomically **with a pathspec** on the project's default branch - the fleet
    has one owner and one machine, so a branch-and-PR round trip protects nobody (see
    the single-owner doctrine in memory). The two exceptions: the tree has another
    session's uncommitted work in files you touch, or the change is larger than a few
    lines a reviewer can read in the diff - then a branch, and say why. **Never push**
    from a run; the operator pushes when they have read the diff.
-   An operator's triage pick that names the project ("with impact on X") *is* the
-   confirmation in step 2 - do not ask twice.
-4. The registry-side artifact of a project change is an **application document**: you
+5. The registry-side artifact of a project change is an **application document**: you
    opened a real tree, so you are one of the few things allowed to write `verified_on`
-   and `verified_against` truthfully. Write them.
-5. **Look for the structural fact that confirms or refutes the technique, not just for a
+   and `verified_against` truthfully. Write them, and write the `proof:` status from
+   step 3 beside them.
+6. **Look for the structural fact that confirms or refutes the technique, not just for a
    place to point at.** An application whose content is "here is where this happens" is
    a bookmark. The valuable one reports something the tree's *shape* says about the
    standard - and the strongest form is negative. On 2026-08-22 a technique claimed one
@@ -484,9 +529,9 @@ assumed.
    only the mandatory half - on 2026-08-27 the text half of a two-channel contract was
    enforced that way while the image half rode an optional field, so production had run
    text-only for weeks beside a playground that measured the split 67/33.
-6. **Write what the realization CANNOT do.** A stack that judges rather than measures
+7. **Write what the realization CANNOT do.** A stack that judges rather than measures
    should say so in the application, because the reader is deciding whether to copy it.
-7. Never copy a project's paths, repo names or internals into a published registry
+8. Never copy a project's paths, repo names or internals into a published registry
    file. The application layer may cite code the project has chosen to make public;
    `librarian/` and the upper layers may not cite it at all.
 
@@ -555,4 +600,6 @@ seen three times is a rule this file should carry.
 - **Treating a currency signal as a content gap.** "The world moved" is a clock reset
   or a dispatch, not a new technique.
 - **Editing a connected project without asking, or pushing its branch.**
+- **Committing to a connected project on an unpaired claim.** A technique landing in
+  a tree is a measurement with two arms, or it is a branch.
 - **Committing without a pathspec in a shared checkout.**

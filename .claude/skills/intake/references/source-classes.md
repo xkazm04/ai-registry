@@ -277,6 +277,18 @@ cross-run corroboration instead. Yield profile: amendments and corroborations, n
 subjects. Recognize it at ingest from the author column and say the expectation out loud
 before the table.
 
+**Observed 2026-08-28 (first-party documentation corpus: 35 pages, 61k words, one
+author).** The design-doc form of the channel corpus behaves as the row predicts and
+adds one property: its yield is *architectural*. The pages are organised around
+mechanisms the authors built and the reasoning for their shape, so the strip test
+passes on nearly every page and the corpus-vs-source novelty check does all the
+triage work. Twenty-six candidates, thirteen catches against a mature bundle, two
+asymmetry amendments, one XL spec folding four fragments, zero fetches. **The
+cluster was the finding**: four pages describing four readers built to one shape
+turned out to be one missing stage (review of a plan before commitment) that no
+single page would have shown. Read a documentation corpus's cross-references before
+its content - the pages that cite each other most are the subject.
+
 ## A batch reveals clusters, and the cluster is itself a finding
 
 Five of ten accepted findings in one batch sat on a single missing **stage** between two
