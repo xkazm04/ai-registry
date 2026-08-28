@@ -378,3 +378,21 @@ Why the RRR band was wrong: it scored the edit's danger, not the product's
 state. Exercised the same day on the remaining 149 pending ideas with Sonnet
 classifiers doing the Before/After step per item (results in the personas
 run ledger `net-delta-triage`).
+
+## 2.5.0 - 2026-08-28 - personas (measured evaluation replaces net delta)
+
+Operator, after the net-delta wave left 154 pending: "instead of evaluating
+net positives we should have a framework for before/after which can measure
+both variants as pre-analysis on a small sample or thought simulation. If the
+solution has better code quality, performance, resilience, user benefit, or
+the other benefit promised by the idea, auto-accept. If not, reject. If not
+measurable (subjective — new large features, redesigns), human gate."
+
+What changed: S4.10's `## Net delta` became `## Evaluation` (Claim / Before /
+After / Method / Result / Gate); S5 routes on `better` / `not-better` /
+`unmeasurable`, and `not-better` is a REJECTION with figures — the first
+routing rule in this skill that can say no. Design/feature stopped being gates
+(they are the unmeasurable result); contract/policy/irreversible remain hard
+gates. Exercised on the 154 pending ideas; the retrospective on all three
+rules in one day is in the personas run ledger `eval-triage` and in this
+file's next entry.

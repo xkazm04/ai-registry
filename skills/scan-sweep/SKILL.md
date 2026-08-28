@@ -219,18 +219,36 @@ field.
     Who notices, what changes for them, and how it would be measured. One
     sentence on what could break.
 
-    ## Net delta
-    Before: <the state today, one sentence>
-    After: <the state once this is implemented as described, one sentence>
-    Delta: positive | neutral | negative | uncertain
-    Gate: none | design | feature | contract | policy | irreversible
+    ## Evaluation
+    Claim: quality | performance | resilience | user | other — <what the idea
+      promises, one clause>
+    Before: <the measurement today — a number, a count, a reproduced
+      behaviour, or the sample you looked at>
+    After: <the same measurement under the proposed change — from a probe on a
+      small sample, a simulated run, or the gate you would run>
+    Method: probe | simulation | gate — <what you actually did to get the two
+      figures, in one line>
+    Result: better | not-better | unmeasurable
+    Gate: none | contract | policy | irreversible
     ```
 
-    **The Net delta is the routing step (§5), written down.** It is one honest
-    comparison — the state after against the state now, net of what could
-    break, churn and maintenance — and one honest answer to "does a human have
-    to decide this?". Pure churn is `neutral`. A claim you could not verify
-    against the code is `uncertain`, never `positive`.
+    **The Evaluation is the routing step (§5), written down — and it is a
+    MEASUREMENT, not an opinion.** "Net positive" was the previous form, and it
+    let a plausible story pass for evidence: measured on this operator's deck
+    (2026-08-28), 44 of 64 human-gated ideas were `uncertain` because nobody
+    had checked the claim, and the executors then found premises false at the
+    point of build. So: pick the benefit the idea actually promises, take the
+    figure BEFORE (count the sites, time the path, reproduce the failure, read
+    the sample), take the same figure AFTER by the cheapest honest means —
+    apply the change to a small sample, walk the code path with the change in
+    your head and state what changes, or name the gate that will decide it —
+    and write both down. `better` means the After figure is better on the
+    claimed dimension without a worse figure on another you can see.
+    `not-better` is a finding you are REJECTING with its numbers attached.
+    `unmeasurable` is reserved for what genuinely has no figure — a new or
+    major capability, a redesign, a matter of taste — and is the only
+    result that goes to a human for the benefit question itself. Pure churn
+    measures the same before and after and is therefore `not-better`.
 
     `evidence` is SEPARATE from `body` and is the proof, as a code block or a
     `file:line` list — the exact lines, the grep output, the count — never a
@@ -242,14 +260,16 @@ field.
     and reads as the lower-quality item it is. Do not invent extra sections;
     put anything else under Description.
 
-## 5. Routing — the net delta decides, the human gates override
+## 5. Routing — the measured evaluation decides, the hard gates override
 
 Size still describes the work (and bounds what a single round may build), but
-it no longer decides who approves. **The Net delta of §4.10 does.** Measured on
-this operator's own deck (2026-08-28): the great majority of backlogged ideas
-were worth executing, and the reward/risk ratio that used to hold them back was
-measuring the wrong thing — it asked "how risky is the edit?" when the
-question is "is the product better afterwards, and is this mine to decide?".
+it no longer decides who approves. **The Evaluation of §4.10 does.** The
+history of this section is three routing rules in one day on one operator's
+deck: reward/risk asked "how dangerous is the edit?"; net delta asked "does it
+sound better?" and passed 85 of 149 on stories; this one asks "is it
+measurably better on the dimension it promises?" — and can say NO, which the
+earlier two never could. A rule that only ever accepts or defers is not a
+gate.
 
 Classify every candidate by size for the build bound:
 
@@ -259,22 +279,29 @@ Classify every candidate by size for the build bound:
 - **L** — structural: architecture-grade work spanning modules — new layers,
   protocol redesigns, cross-cutting migrations.
 
-### The net-delta rule
+### The evaluation rule
 
-| Net delta | Gate | Route |
+| Result | Gate | Route |
 | --- | --- | --- |
-| `positive` | `none` | **Auto-accept. Build it** — in-session, or by a coordinator subagent in a wave. |
-| `positive` | any human gate | **Human.** Backlog it with the Net delta on the card; the deck decides. |
-| `neutral` / `negative` / `uncertain` | — | **Human** (or drop it: a `negative` you are sure of is a non-finding). |
+| `better` | `none` | **Auto-accept. Build it** — in-session, or by a coordinator subagent in a wave. |
+| `better` | contract / policy / irreversible | **Human.** The benefit is proven; the change still needs an owner who is not the author. |
+| `not-better` | any | **Reject**, with the Before/After figures as the rejection reason. It leaves the backlog. |
+| `unmeasurable` | any | **Human.** The benefit question itself is a judgement — new or major capability, redesign, taste. |
 
-**The human gates** — a gate applies when the implementation REQUIRES it, not
-when the finding merely mentions it:
+**What counts as a measurement.** A count (sites, files, keys, renders,
+IPC calls), a duration or a size, a reproduced failure and its absence, a
+test that goes red-then-green, a gate's exit code, or a walked sample of
+concrete inputs with their outputs before and after. "Cleaner", "more
+maintainable", "safer" with no figure is not a measurement; if you cannot
+attach one, the result is `unmeasurable`, not `better`. A probe on a SMALL
+sample is enough — three call sites, one reproduced flow, one timed path —
+as long as it is the same sample on both sides.
 
-- **design** — a core design or architecture choice: a new layer or
-  abstraction, a protocol, a data model, replacing a mechanism the product is
-  built on. Every **L** is a design gate by definition.
-- **feature** — a new or major user-facing capability, a change of product
-  direction or scope. Fixing a state a feature already has is not a feature.
+**The hard gates** — a gate applies when the implementation REQUIRES it, not
+when the finding merely mentions it. Design and feature are no longer gates:
+they are the `unmeasurable` result, because what makes them human is that
+their benefit has no figure, and when it does have one they are ordinary work.
+
 - **contract** — a DB schema, IPC/public API, generated binding, persisted
   format or cross-repo contract. A reviewer who is not the author owns these.
 - **policy** — security, privacy, spend/cost, audit; what gets logged, stored,
@@ -282,14 +309,13 @@ when the finding merely mentions it:
 - **irreversible** — deletes user data, rewrites stored history, a migration
   with no rollback.
 
-**Size still bounds the build.** An auto-accepted **L** cannot exist (it is a
-design gate), and an auto-accepted M that grows past its seam mid-build is
-demoted like any other (§7.4). Effort / impact / risk are still scored — they
+**Size still bounds the build.** An **L** is `unmeasurable` in practice —
+its benefit is architectural — and stays human; an auto-accepted M that grows
+past its seam mid-build is demoted like any other (§7.4). Effort / impact / risk are still scored — they
 order the queue and calibrate the delta — they just no longer gate it.
 
-**Pure churn is `neutral` by definition** — a refactor of working code with no
-user-visible or developer-measurable gain never reads as `positive`. That is
-the intent, not an accident of the wording.
+**Pure churn measures the same on both sides** and is therefore `not-better`
+— rejected, with the identical figures as the reason. That is the intent.
 
 ### The four vetoes — they override every route above
 
@@ -305,8 +331,8 @@ An item is backlogged regardless of size or RRR when it:
    call. Say so in the finding so the next session knows the difference.
 
 **Unattended runs** (dispatched by an app or a fleet, no operator present):
-nothing changes — there is no "ask" band any more. `positive` + `none` builds,
-everything else waits for the deck.
+nothing changes — there is no "ask" band. `better` + no hard gate builds,
+`not-better` is rejected with its figures, everything else waits for the deck.
 
 **What the backlog is FOR — and what never goes in it.** The Personas idea
 backlog (the memory outbox → `dev_ideas` → the Quick Answer triage deck) is the
@@ -498,13 +524,14 @@ backlog as open work:
 Each BACKLOGGED finding:
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Net delta\nBefore: ...\nAfter: ...\nDelta: positive\nGate: none","evidence":"<code block or file:line list — the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"delta":"positive|neutral|negative|uncertain","gate":"none|design|feature|contract|policy|irreversible"}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance — ...\nBefore: ...\nAfter: ...\nMethod: probe — ...\nResult: better\nGate: none","evidence":"<code block or file:line list — the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"result":"better|not-better|unmeasurable","gate":"none|contract|policy|irreversible"}
 ```
 
 `body` is the §4.10 form verbatim — the five `## ` sections, newline-escaped in
-the JSON; `delta` and `gate` repeat the Net delta's verdict as fields so a
+the JSON; `result` and `gate` repeat the Evaluation's verdict as fields so a
 consumer can route without parsing prose. A backlogged finding is, by
-construction, one whose delta or gate said "human" — say which, on the card. A finding emitted in any other shape is rejected at review, not
+construction, one whose result or gate said "human" — say which, on the card.
+A `not-better` finding is never emitted: it was rejected in the report. A finding emitted in any other shape is rejected at review, not
 reformatted.
 
 Escalation — at most one per lens, ONLY when that lens produced a critical
