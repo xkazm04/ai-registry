@@ -6,7 +6,7 @@ technique: generated-shot-sourcing
 status: forged
 laws: [cost-per-usable-output, refusal-is-a-state, style-is-restated-not-remembered]
 shared_with: []
-use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots]
+use_when: [briefing a generative video model to produce shots for a cut, deciding between text-only and image-anchored conditioning for a shot, accepting or rejecting generated clips into an assembly, handling clips that arrive with their own baked-in audio, a subject drifts steadily across a long sequence of generated shots, planning a scene that will be built by chaining extensions, a pipeline's derived durations must survive a model's fixed generation steps]
 ---
 
 # Generated-shot sourcing
@@ -154,6 +154,52 @@ prior brief carried only as intent context. When the two conflict, the clip
 wins; the alternative is a seam where a character snaps back to where the
 brief thought they were.
 
+
+## The extension channel has bounds of its own
+
+An extension reads the accepted clip, but it does not read all of it. The
+conditioning is a **window off the tail** — a bounded span of the immediately
+preceding material — and everything earlier is as invisible to the
+continuation as it would be to a fresh request. Two numbers define the
+channel and both belong to the platform rather than the pipeline: how deep
+the window reaches, and how far a chain of extensions may run in total.
+
+Neither is stable. One platform's window moved from the final second to the
+final ten in a single release — an order of magnitude, on a parameter no
+caller sets and most briefs never mention. A sequence that reads as one
+continuous scene on the new version reads as a series of restarts on the
+old, with no change to the prompt, the anchors, or the code. The window is
+therefore a **versioned fact that belongs in the vendor ledger** beside the
+rate card, looked up per model version rather than inferred from how the
+last one behaved.
+
+Three consequences follow, and together they are why this is a channel with
+a budget rather than an escape from the clip cap:
+
+- **What has scrolled out of the window must be re-supplied, not trusted.**
+  Identity, palette and set dressing established in a clip's opening sit
+  outside the conditioning of an extension taken late in the chain. They come
+  back as explicit references and a restated contract, exactly as they would
+  for an unanchored shot. This is the drift that defeats adjacency anchoring
+  over a chain, arriving one level down and taking the same answer: pin the
+  origin as a reference and let the window do the rolling.
+- **The chain has a ceiling, and reaching it is a structural event.**
+  Extension is capped cumulatively, not only per call, so a scene longer than
+  the total is still a multi-request scene by construction. What extension
+  buys is not an unbounded shot; it is a *larger unit to place the seam
+  between*. Choose that seam on a structural beat, exactly as the clip cap
+  already demands — a chain run until the platform refuses has let the
+  ceiling choose the cut.
+- **The increments are quantized, and authored durations are not.**
+  Extensions arrive in fixed steps. A pipeline whose durations are derived —
+  a beat gap, a narration span, a music cue — will ask for lengths the step
+  size cannot express, and the difference is paid at the timeline in a trim,
+  which discards the tail the model composed toward. Where duration is
+  load-bearing, brief a shot at that duration rather than extending toward it.
+
+The honest summary for a brief: **extension is a budget denominated in the
+platform's units.** Ask what the window is, what the ceiling is, and what the
+step is, before designing a scene that assumes any of the three.
 ## The anchor imports its maker's texture
 
 A frame anchor conditions more than composition: the clip inherits the
@@ -190,11 +236,12 @@ whole clip. Two consequences:
 A clip can condition a generation the way a still does, and the channel has
 two distinct uses that want opposite handling:
 
-- **Continuity carry.** Extending a scene from the *whole previous clip*
-  rather than its tail frame. A frame anchor carries geometry and identity
+- **Continuity carry.** Extending a scene from a *span of moving picture*
+  rather than a single tail frame — a span bounded by the platform's window,
+  never the whole clip. A frame anchor carries geometry and identity
   and resets everything else — the pacing, the built tension, the mood
   arrive at zero, which is why frame-chained scenes read as a series of
-  restarts. The full clip carries what the frame cannot: how the scene was
+  restarts. A span carries what the frame cannot: how the scene was
   moving when it ended. Where the platform accepts a video reference for
   continuation, it dominates tail-frame anchoring for mood-bearing scenes,
   and it composes with the rule that the *brief* for the continuation is
@@ -213,6 +260,17 @@ Both uses obey one mechanical rule: **trim the reference to exactly the
 span you mean.** A clip reference is read whole, and every second beyond
 the intended material is unscoped instruction — the cheapest edit in the
 pipeline is cutting the reference before it conditions anything.
+
+The trim is usually also compulsory, which is easy to miss while treating it
+as an economy. Platforms cap the moving reference hard — a few seconds per
+clip, a small number of clips per request — and the caps are tight enough
+that a reference is a *sample* of the material, not the material. Two things
+follow. An unstated span is chosen by the platform rather than by the
+director, and a span nobody chose is not a scoped reference however carefully
+its negative scope was written. And choreography transfer in particular has
+to be cut to the beat that carries the movement, because the seconds that
+survive the cap are the whole instruction — a reference trimmed by the
+platform's default is conditioning on whichever seconds happened to be first.
 
 ## Baked-in audio is a mix decision a model made
 

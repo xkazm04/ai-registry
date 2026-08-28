@@ -2107,7 +2107,9 @@
       "deciding between text-only and image-anchored conditioning for a shot",
       "accepting or rejecting generated clips into an assembly",
       "handling clips that arrive with their own baked-in audio",
-      "a subject drifts steadily across a long sequence of generated shots"
+      "a subject drifts steadily across a long sequence of generated shots",
+      "planning a scene that will be built by chaining extensions",
+      "a pipeline's derived durations must survive a model's fixed generation steps"
      ]
     },
     {
