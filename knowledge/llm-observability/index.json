@@ -4,7 +4,7 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
-  "techniques": 98,
+  "techniques": 100,
   "applications": 49,
   "laws": 9,
   "categories": [
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "98/98",
+  "use_when_coverage": "100/100",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -768,6 +768,19 @@
      ]
     },
     {
+     "slug": "reference-guided-grading",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a dimension grades solution correctness the judge could derive itself",
+      "a judge misgrades reasoning it can perform standalone",
+      "a correctness check is verifiable but not mechanical"
+     ]
+    },
+    {
      "slug": "weighted-anchored-dimensions",
      "status": "forged",
      "laws": [
@@ -1358,6 +1371,21 @@
      ]
     },
     {
+     "slug": "error-analysis-first-taxonomy",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "standing up scoring for a surface with no rubric yet",
+      "deriving judge dimensions from real traffic instead of a template",
+      "deciding when manual trace reading has been enough",
+      "keeping review batches honest against unknown failure modes"
+     ]
+    },
+    {
      "slug": "errors-always-oversampling",
      "status": "forged",
      "laws": [
@@ -1878,6 +1906,7 @@
     "margin-and-unit-economics/pricing-what-if-simulation",
     "margin-and-unit-economics/revenue-recognition-rules",
     "operator-surfaces-for-llm-spend/single-render-layer-many-consumers",
+    "production-trace-scoring/error-analysis-first-taxonomy",
     "production-trace-scoring/errors-always-oversampling",
     "production-trace-scoring/settle-window-completion",
     "production-trace-scoring/stable-hash-sampling",
@@ -1981,6 +2010,8 @@
     "judge-calibration-and-drift/trust-bar-verdict",
     "judge-contract-design/bias-counterbalancing-instructions",
     "judge-contract-design/nonce-fenced-candidate-isolation",
+    "judge-contract-design/reference-guided-grading",
+    "production-trace-scoring/error-analysis-first-taxonomy",
     "production-trace-scoring/verdict-coverage-receipt"
    ]
   }

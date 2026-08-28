@@ -45,3 +45,13 @@ nesting proof; quantization replay.
   score is a clean judge-provenance realization; a node application target.
 - analytics-store-design: a sampled preflight that picks the query strategy
   and reports ~ estimates - a technique-shaped pattern the bundle lacks.
+
+## 2026-08-28 - /harvest batch 1 + A/B evaluation
+
+`error-analysis-first-taxonomy` landed as a new technique (trace-driven evals
+practitioner corpus: saturation rule, guaranteed random review slice,
+principal-expert critique-to-few-shot). A/B probe (standing up scoring for a
+consuming project's unscored apex chat surface) returned **impact-positive**,
+blind 10-8; decisive checks were failure-modes-first-with-stopping-criterion
+and the unknown-unknowns random slice - exactly the landed content.
+Evaluation ledger: [[../../harvest/evaluations.md]].

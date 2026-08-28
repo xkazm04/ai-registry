@@ -54,6 +54,17 @@ purposes, the hosting wrapper is noise; the family is the signal.
    must carry how much traffic was unpriceable; an Unknown provider that
    disappears into a dashboard presents absence as an answer.
 
+**A declared identity pair precedes inference.** One major span convention
+now carries provider identity as two declared attributes — the model
+family and the hosting platform — instead of a single free-text value.
+When both arrive, map the family attribute onto the internal provider
+directly and keep the host as provenance metadata; substring inference is
+the fallback for absent or single-valued identity, never an override of
+what the sender declared. The two axes answer different questions — the
+family selects the price book, the host explains the route — and folding
+them back into one string would rebuild the ambiguity this procedure
+exists to unwind.
+
 ## Two matchers, two risk appetites
 
 Family matching at ingest is deliberately *eager* — false-merge risk is low

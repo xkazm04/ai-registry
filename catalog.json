@@ -602,10 +602,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 16,
-      "techniques": 98,
+      "techniques": 100,
       "applications": 49,
-      "files": 168,
-      "contentHash": "sha256:8762443ec12ebd54"
+      "files": 170,
+      "contentHash": "sha256:861b73276ff300bf"
     },
     {
       "name": "localization",

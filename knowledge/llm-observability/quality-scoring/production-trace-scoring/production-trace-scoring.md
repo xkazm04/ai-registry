@@ -11,6 +11,7 @@ techniques:
   - verdict-coverage-receipt
   - drift-classified-rescoring
   - unscored-work-queue
+  - error-analysis-first-taxonomy
 ---
 
 # Production trace scoring
@@ -171,3 +172,8 @@ error every interval until someone notices the log volume.
 - [unscored-work-queue](./techniques/unscored-work-queue.md) — the system of
   record serves "what still needs judging"; the client never reconstructs
   it by anti-join.
+- [error-analysis-first-taxonomy](./techniques/error-analysis-first-taxonomy.md)
+  — the step before any rubric exists: read traces to saturation, build the
+  failure taxonomy bottom-up, keep a random slice in every review batch,
+  and let a principal expert's written critiques become the judge's worked
+  examples.

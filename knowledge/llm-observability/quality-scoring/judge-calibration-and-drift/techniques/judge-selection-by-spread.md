@@ -68,6 +68,26 @@ Read the table with these rules:
   scope with the decision so the next reader knows what it does and does
   not cover.
 
+## A panel is a candidate too
+
+The bake-off's rows need not all be single models. A **panel of smaller
+judges drawn from disjoint model families**, aggregated by vote or mean,
+enters as one candidate — and published measurement found such a panel
+outperforming a single frontier judge on human correlation at roughly a
+seventh of the cost, with less same-family bias, because no single
+family's taste dominates the aggregate. Rules that keep a panel honest:
+
+- **Members must span families.** A panel drawn from one family multiplies
+  its self-preference instead of cancelling it; diversity of provenance is
+  the mechanism, not the headcount.
+- **The panel is one instrument.** Its spread and agreement are computed on
+  the aggregated verdict; membership is part of the method, so adding or
+  swapping a member is a method change that re-opens paired verification,
+  exactly as batching does.
+- **Within-panel disagreement is signal.** Report it beside the aggregate
+  rather than averaging it away — items the panel splits on are the middle
+  strata the per-item table exists to expose.
+
 ## Reasoning effort is part of the judge's identity
 
 Judge capability is not only *which* model but *how hard it reasons*: the

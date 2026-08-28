@@ -11,6 +11,7 @@ techniques:
   - mixed-rubric-honesty
   - nonce-fenced-candidate-isolation
   - bias-counterbalancing-instructions
+  - reference-guided-grading
 ---
 
 # Judge contract design
@@ -174,3 +175,7 @@ structure is measurement.
 - [bias-counterbalancing-instructions](./techniques/bias-counterbalancing-instructions.md)
   — countering verbosity, position and self-preference bias in the prompt
   contract, paired with structural counterbalancing.
+- [reference-guided-grading](./techniques/reference-guided-grading.md) — for
+  derivable-answer dimensions, the judge solves the input first and grades
+  the candidate against its own reference; the measured antidote to
+  blessing confident wrong reasoning.

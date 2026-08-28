@@ -66,6 +66,17 @@ into a bounded, auditable table.
   deprecated name, preserve the raw attribute(s) in provenance metadata. The
   day a precedence decision is discovered wrong, the raw material to re-map
   must still exist.
+- **Lists resolve names, not shapes.** Conventions also disagree on
+  structure: one nests token detail counts under per-category sub-keys,
+  another flattens message arrays into zero-indexed dotted attribute paths
+  the mapper must reassemble into arrays. A precedence list answers
+  "which name carries this fact"; shape reassembly is the door's mapping
+  logic, and pretending a list can express it produces mappers that
+  silently read a nested detail as absent. Note also that the claim that
+  explicit cost attributes have no stable home is aging: a second major
+  span convention now declares per-category cost attributes in currency
+  units, so those names graduate from flagged non-standard entries toward
+  the front of the cost field's list as sender populations adopt them.
 
 ## Maintenance discipline
 

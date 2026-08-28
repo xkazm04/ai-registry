@@ -39,7 +39,10 @@ pile of examples:
   is attacker-influenced by construction, so the set includes adversarial
   fixtures — candidates carrying verdict-steering instructions aimed at the
   judge itself, boundary imitations, flattery and appeal-to-authority — each
-  with an honest human label. A judge calibrated only against honest
+  with an honest human label. Include verbosity-inflation fixtures — a
+  candidate padded with rephrased duplicates of its own content, adding
+  nothing — which the founding measurements showed fooling weaker judges
+  on most attempts while a strong judge held. A judge calibrated only against honest
   disagreement holds a verdict that says nothing about the inputs most
   likely to be mis-scored; agreement on the attack stratum is measured and
   reported per stratum, because a healthy overall kappa can hide a judge
@@ -52,6 +55,14 @@ pile of examples:
   few dozen stratified items pin kappa to a usable band; skewed or
   heavy-tailed criteria need low hundreds. Below that, treat every kappa
   as an interval, not a point.
+- **Condition agreement on difficulty, or it flatters the judge.** Agreement
+  over a set dominated by clear-cut items is at ceiling by construction:
+  the founding pairwise measurements watched judge-human agreement climb
+  from around seventy percent toward near-perfect as the quality gap
+  between compared candidates widened. Stamp each item's stratum on the
+  result and read agreement per stratum - the borderline stratum is the
+  number the trust verdict should weigh, because the clear strata were
+  never the cases a gate could get wrong.
 
 ## The metric family — four questions, four numbers
 
