@@ -6,7 +6,7 @@ technique: vision-model-grading-schema
 status: forged
 laws: [unmeasured-is-not-pass, checkability-routes-the-pixel]
 shared_with: []
-use_when: [automating judgement of generated images, designing the fields a vision grader must fill, deciding what a machine grader can and cannot be trusted with]
+use_when: [automating judgement of generated images, designing the fields a vision grader must fill, deciding what a machine grader can and cannot be trusted with, a failure everyone can see never shows up in the grades]
 ---
 
 # Vision-model grading schema
@@ -17,6 +17,36 @@ technique is not "ask a vision model what it thinks" — free-text opinions do
 not aggregate, do not diff, and drift with the judge's mood. It is designing a
 **fixed, typed schema** the grader must fill, so that a thousand judgements
 land as rows in a table instead of a thousand paragraphs.
+
+## The field list before the field types
+
+Every rule below is about the *form* of a field, and none of them can reach a
+field that is not there. A schema's field list is a claim about what can fail,
+and a failure class with no field is not scored badly — it is scored as a
+pass, inside a table that looks complete, under a clean aggregate. This is the
+one schema defect invisible from inside the schema: every field answered,
+nothing was skipped, and the grade is silent about the thing that went wrong.
+
+So take a census before typing anything: **walk the brief, and for every
+dimension the brief decided, name the field that reads it back.** One field
+per briefed variable is the floor, and the dimensions that go missing are
+predictable. A schema assembled out of an existing vocabulary inherits only
+that vocabulary's *enumerated* half — whatever its source discipline had
+already reduced to closed sets — and silently drops the half that discipline
+expressed as prose. Borrow a vocabulary of camera, light and composition and
+you have borrowed a description of the frame with nothing in it about whoever
+is standing in the frame; the brief decided both, and the grade now checks
+one. Coverage is a property of the whole grading pass and not of one schema —
+where the census outruns the field budget below, that is the argument for a
+second pass, never for leaving a class unwatched.
+
+Briefed variables are also the schema's **free ground truth**, which is the
+second reason to build the field list from the brief rather than from the
+picture. A briefed value was written down before the output existed, so a
+field that reads it back is scoreable against something — no second judge, no
+round trip, no human. Every other field can only be checked against another
+opinion. Ground truth is the scarce commodity in judging generated output; the
+fields that carry it for free are the last ones to cut.
 
 ## Schema design rules
 
@@ -74,6 +104,21 @@ image is a re-measurement, not a re-roll.
 
 ## Decision rules
 
+- When a defect reviewers keep raising never appears in the table, do not
+  sharpen a field — check first whether the class has a field at all. An
+  enumeration gap and a calibration problem present identically and have
+  opposite fixes, and sharpening definitions on a schema that cannot see the
+  defect is work that cannot succeed.
+- When the only place a property could land is a free-text field, treat the
+  property as uncovered. Free text does not aggregate and does not diff, and
+  it is the first thing dropped from scoring as "content" — so the property
+  sits in the record and appears in no verdict computed from it.
+- When a failure lives across a set rather than inside any one output, the
+  field is only half the fix: read its **variance across the batch**, not its
+  value per cell. A field returning one answer for every cell of a batch that
+  briefed different answers is a finding — the same reading that condemns an
+  inert field in an annotator, pointed at the outputs instead — and it is a
+  finding no per-output gate can raise.
 - When a schema field keeps producing arguable answers across graders, it is
   mis-typed: either sharpen it into a count, split it into two booleans, or
   demote it to human judgement. Do not leave a known-unreliable field

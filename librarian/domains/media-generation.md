@@ -1,9 +1,9 @@
 ---
 domain: media-generation
 subject: null
-last_swept: 2026-08-27
+last_swept: 2026-08-28
 layout: nested
-demand_known: witnessed-silent
+demand_known: unknown  # was witnessed-silent on 2026-08-27; see below
 ---
 
 # Media generation
@@ -11,20 +11,25 @@ demand_known: witnessed-silent
 Coverage note for the `media-generation` bundle. Part of [[index]]; graded against
 [[standard]].
 
-## Shape at this sweep (2026-08-27)
+## Shape at this sweep (2026-08-28)
 
-| | | at 2026-08-21 |
-| --- | --- | --- |
-| Subjects | 19 | 14 |
-| Techniques | 122 | 83 |
-| Applications | 48 | 32 |
-| `use_when` written | 122/122 | 83/83 |
-| Version witness (`verified_against`) | 7/48 | 0/32 |
-| Expired applications | 0 | 0 |
-| Never swept | 6/19 | 14/14 |
-| Attention points | 38 | 54 |
-| Cap breaches | none | none |
-| Taxonomy errors | 0 | 0 |
+| | 2026-08-28 | 2026-08-27 | 2026-08-21 |
+| --- | --- | --- | --- |
+| Subjects | 20 | 19 | 14 |
+| Techniques | 128 | 122 | 83 |
+| Applications | 48 | 48 | 32 |
+| `use_when` written | 128/128 | 122/122 | 83/83 |
+| Version witness | 8/48 | 7/48 | 0/32 |
+| Drift blind (runtime-bearing, no witness) | 9 | 10 | — |
+| Expired applications | 0 | 0 | 0 |
+| Never swept | 6/20 | 6/19 | 14/14 |
+| Attention points | 44 | 38 | 54 |
+| Cap breaches | none | none | none |
+| Taxonomy errors | 0 | 0 | 0 |
+
+Points rose 38 -> 44 while three subjects improved, because a sibling session
+landed `trailer-structure` (6 techniques, **no applications**) on 2026-08-27.
+The registry had gone one day with every subject reconciled against real code.
 
 These are a record of this sweep, not an input to the next one. Recompute with
 `node scripts/librarian-scan.mjs --domain media-generation`.
@@ -33,23 +38,26 @@ The bundle grew by five subjects and 39 techniques in six days, all of it from
 `/intake` runs mining video-craft sources. This sweep is the first time the
 librarian has dispatched at content here.
 
-## Demand: witnessed, and silent
+## Demand: it was witnessed-and-silent for one day
 
-**This is a third state and the note now names it.** One installation
-(`mkdol-dev-box`, 2026-08-25) lists `media-generation` among its bundles and
-reported `{}` - zero consults, zero deviations, zero citations, in a 30-day
-window. The scan reads that as `demandKnown: true`, and the previous version of
-this note said `false`. Neither is right:
+**Corrected 2026-08-28.** On 2026-08-27 one installation listed `media-generation`
+among its bundles and reported `{}` - zero consults in a 30-day window - and this note
+argued that as a third state the scan cannot express: not *unknown*, not *demand*, but
+**witnessed and silent**, somebody with the bundle wired reaching for nothing in it.
 
-- **Unknown** would be no installation naming the bundle at all.
-- **Demand** would be a consult count.
-- **Witnessed-silent** is what we have: somebody has this bundle wired and
-  consulted nothing from it in a month.
+By the next morning that installation's collector had re-run and no longer named this
+bundle at all. `demandKnown` is `false` now: demand here is **unknown**, which is the
+weaker statement, and the state this note was built on lasted about a day.
 
-That is a measured instance of the second gap [[standard]] already names -
-*"the knowledge is reachable and not recalled"* - and `media-generation` is now
-the cleanest case of it in the registry, because the supply side moved 39
-techniques in six days while the demand side stayed at zero.
+The three-state argument survives - it is in [[standard]] and it is right - but the
+example evaporating overnight is the more useful half, and it is why that section no
+longer quotes a reading. The signals lane is a rolling window over installations that
+regenerate on their own schedule. **A demand fact about this bundle is true for roughly
+a day; recompute it, never carry it forward.**
+
+What is unchanged and still worth saying: this bundle's supply side moved 39 techniques
+in six days, and no installation has ever reported consulting it. Whether that is
+*nobody needs it* or *nobody has told us* is exactly what the boolean cannot say.
 
 ## What is owed
 
@@ -74,10 +82,22 @@ techniques in six days while the demand side stayed at zero.
 - **platform-format-adaptation** (5) - single stack (process); never swept
 - **short-form-narrative-structure** (5) - single stack (process); never swept
 - **frame-direction** (3) - never swept
-- **generated-output-grading** (3) - never swept; holds the strongest banked
-  proposal from this sweep, and is the natural next dispatch
+- **trailer-structure** (9) - **no application**, never swept. Arrived from a
+  sibling session 2026-08-27; the bundle's only unreconciled subject and the
+  clear next dispatch.
 
 ## Dispatched
+
+### 2026-08-28 - one worker, landed
+
+- [[generated-output-grading]] - the banked proposal adjudicated as an
+  **amendment** to `vision-model-grading-schema`, with both rejected homes
+  reasoned out. The second voice turned out to be THIS CORPUS: `cinematic-
+  language` briefs the performer thoroughly and this subject never graded them,
+  which reframed the claim as an asymmetry between briefing and grading
+  vocabulary. Deepen pass was not dry - a version witness written by
+  re-verification, a rotted citation, and a self-contradiction of 9x in a
+  measurement's own caveat.
 
 ### 2026-08-27 - three workers, all landed
 

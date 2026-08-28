@@ -631,7 +631,7 @@
       "techniques": 128,
       "applications": 48,
       "files": 201,
-      "contentHash": "sha256:8d7330f9c7ba3026"
+      "contentHash": "sha256:6577cff2d2e150db"
     },
     {
       "name": "recruiting",
@@ -654,10 +654,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 150,
-      "techniques": 975,
-      "applications": 438,
-      "files": 1568,
-      "contentHash": "sha256:a6afce2bb0b2fcf0"
+      "techniques": 979,
+      "applications": 439,
+      "files": 1573,
+      "contentHash": "sha256:a9415312b3e879b4"
     }
   ]
 }

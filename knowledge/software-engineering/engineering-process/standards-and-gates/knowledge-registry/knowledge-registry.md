@@ -11,6 +11,7 @@ techniques:
   - propose-then-adopt
   - catalog-as-sync-key
   - deterministic-seeding
+  - verification-is-contributed
 ---
 
 # Shared knowledge registries
@@ -35,7 +36,7 @@ with consequences: every consumer can read it with tools they already have, the
 history is the audit log, review is the adoption mechanism, and nothing needs an
 account. It also means the failure modes are repository failure modes — lost
 updates, merge conflicts, and one writer silently erasing another — which is why
-three of the seven techniques here are about ownership rather than content.
+three of the eight techniques here are about ownership rather than content.
 
 ## What belongs in a registry
 
@@ -104,6 +105,38 @@ form: a digest taken over whatever bytes happen to be on disk answers a question
 about the checkout rather than about the content.
 [catalog-as-sync-key](./techniques/catalog-as-sync-key.md) covers the envelope, the
 four states, and the normalization rule that keeps the answer true.
+
+## The question the catalog cannot answer
+
+Sync is a relation between two copies; truth is a relation between a copy and
+the world. The catalog settles the first completely and cannot reach the
+second — a registry can be in perfect sync with every consumer it has and be
+uniformly wrong, with every digest matching exactly as designed.
+
+The reason is the publish boundary doing its job. The standard is shared and
+the evidence for it is local, so the registry holds no material against which
+any published claim could be re-checked; it has architecturally exported the
+only thing that could falsify it. What makes this recoverable is that the check
+already happens somewhere — the consumer's own gate resolves its evidence
+pointers against its own tree on every run — and that the *verdict* can cross a
+boundary the *evidence* cannot, provided it is reduced to what carries no shape
+of the tree: counts rather than identities, and the item named by slug rather
+than by location, so the fact survives the taxonomy moving a folder
+(`_laws.md#verdict-survives-boundary`, `_laws.md#identity-survives-reuse`).
+
+Three verdicts, since *moved* is a rename and *gone* is a disappearance and
+folding them together fills the channel with noise until nobody reads it — and
+absence is a fourth thing, meaning not-measured rather than nothing-wrong. The
+asymmetry to audit in an existing schema is which party each field can indict:
+*consultations* and *deviations* look like a balanced pair and are both facts
+about the consumer, so neither can ever falsify a published claim. A registry
+whose only feedback direction is downward publishes a wrong claim indefinitely
+and grows more confident as it spreads, because adoption counts read as
+corroboration when they are only distribution. The characteristic failure is
+not a missing schema but a specified one nothing populates: optional
+contributions converge on absent, so the test is whether the collector emits
+the verdict unasked, not whether the validator would accept it.
+[verification-is-contributed](./techniques/verification-is-contributed.md).
 
 ## Many writers, one artifact
 

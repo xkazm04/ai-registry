@@ -223,6 +223,23 @@ for (const a of apps) {
 // about our instrumentation, not about the document, and it is reported as such.
 const versionWitness = apps.filter((a) => a.verifiedAgainst).length;
 
+// ...and THIS is the population that fact applies to, which until 2026-08-28 nothing
+// counted. A `process` application has no runtime to drift against, so its silence is
+// correct - `WINDOW_DAYS` already encodes that as a null window, and this reuses it
+// rather than hardcoding a second opinion about which stacks are runtime-bearing.
+//
+// Every other stack without a witness is a document whose drift NOBODY CAN COMPUTE. It
+// never appears in the drift list, and an absence there reads as "not drifted" - the one
+// wrong answer of the three, because unknown is not zero and it is not health either.
+// The incident that earned this: a librarian run cleared the single drifted application
+// in a bundle and found the folder's OTHER application rotted identically against the
+// same source file, invisible to every gate here because it carried no witness at all.
+// One folder, two rotted documents, one uncounted. So `drift.length` is a LOWER BOUND
+// over the witnessed slice, never a count over the corpus, and the report now says so
+// unconditionally instead of only in the all-zero case.
+const runtimeBearing = apps.filter((a) => WINDOW_DAYS[a.stack] !== null);
+const driftUnknown = runtimeBearing.filter((a) => !a.verifiedAgainst);
+
 const perDomain = domains.map((d) => {
   const mine = apps.filter((a) => a.domain === d);
   const withClock = mine.filter((a) => a.expiresOn !== null);
@@ -234,6 +251,10 @@ const perDomain = domains.map((d) => {
     atRisk: mine.filter((a) => a.daysLeft !== null && a.daysLeft >= 0 && a.daysLeft <= horizonDays).length,
     noClock: mine.length - withClock.length,
     versionWitness: mine.filter((a) => a.verifiedAgainst).length,
+    // Runtime-bearing here, minus the witnessed ones: how much of this bundle's drift is
+    // uncomputable. A bundle where this equals its runtime-bearing count has no drift
+    // information at all, which is a different statement from having no drift.
+    driftUnknown: mine.filter((a) => WINDOW_DAYS[a.stack] !== null && !a.verifiedAgainst).length,
     oldestVerifiedOn: oldest,
     // "unknown", never "current" - a bundle nobody reports on has not been checked, and
     // saying otherwise is the exact dishonesty catalog.json avoids with invokes30d.
@@ -257,6 +278,8 @@ if (asJson) {
           atRisk: atRisk.length,
           noClock: noClock.length,
           versionWitness,
+          runtimeBearing: runtimeBearing.length,
+          driftUnknown: driftUnknown.length,
           contributors: contributors.length,
         },
         domains: perDomain,
@@ -272,11 +295,11 @@ if (asJson) {
   console.log(`currency report — ${today}, horizon ${horizonDays}d\n`);
   const w = Math.max(...perDomain.map((d) => d.domain.length));
   console.log(
-    `  ${'bundle'.padEnd(w)}  ${'apps'.padStart(5)} ${'expired'.padStart(8)} ${'at risk'.padStart(8)} ${'no clock'.padStart(9)} ${'ver.witness'.padStart(12)}  oldest      witness`,
+    `  ${'bundle'.padEnd(w)}  ${'apps'.padStart(5)} ${'expired'.padStart(8)} ${'at risk'.padStart(8)} ${'no clock'.padStart(9)} ${'ver.witness'.padStart(12)} ${'drift blind'.padStart(12)}  oldest      witness`,
   );
   for (const d of perDomain) {
     console.log(
-      `  ${d.domain.padEnd(w)}  ${String(d.applications).padStart(5)} ${String(d.expired).padStart(8)} ${String(d.atRisk).padStart(8)} ${String(d.noClock).padStart(9)} ${String(d.versionWitness).padStart(12)}  ${d.oldestVerifiedOn ?? '—'}  ${d.witness}`,
+      `  ${d.domain.padEnd(w)}  ${String(d.applications).padStart(5)} ${String(d.expired).padStart(8)} ${String(d.atRisk).padStart(8)} ${String(d.noClock).padStart(9)} ${String(d.versionWitness).padStart(12)} ${String(d.driftUnknown).padStart(12)}  ${d.oldestVerifiedOn ?? '—'}  ${d.witness}`,
     );
   }
 
@@ -302,7 +325,10 @@ if (asJson) {
   }
 
   if (drift.length) {
-    console.log('\nSTACK DRIFT (a reporting installation is on a newer major)');
+    console.log(
+      `\nSTACK DRIFT (a reporting installation is on a newer major) — ${drift.length} of ` +
+        `${versionWitness} witnessed application(s); ${driftUnknown.length} more cannot be checked`,
+    );
     for (const a of drift.slice(0, 20)) {
       console.log(`  ${a.verifiedAgainst} → fleet is on ${a.stack}@${a.now}  ${a.id}`);
     }
@@ -315,10 +341,24 @@ if (asJson) {
     console.log('  Their currency is UNKNOWN, not current. See docs/signals-lane.md.');
     for (const d of unwitnessed) console.log(`  ${d.domain}`);
   }
-  if (versionWitness === 0) {
-    console.log('\n  note: no application carries `verified_against`, so stack drift is not computable');
-    console.log('  for any of them yet. It is written going forward by whatever resolves a citation');
-    console.log('  against a real tree — backfilling it would be inventing data.');
+  // Unconditional. This used to fire only when NOTHING carried a witness, which meant it
+  // went quiet at the first one and stayed quiet through the next six hundred — exactly
+  // when a reader most needs the denominator, because a short drift list now looks like
+  // a healthy corpus instead of a barely-instrumented one.
+  if (driftUnknown.length) {
+    const pct = Math.round((driftUnknown.length / runtimeBearing.length) * 100);
+    console.log(
+      `\n  DRIFT UNKNOWN — ${driftUnknown.length} of ${runtimeBearing.length} runtime-bearing ` +
+        `application(s) (${pct}%) carry no \`verified_against\`.`,
+    );
+    console.log('  Their drift is not absent, it is UNCOMPUTABLE, and they never appear above.');
+    console.log('  Read any drift count here as a lower bound over the witnessed slice only.');
+    const blind = perDomain.filter((d) => d.versionWitness === 0 && d.driftUnknown > 0);
+    if (blind.length) {
+      console.log(`  No witness at all in: ${blind.map((d) => d.domain).join(', ')}.`);
+    }
+    console.log('  `verified_against` is written going forward by whatever resolves a citation');
+    console.log('  against a real tree — backfilling it would be inventing data (rkb-profile §3.1).');
   }
 }
 

@@ -1,0 +1,52 @@
+# Line endings, settled in one place.
+#
+# Every tracked file in this repository is text: ~3,700 markdown documents, the
+# generator and gate scripts, and the JSON they emit. There is not one binary
+# asset, which is why this file can afford to be blunt.
+#
+# THE INCIDENT. Until 2026-08-28 this repository had no `.gitattributes`, and the
+# machine holding the primary checkout carried a system-level `core.autocrlf=true`
+# under a repository-level `core.autocrlf=false`. So the tree was checked out CRLF
+# and then normalisation was switched off for writes: every file sat CRLF on disk
+# against an LF index. Git hides that as long as nobody touches a file - the stat
+# cache marks it clean - and reveals it the moment anybody does.
+#
+# The cost was not cosmetic. It fell on REVIEW, which is the one job in this
+# repository that cannot be delegated:
+#
+#   - A worker's four-file edit first presented as 514 insertions / 466 deletions
+#     instead of 58 / 8.
+#   - One landed commit changed 61 real lines in a document and reported 682 -
+#     91% of that diff was carriage returns.
+#   - Two prose files conflicted across their ENTIRE length on a routine merge
+#     (line 1 to line 420) when their true difference was five lines.
+#
+# A reviewer who cannot see the change cannot judge it, and a corpus whose whole
+# governance model is "a human reads the diff before it is adopted" cannot afford
+# an instrument that hides diffs. `check-hash-stability.mjs` had been asserting the
+# generated output is byte-identical across LF and CRLF checkouts all along - that
+# gate is about the PRODUCT of the scripts, and it stayed green while the SOURCE
+# rotted underneath it. A green gate over the wrong population, one more time.
+#
+# THE RULE. `text=auto eol=lf` - normalise on the way into the index, and check out
+# LF as well, so disk and index agree and no future contributor's `core.autocrlf`
+# can reintroduce the divergence. The whole tree was renormalised in one commit
+# beside this file; that commit is mechanical and touches everything, which is why
+# it stands alone and is labelled as such.
+* text=auto eol=lf
+
+# Belt and braces for the future: this repository holds no binary assets today, so
+# any that arrive would otherwise be caught by the blanket rule above and corrupted.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.woff  binary
+*.woff2 binary
+*.mp4  binary
+*.mp3  binary
+*.wav  binary
