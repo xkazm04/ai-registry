@@ -5,7 +5,7 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.2.0
+version: 1.3.0
 ---
 # Architect
 
@@ -34,6 +34,8 @@ coverage_context_source: ""           # which name set the memory outbox anchors
 base_branch: master                   # rollouts fork from / land on it  [detected from origin/HEAD, else current]
 worktree_root: .claude/worktrees      # where Phase 7a puts its worktree  [.claude/worktrees]
 active_runs_ledger: ""                # path of a live-sessions ledger if the repo keeps one  [none; git status only]
+knowledge_registry: ../ai-registry    # local checkout of the org's knowledge registry  [read .ai/manifest.yaml `registry.local`; else none]
+knowledge_domains: [software-engineering]  # which domains govern this repo  [.ai/manifest.yaml `knowledge.domains`]
 ---
 ```
 
@@ -45,6 +47,7 @@ active_runs_ledger: ""                # path of a live-sessions ledger if the re
 | `## Gates` | `baseline:` (commands Phase 7c snapshots), `step:` (per-commit), `final:` (Phase 7e), `slow:` (run in background) | detect from `package.json` scripts (`check`/`typecheck`, `lint`, `test`) and the toolchain (`cargo check` when `Cargo.toml` exists, `npx tsc --noEmit` when a tsconfig does); say what was detected |
 | `## Repo law` | the convention digest pasted verbatim into briefs and enforced in 7g: i18n contract, design tokens, shared-component catalog, error handling, IPC discipline, out-of-scope walls | "read the repo's CLAUDE.md/AGENTS.md first; reuse before building" |
 | `## Docs vehicles` | which files a Phase 7B codification may append to, and what belongs in each | the repo's rules file (`CLAUDE.md`/`AGENTS.md`); a second architecture digest if `## Context sources` names one |
+| `## Knowledge registry` | where the governing standards live, and which subjects map to which themes/areas. **This is the authority a finding is measured against** — a repo-local convention is evidence, the registry subject is the standard | resolve `knowledge_registry`; if it exists, the subject map is `knowledge/<domain>/index.json` → `subjects["<slug>"].file`. Absent → the scan judges against repo-local convention only, and says so |
 | `## Lint vehicle` | how the repo writes a custom lint rule (config file, rule directory, naming, registration, default severity) | read the repo's linter config and follow whatever custom-rule shape is already there; if none exists, propose `docs` instead |
 | `## Test guard vehicle` | the test runner and where a structural test lives | the runner in `package.json` scripts (or the toolchain's default), test beside the code it guards |
 | `## Smoke` | how to run the app and exercise a surface for Phase 7h | say plainly that the change was NOT visually verified |
@@ -240,6 +243,12 @@ Resolve the overlay's `## Context sources` (or the defaults in § Constants). Re
 
 ### 1b. Read in order
 
+0. **The governing registry subjects — read these BEFORE the sub-agents are briefed.** Resolve the overlay's `## Knowledge registry`, then for the chosen theme (or the area's dominant concerns) open the subject through `knowledge/<domain>/index.json` — `subjects["<slug>"].file`, never a path built from the slug — plus the techniques whose `use_when` matches. This is not background reading; it changes what the run produces:
+   - A finding becomes a **deviation from a named standard** instead of one reviewer's opinion, which is what makes it survive triage.
+   - It stops the run from "discovering" what the standard already says, and from proposing a fix the standard has already rejected.
+   - It can **overturn a strong-pattern candidate**: a repo-local habit that looks load-bearing may be a documented anti-pattern, in which case codifying it would have entrenched the wrong thing.
+   - Where the repo is right and the registry is silent, that gap is a **contribution back** — see the `registry` vehicle in Phase 7B.
+   Paste the relevant standard into the sub-agent briefs (Phase 3b) so angles measure against it too. If no registry resolves, say so in the opening line and judge against repo-local convention.
 1. The **architecture digest** the overlay names first — most important for architect: engine internals, conventions, module boundaries. Read in full.
 2. The **area taxonomy** (context map, or the doc the overlay maps to it) — area scope, file paths.
 3. The repo's **rules file** and any design-system doc the overlay names.
@@ -508,6 +517,15 @@ Isolation for this decision:
 Pick 1 or 2 (Enter = 1).
 ```
 
+**Test the worktree before committing to it.** A fresh worktree has no installed dependencies, so the gates that make a high-rigor rollout *high-rigor* may not run there at all. Decide with evidence, not by default:
+
+1. Create it, then run ONE cheap gate (the typecheck) inside it.
+2. If it fails for want of dependencies, try the cheap share first — a junction/symlink of `node_modules` from the main checkout. This is usually enough for `tsc`, the linter and the unit runner.
+3. **Re-test the slow gate too.** A shared `node_modules` can satisfy the type and test gates and still break the bundler: a build that resolves the project root will reject a `node_modules` symlink pointing outside it (observed with Turbopack: *"Symlink [project]/node_modules is invalid, it points out of the filesystem root"*). Discovering this at Phase 7e means the final gate never ran.
+4. If a gate cannot run in the worktree, say which one, and choose deliberately: run that gate from the main checkout after merge, or work on the main checkout from the start. **Never report a gate as passing that you could not run** — and never read an exit code through a pipe (`… | tail`), which reports the exit status of `tail` and will happily show `0` for a build that died.
+
+Isolation that costs verification is a bad trade when the repo law already mandates pathspec-only staging. Record the choice and its reason in the ADR.
+
 If option 1:
 ```bash
 git worktree add {worktree_root}/architect-{slug} -b worktree-architect-{slug}
@@ -657,7 +675,8 @@ How should "{pattern title}" be codified? Pick one or more:
   2. docs-arch    - append a section to the architecture digest (loaded by all skills)
   3. docs-rules   - append a convention to the repo's rules file (surfaces in every session)
   4. test-guard   - add a structural test that asserts the pattern (fails if drift introduced)
-  5. multiple     - pick a combination (e.g. "1+2" = lint rule + architecture docs)
+  5. registry     - contribute it UP to the knowledge registry, so every project inherits it
+  6. multiple     - pick a combination (e.g. "1+2" = lint rule + architecture docs)
 ```
 
 Options 2 and 3 name the files the overlay's `## Docs vehicles` maps; with no overlay, 3 is the repo's rules file and 2 is offered only if a second architecture digest exists.
@@ -667,6 +686,7 @@ Options 2 and 3 name the files the overlay's `## Docs vehicles` maps; with no ov
 - Pattern is an architectural boundary (module vs plugin, IPC contract, where things live) → `docs-arch` so future skills load it.
 - Pattern is a project-wide convention humans need to know (i18n, design tokens, error handling) → `docs-rules` so it is loaded into every session.
 - Pattern can be detected by file scan but not in a single file's AST (cross-file invariant, count threshold) → `test-guard` (a vitest test that walks the tree).
+- Pattern is **true beyond this repo** — a property of the framework, the platform, or the shape of the problem rather than of this codebase → `registry`. Docs vehicles teach one repo; this one teaches all of them.
 
 If the user picks `multiple`, codify each vehicle in a separate atomic commit.
 
@@ -693,6 +713,21 @@ If the user picks `multiple`, codify each vehicle in a separate atomic commit.
 3. The test should walk the file tree, grep for the anti-shape, and assert zero violations. Provide a clear failure message that points the offender to the strong-patterns entry and the rule.
 4. Run the test gate and confirm the new test passes against current code.
 5. Commit: `architect: codify <pattern> as structural test guard`.
+
+### 7B.d2. Registry vehicle
+
+Use when the insight is a property of the framework, platform, or problem shape rather than of this codebase — the test is whether a sibling project on the same stack would hit it.
+
+1. **Find the home.** Resolve the governing subject (Phase 1b step 0). A finding almost always belongs to an existing subject: add a **technique** if it is a new mechanic the subject lacks, or an **application** (`applications/<stack>--<technique>.md`) if it is how one stack realizes an existing technique. Inventing a new subject is rare and needs the registry's own contribution rules — read `CONTRIBUTING.md` before doing it.
+2. **Match the shape of its neighbours** — read a sibling file in the same directory for frontmatter keys (`layer`, `type`, `subject`, `technique`, `stack`, `verified_on`), heading rhythm, and how evidence is cited.
+3. **Write from evidence, not from theory.** Quote the real source, name the version, and date the observation with `verified_on`. An application note whose claims cannot be traced to a file is worth less than no note.
+4. **Say what the standard did not.** State plainly which existing technique this extends and what it adds — that framing is what makes it reviewable rather than duplicative.
+5. **The registry is a different repository.** It may hold other people's uncommitted work: stage only your file, never `git add -A`, and commit there separately from the consuming repo's commits.
+
+Two things this vehicle changes about the run, both worth stating in the scan note:
+
+- A finding measured against a registry standard is a **deviation**, and deviations are cheaper to defend at triage than opinions.
+- If the registry contradicts a strong-pattern candidate, the registry wins by default and the candidate is dropped, not noted — codifying a documented anti-pattern is the most expensive possible outcome of a scan.
 
 ### 7B.e. Update the strong-patterns entry
 
