@@ -106,3 +106,61 @@ translatedness, and green.
 **Not saturated.** dry_streak 0 - this round earned a technique. The subject now
 has 7 techniques and 2 applications, both `process`, both from the same fleet.
 Its real debt is a second *tree*, which is `/reconcile` work.
+
+## 2026-08-28 - rounds 2 and 3: the loop refuting itself, twice
+
+Both rounds probed `source-identical-value-audit` rather than surveying. Neither
+was dry, and neither found what it went looking for.
+
+**Round 2 - the cognate.** Went to sort the French residue against the termbase
+(the lead banked in round 1) and found the technique's own class 4 wrong. Of
+French's 91 keys over the all-locale floor, roughly two thirds are cognates -
+*Menu, Total, Agent, Incident, Urgent, Configuration, Performance, Source,
+Volume* - ordinary French words, several borrowed by English in the other
+direction. Round 1 had called every locale-specific match "a termbase ruling";
+a cognate is not a ruling, it is a fact, and routing it to a reviewer wastes the
+review and eventually gets a correct word "fixed".
+
+The floor is now five classes cut two ways - locale-independent (1-3) vs
+locale-specific (4-5), fact (1-4) vs decision (5) - and **the termbase owns
+class 5 only**. The driver was restated with it: shared vocabulary stock first,
+then borrowing policy, with script deciding only whether a borrowing survives as
+byte-identical text. That explains what "script" alone could not - `vi` 43
+against `fr` 116, same script, same translatedness, different shared stock.
+
+`french/terminology-and-loanwords` gained **FR-COGNATE**, the anchor a reviewer
+can cite to dismiss such a finding. The file already named the false friend
+(same spelling, different meaning) and had no name for its twin.
+
+**Round 3 - the skeleton class in RTL.** Class 2 was written as
+locale-independent with identity as the *required* outcome. True in LTR only: a
+string with no words can still carry directional work. Arabic's only
+skeleton-class match is `"{label}: {pct}%"`, and `{label}` resolves sometimes to
+a Latin platform name and sometimes to translated Arabic - the AR-BIDI-ISOLATE
+case, with percent glue on AR-BIDI-REVIEW's rendered-pass checklist by name.
+
+Deliberately **not** recorded as a shipped defect: it is an `aria-label`, so the
+consequence is announcement order, and nothing was rendered. Recorded as a fact
+about the instrument - it returns an affirmative *no finding* on the one Arabic
+string its neighbour says needs a rendered pass. Third blind instrument after
+the diff and the word-level review; the only one blind affirmatively.
+
+**Arabic needed no edit.** AR-BIDI-REVIEW already owns the whole claim. The
+round's correct output was to change the craft subject and leave the language
+subject alone.
+
+## Yield curve
+
+Round 1 earned a technique; round 2 a structural correction plus a language-
+subject rule; round 3 a scope correction plus a confirmation. High -> moderate ->
+confirmation-heavy, the shape the loop design predicts. **dry_streak still 0** -
+no round returned all-confirmed-with-nothing-earned.
+
+Not saturated, but the cheap axes are spent: format capability, vocabulary
+stock, and direction have each been probed once. CJK was checked in passing and
+returned nothing new (`ja`/`zh` residues are Latin runs inside CJK text -
+`Webhook`, `Web`, `ID`, `Persona` - which is normal and already covered).
+
+**Next probe, when there is one:** the technique's claims are now all about
+catalogs it was measured on. The honest next step is a second *tree*, not a
+fourth round here - see [[localization]] under what is owed.

@@ -17,7 +17,7 @@ and no `/deepen` run had ever touched it.
 | | 2026-08-28 (close) | 2026-08-28 (open) |
 | --- | --- | --- |
 | Subjects | 14 | 14 |
-| Techniques | 85 | 84 |
+| Techniques | 85 (2 amended) | 84 |
 | Applications | 28 | 27 |
 | `use_when` written | 85/85 | 84/84 |
 | Version witness | 0/28 | 0/27 |
@@ -87,14 +87,35 @@ written off that tree landed the same day.
 
 ## Dispatched
 
-### 2026-08-28 — round 1, in-session, landed
+### 2026-08-28 — three rounds, in-session, all landed
 
-- [[translation-pipeline-topology]] — `source-identical-value-audit`, earned on
-  convergence between two independent trees plus a law that asks for it.
-  Counter-evidence ran twice and changed the finding both times: it killed the
-  opening hypothesis with a measurement, and the field's own i18n-testing
-  literature turned out to cover a different problem. Full detail in that
-  subject's note.
+All three on [[translation-pipeline-topology]]; rounds 2 and 3 probed round 1's
+own technique rather than surveying, per loop doctrine.
+
+- **Round 1** — `source-identical-value-audit` earned on convergence between two
+  independent trees plus a law that asks for it. Counter-evidence changed the
+  finding twice: it killed the opening hypothesis with a measurement, and the
+  field's i18n-testing literature turned out to cover a different problem.
+- **Round 2** — refuted the new technique's own class 4. Two thirds of French's
+  residue are **cognates**, not borrowings; a cognate is a fact, not a ruling,
+  and the termbase must not receive it. Floor restructured to five classes cut
+  two ways. `french/terminology-and-loanwords` gained **FR-COGNATE**.
+- **Round 3** — refuted its class 2. "Pure skeleton" is locale-independent in
+  LTR targets only; in RTL a wordless string can still need an isolate or a
+  mark. **Arabic needed no edit** — `AR-BIDI-REVIEW` already owns the claim
+  entirely, and the round's correct output was to leave the language subject
+  alone and scope the craft one.
+
+Yield ran high → moderate → confirmation-heavy, the curve the loop design
+predicts. `dry_streak` 0; not saturated, but the cheap axes (format capability,
+vocabulary stock, direction) are each spent once. The next honest probe is a
+second *tree*, not a fourth round.
+
+**The loop's own lesson this run:** two of three rounds landed by refuting the
+run's own prior output, and both refutations came from sorting a measurement
+that already existed rather than from new research. A technique minted in round
+1 is the cheapest thing in the corpus to attack in round 2, and attacking it is
+worth more than surveying a fresh subject.
 
 ## Banked from this sweep, not placed
 
