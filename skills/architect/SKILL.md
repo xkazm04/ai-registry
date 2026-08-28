@@ -5,7 +5,7 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.1.0
+version: 1.2.0
 ---
 # Architect
 
@@ -462,7 +462,7 @@ The four-way triage matters: architect findings rarely all execute now, but they
 
 For each verdict:
 
-- **execute now** → proceed to Phase 7. Only one "execute now" per session is recommended; if the user picks more than one, ask: "doing N changes in one session is high-risk — pick the highest priority and queue the rest?" Allow override but warn.
+- **execute now** → proceed to Phase 7. When more than one finding is marked execute-now, run them as one session **sequenced by ascending risk**, with the gate re-run between findings so a regression is attributable to the finding that caused it. State the sequence before starting. Do not ask the user to reduce the set — they chose it.
 - **queue** → proceed to Phase 8 (write ADR + add to backlog).
 - **drop** → record in scan note as `decided: dropped` with reason. Pattern-track in Lessons (Phase 10).
 - **rework** → ask: "what shape would actually fit?" Capture user's reframe, update the finding, re-present. If they don't have a clear redo, queue it as `proposed (needs reshape)` so a future scan can revisit.
