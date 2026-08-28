@@ -6,7 +6,7 @@ technique: terminology-and-loanwords
 status: forged
 laws: [one-concept-one-rendering, the-authority-is-a-hypothesis]
 shared_with: []
-use_when: [deciding whether a term stays English or goes native in French, pinning gender and agreement for borrowed nouns, auditing a French catalog for term drift]
+use_when: [deciding whether a term stays English or goes native in French, pinning gender and agreement for borrowed nouns, auditing a French catalog for term drift, an untranslated-value check flags a French string as identical to its English source]
 ---
 
 # Terminology and loanwords
@@ -52,6 +52,55 @@ Legal registers have their own fixed terms that override product habit: data-
 protection French says *sous-traitant* (processor) and *sous-traitant ultérieur*
 (subprocessor), and a product page that collapses the two is ambiguous exactly
 where ambiguity is expensive.
+
+## The third case: the word that is already French
+
+The false friend has a twin that costs more review time and gets far less
+attention. *Librairie* is the trap where the spellings match and the meanings
+diverge; the **cognate** is where the spellings match and the meanings agree —
+because the word is ordinary French and English is the language that borrowed
+it. *Menu, total, agent, incident, urgent, source, volume, type, configuration,
+performance, distribution, collaboration, communication, discussion, article,
+notification, instrument, pause, action, suggestion, vision.* A French catalog
+rendering any of these identically to its English source has not been left
+untranslated. It has been translated, and the answer was the same string.
+
+This matters because French shares more vocabulary with English than any other
+language a product is likely to ship, so French is where an automated
+"identical to source" audit produces its largest pile of findings — and where
+the largest share of that pile is nothing. In one thirteen-locale catalog read
+on 2026-08-28, French had the highest identical-to-English count of any locale
+(116 of 1,506 leaves, against 27 for Korean), and roughly two thirds of it was
+this class.
+
+The practical consequence is a routing rule, not a translation rule. Only a
+genuine borrowing — a word French took from English *having a native
+alternative available* — is a decision this technique owns: *blog* over
+*blogue*, *cloud* over *infonuagique*, *chat* over *clavardage*, *prompt* over
+*invite*, *web* over *toile*. Those belong in the termbase with a recorded
+ruling. A cognate has no alternative it displaced and no decision behind it, so
+it belongs nowhere near the termbase.
+
+## FR-COGNATE · A shared word is not an untranslated word
+
+> **Trigger** — any finding, human or mechanical, that a French string is
+> untranslated *on the evidence that it matches the English*.
+> **Rule** — before the finding stands, establish which of three things the
+> match is: a **cognate** (ordinary French, no decision, dismiss the finding and
+> record it as expected so it is not raised again), an **adopted loanword** (a
+> real ruling — check the termbase, add the row if it is missing), or an
+> **actual untranslated value** (a defect). Identity with the source is evidence
+> of untranslatedness, never proof of it, and in French it is the weakest such
+> evidence of any language in this bundle.
+> **Source** — minted from a measured audit: the French residue above the
+> all-locale floor was 91 keys, and the dominant class was words no one had
+> chosen. See the craft subject's `source-identical-value-audit` for the
+> instrument and its five-class floor.
+> **Exception** — none, but note the asymmetry: a *reviewer* may still rewrite a
+> cognate for register or collocation reasons on its own merits. What is
+> forbidden is rewriting it **because it matched**, which is
+> [clean strings stay untouched](../../../_laws.md#clean-strings-stay-untouched)
+> — the string was already right, and the audit is not a reason to touch it.
 
 ## FR-ONE-WORD · One concept, one word
 

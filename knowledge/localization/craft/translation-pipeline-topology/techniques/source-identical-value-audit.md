@@ -51,12 +51,11 @@ with the type contract; what is wrong is treating its green build as a coverage
 claim. Choose the format knowing the trade: a format with no state field
 converts "not yet translated" into "indistinguishable from translated."
 
-## The floor is four enumerable classes, not noise
+## The floor is five enumerable classes, not noise
 
 Compare every leaf value against the source locale's value for the same key.
-Equality is the candidate signal. What comes back is never zero, and the
-residue sorts into four classes — the first three locale-independent, the
-fourth not:
+Equality is the candidate signal. What comes back is never zero, and the residue
+sorts into five classes:
 
 1. **Proper nouns.** Product, company, platform and integration names. Identical
    in every locale, and correctly so.
@@ -66,41 +65,66 @@ fourth not:
    makes identity the *required* outcome, not a tolerated one.
 3. **Initialisms and symbols** carried untranslated by the target's own
    technical register.
-4. **Adopted loanwords** — a term the target language genuinely renders with the
-   source spelling.
+4. **Cognates** — the target's own native word, identical to the source word by
+   shared ancestry rather than by any act of borrowing.
+5. **Adopted loanwords** — the target took the source language's word into its
+   technical register, having a native alternative available.
 
-Classes 1–3 are the same set in every language. Class 4 is where the instrument
-becomes locale-specific, and it is the entire reason a single global threshold
-fails.
+Two cuts run across those five, and confusing them is the expensive mistake:
 
-## Class 4 is set by script, and it is a terminology ruling
+- **Locale-independent (1–3) versus locale-specific (4–5).** The first three are
+  the same set in every language; the last two are properties of one language
+  pair.
+- **Fact (1–4) versus decision (5).** Only class 5 is a *ruling* anybody made.
+  Classes 1–4 are things that are simply true, and sending them to a reviewer to
+  be adjudicated wastes the review and invites a "fix" to a correct string.
 
-The size of class 4 is a function of two properties of the target — its script,
-and its technical register's borrowing policy — and of **nothing about
-translation quality**.
+**The termbase owns class 5 and only class 5.**
 
-- **Non-Latin target script: near-conclusive.** A genuinely adopted loanword is
-  *transliterated* into the native script, so it stops being byte-identical.
-  Identity therefore really does mean untranslated, and the allowlist stays
-  small — classes 1–3 and little else.
-- **Latin target script: noisy by construction.** A borrowed term keeps its
-  source spelling, so a fully correct catalog is legitimately identical at those
-  keys. The check still works, but only against an allowlist that carries the
-  target's borrowed technical register.
+## What actually drives the count: vocabulary stock, then borrowing policy
 
-Measured on one thirteen-locale catalog whose locales were all fully
-translated: identity ran **1.8% of leaves for non-Latin-script targets and up
-to 7.7% for a Latin-script target** — a fourfold spread with no difference in
-translatedness behind it. A single threshold applied to that catalog reports
-the spread backwards, ranking the best-covered locales as the worst.
+The size of the locale-specific residue is a function of how much vocabulary the
+two languages already share and how freely the target's technical register
+borrows — and of **nothing about translation quality**. Script matters, but
+downstream of both: it decides whether a borrowing survives as byte-identical
+text at all.
 
-The ownership consequence matters more than the number. Every class-4 entry is
-a **termbase ruling** — *this term keeps its source spelling in this language* —
-and that ruling belongs to the language's own terminology and loanword craft,
-where it can be argued about on the merits. An allowlist maintained by whoever
-happened to be unblocking the gate is a place where terminology decisions get
-made silently, by someone optimizing for a green build. Where the allowlist and
-the termbase disagree, the termbase is right and the allowlist is stale.
+- **Non-Latin target script: near-conclusive.** A cognate is not written in the
+  source's alphabet and a genuinely adopted loanword is *transliterated*, so
+  neither can be byte-identical. Identity therefore really does mean
+  untranslated, and the allowlist stays small — classes 1–3 and little else.
+- **Latin target script: noisy by construction**, and unevenly so. A cognate or
+  a borrowing keeps its spelling, so a fully correct catalog is legitimately
+  identical at those keys. How many depends on the language pair, not on the
+  translator.
+
+Measured on one thirteen-locale catalog whose locales were all fully translated:
+identity ran **27–29 of 1,506 leaves for the seven non-Latin-script targets and
+43–116 for the six Latin-script ones**, the two groups separating perfectly. A
+single threshold applied to that catalog reports the spread backwards, ranking
+the best-covered locales as the worst.
+
+The spread *within* Latin script is the more instructive half, because it is
+almost entirely class 4. The highest-scoring locale ran nearly three times the
+lowest, and the difference is shared vocabulary: a target that shares a large
+Latin- and Romance-derived stock with the source is identical at *Menu*,
+*Total*, *Agent*, *Incident*, *Urgent*, *Configuration*, *Performance*,
+*Volume*, *Source*, *Distribution* — every one of them the ordinary native word,
+none of them borrowed from the source language, several of them words the source
+borrowed in the other direction centuries ago. A Latin-script target with little
+shared stock produces a residue of loanwords and skeleton only, and scores near
+the non-Latin floor.
+
+So the reviewer's question on each residue entry is not "is this translated?" but
+**"is this a fact or a ruling?"** — and only the answers in class 5 go to the
+language's terminology and loanword craft, where a borrowing can be argued about
+on the merits against the native alternative it displaced. An allowlist
+maintained by whoever happened to be unblocking the gate is where class-5
+decisions get made silently by someone optimizing for a green build; an
+allowlist that sends class-4 cognates to a termbase wastes a reviewer's attention
+and eventually gets one of them "corrected" into a worse word. Where allowlist
+and termbase disagree about a class-5 entry, the termbase is right and the
+allowlist is stale.
 
 ## Enumerate the floor; never threshold it
 
@@ -124,15 +148,19 @@ against that catalog before it is enforced against it.
 1. **Run the comparison across every locale with no gate attached.** The output
    is a measurement, not a findings list.
 2. **Take the intersection** — the keys identical in *every* locale. That set is
-   classes 1–3 almost by construction, because no single language's borrowing
-   policy can put a key there. Measured on the thirteen-locale catalog above,
-   the intersection was **25 keys, and every one was legitimate**: product and
-   platform names, integration names, initialisms, and pure-skeleton values.
-   Seed the allowlist from it and review it once, cheaply.
-3. **Rule the per-locale residue.** What sits above the intersection for a given
-   locale is class 4 plus real untranslated values. Take each entry to that
-   language's termbase; the ones that survive are terminology rulings and are
-   recorded as such.
+   classes 1–3 almost by construction, because no single language pair's shared
+   vocabulary or borrowing policy can put a key there. Measured on the
+   thirteen-locale catalog above, the intersection was **25 keys, and every one
+   was legitimate**: product and platform names, integration names, initialisms,
+   and pure-skeleton values. Seed the allowlist from it and review it once,
+   cheaply.
+3. **Sort the per-locale residue before ruling any of it.** What sits above the
+   intersection for a given locale is classes 4 and 5 plus real untranslated
+   values. Separate cognate from borrowing *first* — a native speaker does this
+   fast, and it is the step that keeps the termbase from filling with words
+   nobody chose. Only class 5 goes to that language's terminology craft to be
+   recorded as a ruling; class 4 goes straight into the allowlist with a note
+   saying why, so the next reviewer does not re-litigate it.
 4. **Only then turn the gate on.** Enforcing first produces a wall of findings
    that whoever is unblocking CI resolves by adding entries wholesale — which is
    precisely how an allowlist stops being a reviewed artifact.
@@ -141,12 +169,18 @@ against that catalog before it is enforced against it.
 
 - **A threshold instead of a list.** Converts a reviewable claim into an
   unreviewable budget, and misranks locales by script.
-- **The gate as accidental terminology authority.** Class-4 entries added under
+- **The gate as accidental terminology authority.** Class-5 entries added under
   build pressure, never seen by anyone who knows the language.
+- **Ruling the cognates.** Routing class 4 to the termbase as though it were a
+  borrowing decision. There is no decision there to make, the review budget is
+  spent for nothing, and sooner or later a reviewer looking for something to do
+  replaces the ordinary native word with a worse synonym to make it stop
+  matching.
 - **Bootstrapping the floor from one locale.** A floor derived from a single
   Latin-script locale over-allows every other locale into silence; derived from
   a single non-Latin one it under-allows and buries the reviewer in false
-  findings.
+  findings. Deriving it from a locale that shares heavy vocabulary stock with
+  the source is the worst case of all.
 - **Reading the signal in the other direction.** A value that *differs* from
   source is not thereby translated — unreviewed machine output, a paraphrase
   left in the source language, and a stale translation all differ. This check

@@ -69,6 +69,37 @@ floor is **two keys each** — `ko` adds only `eventsPage.id` (`"ID"`) and
 `roadmapSection.barAria` (`"{label}: {pct}%"`), `ar` only that same aria string
 and `dashboard.home.upcomingRoutines.triggers.webhook`.
 
+## Sorting one locale's residue: French, 91 keys over the floor
+
+`fr` is the extreme case and the one that shows why the residue must be sorted
+before any of it is ruled. Its 91 keys above the intersection carry 69 distinct
+values, and they split three ways:
+
+- **Cognates — the majority.** *Menu, Guide, Total, Agent(s), Incident(s),
+  Messages, Urgent, Instruments, Budget, Type, Volume, Composite, Attention,
+  Source, Services, Performance, Distribution, Configuration, Collaboration,
+  Communication, Discussion, Article, Notifications, Vision, Orchestration,
+  Local, Solo, Pause, action, suggestion(s)*. Ordinary French words, several of
+  which English borrowed *from* French. Nobody decided anything; the translator
+  translated and the answer was the same string.
+- **Adopted loanwords — the minority, and the only contestable set.** *Blog,
+  Cloud, Web, Webhook, Chat, Prompt, Open source, Docs, workers, Runtime,
+  Design system, Marketing.* Each has a native alternative a French-first
+  product might have chosen (*blogue*, *infonuagique*, *toile*, *clavardage*,
+  *invite*), and the catalog's choice to borrow is a real ruling — the kind
+  `french/terminology-and-loanwords` exists to record.
+- **Skeleton, initialisms and proper nouns** — *FAQ, ID, SSO · audit, `24h`,
+  `{n} min`, `{count} agents`, `min`, `vs`, `S`, Athena, Bronze, Cyan* — the
+  same classes as the intersection, appearing here because they happen not to
+  be identical in all thirteen.
+
+Roughly two-thirds of the largest residue in the catalog is therefore **not a
+terminology question at all**. Sending it to a French reviewer as an allowlist
+proposal would spend the review budget on words nobody chose, and Vietnamese —
+Latin-script, but sharing almost no vocabulary stock with English — scores 43
+against French's 116 for exactly this reason and not because it is better
+translated.
+
 ## The intersection is a clean allowlist seed, exactly as predicted
 
 Keys identical in **all thirteen** locales: **25 — and all 25 are legitimate.**

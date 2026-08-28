@@ -499,7 +499,8 @@
      "use_when": [
       "deciding whether a term stays English or goes native in French",
       "pinning gender and agreement for borrowed nouns",
-      "auditing a French catalog for term drift"
+      "auditing a French catalog for term drift",
+      "an untranslated-value check flags a French string as identical to its English source"
      ]
     },
     {
