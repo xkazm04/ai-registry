@@ -218,7 +218,19 @@ field.
     ## Expected impact
     Who notices, what changes for them, and how it would be measured. One
     sentence on what could break.
+
+    ## Net delta
+    Before: <the state today, one sentence>
+    After: <the state once this is implemented as described, one sentence>
+    Delta: positive | neutral | negative | uncertain
+    Gate: none | design | feature | contract | policy | irreversible
     ```
+
+    **The Net delta is the routing step (§5), written down.** It is one honest
+    comparison — the state after against the state now, net of what could
+    break, churn and maintenance — and one honest answer to "does a human have
+    to decide this?". Pure churn is `neutral`. A claim you could not verify
+    against the code is `uncertain`, never `positive`.
 
     `evidence` is SEPARATE from `body` and is the proof, as a code block or a
     `file:line` list — the exact lines, the grep output, the count — never a
@@ -230,9 +242,16 @@ field.
     and reads as the lower-quality item it is. Do not invent extra sections;
     put anything else under Description.
 
-## 5. Routing — size decides who approves
+## 5. Routing — the net delta decides, the human gates override
 
-Classify every candidate:
+Size still describes the work (and bounds what a single round may build), but
+it no longer decides who approves. **The Net delta of §4.10 does.** Measured on
+this operator's own deck (2026-08-28): the great majority of backlogged ideas
+were worth executing, and the reward/risk ratio that used to hold them back was
+measuring the wrong thing — it asked "how risky is the edit?" when the
+question is "is the product better afterwards, and is this mine to decide?".
+
+Classify every candidate by size for the build bound:
 
 - **S** — localized: one file, one mechanism (a rename, a guard, an attribute, a
   clamp, one component's states).
@@ -240,29 +259,37 @@ Classify every candidate:
 - **L** — structural: architecture-grade work spanning modules — new layers,
   protocol redesigns, cross-cutting migrations.
 
-| Size | Route |
-| --- | --- |
-| **S** | **Auto-approved. Build it in-session, no ask.** Subject only to the four vetoes below. |
-| **M** | **Reward/risk decides** — the table below. |
-| **L** | **Never built here. Always backlog.** No triage, no ask, no exception. |
+### The net-delta rule
 
-### The M rule — reward over risk
+| Net delta | Gate | Route |
+| --- | --- | --- |
+| `positive` | `none` | **Auto-accept. Build it** — in-session, or by a coordinator subagent in a wave. |
+| `positive` | any human gate | **Human.** Backlog it with the Net delta on the card; the deck decides. |
+| `neutral` / `negative` / `uncertain` | — | **Human** (or drop it: a `negative` you are sure of is a non-finding). |
 
-Compute `RRR = impact / risk` from the scores you already assigned in §4.5.
+**The human gates** — a gate applies when the implementation REQUIRES it, not
+when the finding merely mentions it:
 
-| Condition | Route |
-| --- | --- |
-| `RRR >= 2.0` **and** `risk <= 4` | **Build** — auto-approved, same as an S. |
-| `RRR <= 1.0` **or** `risk >= 7` | **Backlog** — never built in-session. |
-| anything between | **Ask** when an operator is attending; **backlog** when unattended. |
+- **design** — a core design or architecture choice: a new layer or
+  abstraction, a protocol, a data model, replacing a mechanism the product is
+  built on. Every **L** is a design gate by definition.
+- **feature** — a new or major user-facing capability, a change of product
+  direction or scope. Fixing a state a feature already has is not a feature.
+- **contract** — a DB schema, IPC/public API, generated binding, persisted
+  format or cross-repo contract. A reviewer who is not the author owns these.
+- **policy** — security, privacy, spend/cost, audit; what gets logged, stored,
+  sent, or paid for.
+- **irreversible** — deletes user data, rewrites stored history, a migration
+  with no rollback.
 
-One line per asked item — title, reward, risk, RRR, what could break — and the
-operator picks. Accepted items join the execution queue; declined ones leave as
-findings.
+**Size still bounds the build.** An auto-accepted **L** cannot exist (it is a
+design gate), and an auto-accepted M that grows past its seam mid-build is
+demoted like any other (§7.4). Effort / impact / risk are still scored — they
+order the queue and calibrate the delta — they just no longer gate it.
 
-**Pure churn has a reward of 0 by definition** — a refactor of working code with
-no user-visible or measurable gain scores `impact: 1` at most, so it can never
-clear the bar. That is the intent, not an accident of the formula.
+**Pure churn is `neutral` by definition** — a refactor of working code with no
+user-visible or developer-measurable gain never reads as `positive`. That is
+the intent, not an accident of the wording.
 
 ### The four vetoes — they override every route above
 
@@ -277,9 +304,9 @@ An item is backlogged regardless of size or RRR when it:
 4. **is a foreign session's in-flight file** — a coordination call, not a triage
    call. Say so in the finding so the next session knows the difference.
 
-**Unattended runs** (dispatched by an app or a fleet, no operator present): the
-"ask" band collapses to backlog. S still auto-builds — that is the whole point of
-the size class — and L still never does.
+**Unattended runs** (dispatched by an app or a fleet, no operator present):
+nothing changes — there is no "ask" band any more. `positive` + `none` builds,
+everything else waits for the deck.
 
 **What the backlog is FOR — and what never goes in it.** The Personas idea
 backlog (the memory outbox → `dev_ideas` → the Quick Answer triage deck) is the
@@ -471,11 +498,13 @@ backlog as open work:
 Each BACKLOGGED finding:
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Net delta\nBefore: ...\nAfter: ...\nDelta: positive\nGate: none","evidence":"<code block or file:line list — the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"delta":"positive|neutral|negative|uncertain","gate":"none|design|feature|contract|policy|irreversible"}
 ```
 
-`body` is the §4.10 form verbatim — the four `## ` sections, newline-escaped in
-the JSON. A finding emitted in any other shape is rejected at review, not
+`body` is the §4.10 form verbatim — the five `## ` sections, newline-escaped in
+the JSON; `delta` and `gate` repeat the Net delta's verdict as fields so a
+consumer can route without parsing prose. A backlogged finding is, by
+construction, one whose delta or gate said "human" — say which, on the card. A finding emitted in any other shape is rejected at review, not
 reformatted.
 
 Escalation — at most one per lens, ONLY when that lens produced a critical

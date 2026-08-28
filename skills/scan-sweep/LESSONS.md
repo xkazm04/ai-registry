@@ -359,3 +359,22 @@ Known gap: the personas generator `scripts/skills/scan-agents-to-skills.mjs`
 still carries an OLDER SKILL.md template; `--force` would overwrite this file.
 The registry copy is the authored one - regenerate only `references/lenses.md`
 from the TOML (or append by hand, as done here) until the template is retired.
+
+## 2.4.0 - 2026-08-28 - personas (net-delta routing)
+
+Operator, after triaging the first ~35 sectioned ideas by hand: "majority of
+ideas are worth to execute — design one thought step to compare the state after
+implementation and the current state (similar to risk rating). If the
+conclusion is net positive, auto-accept. Leave core design choices or major
+features on the human gate."
+
+What changed: S4.10 gains a `## Net delta` section (Before / After / Delta /
+Gate); S5 drops the reward/risk-ratio band entirely — `positive` + gate `none`
+auto-accepts, everything else goes to the deck with the delta on the card; the
+five human gates (design, feature, contract, policy, irreversible) are defined
+by what the implementation REQUIRES. S9 carries `delta` and `gate` as fields.
+
+Why the RRR band was wrong: it scored the edit's danger, not the product's
+state. Exercised the same day on the remaining 149 pending ideas with Sonnet
+classifiers doing the Before/After step per item (results in the personas
+run ledger `net-delta-triage`).
