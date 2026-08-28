@@ -4,9 +4,9 @@ type: technique
 subject: error-handling
 technique: crash-capture
 status: forged
-laws: [creation-names-reaper]
+laws: [creation-names-reaper, gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [naming the last-resort handler for each execution context, deciding which fields may survive into a crash report, the same startup crash ships every few seconds]
+use_when: [naming the last-resort handler for each execution context, deciding which fields may survive into a crash report, the same startup crash ships every few seconds, error reporting is a framework hook and handlers catch their own failures, a streaming or long-lived response reports failure in-band, error rates look low on the best-maintained code paths]
 ---
 
 # Crash capture
@@ -17,6 +17,73 @@ expected — the unhandled exception, the unhandled rejection, the panic, the
 process that dies mid-write. Its posture differs from ordinary doors: it
 cannot rely on the program being healthy, it captures the richest context
 of any door, and it is the single most likely place to leak secrets.
+
+## The auto-capture tier sees escapes, not failures
+
+Most platforms offer a single hook that reports "every server error" —
+a request-error callback, an unhandled-rejection handler, a framework's
+error middleware. It is the cheapest observability a product ever buys, and
+it is routinely mistaken for what it is not.
+
+Such a hook observes **failures that escaped the handler**. It cannot see a
+failure that was caught, because catching is precisely what stops the escape.
+So the moment a handler grows a `try`/`catch` that returns a tidy error
+response, that code path leaves telemetry — not because anyone decided it
+should, but because the hook's subject was never "failures", it was "escapes"
+([gate-sees-target](../../../../_laws.md#gate-sees-target): the instrument
+observes a proxy, and the proxy diverges from the target exactly where the
+code got more careful).
+
+The result is an **inverted incentive gradient**, and it is worth stating
+plainly because it runs against every instinct a reviewer has:
+
+- The handler with no error handling at all is fully reported.
+- The handler that catches, maps the failure to a status, and answers the
+  caller cleanly is **invisible**.
+
+Writing more defensive code makes the system darker. Nobody chooses this; it
+is emergent, it compounds silently as a codebase matures, and it is most
+severe in exactly the handlers that were given the most care. A measurement
+that says "our error rate is low" under this arrangement is reporting how
+much of the code lacks error handling.
+
+The tell is a ratio nobody usually computes: **what share of handlers catch,
+and what share of caught failures reach an operator door.** A codebase where
+most handlers catch and the only reporting is an escape hook has no
+production error visibility on its most-maintained paths, however healthy the
+dashboard looks.
+
+Two structural fixes, in order of preference:
+
+- **Give the handled path its own door, at a chokepoint.** Where a shared
+  helper already builds the error response, that helper is the natural
+  reporting site: pass it the caught cause, and reporting becomes a property
+  of answering rather than a discipline each handler must remember. This
+  converts the swallow into a routed failure without asking anyone to stop
+  catching — and unlike a per-site rule, it engages on its own
+  ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).
+- **Report by intent, not by exit path.** Route the failures nobody intended —
+  the server-fault tier, plus anything a caller explicitly marks as
+  unexpected — and deliberately do NOT route the ones the taxonomy already
+  calls correct handling. A rate limit, a validation rejection and a
+  not-found are the system working; reporting them is the flood that trains
+  operators to ignore the tool, which costs more visibility than the original
+  gap did.
+
+Two properties keep the door cheap enough that nobody routes around it: it must
+not delay the response the user is waiting on (schedule the send after the
+response, where the platform offers it), and every failure inside it is
+swallowed — telemetry that can turn an error response into a crash will be
+removed by the first person it wakes at night.
+
+The streaming case deserves its own note, because it is both the most
+expensive and the most commonly missed. Once a response has committed its
+status and headers, there is no status left to change and typically no escape
+either: the failure is delivered as an in-band frame and the handler returns
+normally. To an escape hook that is a **successful request**. Long-lived
+responses — streams, server-sent events, chunked progress — are therefore
+dark by default at the exact moment their cost is highest, and they need the
+handled-path door wired explicitly rather than inherited.
 
 ## Cover every execution context, at the true edge
 
