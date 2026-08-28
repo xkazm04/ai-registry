@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: null
-last_swept: 2026-08-27
+last_swept: 2026-08-28
 layout: nested
 demand_known: unknown  # was witnessed-silent on 2026-08-27; see below
 ---
@@ -11,20 +11,25 @@ demand_known: unknown  # was witnessed-silent on 2026-08-27; see below
 Coverage note for the `media-generation` bundle. Part of [[index]]; graded against
 [[standard]].
 
-## Shape at this sweep (2026-08-27)
+## Shape at this sweep (2026-08-28)
 
-| | | at 2026-08-21 |
-| --- | --- | --- |
-| Subjects | 19 | 14 |
-| Techniques | 122 | 83 |
-| Applications | 48 | 32 |
-| `use_when` written | 122/122 | 83/83 |
-| Version witness (`verified_against`) | 7/48 | 0/32 |
-| Expired applications | 0 | 0 |
-| Never swept | 6/19 | 14/14 |
-| Attention points | 38 | 54 |
-| Cap breaches | none | none |
-| Taxonomy errors | 0 | 0 |
+| | 2026-08-28 | 2026-08-27 | 2026-08-21 |
+| --- | --- | --- | --- |
+| Subjects | 20 | 19 | 14 |
+| Techniques | 128 | 122 | 83 |
+| Applications | 48 | 48 | 32 |
+| `use_when` written | 128/128 | 122/122 | 83/83 |
+| Version witness | 8/48 | 7/48 | 0/32 |
+| Drift blind (runtime-bearing, no witness) | 9 | 10 | — |
+| Expired applications | 0 | 0 | 0 |
+| Never swept | 6/20 | 6/19 | 14/14 |
+| Attention points | 44 | 38 | 54 |
+| Cap breaches | none | none | none |
+| Taxonomy errors | 0 | 0 | 0 |
+
+Points rose 38 -> 44 while three subjects improved, because a sibling session
+landed `trailer-structure` (6 techniques, **no applications**) on 2026-08-27.
+The registry had gone one day with every subject reconciled against real code.
 
 These are a record of this sweep, not an input to the next one. Recompute with
 `node scripts/librarian-scan.mjs --domain media-generation`.
@@ -77,10 +82,22 @@ in six days, and no installation has ever reported consulting it. Whether that i
 - **platform-format-adaptation** (5) - single stack (process); never swept
 - **short-form-narrative-structure** (5) - single stack (process); never swept
 - **frame-direction** (3) - never swept
-- **generated-output-grading** (3) - never swept; holds the strongest banked
-  proposal from this sweep, and is the natural next dispatch
+- **trailer-structure** (9) - **no application**, never swept. Arrived from a
+  sibling session 2026-08-27; the bundle's only unreconciled subject and the
+  clear next dispatch.
 
 ## Dispatched
+
+### 2026-08-28 - one worker, landed
+
+- [[generated-output-grading]] - the banked proposal adjudicated as an
+  **amendment** to `vision-model-grading-schema`, with both rejected homes
+  reasoned out. The second voice turned out to be THIS CORPUS: `cinematic-
+  language` briefs the performer thoroughly and this subject never graded them,
+  which reframed the claim as an asymmetry between briefing and grading
+  vocabulary. Deepen pass was not dry - a version witness written by
+  re-verification, a rotted citation, and a self-contradiction of 9x in a
+  measurement's own caveat.
 
 ### 2026-08-27 - three workers, all landed
 
