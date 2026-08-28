@@ -125,3 +125,57 @@ Append-only reflection lane. One entry per run that taught something. Format:
   the Phase 3c synthesis prompts as a named shape — "a fix that exists but was never generalized" is
   cheaper to ship and easier to defend than anything invented during the scan, because the design
   argument was already won.
+
+## 1.3.0 - 2026-08-28 - kp (resume)
+
+- **Phase 1b step 0 paid off on its first run, and the evidence is that it corrected the run in BOTH
+  directions.** The `data-access` subject told me the repo was already conformant where my own prior
+  scan note had implied a failure (its `safeRowParse` logs before returning null — that is the
+  documented *degrade visibly* policy, not the banned silent skip), and it named two deviations the
+  scan had entirely missed. Most valuable of all, it dissolved a blocking question rather than
+  answering it: the queued ADR had stalled on "should a validation failure degrade or throw?", and
+  the standard's answer is that the question is malformed — the *consumer* picks per read shape, and
+  only silence is universally banned. A session's worth of deferred design was resolved by ten
+  minutes of reading. Worth stating plainly for future runs: when a queued ADR carries open
+  questions, check the governing subject BEFORE designing around them.
+- **Turning on an enforcement without dry-running it against real data nearly shipped a 41% outage.**
+  The plan was to wire a generated schema in enforcing mode. The seeded corpus validated 66/66 — a
+  clean and completely false all-clear. Running the same schema read-only against the live database
+  first showed 50 of 121 rows failing on a field the writer had silently stopped emitting. Every
+  affected row would have vanished from the list. This generalizes past this repo and past
+  validators: any decision shaped "turn on a check" (a validator, a lint rule at error, a new
+  constraint, a stricter parser) needs a counted read-only run against production-shaped data before
+  it is wired, and fixtures do not substitute — fixtures are precisely the data that never drifted.
+
+  **APPLIED in 1.4.0** (this proposal, promoted the same session on the owner's call). Phase 7c
+  gains a step 4 — measure what already violates the rule, before wiring it — and Phase 7b's Rollout
+  template points at it for any enforcing change. 7B.b already told a lint-rule codification to check
+  the new warning count and pause if it is enormous; that instinct was right and lived in only one of
+  the two execution paths. It is now generalized from warnings to data and present in both.
+
+  The applied version is stronger than the proposal, because finishing the work taught a second trap
+  the proposal did not know about. Live data passing 100% is ALSO not sufficient: after the schema
+  was corrected the live corpus validated 121/121, enforcement was switched on, and a test failed
+  that asserts a deliberately thin payload stays readable. The producer's contract and the column's
+  legal range are different things. So the step now says to check what the CONSUMERS and their tests
+  treat as valid, not only what the producer currently emits — and that the honest end state, when
+  the violators are legitimate, is a counted observation mode rather than enforcement.
+- **The enforcement dry-run also produced the run's best finding, which is an argument for doing it
+  even when you expect it to be clean.** The 50 failures were not noise to route around — they were
+  real writer-vs-declaration drift that had been invisible in production for exactly the reason the
+  decision was about. The check validated its own premise on contact with reality. A dry-run is
+  therefore not just a safety gate; it is a finding generator, and should be framed as one.
+- **Worktree feasibility, 3rd observation — and the first time the answer differed BY GATE.** The
+  junction made `typecheck` pass (exit 0) and left `test:unit` failing 106 tests across 21 files,
+  almost all route-handler tests whose imports came back `undefined`; copying the untracked local env
+  in changed nothing. So the v1.3.0 instruction to re-test the slow gate is right but slightly
+  under-specified: the split here was not fast-vs-slow but *which gate*, and the failing one was the
+  test runner, not the bundler. Suggest the step say "re-test EVERY gate class you will rely on", not
+  "the slow gate too". Also worth noting I had asserted this repo's answer in project memory last
+  session without having actually tried the junction — the method's insistence on testing rather than
+  defaulting caught my own stale inference, which is the best kind of evidence that the step belongs.
+- **Resume mode can ADD to the backlog, and the method quietly assumes it only drains.** Phase 9 has
+  no path for "executing a queued decision uncovered a new finding"; I wrote the ADR and backlog
+  entry by hand from the Phase 8 templates. Small gap, but the drift signal in § Notes on use counts
+  scans-that-fill against resumes-that-drain, and a resume that discovers something will skew that
+  ledger unless it is recorded as both.

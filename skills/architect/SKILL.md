@@ -5,7 +5,7 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.3.0
+version: 1.4.0
 ---
 # Architect
 
@@ -346,6 +346,7 @@ Merge the sub-agent reports into a single pattern model. Look specifically for:
 - **Convergence** — multiple angles flagging the same module → high-confidence finding.
 - **Conflict** — one angle calls something a strength, another calls it a weakness → investigate; usually means context-dependent (strong in module A, weak in module B).
 - **Surprise** — something none of the angles expected → likely the most valuable finding of the run.
+- **Internal precedent** — the same pattern implemented TWICE at different levels of rigour, where one copy drifted. Actively look for these: for each weakness, ask "does a correct version of this already exist somewhere in the tree?" They are the cheapest findings a mature repo offers — the design argument is already won, the rationale can be quoted from the correct copy's own comment, and the fix is mechanical rather than invented. A close cousin is the **unfinished generalization**: a documented fix (a helper, a hook, a guard) applied to one call site while the others still carry the defect.
 - **Reach quantification** — every weakness has a concrete count: "47 files, 12 components, 3 stores."
 
 If sub-agent reports are thin (smell strengths all 1-2, inconsistencies few), the area is healthy in this theme. **Say so explicitly** and offer to either pick a different theme or downgrade the run to "passive scan, no findings to action." Don't manufacture findings to fill a quota.
@@ -521,7 +522,7 @@ Pick 1 or 2 (Enter = 1).
 
 1. Create it, then run ONE cheap gate (the typecheck) inside it.
 2. If it fails for want of dependencies, try the cheap share first — a junction/symlink of `node_modules` from the main checkout. This is usually enough for `tsc`, the linter and the unit runner.
-3. **Re-test the slow gate too.** A shared `node_modules` can satisfy the type and test gates and still break the bundler: a build that resolves the project root will reject a `node_modules` symlink pointing outside it (observed with Turbopack: *"Symlink [project]/node_modules is invalid, it points out of the filesystem root"*). Discovering this at Phase 7e means the final gate never ran.
+3. **Re-test EVERY gate class you will rely on, not just a cheap one and a slow one.** The link that satisfies one runner routinely fails another, and which one breaks is not predictable from cost: a shared `node_modules` can satisfy the type gate and still break the bundler (Turbopack: *"Symlink [project]/node_modules is invalid, it points out of the filesystem root"*) — or satisfy the type gate and break the TEST runner instead (observed separately: 106 failures across 21 files, all route-handler imports resolving to `undefined`, with the local env ruled out as the cause). Run one of each class — typecheck, lint, unit, build — before trusting the worktree. Discovering this at Phase 7e means the final gate never ran.
 4. If a gate cannot run in the worktree, say which one, and choose deliberately: run that gate from the main checkout after merge, or work on the main checkout from the start. **Never report a gate as passing that you could not run** — and never read an exit code through a pipe (`… | tail`), which reports the exit status of `tail` and will happily show `0` for a build that died.
 
 Isolation that costs verification is a bad trade when the repo law already mandates pathspec-only staging. Record the choice and its reason in the ADR.
@@ -571,6 +572,8 @@ related_scan: [[Architect/scans/{date}-{theme}]]
 
 ## Rollout
 {Numbered list of atomic commits planned. Each one is independently shippable.}
+{If this decision TURNS ON AN ENFORCEMENT — a validator, a constraint, a lint rule at
+error, a stricter parser — step 0 is ALWAYS a counted dry run. See 7c step 4.}
 1. {step 1} - {validation: cargo check / tsc / lint / tests}
 2. {step 2} - {validation}
 3. ...
@@ -610,6 +613,14 @@ In a fresh worktree (7a option 1) the tree starts clean — skip straight to ste
    - **Yours from this session** — paths only this session has authored. Normal.
 
 3. **Capture validation baselines** — run the overlay's `## Gates` → `baseline:` commands (with no overlay, the detected typecheck / lint / test / compile commands; print what you detected). Record the numbers in the ADR's `## Pre-flight baseline` section. Subsequent commits compare to this baseline — a lint count going from 10086 → 10089 warnings is a regression caused by *you*, not the in-flight other-author work (whose net contribution to the baseline is captured in the snapshot you just took). In a repo with a large pre-existing warning baseline the metric is **delta on the files this diff touched**, never an absolute count.
+
+4. **If the decision turns on an enforcement, measure what already violates it — BEFORE wiring it.** Any change shaped "switch on a check" (a schema validator, a database constraint, a lint rule at `error`, a stricter parser, a required field) has a second baseline that the gate commands above do not capture: **how much existing data or code fails the new rule.** That number decides whether the change is additive or an outage, and it is not inferable — measure it with a throwaway read-only script against production-shaped data, and record the count in the ADR beside the gate numbers.
+
+   Two traps this catches, both observed:
+   - **Fixtures are not evidence about live data.** A seeded corpus validating 100% is a false all-clear; it is precisely the data that never drifted. One run's seeds passed 66/66 while the live table failed 50 of 121 — enforcing as planned would have silently dropped 41% of a user-facing list.
+   - **Live data is not evidence about the full range of legal shapes.** A live corpus passing 100% still says nothing about shapes the application deliberately tolerates but rarely stores — legacy records, partial payloads, fixtures the code is written to accept. Check what the *consumers and their tests* treat as valid, not only what the producer currently emits. The same run's live data passed 121/121 and enforcement still broke a test asserting that a deliberately thin payload stays readable.
+
+   When the violation count is non-zero and the violators are legitimate, the honest outcome is usually **not** enforcement but a recorded, counted observation mode — the check runs and reports, the value still flows — which keeps the drift measurable without manufacturing an outage. Say so in the ADR rather than treating it as a failed decision: a dry run that stops an enforcement is the step working, and the violations it surfaces are frequently the run's most valuable finding.
 
 **Forbidden during pre-flight (and at every later phase):**
 - `git stash` — never. Not even with `--keep-index`.
