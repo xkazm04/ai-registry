@@ -1,5 +1,51 @@
 # Lessons - intake (formerly research)
 
+## 0.14.0 - 2026-08-27 - evaluate-llms-before-production
+
+- **The enumeration hunt is now the dominant finding shape, and this run says why.**
+  All four landings came from a sentence in which a forged document claimed its own
+  completeness - five ugly-case regions, "representative by construction", "the only
+  mode that supports a gate", and a subject that distrusted green twice and red never.
+  The neighbourhood was the corpus's most mature, which is exactly the condition:
+  **in a mature subject there are no missing opinions, only over-broad claims.** When
+  prior art comes back thick, stop looking for holes and start reading for enumerations.
+- **A hybrid whose halves are a listicle and a first-party account splits by paragraph,
+  not by section.** The published structure was eight numbered how-to sections; the
+  first-party half was individual sentences scattered inside them ("we did not treat
+  precision and recall as interchangeable", "the model may focus on the wrong value").
+  Every landing came from such a sentence and every catch came from a section heading.
+  The build-walkthrough's discriminating question generalises further than its own row:
+  *is the author describing a practice, or reporting what happened to their system?* -
+  and for a written source it has to be asked per paragraph.
+- **Corpus-internal convergence can come from a lane nobody would map to.** The
+  strongest corroboration of the run - that a workflow outcome is not a label - was
+  already written twice in the same bundle, in a nudge-efficacy technique and a
+  finding-auto-close technique. No term in the Phase 4 map would have surfaced them;
+  they were found by grepping the *concept* ("dismissed") rather than the candidate's
+  vocabulary. **When a candidate says "X is not ground truth", grep the corpus for the
+  workflow verb, not for the eval noun.**
+- **A cross-bundle inversion is worth a subject note on the side you did NOT edit.**
+  The distractor rule inverts between the eval bundle (mandatory) and the assessment
+  bundle (disqualifying). The skill already says to record it in the subject note; this
+  run had to *create* the note on the recruiting side to do so, which is correct and
+  should be stated - the note whose subject was not touched is the one that stops the
+  next run re-litigating the inversion, so its absence is not a reason to skip it.
+- **Landing above the source's altitude is a compression, not an addition.** The source
+  gave a three-tier metric table. The durable rule was that the third tier is just more
+  of the second, leaving two roles and one sentence. The operator's standing critique is
+  usually read as "synthesise across runs"; this run is the cheaper case - **synthesise
+  within the source, by asking which of its categories collapse.**
+- **Eighth consecutive zero-fetch run.** Every one of them carried its own primary
+  material or corroborated corpus-internally. The 3-fetch budget has not bound in eight
+  runs; the classes where it binds (review, listicle, paper) simply have not arrived.
+  Worth saying out loud so the streak is not read as a rule about sources in general.
+- **Shared-checkout hazard, third consecutive run.** A parallel session landed four
+  techniques, two applications and a whole practices lane mid-run, and its in-flight
+  application failed the bundle gate. Two things worked: running the gate and reading
+  *whose* failure it was before touching anything, and leaving `index.json` /
+  `catalog.json` regenerated-but-uncommitted. The second is now three-for-three and
+  should probably be the documented default rather than a per-run judgment call.
+
 ## 0.1.0 - 2026-08-21 - ai-registry (run 1: mixed AI-news roundup; bumped to 0.2.0 in the same change)
 
 - **The source class behaved exactly as designed for, which is the result worth
@@ -1483,6 +1529,210 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   run's work and left HEAD's index pointing at a file HEAD does not contain.
   Diffing the generated files for the sibling's slug before staging is a
   two-second check and it decided the whole commit strategy here.
+
+
+## 0.14.0 - 2026-08-27 - openexecutive-virtual-executive
+
+- **The vendor-repository row has the wrong discriminating variable.** The class
+  entry is built around the engine being a hosted service, which is why it
+  sends you to the client types: a closed client is all you get. This source
+  had a hosted engine and a fully open application tree, and the "stated
+  production rules" third was not a page but nine hundred files. **Ask what
+  fraction of the product is in the tree, not whether the engine is hosted.**
+  Closed client gives one types file; open client gives every operating rule
+  the team learned, in comments nobody wrote for an audience.
+- **New high-yield shape, and it is cheap: diff a tree's rulebook against its
+  own code.** Three of five accepted candidates had one form - the prose states
+  an absolute, the code knowingly breaks it for a stated correct reason, and
+  the prose never names the reason. A contributor guide said *never put dynamic
+  content in a cached block* while the cache builder put two computed values
+  there and justified each as *process-stable*. Four artifacts blamed a queue
+  claim for forcing single-instance while the comment beside the claim said it
+  was safe across processes. This is the contradicted-source pattern arriving
+  from inside one source, and it is cheaper than the usual form: no fetch can
+  adjudicate what the code settles. **The delta between a repo's rules and its
+  code is pre-filtered to the rules the team found too simple to follow** -
+  exactly the population a mature corpus has not absorbed.
+- **The asymmetry hunt has a second, more mechanical form: compare the two
+  halves of a seam the corpus states as one.** `mcp-tools` models the inbound
+  question in a full technique and gives egress one bullet inside another
+  technique. Both files "cover" the seam and score identically to a slug map.
+  The generalisation of "which file *measures* it" is **which file has a
+  mechanism and which has a policy** - a sentence stating that something must
+  be constrained is a policy, and a policy with no mechanism beside it is the
+  cheapest gap in a mature corpus to find and the most likely to be mistaken
+  for coverage.
+- **A subject can be thorough about a mechanism and silent about the number
+  that mechanism decides.** `job-coordination` models process death across five
+  techniques - verdicts, evidence, lineage, registry reconciliation - and never
+  says that the recovery sweep, not the claim, caps the executor count. Third
+  hunt beside missing-stage and enumeration, and it generalises: **when a
+  subject is exhaustive about how something works, ask what operational number
+  it silently determines.**
+- **Fold the correction into the technique it corrects, not beside it.** Rows
+  2 and 3 were separate candidates (allocate the cut points; the admission rule
+  is wrong) and are one finding - the merge rule and the admission rule are the
+  same question asked about a block's boundary and its contents. Same for rows
+  4 and 5. Landing them separately would have produced four correct documents
+  and no statement of what they share. Fifth run confirming the operator
+  critique that synthesis is the skill's job.
+- **A README metric is usually a count with its predicate stripped.** An
+  advertised steady-state cache hit rate is measured over the most favourable
+  population available - late turns of long conversations, excluding every cold
+  start and fan-out call. It went into the technique as a `count-carries-predicate`
+  caution rather than as a cited number. Treat any headline percentage in a
+  marketing surface this way by default.
+- **Seventh consecutive zero-fetch run** for a source carrying its own primary
+  material. The shallow clone is the extraction for any open tree; verify it
+  with `git ls-tree HEAD | wc -l` against a `find` count before reading (894 =
+  894 here, no path casualties).
+- **Parallel-session hazard, a third variant: the sibling registered its new
+  technique AFTER this run's `build-index`.** The generated files were
+  therefore stale against the tree the moment they were written - my two
+  techniques present, theirs absent - and committing them would have published
+  an index that omits content HEAD contains. The check that caught it was
+  grepping the sibling's slug in `index.json` and finding *zero*, which reads
+  like the safe answer and is the dangerous one. **Grep for both slugs, not
+  just your own: yours present + theirs absent is the contamination signature
+  for a mid-run race, and the fix is the same - do not commit the generated
+  files.**
+- **Tooling, re-confirmed the hard way:** a quoted heredoc still broke on
+  apostrophes in prose on this platform, mid-run, exactly as the 0.13.0 lesson
+  says. Write the script to a file the first time; the lesson is right and I
+  paid the second time for testing it.
+## 0.14.0 - 2026-08-27 - whip-coding-agent-harness
+
+- **A new sub-class, and it is the highest-yield thing seen in this class so
+  far: the comparative-design corpus.** An open tree that carries first-party
+  teardowns of its RIVALS - four of them here, each cited `file:line` into that
+  rival's source, plus a PTY probe of five competitors' first paint. The
+  property to seek: **every "what we should NOT take, and why" section is a
+  discriminator someone was forced to draw.** This is the research-model-release
+  class's sibling-instruction property at much higher density - one release
+  gives you one boundary, a teardown corpus gives you a section of them per
+  rival, already argued and already attributed. Four of six landings came from
+  the teardowns rather than from the engine's own architecture docs, and the
+  teardown directory is NOT where the README points. Read it first.
+- **High relevance predicts a high catch rate, and the prediction was
+  instructively wrong.** Calling the expected yield out loud at Phase 2 said: a
+  coding-agent harness lands on `llm-agent/runtime-and-io` (8 subjects, the
+  densest area here), so expect picked rows to resolve to already-covered. Zero
+  did. The reason is worth carrying: **the corpus held every concept in this
+  source and was missing stated boundaries in five places.** When a source lands
+  squarely on a mature area, budget verification for enumerations and
+  asymmetries, not for concept gaps - the concept gaps are genuinely gone and
+  the boundaries genuinely are not.
+- **The enumeration hunt paid twice on the same file in two consecutive runs.**
+  picomq added `merge` as a sixth second-caller policy to
+  `single-flight-primitives`; this run scoped `join` (written for a computation;
+  pointed at a durable resource the execution recurs and the one-shot completion
+  signal cannot). **A file that yielded to the enumeration hunt once is a good
+  bet to yield again** - its enumerations are load-bearing enough to be written
+  down and therefore load-bearing enough to be incomplete.
+- **A near-total empty on the map is worth more than a total empty, confirmed
+  again and in the strong direction.** `broadcast observer deadlock` returned
+  ONE hit across 337 subjects, and it was spurious. Reading the top prior-art
+  subject settled hole-versus-seam in a single pass: a seam, inside an
+  enumeration that says "the fan-out loop has ONE sharp edge" and offers a
+  remedy (snapshot the set) that answers a different question (set mutation)
+  than the one the deadlock asks (lock ownership during dispatch).
+- **New hunt shape, and it found the run's largest landing: audit the layer
+  table for a layer nobody authored.** `prompt-assembly`'s five layers -
+  identity, policy, capability, context, task - are each written, derived or
+  selected. The tool-use transcript is none of those verbs and is the only part
+  of the prompt that grows *because the system is working correctly*, so nothing
+  owned it. Generalizable: **wherever a subject enumerates its parts by who
+  produces them, look for the part that produces itself.**
+- **When the missing stage is a producer rather than a stage.**
+  `mid-turn-steering` models its mechanism completely and models exactly one
+  producer, the human - and its sharpest rule ("a steer with no turn in flight
+  refuses loudly, never queues") inverts for machine producers because the
+  rule's own stated justification rests on the caller having a second door. The
+  tell was purely lexical and cheap: the technique's vocabulary is "the user",
+  "the caller", throughout. **Grep a technique for who it says is acting; a
+  single actor named everywhere is a producer axis nobody drew.**
+- **Two triage rows merging on verification is a good outcome, not a triage
+  error.** Rows 3 and 4 were the pairing invariant and the reactive-compaction
+  path; verification showed one root (our accounting versus their protocol) and
+  they landed as one technique. Per the standing critique that synthesis must
+  come from the skill, the merge is the skill doing its job - but say so in the
+  note, because the counts otherwise read as a miscount.
+- **Parallel-session hazard, and the sibling's 0.14.0 lesson was already on
+  disk when I hit it.** Same checkout, sibling actively writing (a file two
+  minutes old), gate failing on THEIR untracked application. Confirmed their
+  conclusion independently: do not commit `index.json`/`catalog.json`. Adding
+  one detail they did not have - **the gate's failure list is the ownership
+  test.** One problem, naming only a path I never touched, is positive evidence
+  my own content is clean; it is not a reason to fix their file, and fixing it
+  would have raced their session.
+- **Shared librarian files are additive and safe to commit; generated files are
+  not.** `librarian/sources/index.md`, a shared subject note and this file all
+  carried both sessions' content. Committing them publishes the sibling's notes
+  a few minutes early and loses nothing; committing the generated pair would
+  publish an index over content HEAD does not have. The discriminator is whether
+  the file is authored or derived, not whether both sessions touched it.
+
+## 0.14.0 - 2026-08-27 - latticedb (vendor documentation set + operator dispatch)
+
+- **For a vendor in a crowded class, the densest first-party document is the page
+  arguing against its own product, and it can be found by name.** The class file says
+  to expect the marketing surface to be worthless and to check the client's types.
+  Here the engine was open-source so the types were moot - but the *comparison guides*
+  played the role the file assigns to the "things we learned running this" page. "vs
+  Kuzu" and "vs SQLite" state which single row was measured head to head and which are
+  third-party figures on hardware they do not control, put that caveat ABOVE the table
+  rather than in a footnote, and devote a titled section to what the archived rival did
+  better. Every accepted finding came from those two pages. **Read the pages named
+  after competitors before the landing page.** Proposed as a `vendor repository` row
+  amendment; one observation.
+- **A vendor disclosing its measurement provenance is not more adoptable - it is a
+  better source.** The disclosures are the reusable part, and the rule extracted from
+  them is a rule about reading everyone else's tables. Do not let honesty about
+  benchmarks read as evidence about the product; they are independent.
+- **The enumeration hunt paid a seventh consecutive time, and the enumeration was a
+  lane roster.** `retrieval`'s "No single lane suffices" lists four lanes; all four are
+  similarity-or-policy matchers over the query, so none can surface the item that
+  DISAGREES with the top hit. A roster is the highest-value enumeration shape found so
+  far, because a roster that is complete-looking gets implemented faithfully and the
+  omission then propagates into every consumer.
+- **The best finding came from the vendor implementing its own pitch wrongly, for the
+  fifth run running.** Its flagship query computes BM25 relevance and discards it into
+  a boolean filter while vector distance alone orders the result - in the headline
+  example of an engine whose whole claim is answering the lanes together. That produced
+  the `hybrid-lane-fusion` amendment (convergence is evidence only across INDEPENDENT
+  lanes). A correct source hands you a catch; a wrong one hands you the boundary.
+- **New shape: the faithful implementation as evidence.** The application is negative
+  and its force comes from the tree implementing the standard *completely* - four lanes,
+  the budget rule learned as a scar, the floor ordered before fusion with a test
+  asserting it. Because nothing is wrong with the implementation, the gap can only be
+  in the standard. **When a connected tree matches a subject's enumeration item for
+  item, stop looking for its defects and start looking for what the enumeration omits.**
+- **"A dataset is not a workload" needed two trees with opposite shapes to become a
+  rule.** One HAD the workload and measured the engine losing; the other had the data
+  and no workload at all. Either alone is an anecdote; the pair is a test (enumerate the
+  readers, classify each as request path / offline / export / admin). Folded into a
+  dispatch-ready spec rather than banked - four fragments in one document beat four
+  leads re-derived one at a time, and this is the second run to fold rather than bank.
+- **Operator dispatch sub-questions split three ways again, and only the third paid.**
+  Second consecutive confirmation. "Worth it for our projects" was answered by two
+  trees, "for a future use case" by a return condition, "over other alternatives"
+  carried both spec techniques.
+- **A shared checkout with THREE live sessions: the ledger row was swept by a
+  sibling's commit.** I held `librarian/sources/index.md` back because a sibling had a
+  staged row in it; by the time that cleared, two further commits had landed and one of
+  them carried my row into `ff254b9`. Content correct, attribution theirs, nothing lost.
+  The prior lesson (authored files are safe to co-commit, derived files are not) held -
+  and gains a corollary: **holding an authored file back does not protect it, it just
+  transfers the commit.** Commit authored files promptly; the sweep risk runs both ways.
+- **Index/catalog regeneration was deliberately skipped and turned out not to be owed.**
+  Two sessions were mid-run when the content landed, so running a global generator would
+  have published an index over content HEAD did not have. A sibling regenerated after
+  landing and picked my technique up. **In a busy checkout, check `build-index --check`
+  at the END rather than assuming a regeneration is owed.**
+- **Cross-repo scope was cut by tree state, not by the finding.** One project was clean
+  and took a documentation change plus two rules; the other had its whole data-crate
+  mid-refactor under another session, so it took a decision record and no code. Say
+  which half was cut and why - a run that silently narrows reads as a run that finished.
 
 ## 0.14.0 - 2026-08-27 - openwiki-self-correcting-memory
 

@@ -6,7 +6,7 @@ technique: consent-gates
 status: forged
 laws: [gate-sees-target, identity-survives-reuse, creation-names-reaper]
 shared_with: []
-use_when: [grant tuple silently widened to whole capability, re-ask initializes from defaults not stored answer, autonomy dial cached at startup blocks revocation]
+use_when: [grant tuple silently widened to whole capability, a stored grant never matches because the action is a composed string, re-ask initializes from defaults not stored answer, autonomy dial cached at startup blocks revocation]
 ---
 
 # Consent gates
@@ -74,6 +74,58 @@ Two structural rules keep disclosure honest:
    ([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)). The
    check is mechanical: capture the parameter fingerprint at ask time,
    re-verify at execution.
+
+## The tuple fails in the narrow direction too
+
+The failure named above is a tuple collapsed too *wide*: grant the capability,
+license every agent forever. The opposite failure is quieter, more common, and
+concentrated in one recognizable place — wherever the capability axis is not a
+discrete operation the system defined but **a string the agent composed**. A
+command line. A query. A request path. There is no capability to key on and no
+target to separate from it, so the honest-looking grant records the literal
+action.
+
+That grant is worth nothing. The next invocation differs by one argument,
+misses the recorded grant, and asks again — and keeps asking, because the space
+of strings has no bottom. The fatigue trade the first-use grant exists to make
+never happens: the human answers a question per invocation and learns, quickly,
+to answer without reading. That is the exact failure the gate was built to
+prevent, arrived at by way of a gate that fired correctly every single time.
+
+The remedy is to give the composed action the two axes it appears to lack, by
+declaring **how many leading tokens of it constitute its identity** and
+treating the remainder as its target. Command vocabularies are shallow enough
+that a small table settles it: a verb, or a verb plus a subcommand, is the
+capability; what follows is the argument no grant should be pinned to. Two
+rules keep the table safe. Flags are never counted toward the prefix — they
+modify an invocation, they do not name it, and counting them lets an added flag
+silently reshape what a grant covers. And an action whose prefix the table does
+not know falls back to the whole literal string, because this rule must only
+ever fail toward asking too often.
+
+The table is an artifact and deserves review as one: every entry is a
+capability definition, deciding how far a single human "yes" will travel.
+
+## Disclose the grant, not only the action
+
+The disclosure rules above describe the action being approved. A first-use
+grant asks the human to approve two things — this action now, and an unbounded
+stream of future ones — and the second is the half that outlives the moment. A
+surface that renders the action in full and the standing grant as a checkbox
+has disclosed the smaller consequence.
+
+So the remember-this path shows the rule it is about to install, in the terms
+the gate will later match on, *before* installing it: the resolved capability,
+the width of each axis, and the scope the grant is recorded against. This is
+[gate-sees-target](../../../../_laws.md#gate-sees-target) applied one level up —
+the disclosure derives from the grant that will actually be written, not from a
+label describing it.
+
+It is also the cheapest available audit of the prefix table. A human shown
+"this will allow `<verb> <subcommand>` with any arguments, in this workspace"
+will catch an entry that reads too wide, at the only moment they have the
+context to judge it. No review of the table in isolation reaches that judgment,
+because in isolation every entry looks reasonable.
 
 ## Consent already spoken
 

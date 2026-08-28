@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: retrieval
-last_touched: 2026-08-22
-touched_by: research, external-reconcile
+last_touched: 2026-08-27
+touched_by: research, external-reconcile, intake
 dry_streak: 0
 ---
 
@@ -11,6 +11,46 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-08-27 - `/intake`, from a vendor documentation set
+
+Gained `relationship-proximity-lane` (7 -> 8 techniques) and an amendment inside
+`hybrid-lane-fusion`. Source: [[2026-08-27-latticedb]].
+
+**The enumeration paid again, and it was the roster itself.** "No single lane
+suffices" lists lexical, semantic, recency, always-include - two similarity
+matchers, a clock and a pin - and none of them can surface the item that
+*disagrees* with the top hit, because similarity is the wrong instrument for
+finding an objection. The fifth lane asks what is *attached* to what matched.
+It is not a peer: it is a function of results, so its budget is a fan-out cap
+rather than a slice share, reach and path-enumeration are different questions
+with different costs, and it needs a per-relation policy (`contradicts`
+expands disagreement, `replaces` expands time and often displaces its own
+seed).
+
+The amendment is the sharper half and the source produced it by getting it
+wrong: its flagship query computes BM25 relevance and discards it into a
+boolean filter while vector distance alone orders the result. Fusion's rule
+that multi-lane convergence is evidence has an **unstated precondition - the
+lanes must be independent** - and an expansion lane seeded by another's output
+counts one signal twice, hardest exactly where the seeding lane was most
+confident. Diversity cuts pass it, because the items genuinely differ.
+
+Application `rust--relationship-proximity-lane` is negative and is the
+evidence: a tree implementing this roster faithfully and completely, holding
+two typed relation stores with no request-path reader - one read only by
+export, import and a wikilink render, the other a table plus a **reverse**
+index built for inbound traversal, a six-name relation vocabulary and an
+eight-line stub module ending `Phase 0: stub. Phase 2: traverse, add_edge,
+contradict_scan`, with no writer and no reader at all. Because the
+implementation is faithful, the gap was in the standard, not in the tree.
+
+Intake lead, awaiting a second sighting: the cheapest form of the reader test
+("a workload class is claimed by a request-path reader, never by the presence
+of its data") generalises beyond retrieval and was folded into the
+`storage-engine-selection` subject proposal as technique 7 rather than banked
+here.
+
 
 ### 2026-08-22 - external reconcile, [[2026-08-22-7]]
 

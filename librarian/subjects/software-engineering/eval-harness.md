@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-08-26
+last_touched: 2026-08-27
 touched_by: intake
 dry_streak: 0
 ---
@@ -49,6 +49,43 @@ Corroboration: zero fetches. Training-data convergence (closed-book baselines;
 delta-debugging's 1-minimality) plus corpus-internal convergence - the same move
 already existed twice here, in other subjects.
 
+### 2026-08-27 - `/intake`, from a first-party practitioner account
+
+Gained **two more** techniques (8 -> 10) and **two amendments** inside
+`scenario-design`. Source: [[2026-08-27-evaluate-llms-before-production]].
+
+- `metric-role-contract` - exactly one metric is optimized; every other metric
+  is a threshold that is either cleared or not. Which one is the constraint is
+  an **irreversibility** question, not a magnitude one, and a large gain that
+  breaches a declared threshold does not advance. Kills the composite, whose
+  weights encode a rate of substitution that is false wherever the constraint
+  is the irreversible error.
+- `failure-attribution` - a red case names a layer, not a defect. Six owners
+  (label, dataset, input construction, pipeline, prompt, model), checked most
+  upstream first; **two of them are not the system**, and the fix for either,
+  applied to the system, improves the score while moving the system away from
+  correct. Attribute a sample from both tails, act on classes, and treat a
+  class that resists all six as an unwritten product policy.
+- `scenario-design` amendment 1: a **sixth ugly-case region, distractors** -
+  well-formed, in-distribution, unambiguous inputs holding more than one
+  plausible target. The five-region enumeration provably excluded it, and
+  `distractor` returned zero corpus-wide. The mechanism is that *curating*
+  a set removes distractors as a side effect of tidying it.
+- `scenario-design` amendment 2: captured reality is representative in its
+  **inputs** and not in its **labels**. The expected property gets back-filled
+  from a workflow outcome, which renders several ground-truth states as one
+  definite value.
+
+Corroboration: **zero fetches** again. Amendment 2 was corroborated entirely
+corpus-internally - `proactive-nudges/efficacy-feedback` and
+`remediation-handoff/evidence-based-auto-close` both already refuse to collapse
+a dismissal into a resolution, so the rule existed in this bundle and had a
+free pass in the eval lane.
+
+Shape of the run: **four too-narrow enumerations, not four missing opinions.**
+Three of the four findings came from reading a sentence in which a forged
+document claimed its own completeness.
+
 ## Boundary recorded (the other side is in test-harness)
 
 `test-harness/negative-control-tests` and both new techniques run the same move
@@ -77,6 +114,16 @@ test-harness owns the deterministic lane and defers non-determinism here.
   covers how failure is spelled; `gate-sees-target` covers proxies; neither
   covers reachability. **Return on a fifth sighting outside `software-engineering`**
   - three of four are in this bundle, which is the shape a house habit takes.
+
+  **Sharpened 2026-08-27, not promoted.** The banked wording is one-sided - it
+  distrusts a green verdict only. `failure-attribution` landed the mirror: a red
+  verdict is evidence about a *case*, and two of its six possible owners are not
+  the system at all, so a red result is no more self-interpreting than a green
+  one. The root that covers both is broader than reachability: **a verdict names
+  a case; attributing it to a cause is a separate act with its own
+  preconditions.** That is the form to propose if the law is ever written. The
+  return condition does not change - the sightings are still all in this bundle,
+  and a mirror found in the same subject is not independence.
 
 ## Declines
 

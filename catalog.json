@@ -346,10 +346,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:51a92a405ffa24ea",
+      "contentHash": "sha256-n1:5f37ef650908d381",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 3,
+      "lessons": 5,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:5726de9cb06aa215",
+      "lessonsHash": "sha256-n1:09acfea7d5f1e9d4",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -490,6 +490,16 @@
       ]
     },
     {
+      "id": "prior-art-teardown",
+      "dimension": "D5",
+      "path": "practices/prior-art-teardown/PRACTICE.md",
+      "contentHash": "sha256-n1:28592623b5b94208",
+      "starter": [
+        "practices/prior-art-teardown/starter/docs/prior-art/EXAMPLE.md",
+        "practices/prior-art-teardown/starter/docs/prior-art/README.md"
+      ]
+    },
+    {
       "id": "supply-chain-security",
       "dimension": "D9",
       "path": "practices/supply-chain-security/PRACTICE.md",
@@ -540,9 +550,9 @@
   ],
   "counts": {
     "skills": 27,
-    "practices": 4,
+    "practices": 5,
     "memory": 4,
-    "lessons": 53
+    "lessons": 55
   },
   "bundles": [
     {
@@ -644,10 +654,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 150,
-      "techniques": 973,
-      "applications": 438,
-      "files": 1566,
-      "contentHash": "sha256:849535e486b21d5c"
+      "techniques": 979,
+      "applications": 439,
+      "files": 1573,
+      "contentHash": "sha256:a9415312b3e879b4"
     }
   ]
 }

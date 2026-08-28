@@ -8,7 +8,7 @@ laws:
   - one-validation-door
   - failure-not-empty-success
 shared_with: []
-use_when: [picking the second-caller policy per operation, a boolean flag trampled by a second key, callers retrying a refusal that looks like failure, an expensive durable write paid once per caller]
+use_when: [picking the second-caller policy per operation, a boolean flag trampled by a second key, callers retrying a refusal that looks like failure, an expensive durable write paid once per caller, a readiness signal that cannot fire again after a reconnect]
 ---
 
 # Single-flight primitives
@@ -120,6 +120,52 @@ slow down or shed, where a buffer that silently keeps growing converts a
 throughput problem into an out-of-memory one, and the crash takes every
 un-flushed caller's work with it.
 
+## Join over a durable resource: the signal that cannot fire twice
+
+Join is described above for a **computation**: one execution, N waiters, one
+result, finished. Point the same policy at the establishment of a **durable
+resource** — a connection, a session, a spawned server that later drops and
+comes back — and one unstated assumption breaks. The execution recurs. The
+waiters do not arrive once and disperse; they keep arriving for the resource's
+whole life, across every generation of it.
+
+The natural primitive for join is a one-shot completion signal: waiters block
+on it, the acquirer settles it, and every waiter proceeds at once. In most
+concurrency models that primitive is one-shot *by construction* — the operation
+that wakes all waiters simultaneously is the same operation that may only be
+performed once. So the first reconnect performs it a second time and the
+process dies at the precise moment it was recovering. That is not an
+implementation slip to be patched; it is the policy being used past the subject
+it was written for.
+
+Three rules keep join honest over a resource that recurs:
+
+- **The signal means "the first attempt settled", not "the resource is
+  usable".** Settled covers success and failure alike, and that is exactly what
+  makes the invariant unbreakable: the signal fires once whatever happened, so
+  it can never be asked to fire again. Waiters read it as permission to *look*,
+  never as the answer.
+- **After the signal, callers read live state rather than the signal.** "Is it
+  usable right now" is answered from the guarded record under the lock — which
+  is where every reconnection has been writing all along. A caller that infers
+  usability from a signal designed to fire exactly once is correct for the
+  first generation and silently wrong for every one after it.
+- **Every watcher carries the generation that spawned it.** A supervisor
+  watching generation N for a drop compares its generation against the record's
+  before acting on what it sees; otherwise a drop event belonging to the old
+  generation, arriving after a new one is already up, tears down a healthy
+  resource ([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)).
+  The window is narrow, it opens only on the path that runs when the system is
+  already unhealthy, and the failure it produces — an endless
+  establish-and-teardown cycle — presents as the far side being broken.
+
+The distinction worth carrying away is about what the guard is guarding.
+Single-flight over a computation guards **work**, and its product is a value
+that is delivered and forgotten. Single-flight over a resource guards
+**establishment**, and its product is state with a lifetime — so the guard
+needs a generation, and its completion signal needs a meaning that survives
+being observed forever.
+
 ## Scalar flags do not scale past one key
 
 A recurring degeneration: the guard starts life as a boolean ("is a save in
@@ -145,6 +191,9 @@ conditions.
   operation's cost is dominated by a fixed per-execution charge, merge is the
   policy that pays for itself, and its window should close on the previous
   execution rather than on a configured interval.
+- Where the guarded thing is a durable resource rather than a computation, say
+  so: the completion signal means "first attempt settled", live usability is
+  read from the record, and every watcher carries its generation.
 - Keep the primitive keyed even when today's population is a single key.
 - Expose list(); an in-flight set that cannot be inspected turns every stuck
   guard into a source-reading exercise.

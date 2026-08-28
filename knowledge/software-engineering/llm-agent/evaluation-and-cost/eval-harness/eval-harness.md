@@ -4,10 +4,12 @@ type: golden-path
 subject: eval-harness
 status: forged
 techniques:
+  - metric-role-contract
   - scenario-design
   - unaided-baseline-screening
   - overshoot-and-restore
   - assertion-vs-judgment
+  - failure-attribution
   - judge-stability
   - comparison-modes
   - eval-economics
@@ -36,6 +38,35 @@ arithmetic — weights, normalization, gap ranking — belongs to
 numbers over. Pulling a machine-readable verdict out of a judge's prose is the
 [structured-output](../../prompt-and-context/structured-output/structured-output.md) subject's
 extraction problem; this subject only insists the verdict channel exists.
+
+## The decision comes before the instrument
+
+Everything below is machinery for producing comparable numbers. What the
+numbers are *for* is decided first, and it is not a measurement question. A
+suite that never answered it produces a row of metrics all wearing the same
+hat, and the first result that moves two of them in opposite directions gets
+settled by whoever argues best — after the fact, holding a result they like.
+
+The contract is one sentence: **exactly one metric is optimized, and every
+other metric is a threshold that is either cleared or not.** The optimized
+metric is the one the work exists to move. Everything else — the class of
+error the system may not increase, and the operational facts that decide
+whether a result is deployable at all — carries a declared number and
+contributes nothing to the verdict while it stays on the right side of it. A
+large gain that breaches a declared threshold does not advance, and
+renegotiating the threshold after seeing the result is the same move as
+choosing an aggregation after seeing the data.
+
+Which metric is the constraint is settled by asking **which error cannot be
+taken back** — not which is larger, and not which the team talks about more.
+An error someone can notice and undo costs attention; an error that silently
+removes something costs whatever it removed, and the user never learns it
+happened. That asymmetry is why two metrics that are mathematically symmetric
+are almost never symmetric in a product, and why folding them into one
+composite score produces a number that is highest exactly where the product
+is worst
+([_laws: gate-sees-target_](../../../_laws.md#gate-sees-target)). Full contract:
+[metric-role-contract](./techniques/metric-role-contract.md).
 
 ## Non-determinism changes the contract
 
@@ -110,8 +141,9 @@ under a stable name poisons every historical comparison made through it.
 
 Scenarios come from two sources with opposite failure modes. **Captured
 reality** — real transcripts, real defect reports, real inputs that once
-broke production — is representative by construction but accumulates slowly
-and clusters around what already went wrong. **Generation** — a model
+broke production — is representative by construction in its *inputs*, but
+accumulates slowly, clusters around what already went wrong, and arrives with
+a workflow outcome where a label is needed. **Generation** — a model
 synthesizing scenarios from a specification — scales coverage cheaply but
 inherits the generator's blind spots and adds a second source of
 non-determinism. The mature harness uses both, and treats generated
@@ -153,6 +185,34 @@ the failing attempt is the only coordinate the run produces
 ([overshoot-and-restore](./techniques/overshoot-and-restore.md)). The two
 compose in one order only: screen the suite, then push against it, because
 pushing against unscreened scenarios finds a boundary that is not there.
+
+## A red case names a layer, not a defect
+
+The screening rules above distrust a green result. The same distrust is owed
+to a red one, and it is the half a harness usually skips: a failing case is
+evidence that something between the scenario and the score is wrong, and the
+system under test is only one of the candidates. Six layers can own a
+failure — the label, the dataset, the input construction, the pipeline, the
+prompt, the model — and they are checked in that order, most upstream first,
+because a wrong label produces a wrong-looking output further down and
+attributing it to the model is how the wrong fix gets shipped.
+
+Two of the six are not the system at all. A case whose expected property is
+wrong, and a case that is unrepresentative of anything a user will do, both
+go red without a defect existing; the "fix" for either, applied to the
+system, improves the score while moving the system away from correct. That is
+the same third-state discipline the harness already applies to runs — a crash
+is not a low score — pushed one level down to the case
+([_laws: failure-not-empty-success_](../../../_laws.md#failure-not-empty-success)).
+
+Attribution is manual, is done on a sample from both tails, and produces
+*classes* rather than cases: five failures owned by the same missing field is
+a change you can design and measure, while one attributed case is an
+anecdote. And the class that resists all six owners is the most valuable
+thing the review produces — it means competent reviewers disagree about the
+right answer, which is a product policy nobody has written, not a model
+weakness. The discipline is
+[failure-attribution](./techniques/failure-attribution.md).
 
 ## Assert what you can, judge only what you must
 
@@ -209,9 +269,13 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 
 ## The techniques
 
+- [metric-role-contract](./techniques/metric-role-contract.md) — one
+  optimized metric and N thresholds, irreversibility as the discriminator,
+  what the composite forbids.
 - [scenario-design](./techniques/scenario-design.md) — captured vs generated
   scenarios, versioned fixture identity, deliberately scoped cache keys,
-  coverage of the ugly cases.
+  coverage of the ugly cases including distractors, where a captured label
+  actually comes from.
 - [unaided-baseline-screening](./techniques/unaided-baseline-screening.md) —
   the deprived-candidate control, choosing what to withhold, post-cutoff and
   synthetic material, re-screening on candidate upgrade.
@@ -221,6 +285,9 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [assertion-vs-judgment](./techniques/assertion-vs-judgment.md) — the
   deterministic band, when a judge is genuinely necessary, rubric-anchored
   judgment, the structured verdict channel.
+- [failure-attribution](./techniques/failure-attribution.md) — the six
+  owners of a red case, the two that are not the system, attributing a sample
+  and acting on classes.
 - [judge-stability](./techniques/judge-stability.md) — the pinned judge
   packet, anchor-set drift measurement, inter-judge disagreement, the
   own-family preference bias.

@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-08-26
+last_touched: 2026-08-27
 touched_by: intake
 dry_streak: 0
 ---
@@ -71,3 +71,98 @@ None.
 
 - `task-envelope` gained "When done is not knowable, the envelope inverts": the technique's precondition, stated. For discovery tasks (the done criterion is learned by using something that does not exist yet) the vague prompt is correct; its deliverable is the done criterion for the next dispatch, and steering happens by differential choice among manifested variants. The finish-line/route split named: constraining the destination costs nothing, constraining the search spends the operator's guess where the model's search does better.
 - The source demonstrated both modes itself: a library translation dispatched with a textbook envelope (single binary, pixel-identical, do not stop) beside a greenfield app built vague-then-steer. The discriminator came from the source's own contrast, not its stated advice.
+
+
+## 2026-08-27 - /intake, from an open-tree vendor repository ([[2026-08-27-openexecutive-virtual-executive]])
+
+Gained `cache-breakpoint-allocation` (9 -> 10 techniques). Registered bidirectionally.
+
+**The missing stage was the cut itself.** `layered-composition` orders the layers by
+volatility and stops at *one implicit boundary* - everything upstream of the first
+volatile byte - which is the right model only for a provider that infers one.
+`context-budgeting` prices compression against cache state.
+`model-routing/cache-continuity` prices tier switches against the prefix treated as a
+single monolithic asset. Three files surround the decision and none owns it: that
+declared cut points are a **scarce request-wide budget** shared with tool declarations
+and message history, that each block carries its own lifetime, and that allocating them
+has a rule.
+
+The rule landed as: spend a cut point only at a cadence boundary, merge adjacent layers
+that change on the same cadence. The golden path layer table already carries a *Changes*
+column, so the technique names that column the allocation map - **cut where the column
+changes value, not where the topic does**. Splitting same-cadence layers is the common
+waste and it is committed for reasons that feel like tidiness (one block per concern, per
+owner, per table row).
+
+Folded in rather than banked separately, per the standing critique that synthesis comes
+from the skill: **the admission rule is the same question as the merge rule.** The house
+slogan *no dynamic content in a cached block* is the wrong discriminator - it bans
+process-stable computed values (a resolved timezone, an account identity) which are as
+stable as constants for the whole life of the block, while permitting a hand-authored
+string some caller rewrites per request. The test is mechanical: *can this value change
+before this block expires?* The source own code violated its own contributor guide on
+exactly this point and justified it correctly in a comment.
+
+Also landed: blast radius runs downstream, so the cost of a layer is its position times
+its cadence and never its size - which inverts the intuition that big layers are
+expensive. And a `count-carries-predicate` caution on advertised hit rates: a
+steady-state figure measured over late turns of long conversations excludes every cold
+start and every fan-out call, and the two numbers differ by enough to reverse a caching
+decision.
+
+## Open leads
+
+- **Non-negotiable segments outside the user-overridable region.** The source appends an
+  identity block *after* a user persona override so a custom prompt cannot silently drop
+  it, and degrades a placeholder substitution to append rather than to a no-op when the
+  user deleted the placeholder. Sits between `layered-composition` (owned sections) and
+  `variable-interpolation` (a missing variable is a loud failure) and may be a seam rather
+  than a technique. Return on a second independent source, or when a connected project
+  grows a user-editable system prompt with mandatory segments.
+
+## 2026-08-27 - /intake, from a coding-agent harness tree ([[2026-08-27-whip-coding-agent-harness]])
+
+Gained `history-compaction` (10 -> 11 techniques). Registered bidirectionally, with a
+paragraph added to the golden path's layer-table section.
+
+**The missing stage was the transcript itself.** The layer table has five rows - identity,
+policy, capability, context, task - and every one of them is *authored*: someone writes it,
+derives it, or selects it per call. A multi-turn tool-using conversation carries a sixth
+thing none of those verbs describes, and it is the only part of the prompt that grows as a
+consequence of the system working correctly. `context-budgeting` is thorough from stage two
+onward, which is exactly where a missing stage one hides.
+
+Triaged as two candidates and merged on verification, because both are one root: **our
+accounting versus their protocol.** Three invariants, all failing in the same silent
+direction:
+
+- **Pairing.** `context-budgeting`'s "cut at semantic boundaries" is insufficient here
+  because the boundary is supplied by the protocol, not the reader: a tail of the last N
+  messages opening with a result whose call is gone reads perfectly as prose and is
+  rejected as protocol. Cuts are defined over call/result groups; the summary may not be
+  inserted between a pair either; call ids must survive every rewrite.
+- **Resume.** A third regime `continuation-prompts` does not enumerate. Not "preserved",
+  not "lost", but **carried and structurally broken** - the record intact and missing the
+  half of a pair that will never arrive, because the execution died with the turn. Repair
+  with synthesized "did not complete" results before assembly. That repair is also the
+  cheapest crash detector available, and a non-empty one is a report, not routine.
+- **Size.** `context-budgeting` reserves "safety margin for counting error", hedging two
+  estimates: an advertised window that is not what the request is measured against, and a
+  local counter that may not be the provider's. A hedge is not a guarantee, so the reactive
+  path exists - compact once on the provider's refusal and retry - guarded by a
+  once-per-turn flag, without which a misclassified rejection becomes a compact/retry loop
+  that shrinks the conversation to nothing and bills a summarization per iteration.
+
+Closing section earns its place from the *economy* the source documents (route
+summarization to a cheaper model): compaction is the one place model-generated text is
+promoted into a standing layer of every later prompt, so its errors are not transient, and
+anything load-bearing that exists only in the transcript is one compaction away from gone.
+
+## Open leads
+
+- **Untriaged, from the same source:** the `@`-mention expansion discriminator, already
+  drawn by two implementations taking opposite sides - explicit mention rewritten into a
+  synthetic read tool-call/result pair (so the model will not re-read it, and compaction
+  treats it as a tool result rather than a giant user message) versus ambient IDE state
+  injected as a mention-only reminder. Sits on `context-reachability`. Return when a second
+  source draws it, or when a connected project grows file mentions.

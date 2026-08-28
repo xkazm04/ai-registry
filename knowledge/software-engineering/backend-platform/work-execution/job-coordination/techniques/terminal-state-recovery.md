@@ -6,7 +6,7 @@ technique: terminal-state-recovery
 status: forged
 laws: [failure-not-empty-success, deletion-is-not-repair]
 shared_with: []
-use_when: [closing the set of verdicts a job can end in, an orphaned running row blocks new runs forever, choosing per-job verdicts for a boot recovery sweep]
+use_when: [closing the set of verdicts a job can end in, an orphaned running row blocks new runs forever, choosing per-job verdicts for a boot recovery sweep, a second executor double-fires work the claim already protects]
 ---
 
 # Terminal states and recovery
@@ -151,3 +151,52 @@ Mid-flight recovery — the lease reaper acting while the system runs — is
 the same verdict table on a different trigger. Build one verdict function
 and give it two callers, or watch the two policies drift until a job's
 fate depends on *when* its executor died.
+
+## The sweep, not the claim, sets the executor ceiling
+
+One consequence of all of the above is worth stating on its own, because
+systems that get it wrong record the constraint against the wrong line and
+then design around a limit they do not have. **How many executors a job
+system may run is decided by its recovery sweep, not by its claim.**
+
+The claim is usually the safe half. A conditional write that moves one row
+into *running* is multi-writer safe by construction wherever the store
+serialises writers — the losing claimant sees contention, not a second
+copy of the job. The sweep is where single-writer thinking enters, and it
+enters invisibly: a blanket statement that flips every *running* row back
+to *queued* at boot cannot tell an orphan from a job a live sibling process
+is holding right now. Start a second executor and it re-queues the first
+one's in-flight work, which is then claimed and run again — the duplicate
+execution the claim was carefully written to prevent, reintroduced by the
+line underneath it. Nothing is wrong with the blanket requeue in a
+single-executor deployment, which is exactly why it survives review.
+
+The misattribution follows on its own. The claim is the interesting
+primitive — it gets the comment, the design note, the paragraph in the
+deployment guide — so when the team discovers that two executors double-fire,
+the constraint gets written down against the claim. One system carried
+*this deployment must run a single instance, because the claim…* in four
+places, its readme, both environment configurations and its architecture
+document, while the comment beside the claim itself said, correctly, that
+the claim was safe across processes. The line that actually forced it was
+an unconditional requeue in a startup path, and no artifact named it.
+
+The diagnostic is one read: **look at what the sweep's condition examines.**
+If it names a state and nothing else, it is a single-writer sweep no matter
+how careful the claim is, because state alone is a proxy for executor
+liveness and the two diverge precisely when a second executor exists
+([gate-sees-target](../../../../_laws.md#gate-sees-target)). A *running*
+row with no holder and no lease is not evidence of an orphan; it is an
+absence of evidence, and the blanket requeue converts that unknown into the
+definite claim *this job is abandoned*
+([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+
+Which makes the ceiling a design choice rather than a property of the
+store. Once the claim writes holder and lease expiry — the evidence
+[lease-renewal](./lease-renewal.md) already requires, and the evidence the
+*adopt* verdict above is defined in terms of — the sweep filters on expiry
+instead of on state, adopts what a live sibling still holds, and horizontal
+scale becomes available without touching the claim at all. A team that
+believes its queue primitive caps it at one machine should check whether it
+is really capped by a recovery step it could make lease-aware in an
+afternoon.

@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N]
 category: workflow
 contexts: tracked
 memory: project
-version: 2.1.0
+version: 2.2.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -101,16 +101,38 @@ field.
 2. Run any cheap deterministic check that applies (type-checker, linter, existing
    script) and reconcile. Deterministic findings belong to those tools — do not
    restate them as findings.
-3. Walk the lens package **sequentially**. Per lens: at most **2** findings, each
-   grounded in `file:line`. Zero is a valid and common result — say "nothing
-   real" and move on.
-4. **Budget: 5 findings per context per round** (`--depth N` overrides; `--one`
-   raises the default to 10 because a named context is a deliberate deep dive).
-   The budget exists because this is a LOOP: the fifth-best finding in an
-   unswept context beats the eleventh-best in this one. **Lifetime cap per
-   context: 30.** Subtract what prior snapshots already reported, and never
-   re-emit a finding already reported or present in the backlog digest.
-   Under-filling the budget is fine and common on a healthy area; say so.
+3. Walk the lens package **sequentially**, and give each tier room to report:
+   **deep tier ≤3** findings, **matched tier ≤2**, **remaining tier ≤1**, each
+   grounded in `file:line`. Zero from one lens is a valid result — say "nothing
+   real" and move on. Zero from a whole TIER is a claim about the codebase, and
+   §4.9 is where you test it.
+
+4. **FIND GENEROUSLY, BUILD CONSERVATIVELY. These are different budgets and
+   confusing them is the failure this clause exists to prevent.**
+
+   How much work a round does is decided by the ROUTING RULES in §5 — S builds,
+   M clears a ratio, L never builds — and not by how many findings exist. So the
+   finding budget is not a work budget: raising it raises the BACKLOG, which is
+   the artefact the operator triages, and leaves the build volume where §5 put
+   it. A sweep that finds five things in a 24-file context has not been
+   disciplined; it has been incurious, and it has left the operator a backlog
+   that under-describes their own repository.
+
+   **Budget: 12 findings per context per round.** `--depth N` overrides; `--one`
+   raises it to 20, because a named context is a deliberate deep dive.
+   **Lifetime cap per context: 40.** Subtract what prior snapshots already
+   reported, and never re-emit a finding already reported or present in the
+   backlog digest.
+
+   **THE BUDGET MUST BE ABLE TO ABSORB THE PACKAGE YOU RAN.** A 22-lens package
+   against a 5-item budget is exhausted by lens three, and the other nineteen
+   have nowhere to put anything — they become coverage RECORDING, the ledger
+   reads 22/22, and the round reports a clean tail it never had room to hear.
+   If you narrow the budget, narrow the package with it (`--lenses`), or the
+   coverage number is a lie you told yourself. Measured 2026-08-27: a 5-item
+   budget over a full package yielded **0.098 findings per lens-pass** against
+   the same repository's **1.63** under a 6-lens package a fortnight earlier —
+   17× less, from 3.6× more lenses.
 5. **Score both sides of every candidate.** *Reward* = user-visible or
    developer-measurable gain (impact 1-10). *Risk* = chance of breaking working
    code, plus churn — lines rewritten per unit of gain (1-10). These two numbers
@@ -135,6 +157,28 @@ field.
    is the test derived from that or from the list?* A test that reads the
    implementation's own list is coverage theater, and this class produces the
    highest-impact findings a sweep can find.
+
+8. **BEFORE you declare the round, check the yield.** A full package over a
+   context of ten files or more should produce roughly **8-12** findings. Fewer
+   than **6 is a signal about YOUR PASS, not about the codebase** — the usual
+   cause is that you read the deep tier and let the tail report "nothing real"
+   without ever pointing it at anything. Under 6, do one more pass before
+   declaring: open the two largest files you only skimmed, and drive the three
+   never-applied lenses at something specific rather than at the context in
+   general.
+
+   A genuinely clean round is possible and must stay reportable — but it is a
+   CLAIM, so state what you did to earn it: which files you read in full, which
+   hypotheses you traced and why each failed. "Nothing found" and "nothing
+   looked for" produce identical reports otherwise, and only one of them is a
+   result. Measured 2026-08-27: eight of thirteen rounds returned two findings
+   or fewer, none hit the budget, and re-running one of them under this clause
+   found the yield had been the method's, not the repository's.
+
+9. **A clean lens is only credible once the tier around it has spoken.** If an
+   entire tier reports nothing, name the three things in it you actually
+   checked. The tail's job is coverage AND a lighter hunt — it is not a list of
+   keys to write into the ledger.
 
 ## 5. Routing — size decides who approves
 
@@ -256,13 +300,30 @@ Work the approved queue highest-reward first, one finding at a time:
    not run is a gate that did not pass**: say so in the report and mark the round
    degraded.
 
-   **Read the gate's OWN exit code, not the exit code of what you piped it
-   into.** `npm run typecheck | tail -3 && git commit` takes `tail`'s status,
-   which is always 0, so the chain commits over a red gate and the failure
-   scrolls past in the output you were trimming. Run the gate on its own line and
-   assert it — `npm run typecheck; echo "TC=$?"` — before the commit command
-   exists. Measured: this defeated the rule above once in a single session, in a
-   sweep whose subject was gates that cannot fail.
+   **ASSERT the gate's own exit code. Reading it is not asserting it, and
+   piping it away destroys it.** Three ways this rule has actually been defeated,
+   all in one session, each by the shell rather than by the code:
+
+   - `npm run typecheck | tail -3 && git commit` takes **`tail`'s** status,
+     always 0. The chain commits over a red gate and the failure scrolls past in
+     the output you were trimming.
+   - `npm run typecheck; echo "TC=$?"; git commit` **prints** the failure and
+     commits anyway. A number in the transcript is not a gate; `;` is not `&&`.
+   - The gate is red for a reason that is **not yours** — see below.
+
+   The shape that holds: run each gate in its own invocation, `&&`-chained so a
+   non-zero status stops everything, and let the commit be the last link.
+
+   **Under a concurrent session, a whole-tree gate says nothing about your
+   change.** `tsc --noEmit` covers every file in the repository, so a sibling
+   agent mid-write turns your verification red and a *passing* run can equally
+   depend on their unfinished work. Before treating a red whole-tree gate as
+   yours, get the failing paths and compare them against the files you touched;
+   if none of them are yours, say so, verify what you can scope to your own
+   files, and wait for the tree to settle rather than committing into it. §7's
+   parallel rules cover STAGING and stopped there — verification has the same
+   hazard and it is easier to miss, because the output looks like a verdict on
+   you.
 3. Commit message `fix(<context>): <finding title>`, with a body line naming the
    lens — the finding's provenance survives in history.
 4. **A fix that grows beyond its size class mid-flight is demoted, not forced.**
@@ -282,6 +343,15 @@ Work the approved queue highest-reward first, one finding at a time:
    containing a backslash, and after ANY scripted edit to a checker, seed the
    thing it looks for and watch it go red. A gate that cannot match reports a
    clean codebase in a voice indistinguishable from success.
+
+7. **A source-scanning gate must strip comments before it matches.** The files a
+   sweep writes explain the rule in prose, directly above the code that
+   implements it — so a matcher run over raw text is satisfied by a file that
+   TALKS about the rule and does not follow it. Measured twice in one session: a
+   probe passed against a deliberately broken subject because the word it looked
+   for survived in the comment describing the fix. Strip `//` and `/* */` first,
+   then match, and let the fail-before be what tells you — it is the only step
+   that catches this, and it caught it both times.
 
 **Parallel-session rules** — several sweeps may share this repo, one context each:
 
@@ -349,10 +419,13 @@ the coverage record), plus one for the round:
 ```
 
 Keep the outbox lean — ingest caps at 200 lines / 512 KB and 30 finding lines per
-pass. A loop that runs many rounds must stay inside that cap across ALL of them:
-at 5 findings per context that is roughly six rounds' worth of findings, so if
-the outbox is consumed between rounds you may keep going, and if it is not, stop
-the loop at the cap and say so.
+pass. At 12 findings per context that is between two and three rounds, so the
+loop WILL meet this cap: check whether the file was drained between rounds (the
+app deletes it on ingest), keep going if it was, and if it was not, emit the
+round's findings highest-reward first, stop at the cap, and say in the report
+which findings did not fit and that they are unrecorded. A finding silently
+dropped for want of a line is worse than one never found, because the ledger
+will claim the context was swept.
 
 ## 10. Persist a snapshot
 

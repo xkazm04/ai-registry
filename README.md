@@ -204,12 +204,13 @@ slash commands for anyone working *on* the registry, not library items.
 slug and must match the directory. `description` is one paragraph - it is how an agent decides
 whether to use the skill without reading the body, so it carries the trigger first.
 
-### Practices (4)
+### Practices (5)
 
 | Practice | Dimension | Starter |
 | --- | --- | --- |
 | [`agent-guidance`](practices/agent-guidance/PRACTICE.md) | D1 | [`AGENTS.md`](practices/agent-guidance/starter/AGENTS.md) |
 | [`local-first-readme`](practices/local-first-readme/PRACTICE.md) | D5 | [`README.md`](practices/local-first-readme/starter/README.md) |
+| [`prior-art-teardown`](practices/prior-art-teardown/PRACTICE.md) | D5 | [`docs/prior-art/`](practices/prior-art-teardown/starter/docs/prior-art/EXAMPLE.md) |
 | [`open-contribution`](practices/open-contribution/PRACTICE.md) | D5 | [`.github/` templates](practices/open-contribution/starter/.github/PULL_REQUEST_TEMPLATE.md), [`CODEOWNERS`](practices/open-contribution/starter/CODEOWNERS), [`CODE_OF_CONDUCT.md`](practices/open-contribution/starter/CODE_OF_CONDUCT.md) |
 | [`supply-chain-security`](practices/supply-chain-security/PRACTICE.md) | D9 | [`SECURITY.md`](practices/supply-chain-security/starter/SECURITY.md), [`supply-chain.yml`](practices/supply-chain-security/starter/.github/workflows/supply-chain.yml) |
 

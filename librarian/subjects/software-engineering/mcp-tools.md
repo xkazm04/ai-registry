@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-08-24
-touched_by: research, external-reconcile, deepen
+last_touched: 2026-08-27
+touched_by: research, external-reconcile, deepen, intake
 dry_streak: 0
 ---
 
@@ -122,3 +122,51 @@ None.
 
 - 2026-08-22-8: **checks on unless deliberately removed** (opt-in-guard family) applied to `transport-selection` ([[2026-08-22-8]]).
 - 2026-08-22-10: `transport-selection` now cites the promoted `absent-guard-is-loud` law ([[2026-08-22-10]]).
+
+
+## 2026-08-27 - /intake, from an open-tree vendor repository ([[2026-08-27-openexecutive-virtual-executive]])
+
+Gained `egress-argument-gating` (7 -> 8 techniques). Registered bidirectionally.
+
+**Found by the asymmetry hunt, and it is a clean instance of it.**
+`authentication-and-scoping` models the inbound question in full - who is calling, what
+may they reach. The outbound question gets **one bullet** inside
+`untrusted-result-handling`: *constrain which tools can move data out*. That is a policy,
+not a mechanism. Both files "cover" the seam and score identically to a slug map; only
+opening both shows that one has a model and the other has a sentence.
+`security/credential-vault/brokered-egress` is a different concern - whether the caller
+may hold the secret, not who may receive the resource - and is not a duplicate.
+
+What the gateway in the source demonstrated that one bullet cannot:
+
+- **Two orthogonal scans, each blind where the other sees.** A value-shaped scan (every
+  string value, identifier-shaped tokens must resolve to the allow-list) survives unknown
+  field names, which is its whole purpose over a third-party schema. A key-shaped scan
+  survives capabilities modelled as booleans or enums, which carry no identifier for the
+  value scan to find. The gateway **writes its own residual hole down** - a novel key name
+  carrying a non-string value - and that practice went into the technique, because a gate
+  whose limits are unstated is read as total.
+- **Strategy is chosen by whether the argument surface is enumerable**, and both
+  strategies live in one file: a stable tool gets a *key* allow-list (an unknown key is
+  where a recipient smuggles in via a raw blob or custom headers); an unstable one gets
+  the value scan. Prefer the loud failure wherever the schema permits it.
+- **A principal allow-list cannot express a population.** The sharpest sentence in the
+  repository. A roster answers *is this person permitted*; a share-to-anyone or a
+  whole-domain grant has no principal, so the check finds nothing to reject and returns
+  allowed - the widest possible grant passing cleanly through a well-formed check asked
+  the wrong question. Refused categorically, by a rule that runs *before* the allow-list.
+- **The gate is directional.** Narrowing access stays permitted; only widening trips it.
+  A gate that refuses the operation blocks the remediation as firmly as the breach.
+
+Boundary stated in the document rather than linked: this is a host-side gate on the call,
+and it does not replace the server-side entitlement check that `gate-sees-target` already
+requires - the host is the only party that knows the sanctioned set, the server the only
+one that can read the resource.
+
+## Open leads
+
+- **Tool-server process topology follows tenancy cardinality.** The source co-locates a
+  tool server as a child process rather than a separate service, argued from the product
+  being single-tenant - one install, one organisation, one account - so the server is
+  inherently one-per-install. Adjacent to `transport-selection`. Return when a second
+  source argues topology from cardinality; one instance is a habit, two is a rule.
