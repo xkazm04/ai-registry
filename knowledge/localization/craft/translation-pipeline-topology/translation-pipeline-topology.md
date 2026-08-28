@@ -16,6 +16,7 @@ techniques:
   - canonical-fallback-serving
   - language-registry-single-source
   - hand-authored-exception-contract
+  - source-identical-value-audit
 ---
 
 # Translation pipeline topology
@@ -95,6 +96,27 @@ three obligations hold:
   unit of progress is the published shard — an attempted run that could
   not publish is compute spent on nothing, forever.
 
+## What the reviewed topology owes its consumers
+
+The committed catalog makes the stronger claim — *a human stands behind this* —
+and therefore carries the harder obligation: the claim has to be checkable at
+the door, because nothing downstream can tell a reviewed string from a
+placeholder by looking at it.
+
+- **Key parity is not a coverage number.** That every locale carries every key
+  says a key exists, never that its value was translated; and per-unit fallback
+  actively hides the difference, rendering source-language text that reads like
+  a shipped translation. Translatedness has to be recovered from the values —
+  by comparing each against the source locale, against a committed allowlist of
+  the values legitimately allowed to match
+  ([source-identical-value-audit](./techniques/source-identical-value-audit.md);
+  [coverage is counted, not claimed](../../_laws.md#coverage-is-counted-not-claimed)).
+- **The floor of that check is per-locale, and it is a terminology decision.**
+  How much of a correct catalog legitimately matches its source is set by the
+  target's script and borrowing register, not by how well it was translated — so
+  the allowlist is enumerated and ruled against each language's termbase, never
+  reduced to one percentage across locales.
+
 ## Failure modes this subject exists to prevent
 
 - **Trust-class laundering** — unreviewed machine output committed as if
@@ -110,6 +132,10 @@ three obligations hold:
   at pipeline scale).
 - **The silent hand-authored rot** — committed exception pages drifting
   from a canonical that moved, with no staleness check tying them back.
+- **Parity mistaken for coverage** — a green key-parity build read as a
+  translation claim, in a catalog format that cannot represent "untranslated"
+  and a type contract that makes copying the source value the only legal way to
+  add a key.
 
 ## Boundary
 

@@ -4,8 +4,8 @@
   "bundle": "localization",
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 14,
-  "techniques": 84,
-  "applications": 27,
+  "techniques": 85,
+  "applications": 28,
   "laws": 7,
   "categories": [
    "european",
@@ -15,7 +15,7 @@
    "craft"
   ],
   "layout": "nested",
-  "use_when_coverage": "84/84",
+  "use_when_coverage": "85/85",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1347,6 +1347,23 @@
       "avoiding re-translating unchanged source files",
       "sharing translation progress across runners"
      ]
+    },
+    {
+     "slug": "source-identical-value-audit",
+     "status": "forged",
+     "laws": [
+      "coverage-is-counted-not-claimed",
+      "the-authority-is-a-hypothesis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how to prove a committed catalog was actually translated",
+      "key parity is green and translatedness is still unknown",
+      "wiring a gate that rejects untranslated values",
+      "an untranslated-value check fires on a locale that is fully translated",
+      "choosing a catalog format for a product that will ship many locales",
+      "comparing coverage across locales with different scripts"
+     ]
     }
    ],
    "applications": [
@@ -1355,6 +1372,12 @@
      "technique": "canonical-and-derived-split",
      "file": "knowledge/localization/craft/translation-pipeline-topology/applications/process--canonical-and-derived-split.md",
      "verified_on": "2026-08-26"
+    },
+    {
+     "stack": "process",
+     "technique": "source-identical-value-audit",
+     "file": "knowledge/localization/craft/translation-pipeline-topology/applications/process--source-identical-value-audit.md",
+     "verified_on": "2026-08-28"
     }
    ]
   },
@@ -1613,6 +1636,7 @@
     "russian/terminology-and-loanwords",
     "spanish/register-and-address",
     "spanish/terminology-and-loanwords",
+    "translation-pipeline-topology/source-identical-value-audit",
     "vietnamese/terminology-and-loanwords"
    ]
   },
@@ -1622,7 +1646,8 @@
     "translation-pipeline-topology/canonical-and-derived-split",
     "translation-pipeline-topology/canonical-fallback-serving",
     "translation-pipeline-topology/language-registry-single-source",
-    "translation-pipeline-topology/sharded-translation-ci"
+    "translation-pipeline-topology/sharded-translation-ci",
+    "translation-pipeline-topology/source-identical-value-audit"
    ]
   }
  }
