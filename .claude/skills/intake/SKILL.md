@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.16.0
+version: 0.17.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -30,6 +30,7 @@ ORIGINATES a finding. It never AUTHORIZES one.**
 ```
 /intake <url|path|->          # the full loop: ingest, map, triage, land
 /intake <url> --leads-only    # stop at the vault note; change no published content
+/intake <url> --spec-only     # write an XL spec but do not forge it in this session
 /intake <url> --domain <d>    # constrain routing to one bundle
 /intake status                # read the source ledger, touch nothing
 /intake reflect               # update LESSONS.md and this method from recent runs
@@ -432,6 +433,31 @@ note nobody acts on:
 Say plainly why it was proposed rather than written. A spec that does not argue its own
 `XL`-ness reads as an excuse.
 
+**Then execute it in the same session.** A spec is proposed rather than written because
+one author's account is thin evidence for a whole subject - not because the work should
+wait. The evidence that made it `XL` is loaded *now*: the neighbours are open, the
+boundary is argued, the placement is verified. Ending the session with a banked spec
+throws that context away, and the next session pays to rebuild it before it can start
+(operator rule, 2026-08-28). So once the spec is written and the operator has picked
+it - or, unattended, once it is the run's highest-impact row - **dispatch one forge
+worker on it before Phase 9**, and stay in the director's chair:
+
+- The worker reads `docs/forge-brief.md`, `docs/harvest-brief.md`, `docs/rkb-profile.md`,
+  the spec, and every neighbour the spec names, in that order; drafts expert-first with
+  the spec's listed primaries as its web budget; reconciles read-only against any
+  connected tree the bridge names; runs the gate on its own subject; runs no git.
+- The intake session reviews the diff, never the report: gate, purity grep against the
+  source's own vocabulary, one cited line opened, `use_when` on every technique, the
+  taxonomy entry appended not reordered. Then regenerate index and catalog, update the
+  bundle tables, mark the spec `EXECUTED` with the overrides recorded, write the subject
+  note, and commit with a pathspec - the forge's own Phase 4, run by this skill.
+- `--spec-only` banks the spec without forging; use it when the operator says hold, or
+  when the spec spans more than one subject, which is `/forge`'s job and not one
+  worker's.
+
+The forge worker is the only agent this skill dispatches, and it is dispatched exactly
+once per spec.
+
 **Verify every structural claim in the spec against the authority, not against a count.**
 A dispatch that names the wrong category sends a worker to build in a folder the tooling
 rejects. On 2026-08-22 a spec asserted a category was flat and under its cap, from a
@@ -600,6 +626,9 @@ seen three times is a rule this file should carry.
 - **Treating a currency signal as a content gap.** "The world moved" is a clock reset
   or a dispatch, not a new technique.
 - **Editing a connected project without asking, or pushing its branch.**
+- **Banking an XL spec and ending the session.** The context that argued the spec is
+  the cheapest forge input the registry will ever have for it; dispatch before Phase 9
+  unless `--spec-only` was asked for.
 - **Committing to a connected project on an unpaired claim.** A technique landing in
   a tree is a measurement with two arms, or it is a branch.
 - **Committing without a pathspec in a shared checkout.**

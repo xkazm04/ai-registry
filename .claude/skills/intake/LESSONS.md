@@ -1,5 +1,18 @@
 # Lessons - intake (formerly research)
 
+## 0.16.0 - 2026-08-28 - plan-review execution (bumped to 0.17.0 in the same change)
+
+- **An XL spec is now forged in the same session, by this skill, as the natural
+  continuation of Phase 7.** The previous run ended with the spec banked and the
+  operator had to reopen the session to say "execute it"; every neighbour the spec
+  argued from had to be re-read. The rule: dispatch one forge worker under the forge
+  and harvest briefs before Phase 9, review the diff in the director's chair, commit
+  with a pathspec, mark the spec EXECUTED. `--spec-only` is the opt-out; a multi-subject
+  spec still goes to `/forge`.
+- The worker is dispatched with the spec's primaries as its web budget and read-only
+  access to the project bridge; it runs no git. Same shape as the 2026-08-22 and
+  2026-08-27 executions, now written down instead of remembered.
+
 ## 0.15.0 - 2026-08-28 - ai-literacy-superpowers-concepts (bumped to 0.16.0 in the same change)
 
 - **The dispatch arrived as two things at once - a batch to mine and a phase to add -
