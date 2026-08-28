@@ -95,6 +95,47 @@ is uncorrelated with correctness. On 2026-08-27 the video's most persuasive pitc
 the single placement where its own rule inverted. Read the best segment as a candidate
 counter-case.
 
+## Vendor release announcement
+
+The vendor's own post about the vendor's own release. It looks like the **release
+walkthrough** and is its opposite, which is the only thing about this class worth
+memorising. A walkthrough is organised around *changes*, and a change carries its own
+motivation - the author says what was wrong before, because that is the reason the
+release exists. An announcement is organised around **changes the vendor is proud of**,
+which inverts exactly that property: it states what is now possible and never what was
+wrong, because what was wrong was its own previous version.
+
+> A release walkthrough states failure modes. **An announcement states NUMBERS, and its
+> numbers are the yield.** The prose around them is the strip test's problem.
+
+Route on that sentence. The prose is product names, customer quotes and example prompts,
+and the strip test deletes all of it. The numbers - a context window, a cap, an
+increment, a price ratio, a reference limit - are portable claims about how a capability
+is *shaped*, and a shape survives the strip test even when the product does not. On
+2026-08-28 every accepted finding came from a number and not one came from a sentence.
+
+**The fetch is the extraction here, for a reason specific to this class.** An
+announcement is not lying; it is *rounding toward the sale*, and it rounds away exactly
+the mechanism. The 2026-08-28 post said the model "can now analyze up to 10 seconds of
+prior context" - compatible with selecting ten seconds from anywhere in the clip. The
+API documentation said it uses **"the last 10s"**. A trailing window and a sample behave
+differently, the whole finding lived in that difference, and *which* ten seconds is not
+a selling point, so the marketing surface had no reason to carry it. Budget one fetch to
+the vendor's own reference docs before writing anything from an announcement's numbers,
+and expect the doc to make the finding bigger than the post did.
+
+Two further habits this class rewards:
+
+- **Read the code sample, not the feature list.** It is the one part of an announcement
+  written by someone who had to make it run, and it leaks the request shape - what is a
+  typed parameter, what is a response-format property, what is addressed by id rather
+  than by value - which is the part a pipeline has to model.
+- **Expect the corpus to be ahead of it on craft.** An announcement demonstrates a
+  feature and states no operating rules, so a subject already worked by practitioner
+  sources will usually own the feature's failure modes already. Three of this class's
+  first four candidates resolved as catches where the corpus carried the construction
+  rule and the vendor carried only the demo. Predict that out loud at Phase 5.
+
 ## Practitioner build-walkthrough
 
 A builder narrating a personal tool they made. A hybrid whose two halves have **opposite

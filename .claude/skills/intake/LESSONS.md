@@ -1925,3 +1925,56 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   with anchors and nearest prior art, per the vocabulary rule. Row 4 (the *regressed*
   cell a shallow reflection loop never computes) flagged in both the note and the
   subject note as the likeliest real finding on a second look.
+
+## 0.14.0 - 2026-08-28 - gemini-omni-1-1-flash
+
+Operator dispatch: a vendor's release post plus "and impact on gravitone project".
+1 accepted, 3 caught, 3 declined at the gate, 5 untriaged. 2 of 3 fetches.
+
+- **New class: the vendor release announcement, and it is the release walkthrough's
+  opposite.** The walkthrough row says seek it out because a change carries its own
+  motivation - the author says what was wrong before. An announcement is organised
+  around changes the vendor is *proud of*, which inverts that: it states what is now
+  possible and never what was wrong, because what was wrong was its own last version.
+  The discriminator now in the class file: **a walkthrough states failure modes; an
+  announcement states numbers, and its numbers are the yield.** Every accepted finding
+  came from a number; none from a sentence.
+- **The fetch is the extraction here, for a class-specific reason: an announcement
+  rounds toward the sale, and it rounds away the mechanism.** The post said the model
+  "can now analyze up to 10 seconds of prior context" - compatible with sampling ten
+  seconds from anywhere. The API doc said **"the last 10s"**. Trailing window versus
+  sample is the entire finding, and *which* ten seconds is not a selling point, so
+  marketing had no reason to carry it. The first fetch also missed (general video page,
+  no numbers) and named the second - budget for the miss.
+- **A source can correct the corpus one day after the corpus wrote the error.** The
+  "whole previous clip" wording came from run 25 (2026-08-27) via a practitioner batch;
+  a vendor doc refuted it on 2026-08-28. Cross-run convergence is the cheap corroboration
+  the method advertises, but cross-run *contradiction* at one-day range is a different
+  and sharper signal: it says the subject is being written faster than it is being
+  verified. Worth watching on any subject with three runs inside a week.
+- **Phase 6.1 paid again, against my own summary.** I believed
+  `resolution-as-stage-property` had an upscale-shaped hole in its "promotion re-renders,
+  so it is a risk event" enumeration. It already prefers true upscaling of accepted
+  pixels over re-sampling, for exactly the stated reason. The correction would have been
+  a phantom fix. The enumeration hunt is high-yield precisely because it *usually* fails
+  - report the failures too.
+- **A subject can be worked into the wrong shape by successive correct findings.** The
+  2026-08-27 subject note said the conditioning ladder carries five riders and the next
+  pass should rebuild the golden path around a widened ladder "rather than accreting a
+  sixth section." This run accreted the sixth, because an amendment was the honest
+  landing for the content. Both facts are true, and the resolution is not an intake job.
+  **When a subject note names a structural debt and the current run increases it, say so
+  in the note and name the dispatch** - otherwise each individually-correct amendment
+  makes the restructure less likely to ever happen.
+- **`build-catalog.mjs` cannot be scoped to the files you own.** It scans the filesystem,
+  so with a parallel session live it silently encoded that session's uncommitted
+  technique count (982 -> 984) into `catalog.json`, and `build-index.mjs` did the same to
+  `knowledge/software-engineering/index.json`. CI checks both. The working resolution:
+  revert the foreign index, then **hand-patch only your own bundle's `contentHash` row in
+  the catalog** rather than regenerating it. Check `build-knowledge-rules --check` too -
+  it reported media-generation *current*, which is how you confirm an amendment changed
+  no counts and the rules view is not yours to regenerate.
+- Operator picked 1 of 3 recommended rows, declining the currency reset and the named
+  consumer application. **The project was named in the invocation and still declined at
+  the gate** - the invocation confirms the lane, it does not pre-approve the row. No tree
+  was touched. Decline reasons owed; asked batched.
