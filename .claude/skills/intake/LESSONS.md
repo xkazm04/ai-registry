@@ -1804,3 +1804,60 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   matter, the fraction touching our own machinery is far higher than for an
   ordinary vendor source, and the usual n=1 discount does not apply to what the
   tree can be read against directly.
+
+## 0.14.0 - 2026-08-28 - acceptmarkdown-reference
+
+- **New class: the standards index.** A curated link hub whose own body is below
+  the ingest floor by construction (281 words, `research-ingest` exit 3, correctly)
+  and whose children are PRIMARY - specifications and registries, not commentary.
+  It superficially matches the second-hand survey row (somebody else's links) and
+  is its exact opposite: a survey is reliable only for *that* the world moved,
+  while a standards index points at documents that authorize a golden path
+  outright, with no convergence wait and no second source. **Expected yield is
+  high, and saying so before the triage table mattered** - the instinct on seeing
+  exit 3 is to report the source as thin and stop, which would have missed a whole
+  missing layer. Corrective: ingest the hub for its link list, then run the children
+  as a batch. `--min-words` on the hub answers nothing for this class.
+- **The budget line to watch is corroboration, not fetches.** Six fetches, all
+  extraction, corroboration cost ZERO - the inverse of the review/listicle
+  economics the 3-fetch rule was written for. When the children ARE the primaries,
+  the expensive half of the budget never gets spent. Worth stating in the note in
+  those terms rather than reporting "6 of 3" as an overrun.
+- **Read a standards index adversarially; its framing is the least reliable thing
+  on it.** Both of this hub's framing errors were worth more than its correct
+  links. It filed alternate-address publishing under *proactive* negotiation when
+  that is *reactive*, hiding a real cache trade - which became the proposed
+  subject's first technique. And it asserted a refusal status is "the right
+  response" when the standard says an origin may honour OR disregard the
+  preference; that correction is now written INTO the proposed technique so the
+  received wisdom cannot enter through the back door. Fourth run where a source
+  located something true and explained it wrongly, and the first where the
+  *curation* rather than the content was the thing that was wrong.
+- **A standards index mis-citing its own headline entry is this class's
+  characteristic failure, and it costs one grep.** This one cited "RFC 9110
+  SS12.5.1 Proactive Content Negotiation"; SS12.5.1 is `Accept` and proactive
+  negotiation is SS12.1. Not registry content - but for a source whose entire
+  value is its citations, spot-check one before trusting the set.
+- **An enumeration stated TWICE in one file is the strongest form of the hunt,
+  and it is a new reusable tell.** Eighth consecutive run the enumeration hunt has
+  paid. `web-scraping` gives its alternatives ladder in the opening prose and
+  again as a four-bullet section; neither contained the same page in another
+  representation from the same server. When an author reaches for a list from two
+  directions and gets the same set both times, the gap is in the model rather than
+  in the typing - which is exactly when it is safe to propose against it.
+- **The naive reading of the source's own thesis was wrong, and the primaries are
+  what showed it.** "Negotiation replaces scraping" holds only for a representation
+  authored at the origin; the common managed case converts the same markup on the
+  fly and inherits the redesign it appeared to protect against. Landing the
+  enthusiast's version would have shipped a technique that *relaxes* the subject's
+  shape-change instruments - turning its detector into a blindfold. Carry the
+  general form: when a source's claim would let a downstream subject drop a
+  safeguard, that is the claim to verify hardest, not the one to accept because it
+  is well sourced.
+- **Zero declines, and that is a property of the class rather than a soft triage.**
+  Primary standards do not produce the half-corroborated middle that generates
+  declines - a claim either has a normative sentence behind it or it does not.
+  Expect the decline ledger to learn nothing from this class, and do not pad it.
+- Gate note: `build-index --check` was stale on arrival from an earlier commit that
+  added a technique without rebuilding the index. Phase 1 caught it, which is what
+  Phase 1 is for; regenerated and folded in rather than left for the next run.
