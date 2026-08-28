@@ -19,16 +19,20 @@
  *
  * ## The split
  *
- * - `projects.json` — COMMITTED. Which projects exist, which machines each one
- *   is checked out on, and its path RELATIVE to that machine's root. Portable
- *   by construction: no user names, no drive letters, no absolute anything.
+ * - `projects.json` — COMMITTED. Per project, a `checkouts` map from MACHINE to
+ *   the path that project sits at on that machine, relative to that machine's
+ *   root. Portable by construction: no user names, no drive letters, no
+ *   absolute anything.
  * - `.machine.local.json` — GITIGNORED, and the only machine-specific file
- *   left. Three fields: which machine this is (`Fox`, `Wolf`, …), the root the
- *   relative paths hang off, and the contributor id for the published lanes.
+ *   left: which machine this is (`Fox`, `Wolf`, …), the root the relative paths
+ *   hang off, the contributor id, and an optional `overrides` map for a
+ *   checkout that cannot be expressed relative to that root (another drive).
  *
- * A project can be checked out on several machines at once — that is what the
- * `machines` array is for — and a machine that does not have it simply resolves
- * nothing for that slug rather than erroring.
+ * **One project, several machines, a DIFFERENT path on each.** That is the whole
+ * point of `checkouts` being a map rather than one path plus exceptions: the
+ * keys are the machines the project exists on, each carries its own path, and a
+ * machine absent from the map simply resolves nothing for that slug rather than
+ * erroring. Adding a machine is adding one key.
  *
  * ## Where domains come from, and why not from here
  *
@@ -118,20 +122,27 @@ export function loadFleet(root = process.cwd()) {
   if (!machine) problems.push(`${MACHINE_FILE} declares no "machine" name`);
   if (!base) problems.push(`${MACHINE_FILE} declares no "root"`);
 
+  const overrides = machineCfg.overrides ?? {};
   const projects = {};
   for (const [slug, decl] of Object.entries(fleetCfg.projects ?? {})) {
-    const machines = decl.machines ?? [];
-    // Not checked out here. Not an error: the fleet is bigger than any one box.
-    if (machine && machines.length && !machines.includes(machine)) continue;
-    const rel = decl.pathOverrides?.[machine] ?? decl.path;
-    if (!rel) { problems.push(`${slug}: no path declared for ${machine ?? 'this machine'}`); continue; }
-    const abs = base ? path.resolve(base, rel) : path.resolve(rel);
+    // A local override wins: it is how a machine declares a checkout that does
+    // not sit under its root at all, without putting an absolute path in the
+    // committed file.
+    const override = overrides[slug];
+    const rel = override ?? decl.checkouts?.[machine];
+    // Absent from `checkouts` means "not on this machine". That is a normal
+    // state, not a problem: the fleet is bigger than any one box.
+    if (!rel) continue;
+    const abs = override
+      ? path.resolve(override)
+      : base ? path.resolve(base, rel) : path.resolve(rel);
     const exists = fs.existsSync(abs);
     if (!exists) problems.push(`${slug}: checkout not found at ${rel}`);
     projects[slug] = {
       slug,
       path: abs,
       relPath: rel,
+      machine,
       exists,
       // The project declares what governs it. See the header.
       domains: exists ? domainsOf(abs) : [],

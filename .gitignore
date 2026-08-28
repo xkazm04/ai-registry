@@ -20,13 +20,15 @@ node_modules/
 # along with the machine-specific one tenth, and a second machine could not read any of
 # it. Redesigned 2026-08-28:
 #
-#   projects.json          COMMITTED. Slug -> path RELATIVE to a machine root, plus the
-#                          machines each project is checked out on. No user names, no
-#                          drive letters, nothing machine-specific. Reviewed like any
-#                          other registry file.
-#   .machine.local.json    IGNORED, below. Three fields, and the only ones that cannot
-#                          be shared: which machine this is (Fox, Wolf, ...), the root
-#                          the relative paths resolve against, and the contributor id.
+#   projects.json          COMMITTED. Per project, a `checkouts` map: machine -> the
+#                          path it sits at on THAT machine, relative to that machine's
+#                          root. One project can be on several machines at a different
+#                          path on each. No user names, no drive letters, nothing
+#                          machine-specific. Reviewed like any other registry file.
+#   .machine.local.json    IGNORED, below, and the only file that cannot be shared:
+#                          which machine this is (Fox, Wolf, ...), the root the
+#                          relative paths resolve against, the contributor id, and an
+#                          optional `overrides` map for a checkout that lives off-root.
 #
 # `registry.yaml`'s guarantee is unchanged - nothing published here points into a private
 # tree, because a relative path names no tree until a machine root is supplied.

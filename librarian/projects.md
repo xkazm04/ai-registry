@@ -43,8 +43,24 @@ from the other side, as counts, or not at all.
 ## Machines
 
 The fleet has named machines, and a project can be checked out on more than one at
-once. `projects.json` records **where** (`path`, relative) and **on which**
-(`machines`); `.machine.local.json` records **which machine this is**.
+once, **at a different path on each**. `projects.json` gives every project a
+`checkouts` map — machine name -> that machine's own relative path:
+
+```json
+"personas": {
+  "checkouts": {
+    "Fox":  "dolla/personas",
+    "Wolf": "code/personas"
+  }
+}
+```
+
+The keys ARE the machines it exists on; a machine absent from the map does not have
+it, and resolving there yields nothing rather than an error. Adding a machine is
+adding one key. `.machine.local.json` says which machine this is, the root those
+paths resolve against, and — for a checkout that cannot be expressed relative to
+that root at all (another drive) — an optional `overrides` map, which is where an
+absolute path is allowed to live because that file is never published.
 
 | Machine | Role |
 | --- | --- |
