@@ -33,3 +33,7 @@ node_modules/
 # the file for as long as the review takes, then let it go.
 fleet-*.proposals.json
 .worktrees/
+
+# Benchmark evidence: regenerable run rows and worktrees. Per rkb-profile §5 the
+# FINDING is what gets committed, not the evidence it was derived from.
+.bench/
