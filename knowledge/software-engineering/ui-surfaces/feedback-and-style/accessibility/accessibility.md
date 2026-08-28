@@ -10,6 +10,7 @@ techniques:
   - name-and-description-wiring
   - preference-respect
   - a11y-verification
+  - assistive-tech-divergence
 ---
 
 # Accessibility
@@ -178,8 +179,9 @@ name, steal a tab stop, or mount a live region too late — and none of
 those regressions are visible to the sighted, mouse-driven developer who
 ships them. A one-time audit therefore certifies only the past. The claim
 "this product is accessible" is real only while **gates** keep it true:
-automated audits in continuous integration (honest about their ~one-third
-detection ceiling), unit tests that assert the *screen-reader-visible*
+automated audits in continuous integration (honest about a detection
+ceiling whose headline size depends entirely on what is being counted),
+unit tests that assert the *screen-reader-visible*
 output — computed names, announcement sequences, focus destinations — a
 contrast floor enforced where colors are defined, and scripted keyboard
 walks that prove reachability. Each gate must observe the thing it
@@ -189,6 +191,33 @@ element *has* a live-region attribute passes on a region mounted too late
 to ever speak. The layered verification stack, and what still requires a
 human with a real screen reader, is
 [a11y-verification](./techniques/a11y-verification.md).
+
+## The delivery layer is a grid, not a platform
+
+Every contract above is delivered to the user by an assistive technology
+paired with a browser — and that delivery layer is not one
+implementation. It is a handful of independently built products that
+read the same markup and disagree about what to do with it, because the
+standards specify what a role or a live region *means* far more
+precisely than they specify the timing and eventing an assistive
+technology must observe to notice one. Where a specification was quiet,
+each implementation answered on its own, and the answers stuck.
+
+Two consequences run through the whole subject. First, **"tested with a
+screen reader" is a claim about one pairing**, so the pairings a product
+is held to are written down and chosen deliberately, and every pairing
+outside that list is untested rather than working
+([unknown-is-not-a-value](../../../_laws.md#unknown-is-not-a-value)).
+Second, and more useful day to day, divergence is mostly *designed
+away* rather than branched around: prefer the mechanism whose signal is
+unmistakable to every implementation over the one that is merely
+conformant, which is a large part of why this subject's machinery looks
+the way it does — a region that exists before the news, a mutation no
+reader has to judge, a native control over a reconstructed one.
+
+What to hold, how to tie-break when two pairings genuinely disagree, and
+why the odd-looking workaround must not be tidied away, is
+[assistive-tech-divergence](./techniques/assistive-tech-divergence.md).
 
 ## Boundaries
 
@@ -235,3 +264,7 @@ mechanics and are held to this subject's standard:
 - [a11y-verification](./techniques/a11y-verification.md) — audit layers,
   screen-reader-output assertions, the contrast gate, keyboard walks, and
   the human pass nothing replaces.
+- [assistive-tech-divergence](./techniques/assistive-tech-divergence.md) —
+  the held pairing list, mechanisms no reader has to interpret, the
+  failure ranking that tie-breaks a disagreement, and why a pairing
+  workaround is load-bearing code.

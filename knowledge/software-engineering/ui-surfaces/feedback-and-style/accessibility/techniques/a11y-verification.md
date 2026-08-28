@@ -31,15 +31,29 @@ states, and treat findings as build failures, not dashboard entries.
 
 Two honesty requirements:
 
-- **The ceiling is real and stated.** Rule engines detect roughly a
-  third of the defects a human audit finds — they cannot judge whether
-  a name is *meaningful*, whether focus order is *sensible*, whether an
-  announcement fires at the right moment. A green audit is a floor
-  cleared, and any report that presents it as "accessible: yes" is
-  laundering a partial measurement into a total claim
+- **The ceiling is real; the single number is not.** Rule engines
+  cannot judge whether a name is *meaningful*, whether focus order is
+  *sensible*, whether an announcement fires at the right moment — so a
+  green audit is a floor cleared, and any report presenting it as
+  "accessible: yes" is laundering a partial measurement into a total
+  claim. But the coverage percentages in circulation disagree with each
+  other by a factor of two or more, and they disagree because they
+  count different populations: the share of *success criteria* a rule
+  engine can decide at all is roughly a third, while the share of
+  *defects by volume* it catches in real first-pass audits is over
+  half — the mechanically detectable failures are also by far the most
+  numerous ones — and a figure that also counts items merely *flagged
+  for human review* runs higher still. All three can be true of one
+  engine at one moment. So the ceiling is quoted with its denominator
+  or not at all
   ([count-carries-predicate](../../../../_laws.md#count-carries-predicate):
   "0 violations" always carries *which rules, over which surfaces, in
-  which states*).
+  which states*, and a coverage claim carries *of what population*).
+  Choose the denominator that matches the decision being made: criteria
+  coverage says what this gate can structurally never see and therefore
+  what the layers below must cover; defect volume says how much cheap
+  remediation is sitting in the backlog. Using the second to answer the
+  first is how "57% automated coverage" becomes "we are mostly done".
 - **Zero findings must be distinguishable from zero coverage**
   ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
   An audit pointed at a route that failed to render, a selector that

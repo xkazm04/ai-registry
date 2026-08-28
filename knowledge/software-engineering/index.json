@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 989,
+  "techniques": 990,
   "applications": 443,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "989/989",
+  "use_when_coverage": "990/990",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -43,6 +43,21 @@
       "deciding whether a green audit means accessible",
       "asserting what a screen reader would hear",
       "focus lands nowhere after a dialog closes"
+     ]
+    },
+    {
+     "slug": "assistive-tech-divergence",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a feature works for one tester and is silent for another",
+      "deciding which reader and browser pairs a release is held to",
+      "a colleague proposes deleting an odd-looking accessibility workaround"
      ]
     },
     {
@@ -18994,6 +19009,7 @@
    "statement": "Removing the artifact that exposes a defect is not fixing the defect. Deleting a flaky test, silencing a warning class, or dropping a failing gate converts a visible problem into an invisible one at the exact site where visibility existed.",
    "techniques": [
     "accessibility/a11y-verification",
+    "accessibility/assistive-tech-divergence",
     "accessibility/keyboard-navigation-models",
     "accessibility/primitive-level-a11y",
     "agent-memory/decay-and-forgetting",
@@ -19068,6 +19084,7 @@
    "statement": "A count is meaningless without its predicate. \"182 files\" is not a finding; \"182 files matching X, measured by Y, cross-checked by Z\" is. Any number that travels (into a doc, a dashboard, a commit message) carries what was counted and how, or it will be reused for a claim it does not support.",
    "techniques": [
     "accessibility/a11y-verification",
+    "accessibility/assistive-tech-divergence",
     "adaptive-fidelity-tiers/measured-not-declared-capability",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/priority-and-fairness",
@@ -19347,6 +19364,37 @@
     "wizard-flows/ai-driven-elicitation",
     "wizard-flows/frontier-batched-elicitation",
     "wizard-flows/progress-communication"
+   ]
+  },
+  "unknown-is-not-a-value": {
+   "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
+   "techniques": [
+    "accessibility/assistive-tech-divergence",
+    "agent-cli-transport/availability-probe",
+    "agent-cli-transport/dated-capability-matrix",
+    "agent-instruction-files/instruction-freshness",
+    "agent-instruction-files/substrate-coupled-expiry",
+    "agent-memory/decay-and-forgetting",
+    "client-state/store-dependency-topology",
+    "companion-identity/brain-adoption-consent",
+    "companion-identity/operator-profile-synthesis",
+    "companion-runtime/metered-llm-seam",
+    "companion-runtime/operative-working-set",
+    "conversation-orchestration/progress-beat-grammar",
+    "conversation-orchestration/recall-transparency",
+    "conversation-orchestration/structured-visual-replies",
+    "conversation-orchestration/two-surface-doctrine",
+    "docs-sync/earned-verification-state",
+    "knowledge-registry/verification-is-contributed",
+    "mcp-tools/egress-argument-gating",
+    "migrations/error-propagation",
+    "p2p-networking/peer-state-honesty",
+    "plan-review/informational-fold-in",
+    "structured-output/schema-validation-and-repair",
+    "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
+    "terminal-multiplexing/occupant-state-detection",
+    "web-scraping/negotiated-representation-probe",
+    "web-scraping/soak-mode-and-verdict-replay"
    ]
   },
   "identity-survives-reuse": {
@@ -20348,36 +20396,6 @@
     "voice-io/tts-pipeline",
     "web-scraping/negotiated-representation-probe",
     "wizard-flows/progress-communication"
-   ]
-  },
-  "unknown-is-not-a-value": {
-   "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
-   "techniques": [
-    "agent-cli-transport/availability-probe",
-    "agent-cli-transport/dated-capability-matrix",
-    "agent-instruction-files/instruction-freshness",
-    "agent-instruction-files/substrate-coupled-expiry",
-    "agent-memory/decay-and-forgetting",
-    "client-state/store-dependency-topology",
-    "companion-identity/brain-adoption-consent",
-    "companion-identity/operator-profile-synthesis",
-    "companion-runtime/metered-llm-seam",
-    "companion-runtime/operative-working-set",
-    "conversation-orchestration/progress-beat-grammar",
-    "conversation-orchestration/recall-transparency",
-    "conversation-orchestration/structured-visual-replies",
-    "conversation-orchestration/two-surface-doctrine",
-    "docs-sync/earned-verification-state",
-    "knowledge-registry/verification-is-contributed",
-    "mcp-tools/egress-argument-gating",
-    "migrations/error-propagation",
-    "p2p-networking/peer-state-honesty",
-    "plan-review/informational-fold-in",
-    "structured-output/schema-validation-and-repair",
-    "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
-    "terminal-multiplexing/occupant-state-detection",
-    "web-scraping/negotiated-representation-probe",
-    "web-scraping/soak-mode-and-verdict-replay"
    ]
   },
   "absent-guard-is-loud": {

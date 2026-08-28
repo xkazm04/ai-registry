@@ -26,8 +26,13 @@ announcements:
 
 1. **Only mutations inside an already-observed region are voiced.** A
    region mounted with its text already present announces nothing on
-   most platform/reader combinations. The region must exist *before*
-   the news.
+   most platform/reader combinations — and the qualifier is load-bearing
+   rather than cautious: this is the single edge where pairings diverge
+   most, several announcing pre-populated regions of some grades and not
+   others, in no pattern a product can encode
+   ([assistive-tech-divergence](./assistive-tech-divergence.md)). Which
+   is exactly why the architecture below does not try to encode it. The
+   region must exist *before* the news.
 2. **Last write wins.** Multiple updates in one breath — to one region
    or across racing regions — voice the latest and drop the rest,
    without any signal that a message was lost.
