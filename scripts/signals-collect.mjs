@@ -4,7 +4,7 @@
  *
  * The lane's rule is "the consumer computes, the registry receives verdicts, never
  * pointers". This script runs on the machine that holds the consuming checkouts, reads
- * the gitignored `.projects.local.json` bridge, and for every connected project collects:
+ * the fleet config (committed `projects.json` + local `.machine.local.json`), and for every connected project collects:
  *
  *   - `stack`  : capability -> major version, lifted from the repo's package.json
  *                (node engines, react, next, vite, typescript...) - a bare major is enough;
@@ -25,20 +25,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadBridge } from './lib/projects.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-const BRIDGE = path.join(ROOT, '.projects.local.json');
 const OUT_DIR = path.join(ROOT, 'signals');
 const WINDOW_DAYS = 30;
 
-if (!fs.existsSync(BRIDGE)) {
-  console.error(`FATAL: no ${path.basename(BRIDGE)} at the registry root - this writer reads the local bridge (slug -> path).`);
+const bridge = loadBridge(ROOT);
+if (!Object.keys(bridge.projects).length) {
+  console.error('FATAL: this machine resolves no projects.');
+  for (const p of bridge._fleet.problems) console.error(`  - ${p}`);
   process.exit(2);
 }
-const bridge = JSON.parse(fs.readFileSync(BRIDGE, 'utf8'));
 const contributor = String(process.argv.find((a) => a.startsWith('--contributor='))?.slice(14) || bridge.contributor || '').trim();
 if (!/^[a-z0-9][a-z0-9-]*$/.test(contributor)) {
-  console.error('FATAL: a contributor id is required ([a-z0-9-], non-identifying): --contributor=<id> or "contributor" in the bridge.');
+  console.error('FATAL: a contributor id is required ([a-z0-9-], non-identifying): --contributor=<id> or "contributor" in .machine.local.json.');
   process.exit(2);
 }
 

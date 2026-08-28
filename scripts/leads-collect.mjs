@@ -27,20 +27,23 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadBridge } from './lib/projects.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-const BRIDGE = path.join(ROOT, '.projects.local.json');
 const INBOX = path.join(ROOT, 'librarian', 'inbox.md');
 
 const argv = process.argv.slice(2);
 const dryRun = argv.includes('--dry-run');
 const sinceDays = Number(argv[argv.indexOf('--since-days') + 1]) || 90;
 
-if (!fs.existsSync(BRIDGE)) {
-  console.error(`FATAL: no ${path.basename(BRIDGE)} at the registry root - this reader needs the local bridge (slug -> path).`);
+const fleet = loadBridge(ROOT)._fleet;
+if (!fleet.machine && !Object.keys(fleet.projects).length) {
+  console.error('FATAL: this machine has no resolvable fleet.');
+  for (const p of fleet.problems) console.error(`  - ${p}`);
+  console.error('  Expected a committed projects.json plus a local .machine.local.json (see librarian/projects.md).');
   process.exit(2);
 }
-const bridge = JSON.parse(fs.readFileSync(BRIDGE, 'utf8'));
+const bridge = fleet;
 const since = Date.now() - sinceDays * 86400000;
 
 const HEADER = `# Inbox - leads from connected projects

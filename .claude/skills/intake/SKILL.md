@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.14.0
+version: 0.15.0
 tags: research, sources, triage, currency, cross-repo, leads
 ---
 
@@ -194,11 +194,15 @@ commentary about them. A news video reporting on a paper is not the paper.
 ### Phase 0 - Bootstrap (idempotent)
 
 - `librarian/sources/index.md` exists (the source ledger). Create if missing.
-- `.projects.local.json` exists at the repo root. It maps project slug -> absolute path
-  -> the domains it consumes, and it is **gitignored**: this registry publishes no
-  consumer paths, the same rule that put the evidence layer in a local overlay. Its
-  published, path-free half is [`librarian/projects.md`](../../librarian/projects.md),
-  which carries slugs and domains only.
+- `projects.json` exists at the repo root (**committed**) and `.machine.local.json`
+  beside it (gitignored). Resolve them through `loadFleet()` in
+  [`scripts/lib/projects.mjs`](../../scripts/lib/projects.mjs), never by reading either
+  file directly. `projects.json` maps slug -> path RELATIVE to a machine root, plus the
+  machines each project is checked out on; `.machine.local.json` supplies this machine's
+  name, its root and its contributor id. A relative path names no private tree until a
+  root is supplied, which is why only the second one is hidden. Domains are not in
+  either: each project declares its own in its `.ai/manifest.yaml`. The prose half is
+  [`librarian/projects.md`](../../librarian/projects.md).
 - If the bridge is missing and the run needs it, ask for paths rather than guessing.
 
 ### Phase 1 - Prove the instruments, then load memory
@@ -450,7 +454,7 @@ A finding can land in the registry AND in a project that consumes it. That secon
 is a different repository with its own review, so it is gated separately and never
 assumed.
 
-1. Resolve the project from `.projects.local.json`. Do not guess a path.
+1. Resolve the project with `loadFleet()` from `scripts/lib/projects.mjs`. Do not guess a path.
 2. Confirm with the operator before touching a project tree at all.
 3. Commit atomically **with a pathspec** on the project's default branch - the fleet
    has one owner and one machine, so a branch-and-PR round trip protects nobody (see

@@ -50,10 +50,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { loadBridge } from './lib/projects.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
-const BRIDGE = path.join(ROOT, '.projects.local.json');
 const CATALOG = path.join(ROOT, 'catalog.json');
 const checkOnly = process.argv.includes('--check');
 const pIdx = process.argv.indexOf('--project');
@@ -71,11 +71,14 @@ const STRONG = 0.8;           // ...and call the ones within 80% of it strong
 // a glance, a missed hole stays invisible.
 const WEAK_FRACTION = 0.6;
 
-if (!fs.existsSync(BRIDGE)) {
-  console.error(`FATAL: no ${path.basename(BRIDGE)} - this tool needs the local bridge (slug -> path).`);
+const fleet = loadBridge(ROOT)._fleet;
+if (!fleet.machine && !Object.keys(fleet.projects).length) {
+  console.error('FATAL: this machine has no resolvable fleet.');
+  for (const p of fleet.problems) console.error(`  - ${p}`);
+  console.error('  Expected a committed projects.json plus a local .machine.local.json (see librarian/projects.md).');
   process.exit(2);
 }
-const bridge = JSON.parse(fs.readFileSync(BRIDGE, 'utf8'));
+const bridge = fleet;
 const catalog = fs.existsSync(CATALOG) ? JSON.parse(fs.readFileSync(CATALOG, 'utf8')) : { bundles: [] };
 const bundleHash = Object.fromEntries((catalog.bundles ?? []).map((b) => [b.name, b.contentHash]));
 

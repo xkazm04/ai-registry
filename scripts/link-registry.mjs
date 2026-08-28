@@ -48,19 +48,22 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { loadBridge } from './lib/projects.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 const RULES = path.join(ROOT, 'rules');
-const BRIDGE = path.join(ROOT, '.projects.local.json');
 const checkOnly = process.argv.includes('--check');
 const projIdx = process.argv.indexOf('--project');
 const onlyProject = projIdx === -1 ? null : process.argv[projIdx + 1];
 const GITIGNORE_BEGIN = '# BEGIN ai-registry linked skills (managed by ai-registry/scripts/link-registry.mjs)';
 const GITIGNORE_END = '# END ai-registry linked skills';
 
-if (!fs.existsSync(BRIDGE)) {
-  console.error(`FATAL: no ${path.basename(BRIDGE)} at the registry root - this tool needs the local bridge (slug -> path).`);
+const fleet = loadBridge(ROOT)._fleet;
+if (!fleet.machine && !Object.keys(fleet.projects).length) {
+  console.error('FATAL: this machine has no resolvable fleet.');
+  for (const p of fleet.problems) console.error(`  - ${p}`);
+  console.error('  Expected a committed projects.json plus a local .machine.local.json (see librarian/projects.md).');
   process.exit(2);
 }
 if (!fs.existsSync(LANE)) {
@@ -75,7 +78,7 @@ if (laneSkills.size === 0) {
   process.exit(2);
 }
 
-const bridge = JSON.parse(fs.readFileSync(BRIDGE, 'utf8'));
+const bridge = fleet;
 
 /** The manifest's `skills:` block - a `- name` list. Deliberately a subset parser: this
  *  file is a contract, not a place for YAML cleverness. */

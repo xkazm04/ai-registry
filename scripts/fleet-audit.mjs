@@ -6,7 +6,7 @@
  * answer the question that actually matters to a fleet: WHICH copy of a skill runs in
  * each repository, and is it the one the registry holds? This script runs where the
  * installations are — on the operator's machine, reading the gitignored
- * `.projects.local.json` bridge — and reports, per lane skill:
+ * committed `projects.json` + local `.machine.local.json` fleet config — and reports, per lane skill:
  *
  *   - which connected projects hold a copy under `.claude/skills/<name>/`, at which
  *     version, and whether it is `in_sync` (same content), `stale` (older version),
@@ -36,21 +36,23 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readLane, readSkill, parseFrontmatter, parseSemver, cmpSemver, contentDigest } from './lib/skills-lane.mjs';
+import { loadBridge } from './lib/projects.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-const BRIDGE = path.join(ROOT, '.projects.local.json');
 const CATALOG = path.join(ROOT, 'catalog.json');
 const LANE = path.join(ROOT, 'skills');
 const MARKETPLACE = 'ai-registry';
 const json = process.argv.includes('--json');
 const writeAdopters = process.argv.includes('--write-adopters');
 
-if (!fs.existsSync(BRIDGE)) {
-  console.error(`FATAL: no ${path.basename(BRIDGE)} at the registry root.`);
-  console.error('This instrument reads the local bridge (slug -> checkout path). Create it from librarian/projects.md; it is gitignored.');
+const fleet = loadBridge(ROOT)._fleet;
+if (!fleet.machine && !Object.keys(fleet.projects).length) {
+  console.error('FATAL: this machine has no resolvable fleet.');
+  for (const p of fleet.problems) console.error(`  - ${p}`);
+  console.error('  Expected a committed projects.json plus a local .machine.local.json (see librarian/projects.md).');
   process.exit(2);
 }
-const bridge = JSON.parse(fs.readFileSync(BRIDGE, 'utf8'));
+const bridge = fleet;
 const projects = Object.entries(bridge.projects ?? {}).filter(([, p]) => p && p.path);
 if (projects.length === 0) { console.error('FATAL: the bridge lists zero projects — nothing to audit, refusing to report a clean fleet.'); process.exit(2); }
 

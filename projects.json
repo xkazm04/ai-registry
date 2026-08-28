@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "_note": "The fleet declaration: which projects this registry is connected to, which machines each is checked out on, and its path RELATIVE to that machine's root. Portable by construction - no user names, no drive letters, no absolute paths - which is why this file is COMMITTED where its predecessor (.projects.local.json) was hidden. The machine-specific half is .machine.local.json (gitignored): a machine name, the root the paths below hang off, and the contributor id. Domains are NOT here on purpose - every project declares its own in its .ai/manifest.yaml (knowledge.domains), and a second copy is how the first one goes stale.",
+  "machines": {
+    "Fox": {
+      "note": "secondary dev box"
+    },
+    "Wolf": {
+      "note": "primary dev box - checkouts unconfirmed from here; add slugs to their `machines` array from that machine"
+    }
+  },
+  "projects": {
+    "gravity": {
+      "path": "dolla/gravitone-gcloud",
+      "machines": [
+        "Fox"
+      ]
+    },
+    "goat": {
+      "path": "dolla/goat",
+      "machines": [
+        "Fox"
+      ]
+    },
+    "tracklight": {
+      "path": "dolla/LightTrack",
+      "machines": [
+        "Fox"
+      ]
+    },
+    "pumper": {
+      "path": "dolla/pumper",
+      "machines": [
+        "Fox"
+      ]
+    },
+    "grant": {
+      "path": "xprice/grant-writing-nonprofits",
+      "machines": [
+        "Fox"
+      ]
+    },
+    "politicas": {
+      "path": "dolla/politicas",
+      "machines": [
+        "Fox"
+      ]
+    },
+    "personas": {
+      "path": "dolla/personas",
+      "machines": [
+        "Fox"
+      ]
+    }
+  }
+}

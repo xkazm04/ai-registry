@@ -256,7 +256,7 @@ wasting a run.
 
 `scale-investment-timing` is unusual among proposals in that its subject matter
 is visible in this registry's own connected fleet rather than only in the
-literature. The bridge at `.projects.local.json` resolves six consumer projects;
+literature. The fleet config (`projects.json` + `.machine.local.json`) resolves six consumer projects;
 several are single-VM deployments whose architecture was chosen against a user
 count that has not yet arrived. A worker with the operator's confirmation can
 read one tree and report whether its stated ceiling exists anywhere in writing —
