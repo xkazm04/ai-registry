@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 150 subjects, 980 techniques, 440 applications.
+`software-engineering` - 151 subjects, 989 techniques, 442 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -16,7 +16,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 ### llm-agent
 - **companion** - companion-identity, companion-runtime, conversation-orchestration
 - **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, time-travel-replay, tracing
-- **orchestration** - agent-chaining, fleet-orchestration, hitl-approval, model-routing, proactive-nudges, remediation-handoff
+- **orchestration** - agent-chaining, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff
 - **prompt-and-context** - agent-instruction-files, agent-memory, prompt-assembly, prompt-safety, retrieval, structured-output
 - **runtime-and-io** - agent-addressable-ui, agent-cli-transport, mcp-tools, sidecar-provisioning, streaming-output, subprocess-lifecycle, terminal-multiplexing, voice-io
 
