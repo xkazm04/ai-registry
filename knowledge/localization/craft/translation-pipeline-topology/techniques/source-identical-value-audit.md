@@ -62,7 +62,13 @@ sorts into five classes:
 2. **Pure-skeleton strings.** Values consisting entirely of placeholders,
    punctuation, digits and universal units. Nothing in them is translatable, and
    [the format skeleton is inviolable](../../../_laws.md#format-skeleton-is-inviolable)
-   makes identity the *required* outcome, not a tolerated one.
+   makes identity the *required* outcome, not a tolerated one — **in a
+   left-to-right target.** In a right-to-left one this class is not safe and not
+   locale-independent: a string with no words in it can still carry directional
+   work, because a placeholder that resolves to text of unknown or opposite
+   direction may need an isolate, and a neutral character at a direction seam
+   may need a mark. "Nothing to translate" and "nothing to do" are the same
+   sentence only in one direction.
 3. **Initialisms and symbols** carried untranslated by the target's own
    technical register.
 4. **Cognates** — the target's own native word, identical to the source word by
@@ -186,6 +192,14 @@ against that catalog before it is enforced against it.
   left in the source language, and a stale translation all differ. This check
   has exactly one honest reading: identity is evidence of untranslatedness,
   difference is evidence of nothing.
+- **Reading "identical" as "correct" in a bidirectional target.** The audit is
+  the third instrument, after the diff and the word-level review, that is blind
+  to directional defects — and it is the worst of the three, because it returns
+  an affirmative *no finding* rather than merely staying silent. The strings it
+  clears most confidently in a right-to-left locale are the skeleton-only ones,
+  which are exactly the strings that language's craft says require a rendered
+  pass. Treat a class-2 match in an RTL target as *not a coverage finding*,
+  never as *checked*.
 - **Running it where state is stored.** Re-deriving translatedness by comparison
   when the format already records it is strictly worse than reading the record,
   and it silently collapses "untranslated" into the same bucket as "translated,

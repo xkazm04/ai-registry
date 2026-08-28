@@ -117,6 +117,40 @@ cost of twenty-five lines. The per-locale residue above it (200 keys identical
 in at least one locale, versus 25 in all) is the part that needs termbase
 rulings, and it is concentrated where the technique says it will be.
 
+## The non-Latin residue, and the one string the audit should not have cleared
+
+Above the shared floor the seven non-Latin locales carry **two to four keys
+each**, and they are nearly the same keys every time: `eventsPage.id` (`"ID"`),
+`roadmapSection.bars.web` (`"Web"`), `roadmapSection.barAria`
+(`"{label}: {pct}%"`), plus `triggers.webhook` and, for `zh`,
+`eventsPage.persona`. Initialisms and Latin-run technical terms, exactly as the
+technique predicts — and a useful negative: `ar` is the one locale that did
+translate `"ID"`, `"Web"` and `"Persona"`, so its residue is the smallest and
+most purely skeletal in the catalog.
+
+That leaves `ar`'s `roadmapSection.barAria = "{label}: {pct}%"` as the sharpest
+case in the measurement. It is class 2 by the letter — no translatable word in
+it — and the audit therefore clears it. But `{label}` here resolves, per
+`RoadmapAreas.tsx`, to a roadmap bar's name, which in this catalog is sometimes
+a Latin platform name (`Windows`, `macOS`, `Linux`, `DevOps` — all in the
+all-locale intersection) and sometimes translated Arabic (`Web` is translated in
+`ar`). A placeholder that can resolve either LTR or RTL is precisely the case
+`arabic/bidirectional-text-and-interpolation` rules on, and `%` after a number
+at a direction seam is on that technique's rendered-review checklist by name.
+
+Not reported here as a shipped defect: the string is an `aria-label`, so the
+consequence is announcement order rather than visual order, and nothing was
+rendered to check. What is reported is about the **instrument** — the audit
+returned an affirmative "no finding" on the one string in the Arabic catalog
+that its neighbour technique says requires a rendered pass. That is why class 2
+is now scoped to LTR targets.
+
+The corpus needed no correction for this. `AR-BIDI-REVIEW` already states that
+a string-level diff is structurally blind to the whole subject, and lists
+percent glue and worst-case placeholder resolution as rendered-pass items. The
+audit is simply a third blind instrument, and the only new thing is that it is
+blind *affirmatively*.
+
 ## One repository, both format answers
 
 The same repo runs the *other* branch of the technique's opening question on a
