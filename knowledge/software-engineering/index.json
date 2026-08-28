@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 990,
+  "techniques": 991,
   "applications": 443,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "990/990",
+  "use_when_coverage": "991/991",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -12859,6 +12859,22 @@
      ]
     },
     {
+     "slug": "enforcement-binding",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check is green in the pipeline and nobody can say whether it blocks a merge",
+      "a job was renamed or split and no gate has failed since",
+      "deciding what happens to a required check whose job did not run"
+     ]
+    },
+    {
      "slug": "false-positive-economics",
      "status": "forged",
      "laws": [
@@ -18525,6 +18541,7 @@
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/chokepoint-tag-registry",
+    "quality-gates/enforcement-binding",
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
@@ -18876,6 +18893,7 @@
     "public-verdict-badge/neutral-state-vocabulary",
     "public-verdict-badge/outcome-branched-cache",
     "quality-gates/chokepoint-tag-registry",
+    "quality-gates/enforcement-binding",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
     "quality-gates/ratchet-design",
@@ -19390,6 +19408,7 @@
     "migrations/error-propagation",
     "p2p-networking/peer-state-honesty",
     "plan-review/informational-fold-in",
+    "quality-gates/enforcement-binding",
     "structured-output/schema-validation-and-repair",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "terminal-multiplexing/occupant-state-detection",
@@ -20419,6 +20438,7 @@
     "plan-review/informational-fold-in",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
+    "quality-gates/enforcement-binding",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",

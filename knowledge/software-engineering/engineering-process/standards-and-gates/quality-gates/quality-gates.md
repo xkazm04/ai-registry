@@ -14,6 +14,7 @@ techniques:
   - unmeasurable-criteria
   - policy-projection
   - chokepoint-tag-registry
+  - enforcement-binding
 ---
 
 # Quality gates & ratchets
@@ -125,6 +126,39 @@ script, means the remote run confirms what already ran rather than
 discovering it. Rung design, control placement, what belongs where, and
 the bypass economics are
 [gate-laddering](./techniques/gate-laddering.md).
+
+## The merge decision is bound to the gates by a separate mechanism
+
+Everything above concerns the gate. The ladder has one more rung, and it
+belongs to a different system: the hosting platform decides which of the
+pipeline's verdicts the merge action may proceed without, from a
+configuration that usually does not live in the repository. A pipeline
+whose every check is precise and blocking by construction enforces
+nothing if that binding is missing — and no pipeline run will ever say
+so, because from the pipeline's side everything worked.
+
+Two properties of the join do most of the damage. It is made by **name**,
+so a check renamed, split, or moved satisfies a requirement that now
+matches nothing, and a requirement matched by nothing reads as absent
+rather than failing
+([failure-not-empty-success](../../../_laws.md#failure-not-empty-success)).
+And "did not run" resolves to a *definite* verdict whose direction
+depends on where the skip was written: condition the whole pipeline
+definition and it reports nothing, blocking the merge forever; condition
+the unit inside it and the same intent reports success, satisfying the
+requirement with a check that did no work
+([unknown-is-not-a-value](../../../_laws.md#unknown-is-not-a-value)). The
+second is fail-open, silent, and the standard remedy for the first.
+
+The real quality bar is therefore neither the rule count nor the
+pipeline: it is the *intersection* of what the pipeline emits and what
+the merge decision requires, which is an inventory question in exactly
+the sense below — a check present in the pipeline and absent from the
+requirement list is blocking by construction and advisory by
+configuration, and nothing changed to notice. The name join, the skip
+asymmetry, reading the binding back as a gated artifact, and proving the
+refusal reaches the merge decision rather than only the run log, are
+[enforcement-binding](./techniques/enforcement-binding.md).
 
 ## The gate must see its target
 
@@ -350,6 +384,10 @@ is asked to refuse something.
 - [policy-projection](./techniques/policy-projection.md) — one enumeration
   rendered into every surface, display caps that are not data caps, and
   the effective policy travelling with the verdict.
+- [enforcement-binding](./techniques/enforcement-binding.md) — the name
+  join between pipeline and merge decision, the fail-open/fail-closed
+  skip asymmetry, enumerating required against emitted, and proving the
+  refusal at the merge decision itself.
 - [chokepoint-tag-registry](./techniques/chokepoint-tag-registry.md) — the
   static call-site ↔ tag ↔ registry bijection, negative-space confinement of
   the underlying capability, extending both to any second per-operation

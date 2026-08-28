@@ -64,6 +64,13 @@ out. The consequence is structural:
 > **Every check on a lower rung also exists on the merge rung. A check
 > that runs only locally is a courtesy, not a gate.**
 
+With one qualification that this rung cannot verify about itself: the
+merge rung binds only where the merge decision has been *bound* to it,
+by a separate mechanism the pipeline never observes. A check that exists
+on the merge rung and is not required by that binding is in the same
+position as one that runs only locally — it discovers, it does not refuse
+([enforcement-binding](./enforcement-binding.md)).
+
 The local rungs are latency optimizations over the binding rung — they move
 the moment of discovery earlier; they do not move the moment of refusal.
 Teams that forget this ship elaborate hook suites with no pipeline
