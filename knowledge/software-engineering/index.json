@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 991,
+  "techniques": 992,
   "applications": 443,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "991/991",
+  "use_when_coverage": "992/992",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6769,6 +6769,22 @@
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
    "techniques": [
+    {
+     "slug": "cancellation-attribution",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary",
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the error rate tracks traffic instead of health",
+      "a deploy shows a burst of failures that nobody can attribute",
+      "deciding whether a cancelled operation is worth telling anyone about"
+     ]
+    },
     {
      "slug": "crash-capture",
      "status": "forged",
@@ -18770,6 +18786,7 @@
     "embedded-preview/preview-checkpoints",
     "entity-lifecycle/blast-radius-computation",
     "entity-lifecycle/provenance-denormalization",
+    "error-handling/cancellation-attribution",
     "error-handling/error-doors",
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
@@ -19403,6 +19420,7 @@
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
     "docs-sync/earned-verification-state",
+    "error-handling/cancellation-attribution",
     "knowledge-registry/verification-is-contributed",
     "mcp-tools/egress-argument-gating",
     "migrations/error-propagation",
@@ -20068,6 +20086,7 @@
     "embedded-preview/cross-frame-protocol",
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/change-logging",
+    "error-handling/cancellation-attribution",
     "error-handling/taxonomy-design",
     "error-handling/user-facing-mapping",
     "eval-harness/judge-stability",
@@ -20242,6 +20261,7 @@
     "credential-vault/token-refresh-lifecycle",
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/environment-promotion",
+    "error-handling/cancellation-attribution",
     "knowledge-registry/verification-is-contributed",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",

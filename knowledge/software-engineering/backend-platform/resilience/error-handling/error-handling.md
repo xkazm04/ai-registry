@@ -10,6 +10,7 @@ techniques:
   - structured-propagation
   - swallowed-error-prevention
   - crash-capture
+  - cancellation-attribution
 ---
 
 # Error taxonomy & handling
@@ -131,6 +132,36 @@ Making the sanctioned path cheaper than the swallow, and measuring actual
 door coverage instead of trusting a green lint run, is
 [swallowed-error-prevention](./techniques/swallowed-error-prevention.md).
 
+## Not every non-success is a failure
+
+The taxonomy above sorts failures. Work that stops before it finishes is
+neither a success nor, usually, a failure — and a vocabulary with two slots
+forces it into one of them, which is how an error stream fills with events
+nobody can act on and how a genuinely broken release hides among them.
+
+The correction is not a "cancelled" category routed nowhere. **Cancellation
+is an outcome with a cause, and the cause answers every question the taxonomy
+asks**: a requester who navigated away is nobody to retry for and nobody to
+tell; work superseded by newer input has already been retried by definition;
+a local deadline is a real failure the user is owed an answer about; a process
+draining for a restart is a real failure attributable to the deployment rather
+than to the code. One observable, four answers.
+
+What makes this durable rather than merely overlooked is that the platform's
+cancellation signal is **causeless by construction** — a shared sentinel
+propagated from whichever holder decided to stop, carrying no record of which
+one that was, because a composable cancellation cannot know. So the cause is
+recorded where the stop is *called for*, never recovered where it is caught,
+and an unattributed cancellation is unknown rather than benign
+([unknown-is-not-a-value](../../../_laws.md#unknown-is-not-a-value)). The
+attribution rules, the innermost-first reading of nested cancels, the counters
+that carry benign causes without polluting the error door, and the monitoring
+that keeps a route-nowhere category from hiding a real failure, are
+[cancellation-attribution](./techniques/cancellation-attribution.md). The
+two-way discrimination at a streaming hop, where abandonment is the dominant
+exit, stays with
+[abort-versus-unreachable](../stream-proxy-hop/techniques/abort-versus-unreachable.md).
+
 ## Propagation: context grows, class survives
 
 Failures are born deep — in a driver, a socket, a parser — and are decided
@@ -191,5 +222,9 @@ swallowed-catch population larger than anyone predicted.
 - [swallowed-error-prevention](./techniques/swallowed-error-prevention.md) —
   why enforcement misses catch bodies, measuring door coverage, and making
   the routed path the cheap path.
+- [cancellation-attribution](./techniques/cancellation-attribution.md) —
+  the four causes behind one observable, attribution at the canceller,
+  surviving the boundary as a value rather than a name, and the counters
+  that keep benign cancels out of the error door.
 - [crash-capture](./techniques/crash-capture.md) — last-resort handlers,
   breadcrumbs, sanitization before persistence, and crash-loop protection.
