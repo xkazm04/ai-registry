@@ -79,8 +79,12 @@ field.
   violates a declared gate is a defect you are about to introduce, not a finding.
 - **Sweep history** (`.claude/scan-history/scan-sweep.jsonl`) — prior snapshots,
   for the trend line and the lens-ordering rule.
-- **The registry**, when this repo consumes one — see §6. Consulting the governing
-  standard BEFORE judging is what separates a finding from an opinion.
+- **The registry**, when this repo consumes one — see §6. The registry is
+  KNOWLEDGE THAT FEEDS THE LENSES, not a lens of its own and not the sweep's
+  primary instrument: each lens reads the governing subject's techniques that
+  touch its concern and judges against them (§3). The one place where
+  "registry deviation" is itself the finding is the `registry-conformance`
+  lens, which runs like any other lens and is budgeted like any other lens.
 
 ## 3. Pick the lens package
 
@@ -93,6 +97,16 @@ field.
 - Within each tier, never-applied lenses (absent from prior `lens_keys`) go
   first. The package's job is to close lens coverage, not re-walk it.
 - List the deep / matched / remaining keys in the round header.
+- **Lenses are the instrument; the registry is what sharpens them.** A scan is
+  a set of prompts applied to the code — `error-handler` asks about error
+  doors, `code-optimizer` about render and query cost — and when the repo
+  consumes a registry (§6), each lens FIRST reads the techniques in the
+  governing subject that touch its concern, then judges the code against them
+  and names the technique in the finding. A lens whose concern has no
+  governing knowledge judges on the repo's own conventions and says so in the
+  finding. The `registry-conformance` lens is the ONLY lens whose findings are
+  the deviations themselves — the pure registry→backlog transformation — and
+  every other lens leaves those to it rather than restating them.
 
 ## 4. Survey, then judge
 
@@ -180,6 +194,42 @@ field.
    checked. The tail's job is coverage AND a lighter hunt — it is not a list of
    keys to write into the ledger.
 
+10. **EVERY finding is written in the standard form — no exceptions, no prose
+    dumps.** The operator decides from the deck at a glance and a cheaper model
+    (Sonnet, Haiku) executes from the text alone, so a finding that is vague
+    where another is precise is a finding that will be mis-decided or
+    mis-built. The `body` of a finding is markdown with exactly these `## `
+    sections, in this order, each present even when short:
+
+    ```markdown
+    ## Summary
+    One or two sentences: what is wrong (or missing) and where. No reasoning.
+
+    ## Description
+    What the code does today, why that is a defect or a gap, and what "fixed"
+    looks like. Name the technique/golden path it violates when one applies.
+    `file:line` for every claim.
+
+    ## Flow
+    - the steps that reproduce or expose it, as bullets — user action → code
+      path → observed result
+    - for a proposal: the steps the fix takes, in build order
+
+    ## Expected impact
+    Who notices, what changes for them, and how it would be measured. One
+    sentence on what could break.
+    ```
+
+    `evidence` is SEPARATE from `body` and is the proof, as a code block or a
+    `file:line` list — the exact lines, the grep output, the count — never a
+    restatement of the Description. `title` is the Summary compressed to one
+    line (≤ 80 chars, imperative for a fix, noun phrase for a defect).
+
+    The renderer (`TriageCardBody`) splits on these headings and paints each as
+    its own block; a body without them paints as one undifferentiated block
+    and reads as the lower-quality item it is. Do not invent extra sections;
+    put anything else under Description.
+
 ## 5. Routing — size decides who approves
 
 Classify every candidate:
@@ -231,7 +281,7 @@ An item is backlogged regardless of size or RRR when it:
 "ask" band collapses to backlog. S still auto-builds — that is the whole point of
 the size class — and L still never does.
 
-## 6. The registry lane — consult before judging, propose after landing
+## 6. The registry lane — knowledge feeds the lenses, deviations are one lens, leads flow back
 
 Skip this section entirely when the repo declares no registry. When
 `.ai/manifest.yaml` carries `registry.local` (or `registry.remote`) and
@@ -240,6 +290,10 @@ one of the few moments that can pay into it as well as read from it.
 
 **Read side — before you judge (§4.3).** Resolve the subject governing this
 context and read its golden path plus the techniques whose `use_when` matches.
+This read is what the LENSES consume (§3): each lens takes the techniques that
+touch its concern into its own judging. The read is not itself a lens, and a
+list of "we deviate from technique X" is not a sweep — it is the output of ONE
+lens, `registry-conformance`, budgeted like every other one.
 
 - If `.ai/registry-map.json` exists it already holds the context→subject join;
   take the subject's `file` **verbatim** from the index. Never construct a path
@@ -377,9 +431,9 @@ Header first:
 - `registry: <domain>/<subject>` — or `none` / `declared, unmapped`.
 
 Then what SHIPPED, one line each (`fixed  <title> - <sha>`), then the backlogged
-findings. Per finding: **Title**, **Finding** (what and why, with `file:line`),
-**Recommendation**, **Scores** (size + effort / impact / risk, and the RRR for
-every M).
+findings — each in the standard form of §4.10 (Summary / Description / Flow /
+Expected impact, evidence separate), plus **Scores** (size + effort / impact /
+risk, and the RRR for every M).
 
 Close each round with: X built, Y backlogged, Z lenses evaluated, leads filed,
 the trend for this context (`12 -> 7 -> 5 findings`), and **the next context the
@@ -400,8 +454,12 @@ backlog as open work:
 Each BACKLOGGED finding:
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"<what + why + recommendation, condensed>","evidence":"<file:line - one-line proof>","size":"S|M|L","effort":3,"impact":7,"risk":2}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...","evidence":"<code block or file:line list — the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2}
 ```
+
+`body` is the §4.10 form verbatim — the four `## ` sections, newline-escaped in
+the JSON. A finding emitted in any other shape is rejected at review, not
+reformatted.
 
 Escalation — at most one per lens, ONLY when that lens produced a critical
 finding (impact >= 8) or 3 real findings in this context:

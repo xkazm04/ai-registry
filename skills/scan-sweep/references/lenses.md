@@ -271,4 +271,16 @@ Anchor examples:
 - Export reports customers ask for
 - Surface ROI metrics on dashboard
 
+## registry-conformance — Registry Conformance 📚
+
+Group: technical
+Match: `/registry|golden.?path|technique|convention|standard|doctrine|ai-registry/i` (against the context's name, description, keywords, tech stack, API surface, and file paths)
+
+Compares the code against the organization's AI-registry knowledge (golden paths, techniques, applications) that governs this context and turns each named deviation into a backlog item carrying the technique it violates and the prescribed fix. Only meaningful when the repo declares a registry; otherwise reports nothing
+
+Anchor examples:
+- Adopt the registry's stale-response guard technique
+- Replace hand-rolled retry with the governed pattern
+- Record a deviation the standard names
+
 <!-- Generated from scan_agents.toml by scripts/skills/scan-agents-to-skills.mjs. -->

@@ -322,3 +322,40 @@ All three were mine, all three in this session, all three now in SKILL.md:
 
 ### Redesign proposal
 - A `--wave` mode: the coordinator computes a disjoint assignment (exclude contexts intersecting the tree's dirty set; pin the few shared paths to one owner), runs N `--one` workers that return the structured result above, commits per context from an isolated index, persists outbox/history once in priority order with drain cycles, runs the census once and CONFORMS rises at the source, then pushes. Not applied this run: the change is to the invocation contract, not to a step, and it needs its own calibration log.
+
+## 2.3.0 - 2026-08-28 - personas (operator review of two waves, 16 contexts)
+
+**Correction from the operator, in spirit:** "Applying ai-registry practices is
+a nice feature; the scans themselves should be primarily about applying various
+prompts/lenses per code analysis. Lenses should follow ai-registry knowledge
+where it exists. Pure registry-to-backlog transformation can be a separate
+lens." And: "Idea description is inconsistent - enforce almost jira-like
+metadata: Summary, Description, bullet-point flow, code block (evidence),
+Expected impact. Some ideas are well described, some were thrown vaguely.
+Standardizing improves the ability to decide and to execute with cheaper
+models."
+
+What changed in the spec:
+- S2/S3/S6: the registry is knowledge that FEEDS the lenses; each lens reads the
+  techniques touching its concern and judges against them. The
+  registry-deviation-to-backlog transformation is its own lens,
+  `registry-conformance` (added to `scan_agents.toml` and `references/lenses.md`,
+  23 lenses now; `scripts/coverage.mjs` counts the reference, so the
+  denominator follows).
+- S4.10 (new, MANDATORY): every finding body is `## Summary / ## Description /
+  ## Flow / ## Expected impact`; `evidence` is a separate code block or
+  file:line list; title <= 80 chars. S8 and S9 point at it; the outbox example
+  shows the escaped form.
+- Renderer side (personas `TriageCardBody`): splits on the headings, lead
+  Summary above a rule, other sections as labelled blocks; an un-sectioned body
+  paints as one block.
+
+Why it was needed (seen across waves 1+2, 240 findings): bodies ranged from a
+one-line smell to a five-paragraph essay with the fix buried in the middle; the
+deck showed both as the same undifferentiated markdown, so "decide in three
+seconds" depended on which worker wrote the card.
+
+Known gap: the personas generator `scripts/skills/scan-agents-to-skills.mjs`
+still carries an OLDER SKILL.md template; `--force` would overwrite this file.
+The registry copy is the authored one - regenerate only `references/lenses.md`
+from the TOML (or append by hand, as done here) until the template is retired.
