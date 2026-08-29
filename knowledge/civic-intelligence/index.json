@@ -244,7 +244,8 @@
      "use_when": [
       "choosing node and edge types for a civic graph",
       "adding a relationship kind mid-project",
-      "keying entities to registries"
+      "keying entities to registries",
+      "deciding what happens to an assertion the closed vocabulary cannot hold"
      ]
     },
     {

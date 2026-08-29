@@ -1843,3 +1843,20 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   prose, not linked, and the training-data convergence was total.
 - 2 of 3 fetches, both extraction, unattended run; picked by impact, two accepted rows
   share one root and were counted as one finding.
+
+## 0.15.0 - 2026-08-29 - graph-engineering-system-intelligence
+
+- **A paper critique is a source class the table does not name, and it behaves like
+  the dialogue.** The paper half is a framework survey relayed second-hand and strips
+  to nothing; the critique half is a practitioner disagreeing with a taxonomy - first-
+  party about a view, not a system. Its value is that every counter-case the critic
+  raises is an enumeration being challenged, which is the highest-yield thing to read
+  the corpus against. Read the critique half for boundaries, the paper half for leads.
+- **The source argued for tearing down the thing the corpus builds, and the finding was
+  a stage inside it.** "A fixed ontology detects only known unknowns" is true; the
+  corpus's closed vocabulary is also right; what was missing was where the gate's
+  refusals go. Fourth time a contradicted source located the gap while prescribing the
+  wrong fix - a pattern now, not an observation.
+- **`subagent` returned zero corpus-wide and it was vocabulary, not a hole.** Before
+  treating an empty as a finding, try the corpus's own word (worker, session, seat).
+- Ninth consecutive zero-fetch run for a source carrying its own material.
