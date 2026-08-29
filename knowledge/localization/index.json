@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 14,
   "techniques": 85,
-  "applications": 42,
+  "applications": 45,
   "laws": 7,
   "categories": [
    "european",
@@ -127,6 +127,12 @@
      "stack": "spec",
      "technique": "plural-and-count-agreement",
      "file": "knowledge/localization/right-to-left/arabic/applications/spec--plural-and-count-agreement.md",
+     "verified_on": "2026-08-29"
+    },
+    {
+     "stack": "spec",
+     "technique": "script-and-typography",
+     "file": "knowledge/localization/right-to-left/arabic/applications/spec--script-and-typography.md",
      "verified_on": "2026-08-29"
     }
    ]
@@ -1099,6 +1105,12 @@
     },
     {
      "stack": "spec",
+     "technique": "counting-and-quantity",
+     "file": "knowledge/localization/east-asian/korean/applications/spec--counting-and-quantity.md",
+     "verified_on": "2026-08-29"
+    },
+    {
+     "stack": "spec",
      "technique": "spacing-and-typography",
      "file": "knowledge/localization/east-asian/korean/applications/spec--spacing-and-typography.md",
      "verified_on": "2026-08-29"
@@ -1200,6 +1212,12 @@
      "technique": "terminology-and-loanwords",
      "file": "knowledge/localization/european/russian/applications/process--terminology-and-loanwords.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "spec",
+     "technique": "gender-and-aspect",
+     "file": "knowledge/localization/european/russian/applications/spec--gender-and-aspect.md",
+     "verified_on": "2026-08-29"
     },
     {
      "stack": "spec",

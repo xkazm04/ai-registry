@@ -81,3 +81,38 @@ and `중...` (LB15d) are protected in both modes.
 Whether any production renderer applies the Korean tailoring is outside the annex's
 scope; nothing was measured on a live stack, so the class of a production defect — bad
 string versus unconfigured layout — still needs a runtime witness.
+
+## 2026-08-29 - wave 3 (spell-out rulesets, the brief's banked lead)
+
+**Pin.** `unicode-org/cldr@release-48-2`, spell-out rulesets. File:
+`spec--counting-and-quantity.md`. **Fate: confirmed, and it grew two refutations.**
+
+- **KO-PLURAL-OTHER is wrong at 2 and 3.** It says idiomatic ordinals prefer the
+  independent stems. The count ruleset is the special form at 1 and **delegates to the
+  attributive ruleset from 2 up** - so those ordinals take attributive forms, not
+  independent ones. **Verified by the director** against the ruleset text.
+- **The alternation is conditioned on the following morpheme, not a lookup table.** The
+  two ordinal series take different stems and differ at **21 of 99** values over 1-99,
+  with a private ruleset existing solely to restore the independent form in the hundreds
+  residue. A flat stem table - which the technique's sentence invites - is wrong on all 21.
+- **KO-NUM-UNIT's "always assume Sino-Korean readings" is refuted** for the very counter
+  the technique names: the ruleset *named* for Sino-Korean is native below 50, and CLDR
+  never maps a counter to a numeral system - it ships both paths for the same counter.
+- Confirmed: the attributive ruleset exists as a third cardinal spell-out, and the
+  technique's own examples already use it without ever naming it.
+
+**Evidence class, stated honestly:** no ruleset conformance test exists, so the oracle was
+the publisher's reference implementation - **6030/6030 identical** across six rulesets -
+and the document says that is what it is. Three degenerate controls, each a mistake a
+careful reader could make, scored 5795, 879 and 5533.
+
+**A near-non-falsifiable check, reported as such.** Korean's single plural category means
+three *wrong* rules still score 42/43, 41/43 and 40/43 on its own sample set, while the
+same harness scores Korean's rule 22/71 against Russian's samples. The harness
+discriminates; the sample set cannot.
+
+**Leads.** The native base-10 rule carries a space inside its optional part while base 20
+does not, so 9 of 99 native cardinals spell with an internal space - reproduced by the
+reference implementation, so it is the data, not the interpreter. Possible upstream item;
+not filed. The technique's noun-first preference has no CLDR counterpart (CLDR ships
+numeral-first) and should be marked a house convention.

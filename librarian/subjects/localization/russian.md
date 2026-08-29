@@ -96,3 +96,44 @@ The technique's **grammatical** claims (few = genitive singular, many = genitive
 «1,5 файла») are not conformance-testable against CLDR and were left untouched.
 `pluralRanges.xml` self-identifies as generated, which supports but does not prove the
 "verified default" reading; the normative statement is the §Plural Ranges clause cited.
+
+## 2026-08-29 - wave 3 (spell-out rulesets and grammatical features)
+
+**Pin.** `unicode-org/cldr@release-48-2`. File: `spec--gender-and-aspect.md`.
+**Fate: confirmed and extended; the aspect half not conformance-testable.**
+
+- **Gender changes the Russian numeral at exactly two positions and nowhere else** - the
+  units-1 and units-2 slots, teens excluded. Measured per case over 0..10000: nominative
+  and accusative differ across genders on 1800 values, the three oblique cases on 900, so
+  **82% of integers spell identically in all four genders**. With a units digit of 0
+  gender never surfaces at all, because a multiplier agrees with its own counting noun.
+- **The technique's gender half is entirely verbs and participles** and omits the numeral
+  altogether. That is the gap this application fills.
+- Case: `grammaticalFeatures` declares 8 values, the rulesets realize 6 - two are aliases,
+  one has no ruleset. **`ru` declares no animacy** while siblings in the same file do, so
+  the accusative cardinals are the inanimate paradigm and cannot count people.
+- Aspect is **not conformance-testable**: every grammatical-feature entry targets nominals,
+  and a grep for verb and aspect terms is empty across all three pinned files.
+
+**A control that PASSED, and why that is the finding.** Dropping the teen guard produced
+**0 errors** here - the same guard the sibling plural application measured as load-bearing
+at 400/10001, because 11 and 12 have no gendered forms. *Same-looking guard, opposite
+verdict.* Worth carrying: a guard's necessity is a property of the rule it sits in, not of
+the language.
+
+**Two upstream defects, both verified by the director and both still current.**
+- The masculine prepositional ruleset has **nominative** forms at 20 and 30 while its own
+  40-90 rows and all three sibling genders are oblique. Affects 2000 of 10000 integers and
+  propagates to its alias. Present in far older releases - long-standing, not a regression.
+- Two digits-ordinal rulesets emit **U+0065 LATIN SMALL LETTER E** where the sibling neuter
+  ruleset uses U+0435 Cyrillic and all 28 other suffixes are Cyrillic - a homoglyph island.
+
+**Evidence class:** neither B1 nor B2 - executable rule text with no publisher fixture at
+all. Stated in the document's third paragraph. Validation came from a cross-encoding check
+(the file encodes its rules twice; both parsed to the same 1380 rows) and a published
+minimal-pair frame, not from an oracle.
+
+**Cross-subject:** the harness is locale-agnostic and parses any language's spell-out
+rulesets - the brief's best unconsumed lead is now consumed once and proven executable.
+`main/ru.xml` also carries explicit grammatical gender on 154 units, a ready fixture for
+the loanword-gender rule that two terminology techniques state.

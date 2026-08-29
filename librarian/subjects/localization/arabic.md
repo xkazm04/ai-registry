@@ -73,3 +73,43 @@ CLDR 48.2's own `hashes/SHASUM512.txt` lists a digest for `cldr-common-48.2.zip`
 does not match the served file — it is the digest of the byte-identical `core.zip`.
 Anyone verifying the documented download by its documented checksum fails. One inference
 short of airtight; a 33 MB jar fetch would close it.
+
+## 2026-08-29 - wave 3 (numbering systems)
+
+**Pin.** `unicode-org/cldr@release-48-2`, all 29 `ar`-family locale files plus root and
+the numbering-system data. File: `spec--script-and-typography.md`.
+**Fate: reconnaissance confirmed on all four structural points; the technique refuted.**
+
+**The counted split, verified independently by the director:** 21 of 29 files declare
+`arab`; **zero declare `latn`**; 7 carry the inheritance marker (`ar`, `ar_AE`, `ar_DZ`,
+`ar_EH`, `ar_LY`, `ar_MA`, `ar_TN`); `ar_001` declares nothing. Resolved: 21 arab, 8 latn.
+
+Both of AR-NUMERALS' named regional claims are backwards:
+
+- it says "including the Gulf" - but **`ar_AE` resolves to `latn`**;
+- it says "the Maghreb locales on Western digits" - but **`ar_MR` declares `arab`**;
+- and "default" is the wrong frame entirely: base `ar` carries the inheritance marker and
+  resolves to Western digits from root, with `arab` declared as its *native* system. The
+  practical harm is direct - a product shipping plain `ar`, which is the tag products
+  actually ship, gets Western digits.
+
+**Two more refutations.** The guillemet rule: CLDR's `ar` delimiters are the reversed
+curly quotes, and **zero of 29 files carry guillemets** in any delimiter element - so that
+is a house typographic choice, not a data-backed rule. And the tatweel denylist: U+0640 is
+in `ar`'s auxiliary exemplar set and lives in real values (the Hijri era abbreviation, the
+article before a placeholder) - **the technique file's own prose contains one, so its own
+audit rule fires on it.** All three verified by the director.
+
+**Upstream bug candidate - the counterpart violates the technique's own rule.** CLDR's
+litre-per-100-km unit patterns hardcode the Arabic-Indic hundred while their placeholder
+renders in the *resolved* system, so plain `ar` produces a string carrying two digit
+systems at once. Authored when `ar` meant Arabic-Indic and never revisited.
+
+**Evidence class:** B3, property data - no test file covers numbering-system resolution or
+locale inheritance. The document says so; the resolver was hand-built and cross-checked
+against the publisher's own generated corpus (28/28 agree), with a degenerate control that
+fails loudly when the inheritance marker is read as a literal.
+
+**Cross-subject:** third sighting of declare-versus-inherit (`bn` declares, `fa` declares,
+`ar` inherits). The general hazard deserves a line in the bundle's shared method: **any
+subject quoting a CLDR per-locale "default" can misread the inheritance marker as a value.**

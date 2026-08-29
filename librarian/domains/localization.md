@@ -278,3 +278,32 @@ was wrong, a worked plural-range example that was backwards, and an assertion th
 says nothing about gender. **Workers caught all four**, and in each case the correction
 improved the finding. The contract works; the lesson is that a director's reconnaissance
 is a hypothesis and must be phrased as one in the prompt.
+
+## 2026-08-29 — external-reconcile wave 3: the banked surface, consumed
+
+Three workers, three applications, zero rejected. Applications 42 → 45. Every subject
+already had a second source, so this wave targeted **uncovered techniques** — the shape
+the lane takes once a bundle's single-source debt is discharged.
+
+It consumed the surface wave 2 named as its best lead, the **spell-out rulesets**, and
+proved it executable: two workers independently wrote interpreters for the published rule
+syntax and both reached parity with their oracle. Both harnesses are locale-agnostic, so
+the tooling transfers to any language subject here.
+
+- **korean/counting-and-quantity** — two refutations. The ordinal count ruleset delegates
+  to the *attributive* forms from 2 up, and the alternation is conditioned on the
+  following morpheme rather than a stem table (21 of 99 values differ).
+- **arabic/script-and-typography** — refuted on three counts, including both of its named
+  regional digit claims, which are backwards. 21 of 29 locale files declare Arabic-Indic
+  digits, **zero declare Western**, and base `ar` inherits Western from root.
+- **russian/gender-and-aspect** — gender changes the numeral at exactly two positions, so
+  82% of integers spell identically in all four genders; the technique omitted numerals
+  entirely.
+
+**Three more upstream defects**, all verified here, bringing the corpus total to five
+unfiled candidates. The sharpest: **the counterpart violates the technique's own rule** —
+Arabic unit patterns hardcode Arabic-Indic digits beside a placeholder that renders in the
+resolved system.
+
+**Last unconsumed surface:** CLDR's per-locale minimal pairs. The Arabic worker touched one
+incidentally and found it live and usable.

@@ -43,9 +43,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 5,
+      "lessons": 6,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:c346b692ba8057db",
+      "lessonsHash": "sha256-n1:db2091402d36c7ab",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -131,9 +131,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 7,
+      "lessons": 8,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:29fc47a124e11859",
+      "lessonsHash": "sha256-n1:cab2e61354d896a7",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 20,
+      "lessons": 21,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:f75d24680be5ad37",
+      "lessonsHash": "sha256-n1:b8f322ea7552742d",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -552,7 +552,7 @@
     "skills": 27,
     "practices": 5,
     "memory": 4,
-    "lessons": 80
+    "lessons": 83
   },
   "bundles": [
     {
@@ -616,9 +616,9 @@
       "purity": "localization",
       "subjects": 14,
       "techniques": 85,
-      "applications": 42,
-      "files": 145,
-      "contentHash": "sha256:64b518324378f7b0"
+      "applications": 45,
+      "files": 148,
+      "contentHash": "sha256:d94c145b00f5ce13"
     },
     {
       "name": "media-generation",
