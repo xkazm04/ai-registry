@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 995,
-  "applications": 471,
+  "techniques": 998,
+  "applications": 488,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "995/995",
+  "use_when_coverage": "998/998",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3193,6 +3193,13 @@
     },
     {
      "stack": "react",
+     "technique": "invalidation-strategy",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--invalidation-strategy.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "persistence-and-migration",
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--persistence-and-migration.md",
      "verified_on": "2026-08-29",
@@ -3216,6 +3223,13 @@
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--store-dependency-topology.md",
      "verified_on": "2026-08-24",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "persistence-and-migration",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/rust--persistence-and-migration.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -4688,7 +4702,8 @@
      "use_when": [
       "a caller holds many ids and only fetch-one exists",
       "deciding join versus fetch-and-stitch",
-      "batch works in tests dies at four thousand ids"
+      "batch works in tests dies at four thousand ids",
+      "a per-field resolver cannot take a list"
      ]
     },
     {
@@ -4716,7 +4731,8 @@
      "use_when": [
       "deciding whether a handler may run its own query",
       "data layer tests stand up the whole application",
-      "partitioning a growing repository by aggregate"
+      "partitioning a growing repository by aggregate",
+      "a tenant or archived filter every read must carry"
      ]
     },
     {
@@ -4732,6 +4748,23 @@
       "a query runs and returns wrong rows",
       "admitting a raw statement escape hatch"
      ]
+    },
+    {
+     "slug": "read-models-and-projections",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a screen needs four columns from three aggregates",
+      "loading a whole aggregate to render one name",
+      "a repository grows one method per screen",
+      "deciding whether a stored count is a cache or a fact"
+     ],
+     "stage": "team"
     },
     {
      "slug": "repo-testing",
@@ -4771,11 +4804,19 @@
      "use_when": [
       "deciding who opens the transaction boundary",
       "half a unit of work commits as success",
-      "side effects firing before the commit lands"
+      "side effects firing before the commit lands",
+      "a commit aborted with a serialization verdict",
+      "a retried unit applied twice"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "batching-and-n-plus-one",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--batching-and-n-plus-one.md",
+     "verified_on": "2026-08-29"
+    },
     {
      "stack": "node",
      "technique": "cross-driver-invariant-parity",
@@ -4785,9 +4826,22 @@
     },
     {
      "stack": "node",
+     "technique": "read-models-and-projections",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--read-models-and-projections.md",
+     "verified_on": "2026-08-29"
+    },
+    {
+     "stack": "node",
      "technique": "transactions-and-units-of-work",
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--transactions-and-units-of-work.md",
-     "verified_on": "2026-08-22"
+     "verified_on": "2026-08-29"
+    },
+    {
+     "stack": "rust",
+     "technique": "layering-rules",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--layering-rules.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -4800,6 +4854,13 @@
      "technique": "row-mapping",
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--row-mapping.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "transactions-and-units-of-work",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--transactions-and-units-of-work.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -6836,6 +6897,22 @@
      ]
     },
     {
+     "slug": "orphan-reconciliation",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a dependent store the schema cannot cascade into",
+      "a reaper failed after the entity row was already gone",
+      "deciding which direction an orphan sweep walks",
+      "resuming a half-finished delete"
+     ]
+    },
+    {
      "slug": "provenance-denormalization",
      "status": "forged",
      "laws": [
@@ -6852,16 +6929,39 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "archive-restore-semantics",
+     "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/node--archive-restore-semantics.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "orphan-reconciliation",
+     "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/node--orphan-reconciliation.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "rust",
      "technique": "blast-radius-computation",
      "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/rust--blast-radius-computation.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
+     "technique": "orphan-reconciliation",
+     "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/rust--orphan-reconciliation.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
      "technique": "provenance-denormalization",
      "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/rust--provenance-denormalization.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.80"
     }
    ]
   },
@@ -8663,7 +8763,8 @@
      "use_when": [
       "a call compiles clean and fails with unknown operation",
       "reconciling published command names with live registrations",
-      "name checks pass yet calls fail on missing parameters"
+      "name checks pass yet calls fail on missing parameters",
+      "a registered operation is refused by the transport's access list"
      ]
     },
     {
@@ -8693,7 +8794,8 @@
      "use_when": [
       "deciding what an error handler may branch on",
       "call sites substring-match error prose",
-      "a raw panic reaches the wire un-enveloped"
+      "a raw panic reaches the wire un-enveloped",
+      "the transport flattens thrown errors to a message string"
      ]
     },
     {
@@ -8715,21 +8817,38 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "command-registration",
+     "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/node--command-registration.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "drift-gates",
      "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/node--drift-gates.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "call-wrapping",
      "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/react--call-wrapping.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
      "technique": "drift-gates",
      "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/rust--drift-gates.md",
-     "verified_on": "2026-08-22"
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "error-shape-mapping",
+     "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/rust--error-shape-mapping.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -10646,6 +10765,21 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
    "techniques": [
     {
+     "slug": "io-free-core",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test must construct several doubles to exercise one decision",
+      "choosing between an adapter per dependency and one driver at the edge",
+      "logic that must run under more than one runtime or flow-control model",
+      "making protocol or workflow logic testable without mocking"
+     ]
+    },
+    {
      "slug": "locality-and-leverage",
      "status": "forged",
      "laws": [
@@ -10734,6 +10868,13 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "seams-and-adapters",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/go--seams-and-adapters.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "go@1"
+    },
+    {
      "stack": "node",
      "technique": "seams-and-adapters",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/node--seams-and-adapters.md",
@@ -10743,7 +10884,21 @@
      "stack": "process",
      "technique": "structural-improvement-loop",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/process--structural-improvement-loop.md",
-     "verified_on": "2026-08-22"
+     "verified_on": "2026-08-29"
+    },
+    {
+     "stack": "rust",
+     "technique": "io-free-core",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--io-free-core.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "module-depth",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--module-depth.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1"
     }
    ]
   },
@@ -11144,13 +11299,16 @@
      "slug": "absent-degrades-malformed-fails-fast",
      "status": "forged",
      "laws": [
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "deciding what an unset configuration value does",
       "writing a boot validation pass",
-      "a mistyped value ran in fallback mode unnoticed"
+      "a mistyped value ran in fallback mode unnoticed",
+      "reading a numeric or boolean tunable from the environment",
+      "validating configuration on a platform with no process boot"
      ]
     },
     {
@@ -11158,13 +11316,17 @@
      "status": "forged",
      "laws": [
       "failure-not-empty-success",
-      "one-authority-per-vocabulary"
+      "one-authority-per-vocabulary",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "a route is backed by a dependency this deployment lacks",
       "choosing a status code for \"not configured\"",
-      "a batch write half succeeded"
+      "a batch write half succeeded",
+      "a connector cannot obtain one of the quantities it reports",
+      "a card says available and nothing on it can be clicked"
      ]
     },
     {
@@ -11186,7 +11348,8 @@
      "status": "forged",
      "laws": [
       "one-validation-door",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
@@ -11228,15 +11391,29 @@
      "stack": "node",
      "technique": "absent-degrades-malformed-fails-fast",
      "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/node--absent-degrades-malformed-fails-fast.md",
-     "verified_on": "2026-08-22",
-     "verified_against": "node@22"
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "capability-honest-refusal",
+     "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/node--capability-honest-refusal.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "probe-the-grant-not-the-config",
      "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/node--probe-the-grant-not-the-config.md",
-     "verified_on": "2026-08-22",
-     "verified_against": "node@22"
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "rust",
+     "technique": "guarded-singleton-accessor",
+     "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/rust--guarded-singleton-accessor.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -14516,16 +14693,23 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "migration-reason-audit",
+     "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/applications/node--migration-reason-audit.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "process",
      "technique": "ceiling-as-deadline-not-trigger",
      "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/applications/process--ceiling-as-deadline-not-trigger.md",
-     "verified_on": "2026-08-27"
+     "verified_on": "2026-08-29"
     },
     {
      "stack": "process",
      "technique": "size-the-system-to-its-maintainers",
      "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/applications/process--size-the-system-to-its-maintainers.md",
-     "verified_on": "2026-08-27"
+     "verified_on": "2026-08-29"
     }
    ]
   },
@@ -18714,6 +18898,7 @@
     "embedded-preview/origin-validation",
     "entity-lifecycle/blast-radius-computation",
     "entity-lifecycle/bulk-deletion-rails",
+    "entity-lifecycle/orphan-reconciliation",
     "error-handling/crash-capture",
     "error-handling/swallowed-error-prevention",
     "eval-harness/assertion-vs-judgment",
@@ -18780,6 +18965,7 @@
     "migrations/transactional-ddl",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
+    "module-design/io-free-core",
     "module-design/scoreable-designs-are-built-not-argued",
     "module-design/seams-and-adapters",
     "module-design/structural-improvement-loop",
@@ -19043,6 +19229,7 @@
     "embedded-preview/injected-instrumentation-with-fallback",
     "embedded-preview/preview-checkpoints",
     "entity-lifecycle/blast-radius-computation",
+    "entity-lifecycle/orphan-reconciliation",
     "entity-lifecycle/provenance-denormalization",
     "error-handling/cancellation-attribution",
     "error-handling/error-doors",
@@ -19432,6 +19619,7 @@
     "cost-metering/usage-ledgers",
     "credential-vault/encryption-at-rest",
     "data-access/batching-and-n-plus-one",
+    "data-access/read-models-and-projections",
     "data-retention/dry-run-preview",
     "data-retention/time-budgeted-batch-purge",
     "data-viz/scale-and-axis-design",
@@ -19685,6 +19873,7 @@
     "knowledge-registry/verification-is-contributed",
     "mcp-tools/egress-argument-gating",
     "migrations/error-propagation",
+    "optional-dependency-degradation/capability-honest-refusal",
     "p2p-networking/peer-state-honesty",
     "plan-review/informational-fold-in",
     "quality-gates/enforcement-binding",
@@ -19942,6 +20131,7 @@
     "credential-vault/encryption-at-rest",
     "data-access/layering-rules",
     "data-access/query-construction",
+    "data-access/read-models-and-projections",
     "data-retention/confirm-by-echo",
     "data-retention/destructive-override-floor",
     "data-retention/erasure-requests",
@@ -19984,6 +20174,7 @@
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
     "model-routing/routing-policy",
+    "module-design/io-free-core",
     "module-design/seams-and-adapters",
     "module-design/structure-is-not-delegable",
     "multi-project/project-identity-and-joins",
@@ -20127,6 +20318,7 @@
     "embedded-preview/dev-server-registry",
     "embedded-preview/injected-instrumentation-with-fallback",
     "entity-lifecycle/cascade-design",
+    "entity-lifecycle/orphan-reconciliation",
     "error-handling/crash-capture",
     "eval-harness/eval-economics",
     "executive-reporting/expiring-share-links",
@@ -20527,6 +20719,7 @@
     "deployment-contract/environment-promotion",
     "error-handling/cancellation-attribution",
     "knowledge-registry/verification-is-contributed",
+    "optional-dependency-degradation/guarded-singleton-accessor",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
     "voice-io/portable-provider-package",
@@ -20577,6 +20770,7 @@
     "cost-metering/spend-observability",
     "credential-vault/health-probing",
     "credential-vault/token-refresh-lifecycle",
+    "data-access/read-models-and-projections",
     "data-viz/metric-identity",
     "dead-code/carrying-cost-economics",
     "delivery-analytics/delivery-metric-denominators",
@@ -20719,6 +20913,8 @@
     "knowledge-registry/verification-is-contributed",
     "machine-paced-delivery/human-gate-capacity",
     "mcp-tools/transport-selection",
+    "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
+    "optional-dependency-degradation/capability-honest-refusal",
     "plan-review/informational-fold-in",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",

@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 21,
+      "lessons": 23,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:b8f322ea7552742d",
+      "lessonsHash": "sha256-n1:9fde3319e5ed19ce",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -455,6 +455,17 @@
       "usageContributors": [
         "kazda-dev-box"
       ]
+    },
+    {
+      "name": "value-ledger",
+      "version": "0.1.0",
+      "category": "workflow",
+      "path": "skills/value-ledger/SKILL.md",
+      "contentHash": "sha256-n1:7644ddd94efe1110",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
     }
   ],
   "practices": [
@@ -549,10 +560,10 @@
     }
   ],
   "counts": {
-    "skills": 27,
+    "skills": 28,
     "practices": 5,
     "memory": 4,
-    "lessons": 83
+    "lessons": 85
   },
   "bundles": [
     {
@@ -654,10 +665,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 151,
-      "techniques": 995,
-      "applications": 471,
-      "files": 1622,
-      "contentHash": "sha256:02f5f5104a7f83f5"
+      "techniques": 998,
+      "applications": 488,
+      "files": 1642,
+      "contentHash": "sha256:5b29f525c8c24551"
     }
   ]
 }
