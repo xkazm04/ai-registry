@@ -748,3 +748,45 @@ that check stays cheap.
   public asset risks live unfurls; and an OG route missing a `runtime` export its four
   siblings declare, where the default resolves the same way). Both rejections came from
   taking the Before/After measurement seriously enough to find that nothing moved.
+
+## 2.7.1 - 2026-08-29 - kp (lib-llm-config, --optimize, first sweep of the context)
+
+- **After seeding a violation, assert the SEED LANDED — not just that the gate went
+  red.** §7.6 says to seed the thing a checker looks for and watch it bite. It does
+  not say to verify the seed applied, and a seed that silently no-ops is
+  indistinguishable from a guard that works. Measured here: 3 drifts seeded into a
+  new lockstep test, 2 turned red, 1 stayed green — and the green one was not a weak
+  assertion, it was a scripted string replace that never matched because the file was
+  CRLF on disk while my pattern used `\n`. Had I only checked "did the suite go red",
+  the pass/fail mix would have read as success and I would have shipped one
+  unverified guard. The rule that catches it costs one line: make the seeding script
+  assert its own replacement changed the file (`assert s != before`), and read WHICH
+  assertions failed rather than the summary count. This is the same CRLF hazard as
+  the staged-diff lesson above wearing a different hat, which is the argument for
+  naming it separately: the first instance corrupts a commit, this one corrupts a
+  PROOF, and the proof is what the round's credibility rests on.
+
+- **A generated context→subject join can be wrong, and §6 currently says to trust
+  it.** The clause reads "If `.ai/registry-map.json` exists it already holds the
+  context→subject join; take the subject's `file` VERBATIM from the index" — sound
+  advice against building paths from slugs, but it also reads as "the join is
+  settled". For this context the join offered `rate-limiting`, `codebase-scanning`,
+  `webhook-ingestion` and two RECRUITING subjects, all at "probable" confidence,
+  for a module set that is an LLM provider-config layer: keys, precedence, retry,
+  usage ledger, telemetry. The scorer had matched on keyword overlap ("key",
+  "request", "provider", "model", "scores"). Meanwhile `cost-metering`,
+  `model-routing`, `retry-backoff` and `usage-analytics` all exist in the same
+  bundle and govern it precisely; two of the round's four builds came from reading
+  them. Suggested §6 addition: read the joined subjects' NAMES against what the
+  context actually does before opening them, and when they are obviously off,
+  resolve through `knowledge/<domain>/index.json` and SAY SO in the header — a bad
+  join is not just this round's problem, it is the input `/conform` uses to decide
+  what standard the context is evaluated against, so it belongs in the report as a
+  finding rather than being silently worked around.
+
+- Yield: 8 findings / 23 lens-passes = 0.35 per pass, against 0.57 and 0.61 on the
+  two previous rounds. Not a worse pass — a genuinely tighter context: 18 files with
+  a dense test suite (8 test files, including two that already read the Python source
+  for lockstep) and comment density high enough that most hazards were already
+  argued. The three findings that landed all came from the same probe: enumerate the
+  lists of lists and ask which ones got the treatment the others did.
