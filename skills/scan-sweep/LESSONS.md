@@ -807,3 +807,42 @@ that check stays cheap.
   keep the shell for mechanical passes. And when such a hook fires against work
   you believe you did, verify with `git log -- <path>` and answer with the
   evidence — "no doc update needed" is a different claim, and an untrue one.
+
+## 2.7.1 - 2026-08-29 - systedo-case
+
+- **The repo's own mechanical ratchets decide the build list before the routing
+  table gets a vote, and §5 had nothing to say about it.** This repo's agent-review
+  rubric blocks any file under `src/components/` that ends a diff over 200 lines
+  *and larger than it was*. The swept context's two central files were 658 and 339
+  lines, so three findings that were `better` on a real measurement with no hard
+  gate - a timeout card quoting a build constant the run does not use, three
+  lifecycle cards with no live-region semantics, a non-JSON 5xx reported as a
+  network failure - were unbuildable, while three others with the same routing
+  verdict landed simply because their file had headroom. Nothing in §5 told me to
+  look. Applied in 2.8.0: check each candidate's implementation SITE against the
+  repo's declared gates before choosing what to build, and backlog the blocked ones
+  naming that gate, so the operator reads "correct, safe, blocked by A1" instead of
+  a silent absence. The escape hatches are worse than the block: shrinking the fix
+  until it fits the line count optimises for the ratchet rather than the user, and
+  extracting to a new file is veto 1 plus, here, a rise in a ratcheted unmapped-file
+  count.
+
+- **A composite gate script hides a skipped stage behind someone else's failure.**
+  §7.2 already covers `tail` eating the exit code, `;` instead of `&&`, and a red
+  that is not yours. It does not cover the fourth shape, which cost me a full
+  verification here: `npm run check` is `typecheck && lint && build`, `lint` runs
+  over the whole tree including a UAT run artifact with a parse error committed
+  three days earlier, so lint failed and **the build never ran at all**. Confirming
+  "the red is not mine" felt like the end of the analysis and was only half of it -
+  the stage I actually needed was the one that got skipped. Applied in 2.8.0 as a
+  fourth bullet in §7.2. Sharpened corollary for the same clause: when the round's
+  gate is a composite, name in the report which stages actually executed, not which
+  script you invoked.
+
+- Yield: 12 findings / 23 lens-passes = 0.52 per pass over a 1612-line, six-file
+  context, of which 3 built and 1 rejected as `not-better`. The tail earned its
+  keep in an unusual way: seven lenses reported clean, and two of those clean
+  verdicts (`analytics-planner`, `tech-debt-tracker`) were clean specifically
+  because the finding belonged to another lens or to a deterministic gate - §4.9's
+  "name the three things you checked" is what kept them from becoming duplicates of
+  findings already written.

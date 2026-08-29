@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N]
 category: workflow
 contexts: tracked
 memory: project
-version: 2.7.1
+version: 2.8.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -314,6 +314,20 @@ its benefit is architectural - and stays human; an auto-accepted M that grows
 past its seam mid-build is demoted like any other (§7.4). Effort / impact / risk are still scored - they
 order the queue and calibrate the delta - they just no longer gate it.
 
+**So does the repo's own mechanical gate, and it binds on the SITE, not on the
+idea.** A ratchet - a LOC ceiling on a file, a bundle-size budget, a dependency
+ban, a coverage floor - can make a `better` + no-hard-gate finding unbuildable
+purely because the only file its fix belongs in is already at the line. That is
+not a reason to shrink the fix until it slips through, and not a reason to
+invent a new file to escape the rule (a new path is usually outside the
+context's declared `file_paths`, which is veto 1, and often trips an
+unmapped-file ratchet as well). **Before choosing the build list, check each
+candidate's implementation site against the gates the repo declares**, and route
+the blocked ones to the backlog naming THAT gate as the blocker - the operator
+needs to see "correct, safe, and blocked by A1", not a silent absence. Measured
+2026-08-29: in one context, six findings were `better` with no hard gate and only
+three had a file with headroom.
+
 **Pure churn measures the same on both sides** and is therefore `not-better`
 - rejected, with the identical figures as the reason. That is the intent.
 
@@ -449,6 +463,11 @@ Work the approved queue highest-reward first, one finding at a time:
    - `npm run typecheck; echo "TC=$?"; git commit` **prints** the failure and
      commits anyway. A number in the transcript is not a gate; `;` is not `&&`.
    - The gate is red for a reason that is **not yours** — see below.
+   - The gate is a **composite script whose early stage failed**, so the later
+     stages never ran. `check = typecheck && lint && build` with a foreign lint
+     error means the build was never executed, and "the red is not mine" is only
+     half the analysis: you still owe the skipped stage. Run it on its own and
+     say which stages actually passed, or the round is degraded.
 
    The shape that holds: run each gate in its own invocation, `&&`-chained so a
    non-zero status stops everything, and let the commit be the last link.
