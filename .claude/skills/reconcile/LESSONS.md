@@ -49,3 +49,59 @@ the contract those runs earned; this file carries what the DIRECTOR learned runn
   instructing a direct ship to the default branch. The obligation rule worked
   exactly as designed - owed at push time, resolved by a human at push time - and
   the skill encodes it rather than a hard branch rule.
+
+## 1.0 - 2026-08-29 - localization wave 1 (8 subjects, class A+B)
+
+- **A bundle the brief never classified was the best class-B ground in the corpus.**
+  `docs/reconcile-brief.md` enumerates "the 48" across six bundles and predates
+  `localization` entirely. The classification job found something that revises the
+  lane's own picture: the brief's class B is built around PROSE procedures - a
+  regulation's arithmetic, a validator over a fixture - while Unicode and CLDR ship
+  **machine-readable conformance data**. Two workers wrote UAX #14 implementations
+  independently and independently scored 19338/19338. When a standard ships a test
+  file, executed evidence is cheap AND adversarial: a degenerate implementation fails
+  visibly, and three workers built negative controls unprompted to prove their harness
+  was not trivially passing. Look for the test file before assuming class B means prose.
+- **"Pin a release, not `main`" is a correctness rule, not a tidiness rule - and it
+  caught the DIRECTOR.** A pre-check against CLDR `main` produced a confident "the
+  corpus contradicts itself across two subjects" that went into a dispatch and into a
+  report to the operator. Released CLDR disagreed with `main` on live data; the
+  technique was right, and the worker's framing is the keeper: *the disagreement was a
+  pin, not a fact.* The same worker then found the real defect underneath (a decade-old
+  error in the other half of the same sentence). Write the pin instruction into every
+  class-B dispatch, and tell the worker in as many words that refuting the director is
+  a legitimate outcome - three of eight used that licence and all three were right.
+- **A summarizing fetch is not a citation check.** Spot-checking a worker's sharpest
+  claim, `WebFetch` on a 177 KB specification page reported that the spec "does not
+  explicitly define" the semantics in question and that no worked example existed. Both
+  false - the example was verbatim in a table, found immediately by curl-and-grep on the
+  raw HTML. The director's spot-check would have wrongly impeached a correct worker.
+  **Fetch the raw document before overturning a citation**; a small-model summary of a
+  large spec produces confident false negatives exactly where the detail is fine-grained.
+- **Deliberate independent pairs are worth engineering.** Two subjects were dispatched
+  against the same standard with an explicit instruction not to coordinate and not to
+  write about each other. They returned the SAME two findings by different routes - the
+  Ambiguous-width trap on prescribed glyphs, and the standard's relational
+  fullwidth/halfwidth vocabulary. That is a two-sighting family bought for the price of
+  work that was worth doing anyway, and it is stronger evidence than one worker asserting
+  both. Pair subjects that share a counterpart, and forbid coordination explicitly.
+- **The instrument pre-flight is part of the wave, not preamble.** Declaring a new
+  application stack needed two changes, and the second was invisible: `check-currency`
+  keys its window policy on a lookup where an ABSENT stack falls to the 183-day default
+  AND reads as runtime-bearing everywhere the code tests `WINDOW_DAYS[stack] !== null`,
+  because `undefined !== null`. All eight applications would have reported as drift-blind
+  for want of a `verified_against` the lane forbids them to carry - re-manufacturing a
+  false signal the domain note had corrected the day before. When the brief says a
+  bundle "declares the stack when the first such application lands", the currency
+  instrument needs the same entry in the same breath.
+- **Workers correct the frontmatter contract, again.** The dispatch block omitted
+  `status:`; one worker noticed the corpus carries it on 561 of 561 applications, wrote
+  without it as instructed, and flagged the discrepancy rather than silently diverging.
+  Second recorded instance of the frontmatter template being wrong and the worker
+  holding the fact. The template is a template.
+- **A good decline is a result.** The class-A worker was given two candidate techniques
+  and bound the one the evidence supported, declining `language-registry-single-source`
+  because the tree has seven hand-maintained locale lists that currently AGREE - binding
+  it would have documented seven agreeing lists rather than a registry. It banked the
+  real test (cross-repo) as a lead. Two other workers declined director hypotheses that
+  turned out not to exist in the files. None of the three padded.
