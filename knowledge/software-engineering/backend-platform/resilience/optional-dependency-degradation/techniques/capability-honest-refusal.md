@@ -7,8 +7,10 @@ status: forged
 laws:
   - failure-not-empty-success
   - one-authority-per-vocabulary
+  - absent-guard-is-loud
+  - unknown-is-not-a-value
 shared_with: []
-use_when: [a route is backed by a dependency this deployment lacks, choosing a status code for "not configured", a batch write half succeeded]
+use_when: [a route is backed by a dependency this deployment lacks, choosing a status code for "not configured", a batch write half succeeded, a connector cannot obtain one of the quantities it reports, a card says available and nothing on it can be clicked]
 ---
 
 # Capability-honest refusal
@@ -37,7 +39,16 @@ costs somebody real time.
 **The status** is the transport's "the service cannot handle this right now"
 signal — service-unavailable, not internal-error, not not-found. It is
 retry-shaped by convention, which is right for the temporary case and needs a
-correction for the permanent one, below.
+correction for the permanent one, below. The transport also offers a
+permanent-sounding alternative — "not implemented", defined as the server not
+supporting the functionality required — and it is tempting for a
+deployment-level gap. Two facts argue against it. It is cacheable by default,
+so a refusal that an intermediary stored can outlive the operator's fix, and
+the surface stays refused after it was configured. And intermediaries and
+monitors read it as a server defect rather than a posture. Keep the temporary
+status for both cases, distinguish them by code, and withhold the retry hint
+on the permanent one; a deployment that uses the permanent status anyway sends
+it with an explicit no-store directive.
 
 **The code** is a short, stable token from a closed union, carried in the body
 beside a human-readable message. It is the field clients branch on, dashboards
@@ -51,10 +62,16 @@ change looks like a copy edit. Say so at the definition, in a comment, next to
 the union.
 
 **The message** is copy and may change freely. It states the capability, not the
-cause, and it never names the variable that would fix it — that belongs in the
-server log and the boot summary, where an operator reads it and a stranger does
-not. "Waitlist storage is not configured on this deployment" is a message; the
-name of the key is a disclosure.
+cause, and it does not name the variable that would fix it when the reader is
+a stranger — that belongs in the server log and the boot summary, where an
+operator reads it and a stranger does not. "Waitlist storage is not configured
+on this deployment" is a message; the name of the key is a disclosure. The
+audience decides, not the deployment's label: a public multi-tenant surface
+answers strangers; a self-hosted, single-tenant instance whose callers are its
+own operators — the person wiring an exporter to it is the person who can set
+the variable — may name the variable in the body, because that is the fastest
+fix and, for source-available software, discloses nothing the source does not.
+A surface that serves both audiences is a public one.
 
 ## Permanent and temporary are not the same refusal
 
@@ -79,7 +96,12 @@ prober learns the endpoint is live and merely locked. The ordering in the
 handler follows: the configuration check runs first and refuses with the
 not-configured code; only if the capability exists does the authorization check
 run and refuse with an authorization code. That ordering is also the security
-posture — an unconfigured authenticating endpoint is closed, never open.
+posture — an unconfigured authenticating endpoint is closed, never open
+([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)) — and the
+same rule covers the state the gate cannot read: a revocation record or an
+allow-list that is configured but unreadable right now is "unknown", and
+unknown refuses with the temporary code rather than resolving to the value
+that would admit the caller.
 
 ## Never fabricate, and never round the truth
 
@@ -100,6 +122,19 @@ every partial outcome the surface can produce:
   caller-facing code. An unreachable store, a denied grant, a timeout are the
   deployment's problem and get a different one. A single "could not save"
   covering both makes the support conversation start from zero every time.
+- **Distinguish a denial from an outage, at the call that observed it.** A
+  fetch helper that maps every non-success — forbidden, not found, a network
+  failure — to one empty value has thrown the classification away at the only
+  place it existed. The route above it then *guesses* the cause in its
+  message ("this is nearly always a permissions problem"), and the guess is
+  wrong exactly when the operator most needs it to be right.
+- **A zero that means "not reported" is not a zero.** A connector that cannot
+  obtain one of the quantities it reports records the absence as absence — an
+  omitted field, a null, a fidelity marker the consumer must branch on — never
+  as a definite value that downstream arithmetic will consume as fact
+  ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)). A
+  comment beside the zero saying it means "unknown" governs only the readers
+  of that comment.
 
 ## The surface's half
 
@@ -118,6 +153,14 @@ the configuration document, an operator-only diagnostic. A capability that
 vanishes from the interface with no trace anywhere is indistinguishable from a
 regression.
 
+The inverse defect is quieter and shows up when a surface is generated from a
+catalogue: a capability labelled *available* with nothing on the surface that
+invokes it, or with a status line copied from a sibling capability that tells
+the reader to perform the sibling's setup. "Available" is a claim with two
+obligations — there is something to act on, and the guidance beside it was
+written for this capability. A capability that can only be invoked by calling
+an endpoint by hand is not available on that surface; label it for what it is.
+
 ## Decision rules
 
 - **One status, one code, per condition** — and the code comes from the closed
@@ -128,7 +171,10 @@ regression.
   they carry the same status.
 - **Failed counts are reported, not zeroed.**
 - **A refusal is not an error-rate event.** Route it to its own counter, or the
-  first correctly-degraded deployment sets off the alarms.
+  first correctly-degraded deployment sets off the alarms. The same holds for
+  the uptime sweep: a public route that refuses permanently on this deployment
+  answers every probe with a status the sweep reads as down, so either the
+  sweep knows which routes are expected to refuse, or they are not in it.
 - **Test the refusal, not just the happy path.** With the dependency
   unconfigured, assert the status, the exact code string, and the absence of the
   variable name in the body. The code-string assertion is what makes the

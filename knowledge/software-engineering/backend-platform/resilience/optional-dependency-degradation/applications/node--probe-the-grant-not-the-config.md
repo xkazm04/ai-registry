@@ -5,11 +5,15 @@ subject: optional-dependency-degradation
 technique: probe-the-grant-not-the-config
 stack: node
 status: forged
-verified_on: 2026-08-22
-verified_against: node@22
+verified_on: 2026-08-29
+verified_against: node@24
 ---
 
 # A route that picks its storage tier from a truth table
+
+Citations re-resolved 2026-08-29 against `personas-web@a6ec62f`; the route
+gained a few lines above the handlers and the line references below were
+moved accordingly. Every claim still holds.
 
 `src/app/api/waitlist/route.ts` is the technique's worked example, including the
 incident that produced it. The route accepts signups and can write them to a
@@ -62,22 +66,22 @@ hardening written at the substitution.
 
 ## One tier, both handlers
 
-`:74-81` defines a local `hasSupabase()` delegating to
+`:78-84` defines a local `hasSupabase()` delegating to
 `hasSupabaseServiceRole()`, and the comment states the rule that keeps a
 two-tier feature coherent: "GET and POST must agree on the store, or the counts
-would come from one backend while the entries land in the other." `GET:152` and
-`POST:223` both branch on that one expression.
+would come from one backend while the entries land in the other." `GET:163` and
+`POST:233` both branch on that one expression.
 
 ## The refusal contract on the same route
 
-The closed union is declared at `:56-62` — `rate_limited | invalid_email |
+The closed union is declared at `:63-66` — `rate_limited | invalid_email |
 invalid_platform | store_unavailable` — with the rule beside it: the prose
 `error` field is English-only and kept for existing consumers, the browser
 renders a translated string chosen from the code, and "Never reword a code."
-Every refusal goes through one helper (`waitlistError`, `:65-72`) that cannot
+Every refusal goes through one helper (`waitlistError`, `:69-76`) that cannot
 produce a body without a code.
 
-`:230-254` is the split the technique asks for. A unique-violation
+`:241-264` is the split the technique asks for. A unique-violation
 (`error.code === "23505"`) is the caller's situation and returns a 200 with
 `duplicate: true`; everything else — "missing grants, table absent, network" —
 is "an infrastructure fault, not a user error", and returns `store_unavailable`
@@ -87,14 +91,15 @@ the error *code* and the platform are reported."
 
 ## Deviations
 
-- **The failed count reaches telemetry, not the caller.** `GET:159-177` tracks
+- **The failed count reaches telemetry, not the caller.** `GET:170-187` tracks
   a `failed` sentinel across three parallel count queries and reports it —
   "a zeroed response used to be indistinguishable from an empty waitlist. Report
   the fault instead of hiding it." But the fault is reported to the error
-  tracker only; `:167` still writes `counts[platform] = error ? 0 : …` and
-  `:178` returns those zeros with a 200. The client cannot tell a failed count
+  tracker only; `:178` still writes `counts[platform] = error ? 0 : …` and
+  `:189` returns those zeros with a 200. The client cannot tell a failed count
   from an empty waitlist, which is the exact condition the comment names. The
   standard wants the refusal (or a per-platform null) on the wire as well.
+  Still true on 2026-08-29.
 - **The naive predicate survives beside the correct one.**
   `hasSupabaseEnv()` (`src/lib/server/env.ts:16-21`) is still exported, and the
   route's local shim is still named `hasSupabase()` — the misleading name kept,

@@ -7,6 +7,7 @@ status: forged
 laws:
   - one-validation-door
   - failure-not-empty-success
+  - verdict-survives-boundary
 shared_with: []
 use_when: [constructing a client for a hosted dependency, an unconfigured value crashes an unrelated page, deciding between a throwing accessor and a null client]
 ---
@@ -33,12 +34,22 @@ function, and the function throws when the dependency is not configured.**
 - **Memoise the instance, not the failure.** The first successful construction
   is cached and returned to every subsequent caller — the singleton half of the
   name. A failed construction is not cached as a permanent poison; it simply
-  throws again, which is cheap and keeps the code free of a second state.
+  throws again, which is cheap and keeps the code free of a second state. A
+  once-initialisation primitive does the opposite by default if its initialiser
+  returns a result type: it stores whatever came back, so a transient failure —
+  a backend not yet up when the first caller arrived — is memoised and
+  returned forever, and the process is unusable until restart. Store the
+  success type only; a failed attempt leaves the cell empty.
 - **Throw a typed, message-carrying error.** The message names the variables
   that would configure it — this error reaches a server log, not a stranger —
   and its type or code is distinguishable from every other failure the callers
   handle. "Not configured" that arrives as a generic error is indistinguishable
-  from the dependency being down, and the two demand different behaviour.
+  from the dependency being down, and the two demand different behaviour. The
+  type has to survive every conversion on the way out: an accessor that throws
+  a precise error which the module boundary then folds into the application's
+  generic internal-error variant has computed the verdict and thrown it away at
+  the first door
+  ([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)).
 - **One door.** Every consumer obtains the client here. A module that reads the
   environment directly and builds its own client has created a second answer to
   "is this configured", and the two will disagree the day the answer becomes
@@ -66,10 +77,19 @@ correctness. Even there, the stub is named as a stub and the boot summary says
 the sink is inert. Anything that stores, charges, sends or authorises gets a
 throw.
 
-Returning `null` is the same mistake with an extra step. Every call site must
-then remember to check, the check is invisible to review when it is missing, and
-the eventual failure is a null dereference at a random depth rather than a
-message naming a variable.
+Returning `null` is the same mistake with an extra step — in a language where
+an absent value can be dereferenced. There, every call site must remember to
+check, the check is invisible to review when it is missing, and the eventual
+failure is a null dereference at a random depth rather than a message naming a
+variable. In a language whose type system makes an optional value impossible
+to use without unwrapping it, an accessor that returns an optional is not that
+mistake: the compiler is the review. What the optional still loses is the
+*why* — "none" cannot say whether the dependency was never configured or
+failed to construct — so the shape that keeps the verdict is a result carrying
+a typed configuration error. The rule underneath both spellings: **absence must
+be impossible to ignore at the call site, and the reason must travel with
+it.** Throw where the language would let a null pass silently; return a typed
+result where it would not.
 
 The subtlest member of this family deserves naming on its own, because it is
 written by careful people during a migration: **a factory that prefers the
@@ -114,8 +134,14 @@ catch, the always-available guarantee is broken by the first import.
 - **Never construct a client at module scope from configuration that may be
   absent.** This is the whole defect in one line.
 - **The accessor throws; it never returns null and never returns a stub**
-  (telemetry sinks excepted, and named as such).
-- **Memoise success only.**
+  (telemetry sinks excepted, and named as such). Where the compiler enforces
+  the unwrap, a typed result is the same rule in the language's own spelling.
+- **Memoise success only** — and check what the once-cell you reached for
+  actually stores.
+- **Every accessor for one dependency reads through one cache.** A second
+  memoised derivative — a cipher built from the key, a pool built from the
+  client — that caches its own outcome re-introduces the poisoned cell one
+  layer up, after the first layer was fixed.
 - **The predicate and the accessor read the same values from the same place.**
 - **A server-only credential's accessor must not be reachable from a client
   bundle.** Keep it in a module the build cannot inline into browser output,

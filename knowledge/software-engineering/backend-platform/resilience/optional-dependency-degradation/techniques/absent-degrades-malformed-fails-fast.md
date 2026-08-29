@@ -6,8 +6,9 @@ technique: absent-degrades-malformed-fails-fast
 status: forged
 laws:
   - failure-not-empty-success
+  - absent-guard-is-loud
 shared_with: []
-use_when: [deciding what an unset configuration value does, writing a boot validation pass, a mistyped value ran in fallback mode unnoticed]
+use_when: [deciding what an unset configuration value does, writing a boot validation pass, a mistyped value ran in fallback mode unnoticed, reading a numeric or boolean tunable from the environment, validating configuration on a platform with no process boot]
 ---
 
 # Absent degrades, malformed fails fast
@@ -55,6 +56,30 @@ the same project, a public and a private half that must both be present or both
 absent. Half-configured is malformed, and it is exactly the state that produces
 a surface which authenticates but cannot write.
 
+## Tunables are where the collapse actually happens
+
+The examples above are credentials and addresses. The class where the two
+conditions get collapsed most often is duller and far more numerous:
+**tunables with defaults** — a numeric ceiling, a boolean switch, an
+enumerated mode. Absent means "use the default", which is correct, and it is
+the only case the customary idiom handles. That idiom is a parse with the
+default as its fallback: a number coerced and replaced by the default when the
+result is not finite, a switch compared against one spelling of true. So a
+ceiling with a typo runs silently at the default, and a switch written as
+`yes`, `on`, or with a capital letter silently reads as off. Nobody notices,
+because the default is a working configuration and the surface looks fine.
+
+The asymmetry applies unchanged. Absent takes the default. Present parses
+strictly — the accepted spellings of a boolean enumerated once for the whole
+repository, a number required to be a number in the permitted range — and
+anything else refuses at boot with the variable and the received value named.
+The direction of the silent misread decides how much it costs: a fail-open
+switch that quietly reads as closed is the safe accident; a strictness switch
+that quietly reads as off has disarmed a guard without anyone choosing to
+([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)), and a
+ceiling that quietly reverts to its default has un-tuned a limit the operator
+believed they raised.
+
 ## What the message must contain
 
 A boot refusal is read once, by someone who just deployed, usually in a log
@@ -96,6 +121,29 @@ traffic has produced an output indistinguishable from a healthy boot to
 everything downstream
 ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
 
+## Where there is no boot
+
+A runtime that starts a fresh process per cold start has no boot in the sense
+above. Its earliest hook runs on every instance, so a refusal there is not one
+loud failure in front of the person who deployed — it is a stream of failed
+requests in front of users, indistinguishable from an outage, from a platform
+that reports the deployment as live. On such a platform the step that *has*
+the boot property is the **build or deploy step**: run the same validator
+there, so the rollout is refused and the previous deployment keeps serving.
+
+Two traps come with that placement. Build-time and request-time environments
+are frequently different sets — a value present when the artifact is built and
+absent when it runs, or the reverse — so the validator says which environment
+it read, and a value that exists only at runtime is still checked in the
+per-instance hook, with that failure spelled as a refusal rather than left to
+crash. And the build-time validator is the one most often switched off: a skip
+flag is added so a pipeline without secrets can produce an artifact, and it is
+left set in the environment that had the secrets, at which point the guard
+meant to refuse the deploy protects nothing and says nothing
+([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)). The skip
+is scoped to the pipeline that needs it, and a build that skipped validation
+says so in its output.
+
 ## The one exemption, and how to take it
 
 A declared offline, mock or local-only mode is a real thing: absence is the
@@ -120,7 +168,13 @@ at the point of refusal, why it cannot be defaulted.
   exists to prevent.
 - **An empty string is absent.** Environments deliver unset values as empty
   strings through several layers, and a deployment tool that writes an empty
-  value means "not set". Normalise once, at the reader.
+  value means "not set". Normalise once, at the reader. The one class where
+  empty is a legitimate value — a list that may be empty, a prefix that may be
+  none — declares that at the reader too, because the default reader will
+  otherwise turn a deliberate "none" into the fallback.
+- **A default is for absence, never for a parse failure.** The tunable that
+  falls back to its default on a bad value is the week in fallback mode at
+  small scale, and it is written by the idiom, not by carelessness.
 - **Validate every present value at boot, even the ones nothing has used yet.**
   A value read lazily by a feature nobody exercised is a mistake that waits.
 - **Reject the placeholder by name.** The template's own example value is the

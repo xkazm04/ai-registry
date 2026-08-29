@@ -100,7 +100,11 @@ Fallbacks come in a small number of shapes, roughly in order of preference:
   not a degrade at all: the capability runs whole, and the operator inherits
   a real value they can rotate. Generation is for what randomness or
   derivation can supply; everything below this rung is for what it cannot (an
-  external account, a running daemon). One sibling rule rides with it: when a
+  external account, a running daemon). What it is never: a constant in the
+  source. A secret that defaults to a string in the repository is the same
+  secret for every deployment that skipped the variable and is readable by
+  everyone who can read the code; "dev-only" in a comment beside it is not a
+  runtime guard. One sibling rule rides with it: when a
   missing dependency is expensive but locally buildable — an image, a corpus
   — the launcher *offers* the one-time build at the point of need, with
   declining still yielding a running system minus that capability, and the
@@ -182,7 +186,10 @@ startup pass reads every present value, checks its shape, and refuses to start
 on the first bad one. It skips values that are absent, and it is skippable as a
 whole in a declared offline or mock mode where absence is the intended
 configuration — skipping a validator in a named mode is honest; loosening the
-validator for everyone so the mode passes is not.
+validator for everyone so the mode passes is not. On a platform that starts a
+process per cold start there is no boot to refuse, and the step with that
+property is the build or deploy: the same validator runs there, so a bad value
+refuses the rollout instead of failing every request.
 
 **At first use** is where *absence* belongs: one guarded accessor per
 dependency, memoising the client and throwing a typed error when the
@@ -312,7 +319,12 @@ pretends to be storage.
   present is a barrier to cloning the repository; the required set is ideally
   empty, and where it is not, the boot says which one and why.
 - **Malformed treated as absent.** The costliest collapse in the subject, and
-  the reason the week in fallback mode happens at all.
+  the reason the week in fallback mode happens at all. Its commonest spelling
+  is a tunable — a ceiling, a switch — whose parse failure returns the default.
+- **A constant in the source standing in for a secret.** A "clearly marked dev
+  default" for a signing key is a credential shared by every deployment that
+  skipped the variable with everyone who can read the repository; the door
+  that should have closed opens with a published key.
 - **A client constructed at module scope.** The blast radius of an unconfigured
   feature must be that feature.
 - **A fallback with no stated consequence.** "Degrades gracefully" is not a
@@ -333,13 +345,15 @@ pretends to be storage.
 
 - [absent-degrades-malformed-fails-fast](./techniques/absent-degrades-malformed-fails-fast.md)
   — the asymmetry as a procedure: branch on presence, validate shape at boot,
-  reject placeholders, and the one mode where the validator is skipped rather
-  than loosened.
+  reject placeholders, strict parsing for tunables with defaults, where the
+  validator runs on a platform with no boot, and the one mode where the
+  validator is skipped rather than loosened.
 - [per-variable-blast-radius](./techniques/per-variable-blast-radius.md) — the
   four facts each variable records, the template as the single authority, and
   the degraded-mode test that keeps each line falsifiable.
 - [guarded-singleton-accessor](./techniques/guarded-singleton-accessor.md) —
-  one throwing factory per dependency, memoised, with a companion predicate
+  one throwing factory per dependency (a typed result where the compiler
+  enforces the unwrap), memoising success only, with a companion predicate
   from the same source and a catch site that catches only this.
 - [probe-the-grant-not-the-config](./techniques/probe-the-grant-not-the-config.md)
   — gating on the credential that carries the operation's grant, the
@@ -347,8 +361,9 @@ pretends to be storage.
   is hardened.
 - [capability-honest-refusal](./techniques/capability-honest-refusal.md) — the
   distinct status, the closed code union, permanent versus temporary
-  unavailability, partial-success reporting, and hiding an affordance that
-  cannot work.
+  unavailability, who may read the variable name, partial-success reporting,
+  a "not reported" that is never a zero, and hiding an affordance that cannot
+  work — or advertising one that has no affordance.
 - [degradation-coupled-to-hardening](./techniques/degradation-coupled-to-hardening.md)
   — enumerating the degradation paths a grant change breaks, removing a
   fallback that lost its grants, and testing degraded mode against the hardened
