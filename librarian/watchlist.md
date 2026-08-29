@@ -99,11 +99,14 @@ which makes executed evidence cheap and reproducible here in a way prose procedu
 
 | counterpart | class | subjects served | grade |
 | --- | --- | --- | --- |
-| unicode-org/cldr@48.2 (released 2026-03-17) | B, data + samples | CONSUMED for arabic, indonesian, vietnamese, bengali | measured: 4 harnesses, 0 sample mismatches; **release vs `main` matters — pin a release** |
+| unicode-org/cldr@48.2 (released 2026-03-17) | B, data + samples | CONSUMED for arabic, indonesian, vietnamese, bengali, czech, french, hindi, russian, spanish | measured: 9 harnesses, 0 sample mismatches; **release vs `main` matters — pin a release**; SHASUM512 manifest defect confirmed by two independent workers |
 | unicode/uax11@17.0.0 (rev 44) | B, property data only | CONSUMED for chinese, japanese | measured: no conformance artifact; property classification only |
 | unicode/uax14@17.0.0 (rev 55) | B, conformance test | CONSUMED for korean, japanese | measured: 19338/19338 twice, independently |
 | unicode/uts35-part9 (MessageFormat) | B, spec + ICU4J reference impl | CONSUMED for indonesian | measured: ICU4J 78.3 rejects the corpus's prescribed message |
 | unicode/ucd@17.0.0 (NormalizationTest) | B, conformance test | CONSUMED for bengali | measured: 20034 rows, 0 fails |
+| unicode/ucd@17.0.0 (case mappings) | B, **property data only — no casing conformance test exists** | CONSUMED for german | measured: n=68 strings, 20 round-trip failures; U+1E9E unreachable by default |
+| unicode-org/cldr — common/rbnf/<lang>.xml | B | **unconsumed, best structural lead**: gendered/cased spellout rulesets and digit-ordinal patterns; conformance-grade evidence for gender and ordinal claims plurals.xml cannot support | reputed |
+| unicode-org/cldr — per-locale minimalPairs | B, fixture | **unconsumed**: plural/ordinal/case/gender minimal pairs, a versioned fixture for any subject here; one non-distinguishing pair already found in hi | reputed |
 | mdn/translated-content @876d0ee | A, repository | CONSUMED for translation-pipeline-topology; `sharded-translation-ci` and a prose-side `source-identical-value-audit` both banked | measured: 37,200 docs, 57.4% keyed, 42.5% drift on n=40 |
 | unicode-org/cldr — `hi` locale data | B | **unconsumed lead**: `hi` defaults to `latn` (inherited), `bn` declares `beng` — the two sibling techniques must not be symmetric | reputed |
 

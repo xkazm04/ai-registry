@@ -210,3 +210,65 @@ corrected for the bundle yesterday.
 Still **unknown**. `personas-web` is now correctly routed to this bundle, but no signals
 contributor witnesses a consult. This wave serves a real consumer whose demand is not yet
 reported, and says so rather than implying otherwise.
+
+## 2026-08-29 — external-reconcile wave 2: the single-source debt is discharged
+
+Six workers on the six remaining single-source subjects — `czech`, `french`, `german`,
+`hindi`, `russian`, `spanish`. **Six applications landed, zero rejected.** Applications
+36 → 42.
+
+**All 14 subjects in this bundle now carry a second source**, and the bundle's attention
+score fell from **67 to 2**. Thirteen subjects score zero.
+
+The residual 2 belongs to `translation-pipeline-topology`, and it is **the proxy failing,
+not a gap**. That subject has three applications drawn from three genuinely distinct
+sources — a desktop app, a web app, and a foreign repository — but all three are class-A
+readings of trees, so all three legitimately sit on the `process` stack. The scan counts
+stacks; the brief is explicit that *the stack was always the proxy for the source*. Two of
+the three also predate the lane's `source:` convention, and the brief says **no backfill**,
+so this row stays visible until enough new applications accumulate for a source-aware
+scan. Recorded so no future run reads it as unfinished work.
+
+| subject | counterpart | fate |
+| --- | --- | --- |
+| french | CLDR 48.2 + RBNF | confirmed; `one` is the interval [0,2); ordinals a real gap |
+| spanish | CLDR 48.2 + RBNF | `many` refuted as stated — notation, not magnitude |
+| russian | CLDR 48.2 | confirmed and sharpened; ranges refuted on all three sub-claims |
+| czech | CLDR 48.2 + reference impl | `many` is the *fraction* category; ranges refuted |
+| german | Unicode 17.0.0 UCD | ß→SS confirmed; ẞ **refuted as reachable** |
+| hindi | CLDR 48.2 | ordinals confirmed; the golden path, not the technique, is silent |
+
+### Convergence — the wave's real output
+
+- **The range family reached five sightings** (`arabic` 5 overrides, `czech` 0,
+  `spanish` 1, `russian` 0, `french` 0-with-gaps). Four opens a law conversation, which
+  the cycle may never write itself. Crucially the sightings **disagree**, and that is the
+  finding: from `arabic` alone the claim would have been "range tables override the
+  default", which `czech` and `russian` disprove. The transferable rule is the mechanism —
+  *range selection is a (start, end) pair lookup with an end-value default; a published
+  row may confirm **or** override, so counting rows tells you nothing.*
+- **"A plural category can be a property of the rendering, not the value"** — three
+  sightings: `czech` (`many` is `v != 0`), `russian` (every rule guards `v = 0`),
+  `spanish`/`french` (compact notation moves a quantity between categories).
+- **The caseless-key choice must be recorded** — one sighting (`german`), banked.
+
+### What is now owed
+
+- **Accepted-debt notes for the class-D techniques.** `de-anglicization-constructions`
+  and `register-and-address` appear in all thirteen language subjects with no conformance
+  artifact anywhere. Still unwritten; now the only structural item left.
+- **`common/rbnf/<lang>.xml` is an unused counterpart surface** — gendered and cased
+  spellout rulesets and digit-ordinal patterns, conformance-grade evidence for gender and
+  ordinal claims that `plurals.xml` cannot support. The best structural lead of the wave.
+- **CLDR's per-locale minimal pairs** (`plural`, `ordinal`, `case`, `gender`) are a
+  ready-made versioned fixture for any subject here; a sweep for non-distinguishing pairs
+  is a wave of its own.
+
+### Director's error rate, recorded deliberately
+
+Across both waves the director's dispatch prompts carried **four factual errors** — a
+pre-check read against an unreleased branch, a "richest table in the corpus" claim that
+was wrong, a worked plural-range example that was backwards, and an assertion that CLDR
+says nothing about gender. **Workers caught all four**, and in each case the correction
+improved the finding. The contract works; the lesson is that a director's reconnaissance
+is a hypothesis and must be phrased as one in the prompt.

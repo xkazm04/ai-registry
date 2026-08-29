@@ -122,18 +122,18 @@
     },
     {
       "name": "explorer",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:43b4e30a4b19bb8e",
+      "contentHash": "sha256-n1:a336b367ac6c5a11",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 3,
+      "lessons": 6,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:09df8099aa8cbfc4",
+      "lessonsHash": "sha256-n1:52f602b1dc2e2d42",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -346,10 +346,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "2.7.1",
+      "version": "2.8.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:80289984c3b757a7",
+      "contentHash": "sha256-n1:0fbf5a1b6c3b4c3d",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 13,
+      "lessons": 17,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:efd28b8102920e56",
+      "lessonsHash": "sha256-n1:611737aaa8159129",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -552,7 +552,7 @@
     "skills": 27,
     "practices": 5,
     "memory": 4,
-    "lessons": 69
+    "lessons": 76
   },
   "bundles": [
     {
@@ -616,9 +616,9 @@
       "purity": "localization",
       "subjects": 14,
       "techniques": 85,
-      "applications": 36,
-      "files": 139,
-      "contentHash": "sha256:b9be492d6b7821d1"
+      "applications": 42,
+      "files": 145,
+      "contentHash": "sha256:9a2356ee22d7be1c"
     },
     {
       "name": "media-generation",
