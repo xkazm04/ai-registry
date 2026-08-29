@@ -1931,3 +1931,24 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
 - **Class prediction stated before triage held to the number** (0 techniques, 1
   amendment at most, leads for the paper). Ninth consecutive zero-fetch run; a
   paper explainer that never names the paper leaves the fetch nothing to hit.
+
+## 0.15.0 - 2026-08-29 - method redesign (operator-directed): apply and A/B test, scorecard reflection
+
+- **The operator's critique, verbatim in substance: the skill was enriching a wiki.**
+  Twenty-six runs landed techniques and amendments; the cross-repo lane (Phase 8) was
+  opt-in and was taken on two of them. The funnel had no measured stage after
+  "landed", so nothing ever reported that the last three stages of research ->
+  extract -> test -> apply -> ship were converting at zero.
+- **Redesign applied as 1.0.0:** Phase 7.5 makes apply mandatory per landed technique
+  or amendment, with a graded mode ladder (code / experiment / simulation) so the step
+  is never unreachable, a closed verdict vocabulary borrowed from scan-sweep 2.5
+  (better / not-better / unmeasurable, not-better is a rejection), an applied ledger
+  in `librarian/applied.md`, and `/intake apply <technique>` for backfilling the
+  wiki debt. Phase 11 becomes the shared skill-reflection shape (lanes 0-3) with a
+  per-run `SCORECARD.md` row on the five stages and a mandatory "weakest stage" line
+  that sets the next run's focus - the mechanism that turns repetition into mastery.
+- **Simulation is allowed and bounded.** Three real cases from the tree or its
+  history, each walked under both policies, with a falsifier. Invented cases do not
+  count. This is the floor that stops "we could not test it" from being an exit.
+- **Not done in this session:** the backfill. The five landings from the morning run
+  are the first rows owed; the scorecard says so and names the first one.

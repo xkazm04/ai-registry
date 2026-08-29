@@ -7,6 +7,8 @@ author: two vendor staff (a CI engineer; an applied-AI author)
 words: 2401 + 11649
 extracted: 15
 accepted: 5
+applied: 0
+shipped: 0
 declined: 0
 leads: 1
 already_covered: 3
