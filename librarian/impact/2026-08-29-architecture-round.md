@@ -3,7 +3,7 @@ plan: 2026-08-29-architecture-round
 domain: software-engineering
 source_run: 2026-08-29-4
 machine: kazda-dev-box
-status: ready
+status: wave-1-executed
 ---
 
 # Impact plan — landing the architecture round in the connected fleet
@@ -132,3 +132,42 @@ the "resolved" addendum shape to copy).
   the spec (items 1–3 are personas-heavy; 4–5 kp).
 - Re-run `librarian-scan` after Waves 1–2; the demand column for this machine
   becomes real, and the next `/deepen` round selects against honest numbers.
+
+---
+
+## Wave 1 — EXECUTED 2026-08-29 (same day)
+
+All 20 items landed across six projects, six parallel workers, every commit
+path-scoped on the current branch, nothing pushed.
+
+| Project | Items | Commits |
+| --- | --- | --- |
+| personas (master) | P1–P7 all done; P3 extended to two hand-written twins, P4 to five probe sites | edb437422, 75cee6315, 12668c625+be121cf18, 70faa07b3, c8bf96b4f, 3ed7a9675, e52dc8e02, map 4854f2e4a |
+| ascent (moonshot/wave-1 — branch advanced mid-wave by another session) | A1–A5 done; A4 site itself needs-spec | c810d6e9, c2408869, bc759bca, ea37d0db, c3e99594, map 3cfe7ea6 |
+| kp (main) | K1–K4 done (57/57 scoped tests) | b8467ff5, 63bd7c6e, 42b344c0, e8021ea3 (+2 EOL fixups) |
+| personas-web (master) | W1–W2 done | 3f03ba9, b84fff7, map 0040c5a |
+| pof (master) | F1 done (27 tests) | 5d1bf55a |
+| systedo-case (master) | S1 done | 10693e1e, map 9004bd48 |
+
+Registry side: resolution addenda on nine applications (901e1ea), catalog
+re-synced (8a7433d, 0a4f72c/78845ca earlier), signals refreshed — 7 projects
+folded, 62 consults/30d, so this machine's demand column is now first-party.
+
+### Residuals discovered in execution (fold into Wave 3 / next round)
+
+- **systedo-case** `src/lib/twin/archive-store.local.ts:45-58` — same eviction
+  defect on the sqlite backend; needs a table/migration (needs-spec).
+- **ascent** `src/lib/public-scan-quota.ts` — the escaped `$transaction`;
+  needs a repository function taking the decide callback (needs-spec,
+  allowlisted with TODO in the lint ratchet; 13 grandfathered importers).
+- **ascent** — governance/posture/exposure fetches still `.catch(() => null)`
+  with score-bearing folds (codebase-scanning pair honestly kept `deviation`).
+- **personas** `count_credential_links` still swallows errors (adjacent to the
+  fixed blast-radius probes).
+- **ascent** Copilot card no-affordance + costCents-zero (UI, still open).
+- **kp + pof map regeneration owed**: neither map carries `data-access` pairs,
+  and pof's map covers no `src/app/api/**` context at all — most Wave-2
+  verdicts had nowhere to land. Run `build-registry-map.mjs` for both before
+  the next conform round.
+- **personas** pre-existing test debt, not ours: `repos::lab::ratings`
+  status_vocabulary_tests fail on a missing fixture column (`r.eval_method`).
