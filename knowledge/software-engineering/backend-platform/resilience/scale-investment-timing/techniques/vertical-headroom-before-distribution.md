@@ -137,7 +137,14 @@ gets weighed rather than assumed away.
 offers small instances, or an environment where a large machine cannot be procured or
 maintained, makes the baseline academic. Note this as a constraint imposed by the
 environment rather than a property of the workload, because environments change and
-the note is what lets the decision be revisited.
+the note is what lets the decision be revisited. One version of this is now the
+default for new services rather than the exception: a platform that offers only
+short-lived functions has distributed the workload before anyone decided to. The
+question does not disappear there, it moves — the baseline becomes one long-lived
+process against the platform's fan-out, and the resource that binds is the shared
+downstream every instance opens, a store's connection count or a provider's quota,
+which no amount of fan-out relieves. Measure the baseline on that axis, because it is
+the one the platform's own dashboard does not show.
 
 **Do not use this technique to argue against redundancy.** The most common misuse is
 quoting the baseline to justify a single node for a system that has an availability

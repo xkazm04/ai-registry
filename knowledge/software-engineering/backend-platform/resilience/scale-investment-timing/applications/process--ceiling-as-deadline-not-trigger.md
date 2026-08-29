@@ -4,7 +4,7 @@ type: application
 subject: scale-investment-timing
 technique: ceiling-as-deadline-not-trigger
 stack: process
-verified_on: 2026-08-27
+verified_on: 2026-08-29
 ---
 
 # Process — a stated ceiling on a documentation corpus, and the case where it is correctly a trigger

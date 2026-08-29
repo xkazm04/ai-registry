@@ -18,8 +18,12 @@ An established rule of ownership practice says a subsystem should not be allowed
 grow beyond what the team responsible for it can hold in their heads. That rule is
 correct and it is usually applied in one direction only — as a constraint on the
 system's growth. This technique supplies the other direction, which is the one that
-actually bites: **the team's size is not a constant, and it far more often moves
-down.**
+actually bites: **the team's size is not a constant, and the direction that breaks a
+design is down.** Headcount rises too, often for years at a time, and a rising team
+does strain a design — but it strains it into over-coordination, which the ownership
+rule already governs and which the team can feel. A falling team strains it into a
+surface nobody can hold, which no rule governs and which reports itself as something
+else. The asymmetry is in what each direction does, not in how often it happens.
 
 ## The clocks are mismatched, and that is the whole mechanism
 

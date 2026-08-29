@@ -61,6 +61,19 @@ waiting, and past that the curve turns sharply upward. Practitioners generally p
 the usable knee somewhere between seventy and ninety percent, and size for the lower
 end of that band.
 
+Both statements assume **open arrivals** — callers who keep coming whether or not the
+last one was served, which is what a public endpoint faces. A bounded pool is a
+different object: a fixed set of workers, a connection pool, a semaphore in front of a
+paid upstream. Its population is capped, so its queue cannot grow past that population,
+and it can run at a hundred percent utilisation indefinitely without the curve above
+ever appearing. The wait has not vanished; it has moved to whoever is holding the
+callers back — the admission queue, the caller's own timeout, the batch that finishes
+tomorrow instead of tonight — which is where the ceiling for a closed system belongs.
+So state a third thing beside the measure: whether the arrivals are open or bounded,
+because a utilisation ceiling read off a bounded pool is reassurance about a curve the
+system is not on, and the queue it *is* on is
+[admission-queue](../../../work-execution/admission-queue/admission-queue.md).
+
 The two measures diverge exactly where it hurts. A team reporting "we are at eighty
 percent of capacity, we have room" may be describing a box with a fifth of its cores
 idle *and* a service whose tail latency has already left the acceptable range,
@@ -111,7 +124,12 @@ arriving both later and larger than planned.
 So the calculation runs backwards, and it is arithmetic rather than judgement:
 
 - **T_ceiling** — the date the growth curve meets the stated figure, taken from the
-  projection rather than invented.
+  projection rather than invented. Where growth arrives as a **step** rather than a
+  curve — one contracted tenant larger than all the others, a launch, a campaign — it
+  is the event's date, taken from the calendar. That date is more certain than any
+  projection and invisible to a trend alert, because the axis is flat until the day it
+  is not; the approach alarm for a step is a calendar reminder tied to the commitment,
+  and a team that only watches the trend will meet a known date unprepared.
 - **T_replace** — how long an incremental replacement of this capability actually
   takes, estimated from a comparable piece of work the team has finished, not from
   the plan.

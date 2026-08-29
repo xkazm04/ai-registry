@@ -4,7 +4,7 @@ type: application
 subject: scale-investment-timing
 technique: size-the-system-to-its-maintainers
 stack: process
-verified_on: 2026-08-27
+verified_on: 2026-08-29
 ---
 
 # Process — a corpus authored by machines and merged by one person
@@ -17,9 +17,9 @@ first-hand during the session that wrote this document.
 
 ## The denominator is one, and it is declared
 
-The operational surface, resolved on the date in the frontmatter: eight knowledge
-bundles, 3,369 concept documents, 7,911 checked links, and a largest bundle holding
-150 subjects across nine categories. Those figures move most days and are quoted with
+The operational surface, resolved on the date in the frontmatter: nine knowledge
+bundles, 3,471 concept documents, and a largest bundle holding 151 subjects across
+nine categories. Those figures move most days and are quoted with
 their date for that reason — the corpus gained content from a second session while this
 paragraph was being written. Several lane gates — `check-bundles.mjs`,
 `check-skills.mjs`, `build-index.mjs --check`, `build-catalog.mjs --check` — plus the
@@ -61,8 +61,8 @@ The structural response is the one the technique names as "automated down" — c
 is made **mechanical** rather than attentional. The gates check link integrity in both
 directions, `use_when` presence, taxonomy placement and caps, index freshness and
 catalog hash stability, so that the owner's finite attention is spent on judgment
-(is this claim true, does it belong here) rather than on verification (do these 7,909
-links resolve). The lane gates are the mechanism by which an operating capacity of one
+(is this claim true, does it belong here) rather than on verification (do several
+thousand links resolve). The lane gates are the mechanism by which an operating capacity of one
 person governs a surface no one person could check by reading.
 
 **And the gap showed itself during this session, which is the part worth recording.**

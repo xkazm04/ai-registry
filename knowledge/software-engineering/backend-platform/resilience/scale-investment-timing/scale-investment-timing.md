@@ -103,8 +103,9 @@ it into a start date.
 Design for the next order of magnitude and no further, and be specific about the axis,
 because *ten times the scale* is not a specification until it says ten times of what.
 Requests, tenants, stored bytes, concurrent editors, items in the largest single
-collection, and fan-out per write are different axes with different constants, and
-systems rarely bind on the axis their owners quote. The axis that binds is usually the
+collection, fan-out per write, and the budget of a shared downstream that every
+instance draws on are different axes with different constants, and systems rarely
+bind on the axis their owners quote. The axis that binds is usually the
 one with the worst constant, not the one with the largest number.
 
 Confidence in a growth projection decays sharply with horizon, and the decay is the
@@ -147,8 +148,9 @@ An architecture's real constraint is the cognitive capacity of the team responsi
 for it. A well-established line of ownership practice states this as a rule about
 growth — a subsystem should not be allowed to exceed what its owning team can hold in
 their heads — and this subject adds the half that gets missed: **that team's size is
-not a constant, and it usually moves down.** Headcount tracks funding, funding moves
-on a quarterly clock, and architecture moves on a multi-year one. A system built by
+not a constant, and the direction that breaks a design is down.** Headcount tracks
+funding, funding moves on a quarterly clock, and architecture moves on a multi-year
+one. A system built by
 thirty people and operated by eight has not become more complex; it has become
 under-staffed, and every symptom it produces — slow delivery, unowned services, alert
 fatigue, an on-call rotation nobody survives — will be reported as a people problem
@@ -178,8 +180,12 @@ gets ignored. Hiring, ecosystem direction, vendor concentration risk and operati
 familiarity are **legitimate** reasons to move, and a migration justified entirely by
 one of them can be correct. What the audit demands is that the reason be *stated*,
 because an unstated reason cannot be weighed against its cost — and the cost of a
-platform migration is one of the few figures in engineering that is reliably
-underestimated by an order of magnitude.
+platform migration is not underestimated in the way people expect. Measured across
+large samples of information-system projects the *typical* overrun is modest, around a
+quarter; the damage sits in a fat tail, where roughly one project in six runs several
+times over its budget and most of a year over its schedule. A point estimate is right
+about the middle and silent about the case that ends a team, which is why the audit
+asks for a range whose upper end is the tail.
 [migration-reason-audit](./techniques/migration-reason-audit.md) owns the
 enumeration, the sorting rule, and the counter-case where a non-technical reason
 carries the decision on its own.
@@ -237,9 +243,10 @@ maintaining headcount as an *input* it reads, never as a recommendation it makes
 
 - [ceiling-as-deadline-not-trigger](./techniques/ceiling-as-deadline-not-trigger.md)
   — the ceiling's three parts, the difference between a ceiling in utilisation and one
-  in headroom, why an uninstrumented ceiling is an absent guard, the runway calculation
-  that converts a limit into a start date, and the hysteresis that replaces runway
-  where the remediation is cheap and repeatable.
+  in headroom and whether arrivals are open or bounded, why an uninstrumented ceiling
+  is an absent guard, the runway calculation that converts a limit into a start date,
+  and the hysteresis that replaces runway where the remediation is cheap and
+  repeatable.
 - [next-order-of-magnitude-only](./techniques/next-order-of-magnitude-only.md) — axis
   selection and the worst-constant rule, sizing the increment, horizon decay, and the
   irreversibility test that says when to build further than one increment.

@@ -31,6 +31,13 @@ components:
 - fan-out per write — how many downstream records, indexes, notifications or
   invalidations one incoming change causes
 - retention depth — how much history a query may legitimately touch
+- **a shared downstream's budget** — a provider quota, a store's connection count, a
+  paid upstream's rate — that every instance of the system draws on. It is the only axis
+  on this list that does not move when the system is given more machines, which is why
+  it binds first for systems whose work is mostly delegated to something they call.
+  Pacing calls against it is
+  [rate-limiting](../../rate-limiting/rate-limiting.md); this technique's part is to
+  notice that it is the axis at all
 
 The binding axis is **the one with the worst constant, not the one with the biggest
 number.** A system taking a thousand requests a second where each request costs a
@@ -40,10 +47,14 @@ axes, compute the work one unit causes on each, and the binding axis is usually
 obvious once the fan-out column exists — and it is usually not the axis anyone quotes
 in a status update, because the quoted axis is the one that sounds impressive.
 
-**Skew is the axis teams miss most reliably.** Aggregate growth is generally kind: it
-arrives gradually and it distributes. The largest single instance is not kind, because
-it grows without any aggregate signal and it breaks whatever assumed a bounded
-working set — the query that was fine against a thousand rows, the payload that fit in
+**Skew is the axis teams miss most reliably.** Aggregate growth from many small users
+is kind: it arrives gradually and it distributes. Two ordinary kinds of growth are not.
+The first is the **step** — a launch, a campaign, a crawler, one customer whose
+onboarding is a contract rather than a trend — where the axis is flat until a known
+date and then is not, so a projection-based increment has nothing to fit and the
+increment is sized against the event instead. The second is the largest single
+instance, which grows without any aggregate signal and breaks whatever assumed a
+bounded working set — the query that was fine against a thousand rows, the payload that fit in
 one response, the lock held for the duration of one account's update. A system can be
 comfortable on every aggregate axis and be one large customer away from an incident.
 Design against the largest instance you can plausibly acquire, not the mean one.

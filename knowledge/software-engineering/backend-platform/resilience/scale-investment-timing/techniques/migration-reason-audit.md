@@ -105,8 +105,15 @@ several things that never appear in the plan:
 - **Retraining and the competence dip**, during which incidents take longer and
   changes are less safe.
 
-State these as a range rather than a point, and state who bears each. A migration that
-still looks correct with all four written down is a migration worth doing, and the
+State these as a range rather than a point, and state who bears each. The range is
+not a courtesy: measured over large samples of information-system projects, the mean
+cost overrun is modest — about a quarter — while roughly one project in six runs
+several times over budget and most of a year over schedule, and the distribution
+behind that has been shown to follow a power law rather than a bell. A point estimate
+therefore describes the typical migration accurately and the ruinous one not at all.
+The upper end of the range is the tail, not the mean plus a margin, and the question to
+put beside it is what the team does if this migration is the one in six. A migration
+that still looks correct with all four written down is a migration worth doing, and the
 audit has strengthened it rather than blocked it — which is the outcome to aim for,
 because a technique that only ever says no gets routed around.
 
