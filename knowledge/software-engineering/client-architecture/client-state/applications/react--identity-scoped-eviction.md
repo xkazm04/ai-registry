@@ -5,7 +5,7 @@ subject: client-state
 technique: identity-scoped-eviction
 stack: react
 status: forged
-verified_on: 2026-08-22
+verified_on: 2026-08-29
 verified_against: react@19
 ---
 
@@ -127,7 +127,7 @@ documents the interaction correctly without exercising it.
   The decision is right and the reason is written down — but a reader of
   `clearUserCaches.ts` cannot see that the exemptions exist, let alone
   which stores hold them.
-- **One persisted user-scoped store is missing from the wipe.**
+- **One persisted user-scoped store is missing from the wipe.** *(Resolved 2026-08-29: `useIncidentsFilterStore.reset()` added to `clearUserScopedCaches`, personas-web commit `3f03ba9`.)*
   `src/app/dashboard/incidents/incidents-page/useIncidentsFilterStore.ts`
   persists `status`, `severity`, `source`, `groupBy` and a `persona`
   *name* under `incidents-filter-state` (`:29`) and has a `reset()` — but
