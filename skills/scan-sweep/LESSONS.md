@@ -1058,3 +1058,8 @@ that check stays cheap.
 - An operator-named lens that is absent from references/lenses.md (here `moonshot-architect`) must be run as ad-hoc and labelled so in the header and snapshot; the coverage ledger must not count it as a registered lens pass.
 ### Redesign proposal
 - Add an explicit `--groups all|<name>` + `--min-effort L` fan-out mode with a "corroborated-by" count in the emitted finding, so a portfolio-level develop round has a supported shape instead of an improvised one.
+
+## 2.8.0 - 2026-08-29 - ascent
+- Same moonshot shape as the systedo-case entry above, run the same day on a 54-context map: 11 group scouts → 45 L/XL cards → 37 deck items → 37 in-terminal decisions. Corroboration held again as the top ranking signal (4 scouts → the open corpus, 3 → the control-event ledger).
+- **A background subagent's `.output` transcript file can be EMPTY after it completes** — 9 of 11 here were 0 bytes; the result existed only in the completion notification. In a fan-out, write each result to the scratchpad the moment its notification arrives (decode `&amp;`/`&lt;` HTML entities — the notification escapes them), or a context compaction erases the round's evidence. Never plan to "collect the transcripts at the end".
+- The outbox's 30-findings-per-pass cap and a 37-decision deck do not fit: the durable record of a triaged moonshot round belongs in the repo's backlog doc (a decision table with contexts, size, gate, decision), with the outbox carrying the top-30 bodies. A deferred decision that lives only in an undrained outbox is a decision that will be re-proposed.
