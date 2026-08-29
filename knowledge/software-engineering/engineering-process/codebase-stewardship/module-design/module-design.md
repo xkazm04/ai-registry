@@ -7,6 +7,7 @@ use_when: [deciding where a boundary belongs, arguing whether a proposed split i
 techniques:
   - module-depth
   - seams-and-adapters
+  - io-free-core
   - locality-and-leverage
   - structural-improvement-loop
   - structure-is-not-delegable
@@ -54,6 +55,17 @@ learn from an outage.
 Everything downstream depends on getting this right, because the whole quality
 model of a boundary is a ratio whose denominator is *that* interface. Measure
 the denominator wrong and every judgment built on it inverts.
+
+One refinement, and it cuts the other way. "Must know" is the author's
+denominator; with enough callers the real one is **everything a caller can
+observe**, because some caller will come to depend on any observable
+behaviour whether it was promised or not — an iteration order, a timing, an
+error string, the shape of an identifier. A hidden decision is therefore only
+hidden if it is *unobservable*, and a deep module has to work at that:
+unspecified behaviour is deliberately varied so nobody can rely on it,
+internal types are opaque rather than merely undocumented, and a guarantee is
+either stated or actively withheld. What is left observable and unstated is
+interface that will be discovered by the outage that breaks it.
 
 ## Depth is the quality axis, and it is placed, not maximised
 
@@ -105,7 +117,11 @@ the whole, accumulates into a structure nobody chose. Longitudinal studies of
 agent trajectories on long-horizon iterative tasks report exactly this shape:
 output volume rises in the large majority of runs and structural erosion in
 nearly as many, diverging from maintained human-kept repositories the longer the
-run goes.
+run goes. One 2026 benchmark built to measure that divergence put it at
+roughly four in five agent trajectories with rising erosion against a little
+over half of comparable human-kept repositories, with agent volume growing
+about twice as fast — counted by its own verbosity and erosion metrics over
+its own task set, which is the predicate those figures travel with.
 
 The second half of the problem is that **verification is behaviour-blind**. A
 change can satisfy every acceptance criterion, pass every test, clear every gate,
@@ -114,6 +130,19 @@ encodes the business's decisions toward a part that should have been
 substitutable. Nothing in the pipeline can see that, because nothing in the
 pipeline was asked to. *Verified* and *healthy* are different properties, and
 only one of them is measured automatically.
+
+The honest qualification: **one class of structural property can be gated,
+and it is the class that decays fastest under volume.** Which way a
+dependency may point, which packages may import which, what is visible
+outside a boundary — these are decided facts about a shape, mechanically
+checkable, and a build can be made to fail on them. What no build observes is
+whether a boundary is deep, whether one decision is now encoded in two
+places, or whether the shape being enforced is still the right one. So the
+division is: a structural decision, once made, is written down as a rule the
+build checks, and the judgment of whether the rule is right stays with the
+periodic pass. A team that gates nothing is trusting review to see
+accumulation, which it cannot; a team that believes its dependency rules
+make it healthy has mistaken the checkable half for the whole.
 
 ## The two payoffs, and the different people who collect them
 
@@ -156,6 +185,18 @@ had to be truthful about what it hides, and it will have quietly absorbed its
 one implementation's assumptions into its shape.
 [seams-and-adapters](./techniques/seams-and-adapters.md) owns placement,
 the adapter discipline, and the contract that keeps a double from drifting.
+
+There is a second answer to the same question, and it is not a seam. Where
+the module's job is logic over events — a protocol, a scheduler, a retry
+policy, a workflow — its dependencies are inputs and outputs wearing a
+collaborator's clothes: it does not need a clock, it needs the time; it does
+not need a socket, it needs the bytes. Removing them entirely, so the module
+is a transition function and one small driver at the edge does all the I/O,
+makes it testable with no doubles at all and indifferent to which runtime it
+ends up under. The adapter keeps the dependency and makes it substitutable;
+this deletes it. Which one is right is decided by the number of verbs the
+dependency has, and [io-free-core](./techniques/io-free-core.md) owns that
+decision, the shape, and the price the form charges at the edge.
 
 ## Architecture styles are vocabularies, not answers
 
@@ -268,6 +309,10 @@ measurement is the wrong instrument.
   becomes possible: the three placement signals, the single-door rule for
   adapters, the shared contract that keeps a double honest, and pinning
   behaviour before moving a boundary.
+- [io-free-core](./techniques/io-free-core.md) — the other answer to the
+  testability question: logic over events as a transition function with time
+  as a parameter, one driver at the edge doing all the I/O, the verb-count
+  rule that separates it from an adapter, and the costs the form charges.
 - [locality-and-leverage](./techniques/locality-and-leverage.md) — the two
   payoffs, measured change scatter as the diagnostic, and the pair of criteria
   a structural proposal is argued against.

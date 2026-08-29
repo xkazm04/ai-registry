@@ -193,3 +193,9 @@ Introducing substitutability between two parts that share invariants converts a
 maintainable relationship into a contract that must be kept honest at a
 boundary, and the cost of that contract is real. Seams go where substitution is
 wanted; hiding goes where it is not.
+
+And for one class of module the right move is neither: where the job is
+logic over events and the "dependencies" are really inputs and outputs — the
+clock, the network, the source of randomness — do not adapt them, remove
+them. [io-free-core](./io-free-core.md) owns that form, the verb-count rule
+that decides between it and an adapter, and what it costs.

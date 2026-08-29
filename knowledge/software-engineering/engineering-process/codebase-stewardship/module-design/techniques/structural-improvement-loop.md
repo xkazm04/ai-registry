@@ -153,6 +153,18 @@ points at which the tree is independently landable and green; and a **stop
 condition** — what state counts as done, so a partial migration is either
 finished or explicitly recorded as a state the codebase is now in.
 
+A spec also carries **the rule that holds the shape after the change
+lands**, where one can be stated. The target shape is a decision; some of
+what it decides — which direction a dependency points, which packages may
+import which, what is visible across the boundary — is mechanically
+checkable, and a decided shape with no check reverts under the same
+incremental pressure that produced the candidate, one locally defensible
+import at a time. So the spec names the rule, in the form the gating
+discipline can adopt, and hands it over. What it cannot hand over is the
+rest: depth, leakage and whether the shape is still right are not gate-able
+and remain this loop's, on its cadence. Writing the rule is what makes the
+next pass find new candidates instead of the same one.
+
 ## Scope control: the substitution test
 
 Structural changes bloat, and bloat is what makes them unreviewable. The check,

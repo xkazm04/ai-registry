@@ -145,3 +145,17 @@ subject's scope: a boundary that exists because two parts are deployed
 separately, owned by different teams, or subject to different obligations is
 justified by that fact, and scoring it on locality and leverage will produce a
 recommendation nobody can act on.
+
+That exemption lasts exactly as long as its reason. When the reason lapses —
+the two teams became one, the deployment units were consolidated because the
+people to run them separately are gone, the obligation ended — the boundary
+falls back under this subject's judgment, and the question is whether it is
+cheap to remove or load-bearing. Two facts decide it, both measured rather
+than argued. Does anything substitute at it — a second implementation, a
+double that tests actually use — or has it been a decorative seam with one
+adapter since the day it was drawn? And do the two sides change together —
+if most changes of a recurring class cross it, it was never hiding a
+decision and removing it buys locality for free. A boundary nobody
+substitutes at and every change crosses is cheap to remove; one that
+something substitutes at and changes stay on one side of is load-bearing,
+whatever its original justification was.

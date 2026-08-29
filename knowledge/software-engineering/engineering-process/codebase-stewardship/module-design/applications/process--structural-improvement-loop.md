@@ -5,7 +5,7 @@ subject: module-design
 technique: structural-improvement-loop
 stack: process
 status: forged
-verified_on: 2026-08-22
+verified_on: 2026-08-29
 ---
 
 # A structural improvement loop over a knowledge corpus
@@ -17,7 +17,7 @@ different: everything that survives the substitution is the loop, and everything
 that does not was really about code.
 
 The pipeline is a prompt workflow, not a program. Two artifacts hold it:
-`skills/librarian/SKILL.md` (the periodic pass) and, as a worked example of what
+`.claude/skills/librarian/SKILL.md` (the periodic pass; it lived at `skills/librarian/SKILL.md` when this document was first written and was re-read at the new location on the `verified_on` date) and, as a worked example of what
 the pass emits, `docs/subject-proposal-module-design.md` (one specification,
 reviewed and then executed — this subject is its output).
 
@@ -25,7 +25,7 @@ reviewed and then executed — this subject is its output).
 
 | stage | where it lives |
 | --- | --- |
-| sweep for candidates | `skills/librarian/SKILL.md:39-43` — `librarian-scan.mjs --json` emits per-subject counts, missing `use_when`, oldest `verified_on`, dry streak, and an attention score *with its reasons* |
+| sweep for candidates | `.claude/skills/librarian/SKILL.md:39-43` — `librarian-scan.mjs --json` emits per-subject counts, missing `use_when`, oldest `verified_on`, dry streak, and an attention score *with its reasons* |
 | ground both ends | `SKILL.md:46-48`, `52-55` — verify the instrument, confirm one figure by opening one file, and stop if a gate is red |
 | elicit the target | `SKILL.md:67-81` — "the three judgments a script cannot", applied on top of the scan's ordering |
 | emit a specification | `SKILL.md:83-98` — scoped dispatch briefs; `docs/subject-proposal-module-design.md` is one such spec in full |
@@ -45,9 +45,9 @@ Note the ordering discipline at `SKILL.md:52-54`: `check-bundles`, then
 covers the index* — and then the scan. A ranking computed over a corpus that
 does not parse is a ranking of a proxy.
 
-The companion rule is at `SKILL.md:140-141`: *"Dry is a result. A sweep that
+The companion rule is at `SKILL.md:141-142`: *"Dry is a result. A sweep that
 finds nothing worth dispatching is a finding. Write it in the run note and stop.
-Do not pad a worklist to look productive."* And at `SKILL.md:138-139`,
+Do not pad a worklist to look productive."* And at `SKILL.md:139-140`,
 "Unknown is not zero" — an unswept subject is not a healthy one.
 
 ## Stage 2's grounding rule, in the form this tree taught
@@ -58,7 +58,7 @@ deepen learned this the expensive way, and the vault stores what was DONE, never
 what was computed."*
 
 That formulation is sharper than the general one and was folded upward into the
-technique. The vault (`SKILL.md:111-120`) is built to enforce it: the persisted
+technique. The vault (`SKILL.md:110-121`) is built to enforce it: the persisted
 notes hold last-touched dates, dry streaks, open leads and declines — facts
 about what happened — and no scores. Everything numeric is re-derived per run.
 
@@ -108,12 +108,12 @@ means, and merging them is what produces a review that answers neither.
 
 ## Cadence, and the honest gap
 
-`skills/librarian/SKILL.md:145-151` is titled "Scheduling (not yet built)". The
+`.claude/skills/librarian/SKILL.md:146-152` is titled "Scheduling (not yet built)". The
 pass is periodic in intent and manual in fact: *"Run manually; a scheduler is a
 later wrapper"* (frontmatter, `:3`). The technique's cadence rule is therefore
 **not** demonstrated here — this realization has the loop and does not yet have
 the clock. What it has instead is a written statement of what the wrapper must
-preserve when it arrives (`:147-151`), which is the second-best thing.
+preserve when it arrives (`:148-152`), which is the second-best thing.
 
 ## Where this realization falls short of the standard
 

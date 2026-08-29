@@ -56,6 +56,22 @@ depth is asserted, the assertion carries its predicate: *what a caller must
 learn, measured how, against which use.* "This module is deep" with no such
 statement is a preference.
 
+The list above is the *author's* denominator. The caller population has a
+larger one: with enough callers, **every observable behaviour is depended on
+by somebody**, promised or not. An iteration order that happens to be
+stable, an error string somebody matches on, an identifier whose shape
+encodes a date, a timing that a retry loop has tuned itself to — each is
+interface the moment a caller has built on it, and none of it appears in
+any document. The design consequence is that hiding is active, not
+passive. A decision the module means to keep is kept by making it
+*unobservable*: an unspecified order is deliberately varied so no caller can
+rely on it; an internal representation is exposed as an opaque handle rather
+than a readable structure; a guarantee that is not meant is withheld in a
+way that fails early, not left to hold by accident. The test of a hidden
+decision is not "did we document that this may change" — it is "could a
+caller notice if it did," and if the answer is yes the decision is not
+hidden, it is merely unannounced.
+
 ## Shallow modules and the pass-through
 
 A module is shallow when its interface is about as complicated as its
@@ -99,6 +115,18 @@ The decision rules that follow:
 - **When the same argument is passed through three levels untouched, the middle
   levels are not hiding it — they are transporting it,** which is the shape a
   misplaced boundary makes on the way through.
+
+The strongest case for the opposite default — err toward decomposition,
+because a unit that turns out too small can always be inlined later — is
+worth answering directly, since it is the argument a reviewer will actually
+hear. It is true that inlining is cheap. It is also never scheduled: a
+shallow unit fails no test, trips no gate and shows up in no report, so the
+"later" in which it is inlined does not arrive, and the codebase converges on
+whatever the default produces. A default is not a neutral starting point
+when only one direction of error is ever corrected. The public exchange
+between the two positions settled exactly this much: both sides grant that
+over-decomposition is real; what divides them is which error they would
+rather leave uncorrected, and that is the question the reaper answers.
 
 ## Information leakage and temporal decomposition
 
