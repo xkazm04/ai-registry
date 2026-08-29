@@ -955,3 +955,53 @@ that check stays cheap.
   URL rather than a tab href, and a double-click race that turned out to be guarded twice.
   Recording the failed hunts, because in a context this heavily worked (7 numbered prior
   findings, MAP-2..6, G8-16/18) they are most of the round's actual reading.
+
+
+## 2.7.1 - 2026-08-29 - ascent (round 5)
+
+### Redesign proposal: the loop has no way to notice its context is being DELETED
+
+- **A concurrent session retired the entire context while I was sweeping it, and nothing in the
+  method looked up.** Mid-round, another agent staged the deletion of `src/app/connect/` and all
+  of `src/components/connect/` — the 19 files this round had just read — moving two survivors
+  elsewhere. I found out only because an unrelated `tsc` run failed on a missing module and I
+  went looking. By then one of my two landed fixes was already moot: it was committed into a
+  file that no longer exists in the working tree.
+  **§1 should end with a cheap liveness check, and §7 should repeat it before each commit:
+  `git status --porcelain -- <the context's paths>`.** A `D ` or an `R ` on a file you are
+  about to edit is not a merge hazard, it is a signal that the surface is being retired and the
+  round should stop and re-pick. The check costs one command and would have saved most of a
+  round. (§7's parallel rules already say to inspect status before staging — but only to protect
+  OTHER sessions' work from mine. The reverse direction, protecting my round from a rug-pull, is
+  not there at all.)
+
+- **"Its file was deleted" is a distinct outcome from built / backlogged / rejected, and the
+  ledger cannot express it.** I recorded the round `degraded: true` with a note, which is the
+  closest available truth, but `fixed: 2` overstates it: one fix survives (it happened to live
+  in a file the refactor kept and even carried forward), one is gone with its surface. A snapshot
+  consumer counting `fixed` across rounds will now be wrong by one forever.
+  **Worth a `moot` count in the snapshot schema** — work that landed and was then superseded —
+  because the honest number is not zero (it shipped, it was correct) and not one (nobody will
+  ever run it).
+
+- **A pure-function seam tests the function, not the argument, and that is exactly where this
+  round's biggest defect lived.** `installRouting.ts` was extracted VERBATIM from the page so its
+  routing could be unit-tested, and `installRouting.test.ts` pins it across 8 cases — every one
+  passing `authConfigured` as a literal. The function is correct. The page hands it
+  `isAuthConfigured()`, the dormant custom-OAuth predicate, which is false in production, so
+  every branch resolves the wrong way. The extraction that made the logic testable is the same
+  move that made the bug invisible: the parameter boundary is where the test stops and nothing
+  else starts. **Add to §4.7's list of questions: for every pure function extracted for
+  testability, who supplies its arguments, and is THAT pinned anywhere?** The answer here was
+  nobody, and the page even fixed the identical predicate one line above for a different gate.
+
+- **A homonym registry match outranked a real one, for the second round running.** `p2p-networking`
+  (385) beat `table` (238) and `file-browsing` (253) on the word "connect", for a filterable repo
+  list with bulk actions. Round 4 saw the same shape with "fleet". Two rounds is a pattern, not a
+  coincidence: **the map's scorer is matching page-title vocabulary against subject names**, and
+  the cheap defence is the one I used both times — compare the top score against the scores this
+  repo's other contexts draw (615 / 490 / 400 for genuine matches here) and treat anything in the
+  250-390 band as unmapped until read.
+
+- Yield: 4 findings / 23 lens-passes, 2 built (1 moot), 1 backlogged, 1 escalation. The round is
+  not comparable to the others: it ended early, by choice, when the context stopped existing.
