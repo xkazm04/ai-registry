@@ -127,3 +127,43 @@ Not applied off a single incident in one repo; recorded so a second sighting can
 - **The prior-annotation heuristic is now two-for-two and still not promoted.** Files carrying finding-numbered comments from earlier passes yielded nothing in either sweep; files carrying none yielded 9/10 then 10/10. It remains repo-specific (it needs a convention the method cannot assume), so it stays in the consuming repo's overlay — but if a third project shows it, it is worth a Phase 4a ranking hint.
 - **Watch the acceptance rate as a calibration signal, not a success metric.** Two runs, 20 items, 20 accepted. That is as consistent with a LOW bar and a generous user as with good calibration. The skill's drift signal only fires on 3+ runs of ZERO acceptance; there is no symmetric signal for "everything is always accepted", and there probably should be — a run where nothing is ever declined is not obviously distinguishable from padding.
 
+
+## 1.4.0 -> 2.0.0 - 2026-08-29 - kp (design change)
+
+- **The triage question had an answer rate of 100% and an information content of zero.** Across
+  three consecutive sweeps of one codebase: 15 items surfaced, 15 accepted, 0 declined. The
+  operator's own words: "the findings are incredibly useful and often I accept all of them."
+  A gate that never rejects is not a safety mechanism, it is a round trip — and it was being
+  paid three times per session, at the exact moment the run had the most context and the user
+  the least.
+- **But the split that works is not "small vs large" — it is "can the gates settle this".**
+  Sizing the change was the *proxy*; the real property is whether finishing an item requires a
+  judgement the repo's own verification cannot supply. That is why the effort band works at
+  all: in the measured runs, both `m` items were the two that genuinely needed a human (a
+  dual-theme palette redesign, and a change to a nine-site accessibility idiom), and every
+  `xs`/`s` item was settled entirely by typecheck + test + lint + parity. So v2 auto-accepts
+  `xs`/`s`, and adds the rule that falls out of the reasoning: **an item the gates cannot
+  settle is `m` at minimum however small the diff.** A one-line change that needs a browser is
+  not a small item; it is a question wearing a small item's clothes.
+- **Moving a gate means the thing behind it has to hold.** Two properties were load-bearing
+  before and are now structural: the Phase 5 premise gate (auto-accept changes who approves a
+  VERIFIED finding — it must not become a licence to surface unverified ones) and one atomic
+  gated commit per item (so an unwanted change reverts alone, by sha). Both are now stated as
+  the reason the band is safe, so a future edit cannot weaken them without noticing what it is
+  weakening.
+- **Sizing became load-bearing, so the rubric had to get honest.** `effort` was previously a
+  label a reader skimmed; it is now an approval decision. The rubric now says to size the WHOLE
+  change — edit plus test plus locale parity plus doc-sync plus visual verification — and to
+  round UP between buckets, because over-sizing costs one question and under-sizing costs an
+  unasked-for change. A one-line edit that ships 28 catalog entries in four languages is not `xs`.
+- **The calibration signal moved and the skill has to say so.** `passes.md` and the decline-reason
+  loop were fed mainly by small rejected items; with only `m`/`l` declinable they now fill slowly,
+  and "zero declines" stops meaning anything about calibration. The replacement signals are the
+  SHORTFALL (how often a run stops short of 10) and, crucially, a user REVERTING an auto-accepted
+  commit — which means the sizing rubric is running small, not that the finding was wrong.
+- **What the run owes in exchange for not asking.** The summary now has to give a plain account
+  of what was built on the user's behalf, with shas, and name whatever stayed unverified. A run
+  that saves a round trip and spends it on opacity has made the trade backwards.
+- **Major, not minor.** The method is unchanged — wander, verify, present, execute, remember —
+  but the skill's contract with its operator is not: it now edits code without asking. A reader
+  seeing `1.x -> 2.0` re-reads the skill, and that is exactly the intended reaction.

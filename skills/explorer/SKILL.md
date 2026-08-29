@@ -1,15 +1,15 @@
 ---
 name: explorer
-description: Wander one logical area of a codebase, surface 10 items worth fixing, triage with the user, then execute the accepted ones in-session. Daily low-friction quality sweeps with per-context coverage memory.
-argument-hint: "[area]"
+description: Wander one logical area of a codebase, surface 10 items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.
+argument-hint: "[area] [--triage-all]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.4.0
+version: 2.0.0
 ---
 # Explorer
 
-Wander a logical section of a codebase, surface exactly **10 items** worth fixing, let the user triage, then execute the accepted ones in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
+Wander a logical section of a codebase, surface exactly **10 items** worth fixing, **build the small ones without asking** and put only the larger ones to the user, then execute in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
 
 The method is **repo-agnostic**: it takes its area taxonomy from whatever context source the repo has, and keeps a vault for run records, coverage tracking, and cross-run learning. Everything one repository is lives in the overlay below, each key with a default, so a repo that carries no overlay still gets a full sweep.
 
@@ -48,6 +48,9 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 - **Every prompt is a numbered menu.** Numeric input picks the option; **Enter** triggers the default; option `1. other → …` is the deviation lane (free text).
 - **Every phase output (intermediate or final) ends with a `Next?` block** of 2–5 numbered next-step actions. Replying with a digit advances the run without typing prose.
 - Long free-text answers are still accepted everywhere; the menu just makes the common case instant.
+- **The run does not ask permission for small work.** `xs`/`s` items are built as they are found
+  (§ Phase 7); the only mid-run question is about `m`/`l` items, and a run that surfaces none
+  asks nothing at all between the two opening questions and the final summary.
 
 ## Input
 
@@ -104,7 +107,9 @@ If the user replies just "go" or "wander" or types `/explorer` with no arguments
   - `Lessons/{date}-explorer.md` — append-only self-reflection
 - **Categories** — `quality | dx | ui | perf | bug | i18n | a11y | sec`
 - **Severities** — `critical | high | medium | low`
-- **Effort buckets** — `xs (<15m) | s (15-60m) | m (1-3h) | l (>3h)`
+- **Effort buckets** — `xs (<15m) | s (15-60m) | m (1-3h) | l (>3h)`. Since v2 this is
+  an APPROVAL boundary, not a label: `xs`/`s` are built without asking, `m`/`l` are the
+  only ones triaged. Size the WHOLE change (§ Phase 7).
 
 ---
 
@@ -452,18 +457,69 @@ Clusters:
 
 ---
 
-## Phase 7: Triage
+## Phase 7: Triage — the small band is auto-accepted
 
-Ask the user:
+**`xs` and `s` items are ACCEPTED WITHOUT ASKING.** A prompt whose answer is always "yes" is
+not a decision, it is a round trip. Measured across three consecutive sweeps of one codebase:
+13 of 15 items sized `xs`/`s`, and every single one was accepted. Asking cost three questions
+and changed nothing.
+
+The split is not really about size. It is about **who can answer "did this work"**. An
+`xs`/`s` item is one the repo's own gates settle — the typecheck, the test, the lint, the
+parity check either pass or they do not, and a human reading a summary adds no information.
+An `m`/`l` item is almost always one where something outside the gates has to be judged: a
+visual design decision, a change to an established pattern, a trade-off with no test. In the
+measured runs both `m` items were exactly that (a dual-theme palette redesign; a nine-site
+a11y idiom), and both genuinely deserved the conversation.
+
+Two properties make the auto band safe, and both are load-bearing — do not weaken either:
+
+- **The Phase 5 premise gate still applies in full.** Auto-accept changes who approves a
+  VERIFIED finding. It does not lower the bar for what becomes one. An item whose anchor you
+  did not read, or whose defect you did not confirm at that anchor, is not eligible for any
+  band — it is not an item.
+- **Every item is its own gated, atomic commit** (Execution rules below), so an unwanted one
+  reverts alone, by sha, without touching its neighbours.
+
+### The two bands
+
+1. **Auto band (`xs`, `s`)** — build them. Print the plan first (Option B step 1) so the user
+   can interrupt, then execute in risk-ascending order.
+2. **Triage band (`m`, `l`)** — ask, and ask ONLY about these:
+
 ```
-Which to action? Reply with item numbers (e.g. "1, 3, 4").
+{N} small item(s) (xs/s) accepted automatically - building now.
 
-Shortcuts:
-  all     - accept every surfaced item
-  none    - accept nothing (still write the sweep note)
-  ask     - guided walkthrough item-by-item
+{M} larger item(s) need your call:
+
+  [3] {title}  (m)  {the one thing only you can decide}
+  [7] {title}  (l)  {the one thing only you can decide}
+
+Reply with numbers to action, or:
+  all     - action these too
+  none    - skip them (still written to the sweep note)
   Enter   - same as "none"   <- default
 ```
+
+With no `m`/`l` item, **ask nothing**: say what you are building, and build it.
+
+`/explorer <area> --triage-all` restores the pre-v2 behaviour and asks about every item. Offer
+it in the `Next?` block when a run's auto band turned out larger or riskier than the user
+seemed to expect.
+
+### Sizing is now an approval decision
+
+Because the band gates approval, `effort` must be the honest cost of the WHOLE change: the
+edit, its test, its locale parity across every catalog, its doc-sync obligation, its visual
+verification. A one-line edit that ships 28 catalog entries in four languages is not `xs`.
+**Between two buckets, take the larger one** — over-sizing costs one question, under-sizing
+costs an unasked-for change.
+
+And the rule that falls out of why the split works: **an item the repo's gates cannot settle
+is `m` at minimum, however small the diff.** If finishing it requires a browser, a credential,
+a design judgement, or a "does this look right", then "did this work" is precisely the question
+being handed to the user, and handing it over without asking is the one thing this phase must
+not do.
 
 For each accepted item, execute it **in this same session**. Same default as `/research`: discover → decide → implement → commit, all in one context window.
 
@@ -528,8 +584,10 @@ area: {context-id or group}
 files_sampled: {N}
 category_filter: any | quality | ...
 total_items: 10
-accepted: [1, 3, 4]
-declined: [2, 5, 6, 7, 8, 9, 10]
+auto_accepted: [1, 4, 5]      # the xs/s band - built without asking
+triaged: [2, 3]               # the m/l band - put to the user
+accepted: [1, 3, 4, 5]        # everything actually built (auto + triaged-in)
+declined: [2]                 # only ever from the triage band
 deferred: []
 commits: [<sha1>, <sha2>]
 widened: false
@@ -567,6 +625,10 @@ widened: false
 ## Phase 9: Self-reflection
 
 ### 9a. Ask why for declined items
+
+Only a TRIAGE-band item can be declined, so this question is about `m`/`l` items and nothing
+else. **Skip it entirely when nothing was declined** — which, after v2, is most runs. Do not
+ask it about the auto band: those were not offered, so there is no reason to collect.
 
 Single batched question:
 ```
@@ -670,8 +732,8 @@ Explorer run complete.
   Category:       {filter}
   Files sampled:  {N}
   Items surfaced: {M} / 10
-  Accepted:       {K} -> {commit shas}
-  Declined:       {L}
+  Auto-accepted:  {A} (xs/s, built without asking) -> {commit shas}
+  Triaged:        {T} put to you -> {K} actioned, {L} declined
   Deferred:       {D}
 
   Coverage update: last visit {date} -> {today}, yield density {X}/{Y}
@@ -695,6 +757,12 @@ Explorer run complete.
 
 If zero items were accepted, frame the run as a successful pass over a healthy area. The point is signal, not action.
 
+**Say what you did without being asked.** The auto band is the run acting on the user's behalf,
+so the summary owes them a plain account of it: what was built, under which shas, and — for
+anything the gates could not settle — what stayed unverified. A run that quietly built five
+things and reported a tidy total has taken the round trip it saved and spent it on opacity.
+Offer `--triage-all` in the `Next?` block if the auto band ran larger than they expected.
+
 ---
 
 ## Notes on use
@@ -702,6 +770,12 @@ If zero items were accepted, frame the run as a successful pass over a healthy a
 - **Pair with `/research`** — run `/explorer` after a research session that touched a specific area, to immediately surface adjacent gaps the research run didn't cover.
 - **Cadence** — daily or every-other-day is a reasonable rhythm. Coverage.md will tell you when the codebase is uniformly fresh and you should switch to `/architect` instead.
 - **Coexist with uncommitted work.** Multiple CLIs and editor sessions share the working tree. Explorer never stashes, resets, or discards anything it didn't author. Each commit stages **only the specific paths** the explorer touched (`git add path/one path/two`); never `git add -A`, `git add .`, or `git add -u`. If an item's anchor file already has uncommitted changes from someone else, surface it: "this file already has changes — commit them first, or layer on top?" Default to layer-on-top if the user doesn't pick. Forbidden at all times: `git stash`, `git reset --hard`, worktree-touching `git restore` / `git checkout --` on paths the run didn't author, `git clean -f`. (`git restore --staged <path>` to unstage a foreign pre-staged file is allowed — it never touches the working tree.)
+- **The auto band changes what a decline MEANS.** Before v2, a decline was the main calibration
+  signal and `passes.md` was fed mostly by small rejected items. Now the only declinable items are
+  `m`/`l`, so `passes.md` fills slowly and a run of zero declines says nothing about calibration.
+  Read the SHORTFALL instead — how often a run stops short of 10 — and the user's reaction to the
+  auto band. A user who starts reverting auto-accepted commits is the v2 equivalent of a decline
+  streak, and it means the sizing rubric is running small, not that the findings are wrong.
 - **Drift signal** — if 3+ explorer runs in a row produce 0 accepted items, the calibration is off (severity bar too low, or area was wrong). Trigger a self-reflection: read the last 3 sweeps and ask the user "what shape would have actually been useful?"
 
 ## App context coverage (Personas-managed repos)
