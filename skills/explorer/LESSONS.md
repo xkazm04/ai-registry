@@ -49,3 +49,38 @@ Append-only reflection lane. One entry per run that taught something. Format:
 - **Prior-pass annotations are a "swept, move on" marker, and reading them first would save a third of the wander.** In a repo where earlier scans leave finding-numbered comments (`database-client-schema #1`, `data-retention 07-16 #2`), the annotated files produced ZERO surviving candidates and the un-annotated ones produced 9 of 10 items. Phase 4a picks files by size and entry-point status; a cheap grep for prior-finding markers would rank them better. Not applied — it needs a marker convention the method cannot assume, and `passes.md` plus prior sweeps already cover the explorer's own history. Worth trying as a Phase 4a hint if a second repo shows the same shape.
 - **The highest-value finding came from cross-reading two files, and no category lens asks for that.** The run's one high-severity pair was a UI promising a behaviour its server resolver does not have; each file is internally consistent, and both had been read by earlier passes. The per-category hunting lists in 4b are all single-artifact questions. A ninth prompt — "what does this surface CLAIM the code below it does, and does the default agree?" — is where the defect lived. Recorded rather than applied: one observation is not yet a rule.
 - **`standard:` earned its read exactly once in ten items.** Matching techniques on `use_when` before reading was right; the nine `standard: none` items were honestly none. The clause's cost is proportional to the read, so resist reading a golden path for a subject the item does not touch.
+
+## 1.2.0 - 2026-08-29 - systedo-case
+
+- **Third repo in one day where the premise gate killed items one call site away from
+  their anchor.** kp recorded this; this run is the confirmation that should promote it
+  from observation to rule. All THREE killed candidates were React state-lifetime
+  suspicions — SLA countdowns and a per-project snippet library surviving a project
+  switch, a countdown formatter printing `-2:-10` when negative, an analytics band whose
+  writer was never called — and every one of them read as obviously true at its own
+  `file:line`. Each died in a file the wander had not opened yet: a `template.tsx` that
+  remounts everything beneath it, the branch that never reaches the formatter, the button
+  that does call the writer. Phase 5 should say it outright: for any item whose claim is
+  about LIFETIME, IDENTITY or REACHABILITY, the anchor is not evidence — the mounting
+  parent and the caller are.
+- **The gates fail for reasons that are not yours, and the method has no move for it.**
+  Two of them in one run: `npm run lint` was red on a *committed* file from another
+  loop's output directory, and the pre-commit `tsc` was red on a stale generated file
+  (`.next/types/validator.ts` still naming routes deleted three commits earlier). Neither
+  is a reason to stop, and both are exactly where `--no-verify` starts looking reasonable.
+  What worked: lint the paths you touched (`npx eslint <paths>`) to get a clean signal on
+  your own work, delete the stale *generated* artifact and let the build remake it, and
+  never touch the foreign source. Phase 7's step 2 currently just says "run the gates" —
+  it should name the three-way split: red because of your change (fix it), red because of
+  a stale generated artifact (regenerate it), red because of someone else's file (report
+  it, commit anyway, say so in the run record).
+- **A cold vault plus a healthy area is where "surface exactly 10" is most dangerous.**
+  The area had a real unit suite, honest comments, and a prior refactor commit — nothing
+  was broken. What was there instead was one shape, four times: a capability the code
+  documents and does not use. A `brand` parameter with a passing test and no caller; a
+  default that was also the absent value; a "cs/en" label map with one column; an
+  `aria-pressed` idiom applied in twelve places and missed in three. That is a genuinely
+  productive lens for a healthy area and it is not in 4b's category lists: **grep for the
+  repo's own idiom, then list where it was not applied** — and read `git log` on the
+  anchor, because "added by <sha>, never wired" is the strongest evidence a dead
+  capability can carry.
