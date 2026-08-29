@@ -2,10 +2,10 @@
   "schema": "rkb-signals/1",
   "contributor": "kazda-dev-box",
   "app": "ai-registry-scripts",
-  "generatedAt": "2026-08-23T13:19:21Z",
+  "generatedAt": "2026-08-29T20:59:52Z",
   "windowDays": 30,
   "stack": {
-    "node": 22,
+    "node": 24,
     "react": 19,
     "next": 16,
     "typescript": 6,
@@ -17,28 +17,170 @@
   "bundles": {
     "software-engineering": {
       "consults": {
+        "plan-entitlements": 2,
+        "cost-metering": 3,
+        "cicd-monitoring": 1,
+        "connector-catalog": 2,
+        "optional-dependency-degradation": 1,
+        "browser-credential-boundary": 3,
+        "wizard-flows": 2,
+        "public-verdict-badge": 1,
+        "codebase-scanning": 1,
+        "agent-memory": 4,
+        "rate-limiting": 1,
+        "adoption-measurement": 2,
+        "audit-logging": 1,
+        "agent-addressable-ui": 1,
+        "demo-data-plane": 2,
+        "data-retention": 1,
+        "embedded-db": 1,
+        "docs-sync": 1,
+        "concurrent-vcs": 1,
+        "telemetry-pii-redaction": 1,
+        "app-shell": 2,
+        "async-ui-states": 2,
+        "client-state": 2,
+        "repo-manifest-standard": 1,
+        "table": 1,
+        "guided-tours": 2,
         "machine-paced-delivery": 1,
-        "judgment-guardbands": 1
+        "judgment-guardbands": 1,
+        "agent-chaining": 1,
+        "metric-forecasting": 1,
+        "client-fetch-cache": 1,
+        "settings": 2,
+        "retry-backoff": 1,
+        "model-routing": 1,
+        "design-tokens": 2,
+        "i18n": 2,
+        "measurement-honesty": 1,
+        "accessibility": 2,
+        "templates-scaffolding": 1,
+        "operator-surfaces-for-llm-spend": 1,
+        "diff-comparison": 1,
+        "quality-regression-gating": 1,
+        "motion": 1,
+        "terminal-multiplexing": 1,
+        "fleet-orchestration": 1,
+        "search": 1,
+        "retrieval": 1,
+        "markdown-vault": 2,
+        "versioning-snapshots": 1,
+        "multi-project": 1,
+        "sql-console": 1,
+        "import-normalization": 1,
+        "credential-vault": 1,
+        "hitl-approval": 1,
+        "delivery-guarantees": 1,
+        "executive-reporting": 1,
+        "draft-editing": 1,
+        "data-access": 1,
+        "migrations": 1
       },
       "deviations": {
+        "plan-entitlements": 6,
+        "cost-metering": 5,
+        "cicd-monitoring": 1,
+        "connector-catalog": 2,
+        "optional-dependency-degradation": 1,
+        "browser-credential-boundary": 7,
+        "wizard-flows": 3,
+        "public-verdict-badge": 1,
+        "codebase-scanning": 1,
+        "rate-limiting": 1,
+        "audit-logging": 1,
+        "agent-addressable-ui": 2,
+        "demo-data-plane": 8,
+        "data-retention": 2,
+        "telemetry-pii-redaction": 3,
+        "app-shell": 6,
+        "async-ui-states": 6,
+        "guided-tours": 6,
         "machine-paced-delivery": 2,
-        "judgment-guardbands": 2
+        "judgment-guardbands": 2,
+        "agent-chaining": 1,
+        "settings": 6,
+        "retry-backoff": 2,
+        "model-routing": 2,
+        "design-tokens": 5,
+        "i18n": 5,
+        "measurement-honesty": 2,
+        "accessibility": 6,
+        "templates-scaffolding": 4,
+        "adoption-measurement": 4,
+        "operator-surfaces-for-llm-spend": 3,
+        "agent-memory": 14,
+        "diff-comparison": 10,
+        "client-state": 4,
+        "quality-regression-gating": 4,
+        "motion": 4,
+        "terminal-multiplexing": 8,
+        "fleet-orchestration": 8,
+        "search": 5,
+        "retrieval": 5,
+        "markdown-vault": 11,
+        "versioning-snapshots": 4,
+        "multi-project": 4,
+        "sql-console": 6,
+        "import-normalization": 8,
+        "credential-vault": 3,
+        "hitl-approval": 1,
+        "delivery-guarantees": 1,
+        "executive-reporting": 1,
+        "draft-editing": 1,
+        "data-access": 6,
+        "migrations": 6
       }
     },
     "recruiting": {
       "consults": {
-        "structured-interview-scorecards": 1
+        "structured-interview-scorecards": 1,
+        "small-sample-honesty-in-hiring-analytics": 1,
+        "bulk-adverse-action-governance": 1,
+        "combining-signals-into-a-hire-decision": 1
       },
       "deviations": {
-        "structured-interview-scorecards": 1
+        "structured-interview-scorecards": 1,
+        "small-sample-honesty-in-hiring-analytics": 1,
+        "bulk-adverse-action-governance": 1,
+        "combining-signals-into-a-hire-decision": 1
       }
     },
     "game-production": {
       "consults": {
-        "unattended-build-loop": 1
+        "unattended-build-loop": 1,
+        "quality-verdict-integrity": 1,
+        "generated-mesh-acceptance": 1
       },
       "deviations": {
-        "unattended-build-loop": 1
+        "unattended-build-loop": 1,
+        "quality-verdict-integrity": 1,
+        "generated-mesh-acceptance": 1
+      }
+    },
+    "llm-observability": {
+      "consults": {
+        "operator-surfaces-for-llm-spend": 2,
+        "usage-limit-governance": 1,
+        "llm-call-telemetry-model": 1,
+        "draft-editing": 1,
+        "judgment-guardbands": 1,
+        "trace-rollup-and-attribution": 1,
+        "tracing": 1
+      },
+      "deviations": {
+        "operator-surfaces-for-llm-spend": 10,
+        "usage-limit-governance": 6,
+        "llm-call-telemetry-model": 6,
+        "draft-editing": 6,
+        "judgment-guardbands": 6,
+        "trace-rollup-and-attribution": 6,
+        "tracing": 6
+      }
+    },
+    "media-generation": {
+      "consults": {
+        "generative-provider-routing": 1
       }
     }
   }
