@@ -1109,3 +1109,52 @@ that check stays cheap.
   - it does not, for the only case a user meets) rather than from a defect shape.
   §4.6's pair-hunting names "a doc's stated rule vs the code" last in its list; on
   a codebase this heavily commented it should be first.
+
+## 2.7.0 - 2026-08-29 - gravitone-gcloud (8-context loop to full 23/23 coverage)
+
+- **One shape produced six of the eight builds, and §4.6 lists it last.** Across
+  eight contexts of a heavily-swept repo, the highest-value finding was almost
+  never a defect shape. It was A RULE THAT EXISTS AND IS NOT REACHED, in four
+  sub-shapes: **computed and discarded** (`applyEdits` returned `chainBreaks`,
+  detected them, explained them in a five-case probe — and `recalibrateFromPlan`
+  dropped the field one line later, so the finding reached a test and nobody
+  else); **parsed and discarded** (`EditPlan.unchanged`, required by the schema
+  the model must satisfy, given no `description` unlike every sibling field, and
+  read by nothing); **stated and unenforced** (`tokens.ts` described the grep
+  that rechecks its own colour rule and nothing ran it; `FactSource` was created
+  because "a rule with no field to live in is a comment" and then no surface
+  drew it); and **fixed on one path, not its sibling** (google's `generate`
+  carried a reference role map from the day it was written and `edit` — the
+  heterogeneous call — did not; `ConfirmDelete` closed on the write's answer and
+  the create/edit dialog twenty lines up did not). §4.6 already names the last
+  of these and lists "a doc's stated rule vs the code" fifth. On any codebase
+  disciplined enough to write its rules down, that clause should LEAD, and it
+  should be widened from documents to any rule with no reader: **grep the
+  producer of a rule for its consumers before reading the code around it.**
+
+- **A pure-function probe passes against a caller that ignores the function, so
+  the wiring is its own case.** Twice this round the assertion that mattered was
+  not the rule but its use. Four cases over `buildEditPrompt` all pass against an
+  adapter that builds its own text; five cases over `applyEdits` all pass while
+  the result is thrown away — demonstrated by seeding the regression and watching
+  the sibling probe stay entirely green. When a fix adds or moves a pure rule,
+  add one case asserting the call site reaches it, on stripped source. It is six
+  lines and it is the only case that fails for the original defect.
+
+### Redesign proposal (not applied)
+  §7.6 says "seed a violation to prove the gate still bites" and stops one step
+  short. **A seed that silently fails to apply produces a gate that did not fire,
+  which is byte-identical to a gate that is broken** — and it happened here: a
+  `perl -0pi` seed against the trailer checker's exhaustiveness guard did not
+  match, tsc stayed green, and the reasonable reading was "the compile-time
+  device does not work". Re-run with the edit asserted first, it failed with
+  TS2322 exactly as designed. Every later seed this session asserted its anchor
+  before writing and printed SEED APPLIED. The clause should require it: seed,
+  ASSERT THE SEED LANDED, then read the gate.
+
+- Yield: 30 findings / 8 rounds, 9 built, 21 reported. 346 -> 374 probes. Note
+  the distribution against a repo already swept twice over: the four contexts
+  with dedicated regression harnesses yielded 1 build each, and every one of
+  those came from the registry rather than from the code — the harness had made
+  the code's own defects scarce, and only an outside standard still had
+  something to say about it.
