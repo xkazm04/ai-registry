@@ -254,9 +254,15 @@ scan. Recorded so no future run reads it as unfinished work.
 
 ### What is now owed
 
-- **Accepted-debt notes for the class-D techniques.** `de-anglicization-constructions`
-  and `register-and-address` appear in all thirteen language subjects with no conformance
-  artifact anywhere. Still unwritten; now the only structural item left.
+- ~~**Accepted-debt notes for the class-D techniques.**~~ **Withdrawn 2026-08-29 — the
+  item was mis-stated and is not real.** `librarian-scan.mjs` scores **subjects**, not
+  techniques: its clauses are missing-`use_when`, no-application, thin-techniques,
+  single-stack, expired/at-risk, never-swept and consumer demand. **Nothing flags an
+  uncovered technique**, so an accepted-debt note for `de-anglicization-constructions`
+  would suppress nothing. And the brief's `accepted:` key is read **nowhere** in the scan
+  — the brief itself says that reading must be built *before* the first such note is
+  written, and it has not been. No subject here needs one either: all 14 now carry a
+  second source. Verified by grep against the scan, not assumed.
 - **`common/rbnf/<lang>.xml` is an unused counterpart surface** — gendered and cased
   spellout rulesets and digit-ordinal patterns, conformance-grade evidence for gender and
   ordinal claims that `plurals.xml` cannot support. The best structural lead of the wave.

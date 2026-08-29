@@ -245,6 +245,44 @@ with documented difficulty systems - weak A); aaa-craft-rubric-authoring (D).
 5. **media-generation and game-production**: the class-A subjects ride in any wave with
    a free slot; the class-D residue gets accepted-debt notes, not workers.
 
+## localization — classified after the fact, and it changes the class-B picture
+
+**This bundle did not exist when the list above was written** (2026-08-24), so it appears
+nowhere in "the 48". It was classified and fully reconciled on 2026-08-29 across two waves
+— 14 subjects, 14 second sources, 0 rejected — and what it taught belongs in the contract:
+
+**Class B is not one thing, and the distinction is whether a conformance artifact ships.**
+The class as written above was built around *prose procedures* — a regulation's arithmetic
+worked by hand, a validator run over a fixture. This bundle's counterparts split three ways,
+and the evidence they support differs in kind:
+
+| sub-class | what ships | what executed evidence means |
+| --- | --- | --- |
+| **B1 — conformance test** | a published test file (line breaking, normalization) | run it; report pass/fail with n. Two workers independently scored 19338/19338 on the same file. |
+| **B2 — data with published samples** | rules carrying their own `@integer`/`@decimal` sample sets | implement the published rule, classify the publisher's own samples, **and run degenerate controls** |
+| **B3 — property data only** | character properties, case mappings, locale data | classification, not a conformance run — and the worker must **say so in the document** |
+
+B1 and B2 are cheaper and more adversarial than the prose-procedure class the brief was
+built on: a degenerate implementation fails visibly, so the harness proves itself. B3 still
+produced the strongest single finding of wave 2, but only because the worker stated plainly
+that no test file existed. **Ask for that sentence up front**; it is the difference between
+evidence and the appearance of it.
+
+**Counterparts, all measured:** the locale-data repository at a pinned *release* (plural,
+ordinal, range, grammatical-feature and per-locale minimal-pair data) and the character
+standard's annexes and character database. Two surfaces remain **unconsumed** and are the
+best leads: the **spell-out rulesets** (gendered and cased numerals, digit-ordinal
+patterns — conformance-grade evidence for gender and ordinal claims that plural data
+cannot support), and the **per-locale minimal pairs**, a ready-made versioned fixture for
+any subject here.
+
+**The class-D residue is real but is not a subject-level debt.** Two techniques recur in
+all thirteen language subjects — de-anglicization and register/address — with no
+conformance artifact anywhere. They do **not** need accepted-debt notes: the scan scores
+subjects, not techniques, and nothing flags an uncovered technique. Verify that before
+writing such a note anywhere, because the `accepted:` key this brief specifies is still
+read nowhere in the scan.
+
 ## What this sitting did not do
 
 It dispatched nothing and verified no candidate; every counterpart above is reputed.
