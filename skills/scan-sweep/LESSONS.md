@@ -1052,3 +1052,9 @@ that check stays cheap.
   reading is not that the pass was thin but that this is the most conformant subsystem it has
   met, measured against the strongest-matched subject it has had. Both findings were built, both
   gated against the product source, and both fail-befores reproduced the original defect by name.
+
+## 2.8.0 - 2026-08-29 - systedo-case
+- A cross-context "moonshot" round (develop strategy, two lenses, L+ only, ALL groups) does not fit the one-context-per-round loop: it was run as a per-group read-only subagent fan-out returning §4.10 cards, consolidated by the coordinator, then triaged one card at a time. Convergence across independent scouts (4 groups → the same spine, 5 → the same benchmark) turned out to be the strongest ranking signal and should be a first-class field on the card.
+- An operator-named lens that is absent from references/lenses.md (here `moonshot-architect`) must be run as ad-hoc and labelled so in the header and snapshot; the coverage ledger must not count it as a registered lens pass.
+### Redesign proposal
+- Add an explicit `--groups all|<name>` + `--min-effort L` fan-out mode with a "corroborated-by" count in the emitted finding, so a portfolio-level develop round has a supported shape instead of an improvised one.
