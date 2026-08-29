@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
   "techniques": 995,
-  "applications": 470,
+  "applications": 471,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -1420,6 +1420,13 @@
      "technique": "range-precedence-resolution",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/node--range-precedence-resolution.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "react",
+     "technique": "calendar-arithmetic",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/react--calendar-arithmetic.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "sql",
@@ -9226,7 +9233,9 @@
       "one-authority-per-vocabulary",
       "derivation-names-recomputation"
      ],
-     "shared_with": [],
+     "shared_with": [
+      "app-shell"
+     ],
      "use_when": [
       "an anchor jump lands with the heading hidden under the header",
       "two pinned bars overlap",

@@ -2338,3 +2338,10 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   Rust seam in the wave fell to experiment/simulation for this reason, and the
   scorecard called it "no warm gate" when it is "no gate at all": the library crates
   (`core`, `engine`) check fine. Name the crate a Rust gate can reach, not the workspace.
+- **Addendum, same day: the "unreachable" Rust gate was one flag away.** The build
+  script failed because a capability referenced an optional plugin that plain
+  `cargo check` never compiles; the project's own CI runs `--features desktop`, and
+  with that flag the whole workspace checks warm in minutes - the event-registry
+  repair is now compile-verified, not just statically argued. The rule: the gate a
+  project's CI actually runs IS the gate; read the workflow file before declaring a
+  gate unreachable.
