@@ -73,7 +73,10 @@ Two things the declaration cannot give you:
   the code that writes the file states what deletes it. Reapers run
   after the transactional delete succeeds, tolerate already-gone
   targets, and their failures are counted, not swallowed — a half-run
-  reaper is how orphaned resources accumulate invisibly.
+  reaper is how orphaned resources accumulate invisibly. What happens
+  when a reaper fails anyway — the registry, the durable orphan record,
+  the reconciliation sweep — is the
+  [orphan-reconciliation](./orphan-reconciliation.md) technique.
 - **Sequencing.** When the delete must interleave with running work
   (cancel in-flight jobs, then delete), that orchestration is
   application logic in the one delete door, wrapping the declared
@@ -96,6 +99,21 @@ or deferral to keep the transaction from locking the world), and the
 design review itself (a yield that surprises the team is a posture that
 deserves re-deciding — perhaps that reference should detach, not
 cascade).
+
+Measure **time and locks, not only rows** — and check the indexes first.
+A declared cascade or detach is executed by lookups on the *referencing*
+columns, and stores do not index those automatically: an unindexed one
+turns every parent delete into a full scan of the child table, which is
+the classic order-of-magnitude surprise (fleet measurements have caught
+the same delete at tens of seconds without the index and around one
+second with it — a stall that arrives precisely when someone first runs
+the purge that was always configured). The rule is mechanical enough to
+gate: every referencing column named in a cascade or detach declaration
+carries an index, or a written note saying why not. And the cheapest
+honest measurement is the store's own dry run: execute the real delete
+inside a transaction, count casualties per table, roll back — the one
+form that sees everything the declarations compose to, because it *is*
+them.
 
 ## The survivor list is part of the design
 

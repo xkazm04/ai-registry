@@ -94,3 +94,14 @@ reassurance. If a window exists, the sweep that enforces it is a named
 reaper with the full ceremony of deletion (blast radius, survivors,
 transition record), not a cleanup job that quietly does what no user
 confirmed.
+
+And when the product offers *both* archive and a deletion grace period,
+**scheduled-for-deletion is its own axis, not a use of archive**. The
+tempting implementation — flip the archived flag when a delete is
+scheduled, clear it on cancel — fuses two independent facts, and the fuse
+shows on cancellation: an entity that was archived *before* its deletion
+was scheduled comes back live, because "cancel" cleared the flag it
+borrowed. Cancelling a scheduled deletion must return the entity to its
+exact prior existence state, which is only expressible if pending-deletion
+is stored beside the archive fact rather than overloading it — the same
+orthogonality argument as flag-versus-status, one axis further out.

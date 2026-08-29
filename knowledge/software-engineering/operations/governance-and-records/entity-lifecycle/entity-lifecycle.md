@@ -7,6 +7,7 @@ techniques:
   - blast-radius-computation
   - archive-restore-semantics
   - cascade-design
+  - orphan-reconciliation
   - provenance-denormalization
   - change-logging
   - bulk-deletion-rails
@@ -148,6 +149,21 @@ reaper vs. blocking postures, and the measurement ritual, are the
 declarations themselves evolve is owned by
 [migrations](../../../backend-platform/data-layer/migrations/migrations.md).
 
+## The delete that spans stores must be able to finish later
+
+The moment an entity's dependents live where the store's declarations
+cannot reach — a second database, a vector or search index, files, an
+external registration — its delete becomes a distributed operation, and
+the mature contract stops pretending otherwise. The reapers form one
+enumerable registry from which the cascade, the receipt, and an integrity
+sweep all derive; a reaper failure is recorded durably *at the delete
+door*, while the entity's identity is still in scope, so a half-finished
+delete is resumable rather than a permanent leak; and at least one
+reconciliation pass walks the dependent stores asking "does your owner
+still exist?" — the only direction from which an orphan is visible. The
+registry, ledger, and sweep disciplines are the
+[orphan-reconciliation](./techniques/orphan-reconciliation.md) technique.
+
 ## Transitions are recorded facts
 
 Created, archived, restored, deleted — each lifecycle transition is a
@@ -208,6 +224,9 @@ entity should be able to print:
 - [cascade-design](./techniques/cascade-design.md) — declared cascades as
   schema truth, measured yield, named survivors, reapers for what the
   schema cannot reach.
+- [orphan-reconciliation](./techniques/orphan-reconciliation.md) — the
+  reaper registry, the durable orphan ledger written at the delete door,
+  and the dependent-side sweep that makes a cross-store delete resumable.
 - [provenance-denormalization](./techniques/provenance-denormalization.md)
   — copy identity onto history at write time; the honest absent value
   over the fabricated sentinel; deletion never rewrites the past.

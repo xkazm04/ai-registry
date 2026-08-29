@@ -4,7 +4,8 @@ type: application
 subject: entity-lifecycle
 technique: provenance-denormalization
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-08-29
+verified_against: rust@1.80
 ---
 
 # Recipe provenance stamped onto executions
@@ -13,7 +14,7 @@ The doctrine is written where it is implemented:
 `src-tauri/db/src/repos/execution/executions.rs:11-31` documents
 `resolve_recipe_provenance`, which resolves `(source_recipe_id,
 source_recipe_version)` from the persona's use-case metadata and copies
-both onto the execution row at insert time (`:578-597`). The doc
+both onto the execution row at insert time (`:664-668`). The doc
 comment states the technique's two core claims verbatim:
 
 > "Denormalizing rather than joining live is the point: detaching a
@@ -26,7 +27,7 @@ comment states the technique's two core claims verbatim:
 Every clause maps onto the technique:
 
 - **Copy at write time.** The provenance is read from the persona's
-  `design_context` and stamped into the `INSERT` (`:578-597`); there is
+  `design_context` and stamped into the `INSERT` (`:664-668`); there is
   deliberately no later write path. Once the use case is detached or
   the persona deleted, the window is closed — which is why it is
   captured while open.
@@ -35,22 +36,23 @@ Every clause maps onto the technique:
   `(None, None)`, never to a placeholder id. Downstream, the rollup
   query honors the same contract: runs that predate stamping "have a
   NULL `source_recipe_id` and are excluded, not guessed at"
-  (`:2048-2064`), and the join to live recipe definitions is a `LEFT
+  (`:2199-2218`), and the join to live recipe definitions is a `LEFT
   JOIN` so a deleted recipe degrades the caption, not the count.
 - **Best-effort by construction.** "A failure to resolve provenance
   must never fail the execution insert" (`:30-31`) — the historical
   stamp is an observer of the write, not a gate on it.
 - **Provenance survives the entity's own lifecycle operations.** The
   retry path copies `source_recipe_id`/`source_recipe_version` from the
-  original execution row via subselect (`:1575-1579`), so a retried run
+  original execution row via subselect (`:1664-1668`), so a retried run
   carries its ancestor's provenance rather than re-resolving against a
   world that may have moved. A regression test pins the stamped pair
-  (`:2491-2514`).
+  (`retry_inherits_the_original_runs_recipe`, `:2882`; the adopt-time
+  stamp at `:2802`).
 
 ## The same posture at the persona boundary
 
 The persona delete relies on the mirrored discipline for events: the
-drain-test contract (`src-tauri/src/commands/core/personas.rs:922-925`)
+drain-test contract (`src-tauri/src/commands/core/personas.rs:928-939`)
 asserts cascade completeness as "memories/events gone, target events
 **source-nulled**" — records aimed *at* the deleted persona survive
 with the pointer honestly degraded rather than fabricated or cascaded.

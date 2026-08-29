@@ -45,6 +45,16 @@ until the frontier closes. Two disciplines make the walk trustworthy:
   delete takes every row is a lie by construction — the dialog reads as
   an exhaustive impact list while omitting the history behind each
   category. Same tables, same filters, or the preview is theater.
+- **Sharing the predicate is still not sharing the effect.** A count
+  built from the delete's own filter — even the literal same clause text
+  feeding both the count and the delete — sees only the target table; it
+  cannot see the cascade behind it, and fleet measurement has caught
+  exactly this best-case preview understating the real removal several
+  times over. Where declared cascades exist, the only preview that
+  cannot drift is one produced *through the enforcement path*: run the
+  destruction in a counting mode (execute inside a transaction, tally
+  casualties per table, roll back) or derive both preview and act from
+  the same dependency registry that includes the cascade set.
 
 Two failure disciplines sit on the enumeration itself. **A probe that
 errors must never render as an empty result** — a failed count
