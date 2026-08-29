@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N]
 category: workflow
 contexts: tracked
 memory: project
-version: 2.6.0
+version: 2.7.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -539,7 +539,7 @@ backlog as open work:
 Each BACKLOGGED finding:
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance — ...\nBefore: ...\nAfter: ...\nMethod: probe — ...\nResult: better\nGate: none","evidence":"<code block or file:line list — the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"result":"better|not-better|unmeasurable","gate":"none|contract|policy|irreversible"}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"result":"better|not-better|unmeasurable","gate":"none|contract|policy|irreversible"}
 ```
 
 `body` is the §4.10 form verbatim — the five `## ` sections, newline-escaped in
@@ -607,16 +607,19 @@ fixed, last strategy and age, least-covered first. Then stop.
 
 ---
 
+<!-- clause: skill-reflection v2 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect twice - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING for lane 2. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
 
-Lane 1 - PROJECT learnings (what the next session in THIS repo needs): write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to the memory outbox per that contract. Project-specific insight only.
+**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in `.claude/scan-sweep/config.md`, or in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
 
-Lane 2 - METHOD learnings (what would improve THIS SKILL for every project):
+**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
 1. If nothing generalizes beyond this repo, stop here.
-2. Append an entry to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets. Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a methodic redesign you are NOT applying now.
-3. Version bump - ONLY when you also edit SKILL.md to apply the improvement in the same change: patch for a change that alters the directory without altering behaviour, minor for a prompt/step refinement, major for a methodic redesign. Never bump without an applied edit; never edit the method without a bump.
-4. Sync ritual (only when you bumped): commit the skill directory as a STANDALONE commit - message `skill(<name>): v<new> - <one-line reason>` - containing nothing but this skill's files, and regenerate the registry's marketplace manifest in the same change.
+2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - scan-sweep` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
+3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
+4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/scan-sweep` in a consuming repo is a symlink to `<registry>/skills/scan-sweep` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/scan-sweep` and `git -C <registry> commit -m "skill(scan-sweep): v<new> - <one-line reason>"`. Never stage the link from the project side.
+5. NEVER copy this skill to `~/.claude/skills/scan-sweep/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/scan-sweep` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
 
-Note that a registry LEAD (§6) is a different artifact from a lane-2 lesson: a lesson improves this METHOD, a lead proposes DOMAIN knowledge. A run may produce either, both, or neither.
+**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+<!-- /clause: skill-reflection -->
