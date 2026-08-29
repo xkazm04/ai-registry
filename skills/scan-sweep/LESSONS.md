@@ -897,3 +897,61 @@ that check stays cheap.
   that spawns the generated doctor as a subprocess and compiles its own parsers out of the
   emitted source), and §4.7's usual richest question - what enumerates the ground truth? -
   came back with a real answer three times over.
+
+
+## 2.7.1 - 2026-08-29 - ascent (round 4)
+
+### Redesign proposal: §7's parallel rule teaches the wrong mechanic
+
+- **"Stage with explicit pathspecs only" is advice that CAUSES the failure it is trying to
+  prevent, and I proved it twice in one sweep.** The rule reads as "scope your `git add`",
+  so the natural shape is `git add -- <my files> && git commit -m "..."`. That commit has
+  no pathspec: it takes the whole INDEX, including whatever a sibling session staged in the
+  meantime. It happened in round 1 (a stray BOM fix) and again in round 4, where it swallowed
+  another session's in-flight feature — a new 167-line script, its 155-line test, a 444-line
+  `context-map.json` edit and an overlay change — into a commit whose message described a
+  two-line comment fix. Recovered with `reset --soft HEAD~1` + a pathspec commit, their four
+  files back in the index untouched, but the recovery is only available because I looked at
+  the diffstat.
+  **The rule should name the operation, not the discipline: `git commit -m "..." -- <paths>`,
+  and do not `git add` at all.** One command, no window, and it cannot take anything you did
+  not name. The current wording is why I used the safe form for some commits this round and
+  the unsafe form for others: both feel like they satisfy it.
+
+- **A seeded violation that does not go RED has told you nothing, and it looks exactly like
+  success.** §7.6 says to seed a violation and watch the gate bite; what it does not say is
+  to check that the seeded run actually failed. My first fixture for a threshold fix used
+  20 x 0.4 = 8 against a single +9 — the old thresholdless code ranked them the same way the
+  new code does, so the seed passed, and a green run after a green run reads as "verified".
+  The fixture, not the code, was wrong. **Add to §7.6: after seeding, assert the run is RED;
+  a passing seed means your case cannot distinguish the two implementations, and the honest
+  next step is a fixture whose numbers are INVERTED against the property you are pinning.**
+
+- **A repo-level structural gate that only runs at the END of a round is a gate that runs
+  after the commits it governs.** Two test cases I added took a file from 291 to 307 lines,
+  past the repo's 300-LOC rule — and I committed it, because the LOC check lives in the
+  round's closing gate list. The repo's own instruction is literally "check before committing
+  a file you grew". **The gate list in §7.2 should distinguish per-COMMIT gates (typecheck,
+  the touched suite, lint, plus any structural rule on a file this commit grew) from
+  per-ROUND ones.** Cost here was one extra split commit; on a rule with a harder remedy it
+  would be a revert.
+
+- **"Mapped to the wrong subject" is worse than "unmapped", and §6 has no state for it.**
+  This context is an animated SVG star field. Its five registry subjects all matched on the
+  word *fleet* — CI runner pools, device fleets — at scores of 254-300, against 615 / 490 /
+  400 for the three previous rounds' genuine matches. §6 offers `registry: declared, unmapped`
+  for a missing join, but a homonym join produces a subject list that LOOKS like governance,
+  and a lens that dutifully reads it will conformance-check a star map against a runner pool.
+  **Two additions worth making: a `declared, weakly mapped` header state, and the instruction
+  that a homonym match is itself a FINDING about the map** (filed here as one) rather than a
+  reason to degrade quietly. The tell is cheap — compare the top subject's score against the
+  scores this repo's other contexts draw.
+
+- Yield: 7 findings / 24 lens-passes = 0.29 per pass, 5 built (one of them repairing my own
+  LOC breach), 2 backlogged, both `unmeasurable` for the same honest reason: the Before figure
+  is solid and the After depends on a product decision that is not the sweep's to make. Three
+  bounty-hunter hypotheses were traced and all three failed — a memoization cache that turned
+  out to honor its documented bound, a hand-built org URL that turned out to be the landing
+  URL rather than a tab href, and a double-click race that turned out to be guarded twice.
+  Recording the failed hunts, because in a context this heavily worked (7 numbered prior
+  findings, MAP-2..6, G8-16/18) they are most of the round's actual reading.
