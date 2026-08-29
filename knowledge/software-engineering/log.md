@@ -458,3 +458,33 @@ repo makes it a technique.
 
 Gate green (`check-bundles.mjs`): 146 subjects · 930 techniques · 412
 applications; bundle integrity OK. Index, catalog and rules rebuilt in order.
+
+## 2026-08-29 — architecture & design-excellence /deepen batch: seven workers, Director diff-review
+
+Operator-directed round scoped to coding architecture and design excellence.
+Seven parallel full-pipeline workers (module-design, client-state,
+entity-lifecycle, data-access, ipc-contract, scale-investment-timing,
+optional-dependency-degradation), every diff Director-reviewed, one commit
+per subject (354e7df, 22159a7, 8e6bda6, 9fb6de8, b7a4859, 6c3ea0c, 735d54a).
+
+995→998 techniques, 471→488 applications. Three new techniques, each on
+lane convergence: `module-design/io-free-core`,
+`data-access/read-models-and-projections` (first `stage:` declaration this
+round), `entity-lifecycle/orphan-reconciliation`. Two order-of-magnitude
+claims REFUTED with primary sources (migration-cost "order of magnitude"
+→ fat-tail; single-origin N+1 → three origins). Four subjects gained their
+first second stack (entity-lifecycle, client-state persistence,
+optional-dependency-degradation, scale-investment-timing). Seventeen
+applications now carry fresh 2026-08-29 witnesses; every re-checked
+citation moved its `verified_on`. Counter-evidence confirmations recorded
+per subject in librarian/subjects/ rather than lost — around twenty claims
+survived attack and are stated as such.
+
+Fleet demand provenance note: the scan's deviation counts for client-state
+and entity-lifecycle originate from the secondary machine's signals; on
+this device those subjects' map pairs are unjudged. The round's impact
+candidates (≈30, in the worker reports and the run note) feed the
+2026-08-29 impact plan under librarian/impact/.
+
+Gate green end-to-end; index, rules and catalog rebuilt in a quiet tree
+(closing the catalog debt deliberately left on 2026-08-28).

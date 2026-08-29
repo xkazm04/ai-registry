@@ -121,3 +121,33 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   "**Resolve** a pairing…" tripped the media denylist on a video-tool product
   name used as an ordinary English verb. Reworded. The gate was right to be
   blunt; a denylist that exempts verbs stops being a floor.
+
+## 1.1.0 - 2026-08-29 - software-engineering (7-wide architecture batch + impact plan)
+
+- **Check a deviation count's provenance before building a local plan on it.**
+  The worklist ranked client-state and entity-lifecycle partly on deviations
+  that turned out to be the OTHER machine's signals; this device's map pairs
+  for both were all `unknown`. The scan aggregates fleet-wide by design — but
+  an impact plan is per-machine, so the step "which installation reported
+  this?" belongs before candidate selection whenever the output is local work.
+  Selection survived (structure + operator focus agreed), and the workers'
+  direct tree reads replaced the missing local evidence.
+- **The qualifier-edge lane graduated.** Used deliberately for the first time
+  (selection weighted by hedge-word counts; every worker briefed to grep its
+  subject's own "most/usually/rarely"), it delivered in 5 of 7 subjects —
+  including both refutations of the corpus's own numbers. Second run, second
+  domain-wide success for the 2026-08-28 heuristic; promoted here as a
+  standing lane rather than a note.
+- **Second stacks fell out of demand reads for free.** Four single-stack
+  subjects got their second stack not from a reconcile wave but from workers
+  grounding fleet evidence they were already reading. When a batch briefs
+  workers to read connected trees for demand, budget the application slot —
+  it is the cheapest single-stack-debt payment available.
+- **A batch of 7 with mid-flight gate runs works, with one rule.** A worker's
+  `check-bundles` failed on a sibling's half-wired technique (file present,
+  golden path not yet updated). The brief's "only failures inside your folder
+  are yours" clause is what kept that from becoming a stampede; keep it.
+- **Counter-evidence yield held at scale**: ~20 survived-attack confirmations
+  and 2 refutations across 7 subjects, and the refutations were both of
+  *numbers the corpus asserted* — the lane keeps out-earning per token, and
+  its best target is any unpredicated figure in a golden path.

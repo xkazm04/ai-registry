@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-08-28
+last_touched: 2026-08-29
 touched_by: intake
 dry_streak: 0
 ---
@@ -76,3 +76,17 @@ repayment.
 ## Declines
 
 None.
+
+## 2026-08-29 — /deepen architecture batch (dry_streak 0, L3)
+
+6→7 techniques (io-free-core — verb-count rule vs seams-and-adapters), 2→5 applications
+(go--seams-and-adapters stdlib fs seam; rust--io-free-core mature protocol tree;
+rust--module-depth personas projection-lattice deviation). Golden path: observable-
+interface (Hyrum) refinement; agent-erosion figures now carry their predicate (~4/5 vs
+~half, one 2026 benchmark); gate-able structural subclass carved out honestly
+(dependency direction/visibility gateable; depth/leakage not). Survived and
+strengthened: smaller-is-not-better (the opposing position concedes in the 2024-25
+written dialogue); structure-is-not-delegable (two 2026 studies measure the division of
+labour). Banked: selection-agreement benchmark (return: one measuring choice, not
+fidelity); kp Phase 3 cv_analysis fold-in (python — impact-only); onecli re-verification
+on clock.

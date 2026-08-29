@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: scale-investment-timing
-last_touched: 2026-08-27
+last_touched: 2026-08-29
 touched_by: forge
 dry_streak: 0
 ---
@@ -157,3 +157,16 @@ is the realization to hunt for next.
 ## Declines
 
 None.
+
+## 2026-08-29 — /deepen architecture batch (dry_streak 0, L2)
+
+5 techniques (no new), 2→3 applications (node--migration-reason-audit — the kp Postgres
+pre-migration audit, first non-process stack). REFUTED: "migration cost reliably
+underestimated by an order of magnitude" (measured: ~27% mean overrun, 1-in-6 fat tail,
+power-law) and "team size usually moves down" (reframed as asymmetry of consequence).
+Qualifier-edge earned: open-vs-bounded arrivals on the utilisation knee; step growth as
+ordinary (calendar-date T_ceiling); the shared-downstream budget axis (the one fan-out
+worsens). Survived: COST-survey claim (strengthened), M/M/1 arithmetic, incremental-
+replacement record. Banked: kp migration execution (return: KP_DB_BACKEND second
+value); fleet load-test absence — zero load tests in seven projects, every limit
+basis: inherited (return: any project adds a load harness). Forecast thin next pass.

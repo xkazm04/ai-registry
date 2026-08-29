@@ -1,7 +1,7 @@
 ---
 subject: optional-dependency-degradation
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-08-29
 dry_streak: 0
 ---
 
@@ -27,3 +27,17 @@ gained its top rung, "a minted value" - generate what randomness or
 derivation can supply, never overwrite an operator's value, offer expensive
 one-time builds at the point of need. The subject owned degradation
 thoroughly; provisioning was the missing rung above the ladder.
+
+## 2026-08-29 — /deepen architecture batch (dry_streak 0)
+
+6 techniques (no new — nothing cleared convergence without restating a neighbour; dry on
+that axis and recorded), 2→4 applications (rust--guarded-singleton-accessor from
+personas crypto.rs — first second stack; node--capability-honest-refusal from ascent;
+Tree B on node absent-degrades). Landed: tunables-with-defaults as the commonest
+malformed-as-absent site; no-boot platforms validate at build/deploy (CI skip-flag
+trap); null-client rule rescoped by language class; once-cell memoise-success-only;
+refusal-body naming rescoped by audience; constant-standing-in-for-a-secret (ascent
+ba86700e). Survived: boot-is-wrong-time-to-probe, closed-door default,
+empty-string-is-absent (one exclusion), 503-for-both (vs the 501 cacheability trap).
+Banked: 501-in-the-wild survey; once-cell try-init stabilization (one-line update when
+it ships).

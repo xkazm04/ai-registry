@@ -152,3 +152,23 @@ deliberately left stale** and needs one regeneration in a quiet tree.
   inside a fenced code block in `skills/architect/SKILL.md`. Not this lane's to
   fix, recorded because a red gate on the binding rung is the first number
   [[quality-gates]] says to check
+
+## 2026-08-29 — architecture batch (seven workers) and the demand-provenance rule
+
+Run [[2026-08-29-4]]: seven subjects in one Director-reviewed batch, all seven
+productive (three new techniques on convergence, two corpus numbers refuted,
+17 new/refreshed witnessed applications; 998 techniques / 488 applications
+after merge). Per-subject state now lives in `librarian/subjects/` for all
+seven; four previously single-stack subjects gained a second stack, so the
+single-stack debt shrank without a reconcile wave.
+
+New rule earned here: **read a deviation count's provenance before planning
+work against it.** The worklist's client-state/entity-lifecycle deviations are
+the other machine's; on this device those pairs are unjudged. The impact plan
+([[2026-08-29-architecture-round]]) was therefore built from tree reads, and
+recording local verdicts into the maps is its Phase B.
+
+Owed (updated): the maturity ladder (still all `forged`); a reporting
+installation for demand on THIS machine's projects beyond ai-registry-scripts;
+`check-skills.mjs` still red on trunk (architect em-dash) — unchanged, not this
+lane's; ~40 single-stack subjects remain after this round's four.
