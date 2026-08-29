@@ -98,6 +98,29 @@ is a house invention.
 block.** Gender and apocopation are decided by the referent, which the format
 system cannot see — the same boundary the gender rules below describe.
 
+## ES-NUMERAL-GENDER · the spelled numeral agrees too, and then stops
+
+**Trigger:** any string where a number is **spelled out** in words beside the noun
+it counts — formal or legal copy, a confirmation line, a voice surface. Digits are
+unaffected.
+
+**Rule:** a spelled Spanish numeral agrees in gender with the noun it counts, at a
+small, closed set of positions: **one** (*un* / *una*), **twenty-one** and the rest
+of the units-one series (*veintiún* / *veintiuna*), and the **hundreds from two
+hundred up** (*doscientos* / *doscientas*). Everywhere else the masculine and
+feminine spellings are identical. The published spell-out rulesets carry the two
+paradigms separately, and those are the only places they diverge.
+
+**And the agreement stops above a million.** Past that point the rulesets fall back
+to the masculine series, because the counting word itself (*millón*, *millones*) is
+a masculine noun that takes the count — which is the same fact ES-PLURAL-MANY
+describes from the other side. **Gender and the `many` category are one phenomenon
+seen twice**: the numeral stops agreeing with your noun exactly where it starts
+governing a noun of its own.
+
+**Exception:** digits, which is the usual reason to keep them. A catalog that never
+spells numbers out never meets this rule.
+
 ## ES-GENDER-PLACEHOLDER · agreement with an interpolated noun is a design problem
 
 *"{item} eliminado"* is untranslatable as written: if *{item}* can be *el archivo*

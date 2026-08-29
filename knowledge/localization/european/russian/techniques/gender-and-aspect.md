@@ -84,6 +84,34 @@ persona, a grammatically gendered noun the product controls — agree normally;
 routing around agreement everywhere produces stilted bureaucratic prose. The rule
 targets unresolvable referents only.
 
+## RU-NUMERAL-GENDER · the numeral itself agrees, at two positions only
+
+**Trigger:** any string where a number is **spelled out** in words next to a noun —
+a legal or financial line, a formal confirmation, a voice or screen-reader surface.
+Digits are unaffected; this rule is about the word.
+
+**Rule:** a spelled Russian numeral inflects for the gender of the noun it counts,
+and it does so at **exactly two positions**: a final units digit of one, and a final
+units digit of two. Teens are excluded. Everywhere else the four gendered spellings
+are byte-identical — over the integers 0–10 000, **about 82% spell the same in every
+gender**, and once the units digit is zero gender never surfaces at all.
+
+The reason it stops is worth knowing, because it looks like a bug otherwise: a
+multiplier agrees with **its own** counting noun, not with yours. Thousand is
+feminine, so the thousands word takes the feminine form regardless of what is being
+counted, and the gender you care about reappears only in the trailing units.
+
+**Agreement is with the immediately governed noun, not the sentence subject** — the
+same trap RU-GENDER describes for the past tense, one layer down. A message that
+interpolates both a count and a noun cannot spell the numeral safely unless it also
+knows the noun's gender; if it does not, keep the digits.
+**Source:** the published spell-out rulesets, which cross gender with case; the
+declared grammatical-feature inventory names three genders and no animacy for
+Russian, so the accusative forms are the inanimate paradigm and **cannot count
+people**.
+**Exception:** digits. A catalog that never spells numbers out never meets this rule
+— which is the usual reason to keep digits in UI copy.
+
 ## RU-PARTICIPLE · agreement hides in participles and short forms too
 
 **Trigger:** result messages and status badges built on passive participles

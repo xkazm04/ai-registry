@@ -113,3 +113,11 @@ fails loudly when the inheritance marker is read as a literal.
 **Cross-subject:** third sighting of declare-versus-inherit (`bn` declares, `fa` declares,
 `ar` inherits). The general hazard deserves a line in the bundle's shared method: **any
 subject quoting a CLDR per-locale "default" can misread the inheritance marker as a value.**
+
+**2026-08-29 (cycle 3) - LANDED.** AR-NUMERALS' first bullet replaced with the
+declare-versus-inherit statement and the counted split, including that base `ar`
+resolves to Western digits and that the Gulf/Maghreb shorthand fails in both
+directions. AR-PUNCT's guillemet line demoted to a recorded house choice with the
+standard's actual delimiters named. AR-NO-KASHIDA's audit note rewritten by function
+rather than by code point, with the observation that the old rule fires on this
+technique's own prose. The extended-digit scoping note landed with it.

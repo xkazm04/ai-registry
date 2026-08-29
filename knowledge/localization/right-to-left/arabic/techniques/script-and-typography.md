@@ -24,7 +24,12 @@ Inside an Arabic sentence, use the Arabic punctuation set:
 - comma `،` (U+060C), never Latin `,`
 - question mark `؟` (U+061F), never Latin `?`
 - semicolon `؛` (U+061B)
-- quotation: guillemets `« »` around Arabic content
+- quotation: **a recorded house choice, not a data-backed rule.** Guillemets
+  `« »` are a common Arabic print convention and a defensible product ruling —
+  but the standard's own `ar` delimiters are the reversed curly quotes
+  (`”…“`, opening and closing swapped for right-to-left), and guillemets appear
+  in **no** delimiter entry for `ar` or any of its region locales. Pick one,
+  record it, and do not cite the standard for the guillemets.
 - ellipsis: single-glyph `…`, not `...`; em dash `—`, not `--`
 
 Latin punctuation survives only inside embedded literals that are themselves
@@ -42,9 +47,21 @@ Arabic letters is a finding.
 The genuine per-market question: Western digits `0-9` (called Western Arabic
 numerals) versus Eastern Arabic-Indic digits `٠١٢٣٤٥٦٧٨٩`. The settled facts:
 
-- CLDR defaults most `ar` locales (including the Gulf and Egypt) to
-  Arabic-Indic digits, with the Maghreb locales on Western digits — that is
-  the *traditional print* answer.
+- **CLDR does not express this as a "default" at all, and the regional shorthand
+  is wrong in both directions.** Each locale either *declares* a numbering system
+  or carries an inheritance marker; the marker resolves through the root locale,
+  and root declares **Western** digits. So of the twenty-nine `ar` locale files,
+  twenty-one declare Arabic-Indic, **none declares Western**, seven carry the
+  marker and one declares nothing — resolving twenty-one Arabic-Indic against
+  eight Western. Crucially **base `ar` itself carries the marker**, so a product
+  shipping the plain `ar` tag — the tag products actually ship — gets **Western**
+  digits from the standard.
+- The Gulf/Maghreb shorthand does not survive the file: at least one Gulf locale
+  resolves to Western digits and at least one Maghreb locale declares
+  Arabic-Indic. Cite the locale you actually ship, never the region.
+- What the standard does say cleanly is that Arabic-Indic is `ar`'s declared
+  **native** system, reachable by explicit request. "Native" and "default" are
+  different claims; the *traditional print* answer is the former.
 - Most software products override to **Western digits everywhere**, because
   their strings are dense with inherently-Latin numerics (versions, ports,
   codes) and one digit system per string is non-negotiable.
@@ -79,8 +96,23 @@ color, or phrasing. And do not import neighboring-script habits: Arabic needs
 no ZWNJ discipline — that is a Persian/Urdu concern; a ZWNJ in an Arabic
 string is copied cargo, remove it.
 
-Audit note: U+0640 and U+200C in Arabic values are mechanically detectable
-and near-always defects.
+Audit note: U+0640 and U+200C in Arabic values are mechanically detectable —
+but **U+0640 is not near-always a defect, and a denylist on the code point is
+the wrong rule.** The tatweel is a member of Arabic's own auxiliary character
+set, and it is load-bearing inside real, correct values: the Hijri era
+abbreviation, and the definite article written as a prefix before an
+interpolated placeholder. A blanket check flags both — and, tellingly, flags
+this technique's own prose, which contains one.
+
+State the rule by **function** instead: no tatweel for emphasis, for
+justification, or as padding; an occurrence inside a lexical item that
+conventionally carries one is correct and belongs on an enumerated exception
+list beside the check, per
+[the authority is a hypothesis](../../../_laws.md#the-authority-is-a-hypothesis).
+Scope the Eastern-digit half of any such audit to the Arabic-Indic block
+specifically, and flag the *extended* Arabic-Indic digits used by neighbouring
+languages as a separate finding — several are near-identical in shape, so a
+visual review will not catch the substitution.
 
 ## AR-TASHKIL · Diacritics off by default, on by deliberate exception
 

@@ -116,3 +116,11 @@ does not, so 9 of 99 native cardinals spell with an internal space - reproduced 
 reference implementation, so it is the data, not the interpreter. Possible upstream item;
 not filed. The technique's noun-first preference has no CLDR counterpart (CLDR ships
 numeral-first) and should be marked a house convention.
+
+**2026-08-29 (cycle 3) - LANDED.** KO-PLURAL-OTHER's ordinal sentence corrected (the
+attributive stems from 2 up, not the independent ones). KO-NUM-UNIT lost "and
+Sino-Korean readings" and gained the reason it is not a property of the counter. New
+anchored rule **KO-ATTRIBUTIVE**, which the subject needed anyway - the pre-counter
+series is the hard part of Korean counting and previously appeared only implicitly
+inside examples, with the 21-of-99 divergence stated so nobody builds the flat table.
+The base-10 spacing lead stays banked.

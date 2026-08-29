@@ -27,8 +27,10 @@ grammar). Translating an English `one`/`other` pair into two identical
 Korean branches is harmless noise; translating them into two *different*
 Korean forms by "matching the English" invents a distinction the language
 lacks and doubles maintenance. Ordinals likewise: 번째 attaches to any
-number uniformly (1번째, 3번째 — though idiomatic first/second/third often
-prefer 첫/둘/셋 stems: 첫 번째), with one CLDR category.
+number uniformly (1번째, 3번째), with one CLDR category — but **the spelled
+forms are not 첫/둘/셋**. Only *first* uses its own word (첫 번째); from two
+upward the ordinal takes the **attributive** stems, so it is 두 번째 and
+세 번째, never 둘 번째 or 셋 번째. See KO-ATTRIBUTIVE.
 
 Audit signal: a ko plural block whose branches differ in more than an
 explicit-count copy override is a defect to collapse.
@@ -76,9 +78,37 @@ but explicitly permits closing up with numerals; UI convention has settled
 firmly on closed.) The noun on the other side keeps its normal space:
 `3개 파일`, `파일 3개`. Percent and currency attach as in the source
 contract (`{pct}%`, `₩{amount}` — the won sign precedes). Native-Korean
-number words (하나, 둘, 세…) belong to prose and honorific people-counting,
-not to interpolated UI counts; with `{count}` always assume Arabic numerals
-and Sino-Korean readings.
+number words belong to prose and honorific people-counting, not to
+interpolated UI counts; with `{count}` assume **Arabic numerals**, which is
+the part that matters for a catalog.
+
+**Do not extend that to "and Sino-Korean readings."** Which reading a spelled
+counter takes is not a property of the counter, and the standard does not map
+one to the other: it publishes both a native and a Sino-Korean path for the
+same counter, and the ruleset *named* for Sino-Korean is in fact the native
+one below fifty. The reading is a phrasing decision the catalog makes, not a
+fact to assume — and it only arises at all when the numeral is spelled out.
+
+## KO-ATTRIBUTIVE · the pre-counter forms are a third series, not a shortening
+
+**Rule.** Korean's native numerals have an independent series (하나, 둘, 셋,
+넷 … 스물) and a distinct **attributive** series used immediately before a
+counter (한, 두, 세, 네 … 스무). The attributive is the form a counted phrase
+actually takes — 손님 두 분, 세 개 — so a technique or termbase listing
+"native numerals" with a mixed set has already made the error.
+
+**And the alternation is conditioned on what follows, not on a lookup table.**
+The two ordinal series diverge: the 째 series keeps 둘째 and 셋째, while 번째
+takes 두 and 세. Over 1–99 the two disagree at **21 values** — the twos, and
+every number ending in three or four from thirteen up — and the divergence
+survives into the hundreds, where 백둘째 stands against 백두 번째. A flat
+하나→한 / 둘→두 / 셋→세 substitution table is wrong on all 21.
+
+**Trigger.** Any spelled-out Korean numeral before a counter or an ordinal
+suffix; any tooling that "normalises" native numerals.
+**Exception.** None for the attributive itself. Which *series* a given phrase
+wants is a phrasing decision (see KO-NUM-UNIT); which *form* within the series
+is not — that one is grammar.
 
 ## KO-ZERO · zero counts read better as absence
 

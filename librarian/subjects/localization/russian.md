@@ -137,3 +137,10 @@ minimal-pair frame, not from an oracle.
 rulesets - the brief's best unconsumed lead is now consumed once and proven executable.
 `main/ru.xml` also carries explicit grammatical gender on 154 units, a ready fixture for
 the loanword-gender rule that two terminology techniques state.
+
+**2026-08-29 (cycle 3) - LANDED.** New anchored rule **RU-NUMERAL-GENDER** - the
+spelled numeral agrees at the units-one and units-two positions only, teens excluded,
+so ~82% of integers spell identically in all four genders; agreement is with the
+governed noun, not the subject; and the accusative forms are the inanimate paradigm
+and cannot count people. Landed as one half of a two-sighting family with [[spanish]].
+The two upstream defects stay recorded and unfiled.

@@ -91,3 +91,11 @@ in 48.2, not that 42 introduced it (cheap to close by diffing release-41 against
 release-42). CLDR 49 is in alpha and `es` data could move; recheck at release, not before.
 Whether real runtimes expose the range table at all is a class-A question about
 implementations and a good second counterpart for this technique.
+
+**2026-08-29 (cycle 3) - LANDED.** New anchored rule **ES-NUMERAL-GENDER**, the other
+half of the two-sighting family with [[russian]]: the spelled numeral agrees at a
+closed set of positions (one, the units-one series, the hundreds from two hundred up)
+and **stops agreeing past a million**, because the counting word becomes a masculine
+noun governing its own count. That ties the gender rule to ES-PLURAL-MANY as one
+phenomenon seen twice, which is what the wave-2 worker meant by "gender and many turn
+out to be one fact".
