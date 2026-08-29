@@ -4,7 +4,8 @@ type: application
 subject: ipc-contract
 technique: drift-gates
 stack: rust
-verified_on: 2026-08-22
+verified_on: 2026-08-29
+verified_against: rust@1.97
 ---
 
 # The orphan blind spot, re-measured and finally gated (Rust side)
@@ -77,7 +78,9 @@ running half of one direction.
 45-minute cargo job. Two properties worth copying:
 
 - **Two-sided allowlists.** `scripts/binding-orphan-allowlist.txt` baselines
-  the 35 and `scripts/binding-missing-allowlist.txt` the 4. Each fails on a
+  the 35 and `scripts/binding-missing-allowlist.txt` the 4 (still 35 and 4
+  non-comment lines on 2026-08-29 — the baseline has not moved in a week,
+  which the gate permits and the ratchet's owner should notice). Each fails on a
   **new** entry *and* on an allowlisted name that has **stopped** being one —
   so the baseline cannot silently become fiction as the orphans are cleared,
   and clearing one is a required edit rather than an unobserved improvement.

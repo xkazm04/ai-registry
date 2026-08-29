@@ -6,7 +6,7 @@ technique: command-registration
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
-use_when: [a call compiles clean and fails with unknown operation, reconciling published command names with live registrations, name checks pass yet calls fail on missing parameters]
+use_when: [a call compiles clean and fails with unknown operation, reconciling published command names with live registrations, name checks pass yet calls fail on missing parameters, a registered operation is refused by the transport's access list]
 ---
 
 # Command registration
@@ -48,6 +48,23 @@ The findings:
   it, age it, and let unexplained entries face the question every unused
   export faces. An operation nobody calls is attack surface and maintenance
   load with no witness.
+
+Where the transport carries an **access list** — a per-surface grant of which
+operations a given window, frame, or origin may call — there is a fourth set,
+**P — permitted**, and R − P is its own finding: *registered but not
+granted*. It is the registration defect's twin, produced by the same
+two-acts-in-two-files shape (write the handler, register it, *and* grant
+it), and it fails at runtime with the same confidence: the operation exists,
+the transport refuses it, and the refusal is a free-form string. Two things
+keep it from hiding inside the registration story. First, the default
+matters: a transport that grants an application's own operations by default
+makes R − P empty until someone narrows the grant, at which point every
+later handler is one forgotten line from denied — the parity gate must be
+told which of the two regimes the product is in, or it checks a set that is
+empty by accident. Second, the grant is usually **per surface**: a second
+window, an embedded frame, a remote origin each carry their own list, so P is
+one set per surface the way R is one set per build configuration, and a gate
+that checks the main surface has checked one of them.
 
 The derivation matters as much as the comparison. Each set must come from the
 thing itself — D from the generated vocabulary artifact, R from the actual
@@ -133,7 +150,17 @@ generic failure string. Two rules for the near side:
    classifies it as a **registration gap** — a distinct category in the
    wrapper's failure taxonomy, separated from refusal, timeout, and
    no-far-side. Loose substring matching eventually swallows a legitimate
-   domain error that happens to contain the same words.
+   domain error that happens to contain the same words. And **denied is not
+   missing**: a transport with an access list rejects a registered-but-
+   ungranted operation with a *different* string from its unknown-operation
+   rejection, and the two demand different fixes (add the grant versus add
+   the registration). A wrapper that classifies "any unstructured rejection"
+   as "not registered" — the shortcut every near side reaches for, because
+   both rejections arrive as bare strings rather than as the product's own
+   error envelope — has merged the two categories the diagnostic most needs
+   apart. Anchor each on its own format; the shared property they *do* have
+   (not enveloped, therefore not a domain error) is the right test for "did
+   the handler run", and nothing more.
 2. **A registration gap is a defect report, not a user error.** The user can
    do nothing about it; the surface shows the product-fault message while
    the diagnostic channel records the missing name — which is the exact

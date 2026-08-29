@@ -57,7 +57,16 @@ at another, which defeats the "we tested one call, casing works" induction.
    production is a product decision (tolerant readers have their place);
    strictness in development and test is where the detection value lives,
    and a gate that never sees a strict decode never sees the drift
-   ([gate-sees-target](../../../_laws.md#gate-sees-target)).
+   ([gate-sees-target](../../../_laws.md#gate-sees-target)). Strictness is
+   also **two-directional**, and the direction people forget is the
+   response. Arguments crossing to the engine meet a real deserializer that
+   can be made strict; payloads crossing back land in a world whose types
+   are erased at runtime, where a generated declaration certifies what was
+   *promised* and nothing certifies what was *delivered*. A renamed field on
+   a response is therefore the one casing defect no compiler on either side
+   can see. Close it the same way: in development and test, decode responses
+   through validators derived from the same generated contract, and fail
+   loudly on an unknown or missing field at the crossing that produced it.
 
 ## Call names are a vocabulary, not strings
 

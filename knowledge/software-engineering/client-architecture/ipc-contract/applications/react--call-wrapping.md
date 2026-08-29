@@ -4,7 +4,8 @@ type: application
 subject: ipc-contract
 technique: call-wrapping
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-08-29
+verified_against: react@19
 ---
 
 # Call wrapping in the React/TypeScript frontend
@@ -85,13 +86,33 @@ been retrofitted across a thousand raw call sites.
 
 ## The adjacent boundary-absence door
 
-`safeInvoke` (`src/lib/utils/tauri/safeInvoke.ts:61`) is the separated
+`safeInvoke` (`src/lib/utils/tauri/safeInvoke.ts:68`) is the separated
 "registration gap" category: it returns a fallback **only** when the error
 matches Tauri's canonical `Command "<name>" not found` shape via an anchored
-regex (`:14-15`), rethrowing everything else. Its header documents the
+regex (`:15`), rethrowing everything else. Its header documents the
 historical failure the anchoring fixed — a sibling copy used
 `msg.includes("not found")` and silently swallowed genuine domain not-found
 errors as "command missing", rendering empty-list UIs over real failures. The
 wrapper taxonomy (refused / timed out / not registered) is therefore split
 across two functions here rather than one, but the categories stay distinct,
 which is what the standard actually requires.
+
+## Two more doors, one of them the wrong shape (re-read 2026-08-29)
+
+`src/lib/network/p2pCapability.ts:54-60` is the environment-sensing case the
+standard describes, done structurally: a timeout is `indeterminate` (never
+latched), an `AppError`-shaped rejection means the handler ran (`supported`),
+and any *unstructured* rejection means it did not (`unsupported`). Its header
+(`:1-36`) is the incident report for the substring version it replaced —
+`"not found"` latched a whole tab off for the session on a legitimate
+`NotFound("No pairing request pending…")`. What it does not do is separate
+Tauri's unregistered-command string from its capability-denied string; for a
+feature probe that is acceptable, and the file says so.
+
+The wrapper's own auth retry is the anti-pattern in miniature:
+`isIpcAuthFailure` (`tauriInvoke.ts:536-551`) decides a one-shot retry by
+probing for `"IPC authentication failed"` in the message or the stringified
+payload, because the Rust guard that emits that rejection hand-builds
+`{ error, kind: "Forbidden" }` outside the envelope's vocabulary — see
+[rust--error-shape-mapping](rust--error-shape-mapping.md) for the emitter.
+The chokepoint is right; the classification inside it is prose.

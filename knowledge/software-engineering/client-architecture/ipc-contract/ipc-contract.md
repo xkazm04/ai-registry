@@ -106,7 +106,9 @@ gate built for one is blind to the others.
    was never wired into the dispatch table that routes incoming calls. Writing
    a handler and registering it are two acts, usually in two files, and the
    second is the one people forget. Caught by set-parity checks between
-   declared, registered, and invoked names.
+   declared, registered, and invoked names — and, where the transport carries
+   a per-surface access list, a fourth set of *permitted* names, whose
+   omission fails with the same runtime confidence and a different string.
 
 The four detection stories are the
 [drift-gates](./techniques/drift-gates.md),
@@ -166,7 +168,9 @@ data. The near side maps code → user-facing handling at **one door**
 ([one-validation-door](../../_laws.md#one-validation-door)), so that retryable,
 user-fixable, and report-this classes are decided once, not per call site. The
 timeout case gets its own code, because "outcome unknown" demands different
-handling than "refused". The
+handling than "refused". Which *channel* carries the envelope is the
+transport's decision, not the handler's: where the rejection path flattens to
+prose, the envelope travels as a result-shaped success value instead. The
 [error-shape-mapping](./techniques/error-shape-mapping.md) technique carries the
 full treatment.
 
@@ -202,5 +206,6 @@ A contract nobody checks reverts to a convention. The minimum standing gates:
 - [casing-and-naming](./techniques/casing-and-naming.md) — the wire casing as a
   contract, the silent-null failure, and ratchets over legacy corpora.
 - [command-registration](./techniques/command-registration.md) — dispatch-table
-  parity, anchored detection of "no such operation", and dead-handler
+  parity (including the permitted set where an access list exists), anchored
+  detection of "no such operation" kept apart from "denied", and dead-handler
   inventory.

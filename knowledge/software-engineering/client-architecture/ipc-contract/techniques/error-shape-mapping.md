@@ -6,7 +6,7 @@ technique: error-shape-mapping
 status: forged
 laws: [one-authority-per-vocabulary, one-validation-door, failure-not-empty-success]
 shared_with: []
-use_when: [deciding what an error handler may branch on, call sites substring-match error prose, a raw panic reaches the wire un-enveloped]
+use_when: [deciding what an error handler may branch on, call sites substring-match error prose, a raw panic reaches the wire un-enveloped, the transport flattens thrown errors to a message string]
 ---
 
 # Error shape mapping
@@ -41,6 +41,27 @@ wrap — so that everything reaching the wire is enveloped. Unclassifiable
 errors get an explicit `internal` code rather than leaking their guts; the
 guts go to the diagnostic channel, with a correlation identity so the
 user-visible event and the log line can find each other.
+
+## The envelope rides whichever channel keeps structure
+
+The discipline above assumes the transport's *error* channel carries a
+structured value. Not every transport does. Some serialize a rejected call
+down to a single message string on the way across — the far side threw a
+rich object, the near side receives prose with the operation name prepended
+— and on such a transport a perfectly enveloped error is flattened by the
+mechanism, not by the handler. The rule is therefore about the *channel*,
+not the handler's good intentions: **find out what the rejection path
+preserves, and if it preserves only prose, carry the envelope on the success
+channel** — the handler returns a result-shaped value (`ok` with payload, or
+`err` with envelope) and never throws, and the wrapper on the near side
+unwraps it back into a rejection so call sites keep the ordinary
+success/failure shape. The same test applies to the far side's own wrapper
+layers: an authentication or authorization guard that sits *in front of* the
+handlers and rejects on its own is a second emitter of errors, and unless it
+emits the same envelope from the same vocabulary it is a second authority for
+the code set — typically discovered when its code is spelled in a casing the
+envelope's consumer does not recognise, and the near side quietly falls back
+to matching its message.
 
 ## The code vocabulary is closed and owned
 
