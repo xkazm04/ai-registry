@@ -224,3 +224,23 @@ Cost: 102 of 794 pairs are now lexical-only, and **18 of those carry worker-foun
 deviations** - so the flag is a triage hint that lowers a pair's default priority,
 never a reason to drop it. Regeneration carried all 149 verdicts; 41 personas contexts
 have at least one missing path; one context is dead.
+
+## Follow-up 2 landed: map re-pairs from the proposal triage
+
+The 27 map-or-coverage items resolved to three kinds. **Re-pairs** (applied to the
+personas map as `source: conform` rows, which the builder carries across
+regenerations): wizard-flows, triage-queues, hitl-approval, client-fetch-cache,
+quality-gates, agent-chaining, canvas-graph, draft-editing, alerting, credential-vault,
+form, app-shell, status-vocabulary - each added to the context a precondition read
+said it governs; the vocabulary pairs they replace are marked not-applicable with the
+reason. **Builder rules** still owed: a context that samples only the view layer reads
+as unimplemented for any subject whose machinery sits one directory over; a subject
+may need a compiler-side and an adapter-side context rather than one path set. **Forge
+leads** banked, with return conditions: an observability-plan subject (failures to a
+reviewable queue plus one tracked success metric - second tree); a cooldown/scheduling
+subject for user-authored automation (second tree); a roadmap/changelog surface under
+ui-surfaces (second tree); `form` guarding an expensively-produced one-shot payload
+(second tree where a metered generation fills a form); `fixed-chrome-offset-budget`
+`shared_with: [app-shell]` (a governance change for the receiving subject's owner).
+Two "corpus holes" the workers proposed were existing subjects (`swr-design`,
+`source-normalization`) - re-paired, not forged.

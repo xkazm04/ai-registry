@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
   "techniques": 995,
-  "applications": 464,
+  "applications": 470,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -141,6 +141,13 @@
      "technique": "live-region-architecture",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--live-region-architecture.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "preference-respect",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--preference-respect.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -2442,6 +2449,13 @@
     },
     {
      "stack": "rust",
+     "technique": "capability-feature-gating",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/applications/rust--capability-feature-gating.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
      "technique": "compilation-unit-splitting",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/applications/rust--compilation-unit-splitting.md",
      "verified_on": "2026-08-18"
@@ -4202,6 +4216,13 @@
     },
     {
      "stack": "react",
+     "technique": "catalog-as-data",
+     "file": "knowledge/software-engineering/integration/connector-catalog/applications/react--catalog-as-data.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "schema-driven-forms",
      "file": "knowledge/software-engineering/integration/connector-catalog/applications/react--schema-driven-forms.md",
      "verified_on": "2026-08-18"
@@ -4354,7 +4375,8 @@
      "stack": "react",
      "technique": "two-surface-doctrine",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--two-surface-doctrine.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -4620,6 +4642,13 @@
      "file": "knowledge/software-engineering/security/credential-vault/applications/react--rotation-and-remediation.md",
      "verified_on": "2026-08-29",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "acquisition",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/rust--acquisition.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -5666,7 +5695,8 @@
      "stack": "react",
      "technique": "token-enforcement",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/react--token-enforcement.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -13173,6 +13203,13 @@
      "technique": "gate-laddering",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-laddering.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "react",
+     "technique": "policy-projection",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/react--policy-projection.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -16928,6 +16965,13 @@
      "technique": "attach-detach-lifecycle",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/react--attach-detach-lifecycle.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "keystroke-injection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/react--keystroke-injection.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
