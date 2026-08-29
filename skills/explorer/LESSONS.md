@@ -167,3 +167,32 @@ Not applied off a single incident in one repo; recorded so a second sighting can
 - **Major, not minor.** The method is unchanged — wander, verify, present, execute, remember —
   but the skill's contract with its operator is not: it now edits code without asking. A reader
   seeing `1.x -> 2.0` re-reads the skill, and that is exactly the intended reaction.
+
+## 2.0.0 - 2026-08-29 - kp (run 3, first run under the new gate)
+
+- **An honest "Known gaps" section in a repo's own docs is a pre-verified backlog, and the
+  skill reads it too late.** The run's highest-severity item was sitting in the feature doc,
+  fully diagnosed, with the remaining edit named — written by a previous pass and never done.
+  Phase 1 already reads the rules file and the architecture digest; a feature doc's stated
+  gaps belong in that list, because they are findings someone already paid to verify. Cheaper
+  than any grep and strictly higher confidence.
+- **Editing is not verification, and the premise gate has to close BEFORE the edit.** Four
+  candidates died at the gate this run. Three died on reading one module — all were
+  "defensive fallback renders absence as a value", the repo's own named defect class, and all
+  were unreachable. The fourth died *after* I had already written the fix into a second file
+  and had to revert it: it sorted raw slug keys, not the translated labels the pattern
+  applies to. Phase 5 says re-read the anchor; it should say re-read the anchor **before you
+  touch it**, because a written edit creates a sunk cost that argues for itself.
+- **Lens beats recency, now three for three.** Every area swept this session had recent
+  dedicated passes, and none of them reduced the yield — because each pass had run ONE lens.
+  This run's cheap pre-sweeps (raw hex, unsafe imports, lint literals) came back clean, which
+  is the useful reading: the prior drain was thorough *on its axis*. Phase 4d's dedupe should
+  say this outright — recent commits map which lens has run, and the coverage ledger should
+  record lens, not just visit date.
+- **When a tool boundary keeps eating escapes, change the construct, not the escaping.**
+  Backslashes through a shell heredoc silently became control characters three times in one
+  session (`\b` → backspace inside two regexes; a mangled `\{`), each surfacing as a
+  confusing test failure rather than a syntax error. The fix that worked was abandoning regex
+  for `String.includes` in the guard assertion. Worth stating in the execution rules: a
+  source-level guard should prefer a literal substring check over a regex, both because it
+  survives the tool boundary and because it is what a reader can verify at a glance.
