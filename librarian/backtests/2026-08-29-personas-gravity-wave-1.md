@@ -207,3 +207,20 @@ verdicts are closer to self-assessment than backtest and are flagged in the deta
   amends a technique. Batch them by subject.
 - **Map builder.** Precondition gating and path-existence checks, then regenerate both
   maps and re-run only the rows that changed (`--stale`).
+
+## Follow-up 1 landed the same day: the map builder gates (measured)
+
+`build-registry-map.mjs` now (a) drops paths that no longer exist from a context's bag,
+lists them as `pathsMissing`, and marks a context with no surviving path `governance:
+dead`; (b) records each pair's `grounding` - `use_when` when at least 25% of its score
+came from technique trigger phrases *excluding the subject's own name*, `lexical-only`
+otherwise - and caps lexical-only pairs at `probable`.
+
+Measured against this wave's 21 pairs the workers judged not-applicable (personas):
+the gate catches **8** (every `vault`, `adoption`, `glyph` and one `companion` case)
+and misses 13 that are semantic resonance (`session / phase / resume` reaching
+`fleet-orchestration`), which no lexical gate sees without overfitting to this sample.
+Cost: 102 of 794 pairs are now lexical-only, and **18 of those carry worker-found
+deviations** - so the flag is a triage hint that lowers a pair's default priority,
+never a reason to drop it. Regeneration carried all 149 verdicts; 41 personas contexts
+have at least one missing path; one context is dead.
