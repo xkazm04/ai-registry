@@ -84,3 +84,38 @@ Append-only reflection lane. One entry per run that taught something. Format:
   repo's own idiom, then list where it was not applied** — and read `git log` on the
   anchor, because "added by <sha>, never wired" is the strongest evidence a dead
   capability can carry.
+
+## 1.2.0 - 2026-08-29 - kp (run 2)
+
+- **A recently-swept area is not swept — a recently-swept LENS is.** Phase 4d's dedupe (one
+  `git log` over the area, drop what recent commits plausibly fixed) killed nothing here even
+  though two dedicated passes had swept this exact code weeks earlier: their lenses were
+  performance and accessibility, and the six findings were theming, i18n and parser
+  correctness. The rule is right to check, but its framing invites reading recent activity as
+  "covered". It is better read as a map of which lenses have ALREADY run — which is also the
+  argument for recording lens coverage per area, not just visit dates.
+- **When a file's comment cites a gate, open the gate.** The run's highest-severity finding
+  was invisible from the file: a palette of raw hexes, under a comment explaining that
+  importing the project's colour mirror "puts these under `design:check`". True, and
+  irrelevant — that gate checks a literal against its LIGHT token and never scans for hex at
+  all, and the mirror's constants are the light half by construction. The defect lived in the
+  relationship between a file, a doc's claim, and an enforcement script; no amount of reading
+  the file produces it. Worth naming in Phase 4b: **a comment that cites a gate is a
+  hypothesis to verify, not evidence.**
+- **Read the governing doc before forming the item, not after.** `docs/design/README.md`
+  already stated the exact rule this finding broke and cited a prior sighting of it. The item
+  was an unrecorded SECOND instance of a known trap — better framing, faster to reach, and it
+  turned the doc update from boilerplate into "an anecdote is now a pattern". Same ordering
+  mistake as the knowledge-sync read in run 1: the skill puts both reads early and both slid
+  late.
+
+### Redesign proposal (not applied)
+
+Phase 7's stage-verify-commit step catches a foreign file in the index by comparing the
+cached stat's FILE count to what you added. It should also compare the LINE count to the size
+of the change: on a Windows checkout with `core.autocrlf`, editing through anything that
+preserves working-tree bytes re-commits the whole file (measured: 861 insertions / 812
+deletions for a 20-line edit), and the existing check passes cleanly because the file count is
+right. Proposed wording for the same paragraph: *"If the insertion count is wildly larger than
+your edit, the file's line endings were rewritten — normalize and re-stage before committing."*
+Not applied off a single incident in one repo; recorded so a second sighting can promote it.
