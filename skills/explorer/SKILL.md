@@ -5,7 +5,7 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.3.0
+version: 1.4.0
 ---
 # Explorer
 
@@ -320,7 +320,24 @@ For `a11y`:
 - Missing focus styles.
 - Modal without focus trap, escape handler, or backdrop click.
 
+**The cross-layer claim — run this lens in EVERY category, not instead of one.** The lists below are
+single-artifact questions, and the highest-value defect in a mature codebase usually is not in any one
+artifact: every file is internally consistent and the bug lives in what one layer CLAIMS about another.
+Two cheap greps find them:
+
+- **A doc comment with a modal verb about a CONSUMER** — "a consumer that shows this must also show
+  X", "the caller must Y", "the term is named for what it measures". Every such sentence is a claim
+  about code the module cannot see, and it is unenforced by construction. Open the consumer and check.
+- **A rule enforced on one path of a pair** — reads but not writes, POST but not DELETE, the barrel but
+  not the deep import, the arming screen but not the receipt. When you find a guard, ask what its
+  sibling path does; the asymmetry is invisible from inside either side.
+
+Measured across two sweeps of one mature repo: this lens produced the top finding of BOTH runs and four
+of ten items in the second, and in every case the code had already been read by an earlier pass.
+
 For `sec`:
+- A visibility/ownership rule applied to reads and not to writes (see the cross-layer lens above) — a
+  rule enforced on reads alone is a display rule, not an access rule.
 - Externally-reachable surfaces (HTTP routes, IPC commands, webhooks) without auth/validation.
 - Privileged subprocess spawns without sandboxing.
 - User input directly interpolated into SQL/command strings.
@@ -473,6 +490,17 @@ For each accepted item, execute it **in this same session**. Same default as `/r
 
 **Item that needs more thought (Option D — escape hatch):**
 Record it in the run record as `decided: deferred` with the reason. Do NOT write a handoff file. The run record is the future search target. Use sparingly — prefer A or B.
+
+### Read the caller before changing a contract
+
+Before an item changes a status code, a return type, a thrown error, or any other thing a caller
+branches on, open the callers and check what they do with it. An "obviously more correct" contract
+routinely breaks a caller that was written against the old one — a DELETE made to 404 on no-match
+"for symmetry" broke an optimistic UI that rolls back on `!res.ok`, restoring a row the database does
+not have. Idempotent operations in particular are usually right to stay idempotent.
+
+This costs one grep and is not optional: the item is not done because the tests pass, it is done when
+the callers still mean what they meant.
 
 ### Repo law — non-negotiable
 
