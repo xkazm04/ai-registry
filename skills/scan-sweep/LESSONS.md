@@ -846,3 +846,54 @@ that check stays cheap.
   because the finding belonged to another lens or to a deterministic gate - §4.9's
   "name the three things you checked" is what kept them from becoming duplicates of
   findings already written.
+
+
+## 2.7.1 - 2026-08-29 - ascent (round 3)
+
+- **§7.2's gate rule needs one more clause: run the CHANGED MODULE's own sibling suite, not
+  only its consumers'.** Editing `src/lib/practice-artifact.ts` I gated on
+  `src/lib/standard`, `src/lib/onboarding` and `src/lib/practices` - every consumer I had
+  reasoned about - and committed green. The full suite then showed 9 failures in
+  `src/lib/practice-artifact.test.ts`, the file sitting directly beside the one I changed,
+  which pins each language's command tuple with `toEqual` twice over. The mistake is
+  seductive because the consumer list feels like the thorough choice: it is the list you
+  build by thinking about blast radius, and it systematically omits the one suite named after
+  the file. **Cheap rule: before committing an edit to `x.ts`, run `x.test.ts` if it
+  exists.** (The contract test was right to fail - §7.5 - and strengthening it was the fix.
+  What is worth recording is that the gate never asked it.)
+
+- **Authoring a regex through a shell-invoked interpreter failed THREE times in one round,
+  in three different shapes, and each was caught by a different thing.** `\\u003c` through a
+  Python heredoc arrived as `\u003c` - a legal escape for the character it was meant to escape
+  (caught by a fail-before). `\\[Ascent\\]` through `node -e` arrived as `[Ascent](` - an
+  unterminated group (caught by the parser). `/^(\\d+)/` through `node -e` arrived as
+  `/^(d+)/` - a regex that compiles, runs, and matches nothing (caught by an assertion that
+  happened to be strict). §7.6 already forbids this and I broke it three times, so the lesson
+  is not the rule but its ERGONOMICS: the moment an edit contains a backslash, the cost of
+  reaching for the file-writing tool is lower than the cost of verifying the shell round-trip
+  - and the third shape (compiles, matches nothing) is the one no gate catches on its own.
+
+- **A clean registry-conformance result is worth writing down as loudly as a deviation.**
+  This context GENERATES a repo manifest standard, and `repo-manifest-standard` governs it
+  with six named techniques. All six are implemented AND documented in the spec the kit ships.
+  So the conformance lens returned nothing - and that nothing is the single most useful
+  sentence in the round's report, because it relocates every finding: the six defects I did
+  find are not deviations from the standard, they are failures to apply the repo's OWN rule
+  consistently (the `evals` pointer lesson not carried to `generatedFrom`; the `ciSetup`
+  escape-hatch not carried to the two sibling `ci`-keyed maps). §6 says to report a clean
+  read; it is worth adding WHY: a conformant context tells you the remaining bugs are
+  self-inconsistency, which is a different hunt with a different grep.
+
+- **"Your own green build says nothing about a generated artifact" is a lens the package
+  lacks.** Two of this round's six fixes (an EOL Node pinned into every adopting repo's CI; a
+  placeholder provenance the generated doctor skipped) share one cause: the artifact executes
+  in a CONSUMER's environment, so no gate in the producing repo can see it. A 7,900-test suite
+  was green across both. Neither `dependency-auditor` nor `devops-optimizer` naturally asks
+  "what did we generate, and what would it do somewhere else?" - it took reading the governing
+  subject to get there. Worth considering as a lens key of its own for repos that emit code.
+
+- Yield: 8 findings / 24 lens-passes = 0.33 per pass, 6 built, 1 backlogged, 1 rejected. The
+  low rate is honest here: this is the most disciplined context the sweep has met (a suite
+  that spawns the generated doctor as a subprocess and compiles its own parsers out of the
+  emitted source), and §4.7's usual richest question - what enumerates the ground truth? -
+  came back with a real answer three times over.
