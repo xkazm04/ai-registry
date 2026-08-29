@@ -6,7 +6,7 @@ technique: layering-rules
 status: forged
 laws: [one-validation-door]
 shared_with: []
-use_when: [deciding whether a handler may run its own query, data layer tests stand up the whole application, partitioning a growing repository by aggregate]
+use_when: [deciding whether a handler may run its own query, data layer tests stand up the whole application, partitioning a growing repository by aggregate, a tenant or archived filter every read must carry]
 ---
 
 # Layering rules
@@ -115,6 +115,36 @@ callers with connection lifetime, and quietly breaks the one-module rule.
 Where streaming is genuinely needed for scale, expose it as an explicit
 paged or chunked *operation* on the surface — the layer keeps custody of
 the statement; the caller gets data.
+
+## Mandatory predicates belong to the layer
+
+Some predicates are not a caller's choice: every read of a tenant-owned
+table carries the tenant, every list of a lifecycle-managed record
+excludes the archived, every query on a visibility-scoped table respects
+the viewer. These are the read-side counterpart of the one-door law — an
+invariant that must hold on every access, which means it cannot be a
+convention each call site remembers
+([one-validation-door](../../../../_laws.md#one-validation-door)). The decay
+is always the same: each list, each count, each firing path re-implements
+"where owner is this one" by hand until one of them does not, and the miss
+is a data leak or a ghost that has been "deleted" for a year.
+
+The structural forms, strongest first. **The engine applies it**: a row
+policy bound to the session's identity rewrites every statement against
+the table, so a query that forgets the predicate still gets it — with the
+one hazard that the identity must be set *per transaction*, never per
+connection, because a pooled connection carries the previous request's
+identity into the next. **The layer applies it**: the repository handle is
+constructed *with* the scope (a tenant, a viewer, a lifecycle filter) and
+every statement it emits includes the predicate, so an operation that
+takes no scope argument cannot omit one. The weakest form that still
+counts is a single shared predicate fragment that every statement composes
+in and that a test asserts the presence of on every read of the table —
+enough to make the omission a red build rather than an incident. What
+does not count: a caller-supplied filter, however consistently supplied so
+far. A hand-written copy of a mandatory predicate in a caller is a review
+flag, and a table with a mandatory predicate and no structural form is an
+open finding.
 
 ## Growth pressure and the mirror trap
 

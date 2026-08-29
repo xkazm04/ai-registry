@@ -69,6 +69,13 @@ total order from something the engine does guarantee, tie-break deterministicall
 and write down which engine feature the tie-break is standing in for. Any
 invariant a caller depends on and only one engine states — ordering, read-your-
 write, cascade on delete — belongs on the list and gets the same treatment.
+So does the **default isolation level**, which is the invariant nobody
+writes down because nobody chose it: engines default to different levels,
+and an embedded engine that serializes every transaction makes a
+read-modify-write safe that the same code, moved behind a server that
+defaults to read-committed, turns into a silent lost update. A parity list
+states the isolation each constrained operation assumes, and the driver
+requests it rather than inheriting it.
 
 ## The substitute is a guard that must engage on its own
 

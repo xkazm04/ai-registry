@@ -6,7 +6,7 @@ technique: batching-and-n-plus-one
 status: forged
 laws: [gate-sees-target, count-carries-predicate]
 shared_with: []
-use_when: [a caller holds many ids and only fetch-one exists, deciding join versus fetch-and-stitch, batch works in tests dies at four thousand ids]
+use_when: [a caller holds many ids and only fetch-one exists, deciding join versus fetch-and-stitch, batch works in tests dies at four thousand ids, a per-field resolver cannot take a list]
 ---
 
 # Batching and N+1
@@ -21,12 +21,19 @@ in aggregate, which is exactly where nobody is looking.
 
 ## The surface causes it before the caller commits it
 
-Trace any N+1 backward and you find a repository surface that offered
-`fetch one by id` and nothing else. The caller had a list of ids and did
-the only thing the API made possible. This reframes the responsibility:
-**a repository that exposes single-record reads for data that is ever
-displayed in lists has designed the N+1 in**; the loop is just where it
-becomes visible.
+Trace an N+1 backward and you find one of three origins. The commonest in
+hand-written layers: a repository surface that offered `fetch one by id`
+and nothing else, so a caller with a list of ids did the only thing the
+API made possible. The commonest in mapped layers: an association loaded
+*lazily* by the mapper's default, so touching a field on each parent
+issues the child query without any call site that reads as a query. And
+the one no surface designed: a per-item resolver — a graph API field, a
+plugin invoked per row — whose shape is decided by the caller's caller and
+cannot be changed to take a list. The first two reframe the
+responsibility: **a repository that exposes single-record reads for data
+that is ever displayed in lists, or a mapper that defaults to on-touch
+loading, has designed the N+1 in**; the loop is just where it becomes
+visible. The third gets its own countermeasure below.
 
 The countermeasure is to make the set-shaped operation exist *first*:
 
@@ -43,6 +50,33 @@ The countermeasure is to make the set-shaped operation exist *first*:
 - **Aggregate summaries**: when the callers' loop exists only to compute a
   count or latest-of per parent, the honest operation is the grouped
   aggregate query — one round trip, and the store does what stores are for.
+
+And the set-shaped operation must then be *used*: a layer that ships
+`fetch all by ids` beside `fetch by id` and lets a route named "bulk" keep
+looping the singular has built the cure and not administered it. The
+detection counter below is what turns the batch endpoint from an offer
+into a requirement.
+
+## When the caller's shape cannot change: the coalescing loader
+
+Where the access pattern is dictated from above — one resolver per field,
+one handler per row — the caller will keep asking for one key at a time,
+and the fix moves into the layer as a **request-scoped coalescing loader**:
+single-key loads issued during one execution pass are collected, deduplicated,
+and dispatched as one keyed batch when the pass has no more ready work; each
+caller receives its own key's value from the shared result. The batch
+function under it is the set-shaped operation from above, with a contract
+the loader depends on — one result *or one error* per requested key, in
+key order, so a missing key is an explicit absence and a failing key does
+not fail its neighbours.
+
+Two rules make the loader safe rather than merely fast. **It lives for one
+request and dies with it.** The loader caches what it loaded, which is what
+makes deduplication free; a loader shared across requests serves one
+user's rows to the next and turns an optimisation into a data leak. And
+**it batches reads only.** A write coalesced with other callers' writes has
+lost its transaction boundary; writes go through the unit-of-work
+discipline, never through the loader.
 
 ## Building the membership list safely
 
@@ -63,10 +97,19 @@ varies with the list length. The rules:
   several and the query must still compose). Either way the decision
   lives in the helper, so no call site can forget it.
 - **Chunk under the engine's parameter ceiling.** Every engine caps bound
-  parameters per statement; a batch endpoint that works in tests and dies
-  at four thousand ids in production hit that ceiling. The helper chunks
-  transparently, merges result maps across chunks — and for *writes*, the
-  chunks run inside one transaction so the batch stays one fact.
+  parameters per statement, and the caps differ by almost two orders of
+  magnitude — around two thousand on one widely used server, sixty-five
+  thousand on another, and under a thousand on one embedded engine until
+  a 2020 release raised it — with client drivers sometimes capping below
+  the engine they speak to. A batch endpoint that works in tests and dies
+  at four thousand ids in production hit whichever of those it was never
+  measured against. The helper chunks transparently under a floor chosen
+  for the *lowest* engine the layer may run on, merges result maps across
+  chunks — and for *writes*, the chunks run inside one transaction so the
+  batch stays one fact. Where the engine accepts an array-typed parameter
+  for membership, the list becomes one bound value and the ceiling moves
+  from legality to plan quality and result size; the chunking decision
+  survives, now made on rows returned rather than placeholders spent.
 
 ## Join versus fetch-and-stitch
 
@@ -104,9 +147,11 @@ Two places to wire the counter:
   twenty parents and asserts the query count is a small constant. Assert
   the *predicate*, not a magic number — "constant in N, measured at two
   fixture sizes" is the honest form of the assertion
-  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)); a
-  bare `assert count == 3` rots into ritual the first time someone bumps
-  it to 4 to make a build pass.
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)),
+  and for a chunked batch the predicate is "bounded by the chunk count plus
+  a constant", stated as such so the assertion does not fail the day a
+  fixture crosses the chunk size; a bare `assert count == 3` rots into
+  ritual the first time someone bumps it to 4 to make a build pass.
 - **In production telemetry**: queries-per-request as a distribution. The
   linear-in-N endpoints appear at the top the moment real data arrives,
   long before they appear in latency percentiles.

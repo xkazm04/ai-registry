@@ -11,6 +11,7 @@ techniques:
   - batching-and-n-plus-one
   - repo-testing
   - cross-driver-invariant-parity
+  - read-models-and-projections
 ---
 
 # Repository & data-access layering
@@ -52,6 +53,22 @@ None of these rot modes announce themselves. Each individual scattered query
 is locally fine; the loss is a system property, which is why it survives code
 review indefinitely.
 
+One honest qualification, because it changes what the layer is *for*. A
+typed query client checked against the schema at build time — generated
+from the schema, or verifying each statement against a schema snapshot
+during compilation — closes the first two rot modes by itself: a renamed
+column is a compile error at every consumer, and a client that only accepts
+bound values has no interpolating spelling to review. Where such a client is
+the only road to the store, "queries scattered through handlers" loses two
+of its three teeth. It keeps the third, and the third is the one the
+compiler cannot see: the store's invariants still have no door, the
+transaction boundary still has no owner, and the layer still cannot be
+tested alone. So the argument for the layer does not disappear under a
+typed client; it narrows to the properties below that are about *who may
+write and under what policy* — and a team that adopts the client and skips
+the layer should know exactly which guarantees it kept and which it gave
+up.
+
 ## The repository: an enumerable surface
 
 The repair is structural: **one layer owns the store, and everything above it
@@ -73,7 +90,12 @@ access layer — the name matters less than the properties:
    seam, once, under a single policy (the
    [row-mapping](./techniques/row-mapping.md) technique). Callers never see
    column tuples, never re-parse serialized fields, never learn the store's
-   nullability quirks.
+   nullability quirks. "Domain types" is the rule for reads whose result
+   will be handed back to the store; a read that exists to be displayed or
+   exported returns a projection shaped for its consumer — still decoded at
+   the seam, still typed, but not the aggregate (the
+   [read-models-and-projections](./techniques/read-models-and-projections.md)
+   technique draws that line).
 4. **The surface is honest about writes.** Insert, update, delete, and
    upsert operations are distinguishable in the function inventory. The set
    of functions that can mutate a given table *is* the answer to "who writes
@@ -192,6 +214,21 @@ their own discipline:
   endpoints, safe membership-list construction, and detection by counting
   are [batching-and-n-plus-one](./techniques/batching-and-n-plus-one.md).
 
+## Two surfaces in one layer
+
+The surface described above is shaped by consistency: one module per
+aggregate, reads that return the whole record because a write will hand it
+back, writes through one door. A product's *questions* — the list screen
+that needs three columns from three aggregates, the dashboard count, the
+export — do not fit that shape, and forcing them through it produces the
+two failures that get the pattern abandoned: whole aggregates loaded to
+render a name, and a repository that grows a method per screen. The repair
+is a second surface in the same layer, returning read-only projections
+shaped for their consumers, with one iron rule — a projection is never
+written back — and, for the projections too expensive to compute on every
+read, a stored read model whose recomputation is named and checked. That is
+[read-models-and-projections](./techniques/read-models-and-projections.md).
+
 ## When two engines sit behind one surface
 
 The enumerable surface makes a second backend cheap to add — implement the
@@ -249,3 +286,7 @@ in incident reports.
   — two backends, one promise: invariants named above the drivers, constraint
   substitution by derived identity, one parity suite run twice, and what a
   hand-written double must enforce to be worth trusting.
+- [read-models-and-projections](./techniques/read-models-and-projections.md)
+  — the aggregate surface and the projection surface, the projection that
+  is never written back, and stored read models with a named recomputation
+  and a declared propagation contract.

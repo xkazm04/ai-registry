@@ -6,7 +6,7 @@ technique: transactions-and-units-of-work
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
-use_when: [deciding who opens the transaction boundary, half a unit of work commits as success, side effects firing before the commit lands]
+use_when: [deciding who opens the transaction boundary, half a unit of work commits as success, side effects firing before the commit lands, a commit aborted with a serialization verdict, a retried unit applied twice]
 ---
 
 # Transactions and units of work
@@ -63,10 +63,23 @@ The structural fixes, in order of preference:
    machinery; only worth it when inner-operation rollback with outer
    continuation is a real requirement.
 
-What does not work: detecting ambient state by side channel and silently
+3. **Declare the propagation, and mark the scope rollback-only on inner
+   failure.** Some runtimes carry the open boundary ambiently (a context
+   the call chain inherits) rather than as a parameter. That is workable on
+   one condition: each operation *declares* how it joins — participate in
+   the ambient boundary, demand a fresh one, or open a savepoint — and an
+   inner failure that a caller catches and swallows still marks the shared
+   scope rollback-only, so the outer commit is refused loudly instead of
+   committing the survivors. Without the marker, ambient propagation is
+   the half-committed unit of work described below with a nicer syntax; with it,
+   "the boundary owner learns of every failure" is enforced by the scope
+   rather than by every intermediate catch block.
+
+What does not work: *inferring* ambient state by side channel and silently
 skipping the begin — unless the *commit* is skipped symmetrically and
-failure semantics are re-examined, this converts "my operation is atomic"
-into "my operation is atomic sometimes", the worst kind of true statement.
+failure semantics are re-examined (which is exactly what the rollback-only
+marker in fix 3 does), this converts "my operation is atomic" into "my
+operation is atomic sometimes", the worst kind of true statement.
 And the boundary itself must exist **once, or twice in agreement**. The
 drift never arrives as a rewrite; it arrives as a convenience — a small
 second wrapper for one subsystem's mutations, "just" begin-run-commit,
@@ -114,14 +127,50 @@ ones that "can't happen" — which is why scope-based designs where the
 rollback runs automatically on abnormal exit beat designs that rely on a
 hand-written rollback call in every error branch.
 
+## The unit of work is a retryable closure
+
+Under the stricter isolation levels, and on every store that resolves
+concurrency optimistically at commit rather than by locking, the engine
+*designs in* a failure the unit of work must expect: it aborts one of two
+overlapping transactions with a serialization or deadlock verdict, and the
+correct response is to run the whole unit again. Not the failed statement —
+the whole closure, including the reads and the logic that decided which
+statements to issue, because the aborted attempt's reads are the thing that
+was wrong. This is the second reason the boundary is a callback and not a
+begin/commit pair: a closure can be re-invoked; an inline sequence cannot.
+The rules that make the retry honest:
+
+- **Retry on the classified verdict, never on the message.** The engine
+  states the transient class as a code; an operation that retries on
+  anything else replays persistent failures, and one that matches error
+  text has bound itself to a wording.
+- **Bounded attempts, jittered delay.** A herd of aborted units retrying
+  in lockstep re-collide; the final attempt's error propagates unchanged.
+- **The retry is the boundary owner's**, wrapped once around the closure —
+  not sprinkled per statement, where a retried statement re-runs inside
+  the transaction that already lost.
+- **Mint any idempotency key once, outside the retry loop.** The retry
+  covers a second failure the abort verdict does not: the commit that
+  succeeded but whose acknowledgement was lost. A closure re-run after
+  that commit applies the unit twice — one more debit, one more appended
+  row — unless the store can recognise the repeat. So a unit that must not
+  double-apply carries a key chosen *before* the first attempt, written
+  under a uniqueness constraint (or read back at the deterministic
+  address), and a duplicate-key refusal on retry is translated into "already
+  applied", not surfaced as an error. A key minted inside the closure is a
+  fresh key per attempt and protects nothing.
+
+Retry also settles an argument the next section makes on other grounds:
+anything the closure did outside the store is done again on every attempt.
+
 ## Side effects wait for commit
 
 A transaction can roll back; most of the world cannot. Anything
 irreversible or externally visible performed *inside* the boundary becomes
 a lie the moment the transaction aborts: the notification announcing a
 record that does not exist, the cache primed with rolled-back state, the
-downstream system told to proceed. The rule: **inside the boundary, only
-the store changes.** Effects queue — as values, in memory, or in an outbox
+downstream system told to proceed — and, under retry, it happens once per
+attempt. The rule: **inside the boundary, only the store changes.** Effects queue — as values, in memory, or in an outbox
 table that commits atomically with the data it announces — and fire after
 commit returns. The outbox form is the strong version: the effect's
 *intent* is durable exactly when the data is, and a crash between commit

@@ -57,10 +57,19 @@ order of strictness:
 1. **Fresh instance per test.** Strongest and simplest to reason about;
    with an embedded engine, usually affordable. Default to this until the
    suite's runtime says otherwise.
-2. **One instance, transaction-rollback per test.** Fast, but it forbids
-   the code under test from managing its own transactions (the test's
-   wrapper collides with the layer's boundaries) — which disqualifies it
-   for exactly the unit-of-work code most worth testing.
+2. **One instance, transaction-rollback per test.** Fast, with two costs
+   that must be priced before choosing it. The code under test may open
+   its own boundaries only if the test binding redirects them — the
+   layer's begin/commit/rollback become savepoint create/release/rollback
+   inside the test's outer transaction, which the mature bindings support
+   and which leaves the outer transaction untouched; where the layer owns
+   the physical connection outright and cannot be redirected, the wrapper
+   collides with the layer's boundaries and this option is disqualified
+   for exactly the unit-of-work code most worth testing. And even
+   redirected, nothing in the suite ever *commits*: deferred constraints
+   never fire, commit-time hooks never run, and "side effects wait for
+   commit" is unobservable — so the unit-of-work tests that assert what
+   happens *at* commit need option 1 or 3 regardless.
 3. **One instance, truncate between tests.** Middle ground; honest only if
    the truncation list is generated from the live schema, not maintained
    by hand (a hand list misses the table added last sprint, and the suite
