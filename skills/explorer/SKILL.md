@@ -5,7 +5,7 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.2.0
+version: 1.3.0
 ---
 # Explorer
 
@@ -462,6 +462,7 @@ For each accepted item, execute it **in this same session**. Same default as `/r
    ```
    Never `git add -A`, `git add .`, or `git add -u`. If the cached stat lists **more files than you added**, the index held another session's pre-staged work — `git restore --staged <path>` each unrelated file, re-verify, THEN commit. Never trust the index.
 4. Commit atomically: `explorer: <short title>` + Co-Authored-By footer + body explaining the why.
+5. **Verify the change landed in YOUR commit**: `git log -1 --format=%h -- <path>`. The index discipline above protects other sessions from you; this protects you from them. A concurrent agent that runs a broad `git add` between your edit and your commit absorbs your working-tree change into *its* commit — your own `git commit -- <path>` then reports "no changes added" and, worse, can commit whatever that session had staged. Measured on a shared checkout, 2026-08-29. If the sha it names is not yours, the fix is already in the tree under someone else's authorship: say so in the run record and do NOT re-apply it. Keep the edit→commit window short; that is the only real mitigation.
 
 **2+ accepted items (Option B):**
 1. Print the inline plan (one paragraph per item: file, change shape, validation).
