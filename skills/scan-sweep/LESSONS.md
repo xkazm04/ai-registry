@@ -588,3 +588,85 @@ that check stays cheap.
 - Yield: 12 findings / 23 lens-passes = 0.52 per pass. Four built. Two of the four
   came from running the repo's gates rather than from reading its code, which is
   the bullet above stated as a number.
+
+## 2.7.0 - 2026-08-29 - kp (agent-workforce, --optimize, first sweep of the context)
+
+- **Check the SIZE of your staged diff, not just its file list.** §7's parallel
+  rules say to confirm the staged list is exactly your files, and it was - while
+  the CONTENT was a whole-file rewrite. The editing tools wrote CRLF into files
+  whose committed form was LF, so a 39-line change staged as 525 insertions and
+  525 deletions across four files. On a shared checkout that is a silent clobber:
+  a concurrent session's edit to the same file loses to a whole-file overwrite,
+  and every hunk-level review passes because the hunks are real. `git diff
+  --cached --stat --ignore-all-space` beside the plain `--stat` shows it in one
+  line - real change vs. reported change - and it costs nothing to look. Worth a
+  sentence in §7's staging rules; the hazard is not Windows-specific (any repo
+  with mixed EOL, any tool that rewrites a file wholesale) and it is invisible in
+  the transcript.
+
+- **A repo-specific gate can redesign a fix, not just reject it - so run it
+  against the DRAFT.** Corroborates the gravitone-gcloud bullet above from the
+  other end: there, gates caught red committed code during SURVEY; here, a gate
+  run during BUILD named the repo's own helper. Asked to show a server error in
+  the UI, `i18n:check` did not say "this is wrong" - it said "resolve the machine
+  `code` through `useErrorMessage()`, never the server's English `error`", which
+  turned a correct-but-English-leaking fix into a localized one and exposed that
+  the error code the whole feature was built around had never had a catalog entry.
+  §4.2 currently frames gates as deterministic-findings-belong-to-the-tool
+  (survey-time, don't restate). The complement belongs in §7.2: run the surface's
+  gate before you consider the fix DESIGNED, because a mature repo's gates encode
+  conventions no amount of reading the context's own files will reveal.
+
+- **The richest pair shape on a well-swept repo: a producer that is tested and a
+  consumer that is not.** §4.6 lists client-vs-server validation, gate-vs-debit,
+  abstraction-vs-call-sites and doc-vs-code. Add: a route that builds a typed
+  reply, pinned by route tests and described accurately in the docs, whose only
+  UI caller awaits the fetch and reads nothing. Everything green, the payload
+  reaching nobody. The grep that finds it is cheap and mechanical - take the
+  route's own reason/code CONSTANTS and ask which UI file references them - and it
+  produced this round's headline finding on a codebase that had already been
+  bug-hunted end to end.
+
+- Yield: 14 findings / 23 lens-passes = 0.61 per pass. 5 built, 8 backlogged, 1
+  rejected as `not-better` (a staleness whose realistic window measured the same
+  on both sides). The rejected one matters: it is the first time on this repo the
+  routing table said NO rather than defer, which is what §5 was rewritten for.
+
+## 2.7.0 - 2026-08-29 - ascent
+
+- **`coverage.mjs --next` was dead on every GROUPED context map, and it failed in
+  the shape §1 exists to prevent.** The script read `map.contexts` only; a v2 map
+  (and everything `project-populate` emits) nests contexts under `groups[]`, so it
+  exited 2 with "no contexts in the map". That sentence reads as a fact about the
+  repository, not about the reader, and the honest response to it - hand-pick a
+  context - is exactly the un-auditable rotation the picker was written to
+  replace. Fixed in 2.7.1 by flattening both shapes. The general lesson is
+  sharper than the bug: **a tool that computes the round's scope must distinguish
+  "there is nothing" from "I cannot see anything", because the loop cannot tell
+  them apart and will proceed either way.** Same law as the skill's own
+  `failure-not-empty-success` findings, turned on the skill's own instrument.
+
+- **The undeclared sibling is where the unfixed copy of the defect lives.** This
+  context declared 3 of the 4 routes that share one security gate; the 4th - found
+  only by grepping the env var, not by walking the declared paths - was the one
+  still carrying the `===` credential compare after the other three were being
+  fixed. §4.6 says to grep the shared SYMBOL and diff its call sites; the
+  strengthening is to grep it **outside the context's declared paths too**, because
+  a path list is itself a hand-maintained list and §4.7 already tells us what those
+  are worth. The out-of-context hit is not noise to be vetoed: it is the finding.
+
+- **Two `unmeasurable` results were avoidable and one was not, and the difference
+  was whether a figure existed anywhere.** "Clamp the chip by its own width" felt
+  like taste until the placement was arithmetic on one concrete input (element at
+  x=1500, viewport 1600, 7-char label -> 160px of drift), which turned it into an S
+  that built. "9,600 persists under a 300s budget" stayed unmeasurable because the
+  repo owns no timing harness for its own persist path. The tell: before writing
+  `unmeasurable`, ask whether the claim is untestable or merely un-instrumented -
+  the first is a judgement, the second is arithmetic you have not done yet.
+
+- Yield: 11 findings + 1 rejected / 23 lens-passes = 0.52 per pass, 8 built. The
+  three highest-impact findings all came from asking what two implementations of
+  one rule disagree about (four copies of a gate; one seeder counting dedup, its
+  sibling not; a test re-typing the list it was meant to check), which is §4.6 and
+  §4.7 doing the work the deep tier did not.
+
