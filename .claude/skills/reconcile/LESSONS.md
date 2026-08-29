@@ -105,3 +105,52 @@ the contract those runs earned; this file carries what the DIRECTOR learned runn
   it would have documented seven agreeing lists rather than a registry. It banked the
   real test (cross-repo) as a lead. Two other workers declined director hypotheses that
   turned out not to exist in the files. None of the three padded.
+
+## 1.0 - 2026-08-29 - localization wave 2 + both cycles
+
+- **Deliberate non-coordinating pairs, scaled to four, produced DISAGREEMENT - and that
+  was worth more than agreement.** Four subjects were pointed at the same counterpart and
+  forbidden to coordinate, to buy independent sightings of a mechanism banked at one
+  sighting from wave 1. They found five tables with 5, 1, 0, 0 and 0 deviations. Written
+  from the first sighting alone the family would have said "these tables override the
+  default", and three of the four new sightings disprove it. The rule that survived is
+  the *mechanism* - a lookup with a default, where a published row may confirm or
+  override - which no single sighting could have produced. **Two sightings is the floor
+  for landing a family; it is also roughly the floor for stating one correctly.** Pair
+  subjects that share a counterpart, forbid coordination in as many words, and expect the
+  second sighting to reframe the first rather than echo it.
+- **The best control is the PLAUSIBLE wrong implementation, not the obviously wrong one.**
+  The two sharpest findings of the wave were both controls: a plural selector that ignores
+  the visible-fraction operand agrees with the standard on 1001 of 1001 integers and
+  disagrees on 10001 of 10001 one-decimal values; a "many means any non-integer" reading
+  fails on exactly the eight integer-valued decimals. Both are *correct on the inputs a
+  developer would test with*. A control that fails everywhere proves the harness runs; a
+  control that fails only where nobody looks proves the finding. Ask workers for the
+  second kind by name.
+- **The director's pre-check is reconnaissance and must be phrased as a hypothesis.**
+  Across two waves the dispatch prompts carried four factual errors - a claim read off an
+  unreleased branch, a "richest in the corpus" superlative that was wrong, a worked
+  example that was backwards, and an assertion that a counterpart carried no data on a
+  topic when two of its files did. Workers caught all four and every correction improved
+  the finding. What made that reliable was one sentence in every prompt telling the worker
+  that refuting the director is a legitimate outcome; three used it in wave 1 and three
+  more in wave 2. Keep the reconnaissance - sharp hints produced sharp findings - and keep
+  the licence that makes it safe.
+- **A technique's prose and its own summary table can disagree, and only the table ships.**
+  One subject stated a rule correctly in prose and contradicted it four lines later in a
+  reference table, which is the form a reader actually consults. A reading-based review
+  slides over that; only running the table's wording as a predicate catches it. Worth
+  asking for explicitly wherever a technique carries a lookup table.
+- **`source:` earns its keep the moment the stack proxy fails visibly.** After both waves
+  one subject still scored single-stack while reading three genuinely distinct sources -
+  all class-A tree readings, so all legitimately `process`. The brief predicted exactly
+  this and forbids backfilling `source:`, so the row stays misleading until enough new
+  applications accumulate. Fine, but record it in the domain note, or a later run reads a
+  proxy artifact as unfinished work.
+- **Class B is not one thing, and the difference is whether a conformance test ships.**
+  Within one wave: plural data with published sample sets per rule (adversarial, cheap,
+  reproducible), a line-breaking annex with a full test file, and case mappings with **no
+  test file at all**. The last still produced the wave's most actionable finding, but the
+  worker had to say plainly that it was property classification rather than a conformance
+  run. Ask for that sentence up front; it is the difference between evidence and the
+  appearance of it.
