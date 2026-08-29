@@ -122,18 +122,18 @@
     },
     {
       "name": "explorer",
-      "version": "1.4.0",
+      "version": "2.0.0",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:a336b367ac6c5a11",
+      "contentHash": "sha256-n1:af549060e893442e",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 6,
+      "lessons": 7,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:52f602b1dc2e2d42",
+      "lessonsHash": "sha256-n1:29fc47a124e11859",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 18,
+      "lessons": 20,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:731ab36935de29ab",
+      "lessonsHash": "sha256-n1:f75d24680be5ad37",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -552,7 +552,7 @@
     "skills": 27,
     "practices": 5,
     "memory": 4,
-    "lessons": 77
+    "lessons": 80
   },
   "bundles": [
     {
