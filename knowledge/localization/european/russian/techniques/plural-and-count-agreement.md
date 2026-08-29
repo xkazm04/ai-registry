@@ -27,9 +27,15 @@ by the number's last digits, not its magnitude:
 
 | Category | Condition | Noun form | Example |
 |---|---|---|---|
-| one | ends in 1, not 11 | nominative singular | 1 файл, 21 файл, 101 файл |
-| few | ends in 2–4, not 12–14 | genitive singular | 2 файла, 23 файла |
+| one | last digit 1, and last **two** digits not 11 | nominative singular | 1 файл, 21 файл, 101 файл — but **111 файлов**, because 111 ends in 11 |
+| few | last digit 2–4, and last two digits not 12–14 | genitive singular | 2 файла, 23 файла — but **112 файлов** |
 | many | everything else: 0, 5–20, 25–30… | genitive plural | 5 файлов, 11 файлов, 100 файлов |
+
+Read the exclusions as **last two digits**, not as the literal numbers 11–14. The
+loose phrasing "not 11" is where hand-rolled selectors go wrong: an implementation
+that keeps the last-digit test and drops the teen test disagrees with the standard
+on 400 of the first 10,001 integers, beginning at 11, 12, 13, 14 and then again at
+111, 112, 113, 114.
 | other | fractions | genitive singular | 1,5 файла |
 
 The mechanism behind the table: a Russian numeral *governs the case* of its noun
@@ -92,13 +98,33 @@ every other counted string keeps paying for it.
 the runtime.
 
 **Rule:** fractions select `other` — genitive singular («1,5 часа», «2,5 балла») —
-regardless of the integer part's last digit. Russian writes the decimal separator
-as a comma, so a runtime that formats numbers must be emitting ru-formatted values
-into ru strings; a hand-typed «1.5» inside a Russian string is a formatting calque
-as well as a plural risk. When the plural category is computed from the raw number
-but the displayed value is formatted differently (rounding, abbreviation to
-«тыс.»), category and display can disagree — audit the pair together, not the
-string alone.
+regardless of the integer part's last digit.
+
+**The mechanism, and it is wider than the word "fractions".** Every one of the
+three categories above is guarded by a condition requiring **zero visible fraction
+digits**. So the trigger is not "the value is fractional", it is "the number is
+*displayed* with a fraction digit" — and **«2,0» selects `other` even though it is
+not a fraction**. The consequence for a surface formatted to a fixed decimal place
+— a rating, an average, a «2,0 ГБ» readout — is total: every count lands in
+`other` whatever its magnitude, and `other` stops being the residue and becomes
+the only branch that ever renders. Write it accordingly.
+
+This is also the trap for a hand-rolled selector, and it is invisible in testing:
+an implementation that applies the last-digits table without checking for a visible
+fraction digit agrees with the standard on **every integer** and disagrees on
+**every one-decimal value** — «2,5» to *few*, «21,5» to *one*. It is correct on
+exactly the inputs a developer tries.
+
+Russian writes the decimal separator as a comma, so a runtime formatting numbers
+must be emitting ru-formatted values into ru strings; a hand-typed «1.5» inside a
+Russian string is a formatting calque as well as a plural risk.
+
+**Compact notation is the one case where display and category re-converge.** The
+rule language shifts the operands for a compactly-formatted number before the
+conditions are evaluated, so «12,3 тыс.» is read as 12300 with no visible fraction
+digits and selects `many` — despite the comma on screen. Compute against the
+formatter the surface actually uses, and the pair does not need auditing
+separately.
 
 **Source:** CLDR plural rules for Russian; Russian orthographic convention for the
 decimal comma.
@@ -106,6 +132,22 @@ decimal comma.
 **Exception:** version numbers, IDs and other non-quantity numerals («версия 2.1»)
 are names, not counts — they neither trigger plural selection nor take the decimal
 comma. Do not "fix" them.
+
+## RU-PLURAL-RANGE · A range selects from its own table, and its end can be singular
+
+**Trigger:** any string rendering a span — «2–5 файлов», «5–21 файл».
+**Rule:** a range is a lookup on the **(start, end)** category pair in a separate
+published table, whose *default* — used when a pair is absent — is the **end**
+category. Russian's table publishes all 16 pairs and **not one of them deviates
+from that default**: every result equals its end. So for Russian the end value
+does decide, and that is a *verified* fact rather than a safe assumption.
+The consequence worth writing down is that **the end can be `one`**: 5–21 selects
+`one`, so «5–21 файл» — singular noun on a span that starts at five.
+**What a table's existence does not tell you.** Other locales publish tables in
+which several rows *do* override the end-value default, and there an end-value
+shortcut is simply wrong. Presence and size say nothing; only reading the rows
+does. A run that counts rows and infers "overrides exist" has misread agreement
+for deviation.
 
 ## Audit procedure
 

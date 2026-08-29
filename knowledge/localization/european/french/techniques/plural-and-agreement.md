@@ -20,18 +20,29 @@ noise a source-language reviewer cannot see.
 ## FR-ZERO · Zero is singular
 
 > **Trigger** — any plural message whose count can reach 0.
-> **Rule** — the CLDR `one` category for French covers **0 and 1**: *0 poste,
-> 1 poste, 2 postes*. Keep the source's plural structure but know the branches
+> **Trigger** — any plural message whose count can reach 0, or carry a decimal.
+> **Rule** — the CLDR `one` category for French is **the half-open interval
+> [0, 2)**, not the two integers 0 and 1. The rule tests the *integer part*
+> (`i = 0,1`), so 0 · 0,5 · 1 · 1,5 · 1,999 all select `one`, and only 2,0
+> reaches `other`. Keep the source's plural structure, but know the branches
 > mean different number sets than they do in English, where 0 takes the plural.
-> **Source** — CLDR French cardinal rules: `one` is defined as `i = 0,1`.
+> **Source** — CLDR French cardinal rules, `i = 0,1`; the specification uses
+> French as its own worked example of a `one` case covering 0 through 1,99.
 > **Exception** — a counter guarded so 0 never displays (empty state swaps in a
-> different string) sidesteps the rule; verify the guard exists before flagging,
-> and flag the guard's absence rather than the string when it doesn't.
+> different string) sidesteps the zero half of the rule; verify the guard exists
+> before flagging, and flag the guard's absence rather than the string.
+
+**Write the `one` branch so a fraction can stand in it.** "0 and 1" invites copy
+that spells the number out or assumes exactly one — *Un poste*, *Il reste une
+minute* — and the first rating, average or price to arrive renders *1,5 poste*
+against wording that cannot hold it. On any surface where the count can be
+decimal, the singular branch is a *range* branch.
 
 The audit signature: a key whose `one` branch is written `=1` (exact match)
-instead of the `one` category, with 0 falling through to `other` — renders *0
-postes*. This ships constantly because the English source uses `=1` correctly
-for English.
+instead of the `one` category, with everything else falling through to `other` —
+renders *0 postes*. It is worse than it looks: an exact-value test misses 0 **and
+every non-integer below 2**. This ships constantly because the English source
+uses `=1` correctly for English.
 
 ## FR-MANY · Millions bind through *de*
 
@@ -46,6 +57,46 @@ for English.
 > with no visible fraction, and compact exponents).
 > **Exception** — do not add `many` branches to counters that structurally
 > cannot reach millions; a branch nobody can render is untestable weight.
+
+**`many` follows the rendering, not the magnitude**, which decides how it can be
+tested. An exact round million written plain selects it; the *same quantity* one
+step off a round million does not; and that same off-round quantity written
+compactly does. A visible fraction digit on the plain form also removes it. So a
+`many` branch cannot be exercised by feeding the counter a big number — only by
+rendering through the formatter the surface actually uses.
+
+## FR-ORDINAL · Two categories, and the gender is not selectable
+
+> **Trigger** — any ordinal rendered from a number in a translatable string.
+> **Rule** — French ordinals have their own two-category selector, and it does
+> **not** agree with the cardinal rule: the ordinal singular is exactly 1, so
+> **0 is `one` as a cardinal and `other` as an ordinal**, and 1,5 likewise. An
+> ordinal selector is therefore real work in French, not formatting-library
+> territory the way an invariant-ordinal language's is.
+> **The limit worth knowing** — the plural machinery has two branches and no
+> notion of gender, so it **cannot express *1er* against *1re***. The published
+> ordinal minimal pairs for French are the *feminine* forms, and the masculine
+> lives only in the spell-out rulesets. Gender here is decided by the referent,
+> which the format system cannot see — carry it lexically or through separate
+> keys, exactly as FR-AGREE requires elsewhere.
+> **Exception** — none; even a catalog that renders ordinals only in prose should
+> know the selector cannot be asked to do the gendering.
+
+## FR-RANGE · A range selects from its own table, and French's is under-covered
+
+> **Trigger** — any string rendering a span — *2 à 5 postes*.
+> **Rule** — a range is a lookup on the **(start, end)** category pair in a
+> separate published table; the *default*, used when a pair is absent, is the
+> **end** category. French's table publishes only three pairs, none of which
+> deviates from that default, and **every pair involving `many` is missing** —
+> including exactly the compact-notation spans FR-MANY tells you to write. So
+> "the range takes its end value's category" happens to hold for French, but as a
+> coincidence of the defaults rather than a verified result, and it transfers to
+> no other locale.
+> **What a table's existence does not tell you** — other locales publish tables
+> where rows *do* override the end-value default, and there the same shortcut is
+> wrong. Roughly half the published groups carry at least one override. Presence
+> and size say nothing; only reading the rows does.
 
 ## FR-AGREE · Agreement does not stop at the plural block
 

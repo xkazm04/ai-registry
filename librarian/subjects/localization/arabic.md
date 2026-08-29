@@ -37,6 +37,13 @@ sightings and none is a measured disproof: the technique's sentences are incompl
 not false. The integrality trap is the one worth landing first when a second plural
 subject sights it. Banked, not forgotten.
 
+**2026-08-29 (cycle 2) - LANDED.** Two new anchored rules. `AR-PLURAL-INTEGER`
+carries the integrality finding (a fractional count is never few or many), now a
+three-sighting family with [[russian]] and [[czech]]. `AR-PLURAL-RANGE` carries the
+range mechanism at five sightings, including the caution that a table's presence and
+size say nothing - Arabic is the override-heavy case, and three siblings are not.
+The 2026-08-29 NOTHING-LANDED note below was correct when written, at one sighting.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. AR-PLURAL-SIX: add the integrality clause.

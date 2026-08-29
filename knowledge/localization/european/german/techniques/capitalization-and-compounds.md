@@ -41,6 +41,15 @@ capitalized, capitalization alone can never tell you whether a word is being
 used as a brand/proper name or as an ordinary noun — a distinction English
 marks by case. Judge by meaning at the call site, never by the capital letter.
 
+**And do not reach for a titlecase transform to implement rule (1).** The
+character standard's default titlecasing capitalizes the first letter of every
+word, which produces exactly the Title Case rule (2) forbids and breaks DE-HYPHEN's
+joints at the same time: *Persona auswählen* becomes *Persona Auswählen*, and
+*KI-gestützt* becomes *Ki-Gestützt*. Noun capitalization is a lexical fact about
+which words are nouns; **no character-level operation can derive it**, and a
+case-based audit can only ever report which letters are capital, never which words
+should be.
+
 ## DE-ESZETT · ß by vowel length; ẞ in all-caps
 
 > **Trigger** — any string containing ß or ss; any all-caps rendering.
@@ -50,12 +59,52 @@ marks by case. Judge by meaning at the call site, never by the capital letter.
 > convention (`de-CH`), not `de`. In all-caps contexts the capital **ẞ**
 > (U+1E9E) has been official since 2017 and is the *preferred* variant since
 > the 2024 revision of the official rule set (STRAẞE preferred, STRASSE still
-> permitted) — but prefer applying uppercasing in the presentation layer over
-> storing shouting-case strings at all.
+> permitted).
 > **Source** — the official German orthography rules, 2017 amendment and 2024
 > revision (capital ẞ).
 > **Exception** — a `de-CH` catalog folds every ß to ss deliberately; that is
 > a locale variant, not an error, and must be the whole catalog or none of it.
+
+**The presentation layer is where this breaks, not where it is fixed.** The
+character standard's default uppercase mapping for the sharp s is the two
+characters **SS**; it sits in the *unconditional* table, and no language tag
+reaches it — German appears nowhere among the language-conditional entries, which
+cover only Lithuanian, Turkish and Azerbaijani. **No default operation produces the
+capital form in any direction**: the standard lists that mapping among the
+*tailorings* it does not supply, beside Dutch IJ and Greek accent removal. So an
+all-caps German string rendered by any default path — a stylesheet transform, a
+platform uppercase call — emits `STRASSE`. Preferring the presentation layer does
+not avoid the problem; that layer *is* the problem. The capital form requires a
+tailoring the product wires and tests itself, and **absent one, do not uppercase
+German at all.**
+
+**Uppercasing German is lossy in a way nothing downstream can undo.** The mapping
+changes length and does not round-trip (`Straße → STRASSE → strasse`), and it
+collides real minimal pairs: **`Maße` and `Masse` both uppercase to `MASSE`**.
+All-caps German is a lossy projection, never a reversible display choice.
+
+**One trap that produces plausible output instead of an error.** Code that
+uppercases character-by-character from the *simple* mappings leaves the sharp s
+untouched and yields mixed case — `STRAßE`, `GROß`. The derived properties make
+this a contradiction rather than a shortfall: the character is listed as
+*changing* when uppercased, because that property is derived from the *full*
+mappings, while its simple mapping is identity. A guard asking "does this change?"
+is told yes, and then changes nothing.
+
+## DE-CASELESS · Pick the caseless key per surface, and record which
+
+> **Trigger** — a case-insensitive search, a termbase lookup, a deduplication key,
+> or any comparison that folds case before matching.
+> **Rule** — there is **no single caseless form that serves German**. The default
+> (full) case folding maps the sharp s to `ss`, so it matches `Straße` against
+> `STRASSE` — and **merges `Maße` with `Masse`**. The simple folding keeps that
+> pair apart and fails to match `Straße` against `STRASSE`. A search index, a
+> termbase lookup and a dedup key do not want the same trade-off, so the choice is
+> per surface and belongs in writing beside the surface that made it.
+> **Source** — the character standard's case-folding data; the two foldings differ
+> on exactly this character.
+> **Exception** — none. An unrecorded choice here is indistinguishable from a bug
+> the first time two distinct entries merge into one.
 
 ## DE-HYPHEN · Don't hyphenate because English did
 

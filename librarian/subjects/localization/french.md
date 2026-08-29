@@ -52,6 +52,13 @@ ordinal 22/22, 0 disagreements. Six degenerate controls, all failing: over the 2
 two-decimal values in [0,00–1,99] CLDR selects `one` for all 200 while an exact-value
 implementation disagrees on **198** and the English rule set on **200**.
 
+**2026-08-29 (cycle) - LANDED.** FR-ZERO restated as the half-open interval [0, 2)
+with the fractional-branch requirement; FR-MANY gained the rendering-not-magnitude
+clause. Two new rules: `FR-ORDINAL` (two categories, 0 differs from the cardinal, and
+the gender is not selectable) and `FR-RANGE` (under-covered table, every many pair
+absent). The golden path was left alone this cycle - it carries the same understatement
+and is banked. Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. Restate FR-ZERO's rule as the interval [0, 2), with the fractional-numeral branch

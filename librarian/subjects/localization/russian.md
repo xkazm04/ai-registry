@@ -54,6 +54,12 @@ Both caught by the worker and **verified by the director**:
 The table has 16 rows and **0 overrides**; §Plural Ranges says a pair is included where
 the result *has been verified*, so it is a verification record, not an override set.
 
+**2026-08-29 (cycle) - LANDED.** RU-PLURAL's condition cells now read as last-TWO-digit
+exclusions with 111 as a worked counter-example. RU-FRACTION now names the visible-
+fraction-digit mechanism, the 2,0-selects-other consequence, and the compact-notation
+re-convergence that replaced its open "audit the pair together" caveat. New rule
+`RU-PLURAL-RANGE`. Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. RU-FRACTION: name the `v = 0` guard and say `v` counts **visible** fraction digits —

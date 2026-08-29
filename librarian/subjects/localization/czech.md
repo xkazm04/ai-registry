@@ -44,6 +44,12 @@ File: `spec--plural-and-count-agreement.md`. **Fate: `many` confirmed, ranges re
   category set, so the `selectordinal` construct still exists and deleting it is a
   skeleton break.
 
+**2026-08-29 (cycle) - LANDED.** The summary table's `many` row now reads "rendered
+with a fraction digit" instead of "any non-integer", with the reachability consequence
+(fixed-decimal formatting makes `many` the only live branch) and the compact-notation
+split. New rule `CS-RANGE` carries the range mechanism, with Czech as the verified
+end-decides case. Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. The summary table's `many` row: "any non-integer" → "rendered with a visible fraction

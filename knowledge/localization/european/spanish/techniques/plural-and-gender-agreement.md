@@ -30,17 +30,54 @@ plural branches must be written even when the English author collapsed them.
 
 ## ES-PLURAL-MANY · large round numbers take *de* — the many category
 
-Since CLDR 42, Spanish has a third cardinal category, **many**, covering compact
-large numbers (10⁶ and up): *millón/millones* and beyond are grammatically nouns,
-so Spanish says *1 millón **de** usuarios*, *2,5 millones **de** descargas* — the
-counted noun attaches with *de*. Two consequences. A plural pipeline or hand-rolled
-two-branch selector renders these wrong (*"1 millón usuarios"*) the day a metric
-crosses a million, and the bug is invisible until it does. And copy that
-abbreviates counts (*"3 M de usuarios"*) still needs the *de*. When the message
-system predates the category, the workable recast is putting *de* into the plural
-branch text or recasting so the count is not adjacent to the noun.
+Spanish has a third cardinal category, **many**, and the grammar behind it is that
+*millón/millones* is a noun: Spanish says *1 millón **de** usuarios*, so the counted
+noun attaches with *de*. A hand-rolled two-branch selector renders these wrong
+(*"1 millón usuarios"*) the day a metric crosses a million, and the bug is invisible
+until it does. Copy that abbreviates counts (*"3 M de usuarios"*) still needs the
+*de*. Where the message system predates the category, the workable recast puts *de*
+into the branch text, or moves the count away from the noun.
 
-**Source:** CLDR 42 release notes and the *es* plural rules chart.
+**But "compact numbers 10⁶ and up" is half the rule, and the half it omits is the
+one that bites.** The published condition is a disjunction: an **exact** round
+million written plain with no fraction digits, **or** any compactly-formatted
+number at the million scale and above. Measured against the published rule:
+
+| written as | category |
+|---|---|
+| `2.000.000` (plain, exact million) | **many** |
+| `2.500.000` (plain, not an exact million) | **other** |
+| `2,5 M` — *the same quantity, compact* | **many** |
+| `1.000.000,0` (one fraction digit) | **other** |
+
+So the category follows the **rendering, not the magnitude**. Two things follow.
+`many` fires for plain numbers with no compact formatting anywhere in the stack, so
+it cannot be dismissed as a compact-only concern. And a `many` branch **cannot be
+tested by feeding the counter a big number** — only by rendering through the
+formatter the surface actually uses.
+
+The grammar tracks this exactly, which is why the rule is shaped so oddly: the
+spelled numeral ends in *millón/millones* — and so takes *de* — only for exact
+millions and for compact forms. *2.500.000* spells as *dos millones quinientos mil*
+and takes **no** *de*. The technique's own *"2,5 millones de descargas"* is right
+for the compact rendering and **wrong** applied to *2.500.000 descargas*.
+
+**Source:** the *es* plural rules and the published spell-out rulesets.
+
+## ES-PLURAL-RANGE · A range selects from its own table, and 0–1 is plural
+
+**Trigger:** any string rendering a span — *0–1 archivos*, *2–5 horas*.
+**Rule:** a range does not take the category of its end value by rule. It is a
+lookup on the **(start, end)** category pair in a separate published table, whose
+*default* — used only when a pair is absent — is the end category. Spanish's table
+is small, and **one of its three rows overrides that default**: `(other, one) →
+other`. A range that *ends* at exactly 1 is therefore **plural** — *0–1 archivos*,
+not *0–1 archivo* — which is precisely the common "0–1 results" shape a UI
+pluralizing on the end number gets wrong.
+**What a table's existence does not tell you.** Other locales publish tables where
+no row deviates at all, and there an end-value shortcut is safe; roughly half the
+published groups carry at least one override. Presence and size say nothing —
+only reading the rows does.
 
 ## ES-ORDINAL · one category, gendered abbreviations
 
@@ -50,6 +87,16 @@ period before the superscript, per the language academy's orthography). Never
 import English ordinal suffixes, and never emit *1º* bare when the referent is
 feminine. Above tenth, prose usually prefers the cardinal (*el puesto 15*), which
 sidesteps the morphology entirely.
+
+Two published forms this rule has been missing. **Plural abbreviations** exist —
+*.ᵒˢ* / *.ᵃˢ* — for a plural referent. And the masculine has an **apocopated
+adjectival form** before a masculine noun, at 1 and 3: *el 1.er intento*, not
+*el 1.º intento*. Both are carried in the published spell-out rulesets, so neither
+is a house invention.
+
+**Because ordinals have one category, none of this is selectable by a plural
+block.** Gender and apocopation are decided by the referent, which the format
+system cannot see — the same boundary the gender rules below describe.
 
 ## ES-GENDER-PLACEHOLDER · agreement with an interpolated noun is a design problem
 

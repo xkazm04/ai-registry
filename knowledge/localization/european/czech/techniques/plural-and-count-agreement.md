@@ -26,15 +26,54 @@ Czech cardinal counts split four ways, per the CLDR plural rules for cs:
 |---|---|---|---|
 | `one` | integer 1 | nominative singular; singular verb | *1 kandidát čeká* |
 | `few` | integers 2–4 | nominative plural; plural verb | *3 kandidáti čekají* |
-| `many` | any non-integer | genitive **singular** | *1,5 dne* |
+| `many` | **rendered with a fraction digit** | genitive **singular** | *1,5 dne*, and also *1,0 dne* |
 | `other` | 0 and integers 5+ | genitive plural; **neuter singular** verb | *5 kandidátů čekalo* |
 
 Two boundaries defeat trained intuition. First, `many` is the **decimal**
 category, not a large-number category — a translator who knows Russian will
 misread it, and a catalog counting only whole things may legitimately omit it,
 but any rate, average, size, or duration cannot. Second, `one` and `few`
-require an integer *representation*: "1,0" selects `many`. Ordinals need no
-selector at all — Czech ordinal formatting (*15.*) is invariant.
+require an integer *representation*: "1,0" selects `many`.
+
+**Say "rendered with a fraction digit", never "non-integer".** The published rule
+tests the *count of visible fraction digits*, so membership is a property of the
+representation and not of the quantity: `1000000,0` is `many` and `1000000` is
+`other`, and the category's own published samples carry every integer-valued
+decimal — 0,0 · 1,0 · 10,0 · 1 000 000,0. The value-based reading is the one a
+careful reader ships, and it is wrong on exactly those. So a Czech `many` string
+must read beside *1,0* as well as beside *1,5*, which rules out any wording that
+presumes a fraction (*a půl*, *něco přes*).
+
+**The reachability consequence.** Whether a branch renders at all is decided by the
+formatter's precision, not by the data: under a fixed two-decimal format every
+count selects `many`, and `one` and `few` become unreachable. A currency or measure
+surface therefore needs `many` even when every underlying count is a whole number —
+"`many` when non-integers are possible" is better read as "`many` whenever the
+formatter can emit a fraction digit".
+
+**And compact notation can put one quantity in two categories at once.** The
+compact patterns carry their own per-category forms, so 1 500 000 renders as
+*1,5 milionu* — the `many` form — while a plural selector over the same value
+returns `other`. A string that pairs a compact number with its own plural block
+will disagree with the number printed beside it.
+
+Ordinals need no selector at all — Czech ordinal formatting (*15.*) is invariant.
+That invariance is in the *category set*, though, not in the syntax: the selector
+construct still exists, and deleting it from a target is a skeleton break.
+
+## CS-RANGE · A range selects from its own table — here the end decides, verified
+
+**Trigger:** any string rendering a span — *2–5 dní*.
+**Rule:** a range is a lookup on the **(start, end)** category pair in a separate
+published table, whose *default* — used when a pair is absent — is the **end**
+category. The Czech table publishes 14 pairs and **none of them deviates from that
+default**. So the end value decides, and for Czech that is a *verified* fact rather
+than a hopeful assumption.
+**What the table's existence does not license.** Other locales publish tables where
+several rows *do* override the end-value default, and there the same shortcut is
+simply wrong. Neither the presence of a table nor its size tells you which case you
+are in — only reading the rows does, and roughly half the published locale groups
+carry at least one override.
 
 ## CS-NUM · A live count needs a plural block, not a frozen form
 

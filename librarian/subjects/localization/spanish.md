@@ -55,6 +55,12 @@ noun**, which the technique never says. And the feminine ruleset reverts to masc
 `2000000: <%spellout-cardinal-masculine< millones`, so agreement stops tracking the noun
 past a million — *gender and `many` turn out to be one fact.*
 
+**2026-08-29 (cycle) - LANDED.** ES-PLURAL-MANY rewritten around the two-disjunct rule
+with the measured table - the same quantity changes category with notation, and the
+spelled-numeral grammar that explains why. ES-ORDINAL gained the plural abbreviations
+and the apocopated masculine. New rule `ES-PLURAL-RANGE` with the (other, one) override.
+Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. ES-PLURAL-MANY: replace "compact numbers 10⁶ and up" with the two-disjunct rule, and

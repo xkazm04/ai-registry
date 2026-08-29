@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 17,
+      "lessons": 18,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:611737aaa8159129",
+      "lessonsHash": "sha256-n1:731ab36935de29ab",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -552,7 +552,7 @@
     "skills": 27,
     "practices": 5,
     "memory": 4,
-    "lessons": 76
+    "lessons": 77
   },
   "bundles": [
     {
@@ -618,7 +618,7 @@
       "techniques": 85,
       "applications": 42,
       "files": 145,
-      "contentHash": "sha256:9a2356ee22d7be1c"
+      "contentHash": "sha256:64b518324378f7b0"
     },
     {
       "name": "media-generation",

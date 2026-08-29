@@ -53,6 +53,12 @@ do its job.** Not a regression: byte-identical in release-47, 48.2 and 49-alpha1
 Downstream, the technique's `4था` exemplar is correct but is **the one ordinal form a
 product cannot lift from CLDR locale data**.
 
+**2026-08-29 (cycle) - LANDED.** HI-PLURAL now states the integer-part rule (every
+count below 1 is singular), routes the oblique to the case axis CLDR actually names,
+explains the ordinal set as a suffix inventory, and warns that the `few` exemplar
+cannot be sourced from locale data. The golden path gained a clause on sub-1 counts
+and on the five ordinal categories. Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. HI-PLURAL: replace "fractions fall to other" with the `i`-based statement — sub-1

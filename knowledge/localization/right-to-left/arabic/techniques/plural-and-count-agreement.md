@@ -47,6 +47,40 @@ Load-bearing consequences:
   عناصر, "there are no items"), which is also better UX than "0 items" — but
   it only exists if the `zero` variant exists.
 
+## AR-PLURAL-INTEGER · A fractional count is never *few* or *many*
+
+**Trigger:** any count that can carry a decimal — a rating, an average, a
+measurement, a price, a percentage with a fraction digit.
+**Rule:** the conditions above are written with ranges (`n % 100 = 3..10`), and a
+range in this rule language enumerates **integers**. The standard's own worked
+example settles it: `3.5 = 2..4, 15` evaluates to *false*. So only 0, 1, 2 and
+whole numbers ever leave `other` — **every value with a fractional part is
+`other`**, whatever its magnitude. Write the `other` branch so it reads correctly
+with a fraction in front of it, because on a decimal surface it is not the
+residue, it is the only branch that renders.
+**The defect this prevents:** a hand-rolled selector in a language with a floating
+modulo satisfies `n % 100 = 3..10` at 3.5 and emits the plural-noun branch. The
+rule reads the same; the arithmetic does not.
+**Boundary:** compact notation shifts the operands before the rule sees them, so a
+compactly-formatted quantity can select a category its plain spelling would not.
+Decide against the formatter the surface actually uses.
+
+## AR-PLURAL-RANGE · A range selects from its own table, and 1–2 is not the dual
+
+**Trigger:** any string rendering a span — "2–5 items", "1–2 hours".
+**Rule:** a range does **not** take the category of its end value by rule. It is a
+lookup on the **(start, end)** category pair in a separate published table, whose
+*default* — used only when a pair is absent — is the end category. Arabic's table
+is the largest published (23 rows) and **five of them override that default**. The
+one to know: **`one + two → other`**, so a 1–2 range takes neither the singular nor
+the dual. A translator applying AR-PLURAL-SIX to "1–2 books" reaches for كتابان and
+is wrong. `many + few → few` is the modulus reappearing at the span level (15–103).
+**What the presence of a table does *not* tell you.** Other locales publish range
+tables in which *no* row deviates from the end-value default; there, a row records
+that the default was **verified**, not that it was overridden. So neither the
+existence of a table nor its size says whether an end-value shortcut is safe —
+only reading the rows does. Arabic happens to be the case where it is not.
+
 ## AR-PLURAL-FREEZE · A one/other catalog cannot be grammatical — escalate it
 
 A source format frozen to `one`/`other` (or worse, a single string with a bare

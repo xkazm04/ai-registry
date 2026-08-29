@@ -114,6 +114,15 @@ state. Hindi also frequently leaves a counted noun unmarked for plural, which is
 why the one/other values of many messages legitimately look identical — that is
 correct Hindi, not a lazy translation.
 
+Cardinals are not the whole story, and the rest of it is easy to miss. The rule
+above tests the *integer part*, so **every count below 1 is singular too** — 0.5
+selects the same branch as 0 and 1, and a singular branch written only for the
+empty state will not hold it. And Hindi **ordinals carry five categories of their
+own**, not two: the suppletive low forms (पहला, दूसरा/तीसरा, चौथा, छठा) each need
+their own, while the regular -वाँ covers everything from fifth on. A product that
+renders ordinals from data has real selector work to do; see
+gender-and-agreement.
+
 ## Script and layout facts an engineer must know
 
 - Devanagari is **left-to-right**; no bidi handling applies.

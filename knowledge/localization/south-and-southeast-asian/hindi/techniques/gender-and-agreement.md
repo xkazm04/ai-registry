@@ -101,11 +101,33 @@ oddities to leave alone: (1) Hindi often leaves a counted noun unmarked after a
 numeral (5 एजेंट is fine; the -ें/-याँ plural is required in *unquantified*
 plurals: फ़ाइलें सहेजी गईं), so one and other variants of a message may be
 textually identical — correct, not lazy; (2) the oblique plural takes -ों before
-postpositions (फ़ाइलों को हटाएँ), a third form no CLDR category names — it is a
-case form, and the translator supplies it inside whichever category the message
-sits in. Fractions fall to other (1.5 घंटे); ordinals have their own five-way
-CLDR split (1ला, 2रा, 4था, 6ठा, 5वाँ…) — if the product renders ordinals from
-data, use the ordinal categories, never string-append वाँ.
+postpositions (फ़ाइलों को हटाएँ), which no *plural category* names — but it is
+not unnamed: CLDR carries it on an orthogonal **case** axis (nominative/oblique)
+and publishes the inflected forms crossed with count. Where a runtime exposes that
+axis the translator need not smuggle the oblique inside a plural branch; where it
+does not, they must, and the technique's guidance below applies.
+
+**The zero rule is wider than "0 and 1", and this is the half to get right.** The
+condition is a disjunction on the **integer part** (`i = 0`), not on the value, so
+**every count whose integer part is zero takes the one form** — 0.5, 0.9, 0.04 all
+select `one`, and CLDR's published samples for the category say so explicitly.
+Only fractions at or above 1 fall to other (1.5 घंटे). A Hindi `one` branch must
+therefore read correctly at 0, at 1 **and** at 0.5 — which is a stricter authoring
+constraint than "the empty state plus the singular". Ordinals have their own
+five-way CLDR split (1ला, 2रा, 4था, 6ठा, 5वाँ…) — if the product renders ordinals
+from data, use the ordinal categories, never string-append वाँ.
+
+**The ordinal set looks arbitrary and is not: it is a suffix inventory.** The
+categories land on 1, 2–3, 4 and 6 because पहला, दूसरा/तीसरा, चौथा and छठा are
+suppletive and each needs its own form, while -वाँ is regular from 5 onward. That
+is why 6 earns a category and 5 does not — a fact worth carrying, because it also
+tells a reviewer that the set is closed and will not grow.
+
+**One exemplar above cannot be sourced from the locale data.** CLDR's own published
+minimal pair for the `few` category ships with **no ordinal suffix at all** — the
+-था of चौथा is simply absent, identically across three releases. So `4था` is
+correct Hindi and is the single ordinal form a product must supply from its own
+knowledge rather than lift from the standard. Do not "correct" it to match the data.
 
 **Source:** CLDR plural rules for hi (cardinal: one `i = 0 or n = 1`; ordinal:
 one/two/few/many/other).

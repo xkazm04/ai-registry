@@ -57,6 +57,13 @@ against the 17.0.0 `ucd/` listing, which carries normalization, bidi and segment
 tests and nothing for casing. This is property classification plus an implementation of
 §3.13.2 R1–R3, not a conformance run, and the application says so.
 
+**2026-08-29 (cycle) - LANDED.** DE-ESZETT lost its presentation-layer recommendation
+and gained the inversion: the default mapping is SS, it is unconditional, no language
+tag reaches it, and the capital form needs a tailoring the product wires itself. Added
+the lossy-projection paragraph and the simple-vs-full mixed-case trap. New rule
+`DE-CASELESS`. DE-CASE gained the titlecase prohibition and the limit of a case-based
+audit. Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. **DE-ESZETT: replace the presentation-layer sentence** — it reads as mitigation and is
