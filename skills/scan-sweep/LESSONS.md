@@ -670,3 +670,41 @@ that check stays cheap.
   sibling not; a test re-typing the list it was meant to check), which is §4.6 and
   §4.7 doing the work the deep tier did not.
 
+
+## 2.7.1 - 2026-08-29 - kp (integrations-settings, --optimize, first sweep of the context)
+
+- **Grep the context's own COMMENTS for a stated rule, then check the code delivers
+  all of it.** This is a sharper instrument than §4.6's pair list on a
+  heavily-commented codebase, and it was the single highest-yield probe across two
+  rounds: 4 of 7 builds this round and 3 of 5 the round before came from a comment
+  that named a hazard precisely and a code path that addressed half of it. The
+  shape repeats because it is how careful work decays — the author understood the
+  problem (that is why the comment exists), shipped the cheap half, and the comment
+  now reads as if the whole thing were done, which stops the next reader from
+  looking. Concrete instances: "a silently-empty form here is dangerous: saving it
+  would overwrite the stored config with blanks" — followed by a toast and a live
+  Save button; "identifiers rendered in mono type: named constants, not JSX text"
+  — followed by four constants assigned from literals rather than from the
+  authorities that existed; `onPaired(); // reload the bridge status either way`
+  — sitting inside the try, after the throw. Each is a defect the comment
+  ARGUES FOR, so the finding arrives pre-justified and the commit message writes
+  itself. Suggested addition to §4.6 as its own bullet: a comment that states a
+  rule is a testable claim about the code beneath it.
+
+- **A "well-commented, obviously careful" context is a HIGH-yield target, not a
+  low one.** The instinct is to expect little from code this reasoned — every file
+  here opens with a paragraph on what it is the door for, and the one test file is
+  genuinely excellent (set-equality against the code's own enums, both directions,
+  all four locales, with a header explaining the 4-key-vs-13-kind bug that caused
+  it). Seven builds came out of it anyway, including the sharpest structural find
+  of either round: that same test guarded three of the context's four
+  code-authoritative vocabularies and not the fourth — the only one a server-side
+  validator rejects a save against. Care is unevenly distributed WITHIN a file and
+  within a directory, and the gap between the guarded three and the unguarded
+  fourth is invisible unless you enumerate. §4.7 already says to interrogate every
+  hand-maintained list; the addition is to enumerate the list OF lists and ask
+  which ones got the treatment.
+
+- Yield: 13 findings / 23 lens-passes = 0.57 per pass; 7 built, 5 backlogged, 1
+  rejected. Consistent with the previous round's 0.61 on a context of similar size,
+  which is the first time two rounds on this repo have agreed on a rate.
