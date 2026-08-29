@@ -104,9 +104,21 @@ composed until the payload is current. Rules that keep the chain sound:
 - **Version skew runs in both directions.** Downgrades happen — rollbacks,
   users on old installers, synced profiles. A payload from the *future*
   (version greater than the code knows) must be detected and handled
-  deliberately: preserve-and-default is usually right (keep the payload
-  untouched for the newer version that wrote it; run on defaults now);
-  silently "migrating" it down destroys data the newer version needs.
+  deliberately, and the right handling depends on what the payload *is*.
+  For **state** — preferences, layout, a resumable session —
+  preserve-and-default is usually right: keep the payload untouched for
+  the newer version that wrote it, run on defaults now. For a **document**
+  — a file the user opens by name and expects to see the content of —
+  "run on defaults" is meaningless (an editor showing an empty document
+  under the user's filename is a lie); the right answer is an explicit
+  refusal that names both versions. The two cases share the clause that
+  actually protects the data: **the older build never writes the newer
+  payload back** — not by "migrating" it down, and not by a routine
+  write-through that re-saves it in the older shape, which converts a
+  rollback into data loss on the user's first edit. Note that common
+  persistence middleware does none of this by default: the usual
+  version-mismatch behavior is discard-or-migrate with no
+  future-version branch, so the deliberate handling must be written.
 - **The version covers everything under it.** One version for one payload;
   per-field versioning is a combinatorial trap. If two persisted domains
   evolve at different speeds, give them separate payloads with separate

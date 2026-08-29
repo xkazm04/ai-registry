@@ -13,7 +13,8 @@ ab_verdict: better
 
 # Async race guards — the unused utility
 
-*Verified against the project tree at `bf2a1e249`.*
+*Tree A verified against the project tree at `bf2a1e249`; Tree B against a
+second tree at `af251109` (`react@19.2.4`).*
 
 The interesting form of this defect is not a missing guard. It is a guard
 the codebase already owns, written well, documented with the exact hazard,
@@ -102,3 +103,41 @@ mastermind suite and `tsc --noEmit` are green under B.
   policy A as well. Only the case written for the hazard could see it, which
   is the general limit of this whole class: an unguarded write site is
   indistinguishable from a guarded one until something arrives late.
+
+## Tree B — the debounce that read as a guard
+
+A second tree (a Next.js / React 19 dashboard, `af251109`) carries the
+technique's newest clause — a debounce is not a race guard — as a pair of
+before/after sites with the incident written into the comments.
+
+Two library list hooks re-query the server when a filter changes, debounced
+at 250ms so typing does not spam requests:
+`src/features/shared/skills/useSkillsLibrary.ts:57-70` and
+`src/features/shared/memory/useMemoryLibrary.ts:71-84`. In their original
+form the effect cleared only the timer. The comment now at
+`useMemoryLibrary.ts:74-77` records what that produced: "a filter changed
+twice in quick succession left two reads in flight and the SLOWER one won
+the setState — the list showed rows for a filter the user had already moved
+off, with the controls showing the new one." The stale response also ran
+its `finally`, so its `setLoading(false)` stopped the spinner for the read
+still in flight — the corrupted-bookkeeping half of the defect, not just
+the wrong rows.
+
+The sharpest fact matches Tree A's: the correct pattern already existed in
+the same codebase — three times, including *inside the same hook*
+(`useMemoryLibrary.ts`'s `check()` at `:90-97` already held an
+abort-the-predecessor controller) — and the debounced fetch twelve lines
+above it still shipped unguarded, because the debounce read as sufficient.
+Availability is not adoption, in a file-local radius.
+
+The fix scopes an `AbortController` to the filter state that asked
+(`useSkillsLibrary.ts:63-68`): the effect's cleanup clears the timer *and*
+aborts, and `refresh(signal)` checks `signal.aborted` before writing rows
+and before clearing the loading flag (`:33-49`) — "once superseded, the
+request is aborted and neither its rows nor its loading flag may land"
+(`:31-32`). Note the shape: this is abort-as-guard, valid here because the
+abort and the write site share the one signal, so the check on the success
+and `finally` paths is equivalent to a token compare. It differs from the
+technique's centralized mint/compare utility — each hook wires its own
+controller — which is the residual gap: the fourth such hook must
+rediscover the pattern rather than import it.

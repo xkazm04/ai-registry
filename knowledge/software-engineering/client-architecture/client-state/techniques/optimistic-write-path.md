@@ -52,6 +52,17 @@ assumes it is the only writer**, and in a client with concurrent
 mutations and background revalidation it never is. The two fixes below
 address the two sides, and neither substitutes for the other.
 
+A third measure, standard practice in mature cache layers, narrows the
+second window without closing it: **cancel or pause the entity's
+in-flight revalidations at paint time**, so a refetch already in the air
+cannot land on top of the optimistic value mid-attempt. It is worth
+doing — the common "my optimistic update didn't stick" report is exactly
+a pre-paint refetch resolving after the paint — but it is a mitigation,
+not the guarantee: a revalidation dispatched *after* the paint (an
+invalidation event, a focus return) still lands, which is why the
+conditional revert below remains load-bearing even where cancellation
+is wired.
+
 ## Serialize per entity: the mutation mutex
 
 At most one in-flight mutation per entity identity; a second attempt

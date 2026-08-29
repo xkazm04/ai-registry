@@ -65,6 +65,18 @@ work, but abort is advisory — the response may already be in flight, and an
 aborted request still resolves its bookkeeping. **The token check remains
 the guarantee; cancellation is an optimization layered on it.**
 
+A debounce or a throttle is **not a member of this family**, and the
+mistake of counting it as one recurs in codebases that otherwise know
+better. A timer bounds how often requests *leave*; it says nothing about
+the order responses *land*. Two dispatches that clear the timer — a pause
+between keystrokes, a retry that bypasses the throttle, two changes
+outside the window — are back to the bare race, with the added hazard
+that the code now *reads* as guarded, so review passes it and the guard
+is never added. The tell is a debounced fetch whose completion writes
+unconditionally: the timer prevented the spam and left the overwrite.
+Rate-bounding and write-arbitration are different properties; a mature
+fetch path frequently needs both, and neither substitutes for the other.
+
 ## In-flight deduplication keyed by argument
 
 The guard for *shareable* requests — those where concurrent callers want

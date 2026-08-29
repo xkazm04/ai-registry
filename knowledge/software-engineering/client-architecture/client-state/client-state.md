@@ -73,6 +73,21 @@ stored value names how it is recomputed and when
 because a cached derivation without an invokable recomputation path is a
 future discrepancy with no arbiter.
 
+One boundary case has grown common enough to name, because it wears the
+clothes of server state while obeying none of its rules: the **replicated
+record** — a durable local copy kept convergent with a remote peer by a
+sync layer, the architecture a client adopts when it must operate
+disconnected or answer every read locally. A replica is not a cache: it is
+written locally as truth, it pushes back, its conflicts are resolved by
+policy rather than by refetch, and persisting it is the design rather than
+a violation of "server state does not earn persistence." Classify it as
+its own species, owned by the sync machinery
+([sync-replication](../../backend-platform/data-layer/sync-replication/sync-replication.md)), and keep this
+subject's cache disciplines — invalidation, refetch, staleness — away
+from it: repairing a replica by refetch is exactly the category error
+that machinery exists to prevent. The rest of this subject assumes the
+cache model; where a datum is a replica, the sync subject's rules win.
+
 Species errors, for recognition:
 
 | Error | Symptom |
@@ -229,8 +244,10 @@ where a policy that has changed since the write is consulted, are the
 A cache of server state is wrong the moment the authority changes; the
 question is how the client finds out. Polling — refetch on a timer, refetch
 on every focus, refetch on navigation — is the default that emerges without
-design, and it combines the worst properties: maximal load, and staleness
-still bounded only by the interval.
+design, and as the *primary* mechanism it combines the worst properties:
+maximal load, and staleness still bounded only by the interval. (A focus or
+reconnect refetch has one legitimate role — a re-entry point after a period
+of known blindness — which is different from being the freshness design.)
 
 The standard is **event-driven, surgical invalidation**: the system that
 changes data emits the fact that it changed, carrying enough identity to

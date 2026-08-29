@@ -101,6 +101,30 @@ The safe default is invalidate; patch is an optimization adopted per entry
 kind, with the drift risk owned. Hybrid is often right: patch the visible
 list row for immediacy, invalidate the detail entry behind it.
 
+## Invalidation reaches readers, not only entries
+
+Marking an entry wrong is half of a delivery; the other half is the
+mechanism by which its *readers* find out, and that mechanism is a
+property of where the cache lives. A store's subscribers are notified on
+write, so invalidating a store entry reaches every mounted consumer for
+free. A bare module-scoped cache has no subscribers: its readers are
+whoever calls it next, and a reader that fetched once at mount will not
+call again until it remounts. In a long-lived shell that keeps its panels
+mounted, "the next read" is the next navigation — which may be the end of
+the session — so a perfectly timed invalidation clears the entry and
+changes nothing on screen.
+
+So every invalidation names its delivery: either the cache is wired to a
+subscription mechanism (the store's, or its own registry of mounted
+readers, each entry reaped by the unmount that registered it) and the
+invalidation *pushes* — refetch once, hand the result to everyone — or
+the design states explicitly that staleness until remount is acceptable
+for this datum. Push only when someone is listening: an invalidation
+that refetches into an empty audience converts cache-busting into
+unprompted load. The failure mode this section exists for is the middle
+state — an invalidation call that looks complete, a cache that is
+genuinely cleared, and mounted readers that were never told.
+
 Refresh failures scope to what was refreshed. One entity's failed
 revalidation marks *that entry* suspect and keeps the rest of the family
 loaded; flipping a whole family's status because one member's refetch died
