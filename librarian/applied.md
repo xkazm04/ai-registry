@@ -16,6 +16,16 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 | Date | Technique | Subject | Project | Mode | Verdict | Return condition / note |
 | --- | --- | --- | --- | --- | --- | --- |
 
+## Backtest waves
+
+| Date | Projects | Pairs judged | Technique C / D / N-A / U | Proposals | Note |
+| --- | --- | --- | --- | --- | --- |
+| 2026-08-29 | personas, gravity | 150 | 193 / 364 / 503 / 37 | 64 | [[backtests/2026-08-29-personas-gravity-wave-1]] |
+
+A backtest verdict is not an A/B row: `conformant` says the project already realizes
+the technique (the seam exists and holds), `deviation` names the seam where an A/B is
+owed. Rows in the table above are minted from deviations, one project per technique.
+
 ## Unapplied backlog (owed, oldest first)
 
 - `oracle-frozen-during-repair` (quality-gates) - landed 2026-08-29 by intake; candidate
