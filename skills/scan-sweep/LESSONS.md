@@ -1063,3 +1063,49 @@ that check stays cheap.
 - Same moonshot shape as the systedo-case entry above, run the same day on a 54-context map: 11 group scouts → 45 L/XL cards → 37 deck items → 37 in-terminal decisions. Corroboration held again as the top ranking signal (4 scouts → the open corpus, 3 → the control-event ledger).
 - **A background subagent's `.output` transcript file can be EMPTY after it completes** — 9 of 11 here were 0 bytes; the result existed only in the completion notification. In a fan-out, write each result to the scratchpad the moment its notification arrives (decode `&amp;`/`&lt;` HTML entities — the notification escapes them), or a context compaction erases the round's evidence. Never plan to "collect the transcripts at the end".
 - The outbox's 30-findings-per-pass cap and a 37-decision deck do not fit: the durable record of a triaged moonshot round belongs in the repo's backlog doc (a decision table with contexts, size, gate, decision), with the outbox carrying the top-30 bodies. A deferred decision that lives only in an undrained outbox is a decision that will be re-proposed.
+## 2.7.0 - 2026-08-29 - gravitone-gcloud
+
+- **§2 loads the backlog digest but not the OUTBOX HEADROOM, and the outbox is
+  the harder cap.** This repo's `.personas/memory-outbox.jsonl` was at 188 lines
+  / 28 finding lines when the round began, against a documented ingest cap of 200
+  lines and 30 findings. So the round had room for exactly TWO findings before it
+  read a line of code, and no amount of good work could change that - the app
+  drains the file on ingest and there is no bridge route that does (four
+  candidates probed, all 404). Five findings were built and five backlogged;
+  three of the five could not be recorded at all. The four rounds before this one
+  each noted "outbox near cap" or "at cap" in their snapshot notes and each
+  dropped findings the same way, while the coverage ledger recorded every context
+  as swept. §9 handles this as a reporting footnote ("say which findings did not
+  fit"), which is the right instruction at the wrong TIME: by then the analysis is
+  paid for. **§2 should count the outbox's lines and finding lines alongside the
+  digest, and a round that opens with fewer than ~4 finding lines of headroom
+  should tell the operator BEFORE it scans**, because draining it is a ten-second
+  UI action and the alternative is a round whose findings exist only in a
+  transcript.
+
+- **Some claims are witnessable by neither rung, and naming that is what selects
+  the source ratchet.** A React external store read through `useSyncExternalStore`
+  cannot be exercised by a Node probe lane with no DOM, and this repo's live lane
+  explicitly refuses "claims about a module". The reflex is to call it ungateable
+  and reach for veto 3. But the thing that actually decays is not the behaviour -
+  it is the WIRING, and wiring is source-shaped: a fourth store added later and
+  never joined to the surface's clear. Deriving the population off the filesystem
+  turned an ungateable behaviour into a gateable invariant, and the failure message
+  became the design question ("decide whether Clear must reset it") rather than an
+  assertion. Worth stating as a move: before accepting veto 3, ask whether the
+  DURABLE half of the claim is structural even when the dynamic half is not.
+
+- **§7.6's "seed a violation" earns its keep on the ratchet half, not the direct
+  half.** Both probes written this round were seeded. The direct assertions failed
+  exactly as expected and taught nothing. The seeds that mattered were the ones
+  that separated cases: drifting the opt-in id set by ONE card turned exactly one
+  of six cases red and left the other five green, which is what proved the cases
+  test different things rather than the same thing six ways. A probe suite that
+  goes all-red under every seed is one assertion wearing six names.
+
+- Yield: 10 findings / 23 lens-passes = 0.43 per pass. Five built. The two highest
+  came from tracing a DOCUMENTED CLAIM to the code that was supposed to honour it
+  ("a reload starts clean, which is what lib/jobs already tells the user happened"
+  - it does not, for the only case a user meets) rather than from a defect shape.
+  §4.6's pair-hunting names "a doc's stated rule vs the code" last in its list; on
+  a codebase this heavily commented it should be first.
