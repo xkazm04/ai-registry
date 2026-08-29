@@ -9,10 +9,13 @@ funnel loses most at under the table; that stage is the next run's declared focu
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 0.15.0 | 2026-08-29 | ai-native-sdlc-and-ci-on-call | 2 | 15 | 8 | 5 | 0c/0e/0s | 0 | Phase 7.5 did not exist; run landed five and applied none. Backfill owed: `oracle-frozen-during-repair`, and the four amendments. |
+| 1.0.0 | 2026-08-29 | apply wave 1 (backtest deviations, personas + gravity) | 0 (no source - apply-only run) | 0 | 0 | 0 | 24c/4e/1s | 23 of 24 branches merged (same day, director-reviewed diff + project gates: tsc, 188 vitest, 312 playwright-node) | First run of the apply lane. 29 rows: 27 better / 1 not-better / 1 unmeasurable. One branch held: its gate is deliberately red until a repair lands. |
 
 ## Weakest stage, as of the latest row
 
-**apply** - the funnel is 2 -> 15 -> 8 -> 5 -> 0 -> 0. Every stage before apply is
-converting; nothing after landing is. Next run's focus: apply. Its row must show a
-non-zero apply column or the reason it could not, and `/intake apply
-oracle-frozen-during-repair` is the first backfill.
+**research** - with 23 of 24 branches merged the apply and ship stages both convert,
+and the wave that produced them consumed no external source at all: it ran on the
+backtest's deviations. The funnel's front is now the one not being fed - the next run
+should be a real `/intake <url>` whose landings are applied in the same run, so the
+whole pipeline is exercised end to end rather than in two halves. Secondary, unchanged:
+every Rust seam fell to experiment or simulation for want of a warm cargo gate.

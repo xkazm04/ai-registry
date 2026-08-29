@@ -113,3 +113,18 @@ dispatchers, and sweepers read the in-memory registry; the moment consumers
 read the mirror directly, its write cadence becomes a user-facing freshness
 contract and the lazy-write latitude above disappears. One reader, one
 moment: the next startup.
+
+## The one sanctioned second reader
+
+Post-hoc run accounting is the exception, and it is narrow enough to state.
+A harvest that must close a run the orchestrator did not survive cannot ask
+the in-memory registry: memory was rebuilt at startup and never knew the
+sessions that ended in the gap. Only the mirror holds them. So accounting
+over *settled* history is a second reader, and it is admitted on one
+condition — **it reads terminal entries only**. Terminal transitions are the
+mirror's durably-flushed class already, so a reader confined to them imposes
+no freshness contract on the lazy fields and the write latitude above
+survives intact. What stays forbidden is unchanged: no dispatcher, sweeper,
+or dashboard reads a non-terminal entry from the mirror, because the moment
+live state is served from it, its write cadence becomes a promise the mirror
+was built not to make.

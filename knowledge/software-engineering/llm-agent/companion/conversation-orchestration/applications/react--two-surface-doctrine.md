@@ -5,12 +5,15 @@ subject: conversation-orchestration
 technique: two-surface-doctrine
 stack: react
 status: forged
-verified_on: 2026-08-23
+verified_on: 2026-08-29
+verified_against: react@19
 ---
 
-# Two dimensions in the Personas companion
+# Two dimensions in the companion
 
-Personas states the doctrine as product law and then enforces it in code. The
+*Verified against the project tree at `2b5e24223`.*
+
+This tree states the doctrine as product law and then enforces it in code. The
 feature README's "Two dimensions: chat and orb" section
 (`docs/features/companion/README.md:28-38`) declares that the companion
 communicates on exactly two surfaces: the chat panel is "the full-information
@@ -86,11 +89,6 @@ technique now carries:
 > the same `1`–`9` the full-app triage deck uses to fire a card's branch, and
 > with both on `window` one press did both.
 
-**Deviation, in the sibling surface.** `QuickReplies.tsx:21-35` still binds its
-digit accelerator with a raw `window` listener guarded only against `input` and
-`textarea` targets — the exact arrangement the orb layer had to abandon. One of
-the two surfaces learned the lesson.
-
 ## Ambient priority: an answer outranks an announcement
 
 `orb/RemoteJobNoticeChip.tsx:55` returns null whenever a decision is pending,
@@ -103,8 +101,96 @@ to clear itself on a TTL.
 
 **Partial.** The bubble can be collapsed to a small source-iconed chip rather
 than dismissed (`OrbDecisionBubble.tsx:81`, `:204-209`, `:346-347`), which keeps
-a pending decision visible without occupying the screen — good. But a decision
-the user declines or lets expire is not recorded as a distinct outcome anywhere
-this reconcile could find: `runDecisionOption` records a `decision_resolved`
-signal (`resolveDecision.ts:51-55`) and there is no matching declined or expired
-signal, so "the ambient channel is being ignored" is not currently observable.
+a pending decision visible without occupying the screen — good.
+
+## The complementary-condition contract, made failable
+
+The interesting addition since this document was first written is not a new
+rule — it is that the "never both, never neither" contract stopped being a
+comment and became an **oracle that names the surface**.
+
+`src/test/automation/bridge.ts:748-782` exposes a QA snapshot of the decision
+flow, and one of its fields answers the doctrine directly
+(`:759-768`):
+
+```ts
+// Athena has exactly two communication dimensions. A pending decision is
+// ALWAYS on one of them: the orb bubble when the orb exists (minimized,
+// or lifted over an open Fleet grid), otherwise the in-chat decision card
+// (`athena-chat-decision`). `'none'` here means an invisible decision —
+// the exact regression the third-dimension removal must never introduce.
+decisionSurface: !c.pendingDecision
+  ? null
+  : c.state === 'minimized' || sys.fleetGridOpen
+    ? 'orb'
+    : 'chat',
+```
+
+Three properties make this worth copying, and they are properties of the
+*shape*, not of this product.
+
+**It reports which surface, not whether one exists.** A boolean
+(`decisionHasSurface`) would have been the obvious instrument and would have
+been strictly weaker: it can only fail when the decision is invisible, and it
+would have passed the entire class of bugs where a decision renders on the
+wrong dimension — the ambient surface holding something that needed reading,
+the chat card firing while the orb is up. A three-valued report is a
+regression detector for the routing rule as well as for the hole.
+
+**The failure value is defined in advance, in the code, as the thing that
+must never happen.** `'none'` is not an error path or an absent case; it is
+named in the comment as "the exact regression the third-dimension removal
+must never introduce". The doctrine's argument — that retiring the third
+surface is only safe if the two remaining ones are exhaustive — is exactly
+what `'none'` is the negation of. `null` is kept separate for "no decision
+pending", so the instrument distinguishes *nothing to route* from *routed
+nowhere*, which is the distinction a boolean collapses.
+
+**It derives the answer from state, not from the DOM.** The expression reads
+`pendingDecision`, the companion's `state`, and `fleetGridOpen` — the same
+three values the two components' visibility predicates read
+(`OrbDecisionBubble.tsx:150`, `ChatDecisionCard.tsx:40-41`). That is what
+makes it an oracle for the *contract* rather than for one rendering: a
+scripted check can assert the expected surface for a posture before any
+component is asked to render, and the assertion still holds if the markup is
+rewritten.
+
+## What this realization cannot do or prove
+
+- **The oracle re-implements the predicate it certifies.** `bridge.ts:766-768`
+  computes `c.state === 'minimized' || sys.fleetGridOpen` — the same
+  expression that appears in `OrbDecisionBubble.tsx:150` and, negated, in
+  `ChatDecisionCard.tsx:40`. It is now a third copy of the condition rather
+  than a reader of it. If someone adds a fourth posture in which the orb
+  exists, the two components and the oracle drift independently, and the
+  oracle keeps reporting confidently. The instrument that would actually
+  close this exports the predicate once and has all three call it — the
+  bundle's own one-authority law, applied to a boolean instead of to a
+  vocabulary.
+- **It has no in-tree consumer.** `decisionSurface` is defined at
+  `bridge.ts:764` and referenced nowhere else in the tree — the bridge is
+  driven by scripted QA from outside. So this is a *reportable* fact, not an
+  asserted one: nothing in the test suite fails when it returns `'none'`, and
+  nothing in CI would notice. Prose made failable is a real upgrade over
+  prose; prose made failable by a runner nobody has wired is still one wiring
+  step from being a gate.
+- **The exclusivity clause is untested by any of this.** The keyboard claim
+  registers through `useAppKeyboard` with the comment "any overlay that
+  claims the keyboard is served first and this layer yields"
+  (`AthenaOrbLayer.tsx:113-116`) — which is priority language, not exclusive
+  language. Nothing here demonstrates that a digit pressed while the orb is
+  armed reaches *only* the orb; the deviation below is the direct evidence
+  that it does not.
+- **Deviation, in the sibling surface.** `QuickReplies.tsx:21-36` still binds
+  its digit accelerator with a raw `window` listener guarded only against
+  `input` and `textarea` targets — the exact arrangement the orb layer had to
+  abandon. One of the two surfaces learned the lesson, and the oracle above
+  cannot see the other one, because it reports where a decision *renders* and
+  says nothing about who receives the keystroke that answers it.
+- **Ignoring is still unobservable.** A decision the user declines or lets
+  expire is not recorded as a distinct outcome anywhere in the tree:
+  `runDecisionOption` records a `decision_resolved` signal
+  (`resolveDecision.ts:51-55`) and there is no matching declined or expired
+  signal, so "the ambient channel is being ignored" — the one measurement the
+  doctrine's dismissal-is-an-outcome clause exists to protect — cannot be
+  taken. The surface is proven present; nothing proves it is answered.

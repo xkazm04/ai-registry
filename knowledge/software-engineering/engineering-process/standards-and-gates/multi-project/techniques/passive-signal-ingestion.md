@@ -130,3 +130,14 @@ without exception:
   the tab glyph all show *blind*, distinctly from *quiet*.
 - Watch freshness is itself a signal: "last successfully observed" is part
   of the project's summary row, so even the success path carries its age.
+
+- The verdict is also the **cursor's gate**. A watcher that reads
+  incrementally holds a position — a last-seen stamp, a head pointer, a
+  since-mark — and a could-not-observe pass must not advance it. Advancing on
+  a failed pass converts a transient blindness into permanent loss: the
+  window the watcher could not read is never offered again, and the next
+  successful pass reports quiet over a gap nothing will revisit. So the
+  position moves only on a verdict that actually observed, and where the
+  watcher is a stateless poll, the position and the blind-since stamp live on
+  the same durable subscription record and are written in one act — no path
+  may update one without the other.

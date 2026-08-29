@@ -2295,3 +2295,53 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   count. This is the floor that stops "we could not test it" from being an exit.
 - **Not done in this session:** the backfill. The five landings from the morning run
   are the first rows owed; the scorecard says so and names the first one.
+
+## 1.0.0 - 2026-08-29 - apply wave 1 (personas + gravity)
+
+- **The apply lane converts when it is fed deviations, not techniques.** Seven Opus
+  workers, 29 rows, 24 in code mode with a project gate that saw A and B. The input
+  that made this cheap was the backtest wave's `conform-detail.json`: every row started
+  from a seam with a file:line and a stated consequence. `/intake apply <technique>`
+  without a prior conform verdict would have spent its budget finding the seam.
+- **Twenty-four of twenty-nine rows are TypeScript.** Every Rust seam - including the
+  strongest defects in the wave (relay ingress accepting unsigned events, tombstones
+  never written, notice-delivery contradicting its own contract) - fell to
+  `experiment` or `simulation`, because a cold worktree has no cargo target and the
+  workspace test build is priced at an 8.9 GB peak. The instrument the next wave needs
+  is a warm Rust gate, not more workers.
+- **The brief's frontmatter template was wrong** (`verified_against: <project>@<sha>`);
+  `check-bundles` requires `<stack>@<version>`. Two workers noticed and adapted, five
+  followed the brief. Fixed after the fact by the director; the sha now lives in the
+  body. The brief must be checked against the gate before fan-out - a template error
+  costs N corrections.
+- **A `not-better` arrived on the first wave and it is the best row.** Drawing the
+  evidence-class chip changed 1 of 21 cards because the underlying `sources[]` was
+  empty everywhere except the one fact a defect had forced someone to correct. The
+  technique held; the tree was not ready for it. That is what the return condition is
+  for.
+- **Ship is now the weakest stage**, by construction: 24 branches, none merged. The
+  lane must not mint branches faster than the operator reads them - a `code` row whose
+  branch is never merged is a wiki page with a commit hash.
+
+## 1.0.0 - 2026-08-29 - apply wave 1 follow-ups (branch merge + repair)
+
+- **A worktree commit can fail silently and `worktree remove --force` then destroys
+  the work.** The project's pre-commit hook runner was not on PATH inside the
+  worktree ("Can't find lefthook in PATH"), the commit aborted, my grep for errors
+  hid it, and the forced removal discarded nine edited files. The edits were scripted
+  so the redo cost minutes; unscripted edits would have been lost. Rule for the apply
+  lane: after committing in a worktree, assert the commit landed (`git log -1` shows
+  your subject) BEFORE removing the worktree, and never filter a commit's output.
+- **Verify the brief's gate before fan-out, again.** `cargo check` on the app crate
+  fails on this machine before any source compiles (a Tauri permission-manifest
+  lookup in the build script) - in the main checkout too, not just in worktrees. Every
+  Rust seam in the wave fell to experiment/simulation for this reason, and the
+  scorecard called it "no warm gate" when it is "no gate at all": the library crates
+  (`core`, `engine`) check fine. Name the crate a Rust gate can reach, not the workspace.
+- **Addendum, same day: the "unreachable" Rust gate was one flag away.** The build
+  script failed because a capability referenced an optional plugin that plain
+  `cargo check` never compiles; the project's own CI runs `--features desktop`, and
+  with that flag the whole workspace checks warm in minutes - the event-registry
+  repair is now compile-verified, not just statically argued. The rule: the gate a
+  project's CI actually runs IS the gate; read the workflow file before declaring a
+  gate unreachable.

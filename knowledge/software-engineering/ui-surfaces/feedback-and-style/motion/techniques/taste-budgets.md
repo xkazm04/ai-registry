@@ -63,6 +63,18 @@ named, and single-sourced* is the technique. A defensible starting frame:
   capped by count, so a long list ripples its first screenful and the rest
   arrive plainly. An entrance the user can outrun with their eyes is
   delaying data for theater.
+
+  That cap is a budget on **attention**, and it must not be read onto a delay
+  adopted for **cost**. Spreading the arrival of content already in hand, so
+  that a large collection does not commit in one frame, is a scheduling
+  decision rather than a gesture: it buys frame budget, its length is set by
+  the size of the work, and no entrance cap governs it because it is not an
+  entrance. The two stay distinguishable in both directions. A cost-driven
+  deferral may not borrow the entrance vocabulary — no easing, no travel, no
+  stagger token — or it becomes an unbudgeted choreography the cap can no
+  longer see. And an entrance may not be stretched to relieve render cost;
+  the instrument for that is windowing the collection, after which the
+  visible screenful gets its entrance and stays inside the cap.
 - **Ambient travel bound: a few pixels.** Idle motion moves a handful of
   pixels at most, over seconds, not hundreds of milliseconds. The test:
   from reading distance, a resting surface should feel alive only when the

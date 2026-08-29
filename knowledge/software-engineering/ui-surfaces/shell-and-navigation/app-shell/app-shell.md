@@ -10,13 +10,18 @@ techniques:
   - badge-and-attention
   - shell-hosted-services
   - lazy-section-loading
+  - fixed-chrome-offset-budget@long-form-reading-surface
 ---
 
 # App shell & navigation
 
 The shell is the persistent frame around every page: the primary navigation,
 the window or title chrome, the status surfaces, and the viewport the pages
-render into. Two properties define it, and everything in this standard follows
+render into. Because the shell owns the fixed chrome, it also owns the chrome's
+*geometry*: every element pinned against it is an independent estimate of one
+height unless a single owned module states it, which is
+[fixed-chrome-offset-budget](../../published-surfaces/long-form-reading-surface/techniques/fixed-chrome-offset-budget.md),
+shared from the reading-surface subject where it was first forged. Two properties define it, and everything in this standard follows
 from them:
 
 - **The shell never unmounts.** Pages come and go on every navigation; the

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
   "techniques": 995,
-  "applications": 443,
+  "applications": 471,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -141,6 +141,13 @@
      "technique": "live-region-architecture",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--live-region-architecture.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "preference-respect",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--preference-respect.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -679,6 +686,13 @@
      "technique": "cycle-and-depth-guards",
      "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/node--cycle-and-depth-guards.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "stop-reason-ledgers",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/node--stop-reason-ledgers.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "rust",
@@ -1406,6 +1420,13 @@
      "technique": "range-precedence-resolution",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/node--range-precedence-resolution.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "react",
+     "technique": "calendar-arithmetic",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/react--calendar-arithmetic.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "sql",
@@ -2435,6 +2456,13 @@
     },
     {
      "stack": "rust",
+     "technique": "capability-feature-gating",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/applications/rust--capability-feature-gating.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
      "technique": "compilation-unit-splitting",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/applications/rust--compilation-unit-splitting.md",
      "verified_on": "2026-08-18"
@@ -3151,9 +3179,23 @@
    "applications": [
     {
      "stack": "react",
+     "technique": "async-race-guards",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--async-race-guards.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "identity-scoped-eviction",
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--identity-scoped-eviction.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "persistence-and-migration",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--persistence-and-migration.md",
+     "verified_on": "2026-08-29",
      "verified_against": "react@19"
     },
     {
@@ -4181,6 +4223,13 @@
     },
     {
      "stack": "react",
+     "technique": "catalog-as-data",
+     "file": "knowledge/software-engineering/integration/connector-catalog/applications/react--catalog-as-data.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "schema-driven-forms",
      "file": "knowledge/software-engineering/integration/connector-catalog/applications/react--schema-driven-forms.md",
      "verified_on": "2026-08-18"
@@ -4333,7 +4382,8 @@
      "stack": "react",
      "technique": "two-surface-doctrine",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--two-surface-doctrine.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -4592,6 +4642,20 @@
      "technique": "token-refresh-lifecycle",
      "file": "knowledge/software-engineering/security/credential-vault/applications/go--token-refresh-lifecycle.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "react",
+     "technique": "rotation-and-remediation",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/react--rotation-and-remediation.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "acquisition",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/rust--acquisition.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -4950,6 +5014,13 @@
      "technique": "chart-loading-economics",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/react--chart-loading-economics.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "empty-and-degraded-chart-states",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/applications/react--empty-and-degraded-chart-states.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -5631,7 +5702,8 @@
      "stack": "react",
      "technique": "token-enforcement",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/react--token-enforcement.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -5870,6 +5942,13 @@
      "technique": "computation-offload",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--computation-offload.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "diff-honesty",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--diff-honesty.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -6282,6 +6361,13 @@
      "technique": "draft-model",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/applications/react--draft-model.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "field-defaults-and-bounds",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/applications/react--field-defaults-and-bounds.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -7606,6 +7692,13 @@
      "verified_on": "2026-08-22"
     },
     {
+     "stack": "react",
+     "technique": "session-registry",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/react--session-registry.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
      "stack": "rust",
      "technique": "brief-carries-the-session",
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--brief-carries-the-session.md",
@@ -8028,6 +8121,13 @@
      "verified_on": "2026-08-22"
     },
     {
+     "stack": "react",
+     "technique": "three-state-outcomes",
+     "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/react--three-state-outcomes.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
      "stack": "rust",
      "technique": "probe-caching",
      "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/rust--probe-caching.md",
@@ -8224,6 +8324,13 @@
      "technique": "cosmetic-vs-enforced-threshold-invariant",
      "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--cosmetic-vs-enforced-threshold-invariant.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "fail-loud-classification-default",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--fail-loud-classification-default.md",
+     "verified_on": "2026-08-29",
      "verified_against": "react@19"
     },
     {
@@ -9126,7 +9233,9 @@
       "one-authority-per-vocabulary",
       "derivation-names-recomputation"
      ],
-     "shared_with": [],
+     "shared_with": [
+      "app-shell"
+     ],
      "use_when": [
       "an anchor jump lands with the heading hidden under the header",
       "two pinned bars overlap",
@@ -9403,6 +9512,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "rust",
+     "technique": "editor-interop",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--editor-interop.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.96"
+    },
     {
      "stack": "rust",
      "technique": "knowledge-integrity-lint",
@@ -10902,6 +11018,13 @@
      "technique": "passive-signal-ingestion",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/applications/rust--passive-signal-ingestion.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "project-identity-and-joins",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/applications/rust--project-identity-and-joins.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -13089,6 +13212,13 @@
      "technique": "gate-laddering",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-laddering.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "react",
+     "technique": "policy-projection",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/react--policy-projection.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -13464,6 +13594,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "event-registry",
+     "file": "knowledge/software-engineering/client-architecture/realtime-events/applications/node--event-registry.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
     {
      "stack": "react",
      "technique": "subscription-lifecycle",
@@ -14939,6 +15076,13 @@
      "verified_on": "2026-08-22"
     },
     {
+     "stack": "react",
+     "technique": "incident-promotion",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/react--incident-promotion.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
      "stack": "rust",
      "technique": "effectiveness-accounting",
      "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--effectiveness-accounting.md",
@@ -15037,6 +15181,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "first-run-and-quiet-silence",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/react--first-run-and-quiet-silence.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
     {
      "stack": "react",
      "technique": "last-seen-anchors",
@@ -16363,6 +16514,13 @@
      "technique": "conflict-detection-and-policy",
      "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/rust--conflict-detection-and-policy.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "tombstone-propagation",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/rust--tombstone-propagation.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -16694,6 +16852,13 @@
      "technique": "readiness-prerequisites",
      "file": "knowledge/software-engineering/integration/templates-scaffolding/applications/react--readiness-prerequisites.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "template-anatomy",
+     "file": "knowledge/software-engineering/integration/templates-scaffolding/applications/react--template-anatomy.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -16809,6 +16974,13 @@
      "technique": "attach-detach-lifecycle",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/react--attach-detach-lifecycle.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "keystroke-injection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/react--keystroke-injection.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -16978,6 +17150,13 @@
      "technique": "live-app-harness",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--live-app-harness.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "suite-partitioning",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--suite-partitioning.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "rust",
@@ -17406,6 +17585,13 @@
     },
     {
      "stack": "react",
+     "technique": "queue-ordering-and-identity",
+     "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/react--queue-ordering-and-identity.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "source-normalization",
      "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/react--source-normalization.md",
      "verified_on": "2026-08-18"
@@ -17701,6 +17887,13 @@
    "applications": [
     {
      "stack": "react",
+     "technique": "activation-and-funnel-honesty",
+     "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/react--activation-and-funnel-honesty.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "batching-and-quota",
      "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/react--batching-and-quota.md",
      "verified_on": "2026-08-18"
@@ -17710,6 +17903,13 @@
      "technique": "coverage-from-registries",
      "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/react--coverage-from-registries.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "sink-abstraction",
+     "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/react--sink-abstraction.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },

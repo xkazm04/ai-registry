@@ -603,9 +603,9 @@
       "purity": "software",
       "subjects": 16,
       "techniques": 100,
-      "applications": 49,
-      "files": 170,
-      "contentHash": "sha256:861b73276ff300bf"
+      "applications": 51,
+      "files": 172,
+      "contentHash": "sha256:286bc38a7e822aeb"
     },
     {
       "name": "localization",
@@ -629,9 +629,9 @@
       "purity": "media",
       "subjects": 20,
       "techniques": 130,
-      "applications": 48,
-      "files": 203,
-      "contentHash": "sha256:3fba30acd782397f"
+      "applications": 53,
+      "files": 208,
+      "contentHash": "sha256:9193937b0bd14241"
     },
     {
       "name": "recruiting",
@@ -655,9 +655,9 @@
       "purity": "software",
       "subjects": 151,
       "techniques": 995,
-      "applications": 443,
-      "files": 1594,
-      "contentHash": "sha256:6ac83cdcb56394e3"
+      "applications": 471,
+      "files": 1622,
+      "contentHash": "sha256:02f5f5104a7f83f5"
     }
   ]
 }

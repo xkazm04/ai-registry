@@ -109,3 +109,5 @@ overridden, this grid keeps its universal-time weeks while the window moves,
 which is precisely the split-brain signature the
 [canonical-zone](../techniques/canonical-zone-single-source.md) technique
 describes.
+
+---

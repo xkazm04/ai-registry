@@ -41,6 +41,18 @@ Two consequences follow directly:
   generation through a panel multiplies cost by N for a consistency gain the
   voting baseline already had.
 
+**Role diversity is not family diversity, and the third arrangement is the one
+that gets miscounted.** A common shape sits between the two above: seats drawn
+from one provider's tiers, driven by materially different role prompts. It is
+not a sampling run — the seats are not the same weights asked the same thing N
+times — and it is not a panel, because the errors it would need to decorrelate
+are trained in, and no prompt reaches them. Agreement across such seats is
+evidence that the decomposition held: each role did its own job and nothing
+contradicted. That is worth having and worth pricing as what it is, but it
+must never be recorded in the concordance column. The test is mechanical — ask
+what the seats were trained apart on, not what they were told. If the answer is
+"nothing", the run bought division of labour, not independence.
+
 ## Round one is the product
 
 Elicit every member's position **before any member sees another's**.

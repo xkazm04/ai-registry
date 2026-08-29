@@ -162,6 +162,23 @@ touched. When the reason a gate cannot block lies inside the repository, reach
 for a ratchet; when it lies outside, a ratchet is the wrong instrument and the
 answer is the split above.
 
+## When the gated act is not a commit
+
+The axis assumes the gate's subject is the tree: a verdict that moves on its
+own cannot be attributed to the change being refused. Where the subject is an
+**irreversible activation** — arming a live integration against real
+credentials, publishing an endpoint the outside world will call, promoting a
+key — the assumption inverts. What is being gated *is* the interaction with
+the moving system, so a verdict computed without touching it is exactly the
+false green the gate exists to prevent, and the externally-fed check blocks.
+
+Determinism still decides something here, but it decides the outcome
+vocabulary rather than the permission. Such a gate needs the could-not-run
+rung [gate-liveness](./gate-liveness.md) already demands, and an upstream
+transport failure resolves there: refuse to promote, spend no repair budget,
+and say which of the two happened. Spelling a transport failure as failure
+sends someone to repair a credential that was never wrong.
+
 ## When not to use it
 
 Do not read this as licence to demote a gate because its findings are

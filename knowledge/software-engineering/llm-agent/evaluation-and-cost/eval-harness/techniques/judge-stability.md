@@ -42,6 +42,18 @@ up scoring against divergent standards while reporting into one column.
 Every emitted score carries its packet version — a score without its
 instrument identity attached will inevitably be compared against a score
 from a different instrument
+
+**A pin is verified by what it resolved to, not by what it is named.** The
+alias rule above is usually read as being about a vendor's moving labels, and
+it catches those; the version that survives review is first-party. A constant
+named for a capability tier — the balanced one, the fast one — is an alias with
+a local spelling: it resolves through the system's own roster table, a routine
+roster revision moves it, and in a diff it reads as deliberate pinning. So the
+pin is to a concrete dated identifier, and the identifier the call actually
+resolved to is **stamped onto the run artifact beside the packet version**.
+Without that stamp, the only evidence of which instrument scored a series is a
+constant whose value at scoring time nobody recorded — and the anchor set then
+detects a drift it cannot attribute to anything.
 ([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
 
 ## Measure drift; never assume it away

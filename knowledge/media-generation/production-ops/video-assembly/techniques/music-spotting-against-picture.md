@@ -31,6 +31,20 @@ one moment that needed lift arrives pre-spent. Spotting is rationing.
 2. **Mark in and out points as times on the master clock**, not as scene
    references. A cue may enter mid-scene and exit mid-scene; scenes are
    context, the clock is the address.
+
+   Read that as a rule about the cue's *address*, not about its storage. The
+   address must resolve to a time on the master clock and must stay free to
+   resolve inside a scene; how it is held is a separate question, and the
+   stronger answer is a derivation over the picture — a structural mark plus an
+   offset — rather than a constant somebody read off. Two defects are being
+   forbidden here, not one: a cue positioned by a scene *reference* the renderer
+   cannot turn into a second, and a cue whose typed number nothing recomputes
+   when the picture is retimed. Both put the cue in the wrong place; only the
+   second looks correct while doing it. Storing the derivation costs expressing
+   mid-scene entries and exits as offsets instead of bare times, and buys
+   re-derivation on every retime — pay it, because a cut is retimed far more
+   often than a cue is moved by hand. An absolute time against a structural mark
+   is one form of the derivation, not an alternative to it.
 3. **Attach a purpose to each cue** in one sentence, written for the person
    or model who will produce it: what it builds toward, what it must not
    overwhelm, what happens at its edges ("ducks under narration", "tail

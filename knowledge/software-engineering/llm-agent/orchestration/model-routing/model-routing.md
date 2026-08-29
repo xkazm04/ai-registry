@@ -141,6 +141,21 @@ populated layer is not a cascade** — it is a constant with extra places to loo
 before finding it, wearing the costume of a policy. Before adding a resolution
 layer, count how many of the existing ones have ever held a value.
 
+## Two tables, only one of which is calibrated
+
+The demand that every mapping entry cite the measurement that set it belongs to
+the calibrated table — the class→tier→effort mapping the system owns, where an
+entry is a claim about capability and an uncited entry is an intuition hardened
+into fact. It does not extend to the second table a deployed system grows:
+**operator policy over which providers and models an installation may use at
+all**. That table is not a measurement, it is a permission, and asking it to
+cite evidence is a category error — the reasons behind it are contractual,
+jurisdictional or financial, and no benchmark speaks to them. The governance
+half applies to both without softening: policy is data, validated at one door,
+versioned, diffed, and visible in the decision record. The calibration half
+applies only to the first. Where the two disagree the permission wins, and the
+record says a permission decided.
+
 ## The decision record
 
 A routing decision that cannot be reconstructed afterward is a decision nobody

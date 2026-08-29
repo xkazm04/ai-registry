@@ -41,6 +41,20 @@ answer. The demand this shape makes of records: every write a spoke
 submits carries what the spoke *believed* was current (a version, a base
 hash), so the hub can tell an update from a stale overwrite.
 
+The variant worth naming, because it is reached by accident rather than
+chosen: **a hub that only stores.** N replicas belonging to one principal
+converge on an endpoint that persists whatever arrives — a blind upsert, a
+put — and that endpoint orders writes only in the accidental sense that one
+of them landed last. Read one replica at a time the stream looks like a
+one-way mirror pointed the other way, which is precisely why the conflict
+policy in this shape is the one most often left undeclared: nobody believes
+there is a hub to declare it at. There is. It owes both of the shape's
+obligations unchanged — a *declared* policy, where last-writer-wins is a
+legitimate declaration when every spoke is the same author and an undeclared
+default is not, and the base-version demand above, without which the store
+cannot distinguish an update from a stale overwrite even under a policy that
+says it need not care.
+
 **Peer merge.** Replicas exchange changes with no distinguished
 authority. Concurrent edits are structural, not exceptional, so every
 record must carry enough to detect them — a version vector, a lineage, or

@@ -98,6 +98,19 @@ The contract around it:
   logged reason, never a general "skip verification" flag that live traffic
   could reach.
 
+Re-signing serves reprocessing and defeats diagnosis, and the record is kept
+for both — rejected rows exist so a rejection can be examined, and a replay
+that re-signs enters as a *well-formed* delivery that can never reproduce the
+failure it was invoked to explain. So replay declares which of two intents it
+carries. **Reprocess** re-signs and re-earns admission, exactly as above.
+**Reproduce** presents the recorded request as recorded, original signature
+header included — which means that header is held out of the redaction
+denylist deliberately, as a decision, not by omission — and its outcome,
+rejection included, is the result rather than a malfunction. Reproduce is a
+verification pass against the record, never a second admission path: it mints
+no event and admits nothing. And a reproduce that now passes where the
+original failed is itself a finding, because something in the door has moved.
+
 ## Export: the reproduction leaves the building
 
 The record can emit a self-contained reproduction — the request as a

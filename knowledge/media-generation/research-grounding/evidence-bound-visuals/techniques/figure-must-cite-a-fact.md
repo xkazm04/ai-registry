@@ -62,6 +62,21 @@ merges two adjacent figures — each individually plausible, none sourced.
    collection is more forgiving — a bad scene is still dead — it just stops
    taking its siblings with it.
 
+## When the author is a person, the gate is a count
+
+The procedure above assumes an author that can be thrown at: a generator whose
+output is refused before it reaches the compositor, and re-run at the cost of a
+call. A second author breaks the assumption — a person typing into a field the
+surface has already bound to a fact record. There is nothing to reject there:
+the binding is structural, the value is chosen by hand, and refusing the entry
+destroys a draft rather than a violation. The obligation is unchanged; its
+instrument moves. Carry a standing count of bound against unbound over the
+piece's checkable elements, surface it where the author is working, and let it
+gate the *step's* reported state rather than the keystroke — a step holding
+unbound figures is not complete and says so, in the same place the author reads
+everything else about that step. A throw guards a pipeline; a count guards a
+person, and only the second survives an author who can simply stop typing.
+
 ## Decision rules
 
 - When an element asserts a quantity, it is a figure and must cite —

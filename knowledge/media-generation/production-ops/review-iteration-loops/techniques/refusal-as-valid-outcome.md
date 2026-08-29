@@ -83,6 +83,20 @@ prompts paraphrase. Two engines that each reimplement the rules will drift,
 and the drift surfaces as the same note being refused by one pen and
 honored by the other.
 
+The ordering assumes the guard is at least as certain as the rule it enforces.
+Some guards are not: one that can only see a proxy for the violation — a
+threshold, a heuristic, a check over whichever part of the material happens to
+be machine-readable — inherits the ordering but not the authority, and a hard
+block there makes the guarded path the expensive one and teaches everybody to
+route around it. Keep the ordering and split the outcome. The verdict still
+lands before the result is computed, and proceeding anyway stays available but
+never free: a deliberate second act rather than one click, and an override
+receipt stamped permanently onto the version, carried wherever that version is
+named rather than buried in a log. The violation is then recorded instead of
+prevented, which is the honest trade when the enforcer cannot be sure — and a
+guard whose overrides are all visible is one whose band can be measured and
+widened.
+
 ## When NOT to use it
 
 Refusal is for notes that *cannot* be honored, not notes that are merely

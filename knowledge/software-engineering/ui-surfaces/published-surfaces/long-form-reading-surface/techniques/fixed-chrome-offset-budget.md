@@ -5,7 +5,7 @@ subject: long-form-reading-surface
 technique: fixed-chrome-offset-budget
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
-shared_with: []
+shared_with: [app-shell]
 use_when: [an anchor jump lands with the heading hidden under the header, two pinned bars overlap, a pinned panel stopped pinning after a layout change, choosing where a sticky offset number lives]
 ---
 

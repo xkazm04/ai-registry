@@ -46,6 +46,26 @@ not matter is busywork — the user maintains a layout that encodes nothing. A
 tree or table where topology *does* matter forces the relationship model into
 prose, tooltips, and the user's head.
 
+## The read-only renderer keeps more than it retires
+
+The renderer off-ramp above is a stage of this subject, not an exit from it,
+and it is worth stating what crossing it settles — otherwise every technique
+below has to be re-derived at each renderer-shaped surface, and the ones that
+still bind are the ones quietly dropped.
+
+**Retired:** placement provenance and the user-authored/generated
+distinction, layout persistence and its migrations, the placement policy for
+new nodes, every direct-manipulation mechanic, and — where the diagram is fit
+to its container rather than explored — the transform authority itself.
+
+**Kept, in full:** layout determinism including tie-breaking, because a
+diagram that redraws differently from identical input has lost the one thing
+a generated layout offers; memoization wherever hover or selection re-renders;
+the shared node/edge anchor geometry, since edges float off their nodes for
+the same reason whether or not anyone can drag them; focus-context economy at
+the edge level; and the entire accessibility model, which a generated diagram
+inherits unchanged and unearned.
+
 ## The world transform is the one coordinate authority
 
 Every canvas has two coordinate spaces: **screen space** (where pointer events

@@ -96,6 +96,20 @@ finding without quoted evidence is an opinion with a timestamp, and it
 poisons the pipeline twice — it cannot be verified, and it teaches operators
 that findings in general cannot be trusted.
 
+That requirement is written for a sensor that matches text, and half a mature
+roster is not. A sensor reading an **aggregate** — a spend concentration, an
+error rate, an interval since last use, a proportion crossing a floor — has
+no line to quote, and forcing one on it produces a citation pointing at the
+least informative place the number happened to touch. Its evidence is the
+other shape the laws already demand: the measured value, the predicate it was
+measured under, the threshold it crossed, and the window
+([count-carries-predicate](../../../_laws.md#count-carries-predicate)).
+Verification splits along the same seam. A located finding is re-checked by
+re-reading its location; a measured one is re-checked by **re-running the
+measurement** — the stronger of the two verifiers, because it distinguishes
+resolved from merely moved, and it cannot go stale against a tree that was
+refactored underneath the claim.
+
 ### 4. Verification is a separate pass from detection
 
 **A finding is not a defect until something independent has re-checked it.**

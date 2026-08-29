@@ -62,6 +62,20 @@ they need, and pay only for that fidelity:
 - **On-demand consumers** (persistence, analytics, "resume from here") read
   the reference at the moment of need and store nothing continuously.
 
+One correction to the permission above: the cadence is the consumer's choice,
+but the **shape of the door** is not. A clock exposing a single
+undifferentiated subscription hands every consumer the frame-rate tick and
+asks each to throttle itself, which makes the most expensive subscription the
+shortest correct-looking line in the surface — passing the reactive setter
+straight into it typechecks, runs, looks fine on a fast machine, and
+reintroduces in one call the whole defect this technique exists to prevent.
+So the coarse cadence ships as a **named verb** beside the raw one: a
+bounded-rate subscription that takes its rate, and a frame-rate subscription
+whose name says what it costs. The throttling then lives in the clock, once,
+where its correctness is one implementation rather than one per consumer. An
+interface whose safest use is also its shortest is the only kind that
+survives a second author.
+
 Two details make the fan-out trustworthy in practice:
 
 - **subscription begins with a synchronous sample.** The subscribe call
