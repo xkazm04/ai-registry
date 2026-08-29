@@ -58,6 +58,20 @@ could-not-reach must never be *recorded as a credential failure* — a provider
 outage written into the failure ledger indicts every credential behind it,
 and the indictment outlives the outage.
 
+The vocabulary's width is a property of **every representation the verdict
+passes through**, not only of the surface that renders it. Three narrowings
+recur, and each deletes the third state long before a badge is reached: a
+failure handler that converts an unreachable provider into the rejected
+outcome, because the catch clause has one path out; a persisted column typed
+as a boolean, which holds *verified* and *not verified* and has nowhere to
+put *not verified yet*; and an intermediate accessor whose declared return
+type is narrower than the store's, collapsing the state on the way out. The
+audit is therefore a type walk rather than a screenshot: follow one probe
+result from the call that produced it, through every type it is declared as,
+to the column that stores it, and confirm the third state is representable at
+each hop. Where it is not, the third state exists only in the renderer —
+which is to say it does not exist.
+
 ## Probe design
 
 - **Cheapest authenticated read.** The ideal probe is the provider's

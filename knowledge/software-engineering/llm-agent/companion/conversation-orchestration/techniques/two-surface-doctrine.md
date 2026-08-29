@@ -101,6 +101,16 @@ whose hands are on the keyboard and whose attention is on other work:
   and register it with the application's keyboard authority rather than on the
   global event target: the digits are almost certainly claimed by some other
   surface too, and with both listening directly one press fires both.
+
+  Registering is not sufficient on its own: the claim must be **exclusive for as
+  long as the surface is armed**, not merely higher-priority. A priority order
+  decides who is served first; unless something halts the dispatch, everyone
+  registered is still served — so a priority-ranked binding fires the armed
+  surface *and* whatever else holds that digit, which is the bare-listener defect
+  arriving one layer later and much harder to see, because the ordering looks
+  like the remedy. Exclusivity is also what makes disarming meaningful: releasing
+  a claim is one act with an observable effect, where unwinding a priority stack
+  is bookkeeping, and bookkeeping drifts.
 - **Digits answer.** One keystroke after arming, and the decision is made.
 - **A reserved option always means *explain this, and recommend one*.** Zero is
   the natural key for it. This is the load-bearing detail of the whole

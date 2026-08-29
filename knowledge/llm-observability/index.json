@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
   "techniques": 100,
-  "applications": 49,
+  "applications": 51,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -1680,6 +1680,20 @@
      "technique": "keyset-trace-pagination",
      "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/python--keyset-trace-pagination.md",
      "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "react",
+     "technique": "derived-trace-rollup",
+     "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/react--derived-trace-rollup.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "unpriced-span-accounting",
+     "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/react--unpriced-span-accounting.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",

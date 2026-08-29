@@ -109,6 +109,19 @@ re-creates the stuck/stopped ambiguity one layer down.
 
 - One stop vocabulary, closed, each entry pre-classified success- or
   error-shaped; extending it is a schema change with an owner.
+
+- **Across a language boundary, one authority means generated, not mirrored.**
+  A vocabulary that crosses from the process that writes it to the surface that
+  renders it usually crosses as a bare string, and the reflex guard is a parity
+  test on the far side asserting that its list matches. It cannot: the test's
+  list *is* the far-side copy, so it asserts a hand-kept mirror against itself
+  and keeps passing on the day the two diverge — the gate cannot see its target
+  ([gate-sees-target](../../../../_laws.md#gate-sees-target)). One authority here
+  has one mechanical form: the far side's vocabulary is generated from the near
+  side's definition, so a token that fails to propagate is a build failure rather
+  than a rendered token nobody has a label for. Where generation is genuinely
+  unavailable, the honest fallback is a loud unknown-token path at runtime, not a
+  test that certifies a copy.
 - Every terminal link gets exactly one stop record — including the happy
   path. "Completed" is a written reason, not the absence of one.
 - Records carry evidence and coordinates: reason, operands, chain id,

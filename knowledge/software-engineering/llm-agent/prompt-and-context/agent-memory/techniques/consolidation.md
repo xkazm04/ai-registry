@@ -131,6 +131,19 @@ belong to one family, wants the opposite property and belongs to
 measure follows the question, and a system doing both jobs needs both
 measures.
 
+**And the order the questions are asked in is part of the rule.** A system
+running both measures still has to decide which verdict it tests for first, and
+the intuitive order — duplicate first, because it is the cheap and common case —
+is the one that fails hardest. A genuine contradiction is usually a one-token
+swap of the belief it contradicts: always for never, enabled for disabled, the
+same sentence with its polarity turned over. Under any surface measure that is a
+near-identical pair, so it clears the duplicate threshold comfortably, and the
+sharpest contradictions in the store become the ones a duplicate-first pipeline
+is guaranteed to mislabel — and then offers a merge, which is the overwrite this
+technique forbids, wearing a tidy-up's face. So **test contradiction and
+supersedence before duplicate**, and let the duplicate branch see only what the
+polarity check has already cleared.
+
 A noise floor completes the prefilter: below some overlap, a candidate is not
 worth a reasoner's attention or a human's. And when the reasoner is
 unreachable, the prefilter *is* the answer — degraded, clearly marked as

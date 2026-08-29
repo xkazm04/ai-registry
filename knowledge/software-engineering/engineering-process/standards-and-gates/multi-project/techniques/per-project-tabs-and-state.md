@@ -70,6 +70,19 @@ crash, a reload), reopening the tab **re-attaches to the still-running
 work** rather than rebooting it — the tab was always a handle; the runtime's
 survival is what proves it.
 
+A strip whose tab denotes a **set** rather than one project — a saved
+grouping, a workspace, a scope over the portfolio — is still a handle strip
+and inherits every rule above unchanged. What it adds is an ambiguity a
+single-project tab does not have: every action offered beside it now has two
+plausible reaches. The invariant is that **the active grouping bounds every
+bulk and destructive action taken in its presence** — a select-all selects
+within the group, an archive-all touches nothing outside it — and the active
+grouping is keyed by minted identity like any other durable selection, with
+an explicit guard for a stored id whose group no longer exists. A grouping
+strip whose bulk actions quietly address the whole portfolio is the one
+control an operator cannot afford to be wrong about, and the wrongness is
+invisible until the action has already run.
+
 ## Tabs are a status surface
 
 The tab strip is the one region visible from *everywhere* in the tool, which

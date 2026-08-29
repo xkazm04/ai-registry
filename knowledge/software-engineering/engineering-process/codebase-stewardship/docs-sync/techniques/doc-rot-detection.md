@@ -48,6 +48,23 @@ lie."* The sound vocabulary has three rungs, strictly ordered:
   population, reported with its own count, never eligible for "clean";
 - **fresh** — coupling established, and nothing in it postdates the doc.
 
+A fourth rung sits **above** stale, and folding it into staleness as a mere
+signal costs exactly the documents that need it most:
+
+- **broken** — the document's named files, commands, identifiers or anchors
+  no longer resolve. This is not drift suspected from a timestamp; it is a
+  document proven wrong by a mechanical check with near-perfect precision,
+  and it outranks stale for that reason alone.
+
+The ordering matters because of where broken documents land otherwise. A
+document whose every reference has been renamed away couples to nothing, so
+the ladder drops it into unverifiable — a population tracked, counted, and
+read last. The one verdict available for the highest-risk document had no
+rung to occupy. So the rungs run broken, stale, unverifiable, fresh, and the
+content signals are evaluated *before* the coupling ladder resolves rather
+than after it — guarded, as ever, against tokens the extractor truncated,
+which is where this check's precision is actually spent.
+
 This is [failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)
 applied inside a single verdict: "I checked and found nothing" and "I could
 not check" are different answers, and a scanner that conflates them converts

@@ -89,6 +89,20 @@ terminal. The derivation's contract:
   timeline. Zero playable items from a nonzero record is a derivation error
   until proven otherwise.
 
+There is a third outcome, and it is commoner than the damaged record: a record
+that parses perfectly and carries no per-item timing at all — a blob of output,
+a total duration, an aggregate cost. Nothing is broken, so nothing announces
+itself, and the tempting move is to spread the total across the items and play
+the result. That is fabrication with better manners than interpolation:
+**apportionment manufactures per-item measurements out of an aggregate**, and
+every honesty rule downstream then reads them as recorded — no gap can be
+disclosed because none exists, no dead air can be compressed because none is
+visible, and any reconciliation against the record's own totals passes by
+construction. So the derivation has a third verdict, stated as plainly as the
+other two: *this record does not support a timeline*, offered together with the
+settled summary the record does support — never with a scrubber over invented
+time.
+
 ## Merging several record streams onto one axis
 
 Real replays braid multiple streams — output lines, span opens/closes,

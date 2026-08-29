@@ -62,6 +62,19 @@ registry of declared variants is the honest middle between a false single
 number and silent forks — the reader can be told why two pages differ; with
 forks, nobody can.
 
+The registered variant carries the **whole** contract, not the members that
+happen to differ today. A registry declaring only surface, window and source
+leaves unit, precision and polarity outside the vocabulary — and a member
+outside the vocabulary is a member each call site supplies. Polarity goes
+first, every time, because it is needed at the moment a delta is coloured or
+an arrow is pointed and there is nowhere else to reach for it: within one
+release of adding the registry, the same metric is being coloured from a
+boolean passed in at three call sites, which is precisely the fork the
+registry was built to prevent. So the variant record names every member of
+the contract above, and consumers read unit, precision and polarity from it
+rather than deciding them locally. A registry narrower than its contract does
+not stop the forks — it relocates them to the fields it declined to hold.
+
 Provenance is part of the value, not metadata to drop: when a pipeline
 *merges* sources (a live table and a frozen rollup, a cache and a recompute),
 which source answered — and of what vintage — must survive into the wire

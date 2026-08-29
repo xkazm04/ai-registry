@@ -92,5 +92,16 @@ that record is
   owner controls every push; treat local-remote gate parity as a maintained invariant.
 - Never leave both consumers wired to the push with neither resolution; that state is
   indistinguishable from having no gate on production.
+
+- Point the verifying check at the address production serves, never at a
+  local or replica twin of it. Timing is one half of the coupling and address
+  is the other: a verdict can arrive at exactly the right moment and still
+  describe the wrong executor — a check that starts its own copy of the
+  artifact, or exercises a staging replica, and reports on it as though it
+  had reached the deployed one. The race is closed, the ordering is correct,
+  and nothing has verified what production serves
+  ([gate-sees-target](../../../../_laws.md#gate-sees-target)). A green verdict
+  names the target it exercised, or it is not readable as a verdict about the
+  deployment at all.
 - Keep "which build serves production, under what verdict" answerable from one record,
   whichever resolution is chosen.

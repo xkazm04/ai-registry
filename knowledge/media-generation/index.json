@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
   "techniques": 130,
-  "applications": 48,
+  "applications": 53,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -337,6 +337,20 @@
     },
     {
      "stack": "react",
+     "technique": "evidence-grading-ladder",
+     "file": "knowledge/media-generation/research-grounding/content-research-grounding/applications/react--evidence-grading-ladder.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "scale-conversion-of-numbers",
+     "file": "knowledge/media-generation/research-grounding/content-research-grounding/applications/react--scale-conversion-of-numbers.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "unknowns-as-constraints",
      "file": "knowledge/media-generation/research-grounding/content-research-grounding/applications/react--unknowns-as-constraints.md",
      "verified_on": "2026-08-19"
@@ -591,6 +605,13 @@
      "technique": "figure-must-cite-a-fact",
      "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/react--figure-must-cite-a-fact.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "react",
+     "technique": "precision-limit-propagation",
+     "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/applications/react--precision-limit-propagation.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -1236,6 +1257,13 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "prompt-dialect-matching",
+     "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/node--prompt-dialect-matching.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "process",
      "technique": "style-first-token-ordering",
      "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/process--style-first-token-ordering.md",
@@ -1764,6 +1792,13 @@
      "technique": "edit-plan-over-regeneration",
      "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--edit-plan-over-regeneration.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "react",
+     "technique": "edit-plan-over-regeneration",
+     "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/react--edit-plan-over-regeneration.md",
+     "verified_on": "2026-08-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",

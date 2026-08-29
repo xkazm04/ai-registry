@@ -15,6 +15,35 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 
 | Date | Technique | Subject | Project | Mode | Verdict | Return condition / note |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-29 | session-registry | fleet-orchestration | personas | code | better | branch `apply/session-registry` awaits operator merge |
+| 2026-08-29 | fail-loud-classification-default | hitl-approval | personas | code | better | branch `apply/fail-loud-classification-default` awaits operator merge |
+| 2026-08-29 | incident-promotion | self-healing | personas | code | better | branch `apply/incident-promotion` awaits operator merge |
+| 2026-08-29 | editor-interop | markdown-vault | personas | experiment | better | ship as the project's next change |
+| 2026-08-29 | safe-mode-guarding | sql-console | personas | code | better | branch `apply/safe-mode-guarding` awaits operator merge |
+| 2026-08-29 | template-anatomy | templates-scaffolding | personas | code | better | branch `apply/template-anatomy` awaits operator merge |
+| 2026-08-29 | rotation-and-remediation | credential-vault | personas | code | better | branch `apply/rotation-and-remediation` awaits operator merge |
+| 2026-08-29 | empty-and-degraded-chart-states | data-viz | personas | code | better | branch `apply/empty-and-degraded-chart-states` awaits operator merge |
+| 2026-08-29 | unpriced-span-accounting | trace-rollup-and-attribution | personas | code | better | branch `apply/unpriced-span-accounting` awaits operator merge |
+| 2026-08-29 | derived-trace-rollup | trace-rollup-and-attribution | personas | code | better | branch `apply/derived-trace-rollup` awaits operator merge |
+| 2026-08-29 | first-run-and-quiet-silence | session-resume | personas | code | better | branch `apply/first-run-and-quiet-silence` awaits operator merge |
+| 2026-08-29 | field-defaults-and-bounds | draft-editing | personas | code | better | branch `apply/field-defaults-and-bounds` awaits operator merge |
+| 2026-08-29 | stop-reason-ledgers | agent-chaining | personas | code | better | branch `apply/stop-reason-ledgers` awaits operator merge |
+| 2026-08-29 | event-registry | realtime-events | personas | code | better | branch `apply/event-registry` awaits operator merge |
+| 2026-08-29 | three-state-outcomes | health-checks | personas | code | better | branch `apply/three-state-outcomes` awaits operator merge |
+| 2026-08-29 | queue-ordering-and-identity | triage-queues | personas | code | better | branch `apply/queue-ordering-and-identity` awaits operator merge |
+| 2026-08-29 | suite-partitioning | test-harness | personas | code | better | branch `apply/suite-partitioning` awaits operator merge |
+| 2026-08-29 | sink-abstraction | usage-analytics | personas | code | better | branch `apply/sink-abstraction` awaits operator merge |
+| 2026-08-29 | activation-and-funnel-honesty | usage-analytics | personas | code | better | branch `apply/activation-and-funnel-honesty` awaits operator merge |
+| 2026-08-29 | tombstone-propagation | sync-replication | personas | experiment | better | ship as the project's next change |
+| 2026-08-29 | diff-honesty | diff-comparison | personas | code | better | branch `apply/diff-honesty` awaits operator merge |
+| 2026-08-29 | persistence-and-migration | client-state | personas | code | better | branch `apply/persistence-and-migration` awaits operator merge |
+| 2026-08-29 | async-race-guards | client-state | personas | code | better | branch `apply/async-race-guards` awaits operator merge |
+| 2026-08-29 | project-identity-and-joins | multi-project | personas | simulation | better | ship as the project's next change |
+| 2026-08-29 | scale-conversion-of-numbers | content-research-grounding | gravity | code | better | branch `apply/scale-conversion-of-numbers` awaits operator merge |
+| 2026-08-29 | precision-limit-propagation | evidence-bound-visuals | gravity | code | better | branch `apply/precision-limit-propagation` awaits operator merge |
+| 2026-08-29 | edit-plan-over-regeneration | review-iteration-loops | gravity | code | better | branch `apply/edit-plan-over-regeneration` awaits operator merge |
+| 2026-08-29 | evidence-grading-ladder | content-research-grounding | gravity | experiment | not-better | when facts[] carries sources[] on the load-bearing rows - or when a gate refuses a `source` string holding more than one publication-shaped token. The seam class is 'render-surface change over an unmigrated data layer'; do not re-run the chip test until the data moves. |
+| 2026-08-29 | prompt-dialect-matching | image-prompt-composition | gravity | experiment | unmeasurable | pipeline/build-style-trials.mts re-run dialect-matched - the repo's own 6-style x 5-beat grid, 60 graded cells per policy, scored usable = on-brief AND free of text. The existing 60-cell trial that demoted the caption-class provider ran one dialect's prompt across both classes, so it is the same instrument with the confound removed. |
 
 ## Backtest waves
 

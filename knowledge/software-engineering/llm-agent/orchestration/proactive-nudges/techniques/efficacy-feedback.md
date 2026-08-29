@@ -53,6 +53,18 @@ The core asymmetry:
 
 - Adaptation moves **per-kind caps only**, within the global ceiling; the
   user's total contact never rises because one kind performs well.
+
+- **The upward path gets the same discipline as the downward one, or it should
+  not exist.** Recovery is named above and then left unmodelled, while decay gets
+  a window, a floor, hysteresis and coarse steps — and an unbounded recovery
+  clause is how "nothing raises a kind's volume" ends up read as forbidding the
+  wrong thing. State the bound. A cap may rise only in response to an **explicit
+  positive act**, never to the absence of one; by one step at a time; on a sample
+  large enough that the acted-rate means something, over the same rolling window
+  the decay side uses; to a ceiling a small fixed distance above the kind's base
+  allowance; and always beneath an unchanged global ceiling, so what moves is the
+  mix and never the total. Escalation on ignore stays forbidden exactly as
+  before — ignoring is the vote, and volume is not an answer to a vote.
 - The response is slow and hysteretic: a rolling window long enough to
   see through vacations, a floor above zero (so the kind can still earn
   its way back), and movement in coarse steps. A twitchy budget teaches

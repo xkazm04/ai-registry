@@ -73,6 +73,20 @@ failure-not-empty-success).
 - If an occurrence can be swallowed at a decision point and that point writes no
   record, the point is not done — the empty log after an incident is this technique's
   definition of failure.
+
+- The four surfaces are specified from the decider's side, and a ledger with
+  no reader is a write-only log. The non-fire ledger is consumed by displays
+  that must account for occurrences which were due and did not run, so the
+  reasons the decider wrote survive the read path intact
+  ([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary)):
+  it is exposed as a queryable read model over the same reason tokens,
+  joinable to the item and to the occurrence it declined, and a run record
+  carries its cause and its represented due time across the API boundary, not
+  merely into the store. A read contract returning real runs only, with no
+  cause and no due time, leaves a consuming surface exactly one honest option
+  — an undifferentiated *unknown* over every declined occurrence — which is a
+  correct refusal to assert and a total loss of the evidence the decider took
+  the trouble to write.
 - Prefer one run ledger with a cause column over per-trigger-family logs; the first
   real investigation spans families ("did the manual run I clicked suppress the
   scheduled one?").

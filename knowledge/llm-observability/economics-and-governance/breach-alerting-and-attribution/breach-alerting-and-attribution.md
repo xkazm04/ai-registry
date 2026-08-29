@@ -38,6 +38,20 @@ rejection ledger, and the alert is the only surface where that ledger becomes
 visible. Builder-side intuitions — "just query the events behind the alert" —
 fail by construction: there are no events behind the most important alerts.
 
+The seam is an audience precondition, and it cuts the standard rather than
+switching it off. Ask it first: is this payload broadcast to an audience the
+alerting system cannot enumerate? When the answer is no — a single local
+operator reading their own instrument, already holding full read access to
+everything the alert could have said — the rules that exist to bound a payload
+lapse: there is no identity boundary to refuse at, no transport to sign, no
+unknowable membership to assume. Two obligations do not lapse, because neither
+was ever about the audience. A rolling-window breach is still a level and not an
+edge, so a local alerter that fires per detection storms exactly as a broadcast
+one does, and its reader mutes it just as fast. And a bare fact is still a
+homework assignment, so the alert still answers what is burning the money, at
+whatever granularity that reader is already entitled to. Route on the audience
+question, not on the vocabulary of budgets, caps and spend.
+
 ## The three obligations of a breach alert
 
 A breach alert carries three obligations, and the naive implementation violates

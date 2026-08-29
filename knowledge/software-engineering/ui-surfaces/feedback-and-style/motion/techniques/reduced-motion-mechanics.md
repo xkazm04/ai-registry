@@ -88,6 +88,19 @@ reader does not subscribe, wrap it and forbid the raw one. (The contract
 itself — which signals exist and how they compose — is accessibility
 territory; the mechanics of not fanning it out are this technique's.)
 
+Subscription is sufficient for a consumer that re-derives when it is
+notified. It is one rung short for an engine that **resolves the preference
+into a committed target**: a scripted loop that computes an end state at
+registration time holds, from that moment, a copy of the preference no
+notification reaches — travel already in flight runs to completion, and an
+entry whose target is never set again never re-reads it at all. There the
+mechanism is a third liveness shape: re-evaluate the merged signal **once
+per tick, inside the loop, before any integration runs**, so a change lands
+on the very next frame for everything currently moving. State its cost, since
+it is the objection: one read of the merged signal per frame, paid only while
+something is animating — and the engine is already awake then, which is the
+argument for putting the read in the loop rather than at every registration.
+
 ## The global-kill trap
 
 The tempting mechanism — one universal rule zeroing every animation and
