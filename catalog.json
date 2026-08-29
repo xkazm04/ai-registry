@@ -357,9 +357,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 9,
+      "lessons": 11,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:8baacbaf47e91ad7",
+      "lessonsHash": "sha256-n1:8296cba2895707f2",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -552,7 +552,7 @@
     "skills": 27,
     "practices": 5,
     "memory": 4,
-    "lessons": 59
+    "lessons": 61
   },
   "bundles": [
     {
@@ -566,7 +566,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:9b01db9efc4b9a82"
+      "contentHash": "sha256:cc2e73421ad6ed92"
     },
     {
       "name": "game-production",
@@ -657,7 +657,7 @@
       "techniques": 980,
       "applications": 439,
       "files": 1574,
-      "contentHash": "sha256:38ed0c59521b47f9"
+      "contentHash": "sha256:60d5a3d19e685515"
     }
   ]
 }

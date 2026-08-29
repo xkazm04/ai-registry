@@ -99,6 +99,37 @@ impressions with the authority of settled knowledge. In-session confidence
 is exactly the wrong signal for durability: the moment a thing feels most
 important is the moment its half-life is least knowable.
 
+## Propose, check, commit: who verifies the rewrite
+
+Rewriting-by-judgment leaves one question open: whose judgment. If the model
+that took the action is also the party that marks the goal done, the working
+state is a self-report, and a long task fails in a specific way - a sub-task
+is closed on the strength of "that should have worked", the open-threads
+region empties, and the agent walks past the failure it just caused with a
+clean desk. The state must be gated by the same rule as any other gate
+([gate-sees-target](../../../../_laws.md#gate-sees-target)): the check reads
+the **environment result** - the tool return, the observation, the file that
+now exists - never the model's claim that the action succeeded.
+
+The shape is three steps, and the middle one is the whole point:
+
+1. **Propose.** The model drafts the next state from the current state, the
+   action it took and what came back.
+2. **Check.** An explicit completion predicate per goal evaluates the
+   observation against the proposed change. Predicates are data the harness
+   owns and can revise, not prose the model is asked to honour.
+3. **Commit.** A fixed kernel writes only the checker-approved parts of the
+   proposal; a goal moves from open to done only on a passing predicate.
+   Rejected proposals are recorded with the verdict, so the next synthesis
+   knows the claim was made and refused.
+
+This is measured, not stylistic. A 2026 study of long-horizon agent harnesses
+across four benchmarks and ten models ablated the pieces: adding a verified
+working state was worth **+23.9 points** where adding a reusable-skill store
+alone was worth **+2.0**, and removing the write review cost 13.5 points on one
+task family while the status display cost nothing measurable. The value of
+working memory was almost entirely in the check, not in the board.
+
 ## What the layer owes its consumers
 
 - **Recency of truth, not of mention.** A consumer reading working memory

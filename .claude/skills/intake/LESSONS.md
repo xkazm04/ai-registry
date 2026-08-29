@@ -1828,3 +1828,18 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
 - **0 of 3 fetches, eighth consecutive.** Nothing in either post needed a primary;
   the product-keyed settings block was the only thing a fetch could have extended,
   and it is application-grade with no tree opened.
+
+## 0.15.0 - 2026-08-29 - recuris-dual-memory
+
+- **Single-paper explainer is the paper-aggregator class at n=1, and the fetch is the
+  extraction.** The video gave headline deltas and a metaphor; the paper's ablation table
+  - which the video never mentioned - was the only thing worth landing. For this class,
+  fetch the primary before triage and read its ablations before its headline.
+- **Missing-stage shape, tenth sighting.** `working-memory` was thorough about how the
+  state is rewritten and silent about who checks the rewrite. The hunt "who verifies
+  this?" over a technique's verbs is cheap and keeps paying.
+- **Cross-bundle laws corroborate an amendment for free.** Two other bundles carried the
+  rule as a law (`no-gate-self-certifies`, `coverage-is-counted-not-claimed`); named in
+  prose, not linked, and the training-data convergence was total.
+- 2 of 3 fetches, both extraction, unattended run; picked by impact, two accepted rows
+  share one root and were counted as one finding.
