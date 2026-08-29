@@ -52,7 +52,16 @@ for (const h of hist) {
   byScope.set(h.scope, e);
 }
 
-const contexts = map.contexts ?? [];
+// A context map is either FLAT (`contexts: [...]`) or GROUPED (`groups: [{contexts: [...]}]`,
+// which is what a v2.x map and project-populate both emit). Reading only `map.contexts` made
+// `--next` exit 2 with "no contexts in the map" against every grouped map — and because the loop
+// asks this script first, that reads as "the repo has no contexts" rather than "the picker cannot
+// see them", so the round falls back to a hand-picked context and the rotation stops being
+// auditable. Flatten both shapes; map order is group order, then context order within the group.
+const contexts = [
+  ...(map.contexts ?? []),
+  ...(map.groups ?? []).flatMap((g) => g.contexts ?? []),
+];
 const rows = contexts.map((c, order) => {
   const e = byScope.get(c.name);
   return {
