@@ -82,6 +82,19 @@ const WINDOW_DAYS = {
   rust: 274,
   sql: 365,
   process: null,
+  // The external-reconcile lane's two non-runtime stacks (docs/reconcile-brief.md,
+  // "Instrument changes the extension needs"). A `spec` application is realized by a
+  // clause in a pinned specification edition and a `data` one by a pinned dataset
+  // snapshot; neither has a runtime to drift against, so both take `process`'s null
+  // clock. The pin is the currency statement, and it is in the document's prose.
+  //
+  // Null rather than absent, and the distinction is load-bearing: an ABSENT stack falls
+  // to DEFAULT_WINDOW_DAYS below, and - worse - reads as runtime-bearing everywhere this
+  // file tests `WINDOW_DAYS[stack] !== null`, because `undefined !== null`. A stack left
+  // undeclared here would report every one of its applications as drift-blind for want
+  // of a `verified_against` the lane forbids it to carry.
+  spec: null,
+  data: null,
 };
 const DEFAULT_WINDOW_DAYS = 183;
 

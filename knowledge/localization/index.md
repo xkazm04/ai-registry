@@ -4,7 +4,7 @@ okf_bundle_name: localization
 okf_bundle_title: Localization
 profile: rkb/0.1
 purity: localization
-stacks: []
+stacks: [spec]
 ---
 
 # Localization
