@@ -85,7 +85,9 @@ const bridge = fleet;
 const declaredSkills = (manifestPath) => {
   if (!fs.existsSync(manifestPath)) return null;
   const lines = fs.readFileSync(manifestPath, 'utf8').split(/\r?\n/);
-  const start = lines.findIndex((l) => /^skills:\s*$/.test(l));
+  // Column 0 OR indented: a generated manifest keeps the human-owned block under `human:`
+  // (grant did, and resolved as "nothing declared" while ten links sat in its tree).
+  const start = lines.findIndex((l) => /^\s*skills:\s*$/.test(l));
   if (start === -1) return null;
   const out = [];
   for (let i = start + 1; i < lines.length; i += 1) {

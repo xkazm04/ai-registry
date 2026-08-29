@@ -159,6 +159,23 @@ patch when it does not. What the gate adds is that "leave it alone" is no longer
 for a change that alters the directory. And the version is also the **update signal of
 the marketplace** (below): a consumer receives a new copy exactly when the version moves.
 
+## Shared clauses
+
+Two sections of every `SKILL.md` are not about that skill: `## Skill Reflection` (how a run
+improves the skill - project lane to the overlay, method lane to `LESSONS.md` plus a bump,
+committed in the registry because the directory is a link, never copied to the personal
+tier) and, in the skills that propose and execute backlog items, `## Knowledge sync` (read
+the governing golden paths through `.ai/registry-map.json` before proposing, tag every item
+with the technique it serves, log the consult, file a lead when a landed fix taught
+something). Hand-copied, they drifted into four variants, one of which still instructed
+the copy that produced eleven stale personal-tier shadows.
+
+So each clause lives ONCE, in `docs/skill-clauses/<id>.md`, and
+`scripts/apply-skill-clauses.mjs` stamps it between `<!-- clause: <id> -->` markers; which
+skills get which clause is declared in that script. `--check` runs in CI. Change the
+template, re-stamp with `--bump minor` (the method changed for every skill), commit. Never
+edit inside a stamped block.
+
 ## `LESSONS.md`
 
 Append-only, newest or oldest first as the file already does — but never rewritten:

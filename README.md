@@ -54,6 +54,7 @@ docs/signals-lane.md      # the signals lane's format spec: verdicts, never poin
 docs/reconcile-brief.md   # the external-reconcile lane's contract, and how it extends past repositories
 scripts/check-bundles.mjs # the knowledge lane's gate (zero dependencies)
 scripts/check-skills.mjs  # the skills lane's gate: shape, sub-resources, the version-bump rule
+scripts/apply-skill-clauses.mjs # stamps the shared Skill Reflection / Knowledge sync clauses from docs/skill-clauses/ (--check in CI)
 scripts/check-usage.mjs   # the usage lane's gate: shape + the counts-only privacy rule
 scripts/check-signals.mjs # the signals lane's gate: shape + the same privacy rule
 scripts/check-currency.mjs# REPORTS how old the knowledge is; never fails a build
