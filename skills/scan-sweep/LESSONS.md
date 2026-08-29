@@ -1005,3 +1005,50 @@ that check stays cheap.
 
 - Yield: 4 findings / 23 lens-passes, 2 built (1 moot), 1 backlogged, 1 escalation. The round is
   not comparable to the others: it ended early, by choice, when the context stopped existing.
+
+
+## 2.7.1 - 2026-08-29 - ascent (round 6)
+
+- **The liveness check proposed one round ago paid for itself immediately, and it wants a THIRD
+  outcome besides go/stop.** Round 5's proposal was: run `git status --porcelain -- <the
+  context's paths>` before reading, and stop if the surface is being retired. Run here, it showed
+  11 of 78 files mid-rewrite — the same refactor that had just eaten round 5's context, now
+  rebuilding this one. Stopping would have been wrong (67 files were stable and one of them held
+  the round's best finding); ploughing in would have been worse. **The right move was to
+  partition: sweep the clean set, name the excluded files in the report and the snapshot note,
+  and record the round as PARTIAL BY DESIGN rather than degraded.** So the check has three
+  outcomes, not two — clean, partial (scope stated), retired (stop and re-pick) — and only the
+  middle one needs the extra sentence in §8's header.
+
+- **A conformance pass that comes back mostly clean is where the remaining findings are the
+  ENFORCEMENT halves, and they are predictable enough to look for by name.** `guided-tours`
+  scored 1068 here, the strongest map entry of the sweep. Four of its six techniques were
+  conformant and several impressively so — the never-strand invariant held *by construction*
+  because the product chose a non-blocking ring over a dimming veil. Both findings were the same
+  shape: the subject asks for a MECHANISM (anchor-contracts wants a manifest extracted from the
+  source plus a gate; overlay-precedence wants the tour registered into the product's band scale)
+  and the repo had the intention without the mechanism — one anchor declared and never stamped,
+  one z-index sitting above the modal band. **When a context reads as broadly conformant, stop
+  auditing the behaviour and go straight to each technique's enforcement clause: "and a gate
+  that…", "registered into…". That is where a well-built surface's remaining defects live.**
+
+- **A prose guarantee of non-drift, in a repo where both halves of the contract are visible, is a
+  reliable marker for an unenforced contract.** The constant said "one shared constant so the
+  model and the DOM can't drift"; five of six were stamped and the sixth had pointed at nothing
+  for as long as it existed. The same sentence pattern produced findings in three earlier rounds
+  of this sweep (`scheduleLabel`'s "every schedule select renders options through this",
+  `lib/site`'s "single-sourced so the shell can't drift", `LIBRARY_ROOTS`' "MUST track repo
+  layout"). Filed as a registry lead, but it is a sweep heuristic too: **grep the codebase for
+  claims of the form "so X can't drift" and check each one — it costs one grep and it has hit
+  four times out of four.**
+
+- **I cited commit shas in the outbox before the commits existed.** Two nodes and a registry lead
+  carried guessed handles; the real shas differed. Nobody would have noticed until someone tried
+  to follow one. §9's emit step runs after the builds, so the shas are always available — the
+  mistake was writing the emit script from the plan rather than from `git log`. **Worth a line in
+  §9: every sha in the outbox must be read back from git, never transcribed from intent.**
+
+- Yield: 2 findings / 23 lens-passes = 0.09 per pass — the lowest of the sweep, and the honest
+  reading is not that the pass was thin but that this is the most conformant subsystem it has
+  met, measured against the strongest-matched subject it has had. Both findings were built, both
+  gated against the product source, and both fail-befores reproduced the original defect by name.
