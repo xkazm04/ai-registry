@@ -90,3 +90,25 @@ Stack in parentheses; `zig`/`c`/`go` beyond the declared set would need
   no-PR-signal caveats by construction - see the register's honesty qualifiers.
 - Update grades in place; move consumed entries into the run note that consumed
   them rather than deleting the row silently.
+
+### localization counterparts (wave 1, [[2026-08-29-1]]) — class A/B
+
+Unicode and CLDR are standards bodies, so no scan applies. Their distinction from the
+other class-B entries above is that they ship **machine-readable conformance data**,
+which makes executed evidence cheap and reproducible here in a way prose procedures are not.
+
+| counterpart | class | subjects served | grade |
+| --- | --- | --- | --- |
+| unicode-org/cldr@48.2 (released 2026-03-17) | B, data + samples | CONSUMED for arabic, indonesian, vietnamese, bengali | measured: 4 harnesses, 0 sample mismatches; **release vs `main` matters — pin a release** |
+| unicode/uax11@17.0.0 (rev 44) | B, property data only | CONSUMED for chinese, japanese | measured: no conformance artifact; property classification only |
+| unicode/uax14@17.0.0 (rev 55) | B, conformance test | CONSUMED for korean, japanese | measured: 19338/19338 twice, independently |
+| unicode/uts35-part9 (MessageFormat) | B, spec + ICU4J reference impl | CONSUMED for indonesian | measured: ICU4J 78.3 rejects the corpus's prescribed message |
+| unicode/ucd@17.0.0 (NormalizationTest) | B, conformance test | CONSUMED for bengali | measured: 20034 rows, 0 fails |
+| mdn/translated-content @876d0ee | A, repository | CONSUMED for translation-pipeline-topology; `sharded-translation-ci` and a prose-side `source-identical-value-audit` both banked | measured: 37,200 docs, 57.4% keyed, 42.5% drift on n=40 |
+| unicode-org/cldr — `hi` locale data | B | **unconsumed lead**: `hi` defaults to `latn` (inherited), `bn` declares `beng` — the two sibling techniques must not be symmetric | reputed |
+
+**Two cautions this wave paid for.** CLDR `main` is not a release and the two disagree on
+live data — a director pre-check against `main` produced a false "the corpus contradicts
+itself" call that a worker correctly refuted. And a summarizing fetch of a large spec page
+returned a confident false negative on a citation that was verbatim present; go to the raw
+document before impeaching a worker.

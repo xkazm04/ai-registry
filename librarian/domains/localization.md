@@ -1,7 +1,7 @@
 ---
 domain: localization
 subject: null
-last_swept: 2026-08-28
+last_swept: 2026-08-29
 layout: nested
 demand_known: unknown
 ---
@@ -151,3 +151,62 @@ worth more than surveying a fresh subject.
   counts, which was the right call and is what surfaced it. `catalog.json`
   regeneration is owed once the tree settles; it was deliberately not committed
   by this run.
+
+## 2026-08-29 — external-reconcile wave 1: eight subjects, and the bundle gets classified
+
+The bundle was **absent from `docs/reconcile-brief.md`'s "The 48, classified"** — the
+brief was written 2026-08-24, before this bundle existed. So this wave is also the
+classification, and the answer is that localization is the corpus's **strongest class-B
+ground**: Unicode and CLDR ship *executable conformance data* (`LineBreakTest.txt`,
+`NormalizationTest.txt`, CLDR's own `@integer`/`@decimal` sample sets), not the prose
+procedures the brief's class B was built around. Two workers independently scored
+19338/19338 on the same conformance file with independently written implementations.
+
+Eight workers, **eight applications landed, zero rejected, zero wrong citations found**
+across ~1,000 reviewed lines. Every load-bearing claim was re-verified by the director
+against the primary source.
+
+| subject | counterpart | fate |
+| --- | --- | --- |
+| arabic | CLDR 48.2 plural rules | confirmed, 3 sharpenings |
+| indonesian | CLDR + UTS #35 Part 9 + ICU4J | confirmed on data, refuted on consequence |
+| vietnamese | CLDR 48.2 + release history | **refuted** (ordinals), split verdict |
+| chinese | UAX #11 | refuted in part |
+| japanese | UAX #11 + UAX #14 | confirmed, 1 sub-claim refuted |
+| korean | UAX #14 | confirmed, sharpened |
+| bengali | CLDR + Unicode 17.0.0 | confirmed, 1 partial refutation |
+| translation-pipeline-topology | `mdn/translated-content` | confirmed, widened |
+
+**Applications 28 → 36. The `spec` stack is declared and carries a null clock**, so
+`driftUnknown` stays 0 — the pre-flight instrument commit (`1dbf9e0`) is what prevents
+these eight from reporting as drift-blind, which is the same false signal this note
+corrected for the bundle yesterday.
+
+### What the wave says about the domain note's own claims
+
+- **"Every subject is single-stack" is now false for eight of fourteen.** The remaining
+  six (`czech`, `french`, `german`, `hindi`, `russian`, `spanish`) are all class-B
+  reachable by the same counterparts and are the obvious wave 2.
+- **The class-D residue is real and should be written down as accepted debt.**
+  `de-anglicization-constructions` and `register-and-address` appear in all thirteen
+  language subjects and have **no conformance artifact anywhere**. They will score
+  single-stack forever; the brief's `accepted: [single-stack]` note is the right
+  instrument and has not been written yet.
+
+### Convergence (the cycle's input)
+
+- **Two sightings, ready to land:** the Ambiguous-width trap on *prescribed* glyphs, and
+  UAX #11 §4.1's relational fullwidth/halfwidth vocabulary — found independently by the
+  `chinese` and `japanese` workers, neither aware of the other.
+- **Two sightings:** "a tailorable rule requires disclosure, not obedience" (`japanese`
+  UAX14-C1; `korean`'s opt-in space tailoring).
+- **One sighting each, banked:** the mandatory catch-all `*` vs `other` (`indonesian`);
+  range selection as a separate table (`arabic`); a plural category encoding anaphora
+  rather than morphology (`vietnamese`); NFC-does-not-unify-every-legacy-spelling
+  (`bengali`).
+
+### Demand, restated honestly
+
+Still **unknown**. `personas-web` is now correctly routed to this bundle, but no signals
+contributor witnesses a consult. This wave serves a real consumer whose demand is not yet
+reported, and says so rather than implying otherwise.

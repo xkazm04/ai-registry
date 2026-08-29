@@ -1,7 +1,8 @@
 ---
 subject: translation-pipeline-topology
 domain: localization
-last_touched: 2026-08-28
+last_touched: 2026-08-29
+touched_by: external-reconcile
 dry_streak: 0
 ---
 
@@ -164,3 +165,95 @@ returned nothing new (`ja`/`zh` residues are Latin runs inside CJK text -
 **Next probe, when there is one:** the technique's claims are now all about
 catalogs it was measured on. The honest next step is a second *tree*, not a
 fourth round here - see [[localization]] under what is owed.
+
+## 2026-08-29 - external-reconcile wave 1 (class A, the second tree)
+
+**Pin.** `mdn/translated-content` @ `876d0eeb190cddd56d3093b58f0b0b3e52f5478b`,
+confirmed by the worker. Bound `source-hash-translation-cache`. **Fate: confirmed**,
+contract widened in one direction and priced in another.
+
+The banked "no application from a second tree" lead is discharged, and the banked
+**staleness-instrument return condition is answered** - see below.
+
+## Sightings
+
+- **The key is genuinely per-unit.** `l10n.sourceCommit` is the last upstream commit
+  that modified *that one English file* (`CONTRIBUTING.md:98`, verified by the
+  director), not the tip at sync time. Confirmed mechanically: of 3,302 distinct
+  recorded commits, the most-used is carried by 886 documents of which 881 sit under
+  one subtree. The digest framing survives; a commit is a legitimate realization.
+- **But the key is not scoped to the translated text, and that has a price.**
+  `docs/README.md:19-24` (verified) states translated pages carry only `title`,
+  `short-title`, `slug` and `l10n.sourceCommit` because the platform merges English
+  front matter under them - yet upstream front-matter-only commits advance the key for
+  hundreds of documents at once. **14 of 51 measured staleness signals came from edits
+  that provably cannot affect any translation.** The technique's own words already
+  carry the fix ("the digest of the exact text translated", not of the file); MDN
+  supplies the measured price of getting that boundary wrong.
+- **Coverage, verified by the director:** 21,351 of 37,200 documents carry the key
+  (57.4%), ranging ja 91.7% to pt-br 0.4%.
+- **Drift:** sample n=40, deterministic; 40/40 keys resolve, 40/40 English paths still
+  exist, **17/40 (42.5%) behind by 51 upstream commits**. Classified: 37 body changes,
+  6 front-matter-only, 8 from six bulk commits above the API's 300-file cap.
+- **Executed instrument defect:** `get-sourceCommit.js -f json` on `files/ko` emits
+  1,628 entries; `-f csv` emits 3,344 rows, 1,716 of them `undefined`. `JSON.stringify`
+  drops the misses, so the machine-readable format silently reports 100% coverage of
+  the very gap the key exists to expose. (Corroborated: ko is 1,628 keyed of 3,344
+  total, and 3344-1628 = 1716 exactly.)
+
+## The banked return condition, answered
+
+The subject noted the staleness check "has a contract here but no instrument anywhere
+in the fleet." MDN has the **same shape**: a per-document, schema-gated, human-
+maintained contract at 37k-document scale, and **no instrument** - `CONTRIBUTING.md`
+sections "Has a source commit property" and "No source commit present" both read
+`XXX Write me...` (verified). The fleet's gap is therefore **not idiosyncratic**. The
+counterpart does not supply the missing instrument; it supplies a second, much larger
+instance of the same omission, plus a working recipe (two API calls per document).
+
+## Technique-edit candidates (banked, 1 sighting each)
+
+1. **The optional key.** The technique assumes the key is always present. At 57.4% a
+   miss and an absent key are indistinguishable and no locale can report currency.
+   Proposed failure mode: *a cache entry that may legitimately be absent is not a
+   cache* - make it mandatory at the door or record "unknown" explicitly.
+2. **Who consumes the miss.** The technique's key list is engine-shaped (engine
+   identity, prompt, glossary). MDN's engine is a human, and the missing dimension is
+   the consumer: a machine re-translator needs one bit, a human re-translator needs the
+   diff. A version pointer addressable in history is a legitimate - and better -
+   realization when the consumer is a reviewer.
+
+## Candidate 2 not bound, and why (a good decline)
+
+`language-registry-single-source`: MDN has **no registry at all** - seven hand-
+maintained enumerations (README prose, `files/` dirs, two workflows, `labeler.yml`,
+three CODEOWNERS blocks, eight issue templates) that **currently agree on membership**.
+Representation drift is real (README writes `pt-BR`/`zh-CN`, every machine surface
+writes lowercase; `docs/` covers 6 of 8 locales); membership drift is zero. Binding it
+would have documented seven agreeing lists rather than a registry. Banked as a lead:
+**the real single-source test is cross-repo** - `mdn/content` and the rendering platform
+hold their own locale lists, and the historical locale *retirements* are "offer only
+what you serve" with a decade of evidence.
+
+## Leads
+
+- `sync-translated-content.yml` (daily, 8-way matrix, one PR per locale, `fail-fast:
+  false`) is a clean second sighting for **`sharded-translation-ci`** - disjoint write
+  slices by locale, published per shard. Not read against that technique.
+- `scripts/check-document-locale.js` runs language *detection* over translated
+  documents to find untranslated pages - a second, independent instrument for
+  **`source-identical-value-audit`**, on prose rather than catalogs. Different
+  instrument, same claim. Worth a worker.
+- `canonical-and-derived-split`: MDN is reviewed-and-committed at 37k documents with an
+  *upstream canonical in a different repository* - a two-repo shape the existing
+  single-repo application does not cover.
+- `hand-authored-exception-contract`: MDN **inverts** it - everything is hand-authored
+  and the exception is the machine sync PR. The silent-rot failure mode the golden path
+  names is here **measured at 42.5%**, the first number the fleet has for it.
+
+## Director's note on the pin
+
+The sparse-checkout pattern was mangled by the shell into
+`!C:/Program Files/Git/files` instead of `!/files`, so `files/` materialized fully.
+Harmless here - it made all 37,200 documents readable without lazy fetches - but a
+sparse pattern beginning with `/` is unsafe to pass through this platform's shell.

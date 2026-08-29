@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 14,
   "techniques": 85,
-  "applications": 28,
+  "applications": 36,
   "laws": 7,
   "categories": [
    "european",
@@ -122,6 +122,12 @@
      "technique": "register-and-address",
      "file": "knowledge/localization/right-to-left/arabic/applications/process--register-and-address.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "spec",
+     "technique": "plural-and-count-agreement",
+     "file": "knowledge/localization/right-to-left/arabic/applications/spec--plural-and-count-agreement.md",
+     "verified_on": "2026-08-29"
     }
    ]
   },
@@ -225,6 +231,12 @@
      "technique": "terminology-and-loanwords",
      "file": "knowledge/localization/south-and-southeast-asian/bengali/applications/process--terminology-and-loanwords.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "spec",
+     "technique": "bengali-script-and-numerals",
+     "file": "knowledge/localization/south-and-southeast-asian/bengali/applications/spec--bengali-script-and-numerals.md",
+     "verified_on": "2026-08-29"
     }
    ]
   },
@@ -330,6 +342,12 @@
      "technique": "terminology-and-variants",
      "file": "knowledge/localization/east-asian/chinese/applications/process--terminology-and-variants.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "spec",
+     "technique": "character-width-and-typography",
+     "file": "knowledge/localization/east-asian/chinese/applications/spec--character-width-and-typography.md",
+     "verified_on": "2026-08-29"
     }
    ]
   },
@@ -836,6 +854,12 @@
      "technique": "ui-conventions-and-length",
      "file": "knowledge/localization/south-and-southeast-asian/indonesian/applications/process--ui-conventions-and-length.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "spec",
+     "technique": "quantity-and-plurality",
+     "file": "knowledge/localization/south-and-southeast-asian/indonesian/applications/spec--quantity-and-plurality.md",
+     "verified_on": "2026-08-29"
     }
    ]
   },
@@ -938,6 +962,12 @@
      "technique": "register-and-politeness",
      "file": "knowledge/localization/east-asian/japanese/applications/process--register-and-politeness.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "spec",
+     "technique": "character-width-and-typography",
+     "file": "knowledge/localization/east-asian/japanese/applications/spec--character-width-and-typography.md",
+     "verified_on": "2026-08-29"
     }
    ]
   },
@@ -1042,6 +1072,12 @@
      "technique": "register-and-honorifics",
      "file": "knowledge/localization/east-asian/korean/applications/process--register-and-honorifics.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "spec",
+     "technique": "spacing-and-typography",
+     "file": "knowledge/localization/east-asian/korean/applications/spec--spacing-and-typography.md",
+     "verified_on": "2026-08-29"
     }
    ]
   },
@@ -1376,6 +1412,12 @@
     },
     {
      "stack": "process",
+     "technique": "source-hash-translation-cache",
+     "file": "knowledge/localization/craft/translation-pipeline-topology/applications/process--source-hash-translation-cache.md",
+     "verified_on": "2026-08-29"
+    },
+    {
+     "stack": "process",
      "technique": "source-identical-value-audit",
      "file": "knowledge/localization/craft/translation-pipeline-topology/applications/process--source-identical-value-audit.md",
      "verified_on": "2026-08-28"
@@ -1483,6 +1525,12 @@
      "technique": "terminology-and-loanwords",
      "file": "knowledge/localization/south-and-southeast-asian/vietnamese/applications/process--terminology-and-loanwords.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "spec",
+     "technique": "classifiers-and-quantity",
+     "file": "knowledge/localization/south-and-southeast-asian/vietnamese/applications/spec--classifiers-and-quantity.md",
+     "verified_on": "2026-08-29"
     }
    ]
   }
