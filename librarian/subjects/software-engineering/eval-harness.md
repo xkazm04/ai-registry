@@ -168,3 +168,20 @@ moves) and cross-bundle convergence noted with
 `recruiting/assessment-instrument-validation/discrimination-margin-gate`.
 Corroboration: the paper (2 fetches, extraction) plus training-data convergence.
 No application - a lead carries the numbers until a connected tree runs a search.
+
+### 2026-08-29 - `/intake`, from a second-hand survey
+
+One **amendment drafted and held** for `failure-attribution` (a parallel
+session had the file open; full text in the source note, land when theirs is
+in HEAD): "A fix at the pipeline or prompt layer names the model it was built
+for." Source: [[2026-08-29-two-loop-rsi-llm-and-harness]].
+Found by the asymmetry hunt - `unaided-baseline-screening` already says the
+screen expires with the candidate (the suite side); nothing said the harness's
+compensations expire with the model (the harness side). Three states after an
+upgrade (pays / dead weight / now the failure); retirement condition written
+into the compensation; re-ablate as a matrix cell on upgrade, delete rather
+than tune. Zero fetches; corroborated by two corpus-internal siblings
+(`unaided-baseline-screening`, `hitl-approval/human-performed-steps`) and
+training data. Banked lead: harness search is combinatorial while the model's
+is gradient-based - law-shaped; the parallel session's pending section states
+it independently, so it now has two sightings.

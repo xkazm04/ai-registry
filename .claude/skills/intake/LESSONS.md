@@ -1904,3 +1904,28 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   both unstaged; committed the eval-harness index and catalog only. The catalog hash
   will be re-cut by whichever run commits next, which is fine in a tree where both
   runs regenerate before committing.
+
+## 0.15.0 - 2026-08-29 - two-loop-rsi-llm-and-harness
+
+- **A second-hand survey can still point at an asymmetry.** The class entry says this
+  class is reliable for "that the world moved" and nothing else, and for content that
+  held: six catches, two thin leads. But the source's one emphatic sentence mirrored a
+  completeness claim the corpus makes on exactly one side (suite expires with the
+  candidate; harness compensations do not expire with the model), and the finding came
+  from opening the mirror, not from believing the video. For this class, spend the
+  verification budget on "which corpus sentence does the source's strongest line
+  mirror" rather than on corroborating the source.
+- **The corpus held both halves of the rule two subjects apart.** `hitl-approval`
+  had the general shape (a compensating capability names its retirement condition)
+  and `eval-harness` had the suite-side instance; the amendment is the join. When a
+  candidate feels familiar, grep the bundle for the *shape* of the rule, not its
+  subject - the corroboration may already be inside.
+- **When the target file is another session's live WIP, hold the amendment in the
+  source note, verbatim, with a return condition.** Same subject, same technique, same
+  hour: the other session's section and this one compose, and the only safe landing
+  was to write the text where the next run can paste it. A held amendment is
+  `dispatched`, not `accepted`; do not count it. Re-check `git status` for the target
+  file between Phase 6 and Phase 7, not only at Phase 10.
+- **Class prediction stated before triage held to the number** (0 techniques, 1
+  amendment at most, leads for the paper). Ninth consecutive zero-fetch run; a
+  paper explainer that never names the paper leaves the fetch nothing to hit.
