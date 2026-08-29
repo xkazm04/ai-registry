@@ -138,6 +138,23 @@ cannot reproduce — which is a bypass generator. One script also collapses
 the rung-skew diagnostic below to a triviality: skew becomes impossible
 except through scope.
 
+**A control that asks is placed differently from one that decides.** Every
+control above resolves on its own — allow or refuse, in milliseconds,
+with nobody in the loop. A third kind pauses until a named person
+answers, and its placement follows a different rule: an asking control
+inside the build loop puts a human on the critical path of *every*
+session running in parallel, and at machine pace that is several
+sessions, each stalled on the same person's attention. So asking controls
+concentrate at stage boundaries — the merge decision, the release
+authorization, the edit to a protected path that needs a ticket — where
+the pause is one pause per change rather than one per action, and where
+the questions can be batched. Inside the loop, a control is allow or
+refuse; if it needs a human, it refuses and names the boundary where the
+human will be asked. The mechanics of the pause itself belong to the
+approval discipline in the agent layer; what belongs here is that
+"ask" is a placement decision, and the default of putting it wherever the
+action happens is the unconsidered placement this matrix exists to catch.
+
 ## Scoping is a loan against the backstop
 
 A commit-rung check that examines only the committed files is making a

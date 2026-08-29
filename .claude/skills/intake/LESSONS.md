@@ -1804,3 +1804,27 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
   matter, the fraction touching our own machinery is far higher than for an
   ordinary vendor source, and the usual n=1 discount does not apply to what the
   tree can be read against directly.
+
+## 0.15.0 - 2026-08-29 - ai-native-sdlc-and-ci-on-call
+
+- **A vendor doctrine document is a listicle without the pain.** Fifteen candidates,
+  and the three highest-impact ones were all cases where the source stated a rule the
+  corpus already modelled more carefully - the yield was in the two places the source
+  *conflated* things the corpus keeps apart (signal magnitude vs diagnostic confidence;
+  ask-controls vs decide-controls). Read a playbook for its tier tables and its
+  "belongs in stage N" placements; those are where a vendor's simplification is
+  checkable.
+- **The batch pairing worked in one direction only.** The first-party account gave the
+  measured half (median minutes, a lessons-log correction); the doctrine document gave
+  the general rule. Where both said the same thing (tiered response) the pair counted
+  as two voices and the corpus's own ladder made three - enough for an amendment, not
+  a technique. Where only the doctrine spoke, the landing was gated on training-data
+  convergence and never on the source.
+- **The worklist tie-breaker paid.** The one new technique went to the #2 attention
+  point (`quality-gates`, never swept), and the gap there had the missing-stage shape:
+  the merge-gate half of the rule existed in another subject; the in-task half did
+  not. Check `proposal-not-push`'s reserved classes before writing anything about
+  what an agent may edit - three findings now trace to that list.
+- **0 of 3 fetches, eighth consecutive.** Nothing in either post needed a primary;
+  the product-keyed settings block was the only thing a fetch could have extended,
+  and it is application-grade with no tree opened.

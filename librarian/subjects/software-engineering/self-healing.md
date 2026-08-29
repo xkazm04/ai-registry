@@ -36,3 +36,14 @@ First touch: [[2026-08-22-4]], external reconcile against
 ## Applied to the technique layer
 
 - 2026-08-22-6: **a broken gate is a verdict, not a gap** (fail-closed family) applied to `auto-rollback` ([[2026-08-22-6]]).
+
+## 2026-08-29 - intake, two ladders
+
+[[2026-08-29-ai-native-sdlc-and-ci-on-call]]: golden path gained a paragraph under
+"The epistemic ladder" - detection is tiered by signal magnitude and is
+deterministic by design; healing is tiered by diagnostic confidence; they compose by
+minimum. The source's control-band table mapped 3σ straight to "propose", which is
+the drift the ladder section already warned about arriving through a different door.
+`failure-diagnosis` gained a decision rule: diagnose from the measured, not the
+configured (first-party lessons-log entry, n=1, restates "a diagnosis names its
+evidence" one stage earlier).

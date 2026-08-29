@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 150,
-  "techniques": 979,
+  "techniques": 980,
   "applications": 439,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "979/979",
+  "use_when_coverage": "980/980",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6844,7 +6844,9 @@
      "use_when": [
       "deciding whether a planned matrix run is affordable",
       "scores still cited after the suite stopped running",
-      "choosing what a cache key treats as the same question"
+      "choosing what a cache key treats as the same question",
+      "an instruction file",
+      "skill or hook changed and nothing re-ran the suite"
      ]
     },
     {
@@ -12716,6 +12718,22 @@
      ]
     },
     {
+     "slug": "oracle-frozen-during-repair",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent is asked to make a failing check pass",
+      "a fix and the test that proves it arrive in the same change",
+      "a repair task's diff touches a test or a skip directive",
+      "deciding what a fixer may write to"
+     ]
+    },
+    {
      "slug": "policy-projection",
      "status": "forged",
      "laws": [
@@ -18308,6 +18326,7 @@
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
+    "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
@@ -18654,6 +18673,7 @@
     "quality-gates/chokepoint-tag-registry",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
+    "quality-gates/oracle-frozen-during-repair",
     "quality-gates/ratchet-design",
     "quality-gates/unmeasurable-criteria",
     "rate-limiting/refusal-contract",
@@ -20179,6 +20199,7 @@
     "mcp-tools/transport-selection",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
+    "quality-gates/oracle-frozen-during-repair",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",

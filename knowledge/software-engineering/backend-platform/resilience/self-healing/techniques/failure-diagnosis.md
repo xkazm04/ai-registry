@@ -109,6 +109,15 @@ failed.
   cause C" is auditable; "looked like a session issue" is not. When the fix fails,
   the evidence trail is what distinguishes *wrong diagnosis* from *right diagnosis,
   wrong fix* — two different bugs in two different places.
+- **Diagnose from the measured, not from the configured.** Configuration
+  enumerates what *could* go wrong; metrics and logs record what *did*. A
+  diagnosis that begins by reading a config file and reasoning forward produces a
+  hypothesis and then goes looking for confirmation, and it will find some — the
+  failure modes a config implies are all plausible, which is why they are there.
+  The order is fixed: query the observed state first, form the signature from it,
+  and consult configuration only to explain a measured fact. A healer (or an
+  on-call agent) that reverses this order is theorizing, and its "diagnosis"
+  field should say *guess*.
 - **Never diagnose from the retry layer's leavings.** By the time a failure has
   exhausted its retries, the record may have been summarized ("failed after 4
   attempts"). Healing needs the *original* classified failure, not the summary;

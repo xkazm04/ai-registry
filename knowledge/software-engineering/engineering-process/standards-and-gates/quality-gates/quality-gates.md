@@ -14,6 +14,7 @@ techniques:
   - unmeasurable-criteria
   - policy-projection
   - chokepoint-tag-registry
+  - oracle-frozen-during-repair
 ---
 
 # Quality gates & ratchets
@@ -149,6 +150,26 @@ every gap between them is a place the gate passes while the target fails
 
 Before trusting any green result, the question is never "did the check
 pass" but "what did the check read."
+
+## The gate must not be writable by what it gates
+
+Seeing the target is half of the law; the other half is that the gate is
+not *also* an artifact the gated party can edit. The case where this
+breaks is the repair task: an author — increasingly a machine — is told
+to make a failing check pass, and holds write access to the check. "Make
+it pass" now has two solutions, the cheaper one is to soften the check,
+and a green result does not say which was taken. The discipline is a
+**freeze**: for the duration of a repair, everything a verdict can be
+turned by — tests, fixtures, snapshots, skip and quarantine directives,
+thresholds, the gate's own configuration — is read-only to the fixer,
+enforced by the layer that acts before the write lands rather than by an
+instruction. The ordering matters as much as the freeze: a check committed
+red *before* the fix, and unwritable during it, is proof the defect is
+gone; a check authored in the same change as the fix is fitted to the fix.
+When the check itself is wrong, that is a separate, human-owned task, not
+an exception inside the repair. The oracle set, the red-first ordering,
+the mechanical form and its weaker fallbacks, and the release valve are
+[oracle-frozen-during-repair](./techniques/oracle-frozen-during-repair.md).
 
 ## What a gate does with a condition it cannot evaluate
 
@@ -341,6 +362,10 @@ is asked to refuse something.
 - [hook-hygiene](./techniques/hook-hygiene.md) — never mutate the worktree,
   staged-content scoping, non-interactive discipline, bypass policy, and
   installation as a liveness problem.
+- [oracle-frozen-during-repair](./techniques/oracle-frozen-during-repair.md)
+  — what counts as the oracle, red-first ordering as proof of defect, the
+  mechanical freeze and its weaker fallbacks, verdict from the toolchain,
+  and the separate task for a check that is itself wrong.
 - [false-positive-economics](./techniques/false-positive-economics.md) —
   precision as survival, measuring before enforcing, the trust budget, and
   quarantining flaky checks.

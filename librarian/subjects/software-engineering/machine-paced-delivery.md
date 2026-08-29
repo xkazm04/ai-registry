@@ -67,3 +67,11 @@ argues the subject's floor is one person. If a future reconcile puts this
 subject against a large-team tree, check whether the independence section still
 reads correctly there - it is written from the one-person case outward, and the
 team case may want the inverse framing.
+
+## 2026-08-29 - second sighting of the thesis
+
+[[2026-08-29-ai-native-sdlc-and-ci-on-call]]: a vendor SDLC playbook opens on the
+same thesis `human-gate-capacity` landed on 2026-08-27 - build collapses, the
+human-speed stages become the constraint, add parallel sessions only while review
+keeps up. Catch at technique level; banked as a **law lead** (second sighting, same
+bundle both times). Return condition: a third sighting in a different bundle.

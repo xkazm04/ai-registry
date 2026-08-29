@@ -128,3 +128,12 @@ test-harness owns the deterministic lane and defers non-determinism here.
 ## Declines
 
 None.
+
+## 2026-08-29 - intake, the trigger set
+
+[[2026-08-29-ai-native-sdlc-and-ci-on-call]]: `eval-economics` tiered cadence gained
+the rule that the golden set's trigger includes the agent's configuration -
+instruction files, skills, subagent definitions, hooks, permission rules, model pin -
+and that incidents enter the suite as scenarios. `use_when` gained the case. The
+subject had priced the cadence and named "pieces that shape model behavior" without
+saying those pieces include files no unit test exercises.
