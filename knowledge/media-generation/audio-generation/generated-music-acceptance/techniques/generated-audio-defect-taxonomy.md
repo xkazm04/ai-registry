@@ -55,6 +55,18 @@ a structural defect buys an audible scar and the defect back next take,
 while re-rolling a whole piece for an EQ-shaped problem voids review
 capital a filter would have preserved.
 
+## Entries from video-synced effect generation
+
+Synced-generation models contribute three vendor-attested classes to the
+taxonomy, worth carrying because they route unusually cleanly: **speech-like
+vocalization** (unintelligible human-voice texture where no voice was asked
+for - condemn the take; no post repair recovers it), **spontaneous underscore**
+(low-quality background music appearing uninvited under an effects brief -
+condemn, and narrow the brief's semantic channel), and **unfamiliar-concept
+miss** (the general category renders, the specific variant does not - a
+brief-model pair fact: rephrase toward the category the model knows or route
+to different tooling, per the recurrence rule below).
+
 ## The recurrence rule
 
 A defect class that appears in consecutive takes from the same brief has

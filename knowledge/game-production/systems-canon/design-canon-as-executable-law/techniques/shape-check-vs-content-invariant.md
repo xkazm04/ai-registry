@@ -107,6 +107,14 @@ declares the input it consumes, and let absent input mean the check does not fir
   need different work from different people.
 - **When a shape check and a content invariant cover the same field, keep both.** The shape
   check localizes the failure; the invariant judges it.
+- **Classify each check by the population it can judge: per-output or
+  corpus-level.** Some properties are hard per-artifact tests (a membership or
+  bounds check every single output must pass); others are *statistical* -
+  true only over a large sample, such as a distributional similarity to a
+  reference. A statistical property enforced per-output rejects good work at
+  random; a per-output property monitored only corpus-wide ships individual
+  defects. Label the class in the check's own definition, and gate on the
+  first kind while trending the second.
 - **When a claim of completeness is made, it names the class it was proven at.** "Passes
   shape" is a legitimate claim. "Passes" is not.
 

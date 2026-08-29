@@ -9,6 +9,7 @@ techniques:
   - trailer-punctuation-grammar
   - loop-seam-acceptance
   - layered-element-assembly
+  - picture-as-timing-brief
 ---
 
 # Sound effect generation

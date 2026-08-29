@@ -71,6 +71,23 @@ deterministic and must say so — `unenforced` is a legitimate and necessary val
 far better than a determinism claim that quietly does not hold. A caller reading the
 declaration then knows whether it may offer a seed field at all.
 
+## Restart changes what the seed names
+
+Constraint-propagation generators add a wrinkle the contract must absorb: they
+can reach a **contradiction** and produce nothing, and the reference drivers
+answer that with a retry loop that draws a *fresh* seed per attempt when none
+was pinned. Two clauses follow, both verified in a canonical implementation's
+code rather than its documentation:
+
+- **The reproducible identity of a delivered output is the seed of the attempt
+  that succeeded** — store and display the surviving seed (or the retry index
+  beside the requested seed), never the request alone. A designer who re-enters
+  the requested seed reproduces the *failure sequence*, not the level.
+- **A pinned seed can validly produce nothing.** The same seed deterministically
+  re-contradicts, so retrying it is spend without possibility of change; the
+  contract must define the pinned-seed-failure outcome — an explicit error, or a
+  declared fallback-seed schedule that is itself part of the level's identity.
+
 ## The version bump
 
 A seed that survives a generator upgrade is a promise nobody can keep. Improving a corridor

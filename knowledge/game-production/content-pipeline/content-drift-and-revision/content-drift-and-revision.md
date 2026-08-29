@@ -11,6 +11,7 @@ techniques:
   - produce-direction-stamping
   - batch-lease-on-a-non-reentrant-resource
   - orphaned-artifact-visibility
+  - typed-operator-inheritance
 ---
 
 # Content drift and revision

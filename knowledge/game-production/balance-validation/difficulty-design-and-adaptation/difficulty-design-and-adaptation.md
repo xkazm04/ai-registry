@@ -9,6 +9,7 @@ techniques:
   - skill-scaling-versus-power-scaling
   - player-chosen-challenge-and-adjustment-hazards
   - setting-bounded-overlapping-bands
+  - reward-cadence-first-diagnosis
 ---
 
 # Difficulty design and adaptation

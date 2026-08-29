@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
-  "techniques": 128,
+  "techniques": 130,
   "applications": 48,
   "laws": 9,
   "categories": [
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "128/128",
+  "use_when_coverage": "130/130",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1918,6 +1918,19 @@
      ]
     },
     {
+     "slug": "picture-as-timing-brief",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an effect must land in sync with picture",
+      "deciding between text-briefed generation plus manual spotting and video-conditioned generation",
+      "scoping what a synced generator can and cannot replace"
+     ]
+    },
+    {
      "slug": "trailer-punctuation-grammar",
      "status": "forged",
      "laws": [
@@ -1962,6 +1975,19 @@
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/trailer-structure/trailer-structure.md",
    "techniques": [
+    {
+     "slug": "concealment-and-its-tells",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "cutting a promotional piece from material with visible weaknesses",
+      "deciding how much a cut may compensate for the work",
+      "reviewing a cut whose energy feels like evasion"
+     ]
+    },
     {
      "slug": "cue-first-assembly",
      "status": "forged",
@@ -2415,7 +2441,8 @@
    "techniques": [
     "character-identity-continuity/reference-shows-only-invariants",
     "cinematic-language/movement-motivation",
-    "cinematic-language/performance-direction"
+    "cinematic-language/performance-direction",
+    "sound-effect-generation/picture-as-timing-brief"
    ]
   },
   "causality-over-sequence": {
@@ -2477,6 +2504,7 @@
     "narrative-engine-selection/fit-vs-hazard-axes",
     "review-iteration-loops/attribution-share-accounting",
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "trailer-structure/concealment-and-its-tells",
     "trailer-structure/promise-ledger",
     "video-assembly/gap-and-refusal-honesty",
     "video-assembly/multitrack-timeline-discipline"

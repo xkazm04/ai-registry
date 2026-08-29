@@ -24,6 +24,7 @@ lane without the corroboration and strip-test discipline of the intake method.
 | [`queue.md`](queue.md) | The queue itself. One row per source: grade, class, target, status. |
 | [`coverage-gaps.md`](coverage-gaps.md) | Topics the founding research could NOT find an elite source for - the follow-up research targets. |
 | `evaluations.md` | Created by the first `/harvest evaluate` run: the A/B impact ledger, one row per evaluated landing. |
+| [`specs.md`](specs.md) | The spec bank: operator-approved content deferred to a later attended landing, with anchors. Strike on landing. |
 
 ## The queue's contract
 

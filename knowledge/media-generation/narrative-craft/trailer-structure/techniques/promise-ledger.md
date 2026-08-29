@@ -101,6 +101,11 @@ assembly is a false promise even though every frame is real footage.
 - **Withhold the mechanism, not the promise.** A trailer that promises nothing
   concrete to avoid overpromising has produced the other failure. The floor is a
   promise specific enough to be worth arriving for.
+- **Pair every explicit claim with footage at the moment it is made.** A
+  title card or narration line asserting a capability is paid at shot level:
+  the footage under it must show the claimed thing then, not somewhere else
+  in the cut. An asserted-but-unshown claim is the ledger's smallest and most
+  common unpaid row, and the one a reviewer can check without judgement.
 - **In a tool, make the payer a required field.** If a system composes or checks
   promotional cuts, a promise-bearing beat that carries no reference to the
   moment paying it should be surfaced as incomplete rather than accepted. What

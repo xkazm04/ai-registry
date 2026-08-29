@@ -63,6 +63,16 @@ green for months and were reporting on the presence of a non-negative integer.
 Rerun the probe whenever a gate is rewritten. It is cheap, it is deterministic, and it is
 the only evidence that a gate is a gate.
 
+## A success flag is not completeness
+
+A generator's own return code is a second way an un-asset slips through: some
+reference implementations return success both on completion *and* when an
+iteration cap was reached, leaving the output partially unresolved — rendered,
+plausible at a glance, and not the asset. Gate on **measured completeness of
+the artifact itself** (no unresolved cells, all sections present), never on
+the generator's exit status; the flag reports that the process ended, not that
+the work exists.
+
 ## Building stand-ins so they can be caught
 
 The distinction is only checkable if the producer preserves it, so stand-ins are built to

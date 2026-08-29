@@ -11,6 +11,8 @@ techniques:
   - progression-curve-shape-tests
   - wealth-concentration-and-price-imbalance-alerts
   - tornado-sensitivity-sweeps
+  - cost-curve-object-audit
+  - intransitive-equilibrium-solving
 ---
 
 # Game economy tuning

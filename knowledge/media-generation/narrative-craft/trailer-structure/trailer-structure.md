@@ -11,6 +11,7 @@ techniques:
   - dynamic-reset
   - cue-first-assembly
   - length-ladder
+  - concealment-and-its-tells
 ---
 
 # Trailer structure
@@ -174,6 +175,9 @@ practitioner literature claims to have solved it.
   structure and fit the picture to it, including how to choose a cue at all.
 - [length-ladder](./techniques/length-ladder.md) — derive the family of shorter
   cuts by dropping parts in order, not by trimming uniformly.
+- [concealment-and-its-tells](./techniques/concealment-and-its-tells.md) —
+  show-less / razzle-dazzle / mislead, the identical-texture tell, the
+  feel-of-the-work honesty limit, and per-shot subtraction.
 
 ## Where this subject ends and its neighbours begin
 

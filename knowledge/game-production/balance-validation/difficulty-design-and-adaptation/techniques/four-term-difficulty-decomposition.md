@@ -77,6 +77,17 @@ than it is, and the error survives review because everyone reviewing shares it.
    without anyone touching difficulty, so a progression retune silently retunes difficulty
    across the whole game.
 
+## Two curve corollaries
+
+Because player skill rises monotonically with time in the game, **a flat
+challenge curve is a de facto easing curve** — holding challenge constant is a
+decision to get easier, and it should be authored as one, not discovered in
+telemetry. The cheap validation instrument follows from the decomposition:
+overlay the **player power curve on the opposition power curve** — both are
+designer-controlled terms — and expect a per-area sawtooth (entry spike,
+plateau, boss spike, reward drop). A missing tooth or an inverted slope in the
+overlay locates a difficulty defect one term at a time, before any playtest.
+
 ## Decision rules
 
 - When a complaint arrives as "this is too hard", ask which term the complainant is short

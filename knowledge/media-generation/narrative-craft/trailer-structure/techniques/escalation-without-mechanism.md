@@ -111,6 +111,13 @@ order of how much they cost:
 - **For the shortest cuts.** At around fifteen seconds there is room for one
   state and one consequence; imposing a rung structure on it produces three
   half-rungs, none of which closes.
+- **For a mid-climax shape.** A recognised alternative arc peaks in the
+  middle and deliberately lets the audience back down — calm or atmospheric
+  works advertise honestly with it. The rising middle described here is one
+  shape, not the shape; audit against the shape the cut declares.
+- **Before the middle exists:** the practitioner opening move is to open big
+  enough to hook, then deliberately slow down to state the premise - the
+  rising middle starts after that reset, not at second zero.
 - **For a mood-led piece.** A cut built as one sustained emotional gradient
   rather than a sequence of steps is a recognised and successful shape, and
   auditing it for rungs will report a defect that is a deliberate choice.

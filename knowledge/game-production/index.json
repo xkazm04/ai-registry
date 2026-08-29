@@ -4,7 +4,7 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 41,
-  "techniques": 241,
+  "techniques": 245,
   "applications": 109,
   "laws": 11,
   "categories": [
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "241/241",
+  "use_when_coverage": "245/245",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -975,6 +975,20 @@
       "a regeneration must not lose the last instruction",
       "investigating why regenerated content changed"
      ]
+    },
+    {
+     "slug": "typed-operator-inheritance",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring a variant of an existing content entry",
+      "a base rebalance silently un-tuned every derivative",
+      "deciding between a template hierarchy and copied entries"
+     ]
     }
    ],
    "applications": [
@@ -1374,6 +1388,19 @@
      ]
     },
     {
+     "slug": "reward-cadence-first-diagnosis",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a pacing or difficulty complaint arrives without a located cause",
+      "deciding between restructuring a challenge curve and re-spacing rewards",
+      "reviewing a section players call a slog"
+     ]
+    },
+    {
      "slug": "setting-bounded-overlapping-bands",
      "status": "forged",
      "laws": [
@@ -1751,6 +1778,20 @@
    "file": "knowledge/game-production/systems-canon/game-economy-tuning/game-economy-tuning.md",
    "techniques": [
     {
+     "slug": "cost-curve-object-audit",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "pricing a new object against an existing roster",
+      "deciding whether an outlier is overpowered or merely undercosted",
+      "deriving the value of an effect no formula covers"
+     ]
+    },
+    {
      "slug": "economy-philosophy-multipliers",
      "status": "forged",
      "laws": [
@@ -1777,6 +1818,20 @@
       "specifying a currency's sources and drains",
       "deciding whether an economy is balanced",
       "auditing a design that has never had its net flow measured"
+     ]
+    },
+    {
+     "slug": "intransitive-equilibrium-solving",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "balancing options that counter each other rather than outrank each other",
+      "predicting the usage mix a tuning change will produce",
+      "a buffed option's pick rate did not move but its counter's did"
      ]
     },
     {
@@ -4587,6 +4642,7 @@
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
     "difficulty-design-and-adaptation/four-term-difficulty-decomposition",
     "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
+    "difficulty-design-and-adaptation/reward-cadence-first-diagnosis",
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
     "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
     "encounter-balance-simulation/kill-share-and-damage-share-attribution",
@@ -4599,6 +4655,7 @@
     "engine-pitfall-corpus/domain-scoped-injection-with-a-safe-superset",
     "engine-pitfall-corpus/introspect-before-you-call",
     "game-economy-tuning/faucet-sink-balance-band",
+    "game-economy-tuning/intransitive-equilibrium-solving",
     "game-economy-tuning/rarity-inflation-and-affix-saturation-alerts",
     "game-economy-tuning/tornado-sensitivity-sweeps",
     "game-economy-tuning/wealth-concentration-and-price-imbalance-alerts",
@@ -4702,6 +4759,7 @@
     "catalog-pipeline-authoring/view-produce-accept-triad",
     "combat-pacing-and-dramatic-arc/intensity-and-threat-tension-curve",
     "content-drift-and-revision/content-hash-vs-status-drift",
+    "content-drift-and-revision/typed-operator-inheritance",
     "crash-forensics-attribution/caller-chain-decay",
     "crash-forensics-attribution/crash-signature-over-id-equality",
     "crash-forensics-attribution/engine-crash-vocabulary",
@@ -4715,6 +4773,7 @@
     "engine-integration-safety/pid-scoped-teardown",
     "engine-integration-safety/single-instance-lease-and-drain",
     "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
+    "game-economy-tuning/cost-curve-object-audit",
     "game-economy-tuning/economy-philosophy-multipliers",
     "generated-asset-world-scale/import-scale-derivation",
     "generated-asset-world-scale/nominal-extent-only-where-honest",
@@ -4807,7 +4866,9 @@
     "engine-integration-safety/editor-thread-timeout-budgeting",
     "engine-pitfall-corpus/incident-entry-shape",
     "engine-pitfall-corpus/provenance-on-every-entry",
+    "game-economy-tuning/cost-curve-object-audit",
     "game-economy-tuning/faucet-sink-balance-band",
+    "game-economy-tuning/intransitive-equilibrium-solving",
     "game-economy-tuning/rarity-inflation-and-affix-saturation-alerts",
     "game-economy-tuning/tornado-sensitivity-sweeps",
     "game-economy-tuning/wealth-concentration-and-price-imbalance-alerts",
@@ -5012,6 +5073,7 @@
     "content-drift-and-revision/batch-lease-on-a-non-reentrant-resource",
     "content-drift-and-revision/bounded-revision-history",
     "content-drift-and-revision/orphaned-artifact-visibility",
+    "content-drift-and-revision/typed-operator-inheritance",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
     "engine-integration-safety/pid-scoped-teardown",
