@@ -1,7 +1,7 @@
 ---
 subject: machine-paced-delivery
 domain: software-engineering
-last_touched: 2026-08-28
+last_touched: 2026-08-29
 touched_by: intake
 dry_streak: 0
 ---
@@ -84,3 +84,10 @@ and 25, corroborated from training data rather than the page.
 Still owed from yesterday: the subject has no application for `human-gate-capacity`;
 the measures it prescribes have not been taken on any connected tree. The new Phase 8
 paired-proof rule makes that the shape of the next X-lane run here.
+## 2026-08-29 - second sighting of the thesis
+
+[[2026-08-29-ai-native-sdlc-and-ci-on-call]]: a vendor SDLC playbook opens on the
+same thesis `human-gate-capacity` landed on 2026-08-27 - build collapses, the
+human-speed stages become the constraint, add parallel sessions only while review
+keeps up. Catch at technique level; banked as a **law lead** (second sighting, same
+bundle both times). Return condition: a third sighting in a different bundle.

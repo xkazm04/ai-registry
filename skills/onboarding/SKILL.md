@@ -3,7 +3,7 @@ name: onboarding
 description: "Take a fresh clone of an app repo to a running, honestly-labelled install in one conversation: probe runtime deps, ask which connector capabilities the operator wants, collect keys into .env.local without ever echoing a secret, verify by booting the app, and hand back a capability matrix with three honest states per group (works / degraded with a stated fallback / hidden). Runs on generic defaults with no configuration (probe node, git and the Claude CLI; read .env.example; boot the dev script) and reads project specifics from .claude/onboarding/config.md. Invoke with /onboarding (full run), /onboarding <group> (one capability group), or /onboarding check (doctor pass, no questions)."
 category: workflow
 memory: none
-version: 0.3.0
+version: 0.4.0
 tags: onboarding, setup, env, secrets, capability-matrix, doctor, fresh-clone
 argument-hint: "[<group>|check]"
 ---
@@ -207,3 +207,22 @@ review and commit; do not commit it yourself.
 - `/onboarding <group>` — steps 2-5 for that group only.
 - `/onboarding check` — steps 1 and 4-5 with no questions: a doctor pass that
   only reports. This is the cheap "is my install still honest?" loop.
+
+---
+
+<!-- clause: skill-reflection v2 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+## Skill Reflection
+
+After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+
+**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in `.claude/onboarding/config.md`, or in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+
+**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
+1. If nothing generalizes beyond this repo, stop here.
+2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - onboarding` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
+3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
+4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/onboarding` in a consuming repo is a symlink to `<registry>/skills/onboarding` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/onboarding` and `git -C <registry> commit -m "skill(onboarding): v<new> - <one-line reason>"`. Never stage the link from the project side.
+5. NEVER copy this skill to `~/.claude/skills/onboarding/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/onboarding` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
+
+**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+<!-- /clause: skill-reflection -->

@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N]
 category: workflow
 contexts: tracked
 memory: project
-version: 2.2.0
+version: 2.7.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -29,7 +29,7 @@ returning to the next-least-covered area, not from skimming.
 
 **Default = the stabilize loop.** No arguments means: pick the least lens-covered
 context, sweep it, land what is safe, record coverage, then pick the next one and
-say so — round after round until the operator stops the session or every context
+say so - round after round until the operator stops the session or every context
 has been swept. Each round is self-contained: its commits are landed and its
 snapshot is written before the next context is chosen, so an interrupted loop
 loses nothing but the round in flight.
@@ -38,20 +38,20 @@ loses nothing but the round in flight.
 coverage <a>/<total>, last swept <age>) ──`. A loop whose rounds are not visible
 reads as one runaway session.
 
-## Strategies — pick at most one
+## Strategies - pick at most one
 
-- **`--stabilize` (DEFAULT)** — make what exists *solid*. Deep tier: bounty-hunter,
+- **`--stabilize` (DEFAULT)** - make what exists *solid*. Deep tier: bounty-hunter,
   error-handler, risk-assessor, code-optimizer, ux-reviewer,
   accessibility-checker, test-strategist, security-auditor. Aim ~80% of the
   finding budget at defects, broken or unpolished UI states, and measured
   performance problems. Feature ideas and architecture proposals are recorded as
-  findings only — never built under this strategy.
-- **`--develop`** — NEW capability. Deep tier: feature-scout, innovation-catalyst,
+  findings only - never built under this strategy.
+- **`--develop`** - NEW capability. Deep tier: feature-scout, innovation-catalyst,
   ux-reviewer, onboarding-designer, integration-planner, business-strategist,
   growth-hacker, monetization-advisor. ~70% of the budget at forward-building
-  items. Quality lenses still run as a light pass — a real defect is never
+  items. Quality lenses still run as a light pass - a real defect is never
   ignored, but marginal cleanups are dropped.
-- **`--optimize`** — QUALITY of what exists, deeper than stabilize goes: adds
+- **`--optimize`** - QUALITY of what exists, deeper than stabilize goes: adds
   tech-debt-tracker, dependency-auditor, devops-optimizer, documentation-auditor,
   mobile-specialist. ~70% of the budget at hardening, debt and coverage.
 
@@ -61,7 +61,7 @@ field.
 ## 1. Scope the round
 
 - `--one <context>` names the context. Otherwise **pick it**: read the context map
-  and the sweep history, and choose, in this order — the first context in map
+  and the sweep history, and choose, in this order - the first context in map
   order with NO snapshot at all; else the smallest `lens_keys` union (fewest
   lenses ever applied); tie → oldest latest snapshot. `scripts/coverage.mjs
   --next` computes exactly this and is the cheapest way to ask.
@@ -69,18 +69,22 @@ field.
   4/22, oldest 2026-08-11"). Coverage rotation must be auditable.
 - Stay inside the context's declared file paths for the whole round.
 
-## 2. Load shared awareness — BEFORE reading code
+## 2. Load shared awareness - BEFORE reading code
 
 - **Backlog memory** (overlay key `backlogDigest`, default
-  `.personas/backlog-digest.json`) — pending / accepted / rejected titles.
+  `.personas/backlog-digest.json`) - pending / accepted / rejected titles.
   **Never re-propose anything on those lists, including rephrasings of rejected
   titles.** A rejected title is a durable human "no".
-- **Hard gates** (`.claude/conventions.json` when present) — a finding that
+- **Hard gates** (`.claude/conventions.json` when present) - a finding that
   violates a declared gate is a defect you are about to introduce, not a finding.
-- **Sweep history** (`.claude/scan-history/scan-sweep.jsonl`) — prior snapshots,
+- **Sweep history** (`.claude/scan-history/scan-sweep.jsonl`) - prior snapshots,
   for the trend line and the lens-ordering rule.
-- **The registry**, when this repo consumes one — see §6. Consulting the governing
-  standard BEFORE judging is what separates a finding from an opinion.
+- **The registry**, when this repo consumes one - see §6. The registry is
+  KNOWLEDGE THAT FEEDS THE LENSES, not a lens of its own and not the sweep's
+  primary instrument: each lens reads the governing subject's techniques that
+  touch its concern and judges against them (§3). The one place where
+  "registry deviation" is itself the finding is the `registry-conformance`
+  lens, which runs like any other lens and is budgeted like any other lens.
 
 ## 3. Pick the lens package
 
@@ -93,25 +97,35 @@ field.
 - Within each tier, never-applied lenses (absent from prior `lens_keys`) go
   first. The package's job is to close lens coverage, not re-walk it.
 - List the deep / matched / remaining keys in the round header.
+- **Lenses are the instrument; the registry is what sharpens them.** A scan is
+  a set of prompts applied to the code - `error-handler` asks about error
+  doors, `code-optimizer` about render and query cost - and when the repo
+  consumes a registry (§6), each lens FIRST reads the techniques in the
+  governing subject that touch its concern, then judges the code against them
+  and names the technique in the finding. A lens whose concern has no
+  governing knowledge judges on the repo's own conventions and says so in the
+  finding. The `registry-conformance` lens is the ONLY lens whose findings are
+  the deviations themselves - the pure registry→backlog transformation - and
+  every other lens leaves those to it rather than restating them.
 
 ## 4. Survey, then judge
 
-1. Read the context's files and collect evidence FIRST — form no verdicts while
+1. Read the context's files and collect evidence FIRST - form no verdicts while
    still reading.
 2. Run any cheap deterministic check that applies (type-checker, linter, existing
-   script) and reconcile. Deterministic findings belong to those tools — do not
+   script) and reconcile. Deterministic findings belong to those tools - do not
    restate them as findings.
 3. Walk the lens package **sequentially**, and give each tier room to report:
    **deep tier ≤3** findings, **matched tier ≤2**, **remaining tier ≤1**, each
-   grounded in `file:line`. Zero from one lens is a valid result — say "nothing
+   grounded in `file:line`. Zero from one lens is a valid result - say "nothing
    real" and move on. Zero from a whole TIER is a claim about the codebase, and
    §4.9 is where you test it.
 
 4. **FIND GENEROUSLY, BUILD CONSERVATIVELY. These are different budgets and
    confusing them is the failure this clause exists to prevent.**
 
-   How much work a round does is decided by the ROUTING RULES in §5 — S builds,
-   M clears a ratio, L never builds — and not by how many findings exist. So the
+   How much work a round does is decided by the ROUTING RULES in §5 - S builds,
+   M clears a ratio, L never builds - and not by how many findings exist. So the
    finding budget is not a work budget: raising it raises the BACKLOG, which is
    the artefact the operator triages, and leaves the build volume where §5 put
    it. A sweep that finds five things in a 24-file context has not been
@@ -126,48 +140,48 @@ field.
 
    **THE BUDGET MUST BE ABLE TO ABSORB THE PACKAGE YOU RAN.** A 22-lens package
    against a 5-item budget is exhausted by lens three, and the other nineteen
-   have nowhere to put anything — they become coverage RECORDING, the ledger
+   have nowhere to put anything - they become coverage RECORDING, the ledger
    reads 22/22, and the round reports a clean tail it never had room to hear.
    If you narrow the budget, narrow the package with it (`--lenses`), or the
    coverage number is a lie you told yourself. Measured 2026-08-27: a 5-item
    budget over a full package yielded **0.098 findings per lens-pass** against
-   the same repository's **1.63** under a 6-lens package a fortnight earlier —
+   the same repository's **1.63** under a 6-lens package a fortnight earlier -
    17× less, from 3.6× more lenses.
 5. **Score both sides of every candidate.** *Reward* = user-visible or
    developer-measurable gain (impact 1-10). *Risk* = chance of breaking working
-   code, plus churn — lines rewritten per unit of gain (1-10). These two numbers
+   code, plus churn - lines rewritten per unit of gain (1-10). These two numbers
    drive every routing decision in §5, so guessing them is guessing the routing.
    Two hard rules learned from calibration:
    - **"Unused/dead" claims require proof.** A finding that says dead/unused MUST
      cite its zero-consumer grep in the evidence. Verified dead-code removal is
      the best reward/risk class there is; guessed dead-code removal is the worst.
    - **Repo-declared incremental migrations** (string extraction, token adoption
-     — whatever the repo calls fix-as-you-touch) are in scope for the nearest
+     - whatever the repo calls fix-as-you-touch) are in scope for the nearest
      lens in files you already read, never as a bulk migration, and never where a
      deterministic gate already tracks them.
 6. **Hunt for pairs, not for defect shapes.** On any codebase already swept a few
    times, pattern greps yield near zero. What still hits is **two
-   implementations of one rule that must agree, where only one was fixed** —
+   implementations of one rule that must agree, where only one was fixed** -
    client vs server validation, a gate vs its debit, an abstraction vs its
    un-migrated call sites, a doc's stated rule vs the code. Grep for the *shared
    symbol* and diff its call sites. The signal to abandon a grep battery is the
    *second* clean result, not the fifth.
 7. **Interrogate every hand-maintained list.** Coverage lists, allow-lists,
-   enumerations of tables or routes — ask *what enumerates the ground truth, and
+   enumerations of tables or routes - ask *what enumerates the ground truth, and
    is the test derived from that or from the list?* A test that reads the
    implementation's own list is coverage theater, and this class produces the
    highest-impact findings a sweep can find.
 
 8. **BEFORE you declare the round, check the yield.** A full package over a
    context of ten files or more should produce roughly **8-12** findings. Fewer
-   than **6 is a signal about YOUR PASS, not about the codebase** — the usual
+   than **6 is a signal about YOUR PASS, not about the codebase** - the usual
    cause is that you read the deep tier and let the tail report "nothing real"
    without ever pointing it at anything. Under 6, do one more pass before
    declaring: open the two largest files you only skimmed, and drive the three
    never-applied lenses at something specific rather than at the context in
    general.
 
-   A genuinely clean round is possible and must stay reportable — but it is a
+   A genuinely clean round is possible and must stay reportable - but it is a
    CLAIM, so state what you did to earn it: which files you read in full, which
    hypotheses you traced and why each failed. "Nothing found" and "nothing
    looked for" produce identical reports otherwise, and only one of them is a
@@ -177,73 +191,198 @@ field.
 
 9. **A clean lens is only credible once the tier around it has spoken.** If an
    entire tier reports nothing, name the three things in it you actually
-   checked. The tail's job is coverage AND a lighter hunt — it is not a list of
+   checked. The tail's job is coverage AND a lighter hunt - it is not a list of
    keys to write into the ledger.
 
-## 5. Routing — size decides who approves
+10. **EVERY finding is written in the standard form - no exceptions, no prose
+    dumps.** The operator decides from the deck at a glance and a cheaper model
+    (Sonnet, Haiku) executes from the text alone, so a finding that is vague
+    where another is precise is a finding that will be mis-decided or
+    mis-built. The `body` of a finding is markdown with exactly these `## `
+    sections, in this order, each present even when short:
 
-Classify every candidate:
+    ```markdown
+    ## Summary
+    One or two sentences: what is wrong (or missing) and where. No reasoning.
 
-- **S** — localized: one file, one mechanism (a rename, a guard, an attribute, a
+    ## Description
+    What the code does today, why that is a defect or a gap, and what "fixed"
+    looks like. Name the technique/golden path it violates when one applies.
+    `file:line` for every claim.
+
+    ## Flow
+    - the steps that reproduce or expose it, as bullets - user action -> code
+      path -> observed result
+    - for a proposal: the steps the fix takes, in build order
+
+    ## Expected impact
+    Who notices, what changes for them, and how it would be measured. One
+    sentence on what could break.
+
+    ## Evaluation
+    Claim: quality | performance | resilience | user | other - <what the idea
+      promises, one clause>
+    Before: <the measurement today - a number, a count, a reproduced
+      behaviour, or the sample you looked at>
+    After: <the same measurement under the proposed change - from a probe on a
+      small sample, a simulated run, or the gate you would run>
+    Method: probe | simulation | gate - <what you actually did to get the two
+      figures, in one line>
+    Result: better | not-better | unmeasurable
+    Gate: none | contract | policy | irreversible
+    ```
+
+    **The Evaluation is the routing step (§5), written down - and it is a
+    MEASUREMENT, not an opinion.** "Net positive" was the previous form, and it
+    let a plausible story pass for evidence: measured on this operator's deck
+    (2026-08-28), 44 of 64 human-gated ideas were `uncertain` because nobody
+    had checked the claim, and the executors then found premises false at the
+    point of build. So: pick the benefit the idea actually promises, take the
+    figure BEFORE (count the sites, time the path, reproduce the failure, read
+    the sample), take the same figure AFTER by the cheapest honest means -
+    apply the change to a small sample, walk the code path with the change in
+    your head and state what changes, or name the gate that will decide it -
+    and write both down. `better` means the After figure is better on the
+    claimed dimension without a worse figure on another you can see.
+    `not-better` is a finding you are REJECTING with its numbers attached.
+    `unmeasurable` is reserved for what genuinely has no figure - a new or
+    major capability, a redesign, a matter of taste - and is the only
+    result that goes to a human for the benefit question itself. Pure churn
+    measures the same before and after and is therefore `not-better`.
+
+    `evidence` is SEPARATE from `body` and is the proof, as a code block or a
+    `file:line` list - the exact lines, the grep output, the count - never a
+    restatement of the Description. `title` is the Summary compressed to one
+    line (≤ 80 chars, imperative for a fix, noun phrase for a defect).
+
+    The renderer (`TriageCardBody`) splits on these headings and paints each as
+    its own block; a body without them paints as one undifferentiated block
+    and reads as the lower-quality item it is. Do not invent extra sections;
+    put anything else under Description.
+
+## 5. Routing - the measured evaluation decides, the hard gates override
+
+Size still describes the work (and bounds what a single round may build), but
+it no longer decides who approves. **The Evaluation of §4.10 does.** The
+history of this section is three routing rules in one day on one operator's
+deck: reward/risk asked "how dangerous is the edit?"; net delta asked "does it
+sound better?" and passed 85 of 149 on stories; this one asks "is it
+measurably better on the dimension it promises?" - and can say NO, which the
+earlier two never could. A rule that only ever accepts or defers is not a
+gate.
+
+Classify every candidate by size for the build bound:
+
+- **S** - localized: one file, one mechanism (a rename, a guard, an attribute, a
   clamp, one component's states).
-- **M** — a few files or one subsystem seam; a normal PR.
-- **L** — structural: architecture-grade work spanning modules — new layers,
+- **M** - a few files or one subsystem seam; a normal PR.
+- **L** - structural: architecture-grade work spanning modules - new layers,
   protocol redesigns, cross-cutting migrations.
 
-| Size | Route |
-| --- | --- |
-| **S** | **Auto-approved. Build it in-session, no ask.** Subject only to the four vetoes below. |
-| **M** | **Reward/risk decides** — the table below. |
-| **L** | **Never built here. Always backlog.** No triage, no ask, no exception. |
+### The evaluation rule
 
-### The M rule — reward over risk
+| Result | Gate | Route |
+| --- | --- | --- |
+| `better` | `none` | **Auto-accept. Build it** - in-session, or by a coordinator subagent in a wave. |
+| `better` | contract / policy / irreversible | **Human.** The benefit is proven; the change still needs an owner who is not the author. |
+| `not-better` | any | **Reject**, with the Before/After figures as the rejection reason. It leaves the backlog. |
+| `unmeasurable` | any | **Human.** The benefit question itself is a judgement - new or major capability, redesign, taste. |
 
-Compute `RRR = impact / risk` from the scores you already assigned in §4.5.
+**What counts as a measurement.** A count (sites, files, keys, renders,
+IPC calls), a duration or a size, a reproduced failure and its absence, a
+test that goes red-then-green, a gate's exit code, or a walked sample of
+concrete inputs with their outputs before and after. "Cleaner", "more
+maintainable", "safer" with no figure is not a measurement; if you cannot
+attach one, the result is `unmeasurable`, not `better`. A probe on a SMALL
+sample is enough - three call sites, one reproduced flow, one timed path -
+as long as it is the same sample on both sides.
 
-| Condition | Route |
-| --- | --- |
-| `RRR >= 2.0` **and** `risk <= 4` | **Build** — auto-approved, same as an S. |
-| `RRR <= 1.0` **or** `risk >= 7` | **Backlog** — never built in-session. |
-| anything between | **Ask** when an operator is attending; **backlog** when unattended. |
+**The hard gates** - a gate applies when the implementation REQUIRES it, not
+when the finding merely mentions it. Design and feature are no longer gates:
+they are the `unmeasurable` result, because what makes them human is that
+their benefit has no figure, and when it does have one they are ordinary work.
 
-One line per asked item — title, reward, risk, RRR, what could break — and the
-operator picks. Accepted items join the execution queue; declined ones leave as
-findings.
+- **contract** - a DB schema, IPC/public API, generated binding, persisted
+  format or cross-repo contract. A reviewer who is not the author owns these.
+- **policy** - security, privacy, spend/cost, audit; what gets logged, stored,
+  sent, or paid for.
+- **irreversible** - deletes user data, rewrites stored history, a migration
+  with no rollback.
 
-**Pure churn has a reward of 0 by definition** — a refactor of working code with
-no user-visible or measurable gain scores `impact: 1` at most, so it can never
-clear the bar. That is the intent, not an accident of the formula.
+**Size still bounds the build.** An **L** is `unmeasurable` in practice -
+its benefit is architectural - and stays human; an auto-accepted M that grows
+past its seam mid-build is demoted like any other (§7.4). Effort / impact / risk are still scored - they
+order the queue and calibrate the delta - they just no longer gate it.
 
-### The four vetoes — they override every route above
+**Pure churn measures the same on both sides** and is therefore `not-better`
+- rejected, with the identical figures as the reason. That is the intent.
+
+**Two demotions are a measurement.** An idea that two independent executors
+turned back (each with a reason) has been measured twice at the point of
+build with the same result: it does not land. Treat it as `not-better` -
+reject it with both reasons attached - rather than re-queuing it for a third
+attempt. Measured 2026-08-29: three ideas reached a third executor and were
+demoted a third time, at ~200k tokens each.
+
+**Name the missing instrument.** `unmeasurable` covers two different things:
+a benefit that has no figure (taste, product direction), and a benefit that
+HAS a figure nobody can take yet (a performance claim with no benchmark, a
+resilience claim with no fault injector). For the second kind, say which
+instrument is missing in the Evaluation's After line - that sentence is a
+finding of its own for the next round, and it keeps `unmeasurable` from
+becoming the drawer where measurable-but-inconvenient claims go.
+
+### The four vetoes - they override every route above
 
 An item is backlogged regardless of size or RRR when it:
 
 1. **touches a file outside this context's declared paths** (see the parallel
-   rules in §7) — not yours to change this round;
+   rules in §7) - not yours to change this round;
 2. **changes a schema, a protocol, a public API or a generated-artifact
-   contract** — those need a reviewer who is not the author;
-3. **has no gate that can verify it** — if nothing in the repo can tell you the
+   contract** - those need a reviewer who is not the author;
+3. **has no gate that can verify it** - if nothing in the repo can tell you the
    fix worked, you are committing a belief;
-4. **is a foreign session's in-flight file** — a coordination call, not a triage
+4. **is a foreign session's in-flight file** - a coordination call, not a triage
    call. Say so in the finding so the next session knows the difference.
 
-**Unattended runs** (dispatched by an app or a fleet, no operator present): the
-"ask" band collapses to backlog. S still auto-builds — that is the whole point of
-the size class — and L still never does.
+**Unattended runs** (dispatched by an app or a fleet, no operator present):
+nothing changes - there is no "ask" band. `better` + no hard gate builds,
+`not-better` is rejected with its figures, everything else waits for the deck.
 
-## 6. The registry lane — consult before judging, propose after landing
+**What the backlog is FOR - and what never goes in it.** The Personas idea
+backlog (the memory outbox → `dev_ideas` → the Quick Answer triage deck) is the
+surface where a HUMAN or Athena decides. It holds exactly three things: the
+**ask** band, every **L**, and anything a veto turned back. An item the routing
+table already approved (an S, or an M that clears the bar) does **not** need a
+decision and must not be parked there - it is executed, in this CLI session:
+by the sweep itself in a single-context round, or, in a **coordinator wave**
+(many contexts, workers that return results instead of committing), by
+subagents the coordinator dispatches from the returned list, one context per
+subagent, each re-checking vetoes 2 and 3 before building and demoting to the
+backlog what fails them. Vetoes 1 and 4 are parallel-session vetoes: under a
+single coordinator they do not bind, and an S a worker turned back only for
+"outside my paths" or "shared surface" is still an S. A backlog full of
+approved-but-unbuilt S items is a sweep that stopped one step early - measured
+2026-08-28: 149 of 240 backlogged wave findings were auto-approvable by the
+sweep's own table.
+
+## 6. The registry lane - knowledge feeds the lenses, deviations are one lens, leads flow back
 
 Skip this section entirely when the repo declares no registry. When
 `.ai/manifest.yaml` carries `registry.local` (or `registry.remote`) and
 `knowledge.domains`, the repo consumes a shared knowledge corpus, and a sweep is
 one of the few moments that can pay into it as well as read from it.
 
-**Read side — before you judge (§4.3).** Resolve the subject governing this
+**Read side - before you judge (§4.3).** Resolve the subject governing this
 context and read its golden path plus the techniques whose `use_when` matches.
+This read is what the LENSES consume (§3): each lens takes the techniques that
+touch its concern into its own judging. The read is not itself a lens, and a
+list of "we deviate from technique X" is not a sweep - it is the output of ONE
+lens, `registry-conformance`, budgeted like every other one.
 
 - If `.ai/registry-map.json` exists it already holds the context→subject join;
   take the subject's `file` **verbatim** from the index. Never construct a path
-  from a slug — bundles are nested and depth is dynamic, so a built path points
+  from a slug - bundles are nested and depth is dynamic, so a built path points
   at a folder nobody walks.
 - Without a map, resolve through `<registry>/knowledge/<domain>/index.json`.
 - Without either, say so in the header (`registry: declared, unmapped`) and judge
@@ -252,7 +391,7 @@ context and read its golden path plus the techniques whose `use_when` matches.
 A finding that names the technique it violates is worth more than one that names
 a smell, and it arrives with the fix already described.
 
-**Log the consult** — append one line to `.ai/consults.jsonl`:
+**Log the consult** - append one line to `.ai/consults.jsonl`:
 
 ```json
 {"ts":"<ISO>","bundle":"<domain>","subjects":["<slug>"],"techniques":["<slug>"],"deviations":<n>}
@@ -377,9 +516,9 @@ Header first:
 - `registry: <domain>/<subject>` — or `none` / `declared, unmapped`.
 
 Then what SHIPPED, one line each (`fixed  <title> - <sha>`), then the backlogged
-findings. Per finding: **Title**, **Finding** (what and why, with `file:line`),
-**Recommendation**, **Scores** (size + effort / impact / risk, and the RRR for
-every M).
+findings — each in the standard form of §4.10 (Summary / Description / Flow /
+Expected impact, evidence separate), plus **Scores** (size + effort / impact /
+risk, and the RRR for every M).
 
 Close each round with: X built, Y backlogged, Z lenses evaluated, leads filed,
 the trend for this context (`12 -> 7 -> 5 findings`), and **the next context the
@@ -400,8 +539,15 @@ backlog as open work:
 Each BACKLOGGED finding:
 
 ```json
-{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"<what + why + recommendation, condensed>","evidence":"<file:line - one-line proof>","size":"S|M|L","effort":3,"impact":7,"risk":2}
+{"type":"finding","skill":"scan-sweep","lens":"<lens-key>","context":"<context>","title":"<title>","body":"## Summary\n...\n\n## Description\n...\n\n## Flow\n- ...\n\n## Expected impact\n...\n\n## Evaluation\nClaim: performance - ...\nBefore: ...\nAfter: ...\nMethod: probe - ...\nResult: better\nGate: none","evidence":"<code block or file:line list - the proof, not the prose>","size":"S|M|L","effort":3,"impact":7,"risk":2,"result":"better|not-better|unmeasurable","gate":"none|contract|policy|irreversible"}
 ```
+
+`body` is the §4.10 form verbatim — the five `## ` sections, newline-escaped in
+the JSON; `result` and `gate` repeat the Evaluation's verdict as fields so a
+consumer can route without parsing prose. A backlogged finding is, by
+construction, one whose result or gate said "human" — say which, on the card.
+A `not-better` finding is never emitted: it was rejected in the report. A finding emitted in any other shape is rejected at review, not
+reformatted.
 
 Escalation — at most one per lens, ONLY when that lens produced a critical
 finding (impact >= 8) or 3 real findings in this context:
@@ -461,16 +607,19 @@ fixed, last strategy and age, least-covered first. Then stop.
 
 ---
 
+<!-- clause: skill-reflection v2 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
-After the run's real work is done, reflect twice - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING for lane 2. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
+After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
 
-Lane 1 - PROJECT learnings (what the next session in THIS repo needs): write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to the memory outbox per that contract. Project-specific insight only.
+**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in `.claude/scan-sweep/config.md`, or in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
 
-Lane 2 - METHOD learnings (what would improve THIS SKILL for every project):
+**Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
 1. If nothing generalizes beyond this repo, stop here.
-2. Append an entry to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets. Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a methodic redesign you are NOT applying now.
-3. Version bump - ONLY when you also edit SKILL.md to apply the improvement in the same change: patch for a change that alters the directory without altering behaviour, minor for a prompt/step refinement, major for a methodic redesign. Never bump without an applied edit; never edit the method without a bump.
-4. Sync ritual (only when you bumped): commit the skill directory as a STANDALONE commit - message `skill(<name>): v<new> - <one-line reason>` - containing nothing but this skill's files, and regenerate the registry's marketplace manifest in the same change.
+2. Append to `LESSONS.md` in this skill's directory: `## <version-used> - <YYYY-MM-DD> - <project-name>` followed by `- ` bullets (create the file with a `# Lessons - scan-sweep` heading if absent). Record the version the run USED, not a bump target. Wrap a bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are NOT applying now. A lesson alone needs no version bump.
+3. Edit `SKILL.md` only together with a version bump, and bump only with an applied edit: patch for wording, minor for a step/prompt refinement, major for a methodic redesign. Update the `version:` frontmatter. Never edit inside a stamped `<!-- clause: ... -->` block: that text is shared by every skill in the lane and is changed in the registry's `docs/skill-clauses/` and re-stamped with `node <registry>/scripts/apply-skill-clauses.mjs`.
+4. Where the edit lands: THE SKILL DIRECTORY IS A LINK INTO THE REGISTRY. `.claude/skills/scan-sweep` in a consuming repo is a symlink to `<registry>/skills/scan-sweep` (registry root = `registry.local` in `.ai/manifest.yaml`, default `../ai-registry`; `$AI_REGISTRY_DIR` wins). Editing it edits the one file every project runs, so there is nothing to propagate. Commit it IN THE REGISTRY checkout as a standalone commit containing only this skill's files: run `node <registry>/scripts/check-skills.mjs --since HEAD` first (shape + version discipline must pass), then `git -C <registry> add skills/scan-sweep` and `git -C <registry> commit -m "skill(scan-sweep): v<new> - <one-line reason>"`. Never stage the link from the project side.
+5. NEVER copy this skill to `~/.claude/skills/scan-sweep/` or into another repo, and never "propagate" by copying. A copy in the personal tier shadows the lane for every project on the machine and freezes the method at that day's bytes with no version to compare (measured 2026-08-29: 11 such copies, all unversioned, all stale). If `.claude/skills/scan-sweep` is a real directory instead of a link, the fix is `node <registry>/scripts/link-registry.mjs`, not a copy in either direction.
 
-Note that a registry LEAD (§6) is a different artifact from a lane-2 lesson: a lesson improves this METHOD, a lead proposes DOMAIN knowledge. A run may produce either, both, or neither.
+**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
+<!-- /clause: skill-reflection -->

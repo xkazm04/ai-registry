@@ -7,8 +7,10 @@ without anybody having to remember, and so demand has a name before the
 
 **Slugs and domains only.** No paths, no hosts, no internals. This lane is public under
 the same rule as `usage/` and `signals/`, and the machine-readable half that resolves a
-slug to a checkout on one machine is `.projects.local.json` - gitignored, local, and
-never published. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake/SKILL.md), Phase 8.
+slug to a checkout is `projects.json` at the registry root - **committed**, because a
+path relative to a machine root names no tree until that root is supplied. Only
+`.machine.local.json` stays gitignored: the machine's name, its root, and its
+contributor id. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake/SKILL.md), Phase 8.
 
 ## The map
 
@@ -38,8 +40,44 @@ this repository and it does not get relaxed here.
 is *pointed at*, which is a statement about intent. What it actually consults arrives
 from the other side, as counts, or not at all.
 
+## Machines
+
+The fleet has named machines, and a project can be checked out on more than one at
+once, **at a different path on each**. `projects.json` gives every project a
+`checkouts` map — machine name -> that machine's own relative path:
+
+```json
+"personas": {
+  "checkouts": {
+    "Fox":  "dolla/personas",
+    "Wolf": "code/personas"
+  }
+}
+```
+
+The keys ARE the machines it exists on; a machine absent from the map does not have
+it, and resolving there yields nothing rather than an error. Adding a machine is
+adding one key. `.machine.local.json` says which machine this is, the root those
+paths resolve against, and — for a checkout that cannot be expressed relative to
+that root at all (another drive) — an optional `overrides` map, which is where an
+absolute path is allowed to live because that file is never published.
+
+| Machine | Role |
+| --- | --- |
+| `Fox` | secondary dev box |
+| `Wolf` | primary dev box |
+
+Domains are deliberately NOT in `projects.json`. Every project declares its own in its
+`.ai/manifest.yaml` (`knowledge.domains`), which is committed in that project and is the
+only authority on what governs it. The registry reads them from there. A second copy is
+how the first one goes stale - and it did: the old bridge carried a `domains` array that
+one machine never filled in, so `build-registry-map.mjs` skipped all seven projects and
+wrote nothing, silently, for days.
+
 ## Adding one
 
-Edit both halves in the same change: this table, and `.projects.local.json` on the
-machine that needs to resolve it. A project in only the local half is invisible to
+Edit both halves in the same change: this table, and `projects.json` at the registry
+root. Only a NEW machine needs a local file - write `.machine.local.json` with its
+name, its root and its contributor id, then add that name to the project's `machines`
+array in `projects.json`. A project in only the local half is invisible to
 review; a project in only this one cannot be reached by a run.

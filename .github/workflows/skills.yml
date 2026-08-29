@@ -24,9 +24,9 @@ name: skills
 on:
   push:
     branches: [main]
-    paths: ['skills/**', '.claude-plugin/**', 'scripts/check-skills.mjs', 'scripts/build-marketplace.mjs', 'scripts/lib/skills-lane.mjs', '.github/workflows/skills.yml']
+    paths: ['skills/**', 'docs/skill-clauses/**', 'scripts/apply-skill-clauses.mjs', '.claude-plugin/**', 'scripts/check-skills.mjs', 'scripts/build-marketplace.mjs', 'scripts/lib/skills-lane.mjs', '.github/workflows/skills.yml']
   pull_request:
-    paths: ['skills/**', '.claude-plugin/**', 'scripts/check-skills.mjs', 'scripts/build-marketplace.mjs', 'scripts/lib/skills-lane.mjs', '.github/workflows/skills.yml']
+    paths: ['skills/**', 'docs/skill-clauses/**', 'scripts/apply-skill-clauses.mjs', '.claude-plugin/**', 'scripts/check-skills.mjs', 'scripts/build-marketplace.mjs', 'scripts/lib/skills-lane.mjs', '.github/workflows/skills.yml']
   workflow_dispatch:
 
 jobs:
@@ -41,6 +41,10 @@ jobs:
       # No install step: the gate is dependency-free by design.
       - name: Check the skills lane
         run: node scripts/check-skills.mjs
+      # The shared clauses (Skill Reflection, Knowledge sync) are stamped from ONE template in
+      # docs/skill-clauses/; a hand edit inside a stamped block is drift and fails here.
+      - name: Check the shared clauses are stamped and current
+        run: node scripts/apply-skill-clauses.mjs --check
       # The marketplace manifest is a GENERATED view over the lane (one plugin per skill,
       # version copied from frontmatter). A stale manifest ships the wrong version to every
       # installation that updates, so freshness is gated like the catalog's.

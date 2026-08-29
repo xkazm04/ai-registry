@@ -44,16 +44,36 @@
  *   so `--check` can say exactly which pairs were judged against a bundle that has since
  *   moved, rather than invalidating the whole map on any change.
  *
+ * ## Two gates the first backtest wave demanded (2026-08-29, 150 pairs judged)
+ *
+ * - **A pair must be grounded in a trigger, not only in a name.** Twelve-plus pairs in that
+ *   wave were lexical resonance: the credential vault matched `markdown-vault` on the word
+ *   *vault*, a template wizard matched `adoption-measurement` on a directory name, a shell
+ *   gate harness matched `eval-harness` on *harness*. Every worker proposed the same fix -
+ *   route by the subject's precondition, not its vocabulary. The index carries no golden-
+ *   path precondition, but every technique's `use_when` was written as exactly that: the
+ *   condition under which the technique applies. So each pair now records where its score
+ *   came from. A pair whose `use_when` share is below `GROUNDING_FLOOR` is marked
+ *   `grounding: "lexical-only"` and capped at `probable` - never `strong` - so a conform
+ *   worker skips it by default and a reader sees why it is there. It is still emitted:
+ *   a name match is a lead for a missing pairing, not nothing.
+ * - **A path that no longer exists must not feed the match.** At least thirty listed paths
+ *   in that wave's briefs were gone and two contexts were entirely dead; a worker cannot
+ *   tell deleted from renamed-and-still-governed. Missing paths are dropped from the bag,
+ *   listed on the row as `pathsMissing`, and a context with no surviving path is marked
+ *   `governance: "dead"` with no subjects scored - its carried verdicts survive, its
+ *   matcher output does not.
+ *
  *   node scripts/build-registry-map.mjs [--check] [--project <slug>] [--top <n>]
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { loadBridge } from './lib/projects.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
-const BRIDGE = path.join(ROOT, '.projects.local.json');
 const CATALOG = path.join(ROOT, 'catalog.json');
 const checkOnly = process.argv.includes('--check');
 const pIdx = process.argv.indexOf('--project');
@@ -70,12 +90,20 @@ const STRONG = 0.8;           // ...and call the ones within 80% of it strong
 // is a list a person reads. A generous flag is the right error to make - a false weak costs
 // a glance, a missed hole stays invisible.
 const WEAK_FRACTION = 0.6;
+// Share of a pair's score that must come from technique `use_when` tokens - the written
+// trigger conditions - for the pair to count as grounded. Below it the match is the
+// subject's name echoing in the repo's vocabulary, which the first backtest wave measured
+// as the dominant mispairing shape.
+const GROUNDING_FLOOR = 0.25;
 
-if (!fs.existsSync(BRIDGE)) {
-  console.error(`FATAL: no ${path.basename(BRIDGE)} - this tool needs the local bridge (slug -> path).`);
+const fleet = loadBridge(ROOT)._fleet;
+if (!fleet.machine && !Object.keys(fleet.projects).length) {
+  console.error('FATAL: this machine has no resolvable fleet.');
+  for (const p of fleet.problems) console.error(`  - ${p}`);
+  console.error('  Expected a committed projects.json plus a local .machine.local.json (see librarian/projects.md).');
   process.exit(2);
 }
-const bridge = JSON.parse(fs.readFileSync(BRIDGE, 'utf8'));
+const bridge = fleet;
 const catalog = fs.existsSync(CATALOG) ? JSON.parse(fs.readFileSync(CATALOG, 'utf8')) : { bundles: [] };
 const bundleHash = Object.fromEntries((catalog.bundles ?? []).map((b) => [b.name, b.contentHash]));
 
@@ -110,14 +138,21 @@ const loadBundle = (name) => {
     // Weights: the subject's own slug is its identity; a technique's `use_when` was written
     // to be matched on; a technique slug sits between the two.
     const parts = [[slug.replace(/-/g, ' '), 6]];
+    const triggerParts = [];
     for (const t of techniques) {
       parts.push([String(t.slug ?? '').replace(/-/g, ' '), 3]);
-      for (const u of t.use_when ?? []) parts.push([u, 2]);
+      for (const u of t.use_when ?? []) { parts.push([u, 2]); triggerParts.push([u, 1]); }
     }
     subjects.push({
       slug, bundle: name, file: s.file, category: s.category, subcategory: s.subcategory ?? null,
       techniques: techniques.map((t) => t.slug), stacks: [...new Set((s.applications ?? []).map((a) => a.stack).filter(Boolean))],
       bag: bag(parts),
+      // The tokens that came from a written trigger condition, kept apart so a pair can say
+      // how much of its score is precondition and how much is the subject's own name.
+      // The subject's own name is excluded on purpose: `markdown-vault`'s triggers say
+      // "vault" too, and a credential vault echoing that word is the mispairing this gate
+      // exists to catch. Grounding must come from the condition, never from the noun.
+      triggerTokens: (() => { const own = new Set(tokenize(slug)); return new Set([...bag(triggerParts).keys()].filter((t) => !own.has(t))); })(),
     });
   }
   return subjects;
@@ -199,6 +234,17 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   // is rare among subjects (high subject-idf) and near-universal among contexts - which put
   // `test-harness` on 63% of one project's contexts as a top match. Weighting by both sides
   // keeps a token only when it is distinctive in the corpus AND distinctive in the repo.
+  // A listed path that no longer exists must not feed the match: its name is the one thing
+  // a dead file still has, and it is exactly what the matcher scores on.
+  let contextsWithMissing = 0;
+  let dead = 0;
+  for (const c of cm.contexts) {
+    c.pathsMissing = c.paths.filter((rel) => !fs.existsSync(path.join(p.path, rel)));
+    if (c.pathsMissing.length) contextsWithMissing += 1;
+    c.dead = c.paths.length > 0 && c.pathsMissing.length === c.paths.length;
+    if (c.dead) dead += 1;
+    c.paths = c.paths.filter((rel) => !c.pathsMissing.includes(rel));
+  }
   const bags = cm.contexts.map((c) => contextBag(c));
   const cdf = new Map();
   for (const b of bags) for (const t of b.keys()) cdf.set(t, (cdf.get(t) ?? 0) + 1);
@@ -211,18 +257,22 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     const cb = bags[ci];
     const scored = [];
     for (const s of subjects) {
+      if (c.dead) break;
       let score = 0;
+      let triggerScore = 0;
       const hits = [];
       for (const [t, w] of cb) {
         const sw = s.bag.get(t);
         if (!sw) continue;
         const contribution = Math.sqrt(w * sw) * idf(t) * cidf(t);
         score += contribution;
+        if (s.triggerTokens.has(t)) triggerScore += contribution;
         hits.push([t, contribution]);
       }
       if (score >= SCORE_FLOOR) {
         hits.sort((a, b) => b[1] - a[1]);
-        scored.push({ subject: s.slug, bundle: s.bundle, score: Math.round(score * 10) / 10, why: hits.slice(0, 3).map((h) => h[0]) });
+        const grounding = triggerScore / score >= GROUNDING_FLOOR ? 'use_when' : 'lexical-only';
+        scored.push({ subject: s.slug, bundle: s.bundle, score: Math.round(score * 10) / 10, why: hits.slice(0, 3).map((h) => h[0]), grounding });
       }
     }
     scored.sort((a, b) => b.score - a.score);
@@ -233,13 +283,15 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     // of the ranking: the subjects that come close to the leader, and the tail that does not.
     const best = scored.length ? scored[0].score : 0;
     const top = scored.filter((s) => s.score >= best * RELATIVE_FLOOR).slice(0, TOP)
-      .map((s) => ({ ...s, confidence: s.score >= best * STRONG ? 'strong' : 'probable' }));
-    if (!top.length) unmatched += 1;
+      .map((s) => ({ ...s, confidence: s.score >= best * STRONG && s.grounding === 'use_when' ? 'strong' : 'probable' }));
+    if (!top.length && !c.dead) unmatched += 1;
     mapped.push({
       context: c.id,
       name: c.name,
       group: c.group,
       paths: c.paths.slice(0, 12),
+      ...(c.pathsMissing.length ? { pathsMissing: c.pathsMissing.slice(0, 12) } : {}),
+      ...(c.dead ? { governance: 'dead' } : {}),
       // Verdict fields are written only once a verdict exists. Emitting `evidence: null`
       // on every unjudged pair cost ~40% of the file for no information at all.
       subjects: top.map((t) => ({ ...t, state: 'unknown' })),
@@ -257,6 +309,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   let weak = 0;
   for (const r of mapped) {
     const best = r.subjects[0]?.score ?? 0;
+    if (r.governance === 'dead') continue;
     r.governance = best >= medianTop * WEAK_FRACTION ? 'governed' : 'weak';
     if (r.governance === 'weak') weak += 1;
     // `strong` is now relative to the leader AND to the project: a context whose own leader
@@ -332,6 +385,9 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       pairs: mapped.reduce((n, r) => n + r.subjects.length, 0),
       unmatched,
       weaklyGoverned: weak,
+      deadContexts: dead,
+      contextsWithMissingPaths: contextsWithMissing,
+      lexicalOnlyPairs: mapped.reduce((n, r) => n + r.subjects.filter((s) => s.grounding === 'lexical-only').length, 0),
       medianTopScore: Math.round(medianTop * 10) / 10,
       carriedVerdicts: carried,
       restoredPairs: restored,
@@ -352,13 +408,13 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
 
   const evaluated = mapped.reduce((n, r) => n + r.subjects.filter((s) => s.state !== 'unknown').length, 0);
   const deviations = mapped.reduce((n, r) => n + r.subjects.filter((s) => s.state === 'deviation').length, 0);
-  rows.push({ slug, contexts: mapped.length, pairs: doc.stats.pairs, weak, evaluated, deviations, stale });
+  rows.push({ slug, contexts: mapped.length, pairs: doc.stats.pairs, weak, evaluated, deviations, stale, dead, lexical: doc.stats.lexicalOnlyPairs, missing: contextsWithMissing });
 }
 
 console.log(`registry map - ${rows.length} project(s), <=${TOP} subject(s) per context, kept within ${Math.round(RELATIVE_FLOOR * 100)}% of each context's best match\n`);
-console.log('  project        contexts  pairs  weak  evaluated  deviations  state');
+console.log('  project        contexts  pairs  weak  evaluated  deviations  state    dead  stale-paths  lexical-only');
 for (const r of rows) {
-  console.log(`  ${r.slug.padEnd(14)} ${String(r.contexts).padEnd(9)} ${String(r.pairs).padEnd(6)} ${String(r.weak).padEnd(5)} ${String(r.evaluated).padEnd(10)} ${String(r.deviations).padEnd(11)} ${r.stale ? (checkOnly ? 'STALE' : 'rebuilt') : 'current'}`);
+  console.log(`  ${r.slug.padEnd(14)} ${String(r.contexts).padEnd(9)} ${String(r.pairs).padEnd(6)} ${String(r.weak).padEnd(5)} ${String(r.evaluated).padEnd(10)} ${String(r.deviations).padEnd(11)} ${(r.stale ? (checkOnly ? 'STALE' : 'rebuilt') : 'current').padEnd(8)} ${String(r.dead).padEnd(5)} ${String(r.missing).padEnd(12)} ${r.lexical}`);
 }
 const totalWeak = rows.reduce((n, r) => n + r.weak, 0);
 const totalPairs = rows.reduce((n, r) => n + r.pairs, 0);

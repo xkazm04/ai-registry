@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 993,
+  "techniques": 995,
   "applications": 443,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "993/993",
+  "use_when_coverage": "995/995",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6949,6 +6949,22 @@
      ]
     },
     {
+     "slug": "discriminating-task-selection",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a search over many candidate configurations re-runs the whole suite per candidate",
+      "most scenarios come back the same for every candidate",
+      "ranking candidates from a partial run",
+      "a selection suite has quietly stopped separating anything"
+     ]
+    },
+    {
      "slug": "eval-economics",
      "status": "forged",
      "laws": [
@@ -6959,8 +6975,11 @@
      "shared_with": [],
      "use_when": [
       "deciding whether a planned matrix run is affordable",
+      "a selection survey is being run on the regression golden set",
       "scores still cited after the suite stopped running",
-      "choosing what a cache key treats as the same question"
+      "choosing what a cache key treats as the same question",
+      "an instruction file",
+      "skill or hook changed and nothing re-ran the suite"
      ]
     },
     {
@@ -6976,7 +6995,10 @@
       "a suite went red and nobody knows what to change",
       "the aggregate improved but the same failures recur",
       "deciding whether a failing case is a defect or a bad label",
-      "an agent-based system failed and both the prompt and the model look correct"
+      "an agent-based system failed and both the prompt and the model look correct",
+      "designing the change a failing class calls for",
+      "an optimizer or agent is proposing harness changes and nothing says how many at once",
+      "a model upgrade landed and the harness still carries the previous model's workarounds"
      ]
     },
     {
@@ -8707,7 +8729,8 @@
      "stack": "rust",
      "technique": "terminal-state-recovery",
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--terminal-state-recovery.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-28",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -12959,6 +12982,22 @@
       "deciding whether a hook may fix what it finds",
       "a second tool installs its own commit check",
       "checks pass on clones where nothing ran"
+     ]
+    },
+    {
+     "slug": "oracle-frozen-during-repair",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent is asked to make a failing check pass",
+      "a fix and the test that proves it arrive in the same change",
+      "a repair task's diff touches a test or a skip directive",
+      "deciding what a fixer may write to"
      ]
     },
     {
@@ -18479,6 +18518,7 @@
     "error-handling/swallowed-error-prevention",
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
+    "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
@@ -18578,6 +18618,7 @@
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
+    "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
@@ -18930,6 +18971,7 @@
     "quality-gates/enforcement-binding",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
+    "quality-gates/oracle-frozen-during-repair",
     "quality-gates/ratchet-design",
     "quality-gates/unmeasurable-criteria",
     "rate-limiting/refusal-contract",
@@ -19225,6 +19267,7 @@
     "error-handling/swallowed-error-prevention",
     "eval-harness/certification-levels",
     "eval-harness/comparison-modes",
+    "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
@@ -19525,6 +19568,7 @@
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/provenance-denormalization",
     "eval-harness/comparison-modes",
+    "eval-harness/discriminating-task-selection",
     "eval-harness/scenario-design",
     "executive-reporting/expiring-share-links",
     "feed/event-clustering",
@@ -20479,6 +20523,7 @@
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/enforcement-binding",
+    "quality-gates/oracle-frozen-during-repair",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",

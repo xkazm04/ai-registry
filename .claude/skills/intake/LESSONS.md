@@ -2148,3 +2148,150 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
 - 0 of 3 fetches, eleventh consecutive corpus-internal run. Every landing corroborated
   either by the amended technique's own stated principle extended to a case it did not
   cover, or by training-data convergence reached without the source in view.
+## 0.15.0 - 2026-08-29 - ai-native-sdlc-and-ci-on-call
+
+- **A vendor doctrine document is a listicle without the pain.** Fifteen candidates,
+  and the three highest-impact ones were all cases where the source stated a rule the
+  corpus already modelled more carefully - the yield was in the two places the source
+  *conflated* things the corpus keeps apart (signal magnitude vs diagnostic confidence;
+  ask-controls vs decide-controls). Read a playbook for its tier tables and its
+  "belongs in stage N" placements; those are where a vendor's simplification is
+  checkable.
+- **The batch pairing worked in one direction only.** The first-party account gave the
+  measured half (median minutes, a lessons-log correction); the doctrine document gave
+  the general rule. Where both said the same thing (tiered response) the pair counted
+  as two voices and the corpus's own ladder made three - enough for an amendment, not
+  a technique. Where only the doctrine spoke, the landing was gated on training-data
+  convergence and never on the source.
+- **The worklist tie-breaker paid.** The one new technique went to the #2 attention
+  point (`quality-gates`, never swept), and the gap there had the missing-stage shape:
+  the merge-gate half of the rule existed in another subject; the in-task half did
+  not. Check `proposal-not-push`'s reserved classes before writing anything about
+  what an agent may edit - three findings now trace to that list.
+- **0 of 3 fetches, eighth consecutive.** Nothing in either post needed a primary;
+  the product-keyed settings block was the only thing a fetch could have extended,
+  and it is application-grade with no tree opened.
+
+## 0.15.0 - 2026-08-29 - recuris-dual-memory
+
+- **Single-paper explainer is the paper-aggregator class at n=1, and the fetch is the
+  extraction.** The video gave headline deltas and a metaphor; the paper's ablation table
+  - which the video never mentioned - was the only thing worth landing. For this class,
+  fetch the primary before triage and read its ablations before its headline.
+- **Missing-stage shape, tenth sighting.** `working-memory` was thorough about how the
+  state is rewritten and silent about who checks the rewrite. The hunt "who verifies
+  this?" over a technique's verbs is cheap and keeps paying.
+- **Cross-bundle laws corroborate an amendment for free.** Two other bundles carried the
+  rule as a law (`no-gate-self-certifies`, `coverage-is-counted-not-claimed`); named in
+  prose, not linked, and the training-data convergence was total.
+- 2 of 3 fetches, both extraction, unattended run; picked by impact, two accepted rows
+  share one root and were counted as one finding.
+
+## 0.15.0 - 2026-08-29 - graph-engineering-system-intelligence
+
+- **A paper critique is a source class the table does not name, and it behaves like
+  the dialogue.** The paper half is a framework survey relayed second-hand and strips
+  to nothing; the critique half is a practitioner disagreeing with a taxonomy - first-
+  party about a view, not a system. Its value is that every counter-case the critic
+  raises is an enumeration being challenged, which is the highest-yield thing to read
+  the corpus against. Read the critique half for boundaries, the paper half for leads.
+- **The source argued for tearing down the thing the corpus builds, and the finding was
+  a stage inside it.** "A fixed ontology detects only known unknowns" is true; the
+  corpus's closed vocabulary is also right; what was missing was where the gate's
+  refusals go. Fourth time a contradicted source located the gap while prescribing the
+  wrong fix - a pattern now, not an observation.
+- **`subagent` returned zero corpus-wide and it was vocabulary, not a hole.** Before
+  treating an empty as a finding, try the corpus's own word (worker, session, seat).
+- Ninth consecutive zero-fetch run for a source carrying its own material.
+
+## 0.15.0 - 2026-08-29 - future-of-ai-harness-to-rsi
+
+- **A commentator's digest with no product names is the strip test's blind spot.** The
+  test passed nearly every candidate and most of what survived was the textbook. For
+  this class the second filter is "which file *measures* it" - five of ten candidates
+  were catches, found by opening the golden path rather than by the map.
+- **The finding was a stage, again, and the source only supplied the generalization.**
+  The prompt-scoped rule existed in another bundle; the source's component
+  enumeration is what let it apply to tools, memory, context and verifiers. Two
+  bundles reaching the same rule from different sides is corroboration enough for an
+  amendment - and the cross-bundle situation is a discriminator in the subject note,
+  never a link.
+- **0 of 3 fetches, ninth consecutive, but this time the class said the fetch would be
+  the extraction.** It was not, because the papers never became picks; they became
+  leads with a return condition. A second-hand survey of papers yields the papers as
+  leads unless a pick actually depends on their protocol.
+
+## 0.15.0 - 2026-08-29 - task-coevolve-harness-optimization
+
+- **The class file's rule held on first contact with a paper review: the fetch was
+  the extraction.** The 2,744-word video carried the thesis and the headline numbers;
+  every non-obvious element of the technique - the never-solved floor, the
+  uncertainty bonus, the two estimators, the authors' own stated limitation - was in
+  the paper and none of it was in the video. Two fetches (a search to locate the
+  primary, then its HTML) after eight zero-fetch runs; the streak was a property of
+  the classes mined, exactly as the class file says.
+- **The inversion hunt paid where the enumeration hunt did not.** No enumeration in
+  `eval-harness` was too narrow this time; the finding was a rule the corpus praises
+  (`eval-economics`: the golden set is frozen and saturated) that is exactly wrong one
+  row down its own cadence table. When a candidate contradicts a sentence the corpus
+  is proud of, ask which *question* the sentence was answering before writing either a
+  correction or a catch - here both sides are right and the discriminator is the
+  question.
+- **A same-day technique is the best boundary partner.** `oracle-frozen-during-repair`
+  landed the previous run and says "freeze"; the source says "do not stay fixed". Two
+  runs apart that would have read as a contradiction to resolve; one day apart it was
+  obvious that *what moves* is the discriminator. Check the previous run's landings
+  for the opposite side of a new claim before mapping.
+- **Shared checkout, again.** A sibling session was amending `failure-attribution.md`
+  in the same subject mid-run, and had regenerated the civic-intelligence index. Left
+  both unstaged; committed the eval-harness index and catalog only. The catalog hash
+  will be re-cut by whichever run commits next, which is fine in a tree where both
+  runs regenerate before committing.
+
+## 0.15.0 - 2026-08-29 - two-loop-rsi-llm-and-harness
+
+- **A second-hand survey can still point at an asymmetry.** The class entry says this
+  class is reliable for "that the world moved" and nothing else, and for content that
+  held: six catches, two thin leads. But the source's one emphatic sentence mirrored a
+  completeness claim the corpus makes on exactly one side (suite expires with the
+  candidate; harness compensations do not expire with the model), and the finding came
+  from opening the mirror, not from believing the video. For this class, spend the
+  verification budget on "which corpus sentence does the source's strongest line
+  mirror" rather than on corroborating the source.
+- **The corpus held both halves of the rule two subjects apart.** `hitl-approval`
+  had the general shape (a compensating capability names its retirement condition)
+  and `eval-harness` had the suite-side instance; the amendment is the join. When a
+  candidate feels familiar, grep the bundle for the *shape* of the rule, not its
+  subject - the corroboration may already be inside.
+- **When the target file is another session's live WIP, hold the amendment in the
+  source note, verbatim, with a return condition.** Same subject, same technique, same
+  hour: the other session's section and this one compose, and the only safe landing
+  was to write the text where the next run can paste it - and here the other session
+  committed minutes later, so the return condition was met and the section landed in
+  a second commit inside the same run. A held amendment is `dispatched`, not
+  `accepted`, until it lands. Re-check `git status` for the target
+  file between Phase 6 and Phase 7, not only at Phase 10.
+- **Class prediction stated before triage held to the number** (0 techniques, 1
+  amendment at most, leads for the paper). Ninth consecutive zero-fetch run; a
+  paper explainer that never names the paper leaves the fetch nothing to hit.
+
+## 0.15.0 - 2026-08-29 - method redesign (operator-directed): apply and A/B test, scorecard reflection
+
+- **The operator's critique, verbatim in substance: the skill was enriching a wiki.**
+  Twenty-six runs landed techniques and amendments; the cross-repo lane (Phase 8) was
+  opt-in and was taken on two of them. The funnel had no measured stage after
+  "landed", so nothing ever reported that the last three stages of research ->
+  extract -> test -> apply -> ship were converting at zero.
+- **Redesign applied as 1.0.0:** Phase 7.5 makes apply mandatory per landed technique
+  or amendment, with a graded mode ladder (code / experiment / simulation) so the step
+  is never unreachable, a closed verdict vocabulary borrowed from scan-sweep 2.5
+  (better / not-better / unmeasurable, not-better is a rejection), an applied ledger
+  in `librarian/applied.md`, and `/intake apply <technique>` for backfilling the
+  wiki debt. Phase 11 becomes the shared skill-reflection shape (lanes 0-3) with a
+  per-run `SCORECARD.md` row on the five stages and a mandatory "weakest stage" line
+  that sets the next run's focus - the mechanism that turns repetition into mastery.
+- **Simulation is allowed and bounded.** Three real cases from the tree or its
+  history, each walked under both policies, with a falsifier. Invented cases do not
+  count. This is the floor that stops "we could not test it" from being an exit.
+- **Not done in this session:** the backfill. The five landings from the morning run
+  are the first rows owed; the scorecard says so and names the first one.

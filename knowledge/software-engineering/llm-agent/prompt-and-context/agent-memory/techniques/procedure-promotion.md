@@ -143,6 +143,15 @@ aggregate success hides that the promotion investment has stopped paying.
   [gate-sees-target](../../../../_laws.md#gate-sees-target) logic: audit
   the behaviour, not the index.
 
+The scoping rule has a sharper form than "declared domain". The same 2026
+harness study that measured the verified working state found that a skill
+store invoked against the *full interaction history* contributed +1.5 to
++2.0 points - within noise - while the same store invoked against a
+verified **current task state** contributed to a +25.4 total. Select from
+the library by what the working memory says is open now, not by what the
+transcript mentions; a promoted procedure retrieved against history is
+recalled for a need the task may have already closed.
+
 ## One promotion door
 
 Promotion is a mutation of the agent's capability surface, and it gets exactly

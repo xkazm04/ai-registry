@@ -24,6 +24,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadBridge } from './lib/projects.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'usage');
@@ -32,10 +33,10 @@ const arg = (k) => process.argv.find((a) => a.startsWith(`--${k}=`))?.slice(k.le
 const force = process.argv.includes('--force');
 
 let bridgeContributor = null;
-try { bridgeContributor = JSON.parse(fs.readFileSync(path.join(ROOT, '.projects.local.json'), 'utf8')).contributor ?? null; } catch { /* no bridge: --contributor required */ }
+try { bridgeContributor = loadBridge(ROOT).contributor ?? null; } catch { /* no machine file: --contributor required */ }
 const contributor = String(arg('contributor') ?? bridgeContributor ?? '').trim();
 if (!/^[a-z0-9][a-z0-9-]*$/.test(contributor)) {
-  console.error('FATAL: --contributor=<id> ([a-z0-9-], non-identifying) is required (or "contributor" in .projects.local.json).');
+  console.error('FATAL: --contributor=<id> ([a-z0-9-], non-identifying) is required (or "contributor" in .machine.local.json).');
   process.exit(2);
 }
 
@@ -78,9 +79,8 @@ addSkillDirs(path.join(ROOT, 'skills'));
 addSkillDirs(path.join(ROOT, '.claude', 'skills'));
 addSkillDirs(path.join(os.homedir(), '.claude', 'skills'));
 try {
-  const bridge = JSON.parse(fs.readFileSync(path.join(ROOT, '.projects.local.json'), 'utf8'));
-  for (const p of Object.values(bridge.projects ?? {})) if (p?.path) addSkillDirs(path.join(p.path, '.claude', 'skills'));
-} catch { /* no bridge: the lane alone decides */ }
+  for (const p of Object.values(loadBridge(ROOT).projects)) if (p?.path) addSkillDirs(path.join(p.path, '.claude', 'skills'));
+} catch { /* no fleet resolvable: the lane alone decides */ }
 
 // A plugin-installed skill may be logged as "<plugin>:<skill>"; fold it onto the bare
 // name so one skill is one row.

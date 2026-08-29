@@ -322,3 +322,269 @@ All three were mine, all three in this session, all three now in SKILL.md:
 
 ### Redesign proposal
 - A `--wave` mode: the coordinator computes a disjoint assignment (exclude contexts intersecting the tree's dirty set; pin the few shared paths to one owner), runs N `--one` workers that return the structured result above, commits per context from an isolated index, persists outbox/history once in priority order with drain cycles, runs the census once and CONFORMS rises at the source, then pushes. Not applied this run: the change is to the invocation contract, not to a step, and it needs its own calibration log.
+
+## 2.3.0 - 2026-08-28 - personas (operator review of two waves, 16 contexts)
+
+**Correction from the operator, in spirit:** "Applying ai-registry practices is
+a nice feature; the scans themselves should be primarily about applying various
+prompts/lenses per code analysis. Lenses should follow ai-registry knowledge
+where it exists. Pure registry-to-backlog transformation can be a separate
+lens." And: "Idea description is inconsistent - enforce almost jira-like
+metadata: Summary, Description, bullet-point flow, code block (evidence),
+Expected impact. Some ideas are well described, some were thrown vaguely.
+Standardizing improves the ability to decide and to execute with cheaper
+models."
+
+What changed in the spec:
+- S2/S3/S6: the registry is knowledge that FEEDS the lenses; each lens reads the
+  techniques touching its concern and judges against them. The
+  registry-deviation-to-backlog transformation is its own lens,
+  `registry-conformance` (added to `scan_agents.toml` and `references/lenses.md`,
+  23 lenses now; `scripts/coverage.mjs` counts the reference, so the
+  denominator follows).
+- S4.10 (new, MANDATORY): every finding body is `## Summary / ## Description /
+  ## Flow / ## Expected impact`; `evidence` is a separate code block or
+  file:line list; title <= 80 chars. S8 and S9 point at it; the outbox example
+  shows the escaped form.
+- Renderer side (personas `TriageCardBody`): splits on the headings, lead
+  Summary above a rule, other sections as labelled blocks; an un-sectioned body
+  paints as one block.
+
+Why it was needed (seen across waves 1+2, 240 findings): bodies ranged from a
+one-line smell to a five-paragraph essay with the fix buried in the middle; the
+deck showed both as the same undifferentiated markdown, so "decide in three
+seconds" depended on which worker wrote the card.
+
+Known gap: the personas generator `scripts/skills/scan-agents-to-skills.mjs`
+still carries an OLDER SKILL.md template; `--force` would overwrite this file.
+The registry copy is the authored one - regenerate only `references/lenses.md`
+from the TOML (or append by hand, as done here) until the template is retired.
+
+## 2.4.0 - 2026-08-28 - personas (net-delta routing)
+
+Operator, after triaging the first ~35 sectioned ideas by hand: "majority of
+ideas are worth to execute — design one thought step to compare the state after
+implementation and the current state (similar to risk rating). If the
+conclusion is net positive, auto-accept. Leave core design choices or major
+features on the human gate."
+
+What changed: S4.10 gains a `## Net delta` section (Before / After / Delta /
+Gate); S5 drops the reward/risk-ratio band entirely — `positive` + gate `none`
+auto-accepts, everything else goes to the deck with the delta on the card; the
+five human gates (design, feature, contract, policy, irreversible) are defined
+by what the implementation REQUIRES. S9 carries `delta` and `gate` as fields.
+
+Why the RRR band was wrong: it scored the edit's danger, not the product's
+state. Exercised the same day on the remaining 149 pending ideas with Sonnet
+classifiers doing the Before/After step per item (results in the personas
+run ledger `net-delta-triage`).
+
+## 2.5.0 - 2026-08-28 - personas (measured evaluation replaces net delta)
+
+Operator, after the net-delta wave left 154 pending: "instead of evaluating
+net positives we should have a framework for before/after which can measure
+both variants as pre-analysis on a small sample or thought simulation. If the
+solution has better code quality, performance, resilience, user benefit, or
+the other benefit promised by the idea, auto-accept. If not, reject. If not
+measurable (subjective — new large features, redesigns), human gate."
+
+What changed: S4.10's `## Net delta` became `## Evaluation` (Claim / Before /
+After / Method / Result / Gate); S5 routes on `better` / `not-better` /
+`unmeasurable`, and `not-better` is a REJECTION with figures — the first
+routing rule in this skill that can say no. Design/feature stopped being gates
+(they are the unmeasurable result); contract/policy/irreversible remain hard
+gates. Exercised on the 154 pending ideas; the retrospective on all three
+rules in one day is in the personas run ledger `eval-triage` and in this
+file's next entry.
+
+## 2.6.0 - 2026-08-29 - personas (retrospective: three routing rules in 36 hours)
+
+Three routing rules ran back to back on one operator's deck, each executed by
+Opus subagents in worktrees and merged by the same coordinator. This entry is
+the calibration data, not the doctrine.
+
+| Rule | Input | Auto-accept | Executed: built / already / demoted | Demotion rate | Could it say NO? |
+| --- | --- | --- | --- | --- | --- |
+| 1 reward/risk (S auto, M by RRR) | 240 wave findings | 149 | 129 / 3 / 18 | 12% | no (backlog only) |
+| 2 net delta (positive + no gate) | 149 pending | 85 (+30 operator, +19 escalations) | 89 / 8 / 21 | 18% | no (backlog only) |
+| 3 measured evaluation (better/not-better/unmeasurable) | 154 pending | 57 | 52 / 0 / 4 | 7% | **yes: 36 rejected with figures** |
+
+What the numbers say:
+
+- **Rule 2 was careless in exactly one place: the `uncertain` band.** 46 ideas
+  were `uncertain` because nobody checked the claim. Rule 3 measured them: 25
+  were `not-better` (premise false, file not in this repo, already fixed) and
+  21 `unmeasurable`. **Zero were better.** An "uncertain" that is never resolved
+  is a backlog entry that costs a human decision for nothing.
+- **Rule 3 found 26 ideas that belong to a different codebase** (a Next.js /
+  imaging project, ingested on 2026-08-27 before the waves). No earlier rule
+  could have found them because none of them *read the cited file*; the
+  measurement step forces the read. That alone justified the rule.
+- **Executors demoted 6 of rule 2's 85 auto-accepts** (7%) — mostly hard
+  gates the classifier under-called (contract/policy) and premises that were
+  false on contact with the code. Rule 3's demotions in wave 3: WAVE3_DEMOTED
+  of 57, all hard gates or architecture (the two repeat offenders — the
+  spotlight z-index and the settings-component relocation — were demoted for
+  the THIRD time; a rule that keeps re-accepting an idea three executors
+  refused needs a "demoted twice → reject" clause, added below).
+- **Re-measurement held.** Wave 3 executors re-measured the Evaluation's
+  After on the real change: of 52 built items, the figure matched or
+  exceeded the prediction in all but a handful; the deviations were
+  informative, not embarrassing — a census drop that never existed (the rule
+  did not match the site), a "14 new registry entries" that turned out to be 0,
+  two fixes that had to change shape (a refcount that cannot make two panes
+  paint one holder; a blanket hydrate guard that would have regressed
+  dead-session retry). Executors also caught three Evaluation premises that
+  were stale ("panel renders nowhere" — it renders; "13 alias importers" —
+  5). The measurement is good enough to route on and not good enough to build
+  from blind, which is the right division of labour.
+- **Cost.** Rule 3's classification cost ~5x rule 2's per idea (Sonnet with
+  Grep/Read against the code vs. Sonnet reading prose): ~180k vs ~35k tokens
+  per 30 ideas. It paid for itself in the 36 rejections alone (each would have
+  cost an operator decision or an executor run of ~200k tokens).
+
+What backfired, and the balancing added:
+
+1. **Rules 1 and 2 could only accept or defer**, so the backlog grew
+   monotonically (240 → 154 pending after two waves). A gate that cannot say
+   no is not a gate. Rule 3 says no; the deck shrank to 61.
+2. **Executors were trusted to demote, and did — repeatedly, for the same
+   items.** Added: an idea demoted by two independent executors is
+   `not-better` by measurement (two builds attempted, zero landed) and is
+   rejected, not re-queued.
+3. **The Evaluation is a small-sample probe, and executors found stale
+   premises in ~10% of accepted items.** That is the expected failure mode of
+   sampling; the mitigation is already in the executor brief (re-verify the
+   Before, re-measure the After) and it worked. Do not raise the probe budget;
+   keep the executor's re-measure mandatory.
+4. **Unmeasurable is doing two jobs** — genuinely subjective (taste, product
+   direction) and "measurable but I did not have the instrument" (a perf claim
+   with no benchmark). The second kind should name the missing instrument as a
+   finding of its own, so the next sweep can build it. Added to §4.10.
+5. **The mechanics, not the rule, caused the actual damage** this week: two
+   `node_modules/.bin` wipes from worktree cleanup, one dead Vite child, 44
+   findings dropped by the ingest cap. None of it was the routing rule. They
+   are recorded in the operator's memory and the coordinator scripts, and they
+   argue for a coordinator that owns cleanup with verified steps, not for a
+   softer rule.
+
+Verdict on direction: **good, with one over-correction to watch.** The
+measured rule is the first one that produced a smaller backlog AND a lower
+demotion rate on what it accepted. The risk is the mirror of rule 2's: an
+evaluator that cannot find a figure will be tempted to write `not-better`
+instead of `unmeasurable` and reject something real. The 36 rejections were
+spot-checked (26 other-repo, 4 already fixed, the rest premise-false with the
+disagreeing figure attached) — none looked like a real defect rejected for
+want of a number. Keep the rejection reason mandatory and figure-bearing so
+that check stays cheap.
+
+## 2.7.0 - 2026-08-29 - gravitone-gcloud
+
+- **A red gate's own diagnosis is a hypothesis, not a finding — and §4.2 currently
+  says to defer to it.** The clause reads "Deterministic findings belong to those
+  tools — do not restate them as findings", which is right about not re-emitting
+  what a linter already prints, and wrong about what to do when the tool's
+  explanation is false. The lint ratchet was red and said "A RISE means new debt.
+  Fix the finding", naming four hook rules. The truth was that an agent worktree
+  under `.claude/` had put a second full checkout in the walk: 608 files against a
+  299-file tree, every bucket at exactly twice its baseline. Reading it as debt
+  would have cost a refactor of the app's data loading that nobody had caused;
+  taking the gate at its word would have cost the whole round's best finding.
+  The tell was cheap and general: **every bucket moved by the same factor.** A
+  real debt rise moves the buckets it touches, not all of them uniformly. Suggested
+  §4.2 addition — before accepting a red deterministic gate's account of itself,
+  check whether its POPULATION changed; a uniform multiple across independent
+  buckets is a population fault, never a content one.
+
+- **Never put a heredoc on a gate chain.** §7.2 already has two ways the shell
+  defeats a gate (`| tail` taking tail's status, `;` instead of `&&`). Here is a
+  third, hit this round: `npm run typecheck > /dev/null && npm test > /dev/null &&
+  git commit -F - <<'EOF'`. Bash attaches the heredoc to the whole list, the first
+  npm process reads stdin to EOF and consumes the commit message, and the chain
+  exits non-zero with the staged files untouched and no explanation. It looks
+  exactly like a failed gate, and the natural next move — re-running the gates
+  individually, finding them all green — wastes a full cycle. The shape that
+  holds: write the message to a file first and `git commit -F <path>` as the last
+  link. Worth adding beside the other two, because the failure imitates the thing
+  the chain exists to detect.
+
+- **A concurrent session's `git reset` clears YOUR index, and §7's parallel rules
+  do not cover it.** The rules say what a sweep must not do (`git add -A`, `git
+  stash`, resetting another session's work). They say nothing about surviving
+  another session doing it to you. Measured: a sibling agent ran `git reset HEAD~1`
+  between my `git add` and my `git commit`; the commit reported "no changes added
+  to commit" with my working-tree edits fully intact. Nothing was lost, but the
+  message reads like the edits were, and the recovery instinct — re-applying work
+  that is already there — is destructive. Suggested addition to the parallel rules:
+  stage immediately before committing, never across a gate run, and treat "no
+  changes added" as an index event to re-verify rather than as lost work.
+
+- **The §7.7 comment-stripping rule earned its place again, in the other
+  direction.** The clause exists because a source-scanning gate matched prose that
+  described a fix. Writing a new gate this round, the same discipline is what made
+  the fail-before demonstration meaningful: both boundary files explain their rule
+  in a header directly above the code, so a raw-text matcher would have passed
+  against the PRE-FIX files. Running the matchers over comment-stripped HEAD
+  sources gave 0/3 and 0/2, and over the fixed tree 3/3 and 2/2. Recording it as a
+  positive: the strip is not only how you avoid a false green, it is how you get a
+  fail-before you can actually believe.
+
+- Yield this round: 10 findings / 23 lens-passes = 0.43 per pass, against the
+  0.098 the clause was written after. Three of the ten came from reading the
+  repo's own load-bearing comments against its code rather than from a pattern
+  grep — on a codebase this heavily documented, the comments ARE the spec, and
+  §4.6's "pair" hunt should name doc-vs-code as one of its shapes explicitly.
+
+## 2.7.0 - 2026-08-29 - gravitone-gcloud
+
+- **The first gate run of a round is the cheapest finding-generator in the whole
+  sweep, and §4.2 currently tells you to throw its output away.** The clause reads
+  "run any cheap deterministic check that applies... Deterministic findings belong
+  to those tools - do not restate them as findings." Taken literally that is right
+  for a lint warning and WRONG for the case that produced this round's highest-
+  impact item: `npm test` was RED on committed main, and the failure was not a
+  defect in the code the gate covers - it was the GATE itself mis-detecting, so
+  nine correctly-gated API routes read as ungated and the repo's blocking CI job
+  had been failing for reasons everyone had learned to step over. That is the most
+  valuable thing a sweep can find (a gate red for a false reason has stopped
+  refusing anything), and it is invisible to every lens that reads source, because
+  the source is correct. Suggested refinement to §4.2: run the repo's own gates
+  FIRST, and treat a gate that is red on committed code as a finding of the round,
+  distinguishing three cases - the tree is broken (not yours, say so), the gate is
+  broken (yours, and usually the round's best item), or the gate is right and the
+  code is wrong (belongs to the tool).
+
+- **Re-run a red gate once before believing it, on any repo with concurrent
+  sessions.** The lint ratchet came back red with all four buckets EXACTLY doubled;
+  the obvious reading (an agent worktree inside the repo being linted twice) was
+  wrong, and a second run four minutes later was clean - another session had
+  committed the fix between the two runs. §7.2 already covers this hazard at
+  COMMIT time; it happens at SURVEY time too, and there it costs a fabricated
+  finding rather than a bad commit. One re-run is cheap insurance against filing
+  something another session already closed.
+
+- **"Derive the population from the filesystem" does not finish the job that
+  §4.7 starts.** This repo had already applied that fix to its route-gate probe
+  two days earlier, and the gate was still wrong - because the POPULATION was
+  derived and the DETECTOR was a single name (`guardRequest(`) for a chokepoint
+  that had since grown two more legitimate doors. §4.7 asks "what enumerates the
+  ground truth, and is the test derived from that or from the list?" and should
+  ask a second question: "and does the test recognise every shape compliance is
+  allowed to take?" A derived population with a stale matcher fails in the more
+  damaging direction - it reports compliant code as violating, which trains
+  everyone to ignore the gate.
+
+- **A fix whose benefit cannot be measured by anything in the repo is the
+  `unmeasurable` result even when the DEFECT is certain.** The strongest a11y
+  finding this round (a live-region clear that React batches away, so a repeat
+  message is never spoken) has a certain defect and an unverifiable fix: the Node
+  probe lane cannot render React, and the live lane has no way to count live-region
+  mutations. Veto 3 and the §4.10 "name the missing instrument" clause together
+  gave the right answer - backlog it, and say in the After line which instrument is
+  missing - and that instrument is now itself a queued finding. Recording it as a
+  case where the two clauses composed correctly, because the tempting move was to
+  ship the fix and call it `better` on a story.
+
+- Yield: 12 findings / 23 lens-passes = 0.52 per pass. Four built. Two of the four
+  came from running the repo's gates rather than from reading its code, which is
+  the bullet above stated as a number.

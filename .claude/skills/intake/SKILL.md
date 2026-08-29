@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 0.17.0
-tags: research, sources, triage, currency, cross-repo, leads
+version: 1.1.0
+tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test
 ---
 
 # Intake
@@ -33,8 +33,21 @@ ORIGINATES a finding. It never AUTHORIZES one.**
 /intake <url> --spec-only     # write an XL spec but do not forge it in this session
 /intake <url> --domain <d>    # constrain routing to one bundle
 /intake status                # read the source ledger, touch nothing
-/intake reflect               # update LESSONS.md and this method from recent runs
+/intake reflect               # update LESSONS.md, SCORECARD.md and this method from recent runs
+/intake apply <technique> [--project <slug>] [--mode code|experiment|simulation]
+                              # run Phase 7.5 alone against knowledge that already landed
+/intake <url> --no-apply      # land without applying; the reason goes in the scorecard row
 ```
+
+The pipeline this skill is trying to master, and the five stages every run is scored
+on, is **research -> extract -> test -> apply -> ship**. The first two are Phases 2-6.
+The last three are Phase 7.5 and Phase 8, and they are not optional: **a technique that
+has never been applied to a managed project is a wiki page**, and this registry is not
+a wiki. Every technique and every golden-path amendment that lands must relate to at
+least one managed project and one seam in its code, and must have been A/B-tested there
+- in real code where the tree allows it, as an experiment where it does not, and as a
+recorded thought simulation where nothing else is reachable. The mode is graded; the
+step is not skippable.
 
 ## Never count, never construct, never fetch by hand
 
@@ -57,12 +70,13 @@ writes a document into a folder no consumer walks - the same rule `deepen` worke
 Neither instrument decides anything. They put you in the neighbourhood; you still open
 the file.
 
-## The five outcomes
+## The six outcomes
 
 Rank a run by which of these it produced honestly, never by document count.
 
 | Outcome | What it is | Where it lands |
 | --- | --- | --- |
+| **Applied** | Content that was A/B-tested against a managed project's seam and carries a verdict. Outranks Content: it is the only outcome that proves the corpus changes what a project does. | The project (a commit, an experiment record, or a simulation record under `.ai/`), an application document with `applied:` and `ab_verdict:`, and a row in `librarian/applied.md` |
 | **Content** | A claim that survived corroboration and the strip test. | `knowledge/`, `skills/`, `practices/`, `memory/`, `scripts/`, `docs/` |
 | **Currency** | The world moved under a claim we already publish. | `verified_on` / `refresh_by` on the affected application, or a scoped `/deepen` dispatch |
 | **Lead** | Real, unproven, with a stated return condition. | `librarian/sources/<date>-<slug>.md` |
@@ -206,11 +220,15 @@ rule that granularity was serving.
 ### Phase 0 - Bootstrap (idempotent)
 
 - `librarian/sources/index.md` exists (the source ledger). Create if missing.
-- `.projects.local.json` exists at the repo root. It maps project slug -> absolute path
-  -> the domains it consumes, and it is **gitignored**: this registry publishes no
-  consumer paths, the same rule that put the evidence layer in a local overlay. Its
-  published, path-free half is [`librarian/projects.md`](../../librarian/projects.md),
-  which carries slugs and domains only.
+- `projects.json` exists at the repo root (**committed**) and `.machine.local.json`
+  beside it (gitignored). Resolve them through `loadFleet()` in
+  [`scripts/lib/projects.mjs`](../../scripts/lib/projects.mjs), never by reading either
+  file directly. `projects.json` maps slug -> path RELATIVE to a machine root, plus the
+  machines each project is checked out on; `.machine.local.json` supplies this machine's
+  name, its root and its contributor id. A relative path names no private tree until a
+  root is supplied, which is why only the second one is hidden. Domains are not in
+  either: each project declares its own in its `.ai/manifest.yaml`. The prose half is
+  [`librarian/projects.md`](../../librarian/projects.md).
 - If the bridge is missing and the run needs it, ask for paths rather than guessing.
 
 ### Phase 1 - Prove the instruments, then load memory
@@ -485,13 +503,74 @@ node scripts/build-index.mjs && node scripts/build-catalog.mjs
 node scripts/check-bundles.mjs && node scripts/check-skills.mjs
 ```
 
-### Phase 8 - The cross-repo lane (opt-in, per run)
+### Phase 7.5 - Apply and A/B test (mandatory per landed technique or amendment)
+
+Phase 7 made the corpus say something new. This phase asks whether a project would be
+better off if it did what the corpus now says - and answers by trying, not by asserting.
+It runs once per landed `technique`, `golden-path` correction or `amendment`; a run
+that lands N of those owes N rows in `librarian/applied.md`, each with a mode and a
+verdict, or a stated reason in the scorecard for every row it does not owe.
+
+**1. Find the seam.** Resolve the fleet with `loadFleet()` and keep the projects whose
+declared domains include the finding's bundle. Prefer a project whose
+`.ai/registry-map.json` already joins a context to the finding's subject (build it with
+`node scripts/build-registry-map.mjs` if the project is registry-wired and the map is
+missing); otherwise grep the tree for the decision the technique governs. The seam is
+the `file:line` where that decision is currently made - or made by default because no
+code owns it. Record it in the project's `.ai/applied.jsonl`, never in `librarian/`.
+A technique with no seam in any managed project is not wrong, but it is **unapplied**,
+and the row says so with the return condition "when a project grows the seam".
+
+**2. Choose the highest reachable mode, and say why not the one above it.**
+
+| Mode | What A and B are | What the verdict is read from | Reachable when |
+| --- | --- | --- | --- |
+| `code` | the seam as it is (A) vs the seam with the technique applied (B), behind a flag, a branch, or a worktree | the project's own gate, a metric the project already emits, or a before/after run of the same inputs | the change is a few readable lines, the project has a gate or a metric that can see the difference, and the tree has no foreign WIP in the files touched |
+| `experiment` | the same inputs run twice through a harness that does not change product code - a script, an eval slice, a replayed session, a dry-run of the hook against recorded actions | the harness's output, counted with its predicate | the technique's effect is observable without shipping it: hooks, gates, prompts, thresholds, routing rules |
+| `simulation` | three concrete cases pulled from the tree or its history - a real incident, a real PR, a real failing run - walked under policy A and policy B, one paragraph each, with the predicted outcome and **what would falsify the prediction** | your own reasoning, labelled as such | nothing above is reachable in this run: no gate can see the effect, the seam is in a tree you may not edit, or the cost of the experiment exceeds the run |
+
+A simulation with three cases from a real tree beats a code A/B against a toy. A
+simulation with invented cases is an opinion and does not count as applied.
+
+**3. Record the verdict in a closed vocabulary**, inherited from the sweep lane's
+measured Before/After rule: `better` / `not-better` / `unmeasurable`.
+
+- `better` -> Phase 8 ships it (code) or files it as the project's next change
+  (experiment, simulation), and the application document carries `applied: <mode>`
+  and `ab_verdict: better`.
+- `not-better` -> **a rejection, and the most valuable row in the ledger.** The
+  technique is not deleted; it gains an amendment stating the condition under which
+  it did not hold, written from what the seam showed, and the row names the seam class
+  so the next run does not re-run the same test. Two `not-better` rows on one technique
+  from different projects demote it to a lead.
+- `unmeasurable` -> stays applied at the mode reached, with a return condition naming
+  the instrument that would make it measurable. A run may not report `unmeasurable`
+  without naming that instrument.
+
+**4. Write the application document** the way Phase 8 already requires - you opened
+a tree, so `verified_on` and `verified_against` are facts - and add two frontmatter
+lines: `applied: code|experiment|simulation` and `ab_verdict: better|not-better|unmeasurable`.
+The body carries what A and B were and what was read; the seam's `file:line` only if
+the project has made that code public, per Phase 8 step 7.
+
+**5. Append the row** to `librarian/applied.md`: date, technique slug, project slug,
+mode, verdict, return condition. Slugs and dates only. This ledger is what `/intake
+apply` reads to find techniques that have never been applied, oldest first, which is
+the backlog the wiki has been quietly accumulating.
+
+**Budget.** One project per finding per run; the highest mode reachable; at most the
+effort of the landing itself. A finding whose apply step would cost more than its
+landing is still owed a `simulation` row - three real cases take twenty minutes and
+that is the floor, not an excuse.
+
+### Phase 8 - The cross-repo lane (default for `code` and `better`; confirm before editing)
 
 A finding can land in the registry AND in a project that consumes it. That second half
 is a different repository with its own review, so it is gated separately and never
-assumed.
+assumed. Phase 7.5 decides *whether* a project change is warranted; this phase governs
+*how* it is made.
 
-1. Resolve the project from `.projects.local.json`. Do not guess a path.
+1. Resolve the project with `loadFleet()` from `scripts/lib/projects.mjs`. Do not guess a path.
 2. Confirm with the operator before touching a project tree at all.
    An operator's triage pick that names the project ("with impact on X") *is* the
    confirmation - do not ask twice. It confirms the lane, not the row: a named project
@@ -569,7 +648,15 @@ assumed.
   with its outcome and, for declines, the reason. A decline nobody wrote down gets re-proposed
   every run forever.
 - **Source ledger** `librarian/sources/index.md`: one line per mined source. This is
-  what makes "already mined" a one-second check next time.
+  what makes "already mined" a one-second check next time. The source note's
+  frontmatter also carries `applied: <n>` and `shipped: <n>` beside `accepted`.
+- **Applied ledger** `librarian/applied.md`: one row per Phase 7.5 test (technique,
+  project slug, mode, verdict, return condition). The unapplied backlog is every
+  technique in the index with no row here.
+- **Scorecard** `.claude/skills/intake/SCORECARD.md`: one row per run with the five
+  stage counts - research (sources), extract (candidates), test (picks verified),
+  apply (rows, by mode), ship (project commits) - and the reason for any zero in the
+  last two.
 - **Subject notes** `librarian/subjects/<domain>/<subject>.md` for every subject
   touched, same shape `librarian` writes.
 - **Leads** carry a return condition. "When the model is actually released", "when a
@@ -604,19 +691,67 @@ assumed.
   not by trusting that the commit command succeeded. A parallel session can rewrite
   history and drop your content back into the working tree, where the gates still pass.
 
-### Phase 11 - Reflect
+### Phase 11 - Skill Reflection
 
-Append to `.claude/skills/intake/LESSONS.md`: `## <version used> - <YYYY-MM-DD> - <source slug>`
-plus bullets. Record the version the run **used**. A lesson needs no version bump; a
-change to this file does, in the same commit.
+After the run's real work is done, reflect - autonomously, without asking the operator.
+The shape is the one every shared skill under `skills/` runs (the `skill-reflection`
+clause); this file is not stamped by that machinery because it lives under
+`.claude/skills/`, so the clause is restated here and kept in step with
+`docs/skill-clauses/skill-reflection.md` by hand. Be honest about volume: most runs
+produce nothing beyond lane 0. An empty reflection is a valid result; a forced lesson
+is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry
+(occasionally) / a redesign proposal (rare).
 
-Ask the operator once, batched, why the declined picks were declined. A decline reason
-seen three times is a rule this file should carry.
+**Lane 0 - the scorecard, every run, no exceptions.** Append one row to
+`SCORECARD.md`: version used, date, source slug, and the five stage counts -
+`research` (sources ingested), `extract` (candidates), `test` (picks verified),
+`apply` (rows by mode, e.g. `1c/0e/2s`), `ship` (project commits). A zero in `apply`
+or `ship` carries its reason in the row. Then read the last ten rows and name, in one
+line under the table, **the stage the funnel is losing most at** - that stage is the
+next run's declared focus, and the next run's row says whether it moved. This is the
+mechanism by which the pipeline is mastered rather than merely repeated: the funnel
+is measured, the weakest stage is named, and the method edits (lane 2) are aimed at
+it instead of at whatever the last run happened to notice.
+
+**Lane 1 - PROJECT learnings** (what the next session in a managed repo needs).
+Anything Phase 7.5 or 8 learned about one project - where its seam is, which gate can
+see which effect, what it has no instrument for - goes to that project's
+`.ai/applied.jsonl` and its own overlay, never into this file or into `librarian/`. A
+project's bytes in a shared method are what made the fleet's skill copies diverge.
+
+**Lane 2 - METHOD learnings** (what would improve this skill for every source and
+every project):
+1. If nothing generalizes beyond this run, stop here.
+2. Append to `LESSONS.md`: `## <version used> - <YYYY-MM-DD> - <source slug>` followed
+   by `- ` bullets. Record the version the run **used**, never a bump target. Wrap a
+   bullet in a `### Redesign proposal` sub-block when it argues for a redesign you are
+   not applying now. A lesson alone needs no version bump.
+3. Edit `SKILL.md` only together with a version bump, and bump only with an applied
+   edit: patch for wording, minor for a step or a prompt refinement, major for a
+   methodic redesign. A lesson that the scorecard has confirmed three runs running is
+   a rule this file carries; until then it stays a lesson.
+4. Ask the operator once, batched, why declined picks were declined. A decline reason
+   seen three times is a rule this file should carry.
+5. Commit the skill's files in their own commit with a pathspec, after
+   `node scripts/check-skills.mjs` passes.
+
+**Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves
+this method, a lead proposes knowledge for a bundle. Intake IS the lane that turns leads
+into knowledge, so a domain observation from reflection is filed as a lead in the source
+note with a return condition - not landed from the reflection step, which has no
+corroboration behind it.
 
 ## Anti-patterns
 
 - **Letting a video author an upper layer.** The one failure that damages the corpus
   rather than just wasting a run.
+- **Landing a technique and walking away.** A technique with no `librarian/applied.md`
+  row is a wiki page; a run that lands three and applies none has enriched a wiki.
+  The scorecard row makes this visible; do not make it normal.
+- **Simulating with invented cases.** Three cases from a real tree or its history, or
+  it is an opinion with a table around it.
+- **Reporting `unmeasurable` without naming the instrument** that would have measured
+  it. That word is a return condition, not a shrug.
 - **Padding the findings list.** Nine catches and one lead is a result. Report it.
 - **Proposing what the bundle already says.** Phase 4 exists to prevent this; skipping
   it to save a second costs a whole verification round.

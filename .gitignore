@@ -13,16 +13,27 @@
 
 node_modules/
 
-# Local-only project bridge.
+# Machine identity, and nothing else.
 #
-# `/research` needs to resolve a connected project's slug to a path on THIS machine.
-# Those paths name private trees, and `registry.yaml` guarantees that nothing published
-# here points into one - the same rule that put the evidence layer in a local overlay.
-# So the bridge is split: `.projects.local.json` holds slug -> path and stays here;
-# `librarian/projects.md` holds slug -> domain, is path-free, and is reviewed like
-# everything else.
+# The fleet bridge used to be `.projects.local.json`: slug -> ABSOLUTE path, hidden
+# wholesale because the paths were machine-specific. That hid the portable nine tenths
+# along with the machine-specific one tenth, and a second machine could not read any of
+# it. Redesigned 2026-08-28:
 #
-# See skills/research/SKILL.md, Phase 0 and Phase 8.
+#   projects.json          COMMITTED. Per project, a `checkouts` map: machine -> the
+#                          path it sits at on THAT machine, relative to that machine's
+#                          root. One project can be on several machines at a different
+#                          path on each. No user names, no drive letters, nothing
+#                          machine-specific. Reviewed like any other registry file.
+#   .machine.local.json    IGNORED, below, and the only file that cannot be shared:
+#                          which machine this is (Fox, Wolf, ...), the root the
+#                          relative paths resolve against, the contributor id, and an
+#                          optional `overrides` map for a checkout that lives off-root.
+#
+# `registry.yaml`'s guarantee is unchanged - nothing published here points into a private
+# tree, because a relative path names no tree until a machine root is supplied.
+#
+# Resolved through scripts/lib/projects.mjs; see librarian/projects.md.
 **/.*.local.json
 
 # Fleet proposals: the intermediate file a bulk-model pass writes and a reviewer reads.

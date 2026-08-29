@@ -6,7 +6,7 @@ technique: failure-attribution
 status: forged
 laws: [failure-not-empty-success, gate-sees-target, count-carries-predicate]
 shared_with: []
-use_when: [a suite went red and nobody knows what to change, the aggregate improved but the same failures recur, deciding whether a failing case is a defect or a bad label, an agent-based system failed and both the prompt and the model look correct]
+use_when: [a suite went red and nobody knows what to change, the aggregate improved but the same failures recur, deciding whether a failing case is a defect or a bad label, an agent-based system failed and both the prompt and the model look correct, designing the change a failing class calls for, an optimizer or agent is proposing harness changes and nothing says how many at once, a model upgrade landed and the harness still carries the previous model's workarounds]
 ---
 
 # Failure attribution
@@ -157,6 +157,105 @@ Reviewing dozens of cases by hand is the expensive part and it is still the
 cheap path. The alternative — a change per hypothesis, each costing a full
 suite run — pays the same time in run cost and learns less per attempt,
 because a suite result cannot tell you *why* it moved.
+
+## The change is an experiment, and it is designed before it is run
+
+Attribution ends with a class and an owner. Re-attribution begins after a
+change. Between them sits a step this technique had left to whoever holds the
+keyboard, and it is where a clean attribution gets spent badly: the fix
+arrives as a bundle — a reworded instruction, a new tool, a wider context
+window, all in one round — the aggregate moves, and the class count is the
+only thing that can say which part did it. It cannot, because three things
+changed. The round produced a number and no knowledge.
+
+The corrective is to treat a change the way the harness already treats a
+run: as an experiment whose comparability is engineered before it starts.
+
+- **One component per round.** The system under test decomposes into named
+  parts — instructions, tools and their descriptions, memory and retrieval,
+  context assembly, control flow, the verifiers, the budget and stopping
+  rules — and a round changes exactly one of them. Two in one round produce
+  a result attributable to neither, and the second round spent untangling
+  them costs a full suite run and learns less than the first would have on
+  its own.
+- **The model stays pinned while the harness moves.** A model version and a
+  harness change confounded in one round cannot be separated afterwards, and
+  the harness change is the one that was under investigation. The
+  instrument discipline the golden path applies to the judge applies to the
+  candidate: freeze what is not the variable.
+- **Write the prediction down first.** The hypothesis is an explanation plus
+  a prediction — *this class fails because the agent accepts executable
+  output without checking it; an independent verification step should
+  shrink that class* — and the modification is the concrete form of it:
+  add the step, invoke it after execution, permit one repair. The prediction
+  names the class and the direction, and it is recorded before the run, so
+  that an aggregate that rose while the named class held steady is read as
+  the miss it is rather than as a success nobody predicted. A mutation
+  expected to move one class is not judged on the whole population's mean
+  ([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
+- **Keep the parent.** The round's record is parent state, the one component
+  changed, the diff, the prediction, and the measured class delta. The losing
+  variant is discarded; its record is not. A second round that cannot name
+  what the first one tried repeats it.
+
+The shape holds whether the experimenter is a person or an agent. An agent
+that proposes harness changes from a batch of failure traces is running this
+loop at scale, and the scale is exactly why the rule has to be mechanical:
+a proposer that emits three coupled changes per round can run a thousand
+rounds and never learn which component was load-bearing, and its improving
+headline is the same theatre as an unscreened reduction run
+([_laws: gate-sees-target_](../../../../_laws.md#gate-sees-target)). The
+search over harness configurations is a search, not a gradient, and a
+search that cannot attribute its own steps is a random walk with a good
+narrator.
+
+## A fix at the pipeline or prompt layer names the model it was built for
+
+Four of the six owners resolve to a change in the system, and three of those
+changes — a stricter reminder, a retry that re-issues a malformed tool call, a
+parser that repairs the model's near-miss output — are not corrections of a
+defect in the harness. They are **compensations for a defect in the model**:
+the harness grew a capability because the model that was measured lacked one.
+A compensation is created state whose reason is a fact about one model
+version, and the reason lapses when the version does.
+
+This subject already says so about the other side of the instrument: a
+scenario's discriminating power is a property of the scenario-*and*-candidate
+pair, and a model upgrade can dissolve it without anyone touching the suite
+([unaided-baseline-screening](./unaided-baseline-screening.md)). The harness
+side is symmetric and had never been written down. After an upgrade, a
+compensation is in one of three states, and only a run can tell which: it
+still pays; it is dead weight (the model no longer produces the failure it
+catches); or it is **now the failure** — an aggressive retry that resubmits
+work the model completed, a repair that rewrites a tool call the model got
+right, a reminder so insistent that a model which understood the goal now
+argues with it. The third state is the one that hides, because attribution
+funnels it to *pipeline* or *prompt* and the obvious response is to tune the
+compensation rather than to ask whether it should exist.
+
+Two disciplines, both cheap:
+
+- **Write the model it was built against into the compensation**, at
+  creation, in the shape the corpus already uses for any compensating
+  capability: *this exists because model X did Y; when a model no longer
+  does Y, delete it.* A retry ladder or a prompt template without that line
+  is indistinguishable from a design decision six months later, which is how
+  a workaround for a retired model becomes load-bearing.
+- **Re-ablate on upgrade; do not carry forward.** The harness that ships with
+  a new model is the *matrix* question from
+  [comparison-modes](./comparison-modes.md) — model × compensation-set ×
+  scenario, N trials per cell — not the previous winner with the model swapped
+  in. Ablate the compensations as a set, not one at a time: the model's own
+  change interacts with all of them, and a compensation that looks harmless
+  alone can be the one whose removal lets the model's new capability show. A
+  compensation the ablation cannot justify against the new model is deleted,
+  not tuned, and the class it used to shrink is re-attributed from scratch,
+  because its owner may have moved from *pipeline* to *nothing*.
+
+The failure mode this guards against is symmetric with the suite's: a suite
+that got easier reads as improvement, and a harness that got heavier reads as
+robustness. Both are the instrument absorbing a change in the candidate and
+reporting it as a change in the system.
 
 ## A class with no owner is a product decision
 

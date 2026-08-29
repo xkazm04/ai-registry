@@ -1,0 +1,49 @@
+{
+  "schema": 2,
+  "_note": "The fleet declaration. Each project maps MACHINE -> the path that project sits at on that machine, relative to that machine's root (declared in its own gitignored .machine.local.json). One project can be checked out on several machines at once with a DIFFERENT path on each - that is what `checkouts` is: the keys are the machines it exists on, and a machine absent from the map simply does not have it. Committed, because a relative path names no tree until a machine root is supplied. Domains are NOT here: every project declares its own in its .ai/manifest.yaml (knowledge.domains), and a second copy is how the first one goes stale. A checkout that cannot be expressed relative to the machine root (another drive, say) goes in that machine's local `overrides`, never here.",
+  "machines": {
+    "Fox": {
+      "note": "secondary dev box"
+    },
+    "Wolf": {
+      "note": "primary dev box"
+    }
+  },
+  "projects": {
+    "gravity": {
+      "checkouts": {
+        "Fox": "dolla/gravitone-gcloud"
+      }
+    },
+    "goat": {
+      "checkouts": {
+        "Fox": "dolla/goat"
+      }
+    },
+    "tracklight": {
+      "checkouts": {
+        "Fox": "dolla/LightTrack"
+      }
+    },
+    "pumper": {
+      "checkouts": {
+        "Fox": "dolla/pumper"
+      }
+    },
+    "grant": {
+      "checkouts": {
+        "Fox": "xprice/grant-writing-nonprofits"
+      }
+    },
+    "politicas": {
+      "checkouts": {
+        "Fox": "dolla/politicas"
+      }
+    },
+    "personas": {
+      "checkouts": {
+        "Fox": "dolla/personas"
+      }
+    }
+  }
+}

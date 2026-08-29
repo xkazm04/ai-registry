@@ -108,3 +108,18 @@ None.
 - **The coverage hole under the expiry lane.** Nothing counts boundaries the distiller
   failed to notice - an absence, and `coverage-instrumentation` says a listing surface
   cannot show one. The technique states the obligation; no realization measures it yet.
+
+## 2026-08-29 - intake, single-paper explainer (arXiv 2608.24876 via a channel)
+
+- `working-memory` gained its missing stage: **propose / check / commit**. The technique
+  said the state is rewritten by judgment and never said whose; the paper's checker reads
+  the environment result, never the model's claim, and its ablation puts almost all of
+  working memory's value in the check (+23.9 verified state vs +2.0 skill store). Anchored
+  on `gate-sees-target`; the sibling laws in game-production and localization say the
+  same thing and are named in the source note, not linked.
+- `procedure-promotion` selection: scope key is the verified current state, not history.
+- Second sighting for `quality-gates/oracle-frozen-during-repair` from a research design
+  (fixed meta-agent, fixed gate, frozen tools). Record there when that subject is next swept.
+- Untriaged: memory decomposed by *control function* (skills / state schema / invocation
+  policy / checkers) as an axis orthogonal to this subject's lifetime axis. Return when a
+  second source or a connected tree treats checkers as editable data.

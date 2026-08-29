@@ -106,6 +106,19 @@ Systems drift when action outruns confidence — when the hypothesis lane borrow
 autonomy of the diagnosis lane because the plumbing made it easy. The ladder is a
 contract that makes that drift a visible violation instead of a quiet default.
 
+There is a second ladder that looks like this one and is not it. **Detection** is
+tiered by *signal magnitude* — a metric one deviation off its baseline is logged,
+two invokes a read-only diagnosis, three invokes a proposal — and it is deterministic
+by design: a versioned script over a rolling baseline, no model in the loop, because
+the thing that decides whether the healer is *called* must not be the healer. That
+ladder answers "how loud is the signal"; the epistemic ladder answers "how sure is the
+diagnosis"; and the two compose by **minimum**, never by substitution. A three-deviation
+breach with an unclassified signature still lands on the bottom row above — it earns a
+louder page, not a freer hand. The mistake to watch for is a tier table that maps
+magnitude straight to action ("at 3σ, propose a fix"), which grants the hypothesis lane
+the diagnosis lane's autonomy on the strength of how far the needle moved. Magnitude buys
+invocation and urgency. Confidence buys aggression. Neither buys the other.
+
 ## The lifecycle of one healing attempt
 
 Diagnose → select → check bounds and budgets → apply through the same validated

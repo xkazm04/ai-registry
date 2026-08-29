@@ -12,6 +12,7 @@ leads: 4
 already_covered: 0
 untriaged: 5
 dispatched: 0
+cross_repo: 1 consumer changed, 1 application extended
 ---
 
 # OpenExecutive - the repository whose prose states absolutes its own code
@@ -234,3 +235,38 @@ unpicked, which is a different fact.
 - The landing-page ingest returned 2,723 words and predicted almost none of the yield.
   Seventh run confirming `--min-words` answers "is anything there at all" and nothing
   more.
+
+
+## Cross-repo lane (2026-08-28)
+
+Run on the operator's instruction to assess impact and execute where a project
+could benefit. Seven consumer trees resolved from the bridge and scanned.
+
+**Finding 2 has no consumer.** Not one tree in the fleet declares a cache
+breakpoint - the scan for the construct returned zero across all seven. The
+technique lands as a standard with no application, which is the honest outcome
+and is recorded here so a later run does not re-scan for it.
+
+**Finding 3 has no consumer either.** No tree gates outbound tool arguments;
+the allow-list hits were unrelated.
+
+**Finding 1 had a consumer, and it was the best case.** A `rust` tree already
+carried an application for this exact technique, so the finding could be tested
+against a document written before it existed. It confirmed, and sharpened the
+amendment: the consumer has no claim to misattribute the constraint to, so the
+executor ceiling is written down nowhere - it survives only as a premise in a
+comment that a later module falsified. Detail in the subject note; the
+structural argument is in the application.
+
+The consumer change is committed locally and **not pushed**, with the
+verification gap stated in its commit message: the tree's build fails on this
+machine before the compiler runs, and that was confirmed pre-existing by
+reverting the three files and reproducing the identical failure. The change
+parses and is rustfmt-clean; its types are unverified. Said plainly rather than
+quietly, because an application whose consumer half was never compiled is a
+claim about intent, not about a running system.
+
+Method note for the class: **the negative result was worth as much as the
+positive one.** Two of three findings having no tree in a seven-project fleet
+is a fact about what this registry publishes versus what its consumers build,
+and it cost one scan to learn.

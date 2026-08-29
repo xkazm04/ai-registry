@@ -6,7 +6,7 @@ technique: civic-entity-ontology
 status: forged
 laws: [one-definition-one-import, incident-anchored-doctrine]
 shared_with: []
-use_when: [choosing node and edge types for a civic graph, adding a relationship kind mid-project, keying entities to registries]
+use_when: [choosing node and edge types for a civic graph, adding a relationship kind mid-project, keying entities to registries, deciding what happens to an assertion the closed vocabulary cannot hold]
 ---
 
 # Civic entity ontology
@@ -96,6 +96,39 @@ because adding one is ceremony — "sponsors" and "did the analytical work on"
 are different assertions, and a reader who cannot tell them apart has been
 misled. And do not mint a relation per data source — if two registries assert
 the same thing, they populate the same relation and differ in provenance.
+
+## The gate's rejections are the ritual's trigger
+
+The ritual above starts "when a new source or a new question demands" a kind.
+Left there, the demand is discovered by whoever happens to notice, and a closed
+vocabulary has a specific blind spot that noticing does not cure: it can only
+find the unknowns it already has a name for. An assertion the enum cannot hold
+never becomes a wrong node — the gate does its job — but if the rejection is
+discarded, it never becomes anything at all, and the graph reports a world that
+is complete because it was built from a vocabulary that was. A fixed ontology
+detects known unknowns; the unknown unknowns arrive only as rejections.
+
+So a rejection at the gate is a typed outcome, not a dropped row. Each one is
+kept with the kind or relation the writer *asserted*, the source and pass that
+produced it, and the endpoints it would have joined — the same record the
+ritual's step 1 needs, written by the thing that refused it. This is the
+identity rule applied one level up: a source that offers no identifier produces
+a lead rather than a node, and a source that offers an unrecognised kind
+produces a lead rather than a silent drop. The rejection ledger is then the
+ritual's inbox. Amendment is proposed from it — a kind rejected across several
+passes and sources is a demand with evidence; a kind rejected once by one
+extractor is noise — and never from a writer's intuition that the vocabulary
+feels thin.
+
+Two things the ledger must not become. It is not an "other" node type: an
+open bucket inside the enum is exactly the drift the closed set exists to
+prevent, and it fills with assertions nobody can state in one sentence. And
+its rows are not data: nothing reads them into a view, they count toward no
+census, and a rejection that turns out to be an extractor error is closed with
+the reason, not promoted. What the ledger buys is that "the vocabulary has not
+needed a new kind in a year" becomes a claim with a denominator — how many
+assertions the gate refused in that year, and what they were — instead of a
+claim about how carefully someone was looking.
 
 ## When not to reach for ontology
 

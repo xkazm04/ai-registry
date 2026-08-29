@@ -6,7 +6,7 @@ technique: eval-economics
 status: forged
 laws: [creation-names-reaper, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
-use_when: [deciding whether a planned matrix run is affordable, scores still cited after the suite stopped running, choosing what a cache key treats as the same question]
+use_when: [deciding whether a planned matrix run is affordable, a selection survey is being run on the regression golden set, scores still cited after the suite stopped running, choosing what a cache key treats as the same question, an instruction file, skill or hook changed and nothing re-ran the suite]
 ---
 
 # Eval economics
@@ -103,6 +103,16 @@ their trigger:
 | golden set — small, frozen, high-signal scenarios over the pieces that shape model behavior | cents | every change to those pieces, blocking |
 | full absolute suite | real money | scheduled, and on demand before releases |
 | matrix / arena surveys | most expensive | when a selection decision is actually pending |
+
+The matrix row is the one slice where the golden set's virtue — small, frozen,
+saturated with scenarios the system always passes — becomes a cost. A
+selection survey pays per cell, and a cell every candidate passes buys
+nothing toward a ranking; the affordable version of that slice runs each
+candidate on the scenarios the population is split on, from a frozen pool
+under a moving, candidate-blind selection, and reports weighted estimates
+rather than raw counts. That is a different instrument from the gate, not a
+cheaper copy of it, and it is
+[discriminating-task-selection](./discriminating-task-selection.md).
 | live certification | expensive + serial | promotion events (see [certification-levels](./certification-levels.md)) |
 
 The golden-set tier deserves emphasis because it is the cheapest insurance
@@ -111,6 +121,24 @@ inputs, and shape model behavior are ordinary deterministic code, and a
 tiny frozen eval over their *outputs* catches regressions in the expensive
 system's inputs without invoking the expensive system at all. It runs with
 the deterministic gates and blocks like one.
+
+**The trigger set includes the agent's configuration, not only its code.**
+The pieces that shape model behavior are wider than the assembly
+functions: the instruction file the agent reads at session start, the
+skills and subagent definitions it loads, the hooks and permission rules
+that bound what it may do, and the model pin itself. Each of these steers
+the agent as surely as a prompt template does, each is edited far more
+casually than code, and none of them is exercised by the deterministic
+test suite — a change to an instruction file passes every unit test the
+repository has. So the golden set's trigger names these paths explicitly,
+and a change to them is gated on the pass rate the same way a change to
+the assembly code is: a skill edit that drops the golden set is reviewed
+before it merges, not discovered in production a week later. The other
+half of the trigger set runs the opposite direction — an incident in
+production enters the suite as a scenario, owned by the team that owned
+the incident, so the case that escaped becomes a permanent regression
+check ([scenario-design](./scenario-design.md) owns the shape of that
+capture and its outcome-not-label discipline).
 
 And cadence is monitored, not assumed: the suite records when each slice
 last actually ran, and staleness is surfaced wherever results are read. A

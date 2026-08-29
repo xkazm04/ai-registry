@@ -5,7 +5,7 @@
  * Sibling of fleet-audit.mjs, which answers the same shape of question about SKILLS:
  * the registry cannot see any installation, so it cannot answer "what is actually
  * installed across the fleet". This script runs where the checkouts are, reads the
- * gitignored `.projects.local.json` bridge, and reports two things the manifests alone
+ * fleet config (committed `projects.json` + local `.machine.local.json`), and reports two things the manifests alone
  * cannot tell you:
  *
  *   - DRIFT: one dependency resolved to different versions across projects that are
@@ -21,7 +21,7 @@
  * same bridge, and one report answering two questions answers neither well.
  *
  * Zero dependencies. Paths never leave this machine: the report prints slugs, exactly as
- * fleet-audit does — `.projects.local.json` is gitignored because this registry publishes
+ * fleet-audit does — only `.machine.local.json` is gitignored, because this registry publishes
  * no consumer paths.
  *
  *   node scripts/fleet-deps.mjs                          # drift across all shared deps
@@ -32,6 +32,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { loadBridge } from './lib/projects.mjs';
 
 const args = process.argv.slice(2);
 const flag = (n) => { const i = args.indexOf(n); return i === -1 ? null : args[i + 1] ?? null; };
@@ -81,14 +82,14 @@ if (parse('not-a-version') !== null) {
 }
 
 // ---- the bridge ----------------------------------------------------------------------
-const BRIDGE = path.resolve('.projects.local.json');
-if (!fs.existsSync(BRIDGE)) {
-  console.error('fleet-deps: no .projects.local.json at the repo root.');
-  console.error('  This instrument reads the local bridge (slug -> path). See librarian/projects.md');
-  console.error('  for the published, path-free half. Create the bridge or run from the registry root.');
+const bridge = loadBridge(process.cwd());
+if (!Object.keys(bridge.projects).length) {
+  console.error('fleet-deps: this machine resolves no projects.');
+  for (const p of bridge._fleet.problems) console.error(`  - ${p}`);
+  console.error('  Expected a committed projects.json plus a local .machine.local.json.');
+  console.error('  See librarian/projects.md for the published half.');
   process.exit(2);
 }
-const bridge = JSON.parse(fs.readFileSync(BRIDGE, 'utf8'));
 const projects = bridge.projects ?? {};
 
 const readJSON = (p) => { try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; } };
