@@ -1923,8 +1923,10 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
 - **When the target file is another session's live WIP, hold the amendment in the
   source note, verbatim, with a return condition.** Same subject, same technique, same
   hour: the other session's section and this one compose, and the only safe landing
-  was to write the text where the next run can paste it. A held amendment is
-  `dispatched`, not `accepted`; do not count it. Re-check `git status` for the target
+  was to write the text where the next run can paste it - and here the other session
+  committed minutes later, so the return condition was met and the section landed in
+  a second commit inside the same run. A held amendment is `dispatched`, not
+  `accepted`, until it lands. Re-check `git status` for the target
   file between Phase 6 and Phase 7, not only at Phase 10.
 - **Class prediction stated before triage held to the number** (0 techniques, 1
   amendment at most, leads for the paper). Ninth consecutive zero-fetch run; a

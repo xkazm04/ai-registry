@@ -6,12 +6,12 @@ title: "2 Loop Process for RSI: LLM and Harness"
 author: Discover AI (channel)
 words: 4198
 extracted: 10
-accepted: 0
+accepted: 1
 declined: 0
 leads: 2
 already_covered: 6
 untriaged: 1
-dispatched: 1
+dispatched: 0
 fetches_spent: 0
 ---
 
@@ -45,7 +45,7 @@ siblings that already carry the same root, plus training data.
 | 9 | K | lead | - | Fixed slot count ("96 runtime sockets") as a harness module contract | - | none | thin | [00:06:23] |
 | 10 | K | currency | - | "Unnecessary tool calls" as an outcome dimension beside pass/fail | cost-metering | none | untriaged | [00:13:38] |
 
-## Dispatched - verified, drafted, held (not written into the corpus)
+## Accepted (held mid-run, landed once the return condition was met)
 
 ### 1 - Harness workarounds lapse with the model they were built for
 
@@ -56,7 +56,7 @@ an experiment, and it is designed before it is run"), an untracked technique
 this run. Editing that file would either clobber or sweep their work into this
 commit. The amendment is drafted in full in the appendix.
 
-**Return condition:** when that session's `failure-attribution` change is in
+**Return condition (met in the same run):** the parallel session committed its section as `297a7d5` before this run closed, so the amendment was landed in a second commit after the note. The original condition was: when that session's `failure-attribution` change is in
 `HEAD`, insert the appendix section before "A class with no owner is a product
 decision" and add the `use_when` entry *a model upgrade landed and the harness
 still carries the previous model's workarounds*. The parallel section's "the
@@ -142,7 +142,7 @@ A parallel session had uncommitted edits in `agent-memory`, `eval-harness`
 `index.json`/`catalog.json` throughout. All left untouched; this run committed
 only its four librarian/skill files and did NOT regenerate index or catalog.
 
-## Appendix - the drafted amendment, verbatim, for the return
+## Appendix - the amendment as landed
 
 ## A fix at the pipeline or prompt layer names the model it was built for
 

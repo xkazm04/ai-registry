@@ -6880,7 +6880,8 @@
       "the aggregate improved but the same failures recur",
       "deciding whether a failing case is a defect or a bad label",
       "designing the change a failing class calls for",
-      "an optimizer or agent is proposing harness changes and nothing says how many at once"
+      "an optimizer or agent is proposing harness changes and nothing says how many at once",
+      "a model upgrade landed and the harness still carries the previous model's workarounds"
      ]
     },
     {

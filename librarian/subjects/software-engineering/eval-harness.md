@@ -171,9 +171,8 @@ No application - a lead carries the numbers until a connected tree runs a search
 
 ### 2026-08-29 - `/intake`, from a second-hand survey
 
-One **amendment drafted and held** for `failure-attribution` (a parallel
-session had the file open; full text in the source note, land when theirs is
-in HEAD): "A fix at the pipeline or prompt layer names the model it was built
+One **amendment** inside `failure-attribution` (held while a parallel session
+had the file open, landed once its section reached HEAD): "A fix at the pipeline or prompt layer names the model it was built
 for." Source: [[2026-08-29-two-loop-rsi-llm-and-harness]].
 Found by the asymmetry hunt - `unaided-baseline-screening` already says the
 screen expires with the candidate (the suite side); nothing said the harness's
