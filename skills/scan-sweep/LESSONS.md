@@ -708,3 +708,43 @@ that check stays cheap.
 - Yield: 13 findings / 23 lens-passes = 0.57 per pass; 7 built, 5 backlogged, 1
   rejected. Consistent with the previous round's 0.61 on a context of similar size,
   which is the first time two rounds on this repo have agreed on a rate.
+
+
+## 2.7.1 - 2026-08-29 - ascent
+
+- **The registry read can change the ROUTING of a finding, not just its wording, and §3
+  undersells that.** §3 says each lens reads the governing subject's techniques and "judges
+  the code against them" - which reads as a sharpening of the finding's TEXT. This round it
+  reversed a build. The obvious S was "error.tsx only console.errors; global-error.tsx also
+  calls captureException - add the capture and the three boundaries stop drifting". Reading
+  `telemetry-pii-redaction` showed the repo has four emit sites and no outbound scrubber at
+  all, so the fix would have ADDED a fifth unredacted channel; the subject's own stance is
+  that a subsystem whose mistakes are permanent installs the cap first. The finding became a
+  sequenced pair in the backlog and the build did not happen. Worth saying in §3 explicitly:
+  **when the governing subject describes an ORDER of operations, check the fix against that
+  order before classifying it as S** - an S that must follow an M is not an S this round.
+
+- **A mangled pattern does not always arrive as control characters. Sometimes it arrives as
+  valid, compiling, semantically-INVERTED code.** §7.6 describes the failure as `\b`
+  reaching the file as 0x08, and prescribes the file-writing tool. The rule is right and I
+  broke it; what is worth adding is the second failure shape, because the prescribed
+  detection ("look for control characters") does not catch it. Authoring
+  `.replace(/</g, "\\u003c")` through a Python heredoc dropped one backslash level, so the
+  file received `"\u003c"` - a legal TypeScript escape that evaluates to `<`, i.e. an escaper
+  that replaces the character with itself. tsc passed, eslint passed, and seven of the nine
+  tests passed. **Only the fail-before caught it**, which is the whole argument for §7.6's
+  seed-a-violation step: it is not a nicety on top of a green suite, it is the only step that
+  distinguishes "the guard works" from "the guard compiles".
+
+- **A lead that restates a technique is noise, and bar 3 earns its keep.** The mobile-nav
+  finding felt like a lead ("assert every destination that a responsive collapse hides is
+  reachable from the surviving chrome"). `app-shell/nav-hierarchy` already says it, in four
+  words - "what collapse must not do: reorder or drop". Checking cost one grep and turned a
+  would-be lead into a conformance citation, which is the more useful artifact anyway: it
+  names the rule the code broke instead of proposing a rule the corpus has.
+
+- Yield: 10 findings / 23 lens-passes = 0.43 per pass, 6 built, 2 backlogged, 2 rejected
+  `not-better` (a JPEG named .png - nothing is broken today, browsers sniff, and renaming a
+  public asset risks live unfurls; and an OG route missing a `runtime` export its four
+  siblings declare, where the default resolves the same way). Both rejections came from
+  taking the Before/After measurement seriously enough to find that nothing moved.
