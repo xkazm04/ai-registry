@@ -477,3 +477,114 @@ spot-checked (26 other-repo, 4 already fixed, the rest premise-false with the
 disagreeing figure attached) — none looked like a real defect rejected for
 want of a number. Keep the rejection reason mandatory and figure-bearing so
 that check stays cheap.
+
+## 2.7.0 - 2026-08-29 - gravitone-gcloud
+
+- **A red gate's own diagnosis is a hypothesis, not a finding — and §4.2 currently
+  says to defer to it.** The clause reads "Deterministic findings belong to those
+  tools — do not restate them as findings", which is right about not re-emitting
+  what a linter already prints, and wrong about what to do when the tool's
+  explanation is false. The lint ratchet was red and said "A RISE means new debt.
+  Fix the finding", naming four hook rules. The truth was that an agent worktree
+  under `.claude/` had put a second full checkout in the walk: 608 files against a
+  299-file tree, every bucket at exactly twice its baseline. Reading it as debt
+  would have cost a refactor of the app's data loading that nobody had caused;
+  taking the gate at its word would have cost the whole round's best finding.
+  The tell was cheap and general: **every bucket moved by the same factor.** A
+  real debt rise moves the buckets it touches, not all of them uniformly. Suggested
+  §4.2 addition — before accepting a red deterministic gate's account of itself,
+  check whether its POPULATION changed; a uniform multiple across independent
+  buckets is a population fault, never a content one.
+
+- **Never put a heredoc on a gate chain.** §7.2 already has two ways the shell
+  defeats a gate (`| tail` taking tail's status, `;` instead of `&&`). Here is a
+  third, hit this round: `npm run typecheck > /dev/null && npm test > /dev/null &&
+  git commit -F - <<'EOF'`. Bash attaches the heredoc to the whole list, the first
+  npm process reads stdin to EOF and consumes the commit message, and the chain
+  exits non-zero with the staged files untouched and no explanation. It looks
+  exactly like a failed gate, and the natural next move — re-running the gates
+  individually, finding them all green — wastes a full cycle. The shape that
+  holds: write the message to a file first and `git commit -F <path>` as the last
+  link. Worth adding beside the other two, because the failure imitates the thing
+  the chain exists to detect.
+
+- **A concurrent session's `git reset` clears YOUR index, and §7's parallel rules
+  do not cover it.** The rules say what a sweep must not do (`git add -A`, `git
+  stash`, resetting another session's work). They say nothing about surviving
+  another session doing it to you. Measured: a sibling agent ran `git reset HEAD~1`
+  between my `git add` and my `git commit`; the commit reported "no changes added
+  to commit" with my working-tree edits fully intact. Nothing was lost, but the
+  message reads like the edits were, and the recovery instinct — re-applying work
+  that is already there — is destructive. Suggested addition to the parallel rules:
+  stage immediately before committing, never across a gate run, and treat "no
+  changes added" as an index event to re-verify rather than as lost work.
+
+- **The §7.7 comment-stripping rule earned its place again, in the other
+  direction.** The clause exists because a source-scanning gate matched prose that
+  described a fix. Writing a new gate this round, the same discipline is what made
+  the fail-before demonstration meaningful: both boundary files explain their rule
+  in a header directly above the code, so a raw-text matcher would have passed
+  against the PRE-FIX files. Running the matchers over comment-stripped HEAD
+  sources gave 0/3 and 0/2, and over the fixed tree 3/3 and 2/2. Recording it as a
+  positive: the strip is not only how you avoid a false green, it is how you get a
+  fail-before you can actually believe.
+
+- Yield this round: 10 findings / 23 lens-passes = 0.43 per pass, against the
+  0.098 the clause was written after. Three of the ten came from reading the
+  repo's own load-bearing comments against its code rather than from a pattern
+  grep — on a codebase this heavily documented, the comments ARE the spec, and
+  §4.6's "pair" hunt should name doc-vs-code as one of its shapes explicitly.
+
+## 2.7.0 - 2026-08-29 - gravitone-gcloud
+
+- **The first gate run of a round is the cheapest finding-generator in the whole
+  sweep, and §4.2 currently tells you to throw its output away.** The clause reads
+  "run any cheap deterministic check that applies... Deterministic findings belong
+  to those tools - do not restate them as findings." Taken literally that is right
+  for a lint warning and WRONG for the case that produced this round's highest-
+  impact item: `npm test` was RED on committed main, and the failure was not a
+  defect in the code the gate covers - it was the GATE itself mis-detecting, so
+  nine correctly-gated API routes read as ungated and the repo's blocking CI job
+  had been failing for reasons everyone had learned to step over. That is the most
+  valuable thing a sweep can find (a gate red for a false reason has stopped
+  refusing anything), and it is invisible to every lens that reads source, because
+  the source is correct. Suggested refinement to §4.2: run the repo's own gates
+  FIRST, and treat a gate that is red on committed code as a finding of the round,
+  distinguishing three cases - the tree is broken (not yours, say so), the gate is
+  broken (yours, and usually the round's best item), or the gate is right and the
+  code is wrong (belongs to the tool).
+
+- **Re-run a red gate once before believing it, on any repo with concurrent
+  sessions.** The lint ratchet came back red with all four buckets EXACTLY doubled;
+  the obvious reading (an agent worktree inside the repo being linted twice) was
+  wrong, and a second run four minutes later was clean - another session had
+  committed the fix between the two runs. §7.2 already covers this hazard at
+  COMMIT time; it happens at SURVEY time too, and there it costs a fabricated
+  finding rather than a bad commit. One re-run is cheap insurance against filing
+  something another session already closed.
+
+- **"Derive the population from the filesystem" does not finish the job that
+  §4.7 starts.** This repo had already applied that fix to its route-gate probe
+  two days earlier, and the gate was still wrong - because the POPULATION was
+  derived and the DETECTOR was a single name (`guardRequest(`) for a chokepoint
+  that had since grown two more legitimate doors. §4.7 asks "what enumerates the
+  ground truth, and is the test derived from that or from the list?" and should
+  ask a second question: "and does the test recognise every shape compliance is
+  allowed to take?" A derived population with a stale matcher fails in the more
+  damaging direction - it reports compliant code as violating, which trains
+  everyone to ignore the gate.
+
+- **A fix whose benefit cannot be measured by anything in the repo is the
+  `unmeasurable` result even when the DEFECT is certain.** The strongest a11y
+  finding this round (a live-region clear that React batches away, so a repeat
+  message is never spoken) has a certain defect and an unverifiable fix: the Node
+  probe lane cannot render React, and the live lane has no way to count live-region
+  mutations. Veto 3 and the §4.10 "name the missing instrument" clause together
+  gave the right answer - backlog it, and say in the After line which instrument is
+  missing - and that instrument is now itself a queued finding. Recording it as a
+  case where the two clauses composed correctly, because the tempting move was to
+  ship the fix and call it `better` on a story.
+
+- Yield: 12 findings / 23 lens-passes = 0.52 per pass. Four built. Two of the four
+  came from running the repo's gates rather than from reading its code, which is
+  the bullet above stated as a number.
