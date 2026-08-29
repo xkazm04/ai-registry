@@ -6,7 +6,7 @@ technique: eval-economics
 status: forged
 laws: [creation-names-reaper, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
-use_when: [deciding whether a planned matrix run is affordable, scores still cited after the suite stopped running, choosing what a cache key treats as the same question, an instruction file, skill or hook changed and nothing re-ran the suite]
+use_when: [deciding whether a planned matrix run is affordable, a selection survey is being run on the regression golden set, scores still cited after the suite stopped running, choosing what a cache key treats as the same question, an instruction file, skill or hook changed and nothing re-ran the suite]
 ---
 
 # Eval economics
@@ -103,6 +103,16 @@ their trigger:
 | golden set — small, frozen, high-signal scenarios over the pieces that shape model behavior | cents | every change to those pieces, blocking |
 | full absolute suite | real money | scheduled, and on demand before releases |
 | matrix / arena surveys | most expensive | when a selection decision is actually pending |
+
+The matrix row is the one slice where the golden set's virtue — small, frozen,
+saturated with scenarios the system always passes — becomes a cost. A
+selection survey pays per cell, and a cell every candidate passes buys
+nothing toward a ranking; the affordable version of that slice runs each
+candidate on the scenarios the population is split on, from a frozen pool
+under a moving, candidate-blind selection, and reports weighted estimates
+rather than raw counts. That is a different instrument from the gate, not a
+cheaper copy of it, and it is
+[discriminating-task-selection](./discriminating-task-selection.md).
 | live certification | expensive + serial | promotion events (see [certification-levels](./certification-levels.md)) |
 
 The golden-set tier deserves emphasis because it is the cheapest insurance

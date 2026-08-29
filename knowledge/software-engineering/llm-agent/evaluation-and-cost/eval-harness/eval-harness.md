@@ -13,6 +13,7 @@ techniques:
   - judge-stability
   - comparison-modes
   - eval-economics
+  - discriminating-task-selection
   - certification-levels
 ---
 
@@ -232,6 +233,24 @@ model × variant × scenario. Each answers a different question and each has
 a characteristic way of lying; [comparison-modes](./techniques/comparison-modes.md)
 carries the decision table.
 
+## When the harness ranks a population, most of the suite is silent
+
+Everything above holds the instrument still so that one candidate can be
+compared with itself across time. Turn the harness around — many candidates,
+one round, "which is best" — and a different economy applies: a scenario
+contributes to a ranking only where the candidates *disagree* on it, and in a
+mature pool the scenarios everyone passes plus the scenarios nobody passes
+are the majority of the cells. The frozen golden set that makes a regression
+gate cheap is, for a selection search, mostly dead weight. The corrective is
+to keep the pool frozen and let the *selection* move: sample each round
+toward the scenarios the population is split on, from a rule the candidates
+cannot influence, and report every partial result as a weighted estimate of
+the full-pool score rather than as a raw count over whichever scenarios were
+drawn. The same scenario a selection search de-weights to nothing is the one
+the release gate must run every time; which rule applies is decided by the
+question, not by the pool
+([discriminating-task-selection](./techniques/discriminating-task-selection.md)).
+
 ## Certification has levels
 
 Expensive empirical evaluation is gated behind cheap theoretical passes. The
@@ -296,6 +315,9 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
   aggregation.
 - [eval-economics](./techniques/eval-economics.md) — mock modes, cache
   lifetimes, fan-out caps, tiered cadence, the budget as a design input.
+- [discriminating-task-selection](./techniques/discriminating-task-selection.md) —
+  ranking a population on the scenarios it is split on: frozen pool, moving
+  selection, weighted estimates, and why regression gates want the opposite.
 - [certification-levels](./techniques/certification-levels.md) — theoretical
   passes gating empirical ones, promotion criteria, what only the live level
   can see.

@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 150,
-  "techniques": 980,
+  "techniques": 981,
   "applications": 439,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "980/980",
+  "use_when_coverage": "981/981",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6833,6 +6833,22 @@
      ]
     },
     {
+     "slug": "discriminating-task-selection",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a search over many candidate configurations re-runs the whole suite per candidate",
+      "most scenarios come back the same for every candidate",
+      "ranking candidates from a partial run",
+      "a selection suite has quietly stopped separating anything"
+     ]
+    },
+    {
      "slug": "eval-economics",
      "status": "forged",
      "laws": [
@@ -6843,6 +6859,7 @@
      "shared_with": [],
      "use_when": [
       "deciding whether a planned matrix run is affordable",
+      "a selection survey is being run on the regression golden set",
       "scores still cited after the suite stopped running",
       "choosing what a cache key treats as the same question",
       "an instruction file",
@@ -6861,7 +6878,9 @@
      "use_when": [
       "a suite went red and nobody knows what to change",
       "the aggregate improved but the same failures recur",
-      "deciding whether a failing case is a defect or a bad label"
+      "deciding whether a failing case is a defect or a bad label",
+      "designing the change a failing class calls for",
+      "an optimizer or agent is proposing harness changes and nothing says how many at once"
      ]
     },
     {
@@ -18230,6 +18249,7 @@
     "error-handling/swallowed-error-prevention",
     "eval-harness/assertion-vs-judgment",
     "eval-harness/certification-levels",
+    "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
@@ -18965,6 +18985,7 @@
     "error-handling/swallowed-error-prevention",
     "eval-harness/certification-levels",
     "eval-harness/comparison-modes",
+    "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
@@ -19228,6 +19249,7 @@
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/provenance-denormalization",
     "eval-harness/comparison-modes",
+    "eval-harness/discriminating-task-selection",
     "eval-harness/scenario-design",
     "executive-reporting/expiring-share-links",
     "feed/event-clustering",

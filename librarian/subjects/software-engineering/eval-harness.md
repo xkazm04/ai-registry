@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-08-27
+last_touched: 2026-08-29
 touched_by: intake
 dry_streak: 0
 ---
@@ -137,3 +137,34 @@ instruction files, skills, subagent definitions, hooks, permission rules, model 
 and that incidents enter the suite as scenarios. `use_when` gained the case. The
 subject had priced the cadence and named "pieces that shape model behavior" without
 saying those pieces include files no unit test exercises.
+
+## 2026-08-29 - intake, the change-design stage
+
+[[2026-08-29-future-of-ai-harness-to-rsi]]: `failure-attribution` gained the stage
+between attribution and re-attribution - the change is an experiment designed before
+it runs (one component per round, model pinned, prediction written first, parent
+kept). `use_when` gained the agent-proposer case. Discriminator, not a link: the
+game-production bundle's `prompt-fitness-and-evolution/mutation-taxonomy` holds the
+same rule scoped to prompt text with a closed strategy list; this subject holds it for
+every harness component and leaves the strategy taxonomy to the component's own
+subject. A reader editing a prompt wants the closed list; a reader changing a tool
+schema or a verifier wants this one.
+
+## 2026-08-29 - intake, the silent majority of a selection suite
+
+[[2026-08-29-task-coevolve-harness-optimization]]: gained
+`discriminating-task-selection` (10 -> 11), a golden-path section ("When the
+harness ranks a population, most of the suite is silent"), and an
+`eval-economics` amendment under the matrix row. The missing stage was *which
+cells a selection search runs*: a scenario every candidate passes or every
+candidate fails moves no ranking, and a 2026 measurement put that class at over
+70% of a mature pool. Rule: frozen pool, moving selection by outcome variance
+(floor for never-solved, bonus for rarely-run), candidate-blind, weighted
+full-pool estimates. The inversion is the load-bearing part - the golden set's
+virtue for a regression gate (frozen, saturated with always-pass) is its cost for
+a ranking, and the discriminator is the question. Boundary recorded against
+`quality-gates/oracle-frozen-during-repair` (pool = oracle, frozen; selection
+moves) and cross-bundle convergence noted with
+`recruiting/assessment-instrument-validation/discrimination-margin-gate`.
+Corroboration: the paper (2 fetches, extraction) plus training-data convergence.
+No application - a lead carries the numbers until a connected tree runs a search.

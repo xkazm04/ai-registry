@@ -1860,3 +1860,47 @@ Ran the 0.12.0 procedure; another session bumped the file to 0.13.0 mid-run.
 - **`subagent` returned zero corpus-wide and it was vocabulary, not a hole.** Before
   treating an empty as a finding, try the corpus's own word (worker, session, seat).
 - Ninth consecutive zero-fetch run for a source carrying its own material.
+
+## 0.15.0 - 2026-08-29 - future-of-ai-harness-to-rsi
+
+- **A commentator's digest with no product names is the strip test's blind spot.** The
+  test passed nearly every candidate and most of what survived was the textbook. For
+  this class the second filter is "which file *measures* it" - five of ten candidates
+  were catches, found by opening the golden path rather than by the map.
+- **The finding was a stage, again, and the source only supplied the generalization.**
+  The prompt-scoped rule existed in another bundle; the source's component
+  enumeration is what let it apply to tools, memory, context and verifiers. Two
+  bundles reaching the same rule from different sides is corroboration enough for an
+  amendment - and the cross-bundle situation is a discriminator in the subject note,
+  never a link.
+- **0 of 3 fetches, ninth consecutive, but this time the class said the fetch would be
+  the extraction.** It was not, because the papers never became picks; they became
+  leads with a return condition. A second-hand survey of papers yields the papers as
+  leads unless a pick actually depends on their protocol.
+
+## 0.15.0 - 2026-08-29 - task-coevolve-harness-optimization
+
+- **The class file's rule held on first contact with a paper review: the fetch was
+  the extraction.** The 2,744-word video carried the thesis and the headline numbers;
+  every non-obvious element of the technique - the never-solved floor, the
+  uncertainty bonus, the two estimators, the authors' own stated limitation - was in
+  the paper and none of it was in the video. Two fetches (a search to locate the
+  primary, then its HTML) after eight zero-fetch runs; the streak was a property of
+  the classes mined, exactly as the class file says.
+- **The inversion hunt paid where the enumeration hunt did not.** No enumeration in
+  `eval-harness` was too narrow this time; the finding was a rule the corpus praises
+  (`eval-economics`: the golden set is frozen and saturated) that is exactly wrong one
+  row down its own cadence table. When a candidate contradicts a sentence the corpus
+  is proud of, ask which *question* the sentence was answering before writing either a
+  correction or a catch - here both sides are right and the discriminator is the
+  question.
+- **A same-day technique is the best boundary partner.** `oracle-frozen-during-repair`
+  landed the previous run and says "freeze"; the source says "do not stay fixed". Two
+  runs apart that would have read as a contradiction to resolve; one day apart it was
+  obvious that *what moves* is the discriminator. Check the previous run's landings
+  for the opposite side of a new claim before mapping.
+- **Shared checkout, again.** A sibling session was amending `failure-attribution.md`
+  in the same subject mid-run, and had regenerated the civic-intelligence index. Left
+  both unstaged; committed the eval-harness index and catalog only. The catalog hash
+  will be re-cut by whichever run commits next, which is fine in a tree where both
+  runs regenerate before committing.
