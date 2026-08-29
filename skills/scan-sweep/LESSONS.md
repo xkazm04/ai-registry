@@ -790,3 +790,20 @@ that check stays cheap.
   for lockstep) and comment density high enough that most hazards were already
   argued. The three findings that landed all came from the same probe: enumerate the
   lists of lists and ask which ones got the treatment the others did.
+
+- **A transcript-scanning hook cannot see work done through the shell — and the
+  quiet direction is the dangerous one.** kp's Stop hook walks the turn for
+  `Edit`/`Write`/`MultiEdit` calls to check that source changes came with a doc
+  update. This round's docs were written with `python` heredocs through the Bash
+  tool, so the hook reported a missing doc update for a doc that had in fact been
+  updated in all three commits. Harmless that way round. Reverse it — source
+  edited only through the shell — and the hook goes silent on a change that
+  genuinely has no doc, which is the failure it exists to catch. Same family as
+  §7.6/§7.7 (a gate that cannot match reports a clean codebase in a voice
+  indistinguishable from success), one layer up: not the checker's matcher, but
+  the checker's INPUT, narrowed by a tooling choice the skill made for unrelated
+  reasons. Worth a line in §7: when a repo's gates read the transcript rather
+  than the tree, use the dedicated edit tools for anything a gate watches, and
+  keep the shell for mechanical passes. And when such a hook fires against work
+  you believe you did, verify with `git log -- <path>` and answer with the
+  evidence — "no doc update needed" is a different claim, and an untrue one.
