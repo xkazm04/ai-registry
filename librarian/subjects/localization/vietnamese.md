@@ -39,6 +39,11 @@ fetched for the history sweep. File: `spec--classifiers-and-quantity.md`.
   fail as required — always-`other` scores 21/22 on `vi` ordinals, missing exactly
   integer 1, which is precisely the gap a catalog built on the technique has shipped.
 
+**2026-08-29 — LANDED (measured disproof).** The ordinal claim and the
+back-reference split test corrected in `techniques/classifiers-and-quantity.md`, and
+the same claim corrected in `vietnamese.md` (opening + the number section, which was
+retitled). The CLDR 49 cardinal expiry is recorded in both. Original record below stands.
+
 ## Technique-edit candidates — MEASURED DISPROOF, lands alone
 
 - `techniques/classifiers-and-quantity.md` **L14–16** (the "for both cardinals and

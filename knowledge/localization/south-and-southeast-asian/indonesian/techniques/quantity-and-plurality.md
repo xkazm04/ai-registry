@@ -21,11 +21,28 @@ and the audit value is that two of the three errors are mechanically findable.
 CLDR assigns Indonesian (`id`) a single plural category: `other`. Every count
 maps to it — there is no `one`, no `few`, nothing. Consequences:
 
-- A message-format plural block in the target carries exactly one branch,
-  `other`. Copying the source's `one` branch into an Indonesian value is dead
-  weight; translating `one` and `other` *differently* (e.g. gluing an English
-  singular/plural distinction back in by hand) invents a grammatical contrast
-  the locale does not have.
+- A plural block in the target needs exactly one **catch-all** branch — and the
+  catch-all's spelling depends on which generation of message format the stack
+  speaks. The older plural syntax names it `other` and refuses a message that
+  omits it; the current message-format standard requires instead a variant whose
+  keys are all `*`, and treats `other` there as an ordinary literal key. A block
+  written with `other` alone **does not build** under the newer standard. So
+  "one branch, `other`" describes one generation rather than stating a rule;
+  write the catch-all the format in front of you actually mandates.
+- Copying the source's `one` branch into an Indonesian value is dead weight, and
+  removing it is a translation-cost decision, not a correctness one — no error
+  class covers a branch whose category the locale's rules can never select, and
+  such a branch is simply inert. The direction of risk is the opposite of the
+  intuition: *dropping* a branch the source carried changes the set of syntax
+  keywords, which is what a strict skeleton comparator flags
+  ([the format skeleton is inviolable](../../../_laws.md#format-skeleton-is-inviolable)).
+  Keeping it is the conservative move; delete it to save translator attention,
+  not to fix a defect.
+- Translating `one` and `other` *differently* — gluing an English singular/plural
+  distinction back in by hand — invents a grammatical contrast the locale does
+  not have. **Exact-value keys are not that**: an exact key such as `=1` outranks
+  rule keywords and works in a one-category locale, so a genuine "you have one
+  item" wording stays available without inventing a category.
 - The noun beside a count placeholder stays in its base form at every value of
   the count: `{count} berkas` serves 1 and 1,000 alike.
 - The plural *syntax* that does appear — keywords, braces, placeholder names —
@@ -34,9 +51,11 @@ maps to it — there is no `one`, no `few`, nothing. Consequences:
   what collapses to one branch is the content, never the syntax the format
   system requires.
 
-Source: CLDR language plural rules, `id`. (Distinguish cardinals from ordinals
-if the stack exposes them; for UI copy the cardinal rule above is what
-matters.)
+Source: CLDR language plural rules, `id` — single-category for ordinals as well
+as cardinals. Check that rather than infer it: the cardinal and ordinal rules are
+independent files, and sharing a cardinal ruleset predicts nothing about ordinals.
+Lao sits in the very same 35-locale cardinal group as Indonesian and carries a
+two-category ordinal rule.
 
 ## ID-NO-REDUP-QUANT · a numeral or quantifier blocks reduplication
 

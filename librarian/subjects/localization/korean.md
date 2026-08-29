@@ -46,6 +46,12 @@ sub-claims recorded as *not conformance-testable*.
   stem. The Unicode-side claim is only that two conformant modes exist and one makes the
   orthography's spaces the sole break points.
 
+**2026-08-29 — LANDED (two-sighting family, with [[japanese]]).** KO-WIDTH now
+states that the standard's default is syllable-break and that space-only wrapping is
+an opt-in the layout must make and record. The brace-placeholder finding was NOT
+landed here — it is proposed for `particles-and-interpolation` and stays banked at
+one sighting. Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. KO-WIDTH's line-wrap sentence → "the default breaks between syllables; space-only

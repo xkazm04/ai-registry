@@ -59,9 +59,13 @@ both load-bearing and unquantified, and by nothing at all when context already
 carries it. The classic machine error runs the two together: an English plural
 after a number becomes `dua buku-buku`, which is wrong — a numeral or
 quantifier *blocks* reduplication. In CLDR terms Indonesian has a single plural
-category, `other`; a message-format plural block needs exactly one branch, and
-copying the source's `one` branch into the target is dead weight at best and a
-skeleton defect at worst. See quantity-and-plurality.
+category, `other`, for cardinals and ordinals alike; a plural block needs exactly
+one **catch-all** branch, whose spelling belongs to the format generation rather
+than to the language — the older syntax mandates `other`, the current standard
+mandates `*` and treats `other` as an ordinary key. Copying the source's `one`
+branch into the target is dead weight, and no more than that: an unreachable
+branch is inert, and dropping one is the move a strict skeleton comparator
+notices. See quantity-and-plurality.
 
 **The passive trap runs in both directions.** Formal Indonesian genuinely uses
 the `di-` passive far more than English uses its passive — "file not found" is

@@ -38,6 +38,12 @@ File: `spec--quantity-and-plurality.md`.
   `new Locale("id").getLanguage()` returns `in`, and a resource path built from it misses
   an `id/` catalog. Measured both ways.
 
+**2026-08-29 — LANDED (measured disproof).** The catch-all correction (`*` vs
+`other`, generation-specific) and the removal of "skeleton defect at worst" landed in
+`techniques/quantity-and-plurality.md` and in the golden path's plurality paragraph.
+The exact-key escape hatch and the Lao ordinal counter-example landed with them.
+Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. ID-CLDR-OTHER: make the branch sentence generation-aware — the target carries exactly

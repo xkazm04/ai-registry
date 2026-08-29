@@ -56,6 +56,12 @@ identical 19338/19338 figure on its own implementation.
 - **Conflation absent**: nothing budgets columns from width classes; the sibling
   `ui-conventions-and-length` budgets in *ems*, the unit UAX #11 §1 itself uses.
 
+**2026-08-29 — LANDED (two-sighting families, with [[chinese]] and [[korean]]).**
+The relational-vocabulary caution landed in the opening; the Ambiguous-width caution
+and the wave-dash line-break consequence in JA-REAL-GLYPHS; the small-kana
+strict-vs-normal ruling, the added `：`, and the URL-vs-identifier disproof in
+JA-KINSOKU. Original record below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. JA-KINSOKU: reword the small-kana/chōonpu clause as a recorded product choice

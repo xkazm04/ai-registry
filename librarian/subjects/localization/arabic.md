@@ -32,6 +32,11 @@ File: `spec--plural-and-count-agreement.md`. **Fate: confirmed**, three sharpeni
 - Sublocales cannot differ — CLDR keys plural rules on the language subtag, and all 28
   `ar_*` locales inherit. `ars` shares cardinals but carries no range row of its own.
 
+**2026-08-29 — NOTHING LANDED, deliberately.** All four candidates are single
+sightings and none is a measured disproof: the technique's sentences are incomplete,
+not false. The integrality trap is the one worth landing first when a second plural
+subject sights it. Banked, not forgotten.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. AR-PLURAL-SIX: add the integrality clause.

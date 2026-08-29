@@ -54,6 +54,12 @@ in the bundle.
 - New detail: `bn` overrides root's `{0}…` to `{0} …` (U+0020 before the glyph) for the
   truncation patterns; `word-*` inherits. Truncation only, not progressive "loading…".
 
+**2026-08-29 — LANDED (measured disproof of the trigger).** BN-NUKTA now carries
+khanda ta as a fourth split encoding that no normalization form repairs, the
+NFC-never-NFKC rule, and an extended trigger — the NFC-idempotence check cannot see
+the joiner spelling. The remaining four candidates stay banked. Original record below
+stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. BN-NUKTA: add khanda ta as a fourth split encoding, **with an explicit note that no

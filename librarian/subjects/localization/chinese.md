@@ -43,6 +43,12 @@ First touch. External-reconcile wave 1, class B.
   checked, found the technique never claims one, and recorded that instead of
   manufacturing it. §2's terminal-emulator caveat is noted as a *reader's* risk.
 
+**2026-08-29 — LANDED (two-sighting family, with [[japanese]]).** New rule
+`ZH-WIDTH-UNDECIDED` carries the Ambiguous-width finding, the zh-Hans/zh-Hant
+determinism asymmetry, the ZH-PANGU resolution step and the uncovered `·`. The
+relational fullwidth/halfwidth vocabulary landed in the opening. Original record
+below stands.
+
 ## Technique-edit candidates (banked for the cycle)
 
 1. ZH-QUOTES: the Simplified/Traditional choice also decides width determinism.

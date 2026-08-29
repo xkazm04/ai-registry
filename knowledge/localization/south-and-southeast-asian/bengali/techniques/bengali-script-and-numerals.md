@@ -74,9 +74,23 @@ distinct letters, not optional decorations of ড, ঢ, য. Two defect modes:
   deduplication and grep all silently miss. Pick NFC at every write path and
   audit boundary.
 
-**Trigger.** Any string failing an NFC-idempotence check; termbase terms that
-occur zero times in a catalog known to contain them (the classic symptom of
-split encoding).
+**A fourth split encoding that normalization does NOT repair: khanda ta.** ৎ has
+a modern single code point and an older spelling as *ta + virama + zero-width
+joiner*, and unlike the three nukta letters it carries **no canonical
+decomposition** — so the two spellings are unequal under every normalization
+form, NFC included. The same silent failure follows (two encodings, identical
+rendering, zero matches), and it is live: khanda ta sits in the locale's main
+exemplar set, not in a legacy corner. Normalization is necessary here and not
+sufficient; this one needs a literal check for the joiner sequence.
+
+**Normalize with NFC, never NFKC.** The compatibility forms collapse distinctions
+this bundle depends on — NFKC rewrites the ellipsis … into three ASCII periods,
+undoing BN-ELLIPSIS at the very write path this rule tells you to normalize at.
+
+**Trigger.** Any string failing an NFC-idempotence check; **plus an explicit
+search for the joiner spelling of khanda ta, which that check cannot see**;
+termbase terms that occur zero times in a catalog known to contain them (the
+classic symptom of split encoding).
 
 ## BN-ZWJ · the র‍্য cluster in loanwords needs a joiner
 

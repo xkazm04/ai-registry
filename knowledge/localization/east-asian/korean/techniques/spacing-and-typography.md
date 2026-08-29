@@ -96,9 +96,21 @@ articles, stem-form labels) but each syllable block renders roughly 1.5–1.8×
 a Latin character's width, so the pixel win is smaller than the character
 count suggests. When a label overflows a fixed slot, shorten by dropping the
 particle, then the verb ending, before touching the noun — the noun carries
-the meaning. Line-wrap behavior (space-break vs. syllable-break) is a layout
-setting; translators do not insert manual breaks and never rely on a
-specific wrap point. Korean has no hyphenation.
+the meaning. Korean has no hyphenation, translators do not insert manual breaks,
+and no string may rely on a specific wrap point.
+
+**Line-wrap behaviour is a layout setting, and the default is the opposite of
+what 띄어쓰기 suggests.** The character standard classes Hangul syllables so that
+breaking *between* two syllable blocks is permitted by default — the default is
+syllable-break, supporting Korean text that does not use space-based wrapping —
+and **space-only wrapping is the opt-in**, reached by tailoring Hangul to the
+alphabetic class. So a Korean UI catalog, which is ragged-margin text and wants
+its spaces honoured, is only wrapping correctly if the layout opted in; a product
+that never made the choice is running the mode that ignores word spacing
+entirely. This is a decision to record, not a default to trust — the same demand
+[the authority is a hypothesis](../../../_laws.md#the-authority-is-a-hypothesis)
+makes of any published rule, and the standard itself asks only that a tailoring
+be disclosed.
 
 ## KO-DASH · one dash convention, the real glyph
 

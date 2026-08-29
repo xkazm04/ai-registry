@@ -11,22 +11,44 @@ use_when: [translating strings with interpolated counts into Vietnamese, writing
 
 # Classifiers & quantity
 
-Vietnamese has no plural morphology and CLDR reflects that exactly: locale vi has
-one plural category, **`other`**, for both cardinals and ordinals (CLDR language
-plural rules). This makes the message-format side of quantity trivial — one branch,
-noun never changes — and moves the entire difficulty into syntax: what stands
-*between* a numeral and its noun, and what marks plurality when no numeral is
-present. Translators arriving from European locales solve the problem they no
-longer have and miss the one they gained.
+Vietnamese has no plural morphology, and the *cardinal* side of CLDR has long
+reflected that exactly: locale vi carries the single category **`other`**. Two
+things qualify that, and both are load-bearing.
+
+**Ordinals have never been single-category.** vi has carried an ordinal `one` for
+over a decade, because the ordinal series is suppletive at 1 — *thứ nhất*, not
+*\*thứ một* — and the selector is where that irregularity has to live. A technique
+that treats "no plural morphology" as "no plural categories anywhere" is wrong on
+the ordinal file, and has been for as long as the file has existed.
+
+**The cardinal answer has an expiry.** CLDR 49 moves vi into the `i = 0 or n = 1`
+group, giving it a singular category that also covers zero. Check the CLDR release
+your stack actually ships before assuming either answer.
+
+Neither of those is plural morphology arriving in Vietnamese — the noun still never
+changes. What a second category carries is *agreement downstream of the count*, not
+inflection of the counted thing (see VI-PLURAL-OTHER). The bulk of the difficulty
+remains where it always was: in syntax — what stands *between* a numeral and its
+noun, and what marks plurality when no numeral is present. Translators arriving from
+European locales solve the problem they no longer have and miss the one they gained.
 
 ## VI-PLURAL-OTHER · one plural branch, and it must still be written
 
 **Trigger:** any source string with a plural block; any count interpolation.
-**Rule:** a vi plural block contains exactly the `other` branch. Do not replicate
-the source's one/other split with identical text in both branches (it doubles
-maintenance for nothing) and do not delete the plural syntax to a bare string if
-the format system distinguishes the two — the skeleton stays
+**Rule:** a vi plural block carries the catch-all branch, plus — on a CLDR release
+that gives vi a singular category — a singular branch **only where the string needs
+one**. The test is not "did the source have a plural block"; it is **does this
+string refer back to the thing it counted**. A bare count string says the same words
+whatever the number (`{count} tệp`), and duplicating it doubles maintenance for
+nothing. A string that pronominalises what it counted is different: Vietnamese
+distinguishes singular from plural anaphora — *nó* against *chúng* — so there the
+two branches differ by exactly that word, and collapsing them loses a real
+distinction. Never delete the plural syntax down to a bare string if the format
+system distinguishes the two — the skeleton stays
 ([the format skeleton is inviolable](../../../_laws.md#format-skeleton-is-inviolable)).
+**Where a singular category exists it includes zero** (`i = 0 or n = 1`), so such a
+branch must read correctly at a count of 0 — or the zero case needs its own
+exact-value branch rather than being left to it.
 The noun inside is invariant: 1 tệp, 5 tệp, never a pluralized loanword
 (5 files → 5 tệp, and a borrowed noun is equally invariant: 3 workflow, not
 3 workflows, once the loan is adopted as a Vietnamese noun).
@@ -85,8 +107,12 @@ phrase is the case that most often needs the protection.
 
 ## When not to reach for this technique
 
-Ordinals (thứ nhất, thứ hai — "thứ + numeral", with nhất/tư as irregulars for 1st
-and 4th) and dates are formatting-library territory; only hardcoded ordinal text in
-translatable strings needs the rule. And do not retrofit classifiers into settled
+Dates and number formatting are formatting-library territory. **Ordinals are not
+simply out of scope**: vi carries an ordinal singular category precisely so the
+suppletive first has somewhere to live (thứ nhất, with tư for 4th), so an ordinal
+selector in a vi catalog is real and its singular branch is load-bearing — the
+rule above applies to it rather than skipping it. What stays outside is hardcoded
+ordinal text in translatable strings, which needs the syntax and classifier rules
+rather than a plural block. And do not retrofit classifiers into settled
 UI noun labels that are not being counted — a menu entry Tệp needs no classifier;
 the classifier system activates at quantification, not at every noun.

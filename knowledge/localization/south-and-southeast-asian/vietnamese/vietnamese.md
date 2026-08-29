@@ -16,9 +16,11 @@ techniques:
 # Vietnamese (vi)
 
 Vietnamese looks deceptively easy to a localization program manager: Latin script,
-left-to-right, no case declension, no verb conjugation, no plural forms — CLDR gives
-it a single `other` plural category and closes the file. Every one of those absences
-is where the real work hides. The grammar Vietnamese does not spend on morphology it
+left-to-right, no case declension, no verb conjugation, no plural forms — and a
+cardinal plural rule so simple it invites closing the file. Every one of those
+absences is where the real work hides, and the plural rule is the first trap: it is
+a statement about *cardinals on the release you ship*, it has never been true of
+ordinals, and it is not a statement about the language having only one category. The grammar Vietnamese does not spend on morphology it
 spends on **choices**: which person-word to call the user, which of two passive
 markers to pick (one of them means the event was *bad for you*), which classifier a
 counted noun takes, and which of three vocabulary strata — Sino-Vietnamese, native,
@@ -71,11 +73,17 @@ aesthetic style (hòa, khỏe) or the new phonemic style (hoà, khoẻ) — and 
 because the two spellings of one word are distinct code-point sequences that split
 search and translation-memory matches. See diacritics-and-typography.
 
-## Number without plurals: classifiers and the other-only locale
+## Number without plurals: classifiers, and a plural rule with two asterisks
 
-CLDR gives Vietnamese exactly one plural category, `other`, for both cardinals and
-ordinals. A message-format plural block in a vi catalog has one branch, and the noun
-inside it never changes form: 1 tệp, 5 tệp. What English spends on plural agreement
+Vietnamese nouns have no plural form: whatever the count, the noun inside a plural
+block is unchanged — 1 tệp, 5 tệp. The *category* story is less tidy than that fact
+suggests. CLDR has long given vi a single cardinal category, `other`, but **CLDR 49
+adds a singular one** (`i = 0 or n = 1`, which puts zero in it), and **the ordinal
+file has never been single-category** — vi has carried an ordinal singular for over a
+decade to hold the suppletive *thứ nhất*. So a vi plural block is not automatically
+one branch; a second branch, where the release provides one, carries agreement
+*downstream* of the count — singular versus plural anaphora, *nó* against *chúng* —
+never inflection of the counted noun. See classifiers-and-quantity. What English spends on plural agreement
 Vietnamese spends on **classifiers**: a counted noun normally takes a small measure
 word between the numeral and the noun — cái (general/inanimate), chiếc (single
 manufactured item), con (animate, plus a few idiomatic inanimates), quyển/cuốn
