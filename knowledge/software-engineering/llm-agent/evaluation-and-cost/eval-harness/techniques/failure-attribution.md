@@ -6,7 +6,7 @@ technique: failure-attribution
 status: forged
 laws: [failure-not-empty-success, gate-sees-target, count-carries-predicate]
 shared_with: []
-use_when: [a suite went red and nobody knows what to change, the aggregate improved but the same failures recur, deciding whether a failing case is a defect or a bad label]
+use_when: [a suite went red and nobody knows what to change, the aggregate improved but the same failures recur, deciding whether a failing case is a defect or a bad label, designing the change a failing class calls for, an optimizer or agent is proposing harness changes and nothing says how many at once]
 ---
 
 # Failure attribution
@@ -115,6 +115,57 @@ Reviewing dozens of cases by hand is the expensive part and it is still the
 cheap path. The alternative — a change per hypothesis, each costing a full
 suite run — pays the same time in run cost and learns less per attempt,
 because a suite result cannot tell you *why* it moved.
+
+## The change is an experiment, and it is designed before it is run
+
+Attribution ends with a class and an owner. Re-attribution begins after a
+change. Between them sits a step this technique had left to whoever holds the
+keyboard, and it is where a clean attribution gets spent badly: the fix
+arrives as a bundle — a reworded instruction, a new tool, a wider context
+window, all in one round — the aggregate moves, and the class count is the
+only thing that can say which part did it. It cannot, because three things
+changed. The round produced a number and no knowledge.
+
+The corrective is to treat a change the way the harness already treats a
+run: as an experiment whose comparability is engineered before it starts.
+
+- **One component per round.** The system under test decomposes into named
+  parts — instructions, tools and their descriptions, memory and retrieval,
+  context assembly, control flow, the verifiers, the budget and stopping
+  rules — and a round changes exactly one of them. Two in one round produce
+  a result attributable to neither, and the second round spent untangling
+  them costs a full suite run and learns less than the first would have on
+  its own.
+- **The model stays pinned while the harness moves.** A model version and a
+  harness change confounded in one round cannot be separated afterwards, and
+  the harness change is the one that was under investigation. The
+  instrument discipline the golden path applies to the judge applies to the
+  candidate: freeze what is not the variable.
+- **Write the prediction down first.** The hypothesis is an explanation plus
+  a prediction — *this class fails because the agent accepts executable
+  output without checking it; an independent verification step should
+  shrink that class* — and the modification is the concrete form of it:
+  add the step, invoke it after execution, permit one repair. The prediction
+  names the class and the direction, and it is recorded before the run, so
+  that an aggregate that rose while the named class held steady is read as
+  the miss it is rather than as a success nobody predicted. A mutation
+  expected to move one class is not judged on the whole population's mean
+  ([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
+- **Keep the parent.** The round's record is parent state, the one component
+  changed, the diff, the prediction, and the measured class delta. The losing
+  variant is discarded; its record is not. A second round that cannot name
+  what the first one tried repeats it.
+
+The shape holds whether the experimenter is a person or an agent. An agent
+that proposes harness changes from a batch of failure traces is running this
+loop at scale, and the scale is exactly why the rule has to be mechanical:
+a proposer that emits three coupled changes per round can run a thousand
+rounds and never learn which component was load-bearing, and its improving
+headline is the same theatre as an unscreened reduction run
+([_laws: gate-sees-target_](../../../../_laws.md#gate-sees-target)). The
+search over harness configurations is a search, not a gradient, and a
+search that cannot attribute its own steps is a random walk with a good
+narrator.
 
 ## A class with no owner is a product decision
 
