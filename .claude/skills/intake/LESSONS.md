@@ -2322,3 +2322,19 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
 - **Ship is now the weakest stage**, by construction: 24 branches, none merged. The
   lane must not mint branches faster than the operator reads them - a `code` row whose
   branch is never merged is a wiki page with a commit hash.
+
+## 1.0.0 - 2026-08-29 - apply wave 1 follow-ups (branch merge + repair)
+
+- **A worktree commit can fail silently and `worktree remove --force` then destroys
+  the work.** The project's pre-commit hook runner was not on PATH inside the
+  worktree ("Can't find lefthook in PATH"), the commit aborted, my grep for errors
+  hid it, and the forced removal discarded nine edited files. The edits were scripted
+  so the redo cost minutes; unscripted edits would have been lost. Rule for the apply
+  lane: after committing in a worktree, assert the commit landed (`git log -1` shows
+  your subject) BEFORE removing the worktree, and never filter a commit's output.
+- **Verify the brief's gate before fan-out, again.** `cargo check` on the app crate
+  fails on this machine before any source compiles (a Tauri permission-manifest
+  lookup in the build script) - in the main checkout too, not just in worktrees. Every
+  Rust seam in the wave fell to experiment/simulation for this reason, and the
+  scorecard called it "no warm gate" when it is "no gate at all": the library crates
+  (`core`, `engine`) check fine. Name the crate a Rust gate can reach, not the workspace.

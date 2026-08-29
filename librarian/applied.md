@@ -28,7 +28,7 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 | 2026-08-29 | first-run-and-quiet-silence | session-resume | personas | code | better | branch `apply/first-run-and-quiet-silence` reviewed and merged 2026-08-29 |
 | 2026-08-29 | field-defaults-and-bounds | draft-editing | personas | code | better | branch `apply/field-defaults-and-bounds` reviewed and merged 2026-08-29 |
 | 2026-08-29 | stop-reason-ledgers | agent-chaining | personas | code | better | branch `apply/stop-reason-ledgers` reviewed and merged 2026-08-29 |
-| 2026-08-29 | event-registry | realtime-events | personas | code | better | branch `apply/event-registry` HELD: the new gate is deliberately red (9 off-registry event names, one with no producer) - merge after the repair change |
+| 2026-08-29 | event-registry | realtime-events | personas | code | better | branch `apply/event-registry` merged 2026-08-29 together with the repair it demanded: 7 names folded into the registry with payload types, the onboarding listener re-pointed at a producer that exists |
 | 2026-08-29 | three-state-outcomes | health-checks | personas | code | better | branch `apply/three-state-outcomes` reviewed and merged 2026-08-29 |
 | 2026-08-29 | queue-ordering-and-identity | triage-queues | personas | code | better | branch `apply/queue-ordering-and-identity` reviewed and merged 2026-08-29 |
 | 2026-08-29 | suite-partitioning | test-harness | personas | code | better | branch `apply/suite-partitioning` reviewed and merged 2026-08-29 |
