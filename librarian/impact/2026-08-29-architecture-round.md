@@ -3,7 +3,7 @@ plan: 2026-08-29-architecture-round
 domain: software-engineering
 source_run: 2026-08-29-4
 machine: kazda-dev-box
-status: wave-1-executed
+status: wave-3-executed
 ---
 
 # Impact plan — landing the architecture round in the connected fleet
@@ -171,3 +171,41 @@ folded, 62 consults/30d, so this machine's demand column is now first-party.
   the next conform round.
 - **personas** pre-existing test debt, not ours: `repos::lab::ratings`
   status_vocabulary_tests fail on a missing fixture column (`r.eval_method`).
+
+## Wave 3 — EXECUTED 2026-08-30 (spec-before-diff held throughout)
+
+Five workers; every item shipped a committed spec before its diff. 8 of 9
+candidates landed; one blocked.
+
+| Item | Project | Spec / Impl | Outcome |
+| --- | --- | --- | --- |
+| 1 vector-store orphan reconciliation (#108) | personas | 96f43ba80 / 5ca272bff | reaper registry + write-ahead ledger + dependent-side sweep (report/apply); archive door deliberately unledgered; 5,158 standing orphans report-only pending operator apply |
+| 2 preview through enforcement path (#31) | personas | 53d6fa590 / 229e61f37 | preview and act share one body (count-and-rollback in BEGIN IMMEDIATE); 3.29× class structurally gone; UI confirm armed by dry-run |
+| 3 sceneStore guards + relay bound | personas | a0d3a3ee7 / 3aba78285 | keyed latest-wins + in-flight dedup (N mounts = 1 IPC); relay bounded 256, reject-new shed |
+| 4 member-removal blast radius | kp | aa735004 / b4c83c5c | preview=act one implementation, confirm-gated, per-table receipt; schema walk PROVED ownership transfer unnecessary (no user-owned records) |
+| 5 cv_analysis fold-in (Phase 3) | kp | e031edf0 / 0bcc765a | multimodal path behind the adapter door; capability declared; carve-out retired; 1787 tests green; residual: profile_extract still direct |
+| 6 dependent-side orphan walk | systedo | 6ef78388 / f17553d2 | storage-truth-derived enumeration (wider than the registry — residue honesty); ownerless existence check; cloud attributability limitation recorded |
+| 7 studioDb schema versioning | gravitone | — | BLOCKED: ff-only catch-up refused (active session holds ~97 dirty files over 44 incoming). Target file identical both sides; resume when the owner commits |
+| 8 handoff write integrity | ascent | 02f5e630 / 2b0b9860 | one membership batch read + per-row CAS (status+org) in one tx; closed a real reopen race; +6 witnesses |
+| 9 first fleet load test | kp | 3647bf0c / 78971712 | writer-knee probe: measured HEADROOM (p95 flat through N=5, zero busy); ceiling row now basis: measured |
+
+Wave-1 residuals also closed in this wave: systedo local sqlite eviction
+accounting (90d23632, migration v34, one shared accounting vocabulary across
+backends) and ascent public-scan-quota $transaction into the data layer
+(9ebe5667; lint ratchet -2 grandfathered entries, zero $transaction outside
+src/lib/db).
+
+Registry-side recording (techniques' upward lessons + application addenda +
+new node--blast-radius-computation) landed by the wave-3 recorder — see the
+deepen commits following this one. Registry maps regenerated fleet-wide with
+carried verdicts; personas' map regeneration still owed (its prebuild codegen
+drops the localization domain — bug to chase before regenerating there).
+
+### Still open after wave 3
+- gravitone item 7 (blocked as above).
+- kp profile_extract direct call (named outstanding in kp's own docs).
+- personas: operator-invoked apply of the 5,158 reported vector orphans;
+  count_credential_links swallow; app-crate test binary cannot start on this
+  machine (standing verification hole).
+- ascent: remediation-handoff one-lookup-vs-batch tension recorded as an
+  upward lesson; 11 grandfathered raw-client importers remain on the ratchet.
