@@ -179,3 +179,47 @@ Append-only reflection lane. One entry per run that taught something. Format:
   entry by hand from the Phase 8 templates. Small gap, but the drift signal in § Notes on use counts
   scans-that-fill against resumes-that-drain, and a resume that discovers something will skew that
   ledger unless it is recorded as both.
+
+## 1.5.0 - 2026-08-29 - systedo-case
+
+- **Phase 1b step 0 reads the registry's subjects and not the repo's own.** This repo keeps nine
+  ADRs under `docs/adr/`, path-checked by a blocking gate, and ADR-0001 is literally the seam the
+  chosen theme was about. Reading it before briefing the sub-agents changed the run's question from
+  "was this seam ever thought about" to "did the known fixes become gates" - which is where all the
+  yield turned out to be. The step lists an "architecture digest" but nothing tells the run to look
+  for a decision-record directory, which is a different and more load-bearing artifact than a prose
+  digest: an ADR names the test that pins it, so it hands you a falsifiable claim to go check.
+  Suggest step 0 say: read the governing registry subjects AND the repo's own decision records, and
+  treat any claim an ADR makes about a test as a claim to verify, not to trust.
+- **Sub-agents are reliable about code and unreliable about history.** Two of five headline claims
+  did not survive verification, and both were historical rather than structural: "byom_config is the
+  residual unfixed instance" (wrong - `git log -S` puts the table in SCHEMA eight days BEFORE the
+  migration ledger existed, so v1's `db.exec(SCHEMA)` covers it), and "feedback orders by two
+  different fields" (wrong - the differing column name is written with the same value). An `Explore`
+  agent reads files; it does not run `git log -S`, and when it reasons about when-and-why it is
+  guessing from names and comments. The main session should re-derive every historical claim before
+  Phase 5, because a false claim that reaches triage costs the user's judgment, not just time. Worth
+  saying in 3c beside the convergence/conflict/surprise list: **history is a fourth category, and it
+  is the one to verify.**
+- **Dry run as finding generator, 4th observation - and this time it changed the DESIGN, not just
+  the risk.** Measuring before wiring showed tables 34 = 34 and column SETS identical, with only
+  ordinal position differing on two tables. Without that I would have shipped a normalized-DDL diff
+  comparing column order, which `ALTER ADD COLUMN` guarantees will fork forever - a gate red on a
+  non-difference, which is the fastest way to get a gate switched off. The registry text says
+  "column order-insensitive" in passing; the dry run is what turned that clause from a detail into
+  the reason the gate is shaped the way it is. The step is earning its place; it may deserve
+  promoting from "measure what violates it" to "measure what violates it, and let the answer shape
+  the check".
+- **Record the EXIT CODE in the Phase 7c baseline, not the tail of the output.** I reported the
+  security gate clean at baseline on the strength of `node scripts/sast.mjs | tail -6`, which showed
+  the allowlist section and swallowed both the findings and the status. The gate had been red on
+  master the whole time - three blocking findings, which then became one of the run's more valuable
+  items. 7a already warns never to read an exit code through a pipe; 7c step 3 says "record the
+  numbers" and should say "record the numbers AND the exit status", because the baseline is exactly
+  where a pipe hides a pre-existing failure and makes you attribute it to yourself later.
+- **On Windows, verify line endings before AND after every commit.** Two commits changed ~33 and ~72
+  lines of content and ~226 and ~130 lines of file, because the editor rewrote LF files as CRLF. It
+  is invisible in `git diff --stat` unless you also run `--ignore-all-space --stat` and compare the
+  two numbers. On a shared checkout this is not cosmetic: it hands a concurrent agent a conflict on
+  every line of files it never touched, which is precisely what the pathspec-commit discipline in
+  7d exists to prevent. Cheap check, belongs beside 7d step 6's staged-index verification.
