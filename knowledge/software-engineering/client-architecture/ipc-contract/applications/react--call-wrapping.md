@@ -116,3 +116,6 @@ payload, because the Rust guard that emits that rejection hand-builds
 `{ error, kind: "Forbidden" }` outside the envelope's vocabulary — see
 [rust--error-shape-mapping](rust--error-shape-mapping.md) for the emitter.
 The chokepoint is right; the classification inside it is prose.
+Resolved 2026-08-29 (personas commit `75cee6315`): the guard now rejects
+via `AppError` and `isIpcAuthFailure` branches on `kind`, not the message
+substring — the paragraph above is kept as the dated specimen.

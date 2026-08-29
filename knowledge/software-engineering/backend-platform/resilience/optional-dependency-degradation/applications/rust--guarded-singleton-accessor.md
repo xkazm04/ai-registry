@@ -76,6 +76,10 @@ visible on the surface it affects, not only in a log.
   twin go through the cipher cell, and a process that hit the transient error
   once cannot encrypt again until restart, even though `get_master_key()`
   would now succeed. The fix at `:497-504` was applied to one of two cells.
+  Resolved 2026-08-29 (personas commit `edb437422`): `CIPHER` is now
+  `OnceLock<Aes256Gcm>` — success only; a transient derivation failure
+  returns `Err` and leaves the cell empty, so a later call can retry. The
+  paragraph above is kept as the dated specimen.
 - **The verdict dies at the module boundary.** `impl From<CryptoError> for
   AppError` (`:439-443`) maps every variant to `AppError::Internal(String)`.
   "Keychain unavailable, fail-closed, set `PERSONAS_ALLOW_FALLBACK_KEY=1`" —

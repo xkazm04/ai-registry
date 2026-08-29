@@ -83,7 +83,10 @@ result through for the same reason: "Same 429, three different actions."
   operator to grant `manage_billing:copilot`. On the day the guess is wrong —
   an upstream outage, a rate limit — the operator is sent to change a
   permission that is fine. The classification existed at `:109` and died
-  there.
+  there. Resolved 2026-08-29 (ascent commit `bc759bca`): `ghJson` now
+  returns a typed failure reason (`denied` / `absent` / `unreachable`) and
+  the sync route answers from that fact — the 422 scope guess is retired.
+  The bullet is kept as the dated specimen.
 - **A zero that means "not reported".** `copilot.ts:4-19` and `:72` store
   `costCents: 0` and explain, at length, that "0 here means **not reported**,
   never 'spent nothing'"; a separate `hasAllocatedCost` flag keeps the row out

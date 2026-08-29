@@ -95,7 +95,10 @@ debounced write — the older build's first composition change overwrites
 sibling React application of this technique found the same overwrite in a
 layout store where it was *not* declared, and had to make the write-through
 inert. The difference between the two is not the code, it is whether the
-loss was chosen and written down.
+loss was chosen and written down. Resolved 2026-08-29 (personas commit
+`3ed7a9675`): the autosave write path now checks the on-disk version first,
+so an older build no longer overwrites a newer autosave — the declared
+loss is withdrawn rather than merely documented.
 
 ## Gaps against the technique
 
@@ -117,7 +120,9 @@ loss was chosen and written down.
   payload it is the only check, and it observes nothing — a gate over a
   proxy, which the sibling rehydration-narrowing technique names as the
   failure. The permissive load is safe only because the chain has never
-  needed a step.
+  needed a step. Resolved 2026-08-29 (personas commit `e52dc8e02`): the
+  frontend now runs a membership guard over the parsed value instead of
+  the bare `as Composition` cast.
 - **A corrupt autosave and no autosave are the same value.** `:190-195`
   returns `Ok(None)` for an unparseable file after a `tracing::warn!`, and
   the command's own doc says the frontend "uses that as the 'fresh session'

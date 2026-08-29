@@ -81,6 +81,12 @@ of the defect below.
 
 ## The second emitter (live defect, 2026-08-29)
 
+> **Resolved 2026-08-29 (personas commit `75cee6315`).** The guard now
+> constructs its rejection through `AppError` and serializes it, so the
+> refusal crosses in the envelope — kind `forbidden`, with `category` —
+> and the consumer branches on `kind`. The text below is kept as the
+> dated specimen of the defect.
+
 `ipc_auth::wrap_invoke_handler` (`src-tauri/src/ipc_auth.rs:602`) wraps the
 whole dispatch table and rejects privileged commands whose session token is
 missing or wrong — *before* any handler runs. Its rejection is a hand-built

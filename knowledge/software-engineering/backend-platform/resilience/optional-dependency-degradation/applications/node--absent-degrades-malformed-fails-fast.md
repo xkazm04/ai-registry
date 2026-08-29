@@ -171,6 +171,12 @@ Absent, `Number(undefined)` is `NaN` and the default applies — correct. But
 and mistyped it gets the derived default back with no line in any log, and
 the first sign is a legitimate exporter receiving 429s.
 
+> **Resolved 2026-08-29 (ascent commit `c2408869`).** `envInt` now throws
+> at module load on a present-but-unparseable (or non-positive) value,
+> naming the variable and quoting the raw value; absent still takes the
+> default. The code above is kept as the dated specimen. The
+> `rate-limit.ts` boolean spelling site remains open.
+
 The boolean twin is `src/lib/rate-limit.ts:352-355`: `sharedFailOpen()`
 accepts `1` and `true` after lower-casing; `yes`, `on`, or `enabled` read as
 fail-closed. That is the safe direction of the misread for this switch (the
@@ -188,7 +194,8 @@ deployment-wide token with only a deprecation warning.
   build or deploy, and a malformed value would surface per request. The
   closed-door refusal for the secret is right; the tunables are still the
   parse-then-default shape at three sites (`ingest-guard.ts:61-62`,
-  `rate-limit.ts:352-355`).
+  `rate-limit.ts:352-355`). The `envInt` sites were resolved 2026-08-29
+  (ascent `c2408869`, see above); the `rate-limit.ts` boolean remains.
 - **The template's own placeholder convention is absent.** The ingest secret
   is documented with a generation command (`openssl rand -hex 32`) rather than
   a recognisable placeholder, which is the right choice for a secret — but no

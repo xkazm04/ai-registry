@@ -58,6 +58,9 @@ The archived predicate is **not centralized**: `archived_at IS NULL` is
 hand-written per query (`jobs.ts:140`, `:157`, `analytics.ts:1072`), the
 exact per-caller re-implementation the technique flags for review — the
 next list surface that forgets the clause will show archived JDs in a
-picker. Restore is also a bare flag-clear: no validation pass against the
+picker. Resolved 2026-08-29 (kp commit `b8467ff5`): the predicate is now
+the single exported `JD_ACTIVE_SQL` constant (`jobs.ts:63`) interpolated
+by every list/search query — one authority instead of a hand-written
+clause per site. Restore is also a bare flag-clear: no validation pass against the
 current world (safe today only because the slug is never released and the
 JD references nothing deletable).

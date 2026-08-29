@@ -32,6 +32,13 @@ rows == 0` returns a validation error naming the expected status
 
 ## The generated one: the same three steps, minus the predicate
 
+> **Resolved 2026-08-29 (personas commits `12668c625` + `be121cf18`).**
+> `lab_crud!` now emits the CAS predicate (`AND status = ?7` bound to the
+> read status) and reports the changed-concurrently verdict, and the two
+> hand-written twins of the same read-then-write (`test_runs.rs`,
+> `genome.rs`) received the same predicate. The text below is kept as the
+> dated specimen.
+
 `lab_crud!` (`db/src/macros.rs`) generates `update_run_status`
 (`:429-482`) for five lab modes — `arena`, `ab`, `eval`, `matrix`,
 `consensus` (`db/src/repos/lab/{arena,ab,eval,matrix,consensus}.rs`, each

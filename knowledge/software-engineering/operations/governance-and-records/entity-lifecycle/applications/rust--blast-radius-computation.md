@@ -62,7 +62,10 @@ consent gets compared against.
   blast radius." Exactly the failure-not-empty-success clause — and the
   surviving `.unwrap_or(0)` calls on the other probes (`:1974`,
   `:2023`, `:2038`) keep that door open: a probe error still becomes a
-  reassuring zero.
+  reassuring zero. Resolved 2026-08-29 (personas commit `70faa07b3`): all
+  five probes now propagate their errors and the delete panel renders a
+  broken-preview state instead of an empty radius; `count_credential_links`
+  elsewhere in the same file still swallows its error and remains open.
 - **A probe narrower than its delete.** The automations count filters
   `deployment_status = 'active'` (`:1970`) and the executions count
   `status IN ('running','queued')` (`:2034`) while the cascade takes
