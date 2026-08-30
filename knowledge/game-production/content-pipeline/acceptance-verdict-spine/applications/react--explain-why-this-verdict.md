@@ -5,7 +5,8 @@ subject: acceptance-verdict-spine
 technique: explain-why-this-verdict
 stack: react
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # React realization — the "Why this grade?" disclosure
@@ -40,7 +41,7 @@ The declining-to-act notes are the teaching surface, and they are written as pro
   resolver's output. The header says so: "it never re-grades and never changes a
   verdict." Four cases in `src/__tests__/catalog/explainAcceptance.test.ts:101`
   ("display only") assert `explained.final` deep-equals `resolveStepAcceptance(...)`.
-- **On demand.** `steps/shared/useStepAcceptance.ts:68` returns
+- **On demand.** `steps/shared/useStepAcceptance.ts:67` returns
   `{ ...merged, explain: () => explainAcceptance({ ...args, checker: accept, ctx }) }`
   — a thunk, not a value, with the comment "it re-runs the checker (and every `allOf`
   member), which must be a reader's cost, never a per-render one."
@@ -50,9 +51,9 @@ The declining-to-act notes are the teaching surface, and they are written as pro
 
 ## Naming the member that spoke
 
-`explainMembers()` (line 74) reads the composition's members back from the symbol
+`explainMembers()` (line 76) reads the composition's members back from the symbol
 property `allOf` stamped on the composed function
-(`src/lib/catalog/acceptance/combinators.ts:29`, `Symbol.for('pof.acceptance.allOfMembers')`,
+(`src/lib/catalog/acceptance/combinators.ts:28`, `Symbol.for('pof.acceptance.allOfMembers')`,
 non-enumerable, "Metadata only: grading is untouched"), re-runs them, and flags
 `spoke: index === decided` where `decided` is the first non-pass index, else 0. The
 checker layer's note then reads: `Composed of 4 checks; "price/power band" produced the

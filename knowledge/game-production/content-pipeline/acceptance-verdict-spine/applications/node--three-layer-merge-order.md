@@ -5,7 +5,8 @@ subject: acceptance-verdict-spine
 technique: three-layer-merge-order
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node realization — the one acceptance truth for a step
@@ -29,7 +30,7 @@ verdicts it read (the lab from `/api/judge-verdicts`, the server from `listVerdi
 
 ## The directional guard
 
-`serverVerdictOverlay` (same file, line 22) is the whole "may only act where it knows
+`serverVerdictOverlay` (same file, line 23) is the whole "may only act where it knows
 more" rule in six lines:
 
 ```ts
@@ -56,7 +57,7 @@ Every consumer now funnels through this function — `globalCoachModel.ts:256`,
 `hooks/useEntityArtifacts.ts:204`, `steps/shared/useStepAcceptance.ts:64`,
 `labCheckerContext.ts:79` — "so they cannot disagree by construction."
 
-`verdictsForStep()` (line 84) is shared for the same reason at one level down: the
+`verdictsForStep()` (line 93) is shared for the same reason at one level down: the
 `(entity, step)` filter cannot drift between the banner and the rail because there is
 only one of it.
 

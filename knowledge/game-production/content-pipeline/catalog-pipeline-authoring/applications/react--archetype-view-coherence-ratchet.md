@@ -5,7 +5,8 @@ subject: catalog-pipeline-authoring
 technique: archetype-view-coherence-ratchet
 stack: react
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # `ARCHETYPE_VIEW_KINDS` — a ratchet derived from 344 live steps
@@ -13,7 +14,7 @@ verified_on: 2026-08-20
 PoF's catalog chassis is a Next.js/React lab surface (`/layout`) whose generic
 `ArchetypeStep` renderer draws every step from a declarative `ViewDescriptor`. Nothing
 structurally tied a step's `archetype` to the view kind it declared until
-`src/lib/catalog/stepSpec.ts:81` introduced the coherence map.
+`src/lib/catalog/stepSpec.ts:80` introduced the coherence map.
 
 ## The declaration
 
@@ -75,7 +76,7 @@ Never widen it merely to make a failing step pass."
 Enforcement is rule (a2) of the fleet spec linter
 (`src/__tests__/catalog/pipeline-spec-linter.test.ts`), a pure vitest walker with no dev
 server that runs inside `npm run validate`. It reads the same constant the renderer
-reads — `SUPPORTED_VIEW_KINDS` and `SUPPORTED_CHART_VARIANTS` at `stepSpec.ts:74`/`:56`
+reads — `SUPPORTED_VIEW_KINDS` and `SUPPORTED_CHART_VARIANTS` at `stepSpec.ts:78`/`:59`
 are documented as "the single source of truth" — so map, check and renderer cannot
 disagree. Every failure names catalog / step / field.
 

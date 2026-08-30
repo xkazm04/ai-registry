@@ -5,7 +5,8 @@ subject: wiring-contract-doctrine
 technique: placeholder-rejection
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The wiring-contract checker (TypeScript/Node)
@@ -25,7 +26,14 @@ From `wiringCheckers.ts:3`:
 
 The count is real and has grown: `grep -c 'wiringContract:' src/lib/catalog/pipelines/*.ts`
 returns 137 across 33 pipeline files today, and `wiringContractSound(...)` is now
-composed into 167 step `accept` clauses. The gap between "declarations authored"
+composed into 137 step `accept` clauses (`grep -co 'wiringContractSound(' src/lib/catalog/pipelines/*.ts`
+sums to 137, one per declared block; the sibling application
+`catalog-pipeline-authoring/applications/react--archetype-view-coherence-ratchet.md`
+independently confirms "all 137 existing contracts are composed"). **Since first
+documented (2026-08-20):** this file originally read "167 step `accept` clauses" —
+no code in `src/lib/catalog/pipelines/` has changed since (`git log --since=2026-08-20`
+is empty for that path), so 167 looks like a miscount at forge time rather than
+drift; corrected to the measured 137. The gap between "declarations authored"
 and "declarations consumed" was the entire defect — the standard's *a contract
 with no reader is not a contract*, measured.
 
@@ -42,7 +50,7 @@ const PLACEHOLDER = /^(tbd|todo|to do|n\/?a|none|nothing|\?+|-+)\b/i;
 That is the standard's corpus-derived floor, with the measurement recorded next to
 the number, at roughly the 2.5× headroom the standard asks for.
 
-`checkWiringContract` (`:44`) then applies, in order:
+`checkWiringContract` (`:46`) then applies, in order:
 
 - **shape** — a non-array object, else `fail` with "a wiring contract must declare
   `{ grantedBy, activatedBy, verification, dependencies }`";
@@ -65,7 +73,7 @@ invalidity — placeholder-rejection's step 5.
 ## Composition, not replacement
 
 `wiringContractSound(field?)` returns a `Checker` composed onto a step's existing
-checks with `allOf(...)` — e.g. `items.ts:145`, `accept: allOf(fieldsPopulated('baseType', …), wiringContractSound('baseType'))`.
+checks with `allOf(...)` — e.g. `items.ts:146`, `accept: allOf(fieldsPopulated('baseType', …), wiringContractSound('baseType'))`.
 The step's own headline verdict is untouched; the contract is a *content
 invariant* (same `data` in, same verdict out, no context needed), which is what
 lets it be graded identically in the lab, in a recipe, and headless.
@@ -74,12 +82,12 @@ lets it be graded identically in the lab, in a recipe, and headless.
 
 1. **Absence passes.** `wiringContractSound` returns `pass` with detail
    `'no wiring contract declared'` when the container has no `wiringContract`
-   (`:98-101`) — deliberately, "mirroring `linksResolve`'s empty-link-set pass" so
+   (`:100-104`) — deliberately, "mirroring `linksResolve`'s empty-link-set pass" so
    the checker can never turn a clean produce into a failure. The standard is
    stricter: a contract some artifacts carry is a contract whose absence carries no
    information. The repo's choice was a rollout compromise for retrofitting 33
    pipelines; it should tighten to *required per content class* once coverage is
-   complete, otherwise the 167 composed checks cannot distinguish "wired,
+   complete, otherwise the 137 composed checks cannot distinguish "wired,
    undeclared" from "not wired".
 2. **An unrunnable check reports pass.** `linkCheckers.ts:44` returns `pass` when
    no `CheckerContext` is supplied — *"a rollup path that supplies no `ctx`
@@ -90,5 +98,5 @@ lets it be graded identically in the lab, in a recipe, and headless.
 
 What `linkCheckers.ts` gets exactly right is the actionable reason: unresolved
 links render as `unresolved: items::iron_longsword — seed the target entity, or
-drop the link and model it as descriptive data` (`:22`) — the failure and its two
+drop the link and model it as descriptive data` (`:23`) — the failure and its two
 legal fixes in one line.

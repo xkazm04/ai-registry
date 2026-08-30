@@ -5,12 +5,13 @@ subject: wiring-contract-doctrine
 technique: verification-must-name-a-tier
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # When the observable is engine state
 
-The tier requirement is enforced lexically in `wiringCheckers.ts:70` —
+The tier requirement is enforced lexically in `wiringCheckers.ts:66` —
 `/\bL[0-4]\b/.test(verification)`, failing with *"an unfalsifiable 'it works' line
 is not a verification contract"*. That catches the unlabelled claim. It does not,
 on its own, make the claim true; something has to actually read engine state. In
@@ -41,7 +42,7 @@ verdict.
 
 ## Count thresholds are what make `partial` real
 
-The Enhanced Input rule (`:38`) is the interesting one:
+The Enhanced Input rule (`:39`) is the interesting one:
 
 ```ts
 const inputAssets = m.otherAssets.filter(
@@ -68,7 +69,7 @@ feature matrix it feeds must not read as more.
 ## Where this sits relative to the contract
 
 The wiring contract's `verification` field on an items step
-(`src/lib/catalog/pipelines/items.ts:136`) names two rungs and two observations:
+(`src/lib/catalog/pipelines/items.ts:138`) names two rungs and two observations:
 
 ```
 L2: cppSymbolExists(UARPGItemDefinition) + seedRowPresent(author_items.py, DA_<slug>);
@@ -86,5 +87,5 @@ gap is visible rather than papered over with the `L2` result.
 The ladder's own definition — what `L0`…`L4` mean, what each may conclude — lives
 in `docs/catalog/WIRING-AND-ACCEPTANCE.md §2` and belongs to the acceptance-tiering
 subject, not this one. What this doctrine contributes is the join: the regex at
-`wiringCheckers.ts:70` is the only thing forcing a wiring contract to speak that
+`wiringCheckers.ts:66` is the only thing forcing a wiring contract to speak that
 vocabulary at all.

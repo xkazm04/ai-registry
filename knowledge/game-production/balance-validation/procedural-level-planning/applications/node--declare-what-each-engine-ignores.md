@@ -5,7 +5,8 @@ subject: procedural-level-planning
 technique: declare-what-each-engine-ignores
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Declaring the discarded inputs in a shared procgen spec
@@ -17,7 +18,7 @@ surface answers to).
 
 ## The incident that produced the rule
 
-`algo-params.ts:1-18` states it as a post-mortem: three of the four preview algorithms
+`algo-params.ts:1-16` states it as a post-mortem: three of the four preview algorithms
 ignored the parameters the wizard offered — `cellularGrid` and `perlinGrid` discarded
 `AlgoParams` outright, `wfcGrid` never dereferenced it, and `roomCountMin` was read by
 **nothing**. Dragging "Min Rooms", "Max Rooms" and "Corridor Width" visibly did nothing for
@@ -29,7 +30,7 @@ algorithm **with the reason on screen**.
 
 ## The table
 
-`ALGO_PARAM_SUPPORT` (`algo-params.ts:26-35`) is `Record<algorithm, Record<paramKey, string
+`ALGO_PARAM_SUPPORT` (`algo-params.ts:26-34`) is `Record<algorithm, Record<paramKey, string
 | null>>`. `null` means the generator reads it; a **string is the reason it is inert, and
 it is the exact text the slider shows**. The reasons are written in the algorithm's own
 terms, not as "not supported" — `CELLULAR_REASON` (`:21`) reads: *"Cellular automata carves
@@ -52,8 +53,8 @@ cannot drift from the code either way. A second suite,
 
 ## The ignored set as data
 
-`procgen-spec.ts:1-30` carries the doctrine as a header comment: *"A shared type is not a
-shared layout."* Three engines are declared in `PROCGEN_ENGINES` (`:84-107`), each with a
+`procgen-spec.ts:1-20` carries the doctrine as a header comment: *"A shared type is not a
+shared layout."* Three engines are declared in `PROCGEN_ENGINES` (`:84-102`), each with a
 `reads: readonly ProcgenSpecField[]` listing the spec fields its generator consults —
 browser preview reads five of seven, the engine-side generator reads only `roomBand` and
 `seed`, the codegen path reads all seven.
@@ -72,7 +73,7 @@ pair is `false` with a structural reason.
 
 ## The lossy projection is itemised
 
-`ueDungeonParamsFromSpec()` (`:224-250`) projects the spec onto the two fields the engine
+`ueDungeonParamsFromSpec()` (`:224-242`) projects the spec onto the two fields the engine
 panel can hold, and pushes a `notes[]` entry for **each** lossy step: the band collapsed to
 a single target ("Room band 8-15 collapsed to 12 — ARPGLevelGenerator takes one
 TargetRoomCount, not a range"), the clamp to the panel's accepted range, and the int32 →
@@ -82,7 +83,7 @@ silently reshapes the request is the overclaim this model exists to stop."*
 
 ## Never reconstruct an unrecorded spec
 
-`ProcgenResult` (`:249-260`) carries `spec: ProcgenSpec | null` alongside `specSource:
+`ProcgenResult` (`:247-259`) carries `spec: ProcgenSpec | null` alongside `specSource:
 'declared' | 'unrecorded'`. `browserPreviewResult()` (`:262`) sets `declared` because the
 tool holds the spec; `ueRunResult()` (`:281`) sets `unrecorded` and leaves `spec` null, with
 the reason stated in the comment: the ledger row holds only a room count and a seed, so
@@ -91,7 +92,7 @@ make explicit."
 
 ## Where the repo falls short of the standard
 
-`ProcgenSpec` (`:44-58`) carries algorithm, parameters and both seed forms — `seedLabel` as
+`ProcgenSpec` (`:40-53`) carries algorithm, parameters and both seed forms — `seedLabel` as
 typed and `seedValue` resolved once via `hashSeed()`, "ALWAYS present — never re-derived at
 a call site" — but it carries **no generator version**. The four-term seed contract this
 subject teaches therefore holds only for three terms here: an improvement to any of the four

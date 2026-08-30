@@ -5,7 +5,8 @@ subject: encounter-balance-simulation
 technique: per-cell-seed-derivation-for-order-independence
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Per-cell seeds in a client-side sweep engine
@@ -69,14 +70,14 @@ does not shift every later roll in the fight.
 ## The adapter trap this engine hit and fixed
 
 Order independence is necessary and not sufficient. The same file records a second,
-independent authority defect (`predictive-balance.ts:70`):
+independent authority defect (`predictive-balance.ts:74`):
 
 > `playerDamageMul` is NOT pre-baked into `attackPower` here. The shared
 > `calculateDamage` applies it per-hit (scaling the whole hit incl. `baseDamage`),
 > matching the canonical `simulation-engine` behavior. Baking it in here used to
 > double-count it relative to the main engine.
 
-And at `:93`, the local formula that had drifted:
+And at `:95`, the local formula that had drifted:
 
 > The previous local `calcDamage` had clamped at `Math.max(0,…)` un-rounded and pre-baked
 > the damage multiplier into `attackPower` — both reconciled here.
