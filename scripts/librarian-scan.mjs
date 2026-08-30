@@ -23,6 +23,10 @@
  * it is ranking on, because "nobody consults this" and "nobody has told us" are opposite
  * conclusions that a zero would merge.
  *
+ * Demand it does report is a RANGE, not a figure. Two contributors can be one fleet on
+ * two machines, and nothing in the schema can tell you which - so deviations are scored
+ * at the floor and the ceiling is printed beside it. See the aggregation note below.
+ *
  * Usage:
  *   node scripts/librarian-scan.mjs               # the human table
  *   node scripts/librarian-scan.mjs --json        # what the skill reads
@@ -93,21 +97,80 @@ if (fs.existsSync(SIGNALS)) {
     try { contributors.push(JSON.parse(fs.readFileSync(path.join(SIGNALS, f), 'utf8'))); } catch { /* the gate owns this */ }
   }
 }
-const demandOf = {}; // `${domain}/${slug}` -> { consults, deviations, gone }
+/*
+ * Aggregating across contributors: events sum, states do not.
+ *
+ * `consults` is an EVENT COUNT over a window. Two installations that each read a
+ * subject four times produced eight reads, and summing them is right.
+ *
+ * `deviations` and a citation's `gone` are STATES OF A TREE - "how many places this
+ * repo falls short", "how many of these anchors no longer resolve". Summing a state
+ * across two installations that hold the SAME checkout counts one shortfall twice.
+ * On 2026-08-30 that was not hypothetical: two contributors reported a byte-identical
+ * `llm-observability` block fourteen hours apart, and 17 of the 31 software-engineering
+ * subjects both named carried identical deviation counts. Summed, the corpus read 550
+ * deviations; deduplicated it read 370. The entire top of the worklist was that 1.49x,
+ * and a sweep that dispatched against it would have spent workers on a ranking artifact.
+ *
+ * Nothing in the signals schema can prove two contributors are independent - `contributor`
+ * is a self-declared id, and one fleet checked out on two machines legitimately writes two
+ * files. So this does not guess. It scores the FLOOR (max across contributors: at least
+ * this many distinct places fall short) and reports the ceiling (the sum, if every
+ * contributor is independent) beside it, the same way check-currency reports a drift
+ * count as a lower bound over the witnessed slice. A floor cannot manufacture a worklist;
+ * a sum can, and did.
+ */
+const demandOf = {}; // `${domain}/${slug}` -> { consults, deviations, deviationsSummed, gone, goneSummed, contributors }
 const witnessed = new Set();
+const bucket = (key) => (demandOf[key] ??= {
+  consults: 0, deviations: 0, deviationsSummed: 0, gone: 0, goneSummed: 0, contributors: 0,
+});
+const namedBy = {}; // `${domain}/${slug}` -> Set(contributor id)
+const blockSig = {}; // bundle -> [{ contributor, sig }] for the duplicate-report diagnostic
+
 for (const c of contributors) {
+  const who = c.contributor ?? '(unnamed)';
   for (const [bundle, obs] of Object.entries(c.bundles ?? {})) {
     witnessed.add(bundle);
+    (blockSig[bundle] ??= []).push({
+      contributor: who,
+      sig: JSON.stringify([obs.consults ?? {}, obs.deviations ?? {}, obs.citations ?? {}]),
+    });
     for (const [slug, n] of Object.entries(obs.consults ?? {})) {
-      (demandOf[`${bundle}/${slug}`] ??= { consults: 0, deviations: 0, gone: 0 }).consults += n;
+      bucket(`${bundle}/${slug}`).consults += n; // event: sums
+      (namedBy[`${bundle}/${slug}`] ??= new Set()).add(who);
     }
     for (const [slug, n] of Object.entries(obs.deviations ?? {})) {
-      (demandOf[`${bundle}/${slug}`] ??= { consults: 0, deviations: 0, gone: 0 }).deviations += n;
+      const d = bucket(`${bundle}/${slug}`);
+      d.deviations = Math.max(d.deviations, n); // state: floor across contributors
+      d.deviationsSummed += n;
+      (namedBy[`${bundle}/${slug}`] ??= new Set()).add(who);
     }
+    // A subject's `gone` is the max over its own documents summed within one contributor,
+    // then the floor across contributors - the same event/state split one level down.
+    const goneWithin = {};
     for (const [id, v] of Object.entries(obs.citations ?? {})) {
       const slug = id.split('/')[0];
-      (demandOf[`${bundle}/${slug}`] ??= { consults: 0, deviations: 0, gone: 0 }).gone += v.gone ?? 0;
+      goneWithin[slug] = (goneWithin[slug] ?? 0) + (v.gone ?? 0);
+      (namedBy[`${bundle}/${slug}`] ??= new Set()).add(who);
     }
+    for (const [slug, n] of Object.entries(goneWithin)) {
+      const d = bucket(`${bundle}/${slug}`);
+      d.gone = Math.max(d.gone, n);
+      d.goneSummed += n;
+    }
+  }
+}
+for (const [key, who] of Object.entries(namedBy)) bucket(key).contributors = who.size;
+
+// Two contributors whose whole bundle block is identical are one fleet counted twice, not
+// two installations that agree. Loud, because it is the shape that inflated the worklist.
+const duplicateBlocks = [];
+for (const [bundle, rows] of Object.entries(blockSig)) {
+  const seen = new Map();
+  for (const r of rows) {
+    if (seen.has(r.sig)) duplicateBlocks.push({ bundle, contributors: [seen.get(r.sig), r.contributor] });
+    else seen.set(r.sig, r.contributor);
   }
 }
 
@@ -234,8 +297,17 @@ for (const domain of domains) {
     add(expired * W.expiredApplication, `${expired} expired application(s)`);
     add(atRisk * W.atRiskApplication, `${atRisk} application(s) near their clock`);
     if (!swept?.last_swept) add(W.neverSwept, 'never swept by the librarian');
-    if (demand?.gone) add(demand.gone * W.citationGone, `${demand.gone} citation(s) reported gone by a consumer`);
-    if (demand?.deviations) add(demand.deviations * W.deviation, `${demand.deviations} consumer deviation(s)`);
+    // Where contributors disagree the scored figure is the floor, and the reason says so
+    // rather than printing one number that reads as settled.
+    const spread = (lo, hi) => (hi > lo ? `${lo}–${hi}` : `${lo}`);
+    if (demand?.gone) {
+      add(demand.gone * W.citationGone,
+        `${spread(demand.gone, demand.goneSummed)} citation(s) reported gone by a consumer`);
+    }
+    if (demand?.deviations) {
+      add(demand.deviations * W.deviation,
+        `${spread(demand.deviations, demand.deviationsSummed)} consumer deviation(s)`);
+    }
 
     subjects.push({
       id: key,
@@ -299,6 +371,13 @@ if (asJson) {
     weights: W,
     demandKnownForAnyBundle: witnessed.size > 0,
     contributors: contributors.length,
+    demandAggregation: {
+      rule: 'consults sum (events); deviations and gone take the max across contributors (states)',
+      deviationsFloor: subjects.reduce((n, s) => n + (s.demand?.deviations ?? 0), 0),
+      deviationsCeiling: subjects.reduce((n, s) => n + (s.demand?.deviationsSummed ?? 0), 0),
+      subjectsNamedByMoreThanOne: subjects.filter((s) => (s.demand?.contributors ?? 0) > 1).length,
+      duplicateBlocks,
+    },
     domains: domainRows,
     subjects,
     worklist: worklist.map((s) => ({ id: s.id, points: s.points, reasons: s.reasons })),
@@ -326,6 +405,21 @@ if (asJson) {
     console.log('\n  DEMAND IS UNKNOWN for every bundle — no installation reports (docs/signals-lane.md).');
     console.log('  The ranking below is structure and decay only. It cannot tell a subject nobody');
     console.log('  needs from one nobody has mentioned, and it does not pretend to.');
+  }
+
+  const floor = subjects.reduce((n, s) => n + (s.demand?.deviations ?? 0), 0);
+  const ceiling = subjects.reduce((n, s) => n + (s.demand?.deviationsSummed ?? 0), 0);
+  if (ceiling > floor) {
+    const shared = subjects.filter((s) => (s.demand?.contributors ?? 0) > 1).length;
+    console.log(`\n  DEMAND IS A RANGE — ${floor} deviation(s) certain, up to ${ceiling} if every contributor is independent`);
+    console.log(`  (${(ceiling / floor).toFixed(2)}x). ${shared} subject(s) are named by more than one contributor; a state`);
+    console.log('  reported by two installations holding the same checkout is one shortfall, not two.');
+    console.log('  Ranking below uses the floor. See the aggregation note in this script.');
+  }
+  for (const d of duplicateBlocks) {
+    console.log(`\n  DUPLICATE REPORT: ${d.contributors.join(' and ')} filed an IDENTICAL "${d.bundle}" block.`);
+    console.log('  That is one fleet counted twice, not two installations that agree. Every subject in');
+    console.log(`  "${d.bundle}" would have been scored at exactly double its real demand under a sum.`);
   }
 
   console.log(`\nWORKLIST — top ${Math.min(topN, worklist.length)} by attention points\n`);
