@@ -151,3 +151,26 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   and 2 refutations across 7 subjects, and the refutations were both of
   *numbers the corpus asserted* — the lane keeps out-earning per token, and
   its best target is any unpredicated figure in a golden path.
+
+## 1.1.0 - 2026-08-30 - software-engineering (impact waves 1 + 3 executed)
+
+- **The consumers' own gates are the round's best reviewers.** kp's constitution
+  hook blocked the push on an unauthenticated route (another session's, fixed
+  per its ADR rather than exempted) and personas' census caught two defects in
+  OUR wave-1 code (an interpolated log record, a `get().expect` on a once-cell)
+  plus four baselines we had genuinely lowered. A ratchet's `--update` after a
+  rise baselines the violation — read the direction of every moved row before
+  accepting it. A push that fails a consumer gate is evidence, not friction.
+- **Spec-before-diff paid twice in one wave.** The kp enumerate-first spec
+  PROVED ownership-transfer machinery unnecessary (no user-owned records) and the
+  kp load method returned HEADROOM instead of a knee — both outcomes are
+  successes only because the spec named what would count as one. Promoted into
+  the techniques (`ceiling-as-deadline-not-trigger`, blast-radius application).
+- **ff-only refusal is an abort, not a workaround prompt.** The gravitone worker
+  correctly stopped when the catch-up refused over an active session's dirty
+  tree; a stale-HEAD commit would have forced a future non-ff on main. Write
+  that rule into any brief with a catch-up pre-step.
+- **Concurrent workers in one repo coordinate on additive seams.** Four
+  systedo workers claimed contiguous migration versions in flight (v30–34) and
+  waited for each other's commits instead of editing dirty files; the brief's
+  "skip dirty files" clause plus watchers made that safe with zero conflicts.
