@@ -121,6 +121,17 @@
       "usageContributors": []
     },
     {
+      "name": "dojo",
+      "version": "1.0.0",
+      "category": "ai-native",
+      "path": "skills/dojo/SKILL.md",
+      "contentHash": "sha256-n1:cad4732da495ca6a",
+      "adopters": [],
+      "invokes30d": 0,
+      "lessons": 0,
+      "usageContributors": []
+    },
+    {
       "name": "explorer",
       "version": "2.0.0",
       "category": "workflow",
@@ -357,9 +368,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 23,
+      "lessons": 26,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:9fde3319e5ed19ce",
+      "lessonsHash": "sha256-n1:3c0402b93191d3dd",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -392,9 +403,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 8,
+      "lessons": 10,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:5f5c157fd19cbe25",
+      "lessonsHash": "sha256-n1:e9debcd47e6a29f6",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -560,10 +571,10 @@
     }
   ],
   "counts": {
-    "skills": 28,
+    "skills": 29,
     "practices": 5,
     "memory": 4,
-    "lessons": 85
+    "lessons": 90
   },
   "bundles": [
     {
