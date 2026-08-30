@@ -5,7 +5,8 @@ subject: asset-class-poly-budgeting
 technique: provider-face-limit-conversion
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: a pure face-budget module with conversion and delivered-vs-requested grading

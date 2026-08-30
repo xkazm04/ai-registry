@@ -5,7 +5,8 @@ subject: design-canon-as-executable-law
 technique: parse-thresholds-from-prose
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Parsing canon prose into checker constants (PoF acceptance invariants)
@@ -127,7 +128,7 @@ exports a bare `tolerance`.
 
 `arpg-leveling` says the XP curve *"grows roughly geometrically (≈ base × 1.08^level)"*.
 The linter parses 1.08 but does not compare a sampled point against it. Instead
-`checkXpCurveShape` (`src/lib/balance/canon-conformance.ts:157`) computes the consecutive
+`checkXpCurveShape` (`src/lib/balance/canon-conformance.ts:159`) computes the consecutive
 ratio series and its coefficient of variation:
 
 ```ts

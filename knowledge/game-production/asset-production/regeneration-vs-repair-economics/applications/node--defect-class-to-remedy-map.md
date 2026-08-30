@@ -5,7 +5,8 @@ subject: regeneration-vs-repair-economics
 technique: defect-class-to-remedy-map
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The remedy map and its router, in a Node visual-generation pipeline
@@ -17,11 +18,14 @@ job store or the network — which is the property that makes the rules testable
 ## The map itself
 
 `src/lib/visual-gen/critique-stage.ts:61-78` holds both sets, keyed by the `FindingCode`
-vocabulary that `src/lib/visual-gen/mesh-critique.ts:239-300` (`scoreMesh`) emits:
+vocabulary that `src/lib/visual-gen/mesh-critique.ts:239-304` (`scoreMesh`) emits:
 
 ```ts
 export const FINISH_RESOLVES: readonly FindingCode[] = [
-  'face-count', 'budget-over', 'parts-over-budget', 'components-over-budget',
+  'face-count',
+  'budget-over',
+  'parts-over-budget',
+  'components-over-budget',
 ];
 export const REROLL_RESOLVES: readonly FindingCode[] = ['empty-mesh', 'degenerate-bbox'];
 ```
@@ -56,7 +60,7 @@ re-tune the number the claim blamed.
 
 ## The derivation at routing time
 
-`assessStage()` (`critique-stage.ts:117-155`) takes a verdict plus a declared `MeshStage`
+`assessStage()` (`critique-stage.ts:124-153`) takes a verdict plus a declared `MeshStage`
 (`'raw' | 'finished' | 'unknown'`) and produces the three disjoint lists —
 `finishResolvable`, `rerollResolvable`, `unaddressed` — plus `misTiered`, true only when a
 `raw` mesh is condemned *solely* by criteria the finish stage exists to satisfy. It refuses
@@ -72,14 +76,14 @@ instead of guessing.
 
 ## Why codes and not prose
 
-`mesh-critique.ts:158` documents the cost of the previous approach: consumers reasoning
+`mesh-critique.ts:161` documents the cost of the previous approach: consumers reasoning
 about defect *kind* had to sniff reason strings — `failureShape` in `best-of-n.ts` blanked
 digits and compared only the first line, "and it still took two live-only corrections to
 stop mis-matching". The `FindingCode` union is the single vocabulary the map keys on.
 
 ## The routing refusals
 
-`src/lib/visual-gen/finish-routing.ts:1-33` closes the edge the gate never had — the
+`src/lib/visual-gen/finish-routing.ts:1-29` closes the edge the gate never had — the
 verdict "condemned a mesh, and the condemnation went nowhere" — and encodes all three
 refusals: a plan is produced only when at least one *failing* code is in `FINISH_RESOLVES`,
 with `unaddressed` named up front in the returned `FinishPlan.note`; `cullInterior` is never

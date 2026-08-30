@@ -5,7 +5,8 @@ subject: design-canon-as-executable-law
 technique: flag-your-own-shipped-defaults
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # A linter whose header condemns its own project (PoF canon conformance)
@@ -51,7 +52,7 @@ faucet and sink should stay balanced within ±15%"*, and the linter still parses
 it.
 
 The second self-finding is the XP curve. `checkXpCurveShape`
-(`src/lib/balance/canon-conformance.ts:157`) exists specifically because the shipped curve
+(`src/lib/balance/canon-conformance.ts:159`) exists specifically because the shipped curve
 is a polynomial:
 
 > A geometric curve has a near-constant consecutive ratio; the shipped polynomial
@@ -112,7 +113,7 @@ call for a per-item advisory but is the one place the module assigns rather than
 
 ## Facet-gated: an absent input yields no result, not a pass
 
-`lintCanonConformance` (`src/lib/balance/canon-conformance.ts:200`) takes a
+`lintCanonConformance` (`src/lib/balance/canon-conformance.ts:207`) takes a
 `CanonLintInput` of optional facets and runs each check only when its data is present:
 
 ```ts

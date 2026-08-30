@@ -5,7 +5,8 @@ subject: game-economy-tuning
 technique: wealth-concentration-and-price-imbalance-alerts
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The alert rules in PoF's economy simulation engine
@@ -22,8 +23,10 @@ apart, with real thresholds, and with a few faults worth naming.
 every run is reproducible. Each agent gets two variance parameters at `:56`:
 
 ```
-efficiencyMul: 0.8 + rng() * 0.4,   // ±20% play efficiency
-spendBias: rng(),                    // 0 = frugal, 1 = spender
+// Per-agent variance: ±20% play efficiency
+efficiencyMul: 0.8 + rng() * 0.4,
+// Spending behavior: 0=frugal, 1=spender
+spendBias: rng(),
 ```
 
 Those two lines *are* the inequality model. `efficiencyMul` multiplies both faucet
@@ -36,7 +39,7 @@ would move the Gini without anything about the economy changing.
 
 ## The three monetary and distribution alerts
 
-`detectAlerts` (`:419`) walks consecutive metrics samples and emits:
+`detectAlerts` (`:420`) walks consecutive metrics samples and emits:
 
 - **inflation** — `netFlowPerHour > 0 && netFlowPerHour > prev.netFlowPerHour * 1.2`,
   with severity `critical` when net flow exceeds twice outflow, `warning` when it
@@ -56,7 +59,7 @@ number.
 
 ## The triviality floor, implemented once
 
-The price-imbalance loop (`:474`) contains the sharpest rule in the file:
+The price-imbalance loop (`:477`) contains the sharpest rule in the file:
 
 ```
 if (item.id === 'health-potion') {
@@ -97,7 +100,7 @@ message:
 Two properties are worth copying. Every alert carries `metric`, `value` and `threshold`
 alongside its message, so a reader can see how far past the line it landed rather than
 only that it tripped. And `rarityInflation` is computed as a *ratio* of endgame rate to
-early rate (`:445`) rather than as an absolute rate — the genre-independent form, and
+early rate (`:446`) rather than as an absolute rate — the genre-independent form, and
 the one that survives a change to the baseline drop tables.
 
 The gap is the unmeasured state. Every one of these detectors returns nothing when its

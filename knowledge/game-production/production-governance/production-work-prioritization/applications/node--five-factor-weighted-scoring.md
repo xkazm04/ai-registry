@@ -5,7 +5,8 @@ subject: production-work-prioritization
 technique: five-factor-weighted-scoring
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Five-factor scoring in a next-best-action engine
@@ -36,7 +37,7 @@ single-sourced". That export is the technique's rule 2 realized: the visualisati
 acquire its own copy of the maxima and drift from the engine.
 
 Bounding is per-factor and explicit: `Math.min(dependentCount * 6, W.urgency)` for urgency
-(`:239`) and `Math.min(dependentCount * 4, W.impact)` for impact (`:264`). Both saturate —
+(`:235`) and `Math.min(dependentCount * 4, W.impact)` for impact (`:265`). Both saturate —
 urgency at five dependents, impact at five — and neither saturation point is documented
 outside the code. That is the deviation: the standard says publish the saturation point,
 because a candidate with fifty dependents and one with five are indistinguishable to this
@@ -44,19 +45,19 @@ ranking and a reader has no way to know that.
 
 ## Reductions are implemented as reductions
 
-Checklist-level prerequisites (`:270`) are the one-directional case. `item.dependsOn`
+Checklist-level prerequisites (`:272`) are the one-directional case. `item.dependsOn`
 names sibling items; unmet siblings set `breakdown.readiness = 0` and `unshift` their
 reason to the front of the list. The comment states the rule the technique generalizes:
 "this can only ever LOWER readiness". It is never an additive term, so the 100-point
 ceiling stays true.
 
-The evaluator boost at `:285` is the interesting hybrid — a critical finding raises urgency
+The evaluator boost at `:288` is the interesting hybrid — a critical finding raises urgency
 via `Math.max(breakdown.urgency, W.urgency * 0.8)`, a floor rather than an addition, so a
 critical flag cannot stack on top of high fan-out to exceed the ceiling.
 
 ## The breakdown travels with the score
 
-`NBARecommendation` (`:37`) carries `score`, `breakdown`, `reason`, `pitfalls`,
+`NBARecommendation` (`:38`) carries `score`, `breakdown`, `reason`, `pitfalls`,
 `successProbability`, `successEvidence` and `featureMatch` in one payload. The comment on
 `featureMatch` states why: every confident claim on the card "is only as true as this — so
 it travels WITH the score instead of being re-derived by whoever renders it."
@@ -64,16 +65,16 @@ it travels WITH the score instead of being re-derived by whoever renders it."
 ## The upward lesson: the binding caps everything
 
 The draft standard said the score is only as good as its binding; the repo shows what that
-costs when it is not enforced. `resolveItemFeatures` (`:224`) consults an exact
+costs when it is not enforced. `resolveItemFeatures` (`:220`) consults an exact
 `CHECKLIST_FEATURE_MAP` first and treats it as **terminal** — an item mapped to `[]` scores
 no urgency and no impact, with the reason string "No feature row can evidence this item —
-nothing to unblock" (`:383`). Without that terminality, an empty exact mapping would fall
+nothing to unblock" (`:387`). Without that terminality, an empty exact mapping would fall
 through to `firstWordMatch` and borrow a same-prefix neighbour's fan-out, printing
 "Unblocks 3 dependent features" about an item that unblocks none. Where the heuristic tier
-does fire, `HEURISTIC_MATCH_NOTE` is appended to the reason (`:388`) so the label travels
+does fire, `HEURISTIC_MATCH_NOTE` is appended to the reason (`:390`) so the label travels
 with the claim.
 
-The second upward lesson is the freshness gate at `:236`: urgency is credited only while
+The second upward lesson is the freshness gate at `:232`: urgency is credited only while
 `!allImplemented` — "an item whose features are all done unblocks nothing." Absent that
 check, completed hub work sits permanently at the top of the ranking.
 

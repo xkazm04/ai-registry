@@ -5,7 +5,8 @@ subject: generated-mesh-acceptance
 technique: structural-scorecard
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The Tier-1 mesh gate in Node
@@ -19,13 +20,13 @@ and a local VLM tier on top — the structural-is-not-sufficient rung, designed 
 
 ## Metrics in, card out
 
-`parseCritiqueMetrics` (`:36-72`) turns the marker block into `MeshMetrics`. The
+`parseCritiqueMetrics` (`:38-69`) turns the marker block into `MeshMetrics`. The
 not-measured contract is enforced at the type level: `componentFaces?: number[]` is
-documented at `:26-31` as *"Absent when the critique script predates the histogram — never
+documented at `:27-32` as *"Absent when the critique script predates the histogram — never
 defaulted to `[]`, which would read as 'measured, and there are none'."* `componentFacesOmitted`
 carries the truncation count beside it.
 
-`scoreMesh` (`:239-300`) runs the checks in the order the technique prescribes:
+`scoreMesh` (`:239-304`) runs the checks in the order the technique prescribes:
 
 | Order | Check | Code | Severity |
 |---|---|---|---|
@@ -58,23 +59,23 @@ display surface the technique calls for.
 ## Where the repo confirms the harder rules
 
 - **Density is a warn, never a fail.** There is no fail branch for `face-count` at any
-  threshold. `critique-stage.ts:20-24` records the consequence: a 1,492,072-face mesh graded
+  threshold. `critique-stage.ts:18-21` records the consequence: a 1,492,072-face mesh graded
   against the `modular-part` ceiling of 12,000 scores **warn / 85**.
 - **Request-relative grades are omitted, not defaulted.** `budget?: BudgetGrade` is
   documented at `:212-218` — *"Absent when no budget was supplied — silence about a budget
   must never read as compliance with one"* — and it exists precisely because the class
   ceiling and the requested budget are different numbers: "a 55k-triangle character sits
   under the 60k ceiling while still being 1.4x the 40k that was asked for".
-- **Scale is graded even without a request** (`:290-291`), so the card can say
+- **Scale is graded even without a request** (`:284-287`), so the card can say
   "generator-normalised, size unknown". The comment names the incident: "without this a 1 m
-  hero passed clean next to a 1.8 m Mannequin".
-- **The histogram fallback does not loosen.** `:263-273` — when `split.measured` is false the
+  hero passed clean next to a 1.8 m Mannequin" (from the field's own doc comment at `:220-222`).
+- **The histogram fallback does not loosen.** `:252-269` — when `split.measured` is false the
   original blunt `m.components > maxComponentsFail` rule stands unchanged, commented "no
   silent loosening on old data".
 
 ## The face-share rule and readiness, in code
 
-`classifyComponents` (`:74-115`) computes `floor = max(FLOATER_MIN_FACES /* 8 */, total *
+`classifyComponents` (`:95-114`) computes `floor = max(FLOATER_MIN_FACES /* 8 */, total *
 FLOATER_FACE_SHARE /* 0.005 */)` and returns `{ measured, parts, floaters, floaterFaces }`
 — the `measured` flag being exactly the derived-split flag the not-measured contract
 requires. The truncation branch is the asymmetry worth copying verbatim: the histogram is
@@ -83,7 +84,7 @@ omitted entry is too and they all count as specks; if it is substantial they cou
 **parts**, pushing toward the harsher verdict. The comment states the invariant plainly:
 "Neither branch can manufacture a pass."
 
-`faceRigReadiness` (`:118-150`) returns `ready: boolean | null` against
+`faceRigReadiness` (`:132-147`) returns `ready: boolean | null` against
 `FACE_RIG_MIN_SHELLS = 4`, with `null` when the split was unmeasured. Its docblock states
 the separation the technique insists on: *"Display/routing only — deliberately NOT folded
 into `scoreMesh`, since a prop with one shell is perfect and a head with one shell is merely
@@ -91,7 +92,7 @@ unsuitable for a different job."*
 
 ## The one place the shape is borrowed
 
-`Scorecard.findings` is optional (`:196-207`) because `input-gate.ts`, a VLM image gate,
+`Scorecard.findings` is optional (`:199-210`) because `input-gate.ts`, a VLM image gate,
 reuses the verdict/score/reasons envelope and its free-text defects have no mesh defect
 class. The comment names the reasoning — *"inventing codes there would be exactly the kind
 of fabricated precision this field exists to remove"* — and `scoreMesh`'s return type

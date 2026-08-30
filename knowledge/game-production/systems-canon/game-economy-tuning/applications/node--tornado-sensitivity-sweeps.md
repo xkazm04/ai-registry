@@ -5,7 +5,8 @@ subject: game-economy-tuning
 technique: tornado-sensitivity-sweeps
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # A deterministic tornado sweep over an economy model
@@ -70,7 +71,7 @@ high-swing *design choice* is a lever to pull.
 
 ## Limitation two: magnitudes only
 
-`withOverride` (`:34`) writes `{ id, baseAmount }` into `config.flowOverrides`. The only
+`withOverride` (`:35`) writes `{ id, baseAmount }` into `config.flowOverrides`. The only
 sweepable field is `baseAmount`. But an `EconomyFlow` in `definitions.ts:41` carries
 three numeric inputs — `baseAmount`, `levelScaling` and `frequencyPerHour` — and the
 third is systematically the least trustworthy: `frequencyPerHour: 60` for enemy kills or

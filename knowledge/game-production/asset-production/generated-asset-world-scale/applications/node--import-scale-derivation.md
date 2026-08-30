@@ -5,7 +5,8 @@ subject: generated-asset-world-scale
 technique: import-scale-derivation
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Deriving the import scale in a pure grading module
@@ -25,12 +26,14 @@ The three quantities the golden path names are the three fields of the result, a
 optional exactly where its source might be absent:
 
 ```ts
+export type ScaleVerdict = 'matches' | 'off' | 'unmeasured';
+
 export interface ScaleGrade {
-  verdict: 'matches' | 'off' | 'unmeasured';
+  verdict: ScaleVerdict;
   measuredExtentM?: number;
   targetExtentM?: number;
-  ratio?: number;             // measured / target
-  importUniformScale?: number; // target / measured
+  ratio?: number;               // measured / target
+  importUniformScale?: number;  // target / measured
   normalized?: boolean;
   reason?: string;
 }
@@ -53,11 +56,11 @@ out whether a factor exists.
 The two missing-input cases are handled *before* the division and return distinct reasons
 rather than a neutral 1.0:
 
-- **no target** (`:107-118`) → `verdict: 'unmeasured'`, reason `"no target size was
+- **no target** (`:107-116`) → `verdict: 'unmeasured'`, reason `"no target size was
   requested for this mesh — nothing to hold the delivery to"`, and when the delivery is in
   the normalisation band the reason appends *"its real-world size is unknown until one is
   set"*.
-- **no measurement** (`:120-125`) → `verdict: 'unmeasured'`, reason `"mesh was not
+- **no measurement** (`:118-124`) → `verdict: 'unmeasured'`, reason `"mesh was not
   measured — a 1.80 m target cannot be confirmed without a bounding box"`.
 
 `usable()` (`:69`) gates both: a value counts only if it is a finite number greater than
