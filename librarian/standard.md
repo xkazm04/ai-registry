@@ -123,6 +123,39 @@ that evaporates fastest - the four bundles that held it on 2026-08-27 had droppe
 "nobody told us", collapsing into one boolean twice in two days. Until the scan can say
 which, **a sweep states in words which of the three it is ranking on, and on what date.**
 
+**And under the same gap again: two contributors are not necessarily two installations.**
+Found 2026-08-30, and it had been silently setting the worklist for an unknown number of
+runs before that.
+
+The scan summed `deviations` across contributor files. But a deviation is a **state of a
+tree** - "how many places this repo falls short" - and one fleet checked out on two
+machines writes two signals files that describe the same shortfalls. On 2026-08-30 both
+contributors filed a *byte-identical* `llm-observability` block fourteen hours apart, and
+17 of the 31 software-engineering subjects both named carried identical deviation counts.
+Summed, the corpus read 550 deviations. The floor is 370.
+
+That 1.49x was not spread evenly, which is what made it dangerous: it was concentrated in
+33 of the 89 demand-bearing subjects, so it did not inflate the ranking, it **reordered**
+it. `quality-gates` sat 13th when it belonged 2nd; three subjects in the top ten belonged
+nowhere near it. Every clause in the floor table above is computed from the corpus, which
+this registry controls. This one is computed from files other machines write, and it was
+the only clause that could manufacture work out of nothing.
+
+The fix in the instrument is the event/state split - **consults sum, deviations and
+`gone` take the floor across contributors, and the ceiling prints beside it**. The rule
+for a reviewer is the one this whole section keeps re-learning in new costumes:
+
+> Demand is the only signal here that arrives from outside, and every reading of it is a
+> range. Rank on the floor. Never quote the ceiling as a count.
+
+The deeper lesson is about gates, not demand. `check-signals` passes both files and
+always would have: it validates *shape*, one file per contributor, counts and slugs only.
+Nothing in the schema can prove two contributors are independent, because `contributor`
+is a self-declared id and one fleet on two machines is a legitimate thing to be. A gate
+that checks each file against the spec cannot see a defect that only exists *between*
+files - and that is a general shape worth carrying to the next instrument, not a fact
+about signals.
+
 
 **Most of the corpus cannot be checked for drift, and nothing ranks the part that can.**
 Written 2026-08-27; its proposed remedy corrected 2026-08-28, because the remedy was
