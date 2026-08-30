@@ -12,7 +12,8 @@
   "projects": {
     "gravity": {
       "checkouts": {
-        "Fox": "dolla/gravitone-gcloud"
+        "Fox": "dolla/gravitone-gcloud",
+        "Wolf": "kiro/gravitone-gcloud"
       }
     },
     "goat": {
