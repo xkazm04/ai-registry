@@ -5,7 +5,8 @@ subject: state-budget-analysis
 technique: municipal-money-trail
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node — municipal money trail in the politicas BudgetMirror

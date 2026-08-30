@@ -5,7 +5,8 @@ subject: public-money-attribution
 technique: entity-level-deduplication
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: one shared reachable-money module
@@ -30,7 +31,7 @@ implementation, three importers.
 
 ## The fold
 
-`reachableMoney()` (`reachableMoney.ts:152-188`) implements rules 1 and 3 of
+`reachableMoney()` (`reachableMoney.ts:242-278`) implements rules 1 and 3 of
 the header in one pass:
 
 - Ties collapse into a `Map` keyed by `companyId` before any aggregation, so
@@ -47,18 +48,35 @@ the header in one pass:
   the same pass.
 
 The attributability predicate is exported separately as `isAttributable()`
-(`reachableMoney.ts:76-78`) with its own doc: it had been re-implemented three
-times (here, `features/dashboard/stateSlice.ts`,
+(`reachableMoney.ts:110-112`) with its own doc: it had been re-implemented
+three times (here, `features/dashboard/stateSlice.ts`,
 `features/denik/getDenikData.ts`) — "three copies of a rule is three chances
 for one of them to drift into calling a hospital's contracting an MP's money."
 
+**Since first documented (2026-08-19):** money batch 015 added a second
+attribution axis above this predicate. The bucket decision the fold actually
+runs is gated through `tieIsAttributable()` (`reachableMoney.ts:137-140`),
+which layers a company-ownership flag (`publicMandateAttributable`) on top of
+`isAttributable(tieClass)`: a company the commercial register shows as
+publicly owned now moves to the `steward` bucket even when the MP's own role
+in it would read as owner-operator or manager (the header names the incident
+this closed — 12,75 mld. CZK of municipal-utility turnover at Teplárny Brno,
+Výstaviště Flora Olomouc and Lesy města Olomouce misread as money reaching a
+politician's own firm). The mandate axis may only ever *remove* attribution;
+a company the ownership sweep has not reached, or whose ownership the
+register does not publish, still falls back to the tie-class rule described
+above. This addition, plus new corpus-vs-slice coverage helpers
+(`contractCoverage`/`sliceCoverage`), is what pushed `reachableMoney()` and
+`isAttributable()` down from the line numbers originally recorded here.
+
 ## Single-row rendering through the same function
 
-`tieReach()` (`reachableMoney.ts:197-201`) routes a ledger cell through
+`tieReach()` (`reachableMoney.ts:287-291`) routes a ledger cell through
 `reachableMoney([tie])` — a one-tie population — rather than re-adding
 `contractCzk + subsidiesCzk` at the cell, "which is how the page grew a fourth
 definition of reachable money, unlabelled, sitting in the alarm colour under a
-steward's hospital."
+steward's hospital." It now decides attributability via `tieIsAttributable(tie)`
+rather than `isAttributable(tie.tieClass)` directly, for the same reason.
 
 ## Consumers
 

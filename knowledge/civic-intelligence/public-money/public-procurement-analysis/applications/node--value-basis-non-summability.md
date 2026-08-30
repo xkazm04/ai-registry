@@ -5,7 +5,8 @@ subject: public-procurement-analysis
 technique: value-basis-non-summability
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: VAT-basis composition without moving a single crown (politicas)

@@ -5,7 +5,8 @@ subject: accountability-publishing-ethics
 technique: real-vs-illustrative-form-encoding
 stack: react
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # Real-vs-illustrative form encoding — Politicas display primitives

@@ -5,7 +5,8 @@ subject: public-procurement-analysis
 technique: contract-registry-record-model
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: record-modeling a national contract registry (politicas)

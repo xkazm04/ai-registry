@@ -5,7 +5,8 @@ subject: conflict-of-interest-detection
 technique: vote-versus-interest-join
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: the six-clause vote×interest join in the politicas money layer

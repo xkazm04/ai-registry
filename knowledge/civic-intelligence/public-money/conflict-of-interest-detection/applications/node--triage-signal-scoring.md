@@ -5,7 +5,8 @@ subject: conflict-of-interest-detection
 technique: triage-signal-scoring
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: three orderings over one tie queue in the politicas money layer
