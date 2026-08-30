@@ -5,7 +5,8 @@ subject: shader-budget-authoring
 technique: feature-cost-with-a-cheaper-swap
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: a pure material-budget estimator whose every cost names a cheaper swap
@@ -38,7 +39,7 @@ platforms with shared MSAA/UI samplers"* — the renderer's own bindings, reserv
 
 ## Baselines per surface, deltas per feature, a swap on every heavy one
 
-`SURFACE_BASE` (lines 59–70) gives each of eight surface types a sampler count, an
+`SURFACE_BASE` (lines 58–69) gives each of eight surface types a sampler count, an
 instruction count, and a `mapNotes` string that names the maps the count assumes —
 `metal: { samplers: 3, instructions: 60, mapNotes: 'Albedo + Normal + ORM' }`. The
 three-sampler metal baseline is only three *because* occlusion, roughness and metallic
@@ -71,7 +72,7 @@ and every heavy feature carries one:
 if (c.cheaperSwap && c.instructions >= 120) { … }
 ```
 
-(line 126) — advice is only offered where the saving is worth an author's attention.
+(line 124) — advice is only offered where the saving is worth an author's attention.
 
 ## The report is a structured finding, not a sentence
 
@@ -83,12 +84,12 @@ report also carries `samplerBreakdown` and `instructionBreakdown` — per-featur
 attribution, so the author sees *which* feature to trade, not only that they are over.
 
 `instructionScore` is a ratio, not an absolute: `instructions / SURFACE_BASE.metal.instructions`
-(line 171), warned at 2.5× with the message *"Estimated 2.5× a metal base shader"*. The
+(line 170), warned at 2.5× with the message *"Estimated 2.5× a metal base shader"*. The
 reference travels inside the number.
 
 ## One finding per concern
 
-Line 172 guards the aggregate warning on `!warnings.some((w) => w.kind === 'instruction-cost')`
+Line 171 guards the aggregate warning on `!warnings.some((w) => w.kind === 'instruction-cost')`
 — if a specific feature already raised the cost, the generic "this material is heavy"
 line is suppressed. The specific finding wins.
 
@@ -98,7 +99,7 @@ Two, and the standard does not move for either:
 
 1. **The caps and deltas are literals in this module**, while the prompt side of the
    same feature derives its guidance from versioned engine facts
-   (`src/lib/engine-facts.ts`, via `src/lib/prompts/material-configurator.ts:22-24` —
+   (`src/lib/engine-facts.ts`, via `src/lib/prompts/material-configurator.ts:19-21` —
    *"never a hard-coded 5.7+"*). The estimator should read its ceiling from the same
    versioned source; a renderer upgrade that moves the sampler cap currently updates the
    advice and leaves the gate behind.

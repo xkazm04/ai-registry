@@ -5,7 +5,8 @@ subject: content-acceptance-tiering
 technique: config-complete-vs-runtime-verified
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Two predicates over one step list
@@ -17,7 +18,7 @@ that table.
 
 ## `configComplete` — the separating clause as code
 
-`src/lib/catalog/rollup.ts:17` states the predicate in one comment line:
+`src/lib/catalog/rollup.ts:13` states the predicate in one comment line:
 
 > Every step is either pass (any tier) or deferred at L3/L4 — i.e. nothing
 > pending/failed.
@@ -41,7 +42,7 @@ denominator.
 
 ## `verified` — gated on a *drained* gate, never on shape
 
-`src/lib/catalog/lifecycle.ts:33` carries the rule and the reason for it in the same
+`src/lib/catalog/lifecycle.ts:34-49` carries the rule and the reason for it in the same
 comment block:
 
 > the state is DERIVED from what the pipeline actually persisted — never a manual toggle
@@ -111,7 +112,7 @@ sweep reads outstanding `deferred` rows, parses the test name back out, and runs
 
 ## The clean-run invariant, asserted by the walker
 
-`docs/catalog/E2E-COVERAGE.md:38` is where Rule 5 is enforced end to end:
+`docs/catalog/E2E-COVERAGE.md:44` is where Rule 5 is enforced end to end:
 
 > **Acceptance derives a config-complete terminal status**: `status ∈ {pass, deferred}`,
 > never `fail`/`pending`. `pass` for L0/L1/L2 (data/selection/static); `deferred` for

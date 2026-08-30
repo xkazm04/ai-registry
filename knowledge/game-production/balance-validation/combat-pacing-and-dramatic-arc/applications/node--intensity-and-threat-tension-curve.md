@@ -5,7 +5,8 @@ subject: combat-pacing-and-dramatic-arc
 technique: intensity-and-threat-tension-curve
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The tension curve in a browser-side encounter simulator

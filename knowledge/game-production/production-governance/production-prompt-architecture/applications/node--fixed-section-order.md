@@ -5,7 +5,8 @@ subject: production-prompt-architecture
 technique: fixed-section-order
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # `PromptBuilder` — an enforced section architecture with a string-scan auditor

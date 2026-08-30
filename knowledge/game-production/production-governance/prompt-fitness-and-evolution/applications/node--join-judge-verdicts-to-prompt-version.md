@@ -5,7 +5,8 @@ subject: prompt-fitness-and-evolution
 technique: join-judge-verdicts-to-prompt-version
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The fitness join in a server-side artifact pipeline
@@ -23,17 +24,17 @@ judge_verdicts (catalogId, entityId, step)
     → data._provenance.promptVersion
 ```
 
-`joinKey()` (`judge-fitness.ts:37`) composes the three-part key with a NUL separator so that
+`joinKey()` (`judge-fitness.ts:38`) composes the three-part key with a NUL separator so that
 both tables key identically — the join is a map lookup on a recorded stamp, never an
-inference from timestamps. `aggregateFitness()` (`:105`) is parameterised by
+inference from timestamps. `aggregateFitness()` (`:107`) is parameterised by
 `bucketOf: (p: Provenance) => string | undefined`, which is what lets one implementation
 serve both `computeVersionFitness` (bucket = `promptVersion`, `:73`) and
 `computeVariantFitness` (bucket = `promptVariantId`, `:91`).
 
-Artifacts with no `_provenance.promptVersion` are skipped outright (`:115-117`): produced
+Artifacts with no `_provenance.promptVersion` are skipped outright (`:116-119`): produced
 before the stamp existed, they belong to no known version, and guessing one attributes
 someone else's score to a pack that never ran. Verdicts whose join key resolves to no version
-are skipped symmetrically (`:130`).
+are skipped symmetrically (`:133`).
 
 ## Unjudged is null, in the returned shape
 
@@ -56,7 +57,7 @@ artifacts. Two units, two fields, neither reused for the other.
 ## Fixture exclusion, placed so it cannot drift
 
 `isSyntheticEntity(entityId)` (from `src/lib/status/statusModel.ts`) drops fixture rows on
-*both* sides of the join (`:114` for artifacts, `:127` for verdicts). The placement is the
+*both* sides of the join (`:116` for artifacts, `:130` for verdicts). The placement is the
 design decision: the filter lives inside `aggregateFitness`, not in the two DB-backed entry
 points `getPromptVersionFitness` / `getPromptVariantFitness` (`:158`, `:163`), so a caller
 feeding the pure functions by hand cannot produce a different number from the one the app
@@ -91,6 +92,6 @@ of 3 per arm: control **+0.4** (sd 3.1), contaminated **+16.9**, blind-siblings 
 
 The response is the rule this subject asks for: `RUBRIC_VERSION` was bumped to 4 even though
 "the contract TEXT is unchanged — the INPUT is", making every v3 verdict provisional until
-re-judged. `newestRubricVerdicts()` (`rubrics.ts:52`) is the single supersession filter both
+re-judged. `newestRubricVerdicts()` (`rubrics.ts:49`) is the single supersession filter both
 the acceptance bridge and the `/status` grader apply, so the two consumers cannot diverge on
 which verdicts speak for a step.

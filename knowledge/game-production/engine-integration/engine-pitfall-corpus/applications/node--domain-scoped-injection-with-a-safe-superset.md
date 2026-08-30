@@ -5,14 +5,15 @@ subject: engine-pitfall-corpus
 technique: domain-scoped-injection-with-a-safe-superset
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Routing 42 pitfalls to a module in ~15 lines of TypeScript
 
 The selection half of PoF's corpus lives beside the entries in
 `src/lib/knowledge/ue-gotchas.ts`: a declarative routing table
-(`MODULE_GOTCHA_DOMAINS`, `:423`) and a formatter (`formatGotchas`, `:465`). The
+(`MODULE_GOTCHA_DOMAINS`, `:443`) and a formatter (`formatGotchas`, `:484`). The
 whole router is small on purpose — the technique's warning that a routing rule
 with branching logic in it is a rule nobody maintains is answered by making it a
 plain record.
@@ -70,12 +71,12 @@ Four properties of the technique, all present:
   engine pitfall, so it gets none rather than a filtered few.
 - **Universal entries survive unconditionally.** `!g.modules ||` is the clause that
   implements "an absent domain tag means *everywhere*, never *nowhere*". The
-  interface comment at `:11` states the intent in the same words: *"Omitted →
+  interface comment at `:13` states the intent in the same words: *"Omitted →
   UNIVERSAL (applies to every module of its `appliesTo` kind — e.g. 'introspect the
   API first' is true for all Python)"*.
 - **Unknown resolves to the superset.** `if (module != null && domains)` — a module
   absent from the table yields `undefined`, the narrowing filter is skipped, and
-  the full set for the kind is returned. The doc comment at `:418` states the
+  the full set for the kind is returned. The doc comment at `:436-441` states the
   asymmetry in the imperative, at the fallback, exactly as the technique
   prescribes: *"a module ABSENT here is UNKNOWN and receives the conservative
   SUPERSET (all gotchas of the prompt kind) — **a missing mapping must never
@@ -83,7 +84,7 @@ Four properties of the technique, all present:
   superset (relevant unchanged)` guards the branch against a well-meaning tidy-up.
 - **Nothing matched emits nothing.** `if (relevant.length === 0) return ''` — no
   bare `## Known UE Pitfalls` heading over an empty list. The sibling
-  `formatWiringRequirements` (`src/lib/knowledge/wiring-requirements.ts:36`) makes
+  `formatWiringRequirements` (`src/lib/knowledge/wiring-requirements.ts:34`) makes
   the same call for the same reason, and says so: *"the generic boilerplate on its
   own is noise, so an empty wiring block is skipped entirely rather than emitted on
   every code-gen prompt."*

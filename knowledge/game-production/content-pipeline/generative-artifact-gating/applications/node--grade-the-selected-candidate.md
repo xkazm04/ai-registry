@@ -5,7 +5,8 @@ subject: generative-artifact-gating
 technique: grade-the-selected-candidate
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node — grading the selected candidate in a catalog acceptance layer
@@ -43,7 +44,7 @@ return the same verdict.
 
 ## The verdict ladder, as implemented
 
-`gradeGallerySelection` (`galleryArtifact.ts:120-201`) walks the five states in order:
+`gradeGallerySelection` (`galleryArtifact.ts:121-203`) walks the five states in order:
 
 | Condition | Result | Tier |
 | --- | --- | --- |
@@ -62,7 +63,7 @@ broken artifact.
 
 ## Origin decided structurally, not heuristically
 
-`candidateAsset()` (`galleryArtifact.ts:97-115`) is where placeholder and asset are told
+`candidateAsset()` (`galleryArtifact.ts:96-111`) is where placeholder and asset are told
 apart. It accepts `imageUrl`, `payload.glbUrl`, `payload.imageUrl`, `payload.assetUrl`,
 `payload.assetPath`, and a `swatch` of the form `url(…)`. The disjointness is by
 construction, and the comment says so: a placeholder swatch is *always* a computed

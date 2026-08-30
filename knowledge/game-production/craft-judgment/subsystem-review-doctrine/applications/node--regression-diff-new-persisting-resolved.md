@@ -5,7 +5,8 @@ subject: subsystem-review-doctrine
 technique: regression-diff-new-persisting-resolved
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Diffing evaluator scans between runs
@@ -58,7 +59,7 @@ clean-prior-scan are different states and stay different values, so the report c
 
 ## Where severity roll-up meets it
 
-`src/lib/evaluator/combined-health.ts` carries the reporting half. `WEIGHTS` (`:44`) is the
+`src/lib/evaluator/combined-health.ts` carries the reporting half. `WEIGHTS` (`:46`) is the
 base composite — 40% quality, 30% dependency health, 20% coverage, 10% activity — and
 `WEIGHTS_WITH_JUDGE` (`:59`) reweights when content-judge verdicts exist: judged content takes
 **25%**, carved from quality (40→30), dependency health (30→20) and coverage (20→15). The
@@ -72,7 +73,7 @@ docblock states the invariant: "shared by the composite and the badge so they ne
 
 ## Deviations, standard unchanged
 
-- **Resolved is one bucket.** `resolved` (`:96`) is every prior finding whose fingerprint is
+- **Resolved is one bucket.** `resolved` (`:95`) is every prior finding whose fingerprint is
   absent from the current run, with no check that the file or construct still exists.
   Resolved-by-deletion is folded into resolved-by-fix, which is exactly the inflation the
   technique warns about. `src/lib/evaluator/git-attribution.ts` holds the change data that
