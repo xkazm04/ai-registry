@@ -151,3 +151,8 @@ better summarizer prompt.
   a loop that pays per iteration.
 - Keep nothing load-bearing exclusively in the transcript. Compaction is
   lossy by construction and it will eventually run.
+- These rules govern the regime where the message list is itself the durable
+  record. When the record is an append-only store the prompt is rebuilt from
+  per call, compaction becomes a rendering choice and
+  [tiered-history-projection](./tiered-history-projection.md) applies
+  instead.

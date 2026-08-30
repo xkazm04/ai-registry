@@ -348,9 +348,9 @@
         "pof@1.7"
       ],
       "invokes30d": 20,
-      "lessons": 8,
+      "lessons": 9,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:2c4aa5fe7e9a76c5",
+      "lessonsHash": "sha256-n1:59562315213e444c",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -574,7 +574,7 @@
     "skills": 29,
     "practices": 5,
     "memory": 4,
-    "lessons": 90
+    "lessons": 91
   },
   "bundles": [
     {
@@ -627,7 +627,7 @@
       "techniques": 100,
       "applications": 51,
       "files": 172,
-      "contentHash": "sha256:286bc38a7e822aeb"
+      "contentHash": "sha256:24f3cad5b30613c1"
     },
     {
       "name": "localization",
@@ -676,10 +676,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 151,
-      "techniques": 998,
-      "applications": 489,
-      "files": 1643,
-      "contentHash": "sha256:8357c1ab4caf8ae1"
+      "techniques": 1004,
+      "applications": 500,
+      "files": 1660,
+      "contentHash": "sha256:cd308bd695316598"
     }
   ]
 }

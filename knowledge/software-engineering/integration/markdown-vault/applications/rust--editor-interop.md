@@ -5,15 +5,17 @@ subject: markdown-vault
 technique: editor-interop
 stack: rust
 status: forged
-verified_on: 2026-08-29
-verified_against: rust@1.96
+verified_on: 2026-08-30
+verified_against: rust@1.97
 applied: experiment
 ab_verdict: better
 ---
 
 # Atomic replace, measured on the filesystem that makes it awkward (Rust)
 
-*Verified against the project tree at `bf2a1e249`.*
+*Verified against the project tree at `bf2a1e249`; re-verified at `a2ef6400e` on
+2026-08-30. The seam is unchanged — the sidecar still writes naively at
+`tools.rs:1471` — and one citation moved.*
 
 "Atomic replace on every write — temp sibling, then rename over the target" is
 the kind of rule that gets agreed to in review and then not applied, because the
@@ -87,7 +89,7 @@ toward the human's editor. What this tree shows is that the discipline is
 adopted per *crate*, not per product, and that the boundary where it lapses is
 invisible from the vault. The app crate carries `atomic_write` twice over — the
 sibling application document for `vault-as-database` records another copy at
-`graph.rs:513-527`, with a unique-uuid temp name — while the sidecar, which is
+`graph.rs:516`, with a unique-uuid temp name — while the sidecar, which is
 the process an external MCP client actually drives, writes the naive way. The
 vault cannot tell the two writers apart, the human cannot either, and the rule
 propagated along crate boundaries instead of along the shared resource it exists

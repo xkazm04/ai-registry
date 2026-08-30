@@ -71,6 +71,15 @@ argument had a default the operator never chose.
 - Version prompts with the tools they name. A renamed tool with a stale
   prompt catalog fails on its first step, on every invocation, for every
   operator at once.
+- **The catalog's delivery belongs to the host, not to you.** A protocol may
+  define a named-prompt primitive and still leave every client free to
+  surface it, bury it, or ignore it; of the primitives such protocols carry,
+  the prompt catalog is characteristically the least evenly implemented, and
+  none of them mandate how a client presents one. So write each journey as a
+  procedure that is intelligible on its own, and keep it somewhere a person
+  can read it independently of the menu. Then a client that never renders the
+  catalog costs the operator a menu entry rather than the journey — and the
+  journey stays portable to whatever surface the operator actually has.
 - Each prompt carries a one-line description good enough to be its menu entry;
   the catalog listing is itself a surface and should read like a dashboard
   index.

@@ -31,6 +31,19 @@ from them:
   guided tours, background tickers. Conversely, anything mounted in the shell
   is paid for on every screen, forever: the shell's permanence is a privilege
   that must be earned per occupant.
+
+  The property is really *frame continuity*, and never unmounting is one way to
+  buy it. Where each navigation replaces the whole document, the frame does
+  unmount every time, and the continuity comes from the platform instead: a
+  cache that restores a whole previous document, declarative warming of the
+  likely next one, and a transition that carries the shared frame across the
+  document boundary. Almost everything in this standard still holds there — the
+  nav is still one owned vocabulary, badges still need clearing rules, depth is
+  still earned. What does not hold is the hosting privilege: with no surviving
+  mount point, session-lifetime machinery has to live outside the frame
+  entirely, in a background worker or a store the documents share. Establish
+  which of the two architectures you are in before inheriting the hosting rules;
+  they are conditional on the first property literally being true.
 - **The navigation is the product's map.** The nav is where a user learns what
   the product *is* — its top level is an argument about the product's shape,
   read hundreds of times a day. Its structure, depth, ordering, and gating are

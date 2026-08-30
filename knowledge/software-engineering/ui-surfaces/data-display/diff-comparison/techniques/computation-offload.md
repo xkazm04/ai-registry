@@ -21,6 +21,23 @@ changed?" and the product answered by taking away their cursor. Comparison
 is therefore computed off the interactive thread, as a request/response
 exchange with an identity, a budget, and a declared failure shape.
 
+The superlinearity is not a wart of one algorithm that a better one will
+remove. Exact edit distance and longest-common-subsequence are
+*conditionally quadratic* — no strongly subquadratic algorithm exists for
+either unless a standing complexity conjecture fails — so a comparison
+surface is designing against a hardness result, not a maturity gap. What
+that means practically is the opposite of despair: the classic
+edit-script-length formulation is near-linear when the two sides are
+similar, which is the common case, and it degenerates only as the edit
+script grows toward the size of the input — that is, on *dissimilar*
+inputs. So the budget is not defending against big inputs; it is defending
+against **unlike** inputs. And the mature implementations do not solve the
+worst case, they *abandon* it: past a cost heuristic they stop searching
+and emit a non-minimal answer. That is the behaviour to design for. The
+rung the budget selects is a deliberate choice about what to stop
+promising, and it must be the surface's choice, disclosed — not a
+kernel's private decision to quietly return a worse alignment.
+
 ## The request has an identity, and stale results are dropped
 
 The reader changes the pair faster than large diffs compute. Every
@@ -74,6 +91,20 @@ about the input, and the input does not read comments. A ceiling checked
 *after* stripping is the right order: check the raw sizes, strip, re-check
 the middle, and only then choose the rung.
 
+Stripping has a cost the speed argument hides, and it is paid on the
+surface rather than in the profile: **it is correctness-safe but not
+minimality- or attribution-safe.** Consuming matching elements eagerly
+from both ends can push the alignment to a non-minimal answer, and — the
+part readers notice — it can place a change boundary where no human would,
+attributing an edit to the wrong block because the real boundary was inside
+the stripped region. The mature line-diff implementations all carry both
+halves of this: the trim for speed, plus an escape hatch that stops
+trimming the last stretch of the prefix when minimality matters more, plus
+a post-pass that slides an ambiguous boundary onto the position a reader
+would choose (indentation and blank lines are the usual evidence). Ship the
+strip; ship the post-pass with it. A trim without a slider is the
+optimization that makes every hunk slightly wrong in the same direction.
+
 ## The render is inside the budget
 
 Offloading the kernel buys nothing if the render freezes the surface. A
@@ -121,8 +152,23 @@ the moment either side is edited. A cached diff names its recomputation —
 the key states exactly what inputs regenerate it ([_laws:
 derivation-names-recomputation_](../../../../_laws.md#derivation-names-recomputation))
 — and cache entries carry the same reaper discipline as computations:
-bounded, evicted, never "the map that only grows". A hash-equality
-pre-check sits in front of everything: identical fingerprints
-short-circuit to "no differences at byte level" for free, which is both
-the cheapest computation and — because the level is stated — an honest
-one.
+bounded, evicted, never "the map that only grows".
+
+A short-circuit sits in front of everything, but it is **not** a hash. The
+cheap facts come first and in cost order: the two sides are the same
+object; their lengths differ; their size and modification stamps match. A
+hash-equality pre-check is the *expensive* member of that family and is
+routinely mis-sold as free — computing a digest reads both inputs to the
+last byte, while a direct comparison exits at the first differing one, so
+on the inputs a comparison surface actually sees (pairs that differ early
+and often) hashing is strictly slower than the work it was meant to
+replace. It pays only when the digest **already exists** and nobody spends
+to obtain it: a content-addressed identifier the store computed anyway, a
+validator the transport already carries, a fingerprint the cache key
+needed regardless. And when a digest is computed, its class is a
+correctness question, not a performance one: a non-cryptographic checksum
+answering "no differences" is a wrong answer waiting for a collision, which
+is why the classic two-tier design uses the cheap checksum only as a filter
+in front of a strong one and never lets it speak alone. Where the
+short-circuit does fire, it is still stated at its level — "identical" at
+byte level is not "no differences" at field level.

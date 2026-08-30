@@ -155,3 +155,15 @@ bumped independently (that run 1.1→1.2, this one 1.2→1.3).
   crate-test run through `grep -E "^> cargo|^error|test result"` — the summary said `10 failed` and the
   failing test NAMES had been filtered out by my own pipe, so the file could not answer "which". Had to
   re-run. Log raw, filter on read.
+
+## 1.8.0 - 2026-08-30 - personas
+- Topic-driven invocation with NO pasted source works: when the argument names a
+  popular external PRODUCT ("Grok bot, why is it popular, compare with our X"),
+  Phase 2 becomes a bounded WebSearch/WebFetch round (3-4 calls) that builds the
+  corpus, and compare mode then runs unchanged. Distill the product's popularity
+  into named structural principles first; fail the repo against the principles,
+  not the feature list. Both findings came from the one surface the user named.
+- Cheap finding source discovered: grep the target module's schema/model comments
+  for documented-but-unimplemented enum values (here `consumer='mention'` -
+  "routes to an actor" - zero implementations). The schema often knows the
+  feature before the code does, and the finding arrives pre-designed.

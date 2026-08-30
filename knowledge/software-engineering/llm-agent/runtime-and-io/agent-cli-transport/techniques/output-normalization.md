@@ -41,17 +41,41 @@ Which dialect a tool speaks, and in which field the answer lives, is a
 [dated-capability-matrix](./dated-capability-matrix.md) row — dialects have
 shifted between versions of the same tool.
 
+Two traps in reading that row. **The format flag's *name* is not the
+dialect.** Line-delimited event output has become the de-facto second
+channel across this class, but the option value naming it is
+near-arbitrary — the same shape ships under half a dozen spellings, and one
+tool has deprecated its spelling in favour of a different protocol
+underneath the same idea. The matrix maps tool to dialect; it never infers
+the dialect from the flag's spelling. **And the answer's field name is not
+portable either**: two tools can emit a structurally identical single
+object and disagree on which key holds the answer, so a normalizer that
+"largely transfers" between two dialect-compatible tools still has to be
+told the field. Nor does an envelope that documents a success shape
+necessarily document its failure shape — where the error variant is
+undocumented, the adapter treats the error branch as unverified rather than
+assuming the sibling tool's.
+
 ## Stream hygiene: the rules that precede parsing
 
 - **The output stream is data; the error stream is logs. Never merge them.**
   Tools in this class emit startup warnings, cache errors, and progress
   notices on the error stream while the envelope flows on the output
   stream; a merged capture poisons every parse intermittently.
-- **Feed and close the child's input.** Prompts travel over the input
-  stream (never the argument vector — prompts contain quotes, newlines, and
-  flag-shaped text), and the stream is then closed. A tool left with an
-  open, silent input stream may block waiting for "additional input", and
-  at least one announces the wait as a notice that lands in the capture.
+- **Feed and close the child's input — and guard the write.** Prompts
+  travel over the input stream (never the argument vector — prompts contain
+  quotes, newlines, and flag-shaped text), and the stream is then closed. A
+  tool left with an open, silent input stream may block waiting for
+  "additional input", and at least one announces the wait as a notice that
+  lands in the capture. The write itself needs its own failure handler
+  attached **to the input stream**: when the child is already gone — a
+  missing binary, a rejected flag — the write fails as a stream *event*, not
+  as a throw the call site can catch, and not as anything the spawn-failure
+  handler reports (that one covers the launch, not the pipe). Unhandled,
+  the host runtime may escalate it to a fatal error, so the failure mode of
+  one call becomes the death of the process that was going to degrade
+  gracefully. Prompts in this subject are large; the bigger the prompt, the
+  more reliably the write outlives the child.
 - **Isolate from user configuration where the tool allows it.** The
   operator's own hooks and plugins can print *after* the envelope on the
   same stream — observed in the field as a hook-failure line appended to

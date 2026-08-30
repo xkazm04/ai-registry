@@ -35,6 +35,23 @@ No script decides these. A reviewer does, reading diffs.
   product, tool, model or company names - including ones the purity denylist does not
   list. The denylist is a floor, and the real test is whether an unrelated team in
   another company could adopt the document as written.
+
+  **An open standard is not a product name.** Added 2026-08-30, because two workers in
+  one batch read the clause oppositely and it changed what they shipped: one cited WCAG
+  success criteria inside a technique, the other avoided standards-body names on purpose
+  and consequently could not land an application it had already researched. Apply the
+  transplant test and the answer is not close - a criterion number is a *checkable
+  external anchor* that an unrelated team can look up and hold you to, so naming it
+  raises transplantability rather than lowering it. The same goes for a public
+  vulnerability identifier, an RFC, a wire format, or a named algorithm. What stays
+  banned is the thing that made the clause necessary: a vendor, a tool, a model, a
+  company, or a product that implements the standard.
+
+  The distinction that does the work: **cite the standard, never the implementation.**
+  "The accessibility standard's use-of-colour criterion (SC 1.4.1, level A)" transplants;
+  "the linter's colour rule" does not. And a criterion cited in a technique still owes
+  its date at the application layer, because standards are versioned and a criterion
+  number without an edition is the same unmeasured claim as any other.
 - **Decision rules are stated as rules.** "When X, do Y, because Z." A technique that
   describes a thing without saying when to reach for it has not finished.
 - **Numbers carry their measurement.** A figure with no n, no date and no method is
@@ -122,6 +139,39 @@ that evaporates fastest - the four bundles that held it on 2026-08-27 had droppe
 *unknown* by the next morning, which is the difference between "nobody needed this" and
 "nobody told us", collapsing into one boolean twice in two days. Until the scan can say
 which, **a sweep states in words which of the three it is ranking on, and on what date.**
+
+**And under the same gap again: two contributors are not necessarily two installations.**
+Found 2026-08-30, and it had been silently setting the worklist for an unknown number of
+runs before that.
+
+The scan summed `deviations` across contributor files. But a deviation is a **state of a
+tree** - "how many places this repo falls short" - and one fleet checked out on two
+machines writes two signals files that describe the same shortfalls. On 2026-08-30 both
+contributors filed a *byte-identical* `llm-observability` block fourteen hours apart, and
+17 of the 31 software-engineering subjects both named carried identical deviation counts.
+Summed, the corpus read 550 deviations. The floor is 370.
+
+That 1.49x was not spread evenly, which is what made it dangerous: it was concentrated in
+33 of the 89 demand-bearing subjects, so it did not inflate the ranking, it **reordered**
+it. `quality-gates` sat 13th when it belonged 2nd; three subjects in the top ten belonged
+nowhere near it. Every clause in the floor table above is computed from the corpus, which
+this registry controls. This one is computed from files other machines write, and it was
+the only clause that could manufacture work out of nothing.
+
+The fix in the instrument is the event/state split - **consults sum, deviations and
+`gone` take the floor across contributors, and the ceiling prints beside it**. The rule
+for a reviewer is the one this whole section keeps re-learning in new costumes:
+
+> Demand is the only signal here that arrives from outside, and every reading of it is a
+> range. Rank on the floor. Never quote the ceiling as a count.
+
+The deeper lesson is about gates, not demand. `check-signals` passes both files and
+always would have: it validates *shape*, one file per contributor, counts and slugs only.
+Nothing in the schema can prove two contributors are independent, because `contributor`
+is a self-declared id and one fleet on two machines is a legitimate thing to be. A gate
+that checks each file against the spec cannot see a defect that only exists *between*
+files - and that is a general shape worth carrying to the next instrument, not a fact
+about signals.
 
 
 **Most of the corpus cannot be checked for drift, and nothing ranks the part that can.**

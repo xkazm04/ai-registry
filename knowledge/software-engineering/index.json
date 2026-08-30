@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 998,
-  "applications": 489,
+  "techniques": 1004,
+  "applications": 500,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "998/998",
+  "use_when_coverage": "1004/1004",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -729,6 +729,21 @@
      ]
     },
     {
+     "slug": "child-observed-posture",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving a spawned agent run got the stance and billing it was configured with",
+      "a platform wrapper sits between the host and the binary",
+      "a probe and the real run disagree about what is installed"
+     ]
+    },
+    {
      "slug": "dated-capability-matrix",
      "status": "forged",
      "laws": [
@@ -804,30 +819,44 @@
    "applications": [
     {
      "stack": "claude-code",
+     "technique": "child-observed-posture",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--child-observed-posture.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "claude-code@2.1.251"
+    },
+    {
+     "stack": "claude-code",
      "technique": "output-normalization",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--output-normalization.md",
-     "verified_on": "2026-08-25",
+     "verified_on": "2026-08-30",
      "verified_against": "claude-code@2.1.245"
     },
     {
      "stack": "claude-code",
      "technique": "subscription-auth-selection",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--subscription-auth-selection.md",
-     "verified_on": "2026-08-25",
-     "verified_against": "claude-code@2.1.245"
+     "verified_on": "2026-08-30",
+     "verified_against": "claude-code@2.1.251"
     },
     {
      "stack": "codex-cli",
      "technique": "permission-stance-enforcement",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/codex-cli--permission-stance-enforcement.md",
-     "verified_on": "2026-08-25",
+     "verified_on": "2026-08-30",
      "verified_against": "codex-cli@0.139.0"
     },
     {
      "stack": "cursor-cli",
      "technique": "permission-stance-enforcement",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/cursor-cli--permission-stance-enforcement.md",
-     "verified_on": "2026-08-25"
+     "verified_on": "2026-08-30"
+    },
+    {
+     "stack": "gemini-cli",
+     "technique": "permission-stance-enforcement",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/gemini-cli--permission-stance-enforcement.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "gemini-cli@0.42.0"
     }
    ]
   },
@@ -1021,6 +1050,21 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
    "techniques": [
     {
+     "slug": "baseline-ladder",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a memory pipeline earns its cost",
+      "a memory system reports a score and nobody asked against what",
+      "choosing between two memory designs on one benchmark number",
+      "the write path costs more than anyone has measured"
+     ]
+    },
+    {
      "slug": "consolidation",
      "status": "forged",
      "laws": [
@@ -1182,7 +1226,8 @@
      "stack": "rust",
      "technique": "consolidation",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--consolidation.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -1202,7 +1247,8 @@
      "stack": "rust",
      "technique": "recall-injection",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--recall-injection.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -1525,6 +1571,41 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "badge-and-attention",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--badge-and-attention.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "lazy-section-loading",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--lazy-section-loading.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "nav-hierarchy",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--nav-hierarchy.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "navigation-model",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--navigation-model.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "shell-hosted-services",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--shell-hosted-services.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "lazy-section-loading",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/react--lazy-section-loading.md",
@@ -1535,6 +1616,13 @@
      "technique": "navigation-model",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/react--navigation-model.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "spec",
+     "technique": "nav-hierarchy",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/spec--nav-hierarchy.md",
+     "verified_on": "2026-08-30",
+     "refresh_by": "2027-02-28"
     }
    ]
   },
@@ -4429,6 +4517,20 @@
      ]
     },
     {
+     "slug": "engagement-paced-cadence",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an always-on agent loop bills around the clock while nobody interacts with it",
+      "deciding how a self-driven loop slows when it runs out of real work",
+      "a loop's cost control must not add latency to the interactions it exists for"
+     ]
+    },
+    {
      "slug": "preflight-estimation",
      "status": "forged",
      "laws": [
@@ -4528,6 +4630,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--budget-enforcement.md",
      "verified_on": "2026-08-24",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
+     "technique": "engagement-paced-cadence",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--engagement-paced-cadence.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -5955,6 +6064,20 @@
      ]
     },
     {
+     "slug": "invisible-differences",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a row is marked changed and both sides look identical",
+      "deciding how to render whitespace-only and line-ending changes",
+      "a reviewer approves code that does not do what they read"
+     ]
+    },
+    {
      "slug": "pair-and-baseline-selection",
      "status": "forged",
      "laws": [
@@ -6002,7 +6125,8 @@
      "stack": "react",
      "technique": "computation-offload",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--computation-offload.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -6015,19 +6139,22 @@
      "stack": "react",
      "technique": "drift-against-declared",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--drift-against-declared.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "semantic-level-selection",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/react--semantic-level-selection.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
      "technique": "pair-and-baseline-selection",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/applications/rust--pair-and-baseline-selection.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -9571,7 +9698,8 @@
      "laws": [
       "failure-not-empty-success",
       "gate-sees-target",
-      "deletion-is-not-repair"
+      "deletion-is-not-repair",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
@@ -9610,6 +9738,21 @@
      ]
     },
     {
+     "slug": "replicated-substrate",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "notes appear twice under conflict-suffixed names",
+      "staleness fires on every note after a fresh checkout",
+      "a full walk stalls or pulls the whole corpus over the network"
+     ]
+    },
+    {
      "slug": "vault-as-database",
      "status": "forged",
      "laws": [
@@ -9639,35 +9782,46 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "link-graph-extraction",
+     "file": "knowledge/software-engineering/integration/markdown-vault/applications/node--link-graph-extraction.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "node@22"
+    },
+    {
      "stack": "rust",
      "technique": "editor-interop",
      "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--editor-interop.md",
-     "verified_on": "2026-08-29",
-     "verified_against": "rust@1.96"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
      "technique": "knowledge-integrity-lint",
      "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--knowledge-integrity-lint.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
      "technique": "mirror-indexes",
      "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--mirror-indexes.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
      "technique": "vault-as-database",
      "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--vault-as-database.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
      "technique": "vault-walking",
      "file": "knowledge/software-engineering/integration/markdown-vault/applications/rust--vault-walking.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -12780,6 +12934,21 @@
      ]
     },
     {
+     "slug": "tiered-history-projection",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fixed recent-window makes a long-lived agent forget arcs older than its tail",
+      "a compaction summary replaces history with no way back to the raw record",
+      "sizing a history layer that must serve both a new agent and a months-old one from the same assembler"
+     ]
+    },
+    {
      "slug": "variable-interpolation",
      "status": "forged",
      "laws": [
@@ -12794,6 +12963,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "tiered-history-projection",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--tiered-history-projection.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
     {
      "stack": "rust",
      "technique": "context-budgeting",
@@ -18812,6 +18988,7 @@
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/permission-stance-enforcement",
     "agent-instruction-files/capability-before-steering",
     "agent-instruction-files/enforcement-demotion",
@@ -18888,6 +19065,7 @@
     "device-pairing/admission-scoping",
     "device-pairing/revocation-and-expiry",
     "diff-comparison/drift-against-declared",
+    "diff-comparison/invisible-differences",
     "docs-content-model/catalog-referential-invariants",
     "docs-sync/coupled-surface-inventory",
     "docs-sync/cross-repo-drift-detection",
@@ -18954,6 +19132,7 @@
     "machine-paced-delivery/proposal-not-push",
     "markdown-vault/knowledge-integrity-lint",
     "markdown-vault/mirror-indexes",
+    "markdown-vault/replicated-substrate",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/present-vs-enforced",
     "mcp-tools/authentication-and-scoping",
@@ -19120,6 +19299,7 @@
     "agent-chaining/run-conditions",
     "agent-chaining/stop-reason-ledgers",
     "agent-cli-transport/availability-probe",
+    "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/fallback-ladder",
     "agent-cli-transport/output-normalization",
     "agent-instruction-files/capability-before-steering",
@@ -19187,6 +19367,7 @@
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
     "conversation-orchestration/structured-visual-replies",
+    "cost-metering/engagement-paced-cadence",
     "cost-metering/usage-ledgers",
     "credential-vault/acquisition",
     "credential-vault/health-probing",
@@ -19291,6 +19472,7 @@
     "machine-paced-delivery/pre-authorship-verification",
     "machine-paced-delivery/verification-throughput-as-constraint",
     "markdown-vault/knowledge-integrity-lint",
+    "markdown-vault/replicated-substrate",
     "markdown-vault/vault-walking",
     "maturity-ladders/migrate-on-read",
     "maturity-ladders/present-vs-enforced",
@@ -19353,6 +19535,7 @@
     "proactive-nudges/trigger-evaluators",
     "prompt-assembly/context-reachability",
     "prompt-assembly/history-compaction",
+    "prompt-assembly/tiered-history-projection",
     "prompt-assembly/variable-interpolation",
     "prompt-safety/canary-tripwires",
     "prompt-safety/model-output-as-untrusted",
@@ -19588,6 +19771,7 @@
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/line-earning",
     "agent-instruction-files/sibling-floor-ownership",
+    "agent-memory/baseline-ladder",
     "agent-memory/coverage-instrumentation",
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
@@ -19620,6 +19804,7 @@
     "concurrent-vcs/commit-verification",
     "conformance-checking/pass-ratio-comparability",
     "conversation-orchestration/recall-transparency",
+    "cost-metering/engagement-paced-cadence",
     "cost-metering/preflight-estimation",
     "cost-metering/spend-attribution",
     "cost-metering/spend-observability",
@@ -19861,6 +20046,7 @@
    "techniques": [
     "accessibility/assistive-tech-divergence",
     "agent-cli-transport/availability-probe",
+    "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/dated-capability-matrix",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
@@ -19878,6 +20064,7 @@
     "docs-sync/earned-verification-state",
     "error-handling/cancellation-attribution",
     "knowledge-registry/verification-is-contributed",
+    "markdown-vault/replicated-substrate",
     "mcp-tools/egress-argument-gating",
     "migrations/error-propagation",
     "optional-dependency-degradation/capability-honest-refusal",
@@ -20017,6 +20204,7 @@
     "prompt-assembly/continuation-prompts",
     "prompt-assembly/history-compaction",
     "prompt-assembly/house-vocabulary-layer",
+    "prompt-assembly/tiered-history-projection",
     "rate-limiting/unattributable-client-bucketing",
     "readiness-passports/blocker-rollups",
     "readiness-passports/fingerprint-provenance",
@@ -20533,6 +20721,7 @@
     "design-tokens/theme-architecture",
     "design-tokens/token-taxonomy",
     "device-pairing/verb-allowlists",
+    "diff-comparison/invisible-differences",
     "diff-comparison/presentation-modes",
     "diff-comparison/semantic-level-selection",
     "docs-content-model/derived-navigation-projection",
@@ -20744,6 +20933,7 @@
     "agent-chaining/graph-to-wiring-translation",
     "agent-cli-transport/dated-capability-matrix",
     "agent-instruction-files/machine-owned-regions",
+    "agent-memory/baseline-ladder",
     "agent-memory/consolidation",
     "agent-memory/memory-value-model",
     "app-shell/badge-and-attention",
@@ -20848,6 +21038,7 @@
     "proactive-nudges/attention-budgets",
     "prompt-assembly/cache-breakpoint-allocation",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/tiered-history-projection",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/derived-numerator-authored-denominator",
     "quality-gates/ratchet-design",
@@ -20919,6 +21110,7 @@
     "fleet-orchestration/brief-carries-the-session",
     "knowledge-registry/verification-is-contributed",
     "machine-paced-delivery/human-gate-capacity",
+    "markdown-vault/knowledge-integrity-lint",
     "mcp-tools/transport-selection",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",

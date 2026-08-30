@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-08-25
-touched_by: research
+last_touched: 2026-08-30
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -55,7 +55,7 @@ architecture is banked as a lead with a return condition in the source note.
 - Ten techniques is the largest count in `llm-agent`. Not a cap breach (files are not
   counted), but worth watching: a subject that keeps growing techniques may be two
   subjects.
-- **Never swept by `/librarian`.**
+- ~~Never swept by `/librarian`.~~ First sweep 2026-08-30 ([[2026-08-30-1]]).
 
 ## Declines
 
@@ -123,3 +123,90 @@ None.
 - Untriaged: memory decomposed by *control function* (skills / state schema / invocation
   policy / checkers) as an axis orthogonal to this subject's lifetime axis. Return when a
   second source or a connected tree treats checkers as editable data.
+
+## 2026-08-30 - `/deepen` under the librarian sweep ([[2026-08-30-1]])
+
+**The banked lead came due, and it was not close.** [[2026-08-22-shapes-of-agent-memory]]
+filed *trained memory-use* as "one paper, one lab" with the return condition "a second
+independent system training memory-use into the policy". The worker found not a second
+but a populated field: RL-trained memory managers **and** read-path policies, multiple
+independent groups, several benchmark families and scales, plus a unified
+inference-and-training framework — infrastructure, not only papers.
+
+Per the lead's own prescription this landed as a **boundary statement, not a pile of
+techniques**: a new golden-path section, *"What this standard assumes."* It names the
+frozen reader, then splits the standard three ways under a learned policy:
+
+- **unchanged** — the store as record: provenance, supersedence, governance tiering, the
+  audit answer. A learned reader does not turn a rumor with a database row into
+  knowledge; it only makes the rumor harder to spot.
+- **relocated** — read-path stages become weights, degrading "why was this recalled and
+  that not" into "why did the policy do that", which nothing answers cheaply.
+- **newly expensive** — held-out accuracy drops, and **a learned forgetting policy is a
+  reward function with delete authority**, reopening by optimization the door
+  `memory-governance` holds shut by design.
+
+Framed as an enforcement-surface move, not a deprecation. The lead is now **closed**.
+
+### New technique: `baseline-ladder` (11 techniques)
+
+Lane convergence, and the convergence is auditable: the blind training-data lane
+predicted the subject's biggest hole was the absent no-memory/full-history baseline
+*before any search ran*, and a grep confirmed zero occurrences of "baseline", "long
+context" or "full context" anywhere in the subject. The web counter-evidence lane
+reached the same ground from confounds. Four rungs with the **crossover** as the output
+rather than a winner.
+
+It deliberately does **not** launder the benchmark figures upward — it keeps shapes
+("tens of points", "an order of magnitude") and leaves the n and p-values in a
+cross-subject proposal. That is the standard's numbers-carry-their-measurement rule
+applied correctly by a worker without being told.
+
+### Counter-evidence
+
+- *"store shape doesn't matter; quality is transitions not topology"* — **confirmed and
+  better grounded.** Pro-graph designs attribute their own gains, in their own ablations,
+  to multi-step reasoning at recall time rather than structure. The sharper reason: a
+  single uncontrolled variable moves results further than the architectures differ, so
+  most shape comparisons are not evidence about shape.
+- *"raw transcripts are not memory"* — **partially refuted as a performance claim,
+  confirmed as a structural one.** Memory systems consistently lose to a long-context
+  baseline on fixed-size suites. Landed as a bounding paragraph, not a rewrite: the four
+  objections are claims about past-the-window and past-a-reversal, which such a suite
+  cannot settle either way.
+- *the age/last-confirmed omission* — **confirmed unchanged** by re-reading the renderer.
+  A first-class null result.
+
+### Version witness
+
+Both rust applications re-verified against the real tree at `rust@1.97`; witness goes
+**2/5 → 4/5** against a corpus that is 82% drift-blind. Real drift, spot-checked by the
+Director: a run-level discard affordance is **gone** (it survives only in a stale
+worktree, which is what makes it a genuine deletion), modules became directories, and a
+write-path contract hardened into an error. That last earned a new paragraph: **a
+placeholder in a citation slot is worse than an omission** — the old fallback rendered a
+literal no-sources string as if it were a citation.
+
+## Open leads (added 2026-08-30)
+
+- **A learned forgetting policy is a reward function with delete authority.** Trained
+  memory management puts retirement under optimization, reopening by reward the door the
+  governance tier holds shut by design. Return when any connected project adopts a
+  trained memory policy, or on a reported incident of learned deletion. May belong to a
+  governance or safety subject rather than here.
+- **The open head-to-head memory harness** ([[2026-08-26-supermemory]]) — return
+  condition still **not met**, no connected project has two candidate memory
+  configurations. But `baseline-ladder` now gives that decision a stated shape, so the
+  harness has a spec to satisfy when it arrives. Nearest real candidate named by the
+  worker: an uncapped access-boost in one store versus a capped one in its sibling.
+
+## Declines (2026-08-30)
+
+- The confound evidence (an embedding swap reversing an architecture ranking; one
+  comparison giving three verdicts across three consumers; refusals-with-the-answer-present
+  invisible to accuracy-only reporting) was **deliberately kept out** of `baseline-ladder`
+  beyond the one sentence the ladder needs. It belongs to `eval-harness/judge-stability`
+  and is proposed there, not written here.
+- Four techniques (one-value-model, provenance-as-trust-anchor, human-gated identity,
+  empty-vs-failed recall) were **not attacked this run** and produced no new evidence.
+  Recorded as not-examined rather than as dry, which are different facts.

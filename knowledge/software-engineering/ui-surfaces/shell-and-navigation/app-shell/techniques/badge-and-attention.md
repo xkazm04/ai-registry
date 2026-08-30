@@ -106,6 +106,22 @@ this is about*. The promise binds:
   full badges jostling on one entry is layout noise; a silent winner that
   hides its rivals is a lie about how much attention is owed.
 
+## A count is data, and a badge is a disclosure
+
+A badge publishes a fact about the workspace's contents to whoever is looking at
+the frame, which makes every badge a small read of privileged data. "Is there
+anything to count?" and "may *this* viewer see the count?" are two questions, and
+only the first is usually asked. The gate belongs on the row that renders the
+badge, not only on the source that computes it: a shell that has grown a second
+host for the same nav — a publicly reachable detail page, an embedded view, a
+shared link — will hand an anonymous reader the operator's queue depths as bare
+integers, and the count leaks more than it looks like, because a predicate is
+public knowledge and the number therefore names a quantity of real work.
+
+When suppression applies it is total: no pill, no overflow marker, and no
+reserved gutter where one would have sat. A row that cannot show a count must
+not look like a row that lost one.
+
 ## Budget: the channel is shared
 
 Individual badges are designed one at a time; the nav is read as a whole.
@@ -131,3 +147,4 @@ Shell-level discipline:
 4. No section-invented signal grades; the scale is owned by the shell.
 5. No badge whose section landing surface does not surface the cause.
 6. No signal that never turns off.
+7. No count rendered to a viewer the count's source would not have answered.

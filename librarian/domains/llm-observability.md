@@ -58,3 +58,23 @@ been dispatched at content. See the run notes for why.
 ## Declined
 
 Nothing yet.
+
+
+## 2026-08-30 — the duplicate-report bundle ([[2026-08-30-1]])
+
+This bundle is where the sweep's instrument defect was **provable rather than inferred**:
+both contributors filed a *byte-identical* block for it — same seven subjects, same eight
+consults, same forty-six deviations — fourteen hours apart. Under the old sum, every
+subject here was scored at **exactly double** its real demand.
+
+`operator-surfaces-for-llm-spend` (first touch, [[operator-surfaces-for-llm-spend]]) read
+83 points before the fix and 43 after. It was never twice as urgent as it is.
+
+Deepened dry on new techniques by design — the one convergence candidate belonged as an
+amendment, not a seventh technique — with the yield in corrections: a protocol revision
+that had shipped *before* the document's own verification date, a bullet citing a
+deleted mechanism (kept, because the principle outlived it), and a FinOps trend line
+re-checked at the primary and confirmed with its n.
+
+Owed: demand for this bundle is a **range until a contributor-identity notion exists**;
+read the floor. Ten subject notes now exist against sixteen subjects.

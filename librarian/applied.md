@@ -44,6 +44,8 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 | 2026-08-29 | edit-plan-over-regeneration | review-iteration-loops | gravity | code | better | branch `apply/edit-plan-over-regeneration` reviewed and merged 2026-08-29 |
 | 2026-08-29 | evidence-grading-ladder | content-research-grounding | gravity | experiment | not-better | when facts[] carries sources[] on the load-bearing rows - or when a gate refuses a `source` string holding more than one publication-shaped token. The seam class is 'render-surface change over an unmigrated data layer'; do not re-run the chip test until the data moves. |
 | 2026-08-29 | prompt-dialect-matching | image-prompt-composition | gravity | experiment | unmeasurable | pipeline/build-style-trials.mts re-run dialect-matched - the repo's own 6-style x 5-beat grid, 60 graded cells per policy, scored usable = on-brief AND free of text. The existing 60-cell trial that demoted the caption-class provider ran one dialect's prompt across both classes, so it is the same instrument with the confound removed. |
+| 2026-08-30 | engagement-paced-cadence | cost-metering | ascent | simulation | better | upgrade to experiment when the episode store can be queried: count consecutive declared-silence episodes per org; the cheap-probe lever needs no cron change |
+| 2026-08-30 | tiered-history-projection | prompt-assembly | ascent | simulation | not-better | technique gained its adoption gate from this seam; return when stored conversations routinely exceed the flat tail (countable from the persisted turns) |
 
 ## Backtest waves
 

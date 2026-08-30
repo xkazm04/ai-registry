@@ -4,10 +4,15 @@ type: application
 subject: markdown-vault
 technique: vault-as-database
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Vault as database in the Obsidian Brain plugin (Rust)
+
+*Re-verified against the project tree at `a2ef6400e`. Every claim stands; five
+citations moved, and `persona_to_markdown` moved from `mod.rs` into
+`markdown.rs` alongside the other emitters.*
 
 The plugin treats the operator's Obsidian vault as a shared database for
 persona memories, profiles, connectors, and goals. The record contract lives
@@ -40,8 +45,8 @@ original failure as the reason.
 ## Identity in frontmatter, filename derived
 
 Every emitted record opens with `id: <minted id>` in frontmatter
-(`memory_to_markdown`, `markdown.rs:94-124`; `persona_to_markdown`,
-`goal_to_markdown` in `mod.rs:1581-1633` likewise), and all sync/mirror
+(`memory_to_markdown`, `markdown.rs:81`; `persona_to_markdown`,
+`markdown.rs:127`; `goal_to_markdown`, `mod.rs:1633` likewise), and all sync/mirror
 state is keyed `(entity_type, entity_id)` — never by filename. Filenames
 come from `sanitize_filename` (`markdown.rs:231-250`): reserved characters
 to `-`, boundary-safe truncation at 100, `"untitled"` fallback — lossy by
@@ -52,12 +57,12 @@ design and never reversed.
 The plugin's complete set of vault-root resolvers is exactly two, each
 documenting the other:
 
-- `resolve_vault_subpath` (`mod.rs:1426-1459`) for caller-supplied
+- `resolve_vault_subpath` (`mod.rs:1478`) for caller-supplied
   **relative fragments**: rejects absolute paths and `..` components up
   front, joins, canonicalizes, asserts prefix containment. Consumed by
   `obsidian_brain_read_vault_note`, `obsidian_brain_list_vault_files`,
   conflict resolution.
-- `ensure_within_vault` (`graph.rs:261-285`) for **already-absolute
+- `ensure_within_vault` (`graph.rs:264`) for **already-absolute
   candidates** the UI legitimately holds from search/graph results:
   canonicalizes *both* sides and rejects on any canonicalization failure.
   The doc comment records the prior defect (bug-hunt 2026-06-07): a
@@ -68,12 +73,12 @@ Both carry an explicit "do not add a third variant" instruction — the
 one-validation-door posture written into the code. Even internally-derived
 paths route through the funnel where symlinks could betray them: the daily-
 note writer containment-checks the `Daily` folder after `create_dir_all`
-(`graph.rs:546-561`), because a derived filename is safe but a symlinked
+(`graph.rs:548-560`), because a derived filename is safe but a symlinked
 folder is not.
 
 ## Atomic writes for stranger readers
 
-`atomic_write` (`graph.rs:513-527`): unique temp sibling
+`atomic_write` (`graph.rs:516`): unique temp sibling
 (`.{name}.{uuid}.tmp`), then `rename` over the target — a concurrent
 Obsidian render sees old-or-new, never torn. On rename failure the temp is
 removed (the reaper named at creation). Its doc comment also states the

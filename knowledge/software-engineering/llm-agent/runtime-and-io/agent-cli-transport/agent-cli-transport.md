@@ -10,6 +10,7 @@ techniques:
   - permission-stance-enforcement
   - dated-capability-matrix
   - fallback-ladder
+  - child-observed-posture
   - spawn-contract@subprocess-lifecycle
   - termination-and-reaping@subprocess-lifecycle
 ---
@@ -53,8 +54,14 @@ the contract is the standard — the per-tool flags are data behind it:
 
 - **`probe()`** — is the tool installed, at what version, and is it
   *authorized to answer*, proven **without spending tokens** where the tool
-  allows it. A probe that cannot be zero-cost says so; it never pretends.
-  Owned by [availability-probe](./techniques/availability-probe.md).
+  allows it, and proven **through the same spawn door and environment the
+  real call will use** — these tools compute their own auth report from the
+  environment they are handed, so a probe run anywhere else describes a
+  process nobody will launch. A probe that cannot be zero-cost says so; it
+  never pretends. Owned by
+  [availability-probe](./techniques/availability-probe.md), with the
+  observation discipline in
+  [child-observed-posture](./techniques/child-observed-posture.md).
 - **`run({prompt, mode, cwd, schema?, model?, timeoutMs})`** →
   **`{ok, text | json, raw, durationMs}`** — one call, one child process, one
   normalized result. The prompt travels over the child's input stream, never
@@ -92,13 +99,28 @@ declares the mode and capabilities it requires, then shows, degrades, or
 hides accordingly. Owned by
 [dated-capability-matrix](./techniques/dated-capability-matrix.md).
 
-**The timeout is always the application's.** No tool in this class ships an
-overall wall-clock flag; the only ceiling is the host killing the child.
-Every `run` therefore carries `timeoutMs` enforced by the spawning
-application — a generous ceiling, with the kill routed through the borrowed
-termination ladder — and a misconfigured tiny timeout is treated as
+**The timeout is the application's — and it is no longer always the only
+one.** Across the mainstream tools of this class the ceiling is still the
+host killing the child: what they ship instead of a wall clock is
+iteration- or spend-shaped (a turn cap, a budget cap), and open reports of
+headless runs hanging for hours are the evidence that the wall clock is
+genuinely absent. So every `run` carries `timeoutMs` enforced by the
+spawning application — a generous ceiling, with the kill routed through the
+borrowed termination ladder — and a misconfigured tiny timeout is treated as
 misconfiguration (floored), never as "no timeout", because an instant kill
 on every call silently routes the whole product to its fallback floor.
+
+The claim's absolute form has expired, though, and the exception is the
+dangerous direction. A minority of newer tools now ship a run-level
+wall-clock flag, and **at least one applies a ceiling of a few minutes by
+default** — whether or not the caller asks for one. Against such a tool the
+application's generous timeout never fires: the child exits first, on the
+tool's clock, and the truncation arrives looking like a short or failed
+answer rather than like a deadline. "Does this tool impose its own run
+ceiling, and what is its default?" is therefore a
+[dated-capability-matrix](./techniques/dated-capability-matrix.md) row, and
+where a tool has one the adapter sets it explicitly to a value it chose,
+rather than inheriting a default it never saw.
 
 ## Auth is the economics, and it is ambient
 
@@ -152,6 +174,10 @@ honesty.
   capabilities.
 - [fallback-ladder](./techniques/fallback-ladder.md) — designed degradation
   when the transport is absent, and the labels that keep it honest.
+- [child-observed-posture](./techniques/child-observed-posture.md) — proving
+  the stance, the billing direction and the tool's presence from the child
+  rather than from the host's intent, at the three seams that lose them
+  silently.
 - Borrowed:
   [spawn-contract](../subprocess-lifecycle/techniques/spawn-contract.md) and
   [termination-and-reaping](../subprocess-lifecycle/techniques/termination-and-reaping.md)

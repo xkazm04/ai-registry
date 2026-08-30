@@ -10,6 +10,7 @@ techniques:
   - vault-walking
   - mirror-indexes
   - editor-interop
+  - replicated-substrate
 ---
 
 # Markdown knowledge vault
@@ -49,7 +50,12 @@ where the engine enforces and clients can be sloppy:
 - **Identity lives in frontmatter, not the filename.** Humans rename files;
   titles collide; filename sanitization is lossy and one-way. A record that
   must be found again after a rename carries a minted id in its fields
-  ([vault-as-database](./techniques/vault-as-database.md)).
+  ([vault-as-database](./techniques/vault-as-database.md)). That governs the
+  references the machine writes. The links the *human* writes cannot carry an
+  opaque id and stay readable, so they name their targets and need the other
+  mechanism — rename observed as a first-class operation, rewriting every
+  referring link — which works exactly as well as the application's ability to
+  see renames it did not perform.
 
 The vault root is also a **trust boundary**: paths supplied by callers resolve
 through one canonical funnel that rejects escape attempts and verifies
@@ -150,6 +156,33 @@ not ambiguous basename. Overwriting a human edit because the application
 wrote last is not a race lost; it is data loss with the application's
 fingerprints on it.
 
+## The editor is not the only peer, and the disk is not always a disk
+
+The peer writer that gets designed for is a person. The one that gets forgotten
+writes far more often: the replication agent underneath the store — a sync
+client, a peer-to-peer syncer, a mobile companion, a version-control checkout —
+because a store whose whole selling point is durable plain text is a store
+people put somewhere it will be backed up and reach their other machines
+([replicated-substrate](./techniques/replicated-substrate.md)).
+
+It is a peer with none of the human's properties. Its writes carry no intent.
+When replicas diverge it does not ask: it drops the losing version into the
+store as a new file with a decorated name and the same extension, which every
+walk enumerates as a note, every index doubles, and every orphan count charges
+to the human. It rewrites modification times wholesale on copy and checkout,
+which is the signal the staleness detector reads. And it can present the tree in
+states a local disk never reaches — records whose metadata is present while
+their content is still on a server, and trees that are simply incomplete because
+replication has not finished. Both defeat the false-clean guard, because the
+guard fires on unreadable and these are *absent*: a lint pass over them reports
+a confident verdict and a crop of broken links pointing at notes that exist.
+
+The correction is small and does not require knowing which agent is underneath:
+exclude replication artifacts by name and say that you did, prefer an in-band
+review date to a timestamp the substrate owns, treat a non-local record as
+unknown rather than as empty, and let any whole-corpus verdict say it was
+computed over what was present at the time.
+
 ## Failure modes this standard exists to prevent
 
 - **The silent rot** — no integrity lint, so broken links, orphans, and stale
@@ -169,6 +202,11 @@ fingerprints on it.
 - **The predicate-free count** — "12 orphans" from one feature and "31
   orphans" from another, because nobody wrote down which exemptions each
   count applies.
+- **The corpus that is not all there** — a verdict over a partially replicated
+  tree, or one that counts the sync agent's conflict copies as notes the human
+  wrote.
+- **The unreachable tier** — a judgment pass shipped without the affordance
+  that invokes it, which drifts until someone deletes it as dead code.
 
 ## The techniques
 
@@ -191,5 +229,10 @@ fingerprints on it.
   derivations: hash-gated incremental writes, projection vs two-way sync,
   and the ledger-vs-disk gap a skip-gate must confess.
 - [editor-interop](./techniques/editor-interop.md) — coexisting with a peer
-  writer: atomic writes, change watching, deep links, native syntax, and
-  conflicts escalated instead of raced.
+  writer: atomic writes and what replacing a file costs, change watching and
+  what a watcher cannot see, deep links, native syntax, and conflicts escalated
+  instead of raced.
+- [replicated-substrate](./techniques/replicated-substrate.md) — the second peer
+  writer: conflict artifacts entering the corpus as records, substrate-owned
+  timestamps defeating the staleness proxy, dematerialized records and partial
+  trees defeating the false-clean guard.

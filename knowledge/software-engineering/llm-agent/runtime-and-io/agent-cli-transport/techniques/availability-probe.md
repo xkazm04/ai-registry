@@ -62,6 +62,34 @@ The probe result is therefore three-valued at minimum: authorized,
 unauthorized (with the tool's stated reason), and **unknown** — and unknown
 renders as unknown, never as either neighbor.
 
+## Probe in the environment the spawn will build
+
+The binary rule above has an exact counterpart that is easier to miss.
+These tools **compute their auth report from the environment they are
+handed** — which credential variables are present, which provider-routing
+switches are set — so the report is a statement about one process's
+surroundings, not about an account. Run the probe at the host's own prompt
+and it describes the host; the real call runs in a constructed environment
+with billing variables stripped or injected, and the two can disagree on
+auth method, on plan tier, and on which cloud will serve the request. The
+probe therefore goes **through the spawn door**, in the child's environment
+([subscription-auth-selection](./subscription-auth-selection.md) owns what
+that environment contains).
+
+Two consequences worth stating, because both have been measured:
+
+- A probe that is *correct* and run in the wrong environment is worse than
+  no probe: it reports the operator's seat while every spawned run bills
+  somewhere else, and it does so at startup, in green.
+- The report may not move the field you are watching. A tool can leave its
+  auth-method and provider fields untouched while a *different* field
+  empties out to signal the credential it will now prefer — so a probe
+  asserting one field passes intact. Compare the **whole record** against
+  an expected shape, and read a field that unexpectedly went empty as
+  unknown rather than as unchanged
+  ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+  [child-observed-posture](./child-observed-posture.md) generalizes this.
+
 ## The probe result is capability data
 
 A good probe returns a record, not a boolean: installed, resolved path,

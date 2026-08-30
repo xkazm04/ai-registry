@@ -46,10 +46,17 @@ occupies the viewport. The contract:
 - **The frame never participates.** Nav, chrome, and posture hold still;
   only the content viewport is in transition. A load that blanks or shifts
   the frame reads as the application failing, not the content arriving.
-- **The placeholder is the section's shape**, at low fidelity: the stable
-  chrome the section will have (a header region, a toolbar line), in calm
-  neutral tones — promising the geometry of what is coming and holding
-  layout still so arrival replaces rather than rearranges.
+- **The placeholder is the section's shape, or it is nothing at all.** Where
+  the sections genuinely share stable chrome at the same position — a header
+  band, a toolbar line — ghost exactly that, at low fidelity, in calm neutral
+  tones: it promises the geometry of what is coming and holds layout still so
+  arrival replaces rather than rearranges. Where they do not, the honest
+  placeholder is *empty* — a held block of the right height, and no
+  silhouette. A generic shape that matches no section in particular is not a
+  compromise between those two; it is a second, wrong outline stacked in front
+  of the right one, and a cold entry then shows two unrelated loading shapes in
+  a row before content. Held height without a drawn shape keeps the frame from
+  collapsing, which is the part of the promise that actually matters.
 - **Delayed appearance.** Warm and near-warm loads settle in tens of
   milliseconds; the placeholder renders only after a short delay (on the
   order of 150–300ms), so the common case shows *nothing* between click
@@ -65,8 +72,11 @@ warm paths — applied to code arrival rather than data arrival. The two
 compose on cold entry: section code arrives (this technique), then the
 section's data arrives (the section's own loading states). The user should
 experience that as one continuous settle, not two stacked skeletons of
-different shapes; aligning the code placeholder's geometry with the
-section's own loading chrome is what fuses them.
+different shapes. There are exactly two ways to fuse them: align the code
+placeholder's geometry with the section's own loading chrome, or draw no code
+placeholder and let the section's own be the only one the user ever sees. The
+second is usually cheaper and always safer, because it cannot fall out of
+alignment as sections change.
 
 ## Prefetch on intent
 

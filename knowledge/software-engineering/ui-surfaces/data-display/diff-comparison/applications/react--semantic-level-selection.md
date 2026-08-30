@@ -4,10 +4,17 @@ type: application
 subject: diff-comparison
 technique: semantic-level-selection
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # Semantic level selection — four kernels, and which entity each one was chosen for
+
+*Re-verified against the project tree at `a2ef6400e` on 2026-08-30. Every
+citation still resolves except `getSectionSummary`, corrected below; the
+`stringify-decided-equality` condition was re-checked and still holds — no
+key-sorting replacer and no `Object.keys(x).sort()` on any comparison path
+(the only sorted-key sites are test assertions).*
 
 Every kernel in this repo was hand-written for one entity, and reading
 them side by side is a level ladder with worked examples on each rung —
@@ -70,14 +77,26 @@ sees `comparisonHelpers.ts:85`, the diff kernel itself.
 ## The projection failure
 
 `DiffViewer.tsx:14-16` normalizes both versions through `getSectionSummary`
-(`src/lib/personas/promptMigration.ts:255`), which iterates
+(`src/lib/personas/promptMigration.ts:260`), which iterates
 `STANDARD_SECTION_KEYS` — five of the seven fields a `StructuredPrompt`
 holds; `customSections` and `webSearch` (`promptMigration.ts:70-80`)
 never reach the diff. The empty state at `DiffViewer.tsx:54` then
 re-walks *the same five keys* and, finding them equal, renders
 `t.agents.lab.no_structural_diff` — an affirmative denial computed over
 the projection. `DraftDiffViewer.tsx:24` has the identical blind spot by
-a different route. Measured against the pre-purge backup: **0 of 73**
+a different route.
+
+The 2026-08-30 pass found a second defect in the same projection, one rung
+down from the missing fields. `getSectionSummary` keys its output map by
+`SECTION_LABELS[key]` (`promptMigration.ts:268`) — the human-readable
+display label — rather than by the schema key it just iterated. The pair is
+therefore aligned on a presentation string: editing a label to improve the
+UI silently re-keys both sides, and any section whose label changed between
+the two versions' code paths would align against nothing. It is inert today
+because the labels are a hardcoded constant (`:59-65`) and not localized,
+which is exactly what makes it worth recording — the alignment key is
+durable by accident, and the first translation of that constant converts a
+copy edit into a diff bug with no visible connection to it. Measured against the pre-purge backup: **0 of 73**
 persona prompts populate either field, so this is latent by measurement
 and real by construction — the technique's "enumeration comes from the
 schema" clause, violated at exactly the surface whose job is to say what

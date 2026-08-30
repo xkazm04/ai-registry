@@ -14,6 +14,7 @@ techniques:
   - rollup-compaction
   - coverage-instrumentation
   - procedure-promotion
+  - baseline-ladder
 ---
 
 # Agent memory
@@ -71,6 +72,19 @@ consolidation). Choose the store's shape for operational reasons — query
 patterns, tooling, scale; expect recall quality to come from the
 transitions, not the topology.
 
+That hedge has since survived a direct attempt to overturn it, and came back
+better grounded. Graph-structured designs reporting real gains have, in their
+own ablations, attributed the primary factor to **multi-step reasoning at
+recall time** rather than to the structure — the same transitions-over-
+topology reading, arrived at from the pro-graph side. And the wider reason to
+distrust any shape verdict is now measurable: when the confounds are
+controlled one at a time, a single uncontrolled variable — the embedding
+model, the consuming model — moves the result further than the architectures
+under comparison differ from each other, which means most published
+shape comparisons are not evidence about shape (baseline-ladder). A tie is
+not the finding; the finding is that the instrument is not sharp enough to
+report the difference anyone is arguing about.
+
 ## Raw transcripts are not memory
 
 The most common failure of agent memory is to declare the conversation log
@@ -97,6 +111,19 @@ incidentally:
 Transcripts are the *raw material* — the evidence layer that episodes excerpt
 and consolidation cites. Keeping them (bounded, archived) is good practice.
 Calling them memory is the original sin of the domain.
+
+Two things that sin is *not*, and the distinction has been measured. It is not
+a prediction that the pipeline wins a benchmark: every objection above is a
+claim about what happens past the window and past a reversal, and on a
+fixed-size question set where the history still fits and nothing was ever
+corrected, the raw record in context is a strong incumbent that
+purpose-built memory systems frequently lose to. And it is not permission to
+skip the comparison: the transcript route is the baseline this whole standard
+is obliged to beat, on the tasks and the consumer at hand, before its costs
+are worth paying (baseline-ladder). Treat rungs 2 and 3 of that ladder as the
+incumbent and the pipeline as the challenger; the argument here says the
+challenger wins *eventually and for structural reasons*, which is exactly the
+claim a short benchmark cannot settle in either direction.
 
 ## Provenance is the trust anchor
 
@@ -240,6 +267,58 @@ created state — names its reaper. The source memory survives: it is the
 evidence the capability exists for.
 [procedure-promotion](./techniques/procedure-promotion.md) owns the boundary.
 
+## What this standard assumes
+
+Every obligation above rests on two assumptions. Both were safe when they went
+unstated and neither is any longer, so they are stated here — as a boundary,
+not as a retraction.
+
+**One: the reader is frozen.** This standard is written for a consumer whose
+weights do not change. The bank is a separate artifact the consumer reads;
+every transition between layers is a judgment made at design time, written
+down in prose, and enforced in code — which is precisely why it can be
+argued with, audited, and corrected. A second architecture is now established:
+train the memory operations *into the policy*. Which entries to add, update,
+delete or leave alone on the write side; which retrieved items to keep,
+reconcile against the present state, and act on at the read side — optimized
+end-to-end against task outcome rather than specified. Multiple independent
+groups now report working systems of this shape across several benchmark
+families, which is what turns it from a single result into a boundary this
+subject has to name.
+
+Where memory behavior lives in weights, the three parts of this standard
+separate:
+
+- **Unchanged.** Everything about the store *as a record*: provenance,
+  supersedence with validity, the governance tiering over identity and
+  standing rules, the audit answer every belief owes. A learned reader does
+  not turn a rumor with a database row into knowledge — it only makes the
+  rumor harder to spot.
+- **Relocated.** The read-path stages this subject specifies as designed
+  steps — tiering the budget, labeling recalled material, checking whether a
+  recalled item applies before acting on it — become behavior with no prose to
+  inspect. The operator's question degrades from "why was this recalled and
+  that not", which the omitted-and-ranked list answers in one step, to "why
+  did the policy do that", which nothing answers cheaply.
+- **Newly expensive.** The gains are bought with training on a distribution,
+  and the reported failure mode is accuracy that holds on that distribution
+  and drops on held-out ones. Worse for this subject specifically: a *learned*
+  forgetting policy is a reward function with delete authority, which reopens
+  by optimization the exact door the governance tier holds shut by design.
+
+So the boundary is not that frozen readers are obsolete. It is that these
+obligations are stated as design-time judgments because they assume somebody
+can read and change them; where they move into weights, the obligations
+survive and their **enforcement surface** moves — from prose and code review
+to reward design, held-out evaluation, and an explicit ladder of baselines.
+
+**Two: the history outgrows its budget.** The whole pipeline is an answer to
+material that will not fit and beliefs that must be correctable. Below that
+point it is overhead, and the raw record in context is the incumbent it has to
+beat rather than a strawman it may assume away — see
+[baseline-ladder](./techniques/baseline-ladder.md), which exists to make that
+comparison a stated result instead of an unexamined premise.
+
 ## Failure modes this standard exists to prevent
 
 - **Confabulation with persistence** — beliefs stored without provenance,
@@ -295,3 +374,7 @@ evidence the capability exists for.
 - [coverage-instrumentation](./techniques/coverage-instrumentation.md) — the
   absence-first instrument: the denominator is the tracked population, and
   honest zeros over flattering ones.
+- [baseline-ladder](./techniques/baseline-ladder.md) — what the pipeline is
+  measured against: no memory, the whole history in context, retrieval over
+  the raw record, then the pipeline — with the consumer, the index and the
+  write cost carried as the score's predicate.

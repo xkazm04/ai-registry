@@ -10,6 +10,7 @@ techniques:
   - drift-against-declared
   - pair-and-baseline-selection
   - diff-honesty
+  - invisible-differences
 ---
 
 # Diff & comparison surfaces
@@ -50,6 +51,30 @@ one standing obligation binds every layer:
 ([diff-honesty](./techniques/diff-honesty.md)).
 
 ## Where this subject ends
+
+"Diff" names three problems that are routinely conflated, and only one of
+them is here. **Computing** a difference is an algorithms question with a
+literature, a hardness result, and its own tradition of arguing about
+minimality. **Rendering** one for a human is this subject. **Reconciling**
+one — deciding what to do when two lines of change collide — is a policy
+question that begins where this subject's output is handed over.
+
+This subject is the middle one, and it takes from the other two exactly
+what the reader can *observe*. It owns the level a comparison is computed
+at, the budget it runs under, and what it degrades to, because every one
+of those decides what the surface may claim; it does not own the internals
+of an alignment, the proof that one is minimal, or the choice between
+named algorithms — those belong to whoever implements the kernel, and this
+subject's only demand of them is that they be deterministic and declare
+what they gave up. The test for the near boundary is whether a reader
+could ever be misled by the answer: *how long the alignment takes* is a
+kernel concern; *what the surface is allowed to say once the budget bound*
+is one of ours. The test for the far boundary is whether anything is being
+decided: showing that two states differ is here; picking which of them
+wins is not, in any of its forms — merge, conflict resolution, judged
+comparison, or promotion.
+
+The neighbours, specifically:
 
 - **Which versions exist** — the version records, their lineage, their
   promotion states, and the guarantee that a version can be returned to are
@@ -155,6 +180,26 @@ is load-bearing precisely because no reader will ever check. The
 [diff-honesty](./techniques/diff-honesty.md) technique enumerates the
 disclosures.
 
+## Some differences have nothing to show
+
+The honesty floor assumes that a difference, once found, can be put on a
+screen. One class cannot: the two sides differ in characters with no
+visible extent, or in characters wearing the appearance of different ones —
+whitespace and indentation, line terminators, zero-width and non-breaking
+characters, glyph-identical substitutes, display-reordering controls. Here
+the kernel is right and the *rendering* fails, in two directions. The
+benign one marks a row changed and shows the reader two rows that look
+identical, which reads as a broken tool and discredits every other row.
+The malicious one is a catalogued attack against review surfaces as a
+class: text that renders as one thing and executes as another, approved by
+a reader who read exactly what they were shown. So a comparison surface
+renders whitespace changes with their magnitude, marks characters that
+cannot be seen or that impersonate, and treats the reader's own
+suppression toggles as the normalizations they are — labelled, counted,
+and carried by any reference to the comparison.
+[invisible-differences](./techniques/invisible-differences.md) owns the
+class.
+
 ## The techniques
 
 - [pair-and-baseline-selection](./techniques/pair-and-baseline-selection.md) —
@@ -178,3 +223,7 @@ disclosures.
 - [diff-honesty](./techniques/diff-honesty.md) — disclosed truncation,
   declared undiffables, failure spelled as failure, moved-vs-changed, and
   summary/detail consistency.
+- [invisible-differences](./techniques/invisible-differences.md) — the
+  changes the eye cannot see: whitespace and terminators carrying their
+  magnitude, no-extent and impersonating characters, and the reader's own
+  suppression toggles as labelled, counted, reference-carried views.

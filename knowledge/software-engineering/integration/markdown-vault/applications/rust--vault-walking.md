@@ -4,10 +4,18 @@ type: application
 subject: markdown-vault
 technique: vault-walking
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Vault walking in `vault_fs.rs` (Rust)
+
+*Re-verified against the project tree at `a2ef6400e`. Every claim stands and five
+citations moved. One historical note: `semantic_lint.rs`, named below as one of the
+five original walkers, was deleted from the product on 2026-08-21 as unreachable
+code. The extraction it motivated outlived it, and `vault_fs.rs:21-25` still names
+it as one of the two error-policy camps — the comment is now a record of why the
+option exists rather than a pointer at a live caller.*
 
 `src-tauri/src/commands/obsidian_brain/vault_fs.rs` is the technique's
 extraction story executed end to end: five near-identical directory walkers
@@ -34,7 +42,7 @@ each field's doc tracing its default to the originating caller:
 - `skip_hidden_files` — only `graph.rs` had tested the dot-prefix before
   branching on file-vs-directory, so only it excluded hidden *files*;
   default `false` preserves the majority, `graph.rs` opts in with `true`
-  (and `graph.rs:120-128` carries the mirror-image comment at the call
+  (and `graph.rs:126-129` carries the mirror-image comment at the call
   site). Dot-prefixed **directories** (`.obsidian`, `.trash`, `.git`) are
   excluded unconditionally — "every original walker agreed on that".
 
@@ -48,7 +56,7 @@ output *claims*:
   silently skipped part of the vault would report a false-clean result, so
   this walker fails loudly instead". The lint's verdict is about the whole
   vault, so a partial walk is a lie.
-- `revitalize.rs::scan_vault_notes` (`revitalize.rs:118-131`) uses
+- `revitalize.rs::scan_vault_notes` (`revitalize.rs:104`) uses
   `SkipSilently`, again with the reason in place: "a best-effort
   before/after measurement around a revitalize pass, not a
   correctness-critical walk". A skipped corner biases a byte count; it does
@@ -59,7 +67,7 @@ output *claims*:
 The shared walker follows symlinks (all originals used `is_dir()`, which
 follows) and leans on `max_depth` as the loop backstop (`:72-76`). But the
 caller-facing tree listing `obsidian_brain_list_vault_files`
-(`mod.rs:1518-1526`) — whose output is a navigable listing handed to the UI
+(`mod.rs:1517`) — whose output is a navigable listing handed to the UI
 from caller-supplied subpaths — refuses to descend into symlinked
 directories at all: "a symlink inside the vault can still point outside it".
 The stricter posture sits exactly on the security-sensitive surface.
@@ -67,9 +75,9 @@ The stricter posture sits exactly on the security-sensitive surface.
 ## Cheap enumeration, expensive reads behind it
 
 `walk_markdown_files` returns paths only. `graph.rs::walk_vault`
-(`graph.rs:112-157`) layers the expensive form — full body reads plus link
+(`graph.rs:115`) layers the expensive form — full body reads plus link
 extraction — behind a short-TTL cache keyed by vault root, because every
 graph command had been re-reading O(vault bytes) per invocation
-(`:92-100`). The cache is invalidated by the file watcher and bounded by a
+(`:94-103`). The cache is invalidated by the file watcher and bounded by a
 30s TTL for edits made while no watcher runs — the derived-view honesty the
 technique requires when the cheap/expensive split is cached.

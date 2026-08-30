@@ -63,6 +63,43 @@ the human renames the file, the id still says which record this is — which
 is the difference between "the note moved" and "the note vanished and a
 stranger appeared".
 
+**Minted ids govern only the references the machine writes.** The rule above
+reads as if it covered every reference; it does not. References divide into two
+kinds with opposite constraints, and conflating them is how a store ends up
+believing it solved rename survival when it solved half of it:
+
+- **Out-of-band references** — ledger rows, cache keys, mirror mappings:
+  anything stored *beside* the record rather than inside it. No human reads
+  them, so an opaque id costs nothing and buys rename survival outright. Mint,
+  and key on the id.
+- **In-band references** — the links a human types in the body, which are the
+  store's entire relational layer. These cannot carry a minted id. A reference
+  that reads as an opaque token is unreadable in the editor where it lives,
+  unwritable without an affordance, and worthless in the plain text whose
+  durability is the reason for the architecture. In-band references name their
+  targets, and no id changes that.
+
+A store carrying human-authored links therefore needs a **second mechanism**,
+and it is not identity — it is *rename as a first-class observed operation*:
+when a record moves, every referring record's link text is rewritten to the
+target's new identifier, in the same operation as the move. That is a real
+design, widely shipped, and it is what makes name-derived addressing work at
+all.
+
+Its weakness sits exactly where the minted id is strong, which is the reason to
+state the fork rather than a preference. Rewriting requires **observing** the
+rename. A rename done in the human's editor while the application is closed, by
+a file manager, or by a replication agent reconciling a conflict, is never
+observed — and the links break silently, everywhere, at once. An id survives
+that; a rewrite pass cannot run for an event it never saw.
+
+Neither mechanism dominates, and a store with both kinds of reference needs
+both: ids for what the machine references, rename-rewriting for what the human
+wrote, and — because the unobserved rename is not hypothetical — an integrity
+pass that notices when a record's identifier has stopped matching the links
+aimed at it. The failure to avoid is picking one mechanism and assuming it
+covered the other's references.
+
 ## The vault root is a trust boundary
 
 The moment any caller-supplied path reaches the store — "read this note",

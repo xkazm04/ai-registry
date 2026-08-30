@@ -88,6 +88,16 @@ serializable and re-enterable:
   fallback — the section's root, or the home section — never a blank
   viewport or a crash. Addresses outlive releases; the parser must treat
   yesterday's vocabulary as input, not as an assertion.
+
+  *Which* fallback is right turns on whether the arrival started the session.
+  An address that opened the application has nowhere to fall but a root, so the
+  rule above is the whole answer. An address arriving into a session already
+  standing somewhere has a third answer the rule hides: do nothing. Bouncing an
+  established user to the default in order to honour a link that could not be
+  honoured destroys a real location to service an unreal one — leave the current
+  location alone, say why the address was refused, and let the user decide. Pick
+  one of the two per arrival class and write it down; the failure is having
+  neither.
 - **The address encodes the location, not the journey.** What restores a
   destination is the location value; transient UI (an open panel, a scroll
   offset) rides along only where the product deliberately promises it.

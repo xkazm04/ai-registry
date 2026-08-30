@@ -1339,8 +1339,8 @@
      "stack": "process",
      "technique": "read-tools-default-writes-gated",
      "file": "knowledge/llm-observability/federation-and-surfaces/operator-surfaces-for-llm-spend/applications/process--read-tools-default-writes-gated.md",
-     "verified_on": "2026-08-20",
-     "refresh_by": "2026-11-20"
+     "verified_on": "2026-08-30",
+     "refresh_by": "2026-11-30"
     },
     {
      "stack": "rust",
