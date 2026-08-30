@@ -57,8 +57,17 @@ backs its stance:
 
 - **Operating-system enforcement**: the tool runs its work under a real
   sandbox — kernel-level filesystem and process restriction. The promise
-  holds even against the tool's own bugs. Currently the exception, not the
-  rule.
+  holds even against the tool's own bugs. Still the minority stance, but no
+  longer a single vendor's differentiator. Record *which* mechanism backs
+  it, because they are not interchangeable: a kernel facility the platform
+  either has or does not, versus an isolation runtime that must be
+  **installed and running**, versus a helper the tool **compiles on
+  demand**. The last two can be absent on a machine whose tool version
+  fully "supports" the sandbox — so this class is conditional, it is a fact
+  about the machine rather than the release, and the condition is checked
+  rather than assumed ([child-observed-posture](./child-observed-posture.md)).
+  Where the tool can run an arbitrary command inside the same sandbox,
+  that command is the check.
 - **Application-level policy**: the tool's own permission engine refuses
   write actions. Strong in practice — the engine is the product's core —
   but a policy, not a wall.
@@ -85,6 +94,28 @@ detected stance override as a hard failure of the run
 ([gate-sees-target](../../../../_laws.md#gate-sees-target) — the gate you
 configured is not the gate that ran), and it pre-empts the known triggers
 (trust flags passed explicitly) rather than discovering them per machine.
+
+The tool overriding you is only the *loudest* of three routes to that same
+end state, and it is the one route that at least leaves a notice. The other
+two leave nothing:
+
+- **The stance never arrived.** Where the launch has to pass through a
+  platform interpreter, the argument vector is concatenated and re-parsed,
+  and a zero-length argument is deleted outright — after which the flag it
+  belonged to swallows the next flag as its value. Because an empty value is
+  how several tools in this class spell "grant nothing", this deletes
+  restrictions preferentially. Nothing errors; the host's own copy of the
+  vector still reads correctly.
+- **The enforcement never came up.** A sandboxed stance often depends on a
+  subsystem the tool must find or build at startup. When that fails, the run
+  can proceed *unsandboxed* with the failure recorded only on a debug
+  channel.
+
+So the stance a run asserts is never the stance it *requested*. Requested
+and in-force are two different values, and the adapter reads the second one
+from the child before trusting the mode's promise — see
+[child-observed-posture](./child-observed-posture.md), which owns how each
+is observed.
 
 ## The edit stance: auto-accept, never bypass
 

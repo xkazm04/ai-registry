@@ -63,6 +63,38 @@ and imported everywhere
 ([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary));
 gates at inner seams reuse it as defense in depth, never re-derive it.
 
+## Absence must be *detectable*, and often it is not where you look
+
+The ladder's whole premise is that the top rung's unavailability can be
+recognized. On the deployments that matter most — the fresh install, the
+machine that never had the tool — that recognition is harder than it
+appears, and the two mechanisms an implementation reaches for first both
+fail:
+
+- **The spawn-error event does not fire.** Where the launch passes through
+  a platform interpreter (unavoidable when the tool is distributed as a
+  script wrapper), a *missing* program is not a spawn failure. The
+  interpreter starts fine, cannot find the program, and exits nonzero like
+  any ordinary child. The handler holding the "not installed" verdict is
+  never reached, and absence arrives disguised as a run that went badly.
+- **Feeding the prompt can kill the host first.** Writing a prompt into the
+  input stream of a child that has already gone reports as a stream
+  *event*, not as a throw at the call site; unhandled, the host runtime may
+  escalate it to a fatal error and end the whole process. A transport can
+  own a carefully written not-installed verdict *and* a ladder above it and
+  have neither ever execute, because nothing survived long enough to
+  classify anything.
+
+Both are invisible on every machine that has the tool installed and total
+on every machine that does not — which is to say, invisible in exactly the
+population that tests the ladder, and fatal in exactly the population the
+ladder exists for. So the not-installed rung is reached from the
+[availability-probe](./availability-probe.md) and from exit status plus
+error text, the prompt write is guarded, and the descent path is exercised
+on a machine (or a fixture) where the binary genuinely is not there. A
+ladder whose top rung's failure has never been executed is a design, not a
+behavior.
+
 ## Misconfiguration must not silently select the floor
 
 The subtlest route to the bottom rung is a knob, not an outage. A timeout
