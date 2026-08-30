@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
   "techniques": 998,
-  "applications": 488,
+  "applications": 489,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -3188,7 +3188,7 @@
      "stack": "react",
      "technique": "identity-scoped-eviction",
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--identity-scoped-eviction.md",
-     "verified_on": "2026-08-22",
+     "verified_on": "2026-08-29",
      "verified_against": "react@19"
     },
     {
@@ -4834,7 +4834,7 @@
      "stack": "node",
      "technique": "transactions-and-units-of-work",
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--transactions-and-units-of-work.md",
-     "verified_on": "2026-08-29"
+     "verified_on": "2026-08-30"
     },
     {
      "stack": "rust",
@@ -6937,23 +6937,30 @@
     },
     {
      "stack": "node",
+     "technique": "blast-radius-computation",
+     "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/node--blast-radius-computation.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "orphan-reconciliation",
      "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/node--orphan-reconciliation.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "rust",
      "technique": "blast-radius-computation",
      "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/rust--blast-radius-computation.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-08-30",
      "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
      "technique": "orphan-reconciliation",
      "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/applications/rust--orphan-reconciliation.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-08-30",
      "verified_against": "rust@1.80"
     },
     {
@@ -14696,7 +14703,7 @@
      "stack": "node",
      "technique": "migration-reason-audit",
      "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/applications/node--migration-reason-audit.md",
-     "verified_on": "2026-08-29",
+     "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
