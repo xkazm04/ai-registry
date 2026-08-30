@@ -5,7 +5,8 @@ subject: ability-authoring-to-engine
 technique: server-derived-codegen-report
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Deriving `confirmed | failed` from four rungs, not from the agent's word
@@ -23,7 +24,7 @@ turns that callback into the record, and its opening comment states the whole do
 
 ## The ladder, as fields
 
-`CodegenReport` (`src/lib/ability/spec.ts:40`) stores the rungs separately rather than
+`CodegenReport` (`src/lib/ability/spec.ts:46`) stores the rungs separately rather than
 collapsing them: `filesWritten: string[]`, `buildOk: boolean`, `seedRan: boolean`,
 `dataTableRows: number | null`, `missingTags: string[]`, an optional `reason`, and
 `reportedAt`. The field comment on `status` reads *"Server-derived, never taken from the
@@ -78,7 +79,7 @@ signal, rather than being unrepresentable.
 
 ## Provenance beside the output
 
-`SpecProvenance` (`spec.ts:22`) stores what produced an adopted forge output: `className`,
+`SpecProvenance` (`spec.ts:27`) stores what produced an adopted forge output: `className`,
 `displayName`, `damageType`, the raw generated `headerCode` and `cppCode` (*"stored for
 audit, not written to the project"*), and — the load-bearing field — `prompt`, *"the
 natural-language prompt that produced the forge output"*. Storing the resolved text rather

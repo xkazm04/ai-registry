@@ -5,7 +5,8 @@ subject: generative-provider-auditing
 technique: pin-a-model-per-asset-class
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Pinning and custody in the PoF generation library
@@ -22,7 +23,7 @@ in-app generation ran on whatever the account default happened to be." The doctr
 follows in one sentence — **"An unpinned model is an unaudited engine, and an unaudited
 engine is not a trusted one."**
 
-The pin itself is two constants (`tripo-models.ts:34-37`):
+The pin itself is two constants (`tripo-models.ts:36,39`):
 
 ```ts
 export const TRIPO_AUDITED_MODEL = 'v3.1-20260211';
@@ -30,7 +31,7 @@ export const TRIPO_AUDITED_TEXTURE_QUALITY = 'detailed' as const;
 ```
 
 The pairing matters: the pin is *model version plus texture setting*, because that is the
-pairing the arena graded, not the model alone. `TripoModelPin.audited` (`:42-47`) is
+pairing the arena graded, not the model alone. `TripoModelPin.audited` (`:41-47`) is
 documented as "True only when this exact pairing has been graded by a PoF arena run" —
 the flag tracks the benchmark, not the intent.
 
@@ -55,7 +56,7 @@ the non-hero classes as inheriting the pin.
 
 ## Per-modality pins with their cost basis
 
-`src/lib/leonardo.ts:166-174` states a two-line model policy as code:
+`src/lib/leonardo.ts:170-174` states a two-line model policy as code:
 
 ```ts
 export const LEONARDO_VIDEO_MODELS = {
@@ -72,7 +73,7 @@ justified by the inspectable intermediate rather than by price alone.
 
 ## Custody: download, then delete
 
-`downloadThenDelete()` (`leonardo.ts:410-416`) is four lines and the order is the whole
+`downloadThenDelete()` (`leonardo.ts:410-414`) is four lines and the order is the whole
 point:
 
 ```ts

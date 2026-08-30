@@ -5,12 +5,13 @@ subject: production-coverage-measurement
 technique: source-provenance-marks
 stack: react
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # Rendering provenance marks on the PoF status map
 
-The `/status` map paints one cell per pipeline step. `src/lib/status/statusModel.ts:322`
+The `/status` map paints one cell per pipeline step. `src/lib/status/statusModel.ts:324`
 defines the vocabulary; `src/components/status/StatusCell.tsx` and
 `src/components/status/EvidenceModal.tsx` are the two render sites, and both read the same
 object so they cannot drift.
@@ -34,7 +35,7 @@ since the audit landed and `buildSwimlane` stamped the answer onto every cell, "
 nothing rendered it, so a heuristic guess and an audited fact printed the same string in
 the same weight."
 
-`undefined` is handled loudly rather than defaulted: `engineSourceMark(source?)` (`:373`)
+`undefined` is handled loudly rather than defaulted: `engineSourceMark(source?)` (`:374`)
 resolves `source ?? 'unsourced'`, because "a cell built without recording its provenance
 has proven nothing, and letting the omission render like an audited fact is exactly the
 class of lie this map exists to expose."
@@ -62,7 +63,7 @@ unwired cell rendering `—` does not carry a provenance mark for a name it neve
 
 ## The one-way self-demotion rule
 
-`resolveEngine` (`statusModel.ts:379`) prefers `fact.trueEngine` over `StepSpec.engine`
+`resolveEngine` (`statusModel.ts:380`) prefers `fact.trueEngine` over `StepSpec.engine`
 over the heuristic — except downward. The comment is the clearest statement of the
 asymmetry in the codebase:
 

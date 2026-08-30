@@ -5,7 +5,8 @@ subject: runtime-observation-evidence
 technique: unverifiable-is-not-fail
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The UE Visual Gate's four-way verdict
@@ -36,7 +37,7 @@ engineering justification for a whole gate.
   review)"**.
 
 The mechanical condemnation needs no judge at all: `inspectFrame`
-(`ue-visual-gate.ts:44-72`) applies a byte floor (default 12 KB — "a solid-black 1280×720
+(`ue-visual-gate.ts:84-131`) applies a byte floor (default 12 KB — "a solid-black 1280×720
 PNG compresses to a few KB, while a real rendered frame is hundreds of KB (proven capture:
 439 KB)") AND, when `pngjs` is present, a non-black pixel fraction (default 1% of sampled
 pixels above luminance 8). Both must hold — "a large-but-black frame is still caught by the

@@ -5,7 +5,8 @@ subject: ship-pipeline-gating
 technique: preflight-before-an-expensive-cook
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Preflight in a TypeScript packaging module
@@ -19,7 +20,7 @@ boolean.
 
 ## Config sanity — the economic argument, in code
 
-`checkConfigSanity` (line 78) takes the contents of `Config/DefaultGame.ini` and
+`checkConfigSanity` (line 82) takes the contents of `Config/DefaultGame.ini` and
 `Config/DefaultEngine.ini` plus a resolved `defaultMapExists` boolean, and checks three
 declarations:
 
@@ -42,8 +43,8 @@ boolean.
 
 ## The audit as a preflight rule
 
-`auditWithEditor` (line 142) returns `WithEditorViolation[]`, and a separate
-`withEditorCheckResult` (line 234) wraps that list into the same
+`auditWithEditor` (line 180) returns `WithEditorViolation[]`, and a separate
+`withEditorCheckResult` (line 237) wraps that list into the same
 `PreflightCheckResult` shape. Splitting the scanner from the result-wrapper is worth
 copying: the scanner is unit-testable against source strings with no knowledge of the
 gate, and the wrapper owns the `pass`/`fail` policy. `issues` renders each violation as
@@ -52,14 +53,14 @@ location and guard state" rule.
 
 ## Build-result parsing, and why it is exit-code territory
 
-`parseUbtResult` (line 400) demands an affirmative marker: `succeeded` is true only when
+`parseUbtResult` (line 395) demands an affirmative marker: `succeeded` is true only when
 `sawSucceeded && !sawFailed && errors.length === 0`. `Target is up to date` counts as
 success. The error matcher deliberately excludes `0 error` summaries — the technique's
 "exclude the summary shapes that report a count of zero".
 
 ## What did not transplant
 
-`overallStatus` (line 433) reduces the whole result set to one status by
+`overallStatus` (line 439) reduces the whole result set to one status by
 fail-beats-warn-beats-pass. It has no notion of *unevaluated*: a rule that could not read
 its input has to encode that as `warn` or invent a status. The technique holds the
 stricter line — an unevaluated rule is a fourth state and must not roll up as a warning,

@@ -5,7 +5,8 @@ subject: runtime-observation-evidence
 technique: behavioural-discriminators-over-symbolic-pass
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The test-gate-runner's assertion vocabulary
@@ -35,7 +36,7 @@ verdict layer be re-derived later from the bounded evidence.
 > Discriminators are the calibration-proven ones (arm-droop variance = animation,
 > displacement = movement) — not symbolic "test returned PASS".
 
-`GateAssertion` (`types.ts:29-38`) is exactly the closed vocabulary with calibrated
+`GateAssertion` (`types.ts:31-39`) is exactly the closed vocabulary with calibrated
 defaults the technique prescribes:
 
 - `animated` — arm-droop varies across samples, default ≥ 10°
@@ -69,7 +70,7 @@ degradation) was an upward lesson from the repo, not something the expert draft 
 
 ## Confounder isolation on the scenario
 
-`GateScenario` (`types.ts:45-58`) carries two named, default-off isolations, both confirming
+`GateScenario` (`types.ts:43-56`) carries two named, default-off isolations, both confirming
 the golden path's rule:
 
 - `playAnim` — "force-play an anim asset at Begin (single-node) — isolates mesh vs ABP"

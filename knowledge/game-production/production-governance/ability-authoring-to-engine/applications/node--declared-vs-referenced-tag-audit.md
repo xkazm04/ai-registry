@@ -5,7 +5,8 @@ subject: ability-authoring-to-engine
 technique: declared-vs-referenced-tag-audit
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # A Jaccard index over three tag sets, with the blind spot made visible

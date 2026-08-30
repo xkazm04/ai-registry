@@ -5,7 +5,8 @@ subject: generative-provider-auditing
 technique: capability-is-not-registry-membership
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The audio provider capability and licence contract in PoF
@@ -28,7 +29,7 @@ gates on is not a registry.
 
 ## The provider interface makes membership, licence and reason structural
 
-`src/lib/audio-gen/types.ts:33-53` gives each of the three its own field, with the
+`src/lib/audio-gen/types.ts:31-54` gives each of the three its own field, with the
 doctrine in the doc comments:
 
 - `capabilities: AudioKind[]` — "The kinds `generate` REALLY serves … not a wish list. A
@@ -48,7 +49,7 @@ absence.
 
 ## Removing a claim rather than half-keeping it
 
-`src/lib/audio-gen/providers/elevenlabs.ts:17-46` shows the removal, with the reasoning
+`src/lib/audio-gen/providers/elevenlabs.ts:33-47` shows the removal, with the reasoning
 kept:
 
 ```ts
@@ -81,9 +82,9 @@ if (!supportsKind(ElevenLabsProvider, req.kind)) {
 }
 ```
 
-Both gates call the same `refusalMessage()` (`capabilities.ts:41-45`), and the authoring
+Both gates call the same `refusalMessage()` (`capabilities.ts:43-47`), and the authoring
 surface lists unserved kinds with their reasons through `unsupportedKinds()`
-(`capabilities.ts:35-39`) — so the disabled option in the interface, the API refusal
+(`capabilities.ts:36-40`) — so the disabled option in the interface, the API refusal
 envelope, and the adapter's own guard all say the same sentence. One authority, three
 surfaces.
 

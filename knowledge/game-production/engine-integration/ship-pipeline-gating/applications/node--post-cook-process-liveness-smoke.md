@@ -5,7 +5,8 @@ subject: ship-pipeline-gating
 technique: post-cook-process-liveness-smoke
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # A post-cook smoke test in Node
@@ -23,7 +24,7 @@ gameAlive: boolean;            // the real game process at the end of the window
 bootstrapExitCode: number | null;  // the launcher, if it exited during the window
 ```
 
-and `status` is derived from `gameAlive` alone (line 143: `status: gameAlive ? 'pass' :
+and `status` is derived from `gameAlive` alone (line 132: `status: gameAlive ? 'pass' :
 'fail'`). `bootstrapExitCode` is recorded and never judged. That is the technique's
 central rule expressed as a type: the thing you spawned and the thing you care about are
 two fields, and only one of them decides.
@@ -46,7 +47,7 @@ A shipping build runs as `PoF-Win64-Shipping.exe`; a development build runs as t
 configuration. This is the technique's "derive the expected identity" rule and it is the
 kind of detail that is invisible until the first configuration switch.
 
-Resolution is by image name via `tasklist /FI "IMAGENAME eq <image>"` (line 76) — rung 2
+Resolution is by image name via `tasklist /FI "IMAGENAME eq <image>"` (line 77) — rung 2
 of the technique's ladder, not rung 1. The process tree is not walked; a same-named
 process started by anyone else counts as alive.
 
@@ -54,7 +55,7 @@ process started by anyone else counts as alive.
 
 `DEFAULT_OBSERVE_MS = 25_000` (line 55), launched windowed at 1280x720 with `-log`. The
 window is reported in the result (`observedMs`) and in the one-line note:
-`smoke-test: pass (PoF-Win64-Shipping.exe survived 25s)` (line 147). The technique's
+`smoke-test: pass (PoF-Win64-Shipping.exe survived 25s)` (line 145). The technique's
 "state the interval, the verdict is meaningless without it" rule is satisfied.
 
 Every side effect is injectable — `spawnFn`, `tasklistFn`, `killImageFn`, `killPidFn`,
@@ -63,8 +64,8 @@ wholesale for any gate that drives real processes.
 
 ## The deviation: killing by image name
 
-Cleanup (line 137) calls `killImage(opts.gameImage)` before `killPid(pid)`, and
-`defaultKillImage` runs `taskkill /IM <image> /T /F` (line 84). That is a broadcast
+Cleanup (lines 128-129) calls `killImage(opts.gameImage)` before `killPid(pid)`, and
+`defaultKillImage` runs `taskkill /IM <image> /T /F` (line 86). That is a broadcast
 force-kill of every process with that name on the machine, including a developer's own
 running instance of the same build. On a dedicated agent it is harmless; on a
 workstation it destroys a live session the gate did not create.
