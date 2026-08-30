@@ -627,7 +627,7 @@
       "techniques": 100,
       "applications": 51,
       "files": 172,
-      "contentHash": "sha256:286bc38a7e822aeb"
+      "contentHash": "sha256:24f3cad5b30613c1"
     },
     {
       "name": "localization",
@@ -676,10 +676,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 151,
-      "techniques": 1000,
-      "applications": 491,
-      "files": 1647,
-      "contentHash": "sha256:966772ae2712b01a"
+      "techniques": 1004,
+      "applications": 500,
+      "files": 1660,
+      "contentHash": "sha256:cd308bd695316598"
     }
   ]
 }

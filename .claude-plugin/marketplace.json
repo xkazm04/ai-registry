@@ -101,6 +101,22 @@
       ]
     },
     {
+      "name": "dojo",
+      "source": "./skills/dojo",
+      "description": "Autonomous infinite training loop for media-generation craft: each cycle reflects prior human verdicts into the consuming repo's prompt surfaces, scans the registry for the weakest knowledge dimension, researches one candidate technique, generates seed-matched A/B pairs with the LOCAL image/video stack, machine-judges them pairwise, and parks the cycle for human gating in the app's Foundry -> Dojo",
+      "version": "1.0.0",
+      "category": "ai-native",
+      "tags": [
+        "training",
+        "media-generation",
+        "ab-testing",
+        "judge",
+        "foundry",
+        "loop",
+        "craft"
+      ]
+    },
+    {
       "name": "explorer",
       "source": "./skills/explorer",
       "description": "Wander one logical area of a codebase, surface 10 items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.",
@@ -297,6 +313,22 @@
       "description": "Simulated User Acceptance Testing driven by Characters (representative users with jobs-to-be-done), not feature/code coverage. A capable LLM verifies each user journey in two chronological certification levels - L1 theoretical (over a code-derived surface model, cheap + mass-parallel) then L2 empirical (real browser against the live app, serial) - judging through each Character's own consistent le",
       "version": "1.8.0",
       "category": "testing"
+    },
+    {
+      "name": "value-ledger",
+      "source": "./skills/value-ledger",
+      "description": "Model a product's value per user journey from its UAT Characters - time and money saved against the LLM-less way, risk avoided (mis-hires, wrong decisions, compliance exposure), and segment gates - normalized to a reference journey so the output ranks work by user value instead of by what a code scan found. Sits UPSTREAM of code-derived KPIs - a KPI worth adopting is one derived from a journey's m",
+      "version": "0.1.0",
+      "category": "workflow",
+      "tags": [
+        "value",
+        "kpi",
+        "journeys",
+        "characters",
+        "prioritization",
+        "roadmap",
+        "agent-motivation"
+      ]
     }
   ]
 }
