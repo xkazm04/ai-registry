@@ -223,3 +223,9 @@ Append-only reflection lane. One entry per run that taught something. Format:
   two numbers. On a shared checkout this is not cosmetic: it hands a concurrent agent a conflict on
   every line of files it never touched, which is precisely what the pathspec-commit discipline in
   7d exists to prevent. Cheap check, belongs beside 7d step 6's staged-index verification.
+
+## 1.5.0 - 2026-08-30 - personas
+- A "performance" brief is a claim about an AXIS (cold-start / interaction / steady-state CPU / RAM growth), not a codebase. The scan data ranked differently per axis and the operator's pain was steady-state while my council led with cold-start; one clarifying select before ranking would have prevented the correction. Consider an axis question in Q2a when the free-form theme says "performance".
+- Concurrent Sonnet builders editing ONE shared worktree with "no git mutations" briefs + orchestrator-serial pathspec commits: 8 builders, 11 commits, zero staging races or foreign sweeps. This is a viable middle ground between per-builder worktrees and sequential building; the write-set disjointness declaration in each brief is the load-bearing part.
+- Builder briefs that end with "verify premises before editing; report deviations with reasoning" produced two materially self-correcting reports (an agent revised its own smell score after reading the governing standard; another refused two stale claims in MY brief). Cheap sentence, high yield.
+- Watch worktree node_modules shape: a junction made at setup was silently replaced by a real materialized directory mid-run (unattributed builder action). Cleanup and disk accounting must handle both; main checkout was unharmed but only verified after the fact.
