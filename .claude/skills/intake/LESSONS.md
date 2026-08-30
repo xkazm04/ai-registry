@@ -2345,3 +2345,23 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   repair is now compile-verified, not just statically argued. The rule: the gate a
   project's CI actually runs IS the gate; read the workflow file before declaring a
   gate unreachable.
+
+## 1.1.0 - 2026-08-30 - tesana-loop-mode-game-builds
+
+- **A managed project's recorded run state is a corroboration instrument, and for
+  claims about loops it beats a fetch.** The source said where its post-loop prompts
+  went (n=5 builds, one creator); the connected tree's four saved harness runs
+  (`game-plan.json` + `progress.json`, 92 deciding iterations) said the same thing
+  with a number and a cause - the perceptual gate never returned a verdict once -
+  and the finding was written from the tree. Before spending a fetch on a claim
+  about unattended runs, ask which managed project keeps run state on disk.
+- **Sponsored review class, first observation.** Behaves like the second-hand
+  practitioner review (the tour half strips to nothing) but its operating half was
+  usable because the creator counted his own prompts on camera. The discriminating
+  read was the prompt history shown on screen, not the gameplay. Yield: one
+  technique, four catches, two leads, 0/3 fetches.
+- **The experiment mode's B arm can be degenerate and still decide.** B certified
+  zero of 323 features, which reads like a broken predicate; it was the structural
+  fact (the judging gate ran zero times). Report a degenerate arm as the finding it
+  is, and write into the technique the boundary that keeps B from becoming the stop
+  condition.
