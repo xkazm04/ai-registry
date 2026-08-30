@@ -51,3 +51,7 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 - "Builder briefs must say NEVER stage" (kp lesson) is not enough: one builder ran `git stash` from a gate command and popped it. Say "never stage, never stash" — a stash is a staging of everything.
 - When the repo already carries a built-but-unmounted vocabulary (here: trailer types + an 11-rule checker with no producer), the operator overrode BOTH minimal recommendations toward the full surface. Scout for "types with no producer/consumer" explicitly and put the full option first in the wave when one exists.
 - A scout's single most valuable finding was that a step's "engine" was a mocked clock with no route and no prompt read — it turned the engine question from "which model" into "fixture or route". Ask every scout: does this surface actually call anything?
+
+## 1.2.0 - 2026-08-30 - gravitone-gcloud
+- A spark can legitimately span two repos (product surface in the consuming repo, a new registry-lane skill as a work package). What worked: treat the registry package as parallel WP with its own gate (check-skills, not tsc), let the Director commit it in the registry checkout, and keep the shared wire contract verbatim in BOTH the product types and the skill's references/ - name-for-name.
+- Kill-verify builder smoke servers before removing the worktree: one survived its own "killed" report, held the next-swc binary, and blocked `git worktree remove`. Check the smoke port with a socket query, then delete.
