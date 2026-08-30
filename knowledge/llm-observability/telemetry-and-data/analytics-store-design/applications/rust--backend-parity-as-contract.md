@@ -5,7 +5,8 @@ subject: analytics-store-design
 technique: backend-parity-as-contract
 stack: rust
 status: forged
-verified_on: 2026-08-24
+verified_on: 2026-08-30
+verified_against: rust@1.96
 ---
 
 # The contract as an executable suite, run three times (LightTrack)
@@ -32,7 +33,7 @@ SQLite, designated by construction rather than by declaration: it is the
 backend with no external infra, the one that "runs in CI always", and the
 one whose behavior every assertion was written against. The stake is
 written where a contributor and an agent both meet it, in the same words
-twice — `CLAUDE.md:62-64` and `CONTRIBUTING.md:116-121`: "a `Store` method
+twice — `CLAUDE.md:62-64` and `CONTRIBUTING.md:133-135`: "a `Store` method
 that SQLite implements and another backend quietly defaults is how caps and
 filters silently become advisory. Implement it, or return
 `StoreError::Unsupported` (→ HTTP 501). Never a quiet default."
@@ -104,15 +105,15 @@ The fix is infrastructure, not a test: `.github/workflows/ci.yml:8-11`
 records the reasoning at the top of the workflow — "Before, only SQLite ran
 … so a codec or ORDER-BY divergence in the cloud backends could ship
 undetected. Now each backend is its own required check." Three jobs run the
-identical `conformance::run`: in-memory SQLite with no infra (`:41-57`), an
+identical `conformance::run`: in-memory SQLite with no infra (`:72-91`), an
 ephemeral `postgres:16` service container whose steps are gated on
-`pg_isready` rather than on container start (`:59-96`), and a gcloud
+`pg_isready` rather than on container start (`:93-133`), and a gcloud
 Firestore emulator provisioned with a Java 21 JDK and polled on `/` for up
-to two minutes before the suite is handed control (`:98-141`). The
+to two minutes before the suite is handed control (`:135-181`). The
 Postgres job's comment enumerates what the container exists to catch that
 an in-memory store cannot — "codec round-trips, `ON CONFLICT` upserts, the
 `FOR UPDATE SKIP LOCKED` job claim, and the fixed-width RFC3339(Nanos,Z)
-timestamp invariant that range filters / `ORDER BY` depend on" (`:60-63`).
+timestamp invariant that range filters / `ORDER BY` depend on" (`:94-97`).
 This is the completed loop the technique asks for: contract, refusal type,
 shared suite, and a per-backend check that cannot pass by not running.
 
@@ -132,7 +133,7 @@ cannot read, in one table, what they are giving up before they give it up.
 The second gap is that "required" is a branch-protection setting the
 workflow can only *request*. Each of the three jobs carries a comment
 asking a human to "mark `postgres conformance (required)` as a required
-status check for main" (`ci.yml:64`, `:43`, `:103`) — the check name is the
+status check for main" (`ci.yml:98`, `:74`, `:140`) — the check name is the
 contract with a setting living outside the repository, so a renamed job
 silently stops being required. Naming the requirement in the job's own name
 is the mitigation the repo chose, and it is the right one available; it is

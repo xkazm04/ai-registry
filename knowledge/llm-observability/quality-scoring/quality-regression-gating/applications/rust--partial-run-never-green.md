@@ -5,7 +5,8 @@ subject: quality-regression-gating
 technique: partial-run-never-green
 stack: rust
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.96
 ---
 
 # Rust: the gate exit contract and cost-halted runs in LightTrack
@@ -13,7 +14,7 @@ verified_on: 2026-08-20
 LightTrack wires "a partial run is never green" into the narrowest channel
 it has — the process exit code — in `crates/runner/src/gate.rs`, and feeds
 that contract from the `--max-cost` machinery documented at
-`docs/BENCHMARK_FRAMEWORK.md:427-445`.
+`docs/BENCHMARK_FRAMEWORK.md:462-480`.
 
 ## Three states, two nonzero codes
 
@@ -45,7 +46,7 @@ boundary.
 
 ## Spending is asked for, not discovered afterwards
 
-The framework (`BENCHMARK_FRAMEWORK.md:427-442`) implements consent twice:
+The framework (`BENCHMARK_FRAMEWORK.md:462-477`) implements consent twice:
 
 - **Pre-flight**: before the first paid call, the runner prints
   generation/judge call counts and a dollar estimate from the price book.
@@ -65,7 +66,7 @@ is in the payload on every surface — never only in documentation.
 
 ## The ceiling stays out of the product's limit engine
 
-`BENCHMARK_FRAMEWORK.md:444-445` states the boundary explicitly: this is a
+`BENCHMARK_FRAMEWORK.md:479-480` states the boundary explicitly: this is a
 per-run operator ceiling on benchmark spend, "deliberately unrelated to the
 ingest limit engine" — the judge/scoring path stays unbudgeted and nothing
 here reads or writes `limit_rules`. The quality apparatus is governed by

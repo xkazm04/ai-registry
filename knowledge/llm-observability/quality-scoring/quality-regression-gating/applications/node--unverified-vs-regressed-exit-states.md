@@ -5,7 +5,8 @@ subject: quality-regression-gating
 technique: unverified-vs-regressed-exit-states
 stack: node
 status: forged
-verified_on: 2026-08-23
+verified_on: 2026-08-30
+verified_against: node@24
 source: promptfoo/promptfoo
 ---
 

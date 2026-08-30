@@ -4,7 +4,8 @@ type: application
 subject: billing-revenue-normalization
 technique: signature-is-the-auth
 stack: rust
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.96
 ---
 
 # Signature-is-the-auth in LightTrack's Stripe adapter (Rust)
