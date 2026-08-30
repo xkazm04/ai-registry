@@ -31,6 +31,36 @@ than overwrite.
   human's own editor is the fastest possible way to teach them the
   application corrupts their files, whether or not it technically did.
 
+**Atomic replace is atomic for readers, and nothing else.** The rule is right
+and its costs are real; a technique that states only the rule ships them as
+surprises:
+
+- **It replaces the record's identity.** The rename swaps in a different
+  underlying file, so anything holding the old one keeps reading the old
+  content, and anything bound to the *file* rather than to its directory stops
+  observing it entirely — including a change watcher, which then goes quiet
+  with no error at all. Watch directories, never individual records, and treat
+  that as a consequence of the write policy rather than as an independent
+  preference.
+- **It drops what the old file carried besides bytes** — permissions, extended
+  attributes, ownership, and any other hard links to the record, which keep
+  pointing at the superseded content. Where those matter they are copied across
+  deliberately, before the rename.
+- **It is not durability.** Atomic-for-readers survives a concurrent read; it
+  does not survive a power loss, which additionally requires flushing the new
+  content before the rename and the containing directory after it. Two
+  different guarantees, routinely conflated because one operation is asked to
+  provide both.
+- **It can fail where a plain write would not.** On platforms where an open
+  file blocks being replaced, the rename returns an error against a target the
+  human's editor is holding — so the write path needs a bounded retry. Without
+  one, the technique's success case becomes a silent no-op: the reader that used
+  to see half a note now sees the unchanged old one, and no error surfaces
+  anywhere they look.
+
+None of this argues for the naive write. It argues that "just write atomically"
+is one line of advice and four of obligation.
+
 ## Assume external edits; detect, don't poll-and-pray
 
 Quiescence is never a valid assumption. The interop posture is layered
@@ -40,11 +70,28 @@ detection with declared bounds:
   derived caches — rather than trusting anything read earlier. Change
   storms are real (a bulk edit, a sync client writing hundreds of files),
   so events are **debounced** into batches instead of stampeding consumers.
+  With one exception, and it is not a small one: **debounce is for consumers
+  that recompute, not for consumers that apply diffs.** Coalescing ten events
+  into one saves a recompute consumer nine rebuilds and costs a diff consumer
+  nine deltas it will never see again. A store with both kinds of consumer
+  debounces per consumer, not at the watcher.
 - **Bound the blind spots.** The watcher only sees changes while it runs;
   edits made while the application was closed, or before the watcher
   attached, are invisible to it. Whatever caches or ledgers depend on vault
   state therefore carry a second, time-based staleness bound — the watcher
   is the precise mechanism, the time bound is the honesty mechanism.
+- **The blind spots are wider than "while it was closed."** A watcher is a
+  best-effort signal by construction, and its documented failure modes are
+  silent ones: it does not observe changes made on the far side of a network
+  or remote filesystem; its event queue overflows under a storm and the
+  prescribed recovery is to discard every derived cache and rescan; recursive
+  watching is capped by a per-user resource a large store exhausts; the
+  platform mechanisms coalesce by design and their own guidance recommends a
+  periodic full scan as a backstop; and an editor that saves atomically shows
+  up as delete-then-create rather than modify, so a consumer keyed on
+  modification events misses the edit it most wanted. Each of these turns the
+  time bound above from prudence into the load-bearing mechanism, with the
+  watcher demoted to an optimization that usually fires first.
 - **One watcher per vault, and it names its reaper**, per
   [creation-names-reaper](../../../_laws.md#creation-names-reaper): switching
   vaults tears down the old watcher before attaching the new one; the
