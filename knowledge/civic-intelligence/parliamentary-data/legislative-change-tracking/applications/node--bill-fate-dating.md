@@ -5,7 +5,8 @@ subject: legislative-change-tracking
 technique: bill-fate-dating
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Fate dating in the print-register ingest (Node)

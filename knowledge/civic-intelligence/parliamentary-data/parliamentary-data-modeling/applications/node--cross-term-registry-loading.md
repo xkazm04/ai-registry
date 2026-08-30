@@ -5,7 +5,8 @@ subject: parliamentary-data-modeling
 technique: cross-term-registry-loading
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node ingest: full registries, scoped facts, and the 1.05M-row trap

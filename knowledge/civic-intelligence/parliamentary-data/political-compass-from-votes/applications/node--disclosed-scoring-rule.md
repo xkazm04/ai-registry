@@ -5,7 +5,8 @@ subject: political-compass-from-votes
 technique: disclosed-scoring-rule
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Disclosed scoring rule — pure scoring + lens boundary (politicas)

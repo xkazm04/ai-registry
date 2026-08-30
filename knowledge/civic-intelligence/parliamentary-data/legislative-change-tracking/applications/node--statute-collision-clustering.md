@@ -5,7 +5,8 @@ subject: legislative-change-tracking
 technique: statute-collision-clustering
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Collision clustering over a national print register (Node)
