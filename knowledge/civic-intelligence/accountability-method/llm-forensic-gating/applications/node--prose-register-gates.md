@@ -5,7 +5,8 @@ subject: llm-forensic-gating
 technique: prose-register-gates
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Register gating of army prose on a Czech-first civic site (Node)

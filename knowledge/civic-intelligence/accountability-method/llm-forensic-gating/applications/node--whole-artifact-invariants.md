@@ -5,7 +5,8 @@ subject: llm-forensic-gating
 technique: whole-artifact-invariants
 stack: node
 status: forged
-verified_on: 2026-08-24
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Invariant-guarded rewrites of Czech bill prose (Node)
@@ -15,7 +16,7 @@ identifier migrations — and its case-loop scripts carry the invariants as
 their own preconditions on their own output. Two batches implement the family
 independently, which is what makes it a technique rather than one script's
 habit. The doctrine itself is written down at
-`memory/whole-artifact-invariants-beat-pattern-gates.md` (33 lines), including
+`memory/whole-artifact-invariants-beat-pattern-gates.md` (36 lines), including
 the incident: four audit rounds over batch-015 in which "every code gate was
 green — schema, language gate, jargon regexes, all of it" while the artifact
 carried a municipally-owned company presented as a private tie, an amount
@@ -103,3 +104,11 @@ a positional claim checked against the payload rather than against itself.
    moved to `scripts/case-loops/law/archive/`, so the doctrine's own pointer
    is stale. A canonical, non-archived home is what turns "the batch that did
    it properly" into a pattern the next batch starts from.
+   **Since first documented (2026-08-30):** this is fixed. Commit `74fdcf2`
+   ("tame workers in config, graduate the number ratchet, un-quiet the commit
+   rung") updated the memory file's own pointer to
+   `scripts/case-loops/law/archive/sweep-old27-015.ts` and added the note
+   "the batch-015 sweep was retired to `archive/` once its pass shipped; the
+   invariants are the durable part, not the script's location" — closing the
+   staleness this deviation flagged, though the reference script still lives
+   under `archive/` rather than a canonical non-archived home.

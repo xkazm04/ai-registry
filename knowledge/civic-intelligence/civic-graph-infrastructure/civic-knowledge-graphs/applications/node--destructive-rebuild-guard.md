@@ -5,7 +5,8 @@ subject: civic-knowledge-graphs
 technique: destructive-rebuild-guard
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: the `--reset` guard on a shared civic graph store

@@ -5,7 +5,8 @@ subject: claim-verification-and-provenance
 technique: recomputation-receipts
 stack: react
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # React: the /zdroj receipt — an addressed computation behind a permanent URL

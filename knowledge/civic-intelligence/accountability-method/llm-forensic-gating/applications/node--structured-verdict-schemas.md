@@ -5,7 +5,8 @@ subject: llm-forensic-gating
 technique: structured-verdict-schemas
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The law-forensics verdict contract (Node)
@@ -72,7 +73,7 @@ entityId slot.
   than the write-time gate; since a verdict passing only the wide scope was
   always going to be accepted, "canonical" measured nothing — batch-003
   merged to one scope matching the write path exactly.
-- **Give behavioural rules observable outputs.** `docs/case-loops.md:262-267`:
+- **Give behavioural rules observable outputs.** `docs/case-loops.md:272-279`:
   the handoff rule "failed as prose — four times", so every brief now names
   the handoff file and the run is unfinished unless the driver's last line is
   that path — "when a behavioural rule keeps being violated, stop restating

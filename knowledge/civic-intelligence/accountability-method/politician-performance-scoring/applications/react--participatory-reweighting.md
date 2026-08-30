@@ -5,7 +5,8 @@ subject: politician-performance-scoring
 technique: participatory-reweighting
 stack: react
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # React — a reader lens over a published contribution index

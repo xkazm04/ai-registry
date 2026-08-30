@@ -5,7 +5,8 @@ subject: politician-performance-scoring
 technique: formula-lineage-stamping
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node — formula lineage stamping in a graph-backed contribution index

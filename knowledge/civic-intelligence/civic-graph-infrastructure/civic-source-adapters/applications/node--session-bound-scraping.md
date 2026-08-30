@@ -5,7 +5,8 @@ subject: civic-source-adapters
 technique: session-bound-scraping
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: scraping a session-stateful contract registry

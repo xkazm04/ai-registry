@@ -5,7 +5,8 @@ subject: claim-verification-and-provenance
 technique: three-verdict-vocabulary
 stack: node
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Node: a pure verdict module behind a public claim gate
