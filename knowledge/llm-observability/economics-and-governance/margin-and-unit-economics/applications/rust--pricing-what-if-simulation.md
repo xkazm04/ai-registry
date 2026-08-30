@@ -6,7 +6,7 @@ technique: pricing-what-if-simulation
 stack: rust
 status: forged
 verified_on: 2026-08-30
-verified_against: rust@1.97
+verified_against: rust@1.96
 ---
 
 # Rust: read-only pricing what-if over real windowed cost (LightTrack)

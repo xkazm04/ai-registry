@@ -7,7 +7,7 @@ stack: rust
 status: forged
 refresh_by: 2026-11-20
 verified_on: 2026-08-30
-verified_against: rust@1.97
+verified_against: rust@1.96
 ---
 
 # Rust: drift-classified re-scoring in LightTrack's `score-traces` loop
