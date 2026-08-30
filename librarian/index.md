@@ -23,13 +23,18 @@ else here and readable with no tool at all.
 
 ## Bundles
 
-- [[software-engineering]] - 143 subjects; still the largest, and the 2026-08-22 harvest grew its transplant debt as well as its coverage
-- [[recruiting]] - 64 subjects, arrived from a parallel wave at 384/384 use_when
-- [[game-production]] - 41 subjects, arrived by forge 2026-08-22; never swept
-- [[grant-funding]] - 17 subjects
-- [[llm-observability]] - 16 subjects
-- [[civic-intelligence]] - 15 subjects
-- [[media-generation]] - 14 subjects
+Eight, largest first. No counts here on purpose — they belong to the scan, which
+recomputes them every run; what a bundle *is* does not change between sweeps, and what
+it measures does.
+
+- [[software-engineering]] - the largest by a wide margin, and the 2026-08-22 harvest grew its transplant debt as well as its coverage
+- [[recruiting]] - arrived from a parallel forge wave already at full `use_when` coverage
+- [[game-production]] - arrived by forge 2026-08-22
+- [[media-generation]] - carries the corpus's densest version-witness coverage, and the 2026-08-27 incident that proved a drift count is a lower bound
+- [[grant-funding]] - demand unknown; no installation reports on it
+- [[llm-observability]] - the only bundle both contributors have reported an identical block for; see [[2026-08-30-1]]
+- [[civic-intelligence]] - demand unknown; no installation reports on it
+- [[localization]] - the only bundle swept end to end: a subject note for every subject, and nothing the scan still ranks
 
 ## What lives here and what does not
 
