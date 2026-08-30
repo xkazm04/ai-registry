@@ -8,6 +8,7 @@ techniques:
   - preflight-estimation
   - usage-ledgers
   - budget-enforcement
+  - engagement-paced-cadence
   - reversible-debit-and-settle
   - spend-attribution
   - spend-observability
@@ -164,6 +165,13 @@ cache invalidation when a ceiling changes, and the fail-open/fail-closed
 decision when the ledger itself is unavailable are the
 [budget-enforcement](./techniques/budget-enforcement.md) technique.
 
+One class of spender sits upstream of every gate: a continuously self-driven
+loop, whose spend rate is set not by any single call's admission but by how
+often it wakes at all. Pacing that loop — throttling its unprompted wakes
+while leaving its responses to external input untouched — is the
+[engagement-paced-cadence](./techniques/engagement-paced-cadence.md)
+technique.
+
 ## A prepaid debit is a claim, and claims get withdrawn
 
 Some products cannot meter after the fact. Where the caller holds a balance
@@ -251,6 +259,10 @@ surfaces show and which anomalies they must make visible is the
 - [budget-enforcement](./techniques/budget-enforcement.md) — ceilings per
   scope; enumerable enforcement points; what a blocked call reports;
   invalidation on ceiling change; fail-open vs fail-closed.
+- [engagement-paced-cadence](./techniques/engagement-paced-cadence.md) — the
+  self-driven loop's spend rate: reactivity never throttled, spontaneity
+  backing off exponentially with dwell to a settled cap, wakes classified by
+  what they produced.
 - [reversible-debit-and-settle](./techniques/reversible-debit-and-settle.md) —
   the upfront debit's undo handle; arming a refund on cancellation and
   disarming it on settle; partial amounts read at reversal time; an

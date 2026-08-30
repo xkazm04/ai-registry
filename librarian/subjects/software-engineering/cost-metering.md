@@ -1,8 +1,8 @@
 ---
 subject: cost-metering
 domain: software-engineering
-last_touched: 2026-08-23
-touched_by: external-reconcile
+last_touched: 2026-08-30
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -39,3 +39,15 @@ out-of-scope by grep (rating lives in the billing layer).
   rust application's log-and-swallow; and the declared stance must come with
   a counted metric.
 - "Refuse a labelless aggregate" generalizes beyond money -> metrics-rollups.
+
+## 2026-08-30 - intake ([[2026-08-30-headlong-agent-microharness]])
+
+Gained `engagement-paced-cadence` - the stage upstream of every gate the subject
+already had: how often a continuously self-driven loop wakes at all. Reactivity
+never throttled; spontaneity descends exponentially with dwell to a settled cap
+(never sleeping); wakes classified by output, with the paid-for correction that
+a ruminating loop must not score its rumination as work, and the loop's own
+outputs never count as engagement. Applied to a managed tree as a simulation,
+verdict better: the tree already emits the exact wake-classification predicate
+(declared silence vs. briefing) and consumes it only for report-or-absorb -
+the cheap-probe second lever is reachable with no scheduler change.

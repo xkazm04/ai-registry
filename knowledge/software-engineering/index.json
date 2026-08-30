@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 998,
-  "applications": 489,
+  "techniques": 1000,
+  "applications": 491,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "998/998",
+  "use_when_coverage": "1000/1000",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4429,6 +4429,20 @@
      ]
     },
     {
+     "slug": "engagement-paced-cadence",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an always-on agent loop bills around the clock while nobody interacts with it",
+      "deciding how a self-driven loop slows when it runs out of real work",
+      "a loop's cost control must not add latency to the interactions it exists for"
+     ]
+    },
+    {
      "slug": "preflight-estimation",
      "status": "forged",
      "laws": [
@@ -4528,6 +4542,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--budget-enforcement.md",
      "verified_on": "2026-08-24",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
+     "technique": "engagement-paced-cadence",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--engagement-paced-cadence.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -12780,6 +12801,21 @@
      ]
     },
     {
+     "slug": "tiered-history-projection",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fixed recent-window makes a long-lived agent forget arcs older than its tail",
+      "a compaction summary replaces history with no way back to the raw record",
+      "sizing a history layer that must serve both a new agent and a months-old one from the same assembler"
+     ]
+    },
+    {
      "slug": "variable-interpolation",
      "status": "forged",
      "laws": [
@@ -12794,6 +12830,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "tiered-history-projection",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--tiered-history-projection.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
     {
      "stack": "rust",
      "technique": "context-budgeting",
@@ -19187,6 +19230,7 @@
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
     "conversation-orchestration/structured-visual-replies",
+    "cost-metering/engagement-paced-cadence",
     "cost-metering/usage-ledgers",
     "credential-vault/acquisition",
     "credential-vault/health-probing",
@@ -19353,6 +19397,7 @@
     "proactive-nudges/trigger-evaluators",
     "prompt-assembly/context-reachability",
     "prompt-assembly/history-compaction",
+    "prompt-assembly/tiered-history-projection",
     "prompt-assembly/variable-interpolation",
     "prompt-safety/canary-tripwires",
     "prompt-safety/model-output-as-untrusted",
@@ -19620,6 +19665,7 @@
     "concurrent-vcs/commit-verification",
     "conformance-checking/pass-ratio-comparability",
     "conversation-orchestration/recall-transparency",
+    "cost-metering/engagement-paced-cadence",
     "cost-metering/preflight-estimation",
     "cost-metering/spend-attribution",
     "cost-metering/spend-observability",
@@ -20017,6 +20063,7 @@
     "prompt-assembly/continuation-prompts",
     "prompt-assembly/history-compaction",
     "prompt-assembly/house-vocabulary-layer",
+    "prompt-assembly/tiered-history-projection",
     "rate-limiting/unattributable-client-bucketing",
     "readiness-passports/blocker-rollups",
     "readiness-passports/fingerprint-provenance",
@@ -20848,6 +20895,7 @@
     "proactive-nudges/attention-budgets",
     "prompt-assembly/cache-breakpoint-allocation",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/tiered-history-projection",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
     "public-claim-provenance/derived-numerator-authored-denominator",
     "quality-gates/ratchet-design",

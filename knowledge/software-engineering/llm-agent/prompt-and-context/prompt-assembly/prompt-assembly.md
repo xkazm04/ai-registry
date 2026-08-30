@@ -10,6 +10,7 @@ techniques:
   - variable-interpolation
   - context-budgeting
   - history-compaction
+  - tiered-history-projection
   - capability-documentation
   - fingerprinting-and-cache-keys
   - cache-breakpoint-allocation
@@ -70,7 +71,11 @@ already taken — and it is the only part of the prompt that grows as a
 consequence of the system working. It sits between context and task, it is
 governed by the protocol rather than by this assembler, and spending it down is
 [history-compaction](./techniques/history-compaction.md)'s subject rather than
-a rung on the context layer's ladder.
+a rung on the context layer's ladder. Where the durable record lives outside
+the message list and the prompt is rebuilt from it per call, the transcript
+layer becomes a rendering rather than a possession, and
+[tiered-history-projection](./techniques/tiered-history-projection.md) owns
+that regime.
 
 ## Composition is code, not concatenation
 
@@ -277,6 +282,11 @@ a span enters; safety decides *how it is wrapped*.
   the one layer nobody authored: the pairing invariant a cut must not break,
   repairing a record left malformed by an interrupted turn, and compacting
   both before the request and on the provider's refusal.
+- [tiered-history-projection](./techniques/tiered-history-projection.md) —
+  the history layer as a regenerable view over an immutable record:
+  geometrically coarsening summary tiers that reach back to the start,
+  identifiers as the drill-down index, sealed provenance-stamped blocks,
+  and degradation that never drops coverage silently.
 - [capability-documentation](./techniques/capability-documentation.md) — the
   ability layer derived from the live registry, doctrine↔registry sync,
   and conditional rendering of what is actually active.

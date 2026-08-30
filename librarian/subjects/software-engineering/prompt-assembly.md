@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-08-27
+last_touched: 2026-08-30
 touched_by: intake
 dry_streak: 0
 ---
@@ -166,3 +166,16 @@ anything load-bearing that exists only in the transcript is one compaction away 
   treats it as a tool result rather than a giant user message) versus ambient IDE state
   injected as a mention-only reminder. Sits on `context-reachability`. Return when a second
   source draws it, or when a connected project grows file mentions.
+
+## 2026-08-30 - intake ([[2026-08-30-headlong-agent-microharness]])
+
+Gained `tiered-history-projection` - the second regime of the transcript layer,
+stated on both sides of the boundary with `history-compaction`: replace-in-place
+compaction governs a message list that IS the durable record; projection governs
+a record that outlives the prompt and is re-rendered per call (geometric
+staircase to birth, tiers as an id-index not testimony, sealed provenance-stamped
+blocks, degradation that never drops coverage silently). Applied to a managed
+tree as a simulation, verdict not-better there today; the technique carries the
+adoption gate that seam produced (histories must outgrow the tail AND a
+fetch-by-id affordance must exist). Corroborated in-tree against a harness's
+design doc plus its implementation, zero fetches.
