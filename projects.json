@@ -38,12 +38,39 @@
     },
     "politicas": {
       "checkouts": {
-        "Fox": "dolla/politicas"
+        "Fox": "dolla/politicas",
+        "Wolf": "kiro/politicas"
       }
     },
     "personas": {
       "checkouts": {
-        "Fox": "dolla/personas"
+        "Fox": "dolla/personas",
+        "Wolf": "kiro/personas"
+      }
+    },
+    "kp": {
+      "checkouts": {
+        "Wolf": "kiro/kp"
+      }
+    },
+    "pof": {
+      "checkouts": {
+        "Wolf": "kiro/pof"
+      }
+    },
+    "personas-web": {
+      "checkouts": {
+        "Wolf": "kiro/personas-web"
+      }
+    },
+    "systedo-case": {
+      "checkouts": {
+        "Wolf": "kiro/systedo-case"
+      }
+    },
+    "ascent": {
+      "checkouts": {
+        "Wolf": "kiro/ascent"
       }
     }
   }
