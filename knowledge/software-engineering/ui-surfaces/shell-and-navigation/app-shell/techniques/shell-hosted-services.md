@@ -42,6 +42,16 @@ loop") make the session's machinery unknowable; the classic symptom is a
 side effect that stops when an unrelated page unmounts, and nobody knows
 why.
 
+That one place must also sit *above the swap point*. A frame that survives
+navigation and a host mounted inside the part of the frame that is rebuilt per
+section are not the same guarantee: the second tears its residents down on every
+move, and does it in silence — an open conversation, a running upload, a live
+connection all reset with no error and no symptom except that the session never
+seems to accumulate anything. A global surface that must outlive navigation is a
+sibling of the swapping region, never a child of it, and anything that re-keys
+that region per location is a teardown instruction whether or not it was written
+as one.
+
 ## Two populations: workers and surfaces
 
 Residents split by whether they paint:

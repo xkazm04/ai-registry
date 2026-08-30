@@ -73,6 +73,16 @@ users, tasks, and window sizes price that trade differently.
   on-demand affordances — a hover or focus reveal that names the entry
   without re-expanding the rail. An icon-only rail with no name reveal is a
   memory test, and it fails for every entry whose icon is not famous.
+
+  A reveal only counts as one if it can actually be read. It appears on
+  keyboard focus and not only on pointer hover; it holds still while the
+  pointer travels onto it; it persists until the user leaves or dismisses it
+  rather than expiring on a timer; and it can be dismissed without moving
+  pointer or focus off the entry. The platform's own built-in hover-text
+  mechanism satisfies none of those and never fires for a keyboard user at
+  all — so setting it delivers a name to the accessibility layer and no reveal
+  to the person looking at the rail. Those are two separate obligations and an
+  icon-only entry owes both.
 - **What collapse must not do: reorder or drop.** The collapsed rail is the
   same map at lower resolution — same entries, same order, same gating. If
   an entry is only reachable in one posture, the two postures are two navs.
@@ -94,6 +104,16 @@ The expand/collapse posture belongs to the user, not to the session:
   is legitimate as a floor — the window physically cannot hold labels — but
   it is a constraint, not a preference overwrite: restore the user's choice
   when space returns.
+- **Posture reacts to the location, not to the handlers that move it.** Some
+  posture changes are consequences of navigating: an off-canvas nav closes when
+  the user arrives somewhere, a preview panel snaps back to the section that
+  actually contains the new location. Derive those from the current location
+  value changing, not from the nav entry's own handler. Wired per entry point,
+  the rule covers the door you thought of and misses every other one — an
+  attention marker that navigates to its own cohort, a command surface, a
+  keyboard chord — each leaving the overlay parked over the content the user
+  just asked for. It is the model's derive-don't-duplicate rule applied to
+  chrome rather than to highlights.
 - **Transitions are instant-safe.** The posture toggle animates as polish,
   but layout math, content reflow, and the reveal affordances must be
   correct at both endpoints with animation disabled; reduced-motion users
