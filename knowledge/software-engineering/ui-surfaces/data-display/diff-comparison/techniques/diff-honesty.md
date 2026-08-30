@@ -86,6 +86,34 @@ shown as both facts. Where move detection is heuristic — inferring that
 actively misattributes history, and the reader has no way to distinguish
 a detector's confidence from its formatting.
 
+The labelling obligation is stronger than it sounds, and the reason is
+that heuristic move and rename detection fails in **both** directions,
+predictably, and by a number somebody picked:
+
+- **A similarity threshold is a dial, not a fact.** Rename detection
+  matches a removal to an addition when they are similar enough; "enough"
+  is a configured fraction, and different implementations of the same idea
+  ship different defaults. Two surfaces can therefore render the same pair
+  as *renamed with edits* and as *deleted plus added*, both correctly, and
+  a reader moving between them will assume one of them is broken.
+- **False positives are suppressed by a size floor.** Because any content
+  removed here and added there looks like a move, detectors require a
+  minimum block size before claiming one — which buys quiet at the price
+  of never reporting short real moves at all.
+- **The common refactor is the common false negative.** Move-plus-reindent
+  and move-plus-substantial-edit both fall outside the detector unless it
+  is explicitly told to disregard the incidental change, and the reader is
+  not told that a mode they did not enable is why the move is missing.
+
+Three consequences for the surface. Publish the confidence with the claim,
+the way a mature line-diff format carries an explicit similarity
+percentage in its rename header rather than a bare "renamed". Keep the
+detector's parameters in the comparison's declared ledger next to the
+normalizations, because they are normalizations — they decide what is not
+a difference. And never let a detected move be the *only* route to the
+content: a reader who disagrees with the inference must be able to reach
+the unprocessed pair, or the detector's guess has become the record.
+
 ## The vocabulary matches the alignment
 
 "Added" and "removed" are claims about *content* — the reader hears "this

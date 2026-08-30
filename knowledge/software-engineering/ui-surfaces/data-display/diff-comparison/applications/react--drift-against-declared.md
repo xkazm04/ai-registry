@@ -4,10 +4,17 @@ type: application
 subject: diff-comparison
 technique: drift-against-declared
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # Drift against declared — execution outcome vs the persona's design expectation
+
+*Re-verified against the project tree at `a2ef6400e` on 2026-08-30: every
+citation below resolves at the stated line, and every defect it records —
+observation-minted finding ids, the last-50 cap, the missing
+resolved-by-observation transition, the uncounted clause coverage — is
+still present unchanged. Dry re-check, recorded as one.*
 
 The repo has one clean instance of the promise-as-baseline species, and it
 is a good teaching case precisely because it gets the *shape* right and

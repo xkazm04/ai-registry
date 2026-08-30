@@ -4,10 +4,14 @@ type: application
 subject: diff-comparison
 technique: computation-offload
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # Computation offload — the execution-comparison worker, and the seven surfaces that never got one
+
+*Re-verified against the project tree at `a2ef6400e` on 2026-08-30: every
+citation below still resolves at the stated line.*
 
 The repo has **four hand-written diff kernels and zero diff libraries**
 (measured 2026-08-17 in
@@ -66,6 +70,35 @@ The client is a compact instance of most of the technique:
   degradation ladder is absent. In fairness, the line kernel is
   set-membership (linear), so the missing budget bites the render, not the
   algorithm.
+
+## The fallback is a second kernel, not a second call site
+
+The sibling semantic-level application records that this client's
+*normalization* is duplicated between the worker and its synchronous
+fallback. The 2026-08-30 re-verification found the duplication goes one
+level deeper, and that depth is an offload concern rather than a level
+one: the **algorithm** is written twice too. `comparisonHelpers.ts:53-71`
+(`diffLines`, what the fallback calls when `Worker` is unavailable,
+`:141-144`) and `comparisonDiff.worker.ts:12-42` (`computeLineDiff`) are
+the same two-loop walk, independently typed, with chunk emission spliced
+into one of them.
+
+The two copies also put the normalization seam in different places — the
+worker splits and filters inside itself (`:13-14`), the fallback splits
+and filters at the call site before handing pre-split arrays to a kernel
+that does not normalize at all. So "extract one shared function" is not
+available as a deletion; whichever side is kept, the other's boundary has
+to move. That is the ordinary cost of a fallback written as a
+reimplementation instead of as the same kernel invoked on a different
+thread, and it is the shape to avoid when transplanting: the fallback
+should be *the same function called synchronously*, with the offload
+wrapper owning only scheduling, identity, and chunking.
+
+Nothing asserts the two agree. They currently do, which is why this is
+recorded as a seam and not a defect — the divergence arrives with the
+first edit to either, and it will present as "the diff is different on
+this machine", because which copy runs depends on whether the browser
+handed the surface a worker.
 
 ## The guarded kernel that never went off-thread
 
