@@ -5,7 +5,8 @@ subject: candidate-identity-and-staleness
 technique: content-addressed-document-identity
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Content-addressed CV identity in a Next.js/SQLite hiring app
@@ -26,7 +27,7 @@ file in twice under two names.
 The analyze route hashes at intake, before anything else touches the file —
 `app/api/analyze/route.ts:199` builds `{ file, label, cvHash }` per uploaded
 variant, and `:87–94` carries the triple through to the run. The digest is
-persisted onto the saved analysis at `app/_lib/analyze-run.ts:370–382`, whose
+persisted onto the saved analysis at `app/_lib/analyze-run.ts:400–410`, whose
 comment states the purpose exactly: *content-addressed identity — persisted so
 re-runs of the same CV collapse*. `analyze-run.ts:22` names it as "SHA-256 of
 the CV bytes".
@@ -45,7 +46,7 @@ the judgment" rule. `computeCacheKey` (`:51`) folds, in fixed order:
   so "an `en` result must NOT be served for a `cs` request";
 - the JD text and file bytes, the company text and file bytes, the CV bytes
   (`:76–80`);
-- `blind` (`:36–40`), folded in **only when true** so the pre-existing cache
+- `blind` (`:38–42`), folded in **only when true** so the pre-existing cache
   stays valid — a blind run scores a redacted CV and "its result must NOT be
   served for a normal run (or vice-versa)". This is the fairness point: the
   mode is part of the identity of the answer;
@@ -53,8 +54,8 @@ the judgment" rule. `computeCacheKey` (`:51`) folds, in fixed order:
   grading must not be served for a prose-only run of the same JD text.
 
 **The field framing is the sharpest lesson here.** The `field()` helper
-(`:59–70`) writes an 8-byte big-endian length before every value. The comment
-at `:52–58` explains the defect it fixed (`idea-c2c4b498`): the previous key
+(`:61–72`) writes an 8-byte big-endian length before every value. The comment
+at `:53–60` explains the defect it fixed (`idea-c2c4b498`): the previous key
 concatenated fields with literal markers like `|jdt=` with no length, so
 content containing one of those markers could shift bytes across a field
 boundary and make two genuinely different inputs hash identically — "serving
@@ -66,13 +67,13 @@ every old hash to miss and recompute under the unambiguous framing.
 `app/history/[slug]/page.tsx:98–115` uses `cv_hash` for both identity surfaces:
 
 - **Cross-role footprint** — `listAnalysesByCvHash(found.row.cv_hash, ws, slug)`
-  (`:109`, defined `app/_lib/db/analyses.ts:135`) finds the same CV content
+  (`:109`, defined `app/_lib/db/analyses.ts:141`) finds the same CV content
   analyzed against other jobs, deduped to one link per JD, newest first,
   workspace-scoped. The workspace scoping is the tenancy boundary the technique
   requires; the dedupe is what keeps the footprint a list of relationships
   rather than a list of runs.
 - **Label collision** — `hasLabelCollision(candidate_label, cv_hash, ws)`
-  (`:114`, defined `analyses.ts:176`) flags "another saved analysis shares this
+  (`:114`, defined `analyses.ts:182`) flags "another saved analysis shares this
   filename-derived label but a DIFFERENT CV, i.e. two different people under
   one `CV.pdf`-style name". `app/_lib/db/analyses-identity.test.ts:73` locks
   that contract.
@@ -81,7 +82,7 @@ Both lookups are wrapped in a `try/catch` that logs and continues (`:107`,
 `:116`), so an identity-store fault hides the chips and never breaks the
 report.
 
-Supersession rides the same digest: `app/features/tools/analyze/history/HistoryTypes.ts:16`
+Supersession rides the same digest: `app/features/tools/analyze/history/HistoryTypes.ts:16–18`
 carries `prior_runs` — "how many OLDER re-runs of the same CV+JD this row
 supersedes (the list collapses them to the newest)".
 

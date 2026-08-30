@@ -5,7 +5,8 @@ subject: candidate-identity-and-staleness
 technique: retired-outranks-stale-status-precedence
 stack: react
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # One status cell, one badge: the saved-profile roster
@@ -23,7 +24,7 @@ vocabulary:
 export type RosterStatus = "current" | "stale" | "retired";
 ```
 
-and `rosterStatus` (`:43`) is the precedence:
+and `rosterStatus` (`:57`) is the precedence:
 
 ```ts
 if (p.archetype && archivedSet.has(p.archetype)) return "retired";
@@ -31,14 +32,15 @@ if (stale[p.id]) return "stale";
 return "current";
 ```
 
-The docblock at `:38–42` gives the reason, and it is the technique's argument:
+The docblock at `:52–56` gives the reason, and it is the technique's argument:
 "Retired outranks stale: a profile routed to an archetype that no longer exists
 is the more urgent thing to fix, and showing two flags competing in one cell
 was what made the old card list hard to scan."
 
-`ProfileRosterRow.tsx:66` restates the invariant at the render site — "One
-status cell, one badge. Retired outranks stale" — and the JSX at `:70–86` is a
-strict `retired ? … : staleInfo ? … : null` chain, so the lower state cannot
+`ProfileRosterRow.tsx:71` restates the invariant at the render site — "One
+status cell, one badge. Retired outranks stale" — and the JSX at `:75–95` is a
+strict `retired ? … : staleInfo ? … : current` chain (the final branch renders
+a plain "current" status span rather than nothing), so the lower state cannot
 leak into the summary position.
 
 The module is deliberately React-free and intl-free so the ordering is
@@ -48,9 +50,9 @@ makes.
 
 ## Severity order and present-only facets
 
-`rosterFacets` (`:56`) implements both interface rules from the technique.
+`rosterFacets` (`:69`) implements both interface rules from the technique.
 Archetype and family facets are collated alphabetically for the reader's
-locale; status is not. `:76–81`:
+locale; status is not. `:93–96`:
 
 ```ts
 const present = new Set(profiles.map((p) => rosterStatus(p, stale, archivedSet)));
@@ -70,7 +72,7 @@ a *sortable* column — "Status has no meaningful order (retired vs. newer-CV is
 not a…)" — which is the right call: a precedence is a display ranking, not a
 scalar to sort on.
 
-Note also `:113–116` of `profileRosterView.ts`: a null completeness sorts as
+Note also `:129–131` of `profileRosterView.ts`: a null completeness sorts as
 `-1`, "an unknown completeness is not a 0% one, but it is the row that needs
 attention" — an unmeasured value given its own position rather than being
 coerced into a measured-looking zero.
@@ -86,14 +88,14 @@ export type StaleMap = Record<string, { newerSlug: string; newerAnalyzedAt: stri
 
 — "profile id → the newer same-CV analysis that makes it stale... Present ONLY
 for profiles with source lineage AND a newer analysis." The badge's tooltip
-carries the newer analysis's date (`ProfileRosterRow.tsx:83`), and the row's
-action is a Rebuild button wired to `staleInfo.newerSlug` (`:119–126`) — the
+carries the newer analysis's date (`ProfileRosterRow.tsx:88`), and the row's
+action is a Rebuild button wired to `staleInfo.newerSlug` (`:124–132`) — the
 badge names the state and hands over the exact remedy, rather than leaving the
 recruiter to find it.
 
 ## The rebuild gate
 
-`useProfileTabDeepLinks.ts:66–76` implements the "warn only when something will
+`useProfileTabDeepLinks.ts:63–78` implements the "warn only when something will
 actually be lost" rule. `openRebuild` first fetches the profile's `divergence`
 (`{ diverged, editedAt }`) and only raises the warning when it diverged;
 otherwise it hydrates from the newer analysis with no ceremony. The comment

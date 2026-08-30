@@ -5,7 +5,8 @@ subject: bulk-adverse-action-governance
 technique: tie-safe-cutoff-resolved-toward-the-candidate
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # A tie-safe bottom-slice cutoff in two pure functions
@@ -61,29 +62,29 @@ The function is total: `bottomCount <= 0 → 0`, `bottomCount >= length → leng
 
 ## Where they meet the wave
 
-`screen-wave.ts:226-236`. `screenBottomCount` runs over `n = sorted.length`, the **scored**
-cohort only (`screen-wave.ts:218`) — a percentage of candidates who can be ranked, not of
-a pool padded with unmeasured people — and `tieSafeBottomCount` receives
+`screen-wave.ts:242-261`. `screenBottomCount` runs over `n = sorted.length`, the **scored**
+cohort only (`screen-wave.ts:244-247`) — a percentage of candidates who can be ranked, not
+of a pool padded with unmeasured people — and `tieSafeBottomCount` receives
 `sorted.map(e => e.matchScore)`, genuine scores by construction because the null-score
-policy at `:209` excluded the unscored before ranking. No fabricated zero can form a tie
+policy at `:234` excluded the unscored before ranking. No fabricated zero can form a tie
 or occupy the boundary.
 
 ## Making the shrink visible
 
 - A candidate inside the raw window but outside the tie-safe one is flagged `tieSpared`
-  (`screen-wave.ts:314`) and receives the byte-pinned keep reason `"tie at cutoff — kept
-  so equal scores aren't split"` (`screen-wave.ts:112`, checked before the plain "above
+  (`screen-wave.ts:378`) and receives the byte-pinned keep reason `"tie at cutoff — kept
+  so equal scores aren't split"` (`screen-wave.ts:146`, checked before the plain "above
   the bottom cutoff" branch precisely so the audit trail says *why* they were above the
   effective cutoff).
 - Every reject rationale reports the effective count and, when it was shrunk, the raw one:
   `" (tie-adjusted from {bottomCount} so no equal score is split)"`
-  (`screen-wave.ts:359-364`), with `tieAdjusted` carried in `reasonParams` for localized
+  (`screen-wave.ts:422-427`), with `tieAdjusted` carried in `reasonParams` for localized
   rendering. The shortfall therefore reads as a decision rather than a defect.
 - The per-candidate floor is the *effective* one — a role-family override or the global
-  value (`decision-config-schema.ts:53`, applied at `screen-wave.ts:262`) — and the
+  value (`decision-config-schema.ts:53`, applied at `screen-wave.ts:287`) — and the
   sealed record's `policyVersion` carries that resolved number
-  (`screen-wave.ts:399-401`), so the audit trail "can never claim a floor the wave didn't
-  use".
+  (`screen-wave.ts:500-502`), so the audit trail "can never claim a floor the wave didn't
+  use" (comment at `:417-421`).
 
 ## Deviations
 

@@ -5,7 +5,8 @@ subject: candidate-communication-integrity
 technique: capability-honesty-never-promise-a-channel
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Capabilities, not derivations: inbound mail, links, and promised reminders
@@ -41,7 +42,7 @@ real receiver URL and says forwarding isn't wired
 
 ## 2. Absolute links, and the loud warning when the origin is a guess
 
-`candidateLinkBase()` (`app/_lib/comms-dispatch.ts:77`) is the one link builder
+`candidateLinkBase()` (`app/_lib/comms-dispatch.ts:94`) is the one link builder
 for candidate-facing URLs composed inside the dispatch module. Its comment states
 the reason: "Links a candidate opens from an email must be ABSOLUTE — a relative
 `/data/er-…` path is dead in every mail client (capst-l2-102)."
@@ -56,7 +57,7 @@ default *and* the code warns loudly, because "a fallback means nothing
 deployment-specific was configured — the link uses the DEFAULT origin, which may
 be wrong for this deploy".
 
-The footer this serves (`dataFooter`, `app/_lib/comms-dispatch.ts:129`) is the
+The footer this serves (`dataFooter`, `app/_lib/comms-dispatch.ts:146`) is the
 self-service data-rights line appended to every candidate-facing message: a
 localized "review or erase your data" line carrying the entry's opaque erasure
 token to the public `/data/[token]` page. The rule the code states is the one
@@ -66,7 +67,7 @@ where there is nothing left to manage.
 
 ## 3. The reminder that is only promised when it will fire
 
-`dispatchInterviewConfirmation()` (`app/_lib/comms-dispatch.ts:370`) takes
+`dispatchInterviewConfirmation()` (`app/_lib/comms-dispatch.ts:413`) takes
 `opts.shortNotice`, decided by `app/_lib/interview-reminder-policy.ts`, and
 selects between two catalog bodies: `interviewConfirmation.normal`, which
 promises a separate reminder before the call, and `interviewConfirmation.short`,

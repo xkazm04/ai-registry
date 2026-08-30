@@ -5,7 +5,8 @@ subject: candidate-identity-and-staleness
 technique: requirement-edited-since-scored
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # One shared staleness predicate across every decision surface
@@ -16,7 +17,7 @@ score imports it.
 
 ## The rule
 
-`app/features/shared/decisionsTypes.ts:43`:
+`app/features/shared/decisionsTypes.ts:50`:
 
 ```ts
 export function isScoreStale(scoredAt: string | null | undefined, jdEditedAt: string | null | undefined): boolean {
@@ -24,7 +25,7 @@ export function isScoreStale(scoredAt: string | null | undefined, jdEditedAt: st
 }
 ```
 
-The comment above it (`:37–42`) states the contract in the technique's own
+The comment above it (`:43–49`) states the contract in the technique's own
 terms: this is "the ONE staleness rule shared by every decision surface (the AI
 review cards + the wave preview rows), byte-identical to the library roster
 (`JdCandidateList`) and prep-pack (`isPrepStale`) derivation: a score computed
@@ -45,7 +46,7 @@ Three details are load-bearing and all three match the standard:
 ## Where it is consumed
 
 - The AI review cards and the wave preview rows in the decisions queue.
-- The library roster: `app/features/library/jds/JdsCandidateList.tsx:81–93`
+- The library roster: `app/features/library/jds/JdsCandidateList.tsx:88–108`
   derives it inline against `jdEditedAt` and renders a badge.
 - The saved analysis report: `app/history/[slug]/page.tsx:118–133` resolves
   `jdLastEditedAt(found.row.jd_slug, ws)` server-side and computes
@@ -54,7 +55,7 @@ Three details are load-bearing and all three match the standard:
   lookup is best-effort: "a store fault hides the chip, never breaks the
   report."
 - The badge carries the edit **date** (`staleDate`, formatted with the request
-  locale at `:134`), which is what makes it a statement about the record rather
+  locale at `:133`), which is what makes it a statement about the record rather
   than about the person.
 
 ## What the wording does and does not claim

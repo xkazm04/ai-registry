@@ -4,7 +4,8 @@ type: application
 subject: candidate-status-transparency
 technique: candidate-safe-status-projection
 stack: node
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The candidate-safe projection and its token-gated route (Node / Next route handlers)
@@ -15,17 +16,17 @@ and the public route that is the only thing allowed to emit it
 
 ## The projection is a closed enum, not a filtered record
 
-`application-status.ts:8-16` declares `CandidateStatus` as seven literals —
+`application-status.ts:8-15` declares `CandidateStatus` as seven literals —
 `received | under_review | interview | offer | hired | not_selected | withdrawn`
 — and the module header states the rule the standard asks for verbatim: the
 internal `(entryStatus, stage)` pair "is projected here into a small, friendly
 enum … NO internal ids, names, or scores ever cross to the candidate" (`:1-6`).
-Construction, not omission: `candidateStatusFor` (`:66`) takes the internal
+Construction, not omission: `candidateStatusFor` (`:78`) takes the internal
 values as arguments and *returns a literal*, so an internal record growing a
 column cannot leak through it.
 
 The module is deliberately dependency-free — the stage-role strings are inlined
-rather than imported (`:23-25`, `:41-43`) "so this module stays dependency-free
+rather than imported (`:21-23`, `:54-55`) "so this module stays dependency-free
 and the mapping is exercisable by bare `node --test`". A boundary rule that can
 only be tested by booting the app is a boundary rule that stops being tested.
 
@@ -47,14 +48,14 @@ this surface — the status page must not promise a channel that does not exist.
 
 Two maps sit side by side. `STAGE_TO_STATUS` (`:29-35`) keys on the shipped
 stage names and is explicitly marked as "only correct for a workspace on the
-SHIPPED axis". `STAGE_ROLE_TO_STATUS` (`:45-52`) keys on role. The comment
+SHIPPED axis". `STAGE_ROLE_TO_STATUS` (`:56-64`) keys on role. The comment
 between them is the incident: "A renamed column falls through to `received`,
 which would tell a candidate at the offer stage that we have merely received
-their CV" (`:26-28`). The route always resolves the role —
+their CV" (`:25-27`). The route always resolves the role —
 `roleOf(entry.stage, getPipelineAxis(workspaceId).stages)` (`:48`) — so the
 name map survives only as a legacy fallback.
 
-The `custom` role maps to `under_review`, not `received` (`:51`), with the
+The `custom` role maps to `under_review`, not `received` (`:63`), with the
 reason stated: the candidate "is somewhere in the middle of a process whose
 internal name is none of their business, and `received` would understate where
 they actually stand." That is the standard's unmappable-stage rule, and its
@@ -62,9 +63,9 @@ direction-of-error test, implemented as a single map entry.
 
 ## Terminal causes collapse — a deviation worth naming
 
-`candidateStatusFor` (`:66-71`) maps `rejected`, `rematched` **and**
+`candidateStatusFor` (`:78-83`) maps `rejected`, `rematched` **and**
 `role_closed` all to `not_selected`, and `declined` (candidate-side) to
-`withdrawn`. The reasoning is recorded at `:60-62`: a closed role "is no longer
+`withdrawn`. The reasoning is recorded at `:69-71`: a closed role "is no longer
 open to them, which is honest without implying a merit rejection."
 
 The status enum is right; the *copy* is where this falls short of the standard.

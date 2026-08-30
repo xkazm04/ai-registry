@@ -4,14 +4,15 @@ type: application
 subject: candidate-status-transparency
 technique: terminal-moment-experience-measurement
 stack: node
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Candidate NPS as the instrumentation of a no-ghosting claim (Node + SQLite)
 
 Four files: the pure scoring rules (`app/_lib/candidate-nps.ts`), the store
 (`app/_lib/candidate-nps-store.ts`), the schema
-(`app/_lib/db/core.ts:1006-1020`), and the token-gated capture route
+(`app/_lib/db/core.ts:1239-1252`), and the token-gated capture route
 (`app/api/status/[token]/nps/route.ts`), with the card at
 `app/status/[token]/StatusNpsCard.tsx`.
 
@@ -41,7 +42,7 @@ firing the prompt and trusting the client.
 
 ## One response per application, in the schema
 
-`db/core.ts:1013-1018` makes `entry_id` the PRIMARY KEY, commented: "one
+`db/core.ts:1241-1244` makes `entry_id` the PRIMARY KEY, commented: "one
 response per application, so a link-holder cannot ballot-stuff their own
 outcome. A resubmit REPLACEs (people change their mind before they hit send
 twice); the original created_at is not preserved because a rewritten answer is
@@ -59,20 +60,20 @@ all 0 — a valid-looking detractor the candidate never chose." It accepts a rea
 number or a non-empty trimmed string and rejects everything else. On a 0–10
 promoter scale, the coerced value is the single most damaging one, which is why
 this is the law about absence rather than a validation nicety. The comment cap
-(`NPS_COMMENT_MAX = 500`, `:16-18`) is justified as keeping the column from
+(`NPS_COMMENT_MAX = 500`, `:15-17`) is justified as keeping the column from
 being "a data-exfiltration channel by whoever holds the token".
 
 ## The sample floor, and two figures
 
-`NPS_MIN_SAMPLE = 10` (`:20-22`): "Below this many responses a cNPS is noise:
+`NPS_MIN_SAMPLE = 10` (`:19-21`): "Below this many responses a cNPS is noise:
 the metric is a difference of proportions, so a handful of answers swings it by
-tens of points." `summarizeNps` (`:70-98`) returns `score: belowSampleFloor ?
+tens of points." `summarizeNps` (`:70-100`) returns `score: belowSampleFloor ?
 null : rawScore` — withheld, "rather than shown with a caveat: unlike a
 duration, an NPS is a difference of proportions and reads as authoritative at
 any sample size."
 
 `rawScore` is a *separate* field, documented as "For consumers that carry their
-own publish/withhold policy … never for direct display" (`:36-39`), alongside
+own publish/withhold policy … never for direct display" (`:38-40`), alongside
 `mean` "because '4.6/5'-style claims are what buyers compare". Two named
 fields rather than one flag-controlled field — the shape the standard now
 prescribes, learned here.

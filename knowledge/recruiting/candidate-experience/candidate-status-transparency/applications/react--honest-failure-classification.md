@@ -4,12 +4,13 @@ type: application
 subject: candidate-status-transparency
 technique: honest-failure-classification
 stack: react
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: react@19
 ---
 
 # Two failure kinds on the public status page (React)
 
-`classifyStatusError` (`app/_lib/application-status.ts:93-102`) plus its
+`classifyStatusError` (`app/_lib/application-status.ts:103-118`) plus its
 consumer `app/status/[token]/StatusClient.tsx` implement the technique's
 classification and both of its "where the failure lands" rules.
 
@@ -19,14 +20,14 @@ classification and both of its "where the failure lands" rules.
 export type StatusFetchError = "invalid" | "retryable";
 ```
 
-The doc comment (`application-status.ts:85-92`) states the split exactly as the
+The doc comment (`application-status.ts:96-101`) states the split exactly as the
 standard does: `invalid` means "the LINK is the problem (unknown/expired
 token). Permanent and user-actionable; retrying the same URL is futile";
 `retryable` means "a transient fault (offline, 5xx, back-pressure)."
 
 The rule is `status === null` (fetch threw before any response — offline, DNS,
 CORS) → retryable; `>= 500 || 408 || 429` → retryable; every other 4xx,
-"notably the route's 404 for an unknown/expired token" → invalid (`:99-102`).
+"notably the route's 404 for an unknown/expired token" → invalid (`:109-112`).
 The 429 case is the one an expert draft tends to miss: a rate-limited candidate
 mashing Refresh has a perfectly good link, and calling it invalid would tell
 them their application is gone.

@@ -5,7 +5,8 @@ subject: candidate-communication-integrity
 technique: bounce-receipt-supersedes-a-green-send
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Append-only outbox with read-time supersession

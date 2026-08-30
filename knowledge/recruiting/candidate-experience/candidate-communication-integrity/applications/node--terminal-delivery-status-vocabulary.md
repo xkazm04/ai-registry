@@ -5,7 +5,8 @@ subject: candidate-communication-integrity
 technique: terminal-delivery-status-vocabulary
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # One honest delivery vocabulary in a Next.js hiring app
