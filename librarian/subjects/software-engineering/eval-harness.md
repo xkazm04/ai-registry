@@ -217,3 +217,36 @@ than tune. Zero fetches; corroborated by two corpus-internal siblings
 training data. Banked lead: harness search is combinatorial while the model's
 is gradient-based - law-shaped; the parallel session's pending section states
 it independently, so it now has two sightings.
+
+
+## 2026-08-30 - intake, operator-control-plane
+
+Two landings from one document in the source tree - a confound analysis that
+revises its own published results across three passes and keeps every error
+visible. Neither is mentioned in the source's README.
+
+**`measurement-revision` (new).** A re-run at the same sample size is a second
+sample, not a correction, and chronology is not evidence. The paid-for case:
+pass 1 (n=1) reported a pattern, pass 2 (n=1) disagreed and was accepted as a
+correction, pass 3 (n=5) returned pass 1's ratios exactly. Companions: report a
+concentrated effect as its distribution rather than its mean (six of seventeen
+cells carried the whole effect), and state the revision's direction - this one
+made the prior negatives *more* defensible by shrinking an over-broad
+retraction.
+
+**`failure-attribution` amendment - the eighth owner.** The seven-owner funnel
+is an enumeration, and the source demonstrates a case outside it: the harness's
+own loop-termination policy. A loop ending on the first state-changing command
+scores a discovery-first agent as incapable. It defeats every tell - output and
+outcome agree, tool contracts are fine, the prompt is fine - so it falls through
+to *model*, the funnel's most expensive outcome, reached by following the
+technique correctly. General form: the funnel's tells are written from inside a
+completed run, so any owner that can end a run early is invisible to all of
+them. The amendment also carries the epistemics: when an artifact and the
+hypothesis predict the same observation, the records stand and the causal
+reading is withdrawn.
+
+## Standing
+
+Two techniques added this run (11 -> 12 plus the amendment). Not swept
+otherwise.

@@ -15,6 +15,7 @@ techniques:
   - eval-economics
   - discriminating-task-selection
   - certification-levels
+  - measurement-revision
 ---
 
 # Evaluation & benchmarking

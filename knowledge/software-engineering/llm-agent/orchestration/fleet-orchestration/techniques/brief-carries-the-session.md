@@ -95,3 +95,69 @@ inventory above (invariants, decisions with rejected alternatives,
 load-bearing files, what the worker cannot see, the write set from
 [parallel-dispatch](./parallel-dispatch.md)) — so that an empty section is
 visible as empty, rather than an omission nobody can see.
+
+## The one brief where completeness is the wrong goal
+
+Everything above treats a fuller brief as a better one. That holds for
+every handoff whose purpose is **continuation** — the receiver's job is to
+carry the work forward, and anything the sender knew is a head start.
+
+It inverts for the handoff whose purpose is **judgment**. When the
+receiving seat exists to form an independent verdict on the sending seat's
+work — the review half of the produce–review pair in
+[heterogeneous-model-panels](./heterogeneous-model-panels.md) — the
+sender's reasoning is not context, it is an anchor. A reviewer that reads
+why the producer believes the work is correct before forming its own view
+is no longer sampling an independent opinion; it is scoring a case already
+argued. The pair was bought precisely to decorrelate the two seats, and a
+brief carrying the producer's narrative spends that on the way in.
+
+This is worth stating because the subject's model of reviewer
+independence has been **one-dimensional**: the pair decorrelates by
+*provenance*, fixing the routing constraint at "producer's family ≠
+reviewer's family." That closes the shared-blind-spot channel and does
+nothing about the content channel. A reviewer trained apart from the
+producer, handed the producer's argument, is independent in exactly the
+way that no longer matters. Both channels have to be closed, and they are
+closed by different mechanisms — one by routing, one by the brief.
+
+**So scope the brief by the receiver's role, not by what the sender
+knows.** Concretely, a review brief carries:
+
+- the artifact under review, and how to run or reproduce it;
+- the invariants and the acceptance criteria the work is judged against —
+  these are the *task's* constraints, authored before the work, and
+  carrying them anchors nothing;
+- what changed, as a factual inventory: files touched, interfaces moved,
+  scope boundaries.
+
+And withholds:
+
+- the producer's account of *why* its approach is right;
+- its self-assessment, its confidence, and its own list of what it thinks
+  is weak;
+- the alternatives it considered and rejected, with its reasons.
+
+That last exclusion is the one that will feel wrong, because carrying
+rejected alternatives is a decision rule above — and it is correct above,
+for a continuation worker that would otherwise re-derive and adopt the
+rejected option. For a reviewer, the same paragraph pre-refutes the
+objection it was convened to raise. **The identical content is a head
+start for a continuation and a thumb on the scale for a verdict**, which
+is why the split is by role rather than by content type.
+
+The withheld material is not destroyed. It belongs in the record the
+verdict is filed against, readable *after* the reviewer has committed to a
+view — which preserves it for the dispatcher and for anyone auditing the
+disagreement, while keeping it out of the input that produced the verdict.
+
+Two consequences worth carrying:
+
+- **A single brief template cannot serve both roles.** A template built
+  from the continuation inventory, used for review, silently reintroduces
+  the anchor every time — and it will be used that way, because it is the
+  one that exists.
+- **A dispatcher's summary of a worker's output is the same hazard.** When
+  a dispatcher relays one worker's result to a second worker for checking,
+  it is authoring exactly the narrative this section excludes. Relay the
+  artifact; let the checker read it.

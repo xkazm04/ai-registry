@@ -125,7 +125,17 @@ is the same fact from the scoring side: an average over correlated biases
 is a more confident version of the same bias, and a same-family
 produce–review pair is that average with two samples.
 
-Three rules keep the pair honest:
+Four rules keep the pair honest:
+
+- **Decorrelate the input as well as the seat.** A different family closes
+  the shared-blind-spot channel; it does nothing about the content channel,
+  and a reviewer handed the producer's own argument for its work is anchored
+  regardless of where it was trained. The review brief carries the artifact,
+  the acceptance criteria and what changed — not the producer's reasoning,
+  self-assessment, or rejected alternatives. The full split, and why the same
+  content is correct to carry for a continuation worker and wrong for a
+  reviewer, is in
+  [brief-carries-the-session](./brief-carries-the-session.md).
 
 - **The review seat is fixed by policy, not picked per run.** "Producer's
   family ≠ reviewer's family" is a one-line routing constraint; left to

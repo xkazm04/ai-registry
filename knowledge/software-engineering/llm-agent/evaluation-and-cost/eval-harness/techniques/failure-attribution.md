@@ -269,3 +269,81 @@ suite that encodes it, so the next run measures conformance to a decision
 instead of re-litigating it. A recurring unattributable class is the most
 valuable thing an error review produces, because it is the only one that was
 invisible to everyone until the cases were laid side by side.
+
+## The harness's own control flow is an eighth owner
+
+The seven owners describe everything between the scenario and the score on
+the assumption that the run *finished*. An agentic harness adds a decision
+none of them cover: **when to stop the loop.** That policy is authored, it
+is usually a default nobody revisited, and it can end a run while the agent
+is still working — producing a failing case that belongs to no layer the
+funnel contains.
+
+The instance worth carrying is a loop that terminated on the agent's first
+state-changing command. Under it, an agent that ran a read-only discovery
+step before acting was cut off mid-task and scored as a failure; an agent
+that acted immediately was not. The harness was measuring **whether the
+agent's first move happened to be the mutating one**, and reporting it as
+capability.
+
+Run that case through the funnel and watch it arrive at the most expensive
+answer:
+
+- not **pipeline** — that tell is that the raw output and the recorded
+  outcome disagree, and here they agree perfectly: the run really did end
+  where the record says;
+- not **tool surface** — every tool's contract, schema and error text was
+  fine, and the agent used them correctly;
+- not **prompt** — a person reading only the prompt would have done the
+  same thing, and in the affected cases the same thing is what got
+  truncated;
+- so it falls through to **model**, whose response is "a different model, or
+  an accepted limit written down as one."
+
+This is the tool-surface lesson one layer out, and it is worth stating as
+the general form: *the funnel's tells are written from inside a completed
+run, so any owner that can end a run early is invisible to all of them.*
+
+**The tell for this owner:** the trajectory's last recorded action is legal
+and the task is unfinished — no error, no refusal, no exhausted budget, just
+a stop. Compare the stop reason against the loop's termination policy rather
+than against the model's output. **Response:** fix the termination policy and
+re-run. Never re-baseline against it, and never let a compensation absorb it,
+because the effect is not uniform across candidates.
+
+That last point is what makes this owner more dangerous than a constant
+handicap. A truncating loop **penalises discovery-first tool use
+specifically**, so it discounts exactly the agents whose strategy is to look
+before acting — and does not touch agents that never get that far. Its
+footprint across a grid is concentrated rather than diffuse, which means it
+distorts *rankings*, not just levels, and cannot be reasoned away as noise
+that affects everyone equally.
+
+### When the artifact and the hypothesis predict the same observation
+
+The reason this owner is worth its own row rather than a footnote is what it
+does to conclusions already drawn from the affected data.
+
+A truncating loop and the hypothesis "this agent flails when the task is
+under-specified" predict **the same observable**: a failure with no
+completed mutation. An under-specified task is precisely what invites a
+discovery step first, so the two explanations are not merely both
+consistent with the record — they are indistinguishable *in principle* from
+records of that shape, no matter how many were collected.
+
+When that is true, the discipline is narrow and worth following exactly:
+
+- **The records stand; the causal reading is withdrawn.** A negative result
+  produced under a confound is still a fact about the system as it was
+  configured. What it cannot support is the inference about *why*. Keeping
+  the count and retracting the explanation is the honest revision, and it is
+  a strictly smaller retraction than discarding the data.
+- **Say which claims the confound cannot reach.** A confound that fires only
+  on runs ending in a legal stop cannot explain a wrong-answer failure or a
+  refusal. Quantifying its reach usually leaves most prior findings intact —
+  and a run that assumes the worst and discards everything has thrown away
+  more than the defect cost it.
+- **Re-running is not the same as re-measuring.** Replaying the affected
+  cells under the fixed policy is the only thing that redistributes them to
+  a real owner; the fix alone tells you nothing about how many cells it
+  moves, and the answer is routinely a minority of them.

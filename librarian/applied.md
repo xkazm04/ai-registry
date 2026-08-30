@@ -15,6 +15,11 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 
 | Date | Technique | Subject | Project | Mode | Verdict | Return condition / note |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-30 | prose-rule-drift | quality-gates | ascent | experiment | better | 27 drift violations across 4 projects found by a checker nothing invokes; fix filed, not shipped - awaiting operator confirmation to touch the tree |
+| 2026-08-30 | failure-attribution (8th owner) | eval-harness | - | - | unapplied | when a managed project runs an agent loop whose termination policy can cut a run short; no project currently owns one |
+| 2026-08-30 | measurement-revision | eval-harness | - | - | unapplied | when a project revises a published measurement; nothing in the fleet has re-run a circulated result |
+| 2026-08-30 | brief-carries-the-session (review brief) | fleet-orchestration | - | - | unapplied | not tested this run - no simulation was run, so no verdict is claimed. Return when a review dispatch can be run twice against one artifact, one arm carrying the producer narrative and one withholding it; the read is whether the verdicts differ |
+| 2026-08-30 | task-envelope (specificity ladder) | prompt-assembly | - | - | unapplied | when a managed project dispatches to a weaker-tier model; the fleet routes to one tier today |
 | 2026-08-29 | session-registry | fleet-orchestration | personas | code | better | branch `apply/session-registry` reviewed and merged 2026-08-29 |
 | 2026-08-29 | fail-loud-classification-default | hitl-approval | personas | code | better | branch `apply/fail-loud-classification-default` reviewed and merged 2026-08-29 |
 | 2026-08-29 | incident-promotion | self-healing | personas | code | better | branch `apply/incident-promotion` reviewed and merged 2026-08-29 |

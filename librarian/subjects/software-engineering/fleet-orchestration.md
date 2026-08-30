@@ -78,3 +78,33 @@ None.
 
 - Golden path gained "The operator's medium is chosen, and chat is the wrong default": chat's synchronous framing couples the one human to the fleet's latency and turns them into a polling loop; the matching medium is the work item in, the batched decision surface out. Decision mechanics deferred to `hitl-approval/review-queues`; what the fleet owns is being drivable through such a surface, with interactive attachment as an opt-in mode. Convergent with the drive-medium rule already in the path (watching is a mode).
 - `heterogeneous-model-panels` gained "The produce-review pair": the two-seat sequential form that buys cross-family decorrelation for routine generation, which the panel rule explicitly excludes. Reviewer family fixed by policy (per-run convenience decays to the producer's family); stacking reviewers pays only while differently sourced; pair verdicts are review findings, never concordance evidence. Corroborated corpus-internally against `judgment-guardbands`' correlated-judges failure mode - zero fetches.
+
+
+## 2026-08-30 - intake, operator-control-plane
+
+`brief-carries-the-session` gained the case it did not cover, found by the
+**asymmetry hunt** rather than by the source.
+
+The subject modelled reviewer independence on **one axis only**:
+`heterogeneous-model-panels` decorrelates the review seat by model family and
+fixes the routing constraint at "producer's family != reviewer's family", with
+three rules and a cross-link. Meanwhile `brief-carries-the-session` treats a
+fuller brief as monotonically better, mentions bias exactly once, and that
+mention is about whether to *fork*, not about what the brief *contains*. Two
+files both "cover" reviewer independence; only one of them models it, and the
+one that models it models a different channel.
+
+So there are two decorrelation channels - provenance and content - closed by two
+different mechanisms, and only one had been built. A different-family reviewer
+handed the producer's own argument is independent in the way that no longer
+matters. The load-bearing sentence: the identical content is a head start for a
+continuation worker and a thumb on the scale for a reviewer, so the brief is
+scoped by the receiver's **role**, not by content type.
+
+Boundary written on both sides: a fourth rule in `heterogeneous-model-panels`
+points back, per the rule that two techniques describing one boundary from
+opposite sides say so rather than duplicating.
+
+Owed: no A/B was run. The return condition is a review dispatch run twice
+against one artifact, one arm carrying the producer narrative and one
+withholding it, reading whether the verdicts differ.

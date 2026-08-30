@@ -15,6 +15,7 @@ techniques:
   - policy-projection
   - chokepoint-tag-registry
   - enforcement-binding
+  - prose-rule-drift
   - oracle-frozen-during-repair
 ---
 
@@ -53,7 +54,11 @@ time, which is real and measurable — but it is a different product from
 enforcement, and the failure mode is buying one while believing you own the
 other. The full discipline, including how to measure whether a severity
 level can ever fail a build, is
-[severity-by-construction](./techniques/severity-by-construction.md). The same
+[severity-by-construction](./techniques/severity-by-construction.md). The
+stage before this one — a rule that was written down and never mechanised at
+all, whose violations are indistinguishable from compliance because the
+forbidden action simply succeeds — is
+[prose-rule-drift](./techniques/prose-rule-drift.md). The same
 lesson was measured independently in
 [swallowed-error-prevention](../../../backend-platform/resilience/error-handling/techniques/swallowed-error-prevention.md):
 a rule that only warns, at gates that ignore warnings, enforces nothing at

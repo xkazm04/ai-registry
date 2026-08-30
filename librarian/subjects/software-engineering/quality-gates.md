@@ -148,3 +148,36 @@ remain unread.
 ## Declines
 
 None.
+
+
+## 2026-08-30 - intake, operator-control-plane
+
+Gained `prose-rule-drift`, the subject's missing **stage one**. The subject was
+thorough from stage two onward - a gate can be decorative
+(`severity-by-construction`), dead (`gate-liveness`), or unbound from the
+decision (`enforcement-binding`) - and the case of a rule *never mechanised at
+all* was named in the golden path's opening sentence and owned by nothing.
+
+The diagnostic is the absence of a symptom: the forbidden action succeeds
+normally, so a violation is indistinguishable from compliance at every surface
+anyone would check. Risk region: prohibitions, on rare setup-shaped actions,
+whose violations land where no gate reads. Remedy: refuse at the action, not at
+review.
+
+The technique gained a third section **from its own apply step**, which is the
+part worth remembering. Run against a managed project, the audit turned up a
+state the drafted version did not have: a checker that exists, is correct, is
+named in the standing document with its exact invocation, and that **nothing
+invokes**. Distinct from `gate-liveness` (runs, checks nothing) and
+`enforcement-binding` (runs, sees, verdict not joined). The audit question had
+to be sharpened from "is there a check?" to "what invokes it, on what event?"
+
+Measured on the tree: one unbacked rule with **zero** violations across 785
+files - which confirmed the technique's *boundary*, since that rule sits outside
+its stated risk region on all three axes - and one nominally-backed rule with
+**27** violations across four projects, found by running its own checker once.
+
+## Standing
+
+Was the #2 attention point (52). This run added one technique and one
+application and did not sweep the other twelve techniques.

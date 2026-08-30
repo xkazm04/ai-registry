@@ -179,3 +179,36 @@ tree as a simulation, verdict not-better there today; the technique carries the
 adoption gate that seam produced (histories must outgrow the tail AND a
 fetch-by-id affordance must exist). Corroborated in-tree against a harness's
 design doc plus its implementation, zero fetches.
+
+
+## 2026-08-30 - intake, operator-control-plane
+
+**An XL spec was proposed and downgraded on reading the file** - the outcome
+Phase 6 exists to produce. The candidate was a six-rule contract for shaping a
+task before dispatch, mapped to a near-empty and read as a new subject.
+`task-envelope` turned out to be a mature 200-line technique already owning
+Locate / Done / Check and "state the wanted behaviour, not the forbidden one" -
+three of the source's six rules in the corpus's own words. A competing subject
+beside it would have misfiled the work.
+
+What survived is an amendment, and it is the part `task-envelope` had no
+position on: specificity is a **graded dial**, not a checklist.
+
+- The rungs do not pay evenly. Locating is categorical - a task naming no path
+  has no floor, while every other refinement improves a run that was already
+  going to reach the right file. Grade on locating first and treat its absence
+  as disqualifying.
+- **The ladder is non-monotonic below a capability floor.** In a 216-cell grid
+  pass rate rose with specificity for three models and *fell* for the smallest
+  across two separate tasks. Added structure is itself instruction-following
+  load; below some capacity it competes with the work instead of substituting
+  for it. Each executor has a specificity optimum and for the weakest tier it is
+  not the top rung - noted against `model-routing/capability-floors`.
+- Task shape is lintable deterministically before dispatch. Return the rung, not
+  a pass/fail. The linter's own paid-for failure: an unanchored ban-list matched
+  a vague word inside an ordinary filename and refused a correct run - a false
+  positive here blocks, which is the expensive direction.
+
+## Standing
+
+One amendment. The other eleven techniques were not swept.

@@ -198,3 +198,100 @@ ever": a domain-matched persona sometimes helped and sometimes hurt in
 the same study. The rule is not that priming is harmful; it is that it is
 *unpredictable*, and unpredictable spend in the primacy position loses to
 three sentences that are not.
+
+## Specificity is a dial, and it has a floor
+
+Everything above describes what a task envelope should *contain*. It leaves
+the amount unstated, and the tacit answer — more is better — is wrong in a
+way that only shows up at the bottom of the capability range.
+
+Treat specificity as a graded dimension with at least three rungs, because
+it is measurable that way:
+
+- **goal-shaped** — the outcome named, nothing located. "Fix the alias."
+- **file-named** — the outcome plus exact paths for everything to be read
+  or written.
+- **plan-shaped** — file-named, plus a verbatim anchor for each edit, one
+  action per numbered step, a machine-checkable postcondition, and an
+  explicit list of what may be touched.
+
+Plan-shaped is the Locate/Done/Check envelope pushed to its limit: it
+converts an open-ended search into a lookup, which is the operation a weaker
+executor performs most reliably. The rungs are worth naming separately
+because **the returns are not evenly distributed across them.**
+
+### Locating is categorical; the rest are refinements
+
+The first rung does something the others do not. A task that names no path
+leaves the executor to *find* its target, and a search that fails produces
+no partial credit — it produces a discovery loop that consumes the budget
+and ends with nothing changed. Every later refinement improves a run that
+was already going to reach the right file.
+
+The practical form: **grade a task on locating first, and treat its absence
+as disqualifying rather than as one deficiency among six.** A prompt with
+exact paths but a vague stopping condition is a weak plan; a prompt with a
+perfect stopping condition and no path is not a plan at all. Anchors,
+step-splitting and scope bounds each remove one degree of freedom; the path
+removes the one that has no floor.
+
+Each refinement is worth stating with the failure it prevents, because that
+is what makes it checkable rather than stylistic — a verbatim anchor
+prevents a misplaced edit, one-action steps prevent tool-choice thrashing,
+a machine-checkable postcondition prevents both stopping early and
+re-verifying forever, an explicit write set prevents helpful edits to
+adjacent files, and a closed vocabulary prevents a vague verb from
+reintroducing the very decision the other rules removed. A rule whose
+failure mode cannot be named is decoration.
+
+### Below a capability floor, structure competes with capacity
+
+The dial's returns are monotonic only above a threshold, and the exception
+is the part worth carrying.
+
+Across a controlled grid — several tasks, three rungs, four models, repeated
+trials, graded on deterministic postconditions — the pass rate rose with
+specificity for the three larger models and **fell** from file-named to
+plan-shaped for the smallest, in two separate tasks rather than one noisy
+cell. The reading the data supports: a plan-shaped prompt is longer and more
+structured than a file-named one, and the added anchor, verification and
+scope clauses are themselves instruction-following load. Above some
+capacity that load is absorbed and converted; below it, the structure
+competes with the work.
+
+So the routing consequence is not "prefer the most specific phrasing
+available." It is that **each executor has a specificity optimum, and for
+the weakest tier that optimum is not the top rung** — a fact that belongs
+beside the capability thresholds in
+[capability-floors](../../../orchestration/model-routing/techniques/capability-floors.md),
+and one that a fleet standardising on a single house prompt style will never
+observe, because it never varies the rung.
+
+Two cautions travel with that result, and both are the general shape rather
+than this measurement's detail. Grade against deterministic postconditions
+rather than a judge, or the specificity of the prompt leaks into the
+scoring. And read a per-model curve before setting a house style: the
+aggregate hid that one model needed the top rung to solve a task at all
+while another cleared it at every rung.
+
+### Task shape can be linted before dispatch
+
+Because every rung above is a property of the prompt's text, compliance is
+checkable deterministically — no model call — and the check is cheap enough
+to run on every dispatched brief. Locating is a path-shaped token; anchors
+are quoted fragments or an explicit append clause; steps are an ordered
+list; a postcondition is a containment or exit-code claim; a closed
+vocabulary is a ban list.
+
+Two design rules keep such a linter from being worse than nothing:
+
+- **Return the rung, not a pass/fail.** The useful output is which rung the
+  prompt reached, so a dispatcher can route rather than merely refuse.
+- **Bias to warn, and anchor every pattern.** The linter reads text, so its
+  errors are false positives, and a false positive here **blocks a correct
+  task** — the expensive direction. The instructive failure is a
+  vocabulary ban list matched as a substring: a banned vague word appearing
+  inside an ordinary filename downgraded perfectly well-formed prompts and
+  refused to start the run. Word-boundary every pattern, and remember that
+  a rule about vague language will be run against text that legitimately
+  contains the file names it governs.

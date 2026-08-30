@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 1004,
+  "techniques": 1006,
   "applications": 500,
   "laws": 13,
   "categories": [
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1004/1004",
+  "use_when_coverage": "1006/1006",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -7338,6 +7338,22 @@
      ]
     },
     {
+     "slug": "measurement-revision",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a re-run disagrees with a published result",
+      "deciding whether a second pass corrects a first or merely samples it again",
+      "a harness defect was found after results were circulated",
+      "reporting what fraction of past failures were instrument artifacts",
+      "a follow-up study reverses an earlier conclusion"
+     ]
+    },
+    {
      "slug": "metric-role-contract",
      "status": "forged",
      "laws": [
@@ -13498,6 +13514,23 @@
      ]
     },
     {
+     "slug": "prose-rule-drift",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rule everyone agrees on has never had a check written for it",
+      "auditing which standards are actually mechanised",
+      "a documented invariant turns out to have been violated for months",
+      "deciding where to put enforcement for a rule about an action rather than an artifact",
+      "a convention that governs setup or provisioning rather than code"
+     ]
+    },
+    {
      "slug": "ratchet-design",
      "status": "forged",
      "laws": [
@@ -19192,6 +19225,7 @@
     "quality-gates/hook-hygiene",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
+    "quality-gates/prose-rule-drift",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
     "rate-limiting/limiter-topology",
@@ -19850,6 +19884,7 @@
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
     "eval-harness/judge-stability",
+    "eval-harness/measurement-revision",
     "eval-harness/metric-role-contract",
     "eval-harness/overshoot-and-restore",
     "eval-harness/scenario-design",
@@ -20063,6 +20098,7 @@
     "conversation-orchestration/two-surface-doctrine",
     "docs-sync/earned-verification-state",
     "error-handling/cancellation-attribution",
+    "eval-harness/measurement-revision",
     "knowledge-registry/verification-is-contributed",
     "markdown-vault/replicated-substrate",
     "mcp-tools/egress-argument-gating",
@@ -21119,6 +21155,7 @@
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/enforcement-binding",
     "quality-gates/oracle-frozen-during-repair",
+    "quality-gates/prose-rule-drift",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",
@@ -21137,7 +21174,8 @@
     "plan-review/fresh-posture-self-challenge",
     "plan-review/objection-before-artifacts",
     "plan-review/silent-decision-surfacing",
-    "prompt-assembly/task-envelope"
+    "prompt-assembly/task-envelope",
+    "quality-gates/prose-rule-drift"
    ]
   }
  }
