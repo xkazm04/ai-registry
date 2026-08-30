@@ -5,7 +5,8 @@ subject: federated-benchmark-sharing
 technique: bounded-contributor-influence
 stack: rust
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Rust: winsorized source weights in LightTrack's collective merge
@@ -17,7 +18,7 @@ for every backend.
 
 ## The ceiling and its rationale, verbatim
 
-`merge.rs:37-45` declares the constant with its whole argument attached:
+`merge.rs:38-45` declares the constant with its whole argument attached:
 
 ```rust
 /// **Bounded unilateral influence.** The largest share of a merged row's weight any single source may

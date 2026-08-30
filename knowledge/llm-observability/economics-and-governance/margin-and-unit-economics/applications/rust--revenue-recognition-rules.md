@@ -5,7 +5,8 @@ subject: margin-and-unit-economics
 technique: revenue-recognition-rules
 stack: rust
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Rust: one recognition function serving rollup and trend (LightTrack)

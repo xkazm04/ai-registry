@@ -5,7 +5,8 @@ subject: production-trace-scoring
 technique: stable-hash-sampling
 stack: node
 status: forged
-verified_on: 2026-08-23
+verified_on: 2026-08-30
+verified_against: node@24
 source: langfuse/langfuse
 ---
 

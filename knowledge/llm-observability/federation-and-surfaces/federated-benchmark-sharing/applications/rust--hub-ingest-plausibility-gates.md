@@ -5,7 +5,8 @@ subject: federated-benchmark-sharing
 technique: hub-ingest-plausibility-gates
 stack: rust
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Rust: LightTrack's one-function hub trust policy
@@ -26,7 +27,7 @@ cases is impossible"), `n_cases ≤ 1_000_000`, `avg_cost_usd ≤ 1_000.0`. The
 constants carry their one-sentence justifications: a million-case bucket
 "is a typo or an attack, not a benchmark; accepting it hands the merged row
 to whoever types the biggest number" (`sanitize.rs:21-24`), and $1000/case
-"is not a price, it is noise" (`sanitize.rs:27`). The dividing rule is
+"is not a price, it is noise" (`sanitize.rs:26`). The dividing rule is
 stated where it executes: "Quality/pass-rate are *clamped* rather than
 rejected (a `[0,1]` overshoot is a rounding artifact); counts are
 *rejected*, because a count is the weight the merge trusts"

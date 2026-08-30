@@ -6,7 +6,8 @@ technique: budget-preflight-and-ceiling
 stack: rust
 status: forged
 refresh_by: 2026-11-20
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Rust: per-run spend control in LightTrack's compare runner

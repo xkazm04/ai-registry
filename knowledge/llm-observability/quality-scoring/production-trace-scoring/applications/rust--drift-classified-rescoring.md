@@ -6,7 +6,8 @@ technique: drift-classified-rescoring
 stack: rust
 status: forged
 refresh_by: 2026-11-20
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Rust: drift-classified re-scoring in LightTrack's `score-traces` loop
@@ -55,7 +56,7 @@ The scorer side (`score_traces.rs:231-265`) turns the classification into
 the purchase decision. `trace_already_scored` treats a verdict as covering
 unless `verdict_superseded` — and that predicate is a single line keyed to
 one wire word: `stale.reason == "changed"` (`score_traces.rs:263-265`).
-The function's doc comment (225-247) is a compressed statement of the
+The function's doc comment (231-247) is a compressed statement of the
 technique: "'Material' is deliberately narrow, because re-scoring spends
 real money on an unbudgeted judge... A 'grown' trace... would re-send an
 identical prompt for an identical verdict, so it is surfaced to the

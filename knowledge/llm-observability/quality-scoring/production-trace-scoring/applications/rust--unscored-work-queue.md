@@ -6,7 +6,8 @@ technique: unscored-work-queue
 stack: rust
 status: forged
 refresh_by: 2026-11-20
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Rust: the server-side unscored queue in LightTrack's online scorer

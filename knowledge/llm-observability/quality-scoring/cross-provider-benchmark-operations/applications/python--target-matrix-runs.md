@@ -5,7 +5,8 @@ subject: cross-provider-benchmark-operations
 technique: target-matrix-runs
 stack: python
 status: forged
-verified_on: 2026-08-23
+verified_on: 2026-08-30
+verified_against: python@3.12
 source: EleutherAI/lm-evaluation-harness
 ---
 
@@ -20,7 +21,7 @@ inversion is the interesting part.
 ## Rule 1 — declare the matrix in the definition: half held, half inverted
 
 The **case** axis is declared, and declared well. A group YAML names its
-children (`lm_eval/tasks/mmlu/default/_mmlu.yaml:1-8`: `group: mmlu`, four
+children (`lm_eval/tasks/mmlu/default/_mmlu.yaml:1-9`: `group: mmlu`, four
 subgroups, `aggregate_metric_list` with `weight_by_size: True`), and
 `TaskManager` resolves names, globs and tags to leaf tasks
 (`lm_eval/tasks/manager.py:179-236`). Constructing a `TaskManager()` over this

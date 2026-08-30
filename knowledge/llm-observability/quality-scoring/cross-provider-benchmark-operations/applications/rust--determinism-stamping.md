@@ -6,7 +6,8 @@ technique: determinism-stamping
 stack: rust
 status: forged
 refresh_by: 2026-11-20
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: rust@1.97
 ---
 
 # Rust: two-half determinism stamps and the weakest-wins fold in LightTrack
@@ -23,7 +24,7 @@ Three levels, ordered weakest first — `sampled` < `best-effort` < `exact`
 pinned *including a seed* (OpenAI, Gemini take one); the Anthropic Messages
 API has no seed and the `claude -p` CLI has no sampling knobs at all, so
 those paths stamp `best-effort` — degraded and disclosed, never excluded
-(`BENCHMARK_FRAMEWORK.md:246-249, 270-272`).
+(`BENCHMARK_FRAMEWORK.md:243-245, 271-272`).
 
 D13 extends the stamp to generation, not just judging: compare and pairwise
 modes generate the candidate they grade, so the run report carries two facts
