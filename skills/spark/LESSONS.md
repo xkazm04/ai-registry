@@ -55,3 +55,8 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 ## 1.2.0 - 2026-08-30 - gravitone-gcloud
 - A spark can legitimately span two repos (product surface in the consuming repo, a new registry-lane skill as a work package). What worked: treat the registry package as parallel WP with its own gate (check-skills, not tsc), let the Director commit it in the registry checkout, and keep the shared wire contract verbatim in BOTH the product types and the skill's references/ - name-for-name.
 - Kill-verify builder smoke servers before removing the worktree: one survived its own "killed" report, held the next-swc binary, and blocked `git worktree remove`. Check the smoke port with a socket query, then delete.
+
+## 1.2.0 - 2026-08-30 - gravitone-gcloud
+- Parallel builders that each run TREE-WIDE gates cross-attribute failures (one builder's ratchet run flagged a sibling's committed lint rise; a third was transiently blamed). The fix that worked: require every builder report to separate "gates on my files" from "gates on the tree" - attribution became instant, and the sibling's catch of a real defect was a net win. Consider adding this split to the Phase-5 builder-brief template.
+- Pre-committing shared-file wire types (the step-store records) as a Director commit BEFORE the parallel fan-out turned "sequential when packages share files" into "parallel with zero shared files". Cheap, and it made three-way parallelism safe.
+- Scout liveness rule has a write-side blind spot: a brief predicated a default on "no record exists", but the consumer SAVES AN EMPTY RECORD on mere hydration, so record-existence was meaningless. Scout question to add alongside the field-population rule: "what does the consumer write on mere hydration/open?"
