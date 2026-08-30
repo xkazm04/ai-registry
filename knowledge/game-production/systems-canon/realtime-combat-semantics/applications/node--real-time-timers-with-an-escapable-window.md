@@ -5,7 +5,8 @@ subject: realtime-combat-semantics
 technique: real-time-timers-with-an-escapable-window
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Keeping a cooldown from becoming a damage-over-time period
@@ -16,7 +17,7 @@ generated prompt itself.
 
 ## The incident, preserved in a comment
 
-`src/lib/ability/effect-codegen-prompt.ts:19`, inside `describeEffect()`, the function that
+`src/lib/ability/effect-codegen-prompt.ts:17-20`, inside `describeEffect()`, the function that
 renders one authored effect into a bullet for the code-generation contract:
 
 ```ts
@@ -64,13 +65,13 @@ The unit half of the technique is enforced in the codegen prompt; the escapabili
 appears elsewhere in the codebase, as a simulation. `src/lib/combat/choreography-sim.ts`
 runs an encounter forward in real seconds — enemies re-arm with
 `enemy.nextAttack = t + enemy.arch.attackIntervalSec * (0.8 + rng() * 0.4)`, so intervals
-jitter ±20% rather than resolving on a fixed grid — and emits alerts at line 263 onward
+jitter ±20% rather than resolving on a fixed grid — and emits alerts at line 272 onward
 that are pure real-time thresholds:
 
 ```ts
 if (playerDied && totalDuration < 5) { /* critical: encounter is too punishing */ }
 if (totalDuration > 45)              { /* warning: combat feels spongy */ }
-if (!playerDied && totalDuration < 3) { /* info: trivially easy */ }
+if (!playerDied && totalDuration < 3 && enemies.length > 0) { /* info: trivially easy */ }
 if (totalEnemyHP > playerMaxHP * tuning.playerHealthMul * 5) { /* warning: may feel tedious */ }
 const bucketSize = 2; // temporal alerts: DPS spikes and damage droughts
 ```

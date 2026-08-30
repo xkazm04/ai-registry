@@ -5,7 +5,8 @@ subject: arpg-systems-canon
 technique: mitigation-order-and-soft-caps
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # One typed kernel, and the two-simulators incident that produced it
@@ -17,7 +18,7 @@ into it.
 
 ## What the kernel encodes
 
-`canon-kernel.ts:28-42` exports the canon as named constants rather than inline literals —
+`canon-kernel.ts:29-43` exports the canon as named constants rather than inline literals —
 `CRIT_MULTIPLIER = 2.5`, `CRIT_CHANCE_CAP = 0.95`, `RESIST_CAP = 0.75`,
 `ARMOUR_HIT_COEFF = 5` — plus the type split that the technique calls load-bearing:
 
@@ -27,7 +28,7 @@ export type DamageType = 'Physical' | 'Fire' | 'Cold' | 'Lightning' | 'Chaos';
 export const RESIST_TYPES: readonly DamageType[] = ['Fire', 'Cold', 'Lightning', 'Chaos'];
 ```
 
-`computeHit()` (`canon-kernel.ts:137-190`) runs the order literally: avoidance roll, then
+`computeHit()` (`canon-kernel.ts:138-192`) runs the order literally: avoidance roll, then
 block, then per-type mitigation inside the loop over `DAMAGE_TYPES`, where `Physical` takes
 `armourReduction()` and everything else takes `min(resist, resistCap)`. Two implementation
 details are worth stealing:
@@ -67,7 +68,7 @@ Two disciplines in the fix are worth naming:
    comment *"NOT canon — never render it or let it reach a verdict."* That is the law about
    one authority per quantity applied honestly: the old model may inform, it may not decide.
 2. **The adapter is where vocabulary gets reconciled.** `canonDamageType()`
-   (`damage-formula.ts:49-59`) maps the ability module's `'Ice'` onto the kernel's `'Cold'`
+   (`damage-formula.ts:51-60`) maps the ability module's `'Ice'` onto the kernel's `'Cold'`
    and falls back to `Physical` for the untyped default. The mapping lives in the adapter,
    not in the kernel — the authority does not learn every caller's dialect.
 
