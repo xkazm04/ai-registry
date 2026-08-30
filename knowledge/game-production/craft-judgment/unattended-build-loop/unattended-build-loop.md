@@ -11,6 +11,7 @@ techniques:
   - budget-reservation-and-drain-not-kill
   - rollback-to-last-green
   - unreachable-success-preflight
+  - verifier-coverage-review-agenda
 ---
 
 # The unattended build loop
@@ -141,6 +142,27 @@ completed-with-gaps-excluded-from-the-numerator, and its general form is
 basis](../../_laws.md#a-number-carries-its-unit-and-basis): the reported rate names
 its numerator *and* its denominator, and the partially-done population is
 visible as its own count beside them.
+
+## Coverage decides where the human's time goes
+
+A loop's gates do not reach every rung of evidence equally, and a plan item
+inherits its verified status from whichever gate happened to pass in its area.
+That rule is correct for the compile gate and silently wrong for everything
+above it: an item whose requirement is perceptual gets certified by a type
+check, because the gate that could have judged it — a capture, a rendered
+frame — was advisory and never returned a verdict. The consequence is
+predictable and has been observed across independent builders: the run comes
+back with its logic sound and its presentation uniformly flat, and the human
+spends every follow-up prompt on exactly the items no gate could see. Those
+prompts are the measurement the loop failed to make.
+
+So the loop certifies each item only up to the rung a verdict actually
+reached, hands the remainder to the reviewer as a named agenda, and prints per
+gate how many verdicts it returned over the run. A gate with zero verdicts is
+named at run end — the static preflight below excludes runtime-determined
+gates on purpose, so the run end is the only place that absence can surface.
+The rule is stated in verifier-coverage-review-agenda. Making the missing gate
+`required` is not the fix: that is how success becomes unreachable.
 
 ## Spend is a shaping instruction, not a fence
 

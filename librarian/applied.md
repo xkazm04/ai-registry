@@ -50,6 +50,7 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 | Date | Projects | Pairs judged | Technique C / D / N-A / U | Proposals | Note |
 | --- | --- | --- | --- | --- | --- |
 | 2026-08-29 | personas, gravity | 150 | 193 / 364 / 503 / 37 | 64 | [[backtests/2026-08-29-personas-gravity-wave-1]] |
+| 2026-08-30 | verifier-coverage-review-agenda | unattended-build-loop | pof | experiment | better | file the reporting change (per-feature reached rung, per-gate verdict count, unjudged list in the completion summary) as pof's next harness change; re-run as `code` when the visual gate can start on this machine |
 
 A backtest verdict is not an A/B row: `conformant` says the project already realizes
 the technique (the seam exists and holds), `deviation` names the seam where an A/B is

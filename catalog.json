@@ -587,10 +587,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 41,
-      "techniques": 245,
-      "applications": 109,
-      "files": 399,
-      "contentHash": "sha256:4cb308e282378201"
+      "techniques": 246,
+      "applications": 110,
+      "files": 401,
+      "contentHash": "sha256:521507686ed37a72"
     },
     {
       "name": "grant-funding",

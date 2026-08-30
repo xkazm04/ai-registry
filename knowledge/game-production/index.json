@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 41,
-  "techniques": 245,
-  "applications": 109,
+  "techniques": 246,
+  "applications": 110,
   "laws": 11,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "245/245",
+  "use_when_coverage": "246/246",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4349,6 +4349,22 @@
       "choosing the stop condition for a loop",
       "reconciling a builder's reported results against a plan"
      ]
+    },
+    {
+     "slug": "verifier-coverage-review-agenda",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what an unattended run hands to its human reviewer",
+      "reading a run whose gates passed while its output still needed a dozen follow-up prompts",
+      "configuring a plan whose items need a perceptual or behavioural verdict",
+      "noticing that an advisory gate never returned a verdict"
+     ]
     }
    ],
    "applications": [
@@ -4363,6 +4379,13 @@
      "technique": "verified-vs-self-reported-pass-rate",
      "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--verified-vs-self-reported-pass-rate.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "verifier-coverage-review-agenda",
+     "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--verifier-coverage-review-agenda.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -4733,6 +4756,7 @@
     "unattended-build-loop/no-gate-self-certifies",
     "unattended-build-loop/unreachable-success-preflight",
     "unattended-build-loop/verified-vs-self-reported-pass-rate",
+    "unattended-build-loop/verifier-coverage-review-agenda",
     "visual-script-to-code-transpilation/structural-round-trip-diff",
     "wiring-contract-doctrine/cross-catalog-link-resolution",
     "wiring-contract-doctrine/placeholder-rejection",
@@ -4966,6 +4990,7 @@
     "tiling-texture-acceptance/derive-only-what-the-source-encodes",
     "unattended-build-loop/no-gate-self-certifies",
     "unattended-build-loop/verified-vs-self-reported-pass-rate",
+    "unattended-build-loop/verifier-coverage-review-agenda",
     "wiring-contract-doctrine/no-gray-box-rule"
    ]
   },
@@ -5143,6 +5168,7 @@
     "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
     "tiling-texture-acceptance/wrap-around-edge-diff",
     "unattended-build-loop/no-gate-self-certifies",
+    "unattended-build-loop/verifier-coverage-review-agenda",
     "visual-script-to-code-transpilation/event-override-signature-resolution",
     "visual-script-to-code-transpilation/graph-type-to-code-type-mapping",
     "wiring-contract-doctrine/four-field-wiring-contract",
