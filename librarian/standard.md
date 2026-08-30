@@ -35,6 +35,23 @@ No script decides these. A reviewer does, reading diffs.
   product, tool, model or company names - including ones the purity denylist does not
   list. The denylist is a floor, and the real test is whether an unrelated team in
   another company could adopt the document as written.
+
+  **An open standard is not a product name.** Added 2026-08-30, because two workers in
+  one batch read the clause oppositely and it changed what they shipped: one cited WCAG
+  success criteria inside a technique, the other avoided standards-body names on purpose
+  and consequently could not land an application it had already researched. Apply the
+  transplant test and the answer is not close - a criterion number is a *checkable
+  external anchor* that an unrelated team can look up and hold you to, so naming it
+  raises transplantability rather than lowering it. The same goes for a public
+  vulnerability identifier, an RFC, a wire format, or a named algorithm. What stays
+  banned is the thing that made the clause necessary: a vendor, a tool, a model, a
+  company, or a product that implements the standard.
+
+  The distinction that does the work: **cite the standard, never the implementation.**
+  "The accessibility standard's use-of-colour criterion (SC 1.4.1, level A)" transplants;
+  "the linter's colour rule" does not. And a criterion cited in a technique still owes
+  its date at the application layer, because standards are versioned and a criterion
+  number without an edition is the same unmeasured claim as any other.
 - **Decision rules are stated as rules.** "When X, do Y, because Z." A technique that
   describes a thing without saying when to reach for it has not finished.
 - **Numbers carry their measurement.** A figure with no n, no date and no method is
