@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 1.1.0
+version: 1.2.0
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test
 ---
 
@@ -123,7 +123,14 @@ index, not a substitute for it.
 | **app/tutorial aggregator** | a monorepo of example apps? | the operational periphery, not the apps |
 | **operator dispatch** | no URL - a framing or a question? | whatever the sub-questions route to |
 
-Three rules cut across every row:
+Four rules cut across every row:
+
+- **Any row that arrives as a repository is mined from a clone, never from the ingest.**
+  Five classes do - vendor repository, research-model release, app/tutorial aggregator,
+  paper aggregator, and the build-walkthrough in repo form - and each states in its own
+  vocabulary that the README is its least reliable surface. `research-ingest` on a repo
+  URL returns exactly that surface. Clone it and sweep the tree (Phase 2b), and sweep it
+  a second time for engineering worth reusing, not only for claims worth quoting.
 
 - **A hybrid source's halves have opposite reliability, and one question separates
   them.** For the build-walkthrough: *is the creator describing what the tool does, or
@@ -248,10 +255,6 @@ rule that granularity was serving.
 node scripts/research-ingest.mjs "<url>" --json
 ```
 
-Read the transcript. Then delete this run's scratch files once the text is in context -
-scoped to this run's id, never a blind sweep of the work directory, which races a
-parallel run sharing it.
-
 **Then name the class and read its entry in
 [`references/source-classes.md`](references/source-classes.md)** before extracting
 anything. The ingest metadata usually decides it - the author field, whether the source
@@ -259,6 +262,74 @@ is a repo or a talk, how many voices arrived. That entry tells you where in this
 the yield hides, what it is reliable for, and whether you must spend a fetch; all three
 change what Phase 3 is looking for. For more than one source, read § "The batch lane"
 in the same file.
+
+#### Phase 2b - If the source is a repository, CLONE IT. Always. No exceptions.
+
+`research-ingest` on a repository URL returns **the rendered landing page**, which is
+the README plus site chrome. That is not the source. It is the source's advertisement,
+and every repository class in this method says so in its own words - the vendor
+repository's marketing surface, the research release's method ad, the build-walkthrough's
+tour half. **A run that extracts from a README has mined the one file in the tree
+written to be quoted, and its findings will be quotes.** That is how a corpus fills up
+with restated marketing.
+
+So the ingest is the *trigger*, never the extraction:
+
+```sh
+git clone --depth 1 <url> <scratchpad>/<run-slug>
+git -C <scratchpad>/<run-slug> log -1 --format=%H     # pin it; the note records the commit
+```
+
+Then **sweep the tree before extracting a single candidate**, in this order - it is
+ordered by yield density, which is close to the inverse of how prominent each part is:
+
+1. **The operating documents.** `docs/`, `design/`, `spec/`, `*_SPEC.md`,
+   `*_CONTRACT.md`, `RUNBOOK`, `owners-manual/`, `ADR/`, `CHANGELOG`. These are
+   first-party practitioner documents with paid-for failure modes recorded as
+   revisions, and they are usually the densest thing in the repo by an order of
+   magnitude. A README is 2,000 words; these are routinely 15,000.
+2. **The instrument and its rules.** A linter, a checker, a gate, an eval harness -
+   whatever file *implements* a rule the README merely names. The README says the rule
+   exists; this file says what the rule actually is, in a form that cannot hedge. When
+   a source claims a contract with numbered rules, the checker that enforces them is
+   the contract.
+3. **The measurement.** `evals/`, `benchmarks/`, `ANALYSIS.md`, results tables, the
+   test fixtures. A measured result with its protocol is the strongest thing a
+   repository holds, and it is the part the README compresses into one adjective.
+   **Read where it was refuted**, not where it held.
+4. **The types and the config schema.** What an open client renders a closed engine
+   with, the config file's full key set, the enum of states. These publish the real
+   data model for free and cannot lie, because something compiles against them.
+5. **The tests.** A test enumerates the cases the author believed in, and a test named
+   after a failure is a failure mode somebody paid for.
+6. **The README last**, as an index into the above and as the source of proper nouns
+   you must then strip.
+
+Say what you swept in the source note, with the commit, and record the honest word
+counts on both sides - the landing page and the in-tree documents. A note whose
+`words:` is a single small number over a repository source is a run that read the ad.
+
+The tree is deleted with the rest of this run's scratch files at Phase 9, not before -
+Phase 6 verification reads it, and Phase 7.5 may need it again.
+
+**Read for reusable engineering, not only for claims.** A repository is the one source
+class that carries *executable* knowledge, and the intake habit of hunting quotable
+assertions leaves most of it on the floor. Sweeping for excellence is a different pass
+from sweeping for claims, and it produces different candidates: a dependency-free
+instrument worth porting into `scripts/`, a data shape worth stealing, a test strategy
+worth copying, a failure taxonomy already enumerated, a config surface that solves a
+problem one of our own projects has. Those land in `scripts/`, `practices/` and
+`docs/` - the lanes the corroboration table calls "judgment, no gate" - and they are
+often the highest-value thing a repository run produces. Ask of the tree the question
+you cannot ask of a video: **what here is good enough to reuse, and what does it do
+that we do worse?**
+
+#### Then read, then clean up
+
+Read the transcript (and, for a repository, the swept tree). This run's scratch files -
+the ingest's text, the metadata, and any clone - are deleted at Phase 9, scoped to this
+run's id, never as a blind sweep of the work directory, which races a parallel run
+sharing it.
 
 ### Phase 3 - Extract candidates (cheap: no web, no file reads, no greps)
 
@@ -745,6 +816,14 @@ corroboration behind it.
 
 - **Letting a video author an upper layer.** The one failure that damages the corpus
   rather than just wasting a run.
+- **Mining a repository at its README.** The ingest returns the landing page; the
+  landing page is the one file in the tree written to be quoted. Clone it (Phase 2b),
+  sweep the operating documents, the instrument, the measurement and the types, and
+  read the README last. A repository note whose `words:` is one small number and whose
+  body cites no file from the source's tree is this anti-pattern with a frontmatter.
+- **Reading a tree only for claims.** The instrument, the schema, the test strategy and
+  the failure taxonomy are the half that a quote-hunting pass never sees, and they are
+  the half that lands in `scripts/`, `practices/` and `docs/`.
 - **Landing a technique and walking away.** A technique with no `librarian/applied.md`
   row is a wiki page; a run that lands three and applies none has enriched a wiki.
   The scorecard row makes this visible; do not make it normal.

@@ -174,6 +174,35 @@ benchmark of the same system is one fetch and is usually the cheapest honest num
 available. The cluster map itself goes in the source note: it is what makes the next
 300-paper list a one-table triage.
 
+## Every repository class shares one rule: the landing page is not the source
+
+Five of the classes below arrive as a repository - vendor repository, research-model
+release, app/tutorial aggregator, paper aggregator, and the build-walkthrough in repo
+form. They differ in where their yield sits and agree completely on where it does
+**not**: the README. Each row states this in its own vocabulary (a marketing surface,
+a method's advertisement, a tour half), which made it easy to miss that they were all
+saying one thing.
+
+So it is said once, here, for all of them: **`research-ingest` on a repository URL
+returns the rendered landing page. Clone the tree and sweep it before extracting.**
+The sweep order and the reusable-engineering pass are in `SKILL.md` § Phase 2b.
+
+The audit that produced this rule (2026-08-30, across fourteen repository sources
+mined in nine days): most runs did clone, and the ones that did not are visible in the
+ledger by the same tell - a `words:` frontmatter holding one small number, and a body
+that cites no file from the source's tree. Those runs landed findings that read as
+restated README bullets, because that is what they were. **A repository note whose word
+count is 2,000 is a note about an advertisement.** Record the commit and both word
+counts - landing page and in-tree documents - so the tell stays visible.
+
+The failure has a second, quieter half. Even a run that reads the tree tends to read it
+*for claims*, because that is what every other source class trains. A repository is the
+only source that carries executable knowledge, and mining it for quotable assertions
+throws away the instrument, the schema, the test strategy and the failure taxonomy -
+the parts that would land in `scripts/`, `practices/` and `docs/` where the bar is
+judgment rather than corroboration. Sweep twice, or accept that half the source was
+never read.
+
 ## Vendor repository
 
 A company's own repo for a product whose engine is a hosted service. Read it as **three

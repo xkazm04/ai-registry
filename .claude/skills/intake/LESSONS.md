@@ -1,5 +1,39 @@
 # Lessons - intake (formerly research)
 
+## 1.1.0 - 2026-08-30 - operator-control-plane (bumped to 1.2.0 in the same change)
+
+- **Repository sources were being mined at their README, and the method never said not
+  to in a place a run would see.** `research-ingest` on a repo URL returns the rendered
+  landing page; this run triaged fourteen candidates off 2,938 words of it and the
+  operator caught it at the triage table. Five separate class rows each said the README
+  is that class's least reliable surface - marketing surface, method advertisement, tour
+  half - and saying it five times in five vocabularies is why no run generalised it.
+  Now stated once as a cross-cutting rule, with Phase 2b as the procedure: clone, pin
+  the commit, sweep operating docs -> instrument -> measurement -> types -> tests ->
+  README last.
+- **The tell is in the frontmatter, and it audits cheaply.** A repository note whose
+  `words:` is a single small number and whose body cites no file from the source's tree
+  read the advertisement. Fourteen repo sources in nine days audited that way in about
+  two minutes: most had cloned; `autosaddler` (which says so in its own note),
+  `openwiki` and this run had not. Notes now record the commit and both word counts so
+  the tell stays visible.
+- **A tree read only for claims is half-read.** The intake habit is hunting quotable
+  assertions, which is right for a video and leaves the instrument, the schema, the test
+  strategy and the failure taxonomy on the floor. Those are the parts that land in
+  `scripts/`, `practices/` and `docs/`, where the corroboration table already says
+  judgment is the only gate - so they were cheap to land and nobody was looking for
+  them. Phase 2b now asks the question a video cannot be asked: what here is good
+  enough to reuse, and what does it do that we do worse?
+
+### Redesign proposal - re-mine the surface-level repo runs
+
+  Three runs are known to have landed from a README alone. Their findings are not
+  necessarily wrong, but their yield was drawn from the one file written to be quoted,
+  and they carry 21 untriaged candidates between them. Re-running them is a batch of
+  independent, tree-reading intakes - one worker per repository - not a method change,
+  so it is proposed here rather than applied: `autosaddler`, `openwiki`,
+  and any future note that trips the frontmatter tell.
+
 ## 0.16.0 - 2026-08-28 - plan-review execution (bumped to 0.17.0 in the same change)
 
 - **An XL spec is now forged in the same session, by this skill, as the natural
