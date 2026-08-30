@@ -35,7 +35,19 @@ never differ in what a number looks like or which caveats accompany it.
    formatted text *and* the structured object; a terminal consumer prints the
    text on an interactive session and offers a flag to emit the raw payload.
    Machine consumers must never scrape human formatting.
-4. **Push the honesty rules into the renderer.** Truncation lines ("showing
+4. **Size the rendering to the transport's budget.** The two halves have
+   different readers and different costs. On a conversational transport the
+   rendered half is read by a model out of a metered context window, while
+   the structured half is handed to a program; so the rendering an agent
+   receives should be a compact one — the ranked head of the table, the
+   totals, and the disclosure of how much was left out — with full fidelity
+   riding in the payload beside it. This is the truncation rule arriving a
+   second time as economics, and the two agree: "showing top N of M" is both
+   the honest sentence and the cheap one. Do not assume the structured half
+   is free. Whether it reaches the model at all is the host's decision and
+   not the server's, so the payload is sized to be *correct*, never to be
+   the place the volume was hidden.
+5. **Push the honesty rules into the renderer.** Truncation lines ("showing
    top N of M"), currency caveats, simulation stamps, em-dashes for
    unmeasured values, empty-state sentences — all rendered by the shared
    layer, so no surface can forget them. This is where
@@ -79,3 +91,14 @@ the same semantics (nullable costs stay nullable) even though they bypass the
 text renderer. Similarly, do not force a one-off internal debug dump through
 the product renderer; the technique governs operator-facing reports, not
 scaffolding.
+
+A third class has since appeared and deserves the same treatment: an
+interactive view that the tool *declares* and the agent host draws, from the
+structured payload, inside its own sandbox. It is a second renderer that
+ships with the server rather than beside it, and the boundary holds on the
+same terms — it consumes the canonical payload, it re-honors the same
+semantics, and it does not become the only place a number is legible, because
+the transcript, the terminal and the export still have to say the same thing
+when the host cannot draw anything. Treat the declared view as a consumer of
+the contract, never as a replacement for it: a report that is only true when
+rendered as pixels has left the discipline this technique exists to keep.

@@ -43,10 +43,11 @@ generic; the *placement* of each report on each surface must not be.
 
 ## One render layer, several consumers
 
-The same operator reads spend through at least four doors: an agent quoting a
+The same operator reads spend through at least five doors: an agent quoting a
 tool result into a conversation, a CLI on a terminal, a panel wall driven by
-queries, and occasionally a raw API response in a script. If each door formats
-its own tables, the doors disagree — different rounding, different orderings,
+queries, an interactive view the tool declares and the agent host draws in
+its own sandbox, and occasionally a raw API response in a script. If each
+door formats its own tables, the doors disagree — different rounding, different orderings,
 different treatment of the unpriceable row — and the operator learns to trust
 none of them. The discipline is a single pure formatting layer that turns the
 canonical structured payload into the canonical human rendering, with every

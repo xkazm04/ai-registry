@@ -80,6 +80,23 @@ glyph is an answer, which absence is not.
 - Choose glyphs that degrade to plain text: rendering must survive terminals,
   logs, and transcripts without a legend. Pair every glyph-driven instruction
   with its meaning at least once per report family.
+- **A glyph is not reliably one column wide.** Pictographic characters
+  routinely occupy two cells in a fixed-width grid, and terminals, diff
+  viewers and monospace renderers disagree about which ones do — so a table
+  padded by counting characters comes out ragged exactly on the rows the
+  glyph was meant to make findable. Pad by rendered display width rather than
+  string length, and keep the glyph in the leading column so a width the
+  renderer guessed wrong shifts one column instead of every number to its
+  right. Where the output is a fixed-width artifact nobody will re-render — a
+  committed report, a log line, a paste into a ticket — carry a short text
+  token beside the glyph and compute the alignment from the token.
+- **The severity must survive being read aloud.** Assistive technology
+  announces a pictograph by its catalog name, not by the business meaning
+  assigned to it, so an encoding that exists *only* in the glyph is
+  unreadable to part of the operator population. This is the rule above
+  arriving from another direction: the number stays in the row and the band
+  has a name, so the judgment is recoverable from the text alone and the
+  glyph stays what it was meant to be — an index, not the record.
 
 ## When not to use it
 
