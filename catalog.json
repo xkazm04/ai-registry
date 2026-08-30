@@ -348,9 +348,9 @@
         "pof@1.7"
       ],
       "invokes30d": 20,
-      "lessons": 8,
+      "lessons": 9,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:2c4aa5fe7e9a76c5",
+      "lessonsHash": "sha256-n1:59562315213e444c",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -574,7 +574,7 @@
     "skills": 29,
     "practices": 5,
     "memory": 4,
-    "lessons": 90
+    "lessons": 91
   },
   "bundles": [
     {
