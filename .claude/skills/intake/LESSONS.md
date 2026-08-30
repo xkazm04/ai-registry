@@ -2365,3 +2365,17 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   fact (the judging gate ran zero times). Report a degenerate arm as the finding it
   is, and write into the technique the boundary that keeps B from becoming the stop
   condition.
+
+## 1.1.0 - 2026-08-30 - headlong-agent-microharness
+
+- An in-tree design doc's REVISION LOG is its highest-yield section, the way a
+  release walkthrough's failure modes are. Both of the run's hardest technique
+  rules (rumination must not count as work; self-replies must not reset
+  engagement) lived in dated revision notes at the top of a design doc, each
+  recording a defect the authors paid for after shipping the first version.
+  Read a design doc's revisions before its body.
+- Phase 7.5 seam selection has a hidden axis: where the B arm's instrument
+  lives. Two consecutive runs picked sharp seams whose instruments sit in
+  production state no local gate reaches, and both fell to simulation. Prefer a
+  seam whose instrument is in the tree (fixture, recorded log, replayable
+  script) over a sharper seam whose instrument is remote.
