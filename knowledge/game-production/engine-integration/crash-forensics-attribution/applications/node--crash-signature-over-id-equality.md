@@ -5,13 +5,14 @@ subject: crash-forensics-attribution
 technique: crash-signature-over-id-equality
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Signature matching in the crash analyser
 
 Realized in the PoF repo at `src/lib/crash-analyzer/crash-signature.ts`, consumed by
-`analysis-engine.ts` through `buildDiagnosisCorpus` (`analysis-engine.ts:250`). The module is
+`analysis-engine.ts` through `buildDiagnosisCorpus` (`analysis-engine.ts:246`). The module is
 deliberately pure — "free of app/DB/UI imports, so the ranking can be reasoned about (and
 unit-tested) without running the analyzer or the UI" (`crash-signature.ts:16-18`).
 
@@ -31,7 +32,7 @@ hundred-percent miss rate in its natural habitat.
 
 Note how the identifier survives in the corpus without being the key: `buildDiagnosisCorpus`
 joins diagnoses to crashes by id because "a diagnosis belongs to exactly one authored crash",
-and the comment at `analysis-engine.ts:243-248` is explicit that this internal structure "is not
+and the comment at `analysis-engine.ts:238-245` is explicit that this internal structure "is not
 the matching. The matching is `matchSignature`, which never looks at the query's id."
 
 ## The signature
@@ -56,7 +57,7 @@ frames included, since "an engine frame names the subsystem even though it is no
 module ownership." Admission is structural first: `isEngineShaped` (`:97`) accepts an underscore
 or two-or-more capitals, which "covers the UE type vocabulary (`UObject`, `FArchive`,
 `AbilitySpec`, `TWeakObjectPtr`, `GAS`) while rejecting the single-capital jargon keys that are
-ordinary words (`Server`, `Category`, `Transient`)". `tokenVariants` (`:106`) retries with a UE
+ordinary words (`Server`, `Category`, `Transient`)". `tokenVariants` (`:111`) retries with a UE
 type prefix stripped and lowercased. `PLAIN_CRASH_WORDS` (`:78`) is the six-word explicit
 exception list — `ensure`, `assertion`, `serialization`, `nullptr`, `montage`, `replication` —
 guarding against the base jargon dictionary's everyday verbs (`add`, `move`, `remove`, `none`)
@@ -73,8 +74,8 @@ fraction of the available evidence rather than an arbitrary point total."
 or only the method matches (`:276`), and scores `terms` as a Jaccard overlap (`:301-305`). Two
 absence rules are stated where they are implemented: "Missing evidence scores ZERO rather than
 counting as agreement — two crashes that both failed to attribute a module have not thereby
-agreed on one" (`:250-254`), and an empty term set on both sides scores 0, not a perfect match
-on the empty set (`:301-303`). The function is documented as symmetric, and `round2` (`:229`)
+agreed on one" (`:252-254`), and an empty term set on both sides scores 0, not a perfect match
+on the empty set (`:301-303`). The function is documented as symmetric, and `round2` (`:230`)
 fixes the displayed similarity to two places so it does not jitter.
 
 `MATCH_FLOOR = 0.55` (`:222`) carries its own calibration proof: a bare shared failure class plus

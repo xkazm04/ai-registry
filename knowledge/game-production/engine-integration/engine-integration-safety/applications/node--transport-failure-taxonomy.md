@@ -5,7 +5,8 @@ subject: engine-integration-safety
 technique: transport-failure-taxonomy
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # A four-kind failure taxonomy in the PoF bridge client

@@ -5,7 +5,8 @@ subject: quality-verdict-integrity
 technique: condemn-vs-elevate-asymmetry
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The condemning-provenance set in PoF's acceptance bridge
@@ -85,7 +86,7 @@ speaks for the step, while `judge === 'human'` always may.
 
 ## Rendering the standing
 
-`verdictStanding.ts:44` carries `VERDICT_STANDING_CHIP`, shared with the lab's
+`verdictStanding.ts:49` carries `VERDICT_STANDING_CHIP`, shared with the lab's
 `ProvenanceStrip` "so the two surfaces speak ONE language (glyph + word, never
 hue alone — WCAG 1.4.1)", and `VERDICT_STANDING_NOTE` gives each standing a
 one-line meaning. `current` is the only chip at level `ok`. The provenance is
@@ -96,7 +97,7 @@ without re-deriving — or fabricating — it".
 ## The deviation
 
 `VERDICT_STANDING_NOTE.unknown` reads "Its content binding cannot be confirmed.
-Still applied, and counted." Counting an `unknown` verdict toward a reported
+Still applied by acceptance, and counted." Counting an `unknown` verdict toward a reported
 quality *average* is a step beyond condemning on it: the score it contributes is
 a number about content nobody can confirm it read. The technique's standard is
 that only `current` contributes to a quality figure, while `unknown` condemns

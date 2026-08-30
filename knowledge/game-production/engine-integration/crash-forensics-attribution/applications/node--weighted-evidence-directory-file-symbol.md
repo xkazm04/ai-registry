@@ -5,7 +5,8 @@ subject: crash-forensics-attribution
 technique: weighted-evidence-directory-file-symbol
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The crash analyser's scored module attribution
@@ -41,7 +42,7 @@ made the old map imprecise."
 
 ## The dictionary, and one rule that was deleted rather than down-weighted
 
-`MODULE_RULES` (`analysis-engine.ts:63-75`) is eleven rules over eleven ARPG modules —
+`MODULE_RULES` (`analysis-engine.ts:63-75`) is eleven rules over ten ARPG modules —
 `arpg-character`, `arpg-abilities`, `arpg-inventory`, `arpg-ui-hud`, `arpg-dialogue-quests`,
 `arpg-combat`, `arpg-loot`, `arpg-ai`, `arpg-save-load`, `arpg-audio`. Two entries map to
 `arpg-character` rather than one, because the vitals vocabulary (`health`, `stamina`, `vitals`)
@@ -67,7 +68,7 @@ rule. That is the technique's "prefer deleting a catch-all" in the concrete.
   attribution but cannot carry one on its own." The margin is the relative form, and it is safe
   here because the floor is applied first (`:201` before `:204`).
 
-`frameEvidence` (`analysis-engine.ts:130-142`) emits at most one entry per fragment kind per
+`frameEvidence` (`analysis-engine.ts:131-142`) emits at most one entry per fragment kind per
 frame and drops kinds whose token string came back empty, so a missing directory contributes
 nothing rather than an imputed zero.
 

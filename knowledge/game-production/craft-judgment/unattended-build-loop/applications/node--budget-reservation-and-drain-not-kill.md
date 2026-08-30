@@ -5,7 +5,8 @@ subject: unattended-build-loop
 technique: budget-reservation-and-drain-not-kill
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # PoF's budget governor and the judge fleet's drain pool
@@ -15,7 +16,7 @@ orchestrator's spend governor, and the judge fleet's drained worker pool.
 
 ## Reservation closes the concurrency overshoot
 
-`src/lib/harness/orchestrator.ts:255` documents the admission check:
+`src/lib/harness/orchestrator.ts:262` documents the admission check:
 
 ```ts
 export function budgetWouldOverflowReserved(
@@ -36,7 +37,7 @@ The comment names what the middle term buys: "This is what closes the
 settled spend and green-lights every concurrent launch before a single dollar is
 booked."
 
-`sessionCostEstimate` (line 247) prefers the running average once any session has
+`sessionCostEstimate` (line 249) prefers the running average once any session has
 settled and falls back to `SESSION_COST_ESTIMATE_USD` "so the first launches
 still reserve a non-zero amount". `runLoop` keeps `reserved: Map<areaId, number>`
 so each session releases exactly what it booked (line 676); `wouldOverflowNow()`

@@ -5,7 +5,8 @@ subject: engine-integration-safety
 technique: editor-thread-timeout-budgeting
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Two derived timeouts in PoF: the bridge bound and the lab's poll budget

@@ -5,14 +5,15 @@ subject: design-doc-compliance-scoring
 technique: severity-weighted-scale-free-damping
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The gap-density damping curve in the PoF audit engine
 
 ## What it replaced
 
-`src/lib/gdd-compliance.ts:501` records the prior penalty term literally:
+`src/lib/gdd-compliance.ts:502` records the prior penalty term literally:
 `Math.min(gapCount * 2, 10)`. Three failures in one expression — it saturated at 10 points
 (so five gaps and five hundred were the same number), it ignored severity entirely, and it
 counted gaps rather than measuring density, so a module with eighty features looked worse
@@ -41,7 +42,7 @@ nothing to damp, and the module is reported as unmeasured rather than as a zero.
 
 ## Severity weights
 
-`GAP_SEVERITY_WEIGHT` at `src/lib/gdd-compliance.ts:481`:
+`GAP_SEVERITY_WEIGHT` at `src/lib/gdd-compliance.ts:485`:
 
 | severity | weight |
 | --- | --- |
@@ -56,16 +57,16 @@ in bookkeeping still registers.
 
 ## The double-punishment exclusion
 
-`GAP_LOAD_EXCLUDED` (`:487`) removes `missing-feature`, `partial-implementation` and
+`GAP_LOAD_EXCLUDED` (`:497`) removes `missing-feature`, `partial-implementation` and
 `unmeasured` from the load, each with its pricing authority named in the comment: `missing`
 already scores 0 credit in `calculateConformance`, `partial` already scores half, and
 `unmeasured` is what `coverage` reports. The gaps are still emitted and still listed — the
-partial-implementation gap at `src/lib/gdd-compliance.ts:246` was previously silent entirely,
+partial-implementation gap at `src/lib/gdd-compliance.ts:249` was previously silent entirely,
 and its comment states the principle exactly: "the gap exists to be visible, not to punish
 twice."
 
 Resolved gaps also leave the load (`!g.resolved`), while remaining attached to their module;
-the report's headline counters at `:690` count only open gaps, which is what keeps
+the report's headline counters at `:691` count only open gaps, which is what keeps
 `criticalGaps <= totalGaps` true against the client-side transform.
 
 ## Deviation not lowered

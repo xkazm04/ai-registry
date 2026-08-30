@@ -5,7 +5,8 @@ subject: quality-verdict-integrity
 technique: content-hash-binding
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Content-hash binding in the PoF judge layer
