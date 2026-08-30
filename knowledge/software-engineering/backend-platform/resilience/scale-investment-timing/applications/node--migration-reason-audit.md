@@ -4,7 +4,7 @@ type: application
 subject: scale-investment-timing
 technique: migration-reason-audit
 stack: node
-verified_on: 2026-08-29
+verified_on: 2026-08-30
 verified_against: node@24
 ---
 
@@ -119,6 +119,22 @@ serialises writers within it; nothing in the repository measures where a third o
 tenth concurrent writer degrades. The ceiling has its figure, axis and mechanism, but
 its *method* — the query or test that reproduces the number — is the part the
 technique asks for that is absent here.
+
+**Update 2026-08-30 (kp commit `78971712`): the ceiling gained its method, and the
+method returned headroom.** `scripts/perf/sqlite-writer-knee.mjs` runs the repo's
+real pragmas with single-row transactions across N=1..5 worker connections, 1000
+commits each, and the §2 writer row now carries the result inline
+(`postgres-backend.md:91`, `Basis: **measured 2026-08-30**`): p95 commit latency
+stays ~0.1–0.16 ms through N=5 with zero `SQLITE_BUSY`, and only the worst-case
+tail grows (~10 ms at N=1 to ~110–140 ms at N=4–5). A third writer does not
+degrade the typical commit, so the stated 1–2 figure has measured headroom for the
+dominant small-commit shape — the first load measurement in this fleet, and the
+outcome [ceiling-as-deadline-not-trigger](../techniques/ceiling-as-deadline-not-trigger.md)
+now names as a success rather than a failed measurement. The row does what the
+technique asks of a derived value: it states what to re-measure (the tail, under
+bulk imports or long transactions) and when (pragmas or write shapes change), so
+the figure is dated and re-runnable rather than asserted. The paragraph above
+stays as the record of the before-state.
 
 **Stability under questioning is unobservable.** The technique's strongest signal is
 the reason list holding still across a week and across people. Both documents were

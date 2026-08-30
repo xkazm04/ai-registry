@@ -4,7 +4,7 @@ type: application
 subject: entity-lifecycle
 technique: orphan-reconciliation
 stack: node
-verified_on: 2026-08-29
+verified_on: 2026-08-30
 verified_against: node@24
 ---
 
@@ -89,6 +89,27 @@ physically cannot reach another tenant's data."
   kept is permanently invisible. The `projectIds` escape hatch documents
   this reliance on "an operator [who] knows the id from an old audit
   record."
+
+  **Resolved 2026-08-30 (systedo-case commit `f17553d2`).**
+  `src/lib/projects/orphan-walk.ts` is the dependent-side walk, and its
+  header quotes this edge back: a sweep pointed at the authoritative
+  side "cannot FIND an orphan, because an orphan is by definition absent
+  from the side being enumerated." Its enumeration is **storage truth,
+  not a second list** — locally the sqlite schema itself (every table
+  with a `project_id` or tenant column), in the cloud the
+  user-attributable namespaces — deliberately wider than
+  `PROJECT_STORE_DELETERS`, so an unregistered per-project store
+  surfaces as `residue` after an apply instead of being silently
+  converged over. It reports before it deletes and **never deletes
+  itself**: `apply: true` hands the orphaned ids to
+  `sweepProjectOrphans`, keeping exactly one delete path in the system.
+  Existence checks go ownerless where they must (a project-keyed table
+  with no user column can belong to any user, so aliveness is "does any
+  project row carry this id"). Commit `90d23632` closes the companion
+  residual: durable eviction accounting for the local archive backend
+  (migration v34, `src/lib/db.ts:1336`). The remaining edge: cloud root
+  collections are not walkable per-user — attributability, not
+  direction, is now what bounds the walk.
 - **Loud vs. quiet failure.** Per-store failures flow back to the door as
   typed `StoreOutcome`s and reach the ledger — but the resume-sweep at
   `route.ts:123` and the activity emit are `try/catch console.error`,

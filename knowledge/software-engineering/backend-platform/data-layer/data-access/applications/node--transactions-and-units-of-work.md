@@ -4,7 +4,7 @@ type: application
 subject: data-access
 technique: transactions-and-units-of-work
 stack: node
-verified_on: 2026-08-29
+verified_on: 2026-08-30
 ---
 
 # Units of work in the Prisma v8 SQL runtime (Node)
@@ -247,3 +247,40 @@ code names. Deviation, accepted and documented: the allowance pre-check as
 a non-atomic read whose overshoot bound is stated. Upward lesson folded
 into the technique: serialization retry is incomplete without a key that
 survives a lost commit acknowledgement.
+
+## Update 2026-08-30 (ascent commits `2b0b9860`, `9ebe5667`)
+
+**The handoff reopen race — the field sighting behind the technique's
+"CAS does not compose across a caller's earlier read" paragraph.** The
+batch hand-off route read each recommendation's status, then called a
+per-id update helper that carried its own conditional predicate — and
+the two guards covered different windows. A row moving `open → done`
+between the route's stale read and the helper's write passed the
+helper's CAS and was silently *reopened*: two CAS-guarded layers, one
+lost update. `handoffRecommendations`
+(`src/lib/db/scans-recommendations.ts:201`) replaces the loop with one
+membership batch read (`:216`, an `IN` query carrying the owning-org
+chain) and per-row conditional writes whose `WHERE` carries the
+expected status **and** the owner (`:246` — `status: "open"` plus
+`scan.repo.orgId`), inside one `$transaction` with the timeline events
+and audit rows. The verdict is consumed: a row that moved concurrently
+"loses LOUDLY into `skipped` instead of being silently reopened"
+(`:195-196`). The boundary now spans the read that decided.
+
+**`transactPublicScanQuota` (`src/lib/db/scan-quota.ts:50`) — the
+retryable closure moves into the repository.** The quota bucket's
+read-decide-write had lived above the data layer with its own
+`$transaction`; it is now repository-owned: one interactive
+transaction, `withRetry` around the whole closure, and the driver
+variance — serializable isolation on Postgres, no isolation option on
+the OCC-resolving production store because its commit-time conflict
+already aborts the loser with a retryable code (`quotaTxOptions`,
+`:17-23`) — kept inside the layer where callers cannot see it. The
+`decide` callback's **purity is the documented contract** (`:44`: "MUST
+therefore be pure (no side effects, no fresh idempotency keys): a
+retried attempt" re-runs it), which is the technique's mint-outside-
+the-loop rule stated as a type-level obligation on the caller;
+`chargedAt` is still minted once outside the retry. The lint ratchet
+that forbids raw `$transaction` above the data layer lost two
+grandfathered entries (`eslint.config.mjs`, −3 and −1 lines across the
+two commits) — the guard tightened as the exceptions were retired.

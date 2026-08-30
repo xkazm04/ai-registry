@@ -4,7 +4,7 @@ type: application
 subject: entity-lifecycle
 technique: orphan-reconciliation
 stack: rust
-verified_on: 2026-08-29
+verified_on: 2026-08-30
 verified_against: rust@1.80
 ---
 
@@ -17,7 +17,8 @@ database and their embeddings in a **separate vector database file**:
 boundary (`src-tauri/db/src/repos/core/memories.rs:1818-1832`). That
 makes memory deletion a cross-store delete, and the tree exhibits both
 halves of the technique — the parts it built, and the incident that maps
-exactly onto the parts it skipped.
+exactly onto the parts it skipped. The sections below are the dated
+specimen of that before-state; the resolution at the end closes it.
 
 ## Reapers exist, but no registry — so the doors diverge
 
@@ -63,3 +64,27 @@ The compensating pattern on the *write* side is correct: embed-on-create
 failure never fails the memory insert and is explicitly handed to the
 backfill ("memory persisted; backfill will cover it", `:2064-2072`) —
 creation has a reconciler; destruction does not.
+
+## Resolved 2026-08-30 (personas commit `5ca272bff`)
+
+Destruction now has its reconciler, and the shape is the technique's.
+`src-tauri/db/src/repos/core/memory_reaper.rs` adds the enumerable
+registry (`MEMORY_REAPERS`, `:52`) from which the cascade, the receipt
+and the sweep all derive — the module header (`:13-23`) states the three
+derivations in the technique's own terms. The ledger is
+**write-ahead**: `memory_reaper_ledger` lives in the main DB with no
+foreign keys, outside every cascade (owned by migration
+`e15_memory_reaper_ledger.rs`), and the debt is recorded *before* the
+fire-and-forget reapers dispatch, resolved on confirmed success — the
+honest form where "record on failure" cannot be implemented at a door
+whose reapers are async and may not run at all. The dependent-side walk
+the previous sections found missing exists as
+`reconcile_memory_vector_orphans` — report mode by default, apply as the
+explicit flag — and six delete doors are wired through the module. The
+archive door is deliberately **unledgered** (`:350-354`, "Door 6" in the
+tests at `:813-816`): its parent row survives, so the parent-first
+archived-GC sweep is its repair path, and writing it to the ledger would
+let the sweep's existence check resolve the debt without paying it —
+the surviving-parent exclusion the technique now carries. The standing
+~5,158 orphans from the 2026-08-17 purge remain report-only pending an
+operator apply, which is the report-before-apply discipline, not a gap.

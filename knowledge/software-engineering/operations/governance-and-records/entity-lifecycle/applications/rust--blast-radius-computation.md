@@ -4,7 +4,7 @@ type: application
 subject: entity-lifecycle
 technique: blast-radius-computation
 stack: rust
-verified_on: 2026-08-29
+verified_on: 2026-08-30
 verified_against: rust@1.80
 ---
 
@@ -80,3 +80,24 @@ consent gets compared against.
   graph and took **20,342 rows across 25 tables** — all 78 personas,
   6,535 memories, 2,188 executions. The cascade behaved exactly as
   declared; the number was learned by running it.
+
+## Update 2026-08-30 (personas commit `229e61f37`): the preview goes through the enforcement path
+
+Register #31 — the class where a predicate-sharing count still
+understated the real removal 3.29× because it could not see the cascade —
+is resolved structurally, not numerically. `prune_executions`
+(`src-tauri/src/commands/infrastructure/system/storage.rs:167`) is **one
+body for both preview and act**: the real DELETE runs inside a
+`BEGIN IMMEDIATE` transaction (write lock at BEGIN, so the tally cannot
+lie under a concurrent writer, `:175`), per-table casualties are counted
+by row-count diff — which sees the FK cascade and the FTS triggers, not
+just the target table — and the mode decides only the final verb:
+ROLLBACK for a dry-run, COMMIT for the act (`:166`, `:186`). Dry-run is
+the default (`:215`), and the test at `:279`
+(`dry_run_sees_the_cascade_and_deletes_nothing`) pins exactly the
+property the register entry demanded: "The dry-run IS the enforcement
+path: it must see the cascade." Divergence between shown and taken is
+now unrepresentable for this door — there is no second implementation to
+drift. The earlier resolution of the failed-probe-as-zero incident
+(commit `70faa07b3`, all five persona probes propagating errors) stands
+on re-check.

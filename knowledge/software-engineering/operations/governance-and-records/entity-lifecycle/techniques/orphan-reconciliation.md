@@ -60,6 +60,25 @@ returns has swallowed the one signal the ledger needed
 the outcome of every reaper flows back to the door that must account for
 it.
 
+Where the reapers are genuinely fire-and-forget — dispatched
+asynchronously, with no outcome the door can await — "record on failure"
+is unimplementable at the door, and the honest form is **write-ahead**:
+record the debt *before* dispatching the reapers, resolve the record on
+confirmed success. The write-ahead ledger is strictly stronger under two
+conditions the record-on-failure form cannot survive: a crash mid-reap
+(the failure signal died with the process, but the debt was already
+durable), and builds or environments where the reapers cannot run at all
+(nothing ever fails, because nothing ever starts).
+
+The ledger records deletes of **destroyed parents only**. A door whose
+parent survives — an archive, a detach — must not write it: the sweep's
+existence check would find the parent alive and resolve the debt without
+paying it. Cleanup behind a surviving parent is a different repair
+direction — the parent is still enumerable, so a parent-first sweep can
+find and finish it — and forcing it through the orphan ledger converts
+the existence check from a safety mechanism into a false-resolution
+machine.
+
 ## The sweep: derived, report-first, and pointed the right way
 
 The reconciliation sweep re-runs owed reapers and hunts orphans nobody
@@ -84,6 +103,18 @@ recorded. Its disciplines:
   store and ask, per item, whether its parent still exists. Fleet
   measurement has shown a store 100% orphaned while every sweep in the
   system ran parent-first and reported clean.
+- **Storage truth, wider than the registry.** The dependent-side walk
+  builds its work list from what the storage layer *says exists* —
+  schema or namespace introspection, every store keyed by the parent's
+  identifier — deliberately wider than the reaper registry. That width
+  is the point: a dependent store nobody registered is exactly what
+  this direction exists to expose, and it surfaces as residue in the
+  walk's report instead of being silently skipped. The registry stays
+  the authority for what the cascade and the receipt derive from; the
+  sweep walks reality. And where a dependent store carries no owner key
+  per row, the existence check must be ownerless — "does any parent
+  carry this identifier" — because an owner-scoped check against
+  unattributed rows can condemn another owner's live data.
 - **An entry point for pre-ledger orphans.** Orphans that predate the
   ledger (or whose record was lost) need a door that accepts a
   parent identifier, assumes every reaper is owed, and existence-checks it

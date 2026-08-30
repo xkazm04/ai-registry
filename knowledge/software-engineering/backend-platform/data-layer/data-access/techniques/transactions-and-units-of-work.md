@@ -209,6 +209,17 @@ loudly instead of silently. The grep-shaped review question: every write
 whose value came from an earlier read — where is the boundary that spans
 both?
 
+Per-operation compare-and-set does not compose across a caller's earlier
+read. A field-measured specimen: two layers, each individually
+CAS-guarded, still produced a lost update — the caller's stale read fed a
+helper whose own CAS checked a *different* expected state, and the write
+silently reopened a closed record. Each guard was correct about its own
+window; neither covered the window that mattered, the one between the
+read that decided and the write that acted. The unit-of-work boundary
+must span the deciding read, and the conditional write's predicate must
+carry that read's expectations — not whatever state the inner layer
+happens to check.
+
 ## The single conditional write beats the transaction it replaces
 
 Before reaching for a boundary at all, ask whether the invariant fits in

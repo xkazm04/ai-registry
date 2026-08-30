@@ -44,6 +44,15 @@ what change invalidates it — a new access pattern, a tenant an order of magnit
 larger than the largest one measured, a feature that turns a point read into a scan.
 A ceiling nobody has recomputed in two years is not a ceiling, it is a fossil.
 
+And when the method is finally run against a stated ceiling, one of its
+possible answers is **headroom**: the next unit of load does not degrade the
+typical case, and the figure was conservative. That outcome is a success, not a
+failed measurement — the deadline moves out, and the figure trades its asserted
+basis for a dated, re-runnable one. Treat it accordingly: state what the
+measurement did *not* cover and what to re-measure when conditions change — the
+tail rather than the median, the write shape rather than the count — instead of
+discarding the method because it declined to produce an emergency.
+
 ## Say whether the ceiling is in utilisation or in headroom, because they are not the same
 
 This is the most common way a correctly measured ceiling still misleads, and it is

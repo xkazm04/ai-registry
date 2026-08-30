@@ -54,7 +54,11 @@ until the frontier closes. Two disciplines make the walk trustworthy:
   cannot drift is one produced *through the enforcement path*: run the
   destruction in a counting mode (execute inside a transaction, tally
   casualties per table, roll back) or derive both preview and act from
-  the same dependency registry that includes the cascade set.
+  the same dependency registry that includes the cascade set. The
+  counting-mode transaction must take its write lock at BEGIN
+  (immediate/write mode, on engines that defer it), or the preview's
+  snapshot can lie under a concurrent writer between its reads and its
+  rolled-back deletes.
 
 Two failure disciplines sit on the enumeration itself. **A probe that
 errors must never render as an empty result** — a failed count
