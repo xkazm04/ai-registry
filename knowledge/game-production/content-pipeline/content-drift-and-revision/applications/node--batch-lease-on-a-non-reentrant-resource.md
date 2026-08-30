@@ -5,7 +5,8 @@ subject: content-drift-and-revision
 technique: batch-lease-on-a-non-reentrant-resource
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The drain lease over a non-reentrant UE editor (PoF)

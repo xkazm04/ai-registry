@@ -5,7 +5,8 @@ subject: motion-quality-gating
 technique: filmstrip-sampling-discipline
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Filmstrip resolution in PoF
@@ -19,7 +20,7 @@ the model.
 
 A capture directory routinely holds two families at once: the observation capture
 writes `frame_NN.png` (plus `frame_NN_side.png` for the side camera) and the L4
-scenario capture writes `shot_NN.png`. `FRAME_RE` (line 11) matches both, then line 37
+scenario capture writes `shot_NN.png`. `FRAME_RE` (line 10) matches both, then line 37
 picks exactly one:
 
 ```
@@ -31,14 +32,14 @@ than interleaving them". Interleaving would hand the critic two takes as one mot
 The camera is a third family and is filtered first (line 34) — `cam: 'main'` drops the
 `_side` frames, `cam: 'side'` keeps only those — so a strip is one take from one camera.
 
-## Numeric order (`filmstrip.ts:39`)
+## Numeric order (`filmstrip.ts:40`)
 
 `.sort((a, b) => Number(a.m[2]) - Number(b.m[2]))` on the captured index group, with the
 docstring calling out the exact hazard: "numeric-sorted (so `frame_10` follows
 `frame_2`, not `frame_1`)". A lexical sort here would shuffle time and the critic would
 report it as bad animation.
 
-## Even subsample keeping first and last (`filmstrip.ts:21-28`)
+## Even subsample keeping first and last (`filmstrip.ts:20-27`)
 
 ```
 for (let i = 0; i < n; i++) {
@@ -50,21 +51,21 @@ The `(n - 1)` denominator with an `(arr.length - 1)` numerator is what pins both
 endpoints: `i = 0` maps to index `0`, `i = n - 1` maps to the last index. That is the
 start pose that `anticipation` is scored against and the settle that `followThrough` is
 scored against — the two dimensions in `prompt.ts` that a naive "every nth frame" would
-silently remove the evidence for. The guards on line 22 handle the degenerate cases
+silently remove the evidence for. The guards on line 21 handle the degenerate cases
 (`n >= arr.length` returns everything; `n <= 1` returns a single frame) rather than
 producing a division by zero.
 
 ## Where the count travels
 
-`buildCritiquePrompt` in `src/lib/anim-critique/prompt.ts:32` writes the resolved frame
+`buildCritiquePrompt` in `src/lib/anim-critique/prompt.ts:30` writes the resolved frame
 count into the prompt text — "You are looking at N frames sampled in time order" —
 so the sample size is part of the request and therefore part of the score's basis.
 
 ## The sibling sampler
 
-`src/lib/visual-gen/footage-gate.ts:57-70` (`buildFfmpegSampleArgs`) does the same job
+`src/lib/visual-gen/footage-gate.ts:58-67` (`buildFfmpegSampleArgs`) does the same job
 for a video clip ahead of a markerless-capture solve, sampling N frames evenly across a
-duration read by `ffprobe` (`parseFfprobeDuration`, line 48, returns `null` on garbage
+duration read by `ffprobe` (`parseFfprobeDuration`, line 47, returns `null` on garbage
 or zero rather than defaulting). Its prompt (line 23) states the disqualifier that is
 specific to motion: "both feet must stay two distinct, separate shapes in every frame;
 feet that fuse or merge into one mass are DISQUALIFYING, because foot contact drives

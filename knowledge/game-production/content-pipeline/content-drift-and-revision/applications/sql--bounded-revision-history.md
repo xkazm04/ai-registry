@@ -5,7 +5,8 @@ subject: content-drift-and-revision
 technique: bounded-revision-history
 stack: sql
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: sql@3
 ---
 
 # SQLite revision archive for pipeline artifacts (PoF)
@@ -31,7 +32,7 @@ expensive here specifically.
 
 ## Archive only on real content change
 
-`contentChanged(prev, next)` (`pipeline-artifacts-db.ts:~130`) compares `data` and `ueAssets`
+`contentChanged(prev, next)` (`pipeline-artifacts-db.ts:~135`) compares `data` and `ueAssets`
 by `JSON.stringify` and is the gate on `archive()`. The comment names the failure it prevents:
 *"A gate drain, a static-verify pass and a packaging verify all re-upsert the same `data` with
 a new status/tier/reason — archiving those would bury the handful of real produce versions

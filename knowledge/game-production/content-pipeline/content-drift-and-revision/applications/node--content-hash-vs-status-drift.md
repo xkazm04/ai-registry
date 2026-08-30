@@ -5,7 +5,8 @@ subject: content-drift-and-revision
 technique: content-hash-vs-status-drift
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Content drift in the PoF layout lab
@@ -33,7 +34,7 @@ a change — an added or removed asset still is. The `data` half goes through
 `src/lib/judge/contentHash.ts`, which owns the exclusion rule:
 
 ```ts
-const VOLATILE_KEYS = new Set(['genHistory', '_provenance']);   // contentHash.ts:33
+const VOLATILE_KEYS = new Set(['genHistory', '_provenance']);   // contentHash.ts:35
 ```
 
 `genHistory` is the gallery's re-roll log; the *selected* candidate is projected to the
@@ -41,7 +42,7 @@ artifact's top level, so the selection binds and the log does not — hashing th
 mark every verdict stale after a browse that changed nothing, silently clearing real
 condemnations."* `_provenance` is stamped server-side by `POST /api/pipeline-artifacts`.
 
-Serialization is `canonical()` (`contentHash.ts:~63`): keys sorted at every depth, arrays in
+Serialization is `canonical()` (`contentHash.ts:~66`): keys sorted at every depth, arrays in
 order, `undefined` dropped, exclusions applied at depth 0 only. The digest is FNV-1a in base-36
 — deliberately non-cryptographic, because it *"must run identically on the server (the API
 route stamps the hash) and in the browser (the lab compares it against what is on screen), so

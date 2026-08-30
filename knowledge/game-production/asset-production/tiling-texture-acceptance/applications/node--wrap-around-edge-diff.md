@@ -5,7 +5,8 @@ subject: tiling-texture-acceptance
 technique: wrap-around-edge-diff
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # Wrap-around edge diff in a server-side generation flow
@@ -15,7 +16,7 @@ runs immediately after a tiling texture is generated, before anything is importe
 
 ## The measure
 
-`detectSeams()` (`seam-check.ts:58-101`) decodes the encoded bytes with `sharp`, calls
+`detectSeams()` (`seam-check.ts:59-102`) decodes the encoded bytes with `sharp`, calls
 `.removeAlpha()` so the comparison is over colour channels only, and takes raw pixels.
 Then, per axis:
 
@@ -43,7 +44,7 @@ the arithmetic, is why the check is mandatory in this pipeline.
 
 ## Never breaking the flow it augments
 
-`detectSeamsSafe()` (`seam-check.ts:103-121`) wraps the analysis in a try/catch, logs a
+`detectSeamsSafe()` (`seam-check.ts:104-120`) wraps the analysis in a try/catch, logs a
 warning, and returns `null` rather than throwing. The docstring states the rule
 explicitly: "a seam check must never break the generation flow it augments". Note what
 `null` is and is not — it is a distinct third value alongside `hasSeam: true` and

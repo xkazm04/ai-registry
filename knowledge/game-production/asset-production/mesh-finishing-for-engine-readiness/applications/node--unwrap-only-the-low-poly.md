@@ -5,14 +5,15 @@ subject: mesh-finishing-for-engine-readiness
 technique: unwrap-only-the-low-poly
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # A Node finishing runner that plans the unwrap before it spawns Blender
 
 PoF drives Blender headless from Node to turn dense image-to-3D output (Hunyuan3D, Tripo,
 TripoSR) into a decimated low-poly with real UVs and baked maps. The whole stage lives in
-`src/lib/visual-gen/mesh-finish.ts` (408 lines), built as pure planning cores plus an
+`src/lib/visual-gen/mesh-finish.ts` (484 lines), built as pure planning cores plus an
 injectable spawn seam so the orchestration is unit-tested without Blender present.
 
 ## The unwrap is a plan, not a flag
@@ -21,7 +22,7 @@ injectable spawn seam so the orchestration is unit-tested without Blender presen
 face count an auto-unwrap explodes into unusable island counts (and routinely hangs/crashes
 the unwrapper) — the high-poly is never the thing you unwrap."*
 
-`unwrapPlan(requested, targetFaces)` (lines 172–190) is the enforcement, and it refuses in
+`unwrapPlan(requested, targetFaces)` (lines 232–244) is the enforcement, and it refuses in
 two distinct ways rather than returning a boolean:
 
 - No `targetFaces` at all → `unwrap: false` with `'unwrap runs on the retopo'd low-poly
@@ -37,7 +38,7 @@ comment reads *"Set when an unwrap was asked for but refused — never dropped s
 
 ## Dependent operations fail together
 
-`buildMeshFinishArgs` (lines 232–265) is where the dependency becomes structural rather
+`buildMeshFinishArgs` (lines 289–318) is where the dependency becomes structural rather
 than documentary. It calls `unwrapPlan` first, then `bakePlan`, and the bake flags are
 gated on `plan.unwrap && bakes.length`. A caller that requests a bake alongside an
 un-plannable unwrap gets no `--bake` argument at all: the argv is built from the plan, so
@@ -45,11 +46,11 @@ there is no code path that can send a bake into a mesh with no UVs.
 
 ## The same shape guards the interior cull
 
-`cullInterior` (lines 76–86) applies the identical pattern to a different operation, with a
+`cullInterior` (lines 117–130) applies the identical pattern to a different operation, with a
 different ceiling and a sharper distinction. The cull runs on the full-density mesh *before*
 decimation, so the script refuses it above its own `CULL_FACE_CEILING` (200k faces) and
 reports `cullRefusedReason`. Separately, `cullLimitReasonFor(facesCulled, shells)` (lines
-283–288) fires when the cull *did* run and removed nothing while the mesh had more than one
+362–365) fires when the cull *did* run and removed nothing while the mesh had more than one
 disconnected shell — measured on Blender 4.2 headless, `select_interior_faces` selects 1
 face on a welded shared wall and 0 on an enclosed separate shell, so the body under a chest
 plate is invisible to it. The two fields are deliberately distinct; the field comment states

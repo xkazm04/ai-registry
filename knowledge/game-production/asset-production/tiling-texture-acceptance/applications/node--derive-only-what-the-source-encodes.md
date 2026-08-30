@@ -5,7 +5,8 @@ subject: tiling-texture-acceptance
 technique: derive-only-what-the-source-encodes
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The three-way split in an albedo-to-material derivation
@@ -38,7 +39,7 @@ const at = (x: number, y: number): number => {
 The double modulo is what handles `x = -1` on the left edge; a plain `%` would go
 negative and index out of the buffer. Every Sobel tap goes through `at()`, so no edge is
 clamped and no flat one-pixel border is created. `strength` defaults to `2`
-(`texture-maps.ts:16`, `:24`). The vector is `(-dx·s, -dy·s, 1)`, normalised with
+(`texture-maps.ts:16`, `:23`). The vector is `(-dx·s, -dy·s, 1)`, normalised with
 `Math.hypot`, then encoded `n·0.5 + 0.5` into 8-bit RGB.
 
 ## Bucket 1b — the intermediate, shipped
@@ -50,7 +51,7 @@ intermediate of a derivation is itself a channel worth exporting.
 
 ## Bucket 2 — declared heuristic, with its inversion exposed
 
-`deriveRoughnessFromAlbedo()` (`texture-maps.ts:86-95`) inverts luminance. The docstring
+`deriveRoughnessFromAlbedo()` (`texture-maps.ts:86-101`) inverts luminance. The docstring
 names it a "documented HEURISTIC (albedo has no true roughness signal) — good enough as a
 first-pass PBR set for generated tiles; author real roughness downstream when a material
 needs it." The `invert` option (`texture-maps.ts:77-84`) is the escape hatch the rule

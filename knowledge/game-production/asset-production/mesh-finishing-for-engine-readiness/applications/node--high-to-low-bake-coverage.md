@@ -5,7 +5,8 @@ subject: mesh-finishing-for-engine-readiness
 technique: high-to-low-bake-coverage
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # The bake plan that refuses metallic by name
@@ -20,7 +21,7 @@ export const BAKEABLE_MAPS = ['normal', 'ao', 'diffuse', 'roughness'] as const;
 
 The type `BakeMap` (line 35) is deliberately wider than that list — it includes
 `'metallic'` — so a caller can *ask* for a channel the pipeline will not produce, and the
-plan can refuse it by name. `bakePlan(requested)` (lines 210–230) partitions the request
+plan can refuse it by name. `bakePlan(requested)` (lines 267–286) partitions the request
 into `run: BakeMap[]` and `skipped: SkippedBake[]`, deduplicating as it goes, and every
 skipped entry carries the channel and a reason string:
 
@@ -55,7 +56,7 @@ channel entering a set labelled "baked".
 ## The measured no-op that hardened the smoothing rule
 
 The same file records the finding behind `crease-angle-and-custom-normals`. `smoothAngle`
-(lines 87–99) defaults to `DEFAULT_SMOOTH_ANGLE = 30` — *"30° keeps a hard-surface bevel
+(lines 131–143) defaults to `DEFAULT_SMOOTH_ANGLE = 30` — *"30° keeps a hard-surface bevel
 crisp while letting an organic body read as curved"* — but the pass *"only ever re-shades a
 mesh that has NO custom split normals"*. Measured on Blender 4.2 against real Tripo output:
 a generated `.glb` already carries custom normals, every polygon is already smooth, custom

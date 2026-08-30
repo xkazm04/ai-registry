@@ -5,7 +5,8 @@ subject: image-to-3d-input-gating
 technique: reference-role-tagging
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-30
+verified_against: node@24
 ---
 
 # A declared role table with a numeric assembly order
@@ -33,11 +34,11 @@ references refine earlier ones, so the reference that must not be overruled spea
 Each role carries a `promptCue` with a `{ref}` placeholder — for `identity`, *"Use {ref} as
 the master identity reference — the subject must match it exactly (shape, proportions, key
 details)."* The role is therefore rendered into the request text, not merely recorded
-alongside it. `GEN_PROMPTING_PRACTICES` (`:74-130`) states the underlying practice directly:
+alongside it. `GEN_PROMPTING_PRACTICES` (`:74-139`) states the underlying practice directly:
 *"Tag every reference with its role, explicitly, in the prompt. State what each reference is
 FOR."*
 
-`ROLE_IDS` and `getReferenceRole(id)` (`:62-66`) close the vocabulary — a role that is not in
+`ROLE_IDS` and `getReferenceRole(id)` (`:63-67`) close the vocabulary — a role that is not in
 the table cannot be assigned, which is what keeps the set from growing an untagged
 "miscellaneous" bucket.
 
