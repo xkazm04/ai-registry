@@ -172,3 +172,32 @@ Owed (updated): the maturity ladder (still all `forged`); a reporting
 installation for demand on THIS machine's projects beyond ai-registry-scripts;
 `check-skills.mjs` still red on trunk (architect em-dash) — unchanged, not this
 lane's; ~40 single-stack subjects remain after this round's four.
+
+
+## 2026-08-30 — the sweep that fixed its own instrument ([[2026-08-30-1]])
+
+The worklist this domain has been ranked on was **inflated 1.49x and unevenly**, because
+`librarian-scan` summed consumer deviations across contributor files and the two
+contributors are one fleet on two machines. Concentrated in 33 of 89 demand-bearing
+subjects, so it reordered rather than inflated: `quality-gates` sat 13th when it belonged
+2nd. Fixed — states take the floor across contributors, events still sum, and demand now
+prints as a range. **Any deviation figure in this note written before 2026-08-30 is a
+sum and reads high.**
+
+Six subjects deepened, all productive: agent-memory (a closed banked lead → the
+frozen-reader boundary statement, plus `baseline-ladder`), markdown-vault
+(`replicated-substrate`, single-stack closed), diff-comparison (its own review-mode claim
+refuted, plus `invisible-differences`), app-shell (the frame-continuity correction, 2 → 8
+applications), agent-cli-transport (`child-observed-posture`, four refutations), and
+llm-observability's operator-surfaces. 1000 → 1004 techniques, 491 → 500 applications.
+
+Two stacks added to this bundle's `stacks:` from worker proposals — `spec` and
+`gemini-cli`. The `spec` one matters beyond one subject: a public standard is a second
+**origin**, and for `ui-surfaces` subjects it tests transplantability better than a
+second framework does. It immediately found two gaps in our own upper layers.
+
+Owed (updated): `accessibility` is still single-stack and still a **reconcile** job, not
+a research one — declined again this run for that reason. The maturity ladder is still
+untouched. The catalog/rules/marketplace debt that reopened at `5781c97` is closed, and
+trunk was red on two of those before this branch. New: **a contributor-identity notion**,
+without which demand stays a range.
