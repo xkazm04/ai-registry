@@ -18,17 +18,20 @@
     },
     "goat": {
       "checkouts": {
-        "Fox": "dolla/goat"
+        "Fox": "dolla/goat",
+        "Wolf": "kiro/goat"
       }
     },
     "tracklight": {
       "checkouts": {
-        "Fox": "dolla/LightTrack"
+        "Fox": "dolla/LightTrack",
+        "Wolf": "kiro/tracklight"
       }
     },
     "pumper": {
       "checkouts": {
-        "Fox": "dolla/pumper"
+        "Fox": "dolla/pumper",
+        "Wolf": "kiro/pumper"
       }
     },
     "grant": {
