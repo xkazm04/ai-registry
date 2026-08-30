@@ -1158,3 +1158,43 @@ that check stays cheap.
   those came from the registry rather than from the code — the harness had made
   the code's own defects scarce, and only an outside standard still had
   something to say about it.
+
+## 2.7.0 - 2026-08-30 - gravitone-gcloud (subagent wave, worktree isolation)
+
+- **A worktree-isolated subagent may be branched from a STALE ref, and it will
+  report gate numbers that look fine in isolation.** Four agents were dispatched
+  with `isolation: worktree` from a session whose HEAD was 15 commits past the
+  session's own start. THREE of the four worktrees were created at the START
+  commit, not at HEAD — and two of those three *stated the correct base in their
+  final report* while having actually worked on the old one. The tell was not the
+  claim; it was the numbers: `346 passed / 325 files` and `348 passed / 326 files`
+  against a tree that was at `374 / 333`. A subagent's "all gates green" is a
+  truthful statement about the tree it was standing in, and says nothing about
+  yours.
+
+  Two consequences beyond the merge. First, the briefs went stale with the base:
+  one agent was told to import a component and read a probe that had been written
+  *this session* and did not exist in its worktree. (That agent was the only one
+  of four that noticed, fast-forwarded itself to the stated base, and produced
+  the one report whose numbers were right.) Second, an agent editing a file the
+  parent had also edited was working from the pre-edit version, so the merge —
+  not the agent — was the only thing standing between the parent's change and
+  silent loss.
+
+  **So: before dispatching, capture HEAD; on every return, verify
+  `git -C <worktree> merge-base HEAD main` equals it, and re-run the full chain on
+  the MERGED tree.** Four independently-green worktrees are not one green tree,
+  and the per-worktree number is the one a reader will believe.
+
+- **Cherry-pick, do not merge, when the parent has a dirty working tree it does
+  not own.** One target file carried three uncommitted lines from a concurrent
+  session. `git merge` refuses to touch a dirty path, and the tempting fixes
+  (stash, checkout) both risk another session's work. What held: save that file's
+  diff as a patch, restore the file, cherry-pick, re-apply the patch, then assert
+  BOTH changes are present and the file is dirty again exactly as it was.
+
+- Yield: 5 approved findings, 4 agents, 4 commits, 0 conflicts on merge, 380
+  probes green on the merged tree (up from 374). The write sets were grouped by
+  FILE rather than by context to make that true — two findings that both wanted
+  `CardTile.tsx` went to one agent rather than two, which is the only reason there
+  was nothing to resolve.
