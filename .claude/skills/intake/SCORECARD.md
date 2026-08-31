@@ -182,6 +182,7 @@ which is where this run decided it.
 | 1.4.0 | 2026-08-31 | tkdodo.eu/creating-query-abstractions | 1 (3,789 words) | 10 | 2 | **1 technique + 1 golden-path amendment** | **1 row / 1 landing** (1c/0e/0s; 1 better) | **1** | **Focus moved, and it found a gap in its own vocabulary.** The declared focus was: when an apply row reaches `better`, name the ship blocker from the four classes and act per class. This row reached `better` and hit **two blockers in sequence, of different classes** - `confirmation` (the triage pick named no project), then, once authorized, `size` (compiling the change required narrowing two pre-existing pass-through option bags, past the authorized slice). Acting per class twice is what shipped it. The four-class table is written as if a row has one blocker; a row can have a queue of them, and the second only becomes visible after the first is cleared. |
 | 1.4.0 | 2026-08-31 | `web:pgsql-hackers/2026-08` (uncurated reference index) | 1 index, **20 pages paginated by hand after the ingest returned page 1 of 20 silently** (2,680 msgs / 578 threads / 255 authors) | 9 | 2 verified + 4 caught | **2 techniques + 2 golden-path corrections + 1 sibling-technique amendment** | **2 rows / 2 landings** (0c/2e/0s; 1 better, 1 not-better) | 0 - blocker class **confirmation** (pick named rows, not a project); queue behind it named below | **Focus moved twice and both readings held.** The census rule fired three times, and once against the run's own A/B: 899 threads -> 578, six alarming repairs -> one. The ship-blocker-is-a-queue rule found a second blocker the first one hid, and it was not a `size` blocker this time but an **artifact-choice** one. |
 | 1.4.0 | 2026-08-31 | agentic-coding-trends-report | 1 (13,029 words reported by the instrument / **3,418 real** - the reader was broken, not the source) | 9 | 3 | 3 (1 technique + 2 golden-path sections; 1 amendment; 1 script + new lib) | 2 rows (0c/1e/1s) - **1:1 with the two knowledge landings** | 1 (registry: `scripts/lib/pdf-text.mjs` + `research-ingest.mjs`, code A/B, `better`) | **Declared focus hit, both halves.** The census rule fired on the run's first command: the instrument's first number (13,029) and the hand-verified number (3,418) are reported as two figures, and the shape the instrument could not see is named - a PDF container decoded as UTF-8, which `--min-words` can never catch because binary always clears the floor. The ship-blocker-is-a-queue half also paid: the `better` row's first blocker was **capability** (no PDF reader existed anywhere in the fleet), and clearing it exposed the second, **fidelity** (a naive reader returns mojibake for subset fonts - exactly the bold runs where this class puts its numbers), which was invisible until the first cleared. Two blockers, in order, neither visible from where the other stood |
+| 1.5.0 | 2026-08-31 | icse-2026-seip | 1 (74 refs, 8 read) | 30 | 7 | 2 | 0c/2e/0s | 1 | Ship 1 (tracklight docs correction, `de0a85f`). The second apply row is `unmeasurable` with its instrument named, not a zero. **Focus was handed forward and worked in an unexpected direction**: the declared focus said treat a ship blocker as a queue; here the queue was empty because the operator named the apply targets *in the triage answer*, so `confirmation` never fired and the run reached a tree write with no blocker at all. The other half of the focus — report an instrument's first number and its hand-verified number as two different figures — fired **four** times and changed a conclusion each time (150→74 references, 88→8→0 comparability claims, 12→0 promotion paths, and a worker's convergence premise that the citation graph refuted). |
 
 Reading the last ten rows: **the v1.4.0 fix worked and the funnel moved.** For the first
 time in the window a run read the declared focus at Phase 1, carried a project and a file
@@ -421,3 +422,38 @@ Next run's declared focus: **write `ship` with its predicate.** A zero is
 `ship 0 (declined: no change warranted)` or `ship 0 (blocked: <class>)`, and only the
 second is a funnel loss. Then re-read the last ten rows under that split and say which
 stage the funnel actually loses at — the current answer may not survive the correction.
+
+---
+
+**Run 2026-08-31 (`icse-2026-seip`), reading the wave it was handed.** The declared focus
+arrived in two halves and only one of them could fire. The ship-blocker-as-a-queue half
+never engaged, because the operator named the apply targets *inside the triage answer* —
+so `confirmation`, the modal blocker of the last ten runs, was satisfied three phases
+before Phase 8 asked for it. That is worth stating as a result rather than a miss: **the
+cheapest fix for the modal ship blocker is to ask for the tree in the same question that
+asks for the pick**, and the previous focus that put a project column on every triage row
+is what made it natural to ask.
+
+The other half fired four times and changed a conclusion each time. **An instrument's
+first number is not its measurement**: a raw grep counted 150 references where two
+structural parses agreed on 74; a comparability census returned 88 matches that
+hand-classified to 8 and then to 0; a promotion-path census returned 12 sites that
+hand-verified to 0; and a worker's confident convergence claim was refuted by the citation
+graph. Four instruments, four wrong first numbers, and in every case the correction came
+from opening the thing. Two runs now say this; a third makes it a rule this file carries.
+
+**The weakest stage has moved, and the wave moved it.** `apply` is fixed — ten of ten rows
+carry rows or a stated none-owed — and `ship` is now 1 in five of the last ten, up from
+one in ten. The loss is now at **Extract→Test**: 30 candidates in, 7 verified, the worst
+ratio in the window. That is the direct consequence of fixing the stage above it. Eight
+parallel readers produce candidates faster than one serial director can verify them, and
+most of what the director did was mechanical quote-checking rather than judgment.
+
+Next run's declared focus: **when a wave returns more candidates than the director can
+verify, parallelise the mechanical half of Phase 6 and keep only the judgment serial.**
+Dispatch one verification lane per candidate — given the claim, the prior-art file address
+and the worker's quote, returning whether the quote is verbatim, what the surrounding
+section says, and what the file's own enumeration claims — then spend the director's whole
+serial budget on deciding which confirmed gaps to land. A run that reports a
+Extract→Test ratio under a third after that change has found something new; before it, it
+has only found that this method parallelised its front and left its middle alone.

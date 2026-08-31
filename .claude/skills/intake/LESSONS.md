@@ -4395,3 +4395,67 @@ first.
 **Mid-flight runs:** nothing to do. Finish on the version you loaded. 1.5.0 adds a
 routing row, a Phase 2 sentence and two reference sections; it changes no phase order
 and invalidates no work already done.
+
+## 1.5.0 - 2026-08-31 - icse-2026-seip
+
+- **A conference program is a reference index whose annotations were stripped, and the
+  venue's admission rule is the substitute.** A curated bibliography ranks on the
+  curator's sentence per row; a program page carries title, authors and affiliation and
+  nothing else, so `reference-waves.md` step 3 loses the signal it weights highest. What
+  replaces it is the track's own stated bar for acceptance — here, quoted on the page,
+  that papers must "present evidence for the paper's conclusions." That is a *per-venue*
+  annotation applied uniformly to every row, and it worked: **8 of 8 references read
+  returned usable material**, a hit rate no title-ranked sample earns. Read the venue's
+  admission rule at Phase 2 and say what it guarantees; where a track mandates
+  measurement, the class's expected yield should be revised upward, not down.
+
+- **Check the citation graph before a convergence premise ranks a wave.** This run's top
+  band was built on two papers on one topic accepted independently into one track, called
+  genuine convergence. The second cites the first as a numbered reference and relays every
+  validity number it carries from four other papers — so under the tiering rule the pair is
+  **one observation**, and the wave's single strongest ranking signal was fake.
+  `reference-waves.md` step 2 already carries the rule that kills this ("a relay of a
+  primary already in the set is not a reference"); it was being applied to *URLs* and not
+  to *citations*, which is where the relationship actually lives for papers. The corrective
+  is one line in step 2: for any two references proposed as convergent, check whether either
+  cites the other before ranking them as independent — and for papers that check is usually
+  free, because the citing paper's related-work section names it.
+  The reassuring half: the *real* convergence arrived from two references admitted for
+  unrelated reasons, which is the argument for breadth over a ranked top-N stated as
+  cleanly as this lane will ever state it.
+
+- **A wave of N workers is N writers to one directory.** Two lanes independently reported
+  that sibling workers wrote generic filenames (`paper.html`, `paper.txt`) into the shared
+  run scratchpad root, and one lane's conversion read a *different* lane's document before
+  catching it by content check — it nearly extracted candidates from the wrong paper.
+  Phase 9's "scratch is per run, never a blind sweep of the root" has a missing corollary:
+  **scratch is per worker inside a run.** The worker brief should name a unique
+  subdirectory (`<scratch>/<run-id>/<lane-key>/`) the way the run names one, and a worker
+  that fetches to a shared name should verify content before extracting. Cheap, and the
+  failure is silent — the file parses, it is just somebody else's source.
+
+- **Extraction was parallelised; verification was not, and the funnel's loss moved one
+  stage downstream.** Eight parallel readers returned ~30 candidates and the director
+  verified 7, serially. That is the worst Extract→Test ratio in the last ten runs, and it
+  is not a quality loss — it is a budget one. Worse, most of what the serial step actually
+  did was *mechanical*: four of the verifications were "does this quoted sentence exist in
+  this file", and one of those was botched on the first attempt by a stale working
+  directory and had to be redone. Opening a file to confirm a quote is parallelisable;
+  deciding what a confirmed quote means is not. The director's serial budget should be
+  spent on judgment, and this run spent most of it on `grep`.
+
+### Redesign proposal (not applied this run)
+
+Split Phase 6 into a mechanical half and a judgment half, and parallelise only the first.
+A wave that returns N candidates dispatches N *verification* lanes, each given one claim,
+one file address from prior art, and the worker's quote, and each returning only: does the
+quote exist verbatim, what does the surrounding section actually say, and what does the
+file's own enumeration or boundary statement claim. They write nothing. The director then
+does what only the director can — decide which confirmed gaps are worth landing, and in
+what shape. This is the same single-writer discipline the wave already runs on, applied to
+the stage that became the bottleneck once the stage above it was fixed. Not applied here
+because it changes Phase 6's shape and wants its own version bump and a run to prove it.
+
+**Mid-flight runs:** nothing to do. This entry proposes no phase change and bumps no
+version; the citation-graph check and the per-worker scratch rule are both worth folding
+into `references/reference-waves.md` when someone next edits it deliberately.
