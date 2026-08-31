@@ -82,3 +82,6 @@ Append-only reflection lane. One entry per run that taught something. Format:
   optimistic branch of the new join. The three-way test (landed / reachable / unblocks the job) caught
   it: 36 of 36 rows carried the new field and 0 of 36 rendered the new label. Recertify should always
   count the *rows that render the new state*, never just assert the field exists on the wire.
+
+## v1.8.0 - 2026-08-31 - ascent (follow-up drain)
+- A recorded method lesson nobody APPLIES gets paid for again: RC-M2 (hardcoded driver shot names) was written into the pass-1 report, not applied to the drivers, and destroyed a second arm's captures in pass 2. A drain that records an overlay defect should fix the overlay in the same change, not re-describe it.
