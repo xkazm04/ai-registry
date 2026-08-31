@@ -48,9 +48,13 @@ the triage. Extract is not losing rows to carelessness - it is losing a whole *c
 row, silently, because two filters compound: Phase 2b's operating-document examples read
 as process, and the strip test reads domain vocabulary as proper nouns. Neither failure
 produces a declined row, so neither is visible in any count.
+| 1.3.0 | 2026-08-31 | genesis-agi | 1 | 13 | 3 | 3 | 0c/3e/0s | 0 (no project confirmed) | Ship 0: operator directive named a focus, not a project, and Phase 8 step 2 gates any project-tree write - so a real reachable defect found in goat with a paired measurement is filed, not fixed, and the three seam records are owed. Declared focus MET: the source note names opened and unopened documents by name, and the honest sample is ~15% of the memory subsystem with the two largest files skipped. First run where BOTH `better` verdicts amended the corpus from the A/B tree rather than the source - the apply stage acting as a second source, not a checkbox. |
 
-Next run's declared focus: **before the triage table, state which of the source's own
-top-level documents were opened and which were not, by name.** A run that cannot name
-what it skipped cannot know what it filtered. The corollary the corpus finding adds -
-that a `none` impact means "no home exists yet" as often as "does not belong" - is a
-method change, not a focus, and is owed to `LESSONS.md`.
+Next run's declared focus: **ship.** The funnel has lost its last stage on all five
+source-driven runs since the apply lane landed, and four of five name the same cause -
+the triage pick named no project, so Phase 8's confirmation was never given. This is a
+method defect, not a capability one (see the redesign proposal in `LESSONS.md`, 1.3.0).
+Until the invocation can carry a standing project authorisation, a run that reaches a
+`better` verdict must at minimum name, in its scorecard row, the exact one-sentence
+confirmation it would have needed - so the cost of the missing affordance is counted
+rather than restated as a shrug.

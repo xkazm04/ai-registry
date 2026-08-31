@@ -2528,3 +2528,66 @@ therefore not "forge a storage-engine category" - it is that **a bundle should s
 construction frontier in its own profile**, so that a below-the-line candidate becomes an
 honest decline with a reason rather than a silent drop, and so that moving the frontier
 becomes a decision somebody makes rather than a thing that never happens.
+
+
+## 1.3.0 - 2026-08-31 - genesis-agi
+
+- **The A/B tree is a second source, and this run is the first where it acted like one
+  in both directions.** Phase 7.5 is written as a *verification* step - does the project
+  get better - but both `better` verdicts here changed the technique rather than merely
+  scoring it. The severity discriminator in `lane-reconciliation` (a lane's class is
+  decided by whether its readers carry a fallback, not by what the lane is) and the whole
+  structural-default section in `probe-without-write-back` (a suppression flag protects
+  the callers someone remembered; a split write endpoint protects every future one) exist
+  because a managed tree solved the same problem differently from the source. Neither was
+  derivable from the source. Worth saying out loud in the method: **when the apply target
+  already solves the finding, read HOW before recording a verdict** - a tree that reached
+  the rule by another route is handing over the comparison the source could not.
+
+- **`not-better` needs a third reading the closed vocabulary does not have.** The
+  vocabulary is `better` / `not-better` / `unmeasurable`, and `not-better` is documented
+  as a rejection whose condition feeds back into the technique. This run produced a
+  `not-better` that means the opposite: zero edits were required to reach arm B because
+  the tree *already* implemented all three obligations, in two independent instruments,
+  with no connection to the source. That is the strongest corroboration the amendment
+  could have received, and it lands in the ledger wearing the same word as a refutation.
+  Two of these on one technique currently demote it to a lead - which would be exactly
+  backwards here. Not proposing a vocabulary change on one sighting; recording it so the
+  second sighting is recognisable.
+
+- **A repository run should state its read fraction, and this one is ~15%.** The
+  tigerbeetle row started recording it (0.4%); this run followed and it immediately
+  changed what the note could claim. The two largest files in the source's memory
+  subsystem (3,518 LOC combined) were never opened, which is why one lead is "go back for
+  `dream_cycle.py`" rather than a confident saturation call. The Phase 2b yield ordering
+  (operating documents, then instrument, then measurement) is right and it is also
+  *self-limiting*: it reaches the densest prose first and the largest implementations
+  last, so a run that stops on budget always stops with the big files unread.
+
+### Redesign proposal - the ship stage is blocked by this file, not by capability
+
+The scorecard's own funnel now says it unambiguously. Across the five source-driven runs
+since the apply lane landed - tesana, headlong, operator-control-plane, tigerbeetle,
+genesis-agi - **`ship` is 0 every time**, and four of the five give the same reason: the
+operator's directive named no project, so the Phase 8 step 2 confirmation was never
+given. This run found a *real, reachable, paired-measured* defect in a managed tree and
+filed it instead of fixing it, for that reason alone.
+
+This is not a capability gap and no amount of declared focus on earlier stages will move
+it. It is a rule in this file interacting with the way the skill is actually invoked: the
+runs are unattended by design (the 2026-08-28 operator rule exists precisely to let them
+be), Phase 8 requires an interactive confirmation, and there is no way for an operator
+launching an unattended run to grant that confirmation in advance. The stage is
+structurally unreachable, and every run pays the full cost of the apply lane to produce a
+row that says so.
+
+The proposal is an invocation-level standing confirmation - `--project <slug>` as the
+counterpart to `--domain <d>`, meaning "this run may commit to this tree under the Phase 8
+rules". It does not weaken Phase 8: the pairing requirement, the pathspec, the
+never-push rule and the proof status all still bind, and a run without the flag behaves
+exactly as it does today. It only closes the gap between "the operator authorised this
+lane" and "the operator is sitting here to be asked."
+
+Not applied in this version - it changes the invocation surface and eight sibling runs
+were live on the board while this was written. A mid-flight run should do nothing about
+it and finish on the version it loaded.
