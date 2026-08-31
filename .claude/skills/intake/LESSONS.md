@@ -2454,3 +2454,77 @@ was mined; this entry records why 1.3.0 exists.
   a cap chosen for one source class inherited by a class whose economics invert. The
   paper aggregator's "~3 papers per run" was the same bug and is now corrected. Check any
   other number in this file that was set once and never re-derived per class.
+
+## 1.3.0 - 2026-08-31 - tigerbeetle
+
+Run used 1.3.0. No SKILL.md edit is applied here; the two defects below are lessons on
+first sighting and the third is a rule I would apply after one confirmation. A mid-flight
+sibling should finish on the version it loaded.
+
+- **A repository's architecture document is an operating document, and Phase 2b's
+  examples do not say so.** The sweep list reads `docs/`, `design/`, `spec/`,
+  `*_SPEC.md`, `RUNBOOK`, `owners-manual/`, `ADR/`, `CHANGELOG` - every example is
+  process-flavoured, and the justification ("first-party practitioner documents with
+  paid-for failure modes recorded as revisions") reads as *history of decisions*. I read
+  the category that way, opened `TIGER_STYLE.md`, `HACKING.md`, `releases.md`,
+  `testing.md`, `vopr.md` and `docs.md`, and skipped `ARCHITECTURE.md` - the largest
+  document in the tree after the changelog, and the tree's own answer to what the system
+  is - while it sat in a file listing I had already printed. The corrective is one word
+  in the list plus one sentence: **a document that states what the system IS ranks with
+  the documents that state how it is operated**, and for an engine repository it
+  outranks them.
+
+- **The strip test is biased toward process claims, and the bias is invisible because it
+  fires at extraction rather than at triage.** "Remove every proper noun; is anything
+  left?" passes process doctrine trivially - "make releases cheap enough to skip" has
+  nothing to strip. Architecture doctrine arrives wrapped in named machinery (a
+  write-ahead log, a consensus protocol, a grid of blocks, a superblock) which *reads* as
+  proper nouns and is not: those are domain terms, and the rules underneath survive the
+  test completely ("consensus converts durability into availability"; "store the checksum
+  outside the thing it checksums, because an internal checksum cannot detect a disk
+  writing correct data at the wrong offset"). The failure produces no declined row and no
+  untriaged row - the candidate never becomes a candidate - so nothing in the scorecard
+  can see it. **Corrective to apply once confirmed: strip *product* nouns, not *domain*
+  nouns, and say so in the test's own wording.**
+
+- **`none` is two different findings wearing one word, and Phase 4's vocabulary cannot
+  tell them apart.** The registry-impact vocabulary ends in `none`, which the method
+  glosses as "honest and common... the value that should make you ask whether the
+  candidate belongs in `skills/` or `memory/`". That gloss assumes the candidate is
+  *smaller* than a bundle. It is equally often *outside* one: a real gap with no home,
+  which reads identically at triage and is dropped identically. A prior run (2026-08-27,
+  `storage-engine-selection`) invented the discriminator by hand and it has lived in one
+  proposal document ever since: **a product name returning zero hits is correct by the
+  purity floor; a *concept* returning zero is the finding.** That check belongs in
+  Phase 4, and `none` should split into `none` and `no-home-yet`.
+
+### Redesign proposal - the corpus has a construction frontier and the method reproduces it
+
+Not applied, and larger than this skill. This run's audit (written up in
+`librarian/domains/software-engineering.md` § "the construction frontier") found that the
+`software-engineering` bundle builds at the application layer and consumes everything
+below it: fifteen builder-position systems concepts map to semantically unrelated
+subjects by slug-token collision, four (`fsync`, `allocator`, `syscall`, `numa`) return
+zero corpus-wide, while a consumer-position control run resolves cleanly at scores of
+18-42. The bundle is not consumer-position throughout - `llm-agent` is 29 subjects of
+deeply builder-position knowledge - so the line tracks subject matter, not capability:
+**this corpus builds what a product team writes and consumes what a product team
+installs.**
+
+Two mechanisms hold the line, and one of them is this skill. The source diet is the
+first: 77 sources mined, overwhelmingly agent harnesses, LLM tooling, media generation
+and process, with TigerBeetle the first systems-infrastructure source in the ledger - and
+an application repository contains no write-ahead log, only a client for someone else's.
+The second is Phase 4 -> Phase 5: below-the-line material returns noise or `none`, `none`
+reads as "does not belong", and the row never reaches the operator. That is not
+hypothetical; it is what this run's first triage did, producing twelve process rows and
+zero architecture rows from a database.
+
+**The self-reinforcement is the part worth designing against.** A corpus whose frontier
+is invisible cannot be argued with, because every instrument it owns measures occupied
+ground: `librarian-scan` ranks attention debt over subjects that exist, so a category
+that does not exist accrues none, and no sweep can ever surface the hole. The proposal is
+therefore not "forge a storage-engine category" - it is that **a bundle should state its
+construction frontier in its own profile**, so that a below-the-line candidate becomes an
+honest decline with a reason rather than a silent drop, and so that moving the frontier
+becomes a decision somebody makes rather than a thing that never happens.

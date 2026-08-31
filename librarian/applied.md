@@ -15,6 +15,7 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 
 | Date | Technique | Subject | Project | Mode | Verdict | Return condition / note |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-31 | self-paced-intake | admission-queue | personas | simulation | better | emit the per-drain batch size and read its distribution; the tree counts dropped records but not batch sizes, so proof is structural-only |
 | 2026-08-30 | prose-rule-drift | quality-gates | ascent | experiment | better | 27 drift violations across 4 projects found by a checker nothing invokes; fix filed, not shipped - awaiting operator confirmation to touch the tree |
 | 2026-08-30 | failure-attribution (8th owner) | eval-harness | - | - | unapplied | when a managed project runs an agent loop whose termination policy can cut a run short; no project currently owns one |
 | 2026-08-30 | measurement-revision | eval-harness | - | - | unapplied | when a project revises a published measurement; nothing in the fleet has re-run a circulated result |

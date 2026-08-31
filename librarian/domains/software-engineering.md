@@ -201,3 +201,87 @@ a research one — declined again this run for that reason. The maturity ladder 
 untouched. The catalog/rules/marketplace debt that reopened at `5781c97` is closed, and
 trunk was red on two of those before this branch. New: **a contributor-identity notion**,
 without which demand stays a range.
+
+## 2026-08-31 — the construction frontier ([[../sources/2026-08-31-tigerbeetle]])
+
+A `/intake` run on a systems-database repository could not place a single one of its
+architectural claims, and the diagnosis is a property of this bundle rather than of that
+source. **This bundle builds at one layer and consumes everything below it**, and the
+boundary has never been stated, so nothing has ever been measured against it.
+
+### The probe
+
+Fifteen builder-position systems concepts mapped against the corpus. Every one resolved
+to a semantically unrelated subject by slug-token collision:
+
+| term | top hit | score |
+| --- | --- | --- |
+| `write-ahead log` | `audit-logging` (on "log") | 10 |
+| `zero copy` | `recruiting/rejection-with-dignity` | 12 |
+| `work stealing` | `recruiting/public-work-evidence-bounding` | 19 |
+| `memory barrier` | `llm-agent/agent-memory` (on "memory") | 27 |
+| `lock free` | `recruiting/interview-calendar-integrity` | 5 |
+| `leader election` | `recruiting/comparative-shortlist-evaluation` | 4 |
+| `b-tree` | `build-and-release/packaging` | 7 |
+| `quorum` | `fleet-orchestration` | 2 |
+
+Four returned **zero corpus-wide**: `fsync`, `allocator`, `syscall`, `numa`.
+
+The control run resolves cleanly, which is what makes the above a fact about the corpus
+rather than about `research-map`: `retry backoff` → `retry-backoff` (42), `schema
+migration` → `migrations` (21), `rate limiting` → `rate-limiting` (24), `error taxonomy`
+→ `error-handling` (19), `connection pooling` → `embedded-db` (18).
+
+### Where the frontier sits
+
+The bundle is not consumer-position throughout — `llm-agent` (29 subjects, 231
+techniques) is deeply builder-position, and so are `ui-surfaces`, `client-architecture`
+and the whole of `engineering-process`. The line is not competence, it is **subject
+matter**: this bundle builds what a product team writes and consumes what a product team
+installs. `backend-platform/data-layer` is the clearest case — its four subjects
+(`data-access`, `embedded-db`, `migrations`, `sync-replication`) all begin after an
+engine exists, and `embedded-db` is *operations*: pooling, journal modes, storage
+accounting.
+
+### Why it is self-reinforcing, and the second sighting that proves it
+
+Two mechanisms keep the frontier where it is, and neither is visible from inside a sweep.
+
+**The source diet.** 77 sources mined to date are overwhelmingly agent harnesses, LLM
+tooling, media generation, evals and process. TigerBeetle is the first systems-
+infrastructure source in the ledger. An application repository contains no
+write-ahead log; it contains a client for someone else's.
+
+**The intake method itself.** Phase 4 maps candidates against existing subjects; below-
+the-line material returns noise or `none`; `none` reads as "does not belong here" rather
+than "no home exists yet", so the candidate is dropped before the operator sees a triage
+row. That is not hypothetical — it is exactly what happened on the first pass of this
+run, which produced twelve process rows and zero architecture rows from a database.
+
+The confirming evidence is a **second sighting**, and it is stronger than this run's.
+On 2026-08-27 an intake run from two independent database sources reached the same
+structural conclusion and wrote it down precisely — "`data-layer`'s four all begin
+*after* the engine exists; nothing owns the decision that produces them" — then filled
+the hole with [`storage-engine-selection`](../../docs/subject-proposal-storage-engine-selection.md),
+whose eight proposed techniques are all *selection* rules: which engine, when to defer
+commitment, workload-class inventory. A run standing exactly on this ground still
+reached for the consumer position. The frontier is not an oversight anyone can spot by
+looking harder; it is the default the corpus falls into.
+
+### What is owed
+
+Not content — this is a scoping decision the corpus has never consciously made, and it
+should be made before anything is forged:
+
+1. **State the frontier or move it.** If the bundle is deliberately application-layer,
+   `rkb-profile.md` should say so, and below-the-line candidates become an honest
+   decline with a reason rather than a silent drop. If it is not deliberate, the gap is
+   a new category under `backend-platform` written from the builder's position, and it
+   is `/forge` scale, not one intake run.
+2. **The concept-zero check belongs in the method.** The 2026-08-27 run invented it by
+   hand — "a *concept* returning zero is the finding, while a product name returning
+   zero is correct by the purity floor" — and it has lived in one proposal document ever
+   since. It is the only cheap instrument that distinguishes "no home" from "no gap".
+3. **`librarian-scan` cannot see this class.** It ranks by attention debt over subjects
+   that exist; a category that does not exist accrues none. Every hole this bundle has
+   of this shape is invisible to the worklist by construction.

@@ -13,6 +13,7 @@ funnel loses most at under the table; that stage is the next run's declared focu
 | 1.1.0 | 2026-08-30 | tesana-loop-mode-game-builds | 1 | 13 | 1 | 1 | 0c/1e/0s | 0 (record-only commit in pof) | Ship 0: the `better` change touches three harness files and the gate that would see it (visual-check) cannot start on this machine, so it is filed as the project's next change rather than committed unpaired. First end-to-end `/intake <url>` run since the apply lane landed: research -> extract -> test -> apply all converted on one source. |
 | 1.1.0 | 2026-08-30 | headlong-agent-microharness | 1 | 8 | 2 | 2 | 0c/0e/2s | 0 (record-only commit in ascent) | Ship 0: both simulations - the B arms need the production episode/turn store, which no local gate can see (declared focus 'start the gate first' was checked and failed honestly: vitest/tsc cannot observe spend cadence or history reach). One not-better verdict fed its condition back into the technique - the apply stage producing corpus content is the lane working as designed. |
 | 1.2.0 | 2026-08-30 | operator-control-plane | 1 | 22 | 5 | 5 | 1e/0c/0s (4 unapplied, no seam) | 0 (fix filed, not shipped - triage pick named no project, so Phase 8 confirmation was never given) | **Declared focus hit.** Previous row's focus was 'pick the seam by instrument reachability first': `prose-rule-drift` -> ascent chose a seam whose instrument is IN the tree (a checker in the shared tooling lane, locally runnable, no production state) and it converted first try - arm A 0 violations, arm B **27 across four projects**, one invocation apart. Ship is still 0, but for the first time not because the instrument was unreachable: the change is a one-line gate wiring in someone else's repo and the operator has not confirmed the lane. **The run's largest output was a method fix, not content**: the source was triaged off 2,639 words of rendered landing page over a 168,969-word tree, the operator caught it, and SKILL.md 1.2.0 now requires a repository source to be mined from a clone (Phase 2b). Fourteen past repo sources audited by the new tell; three had the defect; two re-runs dispatched and both returned - one **refuted a prior run's accepted finding at its premise**. |
+| 1.2.0 | 2026-08-31 | tigerbeetle | 1 (421 landing / 111,264 in-tree = 0.4% read fraction, recorded) | 15 | 4 | 1 | 0c/0e/1s | 0 (project edit never confirmed; operator steered the run to diagnosis) | **Declared focus hit**: the previous row asked that a repository source record its read fraction, and this row carries it. Landed 1 of 15 by operator choice, not by yield - the run's largest output was a corpus finding. First triage returned twelve process rows and **zero architecture rows from a database**; the operator rejected the framing and the audit found a **construction frontier** the bundle has never stated: it builds at the application layer and consumes everything below. Two method defects named - Phase 2b's operating-document examples are all process-flavored (I opened TIGER_STYLE.md and skipped ARCHITECTURE.md, the largest doc in the tree), and the strip test is biased toward process because architecture claims arrive wrapped in domain terms that read as proper nouns. |
 
 ## Weakest stage, as of the latest row
 
@@ -39,9 +40,17 @@ production. Ship remains 0 for a **different** reason than the last two runs -
 not an unreachable instrument but an unconfirmed lane, which is a cheaper
 blocker and one only the operator can clear.
 
-The stage the funnel is now losing most at is **research**, and it was invisible
-until this run because the scorecard counts sources rather than what was read of
-them. One source was ingested and 1.5% of it was read; the counts said `research
-1` either way. Next run's declared focus: **for a repository source, record the
-read fraction** - landing-page words against in-tree words - so a run that mined
-an advertisement cannot post the same research count as a run that mined a tree.
+The stage the funnel is now losing most at is **extract**, and this run makes the
+mechanism visible for the first time. Fifteen candidates reached the table and every
+one was process; the source's densest document was never opened, and the eight
+architecture claims that eventually surfaced did so only because the operator rejected
+the triage. Extract is not losing rows to carelessness - it is losing a whole *class* of
+row, silently, because two filters compound: Phase 2b's operating-document examples read
+as process, and the strip test reads domain vocabulary as proper nouns. Neither failure
+produces a declined row, so neither is visible in any count.
+
+Next run's declared focus: **before the triage table, state which of the source's own
+top-level documents were opened and which were not, by name.** A run that cannot name
+what it skipped cannot know what it filtered. The corollary the corpus finding adds -
+that a `none` impact means "no home exists yet" as often as "does not belong" - is a
+method change, not a focus, and is owed to `LESSONS.md`.

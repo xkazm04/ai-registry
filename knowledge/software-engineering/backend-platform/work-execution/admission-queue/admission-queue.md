@@ -4,6 +4,7 @@ type: golden-path
 subject: admission-queue
 status: forged
 techniques:
+  - self-paced-intake
   - admission-vocabulary
   - depth-bounds-and-shed
   - priority-and-fairness
@@ -62,6 +63,31 @@ Three facts make this subject harder than it looks:
    refuses" has merely chosen the worst refusal policy available: refuse by
    timeout, at maximum latency, after consuming maximum resources, with no
    reason attached.
+
+## The step trigger is decided before any of this
+
+Everything below answers *what to do with an arrival*, and inherits an
+assumption worth surfacing first: that an arrival is what moves the system.
+The default consumer — block on the channel, take one item, handle it — makes
+that choice by omission, and in doing so hands its work rate to its callers.
+Its step count is their arrival count and its cost per unit time is their
+burst shape, so the rate this subject spends its machinery defending is a
+rate nobody set.
+
+A **self-paced** consumer wakes on its own clock, drains what accumulated,
+and pays a step's fixed cost once for the batch instead of once per arrival.
+The buffer's depth absorbs the burst rather than the consumer's step rate
+tracking it — which is what makes "work per unit time" a number someone chose,
+and therefore a number the bounds below can be written against. The tell that
+a loop wants this is a step cost that does not grow with batch size: a
+round-trip, a transaction, a cross-process message, a flush. Per-arrival
+remains correct where latency is the product, where arrivals are rare and
+individually expensive, or where each item needs its own transaction — but it
+is a decision to make rather than a shape to inherit, and it comes with two
+bounds rather than one, because an interval without a per-drain cap bounds the
+step rate while leaving the step cost unbounded. The trigger question, the
+coalescing rule, the migration and the three exemptions are
+[self-paced-intake](./techniques/self-paced-intake.md).
 
 ## The verdict is a closed vocabulary
 
@@ -212,6 +238,9 @@ Two rules fall out of the table:
 
 ## The techniques
 
+- [self-paced-intake](./techniques/self-paced-intake.md) — arrival versus own
+  clock as the step trigger, the fixed-cost tell, interval plus drain cap,
+  coalescing before work, and the three cases where per-arrival is right.
 - [admission-vocabulary](./techniques/admission-vocabulary.md) — the closed
   three-way verdict, refusal reasons as data, the caller contract per
   outcome.

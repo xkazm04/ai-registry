@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
-  "techniques": 1006,
-  "applications": 501,
+  "techniques": 1007,
+  "applications": 502,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1006/1006",
+  "use_when_coverage": "1007/1007",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -332,6 +332,20 @@
      ]
     },
     {
+     "slug": "self-paced-intake",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an arrival should trigger a step at all",
+      "one write producing N downstream round-trips",
+      "a consumer whose cost scales with its producer's burst shape"
+     ]
+    },
+    {
      "slug": "wait-telemetry",
      "status": "forged",
      "laws": [
@@ -364,6 +378,13 @@
      "technique": "load-aware-admission",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--load-aware-admission.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "self-paced-intake",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--self-paced-intake.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -19800,6 +19821,7 @@
     "adaptive-fidelity-tiers/measured-not-declared-capability",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/priority-and-fairness",
+    "admission-queue/self-paced-intake",
     "admission-queue/wait-telemetry",
     "adoption-measurement/adoption-distribution-bands",
     "adoption-measurement/adoption-vs-outcome-separation",
@@ -20968,6 +20990,41 @@
     "web-scraping/soak-mode-and-verdict-replay"
    ]
   },
+  "absent-guard-is-loud": {
+   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
+   "techniques": [
+    "admission-queue/self-paced-intake",
+    "agent-cli-transport/fallback-ladder",
+    "agent-cli-transport/permission-stance-enforcement",
+    "agent-cli-transport/subscription-auth-selection",
+    "agent-instruction-files/enforcement-demotion",
+    "agent-instruction-files/workspace-ancestry-isolation",
+    "client-state/store-dependency-topology",
+    "companion-identity/operator-profile-synthesis",
+    "companion-runtime/autonomous-cycle-hosting",
+    "data-access/cross-driver-invariant-parity",
+    "deployment-contract/direct-push-delivery",
+    "error-handling/crash-capture",
+    "fleet-orchestration/brief-carries-the-session",
+    "knowledge-registry/verification-is-contributed",
+    "machine-paced-delivery/human-gate-capacity",
+    "markdown-vault/knowledge-integrity-lint",
+    "mcp-tools/transport-selection",
+    "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
+    "optional-dependency-degradation/capability-honest-refusal",
+    "plan-review/informational-fold-in",
+    "public-claim-provenance/provenance-as-a-build-gate",
+    "quality-gates/blocking-by-input-determinism",
+    "quality-gates/enforcement-binding",
+    "quality-gates/oracle-frozen-during-repair",
+    "quality-gates/prose-rule-drift",
+    "scale-investment-timing/ceiling-as-deadline-not-trigger",
+    "structured-output/schema-validation-and-repair",
+    "supply-chain/update-automation-review",
+    "web-scraping/soak-mode-and-verdict-replay",
+    "webhook-ingestion/duplicate-and-replay-dedup"
+   ]
+  },
   "derivation-names-recomputation": {
    "statement": "Any stored derived value names how it is recomputed. A cached count, a denormalized rollup, or a materialized summary without a documented, invokable recomputation path is a future discrepancy with no arbiter.",
    "techniques": [
@@ -21134,40 +21191,6 @@
     "voice-io/tts-pipeline",
     "web-scraping/negotiated-representation-probe",
     "wizard-flows/progress-communication"
-   ]
-  },
-  "absent-guard-is-loud": {
-   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
-   "techniques": [
-    "agent-cli-transport/fallback-ladder",
-    "agent-cli-transport/permission-stance-enforcement",
-    "agent-cli-transport/subscription-auth-selection",
-    "agent-instruction-files/enforcement-demotion",
-    "agent-instruction-files/workspace-ancestry-isolation",
-    "client-state/store-dependency-topology",
-    "companion-identity/operator-profile-synthesis",
-    "companion-runtime/autonomous-cycle-hosting",
-    "data-access/cross-driver-invariant-parity",
-    "deployment-contract/direct-push-delivery",
-    "error-handling/crash-capture",
-    "fleet-orchestration/brief-carries-the-session",
-    "knowledge-registry/verification-is-contributed",
-    "machine-paced-delivery/human-gate-capacity",
-    "markdown-vault/knowledge-integrity-lint",
-    "mcp-tools/transport-selection",
-    "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
-    "optional-dependency-degradation/capability-honest-refusal",
-    "plan-review/informational-fold-in",
-    "public-claim-provenance/provenance-as-a-build-gate",
-    "quality-gates/blocking-by-input-determinism",
-    "quality-gates/enforcement-binding",
-    "quality-gates/oracle-frozen-during-repair",
-    "quality-gates/prose-rule-drift",
-    "scale-investment-timing/ceiling-as-deadline-not-trigger",
-    "structured-output/schema-validation-and-repair",
-    "supply-chain/update-automation-review",
-    "web-scraping/soak-mode-and-verdict-replay",
-    "webhook-ingestion/duplicate-and-replay-dedup"
    ]
   },
   "silent-state-is-ungoverned": {
