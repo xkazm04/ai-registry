@@ -4344,3 +4344,54 @@ reads this should do nothing about it and finish on the version it loaded.**
 
 - **Mid-flight runs on 1.4.0: nothing to do.** No method file changed this run;
   all three entries above are one-sighting and stay lessons.
+
+## 1.4.0 - 2026-08-31 - agentic-coding-trends-report
+
+- **A broken reader that returns binary is confidently LARGE, and no floor catches it.**
+  `research-ingest` reported 13,029 words at exit 0 for a 3,418-word PDF: `res.text()`
+  decoded the container as UTF-8, `htmlToText` found no tags and passed it through, and
+  the counter counted FlateDecode streams as tokens. `--min-words` is structurally
+  unable to see this, because binary always clears the floor. The generalisation is not
+  "add PDF support" - it is that **an instrument must assert the SHAPE it found, not
+  only the size**: pages, fonts, a plausible first screen. Landed as an assertion (no
+  page content streams is exit 2, not exit 3) and as a Phase 2 instruction to look at
+  the output before naming the class.
+- **Font awareness is not a nicety for this corpus's sources.** A subsetted display face
+  returns mojibake without its `/ToUnicode` CMap, and vendor documents put their
+  headings, pull quotes and *numbers* in exactly those faces. A naive reader would have
+  returned 1,626 of 3,418 words and lost the two passages both landings came from,
+  while reporting a healthy count. The second assertion (non-text ratio) exists for that
+  case, where the count is real and the words are not.
+- **New class: the vendor prediction report.** Routes like an announcement but is worse
+  in one specific way - **future tense is unstrippable by construction**, so the strip
+  test does not filter the predictions, it annihilates them, and every forecast resolves
+  to `none`. Both landings came from the two places the document cited measurement or
+  reported observed behaviour; none came from any of the eight numbered trends. Added to
+  the reference with its own yield prediction.
+- **A subject that has survived two enumeration extensions is not finished.**
+  `hitl-approval` had already been extended twice at its "two mirror-image flows"
+  enumeration. This run's finding came from a *different* list in the same subject - the
+  gate-fatigue countermeasures - where every entry reduced volume and none reached the
+  reviewer who reads carefully and still cannot check. When hunting enumerations, walk
+  every list in the file, not the one the golden path opens with.
+- **A source's wrong explanation is again the useful half.** The report frames its
+  observation as a delegation *habit* engineers developed ("intuitions for AI
+  delegation"). Taken as a habit it is a lead about people. Taken as a property of the
+  work - can this output be checked at all - it is a missing axis in a gate map. The
+  finding was written from the second reading, which the source does not make.
+
+### Redesign proposal - not applied now
+
+`ship` in the scorecard conflates **blocked** with **correctly declined**. This run's two
+knowledge landings produced zero project commits, both times correctly (one
+`structural-only`, one `not-better`), and they score identically to a run stopped by a
+missing confirmation. Several runs have now read `ship 0` as the funnel's weakest stage
+on that basis. The fix is a predicate on the zero - `ship 0 (declined: ...)` versus
+`ship 0 (blocked: <class>)` - and then a re-reading of the last ten rows, which may name
+a different weakest stage. Written as the next run's declared focus rather than applied
+here, because changing the column's meaning mid-table needs the operator to see it
+first.
+
+**Mid-flight runs:** nothing to do. Finish on the version you loaded. 1.5.0 adds a
+routing row, a Phase 2 sentence and two reference sections; it changes no phase order
+and invalidates no work already done.

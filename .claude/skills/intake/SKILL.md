@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 1.4.0
+version: 1.5.0
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index
 ---
 
@@ -212,6 +212,7 @@ index, not a substitute for it.
 | **second-hand practitioner listicle** | is it relaying vendor docs with some real pain? | where the vendor's rules moved |
 | **second-hand practitioner review** | is it a demo of someone else's release? | that it shipped; the fetch carries the rest |
 | **vendor release announcement** | is it the vendor's OWN post about its OWN release? | its numbers - the prose is the strip test's problem |
+| ↳ *prediction report* | is it about a year that has not happened yet? | its cited measurements only - future tense is unstrippable, so the forecasts yield nothing |
 | **practitioner build-walkthrough** | a personal tool they actually use daily? | the operating half only - see below |
 | **paper aggregator** | a list of papers? | measurements in their protocol, not frameworks |
 | **reference index** | is its VALUE the outbound links rather than its own text? | nothing itself - it is a bibliography, and the references are the source |
@@ -387,6 +388,13 @@ rule that granularity was serving.
 ```sh
 node scripts/research-ingest.mjs "<url>" --json
 ```
+
+**Look at the ingest's output before naming the class.** A word count is not evidence
+that anything was read, and the dangerous reader failure is not the empty one - it is
+the *confidently large* one, which clears every thin-source floor. A `words:` in the
+tens of thousands over a document that should be a pamphlet, or a first screen that is
+not prose, means the container was decoded rather than parsed. See § "Before any class:
+check what CONTAINER arrived" in the reference.
 
 **Then name the class and read its entry in
 [`references/source-classes.md`](references/source-classes.md)** before extracting

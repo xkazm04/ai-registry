@@ -136,6 +136,47 @@ Two further habits this class rewards:
   first four candidates resolved as catches where the corpus carried the construction
   rule and the vendor carried only the demo. Predict that out loud at Phase 5.
 
+## Vendor prediction report
+
+The vendor's own document about a year that has not happened yet: eight trends, a
+foreword, four priorities, customer logos. It arrives looking like a survey and routes
+like an **announcement**, so read that section first - but its central property is
+worse than an announcement's and needs stating on its own.
+
+> An announcement states what is now possible. A prediction report states what will
+> become possible, and **future tense is unstrippable by construction**. "Agents will
+> work autonomously for days" loses nothing to the strip test, because there was never
+> a rule in it to remove - only a forecast. A prediction is not a claim about a
+> standard; it is a claim about a calendar.
+
+So the strip test does not filter this class, it *annihilates* it, and a run that
+mines the predictions will surface ten candidates that all resolve to `none`. Route
+past them on sight. The yield lives in two places and nowhere else:
+
+- **The cited measurement.** Where the report quotes its own internal research - a
+  usage rate, a delegation fraction, a share of work that would not otherwise have been
+  done - it is a first-party account of something already observed, and it is the only
+  material here that can originate a finding. Expect one or two such passages in a
+  seventeen-page document, usually in a sidebar contradicting the surrounding optimism.
+- **The reported behaviour, as distinct from the reported forecast.** One paragraph in
+  a prediction report usually says what practitioners *actually did*, and it is worth
+  more than the eight trends around it. On 2026-08-31 a single clause - engineers
+  delegate what they can "sniff-check on correctness" and keep what is
+  design-dependent - located a missing axis in an eleven-technique subject, while every
+  numbered prediction resolved to already-covered or nothing.
+
+The customer anecdote is neither. "A project the CTO estimated at 4-8 months finished
+in two weeks" is a vendor-selected data point about a customer's own estimate, which is
+the weakest evidence shape a source can carry: unblinded, unaudited, and compared
+against a number nobody recorded at the time. File those as leads with a return
+condition naming a real instrument, never as measurements.
+
+**Predict the yield out loud before the triage table**, because a low number here is
+calibration and not failure: one or two techniques from the measurement passages, a
+handful of catches where the corpus already owns the construction rules the report only
+names, and several leads. A prediction report that produced three landings has been
+mined well.
+
 ## Practitioner build-walkthrough
 
 A builder narrating a personal tool they made. A hybrid whose two halves have **opposite
@@ -216,6 +257,30 @@ operator sees before a fetch is spent.
 Full procedure - enumeration, classification, ranking weights, wave sizing, the worker
 brief, the stop rule and the note's frontmatter - is
 [`reference-waves.md`](reference-waves.md).
+
+## Before any class: check what CONTAINER arrived
+
+`research-ingest` reports a word count, and a word count is not evidence that anything
+was read. On 2026-08-31 a PDF source returned **13,029 words at exit 0** - the web
+branch called `res.text()`, the container's bytes decoded as UTF-8, the HTML-to-text
+pass found no tags and handed them through, and the counter counted compressed streams
+as whitespace-separated tokens. The real document is 3,418 words.
+
+The failure is worth generalising because of its *direction*. A broken reader that
+returns nothing is caught by the thin-source floor. **A broken reader that returns
+binary is confidently large**, clears every floor, and looks like a rich source. So
+before extracting, spend one look at the ingest's own output: does the first screen
+read as prose? Does the metadata name a container (`container`, `pdf_pages`) and a
+plausible structure? A `words:` in the tens of thousands over a document that should be
+a pamphlet is the tell.
+
+The reader now sniffs PDFs by magic bytes (not by URL suffix, which a CDN link rarely
+carries) and asserts structure before reporting - no page content streams is exit 2, an
+instrument failure, never exit 3. It is font-aware for a reason specific to this class:
+a subsetted display face returns mojibake without its `/ToUnicode` map, and a vendor
+document puts its headings, pull quotes and **numbers** in exactly those faces - so a
+naive reader loses the only part of an announcement or prediction report worth mining
+while reporting a healthy word count.
 
 ## Every repository class shares one rule: the landing page is not the source
 
