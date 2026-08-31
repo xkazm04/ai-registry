@@ -51,6 +51,18 @@ Choose the pairs to evaluate, in this order:
    with many governing subjects (a dense context pays back the read) and contexts whose
    paths were touched recently in git.
 
+**Rank `priorNotApplicable` pairs last.** That field means this project has already judged
+the subject not-applicable in at least two other contexts, and more often than it judged it
+governing. Measured over 287 verdicts, that predicts a further not-applicable at 69%
+precision — so those pairs are the least likely to pay back a read.
+
+It is a hint, not a verdict, and the distinction matters in both directions. Judging one is
+allowed and sometimes right: the subject may genuinely govern *this* context even though it
+missed the others, and a `conformant` verdict there weakens the prior for everyone after
+you. What you must not do is let the flag *become* the answer — an unread `not-applicable`
+written because the map suggested one is a guess wearing a verdict's clothes, and it
+poisons the same tally the next run will trust.
+
 **Budget: 3-6 pairs per run unless `--budget` says otherwise.** This skill is worth more
 run ten times than run once; a pass that skims forty pairs produces forty guesses.
 
