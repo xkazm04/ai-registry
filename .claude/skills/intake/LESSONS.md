@@ -3251,3 +3251,68 @@ and it is a redesign, not an adjustment.
   already says to verify with `git grep <slug> HEAD`; verifying the *slug* passes
   while the declaration is missing, because the slug is in the file you did commit.
   Verify the golden path names it, in `HEAD`, as a separate check.
+
+## 1.3.1 - 2026-08-31 - brooker-blog
+
+- **A near-empty from `research-map` has a second cause nobody had recorded: the material
+  is in an *application* document.** The instrument ranks subjects and techniques; it does
+  not rank applications. Twice in one run it reported "the corpus has never heard of this"
+  over ground the corpus had already covered in an application - shuffle sharding, hands
+  dealt from a bucket set, head-of-line blocking with its metric name, all sitting in an
+  application filed under the very subject the map said was empty. The existing warning
+  covers other branches and later commits; add this one. **Before believing an empty,
+  grep the applications of the two nearest subjects.** The corollary is a corpus finding
+  rather than a method one: material written at the application layer and never lifted is
+  invisible to every instrument this method has.
+- **A single-author archive is a reference index whose central signal is unavailable.**
+  The lane's strongest triage instrument is within-index convergence deduped *by author*.
+  Where the curator and the author are the same person, every convergence is n=1 by
+  construction. That does not disqualify the class - this run landed eight - but it must
+  be said at Phase 2 and the corroboration must come from elsewhere: corpus-internal
+  evidence, training-data convergence, or a primary the reference points at. A run that
+  reports "three references agreed" over a single-author archive has counted one voice
+  three times.
+- **Rank an author's posts by word count before spending a fetch.** Sixteen lanes gave a
+  clean discriminator that costs nothing: the 74-word aphorism and the ~500-word product
+  aside returned `nothing`; the 613-word queueing post and the 805-word talk write-up were
+  among the strongest. Length does not predict yield, but **account-versus-aphorism does**,
+  and word count separates them for free. Relatedly: **title-level epistemics keywords are
+  non-evidence.** A post titled "hypothesis" stated no falsifier and was ranked top of its
+  band on the word alone.
+- **The class is a property of the document, not the byline** - four of sixteen lanes found
+  otherwise, on an author with impeccable credentials in the exact domain. Two returned a
+  vendor product paragraph for their author's own employer, which authorizes nothing.
+- **A below-the-frontier source earns a slot only when it argues who *pays* for the
+  mechanism.** This is the sharpest ranking refinement the run produced. A post explaining
+  a mechanism below the construction frontier is worthless here; a post arguing where the
+  cost lands when you decline to buy that mechanism is consumer-position and valuable - the
+  displaced work arrives in the layer this bundle owns. The slug map cannot see the
+  difference, so it has to be read off the argument.
+- **For a talk write-up, read the images.** One lane found nine slides carrying `alt=""`
+  and the only numbers in the document, including a reproduced peer-reviewed fleet table
+  the prose never mentions. A text ingest silently loses them.
+- **`WebFetch` refuses verbatim reproduction and burns a budget slot returning a summary.**
+  Two lanes lost a fetch to it, and one received a hallucinated date and an invented
+  percentage. For a short single-page essay, go to `research-ingest` or raw retrieval first.
+- **Look before overwriting.** I created an application with a shell redirect onto a path I
+  had not checked, and destroyed a document from 2026-08-18; it was restored from `HEAD` and
+  mine refiled under the stack that actually ran the arm. `Write` refuses an unread file and
+  `cat >` does not. **Use the tool that refuses.**
+
+### Redesign proposal - the apply lane's brief decides the ship column
+
+Not applying this now; it wants a second sighting. Three consecutive rows have named the
+ship column's cause and each named it one step too early. 1.3.0 blamed the missing
+confirmation affordance; the last two rows blamed selection at triage. This run selected
+well at triage, dispatched four apply lanes, and shipped zero - because every brief said
+*read-only in project trees*, which is right for a seven-tree sweep and forecloses `code`
+before a seam is looked at. Three of eight landings had a small code arm and all three were
+excluded by my own instruction.
+
+The proposal is to split Phase 7.5's dispatch in two, and to say so in `SKILL.md`:
+**a fleet reconnaissance lane (read-only, many trees, finds the seam) and a code lane
+(write access to exactly one named tree, briefed only after a seam is named).** They are
+different jobs with different risk profiles and they currently share a brief, which
+resolves the conflict in favour of the safe half every time. The scorecard row would then
+carry which lane got write access, making the decision visible at dispatch rather than
+inferable from a zero six phases later.
