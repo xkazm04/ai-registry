@@ -3037,3 +3037,52 @@ references by what the reference might contain, when the higher-yield question i
 of OUR enumerations a reference is positioned to test. That would be a different Phase 2c
 step 3 - rank the corpus's completeness claims first, then match references to them -
 and it is a redesign, not an adjustment.
+
+## 1.3.0 - 2026-08-31 - aider
+
+- **Both landings came from hunting our own enumerations, and this is now a second
+  sighting from a different source class.** The reference-index run's redesign proposal
+  argued that the corpus's completeness claims are the higher-yield thing to rank; this
+  run reached the same conclusion from a repository. The technique came from a golden
+  path that enumerates its lanes and *denies a symmetry* ("every other lane is a function
+  of the query"); the amendment came from a technique that argues admission **value** is
+  set-conditional and models admission **cost** as per-item additive in the same file.
+  Neither is visible to `research-map`, which scores two files identically when both
+  "cover" a concept. A third sighting makes this a rule Phase 6 should carry as its
+  first hunt rather than its third.
+- **The asymmetry hunt has a sharper form than "look for asymmetries".** The productive
+  shape is: *a file that models the two halves of one decision with different
+  sophistication.* Value/cost, read/write, admit/evict, produce/consume - name the pair,
+  then check whether the file gave both halves a model or gave one a model and the other
+  a sentence. That is mechanical enough to run without inspiration and it found the
+  better of this run's two landings.
+- **Phase 7.5 is an extraction surface, not only a verification step.** Second run in
+  four where the seam amended the corpus rather than merely scoring it: the A/B was built
+  to test the centrality technique and surfaced a ranking column sitting at its schema
+  default for 93.7% of its rows - an `unknown-is-not-a-value` instance nobody had gone
+  looking for - which became a section of the technique. Phase 7.5 should ask explicitly,
+  after the verdict: *what did the seam teach that the source did not?*
+- **New parallel hazard: the regenerated index bakes in whichever sibling is red at that
+  instant.** With 8 siblings live, every `build-index` run this session picked up an
+  untracked sibling technique that was failing `check-bundles` (first two files, then a
+  third from a different run). The method says not to regenerate over files you do not
+  own, but says nothing about the case where your own landing *requires* a regeneration
+  and a neighbour is red. This run's resolution: **commit the content without
+  `index.json`/`catalog.json`, and say so in the commit message** - the last green run
+  regenerates, and the corpus self-heals within minutes. Worth a line in the Phase 7
+  regeneration block if a second run hits it.
+- **Verify your content is in HEAD by grepping content, never by trusting your own
+  commit.** A sibling's commit swept this run's ledger appends (`applied.md`,
+  `sources/index.md`, `SCORECARD.md`) into *their* commit before this run reached Phase
+  10. Nothing was lost - the appends were made under the `ledger` lock and survived
+  verbatim - but the run's own commit does not carry them, so a check of the form "did my
+  commit include my rows" reports a false negative and would have prompted a duplicate
+  append. The existing `git grep <slug> HEAD` instruction is correct precisely because it
+  is content-addressed; this is the failure mode it prevents.
+- **Editing a connected project's tree can break a build you cannot see.** Phase 8's
+  foreign-WIP test is "does another session have uncommitted work *in the files you
+  touch*", and it passed here - then a `cargo test` from that other session, started
+  minutes earlier, compiled this run's uncommitted edits as part of its own run. The
+  shared artifact is the **build**, not just the files. For a compiled project the test
+  should be "is another session building or testing this tree right now", which is one
+  process query, and the answer changes whether you edit before or after committing.
