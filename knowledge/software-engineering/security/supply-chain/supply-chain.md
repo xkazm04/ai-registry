@@ -10,6 +10,7 @@ techniques:
   - permission-manifest-scoping
   - archive-extraction-safety
   - update-automation-review
+  - toolchain-floor-drift
   - vendored-fork-ledger
 ---
 
@@ -103,6 +104,22 @@ the dependency's changed behavior outside that coverage, and a malicious
 release is engineered to pass exactly such tests. Risk-tiering, batching
 cadence, and the exposure-window metric are
 [update-automation-review](./techniques/update-automation-review.md).
+
+The mirror case is the update **nobody proposed**. A project's declared
+minimum toolchain is a claim about a number it does not own: the effective
+floor is the maximum across the whole transitive graph, and ecosystems
+routinely permit a package to raise its own declared minimum in a *patch*
+release, on the argument that its interface did not change. So the floor
+rises without a manifest diff, without a proposal to review, and without any
+change by the team — surfacing days later as a build failure on the one lane
+still running the old toolchain, during an unrelated change. The two halves
+belong together: this subject reviews the code that arrives, and must also
+notice the constraint that arrives with it. A pipeline that builds only on
+the current toolchain has never observed the floor the project advertises,
+which makes the claim prose rather than a fact. The lane that makes it a
+fact, the reason a locked resolution is the wrong instrument for it, and how
+long a support window costs nothing to hold, are
+[toolchain-floor-drift](./techniques/toolchain-floor-drift.md).
 
 ## Forking a dependency does not break its guards — it ends them
 
@@ -205,6 +222,10 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
 - [update-automation-review](./techniques/update-automation-review.md) —
   reading the changelog before the merge button, risk tiers, lockfile-diff
   review, and measuring the exposure window.
+- [toolchain-floor-drift](./techniques/toolchain-floor-drift.md) — the
+  effective floor as the maximum over the transitive graph, building at the
+  declared minimum with a consumer's resolution, and choosing a support
+  window against its real cost curve.
 - [vendored-fork-ledger](./techniques/vendored-fork-ledger.md) — the recorded
   upstream commit, per-patch entries with falsifiable removal conditions,
   two-way inventory plus reverse-apply verification, the re-vendoring walk,

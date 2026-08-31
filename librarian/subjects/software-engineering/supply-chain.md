@@ -83,3 +83,39 @@ proves the index still describes the tree rather than one somebody hand-edited.
 
 **Unapplied.** No managed project in the fleet carries a patched or vendored
 dependency; none has a manifest-level source override. Return when one forks.
+
+## 2026-08-31 — `toolchain-floor-drift` (second intake touch today)
+
+Touched by [[2026-08-31-tigerbeetle-blog]] — gained `toolchain-floor-drift` and
+`rust--toolchain-floor-drift`.
+
+The **mirror of `update-automation-review`**: that technique owns the update you
+make, this one owns the floor that rises when you make none. A transitive
+dependency raises its declared minimum in a *patch* release — normal maintenance
+in several ecosystems — so the effective floor is the max over the whole graph
+and moves with no manifest diff to review.
+
+Placement was argued rather than assumed. The golden path frames this subject as
+*trust* crossings (secrets out, third-party code in, permissions, archives), and
+this finding is about *compatibility*, not trust. It lands here anyway because
+the golden path names dependency resolution as one of its four crossings and
+because the two neighbouring techniques already own the halves it sits between:
+`update-automation-review` (the bump you make) and `dependency-policy-gates`
+(the standing acceptance policy a floor clause belongs in).
+
+Carries a rare thing for this ledger: **a real measured protocol** — top 100
+packages by download, most recent major releases, compatibility by binary search
+with an actual build across compiler releases 1.0–1.94, dated, with the author's
+own caveats preserved. Cited as an order of magnitude (~2-year viability
+window), never as a constant.
+
+**Applied, `better`, `ab-paired`.** A managed tree declares a compiler floor of
+1.80.0 against a resolved graph whose effective floor is 1.88.0 — 60 of 518
+packages above the claim. The structural fact: the same repository declares a
+*runtime* floor and runs a job at it, while every job touching the compiler runs
+at stable. Two identical claims, asymmetric enforcement, nobody's decision.
+
+## Open leads
+
+- **The drift rate is unmeasured.** This run measured a gap on one date, not how
+  fast it opened. Return when historical resolutions can be replayed.

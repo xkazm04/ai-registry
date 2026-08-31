@@ -282,7 +282,8 @@
             "packaging",
             "release-pipeline",
             "codegen",
-            "test-harness"
+            "test-harness",
+            "test-input-generation"
           ]
         },
         {
