@@ -332,3 +332,34 @@ added between Phase 4 and Phase 7, and the insert preserved both.
 The generated index and catalog were regenerated under the `index` lock and left
 **unstaged**: three siblings held uncommitted or untracked content, so a
 committed index would reference files absent from `HEAD`.
+
+## 2026-08-31 - /intake, github:TkDodo/knip
+
+Landed `excess-indicts-the-instrument` (new technique). The subject's
+instrument-failure vocabulary was **one-directional**: `gate-liveness` enumerates
+zero-files-walked, rules-failed-to-load, tool-absent, trigger-never-fired,
+green-for-a-year - every one a *deficiency* signal. Nothing anywhere in 17
+techniques treated a finding population that is too **large** as a signal about
+the checker rather than the tree.
+
+The trap is a composition of three existing techniques, and it is worth naming
+because none of them is wrong alone: `blocking-by-input-determinism` says a
+thousand pre-existing findings is "a statement about the backlog, not about the
+check"; `ratchet-design` freezes that number as a baseline; `ratchet-design`
+then guards only the *drop* below it. Baseline a population produced by a wrong
+root set and the ratchet defends the misconfiguration permanently, because the
+count only ever goes down and every subsequent run confirms it.
+
+**The A/B refuted the technique's own discriminator and the correction shipped
+with it.** Against a managed project's committed baseline - 230 unreachable files
+of 982 walked, 23.4%, frozen 2026-08-24 - the distribution test fired on 7
+clusters at 2.4-4.3x lift, several at 100% directory saturation, and **all 7 were
+genuine dead code with 0 root errors.** Confound: dead code arrives in whole
+features, so both hypotheses predict the same distribution. Clustering is a
+sampler; a referrer check per cluster is the discriminator. Recorded
+`not-better`, which is the honest verdict and the most useful row in the ledger.
+
+Not landed, deliberately: the source's advisory-by-default plus one escalation
+flag is `gate-laddering` and `severity-by-construction` already; only the
+detail that the report's *rendering* follows the severity setting is novel, and
+it is one sentence.

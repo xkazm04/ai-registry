@@ -13,6 +13,7 @@ techniques:
   - ingestion-budget
   - evidence-scoping
   - verify-after-generate
+  - precision-trades-have-a-direction
 ---
 
 # Codebase scanning & triage
@@ -81,6 +82,19 @@ nothing will silently continue to match nothing after the defect it was meant
 to catch arrives. The full discipline, including cross-checking any count
 that travels with a second independent implementation, is
 [rule-precision-discipline](./techniques/rule-precision-discipline.md).
+
+That asymmetry is also a standing liability, and it comes due the moment a
+scanner is made *faster*. Speed in static analysis is an information source
+discarded, and every discarded source moves the error in a knowable direction:
+losing the ability to **see** a reference produces false positives, which users
+report for free; losing the ability to **distinguish** references produces false
+negatives, which nobody reports, because no one has ever filed a bug about a
+finding that was not made. Recall being invisible is the reason it needs a
+deliberate instrument rather than the reason to forgive it — and the only
+instrument that measures it is a differential against the slower implementation,
+run while both still exist. The two directions, the hand-written scope checklist
+a discarded resolution layer leaves behind, and where to publish each loss are
+[precision-trades-have-a-direction](./techniques/precision-trades-have-a-direction.md).
 
 ### 3. A finding is a claim, and claims carry evidence
 
@@ -281,6 +295,10 @@ delivered ranked, with "thirty-five more withheld" printed underneath.
 - [rule-precision-discipline](./techniques/rule-precision-discipline.md) —
   population-first rule writing, hand-verified precision samples, positive
   controls, zero-match refusal, independent cross-checks for counts.
+- [precision-trades-have-a-direction](./techniques/precision-trades-have-a-direction.md)
+  — what a speed refactor discards and which way the error moves, the scope
+  checklist a lost resolution layer becomes, the differential as the only recall
+  instrument, and announcing each loss where its cost lands.
 - [finding-lifecycle](./techniques/finding-lifecycle.md) — stable finding
   identity and dedup keys, impact-per-effort ordering, verify-then-file,
   post-fix cleared/regressed/persisted verdicts, recorded suppression.

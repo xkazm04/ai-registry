@@ -21,6 +21,7 @@ techniques:
   - fabrication-economics
   - advancement-evidence-fields
   - item-liveness
+  - excess-indicts-the-instrument
 ---
 
 # Quality gates & ratchets
@@ -343,6 +344,17 @@ red is unverified machinery. Portability, instrument assertion, chain
 ordering, and seeded-failure verification are
 [gate-liveness](./techniques/gate-liveness.md).
 
+Every signal in that list is a *deficiency* signal — the number is too small
+because the instrument did too little. A gate fails in the other direction too,
+and it looks nothing like a broken one: pointed at the wrong scope it runs
+perfectly and reports a mountain of findings about ground it was never meant to
+stand on. An implausibly *large* population is evidence about the scope
+declaration before it is evidence about the codebase, and the reading where that
+matters is the founding one, because the baseline frozen from it is the number a
+ratchet then defends forever. The plausibility test, the distribution
+discriminator, and where to print a self-accusation are
+[excess-indicts-the-instrument](./techniques/excess-indicts-the-instrument.md).
+
 ## False positives are how gates die
 
 Gates do not usually die by being deleted in anger. They die by a quieter
@@ -502,6 +514,10 @@ is asked to refuse something.
 - [gate-liveness](./techniques/gate-liveness.md) — instrument assertion,
   portability, chain-abort ordering, and proving a gate red before
   trusting it green.
+- [excess-indicts-the-instrument](./techniques/excess-indicts-the-instrument.md)
+  — implausible finding volume as a scope-declaration signal, the distribution
+  discriminator, root-sensitive versus locally-derived findings, and printing
+  the suspicion above the findings.
 - [hook-hygiene](./techniques/hook-hygiene.md) — never mutate the worktree,
   staged-content scoping, non-interactive discipline, bypass policy, and
   installation as a liveness problem.
