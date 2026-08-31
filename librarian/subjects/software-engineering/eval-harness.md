@@ -347,3 +347,44 @@ One clause is still owed and was banked as a lead: the any-of-N bullet names "a
 human will retry" as a case it is right for, and the human retrier has a
 patience budget, so ten attempts yielding one success reads as failure rather
 than as capability. The machine-retry half survives; the human half inverts.
+
+### 2026-08-31 - `/intake`, from danluu.com (2026 posts)
+
+Two new techniques and one amendment, all from a single-author archive read at a
+100% sample (6 of 6 reachable 2026 posts). `candidate-write-access`: the system
+under test is now routinely an agent holding the harness's own shell, which voids
+the read-only-instrument assumption every other technique here rests on. Two write
+surfaces - the instrument (reads the suite, edits the harness interface, picks its
+own holdout) and the neighbours (one condition's agent leaves state that scores its
+successors, so the ranking is a fact about run order). The corrective is structural
+and inverted: **declare the holdout rather than forbid overfitting**, because the
+prohibition is unfalsifiable where it would have to be checked, and the tell that it
+works is that the *visible* score gets worse while the held-out score rises.
+Composes after `unaided-baseline-screening` and before `overshoot-and-restore`,
+which had been assuming the agent pushes against the gate honestly.
+
+`resolution-precondition`: the golden path required variance beside the mean, which
+is a rule about the number; the artifact people act on is the order. The gate is now
+explicit - between-condition spread must exceed within-condition SD before a ranking
+is published, and a tie is reported as the finding. Source measurement: SD 0.075
+within one condition against a full best-to-worst spread of 0.069. Carries the
+non-monotonic-effort corollary.
+
+`comparison-modes` amended with the self-referential opponent - the frozen-opponent
+rule's one deliberate violation, reached for when no external reference exists.
+
+**Four candidates died here as catches, and they are why the run's strongest finding
+landed in another bundle.** `judge-stability` already owns both the within-judge
+repeatability floor and the cross-instrument swing; `discriminating-task-selection`
+already owns the unanimous-cells argument; `retrieval-evaluation` already owns human
+tuning leak. The repeatability finding was re-homed to the operator-side bundle,
+which turned out to have no floor at all. Source:
+[[../../sources/2026-08-31-danluu-2026]].
+
+Applied same-run, read-only, against a managed tree's own measurement apparatus:
+`candidate-write-access` **better** (a 110-byte vacuous agent spec scores 6/6,
+identical to the real 2,414-byte one - 0 of 6 quality assertions survive candidate
+write access); `resolution-precondition` **better** (r = -0.378 between how much of a
+subject was judged and its deviation rate, and the precondition's real output was a
+third state - *the check cannot be performed*, since 0 of 142 pairs were ever
+double-judged).

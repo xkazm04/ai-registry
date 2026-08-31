@@ -64,6 +64,35 @@ Its pathologies are specific and standard:
   say "good enough," and it does not compare across time unless the
   opponent is frozen too.
 
+### The opponent that is a previous you
+
+The frozen-opponent rule has one violation worth naming separately, because
+it is not a mistake teams drift into — it is the thing they reach for
+deliberately when no external reference exists: **the opponent is an earlier
+version of the candidate.**
+
+Self-referential comparison is cheap, always available, and produces a
+number that climbs reliably. That reliability is the defect. Beating your
+own ancestors measures *divergence* from them, and divergence is unbounded
+and free — a system can be tuned to defeat every previous version of itself,
+posting an apparent gain of a thousand rating points or more, while being no
+stronger against any opponent outside its own lineage and often weaker
+against one that plays differently, because the lineage has spent its whole
+history optimizing against a single style.
+
+Two rules follow. First, a self-referential score is an **internal progress
+signal and never a strength claim**; when it is reported, what it is relative
+to is reported with it, in the same sentence. Second, the gain must be shown
+to survive contact with an external reference before it is believed — and
+where no external reference exists at all, *that absence is the finding*.
+"We have no opponent outside our own lineage" is a fact about the evaluation
+that belongs in the result, not a gap to be papered over with the only
+number that happens to be available.
+
+The self-referential trap and the win-rate's missing gate are the same
+defect seen from two sides: a relative measure whose reference has been
+allowed to move.
+
 ## Matrix runs: the landscape question
 
 The full cross-product — candidates × configurations × scenarios, each cell

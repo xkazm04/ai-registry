@@ -45,3 +45,34 @@ a template-literal type.
 ## Applied to the technique layer
 
 - 2026-08-23-1: **the guard covers every chaining mechanism** (one-mechanism family) applied to `cycle-and-depth-guards` ([[2026-08-23-1]]).
+
+### 2026-08-31 - `/intake`, from danluu.com (2026 posts)
+
+`grounding-over-deliberation` added - the subject's first technique about what a step
+is *worth* rather than how steps are wired. The asymmetry that found it: every
+existing technique here models the plumbing (graphs, payloads, cycle guards, run
+conditions, identity, stop reasons) and none prices a step, even though the commonest
+reason a chain grows one is to raise confidence in a claim.
+
+The rule is an ordering: a **grounding** step (something that can refuse the claim -
+execution) dominates a **deliberating** step (another reader), and N deliberating
+steps do not sum to one grounding step, because they share a model family and a
+prompt lineage so their agreement measures similarity rather than truth. Measured in
+the source: causal explanations wrong ~50% of the time with multiple independent
+analysis rounds failing to fix it, and forced execution removing most - with forced
+checking alone beating independent cross-checking alone.
+
+The corollary is the expensive half and came from the source's opening story: an
+agent asked to prove a claim builds the apparatus that proves it, so the fabrication
+moves into the apparatus. A grounding step therefore reviews a **different view** than
+the one the artifact advertises. Home was contested - `remediation-handoff` is
+explicitly about the agent you cannot watch, and `plan-review` is pre-authorship;
+this subject owns the chain you own, which is where inserting the step is the
+affordance you have. Source: [[../../sources/2026-08-31-danluu-2026]].
+
+Applied same-run as a read-only experiment against a managed tree's memory-reflection
+eval: **better**. That harness separates the two step kinds cleanly, and all 14 of its
+deterministic assertions check *integrity* while quality routes entirely to a human
+reading a side-by-side the producing step composed. Arm A refused 0 of 2
+fabricated-citation proposals; a 20-line arm that recomputes support instead of
+trusting the declared sources refused 1 of 2 with no false positive.

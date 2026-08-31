@@ -3392,3 +3392,59 @@ in *another measurement*, and the only honest A/B for them is a re-analysis of a
 ours or someone else's. If a third run reports apply 0 for this reason, Phase 7.5 needs
 a fourth mode - `re-analysis`, whose A and B are two readings of one published protocol -
 rather than continuing to record these as unapplied.
+
+## 1.3.1 - 2026-08-31 - danluu-2026
+
+- **The standing `re-analysis` question is answered: no fourth mode is needed.** The
+  previous entry proposed one, reasoning that measurement-discipline techniques have
+  their seam *in another measurement* and so cannot be A/B'd against running code. All
+  five landings this run were measurement-discipline techniques and three of them got
+  ordinary two-arm code A/Bs. The move that unlocked it: **a project's own measurement
+  apparatus is code you can run.** An eval lane, an integrity gate and a judged verdict
+  corpus are all executable, all held in the tree, and all testable read-only. The prior
+  runs looked for the seam in the product, found none - correctly - and concluded the
+  mode was missing rather than that the search was aimed one layer off. Where a technique
+  is about how a number is produced, grep the project for what produces its numbers.
+
+- **Ship-0 has now been blamed on three different mechanisms in three runs; they share
+  one ancestor, and it is the triage table.** Run N-2 blamed selection at triage, run N-1
+  blamed the apply lane's brief, and this run could have blamed neither (it dispatched no
+  lanes and wrote every arm itself). What actually foreclosed `code` here is that the
+  operator picked rows by number and the table named no project, so Phase 8 step 2 -
+  correctly - refused to edit a tree nobody authorized. **A triage row whose seam is
+  plausibly a few readable lines should carry the project it would touch**, so that
+  picking the row authorizes the tree. This is a candidate `SKILL.md` Phase 5 edit; it is
+  recorded as a lesson because it is the first sighting *of this cause*, and because two
+  runs in one afternoon editing the method is the thing lane 2 warns about.
+
+- **The cross-bundle asymmetry is a repeatable probe, and it is not the same as the
+  enumeration hunt.** The best landing this run came from noticing that two bundles both
+  'cover' judge instability and only one *models* it: the builder-side harness has carried
+  a repeatability floor for weeks, while the operator-side subject runs a trust bar, a
+  per-cycle drop alert and a windowed regression detector with no floor beneath any of
+  them. Both files score identically on every keyword a map can match; the difference is
+  only visible by opening both. Phase 6 step 4 already says *find what a subject mentions
+  in one place and measures in another* - this run says it holds **across bundles**, where
+  the corpus's own no-cross-links rule makes the gap least likely to be noticed and most
+  likely to persist. Worth adding to step 4 if a second run finds one.
+
+- **Second sighting of the single-author archive, same afternoon, reached independently.**
+  `brooker-2026-08-31` and this run both mined a personal blog's archive, both classified
+  it `reference-index (single-author archive)`, and both wrote the same calibration
+  without seeing each other's note: within-index convergence deduped by *author* is
+  structurally unavailable, so every convergence is n=1 and the references originate
+  freely while authorizing almost nothing. Two independent sightings meets the class-note
+  bar but not the three-run bar for a rule, so it stays here. The practical consequence
+  worth carrying now: **say the n=1 cap out loud before the triage table**, because the
+  lane's headline signal is missing and a reader of the note will otherwise assume it was
+  checked and passed.
+
+- **A 100% sample is available more often than the wave lane assumes.** Phase 2c is built
+  for a 200-entry bibliography and prescribes ranking plus waves. An operator filter can
+  collapse the set below the wave threshold - here, `articles published in 2026` took 120+
+  posts down to 6 reachable references, all of which were read directly with no workers
+  and no ranking step. **When the filtered set is small enough to read whole, read it
+  whole and say so**; the ranking machinery exists to avoid sampling, and a full read is
+  the thing it approximates. The note records `sample: 100%` for exactly this reason - it
+  is what makes four already-covered catches evidence rather than an artifact of which
+  three links looked interesting.

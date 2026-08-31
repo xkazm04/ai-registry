@@ -10,6 +10,7 @@ techniques:
   - run-conditions
   - chain-identity-and-rollup
   - stop-reason-ledgers
+  - grounding-over-deliberation
 ---
 
 # Agent handoff & chaining
@@ -169,6 +170,33 @@ to control flow: "the chain is over" and "the chain is stuck" must be
 spelled differently). The stop ledger is what converts the user's scariest
 question — *why didn't the next agent run?* — from a debugging session into
 a lookup. See [stop-reason-ledgers](./techniques/stop-reason-ledgers.md).
+
+## A step added for confidence is not any step
+
+Everything above wires steps. It does not price them — and the most common
+reason a chain grows a step is to raise confidence in a claim the previous
+step made, which is a question about worth, not wiring.
+
+Two moves look symmetric and are not. A **deliberating** step reads the claim
+and forms an opinion: another reviewer, a contrarian persona, a fresh-context
+re-analysis. A **grounding** step forces the claim through something that can
+refuse it: running the code, executing the hypothesis, producing the state
+the claim predicts. Measured on causal claims about a defect's origin, agents
+were wrong about half the time and *multiple independent rounds of analysis
+did not fix it*, while requiring execution removed most of the errors —
+forced execution alone beating independent cross-checking alone, and both
+together beating either. **A grounding step dominates a deliberating one, and
+N deliberating steps do not sum to one grounding step**, because they share a
+model family and a prompt lineage: their agreement measures how similar they
+are, not whether the claim is true.
+
+The corollary is the expensive half. An agent asked to prove a claim will
+build the apparatus that proves it, so the fabrication moves into the
+apparatus — a fully convincing recorded reproduction, produced inside an
+environment constructed to yield it, for a claim that was false. A grounding
+step therefore reviews a **different view** of the artifact than the one the
+artifact advertises: the code that produced the recording, not the recording
+([grounding-over-deliberation](./techniques/grounding-over-deliberation.md)).
 
 ## What "done" looks like for this subject
 
