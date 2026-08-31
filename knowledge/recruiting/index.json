@@ -929,19 +929,22 @@
      "stack": "node",
      "technique": "preview-then-approve-the-signed-set",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--preview-then-approve-the-signed-set.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "reversal-queue-that-reads-the-sealed-reason",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--reversal-queue-that-reads-the-sealed-reason.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "tie-safe-cutoff-resolved-toward-the-candidate",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--tie-safe-cutoff-resolved-toward-the-candidate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -1276,19 +1279,22 @@
      "stack": "node",
      "technique": "bounce-receipt-supersedes-a-green-send",
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--bounce-receipt-supersedes-a-green-send.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "capability-honesty-never-promise-a-channel",
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--capability-honesty-never-promise-a-channel.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "terminal-delivery-status-vocabulary",
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--terminal-delivery-status-vocabulary.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -1505,19 +1511,22 @@
      "stack": "node",
      "technique": "content-addressed-document-identity",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--content-addressed-document-identity.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "requirement-edited-since-scored",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--requirement-edited-since-scored.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "retired-outranks-stale-status-precedence",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/react--retired-outranks-stale-status-precedence.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -1845,19 +1854,22 @@
      "stack": "node",
      "technique": "candidate-safe-status-projection",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--candidate-safe-status-projection.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "terminal-moment-experience-measurement",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--terminal-moment-experience-measurement.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "honest-failure-classification",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/react--honest-failure-classification.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     }
    ]
   },

@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 151 subjects, 1004 techniques, 500 applications.
+`software-engineering` - 151 subjects, 1006 techniques, 501 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces

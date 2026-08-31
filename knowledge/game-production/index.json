@@ -230,13 +230,15 @@
      "stack": "node",
      "technique": "declared-vs-referenced-tag-audit",
      "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/node--declared-vs-referenced-tag-audit.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "server-derived-codegen-report",
      "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/node--server-derived-codegen-report.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -345,7 +347,8 @@
      "stack": "node",
      "technique": "three-layer-merge-order",
      "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/node--three-layer-merge-order.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -357,7 +360,8 @@
      "stack": "react",
      "technique": "explain-why-this-verdict",
      "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/react--explain-why-this-verdict.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -458,7 +462,8 @@
      "stack": "node",
      "technique": "mitigation-order-and-soft-caps",
      "file": "knowledge/game-production/systems-canon/arpg-systems-canon/applications/node--mitigation-order-and-soft-caps.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -566,7 +571,8 @@
      "stack": "node",
      "technique": "provider-face-limit-conversion",
      "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/applications/node--provider-face-limit-conversion.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -677,7 +683,8 @@
      "stack": "node",
      "technique": "seed-entities-and-walker-coverage",
      "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/node--seed-entities-and-walker-coverage.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -689,7 +696,8 @@
      "stack": "react",
      "technique": "archetype-view-coherence-ratchet",
      "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/applications/react--archetype-view-coherence-ratchet.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -773,7 +781,8 @@
      "stack": "node",
      "technique": "intensity-and-threat-tension-curve",
      "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/node--intensity-and-threat-tension-curve.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -878,7 +887,8 @@
      "stack": "node",
      "technique": "config-complete-vs-runtime-verified",
      "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/applications/node--config-complete-vs-runtime-verified.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -996,19 +1006,22 @@
      "stack": "node",
      "technique": "batch-lease-on-a-non-reentrant-resource",
      "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/node--batch-lease-on-a-non-reentrant-resource.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "content-hash-vs-status-drift",
      "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/node--content-hash-vs-status-drift.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "sql",
      "technique": "bounded-revision-history",
      "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/applications/sql--bounded-revision-history.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "sql@3"
     }
    ]
   },
@@ -1109,13 +1122,15 @@
      "stack": "node",
      "technique": "crash-signature-over-id-equality",
      "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/node--crash-signature-over-id-equality.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "weighted-evidence-directory-file-symbol",
      "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/node--weighted-evidence-directory-file-symbol.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1221,13 +1236,15 @@
      "stack": "node",
      "technique": "flag-your-own-shipped-defaults",
      "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/applications/node--flag-your-own-shipped-defaults.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "parse-thresholds-from-prose",
      "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/applications/node--parse-thresholds-from-prose.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1335,13 +1352,15 @@
      "stack": "node",
      "technique": "coverage-vs-conformance-split",
      "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/applications/node--coverage-vs-conformance-split.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "severity-weighted-scale-free-damping",
      "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/applications/node--severity-weighted-scale-free-damping.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1538,13 +1557,15 @@
      "stack": "node",
      "technique": "goal-seek-on-a-seeded-monotonic-lever",
      "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/node--goal-seek-on-a-seeded-monotonic-lever.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "per-cell-seed-derivation-for-order-independence",
      "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/node--per-cell-seed-derivation-for-order-independence.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1653,13 +1674,15 @@
      "stack": "node",
      "technique": "editor-thread-timeout-budgeting",
      "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--editor-thread-timeout-budgeting.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "transport-failure-taxonomy",
      "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--transport-failure-taxonomy.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1761,7 +1784,8 @@
      "stack": "node",
      "technique": "domain-scoped-injection-with-a-safe-superset",
      "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/node--domain-scoped-injection-with-a-safe-superset.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1896,13 +1920,15 @@
      "stack": "node",
      "technique": "tornado-sensitivity-sweeps",
      "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/node--tornado-sensitivity-sweeps.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "wealth-concentration-and-price-imbalance-alerts",
      "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/node--wealth-concentration-and-price-imbalance-alerts.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1996,7 +2022,8 @@
      "stack": "node",
      "technique": "import-scale-derivation",
      "file": "knowledge/game-production/asset-production/generated-asset-world-scale/applications/node--import-scale-derivation.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2104,7 +2131,8 @@
      "stack": "node",
      "technique": "structural-scorecard",
      "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/applications/node--structural-scorecard.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2212,7 +2240,8 @@
      "stack": "node",
      "technique": "grade-the-selected-candidate",
      "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/node--grade-the-selected-candidate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2321,13 +2350,15 @@
      "stack": "node",
      "technique": "capability-is-not-registry-membership",
      "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/node--capability-is-not-registry-membership.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "pin-a-model-per-asset-class",
      "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/node--pin-a-model-per-asset-class.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2432,13 +2463,15 @@
      "stack": "node",
      "technique": "reference-role-tagging",
      "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "single-subject-plain-background",
      "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2547,13 +2580,15 @@
      "stack": "node",
      "technique": "high-to-low-bake-coverage",
      "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/node--high-to-low-bake-coverage.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "unwrap-only-the-low-poly",
      "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/node--unwrap-only-the-low-poly.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2664,13 +2699,15 @@
      "stack": "node",
      "technique": "asset-reality-ledger",
      "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/node--asset-reality-ledger.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "filmstrip-sampling-discipline",
      "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/node--filmstrip-sampling-discipline.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2777,13 +2814,15 @@
      "stack": "node",
      "technique": "declare-what-each-engine-ignores",
      "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--declare-what-each-engine-ignores.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "pacing-linter-rules",
      "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--pacing-linter-rules.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2893,7 +2932,8 @@
      "stack": "node",
      "technique": "engine-credibility-classes",
      "file": "knowledge/game-production/production-governance/production-coverage-measurement/applications/node--engine-credibility-classes.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -2905,7 +2945,8 @@
      "stack": "react",
      "technique": "source-provenance-marks",
      "file": "knowledge/game-production/production-governance/production-coverage-measurement/applications/react--source-provenance-marks.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -3005,7 +3046,8 @@
      "stack": "node",
      "technique": "fixed-section-order",
      "file": "knowledge/game-production/production-governance/production-prompt-architecture/applications/node--fixed-section-order.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -3110,13 +3152,15 @@
      "stack": "node",
      "technique": "five-factor-weighted-scoring",
      "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/node--five-factor-weighted-scoring.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "null-success-odds-with-sample-provenance",
      "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/node--null-success-odds-with-sample-provenance.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -3222,7 +3266,8 @@
      "stack": "node",
      "technique": "join-judge-verdicts-to-prompt-version",
      "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/applications/node--join-judge-verdicts-to-prompt-version.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -3337,13 +3382,15 @@
      "stack": "node",
      "technique": "condemn-vs-elevate-asymmetry",
      "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/node--condemn-vs-elevate-asymmetry.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "content-hash-binding",
      "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/applications/node--content-hash-binding.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -3448,7 +3495,8 @@
      "stack": "node",
      "technique": "real-time-timers-with-an-escapable-window",
      "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/node--real-time-timers-with-an-escapable-window.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -3561,7 +3609,8 @@
      "stack": "node",
      "technique": "defect-class-to-remedy-map",
      "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/applications/node--defect-class-to-remedy-map.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -3671,13 +3720,15 @@
      "stack": "node",
      "technique": "behavioural-discriminators-over-symbolic-pass",
      "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/node--behavioural-discriminators-over-symbolic-pass.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "unverifiable-is-not-fail",
      "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/node--unverifiable-is-not-fail.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -3784,7 +3835,8 @@
      "stack": "node",
      "technique": "feature-cost-with-a-cheaper-swap",
      "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/node--feature-cost-with-a-cheaper-swap.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -3900,13 +3952,15 @@
      "stack": "node",
      "technique": "post-cook-process-liveness-smoke",
      "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/node--post-cook-process-liveness-smoke.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "preflight-before-an-expensive-cook",
      "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/node--preflight-before-an-expensive-cook.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -4013,7 +4067,8 @@
      "stack": "node",
      "technique": "room-type-to-acoustic-profile",
      "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/applications/node--room-type-to-acoustic-profile.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -4120,7 +4175,8 @@
      "stack": "node",
      "technique": "regression-diff-new-persisting-resolved",
      "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/applications/node--regression-diff-new-persisting-resolved.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -4241,13 +4297,15 @@
      "stack": "node",
      "technique": "derive-only-what-the-source-encodes",
      "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/node--derive-only-what-the-source-encodes.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "wrap-around-edge-diff",
      "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/node--wrap-around-edge-diff.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -4372,13 +4430,15 @@
      "stack": "node",
      "technique": "budget-reservation-and-drain-not-kill",
      "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--budget-reservation-and-drain-not-kill.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "verified-vs-self-reported-pass-rate",
      "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--verified-vs-self-reported-pass-rate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -4476,7 +4536,8 @@
      "stack": "node",
      "technique": "event-override-signature-resolution",
      "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/applications/node--event-override-signature-resolution.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -4584,13 +4645,15 @@
      "stack": "node",
      "technique": "placeholder-rejection",
      "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/applications/node--placeholder-rejection.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "verification-must-name-a-tier",
      "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/applications/node--verification-must-name-a-tier.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",

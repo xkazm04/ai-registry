@@ -43,9 +43,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 6,
+      "lessons": 7,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:db2091402d36c7ab",
+      "lessonsHash": "sha256-n1:ed5eb122c59e587b",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -128,7 +128,9 @@
       "contentHash": "sha256-n1:cad4732da495ca6a",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/dojo/LESSONS.md",
+      "lessonsHash": "sha256-n1:f943d5209a53207b",
       "usageContributors": []
     },
     {
@@ -574,7 +576,7 @@
     "skills": 29,
     "practices": 5,
     "memory": 4,
-    "lessons": 91
+    "lessons": 93
   },
   "bundles": [
     {
@@ -588,7 +590,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:cc2e73421ad6ed92"
+      "contentHash": "sha256:c6cde01799e75ae1"
     },
     {
       "name": "game-production",
@@ -601,7 +603,7 @@
       "techniques": 246,
       "applications": 110,
       "files": 401,
-      "contentHash": "sha256:521507686ed37a72"
+      "contentHash": "sha256:db9218d54894e7ae"
     },
     {
       "name": "grant-funding",
@@ -627,7 +629,7 @@
       "techniques": 100,
       "applications": 51,
       "files": 172,
-      "contentHash": "sha256:24f3cad5b30613c1"
+      "contentHash": "sha256:17c480e2300ff5e0"
     },
     {
       "name": "localization",
@@ -666,7 +668,7 @@
       "techniques": 384,
       "applications": 194,
       "files": 646,
-      "contentHash": "sha256:20849fe055435880"
+      "contentHash": "sha256:8192916880c39fef"
     },
     {
       "name": "software-engineering",
@@ -676,10 +678,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 151,
-      "techniques": 1004,
-      "applications": 500,
-      "files": 1660,
-      "contentHash": "sha256:cd308bd695316598"
+      "techniques": 1006,
+      "applications": 501,
+      "files": 1663,
+      "contentHash": "sha256:bbe89a5a107d61f8"
     }
   ]
 }

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 151,
   "techniques": 1006,
-  "applications": 500,
+  "applications": 501,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -13593,6 +13593,13 @@
      "technique": "policy-projection",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--policy-projection.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "prose-rule-drift",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--prose-rule-drift.md",
+     "verified_on": "2026-08-30",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",

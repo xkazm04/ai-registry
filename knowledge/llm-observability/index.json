@@ -115,19 +115,22 @@
      "stack": "rust",
      "technique": "backend-parity-as-contract",
      "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/rust--backend-parity-as-contract.md",
-     "verified_on": "2026-08-24"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "capability-flags-and-refusal",
      "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/rust--capability-flags-and-refusal.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "sql",
      "technique": "dashboard-driven-composite-indexes",
      "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/sql--dashboard-driven-composite-indexes.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "sql@16"
     }
    ]
   },
@@ -224,13 +227,15 @@
      "stack": "rust",
      "technique": "signature-is-the-auth",
      "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/applications/rust--signature-is-the-auth.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "static-auditable-fx-book",
      "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/applications/rust--static-auditable-fx-book.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -452,20 +457,23 @@
      "stack": "python",
      "technique": "target-matrix-runs",
      "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/python--target-matrix-runs.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-08-30",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "rust",
      "technique": "budget-preflight-and-ceiling",
      "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--budget-preflight-and-ceiling.md",
-     "verified_on": "2026-08-20",
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96",
      "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "determinism-stamping",
      "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--determinism-stamping.md",
-     "verified_on": "2026-08-20",
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96",
      "refresh_by": "2026-11-20"
     }
    ]
@@ -566,19 +574,22 @@
      "stack": "python",
      "technique": "fixed-task-vocabulary",
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/python--fixed-task-vocabulary.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-08-30",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "rust",
      "technique": "bounded-contributor-influence",
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--bounded-contributor-influence.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "hub-ingest-plausibility-gates",
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--hub-ingest-plausibility-gates.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -1125,19 +1136,22 @@
      "stack": "python",
      "technique": "cogs-by-construction",
      "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/applications/python--cogs-by-construction.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-08-30",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "rust",
      "technique": "pricing-what-if-simulation",
      "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/applications/rust--pricing-what-if-simulation.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "revenue-recognition-rules",
      "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/applications/rust--revenue-recognition-rules.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -1460,20 +1474,23 @@
      "stack": "node",
      "technique": "stable-hash-sampling",
      "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/applications/node--stable-hash-sampling.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "rust",
      "technique": "drift-classified-rescoring",
      "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/applications/rust--drift-classified-rescoring.md",
-     "verified_on": "2026-08-20",
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96",
      "refresh_by": "2026-11-20"
     },
     {
      "stack": "rust",
      "technique": "unscored-work-queue",
      "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/applications/rust--unscored-work-queue.md",
-     "verified_on": "2026-08-20",
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96",
      "refresh_by": "2026-11-20"
     }
    ]
@@ -1573,19 +1590,22 @@
      "stack": "node",
      "technique": "unverified-vs-regressed-exit-states",
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/node--unverified-vs-regressed-exit-states.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "rust",
      "technique": "paired-per-case-testing",
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/rust--paired-per-case-testing.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "partial-run-never-green",
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/rust--partial-run-never-green.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -1679,7 +1699,8 @@
      "stack": "python",
      "technique": "keyset-trace-pagination",
      "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/python--keyset-trace-pagination.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-08-30",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "react",
@@ -1699,13 +1720,15 @@
      "stack": "rust",
      "technique": "derived-trace-rollup",
      "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/rust--derived-trace-rollup.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "unpriced-span-accounting",
      "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/rust--unpriced-span-accounting.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
     }
    ]
   },

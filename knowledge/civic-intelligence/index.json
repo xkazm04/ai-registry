@@ -123,7 +123,8 @@
      "stack": "react",
      "technique": "real-vs-illustrative-form-encoding",
      "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/applications/react--real-vs-illustrative-form-encoding.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -217,13 +218,15 @@
      "stack": "node",
      "technique": "identifier-checksum-validation",
      "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/applications/node--identifier-checksum-validation.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "role-period-reconciliation",
      "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/applications/node--role-period-reconciliation.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -325,13 +328,15 @@
      "stack": "node",
      "technique": "destructive-rebuild-guard",
      "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/applications/node--destructive-rebuild-guard.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "evidence-path-finding",
      "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/applications/node--evidence-path-finding.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -433,13 +438,15 @@
      "stack": "node",
      "technique": "legacy-encoding-and-escape-parsing",
      "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/applications/node--legacy-encoding-and-escape-parsing.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "session-bound-scraping",
      "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/applications/node--session-bound-scraping.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -543,13 +550,15 @@
      "stack": "node",
      "technique": "three-verdict-vocabulary",
      "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/applications/node--three-verdict-vocabulary.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "recomputation-receipts",
      "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/applications/react--recomputation-receipts.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -651,13 +660,15 @@
      "stack": "node",
      "technique": "triage-signal-scoring",
      "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/applications/node--triage-signal-scoring.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "vote-versus-interest-join",
      "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/applications/node--vote-versus-interest-join.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -752,13 +763,15 @@
      "stack": "node",
      "technique": "bill-fate-dating",
      "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--bill-fate-dating.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "statute-collision-clustering",
      "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--statute-collision-clustering.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -880,19 +893,22 @@
      "stack": "node",
      "technique": "prose-register-gates",
      "file": "knowledge/civic-intelligence/accountability-method/llm-forensic-gating/applications/node--prose-register-gates.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "structured-verdict-schemas",
      "file": "knowledge/civic-intelligence/accountability-method/llm-forensic-gating/applications/node--structured-verdict-schemas.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "whole-artifact-invariants",
      "file": "knowledge/civic-intelligence/accountability-method/llm-forensic-gating/applications/node--whole-artifact-invariants.md",
-     "verified_on": "2026-08-24"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -997,13 +1013,15 @@
      "stack": "node",
      "technique": "cross-term-registry-loading",
      "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--cross-term-registry-loading.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "office-vs-plain-membership",
      "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--office-vs-plain-membership.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -1104,13 +1122,15 @@
      "stack": "node",
      "technique": "disclosed-scoring-rule",
      "file": "knowledge/civic-intelligence/parliamentary-data/political-compass-from-votes/applications/node--disclosed-scoring-rule.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "divisive-vote-selection",
      "file": "knowledge/civic-intelligence/parliamentary-data/political-compass-from-votes/applications/node--divisive-vote-selection.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1222,13 +1242,15 @@
      "stack": "node",
      "technique": "formula-lineage-stamping",
      "file": "knowledge/civic-intelligence/accountability-method/politician-performance-scoring/applications/node--formula-lineage-stamping.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "participatory-reweighting",
      "file": "knowledge/civic-intelligence/accountability-method/politician-performance-scoring/applications/react--participatory-reweighting.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -1324,13 +1346,15 @@
      "stack": "node",
      "technique": "entity-level-deduplication",
      "file": "knowledge/civic-intelligence/public-money/public-money-attribution/applications/node--entity-level-deduplication.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "public-body-classification",
      "file": "knowledge/civic-intelligence/public-money/public-money-attribution/applications/node--public-body-classification.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1438,13 +1462,15 @@
      "stack": "node",
      "technique": "contract-registry-record-model",
      "file": "knowledge/civic-intelligence/public-money/public-procurement-analysis/applications/node--contract-registry-record-model.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "value-basis-non-summability",
      "file": "knowledge/civic-intelligence/public-money/public-procurement-analysis/applications/node--value-basis-non-summability.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -1552,13 +1578,15 @@
      "stack": "node",
      "technique": "club-line-and-rebellion",
      "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--club-line-and-rebellion.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "tally-reconciliation",
      "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--tally-reconciliation.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -1655,13 +1683,15 @@
      "stack": "node",
      "technique": "municipal-money-trail",
      "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--municipal-money-trail.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "peer-group-construction",
      "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--peer-group-construction.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-08-30",
+     "verified_against": "node@24"
     }
    ]
   }
