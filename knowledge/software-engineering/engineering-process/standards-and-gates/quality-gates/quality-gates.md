@@ -6,6 +6,7 @@ status: forged
 techniques:
   - gate-laddering
   - severity-by-construction
+  - vacuous-by-evaluation
   - blocking-by-input-determinism
   - ratchet-design
   - gate-liveness
@@ -49,6 +50,13 @@ usually *configured* in one place and *neutralized* in another:
 - a threshold flag set beyond any count the codebase could plausibly
   produce — strictness in review, unfireable in fact;
 - a check that prints findings to a log nobody's exit code depends on.
+
+A fourth case passes all three of those inspections and is still unfireable:
+the rule is blocking, the exit code depends on it, the engine reads the real
+target — and the evaluation layer beneath the rule *derives* the condition the
+rule tests, so no input can violate it. That one is not visible in the
+exit-code path at all, and it is
+[vacuous-by-evaluation](./techniques/vacuous-by-evaluation.md).
 
 In each case the severity label says "enforced" and the construction says
 "decorative." The discipline is to reason about severity **by construction,

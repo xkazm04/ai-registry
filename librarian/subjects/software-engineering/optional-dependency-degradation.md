@@ -1,7 +1,7 @@
 ---
 subject: optional-dependency-degradation
 domain: software-engineering
-last_touched: 2026-08-29
+last_touched: 2026-08-31
 dry_streak: 0
 ---
 
@@ -94,3 +94,31 @@ holds the same law for workarounds that **cannot** test their own premise (the
 gap is a behaviour, the substrate is a model generation), where retirement
 reverts to a dated audit. The question separating the two lanes is stated in
 both files: *can this code find out for itself whether the gap is still there?*
+
+## 2026-08-31 — `/intake` (`semantica`)
+
+7 -> 8 techniques. Landed `refusal-is-not-failure`.
+
+**The subject named this gap itself and declined it in one line.** The sibling
+`absent-degrades-malformed-fails-fast` says: *"Malformed is not 'the dependency
+rejected it' — that is a runtime fact and a different technique."* That technique did
+not exist. Phase 6's enumeration hunt found it by reading the denial rather than the
+candidate — the source (a fix applied across 58 call sites, where a `try`/`except`
+around every registered custom method ran the built-in default on *any* exception,
+"including one a validator or policy gate raised on purpose") only supplied the
+occasion.
+
+The two techniques are cleanly disjoint and the golden path now says so: the sibling
+branches on **presence**, at boot, from a value; this one branches on **intent**, at
+call time, from code. The golden path's "third state" paragraph gained a fourth,
+which inverts the subject's posture rather than extending it — degrading at an
+extension point is not resilience, it is overruling a check somebody installed on
+purpose.
+
+Phase 7.5 (`politicas`, experiment, `better`): the project has already mechanised the
+two adjacent shapes as custom lint rules — "no empty catch" and "no catch returning
+an empty value" — and the second's own rationale is this technique's thesis, reached
+independently and priced ("cost politicas a day of diagnosis"). Both miss the
+extension idiom, and the second misses it **by design**, because it exempts
+substantive return values and the extension fallback returns the default's real
+output. Amendment applied naming both rules and the shape of a third.

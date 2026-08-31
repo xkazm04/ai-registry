@@ -197,3 +197,29 @@ least optional in the set. Enumeration hunt, paid.
 Applied to `personas` as `structural-only`: the agent layer contains **no arbitration
 vocabulary at all** - conflict, contradiction, disagreement, mismatch, any spelling,
 zero hits. A codebase does not grow a decision it has no word for.
+
+## 2026-08-31 — `/intake` (`semantica`)
+
+8 techniques, unchanged — amended `transport-selection` rather than minting a
+competing technique beside it. **Triage had this as a new technique and Phase 6
+downgraded it**, which is the honest outcome: the file already says "the output
+channel is sacred… a stray print statement into the framed channel corrupts the
+conversation — the classic first bug of every hand-rolled server."
+
+What the amendment adds is the half author discipline cannot reach. "Do not print"
+is a rule a server author can keep about their own source and cannot keep about
+their dependencies: the source's incident was a progress indicator **inside an
+export routine**, three layers down, fixed process-wide at startup rather than by
+removing a print. Two properties the corpus did not carry: the failure presents as a
+**hang** expiring on a timeout (300 s on an empty graph), not as a parse error, so it
+is diagnosed as a slow tool; and it is **load-dependent**, so it passes every small
+test and fails on the user's real input. The mirror obligation on the library author
+— attach a console display only for a real terminal — is stated too, since a library
+that decorates a redirected stream is corrupting log files as well as protocols.
+
+Phase 7.5: **unapplied, and stated rather than manufactured.** The amendment governs
+the process that *is* a stdio server; every fleet project is on the host side. The
+host half was checked anyway and is clean — 6 spawn sites, stdout and stderr piped
+separately at all of them, never merged, confirming `output-normalization`'s
+existing rule. A simulation over invented server code was declined. Return
+condition: the first managed project shipping a stdio protocol server.

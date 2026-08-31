@@ -423,3 +423,37 @@ to **0** production paths promoting a machine proposal without a human. The tree
 already implements the amendment, for governance reasons, with the precision
 economics falling out for free. Instrument named for the missing behavioural
 arm: per-proposal review-outcome telemetry, which the project does not emit.
+
+## 2026-08-31 — `/intake` (`semantica`)
+
+18 -> 19 techniques. Landed `vacuous-by-evaluation`.
+
+Found by the Phase 6 enumeration hunt against this subject's own golden path, which
+declares its completeness: "a gate exists only if it can fail… name the input that
+makes it block", followed by three ways a check fails that test. All three are
+defects of **plumbing** and all three are found the same way — trace the exit-code
+path. The source supplied a fourth that the prescribed discipline cannot find,
+because the plumbing is correct: the rule is blocking, the exit code depends on it,
+the engine reads the real target, and the **evaluation layer beneath the rule derives
+the condition the rule tests**. A constraint asserting a value's declared type,
+evaluated under a regime that infers the declared type onto every value, reports
+conformant on non-conforming data.
+
+Deliberately not folded into `severity-by-construction` (which owns "can this
+severity ever fail a build" and traces the plumbing) or `unmeasurable-criteria`
+(which owns a condition with no data to evaluate — here there is data, the rule is
+evaluated, and it passes). The golden path's three-item enumeration now names the
+fourth and links out.
+
+Phase 7.5 (`personas`, code, `better`) — the strongest arm this run produced. The
+project's conformance checker is wired to a merge gate and reports 92%, 0 fail. Two
+arms over the same filesystem: a manifest declaring its three path pointers, and the
+same manifest with the entire `paths:` block **deleted**. Both scored 100%, 0 fail, 0
+warn, byte-identical, and the second printed `[OK] context index
+.ai/context-index.json` — a path it never declared. The defaulting layer directly
+above the predicate supplies the value before the existence check reads it, so three
+checks labelled as manifest-pointer resolution are filesystem existence checks that
+cannot fail with respect to the manifest. A separate observation — the only rule that
+verifies capability commands actually work sits behind a flag CI does not pass — was
+classified to `gate-liveness` rather than folded in to inflate the finding. Ship 0
+(confirmation); the fix is ~6 lines and the fixture exists.
