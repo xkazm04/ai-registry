@@ -7,7 +7,7 @@ stack: rust
 status: forged
 verified_on: 2026-08-31
 verified_against: rust@1
-applied: experiment
+applied: code
 ab_verdict: better
 proof: ab-paired
 ---
@@ -96,6 +96,47 @@ co-change, so the structure whose duplication is worst scores best on the
 diagnostic. The divergent chunker copy is the concrete cost: a text-extraction
 rule was corrected once in the public module and never reached a private
 reimplementation nobody was looking for.
+
+## The change that followed, and its own two arms
+
+The census is an argument; the tree settled it. One of the two waste cases was
+corrected, and the correction is where the sharpest evidence turned up.
+
+The private copy was not an isolated holdout by accident. **Three other files
+in the same crate already called the public function** — a chat repository, a
+teams repository at two call sites, and a migration. One module out of four had
+rebuilt what its siblings imported, and the two implementations had never once
+appeared in the same commit, which is the co-change signature the census
+predicted and the reason no reviewer of any single change could have seen it.
+
+**The asymmetry underneath it is the finding this application exists to
+report.** The private copy carried eleven assertions. The public original
+carried none — that module had no test block at all. The engineer who could not
+find the shared function rebuilt it *and* wrote its tests, while the
+implementation four call sites across two crates depend on went unguarded.
+Nobody designed that, and it states the cost better than the duplication does:
+what hiding a module's existence buys is not merely a second copy, it is a
+second copy that attracts the maintenance the original should have had.
+
+The correction is therefore not a deletion. The import replaces the copy; the
+eleven assertions move to sit beside the implementation they guard; the entity
+ordering invariant that the copy documented and the original did not is
+preserved into it; and the sanitizer dependency, whose only use in that crate
+was the copy, is dropped.
+
+Arms, on the project's own instrument — the same suite before and after:
+**thirteen tests fail in both arms, the same thirteen by name**, all
+pre-existing and none HTML-related. The pass count moves 866 to 865 in the
+database crate and gains one in the core crate, which is exactly the moved test
+and not a lost one. The compile check is clean with no new warnings.
+
+**One of the three copies was deliberately left.** The chunker's stripper is a
+hand-rolled state machine that decodes no entities and truncates on a closing
+angle bracket inside an attribute, and whether that is a considered trade for a
+hot path is a question the tree does not answer. Changing it would move chunk
+boundaries and therefore embeddings. The discriminator says those two would
+have to change together; it does not say which way, and a run that cannot tell
+should not decide it silently.
 
 ## What this realization cannot do
 
