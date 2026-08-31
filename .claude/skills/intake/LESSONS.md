@@ -2867,3 +2867,50 @@ scratch. Deferred until a third re-sweep confirms the yield.
   either way. Worth stating plainly in Phase 7: **in a shared checkout with live
   siblings, expect not to commit the generated artifacts, and say so in the commit
   message.**
+
+## 1.3.0 - 2026-08-31 - anydoc
+
+- **`.github/releases/` is an operating-document location Phase 2b does not name, and it
+  can be the densest thing in a tree with no `docs/` at all.** This repository has no
+  `docs/`, `design/`, `spec/`, `ADR/` or `RUNBOOK` — by the checklist it looks like a repo
+  whose only prose is a README. Its four release notes under `.github/releases/` are
+  first-party practitioner accounts with the failure modes recorded as revisions, which is
+  exactly what item 1 of the sweep is hunting. Add the path to the list. The generalisation
+  worth carrying: **a release note is an operating document written after the fact**, and a
+  project that writes real ones has a changelog with reasons in it rather than a list of
+  commits.
+- **Read a version series in order, as one document.** Individually the four notes are
+  four features. Read in sequence they are the same defect found four times — content
+  vanishing from a lossy conversion without the output saying so — and the second note is
+  a *regression caused by the first note's fix*. That sequence was the run's single most
+  valuable artifact and it is invisible if you extract each note as a candidate. Phase 3
+  says to split a segmented source on its boundaries and treat each segment separately;
+  for a release series the opposite is true, and the method should say so.
+- **A `research-map` empty for a phrase is not an empty for the concern.** The spec
+  asserted no prior art for amplification caps on the strength of `"decompression bomb"`
+  and `"amplification"` both returning "the corpus has never heard of this". The concern
+  was covered one subject away in the same category, under the name "bounded parsing",
+  including the derivation-beside-the-number rule the spec proposed as new. The instrument
+  matches slugs and `use_when`; a concern living in a technique's *prose* under different
+  vocabulary is exactly what it cannot see, and a zero-hit result on a distinctive phrase
+  reads far more like a hole than a near-empty does. **Before asserting a hole from a
+  phrase-level empty, read the neighbouring subject's techniques, not just its golden
+  path.** This is the near-empty warning's stronger sibling and it deserves its own line.
+- **The worker caught the director, for the second consecutive run.** The brief asked for
+  the override and argued for it, and got one that was right. Worth keeping as evidence
+  that the "tell the worker to override you" instruction earns its space in the brief:
+  both times the override came with the neighbour's actual text quoted back.
+- **Forging a subject and applying it are in tension, and the scorecard was punishing the
+  run for it.** A subject forged into genuinely empty corpus ground tends to land in
+  genuinely empty *fleet* ground too: five techniques landed, one had a live instance.
+  The apply number (1 of 7) reads as a failure and is not one. The notation needs to
+  separate **unapplied because nobody tried** from **unapplied because the fleet does not
+  do this yet**; only the first is the skill's failure. Recorded as the next run's declared
+  focus rather than applied to `SKILL.md` — first sighting.
+
+### Not applied to SKILL.md this run
+
+Both method findings above are first sightings, and six sessions are live on 1.3.0 right
+now. A mid-flight run that reads this should do nothing differently: finish on the version
+you loaded. If a second run confirms either the `.github/releases/` sweep gap or the
+phrase-empty trap, that is the point to bump.
