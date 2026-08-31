@@ -1,7 +1,8 @@
 ---
 subject: client-state
 domain: software-engineering
-last_touched: 2026-08-29
+last_touched: 2026-08-31
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -35,3 +36,33 @@ refutation). Banked: rust--status-fsms application from personas background_job.
 (return: next round or when personas bumps the status vocabulary); retained-old-version
 migration fixture (return: personas CURRENT_SCHEMA_VERSION bump). Techniques near
 saturation; next yield expected from fleet deviations, not survey.
+
+## 2026-08-31 — intake `github:TanStack/query` @ `1566c16d` ([[2026-08-31-tanstack-query]])
+
+Gained `observed-read-subscription` + `next--observed-read-subscription`
+(experiment, better, `structural-only`).
+
+**The finding is an asymmetry, and the kind that survives a mature corpus.**
+The golden path's "selective subscription" bullet models the **declared** form
+— the consumer names the narrowest projection it reads — and the corpus had no
+vocabulary for the **observed** form, where the framework records what was read
+and infers the subscription. Both are legitimate; the observed form has failure
+modes the declared form does not, and those are the technique. Neither the slug
+map nor a summary could see this gap: the file genuinely covers the concept,
+from one side only.
+
+The sharpest rule is the fail-open: an **empty read set means unknown, not
+"reads nothing"** (`unknown-is-not-a-value`), because a consumer that has not
+yet rendered and one that reads nothing are indistinguishable at the check, and
+getting it backwards means a consumer that never renders again.
+
+Measured in `goat`: the explicit declaration appears **nowhere**, the lint
+plugin is **not installed**, and the one known defeat sits in a shared wrapper
+that spreads the tracked result — the propagation the technique predicts, in a
+wrapper rather than a leaf. Blast radius honestly 2 consumers.
+
+### Open lead
+
+- **Install the lint rule** is a one-dependency repair in `goat` and would
+  convert this application from a census into a standing gate. Sized and
+  measured; the ask was not made at triage because the row named no project.

@@ -11,6 +11,7 @@ techniques:
   - warm-remount-caches
   - prefetch-and-defer
   - parse-and-derive-caches
+  - plural-policy-claims
 ---
 
 # Client data fetching & caching
@@ -240,3 +241,7 @@ The shape is [parse-and-derive-caches](./techniques/parse-and-derive-caches.md).
 - [parse-and-derive-caches](./techniques/parse-and-derive-caches.md) —
   memoized parses and derivations keyed by content identity, bounded and
   recomputable.
+- [plural-policy-claims](./techniques/plural-policy-claims.md) — what the
+  four policies resolve to when one entry has many readers: the quantifier
+  per policy, monotonic eviction, and the clock that runs only after the
+  last claimant leaves.

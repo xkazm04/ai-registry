@@ -10,6 +10,7 @@ techniques:
   - durable-retries
   - storm-control
   - retry-observability
+  - suspension-is-not-failure
 ---
 
 # Retry, backoff & circuit breaking
@@ -103,6 +104,16 @@ failure-not-empty-success):
 An operator reading the record must be able to tell which of the four happened
 without reading source. "It stopped" is not a state (see retry-observability).
 
+All four are *terminal*, and a ladder has one more state that is not: it can be
+**suspended** — halted on an unmet precondition, spending no budget, still owed a
+result. A client with no network has not failed three times; it has not attempted
+once, and a design that cannot say so exhausts its budget against a dependency it
+never contacted. Suspension is the nearest neighbour of **denied** and is
+attributed oppositely — a breaker judges the dependency, a suspension reports the
+caller — and the predicate that *resumes* work is deliberately stricter than the
+one that *starts* it. That state, its record, and the two predicates are
+[suspension-is-not-failure](./techniques/suspension-is-not-failure.md).
+
 ## Where this path meets scheduling
 
 A durable retry *is* a scheduled item — a persisted retry-at that some loop compares
@@ -127,5 +138,6 @@ contact; each unhealthy dependency is eventually declared unhealthy by a breaker
 operator can see, and recovery is probed deliberately rather than discovered by
 stampede; retry state that must survive restart does, and the restart itself does
 not read as a recovery; total retry volume is bounded by budget so the layer cannot
-amplify an outage more than a stated factor; and every stopped retry names which of
-the four terminal states it reached.
+amplify an outage more than a stated factor; every stopped retry names which of
+the four terminal states it reached; and work halted on an unmet precondition is
+recorded as suspended rather than spending the budget it never used.

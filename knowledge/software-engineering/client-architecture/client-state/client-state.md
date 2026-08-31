@@ -14,6 +14,7 @@ techniques:
   - invalidation-strategy
   - identity-scoped-eviction
   - singleton-lifecycle
+  - observed-read-subscription
 ---
 
 # Client state management
@@ -112,7 +113,11 @@ Two disciplines make the composition hold at scale:
   projection it reads, not to the store. Coarse subscription is the quiet
   performance cliff of centralized state: every write anywhere re-renders
   every reader everywhere, and the cost arrives gradually enough that no
-  single change gets blamed.
+  single change gets blamed. The projection can be *declared* by the
+  consumer or *inferred* from the fields it actually reads; the two compose,
+  and the trade between them — along with the failure modes inference has
+  and declaration does not — is
+  [observed-read-subscription](./techniques/observed-read-subscription.md).
 - **Mutations live with their slice.** Every write to a slice's state goes
   through operations the slice itself defines — the slice is the one
   validation door for its domain, and its writers are enumerable
@@ -320,3 +325,6 @@ discriminator for which globals are actually state are the
   persisted preferences included.
 - [singleton-lifecycle](./techniques/singleton-lifecycle.md) — module state
   under live replacement, generation counters, the test-reset hatch.
+- [observed-read-subscription](./techniques/observed-read-subscription.md) —
+  inferring the subscription from the reads a consumer actually made, the
+  fail-open empty set, and the spread that silently defeats it.

@@ -2,7 +2,7 @@
 subject: client-fetch-cache
 domain: software-engineering
 last_touched: 2026-08-31
-touched_by: external-reconcile
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -71,3 +71,33 @@ seven keys and no admission slot, the one policy-taking helper resolves to
 exactly lifetime and eviction, and the upstream library offers no admission hook
 - so the omission is not local taste. Fleet-wide there is no cache constructor
 outside that one application that could take the argument.
+
+## 2026-08-31 — intake `github:TanStack/query` @ `1566c16d` ([[2026-08-31-tanstack-query]])
+
+**Second visit to this same repository, by a different lane.** The 2026-08-22
+external-reconcile pass read it at `40321a0` and landed key discipline; this
+run read the core and landed policy *resolution*, which that pass did not
+touch. The source ledger had no row for it because reconcile does not write
+one — worth knowing before a third lane pays for the clone again.
+
+Gained `plural-policy-claims` + `next--plural-policy-claims` (experiment,
+better). The finding is an **enumeration blind spot**: the golden path's four
+policies are all written for a *single declarant*, and a cache keyed by
+argument has a set of claims per policy. The code resolves that set with three
+different quantifiers — max-and-monotonic for retention, existential for
+believability, first-match for a shared trigger — plus reference counting so
+the eviction clock starts only when the last claimant leaves.
+
+Measured in `goat`: 7 of 50 keys are shared, **2 diverge numerically (2.0x,
+3.0x)**, and both are prefetchers claiming longer freshness than their
+consumer, so the prefetch's stated warmth is inert.
+
+### Open leads
+
+- **Two sites register one key with two different fetch functions** (seen in
+  `goat` while verifying the census). A key-discipline defect, live instance,
+  outside this run's picks. Return when `cache-key-discipline` is next swept.
+- **Await-shaped fetch ergonomics serialize independent work.** Two suspending
+  reads in one component run serially where two non-suspending ones run in
+  parallel; concurrency has to be expressed by a plural primitive. Untriaged
+  (row 5), anchored in the source note.
