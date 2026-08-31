@@ -4459,3 +4459,53 @@ because it changes Phase 6's shape and wants its own version bump and a run to p
 **Mid-flight runs:** nothing to do. This entry proposes no phase change and bumps no
 version; the citation-graph check and the per-worker scratch rule are both worth folding
 into `references/reference-waves.md` when someone next edits it deliberately.
+
+## 1.5.0 - 2026-08-31 - ripgrep
+
+- **The Extract->Test ratio means two different things and the scorecard conflates
+  them.** On a wave or unattended run it is a director-capacity signal - candidates
+  arrived faster than one serial verifier could judge them, which is what the last
+  focus was written to fix. On an attended run it is the operator's appetite, and
+  the unverified rows were never in contention for the verification budget at all.
+  This run reads 2/12 and lost nothing; the previous window's 7/30 lost plenty.
+  Averaging them produces a "weakest stage" that describes no real population, and
+  that reading is what every method edit is aimed at. Record the triage mode on the
+  row and read the series separately. Filed as the next run's declared focus.
+
+- **A denied symmetry is now the highest-yield Phase 6 hunt, ahead of the missing
+  stage and the enumeration.** Three consecutive runs have had their best landing
+  come from a technique that explicitly says "the distinction is X, *not* Y" - and
+  in each case Y turned out to be load-bearing in a neighbouring case the author had
+  not separated. It outperforms the plain enumeration hunt for a structural reason
+  worth stating: an enumeration is a claim somebody made carelessly while writing
+  something else, whereas a denial is a boundary somebody *thought about* and drew,
+  which means it is both more likely to be nearly right and more likely to be
+  wrong in an interesting place. The method lists this third among the hunts; on the
+  evidence it should be first. Not applied as an edit yet - one more run confirms it.
+
+- **The fetch budget's class prediction has now held three times running, and saying
+  it out loud before the triage table is what makes it useful.** This run named the
+  class, predicted zero fetches and amendments-not-subjects, and spent zero of three.
+  The prediction is not a formality - it is what stopped a "no prior art" reflex on
+  two candidates that turned out to be seams inside ten-technique subjects.
+
+- **`git`-shaped repository sources tempt a proper-noun map query and the method's
+  2026-08-31 warning caught it.** The candidate vocabulary here was almost entirely
+  banned words - the tool's name, the ignore-file names, the alternate regex engine.
+  Mapping on concepts instead ("directory traversal", "filter escape hatch") returned
+  the neighbourhoods that mattered. The warning added this morning did its job on the
+  first run that could have tripped over it.
+
+### Redesign proposal - not applied
+
+  **The scorecard's funnel table should carry a `mode` column** (attended /
+  unattended / wave / apply-only), and the closing "weakest stage" line should be
+  computed per mode rather than over the last ten rows regardless of shape. The
+  current single series has now mixed an apply-only run with 0 extract, wave runs
+  with 30, and attended runs with 12, and the resulting stage reading has changed
+  its diagnosis three times in ten rows - which is better explained by the population
+  changing than by the method changing. This is a change to the measurement rather
+  than to the pipeline, so it belongs to a run that is not also landing content.
+
+- **Mid-flight runs on 1.5.0: nothing to do.** No `SKILL.md` edit was made this run;
+  the lessons above are recorded and unapplied, and no version bump is owed.

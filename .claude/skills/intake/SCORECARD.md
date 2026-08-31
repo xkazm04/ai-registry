@@ -183,6 +183,7 @@ which is where this run decided it.
 | 1.4.0 | 2026-08-31 | `web:pgsql-hackers/2026-08` (uncurated reference index) | 1 index, **20 pages paginated by hand after the ingest returned page 1 of 20 silently** (2,680 msgs / 578 threads / 255 authors) | 9 | 2 verified + 4 caught | **2 techniques + 2 golden-path corrections + 1 sibling-technique amendment** | **2 rows / 2 landings** (1c/1e/0s; 1 better, 1 not-better) | **1** (tracklight, main, pathspec, not pushed) - `confirmation` cleared by the operator, and `artifact-choice` cleared in the same sentence | **Focus moved twice and both readings held.** The census rule fired three times, and once against the run's own A/B: 899 threads -> 578, six alarming repairs -> one. The ship-blocker-is-a-queue rule found a second blocker the first one hid, and it was not a `size` blocker this time but an **artifact-choice** one. |
 | 1.4.0 | 2026-08-31 | agentic-coding-trends-report | 1 (13,029 words reported by the instrument / **3,418 real** - the reader was broken, not the source) | 9 | 3 | 3 (1 technique + 2 golden-path sections; 1 amendment; 1 script + new lib) | 2 rows (0c/1e/1s) - **1:1 with the two knowledge landings** | 1 (registry: `scripts/lib/pdf-text.mjs` + `research-ingest.mjs`, code A/B, `better`) | **Declared focus hit, both halves.** The census rule fired on the run's first command: the instrument's first number (13,029) and the hand-verified number (3,418) are reported as two figures, and the shape the instrument could not see is named - a PDF container decoded as UTF-8, which `--min-words` can never catch because binary always clears the floor. The ship-blocker-is-a-queue half also paid: the `better` row's first blocker was **capability** (no PDF reader existed anywhere in the fleet), and clearing it exposed the second, **fidelity** (a naive reader returns mojibake for subset fonts - exactly the bold runs where this class puts its numbers), which was invisible until the first cleared. Two blockers, in order, neither visible from where the other stood |
 | 1.5.0 | 2026-08-31 | icse-2026-seip | 1 (74 refs, 8 read) | 30 | 7 | 2 | 0c/2e/0s | 1 | Ship 1 (tracklight docs correction, `de0a85f`). The second apply row is `unmeasurable` with its instrument named, not a zero. **Focus was handed forward and worked in an unexpected direction**: the declared focus said treat a ship blocker as a queue; here the queue was empty because the operator named the apply targets *in the triage answer*, so `confirmation` never fired and the run reached a tree write with no blocker at all. The other half of the focus — report an instrument's first number and its hand-verified number as two different figures — fired **four** times and changed a conclusion each time (150→74 references, 88→8→0 comparability claims, 12→0 promotion paths, and a worker's convergence premise that the citation graph refuted). |
+| 1.5.0 | 2026-08-31 | ripgrep | 1 | 12 | 2 | 2 | 0c/1e/1s | 0 | **Extract->Test was 2/12 by operator choice, not by director capacity** - the declared focus does not apply and the reason is worth recording rather than scoring as a miss. Ship 0: the operator's triage answer named the rows and no project, and Phase 8 requires confirmation before a project tree is touched; both apply rows carry the authorization as their return condition. Test->Landed converted 2/2 and both landings carry an apply row with a verdict. Board pressure shaped the run: 3 of 12 candidates routed to subjects a live sibling held, so they sit untriaged rather than verified. |
 
 Reading the last ten rows: **the v1.4.0 fix worked and the funnel moved.** For the first
 time in the window a run read the declared focus at Phase 1, carried a project and a file
@@ -480,3 +481,49 @@ and re-running. A cross-repo ship onto a red board is fine when the red is prove
 pre-existing and named, and the proving costs one stash — but a run that does not stash
 cannot tell its own breakage from the tree's, and would either claim a false green or
 abandon a good landing.
+
+### 2026-08-31 - ripgrep
+
+**The declared focus did not apply, and that is a result rather than a miss.** The
+previous run's focus was to parallelise the mechanical half of Phase 6 when a wave
+returns more candidates than one director can verify. This run had no wave: one
+source, twelve candidates, and an attended triage in which the operator picked two.
+Extract->Test reads 2/12, and the ratio is a *steering decision*, not a capacity
+loss - the eight unverified rows were never in contention for the budget. Reporting
+2/12 beside the wave runs' 7/30 without that distinction would corrupt the funnel
+reading the lane exists to produce, which is the lesson worth carrying: **the
+Extract->Test ratio is only a capacity signal on unattended or wave runs; on an
+attended run it measures the operator's appetite and nothing about the method.**
+The scorecard should separate the two before the next reading is taken.
+
+**What the run confirms instead is the value of the class-first read.** The class
+was named before extraction, its prediction was stated out loud - corroborates
+corpus-internally, fetch budget will not bind, yield concentrated in amendments to
+mature subjects - and all three held: **0 of 3 fetches spent**, both landings in
+ten-technique and eight-technique subjects, neither a new subject. Three runs now
+have made a class prediction before the triage table; three have had it hold.
+
+**The strongest landing came from the contradiction hunt, again.** `stake-before-merit`
+explicitly denies that text authorship matters, and the source draws exactly that
+denied distinction by channel. That is the third consecutive run where a *denied
+symmetry* in a mature technique produced the finding, and it is now the highest-yield
+Phase 6 hunt this method has: an enumeration invites one question, and a denial
+invites the same question with a stronger prior, because somebody already thought
+about it and wrote down a boundary that can be tested.
+
+**The two-numbers discipline fired again and changed the verdict's meaning.** The
+apply probe's raw falsifier count was 184 excluded files carrying URL-shaped content;
+hand-classifying every one collapsed it to **0**. Reporting 184 would have turned a
+disclosure finding into a phantom near-miss. That is now five consecutive runs in
+which an instrument's first number was wrong and the correction came from opening the
+thing - the rule the method already carries, earning its keep on a run that had no
+wave and no worker to blame it on.
+
+Next run's declared focus: **split the Extract->Test column by triage mode before
+reading the funnel again.** An attended run and a wave run are measuring different
+things through the same ratio, and the last ten rows mix them freely - which means the
+"weakest stage" reading that drives every method edit is computed over two
+incomparable populations. Record the mode on the row (attended / unattended /
+wave), read the two series separately, and name the weakest stage *within* the
+series the next run belongs to. A run that reports a stage loss without saying which
+series it belongs to has measured nothing the method can act on.
