@@ -6,7 +6,7 @@ technique: taxonomy-design
 status: forged
 laws: [one-authority-per-vocabulary]
 shared_with: []
-use_when: [deciding whether timeout and unreachable are one kind or two, retry loop hammers a dependency that can never succeed, a new category degrades to unknown across the wire]
+use_when: [deciding whether timeout and unreachable are one kind or two, retry loop hammers a dependency that can never succeed, a new category degrades to unknown across the wire, a component recovers by default and you must say what it may never recover from]
 ---
 
 # Taxonomy design
@@ -55,6 +55,54 @@ because these are the questions consumers branch on:
   recovery acts on (refresh the credential, re-establish the connection,
   back off) carry that hint as data, so recovery logic switches on the
   category rather than re-inspecting the raw error.
+
+## The fourth axis, where leniency is the design
+
+The three axes above are the questions asked by consumers who sit *above* the
+failure — retry policy, recovery, user copy — and they are the complete set
+for a system that lets failures rise. A subsystem built to be **lenient**
+asks a fourth question none of them cover, and asks it first:
+
+- **Recoverability in place — may this failure be absorbed here and the work
+  continued?** A recovering component (a parser over inputs from software
+  you do not control, a renderer over half-valid content, a scanner over a
+  tree with unreadable corners) is specified to skip what it cannot use and
+  keep going. Its whole value is that a defect in one region does not cost
+  the caller the other regions.
+
+This axis is invisible in a system whose failures all rise, which is why
+enumerations of the taxonomy's questions routinely stop at three. It becomes
+load-bearing the moment absorption is the *default*, because then the
+interesting membership is inverted: the vocabulary must name the categories
+that may **never** be absorbed, and that set is a security boundary.
+
+The reason is mechanical. A lenient component absorbs failures inside parts
+it treats as optional. If the categories minted to stop resource exhaustion —
+the decompression cap, the nesting cap, the expansion cap — are absorbable
+like any other, then an adversary does not need to defeat the caps; they need
+only place the payload in a part the component considers optional, where the
+cap fires, is absorbed, and the component continues. **A limit that can be
+swallowed is not a limit.** The same holds for any category whose purpose is
+to *stop* rather than to *describe*.
+
+So the axis is a predicate on the category, answered at the authority
+alongside the other three, and consulted by the recovery machinery rather
+than by a door:
+
+- **Absorbable** — the ordinary producer quirk. Skipped, logged, work
+  continues. The bulk of the vocabulary in a lenient component.
+- **Never absorbable** — fires identically in every context, including
+  optional ones, and terminates the operation. Small, deliberate, and
+  enumerated in one place.
+
+Two properties keep it honest. It is answered **per category, not per site**
+— the per-site marker that governs an ordinary sanctioned drop does not scale
+to a component whose every parse step is one, and the discipline that
+replaces it is described in
+[swallowed-error-prevention](./swallowed-error-prevention.md). And an
+absorbable failure still owes a door: absorbed is not silent, it is
+*not-user-facing*, which is the ordinary background routing and not an
+exemption from it.
 
 ## Retry-interval extraction
 

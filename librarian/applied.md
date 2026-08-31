@@ -149,3 +149,28 @@ owed. Rows in the table above are minted from deviations, one project per techni
   attested (which the amendment says is the safe case), gravity's router has no per-origin
   capacity, pumper's model access is a single-tenant chokepoint. Return condition: when a
   project grows a multi-tenant admission gate that runs before authentication.
+- `unreadable-region-refusal` (document-text-extraction) - **personas, `code`, `better`,
+  proof `ab-paired`.** Seam: the text-layer chunker counted pages with no text layer into
+  a column and discarded which pages they were, at the moment it knew. Same binary ships a
+  vision-model recognition command that takes a file. Arms: the same twelve-page input
+  (four unreadable) through the project's own chunker test target, before and after.
+  Regions detected 4 in both arms; regions **nameable to a caller** 0 of 4 -> 4 of 4;
+  digest text `4 page(s) are scanned` -> `pages 2, 5-7 of 12`; readable pages still
+  indexed in both. Chunker tests 8 -> 12, all passing. No schema change - the ranges ride
+  an existing nullable metadata column the ingest was not writing. Return condition: the
+  saving is **available, not realized** - nothing yet calls the recognition path with the
+  region list, so re-test the cost arm when it does.
+- `screen-then-confirm-detection`, `extraction-yield-bands`,
+  `recognition-boundary-and-escalation`, `structural-amplification-caps`
+  (document-text-extraction) - **unapplied this run.** Landed with the subject; the run's
+  budget is one project per finding and it was spent on the seam above, which is the only
+  one of the five with a live instance in the fleet. Return condition: `/intake apply`,
+  oldest first - the recognition-boundary technique has the same seam and is the next one
+  owed a row.
+- `taxonomy-design` fourth-axis amendment and `swallowed-error-prevention` leniency
+  amendment (error-handling) - **unapplied, no seam.** No managed project runs a
+  recover-by-default reader over untrusted containers: the fleet's parsers either fail the
+  whole document (the chunker above) or parse trusted internal shapes. The amendment's
+  claim is about components that absorb by design, and nothing in the fleet absorbs by
+  design. Return condition: when a project grows a lenient reader over foreign binary
+  input, or adopts a third-party one whose recovery policy it must audit.

@@ -117,3 +117,33 @@ likely to couple two runs' atomic commits — and the first where the *catalog's
 own consistency check was the thing that surfaced it, which is the check
 behaving exactly as designed. **`catalog.json` is left stale on purpose; the
 next run in a quiet tree regenerates it.**
+
+## 2026-08-31 - the fourth axis (intake, [[2026-08-31-anydoc]])
+
+Two amendments from a Rust document-conversion crate, both from the Phase 6 step-3
+enumeration hunt. `taxonomy-design` says "each category must answer **three** questions,
+because these are the questions consumers branch on" - an enumeration, which invites
+exactly one question. The source's `is_fatal()` predicate is the answer: a fourth axis,
+**recoverability in place**, which only becomes visible where absorption is the default.
+
+- `taxonomy-design.md` gained "The fourth axis, where leniency is the design". The
+  membership inverts: in a lenient component you enumerate the categories that may
+  **never** be absorbed, and that set is a security boundary - a limit that can be
+  swallowed is not a limit, because an adversary relocates the payload into whatever part
+  the reader treats as optional. `use_when` gained a fourth entry.
+- `swallowed-error-prevention.md` gained "When leniency is the architecture, invert the
+  marker". That file already covered *per-site* declared drops ("probes where failure is
+  an expected answer, cleanup where nothing is lost"); it did not cover a component where
+  every parse step is one. The census denominator moves from sites to categories.
+
+**What this subject already had, and the source did not improve on:** the two-channel
+error contract (a stable machine code beside a free-to-change display message, pinned by
+a round-trip test). `structured-propagation` states it in as many words. The source
+implements it unusually well - a `code()` method plus a test enumerating every variant so
+the wire spelling cannot drift - and it is a catch, not a landing. Recorded so nobody
+proposes it again.
+
+No golden-path edit was needed. In a six-sibling checkout that meant no `content` lock,
+which is worth noticing as a property of amendments: **an amendment inside a technique
+touches no shared spine, and is therefore the cheap move under contention as well as the
+cheap move editorially.**
