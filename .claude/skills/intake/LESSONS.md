@@ -2706,3 +2706,45 @@ Not applied: one observation, and it was forced rather than chosen, so it is not
 comparison against a dispatched run. A future version might make the dispatch conditional
 on subject count and remaining context rather than unconditional. Mid-flight runs should
 finish on the version they loaded - nothing here changes what is owed.
+
+## 1.3.0 - 2026-08-31 - herdr (re-run under an orthogonal lens)
+
+- **"Already mined" is not a property of a source. It is a property of a source and a
+  lens.** Phase 1 step 3 says to stop when the ledger already carries the source, and
+  this run would have stopped correctly by that rule and wrongly in fact. The same tree
+  at the same commit, swept four days apart, produced three landings that shared **no
+  file** with the first sweep: run one read `src/detect/manifests/` and landed in
+  `terminal-multiplexing`, run two read the justfile, an architecture test and a vendor
+  patch ledger and landed in `quality-gates` and `supply-chain`. The stop condition
+  should be "was it mined under this lens", and the ledger row is what makes that
+  answerable - so a row should say which lens was used, not only that the source was
+  seen. Not applied to `SKILL.md` yet: one run is not three.
+- **The untriaged table paid for this run.** Three of nine candidates were already
+  sitting in the 2026-08-27 note with anchors, and two of the three landings came from
+  those rows. The method already argues the untriaged table is not bookkeeping, on the
+  grounds that convergence needs prior sightings; this run shows a second and more
+  immediate return - the table is the *input to the next lens*, and it made a second
+  sweep of a large tree cheap enough to be worth running at all.
+- **The funnel's cheapest new source may not be a new URL.** The scorecard has named
+  `extract` and `research` as the weak stages for several runs, and the standing answer
+  has been more sources in parallel. A large tree mined for one domain still holds the
+  others, at zero ingest cost and with a prior note that pre-loads the candidates. Worth
+  watching whether re-sweeps keep converting at this rate; if they do, it is a lane and
+  not an anecdote.
+- **A `not-better` verdict that finds the rule already implemented is the strongest
+  corroboration available, and the ledger vocabulary slightly hides that.** The A/B
+  returned `not-better` because the consumer already refuses an empty scope in 4 of 4
+  checkers, one of them stating the rule almost verbatim in its own error string. That
+  is independent convergence on a technique landed the same hour, from a tree that never
+  read it - materially better evidence for the rule than an adopting tree would have
+  been - and it is recorded under the same word that covers "the technique did not
+  help". The row carries the distinction in prose; whether the vocabulary should carry a
+  fifth value (`already-holds`) is a question for a later run that hits this twice.
+
+### Redesign proposal (not applied)
+
+Phase 1 step 3's stop is binary and the ledger cannot inform it. If re-sweeps keep
+converting, the shape is: the ledger row gains an explicit `lens:` field, the check
+becomes "mined under this lens?", and `/intake` grows a `--relens` affordance that loads
+the prior note's untriaged table as its Phase 3 seed rather than re-extracting from
+scratch. Deferred until a third re-sweep confirms the yield.
