@@ -2823,3 +2823,47 @@ scratch. Deferred until a third re-sweep confirms the yield.
 - Minor: application frontmatter `stack:` must come from the bundle's declared `stacks:`
   list; two files were written as `typescript` when the bundle declares `next`. Caught by
   the gate. Worth a glance at `index.md` before naming a stack in a new application.
+
+## 1.3.0 - 2026-08-31 - cline
+
+- **Two triage rows that are instances of the same law are one technique, and the check
+  is cheap.** This run extracted "never default a projected status" and "a probe failure
+  is not evidence of completion" as separate rows with separate homes and separate
+  effort estimates. They are the same claim — a layer that observed nothing supplying a
+  definite value — and both resolve to `unknown-is-not-a-value`. Landed as one technique
+  with three laundering points, it says something neither half could: that the subject
+  models two *producers* of state and has no account of the non-observers between them.
+  Landed as two, it would have been a pair of small amendments that never named the
+  category. **Proposed as a Phase 5 step: before the triage table, run each row's root
+  through the law index; rows that land on the same law are one row.** That is the
+  synthesis the operator's standing critique (2026-08-25) asks the skill to perform, and
+  this is the first run where it had a mechanical trigger rather than a judgment call.
+- **In an open-tree repository, `evals/` is a measurement-doctrine document, and the
+  sweep does not currently say so.** Phase 2b item 3 sends you to the measurement to
+  "read where it was refuted" — i.e. at *results*. This tree's results were stale and
+  half-disabled, and the yield was entirely in the **estimator definitions**: a metrics
+  module whose JSDoc states, in the author's own words, that one estimator answers "can
+  this model solve the problem?" and the other "can I rely on this model?". That framing
+  was the whole argument for the landed technique. An eval harness is a first-party
+  practitioner account *about how its authors decided to measure*, and that half survives
+  even when the numbers have rotted. Worth adding to item 3: read the estimators and
+  their comments before the results table.
+- **The board's "clear" at Phase 4 is not durable, now two runs running.**
+  `fleet-orchestration` mapped clear at Phase 4 and was held by a sibling by Phase 7.
+  The method already says to re-check before the first write and it paid again. What is
+  worth carrying forward is the shape of the resolution rather than the collision: a new
+  *technique file* essentially never collides, so the contention is always about the
+  golden path's `techniques:` list and the prose line beside it. That is a ten-second
+  edit under the `content` lock, and framing it that way turns a scary-looking contended
+  subject into a routine one.
+- Minor: `verified_against` must be `<stack>@<version>`, not a commit sha — the commit
+  belongs in the application's prose line. Caught by the gate on both applications.
+- Minor, and it cost the run nothing only by luck: **the regenerated index absorbed four
+  live siblings' untracked subjects** (152 -> 153 subjects, 25 sibling references in
+  `index.json`). Generated artifacts were left uncommitted, per the precedent two earlier
+  runs set. In a fleet this size that is not an exception any more — it is the normal
+  outcome of regenerating at all, and the method's "regenerate only after your own
+  content lands" does not prevent it, because siblings' content is in the working tree
+  either way. Worth stating plainly in Phase 7: **in a shared checkout with live
+  siblings, expect not to commit the generated artifacts, and say so in the commit
+  message.**
