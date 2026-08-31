@@ -11,6 +11,7 @@ techniques:
   - probe-the-grant-not-the-config
   - capability-honest-refusal
   - degradation-coupled-to-hardening
+  - fallback-retirement-condition
 ---
 
 # Optional dependency degradation
@@ -251,6 +252,30 @@ stranger receives. Statuses, codes, partial-success reporting, and the surface's
 duty to hide an affordance it knows is unavailable are
 [capability-honest-refusal](./techniques/capability-honest-refusal.md).
 
+## Some absences close on their own
+
+Everything above treats absence as a stable fact about a deployment: this
+installation does not have that dependency, and the fallback answering it is
+permanent for as long as that holds. A second kind of absence behaves nothing
+like it — the capability is missing *for now*, because a runtime, a client, or
+a downstream service has not reached the version that has it, and the gap will
+close on a schedule nobody here controls.
+
+A fallback covering that kind of gap is a bet that the frontier will move, and
+it owes one thing the ladder does not otherwise demand: a **retirement
+condition** ([creation-names-reaper](../../../_laws.md#creation-names-reaper)).
+Where the capability can be tested at run time, the check *is* the reaper —
+run the substitute only when the real capability is absent, and the fallback
+retires itself per caller, with no deploy and no maintenance, in a codebase
+nobody is maintaining. The temptation to delete that check, so the substitute
+always runs and cannot diverge from the real implementation, is the move to
+refuse: it converts a bounded, self-clearing cost into a permanent one that
+every caller pays forever while none of them ever reaches the real
+implementation. The check's discipline, why suppressing the fallback entirely
+disperses the need instead of removing it, and the branch metric that makes
+retirement falsifiable are
+[fallback-retirement-condition](./techniques/fallback-retirement-condition.md).
+
 ## Degradation and hardening move together
 
 Every degradation path is written against a permission posture that existed on
@@ -329,6 +354,11 @@ pretends to be storage.
   feature must be that feature.
 - **A fallback with no stated consequence.** "Degrades gracefully" is not a
   claim anyone can check; "writes go to memory and are lost on restart" is.
+- **A fallback for a closing gap that names no retirement condition** — and,
+  worse, one whose capability check was deliberately removed so the substitute
+  always runs. The first is a permanent resident that arrived calling itself
+  temporary; the second charges every caller forever to prevent a divergence
+  that may never happen.
 - **A capability gate that reads configuration instead of the grant.** It passes
   on the day it stops being true.
 - **A no-op client returned in place of a throw** — and its better-dressed
@@ -368,3 +398,8 @@ pretends to be storage.
   — enumerating the degradation paths a grant change breaks, removing a
   fallback that lost its grants, and testing degraded mode against the hardened
   policy.
+- [fallback-retirement-condition](./techniques/fallback-retirement-condition.md)
+  — the fallback for a gap that will close: the capability check as the reaper,
+  why removing it makes a temporary cost permanent, why suppressing the fallback
+  disperses the need rather than removing it, and the branch metric that says
+  when the path can be deleted.
