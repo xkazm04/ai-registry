@@ -127,3 +127,12 @@ warning that the search stopped early. That converges with the `anydoc` run's
 `unreadable-region-refusal` the same day - two independent sources, two
 domains, one rule - which is the cheapest corroboration this method has and it
 is sitting unused. Anchor: the source's `GUIDE.md` binary-data section.
+
+**Shipped the same session** (`personas` `1ee1dd43a`, not pushed) once the operator
+authorized the tree: the mode escalated `experiment` -> `code`, both arms ran through
+the gate's own entry point with an identical verdict, and the denominator is now
+printed. The first run of the shipped instrument produced a fact the probe had not
+asked for - the pruned-directory counter reads zero, so a defensive guard in that walk
+has never fired under that root - which is the technique's closing section landing
+immediately.
+

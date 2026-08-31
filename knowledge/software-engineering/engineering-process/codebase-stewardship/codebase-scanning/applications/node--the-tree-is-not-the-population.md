@@ -7,7 +7,7 @@ stack: node
 status: forged
 verified_on: 2026-08-31
 verified_against: node@24
-applied: experiment
+applied: code
 ab_verdict: better
 proof: ab-paired
 ---
@@ -86,14 +86,37 @@ gate's benefit, and nobody who wrote the filter was thinking about it. The
 15.5% is an accident of layout, which is exactly why it needs printing rather
 than reasoning about: it will change without anybody deciding it should.
 
-## The change this argues for, and its size
+## The change, and what shipping it cost
 
-Two additions to the traversal — a count of what was enumerated, and a tally of
-removals keyed by the filter responsible — plus one clause on the closing line,
-turning it into a statement over a stated denominator. That is a few readable
-lines in one file with no behaviour change, which is the cheapest form this
-technique ever takes and the reason it is worth doing before there is an
+Two additions to the traversal — a tally of removals keyed by the filter
+responsible, incremented at the two points where the walk already discards —
+plus one clause on the closing line, turning it into a statement over a stated
+denominator. 24 lines added, 3 removed, one file. That is the cheapest form
+this technique ever takes, and the reason it is worth doing before there is an
 incident to justify it.
+
+Both arms then ran through the gate's own entry point, on the same tree, in the
+same session:
+
+```
+A: CSP hosts OK — 2 frontend fetch target(s) across 2 host(s), all allowed …
+B: CSP hosts OK — 2 frontend fetch target(s) across 2 host(s), all allowed …
+     scanned 5033 of 5955 file(s) under src/ (922 excluded: not .ts/.tsx; 0 dir(s) pruned)
+```
+
+Same verdict, same targets, same hosts, same exit code; the denominator is the
+whole delta. The project's linter passes on the changed file. The counts also
+reproduce the earlier read-only probe exactly, which is the check that the probe
+had faithfully reproduced the traversal rather than approximating it.
+
+**And the shipped instrument immediately reported something the probe had not
+thought to ask.** The pruned-directory counter reads **zero**: the walk carries a
+guard against two vendored and build-output directory names, and under this root
+that guard has never fired, because neither directory exists there. The guard is
+not wrong — it is defensive against a layout the project does not have — but a
+reader of the old output would have assumed it was doing work. This is the
+technique's last section arriving on its first run: once the excluded set is
+published it starts carrying information the scan did not set out to produce.
 
 ## What this realization cannot do
 
