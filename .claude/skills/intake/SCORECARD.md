@@ -186,9 +186,29 @@ app holding the binary — an **environment** cause, which no run should resolve
 because killing an operator's process is their call, not the run's. So the focus's binary
 split is wrong and becomes a trichotomy.
 
+**Correction, made after reading a sibling's commit that landed minutes before this row.**
+`future-agi` (run at the same hour, independently) reached the *same meta-finding* — the
+focus's size/confirmation split is incomplete — and found a **different** missing
+position: *indeterminacy*, where the tree is authorized and the change is two lines and
+the run still correctly ships nothing, because the right semantics is an open question.
+Its generalization is **change-shaped vs check-shaped techniques**: a check-shaped
+technique applies by running against a tree and produces a finding, not a diff, so
+"ship 0" is its correct outcome rather than a failure.
+
+Two independent runs in one afternoon, each finding a different third position, is
+stronger evidence than either alone — and it says the valve is not a trichotomy either.
+Recording both rather than resolving them by majority:
+
+| blocker | the run's correct action |
+| --- | --- |
+| **size** | ship the smallest honest slice — one file, one call site — measurement re-run on the slice |
+| **confirmation** | say so in one clause and stop; the operator's to fix, not the run's |
+| **indeterminacy** | the change is small and authorized but its semantics is open: report the finding, ship nothing, say what would settle it |
+| **environment** | say in one line what the operator would have to do; leave the diff uncommitted rather than commit code that could not be built |
+
 Next run's declared focus: **when an apply row reaches `better`, name the ship blocker
-from three — size, confirmation, or environment — and act per class.** Size: ship the
-smallest honest slice, measurement re-run on the slice. Confirmation: say so in one clause
-and stop. Environment: say exactly what the operator would have to do, in one line, and
-leave the diff uncommitted rather than committing code that could not be built. A run that
-reports "ship 0" without naming which of the three has not finished its own row.
+from those four, and act per class.** A run that reports "ship 0" without naming which
+has not finished its own row. And note the shape both sightings share: **three of the four
+are correct outcomes, not failures.** Only *size* is a blocker a run should have beaten.
+That reframes the whole ship column — it has been read as a defect count for five runs,
+and at least some of its zeros were the method working.
