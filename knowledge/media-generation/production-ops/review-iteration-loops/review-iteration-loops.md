@@ -13,6 +13,7 @@ techniques:
   - scope-vs-preference-signals
   - attribution-share-accounting
   - follow-up-that-can-kill-a-fact
+  - critique-carries-its-fix
 ---
 
 # Review iteration loops

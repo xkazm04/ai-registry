@@ -15,6 +15,9 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 
 | Date | Technique | Subject | Project | Mode | Verdict | Return condition / note |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-31 | critique-carries-its-fix | review-iteration-loops | gravity | experiment | better | tree already implements the rule's strong form independently (schema requires the fix, a shrug or echo is rejected, the loop ends rather than iterating). Gap is downstream accounting: settle predicate returns a bare boolean, 1 of 4 causes recoverable, abandoned replica takes full round-cap credit - 3 units never performed across 3 replicas. Return when a settle-cause field exists on the round record and the real share of unactionable settles can be counted |
+| 2026-08-31 | capability-coverage-contract | agent-instruction-files | gravity | experiment | better | soundness 19/19 both directions, completeness 7 of 19 named in the planning surfaces; enumerated form writable today because the registry is generated. Second weaker seam checked and rejected rather than counted (deployment capability matrix 0 of 5, but read by product surfaces not by an agent choosing means). Return when the repo declares which unnamed skills are deliberate curation - until then an omission and a decision are the same artifact |
+| 2026-08-31 | delivery-promise-lock | production-pipeline-phasing | gravity | simulation | better | `structural-only`: the promise exists and is locked before the means - the hard half, done independently - but carries no rules and is validated nowhere; three consumers only. Phase-state vocabulary uses one token for 'not required' and 'not obtained' and it ranks best in the worst-news merge. Return when a cut assembles mixed motion and slide grammar, which makes the anti-substitution ratio measurable rather than simulated |
 | 2026-08-31 | operation-assertion-gates | quality-gates | personas | experiment | not-better | tree already refuses an empty scope in 4 of 4 checkers tested (arm B exit 1-2, never 0), so the rule moves nothing here; technique gained the tree-based-rule condition from this seam. Return when the 21 custom lint rules gain fixture tests and the per-rule suppression count can be re-read |
 | 2026-08-31 | vendored-fork-ledger | supply-chain | - | - | unapplied | no seam in the fleet: none of the 7 managed projects carries a patched or vendored dependency (no manifest-level source override in any tree). Return when a project forks a dependency instead of waiting for upstream |
 | 2026-08-31 | self-paced-intake | admission-queue | personas | simulation | better | emit the per-drain batch size and read its distribution; the tree counts dropped records but not batch sizes, so proof is structural-only |
@@ -111,3 +114,34 @@ owed. Rows in the table above are minted from deviations, one project per techni
   Return condition: operator confirms the cross-repo lane, or `puppeteer` lands in that tree
   and the detection-rate arm - how often a selector actually goes stale - becomes runnable.
   Not run this session: the engine is browser-only and the dependency is absent.
+- `speculative-work-admission` (admission-queue) x goat - **code** - **better**, shipped.
+  Seam: the prefetch manager enqueued speculative arrivals into a 50-deep queue drained at
+  the live concurrency limit, so under congestion a promoted prefetch lands after its value
+  window. A/B on the real queue, 86-arrival scroll session, swept across the project's own
+  network tiers: 3g 52 dispatches/18 useful -> 30/30 with zero waste; 2g 17/5 -> 10/8; 4g a
+  no-op because the queue never saturates. More useful prefetches for less bandwidth - not a
+  trade, because the waiting line was converting useful work into waste. The third arm is the
+  finding: skipping ALL sources served 0/6 hover prefetches at both congested tiers, so the
+  high-intent exemption is load-bearing and the technique gained a boundary section from it.
+  Return condition: re-measure with the project's own hitRate/unused counters from a throttled
+  browser session - the useful/wasted split rests on a modelled value window.
+- `quality-axis-separation` (model-routing) x gravity - **simulation** - **better**.
+  Three cases from the tree, decisive one from its recorded history: a frame-planning route
+  whose first implementation used "nine roles, nine canned compositions" and produced "exactly
+  the deck it deserved" - fast, deterministic, schema-valid, semantically worthless. A single
+  outcome-fed quality score rates that maximal. Structural fact: the router has no quality term
+  at all (static posture x turn-class ladder), so the failure is unreachable there - but the
+  sink seam already exists as the typed descent trail, correct and feeding nothing, which is the
+  state in which the shortcut is cheapest. Return condition: becomes measurable when the ladder
+  gains a live-measurement ranker.
+- `resource-denominated-bounds` (admission-queue) x goat - **simulation** - **unmeasurable**.
+  Count bounds (maxSize 50 / maxConcurrent 3) where the scarce resource is bandwidth; the
+  project already derives the count from its network tier, which is load-aware-admission done
+  right. Whether payload cost varies enough to justify byte denomination is unknown here.
+  Instrument named: per-source response size in the prefetch analytics; if p95/p50 exceeds ~10x,
+  re-test byte-denominated admission against the count bound.
+- `priority-and-fairness` amendment (admission-queue) - **unapplied, no seam**. No managed
+  project shards capacity on a caller-minted key: goat's prefetch origins are internal and
+  attested (which the amendment says is the safe case), gravity's router has no per-origin
+  capacity, pumper's model access is a single-tenant chokepoint. Return condition: when a
+  project grows a multi-tenant admission gate that runs before authentication.
