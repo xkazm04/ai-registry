@@ -87,3 +87,43 @@ unique-dead-export controls turn that into a could-not-run.
 The technique's third branch — a scanner where the recall loss is *found* — has
 never been observed here. One sighting would strengthen it considerably; until
 then the differential is prescribed on reasoning plus one negative result.
+
+## 2026-08-31 - `/intake` (run `intake-ripgrep-0831`)
+
+Source: a mature line-oriented search tool's repository, mined from a clone at
+`3fce3b5` rather than from its landing page. Landed one technique,
+`the-tree-is-not-the-population`, taking the subject 10 -> 11 techniques and
+4 -> 5 applications.
+
+**The gap was an asymmetry, not an omission.** This subject models the *sensor*
+denominator with four separate measures - which sensor, why, what coverage is
+therefore missing, and a headline reading "N findings from M of K sensors" - and
+gives the *file population* denominator a single sentence, inside a section
+scoped to foreign trees nobody can afford to read fully. Neither the slug map
+nor a summary can see that: both files "cover" coverage honesty, and only
+opening them reveals that one axis gets a model and the other gets a clause.
+A sweep can therefore report twelve of twelve sensors and zero findings over a
+tree whose traversal removed a third of the files, and every clause of that
+report is true.
+
+**Boundary recorded so a later run does not re-litigate it.** `docs-sync`'s
+`checked-vs-skipped-denominators` is the closest neighbour in the bundle and
+does not overlap: its model is three states over *units the report set out to
+evaluate*, and the files this technique is about land in none of the three,
+because nothing skipped them - nothing enumerated them. They were gone before
+the denominator existed. Both files state the boundary from their own side.
+
+Applied to a consumer (`experiment`, `better`): a content-security-policy gate
+excluded 922 of 5,955 enumerated files (15.5%) by an undisclosed extension
+filter and reported none of it. The falsifier - do any excluded files carry a
+network call - went **184 raw to 0 hand-classified**, so the gate is sound, and
+sound only because an invariant the project satisfies and does not state
+happens to hold today.
+
+Untriaged and worth a later run: **a third gather state.** `sensor-pipeline`
+knows ran/skipped; the source demonstrates a file that was searched, matched,
+and then abandoned mid-stream because of what the data turned out to be, with a
+warning that the search stopped early. That converges with the `anydoc` run's
+`unreadable-region-refusal` the same day - two independent sources, two
+domains, one rule - which is the cheapest corroboration this method has and it
+is sitting unused. Anchor: the source's `GUIDE.md` binary-data section.

@@ -14,6 +14,7 @@ techniques:
   - evidence-scoping
   - verify-after-generate
   - precision-trades-have-a-direction
+  - the-tree-is-not-the-population
 ---
 
 # Codebase scanning & triage
@@ -154,6 +155,21 @@ could not run must be spelled differently.** A green report whose instrument
 was broken is the most expensive lie in automation, and the scanner's own
 health — did the sensors load, did the rules parse, did the population get
 enumerated — is asserted before any result is reported.
+
+All of that is said along one axis. It describes which *sensors* ran, and it
+is silent about which *files* they were offered — so a sweep can report twelve
+of twelve sensors and zero findings over a tree whose traversal removed a third
+of the files before emission began, and every clause of that report is true.
+The exclusions are rarely the scanner's own: a traversal inherits the version
+control system's ignore rules, whatever tool-specific ignore files layer on top
+of them, the hidden-file convention, the content-class refusals, and a policy
+on following links — five filters, each authored by somebody answering a
+different question, whose union nobody has ever seen stated. The defaults are
+usually right and should stay; what is owed is the second denominator, the
+rule that an explicitly named path is never filtered, and a single escalating
+control that peels the layers in likelihood order so an operator can diagnose a
+suspected false negative without knowing the layers' names. That axis is
+[the-tree-is-not-the-population](./techniques/the-tree-is-not-the-population.md).
 
 ## Two extensions of the sensor roster
 
@@ -311,6 +327,10 @@ delivered ranked, with "thirty-five more withheld" printed underneath.
 - [dead-code-detection](./techniques/dead-code-detection.md) — reachability
   over refcounts, the shadow-declaration defeat, generator-never-deletes
   orphans, deletion as a verified protocol.
+- [the-tree-is-not-the-population](./techniques/the-tree-is-not-the-population.md)
+  — the second coverage axis: enumerate before filtering, publish the excluded
+  count per filter, never filter an explicitly named path, and ship one
+  escalating control that peels the inherited layers in likelihood order.
 - [verify-after-generate](./techniques/verify-after-generate.md) — the
   consumer's audit of an artifact a model generator succeeded at writing:
   invariant checks bought by incidents, a repair protocol that names its

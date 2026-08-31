@@ -7,7 +7,7 @@ status: forged
 stage: solo
 laws: [absent-guard-is-loud, gate-sees-target]
 shared_with: []
-use_when: [the changes arriving at the gate are authored by people who do not own it, a maintainer is drowning in well-intentioned contributions, writing a contribution policy for agent-assisted submitters, deciding what may be judged before a change is read]
+use_when: [the changes arriving at the gate are authored by people who do not own it, a maintainer is drowning in well-intentioned contributions, writing a contribution policy for agent-assisted submitters, deciding what may be judged before a change is read, review replies read fluently and answer nothing]
 ---
 
 # Stake before merit
@@ -92,7 +92,9 @@ helping a staked contributor write, polish, and iterate a change is the arrangem
 intended, and a policy read as anti-tooling gets routed around by exactly the contributors worth
 keeping. What is refused is the *unattended* submission — nobody accountable, nobody answering
 review, the cost transferred whole. The distinction is authorship of the accountability, not
-authorship of the text.
+authorship of the text — in the channel the change itself arrives on. It does not carry
+across to the conversation about the change, for reasons that are structural and are taken
+up below.
 
 ## Publishing the policy is most of the mechanism
 
@@ -112,6 +114,59 @@ The honest framing to publish alongside it is the cost, stated as a quantity: wh
 review actually takes, and how much of it exists. A maintainer who says review is the project's
 scarcest resource has explained the policy; one who says contributions are unwelcome has not, and
 will be read as the second no matter what they meant.
+
+## The one channel where authorship of the text is the point
+
+"Authorship of the accountability, not authorship of the text" is the right rule for the
+diff, and stated without qualification it is wrong for the channel next to it. The
+qualification is worth making precisely, because policies that get it wrong fail in both
+directions — one restricts tool assistance and loses the contributors worth keeping, the
+other permits it everywhere and quietly loses the instrument that admission depended on.
+
+Stake is *asked for* at admission and only ever *tested* in the review round trip. That
+round trip is, by this technique's own accounting, the expensive half — the questions, the
+rework, the staying. And the reviewer's question in it is not a request for text. It is a
+probe: can this person explain, in their own words, the change they are asking to have
+merged. A generated answer has the exact surface the probe was reading — fluent, responsive,
+plausible — and carries none of the fact the probe existed to establish. This is
+[gate-sees-target](../../../../_laws.md#gate-sees-target) again, one channel over: the
+reviewer was never grading the prose, and prose is what a generator supplies for free.
+
+The asymmetry between the two channels is structural rather than a matter of taste, and it
+comes down to which of them has an independent instrument. A submitted change is judged by
+things that do not care who wrote it — the tests, the checks, the reviewer reading the code
+against the tree. Its authorship is genuinely irrelevant because something else can settle
+it. The conversation has no such instrument. The reviewer's attention *is* the instrument,
+and it is the scarce server the whole technique exists to protect, so machine-authored
+discourse is the one contribution class that consumes the protected resource while adding
+nothing to it. That is why a policy can welcome generated code and refuse generated replies
+without contradicting itself.
+
+Three details make the rule operable rather than merely correct:
+
+- **Name the channel, not the tool.** The restriction is on comments, issue descriptions and
+  responses to review questions; it is not a claim about how the change was produced. A
+  policy phrased as a restriction on tooling will be read as the anti-tooling position this
+  technique warns against, and routed around by the same contributors.
+- **Permit disclosed quotation, and require the human's own commentary with it.** Machine
+  output is admissible as *evidence* inside a submitter's argument — quoted, marked as
+  quoted, kept short — and inadmissible as the argument. Requiring the surrounding
+  commentary is what keeps the probe alive: the interpretation is the part only a person who
+  understands the change can supply, and asking for it costs the honest submitter one
+  sentence.
+- **Carve out translation explicitly, and specify the form.** The rule falls hardest on
+  contributors working in a second language, where it would function as a language test
+  nobody intended. The carve-out that preserves the probe is to have them write in their own
+  language and attach the translation, rather than to generate the response outright — their
+  own words still exist, and the reviewer can see that they do.
+
+Enforcement is the weak kind this technique already describes, and for the same reason:
+origin is not detectable, and a policy that claims to detect it will be wrong in public. What
+it can do instead is state the expectation up front and reserve the right to act on a
+judgment — hiding or closing what it believes is generated, without owing a proof. That is a
+published position rather than a gate, which is exactly the mechanism the previous section
+argues is stronger than it looks, and it works here for the same reason: it acts before the
+effort is spent.
 
 ## What this does not buy
 
@@ -145,3 +200,9 @@ was never about that.
 - Publish the review cost as a quantity beside the policy; a policy without its cost reads as
   hostility.
 - Keep admission and verdict separate — stake is not evidence about the change.
+- Restrict generated text in the review conversation while permitting it in the change:
+  the diff has instruments that do not care who wrote it, and the conversation has only the
+  reviewer's attention, which is the resource being rationed.
+- Permit machine output as disclosed quotation carrying the submitter's own commentary, and
+  carve out translation by asking for the contributor's own language plus a translation
+  rather than a generated reply.

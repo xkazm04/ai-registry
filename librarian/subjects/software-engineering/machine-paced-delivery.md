@@ -140,3 +140,38 @@ transcripts, zero detections - and ran green the whole time, because its
 turn-boundary predicate broke on line one. It independently reached
 `gate-liveness`'s three-state contract afterwards, which is corroboration for the
 standard rather than an application of it.
+
+## 2026-08-31 - `/intake` (run `intake-ripgrep-0831`)
+
+Source: the same search-tool repository, for its `AI_POLICY.md` and
+`CONTRIBUTING.md`. Amended `stake-before-merit` with a channel split; the
+subject gains one application (`process--stake-before-merit`) and no new
+technique.
+
+**This was a contradiction, and the contradiction is why it was worth taking.**
+`stake-before-merit` closes its central argument with "the distinction is
+authorship of the accountability, **not** authorship of the text" - and the
+source's policy draws precisely that denied distinction, by channel: generated
+code is welcome, generated replies to maintainers may be hidden without notice.
+The technique is right that stake is *asked for* at admission; it is only
+*tested* in the review round trip the same technique separately names as the
+expensive half, and the reviewer's question there is a probe of comprehension
+rather than a request for text. The asymmetry is structural: the diff has
+instruments that do not care who wrote it, while the conversation has only the
+reviewer's attention - the scarce server the whole technique exists to protect.
+So generated discourse is the one contribution class that consumes the
+protected resource while adding nothing to it.
+
+The denied-symmetry hunt found this. That is now three consecutive runs where a
+technique's explicit denial of a distinction was the highest-yield thing to
+test, and it is worth treating as the first hunt rather than the third.
+
+The amendment kept the technique's own guardrail intact: it restricts a
+*channel*, never tooling, and it carries a translation carve-out, because the
+rule otherwise falls hardest on contributors working in a second language and
+becomes a language test nobody intended.
+
+**Contention note.** `intake-yt-tgbj-0831` held this subject concurrently and
+was editing the golden path and `human-gate-capacity.md` while this run amended
+`stake-before-merit.md`. Contended subject, disjoint files - no `content` lock
+was needed and none was taken.
