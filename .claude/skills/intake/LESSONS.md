@@ -3517,3 +3517,59 @@ rather than continuing to record these as unapplied.
   Deliberately not applied here: two method edits in one run, from one session, with
   three live siblings reading this file, is more churn than one run's evidence supports.
 
+
+## 1.3.1 - 2026-08-31 - verou-2026-blog
+
+- **Ask for the project tree after the A/B, not at triage.** The triage pick named no
+  project, so the run went read-only under Phase 8 step 2 - correct, and it stayed
+  correct. What unblocked ship was going back at Phase 7.5, once there was a measured
+  `better` verdict and a sized diff (~8 lines, one file), and asking with both attached.
+  The question was answered instantly because it carried a number. Several prior rows
+  proposed authorizing the tree at triage to remove this friction; that would ask
+  earlier and worse, before anyone knows whether there is anything worth shipping. The
+  gate is not friction to relocate - it is a question whose answerability depends on
+  what is known when it is asked.
+
+- **A source's class can be right about the yield and wrong about the ceiling.** The
+  channel-corpus row predicts "amendments and corroborations, never new subjects", and
+  that held exactly. What it does not say, and should: a channel corpus by a *standards
+  participant* carries one narrow authorization power (claims about the process they
+  participate in) that is usually irrelevant, and the run should say so out loud at
+  Phase 2 so the fetch budget is not held in reserve for it. This run spent 0 of 3 and
+  the reason was structural, not lucky.
+
+- **`code` mode pays twice, and the second payment is the one to plan for.** Re-running
+  the arms against the real revisions (functions extracted from HEAD and from the
+  working tree, then executed) converted the instrument's own self-assertions into
+  regression checks at no extra cost - "the arms must agree on every explicit value" is
+  an instrument check before the change and a regression check after it. More
+  importantly the tree refused half the fix: a second resolution point carried the
+  identical defect and could not take the identical repair, because its consumers render
+  a single resolved value. That produced a clause the desk-written technique did not
+  have (*defer a resolution only to a consumer that can perform it*). **A technique
+  written at a desk and the same technique written through a tree differ by exactly that
+  clause**, and the difference is only discoverable in `code` mode - an experiment over
+  transcribed arms would never have met the second consumer.
+
+- **Phase 6's "read the file" rule earned its keep in the most expensive way available.**
+  The run's best landing was a *correction* to a technique that already held the
+  requirement and prescribed the opposite remedy. No concept query built from this
+  source's vocabulary reaches that file - it lives in a rendering subject, under
+  measurement vocabulary - and any summary of it would have read as "already covered".
+  Only opening it showed the remedy was wrong. This is the third run to record a version
+  of this and it should probably become a rule: **a candidate that looks already-covered
+  is the one where the file must be opened, because the cheap signals cannot tell
+  "covered" from "covered wrongly".**
+
+### Redesign proposal (not applied)
+
+**Price the `XL` row in the triage table.** The scorecard names `test` as the weakest
+stage and identifies the mechanism: an `XL` row loses every head-to-head against a
+technique that lands in one file, so the subject-sized finding is systematically the one
+banked. `SKILL.md`'s corrective (write the spec, dispatch before Phase 9) only fires if
+the row is picked. Proposal: Phase 5's table carries a cost estimate on any `XL` row the
+run's own read marks `real gap`, stated against the combined cost of the cheap rows, so
+the operator chooses between comparable quantities rather than between one large unknown
+and four small certainties. Not applied here because it is a Phase 5 format change and
+this run has only one sighting of the failure; a second run that banks an `XL` row it
+marked `real gap` makes it a rule.
