@@ -10,6 +10,7 @@ techniques:
   - pause-and-gate-nodes
   - deterministic-vs-model-nodes
   - external-adapter-nodes
+  - valid-but-degraded-plans
 ---
 
 # Pipeline & DAG execution
@@ -56,6 +57,12 @@ Four commitments follow:
    shipped, and once because it surfaced at the moment of maximum cost —
    halfway through side effects — instead of at the moment of zero cost.
    The full discipline is [graph-validation](./techniques/graph-validation.md).
+   What the door cannot reach is a graph that is valid and *degraded* — an
+   unnecessary edge, a step split too fine, two steps fused — which passes
+   every check, succeeds, and costs more than its shape allowed. That class
+   is only visible by comparison, never by inspection, and it stops being a
+   curiosity the moment a planner rather than a person is drawing the graph
+   ([valid-but-degraded-plans](./techniques/valid-but-degraded-plans.md)).
 2. **A run pins its graph.** The run executes the version of the graph that
    existed when it started. Edits during a run apply to the *next* run; a
    topology that mutates under an in-flight run makes every completed node's
