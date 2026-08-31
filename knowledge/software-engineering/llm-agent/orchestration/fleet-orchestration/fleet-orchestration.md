@@ -16,6 +16,7 @@ techniques:
   - brief-carries-the-session
   - coordination-failure-triage
   - worker-trajectory-anatomy
+  - absent-status-passthrough
 ---
 
 # Agent fleet orchestration
@@ -135,6 +136,17 @@ signal and a sweep that map the same observation to different states create a
 flapping session that is "working" on the event channel and "lost" on the
 sweep channel; the cure is that both write through the registry's one
 transition door, which arbitrates.
+
+**Both tiers are producers, and the layers between them are not.** A
+projector rebuilding the registry across a transport, a probe whose identity
+provider is down, a record persisted after the turn that would have described
+it — each of these is asked for a state having observed none, and each will
+supply a plausible default unless something forbids it. That failure is
+invisible to the sweeper by construction, because the session it mislabels is
+alive and recently heard from, so every staleness budget passes over a state
+nobody ever reported. absent-status-passthrough owns the rule that keeps the
+non-observers quiet, and the vocabulary member they need in order to stay
+that way.
 
 ## Hibernation is a state, not a death
 

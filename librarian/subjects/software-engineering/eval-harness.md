@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-08-29
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -250,3 +250,34 @@ reading is withdrawn.
 
 Two techniques added this run (11 -> 12 plus the amendment). Not swept
 otherwise.
+
+## 2026-08-31 — intake, `github:cline/cline` @ `48d6385`
+
+Gained `reliability-aggregation` + `react--reliability-aggregation`
+(experiment, `better`, arms paired). See [[../../sources/2026-08-31-cline]].
+
+**Enumeration hunt, eleventh consecutive pay.** The golden path lists the
+aggregation rules available for repeated trials — mean, median, worst-of-N,
+pass-rate against a threshold — and the list does not contain **all-of-N**,
+which is the rule a shipping decision rests on. Any-of-N and all-of-N are both
+computable from one trial set, answer opposite questions, and diverge hardest
+where the stakes are highest (2 of 3 trials: ~96% against ~30%).
+
+The subject already held both halves and had never joined them:
+`count-carries-predicate` makes declaring the rule a *labelling* obligation,
+`metric-role-contract` makes naming the decision a *selection* obligation.
+This technique is the second one's answer for repeated trials.
+
+Applied to a managed prompt-lab grid whose aggregation layer is mean-only:
+same trials, **the leaderboard winner flips** between arms. Second finding
+from the seam, not sought — an unscored metric averages to `0` and sorts as
+though it performed badly.
+
+Contention: `openmontage-0831` held this subject for the whole run. Technique
+file uncontended; golden-path list edited under the `content` lock.
+
+## Open leads (banked, convergence rule applies)
+
+- Flakiness as binary entropy over the pass rate — 0 at either extreme, 1 at a
+  50% rate. Graded thin; the subject already treats variance as first-class.
+  Return if a second source ties the entropy form to a decision.

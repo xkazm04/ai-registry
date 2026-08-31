@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-08-25
-touched_by: research
+last_touched: 2026-08-31
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -108,3 +108,35 @@ opposite sides say so rather than duplicating.
 Owed: no A/B was run. The return condition is a review dispatch run twice
 against one artifact, one arm carrying the producer narrative and one
 withholding it, reading whether the verdicts differ.
+
+## 2026-08-31 — intake, `github:cline/cline` @ `48d6385`
+
+Gained `absent-status-passthrough` + `rust--absent-status-passthrough`
+(simulation, `better`). See [[../../sources/2026-08-31-cline]].
+
+The finding is a **third producer of session state**. `lifecycle-signals`
+models the session reporting itself and the sweeper inferring from silence;
+both observed something. The layers in between — a transport projector, a
+probe whose identity provider is down, a record persisted after the turn that
+would have described it — observe nothing and are asked for a value anyway.
+The sweeper is structurally blind to the result, because the mislabelled
+session is alive and recently heard from, so every staleness budget passes.
+
+`lifecycle-signals` did not cite `unknown-is-not-a-value`. The subject's
+state-truth technique had never reached for the corpus's own law about
+rendering unknown as definite; the new technique does, and the golden path now
+names the non-observers explicitly.
+
+Contention: `2026-08-31-voltagent-papers` claimed this subject mid-run, after
+Phase 4's map came back clear. Technique file uncontended; golden-path
+`techniques:` list edited under the `content` lock with a re-read inside it.
+
+## Open leads (banked, convergence rule applies)
+
+- An explicit endpoint is a sticky exact target — recovery must never
+  substitute a discovered one. Return on a second independent sighting.
+- Client surface and initiation mode as two orthogonal facts on the session
+  envelope. Return when a managed project conflates them.
+- Lazy identity: allocate in memory, persist on first accepted turn. Sits
+  beside `session-registry`. Return when a project grows an empty-session
+  problem.

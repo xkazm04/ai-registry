@@ -16,6 +16,7 @@ techniques:
   - discriminating-task-selection
   - certification-levels
   - measurement-revision
+  - reliability-aggregation
 ---
 
 # Evaluation & benchmarking
@@ -87,6 +88,11 @@ pass-rate against a threshold) declared alongside it, because a score that
 travels without its aggregation rule will be compared against a score
 computed differently
 ([_laws: count-carries-predicate_](../../../_laws.md#count-carries-predicate)).
+That list of rules is not closed, and the entry it is missing is the one most
+shipping decisions rest on: the probability that *every* attempt succeeds,
+which falls as trials are added where the others rise. reliability-aggregation
+owns the choice between it and its optimistic twin, and why the pair is worth
+more than either.
 
 **Repeatability is engineered, not assumed.** Whatever *can* be pinned, is:
 input fixtures frozen, sampling seeds fixed where the platform honors them,
