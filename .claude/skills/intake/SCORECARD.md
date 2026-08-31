@@ -178,6 +178,7 @@ which is where this run decided it.
 | 1.4.0 | 2026-08-31 | tkdodo/the-vertical-codebase (blog) | 1 (1,889 words) | 8 | 1 | 1 (amendment + a tenth golden-path failure mode) | **1 row / 1 landed** (0c/1e/0s) | 0 - blocker class **confirmation** (pick named a candidate, not a project); secondary **indeterminacy** on one of two waste cases | **Focus applied and it held.** Declared focus was: when an apply row reaches `better`, name the ship blocker from the four and act per class. Reached `better`, named `confirmation` as primary with `indeterminacy` scoped to a single case rather than the whole row - the finer grain is the only refinement to report, and it argues the classes attach to *cases*, not to rows. Yield calibration stated before the triage table (1-2 findings, mostly catches, zero fetches) and matched exactly. 0/3 fetches, sixth consecutive for this class |
 | 1.4.0 | 2026-08-31 | github:TkDodo/knip (OSS tool repo) | 1 (380 landing / 32,535 in-tree) | 21 | 2 | 2 techniques | **2 rows / 2 landed** (0c/2e/0s) | **1** - row 1 reached `not-better` so no ship was owed; row 2's **confirmation** blocker was cleared by the operator in the same session and the probe shipped (proven red on all three exit paths; project ratchet unmoved) | Focus applied and discharged: both apply rows named their blocker class. **The apply step refuted the run's own technique** - `excess-indicts-the-instrument` predicted that clustering separates misconfiguration from debt; on a real frozen baseline (230/982 unreachable files, 23.4%) it fired on 7 clusters at 2.4-4.3x lift and all 7 were genuine dead code, 0 root errors. Confound: dead code arrives in whole features, so both hypotheses predict the same distribution. Technique shipped with the correction folded in (clustering samples, a referrer check discriminates). Row 2 `better` on a zero result: 11/11 shadowing constructs detected, converting an unmeasurable property into a measured negative. 0 of 3 fetches - the class predicted it. |
 | 1.4.0 | 2026-08-31 | github:TkDodo/pacer | 1 repo @ `e5c2b53` (836-word README vs **29,268 words of authored guides**; the 87k-word generated `reference/` tree excluded on purpose) | 12 | 4 | 1 amendment | **1 row / 1 landing** (1c/0e/0s; 1 better) | **0 — blocker class `environment`** | **The declared focus applied and named its class on the first try.** Apply reached `better` on a real paired arm (33 passed/1 failed → 34/0, same test binary, same inputs), and the ship blocker is the fourth position the last two runs discovered: the change spans two crates, the library crate builds and ran both arms, the caller crate's build script fails on a missing plugin permission — **pre-existing, reproduced with the diff stashed**. Per the focus's environment row: one line on what the operator must do, diff left uncommitted. Shipping the tested half alone was considered and rejected — it would leave the other crate failing on a field it does not yet know about, which is a landmine rather than a slice. **That is a refinement the focus's table does not carry: `size` says ship the smallest honest slice, and this run found a case where the smallest honest slice is the whole change, because the seam crosses a compilation boundary.** Extract 12 → test 4 → land 1 is the expected shape for a mature-subject source and was called before the table, not after. |
+| 1.4.0 | 2026-08-31 | tkdodo.eu/creating-query-abstractions | 1 (3,789 words) | 10 | 2 | **1 technique + 1 golden-path amendment** | **1 row / 1 landing** (1c/0e/0s; 1 better) | **1** | **Focus moved, and it found a gap in its own vocabulary.** The declared focus was: when an apply row reaches `better`, name the ship blocker from the four classes and act per class. This row reached `better` and hit **two blockers in sequence, of different classes** - `confirmation` (the triage pick named no project), then, once authorized, `size` (compiling the change required narrowing two pre-existing pass-through option bags, past the authorized slice). Acting per class twice is what shipped it. The four-class table is written as if a row has one blocker; a row can have a queue of them, and the second only becomes visible after the first is cleared. |
 
 Reading the last ten rows: **the v1.4.0 fix worked and the funnel moved.** For the first
 time in the window a run read the declared focus at Phase 1, carried a project and a file
@@ -324,3 +325,29 @@ be applied against, named in its own column.** The pick then confirms the tree b
 construction and Phase 8 step 2 is already satisfied. A run that reports `ship 0` with
 blocker class `confirmation` after that change has found something new; before it, it
 has only found the gap between two phases of this file.
+
+---
+
+**Run 2026-08-31 (`tkdodo-creating-query-abstractions`), reading the focus it was handed.**
+The focus worked and is not finished. Naming the blocker class did change the run's
+behaviour - it turned "ship 0, needs confirmation" into an ask, and the ask into a
+landing. But the row hit `confirmation` and then `size`, in that order, and the second
+was invisible until the first cleared: nobody could have known the compiling change
+exceeded the slice before the slice was authorized. **A ship blocker is a queue, not a
+value.** A run that names one and stops has answered only the blocker it could see from
+where it was standing.
+
+The other thing this run is evidence for is older and got sharper: **an instrument's
+first number is not a measurement.** The census reported 13 divergent keys, then 3 after
+the parse window was tightened, then 1 real after hand-verification - and the most
+serious defect in the tree was in none of those counts, because it is written in a shape
+the instrument cannot parse. Three of the four rows the instrument produced were wrong in
+some way, in both directions, and every correction came from opening the file. The
+technique landed stronger for it, and the application says so in its own limitations
+section rather than in a footnote.
+
+Next run's declared focus: **when an apply row reaches `better`, expect the ship blocker
+to be a queue - name the one in front, clear it, then re-ask what blocks now.** And carry
+the instrument rule beside it: report a census's first number and its hand-verified
+number as two different figures, never one, and state what shape the instrument cannot
+see before reporting what it found.

@@ -12,6 +12,7 @@ techniques:
   - prefetch-and-defer
   - parse-and-derive-caches
   - plural-policy-claims
+  - portable-read-definitions
 ---
 
 # Client data fetching & caching
@@ -126,6 +127,16 @@ The discipline is to state all four at the cache's construction site — as
 configuration, not as folklore. A reviewer looking at a new cache should be
 able to read its admission rule, its key rule, its lifetime rule, and its
 eviction rule without reading its callers.
+
+That instruction presumes something it does not say: that the construction
+site is *reachable* from every caller. It usually is not. The imperative
+prefetch, the route-level load and the server render all need the same key
+and the same fetcher, and none of them can call a definition bound to a
+component-scoped primitive — so each re-declares the triple by hand, and one
+question acquires several hand-maintained declarations that drift. Where the
+definition is written, and why it must be a plain value rather than a
+component-scoped wrapper, is
+[portable-read-definitions](./techniques/portable-read-definitions.md).
 
 The machinery itself is subject to the same law that governs vocabularies
 ([one-authority-per-vocabulary](../../_laws.md#one-authority-per-vocabulary)):
@@ -245,3 +256,7 @@ The shape is [parse-and-derive-caches](./techniques/parse-and-derive-caches.md).
   four policies resolve to when one entry has many readers: the quantifier
   per policy, monotonic eviction, and the clock that runs only after the
   last claimant leaves.
+- [portable-read-definitions](./techniques/portable-read-definitions.md) —
+  binding key, fetcher and default policies in a plain value so every
+  consumer (subscribe, suspend, prefetch, loader, server render) shares one
+  declaration instead of re-typing it.

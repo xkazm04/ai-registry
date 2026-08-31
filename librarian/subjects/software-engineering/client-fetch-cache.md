@@ -107,3 +107,51 @@ prefetch claims aligned to what the cache resolves. Divergent shared keys
 **1 -> 0**. Correction to the row above: **one** key diverges
 explicit-vs-explicit; the second is explicit against the resolved client
 default, which is real but invisible to a reviewer reading two call sites.
+
+---
+
+## 2026-08-31 — `/intake`, `tkdodo-creating-query-abstractions`
+
+Second intake touch today. The earlier one censused this subject's tree for
+**lifetime** divergence; this one asked the question one step earlier — *why
+is a question declared at more than one site at all* — and the two answers do
+not overlap.
+
+Landed `portable-read-definitions` (8 -> 9 techniques). The gap was a missing
+stage rather than a missing opinion: the subject owns key, lifetime, eviction,
+admission, plural claims, dedup, warmth and events, and owns nothing about
+where the read's definition lives. The golden path's *"state all four at the
+construction site... without reading its callers"* and `prefetch-and-defer`'s
+*"same key builder"* both presume that site is **reachable from every
+caller**, which it is not when it is bound to a component-scoped primitive.
+Golden path gained a paragraph qualifying its own construction-site sentence.
+
+Boundary with `plural-policy-claims` written into both: divergent options are
+*claims* to resolve by quantifier only when the definition is shared;
+unshared, divergence is drift between copies and no quantifier recovers an
+intent that was never formed.
+
+**Applied `code` on `goat`, verdict `better`, shipped.** One question declared
+at four sites with three different lifetimes now has one declaration, resolved
+lifetimes unchanged. The compiler supplied the strongest evidence: the two
+hooks' pass-through options bags could not compose with a shared definition at
+all — key generic hand-widened to `readonly unknown[]` against a precise
+tuple — and one caller had already cast `as any` to get past it.
+
+### Open leads — one closed on evidence, one strengthened
+
+- **"Two sites register one key with two different fetch functions"** (banked
+  by the lifetime-census run) — **second sighting, still unfixed.** Reached
+  independently here from the other side, and it is the more serious of
+  everything found in that tree: one entry, two producers, the surface parses
+  whichever ran last. Both instruments that found it found it *by hand*; the
+  declarations live in a declarative registry that neither census can parse.
+  This is the row to pick next.
+- **A new one:** the tree holds a standalone `{key, fetcher, staleTime}`
+  descriptor built for the prefetch lane and never connected to the reading
+  sites, and it types its payload `Promise<unknown>`. A portable definition
+  built as one *generic container* rather than a *factory per question* erases
+  what each read returns. Whether that deserves its own amendment, or is
+  already said well enough inside `portable-read-definitions`, is a judgment
+  for the next sweep.
+
