@@ -2646,3 +2646,63 @@ rather than the finding - a run that lands N techniques owes N rows, and the bud
 the mode (simulation is always reachable) rather than the count. Not applied in this
 version: five sibling runs were live on the board, and this changes what every one of them
 owes mid-flight. A mid-flight run should finish on the version it loaded.
+
+## 1.3.0 - 2026-08-31 - archify
+
+- **A line number obtained by grepping a guard idiom is usually wrong.** Three of five
+  citations in this run's application were off by 2-4 lines, because
+  `if (!clip) return null;` appears twice in the target module - once in a small helper,
+  once in the function being cited. The Phase 8 "open one cited line" step caught all
+  three, and it is the only reason four bad citations did not publish. The generalisable
+  form: for a citation, `grep -n` the *complete* line and confirm the enclosing function,
+  because the shorter and more idiomatic a guard is, the more likely the file holds
+  several of it.
+- **The ledger lock protects the append, not the commit.** This run appended to
+  `librarian/applied.md` and `librarian/sources/index.md` inside the lock, released, and a
+  sibling's pathspec commit on those files swept both rows in under its own message minutes
+  later. No content was lost - verified in `HEAD` - and nothing was wrong with either run.
+  But the method's mental model ("take the lock, append, unlock") quietly implies the
+  appending run will be the one to commit it, and with nine live sessions it usually will
+  not be. Either commit the ledger inside the same lock, or expect the row to travel under
+  a neighbour's commit and stop treating that as an anomaly. Recorded rather than applied:
+  holding a lock across a commit is a bigger cost than mis-attributed ledger rows.
+- **When the technique under test is about outcome expressiveness, the test harness is a
+  second instance of the seam.** This run's A/B measured whether a detector's caller can
+  distinguish "could not measure" from "measured clean". The harness's first version had a
+  bug of exactly that shape - it mis-numbered a stubbed call because a cleanup sits in a
+  `finally` that runs before the compare - and arm A's two-state return reported a uniform
+  `null` for all six cases, which is indistinguishable from the harness working correctly.
+  Arm B's typed reasons exposed it on the first run. Worth seeking deliberately: when the
+  finding is about a collapsed vocabulary, run the instrument against itself first.
+- **Nine siblings is a different regime from three, and the board absorbed it.** Two gate
+  failures during this run belonged to neighbours' untracked work; both were reported and
+  neither was touched, and one was fixed by its owner mid-run without any coordination
+  beyond the board. The index/catalog pair stayed uncommitted by design - regenerating them
+  under the lock is correct, but committing them would have put an index in `HEAD`
+  referencing a dozen files that are not, which is why this repo has a separate
+  `chore(generated)` commit lane. That reasoning is not in `SKILL.md` and should be: the
+  method says regenerate under the lock and says nothing about whether to commit the result.
+
+### Redesign proposal - not applied
+
+**For a single-subject XL, the spec-then-dispatch round trip may be pure overhead.** Phase
+7 says write the spec, then dispatch one forge worker, and argues for same-session
+execution because "the context that argued the spec is the cheapest forge input the
+registry will ever have." This run could not dispatch (a standing session instruction
+forbade subagents), so the director forged the subject directly - golden path, seven
+techniques, one application - with the neighbours already open, the boundary already
+argued against two adjacent subjects' own statements, and the placement already verified
+against `taxonomy.json`. The result passed the gate on the second try, with one
+link-depth error.
+
+The method's own argument for same-session execution is an argument against the handoff:
+if the loaded context is the valuable thing, serialising it into a spec and rehydrating it
+in a worker is a lossy round trip whose only gain is parallelism this run did not need.
+The dispatch clearly earns its cost when a spec spans subjects, when the director's
+context is exhausted, or when several specs can forge concurrently. It is not obviously
+right for one subject the director has just finished arguing.
+
+Not applied: one observation, and it was forced rather than chosen, so it is not a clean
+comparison against a dispatched run. A future version might make the dispatch conditional
+on subject count and remaining context rather than unconditional. Mid-flight runs should
+finish on the version they loaded - nothing here changes what is owed.

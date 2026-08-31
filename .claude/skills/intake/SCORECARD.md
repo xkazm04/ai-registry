@@ -50,31 +50,26 @@ as process, and the strip test reads domain vocabulary as proper nouns. Neither 
 produces a declined row, so neither is visible in any count.
 | 1.3.0 | 2026-08-31 | genesis-agi | 1 | 13 | 3 | 3 | 0c/3e/0s | 0 (no project confirmed) | Ship 0: operator directive named a focus, not a project, and Phase 8 step 2 gates any project-tree write - so a real reachable defect found in goat with a paired measurement is filed, not fixed, and the three seam records are owed. Declared focus MET: the source note names opened and unopened documents by name, and the honest sample is ~15% of the memory subsystem with the two largest files skipped. First run where BOTH `better` verdicts amended the corpus from the A/B tree rather than the source - the apply stage acting as a second source, not a checkbox. |
 | 1.3.0 | 2026-08-31 | claude-of-tanks-geometry-gate | 1 (26,981 landing / ~60,000+ in-tree operating docs = 31% read fraction, recorded) | 14 | 5 | 5 (1 new subject + 6 techniques as one landing) | 0c/1e/0s (5 unapplied: landed same-run, apply budget went to the one technique with a reachable seam) | 0 (no project confirmed; the experiment was read-only and warranted no change - verdict was not-better) | **Highest-yield source class the ledger holds so far**: a contract document whose sections are numbered AND carry the owner-directive date plus the incident that caused them - the release-walkthrough property in repository form. Thirteen dated addenda produced four of six techniques. Two class tells recorded for reuse: read the POSTMORTEM before the lessons file for correction-class findings (the lessons file is written from the winning side, the postmortem from the losing one, and it produced both strongest leads); and a dated-addendum contract outranks the README by an order of magnitude. The subject came from the **enumeration hunt, not the source** - `generated-mesh-acceptance` declares its own boundary in prose and nothing owned the other side, which the bundle's motion-vs-geometry asymmetry confirmed. Placement overrode both Phase 4's HOME IF NEW and my own instinct: `asset-production` sits at exactly the 10-directory cap, so the taxonomy authority, not a subject count, decided the home. Apply produced corpus content again: the `not-better` fired the technique's OWN third decision rule against me - my arm B read the same representation with a different parser, so its two catches were parser artifacts. The technique gained `a different parser is not a different authority`. Ship 0 is honest here rather than blocked: a not-better verdict warrants no project change. |
-| 1.3.0 | 2026-08-31 | archify | 1 | 16 | 12 | 1c/1e/0s | 0 (no project confirmed) | Declared focus was **ship**; NOT met, and the row names the cost precisely as the last scorecard demanded. The one sentence that would have unblocked it: *"yes, apply the three-state detector change to politicas."* What DID move: the seam record the previous run listed as owed is now written to the project's `.ai/applied.jsonl` - first run to do so - though uncommitted, so ship stays 0 honestly rather than by redefinition. Apply reached `better` via a two-arm harness over shipped code with the amendment's safety property measured (detection unchanged), and the **structural fact outranked the A/B**: the target's report has no skipped record type, so the defect is forced by the record shape rather than chosen. Extract 16 from a tree whose landing page is 1.6% of it - the clone was the run. Two citation errors caught by Phase 8's open-one-cited-line (three of five line numbers off, because the same guard text appears in two functions), and the A/B harness reproduced the very defect it was testing, which arm A could not have revealed and arm B did on the first run. |
+| 1.3.0 | 2026-08-31 | archify | 1 | 16 | 12 | 1/9 rows (0c/1e/0s) | 0 (no project confirmed) | Declared focus was **ship**; NOT met, and the row names the cost precisely as the last scorecard demanded. The one sentence that would have unblocked it: *"yes, apply the three-state detector change to politicas."* What DID move: the seam record the previous run listed as owed is now written to the project's `.ai/applied.jsonl` - first run to do so - though uncommitted, so ship stays 0 honestly rather than by redefinition. Apply reached `better` via a two-arm harness over shipped code with the amendment's safety property measured (detection unchanged), and the **structural fact outranked the A/B**: the target's report has no skipped record type, so the defect is forced by the record shape rather than chosen. Extract 16 from a tree whose landing page is 1.6% of it - the clone was the run. Two citation errors caught by Phase 8's open-one-cited-line (three of five line numbers off, because the same guard text appears in two functions), and the A/B harness reproduced the very defect it was testing, which arm A could not have revealed and arm B did on the first run. |
 | 1.3.0 | 2026-08-31 | herdr (re-run, Rust/backend lens) | 1 (3,304 AGENTS.md + justfile + 200-line arch test vs 420 README) | 9 | 3 | 4 (2 techniques + 2 amendments) | 1e/0c/0s (1 unapplied: no seam in fleet) | 0 (verdict was not-better - nothing to ship) | Ship 0 is **correct here, not a miss**: the A/B returned `not-better` because the consumer already satisfies the rule, so there is no change to commit. Declared focus was extract; met - a re-run of an already-mined tree under an orthogonal lens produced 3 landings entirely from the prior run's untriaged table, at zero re-derivation cost. The front of the funnel has a cheaper source than new URLs: **already-mined trees re-swept under a different lens.** |
 
-Next run's declared focus: **apply coverage** - the ratio of landed techniques to
-`librarian/applied.md` rows, not the count of rows. The 2026-08-31 claude-of-tanks run
-landed six techniques as one subject and applied **one**; the other five are wiki pages
-until a later run pays for them, and the scorecard's `apply` column cannot see that
-because `0c/1e/0s` looks identical whether the run landed one technique or six. Write
-apply as `<rows>/<landed>` from the next row on.
+Next run's declared focus: **ship**, for the sixth run running, and the notation now says
+how bad it is. The archify row is the first to write apply as `<rows>/<landed>` per the
+1.3.0 lesson, and the honest fraction is **1 of 9** - seven techniques and two amendments
+landed, one carries an A/B. Eight documents are wiki pages until a later run reaches them,
+and the bare-mode notation had been hiding exactly that.
 
-That run also forces a distinction the previous focus paragraph could not make: **a
-ship-0 that follows a `not-better` verdict is the pipeline working, not the funnel
-leaking.** Four of the five ship-0 rows below are blocked - a `better` verdict with no
-confirmation to act on. The fifth is complete: the A/B said the change was not worth
-making, so no project change was warranted and none was withheld. Counting those two as
-one number has been making the ship stage look worse than it is, and a stage that is
-always red stops steering anything. Score ship against *`better` verdicts that did not
-ship*, and the denominator becomes honest.
+Two distinct blockers now separate, and only one is a method defect:
 
-The earlier reading, kept because the blocked cases are still the majority: **ship.**
-The funnel has lost its last stage on all five
-source-driven runs since the apply lane landed, and four of five name the same cause -
-the triage pick named no project, so Phase 8's confirmation was never given. This is a
-method defect, not a capability one (see the redesign proposal in `LESSONS.md`, 1.3.0).
-Until the invocation can carry a standing project authorisation, a run that reaches a
-`better` verdict must at minimum name, in its scorecard row, the exact one-sentence
-confirmation it would have needed - so the cost of the missing affordance is counted
-rather than restated as a shrug.
+- **Ship-blocked-by-confirmation** (five runs). The triage pick names no project, so Phase
+  8 step 2 is never satisfied. The archify run at least paid the cost forward: it wrote the
+  seam record to the project's `.ai/applied.jsonl`, which the previous run listed as owed,
+  and named the exact confirming sentence in its row. The affordance the invocation still
+  lacks is a standing project authorisation.
+- **Apply-under-covered** (new, and the larger number). Nine landings, one row. This is not
+  a confirmation problem - a simulation is always reachable and costs twenty minutes. It is
+  the budget-language defect the 1.3.0 redesign proposal already named, now measured.
+
+The proposal in `LESSONS.md` 1.3.0 - make the unit of the apply budget the landing rather
+than the finding - is no longer supported by one observation. It has two, and the second
+one measured 1/9. A third makes it a rule this file carries.
