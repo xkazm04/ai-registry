@@ -215,3 +215,74 @@ custom-rule suppressions.
 
 Contended with `omniroute-0831`, which held this subject live; golden-path
 edits were made under the `content` lock.
+
+## 2026-08-31 - the item side of the gate (`tc39-proposals-0831`)
+
+Two techniques from a public standards committee's own tracking repository,
+both landing on the same asymmetry: **all 14 prior techniques take the
+checker as their subject** - its severity, input determinism, liveness, false
+positives, projections - and **none takes the thing being gated.** The subject
+modelled one-shot refusal exhaustively and had no model of an item that lives
+for years and must carry accumulated evidence across many advancement
+decisions.
+
+`advancement-evidence-fields`: the record an item carries per obligation.
+Schema is the ladder (the field is minted at the stage its obligation binds,
+retired when discharged); the non-satisfied side needs a closed four-state
+vocabulary because a blank merges "not yet", "done but unrecorded" and "nobody
+looked". Supplies the resolution `unmeasurable-criteria` structurally cannot -
+its three (skip / fail-closed / refuse) all vanish with the run, and a durable
+record adds a fourth: **advance anyway, with the hole written into the row**,
+which is the honest move for a gate whose verdict a vote can override.
+
+`item-liveness`: the deliberate mirror of `gate-liveness`. A gate green for a
+year is unverified machinery; an item in flight for a year whose owner stopped
+speaking is unverified work. Ownership is the one entrance criterion that
+decays after admission, so checking it once makes it a birth certificate.
+
+Measured from the source's own record: 7 of 46 terminated items name owner
+departure as the sole cause (largest named category, ahead of every technical
+objection), three closed the same day - the signature of a once-in-a-decade
+manual sweep. 30 of 92 in-flight items had been silent two years or more,
+quietest since nine years earlier, all listed as active. The natural
+experiment that carried `advancement-evidence-fields`: one board, two
+obligations, two conventions - the field with explicit markers left 8 of 18
+holes legible and attributable, the field with blanks left 16 of 29 (55%)
+unreadable, **and the readable obligation is the one that gets discharged**
+though neither blocks anything.
+
+The fetch (1 of 3, on the process document) inverted the source rather than
+confirming it: the process *requires* the test suite at the stage where the
+tracker's column appears, and items sit one and two stages past it with the
+cell openly non-satisfied. It also returned the sentence that made
+`item-liveness` a technique instead of an observation - **no explicit rule
+addresses stalled proposals or automatic removal**, and a departed owner is
+replaced only if someone *volunteers*.
+
+Applied: `advancement-evidence-fields` against personas, `experiment`,
+**`better`** - 11 of 15 passport dimensions resolve from structured fields
+under the shipped schema vs 15 of 15 under the four-state field, and 0 of 15
+have an individually knowable evidence age against one collection-level date.
+The predicted unreadable-blank population was **absent** (0 of 15), reported
+as a negative: the discipline is the author's, not the schema's. Structural
+fact worth more than either arm - the schema has no `reason` field anywhere,
+so *absent-with-a-pointer-to-why*, the state the technique calls most
+valuable, **is inexpressible**; `skippedByChoice` is a boolean, which is what
+an absence state degenerates to when added as an afterthought.
+
+`item-liveness` against this repo's own harvest queue and watchlist,
+`experiment`, **`unmeasurable`** - and it earned the technique an amendment.
+Its central claim is that last-touched is free because the trail already
+exists; a flat status queue (177 entries, one status, one collection-level
+date) has **no per-item trail at all**, so the diagnostic has no input at any
+price. The technique now states that precondition and names the cost where it
+fails. Effect unmeasurable because the queue is three days old; instrument
+named (a per-entry `touched` date, or a join to the dated run ledgers), return
+condition set at 90 days.
+
+Contended with `whatwg-html-0831`, which held this subject live and landed
+`fabrication-economics` into it mid-run without yet declaring it in the golden
+path. Golden-path edits were made under the `content` lock; the index was
+regenerated inside the `index` lock and consequently carries that sibling's
+undeclared technique, so the generated artifacts were left unstaged for
+whoever finishes last.
