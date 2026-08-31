@@ -2941,3 +2941,99 @@ phrase-empty trap, that is the point to bump.
   proof is the only verification. The corpus already holds the law
   (`failure-not-empty-success`); what was missing was the reflex to apply it to *my own*
   commit's gate rather than only to the code under study.
+
+## 1.3.0 - 2026-08-31 - voltagent-awesome-ai-agent-papers
+
+First run of the reference-wave lane and of the run board, both landed the same
+morning. The lane worked; the run's largest output was still a correction to its own
+method.
+
+- **A proper-noun grep cannot measure coverage in a purity-gated corpus, and it fails
+  in the most convincing direction.** Wave 1 concluded "the corpus owns nothing that
+  scores a trajectory" from a grep for `ReAct` / `Plan-and-Execute` over `knowledge/`.
+  `check-bundles.mjs` FORBIDS those words in upper-layer documents, so the query was
+  guaranteed to return empty: it measured the purity gate, not the coverage. The
+  director then re-ran the same grep as verification and reported the claim as holding.
+  Two wave-2 lanes refuted it independently against
+  `fleet-orchestration/worker-trajectory-anatomy` - 1,794 annotated trajectories, 63k
+  steps, an independent 20,574-session field corpus - which is better evidenced than
+  either paper proposing the "missing" vocabulary. Phase 4 already warns that a
+  near-empty is more dangerous than a total empty; this run says the dangerous case is
+  narrower and sharper: **a total empty from a query whose terms the gate bans is
+  manufactured, and it reads as decisive.** Map on concepts, never on product,
+  framework or scaffold names, and open a file before believing an absence.
+- **`research-map` matches slugs and is structurally blind to a concept filed under an
+  unrelated name.** Director test, in-run: `research-map "evidence conditioned
+  faithfulness" "groundedness verification"` returns six subjects, and
+  `civic-intelligence/accountability-method/llm-forensic-gating` - an eight-technique
+  build that directly owns the concept, including a technique that already rejects the
+  similarity-matching approach a paper in this wave proposed - is not among them.
+  `--deep` reads `use_when` and was not enough. Every "we have no material on X" this
+  corpus has ever drawn from that instrument is suspect, and two independent lanes
+  reached that conclusion before the director did. Filed as owed tooling work, not as a
+  lead waiting on the world.
+- **Subject-level contention is not file-level contention, and `git status` is the
+  finer instrument.** The board claims subjects because that is the unit a run can name
+  in advance, but collisions happen at files. A sibling held `model-routing` for the
+  whole run while editing its golden path and adding a new technique; `failover-horizon.md`
+  was untouched, so an amendment inside it landed with zero collision and the golden
+  path's `techniques:` list was never opened. Check the board for who is in the
+  neighbourhood, then `git status` the specific file before deciding you are blocked.
+- **Regenerating under the `index` lock does not isolate you from uncommitted sibling
+  work.** The lock serializes writers; it does not give you a private tree. This run
+  regenerated correctly under the lock and the artifact came back referencing a
+  sibling's uncommitted technique six times. Committing it would have baked their WIP
+  into a hash in `HEAD` under this run's name. **After regenerating, grep the artifact
+  for content not in `HEAD`; if any is present, commit your content and leave the
+  generated files alone.** SKILL 1.3.1 carries this.
+- **Give a wave worker its reference in the message, not just the handle.** Two
+  mid-flight corrections went to the wrong lanes, off by one. One worker recognised the
+  message described a different paper, quarantined it, and said so; the other partly
+  absorbed it. A director holding eight lanes cannot address them positionally. Every
+  message to a wave worker should open with the arXiv id or title it is about.
+- **An annotation that paraphrases the abstract carries zero ranking signal**, and it is
+  the most common shape. Three of sixteen annotations were materially wrong - seeds
+  named as a dominant effect the paper measures as its smallest, "56 scenarios" that are
+  53, "48,000 scenarios" that are 300 base cases under ~160 conditions - and several
+  more were accurate and useless. Up-weight annotations naming a measurement, a negative
+  result or a contradiction; down-weight abstract paraphrase. The ranking heuristic
+  already does the first half; add the second.
+- **Read the benchmark table before the results table.** One paper's "eight benchmarks,
+  multiple LLMs, diverse agent frameworks" concealed that seven of eight are single-turn
+  QA and the agentic evidence is n=165. Neither the annotation nor the abstract could
+  have revealed it.
+- **Fetch `arxiv.org/html/<id>` first; the PDF endpoint returns undecodable compressed
+  streams through the summarizer** and costs a fetch to discover. One lane recovered a
+  full paper from the locally-saved binary with PyMuPDF at zero additional fetch cost.
+  Belongs in the wave worker brief.
+- **The wave stop rule should read the KIND of yield, not only its volume.** Wave 2 was
+  not thin - it produced three amendments and two catches - but its highest-value
+  outputs were corrections to our own premises rather than findings from its papers.
+  When the marginal reference starts returning less than the marginal correction, the
+  honest move is to stop and land, which is what the operator's yield-floor instruction
+  bought here. A third wave would have read more papers to answer questions that had
+  been answered or declared unanswerable.
+- **A negative that closes a line of enquiry is a first-class result.** The final lane
+  established that Family B's missing base rate is structurally unobtainable from
+  bug-report corpora at all: nobody files a ticket saying the agent gave them a
+  well-formatted answer they believed, and two corpora over the same technology reported
+  inverted symptom distributions because the reporting channel decides what gets filed.
+  That saved a wave 3 and is worth more than the papers that produced it.
+- **Class prediction held on both hard cases.** The paper-aggregator rule - authoritative
+  for its measurement in its protocol, weak for its framework - correctly predicted that
+  a fine-tuned guardrail's taxonomy table would carry the yield while its benchmark
+  (generated by its own synthesizer) would not, and that an internal-representation probe
+  would be beaten by its own black-box baseline. Twice the run's best finding came from
+  the half of a paper its authors were not selling.
+
+### Redesign proposal - not applied
+
+The two families this run landed were both discovered by hunting **our own enumerations**
+(a stated ranking, a stated inventory, a stated "what this does not buy"), and both were
+verified against the corpus rather than against the source. Meanwhile the papers'
+contribution was mostly to say which enumeration to open. If that holds for another
+reference-index run, the lane's ranking weights are aimed at the wrong thing: they rank
+references by what the reference might contain, when the higher-yield question is which
+of OUR enumerations a reference is positioned to test. That would be a different Phase 2c
+step 3 - rank the corpus's completeness claims first, then match references to them -
+and it is a redesign, not an adjustment.

@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 1.3.0
+version: 1.3.1
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index
 ---
 
@@ -597,6 +597,15 @@ A `new-subject` impact over a domain a live sibling holds is the one to distrust
 Read that sibling's claim, and prefer an amendment inside their subject over a competing
 one beside it.
 
+**A total empty over banned vocabulary is not evidence of anything.** The upper
+layers may not carry product, framework or scaffold names — `check-bundles.mjs` enforces
+it — so any query built from those names returns zero by construction. It measures the
+purity gate, not the corpus. On 2026-08-31 a run concluded the corpus owned no material
+on agentic workflow selection from a grep for two scaffold names, re-ran the same grep as
+verification, reported it as confirmed, and was refuted by two later lanes against a
+subject holding 1,794 annotated trajectories. **Map on concepts; never let a proper noun
+be the query that decides an absence.**
+
 **A near-empty is more dangerous than a total empty.** The instrument matches slugs, so
 it cannot see a concept that lives inside a document's prose. Zero hits usually means a
 real hole. Two or three weak, semantically unrelated hits mean one of two very different
@@ -810,6 +819,16 @@ node scripts/build-index.mjs && node scripts/build-catalog.mjs
 node scripts/check-bundles.mjs && node scripts/check-skills.mjs
 node scripts/run-board.mjs unlock index --run <id>
 ```
+
+**The lock serializes writers; it does not give you a private tree.** A regeneration
+under the lock still reads every uncommitted file in the checkout, including siblings'.
+On 2026-08-31 the regenerated index referenced a sibling's uncommitted technique six
+times, and committing it would have baked their WIP into a hash in `HEAD` under this
+run's name. So after regenerating, **check whether the artifact describes content that
+is not in `HEAD`** — `git grep <their-slug> HEAD` — and if it does, commit your own
+content and leave `index.json` and `catalog.json` uncommitted. A stale index in a shared
+checkout is a known, self-correcting state; a committed hash over somebody's half-written
+subject is not.
 
 If the gate goes red inside that lock on a file you do not own, **unlock first, then
 report it**. Holding the lock while you investigate somebody else's breakage stalls
