@@ -5,9 +5,9 @@ subject: machine-paced-delivery
 technique: human-gate-capacity
 status: forged
 stage: solo
-laws: [gate-sees-target, absent-guard-is-loud, count-carries-predicate]
+laws: [gate-sees-target, absent-guard-is-loud, count-carries-predicate, one-authority-per-vocabulary]
 shared_with: []
-use_when: [changes are merged faster than anyone could have read them, the reviewer is named as the bottleneck but never measured, one person both dispatches the agents and approves their merges, deciding whether to widen the autonomous path or send fewer changes]
+use_when: [changes are merged faster than anyone could have read them, the reviewer is named as the bottleneck but never measured, one person both dispatches the agents and approves their merges, deciding whether to widen the autonomous path or send fewer changes, one change is too large for anyone to review completely]
 ---
 
 # Human gate capacity
@@ -66,7 +66,7 @@ directions.
 
 ## What to measure
 
-Four numbers, each reported with its predicate per
+Five numbers, each reported with its predicate per
 [count-carries-predicate](../../../../_laws.md#count-carries-predicate):
 
 | measure | definition | what it decides |
@@ -74,6 +74,7 @@ Four numbers, each reported with its predicate per
 | **arrival** | verdicts requested per period, split by reserved-class vs routine | whether the gate is in its linear region |
 | **dwell** | requested until decided, as a distribution | whether verdicts are rendered or merely cleared |
 | **backlog age** | age of the oldest pending item | whether the gate is stalling instead |
+| **arriving size** | share of arriving changes above the review-feasibility threshold, bucketed | whether any single verdict was renderable at all |
 | **post-merge repair** | merged changes needing a follow-up fix inside a window, by author class | whether the verdicts were real |
 
 Dwell as a distribution, never a mean, for the same reason wait is: the interesting part is the
@@ -83,7 +84,7 @@ The last measure is the only one that scores the gate on its output rather than 
 it is available for free — `proposal-not-push` already requires provenance to be marked
 durably, which is exactly the split this measurement needs.
 
-Read the four together, because two opposite failures share a queue and have opposite remedies:
+Read them together, because two opposite failures share a queue and have opposite remedies:
 
 - **Stall** — dwell high, backlog old. Decisions are not being made. The gate is a scheduling
   problem.
@@ -125,6 +126,72 @@ Batching deserves its own note because it is the one lever that raises effective
 rather than lowering demand: homogeneous items of the same class and provenance are honestly
 one judgment, and the boundary is homogeneity — the rule and its failure modes belong to
 [review-queues](../../../../llm-agent/orchestration/hitl-approval/techniques/review-queues.md).
+
+## The same signature, from size instead of rate
+
+Everything above models the gate as a server overloaded by *arrival*, and every measure in the
+table counts items. A change is one item whether it touches four lines or four thousand, so
+there is a second route to the rubber stamp that the item counts cannot see: not too many
+verdicts, but one verdict nobody can render.
+
+The bundle already located the relationship and never connected it to this gate.
+[batch-size-thresholds](../../../../engineering-assessment/reporting-and-remediation/delivery-analytics/techniques/batch-size-thresholds.md)
+buckets change size against review feasibility and names its top bucket for exactly what happens
+there — *approval is a formality*. Past that bucket the verdict is not more expensive, it is
+**not rendered**, and an approval carries the same information as no review at all.
+
+Against the four measures a single oversized change is invisible in three and reads as health in
+two:
+
+| measure | rate-driven rubber stamp | size-driven rubber stamp |
+|---|---|---|
+| arrival | high, rising | **low** — it is one item |
+| dwell | falling | uninformative — long or short, uncorrelated with depth |
+| backlog age | near empty | near empty |
+| post-merge repair | rising | rising |
+
+Post-merge repair is the only measure both failures move, which makes it the detector and
+arrival the discriminator. **A gate with rising post-merge repair and a low arrival rate is not
+under-resourced; it is being handed changes nobody could have read.**
+
+The distinction earns its place because the remedies point in opposite directions. The ladder
+above reduces arrival. The remedy here *raises* it: one unreviewable change becomes eight
+reviewable ones, the gate's item count goes up eightfold, and the number of verdicts actually
+rendered goes from zero to eight. A team that reads that rising arrival as overload and responds
+by batching the work back together has walked into the failure it was measuring.
+
+### A split is real when each piece can be accepted alone
+
+Decomposition is the canonical gameable move and the bundle says so: splitting at boundaries
+chosen to satisfy a threshold produces more proposals, more review overhead, and no more
+scrutiny. So the lever is not "split large changes". It is the predicate
+[proposal-not-push](./proposal-not-push.md) already applies to concerns, carried over to size:
+
+> A change may be divided when each piece is independently mergeable and independently
+> worth merging.
+
+`proposal-not-push` rejects the multi-concern branch because it cannot be partially accepted, so
+at volume it is accepted whole. Pieces cut at arbitrary line boundaries inherit that defect in a
+new place — piece four means nothing without piece three, so the reviewer is still deciding about
+the whole change, now across eight windows instead of one, and paying more for the privilege.
+Independently acceptable pieces convert one formality into eight verdicts. Merely smaller pieces
+convert one formality into eight.
+
+The threshold table, its unit, and its exclusions stay where they are defined
+([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)); what belongs
+here is that the share above it is a gate measure and not only a reporting one.
+
+**Validate the unit before trusting the measure, because the obvious one can carry none of the
+signal.** The owning table names the unit as a choice — changed lines, files touched, hunks — and
+leaves it open. That choice is not cosmetic and it is not safe to inherit. Measured over one
+repository's 7,773 changes, post-merge repair rose from 34% to 92% across bands of *files
+touched*, monotonically; within each of those bands the same population showed no reliable
+gradient in *changed lines*, and in the single-file band it ran backwards. Read without the
+control, a line-based size measure reproduces the files-touched result and appears to confirm
+itself, because larger changes touch more files. So a gate adopting this measure states its unit,
+holds the other candidate fixed once, and keeps the unit that still separates. A change touching
+twenty files and two hundred lines is the one the reviewer cannot hold in their head; a
+thousand-line change to a single file may be the easiest verdict of the week.
 
 ## The gate that reviews its own commission
 
@@ -185,7 +252,16 @@ measurement on the right side of that line.
   post-merge repair rising); they have opposite remedies.
 - Human gate capacity is fixed in the window that matters — reduce arrival rather than expecting
   the gate to absorb it.
-- Per-item slimming is a constant factor; it cannot absorb an order-of-magnitude arrival change.
+- Per-item slimming is a constant factor for *shape* work — provenance, form, one stated concern —
+  and it cannot absorb an order-of-magnitude arrival change. Size is not in that class: review
+  effectiveness falls off a cliff rather than declining smoothly, and past it no factor describes
+  an unrendered verdict.
+- Rising post-merge repair with *low* arrival is the size-driven rubber stamp, and its remedy
+  raises arrival rather than lowering it.
+- Divide a change only where each piece is independently mergeable and independently worth
+  merging; pieces cut to satisfy a threshold buy no scrutiny.
+- State the size unit and validate it against the other candidate once; a line-based measure
+  confounded by surface area will confirm itself.
 - Never widen the autonomous path across the classes `proposal-not-push` reserves, whatever the
   arrival rate.
 - Publish no gate metric without a named response to it, including an accepted service level.

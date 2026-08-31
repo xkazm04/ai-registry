@@ -148,7 +148,10 @@ four separate the two failures that share this queue — a stall, where nothing 
 rubber stamp, where everything is — and they have opposite remedies. The remedy for the second
 is not a faster reviewer, because there is no such purchase: it is fewer changes arriving, or a
 narrower class of change that needs a verdict at all, bounded by the classes `proposal-not-push`
-will not delegate at any arrival rate. The measures, the two signatures, the ordered levers, and
+will not delegate at any arrival rate. One caveat travels with that list, because it is the one
+case where the remedy inverts: a change large enough that no verdict on it was ever rendered
+produces the same rubber stamp at an arrival rate of one, and is fixed by dividing it — which
+raises arrival. The measures, the two signatures, the ordered levers, and
 the reason a one-person gate is a check rather than an independent review are
 [human-gate-capacity](./techniques/human-gate-capacity.md).
 
@@ -244,7 +247,8 @@ the humans who remain accountable for what that author produces.
 - [proposal-not-push](./techniques/proposal-not-push.md) — autonomous work as a reviewable
   proposal, the changes an agent may not author, and reviewability at volume.
 - [human-gate-capacity](./techniques/human-gate-capacity.md) — the merge gate as a server with
-  a fixed rate, the rubber stamp separated from the stall, and demand as the only lever.
+  a fixed rate, the rubber stamp separated from the stall, demand as the only lever, and the
+  size-driven case whose remedy runs the other way.
 - [stake-before-merit](./techniques/stake-before-merit.md) — admission for arrival the gate does
   not control, on a predicate readable before the diff is.
 - [pre-authorship-verification](./techniques/pre-authorship-verification.md) — the gate run
