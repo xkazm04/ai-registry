@@ -2748,3 +2748,78 @@ converting, the shape is: the ledger row gains an explicit `lens:` field, the ch
 becomes "mined under this lens?", and `/intake` grows a `--relens` affordance that loads
 the prior note's untriaged table as its Phase 3 seed rather than re-extracting from
 scratch. Deferred until a third re-sweep confirms the yield.
+
+## 1.3.0 - 2026-08-31 - openmontage
+
+- **A clone can report success and be missing half the tree, and no phase tells you to
+  check.** The first clone of this source, taken under the scratchpad prefix, dropped
+  2,159 files - the entire `.agents/skills/` directory, 506,542 words, the densest half
+  of the repository - to Windows path limits, printed a normal-looking completion, and
+  left `git status --short` showing thousands of `D` entries. Phase 2b's warning about
+  long paths exists but is filed under *taking a worktree*, not under *cloning a source*,
+  and it warns about the failure without naming the check. A run that swept the truncated
+  tree would have found `lib/` and `docs/` intact, produced plausible findings, and
+  recorded a word count off by an order of magnitude - with nothing anywhere saying it
+  had read a partial source. **The check is one command and belongs immediately after the
+  clone**: `git -C <dir> status --short` must be empty. Two more sightings and this is a
+  line in Phase 2b rather than a lesson.
+
+- **When a source cites a primary for its central rule, the fetch is the extraction, not
+  politeness.** `reviewer.md` grounded its severity rule on a named arXiv paper. The
+  paper is real - and the source had renamed its three axes (precision/recall/
+  constructiveness became Accurate/Complete/Constructive) and attributed it to two
+  institutions the listing does not support. The renaming was the expensive part: it
+  converted a *retrieval pair that trades off* into three parallel virtues, which is
+  exactly the structure a reviewer needs and exactly what the paraphrase destroyed.
+  Writing against the paper produced a materially better technique than writing against
+  the source would have. This is the third time the ledger records a corroboration fetch
+  correcting rather than confirming, and it is now the reliable use of the budget: spend
+  it where the source leans on someone else's authority, not where it reports its own work.
+
+- **The two strongest findings both came from hunts, not from what the source emphasised.**
+  The delivery-promise technique came from the enumeration hunt - the golden path stating
+  what a *probe* does with a dropped dimension, and silently not covering a *delivery*
+  that drops one. The coverage contract came from an asymmetry **inside the source**: it
+  held both the named form and the enumerated form of the same contract test, in two
+  files, with only the second one's docstring explaining why. Neither was what the
+  repository advertises. Worth noting as calibration rather than as a new rule: on a
+  943k-word tree the README's emphasis and the tree's yield were uncorrelated, and the
+  file that explained the method best was a test docstring.
+
+- **Two of three apply rows found the target tree had already reached the rule.** Not a
+  null result - it is the cheapest corroboration available, and it changed what got
+  written: in both cases the technique's *gap* moved downstream of where the source put
+  it, because the obvious half was already solved in a tree nobody had consulted. The
+  apply stage keeps behaving as a second source rather than a checkbox, which is the
+  third run running that this has happened.
+
+
+## 1.3.0 - 2026-08-31 - omniroute
+
+- **The losing arm of an A/B is often the finding.** The run tested three arms, not two:
+  current behaviour, the technique applied naively, and the technique applied as written.
+  The naive arm was *harmful* in a way the correct arm was not (0/6 high-intent items
+  served under congestion), and that contrast is what promoted a caveat inside the freshly
+  written technique into a stated boundary with a measurement behind it. A two-arm A/B
+  would have returned `better` and taught nothing about how to apply the thing. **When a
+  technique carries a distinction that an implementer could plausibly collapse, make the
+  collapsed version the third arm.** It costs one more run of the same harness.
+- **Ship was blocked by not asking, not by the missing affordance.** Five consecutive runs
+  recorded ship 0 and attributed it to the invocation being unable to carry a standing
+  project authorisation. That affordance is still worth having, but this run got its
+  confirmation in one turn by simply putting the question after the verdict came back —
+  with the measured numbers and the exact diff shape in the options. The standing lesson
+  should be: **a `better` verdict on a real seam obliges the run to ask, in that turn.**
+  The scorecard's declared focus was doing its job; what it could not do was make a run
+  raise the question.
+- **Two of four landings contradicted the corpus, and both came from reading the corpus
+  file rather than the source.** The source did not know what this registry says. The
+  contradiction surfaced because Phase 6 opened `depth-bounds-and-shed` and
+  `priority-and-fairness` in full and found, in each, a sentence whose *reasoning* the
+  source had already paid to disprove. Slug-level prior art would have reported both as
+  covered. This is the third run to say the technique-file read is where contradictions
+  live; it may be worth promoting "read the neighbour's reasoning, not just its scope"
+  into Phase 6's numbered hunts.
+- Minor: application frontmatter `stack:` must come from the bundle's declared `stacks:`
+  list; two files were written as `typescript` when the bundle declares `next`. Caught by
+  the gate. Worth a glance at `index.md` before naming a stack in a new application.
