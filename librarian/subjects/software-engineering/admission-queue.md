@@ -141,3 +141,55 @@ resource and abandons the user, and only an attested key restores their slice.
 you must hold) and the caller-versus-entry gap. Measured on real rows: 3.6x, with
 no starvation anywhere, and the shipped concurrency constant derived to two
 decimals. The two additions turned out to be one error at two timescales.
+
+### 2026-08-31 - `/intake`, from a client-side pacing library
+
+`depth-bounds-and-shed` gained a section, `gate-sees-target` and one `use_when`
+entry. Source: [[2026-08-31-tkdodo-pacer]]. Technique count unchanged - this was
+the cheaper move and the right one, because the material belonged inside a
+technique that had already named the policy.
+
+**The finding came from the denial hunt, and the denial was in the sibling
+file.** `priority-and-fairness` says "Priority orders the wait; it does not skip
+the gate" and forwards its single exception - reject-by-class shed - to
+`depth-bounds-and-shed`, which duly lists it among three canonical policies. The
+forward pointer resolved; what it resolved *to* was a menu. Both files described
+reject-by-class as something a designer selects and neither said what makes it
+implementable: **the gate has to evaluate class before depth**, and the natural
+code shape does the reverse for a good reason, because the capacity test is a
+length comparison available immediately while the class must be derived from the
+arrival. So the priority function reaches only the insertion sort, and the shed
+policy is refuse-newest - selected by nobody and indistinguishable in
+configuration from the policy the designer believes they chose. That is
+`gate-sees-target` at the admission gate: the check that refuses agrees with the
+intended policy everywhere except the arrival the policy existed for.
+
+The amendment is this technique's own mechanical test, turned one level up. It
+already asked whether you can walk from the declared bound to the line that
+refuses because of it; it now asks the same of the declared priority.
+
+**Both the source and the consuming project had the defect, and neither test
+suite could have seen it.** The source's two packages carry 8 priority tests and
+7 capacity tests each and zero that construct both; the project carries 34 tests
+and zero that construct a queue which is bounded *and* prioritized. The policy
+lives only in the intersection, which is why the amendment ends by naming the one
+case that has to exist rather than the rule to believe.
+
+Applied to `personas`, **code / better**, not shipped. This subject's own evidence
+overlay had recorded the project as "bounded depth with refuse-newest shed",
+filed as a chosen policy - and it was an inherited one, which is the small
+correction that overlay now owes. Arm A 33 passed/1 failed, arm B 34/0 on the
+same binary. The durable half is the effort split: the comparison was four lines
+and revoking the displaced promise was the rest of the change, which is the
+concrete instance of the amendment's claim that sorting makes the easy half look
+like the whole job. Ship blocked on `environment` - the change crosses a crate
+boundary and the caller crate does not build on this checkout for unrelated
+pre-existing reasons.
+
+**Open lead (return condition attached).** Displacement here arbitrates one
+origin's own line, because the bound is per-origin. A single shared bound across
+origins turns displacement into a fairness decision rather than a priority one,
+and this run did not answer it. Return when a second tree carries a global
+bounded queue with mixed classes across origins - that is the shape where
+`priority-and-fairness` and `depth-bounds-and-shed` genuinely have to be read
+together rather than in sequence.

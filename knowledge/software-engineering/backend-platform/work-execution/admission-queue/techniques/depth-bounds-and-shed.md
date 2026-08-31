@@ -4,9 +4,9 @@ type: technique
 subject: admission-queue
 technique: depth-bounds-and-shed
 status: forged
-laws: [failure-not-empty-success, creation-names-reaper, count-carries-predicate]
+laws: [failure-not-empty-success, creation-names-reaper, count-carries-predicate, gate-sees-target]
 shared_with: []
-use_when: [deriving how deep the queue may grow, picking which arrivals to shed at the bound, bound keeps getting raised under pressure]
+use_when: [deriving how deep the queue may grow, picking which arrivals to shed at the bound, bound keeps getting raised under pressure, urgent work is refused while bulk work waits in the queue]
 ---
 
 # Depth bounds and shed
@@ -103,6 +103,53 @@ finds out by silence is a data-loss bug
 and every entry's possible exits, shed included, are enumerable at enqueue
 ([creation-names-reaper](../../../../_laws.md#creation-names-reaper): shed is one
 of the named reapers, never an unnamed one).
+
+## Reject-by-class is foreclosed by the order of the two checks
+
+The three policies above read as a menu, and one of them is not freely
+available. **Reject-by-class exists only if the gate evaluates class before it
+evaluates depth**, and the natural implementation order is the opposite one —
+for a good reason. The capacity test is a length comparison, available before
+anything about the arrival has been examined; the class usually has to be
+derived from the arrival's payload. So the cheap check runs first and returns
+the refusal, and the class is computed afterwards, on the survivors, where it
+decides *insertion position*. The queue now holds a priority function and a
+bound, and its shed policy is refuse-newest — selected by nobody, and
+indistinguishable in configuration from the policy the designer believed they
+chose.
+
+This is [gate-sees-target](../../../../_laws.md#gate-sees-target) standing at
+the admission gate. The check that refuses reads depth and arrival order, never
+the class it is thought to be protecting, so it agrees with the intended policy
+everywhere except the one arrival the policy existed for: the urgent request
+that shows up behind a full queue of bulk work. It diverges only at saturation,
+which is the condition this subject is hardest to diagnose under and the only
+condition in which the priority levels were ever going to matter.
+
+The test is the mechanical one this technique already applies to the bound,
+turned on the class: **from the declared priority, can you walk to the line
+that refuses because of it?** A priority function reachable only from the
+insertion sort is an *ordering* — it decides who leaves the queue first and
+holds no vote on who enters. Ordering and admission are different powers, and
+configuring the first does not confer the second.
+
+Two consequences worth stating:
+
+- **Reject-by-class needs a displacement rule, not merely a comparison.** At
+  the bound, every position is already a promise; admitting the urgent arrival
+  means naming which resident loses its place and telling that resident why
+  ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+  A design that only sorts has no such rule, which is the deeper reason
+  implementations stop at ordering: the hard half is the eviction, not the
+  comparison, and a sort makes the easy half look like the whole job.
+- **Both features test clean and the policy still fails.** A depth bound is
+  easy to cover and a priority ordering is easy to cover, and each suite passes
+  in full without ever constructing a queue that is bounded *and* prioritized.
+  The policy lives only in the intersection, so one case has to exist on
+  purpose: a maximum-priority arrival at a queue full of minimum-priority
+  residents, asserting which of the two is present when it settles. An
+  implementation that has never run that case has not chosen a shed policy; it
+  has inherited one.
 
 ## Backpressure: making producers participate
 
