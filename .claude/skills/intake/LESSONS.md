@@ -3873,3 +3873,42 @@ measurement.
   experience and changes a mandatory phase; the scorecard's next focus tests it
   cheaply first.
 
+
+## 1.4.0 - 2026-08-31 - future-agi
+
+- **The ship valve has a third position the scorecard does not model: indeterminacy.**
+  The previous row's focus offers confirmation and size. This run was authorized and the
+  change was two lines, and it still correctly shipped nothing behavioural, because the
+  audit's finding sat in a code path with no production caller where the right increment
+  semantics is an open question. Written up in the scorecard addendum, with the
+  generalization: **change-shaped vs check-shaped techniques**. A check-shaped technique
+  applies by running against a tree and produces a finding, not a diff, so it reads
+  ship=0 under the current definition no matter how well it was applied. Not folded into
+  `SKILL.md` — it is one run's observation and the scorecard's next focus tests it
+  cheaply first.
+
+- **Amending a technique that landed the same day is a good outcome, not a collision.**
+  `probe-without-write-back` was created hours earlier by a sibling intake run from a
+  different source. This run read it as prior art, found a source that contradicts one of
+  its closing claims, and amended it. Nothing in the method anticipates this case and it
+  is worth naming: the board makes it *safe* (the sibling was at phase 11 and held other
+  subjects), but what makes it *valuable* is that a fresh technique has an author's
+  argument still legible in it, so the counterexample lands against a stated position
+  instead of against inferred intent. When `research-map` returns a technique dated
+  today, read it harder rather than treating it as settled.
+
+- **Phase 4's "map on concepts, never proper nouns" rule paid immediately.** The source's
+  vocabulary is entirely product and framework names; a map built from them would have
+  returned the empty result the 2026-08-31 correction warns about. Mapping on
+  `memory eviction policy`, `usage tracking`, `context compaction` and `soft delete`
+  reached the corpus's most mature subject on the first call. No change proposed; this is
+  the rule working, recorded so the next run trusts it.
+
+- **A `not-better`-shaped honesty case worth keeping: `unmeasurable` because the fleet
+  already agrees with you.** The second amendment found no seam in any managed project —
+  and the reason was that two independent trees had already implemented the branch it
+  recommends, by two different mechanisms. That is corroboration for the default *and*
+  the reason it is untestable, and the two facts are the same fact. The method's
+  `unmeasurable` row wants an instrument named; it should probably also distinguish
+  "no seam because nobody built this yet" from "no seam because everybody already got it
+  right", which are opposite signals about the technique's value.

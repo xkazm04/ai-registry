@@ -170,6 +170,7 @@ which is where this run decided it.
 | 1.3.1 | 2026-08-31 | voltagent-awesome-ai-agent-papers (wave-3 leads, landing pass) | 0 (no new source - banked findings) | 0 | 15 | 15 | 2e/0c/0s (13 unapplied, one reason) | 0 | **The pass that cleared the backlog the previous row named.** 15 banked amendments landed across 10 files in 3 file-batched scripted passes, gate between each. Two applied with paired arms on a live store and both `better`: referential integrity passes 74/74 where the read-back passes 14 and fails 60, on a schema carrying an unused `verified_at` column; and 693 memory nodes against 14 edges. Apply rose from 0 to 2 because the seam was found by **grepping the schema rather than the source** - three earlier passes looked for code implementing the decision and walked past a store that already had a column for the check. Ship 0: both arms are read-only measurements, no product change proposed. |
 | 1.3.1 | 2026-08-31 | verou-2026-blog (XL follow-up) | 0 (no new ingest - the banked XL row from the same source) | 4 folded | 4 | **7 (1 new subject: golden path + 6 techniques)** | 1 row / 7 landed (0c/1e/0s; 5 unapplied with per-technique reasons) | 0 (the repair is architectural, not a diff) | **The previous row's declared focus, tested immediately and answered.** That row said an `XL` candidate loses every head-to-head against a technique that lands in one file, and proposed pricing it in the triage table. The operator instead picked it directly, which produced the better experiment: the XL row *was* built, in the same session, from context still loaded - and the cost came in far below what the triage table would have estimated, because the four cheap rows it absorbed were the same four candidates that made it XL. **The generalizable form is stronger than the pricing proposal**: an XL row's cost is not additive with the small rows beside it, it is *substitutive* - four fragments folded into one subject cost less than four techniques written separately, because the fragments were always one subject that extraction had shattered. A triage table that prices XL against the cheap rows is still pricing it wrongly, just more precisely. Second observation: `apply` coverage was 1 of 7 and the row does NOT treat that as a miss - a new subject's techniques are not seven independent findings, and four of the five untested ones need a project that *owns a resolver* rather than one that consumes somebody else's, which no managed project does. The row states that per technique rather than as one reason |
 | 1.4.0 | 2026-08-31 | github:TkDodo/react-query-beyond-the-basics | 1 repo @ `32c39be` (**158-word README, 13 source files - and seven feature branches whose diffs are the actual source**) | 10 | 1 verified + 3 caught | 1 technique + 1 golden-path correction (2 subjects touched) | 1e/0c/0s | 0 | **Ship 0 for a reason the standing binary does not cover: neither confirmation nor size, but that the verdict never reached `better`.** The seam is real and structural (7-field params bag, 3 identifying + 4 windowing, no retention, search setter does not reset the page) and **latent** - pagination is off by default with no caller enabling it and no shipped control calls the sort setters, so no gate can see a difference no user can trigger. Recorded `unmeasurable` with the instrument named rather than promoted to `better` on a structural confirmation. **Declared focus (price the XL row) was a no-op and is reported as such**: no row this run was XL, the largest being one technique document. Extract 10 / test 1 reflects an operator pick of one row, not a triage failure - 4 rows recorded untriaged with anchors |
+| 1.4.0 | 2026-08-31 | `github:future-agi/future-agi` @ `5b84ef4` (operator-directed at memory) | 1 repo (2676-word landing page vs **42422 in-tree md**, 16x; ~2500 LOC memory path is where all yield was) | 9 | 3 verified + 3 caught | **2 amendments, 0 new techniques** (2 subjects, 2 bundles) | **1e/0c/0s** (1 of 2 unapplied — no managed project carries the seam, reason in the row) | **1** (comment-only slice; behavioural fix withheld — see below) | Focus 1 (price any XL row) **N/A and said so before the table**: against a 13-technique subject every real finding was an amendment, so no XL row existed to price. Focus 2 (name the valve when `better` ships nothing) **moved, and found the dichotomy incomplete** |
 
 Reading the last ten rows: **ship is still the weakest stage — zero in ten of ten** —
 but the diagnosis has finally bottomed out. Four consecutive rows named four different
@@ -307,3 +308,34 @@ history, not an `experiment` over its present), rather than discovering it after
 the harness is built. A run that reports `unmeasurable` should say whether the
 seam was latent *before* or *after* it wrote the instrument.
 
+
+**Addendum from the `future-agi` row.** Focus 2 asked a run reaching `better` to name
+which of two valves blocked the ship — confirmation or size. This run reached `better`,
+shipped, and found the dichotomy is missing a third case: **indeterminacy**. Neither
+valve applied. The change was authorized by the pick and would have been two lines. It
+did not ship because the audit's finding was a delivery surface with no production
+caller, where "one delivery" of a file the consumer re-reads every turn is not obviously
+one increment. Shipping a guess would have hardened the wrong semantics in a path nobody
+can yet observe.
+
+The generalization is worth more than the instance, because it explains a run of zeros
+the two-valve reading has been mis-attributing. **Techniques divide into those whose
+application is a change and those whose application is a check.** A change-shaped
+technique applies by editing a seam, and its ship is a diff. A check-shaped one —
+this amendment, `lane-reconciliation`, `coverage-instrumentation`, `blast-radius-computation`
+— applies by *running* against a tree, and its output is a finding, not a patch. Graded
+on "did you commit code", a perfectly applied check-shaped technique reads ship=0
+forever, and the scorecard then names ship as the weakest stage when what actually
+happened is that the stage was mis-defined for half the corpus.
+
+What a check-shaped technique can always ship is the artifact that makes the check
+repeatable: the corrected inventory, the test that pins the enumeration, the lint. That
+is what shipped here — the tree's memory contract named one caller and had three, and
+correcting it is what stops the next reader running the audit against a stale comment
+and concluding the store is sound.
+
+Next run's declared focus: **classify each landed technique as change-shaped or
+check-shaped before choosing the Phase 7.5 mode, and for a check-shaped one, name the
+repeatability artifact — a test, a lint, a corrected inventory — as the ship candidate
+rather than reporting ship=0.** A run that lands a check-shaped technique and ships
+nothing should say what artifact it considered and why it was not reachable.
