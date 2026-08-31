@@ -4110,3 +4110,56 @@ measurement.
   reachable.** Worth watching for a second sighting before it becomes method text; it is close
   to the corpus's own "defaulting to zero at a read site is the most common laundering point"
   and may belong there rather than here.
+
+## 1.4.0 - 2026-08-31 - tkdodo-vertical-codebase
+
+- **An enumeration is one-sided until you check its polarity.** The enumeration hunt has now
+  produced the run's best finding three times in five runs, but this run sharpens what to ask
+  of one. The golden path listed nine failure modes; the useful question was not "what tenth
+  item is missing" — that invites invention — but **"do all nine fail in the same direction?"**
+  They did: every one was structure being too weak, misplaced or decorative, and none was
+  structure being too *effective*. A list whose every entry shares a polarity is missing the
+  opposite pole, and that is a mechanical check over an enumeration rather than a creative act.
+  Same shape as the 2026-08-27 lesson that a denial ("these are not mirror images") can deny
+  too much, and cheaper to run.
+
+- **When an apply instrument matches on a NAME, its top-ranked hits are the ones most likely
+  to be false — hand-check those first, for exactly that reason.** Arm B here ranked six
+  `validate_*` functions and `is_private_ip` at the top, and every one was a private adapter
+  forwarding to the public implementation, which is the healthy single-door pattern. The
+  reason is structural and generalizes past this instrument: **a well-built codebase
+  deliberately reuses the name at the boundary it delegates across.** So name-collision
+  ranking is positively correlated with the healthy pattern, and an instrument that reports
+  its rank-1 hits as findings will confidently report good practice as a defect. The fix was
+  not more care — it was a second predicate (a body that calls a function of its own name is
+  forwarding, not reimplementing), which moved 15 of 67 out. **The refutation was worth more
+  than the original measurement**, and this is the fourth run to say a source or instrument
+  that gets something wrong hands you the boundary.
+
+- **The blocker classes attach to cases, not to rows.** The focus asked for one class per
+  `better` row. This row honestly needed two — `confirmation` for the row, `indeterminacy`
+  for one of two cases inside it — and collapsing them would have discarded the half that
+  names the question the operator has to answer.
+
+### Redesign proposal - ask for the tree at Phase 5, not at Phase 8
+
+`confirmation` is the most frequent ship blocker across the last ten rows, and it is a defect
+in this method's own prompt rather than a fact about operators. Phase 5 has the operator
+present and asks one question: which candidates to land. By then Phase 4 has named each
+finding's domain, and `loadFleet()` can list the projects declaring it — so the run already
+knows which trees a `better` verdict would implicate, and asks about none of them. It then
+spends its full budget, reaches a verdict warranting a change, and discovers at Phase 8 that
+it lacks an authorization that was free to obtain an hour earlier.
+
+The proposal is one added clause in the Phase 5 question: alongside "which should I verify and
+land", ask **"and may I edit `<project>` if the test comes back better?"**, naming the
+specific projects Phase 4's domains implicate. It costs the operator one word, it is asked
+while they are already in the chair, and it converts a class of zero that the last two runs
+correctly reclassified as "not a failure" into an actual ship attempt.
+
+Not applied here, and deliberately. Seven sessions were live on the board at Phase 11, all
+reading `SKILL.md` from the version they loaded at their own Phase 0, and a Phase 5 prompt
+change is precisely the edit a mid-flight run cannot absorb. It also wants the operator's
+judgment: pre-authorizing a tree before the verdict exists is a different consent than
+approving a diff, and that trade is theirs to make, not this run's. **A mid-flight run that
+reads this should do nothing about it and finish on the version it loaded.**
