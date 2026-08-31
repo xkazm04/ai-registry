@@ -7,7 +7,7 @@ stack: rust
 status: forged
 verified_on: 2026-08-31
 verified_against: rust@1.96.1
-applied: experiment
+applied: code
 ab_verdict: better
 proof: ab-paired
 ---
@@ -60,6 +60,31 @@ six alarming repairs. Hand-verified: one, possibly two.** Every correction came
 from opening the commit, and the error ran in the direction of alarm — the
 classifier nominates the teams that write carefully about hardening their own
 code. The technique now carries that limitation in its own text.
+
+## What shipped, and what was removed to ship it
+
+The harness landed in the project as a maintainer-facing script beside its
+existing measuring script, documented in the contribution guide, and **the
+severity ranking was removed before it shipped.** That was not a scope
+concession; it is the finding above, applied. What ships prints the counts and
+the density — which are mechanical and survived verification — and then prints
+the repair *subjects* for the top units, so the classification a keyword matcher
+got wrong three times in four is done by the person who has to act on it. The
+counts rank the reading order; they do not rank the risk, and the script says so
+in its own output.
+
+Two design choices follow the same rule. It prints the **revert count first**, so
+the reason the instrument exists is visible in its own output rather than only in
+a commit message — a reader who sees `reverts 0` above the ranking understands
+immediately why the ranking is there. And it states both blind spots at the
+bottom of every run: that the unit is a proxy, and how many in-range commits
+carry no scope at all (4 of 59 at the tested instant). A count that hides its
+uncounted population is not a measurement, and the honest place to say so is the
+output, not the documentation.
+
+It refuses loudly rather than defaulting: an unresolvable instant, an empty
+range, and no tag to fall back on each exit 2 with a named reason. All three
+refusal paths were proven red before the green run was trusted.
 
 ## What this realization cannot do
 
