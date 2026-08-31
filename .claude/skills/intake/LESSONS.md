@@ -3086,3 +3086,69 @@ and it is a redesign, not an adjustment.
   shared artifact is the **build**, not just the files. For a compiled project the test
   should be "is another session building or testing this tree right now", which is one
   process query, and the answer changes whether you edit before or after committing.
+
+## 1.3.0 - 2026-08-31 - tc39-proposals
+
+- **The reference-index class needs a discriminator, and the ratio test is not it.**
+  This source passes the ratio tell overwhelmingly - 1,603 unique outbound links over
+  ~10,900 in-tree words - and Phase 2c's lane would have enumerated ~200 references,
+  ranked them, and read them in waves. It would have been near-total waste: the
+  references are individual language-feature proposals, every one of which strips to
+  `nothing` against all eight bundles, so a full campaign spends ~40 fetches to return
+  ~200 honest negatives. The yield sat entirely in what Phase 2c treats as annotation.
+  **Each row was a maintained RECORD - stage, owner, a per-stage evidence column, a
+  dated notes trail, a rationale for the dead - so the table's schema was the source
+  and the bibliography was decoration.** The discriminator to ask after the ratio test
+  fires: *does the curator maintain per-row STATE over time, or only select rows?* A
+  bibliography selects; a tracker maintains. Only the first is a wave lane. Second
+  reference-index run in the ledger (after `voltagent-awesome-ai-agent-papers`, which
+  was genuinely the wave shape) and the two answer it differently, which is what makes
+  it a discriminator rather than a preference.
+- **Read what the columns do DIFFERENTLY at different stages.** The single highest-yield
+  observation in the run was not any row's content but that the column set changes per
+  stage - and the one fetch confirmed the change tracks the process's entrance criteria
+  exactly. A tracker's schema is its author's model of their own pipeline, stated in a
+  form that cannot hedge. That is the same instinct Phase 2b applies to a checker ("the
+  file that implements a rule the README merely names"), transposed to a table.
+- **The `index` lock serialises regenerations, not the tree they read - and the method
+  currently implies otherwise.** The regeneration ran correctly inside the lock and
+  still baked a sibling's uncommitted technique into the artifacts, because a lock
+  cannot see a file already sitting in the shared working tree. SKILL.md's anti-pattern
+  ("a regeneration over a sibling's half-written subject bakes their WIP into an
+  artifact you then commit under your name") describes the outcome but the procedure
+  offers the lock as the remedy, and the lock cannot deliver it. **The cheap corrective,
+  worth adding to Phase 7: inside the lock and before regenerating, run `git status
+  --short` over the bundles you touched; foreign untracked or modified files there mean
+  the artifacts you are about to write are not yours to commit, and the right move is to
+  regenerate anyway (siblings need it) and leave the artifacts unstaged.** That is what
+  this run did.
+- **A contended golden path is not always separable at commit time, and the method's
+  stated resolution assumes it is.** SKILL.md says the second run "writes its technique
+  and takes the `content` lock for the golden-path line alone." That works when the
+  collision really is the `techniques:` list. Here both runs also added a prose section
+  and a techniques-list entry, so by commit time the shared file held three
+  interleaved edits from two runs and no clean pathspec or index surgery could separate
+  them - staging a partial version would have orphaned the sibling's declaration, and
+  staging the whole file would have committed their content. **Resolution that worked
+  and generalises: commit your own new documents and ledgers, leave the shared spine
+  entirely to whoever commits last, and say so in the commit message.** The spine's
+  worktree copy already declared BOTH runs' techniques, so HEAD self-heals the moment
+  either run commits it - a transient integrity red that repairs itself is strictly
+  better than either run touching the other's prose. Worth stating in Phase 10 beside
+  the pathspec rule.
+- **Note on `git commit -- <pathspec>`, which the method leans on hard.** A pathspec
+  commit takes the WORKTREE state of those paths and ignores the index, so it cannot be
+  used to commit a curated subset of a contended file. Where a shared file must be
+  split, the index is the only lever (`git hash-object -w` + `git update-index
+  --cacheinfo` stages a variant without touching the worktree) - and this run tried that
+  before concluding the edits were not separable and abandoning it. The lesson is not to
+  use the trick; it is that the pathspec rule and "stage your new files by name" are two
+  different mechanisms and the method treats them as one.
+- **Apply produced corpus content twice, and the `unmeasurable` row was the useful
+  one.** Running `item-liveness`'s own diagnostic against a second seam found its
+  precondition missing - a flat status queue has no per-item trail, so "last-touched is
+  free" holds only where dated per-item events already exist. The technique gained that
+  condition and the schema cost. Fifth consecutive run where the A/B tree acted as a
+  second source rather than a checkbox; the pattern is now strong enough that the apply
+  step should probably be described in SKILL.md as a corroboration lane, not only as a
+  proof lane.
