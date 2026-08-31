@@ -4499,3 +4499,60 @@ into `references/reference-waves.md` when someone next edits it deliberately.
   missing opinions or missing stages this run; both were **missing relations
   between two things the corpus already models separately** (two anchors, two
   references). Second sighting of this shape would be worth a method line.
+
+## 1.5.0 - 2026-08-31 - breeze-tts2-local-voice
+
+- **Read the corpus's enumerations while you listen, not after.** All three
+  landings this run came from holding three of the target bundle's own
+  completeness claims in mind during the transcript read - a six-axis decision
+  matrix, a capability-axis list, and a four-item audition script - and asking of
+  each segment whether it walks past a case the enumeration does not contain.
+  Phase 6 already says to hunt enumerations once a candidate has a home; this run
+  says the hunt belongs at Phase 3, because it changes what gets *extracted*.
+  Ranked by the source's own emphasis - dwell time, confidence, what the creator
+  frames as the headline - the top three candidates were the leaderboard
+  position, the language count and the streaming latency, and all three are
+  catches. The enumeration pass and the emphasis pass select disjoint sets, and
+  only one of them is worth a verification budget. This is the second consecutive
+  run to record a version of it (the previous one as "contradict the corpus's own
+  denials"); a third sighting makes it a rule this file should carry at Phase 3.
+- **A sponsored hybrid splits more cleanly than the class table implies, and the
+  split is worth stating as a prediction before extraction.** Twelve minutes of
+  tour half - vendor-supplied compute, no failures, no reject counts - yielded
+  nothing, and every landing came from the operating half. The generalisable tell
+  is not sponsorship but *who is exposed by the claim*: the tour half describes a
+  product the creator did not build and is not accountable for, the operating
+  half describes what happened to a machine he owns. Saying which half you expect
+  to pay before you extract makes a zero from the other half read as calibration.
+- **A source whose whole class is "reliable only for that it shipped" can still
+  beat its average, and the discriminator is whether the corpus's model of the
+  domain is older than the source's.** The voice package modelled a voice as a
+  reference picked from a catalog. Any source describing an engine that *authors*
+  voices would have contradicted it, regardless of that source's quality - the
+  yield came from the corpus being behind, not from the video being good. Worth a
+  triage habit: before declaring the expected yield from the class alone, ask
+  whether the target subject's central data model predates the thing the source
+  is about.
+- **The apply step is now the most productive stage in this method and the
+  scorecard should probably say so.** Six consecutive rows show it, and this run
+  is the clearest: the A/B refuted the new technique's own transcript rule at its
+  premise, and the seam hunt found a fact larger than anything in the source - a
+  non-commercially-licensed engine recorded as a module doc comment, currently
+  protected by an identity guard about an unrelated concern, where the obvious
+  next feature removes the guard and the accidental protection together. Neither
+  came from the video. The stage is not a checkbox that proves a landing; it is a
+  second source that happens to be a tree.
+  ### Redesign proposal
+  Phase 7.5 is written as verification ("does a project do better under this
+  rule"). Both of this run's best outputs were *discoveries* made while looking
+  for a seam, not verdicts on the rule. If that holds for a third run, the phase
+  should be split: a seam-reading pass that is allowed to return findings of its
+  own and route them back into Phase 3, and a verdict pass that is not. Not
+  applied now - two runs is a pattern, not a rule.
+- **`unmeasurable` earned its keep as a verdict rather than a shrug.** The
+  recording-chain amendment produced three simulation cases and two were void
+  against the tree (a catalog shipping exactly one voice; pieces carrying a
+  single voiceover). The honest report is that the finding is real, the tree
+  cannot see it, and the instrument that would - an acoustic measure over
+  rendered samples plus one usage fact - is nameable. A run that had forced a
+  `better` out of one live case would have recorded an opinion.
