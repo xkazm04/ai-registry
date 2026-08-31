@@ -1,7 +1,7 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-08-28
+last_touched: 2026-08-31
 dry_streak: 0
 ---
 
@@ -163,3 +163,40 @@ that has a dependency on one of the existing two — an ordering, a shared budge
 a case where resolving the span changes how the sibling floor is audited. That
 is the point at which the cluster has a golden path to write. A third
 independent one is not enough; the count was never the signal.
+
+## 2026-08-31 - intake, OpenMontage (capability-coverage-contract)
+
+Gained `capability-coverage-contract` from [[../../sources/2026-08-31-openmontage]], a
+repository where instruction files are the control plane rather than an advisory floor.
+
+Found as an **asymmetry**, which is the hunt that survives a mature subject. This
+subject was already thorough on one direction: `instruction-freshness` audits that
+everything the file names exists - paths resolve, commands run, counts re-measure. The
+opposite direction was absent and fails silently: everything that exists should be
+named, or the capability is never reached for, with no error, no failing test and no
+transcript line. Ten techniques covered the direction with an error attached and none
+covered the one without.
+
+The distinguishing engineering came from the source holding **both forms of the test in
+one tree** - one hardcoding file paths and capability tokens, one iterating the runtime
+registry with the docstring stating why ("so a newly added tool is covered the moment it
+is discovered"). That contrast is what makes "enumerate from the runtime, never from a
+list" evidence rather than preference, and it is `gate-sees-target` applied to a test's
+own expectations.
+
+Tension named rather than resolved: coverage pulls against `line-earning` and
+`restraint-amplifier-balance`. The technique scopes the assertion per capability domain
+and requires a deliberate curated subset to be **declared**, because an undeclared
+subset and an omission are the same artifact.
+
+Applied to `gravity` as an **experiment**, verdict **better**: soundness 19/19 in both
+directions, completeness 7 of 19. A second, weaker seam in the same tree was checked and
+rejected rather than counted - a deployment capability matrix at 0 of 5 named, which
+costs nothing because product surfaces read it rather than an agent choosing among
+means.
+
+### Still open
+
+The measurement shows a coverage gap, not an unused skill. Nothing ran the sibling
+technique's mechanical test - attempt the behaviour outside the agent - so no single
+unnamed skill has been shown to go unreached.

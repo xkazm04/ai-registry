@@ -8,6 +8,7 @@ techniques:
   - typed-accessors
   - read-batching
   - setting-kinds
+  - inherited-default-override
   - settings-audit-and-history
   - save-experience
 ---
@@ -137,6 +138,30 @@ that consults them, what happens at the boundary — belong to
 [hitl-approval](../../../llm-agent/orchestration/hitl-approval/hitl-approval.md). The taxonomy and per-kind
 contract table is [setting-kinds](./techniques/setting-kinds.md).
 
+## Some defaults are inherited, not declared
+
+Every default discussed so far is a constant: a value written in code, reviewed,
+identical on every installation. A minority of keys default instead to a **live
+source the application does not own** — an environment-level appearance or
+motion preference, a platform locale, an organisation policy a tenant inherits.
+That difference is orthogonal to the four kinds above and it re-defines all
+three store operations. Absent no longer means "substitute the constant", it
+means *follow the source, continuously*; a write is not merely setting a value,
+it is **detaching the key from its source**; and a delete re-attaches.
+
+The consequence is that for these keys the stored row's *presence* carries
+meaning independent of its content, and both naive policies destroy it in
+opposite directions. Writing the user's target unconditionally pins a key that
+was merely following, the moment their target happens to coincide with the
+source — a silent one-way exit from inheritance. Clearing an override whenever
+it comes to match the source destroys the opposite ability, and destroys it
+worst for users whose environment switches on a schedule: they cannot pin
+anything, because a background event they did not cause deletes the choice each
+time the source swings through it. The resolution rule, the write-only-on-
+divergence discipline, the evaluate-only-at-user-interaction constraint, and the
+three cases where a visible third state is genuinely earned are
+[inherited-default-override](./techniques/inherited-default-override.md).
+
 ## Stale keys are reaped
 
 Every registered key names its lifecycle
@@ -197,6 +222,10 @@ surface that has outgrown scrolling. These are
   bulk reads, caching, invalidation on write.
 - [setting-kinds](./techniques/setting-kinds.md) — preference / operational /
   ceiling / flag: one store, per-kind contracts.
+- [inherited-default-override](./techniques/inherited-default-override.md) —
+  keys whose default is a live upstream source: absent as a subscription,
+  writing only on divergence, never re-evaluating except at user interaction,
+  and when a third control state is earned.
 - [settings-audit-and-history](./techniques/settings-audit-and-history.md) —
   category-tagged change records, history surfaces, recent-change visibility.
 - [save-experience](./techniques/save-experience.md) — debounced honest saves,

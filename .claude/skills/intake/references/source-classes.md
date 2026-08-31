@@ -136,6 +136,47 @@ Two further habits this class rewards:
   first four candidates resolved as catches where the corpus carried the construction
   rule and the vendor carried only the demo. Predict that out loud at Phase 5.
 
+## Vendor prediction report
+
+The vendor's own document about a year that has not happened yet: eight trends, a
+foreword, four priorities, customer logos. It arrives looking like a survey and routes
+like an **announcement**, so read that section first - but its central property is
+worse than an announcement's and needs stating on its own.
+
+> An announcement states what is now possible. A prediction report states what will
+> become possible, and **future tense is unstrippable by construction**. "Agents will
+> work autonomously for days" loses nothing to the strip test, because there was never
+> a rule in it to remove - only a forecast. A prediction is not a claim about a
+> standard; it is a claim about a calendar.
+
+So the strip test does not filter this class, it *annihilates* it, and a run that
+mines the predictions will surface ten candidates that all resolve to `none`. Route
+past them on sight. The yield lives in two places and nowhere else:
+
+- **The cited measurement.** Where the report quotes its own internal research - a
+  usage rate, a delegation fraction, a share of work that would not otherwise have been
+  done - it is a first-party account of something already observed, and it is the only
+  material here that can originate a finding. Expect one or two such passages in a
+  seventeen-page document, usually in a sidebar contradicting the surrounding optimism.
+- **The reported behaviour, as distinct from the reported forecast.** One paragraph in
+  a prediction report usually says what practitioners *actually did*, and it is worth
+  more than the eight trends around it. On 2026-08-31 a single clause - engineers
+  delegate what they can "sniff-check on correctness" and keep what is
+  design-dependent - located a missing axis in an eleven-technique subject, while every
+  numbered prediction resolved to already-covered or nothing.
+
+The customer anecdote is neither. "A project the CTO estimated at 4-8 months finished
+in two weeks" is a vendor-selected data point about a customer's own estimate, which is
+the weakest evidence shape a source can carry: unblinded, unaudited, and compared
+against a number nobody recorded at the time. File those as leads with a return
+condition naming a real instrument, never as measurements.
+
+**Predict the yield out loud before the triage table**, because a low number here is
+calibration and not failure: one or two techniques from the measurement passages, a
+handful of catches where the corpus already owns the construction rules the report only
+names, and several leads. A prediction report that produced three landings has been
+mined well.
+
 ## Practitioner build-walkthrough
 
 A builder narrating a personal tool they made. A hybrid whose two halves have **opposite
@@ -160,9 +201,15 @@ the timers.
 ## Paper aggregator
 
 An awesome-list or survey repo of research papers. Triage at **cluster level, never item
-level** - map the list's own taxonomy onto the corpus's subjects, present clusters with
-one or two anchor papers each, and read at most ~3 papers per run, chosen where a bundle
-or a connected project could act on the result.
+level** - map the list's own taxonomy onto the corpus's subjects and present clusters
+with one or two anchor papers each.
+
+**This class is a reference index, and it is mined in waves.** An earlier version of this
+entry said "read at most ~3 papers per run", which turned a fetch budget written for a
+different class into a 1.5% sample of the source. Cluster triage is still how you
+*rank*; it is not how many you read. Enumerate every paper, rank the whole set, and run
+parallel waves until the yield floor - the procedure is
+[`reference-waves.md`](reference-waves.md).
 
 A paper is authoritative for **its measurement, in its protocol**, and weak for its
 framework - framework papers are the class's marketing; measurements, failure taxonomies
@@ -174,11 +221,72 @@ benchmark of the same system is one fetch and is usually the cheapest honest num
 available. The cluster map itself goes in the source note: it is what makes the next
 300-paper list a one-table triage.
 
+## Reference index
+
+A repository, page or vault whose value **is its outbound links**: an awesome-list, a
+curated bibliography, a reading list, a "papers we studied" vault, a handbook's
+references section. The paper aggregator is one shape of it; a links collection over
+articles, blog posts, talks and specs is another and is more common.
+
+**The tell is a ratio**, and it is worth computing rather than eyeballing: outbound links
+to third-party documents over the source's own word count. A code repository has a
+handful of links across tens of thousands of words. A reference index inverts that -
+hundreds of links across a few thousand words, most of them link text with a one-line
+annotation. When the ratio inverts, the source is a bibliography and its own prose
+authorizes nothing at all.
+
+**It is reliable for exactly one thing about itself: its boundary.** What the curator
+included and excluded is a stated opinion about where a field ends, and it is the only
+finding the index itself can carry. Everything else in it is a pointer, and a pointer is
+mined by reading what it points at.
+
+The class's failure mode is not "read the README" - it is **sampling**. Reading the two
+or three references whose titles look best is a 1.5% sample drawn on the weakest signal
+in the set, reported as the source's yield, with the other 197 references leaving no
+trace for the next pass to build on. **Enumerate all of them, rank the whole set against
+the corpus, read the maximum the run can afford in parallel waves, and record the ranked
+tail.** Cheap negatives on references actually read beat confident guesses about
+references that were not.
+
+Its fetch economics are the inverse of every commentary class: the references are the
+*extraction*, not the corroboration, so the run-wide 3-fetch budget does not apply. The
+budget is per reference and lives with the worker reading it (~2 each), and the run-wide
+discipline moves to how many references are admitted - which the ranking decides and the
+operator sees before a fetch is spent.
+
+Full procedure - enumeration, classification, ranking weights, wave sizing, the worker
+brief, the stop rule and the note's frontmatter - is
+[`reference-waves.md`](reference-waves.md).
+
+## Before any class: check what CONTAINER arrived
+
+`research-ingest` reports a word count, and a word count is not evidence that anything
+was read. On 2026-08-31 a PDF source returned **13,029 words at exit 0** - the web
+branch called `res.text()`, the container's bytes decoded as UTF-8, the HTML-to-text
+pass found no tags and handed them through, and the counter counted compressed streams
+as whitespace-separated tokens. The real document is 3,418 words.
+
+The failure is worth generalising because of its *direction*. A broken reader that
+returns nothing is caught by the thin-source floor. **A broken reader that returns
+binary is confidently large**, clears every floor, and looks like a rich source. So
+before extracting, spend one look at the ingest's own output: does the first screen
+read as prose? Does the metadata name a container (`container`, `pdf_pages`) and a
+plausible structure? A `words:` in the tens of thousands over a document that should be
+a pamphlet is the tell.
+
+The reader now sniffs PDFs by magic bytes (not by URL suffix, which a CDN link rarely
+carries) and asserts structure before reporting - no page content streams is exit 2, an
+instrument failure, never exit 3. It is font-aware for a reason specific to this class:
+a subsetted display face returns mojibake without its `/ToUnicode` map, and a vendor
+document puts its headings, pull quotes and **numbers** in exactly those faces - so a
+naive reader loses the only part of an announcement or prediction report worth mining
+while reporting a healthy word count.
+
 ## Every repository class shares one rule: the landing page is not the source
 
-Five of the classes below arrive as a repository - vendor repository, research-model
-release, app/tutorial aggregator, paper aggregator, and the build-walkthrough in repo
-form. They differ in where their yield sits and agree completely on where it does
+Six of the classes here arrive as a repository - vendor repository, research-model
+release, app/tutorial aggregator, paper aggregator, reference index, and the
+build-walkthrough in repo form. They differ in where their yield sits and agree completely on where it does
 **not**: the README. Each row states this in its own vocabulary (a marketing surface,
 a method's advertisement, a tour half), which made it easy to miss that they were all
 saying one thing.

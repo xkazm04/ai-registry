@@ -7,6 +7,7 @@ use_when: [deciding where a boundary belongs, arguing whether a proposed split i
 techniques:
   - module-depth
   - seams-and-adapters
+  - borrowed-surface
   - io-free-core
   - locality-and-leverage
   - structural-improvement-loop
@@ -164,7 +165,10 @@ the maintainers of two subsystems to change in lockstep forever. A boundary that
 gives maintainers perfect locality can hand every caller a configuration surface
 to learn. Naming which one a proposal buys and which one it spends is what turns
 a structural argument into a decision somebody can disagree with on the merits.
-[locality-and-leverage](./techniques/locality-and-leverage.md) owns the pair.
+[locality-and-leverage](./techniques/locality-and-leverage.md) owns the pair,
+and the cost that neither of them prices: both are collected by people who
+found the module, and hiding its existence is a separate decision from hiding
+its internals.
 
 ## Seams: the design question and the testing question are one question
 
@@ -297,6 +301,11 @@ measurement is the wrong instrument.
   abstraction where it cannot be falsified, so it is settled by seniority.
 - **The unreviewable structural diff** — a correct change, too large to review,
   landing on the strength of the author's confidence and a green pipeline.
+- **The boundary that worked** — a capability hidden well enough that the
+  next team could not find it and built it again, paid for in a defect fixed
+  once and reported twice. It is the one failure in this list that no
+  instrument here detects, because every one of them looks for coupling and
+  this leaves none.
 - **Green and rotting** — every gate passing on a codebase whose cost of change
   is rising, because nothing in the pipeline observes structure.
 
@@ -306,16 +315,21 @@ measurement is the wrong instrument.
   everything a caller must know, the shallow-module failures, why more modules
   is not better design, and why depth is placed rather than maximised.
 - [seams-and-adapters](./techniques/seams-and-adapters.md) — where substitution
-  becomes possible: the three placement signals, the single-door rule for
+  becomes possible: the four placement signals, the single-door rule for
   adapters, the shared contract that keeps a double honest, and pinning
   behaviour before moving a boundary.
+- [borrowed-surface](./techniques/borrowed-surface.md) — the half of a module's
+  interface somebody else authors: implicit delegation that dissolves the
+  distinction a wrapper was created to draw, a disjointness premise taken from
+  a contract you do not own, and the one question that finds both.
 - [io-free-core](./techniques/io-free-core.md) — the other answer to the
   testability question: logic over events as a transition function with time
   as a parameter, one driver at the edge doing all the I/O, the verb-count
   rule that separates it from an adapter, and the costs the form charges.
 - [locality-and-leverage](./techniques/locality-and-leverage.md) — the two
-  payoffs, measured change scatter as the diagnostic, and the pair of criteria
-  a structural proposal is argued against.
+  payoffs, measured change scatter as the diagnostic, the pair of criteria
+  a structural proposal is argued against, and the discovery cost that neither
+  payoff prices.
 - [structural-improvement-loop](./techniques/structural-improvement-loop.md) —
   the periodic pass: what a structural candidate is, grounding both ends before
   discussion, eliciting the target, emitting a spec, scope control, and cadence.

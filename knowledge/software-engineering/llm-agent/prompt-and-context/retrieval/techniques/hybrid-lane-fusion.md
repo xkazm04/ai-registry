@@ -37,6 +37,15 @@ below still produces a full, plausible-looking result list.
   the budget: pinned items spend seats like everything else, which is exactly
   why the tier must stay small.
 
+- **Structural centrality** covers the item that is central to the corpus
+  rather than to the query — the thing everything else depends on, which every
+  lane above under-ranks because a request names what it wants changed, not
+  what that rests on. Alone among the roster it needs no query to produce an
+  order;
+  [structural-centrality-lane](./structural-centrality-lane.md) owns it, and
+  owns the reason it must not be summed as a peer of the proximity lane, whose
+  edges it shares.
+
 A lane that cannot name the failure mode it covers is dead weight: it adds
 score noise, dedup work, and tuning surface while covering nothing the
 roster didn't already.

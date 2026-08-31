@@ -11,6 +11,7 @@ techniques:
   - claim-write-back
   - checker-false-positive-discipline
   - fixture-repo-testing
+  - declared-deviation-register
 ---
 
 # Conformance checking
@@ -187,6 +188,31 @@ The corresponding discipline — how to tune without deleting
 decide whether a misfire narrows a detector or demotes it to advisory, and
 what a checker owes an owner who disputes a finding — is
 [checker-false-positive-discipline](./techniques/checker-false-positive-discipline.md).
+
+## Some failures are decisions, and they need their own class
+
+The four outcomes above sort findings by what the checker *knew*. There is a
+fifth sorted by what somebody *decided*: a failure that is correct, has been
+reviewed, and has been deliberately accepted — an implementation that differs
+from a specification it otherwise claims to follow, because the upstream text is
+wrong here, or right about a case that does not arise, or right and unaffordable.
+That happens to every artifact that claims conformance to anything, and it is
+usually recorded nowhere, which makes an intentional deviation **indistinguishable
+from a defect**: the next maintainer repairs it and reintroduces the problem it
+was avoiding, and the checker reports it as fresh every run until the whole
+report is scrolled past.
+
+Neither available shortcut is safe. Suppressing it removes it from the
+denominator, so the score improves every time the team accepts a failure — the
+incentive exactly backwards. Leaving it as an ordinary failure puts permanent
+red in the report, and a team calibrated to a non-zero floor cannot see anything
+new arrive. Reported as its own dated class, it supplies the one distinction a
+checker cannot compute on its own — *this failure is new* versus *this failure
+is a decision* — and it turns the accepted set into a list that can be swept for
+entries whose stated cost has expired. The record's four required fields, the
+boundary that keeps it from becoming a changelog, and why entries are per site
+rather than per cause are
+[declared-deviation-register](./techniques/declared-deviation-register.md).
 
 ## The only honest test of a checker is a repository
 

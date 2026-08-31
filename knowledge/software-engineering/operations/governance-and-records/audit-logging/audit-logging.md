@@ -12,6 +12,7 @@ techniques:
   - audit-querying
   - tamper-evidence
   - decision-records
+  - two-clock-records
 ---
 
 # Audit logging
@@ -217,7 +218,7 @@ in-context surfaces, export, and reader discipline are the
 
 ## The anatomy of a record
 
-The six techniques converge on what one record minimally carries:
+The techniques converge on what one record minimally carries:
 
 - **Actor** — who or what caused the action, with delegation preserved:
   when an automation acts under a human's standing grant, the record names
@@ -239,7 +240,15 @@ The six techniques converge on what one record minimally carries:
   subject's wording; a record keyed on phrasing is orphaned the moment the
   phrasing is rewritten, silently, with no failure anywhere
   ([decision-records](./techniques/decision-records.md)).
-- **Time** — assigned at the chokepoint, one clock per ledger.
+- **Time** — assigned at the chokepoint, one clock per ledger *where the
+  ledger is the origin of the fact*. A trail of actions this system performed
+  is in that case: it learns of the action by doing it, so when it happened and
+  when it was recorded are the same instant. A ledger that records facts
+  learned from **elsewhere** — a late-arriving event, a backfill, a correction
+  about the past, an offline client's queue — is not, and storing one time
+  there permanently destroys the other. Both clocks, or the trail can
+  reconstruct its history of belief and never reproduce a report about the
+  world ([two-clock-records](./techniques/two-clock-records.md)).
 - **Outcome** — succeeded, failed, denied; an audit trail of attempts
   without outcomes answers half of every question.
 - **Origin** — the domain or subsystem tag that routes the record to its

@@ -93,9 +93,31 @@ system that will be described as ignoring its own settings.
 The framing that keeps this coherent: **a measured tier is a default for
 people who have not said what they want.** It is the best available guess
 in the absence of a statement, and every statement retires it. Which also
-means the control, if it exists, needs a genuine "automatic" value — a way
-back to the measured default — rather than making the first use of the
-control a permanent exit from the adaptive system.
+means the control, if it exists, needs a genuine way **back** to the
+measured default, rather than making the first use of the control a
+permanent exit from the adaptive system.
+
+That requirement does not, however, oblige the control to show a third
+"automatic" option, and reaching for one first is the common mistake. The
+way back can be a property of the *write* rather than a visible state: a
+two-state control stores the user's target only when it differs from what
+the system currently resolves to, and **deletes** the stored value when the
+target and the resolved value coincide — so pressing back to the automatic
+value is the same single gesture as pressing away from it, and the absence
+of a stored row is what "automatic" means. The full rule, including the two
+ways this silently corrupts (writing unconditionally, which pins a tier that
+was merely following; and tidying the stored value away when the source
+moves, which makes pinning unachievable) belongs to the settings store and
+is [inherited-default-override](../../../../operations/governance-and-records/settings/techniques/inherited-default-override.md).
+
+One caution is specific to this subject and does not apply there. That
+technique's source is a *setting the application reads*; here the source is
+a **measurement the application performs**, which can be re-run and can
+return a different answer for reasons that have nothing to do with the
+user's environment. A measurement is therefore disqualified twice over as a
+trigger for re-evaluating a stored choice: not only must the comparison
+happen at user interaction only, but a fresh probe result must never be
+treated as evidence that a stored preference has become redundant.
 
 ## When not to use this
 

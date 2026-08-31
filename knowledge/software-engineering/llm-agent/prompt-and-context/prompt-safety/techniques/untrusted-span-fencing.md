@@ -164,3 +164,25 @@ residual is why the fence ships with detection behind it
 reading hostile text is trusted on the way out
 ([model-output-as-untrusted](./model-output-as-untrusted.md)). Treat fencing as
 the first wall of a keep, and budget for the walls behind it.
+
+There is a second residual, and it is structurally different from the first. The
+one above is still an *authority* failure — the span argues, and the model partly
+obeys. The other is a span that never attempts to instruct, is correctly fenced,
+correctly labelled, and correctly read **as data**, and whose accurate reading
+changes what the model infers about a *different* span. The harm is a property of
+the pair, not of either member: each span is individually unobjectionable and the
+assembled prompt is not.
+
+Every operation in this subject is per-span — provenance is a per-span property,
+the fence is a per-span wrapper, caps are per class, the type judgment is
+per-region. None of them can see a pair. That is why the whole remedy ladder runs
+clean against this residual and buys nothing: it is not an inventory gap, and
+adding a bullet to the inventory would not close it. **Provenance answers whether
+a span may command; it does not answer whether recalling this span, alongside
+this request, is safe.** Where recall is automatic and unconditioned — anything
+that pulls stored context by relevance alone — that second question is currently
+asked by nobody, and the answer defaults to yes.
+
+The practical consequence is a placement rule rather than a new fence: the check
+belongs at the point of **recall**, where both halves of the pair are visible at
+once, not at the point of fencing, where only one is.

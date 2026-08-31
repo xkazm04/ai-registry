@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-08-29
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -250,3 +250,141 @@ reading is withdrawn.
 
 Two techniques added this run (11 -> 12 plus the amendment). Not swept
 otherwise.
+
+## 2026-08-31 — intake, `github:cline/cline` @ `48d6385`
+
+Gained `reliability-aggregation` + `react--reliability-aggregation`
+(experiment, `better`, arms paired). See [[../../sources/2026-08-31-cline]].
+
+**Enumeration hunt, eleventh consecutive pay.** The golden path lists the
+aggregation rules available for repeated trials — mean, median, worst-of-N,
+pass-rate against a threshold — and the list does not contain **all-of-N**,
+which is the rule a shipping decision rests on. Any-of-N and all-of-N are both
+computable from one trial set, answer opposite questions, and diverge hardest
+where the stakes are highest (2 of 3 trials: ~96% against ~30%).
+
+The subject already held both halves and had never joined them:
+`count-carries-predicate` makes declaring the rule a *labelling* obligation,
+`metric-role-contract` makes naming the decision a *selection* obligation.
+This technique is the second one's answer for repeated trials.
+
+Applied to a managed prompt-lab grid whose aggregation layer is mean-only:
+same trials, **the leaderboard winner flips** between arms. Second finding
+from the seam, not sought — an unscored metric averages to `0` and sorts as
+though it performed badly.
+
+Contention: `openmontage-0831` held this subject for the whole run. Technique
+file uncontended; golden-path list edited under the `content` lock.
+
+## Open leads (banked, convergence rule applies)
+
+- Flakiness as binary entropy over the pass rate — 0 at either extreme, 1 at a
+  50% rate. Graded thin; the subject already treats variance as first-class.
+  Return if a second source ties the entropy form to a decision.
+
+## 2026-08-31 - reference-index run
+
+Touched by [[2026-08-31-voltagent-agent-papers]]. One amendment to
+`failure-attribution`, symmetric to that technique's own eighth-owner argument run
+backwards.
+
+The eighth owner exists because the funnel's tells are written from inside a completed
+run, so any owner that can end a run early is invisible to all of them. The same
+blindness runs the other way, and that half is larger: an owner that prevents the run
+from **starting** - a dependency that would not resolve, an environment never assembled,
+a component wired in wrongly at design time, a capability the platform does not offer at
+any version - fails every tell and falls through to **Model**, which prescribes the most
+expensive response available for a class of problem no model can fix. On
+developer-reported corpora these are not a long tail; dependency and version conflicts
+alone are among the largest single reported causes.
+
+**Board note.** Held by two siblings for most of the run. The operator chose to wait
+rather than write into a contended file; both claims cleared and the amendment landed on
+the file at its then-current state.
+
+Recorded, not landed: a rising inter-rater kappa is protocol drift rather than
+reliability (observed 0.000 rising monotonically to 1.000 with annotation order, headline
+reported near 0.99), and this subject has no rule for validating one's own attribution
+labels. Also a catch worth keeping - `assertion-vs-judgment` already names
+correct-shape-but-false, describing a suite that asserts structure while the defect lives
+in meaning as gating a proxy, which is half of what wave 1 believed the corpus lacked.
+
+### 2026-08-31 - `/intake`, from a single-author blog archive
+
+Corrected `reliability-aggregation`. Source: [[2026-08-31-brooker-blog]].
+
+**The source refuted the hypothesis it was ranked for, and the re-read produced
+the finding instead.** The reference was ranked top of the whole run on a
+prediction that it attacked the independence assumption behind pass@k. It does
+not - it assumes independence exactly as we did, and it corroborates the
+technique's spine from an independent practitioner in the same week.
+
+Opening the file to check produced a defect landed hours earlier. The technique
+opened by computing any-of-3 near 96% and all-of-3 near 30% "at two successes in
+three trials" - a **binomial model over a rate**, described as a reading off
+trials - while its own later section states that "a harness that produces one
+has substituted a model for a measurement". Of three trials that actually ran
+with two successes, observed any-of-3 is 1.00 and observed all-of-3 is 0.00. The
+application landed the same day computes a third object under the same two
+names. The fix names the model, states the independence assumption the
+compounding rests on, and reads `count-carries-predicate` strictly: the
+predicate of a modelled number includes the model.
+
+**The apply step then measured the assumption and found it badly false.** Over
+1,026 recorded trials in 342 groups, groups failing all three number 14 against
+0.11 predicted - **123x**, chi-square 1737 on 2 df, replicated at 9.1x on an
+earlier corpus. Failure concentrates in a handful of scenarios missed every
+time; one is 0-of-27. And 682 of 684 repeat trials read a warm prompt cache, so
+the repetitions were never independent draws.
+
+The structural fact is the strong kind: the harness's aggregate record has no
+field for scenario count, repetition count, or measured-versus-modelled, so the
+conflation is forced by the record's shape rather than chosen at a call site.
+Its column header reads `runs`, making 38 scenarios x 3 reps present as 114
+independent measurements.
+
+One clause is still owed and was banked as a lead: the any-of-N bullet names "a
+human will retry" as a case it is right for, and the human retrier has a
+patience budget, so ten attempts yielding one success reads as failure rather
+than as capability. The machine-retry half survives; the human half inverts.
+
+### 2026-08-31 - `/intake`, from danluu.com (2026 posts)
+
+Two new techniques and one amendment, all from a single-author archive read at a
+100% sample (6 of 6 reachable 2026 posts). `candidate-write-access`: the system
+under test is now routinely an agent holding the harness's own shell, which voids
+the read-only-instrument assumption every other technique here rests on. Two write
+surfaces - the instrument (reads the suite, edits the harness interface, picks its
+own holdout) and the neighbours (one condition's agent leaves state that scores its
+successors, so the ranking is a fact about run order). The corrective is structural
+and inverted: **declare the holdout rather than forbid overfitting**, because the
+prohibition is unfalsifiable where it would have to be checked, and the tell that it
+works is that the *visible* score gets worse while the held-out score rises.
+Composes after `unaided-baseline-screening` and before `overshoot-and-restore`,
+which had been assuming the agent pushes against the gate honestly.
+
+`resolution-precondition`: the golden path required variance beside the mean, which
+is a rule about the number; the artifact people act on is the order. The gate is now
+explicit - between-condition spread must exceed within-condition SD before a ranking
+is published, and a tie is reported as the finding. Source measurement: SD 0.075
+within one condition against a full best-to-worst spread of 0.069. Carries the
+non-monotonic-effort corollary.
+
+`comparison-modes` amended with the self-referential opponent - the frozen-opponent
+rule's one deliberate violation, reached for when no external reference exists.
+
+**Four candidates died here as catches, and they are why the run's strongest finding
+landed in another bundle.** `judge-stability` already owns both the within-judge
+repeatability floor and the cross-instrument swing; `discriminating-task-selection`
+already owns the unanimous-cells argument; `retrieval-evaluation` already owns human
+tuning leak. The repeatability finding was re-homed to the operator-side bundle,
+which turned out to have no floor at all. Source:
+[[../../sources/2026-08-31-danluu-2026]].
+
+Applied same-run, read-only, against a managed tree's own measurement apparatus:
+`candidate-write-access` **better** (a 110-byte vacuous agent spec scores 6/6,
+identical to the real 2,414-byte one - 0 of 6 quality assertions survive candidate
+write access); `resolution-precondition` **better** (r = -0.378 between how much of a
+subject was judged and its deviation rate, and the precondition's real output was a
+third state - *the check cannot be performed*, since 0 of 142 pairs were ever
+double-judged).

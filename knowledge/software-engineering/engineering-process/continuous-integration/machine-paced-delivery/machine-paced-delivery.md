@@ -10,7 +10,9 @@ techniques:
   - scoped-delivery-access-for-agents
   - proposal-not-push
   - human-gate-capacity
+  - stake-before-merit
   - pre-authorship-verification
+  - mutating-local-gates
 ---
 
 # Machine-paced delivery
@@ -150,6 +152,30 @@ will not delegate at any arrival rate. The measures, the two signatures, the ord
 the reason a one-person gate is a check rather than an independent review are
 [human-gate-capacity](./techniques/human-gate-capacity.md).
 
+## Some of the arrival is not yours to reduce
+
+Every lever above assumes the team feeling the overload is the team generating the work. That
+holds for a repository whose agents are dispatched by the people who review their output, and it
+fails entirely at a gate that faces outward — an open contribution surface, a shared repository a
+platform team owns and everyone else writes to. There the arrival rate belongs to a population
+with no share of the review cost, and "send fewer changes" is not a lever anybody at the gate can
+pull.
+
+What changed is not that such surfaces got more popular. It is that they were always rationed by
+an accident: producing a plausible change used to be expensive, so submitting one carried evidence
+of investment. Nobody wrote that rule down, which is why nothing announced it when machine
+authorship removed it — the cost of *producing* work that looks considered collapsed, and the cost
+of *evaluating* it did not move. An unwritten guard cannot be loud when it goes
+([absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud)).
+
+The replacement cannot be a merit filter, because deciding whether a change is worth reviewing
+means reviewing it — the predicate spends the exact resource it was meant to protect. The
+predicate has to be evaluable before the diff is read, which leaves the submitter rather than the
+submission: a specific reason they care, and a commitment to carry the change through review.
+Why stake predicts cost better than quality does, why the policy restricts unattended submission
+rather than tool assistance, and why publishing it where effort starts is most of the mechanism
+are [stake-before-merit](./techniques/stake-before-merit.md).
+
 ## Verify before the change exists
 
 The cheapest verification is the one that happens before a commit does. When the author is an
@@ -168,6 +194,25 @@ the backstop for what genuinely needs a clean environment, per the ladder in
 discovery rule, the never-invent rule, and the timeboxing that keeps the local gate from being
 skipped are
 [pre-authorship-verification](./techniques/pre-authorship-verification.md).
+
+## Some of those checks write
+
+The local gate is described above as a verdict producer, and the cheapest of its stages are not:
+a formatter and a fixing static-analysis pass repair what they find. The bundle's standing rule for
+gates inside a working copy is that they observe and never mutate, and that rule was written
+against the commit path and the editor-on-save loop. The agent's turn boundary is a third position
+and neither verdict applies unexamined — there is no commit yet and no staging split to corrupt,
+and there is also no human watching the fixer work.
+
+Two of the three contracts behind the prohibition still bind. The review contract binds hardest:
+an agent about to report its turn as done, whose work a fixer has just reshaped, is describing a
+tree that no longer exists — so the fixer's diff has to be captured before it runs and handed over,
+because a mutating check is the one instrument that destroys its own input. And permitting mutation
+creates a contract that verdict-only gates never had: **termination.** A fixing gate that blocks
+and re-runs is a feedback loop, and two rules that disagree have no fixpoint, so the block must
+ratchet down to an advisory on re-entry or the turn cannot end. The contract-by-contract analysis,
+the snapshot rule, and the re-entry ratchet are
+[mutating-local-gates](./techniques/mutating-local-gates.md).
 
 ## What this subject does not own
 
@@ -200,5 +245,9 @@ the humans who remain accountable for what that author produces.
   proposal, the changes an agent may not author, and reviewability at volume.
 - [human-gate-capacity](./techniques/human-gate-capacity.md) — the merge gate as a server with
   a fixed rate, the rubber stamp separated from the stall, and demand as the only lever.
+- [stake-before-merit](./techniques/stake-before-merit.md) — admission for arrival the gate does
+  not control, on a predicate readable before the diff is.
 - [pre-authorship-verification](./techniques/pre-authorship-verification.md) — the gate run
   before the commit, from declared commands only, timeboxed.
+- [mutating-local-gates](./techniques/mutating-local-gates.md) — when a local check may write,
+  the snapshot that survives it, and the re-entry ratchet that lets the turn end.

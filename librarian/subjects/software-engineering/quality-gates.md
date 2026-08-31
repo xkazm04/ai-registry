@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-08-29
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -181,3 +181,245 @@ its stated risk region on all three axes - and one nominally-backed rule with
 
 Was the #2 attention point (52). This run added one technique and one
 application and did not sweep the other twelve techniques.
+
+## 2026-08-31 - `/intake` herdr (Rust/backend lens), run `intake-herdr-rust`
+
+13 -> 14 techniques. Two landings and both came from the same root: **what a
+gate's instrument actually reads of the source.**
+
+New technique `operation-assertion-gates`. The subject already owned the axis
+via `blocking-by-input-determinism`, which enumerates exactly two advisory
+shapes - debt-shaped and input-shaped. A timing gate is neither: its variance
+lives in the apparatus, not in any input, so the technique's own promotion test
+("name the work that would make this safe to promote") has no answer for it.
+That gap landed as a third-class section in `blocking-by-input-determinism`
+plus a golden-path paragraph, and the mechanism - scoped denylists, normalising
+comments and literals out before matching, and testing the scanner rather than
+only the codebase - became the new technique.
+
+Amendment to `gate-laddering`: **source the compiler removed.** Conditional
+compilation excises regions before semantic analysis, so a local rung of
+formatter, type checker, linter and full suite reports clean over a
+configuration it never analyzed. Distinct from an untested platform cell, which
+is execution coverage and belongs to `packaging`; this is analysis coverage.
+Home was contested and `packaging`'s own boundary settled it - its jurisdiction
+"begins where the build system declares victory," and this happens before that.
+Also a fourth bullet in the golden path's "gate must see its target"
+enumeration, which had carried three.
+
+Applied against personas, `experiment`, **`not-better`**: 4 of 4 checkers
+already refuse an empty scope, one stating the rule almost verbatim. The seam
+did yield the technique's condition - 0 of 21 tree-based lint rules carry
+tests against 3 of ~15 text checkers, with one untested rule holding 59% of all
+custom-rule suppressions.
+
+Contended with `omniroute-0831`, which held this subject live; golden-path
+edits were made under the `content` lock.
+
+## 2026-08-31 - the item side of the gate (`tc39-proposals-0831`)
+
+Two techniques from a public standards committee's own tracking repository,
+both landing on the same asymmetry: **all 14 prior techniques take the
+checker as their subject** - its severity, input determinism, liveness, false
+positives, projections - and **none takes the thing being gated.** The subject
+modelled one-shot refusal exhaustively and had no model of an item that lives
+for years and must carry accumulated evidence across many advancement
+decisions.
+
+`advancement-evidence-fields`: the record an item carries per obligation.
+Schema is the ladder (the field is minted at the stage its obligation binds,
+retired when discharged); the non-satisfied side needs a closed four-state
+vocabulary because a blank merges "not yet", "done but unrecorded" and "nobody
+looked". Supplies the resolution `unmeasurable-criteria` structurally cannot -
+its three (skip / fail-closed / refuse) all vanish with the run, and a durable
+record adds a fourth: **advance anyway, with the hole written into the row**,
+which is the honest move for a gate whose verdict a vote can override.
+
+`item-liveness`: the deliberate mirror of `gate-liveness`. A gate green for a
+year is unverified machinery; an item in flight for a year whose owner stopped
+speaking is unverified work. Ownership is the one entrance criterion that
+decays after admission, so checking it once makes it a birth certificate.
+
+Measured from the source's own record: 7 of 46 terminated items name owner
+departure as the sole cause (largest named category, ahead of every technical
+objection), three closed the same day - the signature of a once-in-a-decade
+manual sweep. 30 of 92 in-flight items had been silent two years or more,
+quietest since nine years earlier, all listed as active. The natural
+experiment that carried `advancement-evidence-fields`: one board, two
+obligations, two conventions - the field with explicit markers left 8 of 18
+holes legible and attributable, the field with blanks left 16 of 29 (55%)
+unreadable, **and the readable obligation is the one that gets discharged**
+though neither blocks anything.
+
+The fetch (1 of 3, on the process document) inverted the source rather than
+confirming it: the process *requires* the test suite at the stage where the
+tracker's column appears, and items sit one and two stages past it with the
+cell openly non-satisfied. It also returned the sentence that made
+`item-liveness` a technique instead of an observation - **no explicit rule
+addresses stalled proposals or automatic removal**, and a departed owner is
+replaced only if someone *volunteers*.
+
+Applied: `advancement-evidence-fields` against personas, `experiment`,
+**`better`** - 11 of 15 passport dimensions resolve from structured fields
+under the shipped schema vs 15 of 15 under the four-state field, and 0 of 15
+have an individually knowable evidence age against one collection-level date.
+The predicted unreadable-blank population was **absent** (0 of 15), reported
+as a negative: the discipline is the author's, not the schema's. Structural
+fact worth more than either arm - the schema has no `reason` field anywhere,
+so *absent-with-a-pointer-to-why*, the state the technique calls most
+valuable, **is inexpressible**; `skippedByChoice` is a boolean, which is what
+an absence state degenerates to when added as an afterthought.
+
+`item-liveness` against this repo's own harvest queue and watchlist,
+`experiment`, **`unmeasurable`** - and it earned the technique an amendment.
+Its central claim is that last-touched is free because the trail already
+exists; a flat status queue (177 entries, one status, one collection-level
+date) has **no per-item trail at all**, so the diagnostic has no input at any
+price. The technique now states that precondition and names the cost where it
+fails. Effect unmeasurable because the queue is three days old; instrument
+named (a per-entry `touched` date, or a join to the dated run ledgers), return
+condition set at 90 days.
+
+Contended with `whatwg-html-0831`, which held this subject live and landed
+`fabrication-economics` into it mid-run without yet declaring it in the golden
+path. Golden-path edits were made under the `content` lock; the index was
+regenerated inside the `index` lock and consequently carries that sibling's
+undeclared technique, so the generated artifacts were left unstaged for
+whoever finishes last.
+
+## 2026-08-31 — `whatwg-html-0831` (intake, `github:whatwg/html` @ `778afd9`)
+
+Landed `fabrication-economics`, declared in the golden path (roster entry, prose
+section "False compliance is how rules die", technique list entry) and applied
+same-run — the mid-run state a sibling note recorded as undeclared was a Phase 7
+snapshot, not the landing.
+
+The technique is the **mirror of `false-positive-economics`**: that one is how a
+*gate* dies (firing on correct content, bypass becomes reflex); this is how a
+*rule* dies, leaving the gate healthy and the report green forever. Where a
+requirement's satisfaction cannot be verified, the author with nothing true to
+write is offered two moves and the fabrication is always cheaper — **the gate is
+not fooled, it is the cause** — so no detector improvement helps and the fix
+moves to the rule's design: a declared inability token, artifact stays
+non-conforming, verdict silent, census counted elsewhere, token itself exempt.
+
+Home found by the enumeration hunt against `unmeasurable-criteria`, which states
+"there are exactly three honest resolutions" over a *missing* value. Here nothing
+is missing — the gate reads the value perfectly and the undecidable part is the
+requirement behind it — and the fourth state is **known-violating, deliberately
+unreported, separately counted**. Two of that technique's rules invert (a skip
+must be loud; this token must be silent in the verdict) and the discriminator is
+written on both sides: does a louder report yield more information, or a worse
+artifact?
+
+Applied to `personas` as a paired experiment, `better`, and **the seam amended
+the technique**. The tree has no accessibility linter at all — 21 hand-written
+lint rules, none touching the field — and 55.6% of its 63 `<img>` elements still
+carry the null-shaped value. So the technique now states that a gate is
+*sufficient, not necessary*: the pressure comes from the requirement's shape and
+propagates by convention and editor completion. Arm A raises 1 finding and it is
+a false positive; the one site in the tree that declares its decorative intent
+with the platform's real mechanism is the one site the standard rule reports.
+
+Contended for the whole run with `tc39-proposals-0831`, which held this subject
+and was mining the other major web standard's process repository. That routed
+this source's change-admission gate (two-implementer interest plus filed
+downstream obligations) **away** as untriaged rather than mined — the sibling's
+source is the better authority for staged advancement. Golden-path edits under
+the `content` lock; the re-read inside it found two techniques the sibling had
+added between Phase 4 and Phase 7, and the insert preserved both.
+
+The generated index and catalog were regenerated under the `index` lock and left
+**unstaged**: three siblings held uncommitted or untracked content, so a
+committed index would reference files absent from `HEAD`.
+
+## 2026-08-31 - /intake, github:TkDodo/knip
+
+Landed `excess-indicts-the-instrument` (new technique). The subject's
+instrument-failure vocabulary was **one-directional**: `gate-liveness` enumerates
+zero-files-walked, rules-failed-to-load, tool-absent, trigger-never-fired,
+green-for-a-year - every one a *deficiency* signal. Nothing anywhere in 17
+techniques treated a finding population that is too **large** as a signal about
+the checker rather than the tree.
+
+The trap is a composition of three existing techniques, and it is worth naming
+because none of them is wrong alone: `blocking-by-input-determinism` says a
+thousand pre-existing findings is "a statement about the backlog, not about the
+check"; `ratchet-design` freezes that number as a baseline; `ratchet-design`
+then guards only the *drop* below it. Baseline a population produced by a wrong
+root set and the ratchet defends the misconfiguration permanently, because the
+count only ever goes down and every subsequent run confirms it.
+
+**The A/B refuted the technique's own discriminator and the correction shipped
+with it.** Against a managed project's committed baseline - 230 unreachable files
+of 982 walked, 23.4%, frozen 2026-08-24 - the distribution test fired on 7
+clusters at 2.4-4.3x lift, several at 100% directory saturation, and **all 7 were
+genuine dead code with 0 root errors.** Confound: dead code arrives in whole
+features, so both hypotheses predict the same distribution. Clustering is a
+sampler; a referrer check per cluster is the discriminator. Recorded
+`not-better`, which is the honest verdict and the most useful row in the ledger.
+
+Not landed, deliberately: the source's advisory-by-default plus one escalation
+flag is `gate-laddering` and `severity-by-construction` already; only the
+detail that the report's *rendering* follows the severity setting is novel, and
+it is one sentence.
+
+
+## 2026-08-31 — `/intake` icse-2026-seip: the spiral's unstated precondition
+
+`false-positive-economics` opened by calling precision "the survival property"
+and stated the death spiral unconditionally, with step 1 reading "The author,
+knowing they are right, bypasses or suppresses it." **That author is a
+precondition, not scenery**, and two independent industrial measurements from
+one venue-year found the cases where they are absent.
+
+This is the run's genuine within-index convergence, and it is worth recording
+*how* it was earned, because the convergence the wave was actually ranked on
+turned out to be fake (two benchmark papers where the second cites the first).
+These two were admitted for unrelated reasons — one ranked as a gate technique,
+one as a static-analysis measurement — and are independent by every test that
+matters: different authors, institutions, countries, problem domains, and
+neither cites the other.
+
+- **Nobody was entitled to the artifact.** A repair pipeline ships its proposal
+  filter at precision **0.30** against a population base rate of **0.19**, and
+  is right to. The refused thing is a machine-generated candidate, so a false
+  positive costs one wasted generation rather than a person's obedience.
+- **The power to close was taken from the author.** A mandatory pre-integration
+  detector ran at a **76%** false-alarm rate (above 90% counting exclusions) for
+  ten months, unbypassed and undeleted, because an alarm the first reviewer
+  calls false goes to a **second** reviewer before it may be closed.
+
+Landed as an amendment section, plus two obligations the same sources measured:
+read precision **against the population's prevalence** (the no-skill policy that
+accepts everything has precision equal to the base rate, so 0.30 is a gain at
+0.19 and a loss at 0.40), and grade a downstream suppressor on its **recall**,
+not its suppression rate — the degenerate suppressor that calls everything a
+false positive scores a perfect suppression rate and an accuracy equal to the
+base rate.
+
+Deliberately **not** landed, though both are real and both are recorded here so
+a later run does not re-derive them:
+
+- The same repair-pipeline source contradicts `fabrication-economics` head-on
+  and then repairs it: it has a model *generate* a fix specification with no
+  access to ground truth — textbook fabrication by that technique's own table —
+  and measures it working (spec-based false-positive rate 0.28 vs 0.64 without).
+  The boundary it implies is sharp and I did not have a second sighting for it:
+  **a fabricated criterion is admissible when it ranks a population and
+  inadmissible when it certifies an instance.** Ranking tolerates a wrong rubric
+  statistically; certification does not. **Return condition:** one more
+  independent source, or a project seam where a generated rubric ranks.
+- `excess-indicts-the-instrument` offers a binary discriminator — debt
+  distributed like the code, or misconfiguration clustering on a boundary. The
+  static-analysis source is a **third shape**: excess by construction, from a
+  deliberate soundness-over-precision design, where the volume indicts neither.
+  The technique's standing rule would fire there and be wrong. One clause.
+  **Return condition:** the next deliberate edit of that technique.
+
+Applied to a consumer's governed-taxonomy proposal gate (`experiment`,
+`unmeasurable`, no change owed): 12 sites setting the live flag hand-verified
+to **0** production paths promoting a machine proposal without a human. The tree
+already implements the amendment, for governance reasons, with the precision
+economics falling out for free. Instrument named for the missing behavioural
+arm: per-proposal review-outcome telemetry, which the project does not emit.

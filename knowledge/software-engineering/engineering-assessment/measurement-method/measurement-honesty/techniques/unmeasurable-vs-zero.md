@@ -111,6 +111,34 @@ owns the instrument, and — where enough of them accumulate — must escalate t
 the completeness predicate in
 [incomplete-not-verdict](./incomplete-not-verdict.md).
 
+## The store miss is a fourth flavour, and its next action is a fallback
+
+The flavours above all describe an instrument that ran badly or did not run. A
+lookup against an authoritative store produces a different absence: the
+instrument ran perfectly, nothing failed, and **the key is simply not there.**
+
+Its next action is none of the three the others take. It is not "report none",
+because something may well be true and merely unrecorded. It is not "run the
+instrument", which already ran. It is not "fix the instrument", which is not
+broken. It is: **fall back to a weaker source, and stamp the answer with the
+weaker source's authority.**
+
+The failure this prevents is silent promotion. One system built a typed ledger
+precisely so arithmetic would stop running on prose, and got the hard case
+exactly right — a fact whose value could not be resolved is nulled rather than
+defaulted, and the consumer is made to ask for it. One boundary away, a
+requested key that is absent from the ledger causes the system to fall back to
+reading the raw text, and the answer that comes back carries no mark saying so.
+The same system distinguishes absent from zero where a schema forced it and
+collapses the distinction where nothing did.
+
+So a store lookup owes two things beyond a value: a **miss is a typed outcome**,
+not an empty result, and any fallback path must **degrade the answer's stated
+authority** rather than substituting silently. An unlabelled fallback converts
+"not in the authoritative set" into something indistinguishable from an
+authoritative answer, which is this technique's own failure with a different
+door.
+
 ## When not to use it
 
 - **When the zero is the product.** For a signal whose entire purpose is to

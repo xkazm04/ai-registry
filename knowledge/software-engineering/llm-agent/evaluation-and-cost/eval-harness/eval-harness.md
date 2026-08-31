@@ -16,6 +16,9 @@ techniques:
   - discriminating-task-selection
   - certification-levels
   - measurement-revision
+  - reliability-aggregation
+  - candidate-write-access
+  - resolution-precondition
 ---
 
 # Evaluation & benchmarking
@@ -87,6 +90,11 @@ pass-rate against a threshold) declared alongside it, because a score that
 travels without its aggregation rule will be compared against a score
 computed differently
 ([_laws: count-carries-predicate_](../../../_laws.md#count-carries-predicate)).
+That list of rules is not closed, and the entry it is missing is the one most
+shipping decisions rest on: the probability that *every* attempt succeeds,
+which falls as trials are added where the others rise. reliability-aggregation
+owns the choice between it and its optimistic twin, and why the pair is worth
+more than either.
 
 **Repeatability is engineered, not assumed.** Whatever *can* be pinned, is:
 input fixtures frozen, sampling seeds fixed where the platform honors them,
@@ -101,6 +109,29 @@ intermittent failure indicates a defect in the test or the harness. Here,
 variance across identical runs *is a measurement* — of the system's
 stability under the scenario. The harness records it as a first-class output
 rather than retrying until green.
+
+## Variance is reported, but a ranking must first be earned
+
+Reporting variance beside the mean is a discipline about the *number*. It
+does nothing about the artifact people actually act on, which is the order —
+a table sorted best-to-worst is read as a ranking no matter what the caption
+says, and the caption is where the variance went.
+
+So an order carries a precondition, checked before it is published: the
+**between-condition spread of the whole compared set must exceed the
+within-condition standard deviation**. Where it does not, the harness has
+not produced a ranking; it has produced a draw with a sort applied, and the
+honest output is the tie. That is not a weaker result — a measured tie
+closes a question permanently, which no sorted list ever does. The same
+check kills a convenience assumption rankings rest on, that ordered knobs
+are ordered: effort and tier axes have been measured to run backwards on
+some tasks and forwards on others, so a monotone axis is established per
+task or not claimed
+([resolution-precondition](./techniques/resolution-precondition.md)).
+
+This floor has a second contributor with a separate cause — the judge's own
+self-disagreement, below — and the binding constraint is whichever is
+larger.
 
 ## The judge is inside the system under measurement
 
@@ -187,6 +218,35 @@ the failing attempt is the only coordinate the run produces
 ([overshoot-and-restore](./techniques/overshoot-and-restore.md)). The two
 compose in one order only: screen the suite, then push against it, because
 pushing against unscreened scenarios finds a boundary that is not there.
+
+## The candidate can write to the instrument
+
+Everything above holds the instrument still. That presumes the candidate
+cannot move it — a safe assumption while the system under test was a model
+emitting text, and a false one the moment it is an agent holding the same
+shell the harness holds. It can read the suite, edit the suite, rebuild the
+environment, and leave files the next condition will read.
+
+The rule is short and the enumeration it demands is done before the run,
+not after a result looks too good: **whatever the candidate can write, the
+measurement cannot assert.** Two surfaces, failing differently. Write access
+to the *instrument* turns the suite into a target, and the corrective is not
+a prohibition — "do not overfit" is unfalsifiable where it would have to be
+checked — but a structural one that reads backwards: **declare the
+holdout.** Telling a candidate an unseen set grades it generalizes measurably
+better than instructing it not to overfit, and the tell that it is working
+is that the *visible* score gets worse while the held-out score rises. Write
+access to the *neighbours* is the subtler one: in a matrix sharing a working
+directory, one condition's agent repairing a broken environment can leave
+every later condition scoring against its artifact, and the resulting
+ranking is a fact about run order that per-case attribution cannot see.
+Probe it by permuting condition order
+([candidate-write-access](./techniques/candidate-write-access.md)).
+
+This is the third member of the screening family and it composes in a fixed
+order: screen the scenarios, enumerate the write surfaces, then push against
+the suite. Pushing against a gate the candidate can edit finds a bound it
+moved.
 
 ## A red case names a layer, not a defect
 
@@ -325,6 +385,13 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [discriminating-task-selection](./techniques/discriminating-task-selection.md) —
   ranking a population on the scenarios it is split on: frozen pool, moving
   selection, weighted estimates, and why regression gates want the opposite.
+- [resolution-precondition](./techniques/resolution-precondition.md) — the
+  check before a ranking is published: within-condition SD against
+  between-condition spread, reporting the tie as the finding, and the
+  monotone axis nobody measured.
+- [candidate-write-access](./techniques/candidate-write-access.md) — what
+  the candidate may read and write, declaring a holdout instead of
+  forbidding overfitting, and the condition that scores its successors.
 - [certification-levels](./techniques/certification-levels.md) — theoretical
   passes gating empirical ones, promotion criteria, what only the live level
   can see.

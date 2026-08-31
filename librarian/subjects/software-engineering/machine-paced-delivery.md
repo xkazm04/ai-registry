@@ -1,7 +1,7 @@
 ---
 subject: machine-paced-delivery
 domain: software-engineering
-last_touched: 2026-08-29
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -91,3 +91,52 @@ same thesis `human-gate-capacity` landed on 2026-08-27 - build collapses, the
 human-speed stages become the constraint, add parallel sessions only while review
 keeps up. Catch at technique level; banked as a **law lead** (second sighting, same
 bundle both times). Return condition: a third sighting in a different bundle.
+
+[[2026-08-31-remeda]]: intake of a utility library's repository, mined for its
+`.agents/` + `.claude/` tree rather than its library. Gained **two techniques**
+(8 now) and an application. Golden path amended in three places: two new prose
+sections and the technique list.
+
+`stake-before-merit` is the **missing-stage** shape again, and the stage is
+upstream of everything the subject models. `human-gate-capacity` names demand
+reduction as the only lever and then lists four - send fewer changes, cheaper
+verdicts, narrower classes, stated service level - **every one of which assumes
+the party feeling the overload generates the arrival**. It says so outright ("a
+decision the team is already making"). At an outward-facing gate none of them is
+reachable, and the subject had no other lever to offer. Two things the source
+located without articulating: the ration was an *accident* (producing a plausible
+change used to be expensive, so submission carried evidence of investment) that
+nobody wrote down, so nothing announced its removal; and a merit filter cannot
+replace it, because deciding whether a change is worth reviewing means reviewing
+it - the predicate spends the resource it protects.
+
+`mutating-local-gates` is a **boundary against another bundle's rule**, and the
+boundary is inside this bundle's own lane. `hook-hygiene` states a flat
+prohibition ("Hooks observe; they never mutate") with one carve-out, the
+editor-on-save loop. The agent turn boundary is a third position it was never
+written against, and checking its three contracts one at a time rather than
+inheriting the verdict gives two of three transferring - which is what made this
+a technique rather than an exception. Named, not linked around: the commit path
+keeps the prohibition intact and this file says so.
+
+## The apply step re-drafted the technique, twice
+
+Worth recording because it is a first for this subject and arguably for the
+method. `mutating-local-gates` was drafted claiming *mutation* creates a turn-end
+gate's termination contract. The seam - a managed project's own turn-end gate -
+neither mutates nor blocks and **still** carries a re-entry guard, because its
+advisory exit re-enters the model's loop. Draft 2 said *blocking* creates it; the
+same file refuted that in its own header. The landed version carries a three-tier
+ladder (advisory / blocking / mutating) and names the advisory tier as the one
+most likely to ship unguarded, because it looks harmless.
+
+Generalizes: **a technique written from a single source is a hypothesis, and the
+seam is the first thing in the pipeline that can disagree with it.** Phase 7.5 is
+described as validation; here it was a drafting instrument.
+
+Second corroboration from the same seam, for the liveness paragraph: that gate
+detected nothing for its entire life - 1,136 Edit/Write calls across 31
+transcripts, zero detections - and ran green the whole time, because its
+turn-boundary predicate broke on line one. It independently reached
+`gate-liveness`'s three-state contract afterwards, which is corroboration for the
+standard rather than an application of it.

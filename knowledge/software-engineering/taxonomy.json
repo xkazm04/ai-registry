@@ -265,7 +265,8 @@
         "markdown-vault",
         "sql-console",
         "templates-scaffolding",
-        "web-scraping"
+        "web-scraping",
+        "document-text-extraction"
       ]
     },
     {
@@ -281,7 +282,8 @@
             "packaging",
             "release-pipeline",
             "codegen",
-            "test-harness"
+            "test-harness",
+            "test-input-generation"
           ]
         },
         {
@@ -292,7 +294,9 @@
             "module-design",
             "dead-code",
             "docs-sync",
-            "concurrent-vcs"
+            "concurrent-vcs",
+            "machine-authored-documentation",
+            "dependency-declaration"
           ]
         },
         {

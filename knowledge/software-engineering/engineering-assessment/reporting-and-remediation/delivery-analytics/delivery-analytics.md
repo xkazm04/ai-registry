@@ -8,6 +8,7 @@ techniques:
   - attribution-channels
   - review-coverage-rate
   - revert-linkage
+  - post-landing-repair-density
   - batch-size-thresholds
   - off-platform-signal-detection
   - delivery-metric-denominators
@@ -120,7 +121,7 @@ and *observed* coverage are
 
 ## Reverts are the cheapest failure signal and the most undercounted
 
-A change that had to be undone is the only failure signal available from
+A change that had to be undone is the cheapest failure signal available from
 history alone, without an incident system, a deployment record, or a human's
 account of what went wrong. It is also structurally undercounted: a fix-forward
 patch, a silent rollback of a deploy, a revert authored by hand without the
@@ -131,6 +132,25 @@ it is a lower bound on one failure mode. Linking a revert back to the change it
 undid, so that the metric can name the batch size and review state of what
 failed, is where the signal earns its keep:
 [revert-linkage](./techniques/revert-linkage.md).
+
+## A repair stream is a failure signal that has not resolved yet
+
+Reverts are cheap because they are terminal: someone decided, and the decision
+left an artifact. The corollary is that the signal arrives *after* the only
+moment at which it could have changed anything, and it says nothing about a
+change that was kept and repaired instead — which, on a team that fixes
+forward, is all of them. That is not revert undercounting to be disclosed; it
+is a second signal, in the same material, that nobody read.
+
+The repairs a change required **after a declared instant** — a freeze, a
+release cut, a promotion to a stable branch — are a graded failure signal
+available while the decision is still open. Their count is the weakest thing
+they carry: the severity classes present, and the density over the surface
+actually repaired, are what separate a change that is settling from one that is
+still dangerous. And the inference the stream licenses is narrow — that
+undiscovered defects remain — and is not the separate argument that a change
+has been cut back until it is no longer worth having. See
+[post-landing-repair-density](./techniques/post-landing-repair-density.md).
 
 ## Batch size is a threshold judgment, not an average
 

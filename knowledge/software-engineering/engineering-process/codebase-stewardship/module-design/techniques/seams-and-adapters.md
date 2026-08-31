@@ -41,7 +41,7 @@ tests later to seamless code requires introducing seams, which is the design
 work that was being deferred. Saying so converts a scheduling promise into an
 estimable piece of work, which is the honest version of the conversation.
 
-## Where a seam belongs: three signals, which can disagree
+## Where a seam belongs: four signals, which can disagree
 
 1. **Dependency direction.** A seam earns its cost where a dependency currently
    points from the part of the system that encodes the organisation's own
@@ -61,9 +61,24 @@ estimable piece of work, which is the honest version of the conversation.
    than one plausible supplier now or later, plus anything that is the subject
    of an active organisational decision.
 
+4. **Ownership of a premise.** A seam earns its cost where your correctness
+   depends on a *structural* fact about the dependency rather than on its
+   behaviour — that two of its categories are distinct, that a set has exactly
+   these members, that a name means one thing. Behaviour is what tests pin;
+   these facts nothing pins, and the dependency's owner may change them in a
+   release that breaks you without appearing in your diff. Restating the
+   grouping in a contract you own converts their taxonomy decision into yours.
+   [borrowed-surface](./borrowed-surface.md) owns this failure in both its
+   forms.
+
 When the signals disagree, rate of change is the tiebreaker, because it is the
 only one measured from history rather than from prediction. Dependency direction
-and future replaceability are both bets; change frequency is a record.
+and future replaceability are both bets; change frequency is a record. The
+fourth is neither — it is a fact checkable today, by asking what your code would
+do if a category you did not define acquired one more member, and it is the only
+signal that can fire on a dependency which is stable, single-supplier and
+perfectly testable. Where it fires, the "when not to use it" advice below does
+not apply: own the contract anyway.
 
 ## The single-door rule
 

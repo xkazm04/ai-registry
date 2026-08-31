@@ -14,6 +14,7 @@ techniques:
   - workspace-ancestry-isolation
   - substrate-coupled-expiry
   - sibling-floor-ownership
+  - capability-coverage-contract
 ---
 
 # Agent instruction files

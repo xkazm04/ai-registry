@@ -87,6 +87,51 @@ of writing, the swallow is the cheapest thing that compiles. Invert that:
   This converts the census's remainder from "unknown risk" to "audited
   list", and makes an *undeclared* bare swallow unambiguous in review.
 
+## When leniency is the architecture, invert the marker
+
+Everything above assumes the swallow is an exception: a handful of
+intentional drops in a codebase that otherwise routes. One family of
+component breaks that assumption by design — the lenient reader, specified
+to skip what it cannot use and keep going, so that a defect in one region of
+an input does not cost the caller every other region. There, absorbing is
+not the exception; it is the contract, and it happens at more sites than
+anyone will ever annotate.
+
+Applied literally, the per-site marker fails twice over: annotating every
+recovery point produces a declaration list the size of the subsystem, which
+nobody reads and which the census cannot distinguish from the defect it was
+meant to isolate. The correction is to stop marking the drops and start
+enumerating the **exemptions** — and to move the annotation off the sites and
+onto the error vocabulary, where it is answered once per category rather than
+once per occurrence
+([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)).
+That predicate is the recoverability axis in
+[taxonomy-design](./taxonomy-design.md); what matters here is what it does to
+the census.
+
+Three things change, and each is a question to ask of any component that
+recovers by default:
+
+- **The denominator moves from sites to categories.** "Which catch bodies
+  reach a door" is unanswerable across a recovering parser and uninteresting
+  if answered. "Which categories may be absorbed, and who decided" is a
+  list short enough to review in one sitting and stable enough to ratchet.
+- **The exemption set is the audit target, because it is the attack
+  surface.** The categories minted to *stop* the operation rather than to
+  describe it are the ones an adversary reaches by relocating the payload
+  into whichever region the reader treats as optional. Review that set on
+  its own terms; it is where a one-line change converts a hard limit into a
+  suggestion, and no site-level census will show it.
+- **Absorbed still owes a door, and the door is the one that decays.** A
+  recovering component's absorptions are background failures: telemetry and
+  a log, silently, per [error-doors](./error-doors.md). This is the routing
+  the standard already prescribes, and it is also the first thing dropped
+  when the recovery path is made fast, because a skipped region produces no
+  symptom at the skip. A component that recovers a thousand quirks and
+  records none of them has satisfied its contract and blinded its operator —
+  the count of absorptions, by category, is the instrument that keeps the
+  contract from becoming an alibi.
+
 ## Keep the gate honest over time
 
 - **Extend the gate toward the target as far as static analysis allows:**

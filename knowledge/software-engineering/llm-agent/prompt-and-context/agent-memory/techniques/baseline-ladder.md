@@ -49,6 +49,54 @@ Rungs 2 and 3 are not strawmen to be waved at on the way to rung 4. They are
 the incumbent. The pipeline is the challenger, and it is the challenger's job
 to show the delta.
 
+## The learned rung, and the one it is usually measured against instead
+
+The four rungs above are all *architectures*, and they are all written for a
+consumer whose weights do not change. Where the memory operations are trained
+into the policy rather than designed — which entries to write, which to
+supersede, which to recall — the ladder needs a rung of its own, and the
+substitution that gets made instead is the wrong one.
+
+The rung is: **the same system with the learned decision pinned.** Fix the
+policy to a constant assignment, a random one, and where it is computable an
+oracle one; run the identical pipeline. That is the arm which separates *the
+pipeline is good* from *the policy is good*, and those are separately
+purchasable. A learned design that beats several rival architectures has shown
+only the first.
+
+The substitution to refuse is a comparison against rival *systems*. It is the
+easier table to build and it answers a different question, and it is what gets
+published: a learned memory router measured against seven competing memory
+systems, with no fixed-assignment arm anywhere and its only ablation on a
+reward-normalization constant, cannot say whether the learning bought anything
+at all.
+
+**And the evidence for an adaptive policy is its dispersion at one setting, not
+its mean across settings.** Reporting the policy's average selection frequency
+per cost weight is what a global mixture also produces; the statistic that
+separates a per-query policy from a knob is the variance across queries with
+the knob held still. A design that publishes only the sweep has described a
+dial and called it a policy.
+
+## The stage ablation carries its operating regime
+
+Removing a stage and re-scoring is the within-pipeline counterpart to the rungs
+above, and it inherits `count-carries-predicate` in a form that is easy to
+miss: **a stage ablation measures the regime it was run in, not the stage.**
+
+Ablate forgetting in a store that never filled and the result is that
+forgetting is worth nothing — which is true of that run and false of the
+technique. One measured instance: removing the delete operation from a learned
+memory policy cost almost nothing, and the same paper's capacity appendix shows
+delete and update frequencies rising once the store is capped, so the operation
+was barely firing in the arm that ablated it. The number is real and it reports
+the absence of pressure.
+
+So ablate a stage only under the pressure that stage exists to answer: decay
+only over a full store, supersedence only past a reversal, capture only past
+the window, recall budgeting only where the candidate set exceeds the budget.
+State the regime beside the delta, or the delta belongs to the regime.
+
 ## The ladder is not an argument against the pipeline
 
 Losing a rung-2 comparison is not evidence that the four structural objections
@@ -65,6 +113,32 @@ beliefs must be correctable, auditable and governed — and those are the two
 conditions to state out loud before running anything. Where neither holds, the
 lower rungs are the right answer and the pipeline is overhead wearing a
 discipline's clothes.
+
+## The elaboration regime is a predicate too, and it is the largest one
+
+Before the confounds below, one that is cheaper to check than any of them and
+is routinely left uncontrolled: **how much reasoning the consumer was asked to
+do.** It is not a property of the memory design at all, and it moves results
+further than the designs do.
+
+Measured on one instrument: the same evidence, the same consumer, no retrieval
+difference, one added instruction to reason step by step before answering —
+and the result moved 21.8 points, recovering most of a gap that had been
+reported as a memory-architecture finding. A control that measured tokens
+spent ruled out generation volume as the cause; the elaboration itself was the
+term.
+
+So a rung's number travels with the elaboration it was produced under, and two
+rungs are comparable only when that is held fixed. A ladder whose lower rungs
+answer directly and whose top rung reasons in stages is measuring prompting
+with an architecture's name on it.
+
+The ladder also has no **ceiling** arm, and one is worth adding where it is
+constructible: the best any design could do on this task, evidence-wise —
+every item the answer requires, supplied outright. Treat it as a diagnostic
+and never as a bound, because it is neither. A staged process has been measured
+*above* such a ceiling even with elaboration held equal, because a minimal
+sufficient evidence set is not the same object as a maximally helpful one.
 
 ## The score's predicate is the consumer and the index
 

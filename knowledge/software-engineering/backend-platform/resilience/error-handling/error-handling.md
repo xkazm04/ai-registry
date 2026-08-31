@@ -5,6 +5,7 @@ subject: error-handling
 status: forged
 techniques:
   - taxonomy-design
+  - reclassification-is-not-repair
   - error-doors
   - user-facing-mapping
   - structured-propagation
@@ -52,6 +53,26 @@ consumers' branching questions — retryable? whose fault? what remediation? —
 are answerable per category. Designing that set, keeping it closed, and
 mirroring it across language and process boundaries is
 [taxonomy-design](./techniques/taxonomy-design.md).
+
+## The class that must never fire, and what to do when it does
+
+One member of the taxonomy is different in kind from the rest: the internal
+class, whose declared rate is zero and whose entire value is its silence. It is
+not the catch-all — the catch-all means *we did not recognize this*, the
+internal class means *we recognized it and it is impossible* — and because its
+expected rate is zero, it is the one category a suite you already run can
+detect for free: every occurrence is a defect report with its own reproduction
+attached.
+
+What follows a hit is a fork, and taking the wrong branch is the most common
+way a team loses the detector. Either the declaration was wrong and the
+condition deserves a real class, or the declaration was right and some caller
+produced a value it never should have — in which case assigning a friendlier
+code states something false and closes the finding without fixing anything
+([_laws: deletion-is-not-repair_](../../../_laws.md#deletion-is-not-repair)).
+The separating question is whether a user can reach the condition through a
+documented interface with values it accepts. See
+[reclassification-is-not-repair](./techniques/reclassification-is-not-repair.md).
 
 ## Classify on structure, never on prose
 

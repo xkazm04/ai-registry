@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
-  "techniques": 100,
-  "applications": 51,
+  "techniques": 101,
+  "applications": 52,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "100/100",
+  "use_when_coverage": "101/101",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -628,6 +628,21 @@
      ]
     },
     {
+     "slug": "repeatability-floor",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "the-judge-is-both-untrusted-and-under-test"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a per-cycle calibration drop has triggered an alert",
+      "setting the minimum detectable change for a judge trend",
+      "a single judge verdict gates a release or reaches a customer",
+      "a rubric weights a subjective dimension heavily"
+     ]
+    },
+    {
      "slug": "reserved-rubric-persistence",
      "status": "forged",
      "laws": [
@@ -685,6 +700,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "repeatability-floor",
+     "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/node--repeatability-floor.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
     {
      "stack": "process",
      "technique": "golden-set-agreement-measurement",
@@ -2015,6 +2037,7 @@
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
+    "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
     "quality-regression-gating/family-wise-correction",
     "quality-regression-gating/fixed-alpha-discipline",
@@ -2043,6 +2066,7 @@
     "cross-provider-benchmark-operations/target-matrix-runs",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/judge-selection-by-spread",
+    "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/scheduled-recalibration",
     "judge-calibration-and-drift/trust-bar-verdict",
     "judge-contract-design/bias-counterbalancing-instructions",

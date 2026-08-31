@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-08-30
-touched_by: deepen
+last_touched: 2026-08-31
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -11,6 +11,38 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-08-31 - `/intake`, operator-directed at memory
+
+Gained `lane-reconciliation` and `probe-without-write-back` (11 -> 13 techniques), plus
+two applications carrying `better` verdicts. Source: [[2026-08-31-genesis-agi]] - a
+20,905-LOC memory subsystem shipped with its own architecture documents and ADRs.
+
+Both findings are **below the pipeline**, which is why eleven techniques of judgment
+could not see them. Every existing technique governs what belongs in the store; these
+two govern the machinery underneath it, and both defects are produced by components
+that are individually correct.
+
+The first is a missing stage. A store is a record plus derived retrieval lanes with no
+shared transaction, so a half-completed fan-out leaves an item that satisfies
+provenance, freshness and non-redundancy and cannot be recalled - and
+`coverage-instrumentation` reports it covered, because coverage joins the record. The
+severity discriminator did **not** come from the source: it came from the A/B tree,
+where two structurally identical derived lanes land in opposite severity classes purely
+because one lane's readers carry a fallback and the other's is promoted back into the
+record on rehydration.
+
+The second is an asymmetry the corpus had already half-modelled twice. `retrieval-
+evaluation` requires the eval to run the production path and models eval-to-system
+contamination only through the human tuning channel; `memory-value-model` models the
+retrieval-feeds-rank loop and bounds it against organic traffic. Neither asks who else
+calls recall. The read path writes, so a scheduled probe inflates its own ground truth
+forever. The source implements the fix and gets the observation period wrong - it
+reports `healthy` before a baseline exists, which is exactly the unverifiable-as-
+verified collapse - so the technique is written against the corrected rule.
+
+Still the #1 attention point after this run: the two largest memory files in the source
+(`retrieval.py`, `dream_cycle.py`, 3,518 LOC combined) were never opened. Lead banked.
 
 ### 2026-08-22 - `/research`, from an external source
 
@@ -210,3 +242,38 @@ literal no-sources string as if it were a citation.
 - Four techniques (one-value-model, provenance-as-trust-anchor, human-gated identity,
   empty-vs-failed recall) were **not attacked this run** and produced no new evidence.
   Recorded as not-examined rather than as dry, which are different facts.
+
+### 2026-08-31 - `/intake`, second pass, operator-directed at memory
+
+Gained no techniques. `probe-without-write-back` gained two sections and a refinement;
+`applications/rust--probe-without-write-back.md` is new and carries `better`. Source:
+[[2026-08-31-future-agi]] - an open-core platform whose tree holds two agent memory
+systems built to different standards, neither aware of the other.
+
+**The amended technique was created earlier the same day**, by the run above. That is
+not a collision but the useful case: a technique lands, a second source is read against
+it within hours, and the second source is a counterexample to a specific sentence in it.
+The sentence was the closing claim of "Which default the structure hands you" - that a
+misplaced explicit write produces an under-count, and that an under-count "is the better
+failure" because the item is ranked conservatively.
+
+It is not conservative when the misplacement inverts the counter's meaning rather than
+lowering it. In the source, the usage columns are written by the persistence helper -
+the get-or-create every writer already calls - and by a single-key lookup, while the
+bulk read that actually serves memory to the agent writes nothing. The usage axis then
+counts edits, which is the exact failure `memory-value-model` installed that axis to
+repair. Absence would have been safer: zeros get noticed, plausible integers do not.
+
+So the technique now carries the writer-side enumeration beside the reader-side one, and
+the argument that they do not substitute for each other - the reader-side question
+presupposes that counting happens at the read path at all.
+
+The A/B is the strongest part and it ran both arms on one managed tree. Arm A returned
+zero findings over four production read sites; arm B returned one, and the finding is a
+delivery surface arm A's own default (suppress new machine callers) correctly blesses.
+The apply step also corrected the amendment: a read that hands its selection to a later
+consumer must be counted at the consumer, not the read, and a naive writer-side audit
+flags that correct deferral as an omission.
+
+Second technique amended this run in another bundle - see [[entity-lifecycle]], which
+holds the opposite side of the same source's memory-deletion story.

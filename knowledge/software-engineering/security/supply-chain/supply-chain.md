@@ -10,6 +10,8 @@ techniques:
   - permission-manifest-scoping
   - archive-extraction-safety
   - update-automation-review
+  - toolchain-floor-drift
+  - vendored-fork-ledger
 ---
 
 # Supply-chain & secret hygiene
@@ -103,6 +105,50 @@ release is engineered to pass exactly such tests. Risk-tiering, batching
 cadence, and the exposure-window metric are
 [update-automation-review](./techniques/update-automation-review.md).
 
+The mirror case is the update **nobody proposed**. A project's declared
+minimum toolchain is a claim about a number it does not own: the effective
+floor is the maximum across the whole transitive graph, and ecosystems
+routinely permit a package to raise its own declared minimum in a *patch*
+release, on the argument that its interface did not change. So the floor
+rises without a manifest diff, without a proposal to review, and without any
+change by the team — surfacing days later as a build failure on the one lane
+still running the old toolchain, during an unrelated change. The two halves
+belong together: this subject reviews the code that arrives, and must also
+notice the constraint that arrives with it. A pipeline that builds only on
+the current toolchain has never observed the floor the project advertises,
+which makes the claim prose rather than a fact. The lane that makes it a
+fact, the reason a locked resolution is the wrong instrument for it, and how
+long a support window costs nothing to hold, are
+[toolchain-floor-drift](./techniques/toolchain-floor-drift.md).
+
+## Forking a dependency does not break its guards — it ends them
+
+Both mechanisms above watch a *crossing*: the policy reads the resolved graph,
+the review reads the proposal. Copying a dependency's source into the
+repository and patching it satisfies neither by escaping both. The resolved
+graph no longer names an upstream version for that code, so advisory and
+license matching have nothing to match; update automation has no update to
+propose; and every mechanical test now classifies the code as first-party.
+Nothing fails. The dependency stops being watched, and per
+[absent-guard-is-loud](../../_laws.md#absent-guard-is-loud) an ended guard that
+announces nothing is the one that decays fastest — this one announces nothing
+by construction.
+
+Forking is often the right call, and the standard is not to forbid it but to
+price it. The price is a committed **ledger**: the upstream commit the copy was
+taken from, and one indexed entry per local patch carrying why it exists, the
+base it applies to, the verification that proves its behaviour, and — the field
+that does the work — a **removal condition stated as a falsifiable event**. A
+patch is a created thing with no natural owner, and
+[creation-names-reaper](../../_laws.md#creation-names-reaper) says the question
+"what removes this?" is answered at creation or never. Because a prose index is
+a claim about two trees, it is verified rather than trusted: an inventory check
+in both directions, plus clean reverse-application of every patch against the
+vendored source, which is what proves the index still describes the tree
+([gate-sees-target](../../_laws.md#gate-sees-target)). The entry's fields, the
+re-vendoring walk, and why the overridden version must be pinned exactly are
+[vendored-fork-ledger](./techniques/vendored-fork-ledger.md).
+
 ## Permissions are scoped manifests, and every widening is a diff
 
 What an application is *allowed* to do — filesystem reach, shell access,
@@ -176,3 +222,11 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
 - [update-automation-review](./techniques/update-automation-review.md) —
   reading the changelog before the merge button, risk tiers, lockfile-diff
   review, and measuring the exposure window.
+- [toolchain-floor-drift](./techniques/toolchain-floor-drift.md) — the
+  effective floor as the maximum over the transitive graph, building at the
+  declared minimum with a consumer's resolution, and choosing a support
+  window against its real cost curve.
+- [vendored-fork-ledger](./techniques/vendored-fork-ledger.md) — the recorded
+  upstream commit, per-patch entries with falsifiable removal conditions,
+  two-way inventory plus reverse-apply verification, the re-vendoring walk,
+  and exact-pinning the version being overridden.

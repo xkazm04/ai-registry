@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: review-iteration-loops
-last_touched: 2026-08-28
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -53,3 +53,52 @@ image inpainting masks.
 - Gate disposition landed with it: a clip whose only failing defect has an editorial remedy is **accepted with a named repair**, and the repair travels as provenance - nobody downstream can see from a clean timeline that a shot is holding a crop it must not lose or a reversal it must not re-cut through.
 - Same technique, second amendment: **a multi-panel sheet has no addressable region.** A one-panel fix re-renders every panel and the model re-decides the others while it is there, so the composite the technique already prefers becomes compulsory - and the step nobody performs is to **diff the panels you did not ask about**.
 - Frontmatter gained the two law citations the new material genuinely rests on (`cost-per-usable-output`, `refusal-is-a-state`).
+
+## 2026-08-31 - intake, OpenMontage (critique-carries-its-fix)
+
+Gained `critique-carries-its-fix` from [[../../sources/2026-08-31-openmontage]].
+
+The subject's existing techniques all govern feedback arriving **from** a creator -
+`note-taxonomy-focus-scope-order` reads the register, `scope-vs-preference-signals`
+resolves precedence. Nothing governed findings the pipeline generates **about its own
+work** and hands to an automated stage. That was the missing direction.
+
+Corroborated by the primary the source cites, and the fetch corrected the source: the
+axes are **precision, recall and constructiveness** (arXiv 2604.21718), not the
+"Accurate / Complete / Constructive" the source renamed them to, and the CMU/Harvard
+attribution is unsupported. Written against the paper's terms, which are better - the
+first two are a retrieval pair that trade off, which is exactly the reviewer's problem
+and the thing the renaming hides.
+
+**Carries a cross-bundle boundary.** `game-production/craft-judgment/subsystem-review-doctrine`
+holds `severity-by-consequence`, which forbids folding fixability into severity and
+keeps confidence on its own axis. This technique folds constructiveness into severity.
+Both are correct, and the discriminator is stated in prose on this side with no
+cross-bundle link: **does the consumer decide, or act?** A human queue can hold an
+unactionable critical; an automated stage converts one into a fabricated fix. A later
+run meeting this shape should recognise it rather than re-litigate it.
+
+Applied to `gravity` as **code**, verdict **better**, **shipped** as `b256f24`. Its extract loop already
+implements the rule's strong form independently - the critique schema requires the fix,
+a shrug or an echo is rejected, and the loop ends rather than iterating on an
+unactionable critique. The gap was downstream accounting: four settle causes collapse
+into one boolean, and an abandoned replica takes the same progress credit as a
+completed one.
+
+The ship **corrected the experiment that proposed it**, and the technique is better for
+it. The A/B's second measure - that an abandoned replica takes a completed one's progress
+credit - looked like the defect and is not one: that consumer asks "will more work happen
+here", for which an abandoned replica is genuinely finished, and the repo's own probe
+already asserts the count is right. Committing it would have reintroduced a stall an
+earlier fix had removed. The real cost was one layer on, where a replica's best frame is
+promoted into the durable style catalogue as an exemplar with no record that the loop had
+given up on it. The technique gained a **third consumer type** from the correction: one
+that asks only whether more work remains, and is right to collapse every cause into a
+boolean. Expect the cause to be needed at the door where findings become durable evidence,
+not at the one where they become schedule.
+
+### Still open
+
+Whether the demotion's routing claim holds where both consumers exist. That tree has
+one consumer of a settled replica; a pipeline surfacing investigations to a human
+alongside blocking findings would exercise the half nothing has tested.

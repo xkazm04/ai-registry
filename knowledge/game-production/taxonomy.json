@@ -36,6 +36,7 @@
         "content-acceptance-tiering",
         "content-drift-and-revision",
         "generative-artifact-gating",
+        "reference-parity-gating",
         "wiring-contract-doctrine"
       ]
     },

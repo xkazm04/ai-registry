@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-08-27
-touched_by: research, external-reconcile, deepen, intake
+last_touched: 2026-08-31
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -170,3 +170,30 @@ one that can read the resource.
   being single-tenant - one install, one organisation, one account - so the server is
   inherently one-per-install. Adjacent to `transport-selection`. Return when a second
   source argues topology from cardinality; one instance is a habit, two is a rule.
+
+## 2026-08-31 - reference-index run
+
+Touched by [[2026-08-31-voltagent-agent-papers]]. One amendment to
+`untrusted-result-handling`, from **Family B** (two independent sightings).
+
+The technique's premise - tool output as attacker-influenced text delivered into the
+decision-maker's working memory - selects one direction of the arbitration, and every
+mechanism in the file implements only that one: fence, attribute, never re-promote,
+validate shape, gate egress. All of them lower a result's weight; none raises it. The
+excluded case is the honest tool returning a correct result that contradicts the model's
+prior, where the prior wins by default.
+
+The literature disagrees on which side actually wins, and **the disagreement is the
+finding** rather than something to resolve by majority: the arbitration outcome varies
+by model, by setup and by conflict type, so a system implementing distrust alone has not
+picked a conservative tiebreaker - it has picked an unpredictable one. Below some
+capability line the failure is lopsided: a small model will call a tool correctly and
+then answer from its prior anyway, with nothing in the transcript recording that it did.
+
+The golden path claims the tool boundary is a trust boundary "in both directions" and
+both of its stated directions run the same way; it also calls this technique the one
+least optional in the set. Enumeration hunt, paid.
+
+Applied to `personas` as `structural-only`: the agent layer contains **no arbitration
+vocabulary at all** - conflict, contradiction, disagreement, mismatch, any spelling,
+zero hits. A codebase does not grow a decision it has no word for.

@@ -6,7 +6,7 @@ technique: locality-and-leverage
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
-use_when: [arguing that a boundary is in the wrong place, choosing between two competing structural proposals, deciding what to co-locate]
+use_when: [arguing that a boundary is in the wrong place, choosing between two competing structural proposals, deciding what to co-locate, pricing a boundary that is about to be made private]
 ---
 
 # Locality and leverage
@@ -129,6 +129,70 @@ When the two genuinely conflict and no reframing dissolves it, prefer locality.
 Leverage is collected by whoever is calling the module today; locality is
 collected by everyone who changes it for as long as it exists, and the second
 population is larger and includes people who were not consulted.
+
+## The cost that neither payoff prices
+
+Both payoffs are collected by people who already found the module. Locality is
+collected by whoever changes it; leverage is measured at the call site, and a
+call site exists only because somebody knew there was something to call.
+Discovery precedes learning, and the ratio in
+[module-depth](./module-depth.md) begins its accounting one step after it.
+
+That matters because hiding acts on two different things and is usually bought
+with one declaration. Making a module's *internals* opaque is what depth is for
+and it is free to callers — they were never going to reason about the
+representation. Making the module's *existence* invisible is a different act
+with a different price, and the mechanism that delivers the first — a private
+region, an unexported symbol, a package that declares its public surface —
+almost always delivers the second as a side effect nobody chose. A capability
+that cannot be found is not reused. It is built again, by whoever needed it and
+did not know it was there.
+
+**The subject's instruments cannot see this, and one of them is actively
+misleading.** Scatter has the inverse signature: two independent copies of a
+capability produce edits in *one* place each, not several, so the structure
+whose duplication is worst scores best on the diagnostic. Depth cannot see it
+either — both copies may be entirely well-formed deep modules, and reviewing
+either one in isolation finds nothing wrong, because nothing is. Leverage
+cannot see it because it is only ever computed over callers who exist. A
+structure can therefore pass every test this technique offers while paying for
+the same capability three times.
+
+The signal is in a different ledger. Scatter is measured from change history;
+this is measured from **defect history** — the same fix requested twice from
+unrelated regions of the tree, months apart, with nobody noticing the two
+reports were the same report. The prompt is: *when this was fixed, was it fixed
+everywhere it was wrong?* Locality promises "fixed once" and this is the case
+where that promise fails quietly, because the second site was never in anyone's
+list of places to look.
+
+**The discriminator is the test this technique already carries, pointed the
+other way.** Would the two implementations have to change together?
+
+- **Yes** — then the duplication is waste caused by invisibility. The boundary
+  hid something that should have been shared, and the correction is to publish
+  it, not to delete one copy and route its caller through a private door. What
+  was wrong was the surface, not the second author's judgment.
+- **No** — then the duplication is correct and this file's existing rule already
+  governs it: two things that are structurally similar and change for different
+  reasons belong apart, and duplication is cheaper than the wrong abstraction.
+  The boundary did its job; the second implementation is not a symptom.
+
+Both readings look identical from a dependency graph, which is why the question
+has to be asked from the change record rather than from the shape.
+
+None of this is an argument against hiding, and pricing a cost is not the same
+as finding it decisive. The correction is narrower: **hide internals freely,
+and treat hiding a module's existence as a separate decision with its own
+cost.** The two can be separated — a boundary can publish what it is and what
+it is for while keeping every internal opaque — and the reason they usually are
+not is that one declaration was the cheapest way to get the first.
+
+The asymmetry is the same one that closes this technique's trade rule, which is
+what makes it easy to underweight in the same way. Leverage is collected by
+callers who are present and can argue for it. This cost falls on people who
+never became callers, who are not in the discussion, and who will report it as
+their own team's estimate rather than as a defect in somebody else's boundary.
 
 ## When not to use it
 

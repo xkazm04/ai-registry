@@ -104,6 +104,73 @@ telemetry into decisions three ways:
   objective, the depth bound is too deep: entries are being promised
   what the numbers prove cannot be delivered.
 
+There is a fourth use, and it is the one that turns this telemetry from a
+symptom report into a sizing instrument. **Time in the system multiplied by
+arrival rate is the concurrency the system must hold.** At a steady arrival
+rate, the number of requests in flight is arrival rate × time in system — so a
+wait measurement and an occupancy requirement are the same fact stated twice.
+Cutting wait at fixed demand *is* a capacity reduction: fewer slots, fewer
+connections, less memory held, less of whatever
+[resource-denominated-bounds](./resource-denominated-bounds.md) spends its
+budget on. A wait regression is capacity the system is already buying without
+anyone raising a purchase order. Every number this technique collects is
+already one side of that identity; turning the crank is what makes the queue's
+own measurements answer "how large must the pool be", instead of only "is
+something wrong". The saturation curve and the utilisation knee are a different
+subject's ground and should not be re-derived here — what belongs to the queue
+is the population identity.
+
+## The mean you report is not the wait anyone had
+
+The section above warns that averages forgive and names oldest-current-wait as
+the instrument that sees what they hide. That instrument catches starvation —
+one entry aging forever — and it is blind to a second, more common way the mean
+misleads, because this one is not a defect in the queue at all.
+
+**An average over entries and an average over affected callers are different
+numbers.** The queue computes per entry: sum the waits, divide by the count.
+But a caller is exposed to a slow period in proportion to how long it lasts, so
+callers land disproportionately inside the long stretches, and the wait a
+randomly chosen *caller* experiences exceeds the wait of a randomly chosen
+*entry*. The gap is the variance-to-mean ratio of the wait distribution, so it
+is negligible when waits are tight and unbounded when they are heavy-tailed —
+which is exactly the regime this subject exists for. A queue with no starvation
+at all, every entry draining, oldest-wait flat, can still be delivering callers
+several times its reported mean.
+
+Two figures follow from this and they are not the same number, so say which one
+is being reported. For a distribution of period lengths `X`, the mean length of
+the period a caller lands in is `E[X²]/E[X]`; the mean *remaining* time from
+the caller's arrival to the end of that period is half of it, `E[X²]/(2E[X])`.
+The first answers "how bad was the stretch I was in", the second "how long did
+I personally wait". Conflating them is a factor-of-two error in whichever
+direction was not intended.
+
+The consequence lands on the honest-promise rule above. An expected wait
+computed from a correctly measured mean is still optimism when the distribution
+is heavy-tailed — the measurement was not wrong, the population was. Where a
+caller-facing estimate is shown, derive it from the wait distribution's tail
+rather than its mean, or show position alone and promise nothing, which the
+rule above already prefers. The same correction applies to a class wait
+objective: an objective set against the mean is set against a number no caller
+experienced.
+
+**The two sections above are one error at two timescales, and the second is
+easier to miss.** The sizing identity is exact only over a window in which the
+arrival rate is what it is; averaged over a longer window it under-counts the
+occupancy the system must actually hold, for the same reason an entry-averaged
+wait under-counts the caller's — the quiet stretches contribute most of the
+denominator and none of the load. One measured store gives the spread directly:
+the same population computed over the burst that saturated it, over the day
+containing that burst, and over the month, comes out at **36.1**, **1.53** and
+**0.021** — a factor of seventeen hundred. The month figure says a fraction of
+one slot; the burst says four slots were exactly saturated and thirty-two
+entries were waiting behind them. **Averaging occupancy over a window no
+arrival experienced is the inspection paradox in the capacity direction.** Size
+against the busy period, and state the window beside the number, because a
+concurrency figure without its window is not a smaller claim than a wrong one —
+it is the same claim with the disagreement hidden.
+
 ## Verdict counters close the loop
 
 Alongside the durations, count the verdicts: admissions, queue-fulls,

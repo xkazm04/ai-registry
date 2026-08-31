@@ -53,7 +53,7 @@ prose gets paraphrased into something adjacent; a fenced sample gets copied.
 
 The blocks arrive as fenced regions inside the completion and are parsed out
 before anything is displayed, under the extraction discipline of
-[display-vs-machine-channels](../../../../llm-agent/prompt-and-context/structured-output/techniques/display-vs-machine-channels.md):
+[display-vs-machine-channels](../../../prompt-and-context/structured-output/techniques/display-vs-machine-channels.md):
 the payload spans are removed from the text using the extractor's own boundaries,
 and the hole they leave is closed so the remaining prose still reads.
 

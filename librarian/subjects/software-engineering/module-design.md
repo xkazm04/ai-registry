@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-08-29
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -90,3 +90,82 @@ written dialogue); structure-is-not-delegable (two 2026 studies measure the divi
 labour). Banked: selection-agreement benchmark (return: one measuring choice, not
 fidelity); kp Phase 3 cv_analysis fold-in (python — impact-only); onecli re-verification
 on clock.
+
+## 2026-08-31 - intake (youtube:3IyKC5EtNkM, "9 Ways to do Inheritance in Rust")
+
+New technique **`borrowed-surface`** (7 -> 8 techniques), plus a **fourth signal**
+on `seams-and-adapters`, which had declared "three signals, which can disagree".
+
+The finding is an asymmetry in the subject's own model, not an omission. `module-depth`
+corrects the author's interface denominator **downstream** - with enough callers every
+observable behaviour is interface, promised or not, and hiding must therefore be active.
+Nothing in the subject ran the other way: part of a module's interface can be authored
+**upstream**, in a file the reviewer is not reading, changing without an edit on your side.
+Two constructs do it - implicit delegation (a wrapper adopting a foreign type's whole
+callable surface in one declaration) and a disjointness premise taken from a contract you
+do not own. The existing pass-through model is per-method and countable; implicit
+delegation is the same failure with the evidence removed.
+
+The technique's decision rule is the discriminator: delegation is correct when the
+wrapper's job is **orthogonal** to the delegated surface, self-defeating when the wrapper's
+job **is** the distinction. `seams-and-adapters`'s *When not to use it* section would have
+told you not to own the contract in exactly the case where you must, so the fourth signal
+explicitly suspends it.
+
+Applied to a managed tree as an experiment, `better`: the tree carries a scrubbing wrapper
+that forwards its wrapped type's whole mutating surface, and **the invariant is held by a
+comment** - one caller reaches through and hand-rolls the scrub in four lines. Same probe
+line, arm A compiles clean, arm B is `error[E0596]`. Not committed: that crate's build
+script fails before rustc reaches the code.
+
+Open: nothing owns **build-time diagnostics** anywhere in the corpus. Banked untriaged
+from the same source - a capability gated by a predicate reports its absence as
+nonexistence ("no such method"), never as a failed bound. Return condition: a second
+source complaining about a diagnostic rather than a behaviour.
+
+### 2026-08-31 - `/intake`, from a practitioner post on codebase structure
+
+One amendment, one application, from
+[[../../sources/2026-08-31-tkdodo-vertical-codebase]].
+
+The source's thesis - group by domain, not by technical kind - was **already
+covered**, in one sentence of `locality-and-leverage`'s physical co-location
+paragraph, and its detection signature with it. The yield was in the source's
+closing catch, the section it is least proud of.
+
+- `locality-and-leverage` gained "The cost that neither payoff prices": both
+  payoffs are collected by people who already found the module, so leverage
+  (capability per unit of interface learned) starts its accounting one step
+  after discovery. Hiding internals is what depth buys and is free to callers;
+  hiding a module's **existence** is a separate act with its own price,
+  delivered by the same declaration as a side effect nobody chose. What cannot
+  be found is built again.
+- The golden path gained a tenth failure mode, **the boundary that worked**.
+  The other nine are all structure being too weak, misplaced or decorative;
+  there was none for a boundary that succeeded. Finding that was the whole run
+  - the enumeration hunt, third time in five runs it has been the highest-value
+  read on the page.
+
+**The subject's own instruments cannot see this failure, and one is actively
+misleading**: independent copies produce single-place edits, so scatter - the
+diagnostic this very technique owns - scores the worst duplication best. The
+discriminator is that same file's change-coupling test pointed the other way:
+would the two implementations have to change together? Yes is waste caused by
+invisibility; no is governed by the wrong-abstraction rule already there. That
+second branch is why this is an amendment completing an axis rather than a
+competing technique.
+
+Applied as an experiment, `better`, two arms on one Rust workspace: 232
+candidates, 67 invisible to scatter, 52 after filtering forwarding wrappers.
+**The first instrument design was refuted by hand-verification** - its
+top-ranked hits were private adapters delegating to the public implementation,
+which is the single-door discipline, not duplication. Corrected predicate,
+then three survivors opened: two waste (a public HTML stripper with an
+identical private copy and a weaker hand-rolled third; a clock helper written
+three times), one correct divergence that the discriminator sorts out. Ship 0,
+blocker class **confirmation** - the pick named a candidate, not a project.
+
+Open: `hiding existence` and `hiding internals` are separable in principle - a
+boundary can publish what it is for while keeping every internal opaque - and
+nothing in the corpus says how. Untriaged from the same source: co-location
+buys cohesion and never decoupling, so the regrouping move is a half-move.

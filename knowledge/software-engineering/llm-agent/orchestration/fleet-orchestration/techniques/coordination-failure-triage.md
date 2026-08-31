@@ -45,8 +45,18 @@ Two readings matter more than the tabulated modes:
 1. **Classify before you fix.** Take the failed traces and label each
    against the closed taxonomy — specification / misalignment /
    verification, then the mode. The label set is small enough that an
-   agent judge can do the bulk pass with human spot-checks; the discipline
-   is that the *distribution* is computed before any redesign is argued,
+   agent judge can do the bulk pass with human spot-checks — **but only on
+   the symptom axis.** Measured on one corpus of developer-reported agent
+   failures, the same judging agent with the same tools labelled the
+   observable *effect* at roughly 0.86–0.90 F1 and the *root cause* at
+   roughly 0.45–0.57 on the same artifacts, and agreed with human
+   annotators on 39% of held-out items from title and body alone. What a
+   machine can read off a failure is what it looked like; what it cannot
+   read off is why it happened — and the cause axis is the one that routes
+   the fix. So automate the effect pass, keep cause attribution human, and
+   treat a cause distribution built by a judge as unlabelled data. The
+   discipline is that the *distribution* is computed before any redesign is
+   argued,
    because a fix chosen from the most recent failure optimises an anecdote
    ([count-carries-predicate](../../../../_laws.md#count-carries-predicate):
    "our runs fail on coordination" means nothing without the denominator).

@@ -6,7 +6,7 @@ technique: state-model
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
-use_when: [deriving ui states from request machinery, an empty state flashes before data lands, a slow stale response lands after a fast one]
+use_when: [deriving ui states from request machinery, an empty state flashes before data lands, a slow stale response lands after a fast one, deciding what counts as a context change]
 ---
 
 # The state model
@@ -62,11 +62,21 @@ region is now asking a categorically different question (a different entity,
 a different scope), at which point the region genuinely is a new surface and
 may ghost again.
 
-The subtle decision is what counts as a context change. A filter tweak on the
-same dataset is not one — the honest renderings are either the old content
-dimmed until the new response lands, or a return to loading; pick one policy
-per product and apply it everywhere, because mixing the two makes the product
-feel nondeterministic.
+The subtle decision is what counts as a context change, and it is decidable
+rather than a matter of product taste. A surface's key is usually compound,
+and its components split into two classes: **identifying** ones, whose change
+means the surface is asking about a different subject, and **windowing** ones,
+whose change means it is asking for a different part of the same subject. The
+sticky bit survives a windowing change and resets on an identifying one — and
+so do scroll position, the choreography seen-set, and the windowing
+coordinates themselves.
+
+Mixing the two renderings *per call site* is what makes a product feel
+nondeterministic; mixing them *per axis* is what makes it feel considered,
+because the rule is one the user can state ("same search, moving" versus "new
+search"). The classification, the five subsystems that consume it, and why it
+belongs on the input rather than on the response payload are
+[windowing-vs-identifying-keys](./windowing-vs-identifying-keys.md).
 
 ## Derive, never hand-maintain
 
@@ -101,6 +111,7 @@ ship by accident, and each is a named defect:
 | `FAILED -> SETTLED-EMPTY` | failure dressed as empty success — the surface lies about what it knows |
 | `SETTLED-DATA -> FAILED` on refresh failure | held data discarded because an update failed |
 | chrome unmounting on any edge | the surface forgetting what it is |
+| keeping rendered content across an *identifying* key change | one subject's data answering another subject's question |
 
 ## One model per region
 

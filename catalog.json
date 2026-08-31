@@ -130,7 +130,7 @@
       "invokes30d": 0,
       "lessons": 1,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:39846b277814eafa",
+      "lessonsHash": "sha256-n1:9c3cef18dc9d9f2e",
       "usageContributors": []
     },
     {
@@ -462,9 +462,9 @@
         "systedo-case@plugin:1.7.0"
       ],
       "invokes30d": 2,
-      "lessons": 11,
+      "lessons": 12,
       "lessonsPath": "skills/uat/LESSONS.md",
-      "lessonsHash": "sha256-n1:7727360a360baf6f",
+      "lessonsHash": "sha256-n1:6141ae29094a57b4",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -576,7 +576,7 @@
     "skills": 29,
     "practices": 5,
     "memory": 4,
-    "lessons": 95
+    "lessons": 96
   },
   "bundles": [
     {
@@ -590,7 +590,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:c6cde01799e75ae1"
+      "contentHash": "sha256:b863cce7e1160b9a"
     },
     {
       "name": "game-production",
@@ -599,11 +599,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 41,
-      "techniques": 246,
-      "applications": 110,
-      "files": 401,
-      "contentHash": "sha256:db9218d54894e7ae"
+      "subjects": 42,
+      "techniques": 252,
+      "applications": 113,
+      "files": 411,
+      "contentHash": "sha256:3fb8f2a3121efd91"
     },
     {
       "name": "grant-funding",
@@ -626,10 +626,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 16,
-      "techniques": 100,
-      "applications": 51,
-      "files": 172,
-      "contentHash": "sha256:17c480e2300ff5e0"
+      "techniques": 101,
+      "applications": 52,
+      "files": 174,
+      "contentHash": "sha256:b385537ba5f353a4"
     },
     {
       "name": "localization",
@@ -652,10 +652,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 20,
-      "techniques": 130,
-      "applications": 55,
-      "files": 210,
-      "contentHash": "sha256:146a36744f24a4b9"
+      "techniques": 132,
+      "applications": 57,
+      "files": 214,
+      "contentHash": "sha256:622a3960a1ff70b5"
     },
     {
       "name": "recruiting",
@@ -677,11 +677,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 151,
-      "techniques": 1006,
-      "applications": 501,
-      "files": 1663,
-      "contentHash": "sha256:bbe89a5a107d61f8"
+      "subjects": 155,
+      "techniques": 1073,
+      "applications": 560,
+      "files": 1793,
+      "contentHash": "sha256:9f68a9dd71452ba1"
     }
   ]
 }

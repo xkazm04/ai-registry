@@ -36,10 +36,22 @@ binding, not just the section's existence.
    checkable with a set lookup instead of a similarity judgment, and it
    forces the model to decide, per accusation, which specific evidence it is
    standing on.
-3. **Require the citations list to be non-empty at the schema level.** A
+3. **Publish which claims could be bound by value and which could only be
+   scored.** Not every claim admits the set-lookup binding rule 2 demands. A
+   figure, a date, a named entity and a quoted phrase can be matched exactly
+   against the source; a comparison, a characterization of a trend, or a claim
+   about what a document implies cannot, and the honest treatment routes those
+   to a similarity judgment and *says so*. The failure this prevents is a
+   single verdict badge covering both, which lets a scored claim inherit the
+   authority of a bound one. One system splitting a verdict this way bound
+   under half its claims exactly and scored the rest with a model carrying its
+   own error rate — a fact its own limitation section states and its headline
+   number does not. The split is a property of the **claim type**, not of the
+   verifier's diligence, so it can be reported per verdict at no extra cost.
+4. **Require the citations list to be non-empty at the schema level.** A
    verdict with zero citations is a shape failure before it is an evidence
    failure — there is no analytical unit in this domain with nothing to cite.
-4. **State the citation doctrine in the analyst contract, then enforce it in
+5. **State the citation doctrine in the analyst contract, then enforce it in
    the gate.** The contract carries the ranking — primary registries outrank
    media; a web finding is a lead, never a fact; when in doubt about a
    reference, describe rather than cite. The contract shapes drafts; the gate

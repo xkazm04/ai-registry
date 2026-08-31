@@ -47,7 +47,7 @@ blind-spot catalog with dates:
 > **Superseded 2026-08-22.** The population below was re-measured by an
 > inventory walk rather than by grep, and the figures here are wrong in both
 > the count and the class description — see
-> [rust--drift-gates](rust--drift-gates.md) for the walk (35 orphans, split
+> [rust--drift-gates](./rust--drift-gates.md) for the walk (35 orphans, split
 > 13 / 22), the mirror direction, and the inventory gate that finally closed
 > this hole. The paragraph is kept because the *shape* of the defect it
 > describes, and the reference-checker inversion below it, both held.
@@ -104,7 +104,7 @@ these files are always modified in place, never newly created.
 > **Resolved by 2026-08-29.** The generator now walks every non-test Rust
 > file, bracket-matches every `generate_handler!` block, unions them, and
 > fails below a `MIN_COMMANDS` floor — see
-> [node--command-registration](node--command-registration.md), whose header
+> [node--command-registration](./node--command-registration.md), whose header
 > comment (`generate-command-names.mjs:15-40`) is this paragraph rewritten
 > as a post-mortem. The text below is kept as the dated specimen of the
 > defect.

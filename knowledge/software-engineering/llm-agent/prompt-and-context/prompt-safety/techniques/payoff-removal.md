@@ -39,6 +39,21 @@ each one an explicit payoff assignment:
   dimension is wrong" — which, honoured, widens the range the model is then
   allowed to move that dimension within.
 
+- **Persuasive** — the class the inert definition assumes away: a prose channel
+  whose content works to lower the reader's chance of rejecting it. The inert
+  assignment rests on the reader being "the person best placed to notice that the
+  text has gone strange", and that holds only while the prose is not trying to
+  look normal. A rationale that volunteers a justification nobody asked for — an
+  invented reason that makes an unsupported recommendation easier to sign off —
+  is not inert. Self-elevating channels widen the model's latitude on the *run*;
+  a persuasive channel widens it on the *reviewer*, and the review step is the
+  control the inert assignment was relying on.
+
+Persuasive content is recognizable by a cheap tell: **it answers a question the
+prompt did not ask.** Unrequested justification, unrequested reassurance,
+unrequested precision about why an answer is safe. None of those is evidence of
+anything, and all of them are cheap to emit and expensive to check.
+
 The third class is an amplifier, and amplifiers change the attacker's problem
 qualitatively. Against a consequential channel, planted text must produce the
 outcome directly, inside whatever bound already exists. Against a
@@ -116,6 +131,11 @@ budget is a *trust boundary* and not only a calibration knob.
 
 ## Decision rules
 
+- **A channel is inert only against a reader who is not the target.** Before
+  assigning inert, ask who is harmed if the prose wins: if the answer is the
+  reader themselves — a recited secret, a defamed third party, a fabricated fact
+  in a domain where acting on it costs something — the channel is consequential
+  and the consequence is simply not machine-visible.
 - **If a channel's payoff is zero, do not budget it.** Ceremony on inert
   fields costs review attention and buys nothing; spend it on the amplifier.
 - **If a channel is self-elevating and cannot be bounded, delete the channel

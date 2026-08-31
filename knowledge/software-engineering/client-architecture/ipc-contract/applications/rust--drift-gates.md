@@ -11,7 +11,7 @@ verified_against: rust@1.97
 # The orphan blind spot, re-measured and finally gated (Rust side)
 
 The sibling application on this technique
-([node--drift-gates](node--drift-gates.md)) documents the two blind spots this
+([node--drift-gates](./node--drift-gates.md)) documents the two blind spots this
 repo closed — the silent no-op generator and the untracked new file — and
 records the third, orphans, as structurally open with a population of **29**.
 That number was wrong, its class description was wrong, and the mirror

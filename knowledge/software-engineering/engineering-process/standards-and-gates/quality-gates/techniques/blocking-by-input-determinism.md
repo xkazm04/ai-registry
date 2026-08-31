@@ -6,7 +6,7 @@ technique: blocking-by-input-determinism
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [deciding whether a check is permitted to block, a gate advisory since the day it was added, one invocation mixing deterministic and externally-moving checks]
+use_when: [deciding whether a check is permitted to block, a gate advisory since the day it was added, one invocation mixing deterministic and externally-moving checks, a gate whose verdict varies on an unchanged commit]
 ---
 
 # Blocking by input determinism
@@ -138,6 +138,36 @@ instance here is a published table still describing a gate as advisory long
 after the cleanup that promoted it — which tells a newcomer to skip a check that
 will in fact stop them. Derive the table or delete it; a hand-copy of the
 enforcement decision is a second authority for it.
+
+## A third class: deterministic subject, nondeterministic apparatus
+
+The two advisory shapes above both assume the verdict is *computed* reliably,
+and differ only in where the input lives. One family of gates breaks that
+assumption: the check **measures** rather than reads. Elapsed time, throughput,
+memory high-water, a sampled resource count — re-run against the same commit,
+these return a different number, and the reason is neither the tree nor an
+external feed. It is the machine.
+
+Graded on the axis as stated, such a gate answers "partly," which is the answer
+that produces both errors. Blocking with a threshold loose enough to absorb a
+noisy runner puts the bar above the regressions worth catching, and still walls
+an innocent change on a bad afternoon. Advisory has no writable promotion
+trigger — no work inside the repository retires the variance — so the gate
+decays into a permanent optional guard, which is the outcome the last section
+exists to prevent.
+
+The resolution is not a third grade. It is to stop grading the measurement and
+**change the input**: restate the standard as an assertion over the source text,
+which is deterministic given the commit and therefore blockable by the ordinary
+rule, and keep the measurement on a non-gating scheduled lane where it reports
+to a person instead of refusing a change. The translation, what it deliberately
+stops catching, and the scanner discipline it requires are
+[operation-assertion-gates](./operation-assertion-gates.md).
+
+The general test this adds to the axis: *what could a re-run of the same commit
+produce* — and if the answer varies, ask **whether the variance is in the input
+or in the instrument**, because only the first is a reason to stay advisory. The
+second is a reason to pick a different instrument.
 
 ## Boundary against ratchet design
 

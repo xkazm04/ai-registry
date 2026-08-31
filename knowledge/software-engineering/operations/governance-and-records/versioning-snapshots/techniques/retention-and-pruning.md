@@ -62,6 +62,66 @@ The exemptions imply the mechanics: pruning is a *query with guards*,
 not an age cutoff — and the guard list is the retention policy's real
 content.
 
+**That holds for every reference that exists as a row, and there is one that
+does not.** A pin is a row, a promotion is a state, a citation is a foreign
+key: each exemption above names something the pruning query can join against.
+A reader **in flight right now** — a report halfway through assembling, an
+export streaming, an evaluation run walking the history — holds a version that
+nothing in the store points at, so no guard can see it and the version prunes
+out from under a read already in progress. The failure is invisible in exactly
+the way the pinned cases are not: the query was correct, every guard passed,
+and a consumer got a hole.
+
+Two mechanisms close it, and the choice between them is not a preference.
+Either the store keeps a **registry of live readers** with a low-water mark,
+and the reaper never prunes above the oldest version any live reader holds —
+the general answer, and the one that costs a distributed handshake; or the
+system **bounds how long a reader may live** and never prunes a version
+younger than that bound, which converts the obligation into a local one the
+reaper can settle alone with a clock. The bound is available where readers are
+short and uniform, and unavailable where long readers are legitimate — exports,
+reporting, batch evaluation — because there the bound is either violated or so
+large it retains everything. So the honest form of the sentence above is that
+pruning is a query with guards **over durable references**, and a time bound is
+the only instrument that reaches the transient ones. Size the bound to the
+longest legitimate reader and make exceeding it an error the reader sees,
+rather than a version the reaper takes.
+
+There is a **third mechanism**, and it is the one available precisely where the
+time bound is not. Do not track *which* version each reader holds — track only
+**whether any reader is in flight at all**, and defer the entire prune pass
+while that count is non-zero. One counter, no per-version handshake, no bound
+on how long a reader may live, so it never asks a legitimate long reader to be
+short. It is strictly coarser than the registry: it gives up the ability to
+prune anything during a long read, and buys the whole obligation for an atomic
+increment. Where reads are bursty and pruning is not urgent, that trade is the
+cheap one, and a janitor that skips a pass costs nothing.
+
+Two clauses come with any live-reader mechanism, whether it is the registry or
+the activity gate, and both are the difference between a repair and a new bug:
+
+- **It owes a harm bound and a deferral count.** A reader that never ends pins
+  the low-water mark forever, and a gate that always sees traffic defers
+  forever. Both convert a data-loss bug into a silent no-maintenance bug, which
+  is quieter and therefore worse. Give the pass a bound past which it runs
+  anyway and says so, and count the deferrals — otherwise "the reaper never
+  runs" becomes folklore instead of a number, and the disk fills while every
+  guard reports healthy.
+- **Where the reader registers decides which readers exist.** Registering at
+  the transport's response boundary is the natural place and it is blind to the
+  two readers that most need covering: a **streaming body**, whose store access
+  happens entirely after the response head is sent, and a **cursor walk across
+  requests**, which is one logical read that is absent from the process between
+  its pages. The discriminator is whether the reader holds a connection while
+  it reads, and neither of those does. **Register at the store touch, not at
+  the response.**
+
+This gap stays hidden under the default this technique otherwise recommends.
+Where the arithmetic says retain everything, both obligations are satisfied for
+free and no one meets the reader problem. It opens when version creation moves
+from human save-rates to machine rates, which is the point at which pruning
+starts running often enough to overlap a read.
+
 ## Lineage survives the pruned node
 
 Thinning creates holes in parent chains: v6's parent v5 is pruned, and a

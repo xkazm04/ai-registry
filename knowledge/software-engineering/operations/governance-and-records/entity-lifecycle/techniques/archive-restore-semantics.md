@@ -4,9 +4,9 @@ type: technique
 subject: entity-lifecycle
 technique: archive-restore-semantics
 status: forged
-laws: [one-authority-per-vocabulary, identity-survives-reuse]
+laws: [one-authority-per-vocabulary, identity-survives-reuse, one-validation-door, absent-guard-is-loud]
 shared_with: []
-use_when: [deciding what archived means for each behavior, an archived entity still fires its schedules, restore meets a name claimed while it slept]
+use_when: [deciding what archived means for each behavior, an archived entity still fires its schedules, restore meets a name claimed while it slept, a bulk delete destroyed rows a soft delete should have kept, a name is rejected as taken and nothing visible holds it]
 ---
 
 # Archive / restore semantics
@@ -83,6 +83,80 @@ identity never changes across the round trip
 restore that re-creates under a new identifier is not restore; it
 orphans every inbound reference and every line of history the original
 accumulated.
+
+## The flag's two populations: who writes it, who honors it
+
+A same-row existence flag — the archived-at timestamp above, or any column
+standing in for it — is a **convention**, and a convention binds only the code
+that has heard of it. Two populations have to be enumerated separately, and each
+fails silently in the opposite direction from the other.
+
+**The writers.** The flag is normally applied by overriding the single-entity
+delete: the call that used to destroy a row now stamps the timestamp and
+returns, and every existing caller keeps working. But that override sits on the
+entity, and the entity is not the only thing that can issue a delete. A
+set-level delete — the one issued against a query rather than an instance, which
+most data-access layers offer and which bulk paths prefer for being an order of
+magnitude faster — does not route through a per-entity override. It performs the
+destruction the override exists to prevent, under the same verb, from a call
+site that reads identically to the safe one. The result is a single method name
+with two meanings, split by whether the caller happened to be holding an
+instance or a query, and the destructive meaning is the one every bulk path
+reaches for.
+
+This is [one-validation-door](../../../../_laws.md#one-validation-door) applied
+to the archive act itself: an override reachable through one door is not a
+policy, it is a default for the callers who use that door. The enumeration to
+run is every delete issued against this entity type, classified by whether it
+passes through the override. Where the framework allows it, the honest fix is to
+make the bypassing form unavailable — a guard each caller must remember to use
+is a guard the codebase converges on not having
+([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).
+
+The asymmetry is what makes this worth a pass of its own. The safe path is the
+ceremonious one a reviewer reads carefully; the bypassing path is the one taken
+by cleanup jobs, batch tools, and administrative surfaces — the code least
+likely to be reviewed as a deletion and most likely to run against many rows at
+once.
+
+**The readers.** The default query path is taught to filter the flag, and that
+is what makes archiving look complete from the application's side. Uniqueness is
+not a query, and it was never taught anything. A unique index over a natural key
+counts every row in the table, and an archived row is a row — so an archived
+entity goes on holding its key for as long as it exists.
+
+That inverts an assumption the previous section rests on. *Restore into a world
+that changed* is written for the case where the sleeping entity's unique name
+"may have been claimed," and specifies how restore resolves the collision. It
+can only have been claimed if archiving released it. **Whether archiving
+releases the key is a decision**, it is made by the uniqueness scope, and in the
+common encoding it is made by default, silently, in the direction nobody chose:
+
+- **The key stays held.** Restore is trivially safe, because nothing could take
+  the name. The cost moves to the *creation* door and is paid by a different
+  person: a user is told a name is taken and shown nothing holding it. That
+  rejection is correct and unexplainable, which is worse than either honest
+  outcome, and it is the same defect as the fabricated sentinel one subject over
+  — a constraint answering on behalf of rows the product has promised are gone.
+- **The key is released**, by scoping uniqueness to the live predicate: a partial
+  index over unarchived rows, or the existence column as a component of the key.
+  The live namespace then says what the product says. Restore inherits a real
+  collision — which is precisely the case *restore into a world that changed*
+  already specifies how to handle.
+
+The second is the default worth choosing, and the argument is not that
+collisions are pleasant. It is that the second option's failure mode is one this
+technique has already been written for, while the first option's failure mode
+surfaces to a user who has no vocabulary for it and no view that would explain
+it.
+
+The general form covers both halves and is the pass worth running once per
+entity type: for every constraint, index, aggregate, quota and count over this
+entity, ask whether it reads the flag. The default query manager does — that is
+usually the only reader anyone verifies. Unique indexes, foreign-key targets,
+totals shown to users, and quota arithmetic each need the question asked
+separately, and every one that answers "no" is a place where archived silently
+means present.
 
 ## Archive is not a delete queue — unless it explicitly is
 

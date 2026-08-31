@@ -97,6 +97,45 @@ its definition.
   network returns, when the tool is installed, when permission is granted —
   eagerly on those events, with backoff otherwise.
 
+## A check with several finding classes needs the third state per class
+
+The three verdicts above are stated per *check*, which is the right granularity
+when a check answers one question. A check that sweeps a population and reports
+several **classes** of finding — a consistency scan, a lint pass, a compliance
+sweep — has a second axis, and the collapse reappears on it in a form the
+per-check verdict cannot see: the check completed, the dependency was reachable,
+the overall verdict is honest, and *one class* was never actually computed.
+
+The usual cause is a budget. An enumeration hits a page cap or a deadline, and
+any class whose finding is an **absence** — something present in one place and
+missing from another — becomes unprovable from the partial set, because absence
+cannot be concluded from a scan that stopped early. The class still has to
+report something, and its accumulator is already holding zero.
+
+Zero is the wrong answer, and it is wrong in the specific way
+[unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value) names: it
+converts *this was not looked for* into *this was looked for and was clean*.
+Worse than the per-check collapse, in one respect — a whole check reporting
+green at least invites the question of when it last ran, whereas a class
+reporting zero inside a green check is invisible even to a careful reader.
+
+Three obligations follow, and the third is the one usually missed:
+
+- **Carry a not-computed marker per class**, distinct from zero, with the reason
+  (budget exhausted, input unavailable, precondition unmet).
+- **Exclude it from every total.** A report that sums its classes must clamp the
+  marker out rather than let a sentinel value arithmetic its way into the
+  headline. A run that looked less hard must not publish a smaller finding count
+  for having done so.
+- **Exclude it from every threshold.** A not-computed class contributes nothing
+  toward the count that trips the overall verdict — it neither raises nor
+  suppresses it. Treating the marker as zero here is how a truncated scan
+  reports a clean board precisely on the runs where the population grew past the
+  budget, which is to say on the runs where the finding was most likely.
+
+The overall verdict then carries the same qualification a stale green carries:
+verified *as to these classes*, undetermined as to those.
+
 ## Cannot-determine-now versus cannot-determine-ever
 
 Unverifiable itself splits along a line worth modeling. **Cannot probe now**

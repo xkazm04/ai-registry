@@ -138,3 +138,40 @@ scrape: both are legitimate designs, and both produce a real denominator
 smaller than the intended one. Disclosed, that is an honest coverage claim.
 Undisclosed, it is the same lie as the absent repository, arriving through a
 different door.
+
+## The fifth number is not a number: which check set ran
+
+Every population above answers *how many units were examined*. One more
+question sits beside them and is answered by no count: **at what strictness.**
+A report can enumerate its whole population, skip nothing, disclose nothing
+unenumerated, and still mislead — because the checker it ran was the permissive
+profile and the reader assumed the strict one.
+
+The mechanism is a declared tier. Where a checker offers profiles — basic and
+strict, standard and showcase, advisory and blocking — the profile is usually
+an *input the examined artifact itself declares*, because different artifacts
+in one corpus legitimately want different bars. That is a good design and it
+carries a specific failure: a missing or misspelled profile field does not
+error. It falls back to the permissive default, the run is honest, the receipt
+is green, and nothing anywhere reports that the bar moved. Observed shape: a
+receipt reporting four checks where the strict profile reports nine, with a
+verdict field identical in both cases. A reader comparing the two verdicts
+cannot tell them apart; a reader comparing the check counts can.
+
+This is [count-carries-predicate](../../../../_laws.md#count-carries-predicate)
+applied to the predicate rather than to the population, and it needs its own
+clause because the denominators above are all *correct* on such a run. Nothing
+was skipped. The examination simply asked less.
+
+Three rules close it:
+
+- **The receipt names its profile and its check count**, and the acceptance
+  claim is read from those rather than from the verdict. "Passed" is not a
+  tier; "passed 9 of 9 under the strict profile, 0 errors, 0 warnings" is.
+- **A tier declared by the artifact is validated as a field before it is used
+  as a setting.** An unrecognised value is an error, never a fallback — this is
+  [absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud) at the
+  configuration surface, where a typo silently buys the weaker gate.
+- **A weaker profile's pass never satisfies a stronger profile's requirement**,
+  even when both say "passed". Where a pipeline demands the strict tier, it
+  compares the profile name, not the boolean.

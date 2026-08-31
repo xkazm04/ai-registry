@@ -15,6 +15,8 @@ techniques:
   - coverage-instrumentation
   - procedure-promotion
   - baseline-ladder
+  - lane-reconciliation
+  - probe-without-write-back
 ---
 
 # Agent memory
@@ -71,6 +73,19 @@ obligations this subject already imposes on *any* shape (see
 consolidation). Choose the store's shape for operational reasons — query
 patterns, tooling, scale; expect recall quality to come from the
 transitions, not the topology.
+
+That hedge has a scope condition, and every measurement behind it sits inside
+it: **the topology was consumed through a retrieval call.** A shape the
+consumer never sees, queried by an index on its behalf, is an operational
+choice and the hedge holds. A shape the consumer can *survey* — browse, list
+the siblings of, and know how much it has not looked at — is a different
+object, and there the shape has been measured to carry recall quality further
+than the transitions do, against a control given the same summarization budget.
+The discriminator is not tree-versus-flat; it is whether the organization is an
+interface or an implementation detail. Where it is an interface, expect a
+second cost the hedge never had to price: such a structure is compiled, and a
+compiled structure over a store that captures and forgets continuously is
+stale by construction rather than by failure.
 
 That hedge has since survived a direct attempt to overturn it, and came back
 better grounded. Graph-structured designs reporting real gains have, in their
@@ -226,6 +241,33 @@ where it is not. That instrument is not a listing surface, however good:
 **a list can only show what is there; it structurally cannot show an
 absence** (coverage-instrumentation).
 
+## Below the pipeline: the store is machinery, and machinery drifts
+
+Everything above is about judgment — what to capture, what to believe, what to
+retire. Underneath it sits plumbing that makes no judgments at all, and it fails
+in ways no amount of judgment can detect.
+
+The store is not one backend. A record owns identity and provenance; the
+retrieval lanes over it are separate engines with no shared transaction, so the
+write fans out and can half-succeed. The item that results is correct by every
+measure this subject defines and unreachable through the door the agent uses —
+and the coverage instrument, which joins the record, reports it present
+(lane-reconciliation). Absence from a lane is invisible to every technique that
+reads the store's contents, because the item *is* in the store's contents.
+
+And the read path is not read-only. Recall increments the usage term the value
+model ranks on, which makes every scheduled machine caller of recall a writer to
+the ranking — including whatever was installed to measure recall. A probe
+replaying a fixed question set through the production retriever inflates its own
+expected answers on a schedule, forever, and its rising numbers are the loop
+closing rather than the store improving (probe-without-write-back).
+
+Both defects share a shape worth naming: they are produced by components that
+are individually correct. Nothing is misconfigured, no judgment was wrong, and
+reading any one file explains nothing. They are found only by asking two
+questions the pipeline never asks — *do the stores still agree*, and *who else
+calls this*.
+
 ## The human's role: what an agent is allowed to believe
 
 An agent's memory is not merely its own affair. Beliefs about the operator,
@@ -294,10 +336,17 @@ separate:
   standing rules, the audit answer every belief owes. A learned reader does
   not turn a rumor with a database row into knowledge — it only makes the
   rumor harder to spot.
+- **Stayed designed.** The budget *partition* does not move, and the systems
+  built to learn everything are the evidence. In one reference implementation
+  of the learned architecture, the always-include tier and the selective tier's
+  depth are both design-time constants sitting in code, and the ablation puts
+  the largest single loss on removing the designed working-memory tier — larger
+  than removing any learned operation. What went into weights was *selection
+  within a tier*, not the tiers. Ablate the partition before ablating the
+  policy, and do not concede this row in advance.
 - **Relocated.** The read-path stages this subject specifies as designed
-  steps — tiering the budget, labeling recalled material, checking whether a
-  recalled item applies before acting on it — become behavior with no prose to
-  inspect. The operator's question degrades from "why was this recalled and
+  steps — labeling recalled material, checking whether a recalled item applies
+  before acting on it — become behavior with no prose to inspect. The operator's question degrades from "why was this recalled and
   that not", which the omitted-and-ranked list answers in one step, to "why
   did the policy do that", which nothing answers cheaply.
 - **Newly expensive.** The gains are bought with training on a distribution,
@@ -311,6 +360,20 @@ obligations are stated as design-time judgments because they assume somebody
 can read and change them; where they move into weights, the obligations
 survive and their **enforcement surface** moves — from prose and code review
 to reward design, held-out evaluation, and an explicit ladder of baselines.
+
+One of those obligations inverts on the way across, and it is the one this
+subject ranks first. Provenance reads as a cost the learned architecture must
+keep paying for auditability's sake. It is better understood as **the substrate
+that architecture is missing.** A policy trained on whether the whole run
+succeeded cannot attribute that outcome to any single entry; the credit signal
+it needs is exactly the entry-to-use-to-outcome record this subject already
+demands for audit, and one such system names per-entry credit assignment as its
+open problem while storing entries that carry an id and nothing else. The
+instrument is already specified here, in the usage feedback the recall path is
+told to close: increment on the selected set, after packing, at the boundary
+where material crosses into context. Written for value-model hygiene; it is the
+same edge. A learned store that discards provenance has not shed overhead, it
+has capped what it can learn.
 
 **Two: the history outgrows its budget.** The whole pipeline is an answer to
 material that will not fit and beliefs that must be correctable. Below that
@@ -340,6 +403,12 @@ comparison a stated result instead of an unexamined premise.
 - **The self-poisoning summary** — a compaction or rollup pass that falls
   back to a mechanical stand-in when its judgment is unavailable, minting an
   item that supersedes several real ones and speaks for all of them.
+- **The unfindable memory** — a record that survived every quality gate and is
+  absent from the retrieval lane that was its only door, because the fan-out
+  half-failed and nothing ever compares the stores.
+- **The instrument on the drip** — a scheduled measurement running through the
+  production read path, entrenching the very items it uses as ground truth, so
+  the metric climbs while the store decays.
 
 ## The techniques
 
@@ -378,3 +447,9 @@ comparison a stated result instead of an unexamined premise.
   measured against: no memory, the whole history in context, retrieval over
   the raw record, then the pipeline — with the consumer, the index and the
   write cost carried as the score's predicate.
+- [lane-reconciliation](./techniques/lane-reconciliation.md) — whether the
+  retrieval lanes still agree with the record: declared lane membership,
+  absence versus pollution, and why an absence claim needs a complete scan.
+- [probe-without-write-back](./techniques/probe-without-write-back.md) — the
+  read path is not read-only, so a scheduled measurement through it entrenches
+  its own fixtures: suppress the feedback write, per caller.

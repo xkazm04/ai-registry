@@ -17,6 +17,11 @@ techniques:
   - enforcement-binding
   - prose-rule-drift
   - oracle-frozen-during-repair
+  - operation-assertion-gates
+  - fabrication-economics
+  - advancement-evidence-fields
+  - item-liveness
+  - excess-indicts-the-instrument
 ---
 
 # Quality gates & ratchets
@@ -85,6 +90,30 @@ by attrition ([absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud)).
 The axis, the split, the clock an externally-fed gate needs, and the
 boundary against ratchets are
 [blocking-by-input-determinism](./techniques/blocking-by-input-determinism.md).
+
+## When the input is fine and the instrument is not, change the instrument
+
+The axis above assumes the verdict is computed reliably and asks only where
+its input lives. Gates that *measure* rather than read — elapsed time,
+throughput, a sampled resource count — break that assumption from a third
+direction: re-run against the same commit they return a different answer,
+and neither the tree nor any external feed moved. The machine did. Such a
+gate is deterministic in its subject and nondeterministic in its apparatus,
+and both honest configurations fail it: block, and the threshold has to sit
+above the regressions worth catching; stay advisory, and no work inside the
+repository can ever discharge the trigger.
+
+The move is to stop grading the measurement and restate the standard as
+something the source text either contains or does not — *this loop must not
+call these operations* rather than *this loop must finish in this long*. That
+input is deterministic, so the ordinary rule lets it block, and the
+measurement moves to a non-gating scheduled lane comparing against the
+previous release's own artifact rather than a guessed number. The cost is
+real and must be written down: the assertion holds the architecture that
+produces the performance, not the performance. The translation, the scanner
+normalisation that lets a rule be documented in the file it governs, and the
+instrument assertions such a scanner needs are
+[operation-assertion-gates](./techniques/operation-assertion-gates.md).
 
 ## Gates are laddered by cost
 
@@ -186,6 +215,13 @@ every gap between them is a place the gate passes while the target fails
   catalog, or yesterday's build output verifies the intermediate, and passes
   precisely when the intermediate has drifted from the source — the one
   condition it existed to catch.
+- **Source the compiler removed.** Where the language excises code by
+  build configuration, every static instrument the project owns — types,
+  lints, dead-code detection — runs over a tree the excluded branch was
+  deleted from before any of them looked. The whole local rung reports clean
+  on a configuration it never analyzed, and says nothing about which one.
+  Restoring that coverage is
+  [gate-laddering](./techniques/gate-laddering.md)'s cross-configuration check.
 
 Before trusting any green result, the question is never "did the check
 pass" but "what did the check read."
@@ -308,6 +344,17 @@ red is unverified machinery. Portability, instrument assertion, chain
 ordering, and seeded-failure verification are
 [gate-liveness](./techniques/gate-liveness.md).
 
+Every signal in that list is a *deficiency* signal — the number is too small
+because the instrument did too little. A gate fails in the other direction too,
+and it looks nothing like a broken one: pointed at the wrong scope it runs
+perfectly and reports a mountain of findings about ground it was never meant to
+stand on. An implausibly *large* population is evidence about the scope
+declaration before it is evidence about the codebase, and the reading where that
+matters is the founding one, because the baseline frozen from it is the number a
+ratchet then defends forever. The plausibility test, the distribution
+discriminator, and where to print a self-accusation are
+[excess-indicts-the-instrument](./techniques/excess-indicts-the-instrument.md).
+
 ## False positives are how gates die
 
 Gates do not usually die by being deleted in anger. They die by a quieter
@@ -327,6 +374,25 @@ which case it was not a gate for that standard and pretending otherwise is
 the harm. The economics, the measurement method, and the quarantine
 protocol for flaky checks are
 [false-positive-economics](./techniques/false-positive-economics.md).
+
+## False compliance is how rules die
+
+The mirror failure kills the *rule* while leaving the gate healthy, so nothing
+in the report ever shows it. When a requirement's satisfaction cannot be
+verified — an alternative description, a rationale, a justification for an
+exception — the gate can decide *present or absent* perfectly and *meaningful*
+not at all, and an author with nothing true to write is offered exactly two
+moves: stay blocked, or write something shaped like an answer. The second is
+always cheaper, and it is overwhelming when the author is a program filling the
+field across a whole tree. The gate is not fooled; **the gate is the cause**,
+and no improvement to the detector helps, because the distinction is not in the
+data. The corrective is a third value — an explicit token meaning *no value was
+obtainable here*, which leaves the artifact non-conforming, is counted outside
+the verdict, and produces no finding, because a token that still turns the
+report red buys the author nothing against the lie that turns it green. The
+economics, the conflated-token failure that is the usual starting state, and the
+rule that a contract must name its own undecidable clauses are
+[fabrication-economics](./techniques/fabrication-economics.md).
 
 ## Hooks are guests in someone else's working tree
 
@@ -355,6 +421,56 @@ hook can refuse — and both halves carry limits strong enough that quoting
 the result without them overstates it. The construction, the extension to
 any second per-operation table, and the two disclaimers are
 [chokepoint-tag-registry](./techniques/chokepoint-tag-registry.md).
+
+## When the item outlives the verdict
+
+Everything above takes the gate's natural lifespan: a checker runs against
+a commit, returns a verdict, and the verdict's job ends at the merge
+decision. A different shape appears wherever items advance through
+**stages** over months or years — a change walking a design review, a
+component climbing a readiness ladder, a proposal crossing a standards
+body. There the verdict is the transient half and the item is the durable
+one, and two questions arise that one-shot machinery never has to answer.
+
+The first is what the item's own record shows for an obligation. The field
+that carries it belongs to the stage that binds it — minted where the
+obligation becomes live, retired once permanently discharged, so the schema
+is the ladder rather than a uniform grid — and its non-satisfied side needs
+a closed vocabulary, because a blank merges "not yet," "done but
+unrecorded" and "nobody looked" into one unreadable cell. Four states
+(satisfied, in progress, absent with a pointer to why, and an explicitly
+rendered unknown) are the floor. The payoff is measured wherever one board
+tracks two obligations under two conventions: the field with explicit
+markers produces a countable, attributable backlog and the field with
+blanks produces a 55% hole nobody can act on — and the obligation with the
+readable field is the one that gets discharged, though neither blocks
+anything. This also supplies the resolution
+[unmeasurable-criteria](./techniques/unmeasurable-criteria.md) cannot,
+because a skip disappears with the run: **advance the item and write the
+hole into the row**, which is the honest move for a gate whose verdict is a
+judgment some authority can override, and the only thing that keeps the
+override on the record. The schema rule, the vocabulary, the fourth
+resolution and the sharp limit — this reports, it does not refuse — are
+[advancement-evidence-fields](./techniques/advancement-evidence-fields.md).
+
+The second question is the mirror of gate liveness. A gate green for a year
+is unverified machinery; an *item* in flight for a year whose owner has
+stopped speaking is unverified work, and it fails the same way — the
+default reading is the reassuring one and nothing emits a signal when it
+stops being true. Ownership is the one entrance criterion that decays
+continuously after admission, so checking it once makes it a birth
+certificate; in a decade-long public pipeline, owner departure is the
+single largest named cause of terminated work, and a third of the in-flight
+board had been silent for two years or more while being counted as active.
+The correction is cheap because the data is already there — last-touched is
+computable from the activity trail the pipeline keeps anyway — and it ends
+in a scheduled sweep that asks the owner question rather than reopening the
+merits, resolves silence to a terminal state, and records a rationale and a
+successor so the reaping stays information
+([creation-names-reaper](../../../_laws.md#creation-names-reaper)). The
+clock, the derivation, the liveness predicate a published count must carry,
+and the reaper's mechanics are
+[item-liveness](./techniques/item-liveness.md).
 
 ## Domain gates ride the same ladder
 
@@ -398,6 +514,10 @@ is asked to refuse something.
 - [gate-liveness](./techniques/gate-liveness.md) — instrument assertion,
   portability, chain-abort ordering, and proving a gate red before
   trusting it green.
+- [excess-indicts-the-instrument](./techniques/excess-indicts-the-instrument.md)
+  — implausible finding volume as a scope-declaration signal, the distribution
+  discriminator, root-sensitive versus locally-derived findings, and printing
+  the suspicion above the findings.
 - [hook-hygiene](./techniques/hook-hygiene.md) — never mutate the worktree,
   staged-content scoping, non-interactive discipline, bypass policy, and
   installation as a liveness problem.
@@ -408,6 +528,10 @@ is asked to refuse something.
 - [false-positive-economics](./techniques/false-positive-economics.md) —
   precision as survival, measuring before enforcing, the trust budget, and
   quarantining flaky checks.
+- [fabrication-economics](./techniques/fabrication-economics.md) — the
+  requirement a machine cannot verify and an author cannot satisfy, the
+  declared-inability token and why the gate must go silent on it, and naming
+  a contract's own undecidable clauses.
 - [unmeasurable-criteria](./techniques/unmeasurable-criteria.md) — skip,
   fail-closed, or refuse the verdict; deriving the measured-nothing state;
   making skips visible and counted.
@@ -422,3 +546,17 @@ is asked to refuse something.
   static call-site ↔ tag ↔ registry bijection, negative-space confinement of
   the underlying capability, extending both to any second per-operation
   table, and the two limits that bound what the result may claim.
+- [operation-assertion-gates](./techniques/operation-assertion-gates.md) —
+  restating a cost standard as an assertion over source text, scoped
+  denylists with their replacements attached, normalising comments and
+  literals out before matching, testing the scanner itself, and the timing
+  lane's demotion to scheduled evidence.
+- [advancement-evidence-fields](./techniques/advancement-evidence-fields.md)
+  — the field minted at the stage its obligation binds, the closed
+  vocabulary its non-satisfied side needs, advancing an item with the hole
+  written into the row, and the limit that this reports rather than
+  refuses.
+- [item-liveness](./techniques/item-liveness.md) — ownership as the
+  entrance criterion that decays, deriving last-touched from the trail
+  already kept, the liveness predicate a published active count carries,
+  and a scheduled reaper that records a rationale and a successor.

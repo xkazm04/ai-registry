@@ -4,9 +4,13 @@ type: golden-path
 subject: admission-queue
 status: forged
 techniques:
+  - self-paced-intake
+  - queue-cardinality
   - admission-vocabulary
   - depth-bounds-and-shed
   - priority-and-fairness
+  - resource-denominated-bounds
+  - speculative-work-admission
   - load-aware-admission
   - wait-telemetry
   - drain-and-shutdown
@@ -62,6 +66,58 @@ Three facts make this subject harder than it looks:
    refuses" has merely chosen the worst refusal policy available: refuse by
    timeout, at maximum latency, after consuming maximum resources, with no
    reason attached.
+
+## The step trigger is decided before any of this
+
+Everything below answers *what to do with an arrival*, and inherits an
+assumption worth surfacing first: that an arrival is what moves the system.
+The default consumer — block on the channel, take one item, handle it — makes
+that choice by omission, and in doing so hands its work rate to its callers.
+Its step count is their arrival count and its cost per unit time is their
+burst shape, so the rate this subject spends its machinery defending is a
+rate nobody set.
+
+A **self-paced** consumer wakes on its own clock, drains what accumulated,
+and pays a step's fixed cost once for the batch instead of once per arrival.
+The buffer's depth absorbs the burst rather than the consumer's step rate
+tracking it — which is what makes "work per unit time" a number someone chose,
+and therefore a number the bounds below can be written against. The tell that
+a loop wants this is a step cost that does not grow with batch size: a
+round-trip, a transaction, a cross-process message, a flush. Per-arrival
+remains correct where latency is the product, where arrivals are rare and
+individually expensive, or where each item needs its own transaction — but it
+is a decision to make rather than a shape to inherit, and it comes with two
+bounds rather than one, because an interval without a per-drain cap bounds the
+step rate while leaving the step cost unbounded. The trigger question, the
+coalescing rule, the migration and the three exemptions are
+[self-paced-intake](./techniques/self-paced-intake.md).
+
+## How many lines are there
+
+The next assumption to surface is the definite article. Everything below says
+"the queue", and the count is a decision nobody made: one line, in front of one
+pool. It is the right answer while the servers are **fungible** — while whoever
+reaches the front can be served by whichever server frees up next, which is
+what makes one shared line beat several independent ones.
+
+It inverts the moment an arrival **precommits to a kind of server** before
+joining: a job needing a particular toolchain, a request that must reach the
+shard holding its data. Now the entry at the front cannot use the server that
+just freed, and everything behind it waits anyway — a free server and waiting
+work at the same instant, which is the one outcome a queue exists to prevent.
+The penalty does not need unequal service times to appear; skew deepens it but
+does not cause it, so "our tasks are all about the same size" is not a defence.
+And where the servers are already non-fungible, splitting the line costs
+nothing, because the pooling it would give up was never available.
+
+A second cardinality question arrives with origins rather than server kinds:
+one line per tenant isolates them, and remembering every tenant costs memory
+that grows with a number the tenants choose. Fixing the number of lines and
+hashing the origin into them removes the state and pays for it in collisions,
+which under a static mapping are permanent rather than transient. The count
+decision, the precommitment discriminator, the stateless variant and what a
+line count does to every bound and every measurement below are
+[queue-cardinality](./techniques/queue-cardinality.md).
 
 ## The verdict is a closed vocabulary
 
@@ -128,6 +184,38 @@ request can wait and in-flight work is sacred; eviction-side reclaiming
 assumes the request cannot wait and *idle* occupancy is the resource to
 spend. Choosing between them is a statement about which side of the gate
 holds the urgency.
+
+## The bound is spelled in a unit, and the unit is a claim
+
+Every bound above is a number of *something*, and the something is chosen. A
+count of items is the default spelling and it carries an unwritten assumption —
+that items cost roughly the same — which holds until it spectacularly does
+not. Where arrival cost varies by orders of magnitude, a count sized for the
+heavy arrival refuses ordinary load, a count sized for the median admits a
+lethal sum, and no single number is right because the quantity being counted
+is not the quantity running out. The repair is to denominate the bound in the
+resource itself, derive its ceiling from the host's real limits rather than
+shipping a constant, and refuse at the door an arrival that could never fit the
+whole budget — a promise the gate has already decided to break.
+[resource-denominated-bounds](./techniques/resource-denominated-bounds.md)
+owns the unit choice, the derivation, and the cases where a count is still the
+honest instrument.
+
+## Not every arrival wants to wait
+
+The three-verdict contract assumes a caller who benefits from *queued* —
+someone waiting, for whom a slower success beats a refusal. A queue also
+receives work submitted in case it proves useful: a prefetch, a redundant
+fan-out target, a precomputation for a screen nobody may open. For that class
+the queue's kindest verdict is its worst one. The result arrives after the
+moment that would have used it, and the capacity it consumed on promotion was
+taken from work someone is actually waiting for — during exactly the congestion
+the bound exists to relieve. Speculative work is therefore probed non-blocking
+and **skipped** when capacity is short, never queued; the skip resolves to
+whatever was going to serve instead, and it is counted separately because it
+appears in none of this subject's other measurements.
+[speculative-work-admission](./techniques/speculative-work-admission.md) owns
+the probe, the release-on-admit rule, and the knob that must not be added.
 
 ## Admission watches the host
 
@@ -212,13 +300,26 @@ Two rules fall out of the table:
 
 ## The techniques
 
+- [self-paced-intake](./techniques/self-paced-intake.md) — arrival versus own
+  clock as the step trigger, the fixed-cost tell, interval plus drain cap,
+  coalescing before work, and the three cases where per-arrival is right.
+- [queue-cardinality](./techniques/queue-cardinality.md) — how many lines,
+  precommitment as the discriminator, head-of-line blocking, hashing origins
+  into a fixed set, and what a line count does to every bound below.
 - [admission-vocabulary](./techniques/admission-vocabulary.md) — the closed
   three-way verdict, refusal reasons as data, the caller contract per
   outcome.
 - [depth-bounds-and-shed](./techniques/depth-bounds-and-shed.md) — bounded
   depth, shed policy selection, backpressure to producers.
 - [priority-and-fairness](./techniques/priority-and-fairness.md) — priority
-  levels, per-tenant/per-class occupancy caps, starvation and aging.
+  levels, per-tenant/per-class occupancy caps, starvation and aging, and why an
+  unattested origin key may order the line but never shard the capacity.
+- [resource-denominated-bounds](./techniques/resource-denominated-bounds.md) —
+  the unit a bound is spelled in, host-derived ceilings, the unsatisfiable
+  arrival, and where a count is still right.
+- [speculative-work-admission](./techniques/speculative-work-admission.md) —
+  probe-and-skip for work nobody is waiting on, release-on-admit, the wait knob
+  that must not exist, and skip accounting.
 - [load-aware-admission](./techniques/load-aware-admission.md) — host
   pressure gates, asymmetric thresholds, hysteresis, probe honesty.
 - [wait-telemetry](./techniques/wait-telemetry.md) — queue-time as its own

@@ -10,6 +10,7 @@ techniques:
   - long-run-as-background-job
   - worst-news-first-progress
   - shared-clock-across-phases
+  - delivery-promise-lock
 ---
 
 # Production pipeline phasing

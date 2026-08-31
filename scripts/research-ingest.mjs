@@ -45,6 +45,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { isPdf, pdfToText } from './lib/pdf-text.mjs';
 
 const argv = process.argv.slice(2);
 const flag = (name) => argv.includes(name);
@@ -298,14 +299,41 @@ if (src.kind === 'youtube') {
     fatal(`fetch failed for ${src.url}`, e.message);
   }
   if (!res.ok) fatal(`fetch returned HTTP ${res.status} for ${src.url}`, 'A paywall or a bot wall reads as an instrument failure, not a thin source.');
-  const body = await res.text();
-  meta.title = titleOfHtml(body);
-  id = slugify(meta.title || new URL(src.url).hostname);
-  text = htmlToText(body);
+  // A PDF must be sniffed by BYTES, not by URL suffix or Content-Type: a hubfs
+  // or CDN link often ends in neither. res.text() would decode the container as
+  // UTF-8, htmlToText would find no tags and pass it through, and the word count
+  // would report five figures of compressed stream as a mined document.
+  const bytes = Buffer.from(await res.arrayBuffer());
+  if (isPdf(bytes)) {
+    meta.container = 'pdf';
+    const r = pdfToText(bytes);
+    meta.pdf_pages = r.pages;
+    meta.pdf_fonts = r.fonts;
+    text = r.text;
+    meta.title = null;
+    const base = new URL(src.url).pathname.split('/').filter(Boolean).pop() ?? '';
+    let name = base;
+    try { name = decodeURIComponent(base); } catch { /* keep the raw segment */ }
+    id = slugify(name.replace(/\.pdf$/i, '')) || slugify(new URL(src.url).hostname);
+  } else {
+    const body = bytes.toString('utf8');
+    meta.title = titleOfHtml(body);
+    id = slugify(meta.title || new URL(src.url).hostname);
+    text = htmlToText(body);
+  }
 } else if (src.kind === 'file') {
   meta.file = src.file;
-  const raw = fs.readFileSync(src.file, 'utf8');
-  text = src.file.toLowerCase().endsWith('.vtt') ? cleanVtt(raw) : raw;
+  const bytes = fs.readFileSync(src.file);
+  if (isPdf(bytes)) {
+    meta.container = 'pdf';
+    const r = pdfToText(bytes);
+    meta.pdf_pages = r.pages;
+    meta.pdf_fonts = r.fonts;
+    text = r.text;
+  } else {
+    const raw = bytes.toString('utf8');
+    text = src.file.toLowerCase().endsWith('.vtt') ? cleanVtt(raw) : raw;
+  }
   id = slugify(path.basename(src.file).replace(/\.[^.]+$/, ''));
   meta.title = path.basename(src.file);
 } else if (src.kind === 'stdin') {
@@ -326,6 +354,28 @@ meta.words = words;
 
 if (words === 0) {
   fatal('the ingest produced ZERO words', 'THE READER IS BROKEN or the source carries no text - either way nothing was mined.');
+}
+
+// A PDF the reader could not open is an INSTRUMENT failure (exit 2), never a
+// thin source (exit 3). The two lead to opposite next moves, and this is the
+// one container where a broken read still produces a large, confident number:
+// binary counted as words. Assert the reader found structure before believing it.
+if (meta.container === 'pdf') {
+  if (!meta.pdf_pages) {
+    fatal(
+      `PDF reader found no page content streams (${words} "words" is container bytes, not text)`,
+      'Likely a page tree inside /ObjStm, or an encrypted PDF. scripts/lib/pdf-text.mjs states both limits. Route around this source or fetch a text rendering of it.',
+    );
+  }
+  // Extracted prose is overwhelmingly ASCII. A high non-text ratio means glyph
+  // codes were read without their /ToUnicode map - mojibake that still counts.
+  const suspect = (text.match(/[^\x09\x0a\x20-\x7e -ɏ‐-›€]/g) || []).length;
+  if (suspect / Math.max(text.length, 1) > 0.05) {
+    fatal(
+      `PDF text is ${((suspect / text.length) * 100).toFixed(1)}% non-text characters - the fonts did not decode`,
+      'Subset fonts without a usable /ToUnicode CMap. The word count is real but the words are not; do not mine this output.',
+    );
+  }
 }
 
 const outPath = path.join(outDir, `${id}.clean.txt`);

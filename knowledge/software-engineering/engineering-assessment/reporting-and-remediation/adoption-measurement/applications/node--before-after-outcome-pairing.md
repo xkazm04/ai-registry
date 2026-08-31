@@ -4,101 +4,109 @@ type: application
 subject: adoption-measurement
 technique: before-after-outcome-pairing
 stack: node
-status: forged
-verified_on: 2026-08-20
+verified_on: 2026-08-31
+verified_against: node@24
+applied: experiment
+ab_verdict: not-better
+proof: ab-paired
 ---
 
-# Pairing assessments around an adoption instant
+# The discriminator run against two instruments, and refused by both (Node)
 
-`src/lib/org/skill-outcomes.ts` in the source app
-(`C:\Users\kazda\kiro\ascent`) answers "did adopting this practice artifact
-move the repository's readiness score?" For every recorded adoption
-(`OrgSkillAdoption`: skill, repo, `adoptedAt`) it pairs the latest scan
-strictly before the adoption with the latest scan at-or-after it and reports
-the overall-score delta plus per-dimension deltas.
+The amendment to this technique adds a test: when a unit is missing from the
+before side, decide whether it is missing from the *measurement* (coverage
+change, exclude) or from the *world* (induced scope, count separately). This
+application is the test being run against two real before/after instruments in
+the fleet. Both returned "coverage change", the existing rule already governed,
+and the amendment changed no verdict. That is the useful result, and it is
+recorded here so the next run does not re-derive it.
 
-## The honesty rule is stated in the file header
+## Instrument 1: a context-to-subject conformance map
 
-`:6-10` is the clearest statement of the technique found in the repo, and the
-draft standard's phrasing was sharpened from it:
+The Personas client regenerates `.ai/registry-map.json`, joining source contexts
+to registry subjects with a per-pair state (`unknown`, `deviation`,
+`conformant`, `not-applicable`). Conformance is re-evaluated over time, so a
+before/after pairing is exactly what a reader would build from it.
 
-> when either side of the pair is missing, the result is an explicit
-> `no-before-scan` / `no-after-scan` with NULL deltas. A skill adopted into a
-> never-scanned repo, or adopted five minutes ago, has no measurable effect
-> yet — inventing one (comparing to the org mean, to the first scan, to zero)
-> would turn the library into a lie generator. Even a real delta is
-> CORRELATION, not proof: other work lands in the same window. Label it as
-> movement since adoption.
+Two revisions, eight days apart, both from the project's own git history:
 
-The status vocabulary is closed at `:20`:
+| | 2026-08-23 | 2026-08-31 |
+| --- | --- | --- |
+| contexts | 208 | 208 |
+| (context, subject) pairs | 764 | 821 |
 
-```ts
-export type OutcomeStatus = "measured" | "no-before-scan" | "no-after-scan";
-```
+Pairs added: **245**. Pairs removed: **188**. Net: **+57**.
 
-and `skillOutcomeFor` at `:100-115` assigns it before computing anything:
+The naive reading is the net: the map grew 7%, so a conformance rate computed on
+each side is roughly comparable. The paired reading is that only **576 of 821
+after-side pairs (70%) existed on the before side** — the churn is four times the
+net movement, and a delta computed on the totals is comparing two populations
+that differ in nearly a third of their members.
 
-```ts
-const status: OutcomeStatus = !before ? "no-before-scan" : !after ? "no-after-scan" : "measured";
-...
-overallDelta: before && after ? after.overallScore - before.overallScore : null,
-dimensionDeltas: before && after ? dimensionDeltas(before, after) : [],
-```
+So far this is the technique's step 5 doing its job. The amendment's question is
+the next one: are those 245 additions induced scope or coverage change? The
+discriminator resolves it without ambiguity. **The context count did not move at
+all** — 208 to 208, none added, none removed — so no new unit of work appeared;
+what changed is which subjects the matcher paired each existing context with.
+The additions are the instrument's output moving, not the world's. Coverage
+change, step 5 governs, exclusion is correct.
 
-A missing half yields `null`, never `0`. `:53-56` maps each status to
-reader-facing copy ("No scan before adoption, nothing to compare against" /
-"No scan since adoption yet") so the gap is a rendered statement, not an
-empty cell.
+Worth noting because it cuts the other way: over the same period the project's
+source tree went from **4,746 to 5,881 files (+24%)**. Real induced scope
+existed in abundance and the map's unit population did not track it. A reader
+who assumed "the tree grew, so new units are new work" would have reached the
+right conclusion by the wrong route, and been wrong on these numbers.
 
-## The boundary resolves toward "after"
+## Instrument 2: a lint ratchet with a population floor
 
-`pairScansAroundAdoption` at `:61-83` carries the rule the standard now
-states explicitly:
+A second project pins per-rule finding counts in `.ai/ratchet-baseline.json` and
+fails on any divergence. Its design comment is unusually careful about exactly
+this class of problem, and it enumerates the drop case: "a drop has at least
+three causes — the defect was fixed, the file carrying it was deleted, or the
+counter broke — and they are indistinguishable from the number alone."
 
-> A scan taken at the exact adoption instant counts as AFTER — the adoption is
-> the boundary, and the "before" side must be a state the skill provably
-> could not have influenced.
+It guards the population accordingly, on one side: `minFilesWalked` is written
+as 80% of the measured walk, and a walk below it exits 2 (instrument could not
+run) rather than 1 (a verdict about the code). That is the coverage-change guard
+implemented, correctly, and it is the same instinct as step 5.
 
-The implementation matches: `if (t < at)` selects into `before`, everything
-else into `after`. It is also order-independent (history arrives newest-first,
-tests feed either order) and skips unparseable timestamps rather than
-coercing them, so a malformed `adoptedAt` yields `{ before: null, after: null }`
-and therefore a named gap status rather than a silent pairing.
+**There is no ceiling.** The rise direction gets the enumeration the drop
+direction got: a rise also has at least three causes — a defect was introduced,
+the counter broke, or the population grew — and only the first is a verdict
+about the code. A tree that doubled would raise every bucket and the ratchet
+would report exit 1, a real regression, over a change in the denominator.
 
-## Sub-dimension identity
+The asymmetry is real and the amendment predicts it. It also costs this project
+nothing today, which is why the verdict below is what it is: the tree measured
+**990 files on 2026-06-01 and 996 now** — six files in three months. A missing
+ceiling over a flat population is a latent defect, not a live one, and proposing
+the guard here would be proposing work with no measurable effect.
 
-`dimensionDeltas` at `:86-97` implements the "compare only what both sides
-scored" rule in one line of intent:
+## Verdict, and the seam class it names
 
-```ts
-if (prev === undefined) continue; // a dimension only one side scored isn't a movement
-```
+`not-better`. The amendment ran as designed on both instruments and changed
+neither's output: the first because its churn is genuinely instrument-side, the
+second because its population does not grow. Neither is a refutation of the
+amendment's claim — both are cases where its precondition (a measured population
+that grows because the practice created work) is absent — but the distinction
+matters for the ledger, and the seam class is worth naming so it is not re-tested:
 
-Without it, a rubric that gained a dimension between the two scans would
-publish a delta manufactured entirely by coverage change. Results are sorted
-by absolute movement so the largest real change leads.
+> **An instrument whose unit population is derived by a matcher rather than
+> enumerated from the tree does not exhibit induced scope**, however fast the
+> tree grows, because its units are its own output. Its churn is always coverage
+> change, and step 5 as originally written is complete for it.
 
-## Separation of concerns
+The instruments that *would* test the amendment are the ones whose units are
+tree artifacts counted directly — a per-file finding count, a per-module
+coverage figure, a backlog sized by work items. The ratchet is one of those and
+is currently a flat tree; it is the place to re-run this when that changes.
 
-The pairing core (`pairScansAroundAdoption`, `skillOutcomeFor`,
-`skillOutcomesFor` at `:117`) is pure and unit-tested; the database half only
-feeds it `getRepositoryHistory` from `src/lib/db/scans-read.ts`, once per
-distinct repository. That is what makes the honesty rules testable — every
-missing-half case can be exercised without staging data.
+## What this realization cannot do
 
-## Deviations from the standard
-
-- **No instrument-identity check.** The pairing does not verify that the two
-  scans were produced by the same rubric version. `dimensionDeltas` protects
-  the per-dimension view by intersection, but `overallDelta` will happily
-  subtract scores computed under different weightings. The standard's
-  `instrument-mismatch` status has no counterpart here; this is the largest
-  gap and the standard stands.
-- **No maximum distance from the instant.** A "before" scan from eighteen
-  months earlier is selected as readily as one from last week. The distances
-  are recoverable from the returned `scannedAt` values but are not enforced
-  or surfaced beside the delta.
-- **The unpaired population is not reported alongside aggregates.** Per-skill
-  statuses exist, but nothing forces "eleven measured, forty-three
-  no-after" to appear next to a mean delta, which is where selection bias
-  enters a summary.
+Both arms are measurements of instrument *populations*, not of outcomes. Neither
+project runs a genuine before/after outcome pair around an adoption instant —
+there is no assessment score with a fixed adoption timestamp on either side — so
+this application tests the amendment's discriminator and not the technique's
+pairing procedure. The 245/188 churn figures are computed from two committed
+revisions of a generated file and are exact; the +24% file growth is from
+`git ls-tree` at two commits and is exact; nothing here is sampled or estimated.

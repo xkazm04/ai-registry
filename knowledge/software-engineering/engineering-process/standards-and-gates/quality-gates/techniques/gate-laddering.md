@@ -6,7 +6,7 @@ technique: gate-laddering
 status: forged
 laws: [gate-sees-target]
 shared_with: []
-use_when: [placing each check on the rung its latency affords, local green but pipeline red on the same content, pipeline red every run while merging continues]
+use_when: [placing each check on the rung its latency affords, local green but pipeline red on the same content, pipeline red every run while merging continues, a compile-gated branch breaks only in the pipeline, deciding whether the local rung analyzes every build configuration]
 ---
 
 # Gate laddering
@@ -179,6 +179,59 @@ optimization and a poor completeness guarantee: the condition can be wrong,
 the coupling can be indirect (the source changed but the artifact that
 should have changed with it is not in the diff), and only the unconditional
 upstream run closes the hole.
+
+## The narrowing nobody chose: source the compiler removed
+
+Scoping above is a trade someone made on purpose. There is a second narrowing
+of the local rung that nobody decides and that no rung reports: **conditional
+compilation**. A codebase that targets several operating systems, or carries
+build-time feature flags, excises whole regions of its own source before
+semantic analysis begins — a false predicate does not disable the code, it
+removes the form from the source, and everything downstream runs on what is
+left.
+
+The consequence for the ladder is severe and easy to miss, because the rung
+looks complete. On a developer's machine the formatter, the type checker, the
+linter and the whole test suite run to completion and report clean over a tree
+from which the other platform's implementation was deleted before any of them
+looked at it. Local green means *green for this configuration*, and nothing in
+the output names which one. The first analyzer that ever reads the excluded
+branch is a pipeline runner on a different machine, which is the exact latency
+this ladder exists to avoid — and the cost lands hardest where the author is an
+agent in a loop, because a remote round-trip to discover a name that no longer
+exists costs an entire cycle.
+
+Distinguish this from an untested platform: an unexercised configuration is a
+gap in *execution* coverage, and enumerating those cells belongs to the
+packaging matrix. This is a gap in **analysis** coverage. The excluded branch is
+not merely unrun; it is unparsed by every static instrument the project owns, so
+a rename in a shared type, a changed signature, or a newly-unused import in that
+branch is invisible to the author who caused it.
+
+Two moves close it, and they belong at different layers:
+
+- **On the rung: add a cross-configuration check, not a cross-configuration
+  build.** Running the other target's binary needs that target's hardware or an
+  emulator and belongs upstream. *Analyzing* it needs neither — a type-check and
+  lint pass against the other target is a fraction of a full build, runs on the
+  developer's own machine, and puts the excluded region back in front of every
+  static instrument. Narrow it deliberately to the surface that cross-analyzes
+  without the target's native toolchain and say so; partial analysis coverage of
+  the excluded branch is worth far more than the none it replaces.
+- **In authoring: prefer the runtime conditional over the compile-time one**
+  wherever both branches can compile everywhere. A runtime conditional keeps
+  both branches in front of the type checker and costs a dead branch; a
+  compile-time one buys the deletion and pays with the blindness. Reserve
+  compile-time exclusion for source that genuinely cannot compile elsewhere —
+  platform APIs — and concentrate it in dedicated per-configuration modules, so
+  the blind region has a stated boundary instead of being scattered through code
+  that could have been portable.
+
+The diagnostic to keep beside the rung's others: **how many configurations does
+the binding rung analyze, against how many exist?** With platforms the answer is
+small and knowable; with feature flags it goes combinatorial quickly, and the
+honest posture is to name the configurations that are actually analyzed rather
+than to imply all of them are.
 
 ## One authority for the rule set
 

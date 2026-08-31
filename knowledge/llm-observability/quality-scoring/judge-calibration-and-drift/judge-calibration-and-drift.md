@@ -11,6 +11,7 @@ techniques:
   - reserved-rubric-persistence
   - windowed-score-drop-alerting
   - judge-selection-by-spread
+  - repeatability-floor
 ---
 
 # Judge calibration and drift
@@ -122,6 +123,40 @@ properties for free: append-only cycles, queryable trends, provenance per
 entry — and it inherits the no-restatement discipline, so a recalibration
 never rewrites what an earlier cycle claimed.
 
+## The instrument disagrees with itself, and that bounds everything
+
+Every number above is computed from **one judge score per item**. That is the
+apparatus's unstated assumption — that a judge's score on an item is a value.
+It is a draw, which makes the agreement coefficient itself a random variable
+whose spread nobody here has measured.
+
+The missing measurement is the cheapest one in the subject and needs no human
+labels: re-score a frozen slice **N times with everything held identical** —
+same model, parameters, contract version, same day. Nothing changed, so all
+movement is the instrument arguing with itself. That is the **repeatability
+floor**, and it is a third quantity beside the two already named: agreement
+is judge-vs-human, drift is judge-now-vs-judge-then, repeatability is
+judge-vs-itself. Field measurement on a public grading pipeline puts it high
+enough to matter — re-grading one fixed artifact with the same judge flipped
+the published verdict 23% of the time.
+
+Two consequences. A single-shot verdict from a judge with a floor that high
+is not a measurement, so anything it gates either aggregates over re-scores
+or moves to a mechanical kind. And — the one that reaches back into both
+detectors above — **the floor is the minimum detectable effect for every
+comparison this subject makes.** A per-cycle drop or a windowed regression
+smaller than the floor is noise, and a detector without the floor beneath it
+does not merely mis-fire: it pages on a cadence until it is muted, and the
+real drift then arrives into a muted channel.
+
+The floor is measured **per dimension, never per judge** — in the same run,
+one subjective dimension flipped 32% while two near-mechanical ones flipped
+5% and 3%, and a composite figure would have hidden both facts. Since
+dimensions carry weights and floors, a composite's repeatability is dominated
+by its least repeatable dimension, which is reliably the subjective one the
+rubric exists to capture
+([repeatability-floor](./techniques/repeatability-floor.md)).
+
 ## The judge is chosen for discrimination, not price
 
 Calibration also answers the *selection* question: which model judges. The
@@ -181,6 +216,9 @@ quality costume.
 - [windowed-score-drop-alerting](./techniques/windowed-score-drop-alerting.md) —
   the rolling recent-vs-baseline detector, its warm-up honesty, and why it
   pairs with the immediate check.
+- [repeatability-floor](./techniques/repeatability-floor.md) — the judge
+  re-scoring a fixed artifact, why the floor is per dimension, and how it
+  bounds every drift threshold above it.
 - [judge-selection-by-spread](./techniques/judge-selection-by-spread.md) —
   choosing the judge by discrimination between known-good and known-bad,
   and re-verifying after any method change.

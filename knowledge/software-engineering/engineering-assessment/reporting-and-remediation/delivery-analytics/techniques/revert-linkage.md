@@ -11,7 +11,15 @@ use_when: [deriving a failure signal from change history alone, reporting a reve
 
 # Revert linkage
 
-A revert is the only failure signal available from change history alone. It
+A revert is the cheapest failure signal available from change history alone —
+and the only *terminal* one, which is both its strength and its limit: it
+arrives after the decision it might have informed, and a team that repairs
+rather than undoes emits none at all. What that team emits instead is a repair
+stream, read by
+[post-landing-repair-density](./post-landing-repair-density.md). Recognition and
+linkage below are shared machinery; both signals need them.
+
+A revert
 needs no incident tracker, no deployment record, no post-mortem culture, and no
 cooperation from the team being measured: someone decided a merged change had
 to be undone, and the act of undoing left an artifact. That makes it the
