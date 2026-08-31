@@ -78,12 +78,24 @@ cross-bundle link: **does the consumer decide, or act?** A human queue can hold 
 unactionable critical; an automated stage converts one into a fabricated fix. A later
 run meeting this shape should recognise it rather than re-litigate it.
 
-Applied to `gravity` as an **experiment**, verdict **better**. Its extract loop already
+Applied to `gravity` as **code**, verdict **better**, **shipped** as `b256f24`. Its extract loop already
 implements the rule's strong form independently - the critique schema requires the fix,
 a shrug or an echo is rejected, and the loop ends rather than iterating on an
 unactionable critique. The gap was downstream accounting: four settle causes collapse
 into one boolean, and an abandoned replica takes the same progress credit as a
 completed one.
+
+The ship **corrected the experiment that proposed it**, and the technique is better for
+it. The A/B's second measure - that an abandoned replica takes a completed one's progress
+credit - looked like the defect and is not one: that consumer asks "will more work happen
+here", for which an abandoned replica is genuinely finished, and the repo's own probe
+already asserts the count is right. Committing it would have reintroduced a stall an
+earlier fix had removed. The real cost was one layer on, where a replica's best frame is
+promoted into the durable style catalogue as an exemplar with no record that the loop had
+given up on it. The technique gained a **third consumer type** from the correction: one
+that asks only whether more work remains, and is right to collapse every cause into a
+boolean. Expect the cause to be needed at the door where findings become durable evidence,
+not at the one where they become schedule.
 
 ### Still open
 

@@ -93,6 +93,18 @@ findings most worth surfacing, and produces a queue sorted by convenience.
 Another bundle in this registry holds that rule for subsystem review, and it
 is right there.
 
+A third consumer exists and is easy to break by over-applying this rule: the
+one that asks only **"is there more work here?"** — a scheduler, a progress
+report, a queue depth. That consumer is *right* to collapse every settle into
+one boolean, because an abandoned round and a successful one are equally
+finished for its purpose, and refining its arithmetic to prefer the successful
+kind makes it under-report work that will never happen. Measured directly:
+correcting a progress count to discount abandoned rounds reintroduced a stall
+that an earlier fix had removed, because the count was never wrong. Sort
+consumers by the question they ask, not by their distance from the reviewer —
+and expect the cause to be needed at the door where findings become durable
+evidence, not at the one where they become schedule.
+
 The discriminating question is not the severity scheme. It is: **does the
 consumer decide, or act?** A human decides, can hold an unactionable critical
 indefinitely, and loses nothing by seeing it at full severity. An automated

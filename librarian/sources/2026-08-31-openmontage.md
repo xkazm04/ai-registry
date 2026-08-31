@@ -14,7 +14,7 @@ leads: 3
 already_covered: 0
 untriaged: 9
 applied: 3
-shipped: 0
+shipped: 1
 dispatched: 0
 run_id: openmontage-0831
 siblings: 4
@@ -111,15 +111,22 @@ preference.
 All three against `gravity`, which declares both domains. Seams in that project's
 `.ai/applied.jsonl` (created this run).
 
-- `critique-carries-its-fix` - **experiment**, **better**. The tree already implements the
+- `critique-carries-its-fix` - **code**, **better**, **shipped** to `gravity` as
+  `b256f24` after the operator confirmed the lane. The tree already implements the
   rule's strong form: the critique schema requires the fix, `usableFix()` rejects a shrug
   or an echo, and the loop *ends* rather than iterating on an unactionable critique -
   reached independently, which makes it evidence. The gap is downstream: the settle
   predicate returns a bare boolean, so 1 of 4 causes is recoverable, and an abandoned
   replica takes the same progress credit as a completed one - 3 units of work never
-  performed across 3 replicas. The project's own 2026-08-29 progress-strip commit
-  justifies that accounting by the target-met case explicitly; the other three causes ride
-  it unexamined.
+  performed across 3 replicas. **That second measure did not survive the ship and was
+  corrected rather than committed**: the progress strip asks "will more work happen here",
+  for which an abandoned replica is genuinely finished, and the repo's own probe asserts
+  the count is right. The real cost sits one layer on - `store.ts` promotes an abandoned
+  replica's best frame into the style catalogue as an exemplar, and exemplars are what
+  later generation conditions on. Final A/B: two runs at identical sub-target scores, arm A
+  (score proxy) 3 vs 3 indistinguishable, arm B (settle reason) `no-usable-fix` vs
+  `round-cap`, 3 of 3 classified. The technique gained a third-consumer paragraph from the
+  correction.
 - `capability-coverage-contract` - **experiment**, **better**. Soundness 19/19 both
   directions; completeness **7 of 19**. A weaker second seam was checked and rejected
   rather than reported: the deployment capability matrix is 0 of 5 named but is read by
