@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.2.0
+version: 1.3.0
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -50,6 +50,18 @@ Choose the pairs to evaluate, in this order:
 3. **Otherwise**: `state: "unknown"` pairs with `confidence: "strong"`, preferring contexts
    with many governing subjects (a dense context pays back the read) and contexts whose
    paths were touched recently in git.
+
+**Rank `priorNotApplicable` pairs last.** That field means this project has already judged
+the subject not-applicable in at least two other contexts, and more often than it judged it
+governing. Measured over 287 verdicts, that predicts a further not-applicable at 69%
+precision — so those pairs are the least likely to pay back a read.
+
+It is a hint, not a verdict, and the distinction matters in both directions. Judging one is
+allowed and sometimes right: the subject may genuinely govern *this* context even though it
+missed the others, and a `conformant` verdict there weakens the prior for everyone after
+you. What you must not do is let the flag *become* the answer — an unread `not-applicable`
+written because the map suggested one is a guess wearing a verdict's clothes, and it
+poisons the same tally the next run will trust.
 
 **Budget: 3-6 pairs per run unless `--budget` says otherwise.** This skill is worth more
 run ten times than run once; a pass that skims forty pairs produces forty guesses.

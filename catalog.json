@@ -91,15 +91,15 @@
     },
     {
       "name": "conform",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:3b7525a95f515abd",
+      "contentHash": "sha256-n1:439395027bf43372",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 2,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:7224bc236d7efe57",
+      "lessonsHash": "sha256-n1:5130bd6ecdc15096",
       "usageContributors": []
     },
     {

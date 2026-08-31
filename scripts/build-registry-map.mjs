@@ -57,6 +57,41 @@
  *   `grounding: "lexical-only"` and capped at `probable` - never `strong` - so a conform
  *   worker skips it by default and a reader sees why it is there. It is still emitted:
  *   a name match is a lead for a missing pairing, not nothing.
+ *
+ *   **The second wave measured four sharper versions of this gate and shipped none of
+ *   them (2026-08-31.)** That wave judged 110 more pairs, taking the fleet to 287 labelled
+ *   verdicts, and ten workers repeated the first wave's complaint: `markdown-vault` onto a
+ *   credential vault (10 of 13 pairs in one project), `eval-harness` onto candidate
+ *   comparison because both domains say *eval*, `agent-cli-transport` onto a UI context
+ *   scoring 324 on the single token *matrix*.
+ *
+ *   A `not-applicable` verdict IS the matcher's error; `conformant` and `deviation` are
+ *   both its successes, since the subject governs there either way. That makes the
+ *   labelled set a backtest, so the candidates were measured rather than argued:
+ *
+ *       variant                        n/a rate   real pairs kept
+ *       baseline                         24.5%         97.7%
+ *       scaffolding-token stoplist       23.2%         95.3%
+ *       path weight 3 -> 1               23.2%         96.7%
+ *       ambiguity penalty (df >= 12)     23.0%         96.7%
+ *       all three together               22.0%         92.6%
+ *       drop lexical-only entirely       22.6%         84.2%
+ *
+ *   Every one trades about one real governance pair for one bad pair. Buying 2.5 points of
+ *   precision by discarding sixteen real pairs is not an improvement, and dropping
+ *   lexical-only outright costs a sixth of everything the matcher correctly found. The
+ *   per-token intuition behind them - that *vault* and *eval* are the problem - is NOT
+ *   supported: those tokens are polysemous, and they are also how the right pairs are
+ *   found. Removing them costs as much true signal as it saves.
+ * - **A subject this project keeps judging not-applicable is ranked down (2026-08-31).**
+ *   What separates the pairs is evidence the fleet already paid for. Measured leave-one-out
+ *   over the same 287 verdicts: "this subject already has >= 2 not-applicable verdicts in
+ *   this project, and more not-applicable than governed" predicts a further not-applicable
+ *   at **69% precision, 57% recall** - better than 2:1, where every token fix was 1:1.
+ *   So an unjudged pair carries `priorNotApplicable` when its subject has that record here.
+ *   It is a RANKING hint, never a filter: the pair is still emitted and still judgeable, one
+ *   `conformant` verdict weakens the prior that produced it, and being wrong about it costs
+ *   a glance - unlike dropping a pair, which is invisible.
  * - **A path that no longer exists must not feed the match.** At least thirty listed paths
  *   in that wave's briefs were gone and two contexts were entirely dead; a worker cannot
  *   tell deleted from renamed-and-still-governed. Missing paths are dropped from the bag,
@@ -368,6 +403,25 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       if (!row) continue;
       row.subjects.push({ ...old, source: old.source ?? 'retained' });
       restored += 1;
+    }
+
+    // A subject this project keeps judging not-applicable is unlikely to govern the next
+    // context either. Tallied AFTER the restore above, so a verdict on a pair the matcher
+    // no longer proposes still counts - it was paid for the same way. Never tallied from
+    // the matcher's own scores: this is the one signal in the file a human established.
+    // Backtested at 69% precision / 57% recall over 287 verdicts, where every token-level
+    // fix measured 1:1 (see the header).
+    const naTally = new Map();
+    for (const r of mapped) for (const s of r.subjects) {
+      if (!s.state || s.state === 'unknown') continue;
+      const t = naTally.get(s.subject) ?? { na: 0, governed: 0 };
+      if (s.state === 'not-applicable') t.na += 1; else t.governed += 1;
+      naTally.set(s.subject, t);
+    }
+    for (const r of mapped) for (const s of r.subjects) {
+      if (s.state && s.state !== 'unknown') continue;   // a real verdict outranks a prior
+      const t = naTally.get(s.subject);
+      if (t && t.na >= 2 && t.na > t.governed) s.priorNotApplicable = t.na;
     }
   }
 
