@@ -171,171 +171,24 @@ which is where this run decided it.
 | 1.3.1 | 2026-08-31 | verou-2026-blog (XL follow-up) | 0 (no new ingest - the banked XL row from the same source) | 4 folded | 4 | **7 (1 new subject: golden path + 6 techniques)** | 1 row / 7 landed (0c/1e/0s; 5 unapplied with per-technique reasons) | 0 (the repair is architectural, not a diff) | **The previous row's declared focus, tested immediately and answered.** That row said an `XL` candidate loses every head-to-head against a technique that lands in one file, and proposed pricing it in the triage table. The operator instead picked it directly, which produced the better experiment: the XL row *was* built, in the same session, from context still loaded - and the cost came in far below what the triage table would have estimated, because the four cheap rows it absorbed were the same four candidates that made it XL. **The generalizable form is stronger than the pricing proposal**: an XL row's cost is not additive with the small rows beside it, it is *substitutive* - four fragments folded into one subject cost less than four techniques written separately, because the fragments were always one subject that extraction had shattered. A triage table that prices XL against the cheap rows is still pricing it wrongly, just more precisely. Second observation: `apply` coverage was 1 of 7 and the row does NOT treat that as a miss - a new subject's techniques are not seven independent findings, and four of the five untested ones need a project that *owns a resolver* rather than one that consumes somebody else's, which no managed project does. The row states that per technique rather than as one reason |
 | 1.4.0 | 2026-08-31 | github:TkDodo/react-query-beyond-the-basics | 1 repo @ `32c39be` (**158-word README, 13 source files - and seven feature branches whose diffs are the actual source**) | 10 | 1 verified + 3 caught | 1 technique + 1 golden-path correction (2 subjects touched) | 1e/0c/0s | 0 | **Ship 0 for a reason the standing binary does not cover: neither confirmation nor size, but that the verdict never reached `better`.** The seam is real and structural (7-field params bag, 3 identifying + 4 windowing, no retention, search setter does not reset the page) and **latent** - pagination is off by default with no caller enabling it and no shipped control calls the sort setters, so no gate can see a difference no user can trigger. Recorded `unmeasurable` with the instrument named rather than promoted to `better` on a structural confirmation. **Declared focus (price the XL row) was a no-op and is reported as such**: no row this run was XL, the largest being one technique document. Extract 10 / test 1 reflects an operator pick of one row, not a triage failure - 4 rows recorded untriaged with anchors |
 | 1.4.0 | 2026-08-31 | `github:future-agi/future-agi` @ `5b84ef4` (operator-directed at memory) | 1 repo (2676-word landing page vs **42422 in-tree md**, 16x; ~2500 LOC memory path is where all yield was) | 9 | 3 verified + 3 caught | **2 amendments, 0 new techniques** (2 subjects, 2 bundles) | **1e/0c/0s** (1 of 2 unapplied — no managed project carries the seam, reason in the row) | **1** (comment-only slice; behavioural fix withheld — see below) | Focus 1 (price any XL row) **N/A and said so before the table**: against a 13-technique subject every real finding was an amendment, so no XL row existed to price. Focus 2 (name the valve when `better` ships nothing) **moved, and found the dichotomy incomplete** |
+| 1.4.0 | 2026-08-31 | tigerbeetle-blog **w3** | 1 index, wave 3 / **17 of 31 refs read (55%)** | 6 | 3 | 3 (2 techniques + 1 amendment) | **3 rows / 3 landings** (0c/1e/0s + 2 measured-unapplied; 1 better) | 0 | **Declared focus READ AT PHASE 1 for the first time — the v1.4.0 change worked, and it changed the run.** Every triage row carried a project and a file before the operator picked, the operator authorized a tree in the same keystroke, and the apply lane went straight to a code arm instead of rediscovering the permission question at Phase 8. That is the loop closing. **Ship is still 0, but for the first time by a blocker neither prior diagnosis names**: not size (~40 lines) and not confirmation (the tree WAS authorized) — the build could not relink because a running instance of the app held the binary, and killing an operator's running app is not a run's call. Name it as a third class: **environment**. The focus's two-way split (size / confirmation) is incomplete and should become three. **The wave's best outcome is that the apply refuted my own remedy.** `seed-is-not-a-reproduction` claims a recorded seed dies when the generator changes, and prescribes persisting the derived input instead. Measured over 50 fixed seeds against the *exact repair this corpus had already recommended in writing* for that generator (a prior application found `trim_end` pinned, making an invariant unreachable, and prescribed drawing it): **50/50 seeds re-point** — structural, not probabilistic, since one added draw replaces the whole subsequent sequence. Then arm B, included only as a control on the assumption that a serialized structure obviously round-trips, came back **12/50 bit-exact and 38/50 lossy**. Verified at bit level: the writer emits the correct shortest round-tripping text, the language's own standard parser returns the original bits, and the JSON library's **default decoder** returns one ULP off; its documented exact-decode opt-in moves the same measurement to **50/50**. So the remedy had an unstated precondition, the technique gained a section for it, and the honest bound is stated too — for this suite's 1e-6 tolerance a 4e-16 error changes no verdict, which is a fact about its assertions and not about the practice. **A control that fails is worth more than the arm it was controlling for.** **Two rows are `unapplied` with MEASURED absences rather than assertions** — 0 fault-injecting lanes across seven trees, and **0 recorded-output assertions across four** (the fleet's oracles are entirely invariant-and-example based, so the amendment's rung has never been reached for, which is a stronger datum than 'unused'). Yield: three landings, all inside the subject wave 2 created, absorbed with **no home argument** — the best available evidence a boundary was drawn correctly. One cross-bundle catch (`seed-determinism-contract` states the rule better; landed as the discriminator, identity-vs-evidence, since cross-bundle links are forbidden). Two honest negatives about **wave 2's own ranking**: a post banded B for a docs taxonomy that turns out to live in the repository, not the post. Second slug collision in two waves (`snapshot testing` → `versioning-snapshots` at 9). Gate went red mid-wave on a sibling's half-forged subject; reported, not touched, and they fixed it. index/catalog left uncommitted twice — the regenerated index described a sibling's uncommitted application. |
 
-Reading the last ten rows: **ship is still the weakest stage — zero in ten of ten** —
-but the diagnosis has finally bottomed out. Four consecutive rows named four different
-proximate causes (selection at triage; the apply lane's brief; the missing project
-column; and now the unread focus), and the fourth is the ancestor of the other three:
-**this file's own "next run's declared focus" line had no reader.** It was written at
-Phase 11 and never loaded at Phase 1, so every run rediscovered its instruction after
-shipping the triage table that instruction was meant to shape. That is fixed in v1.4.0,
-which adds the read to Phase 1 — the first structural change in the sequence rather than
-another prescription.
+Reading the last ten rows: **the v1.4.0 fix worked and the funnel moved.** For the first
+time in the window a run read the declared focus at Phase 1, carried a project and a file
+on every triage row, and had a tree authorized by the same keystroke that picked the
+finding — the failure four consecutive rows had each diagnosed differently. Apply held at
+1:1 for a sixth run.
 
-Apply is now healthy and should stop absorbing attention: **5 consecutive runs at or
-near 1:1 landings-to-rows**, this one 3/3, with two `ab-paired` experiments. The
-remaining ship gap is genuinely a permissions question, not a measurement one — runs
-keep reaching `better` read-only and then correctly refusing to edit a tree nobody
-authorized.
+**Ship is still 0, and the diagnosis is now complete rather than merely different.** This
+run was blocked by neither of the two causes the focus names: the change was ~40 lines
+(not size) and the tree was authorized (not confirmation). It was blocked by a running
+app holding the binary — an **environment** cause, which no run should resolve on its own
+because killing an operator's process is their call, not the run's. So the focus's binary
+split is wrong and becomes a trichotomy.
 
-Next run's declared focus, unchanged in substance and now actually readable at Phase 1:
-**carry a project and a file on every triage row whose seam is plausibly a few readable
-lines**, so that picking the row authorizes the tree in the same keystroke. The next row
-says whether being able to read the focus was sufficient, or whether the triage-table
-change has to be made explicit in Phase 5 as well.
-
-**2026-08-31, after the verou-2026-blog row — ship converts now; the loss moved to `test`.**
-Across the last ten rows ship is no longer the outlier it was: five of them commit to a
-project, against one in six a few rows earlier. The three fixes that got it there were all
-real and all different — ask for the lane, brief it with write access, have an instrument
-cheaper than the project's own gate — and this run adds a fourth that is smaller and more
-reusable than any of them:
-
-**Ask for the tree AFTER the A/B, not at triage.** This run's triage pick named no project,
-so Phase 8 step 2 was unsatisfied and the run went read-only, correctly. At Phase 7.5 it
-had a measured `better` verdict and a sized diff, went back, and asked with both attached.
-That ask cost one question and was answered immediately, because it carried a number and a
-line count instead of a proposal. The standing 1.3.0-era idea of authorizing the tree at
-triage would have asked *earlier and worse* — at the moment when neither the operator nor
-the run yet knows whether there is anything worth shipping. A confirmation gate is not
-friction to be moved as early as possible; it is a question whose quality depends entirely
-on what is known when it is asked.
-
-The stage the funnel now loses most at is **test**, and the shape of the loss is specific
-rather than general. It is not that too few candidates are verified — the untriaged lane is
-working as designed, and recording eight rows with anchors is cheaper than re-deriving them.
-It is that **the `XL` row is systematically the one that gets banked.** This run extracted a
-locality/composability/scalability invariant triad for evaluating any declaration mechanism,
-marked it the strongest untriaged row and subject-sized in its own triage table, and did not
-build it — because it was the most expensive row on offer and the four cheap certain wins
-were sitting next to it. `SKILL.md` already has the corrective (write the spec, dispatch
-before Phase 9), but it only fires *if the XL row is picked*, and an XL row loses every
-head-to-head against a technique that lands in one file.
-
-Next run's declared focus: **when the triage table contains an `XL` row that the run's own
-read marks `real gap`, price it in the table** — state what the spec would cost and what the
-four cheap rows would cost together — so the operator is choosing between comparable things
-rather than between one large unknown and four small certainties. A run that banks an XL row
-should say in its scorecard row what it would have taken to build it.
-
-**Addendum from the `remeda` row (same afternoon, written after the paragraph above).**
-That reading is right that ship is the weakest stage and half wrong about why. This run
-reached `better` in `code` mode with a real paired measurement and shipped nothing, for
-**two** independent reasons, and only the first is a permissions question:
-
-1. **No confirmation.** The operator's pick was `1,2,3,4` and named no project, so Phase 8
-   step 2 was unsatisfied. This is the cause the paragraph above describes, and a project
-   column in the triage table would remove it.
-2. **The repair was too large to review in one diff** — 71 sites across 32 files in one
-   crate, 835 workspace-wide. A project column fixes nothing here. Even fully authorized,
-   the honest move is a branch or a slice, not a commit.
-
-Conflating these makes ship look like a single blocked valve when it is two. So the next
-run's declared focus: **when an apply row reaches `better`, name which of the two blocked
-the ship, and if it is size, ship the smallest honest slice instead of nothing** — one
-file, one call site, one crate — with the measurement re-run on the slice. A run that
-lands a 63-of-71 result and ships zero of them has proven the technique and moved no
-code, and the slice is the move that makes those the same act. If it is confirmation,
-say so in one clause and stop; that one is the operator's to fix, not the run's.
-
-**The slice was then shipped, in the same session, and the addendum's own prescription is
-now tested rather than proposed.** The operator confirmed the lane and set the size
-constraint ("ship the suppression-form fix as a small slice"), which removed cause 1 and
-answered cause 2. One file, 7 sites, **+2/-7**, `ba7f613e`.
-
-Two things the slice taught that the census could not, and both argue for slicing as a
-*method* step rather than a fallback:
-
-1. **The slice corrected the finding.** Shipping forces you to read the sites one at a
-   time, and that is when it surfaced that the crate is a **library** — so the unused-item
-   lint cannot fire on a reachable `pub` item, and **42 of the 71 sites were inert from the
-   moment they were typed** rather than stale-since-written. The census had reported one
-   number for two different defects. A run that ships nothing never finds this, because
-   the aggregate measurement is *correct* and its interpretation is wrong.
-2. **The right slice is the most defensible instance, not the worst one.** The file chosen
-   has written reasons on all seven suppressions and the reasons are true — about the
-   product. They are false about the lint. A slice picked for maximum embarrassment proves
-   the technique against a straw case; a slice picked where the team was careful proves it
-   against the real one.
-
-So the sharper form of the focus, for the next run: **when an apply row reaches `better`
-and the full repair is too large, the slice is not a consolation prize — it is the step
-that converts an aggregate into an understood one.** Pick the instance the team got most
-right, ship that, and expect the finding to change.
-
-**Addendum from the `rq-beyond-basics` row.** The previous focus — price the `XL`
-row — did not fire, because this source produced no `XL` row. That is worth
-recording as a property of the mechanism rather than as a miss: **a declared
-focus is written from the last source and executed against the next one**, and
-the two are unrelated. A focus phrased as a rule about a *row type* only fires
-when that row type recurs. The focuses that have actually moved the funnel were
-phrased as rules about a *stage* ("ask for the lane", "ask after the A/B, not at
-triage"), which fire on every run regardless of what arrived.
-
-On ship, this run adds a third cause to the standing two (confirmation, size),
-and it is the one the binary cannot express: **the verdict never reached
-`better`, because the seam was latent.** The census found a real mixed-axis key
-with a real one-directional-reset defect — and then found that both windowing
-coordinates are unreachable from the UI, because pagination is off by default
-with no caller enabling it and no shipped control calls the sort setters. There
-is nothing to ship and no gate that could have seen a difference. Promoting that
-to `better` on the strength of the structural confirmation would have been the
-easy and dishonest move; `unmeasurable` with the instrument named is the correct
-one, and it costs the run its ship column.
-
-The expensive part is that this was discovered **at the end** of Phase 7.5, after
-the instrument was written, self-asserted, debugged and hand-verified. Phase 7.5
-step 1 says "find the seam" and treats reachability as given. It is not: a seam
-is `file:line` where a decision is made, and a decision no user can trigger is a
-seam the A/B cannot grade no matter how good the technique is.
-
-Next run's declared focus, phrased as a stage rule so it fires regardless of what
-arrives: **before building any apply instrument, spend one grep proving the seam
-is reachable** — that a shipped control, route or entry point actually drives the
-input the technique governs. If it is not reachable, say so in the triage table
-and pick the mode from that fact (a latent seam is a `simulation` over the code's
-history, not an `experiment` over its present), rather than discovering it after
-the harness is built. A run that reports `unmeasurable` should say whether the
-seam was latent *before* or *after* it wrote the instrument.
-
-
-**Addendum from the `future-agi` row.** Focus 2 asked a run reaching `better` to name
-which of two valves blocked the ship — confirmation or size. This run reached `better`,
-shipped, and found the dichotomy is missing a third case: **indeterminacy**. Neither
-valve applied. The change was authorized by the pick and would have been two lines. It
-did not ship because the audit's finding was a delivery surface with no production
-caller, where "one delivery" of a file the consumer re-reads every turn is not obviously
-one increment. Shipping a guess would have hardened the wrong semantics in a path nobody
-can yet observe.
-
-The generalization is worth more than the instance, because it explains a run of zeros
-the two-valve reading has been mis-attributing. **Techniques divide into those whose
-application is a change and those whose application is a check.** A change-shaped
-technique applies by editing a seam, and its ship is a diff. A check-shaped one —
-this amendment, `lane-reconciliation`, `coverage-instrumentation`, `blast-radius-computation`
-— applies by *running* against a tree, and its output is a finding, not a patch. Graded
-on "did you commit code", a perfectly applied check-shaped technique reads ship=0
-forever, and the scorecard then names ship as the weakest stage when what actually
-happened is that the stage was mis-defined for half the corpus.
-
-What a check-shaped technique can always ship is the artifact that makes the check
-repeatable: the corrected inventory, the test that pins the enumeration, the lint. That
-is what shipped here — the tree's memory contract named one caller and had three, and
-correcting it is what stops the next reader running the audit against a stale comment
-and concluding the store is sound.
-
-Next run's declared focus: **classify each landed technique as change-shaped or
-check-shaped before choosing the Phase 7.5 mode, and for a check-shaped one, name the
-repeatability artifact — a test, a lint, a corrected inventory — as the ship candidate
-rather than reporting ship=0.** A run that lands a check-shaped technique and ships
-nothing should say what artifact it considered and why it was not reachable.
+Next run's declared focus: **when an apply row reaches `better`, name the ship blocker
+from three — size, confirmation, or environment — and act per class.** Size: ship the
+smallest honest slice, measurement re-run on the slice. Confirmation: say so in one clause
+and stop. Environment: say exactly what the operator would have to do, in one line, and
+leave the diff uncommitted rather than committing code that could not be built. A run that
+reports "ship 0" without naming which of the three has not finished its own row.

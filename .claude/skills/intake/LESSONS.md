@@ -3912,3 +3912,68 @@ measurement.
   `unmeasurable` row wants an instrument named; it should probably also distinguish
   "no seam because nobody built this yet" from "no seam because everybody already got it
   right", which are opposite signals about the technique's value.
+
+## 1.4.0 - 2026-08-31 - tigerbeetle-blog (wave 3)
+
+- **The v1.4.0 Phase 1 read worked on its first run, and the evidence is specific.**
+  Reading the declared focus before Phase 5 changed the triage table (every row carried
+  a project and a file), which changed the operator's pick (a tree was authorized in the
+  same keystroke), which changed the apply lane (straight to a code arm rather than
+  rediscovering the permission question at Phase 8). Four prior runs each prescribed a
+  fix the next run's shape made inapplicable; this is the first one that fired. Keep the
+  step.
+
+- **The ship blocker is a trichotomy, not a binary.** The standing focus asked runs to
+  name whether a `better` row was blocked by *size* or *confirmation*. This run was
+  blocked by neither: the change was ~40 lines and the tree was authorized. It was
+  blocked by a **running application holding the binary the build had to relink** - an
+  *environment* cause. The correct response differs from both others: do not commit code
+  you could not build, and do not resolve it unilaterally, because killing an operator's
+  running process is their call. State in one line what would unblock it. Applied to the
+  scorecard's focus; not yet a `SKILL.md` edit, since one run is one sighting.
+
+- **A control that fails is worth more than the arm it was controlling for.** Arm B
+  existed only to show that a serialized structure obviously round-trips, so that the
+  interesting comparison would be clean. It came back **38/50 lossy**, which turned a
+  confirmation into a real amendment to the technique being applied. The general lesson:
+  **include the control even when the answer is obvious, and read it.** A technique's
+  unstated preconditions live exactly where nobody expects a measurement, which is why
+  they stayed unstated.
+
+- **Verify a surprising measurement against a second instrument before writing it down.**
+  The lossy round-trip could have been my harness. It was separated by bit-level
+  comparison against the language's own standard parser, which handled the identical
+  string correctly - locating the loss in one library's default decoder rather than in
+  the format, the text or the writer, and then finding that library's documented opt-in
+  which restored 50/50. Writing "JSON loses float precision" would have been wrong,
+  lazy and repeated forever. The rule: **a finding that indicts a widely-used dependency
+  needs a second instrument before it reaches the corpus.**
+
+- **Prefer an apply target the corpus has already made a prediction about.** The repair
+  tested here was one a *prior* application in this same subject had recommended in
+  writing, for unrelated reasons. That made the measurement much stronger than a fresh
+  target would have: the technique predicted that this specific edit would invalidate
+  recorded seeds, and the edit was already on the record as advisable. When choosing a
+  seam, check whether an earlier application already prescribed a change there; testing
+  a prediction the corpus made beats testing one you chose today.
+
+- **A copy of a generator is a legitimate arm when the claim is about the generator's
+  draw sequence.** The project binary was locked, so the strategies were reproduced
+  faithfully - same draw order, ranges and pinned fields - rather than linked. That is
+  sound for a claim about seed-to-draw-sequence mapping and unsound for a claim about
+  the system's behaviour, and the application says which it is. Name the substitution and
+  scope the claim to it, rather than abandoning the measurement or overclaiming it.
+
+- **Three landings absorbed by a subject with no home argument is how you learn a
+  boundary was right.** Wave 2 created `test-input-generation` on an argued boundary;
+  wave 3's three findings landed inside it without any placement debate. That is a
+  cheaper and better signal than any amount of reasoning at creation time, and it is
+  worth stating in the subject note when it happens.
+
+- **Ranking corrections belong in the note, aimed at the run that did the ranking.**
+  Wave 3 read a post wave 2 had banded **B** expecting a documentation taxonomy; the
+  taxonomy lives in that organisation's *repository*, already banked by a third run, not
+  in the post. **A blog post and a repository document can share a topic and not share
+  the content**, and the ledger's own bank is the better predictor of which holds the
+  material. Wave 2's ranking used the title.
+
