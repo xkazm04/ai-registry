@@ -109,6 +109,35 @@ A disagreement signal that does not say whether the draws diverged on the tool,
 the arguments, or the answer defaults to the narrowest scope forever, which is
 the same as not routing on it.
 
+**Repeated draws are the portable instrument, not the only one.** Where the
+request already carries a typed artifact the response can be bound *into* — a
+table the caller also holds, a query result, an id from a prior step, a
+computed figure — the check is a lookup rather than a redraw: extract the
+response's asserted values and match them against that artifact exactly. One
+such verifier ran at a fraction of the cost of a frontier call per claim, well
+under the price of even one extra draw.
+
+The two are not substitutes, and the choice is made by the request's evidence
+shape rather than by budget:
+
+- **Typed evidence co-present with the request** → bind. Cheap per check, and
+  it catches the stale or transposed value that redraws may reproduce
+  identically, because a model is perfectly capable of being consistently
+  wrong.
+- **No external ground truth** — a semantic tool choice, a judgment, an
+  open-ended answer → resample. It is the only thing left.
+
+Two conditions on the binding path. Its price is **fixed rather than marginal**:
+the same verifier needed a hand-built library of domain formulas, a labelled
+training set for the part that could not be bound exactly, and it lost several
+points when pointed at a generator it was not tuned against — so it is cheap
+per query and expensive to stand up, which is the opposite profile to
+resampling and changes who should pay for it. And a claim it can only *score*
+rather than *look up* is back in similarity territory, so publish the split:
+what fraction of the response was bound by value, and what fraction merely
+scored. In the measured case that split was roughly even, and the scored half
+inherited the error rate of the model doing the scoring.
+
 Every one of these is a **routing signal, not an application error** — another
 candidate usually serves the same request correctly — and every one is caught
 before the horizon closes, which is what makes recovery invisible. Left

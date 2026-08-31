@@ -215,6 +215,55 @@ the same validation the pass applies — never around it. Writers to the
 belief store should be enumerable on one hand, and the enumeration is worth
 keeping literally true.
 
+## A validated citation is not a verified one
+
+The distiller's references are validated against the store: the cited episodes
+must exist. That is **referential integrity**, and it proves the pointer
+resolves. It does not prove the cited record contains what the belief asserts,
+and those come apart in the failure mode this door exists for — a real episode
+cited for a number it never held resolves perfectly and is a fabrication.
+
+The second check is a read-back, and it is cheap where the belief carries a
+value: the asserted figure or phrase must occur in the cited record, found by
+exact match before any looser search, with the outcome recorded on the belief.
+One system gating writes this way rejected roughly three in ten model-proposed
+rows.
+
+Bind the **key** as well as the value. A figure can be quoted perfectly and
+filed under the wrong metric name, and value-binding alone admits it; that
+check is the one most pipelines skip and it is where most of those rejections
+came from. Where a belief carries no quotable value — a judgment, a synthesis —
+the read-back is unavailable, and that is a reason to record which grade of
+provenance the belief has rather than to skip the distinction.
+
+The golden path's rule has a sharper form: a belief without provenance is a
+rumor with a database row, and **a belief whose provenance was never read back
+is a rumor with a footnote.**
+
+## Reachability outranks description
+
+A consolidated item's description is what the pipeline naturally spends its
+budget improving. The measurement says the budget is better spent elsewhere: on
+one system, removing the cross-reference index that let an item be reached from
+more than one place cost about a third of end-to-end quality, and removing the
+rule that files an item into its runner-up cluster when the top two are close
+cost nearly as much — while improving the per-item summaries moved the result
+within noise.
+
+The generalizable form is that **single-home assignment is the defect**. An
+item filed in exactly one place is unreachable from every other place it is
+relevant to, and no amount of describing it better fixes that, because the
+description is only read once the reader is already in the right neighbourhood.
+Where consolidation assigns an item to a cluster, a topic or a lane, ask what
+the second-best assignment was and whether the margin was thin enough that both
+should hold it.
+
+One boundary, from the same measurement: a pass that checked *sibling summaries
+for confusability* and repartitioned them bought nothing. The confusability
+check pays on a **selection surface**, where a reader picks between candidates
+by their descriptions, and not on a **partition**, where the descriptions only
+route. Two different objects with the same tell.
+
 ## What consolidation refuses
 
 The strictness has a shape. The pass declines to mint: claims at transcript

@@ -74,6 +74,19 @@ consolidation). Choose the store's shape for operational reasons — query
 patterns, tooling, scale; expect recall quality to come from the
 transitions, not the topology.
 
+That hedge has a scope condition, and every measurement behind it sits inside
+it: **the topology was consumed through a retrieval call.** A shape the
+consumer never sees, queried by an index on its behalf, is an operational
+choice and the hedge holds. A shape the consumer can *survey* — browse, list
+the siblings of, and know how much it has not looked at — is a different
+object, and there the shape has been measured to carry recall quality further
+than the transitions do, against a control given the same summarization budget.
+The discriminator is not tree-versus-flat; it is whether the organization is an
+interface or an implementation detail. Where it is an interface, expect a
+second cost the hedge never had to price: such a structure is compiled, and a
+compiled structure over a store that captures and forgets continuously is
+stale by construction rather than by failure.
+
 That hedge has since survived a direct attempt to overturn it, and came back
 better grounded. Graph-structured designs reporting real gains have, in their
 own ablations, attributed the primary factor to **multi-step reasoning at
@@ -323,10 +336,17 @@ separate:
   standing rules, the audit answer every belief owes. A learned reader does
   not turn a rumor with a database row into knowledge — it only makes the
   rumor harder to spot.
+- **Stayed designed.** The budget *partition* does not move, and the systems
+  built to learn everything are the evidence. In one reference implementation
+  of the learned architecture, the always-include tier and the selective tier's
+  depth are both design-time constants sitting in code, and the ablation puts
+  the largest single loss on removing the designed working-memory tier — larger
+  than removing any learned operation. What went into weights was *selection
+  within a tier*, not the tiers. Ablate the partition before ablating the
+  policy, and do not concede this row in advance.
 - **Relocated.** The read-path stages this subject specifies as designed
-  steps — tiering the budget, labeling recalled material, checking whether a
-  recalled item applies before acting on it — become behavior with no prose to
-  inspect. The operator's question degrades from "why was this recalled and
+  steps — labeling recalled material, checking whether a recalled item applies
+  before acting on it — become behavior with no prose to inspect. The operator's question degrades from "why was this recalled and
   that not", which the omitted-and-ranked list answers in one step, to "why
   did the policy do that", which nothing answers cheaply.
 - **Newly expensive.** The gains are bought with training on a distribution,
@@ -340,6 +360,20 @@ obligations are stated as design-time judgments because they assume somebody
 can read and change them; where they move into weights, the obligations
 survive and their **enforcement surface** moves — from prose and code review
 to reward design, held-out evaluation, and an explicit ladder of baselines.
+
+One of those obligations inverts on the way across, and it is the one this
+subject ranks first. Provenance reads as a cost the learned architecture must
+keep paying for auditability's sake. It is better understood as **the substrate
+that architecture is missing.** A policy trained on whether the whole run
+succeeded cannot attribute that outcome to any single entry; the credit signal
+it needs is exactly the entry-to-use-to-outcome record this subject already
+demands for audit, and one such system names per-entry credit assignment as its
+open problem while storing entries that carry an id and nothing else. The
+instrument is already specified here, in the usage feedback the recall path is
+told to close: increment on the selected set, after packing, at the boundary
+where material crosses into context. Written for value-model hygiene; it is the
+same edge. A learned store that discards provenance has not shed overhead, it
+has capped what it can learn.
 
 **Two: the history outgrows its budget.** The whole pipeline is an answer to
 material that will not fit and beliefs that must be correctable. Below that

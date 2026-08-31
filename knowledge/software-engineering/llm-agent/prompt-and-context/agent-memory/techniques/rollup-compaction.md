@@ -114,6 +114,37 @@ family, and a maximum length for the rollup body — a summary longer than that
 is not a summary, and the cap is a cheap check on whether the pass is doing
 its job at all.
 
+## Routing-grade and assertion-grade are different bars
+
+Every rule above is written for a summary the consumer may **cite** — the
+confidence ceiling, the no-model-no-rollup refusal, the identifier validation,
+the worry about an item that supersedes six real ones and now speaks for all of
+them. That apparatus is correct, and it is expensive, and it is the price of
+citability.
+
+A derived text whose only job is to **route** carries a materially lower bar,
+and the containment is structural rather than procedural: if the consumer is
+architecturally forbidden from quoting the summary — required to open the
+underlying record before asserting anything — then a weak summary costs recall
+and cannot manufacture a false belief. It sends the reader to the wrong shelf;
+it does not put words in the record's mouth.
+
+The measured consequence is that routing-grade text is cheap in exactly the
+places assertion-grade text is dear. On one system, swapping the model that
+wrote the navigation summaries for a much smaller one retained almost all of
+the end-to-end result at a fraction of the cost, and removing the per-item
+summary cards entirely was within noise — while the *structure* those summaries
+sat in carried nearly all the value.
+
+So name the grade when the artifact is created, and let it set the bar. The
+failure this prevents is paying assertion-grade cost for a routing artifact,
+which is what happens by default in a subject that has only ever specified the
+expensive kind. The failure it must not license is the reverse: a routing
+summary that leaks into an answer is an unattributed claim, so the
+architectural rule — open the record before asserting — is what the lower bar
+is purchased with, and where that rule is not enforced the lower bar does not
+apply.
+
 ## When not to use it
 
 Do not compact items whose value is their multiplicity: independent

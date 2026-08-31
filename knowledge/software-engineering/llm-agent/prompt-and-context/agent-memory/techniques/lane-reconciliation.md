@@ -154,6 +154,35 @@ one is why the two passes must be separate at all: at any instant a correctly
 functioning fan-out has items mid-flight, and a reconciler with delete authority
 and no age floor is a race condition with a schedule.
 
+## A derived lane is stale by construction, not by failure
+
+The divergences this technique is built for are **accidents**: a fan-out that
+half-succeeded, a writer that errored after one lane and before the next. The
+premise is that agreement is the steady state and disagreement is an event.
+
+A lane that is *compiled in a batch over the store* inverts that. An access
+structure built by a periodic pass — a navigable index, a clustered summary
+tree, any derived surface a consumer reads instead of the record — disagrees
+with the record in its **normal operation**, and nothing has failed: an item
+consolidated since the last compile is absent from every branch and therefore
+invisible through its only door, and an item forgotten since leaves a row
+pointing at nothing. Both are correct behavior of both halves.
+
+Two consequences, and the first is the one this subject already half-states.
+Its forgetting rule warns that a deletion must know what it orphans, and names
+one direction — an episode that grounds a live belief. Deletion also orphans
+**derived structures**, and where the derived structure is the consumer's only
+route to the store, an orphaned row is worse than a dangling belief because it
+is followed rather than read.
+
+Second, such a lane needs a stated recompilation trigger, and the trigger
+doctrine this subject already holds transfers unchanged: **accumulated input,
+not the clock** — the clock as a floor and a staleness release, never as the
+trigger. A compiled lane with no stated trigger is not eventually consistent,
+it is consistent as of a date nobody recorded. Say what a read gets during a
+recompile, too; "the old structure" and "an error" are both defensible and
+"whichever finishes first" is not.
+
 ## When not to use it
 
 A store with exactly one backend has nothing to reconcile, and adding the

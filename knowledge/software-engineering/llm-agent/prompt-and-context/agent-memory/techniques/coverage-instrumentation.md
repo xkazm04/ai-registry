@@ -104,6 +104,32 @@ moment it is taken, and treat a sudden jump in coverage the way you would
 treat a sudden jump in any other metric: as something to explain before
 celebrating.
 
+## Downstream quality does not detect a coverage hole either
+
+This technique already refuses the forward inference: coverage is not a quality
+measure. The reverse is equally false and is the one teams actually rely on,
+because it is the metric they were already watching.
+
+Measured: an extraction pass that silently dropped roughly a third of its
+source files — indexing about two-thirds of them and reporting the skips only
+in a run log — scored within one or two questions of a complete pass on a
+downstream question suite, and tied a no-structure control on one corpus
+entirely. The hole was a third of the input. The quality number barely moved.
+
+The mechanism is redundancy, and it is a property of the corpus rather than of
+the pipeline: where the dropped material is recoverable from surviving
+neighbours, an end-to-end score cannot see its absence, and the more redundant
+the store the blinder the score. That is precisely the regime a memory store
+lives in after any period of capture.
+
+So the two instruments are not substitutes in either direction, and a pipeline
+reporting only one of them is reporting health through whichever hole the other
+would have caught. Emit both. And where an extraction step can fail per item,
+its **per-item success rate is part of coverage**, not an operational detail
+that lives in a log — a pass that skipped a file and a pass that processed it
+and found nothing are the same `0` in every downstream metric, which is the
+absence distinction this subject exists to keep.
+
 ## When not to use it
 
 Coverage requires an enumerable population. When the territory an agent is

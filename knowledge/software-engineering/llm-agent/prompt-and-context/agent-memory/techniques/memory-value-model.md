@@ -131,6 +131,31 @@ detailed shape of that conjunction belongs to
 For ordering under pressure — which of these do we drop first — no threshold
 is needed at all: rank and take the top.
 
+## A harmful delivery must not read as a use
+
+The usage axis counts deliveries because nothing flows back, and the bound this
+technique puts on it is calibrated for the item that was delivered and
+*ignored* — useless, cheap, and held above the floor by its own matching. There
+is a second population the bound is the wrong instrument for: the item that was
+delivered and made the answer **worse**.
+
+Where the consumer's output distribution is observable, that difference is
+measurable rather than notional. Probe the consumer once without the item and
+once with it, and compare its uncertainty over the answer; the delta is
+signed. Items that reduce it are earning their place, and items that raise it
+are actively costing something — the measured shape is that admitting only the
+positive ones both improves the answer and cuts the context, which a ranking
+alone cannot do because ranking has no way to decline.
+
+So the correction is not a bigger bound. It is that **a signed signal replaces
+an unsigned count wherever one is available**: an item measured harmful
+decrements, and the retirement sweep stops financing it. Two conditions travel
+with this, and neither is optional. The signal is a *utility* estimate and not
+a truth estimate — confident, well-matched, wrong material can lower a
+consumer's uncertainty, so this term joins the conjunction and never replaces
+trust. And where the consumer's distribution is not observable, nothing here
+applies and the bounded count remains the honest instrument.
+
 ## When not to use it
 
 A value model is not a relevance model. It answers "what is this worth?", not

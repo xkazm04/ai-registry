@@ -76,10 +76,58 @@ The pattern generalizes: if an item is too large to ever fit a reasonable
 budget, that is a *capture* defect surfacing at read time. Fix it upstream by
 splitting the item, not by teaching the packer to cut.
 
+## The budget is a ceiling, not a target
+
+Ranking plus greedy packing has one property nobody chooses: it cannot leave
+the budget unspent. The list is walked to the end, so the marginal item is
+admitted whenever it fits, and this technique already states the reason that is
+wrong — marginal recall goes negative well before the budget is technically
+full. The rule is written and the machinery cannot act on it.
+
+What closes the gap is an **admission barrier applied before the cut**, not a
+better ordering. Measured on one instrument, reordering alone reproduced the
+unranked baseline to three decimal places at identical token cost, while
+admitting only items that clear a positive-contribution bar improved the answer
+*and* spent a quarter of the tokens. Ranking decides sequence; only a barrier
+decides membership, and membership is where the loss was.
+
+State the budget as the ceiling it is. A recall that returns three items
+against a ten-item budget has not underperformed.
+
+## Items are substitutes only where the task does not compose
+
+Both packing rules above — prefer fewer and stronger, skip an oversized item
+rather than stopping — are correct where recalled items are **substitutes**:
+each independently supports the answer, so dropping the ninth costs the ninth's
+marginal value and nothing else.
+
+Where the task composes across items they are **complements**, and the same
+rules become a cliff. Measured on multi-step questions, dropping a single
+required item took accuracy from roughly four-fifths to roughly half, with the
+surviving items providing no partial compensation — the consumer could not
+reason its way across the missing link. A budget that fits four of five jointly
+required items does not score four-fifths of the way; it fails, while returning
+a full-looking result.
+
+The discriminating question is cheap and belongs at the call site: **does the
+answer need these items together, or any one of them?** Where the answer is
+"together", skip-don't-stop is the wrong policy — a set that cannot be
+completed within the budget should report that it could not, which is the
+`considered` count doing the job it was already given, rather than deliver a
+confident partial.
+
 ## The result says what it did not show
 
 A recall result carries three numbers, not one: what was selected, what was
-eligible and considered, and what the budget was. A caller handed only the
+eligible and considered, and what the budget was. Three numbers is the
+debuggability answer, and it is the floor rather than the ceiling: a count of
+the remainder tells a consumer *that* something was left, while the **shape** of
+the remainder tells it what. A consumer that can see the store held nine other
+groups and it has looked at one knows where to go back to; a consumer handed
+"considered: 40" knows only that it is incomplete, and its only recovery is to
+ask again the same way. Where the store's organization is something the
+consumer can survey, report the shape; where it is not, report the count and
+accept that recovery will be blind. A caller handed only the
 selection will present it — to a human or to the agent's own reasoning — as
 though it were everything the store held on the topic. Reporting the
 considered count alongside the selection is
