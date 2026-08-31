@@ -64,3 +64,21 @@ Append-only reflection lane. One entry per run that taught something. Format:
 - **The run store bloats on exactly the axis nobody reads back.** At 8 runs, uat/ was 82 MB: 75 MB screenshots, ~7 MB for every finding, report and Character voice ever produced — and stem-matching citations (reports cite brace-style, `shot.{png,text.txt}`, so basename grep undercounts) showed half the pixels were referenced by no document at all. The policy that survived scrutiny: text is the record, pixels are working evidence — uncited shots go anytime, cited shots go when the run is superseded as its journey's latest, text never goes, and every prune writes a `PRUNED.md` into the run so the thinning is itself on the record. 82 → 24 MB with zero loss of quoted evidence.
 - **A naive lifecycle count institutionalizes a lie: 413 "open" findings, honest number 16.** Three separate causes, each needing its own classification rather than a fix-up: strength rows in early runs carried no `resolution` and read as eternally-open defects (detect by id/title/verdict, never by resolution); some early rows carried free text in `resolution` (label `unstamped`, never coerce); and whole runs predated the stamping discipline, their backlogs tracked and closed in an external doc (label the RUN `archived` and its rows `unstamped-at-archive`). Retroactively stamping them "fixed" would have been fabricating history; counting them open would have drowned the 16 real ones. The honest label beats both.
 - **The lifecycle ledger is what makes recurrence detection cheap enough to actually happen.** The recurrence-2 findings this project accumulated trace to one cost: answering "has this been raised before?" meant re-reading N runs' findings files, so it didn't happen. A generated `history.json` (id → every run → resolution → ceiling) turns that into a lookup, and a compact generated summary in the repo's TRACKED docs is what survives when the store is local-only. Generated, never hand-written — a hand-maintained history is the "as of W9-3" snapshot problem wearing a new hat.
+
+## 1.8.0 - 2026-08-31 - ascent
+
+- **A @react-pdf deliverable IS text-extractable — a prior run wrongly declared it was not, and
+  verified a board-PDF finding by byte-size proxy for a whole cycle.** Inflate the FlateDecode content
+  streams and decode the `TJ` operands: react-pdf emits them as hex-encoded ASCII, not glyph indices.
+  ~30 lines of Node, no dependency. When a Character's actual deliverable is a generated document,
+  `recertify` must read the document, not the conditional that renders it — otherwise the strongest
+  half of the evidence is always inferred.
+- **A reusable driver must take its shot stem as an argument.** A driver with hard-coded output names
+  (`armB-nadia07-before.png`) destroys the arm it is being reused to compare against, in place, and
+  run shots are gitignored so the baseline is unrecoverable. Recertify re-runs prior arms by design;
+  this is a structural hazard of the mode, not an accident.
+- **"Mechanism landed, symptom unchanged" is its own verdict shape, and it is `open`.** A fix that adds
+  a discriminator can leave 0% of its value visible because the historical corpus resolves to the
+  optimistic branch of the new join. The three-way test (landed / reachable / unblocks the job) caught
+  it: 36 of 36 rows carried the new field and 0 of 36 rendered the new label. Recertify should always
+  count the *rows that render the new state*, never just assert the field exists on the wire.
