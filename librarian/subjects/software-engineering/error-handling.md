@@ -1,7 +1,7 @@
 ---
 subject: error-handling
 domain: software-engineering
-last_touched: 2026-08-28
+last_touched: 2026-08-31
 dry_streak: 0
 ---
 
@@ -147,3 +147,37 @@ No golden-path edit was needed. In a six-sibling checkout that meant no `content
 which is worth noticing as a property of amendments: **an amendment inside a technique
 touches no shared spine, and is therefore the cheap move under contention as well as the
 cheap move editorially.**
+
+### 2026-08-31 - `/intake`, from a single-author blog archive
+
+Amended `taxonomy-design`. Source: [[2026-08-31-brooker-blog]].
+
+**A same-day contradiction, and the best kind.** The fourth axis had landed that
+morning stating that never-absorbable is "answered per category, not per site",
+with resource-exhaustion caps as its canonical members and "a limit that can be
+swallowed is not a limit" as its rule. That reasoning was argued from a
+document-parsing threat model - an attacker's oversized payload in one optional
+region of one request, uncorrelated, where absorbing defeats the limit.
+
+The primary this run fetched shows the same category firing exactly as
+prescribed and taking down a global network: a preallocation cap of 200 against
+~60 in use, hit by a **fleet-broadcast** artifact. There the refusal is
+perfectly correlated and the blast radius is the fleet rather than the request.
+The axis is real; its honesty property was too strong. Absorbability is a
+predicate on category *and* arrival shape, and a stop-category reachable from a
+broadcast input owes a second decision the per-request case never needed: what
+the instance runs on when the newest artifact is refused.
+
+The experiment then found a failure inside the repair itself. Six mutations of a
+real broadcast artifact: arm A ran 0 of 32 checks on all six refusals, arm B ran
+32 of 32 - but the **truncated** case fails in the decoder with no filename
+while the five validator faults name field and file. A fallback that inherits
+its diagnostics from the validator handles five classes informatively and the
+most likely one anonymously. That clause, and the requirement that staleness be
+visible on the running artifact rather than only in the boot log, came from the
+seam rather than from the source.
+
+Fleet tally: 11 refuse-on-broadcast sites against ~9 degrade families, and **no
+project applies one policy consistently** - the choice is being made per call
+site. Two unrelated trees already write the last-known-good copy and neither
+reads it back.

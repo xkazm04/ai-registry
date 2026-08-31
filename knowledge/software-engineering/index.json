@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 153,
-  "techniques": 1035,
-  "applications": 521,
+  "techniques": 1036,
+  "applications": 528,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1035/1035",
+  "use_when_coverage": "1036/1036",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -413,6 +413,13 @@
     },
     {
      "stack": "next",
+     "technique": "priority-and-fairness",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--priority-and-fairness.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@15"
+    },
+    {
+     "stack": "next",
      "technique": "speculative-work-admission",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--speculative-work-admission.md",
      "verified_on": "2026-08-31"
@@ -431,10 +438,24 @@
     },
     {
      "stack": "rust",
+     "technique": "queue-cardinality",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--queue-cardinality.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
      "technique": "self-paced-intake",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--self-paced-intake.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "wait-telemetry",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--wait-telemetry.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.85"
     }
    ]
   },
@@ -3146,6 +3167,20 @@
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
    "techniques": [
     {
+     "slug": "admission-hypothesis",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "constructing a cache and deciding what belongs in it",
+      "a cache is full of entries nobody reads twice",
+      "choosing an eviction rule",
+      "one TTL is applied across key families with very different volatility"
+     ]
+    },
+    {
      "slug": "cache-key-discipline",
      "status": "forged",
      "laws": [
@@ -3229,6 +3264,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "admission-hypothesis",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--admission-hypothesis.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@15"
+    },
     {
      "stack": "node",
      "technique": "cache-key-discipline",
@@ -7457,6 +7499,13 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "taxonomy-design",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/next--taxonomy-design.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@15"
+    },
+    {
      "stack": "react",
      "technique": "error-doors",
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/react--error-doors.md",
@@ -7683,6 +7732,13 @@
      "technique": "judge-stability",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--judge-stability.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "reliability-aggregation",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--reliability-aggregation.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@22"
     },
     {
      "stack": "react",
@@ -19028,6 +19084,13 @@
     },
     {
      "stack": "rust",
+     "technique": "retention-and-pruning",
+     "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/applications/rust--retention-and-pruning.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
      "technique": "snapshot-scope",
      "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/applications/rust--snapshot-scope.md",
      "verified_on": "2026-08-18"
@@ -20461,6 +20524,7 @@
     "chat-transcript/progress-narration",
     "chat-transcript/turn-metadata",
     "cicd-monitoring/deployment-history",
+    "client-fetch-cache/admission-hypothesis",
     "codebase-scanning/dead-code-detection",
     "codebase-scanning/evidence-scoping",
     "codebase-scanning/ingestion-budget",

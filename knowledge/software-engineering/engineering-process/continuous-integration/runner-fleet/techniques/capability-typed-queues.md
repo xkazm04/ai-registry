@@ -84,9 +84,18 @@ jobs get big machines while cheap jobs get small ones. Two cautions:
   large runner because it once ran out of memory keeps that request forever, long after the
   cause is fixed. Review size requests against measured usage periodically, or the fleet drifts
   upward in cost with no corresponding need.
-- **Every distinct size is a separate pool** with its own queue and its own idle capacity. Five
-  sizes is five pools, each of which can be simultaneously starved and idle. Fewer types, more
-  depth per type; add a type when a measured need exists, not in anticipation.
+- **Every distinct size is a separate pool**, with its own idle capacity. Five sizes is five
+  pools, each of which can be simultaneously starved and idle. Fewer types, more depth per type;
+  add a type when a measured need exists, not in anticipation. The remedy for the idle half is
+  elastic capacity per type ([queue-depth-elasticity](./queue-depth-elasticity.md)), not a
+  shared line — see below.
+- **Do not read that as an argument for merging the queues.** Partitioning the *machines* costs
+  pooling, which is the cost the bullet above is about. Partitioning the *queues* over machines
+  that are already non-fungible costs nothing, because the pooling benefit was never available:
+  a job needing a pinned toolchain cannot run on a runner that lacks it, whatever line it waited
+  in. What a merged line would add is head-of-line blocking — a free runner of one type idling
+  because the front of the shared queue is holding out for a type that is busy. Once types exist,
+  a queue per type is not an additional cost; it is the avoidance of one.
 
 ## When NOT to type
 

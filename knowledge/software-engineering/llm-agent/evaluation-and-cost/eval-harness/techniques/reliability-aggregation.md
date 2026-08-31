@@ -32,11 +32,25 @@ highest.**
   ready to notice the bad case.
 
 Same trials. Different question. The gap between them is not a rounding
-difference: at two successes in three trials, any-of-3 sits near 96% and
-all-of-3 near 30%. A harness reporting the first has not lied — it declared
-its aggregation, as the golden path requires — and it has still told a team
-deciding whether to automate something that a capability succeeding
+difference: at a per-trial success rate of two in three, any-of-3 sits near
+96% and all-of-3 near 30%. A harness reporting the first has not lied — it
+declared its aggregation, as the golden path requires — and it has still told
+a team deciding whether to automate something that a capability succeeding
 end-to-end under a third of the time is a 96%.
+
+Those two numbers are **modelled from a rate, not read off three trials**, and
+the distinction is the one this technique exists to enforce. Compounding a
+per-trial rate across N assumes the trials are **independent** — that failing
+once does not raise the chance of failing again. Where a task has a hard case
+the system reliably misses, that assumption is false and the modelled any-of-N
+is optimistic by an unbounded margin. Observed and modelled are also different
+objects: of three trials that actually ran with two successes, the *observed*
+any-of-3 is 1.00 and the *observed* all-of-3 is 0.00, because at least one
+succeeded and not all did. So a reliability figure carries three things, not
+one — the rule, the N, and whether it was measured or modelled — and a modelled
+one carries the independence assumption with it. That is
+[count-carries-predicate](../../../../_laws.md#count-carries-predicate) read
+strictly: the predicate of a modelled number includes the model.
 
 ## Why declaring the rule is not enough
 

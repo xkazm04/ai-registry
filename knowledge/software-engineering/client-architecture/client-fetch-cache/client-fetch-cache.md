@@ -4,6 +4,7 @@ type: golden-path
 subject: client-fetch-cache
 status: forged
 techniques:
+  - admission-hypothesis
   - swr-design
   - in-flight-dedup
   - cache-key-discipline
@@ -73,9 +74,9 @@ selection, revalidation triggers, eviction, and failure handling that keeps
 stale truth visible — is the [swr-design](./techniques/swr-design.md)
 technique.
 
-## Every cache declares three policies
+## Every cache declares four policies
 
-A cache is not a map with optimism. It is a map plus three declared
+A cache is not a map with optimism. It is a map plus four declared
 policies, and a cache missing any one of them is either a leak or a lie:
 
 - **Key** — what identifies an entry. The key must be derived from *every*
@@ -92,10 +93,38 @@ policies, and a cache missing any one of them is either a leak or a lie:
   its reaper at creation
   ([creation-names-reaper](../../_laws.md#creation-names-reaper)).
 
-The discipline is to state all three at the cache's construction site — as
+- **Admission** — what goes in at all. This is the policy that is almost
+  always absent, because the default is invisible: everything fetched is
+  cached, and nothing decides otherwise until a size cap starts reaping. The
+  three policies above all presuppose the entry is already in; none of them
+  is the decision to put it there. An admission policy is a stated bet about
+  **why this entry will be read again**, and there are only a few bets
+  available: because it was read recently (recency of access), because it was
+  created recently (recency of creation — often the stronger signal, since new
+  rows churn and old rows go stable), because something near it was read
+  (proximity), or because it was written at the same time as something being
+  read now (co-writing). A cache that admits everything has bet on all four at
+  once, which is the same as having no reason to expect reuse from any of them.
+  The four bets, why eviction's axis must match admission's, and the check that
+  a stated rule can still fire are
+  [admission-hypothesis](./techniques/admission-hypothesis.md).
+
+The reason to write the bet down is that the rest of the cache is only
+checkable against it. Least-recently-used eviction is a bet on recency of
+access, and it is usually chosen as a default rather than argued; a single TTL
+across a key family assumes volatility is constant per family, when volatility
+commonly decays with the entry's own age since creation. Neither is wrong.
+Both are unexamined until the admission bet is stated, and where the bet is
+stated the mismatch is obvious on inspection rather than after a cache-hit
+investigation. State it, and the cheapest useful consequence follows at once:
+an entry admitted under no hypothesis at all — a one-off, a response nothing
+will ask for twice — should not be admitted, because it costs eviction pressure
+against entries that will be.
+
+The discipline is to state all four at the cache's construction site — as
 configuration, not as folklore. A reviewer looking at a new cache should be
-able to read its key rule, its lifetime rule, and its eviction rule without
-reading its callers.
+able to read its admission rule, its key rule, its lifetime rule, and its
+eviction rule without reading its callers.
 
 The machinery itself is subject to the same law that governs vocabularies
 ([one-authority-per-vocabulary](../../_laws.md#one-authority-per-vocabulary)):

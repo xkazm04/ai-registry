@@ -5,6 +5,7 @@ subject: admission-queue
 status: forged
 techniques:
   - self-paced-intake
+  - queue-cardinality
   - admission-vocabulary
   - depth-bounds-and-shed
   - priority-and-fairness
@@ -90,6 +91,33 @@ bounds rather than one, because an interval without a per-drain cap bounds the
 step rate while leaving the step cost unbounded. The trigger question, the
 coalescing rule, the migration and the three exemptions are
 [self-paced-intake](./techniques/self-paced-intake.md).
+
+## How many lines are there
+
+The next assumption to surface is the definite article. Everything below says
+"the queue", and the count is a decision nobody made: one line, in front of one
+pool. It is the right answer while the servers are **fungible** — while whoever
+reaches the front can be served by whichever server frees up next, which is
+what makes one shared line beat several independent ones.
+
+It inverts the moment an arrival **precommits to a kind of server** before
+joining: a job needing a particular toolchain, a request that must reach the
+shard holding its data. Now the entry at the front cannot use the server that
+just freed, and everything behind it waits anyway — a free server and waiting
+work at the same instant, which is the one outcome a queue exists to prevent.
+The penalty does not need unequal service times to appear; skew deepens it but
+does not cause it, so "our tasks are all about the same size" is not a defence.
+And where the servers are already non-fungible, splitting the line costs
+nothing, because the pooling it would give up was never available.
+
+A second cardinality question arrives with origins rather than server kinds:
+one line per tenant isolates them, and remembering every tenant costs memory
+that grows with a number the tenants choose. Fixing the number of lines and
+hashing the origin into them removes the state and pays for it in collisions,
+which under a static mapping are permanent rather than transient. The count
+decision, the precommitment discriminator, the stateless variant and what a
+line count does to every bound and every measurement below are
+[queue-cardinality](./techniques/queue-cardinality.md).
 
 ## The verdict is a closed vocabulary
 
@@ -275,6 +303,9 @@ Two rules fall out of the table:
 - [self-paced-intake](./techniques/self-paced-intake.md) — arrival versus own
   clock as the step trigger, the fixed-cost tell, interval plus drain cap,
   coalescing before work, and the three cases where per-arrival is right.
+- [queue-cardinality](./techniques/queue-cardinality.md) — how many lines,
+  precommitment as the discriminator, head-of-line blocking, hashing origins
+  into a fixed set, and what a line count does to every bound below.
 - [admission-vocabulary](./techniques/admission-vocabulary.md) — the closed
   three-way verdict, refusal reasons as data, the caller contract per
   outcome.

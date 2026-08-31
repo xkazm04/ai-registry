@@ -103,3 +103,41 @@ instrument named (per-source response size).
   advisory with a named calibration window and a retained artifact before they block.
   Adjacent to `quality-gates/gate-laddering`; return if a second source shows the retained
   calibration artifact, which is the part gate-laddering does not carry.
+
+### 2026-08-31 - `/intake`, from a single-author blog archive
+
+Gained `queue-cardinality` (9 -> 10 techniques) plus amendments inside
+`priority-and-fairness` and `wait-telemetry`. Source: [[2026-08-31-brooker-blog]].
+
+**The subject was thorough from stage two onward and owned nothing at stage
+zero.** Every one of the nine techniques governed policy *inside* one line - the
+verdict vocabulary, the depth bound, the ordering, the host gate, the drain. The
+definite article in "the queue" had never been examined. Two lanes of one run
+converged on it from different directions (precommitment and head-of-line
+blocking; stateless hash bucketing), and the decisive evidence was neither of
+them: **this subject's own APF application document had recorded the mechanism
+fifteen months earlier** - hands dealt from 64-128 queues, a rotating offset to
+de-bias overlapping hands, head-of-line blocking with its metric name and the
+note that the repair does not exist. The material was written at the application
+layer and never lifted, which is why `research-map "fair queuing"` returned
+nothing corpus-wide: applications are not what it ranks.
+
+**The rejection was worth more than the technique.** Applied to a job runner
+with twenty non-interchangeable work kinds over four permits, splitting the line
+was **4.3x worse** and improved nothing, because over a month the queue was
+non-empty 1,610s of which *zero* held more than one kind. That produced the
+technique's coexistence test: the cost claim holds in the steady state and fails
+under class-clustered arrivals, which is the common shape. The alternative arm
+was already built and shipped disabled - a disabled feature acting as a control.
+
+`priority-and-fairness` was corrected on a sentence landed the same morning:
+"takes nothing from anyone else" is true of occupancy and false of throughput
+share. The A/B put the attacker at 99.0% share under *both* policies and honest
+throughput at 1/min under the correct one - so the global bound protects the
+resource and abandons the user, and only an attested key restores their slice.
+
+`wait-telemetry` gained the sizing identity (its objective section enumerated
+"three ways" and the fourth is that wait times arrival rate is the concurrency
+you must hold) and the caller-versus-entry gap. Measured on real rows: 3.6x, with
+no starvation anywhere, and the shipped concurrency constant derived to two
+decimals. The two additions turned out to be one error at two timescales.

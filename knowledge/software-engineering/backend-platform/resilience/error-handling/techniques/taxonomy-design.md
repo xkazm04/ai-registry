@@ -104,6 +104,41 @@ absorbable failure still owes a door: absorbed is not silent, it is
 *not-user-facing*, which is the ordinary background routing and not an
 exemption from it.
 
+**Per category is not quite enough, and the residue is where a cap becomes an
+outage.** Absorbability is a predicate on the category *and* on how the
+triggering input arrives. The stop-categories above were argued from an input
+that arrives **uncorrelated** — one payload, one caller, an attacker's
+oversized region in one document — where absorbing defeats the limit and
+refusing costs one request. The same category inverts when the input is a
+**broadcast artifact**: one configuration file, one model bundle, one feature
+list, pushed to every instance at once. There a non-absorbable refusal is
+perfectly correlated, so a cap firing exactly as designed takes down every
+instance in one propagation cycle, and the blast radius is the fleet rather
+than the request. The rule is not that such caps should be swallowed — a limit
+that can be swallowed is still not a limit. It is that a stop-category
+reachable from a broadcast input owes a **second** decision the per-request
+case never needed: what the instance runs on when the newest artifact is
+refused. Continuing on the last artifact that passed, loudly and with the
+staleness visible, is the usual answer, and it is a different mechanism from
+absorption — the limit still fires, the operation still terminates, and the
+process does not. Categories minted from a parser's threat model should
+therefore be checked against the fleet's distribution paths before they are
+declared never-absorbable, because the two arrival shapes give the same
+category opposite correct answers.
+
+Two details decide whether the fallback is a repair or a second outage. **The
+staleness must be visible**, or the fleet quietly enforces last month's rules
+while every instance reports healthy — the refusal is loud for one boot and the
+consequence lasts until someone notices, so the stale state belongs on the
+running artifact's own status, not only in the log line that announced it. And
+**the fallback path must carry the artifact's identity itself.** A validator's
+diagnostics name the field and the file because the validator knows what it was
+validating; the *parse* that precedes it does not, so a truncated or corrupt
+artifact typically fails with a decoder error naming nothing. A fallback that
+inherits its diagnostics from the validator will handle five failure classes
+informatively and the sixth — the partial write, which is the most likely
+artifact-distribution failure of all — with an unattributed syntax error.
+
 ## Retry-interval extraction
 
 Throttling deserves special handling: it is the one category where the

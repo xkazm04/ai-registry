@@ -678,10 +678,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 153,
-      "techniques": 1035,
-      "applications": 521,
-      "files": 1714,
-      "contentHash": "sha256:bf05b7e7e314a96f"
+      "techniques": 1036,
+      "applications": 528,
+      "files": 1722,
+      "contentHash": "sha256:15f53e24307bd0b6"
     }
   ]
 }
