@@ -122,3 +122,50 @@ Open: nothing owns **build-time diagnostics** anywhere in the corpus. Banked unt
 from the same source - a capability gated by a predicate reports its absence as
 nonexistence ("no such method"), never as a failed bound. Return condition: a second
 source complaining about a diagnostic rather than a behaviour.
+
+### 2026-08-31 - `/intake`, from a practitioner post on codebase structure
+
+One amendment, one application, from
+[[../../sources/2026-08-31-tkdodo-vertical-codebase]].
+
+The source's thesis - group by domain, not by technical kind - was **already
+covered**, in one sentence of `locality-and-leverage`'s physical co-location
+paragraph, and its detection signature with it. The yield was in the source's
+closing catch, the section it is least proud of.
+
+- `locality-and-leverage` gained "The cost that neither payoff prices": both
+  payoffs are collected by people who already found the module, so leverage
+  (capability per unit of interface learned) starts its accounting one step
+  after discovery. Hiding internals is what depth buys and is free to callers;
+  hiding a module's **existence** is a separate act with its own price,
+  delivered by the same declaration as a side effect nobody chose. What cannot
+  be found is built again.
+- The golden path gained a tenth failure mode, **the boundary that worked**.
+  The other nine are all structure being too weak, misplaced or decorative;
+  there was none for a boundary that succeeded. Finding that was the whole run
+  - the enumeration hunt, third time in five runs it has been the highest-value
+  read on the page.
+
+**The subject's own instruments cannot see this failure, and one is actively
+misleading**: independent copies produce single-place edits, so scatter - the
+diagnostic this very technique owns - scores the worst duplication best. The
+discriminator is that same file's change-coupling test pointed the other way:
+would the two implementations have to change together? Yes is waste caused by
+invisibility; no is governed by the wrong-abstraction rule already there. That
+second branch is why this is an amendment completing an axis rather than a
+competing technique.
+
+Applied as an experiment, `better`, two arms on one Rust workspace: 232
+candidates, 67 invisible to scatter, 52 after filtering forwarding wrappers.
+**The first instrument design was refuted by hand-verification** - its
+top-ranked hits were private adapters delegating to the public implementation,
+which is the single-door discipline, not duplication. Corrected predicate,
+then three survivors opened: two waste (a public HTML stripper with an
+identical private copy and a weaker hand-rolled third; a clock helper written
+three times), one correct divergence that the discriminator sorts out. Ship 0,
+blocker class **confirmation** - the pick named a candidate, not a project.
+
+Open: `hiding existence` and `hiding internals` are separable in principle - a
+boundary can publish what it is for while keeping every internal opaque - and
+nothing in the corpus says how. Untriaged from the same source: co-location
+buys cohesion and never decoupling, so the regrouping move is a half-move.
