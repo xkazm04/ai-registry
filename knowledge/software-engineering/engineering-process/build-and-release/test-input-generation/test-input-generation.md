@@ -11,6 +11,8 @@ techniques:
   - exhaustive-when-bounded
   - model-based-oracle
   - inside-out-invariants
+  - liveness-needs-a-quiet-period
+  - seed-is-not-a-reproduction
 ---
 
 # Test input generation
@@ -171,6 +173,34 @@ where an invariant genuinely cannot be preserved under some fault, it is worth
 engineering the failure to land in a **less severe class** — a system that
 becomes unavailable is recoverable in a way that a system that becomes
 silently wrong is not.
+
+## Two things the generator owes after the run
+
+The sections above are about what a generator produces. Two obligations attach
+to the run itself, and both are routinely skipped because neither is visible
+while the suite is green.
+
+**A run that never stops perturbing cannot observe a system that never
+finishes.** Injecting faults continuously is the right regime for checking that
+nothing bad happens, and it is precisely the wrong one for checking that
+something good eventually does — a stuck component is rescued by the next
+random draw before anything notices, so the defect is erased rather than
+reported. The remedy is a phase change inside the run: freeze the fault set,
+heal it among the subset that is supposed to be able to finish, make the rest
+permanent, and require measurable progress against a bound. The failure class
+this reaches is distinctive — two individually reasonable policies that
+phase-lock and never converge, neither of which is wrong on its own. See
+[liveness-needs-a-quiet-period](./techniques/liveness-needs-a-quiet-period.md).
+
+**And when a generated input finally fails, the thing to keep is the input, not
+the number that produced it.** A seed reproduces a run only relative to the
+generator that consumed it, and the edit most likely to re-point a recorded
+seed is the fix for the defect it recorded — widening a generator so it can
+produce the case that broke you. The replayed entry then passes while
+exercising an input nobody chose, which is worse than losing it, because an
+absent test is visible and a lying one is not.
+[seed-is-not-a-reproduction](./techniques/seed-is-not-a-reproduction.md) carries
+the rule and the three input lanes it implies.
 
 ## What this subject does not own
 

@@ -8,11 +8,11 @@ words: 335 index page / ~11 articles read in full
 refs_found: 31
 refs_distinct: 31
 refs_ranked: 31
-refs_read: 11
-waves: 2
-refs_untriaged: 20
-extracted: 11
-accepted: 3
+refs_read: 17
+waves: 3
+refs_untriaged: 14
+extracted: 17
+accepted: 6
 declined: 0
 leads: 3
 already_covered: 2
@@ -20,7 +20,7 @@ untriaged: 6
 dispatched: 1
 applied: 3
 shipped: 0
-fetches_spent: 12
+fetches_spent: 18
 run_id: tigerbeetle-2026
 siblings: 3
 ---
@@ -90,31 +90,31 @@ next · **C** plausible, unranked · **D** no expected yield.
 | 6 | 2026-01-14 | One for the Treble, Two for the Time (bitemporality) | first-party | **A** | **read** → `two-clock-records` |
 | 7 | 2025-11-28 | A Tale Of Four Fuzzers | first-party | **A** | **read** → `negative-space-generation`, `exhaustive-when-bounded` |
 | 8 | 2025-11-22 | Mathematics of Consensus — Accidental Lecture | first-party | C | unread — builder-position, frontier |
-| 9 | 2025-11-06 | The Write Last, Read First Rule | first-party | **B** | unread — a *named ordering rule*; highest-ranked unread |
+| 9 | 2025-11-06 | The Write Last, Read First Rule | first-party | **B** | **read (w3)** → real gap, home unresolved; untriaged |
 | 10 | 2025-10-25 | Synadia and TigerBeetle Pledge $512,000 | press release | D | unread — zero expected yield, stated |
 | 11 | 2025-10-21 | Tracking Time Without Clock | first-party | C | unread — logical clocks, builder-position |
 | 12 | 2025-08-04 | Code Review Can Be Better | first-party | B | **read** → untriaged (row 9), subject contended |
 | 13 | 2025-06-06 | Fuzzer Blind Spots (Meet Jepsen!) | first-party | **A** | **read** → `generator-bounds-the-space`, `model-based-oracle` |
 | 14 | 2025-05-26 | Asserting Implications | first-party | C | **read** → untriaged (row 10), thin alone |
 | 15 | 2025-04-23 | Swarm Testing Data Structures | first-party | **A** | **read** → `swarm-feature-sampling` |
-| 16 | 2025-02-27 | Why We Designed the Docs from Scratch | first-party | B | unread — pairs with morning bank item 7 |
+| 16 | 2025-02-27 | Why We Designed the Docs from Scratch | first-party | B→**D** | **read (w3)** → thin; **over-ranked**, the taxonomy was in the repo not the post |
 | 17 | 2025-02-13 | A Descent Into the Vörtex | first-party | C | unread |
 | 18 | 2024-12-19 | Enum of Arrays | first-party | C | unread — data layout, builder-position |
 | 19 | 2024-07-23 | Rediscovering Transaction Processing | first-party | C | unread |
-| 20 | 2024-05-14 | Snapshot Testing For the Masses | first-party | **B** | unread — maps to `versioning-snapshots` (sibling-held) |
+| 20 | 2024-05-14 | Snapshot Testing For the Masses | first-party | **A** | **read (w3)** → 4th-rung amendment in `model-based-oracle`; the `versioning-snapshots` map was a **slug collision** |
 | 21 | 2023-12-27 | It Takes Two to Contract | first-party | C | unread |
 | 22 | 2023-09-19 | 64-Bit Bank Balances | first-party | C | unread |
-| 23 | 2023-07-26 | Copy Hunting | first-party | **B** | unread — maps to `dead-code` |
+| 23 | 2023-07-26 | Copy Hunting | first-party | B→**C** | **read (w3)** → thin; builder-position, authors say not productionized |
 | 24 | 2023-07-11 | We Put a Distributed Database In the Browser | first-party | C | unread |
-| 25 | 2023-07-06 | Simulation Testing For Liveness | first-party | **B** | unread — the new subject's own territory |
-| 26 | 2023-03-28 | Random Fuzzy Thoughts | first-party | **B** | unread — ditto |
+| 25 | 2023-07-06 | Simulation Testing For Liveness | first-party | **A** | **read (w3)** → `liveness-needs-a-quiet-period`; wave 3's sharpest |
+| 26 | 2023-03-28 | Random Fuzzy Thoughts | first-party | **A** | **read (w3)** → `seed-is-not-a-reproduction`; closes the banked seed lead |
 | 27 | 2023-02-21 | Writing High-Performance Clients | first-party | C | unread |
 | 28 | 2023-01-30 | Series Seed Announcement | press release | D | unread — zero expected yield |
 | 29 | 2022-11-23 | A Programmer-Friendly I/O Abstraction | first-party | C | unread — builder-position |
 | 30 | 2022-10-12 | A Database Without Dynamic Memory Allocation | first-party | C | unread — banked from the repo run |
 | 31 | 2021-08-30 | Three Clocks are Better than One | first-party | C | unread |
 
-Read fraction **11/31**. The unread tail is ranked, not discarded: rows 9, 20,
+Read fraction **17/31** after wave 3. The unread tail is ranked, not discarded: rows 9, 20,
 23, 25, 26 and 16 are the band a third wave should take, and rows 25/26 would
 now land inside a subject that did not exist when they were written.
 
@@ -219,6 +219,124 @@ clocks is stronger evidence for the asymmetry than a single-clock tree, which
 would only show that people forget. It also avoids the unrecoverable failure —
 the unknown world time is stored as NULL, not defaulted to the record time —
 which is `unknown-is-not-a-value` observed in the wild.
+
+## Wave 3 (run `tigerbeetle-w3`) — accepted
+
+Wave 3 took the ranked B band: rows 9, 16, 20, 23, 25, 26. **Four of six carried
+real findings; three landed, all in the subject wave 2 created** — which is the
+best available evidence that the wave-2 boundary was drawn in the right place,
+since the subject absorbed new material without a home argument.
+
+Board at wave-3 claim: 2 live siblings (`tanstack-query-2026` quiet at phase 11,
+`future-agi-memory` at phase 0). Neither held a target.
+
+### 4. `liveness-needs-a-quiet-period` (row 25) — wave 3's sharpest
+
+Safety and liveness need **opposite fault regimes**, and the corpus had only
+one. Continuous fault injection is right for "nothing bad happens" and
+structurally wrong for "something good eventually happens", because *"not yet"*
+and *"never"* are indistinguishable while faults keep arriving.
+
+The consequence is stronger than a gap: **a safety-only suite actively erases
+liveness defects.** A stuck component is rescued by the next random draw; a
+phase-locked retry counter resets when the process is randomly restarted. The
+source states it exactly — *"this would eventually resolve, and go undetected,
+when replica A is restarted and the retry counter is reset."*
+
+The technique is a phase change inside the run rather than a second suite:
+freeze the fault set, heal it **only among the subset that is supposed to be
+able to finish**, make the remaining faults permanent (so the system must
+progress *while degraded*, which is the actual claim), then assert a monotone
+progress quantity against a bound.
+
+The failure class it reaches is worth the landing on its own: **two
+individually reasonable policies that phase-lock.** The source's instance is
+round-robin peer selection composed with an aggressive retry policy, so every
+request for one entry went to the peer lacking it, indefinitely, with both
+policies behaving as designed. Invisible to component testing by construction —
+neither component has a bug, and the pair is not a unit anyone tested.
+
+### 5. `seed-is-not-a-reproduction` (row 26) — closes a lead this subject banked
+
+Wave 2 recorded seed management as an open lead and deliberately did not absorb
+it. Row 26 closes it, and produced the run's most interesting **cross-bundle
+catch**.
+
+`game-production/procedural-level-planning/seed-determinism-contract` already
+states the same rule and states it **better** — as four terms (seed, algorithm,
+generator version, parameter set), where the source's *"a PRNG seed is enough to
+reproduce a random test at a specific commit"* is the third term alone. Two
+unrelated domains reaching the same four terms is corroboration, not
+duplication.
+
+Cross-bundle links are forbidden, so the landing states the **discriminator** in
+prose — what each domain does when a term moves:
+
+- content generation **keeps the seed and states the drift honestly**, because
+  the seed is the artifact's *identity*;
+- a test suite **cannot accept the drift**, because the recorded case is
+  *evidence* and exists precisely to survive the change that fixes it.
+
+Same rule, opposite remedy, decided by identity-versus-evidence. Recorded in
+both subject notes so a later run recognises the shape instead of re-litigating
+it.
+
+The technique's sharpest observation is a timing property the source implies and
+does not state: **the edit most likely to invalidate a recorded seed is the fix
+for the defect that seed recorded** — widening a generator so it can produce the
+case that broke you. The entry then passes while testing an input nobody chose,
+which is worse than losing it, because an absent test is visible and a lying one
+is not.
+
+### 6. A fourth rung on the oracle ladder (row 20) — amendment, not a technique
+
+Snapshot testing is an **oracle strategy**, so it landed inside
+`model-based-oracle` rather than beside it: a recorded expected output sits
+*between* invariant checks and a reference model, not above either. It answers
+"is this the same answer as last time", never "is this right", so its whole
+value rests on a human having read the output once.
+
+The disciplines that keep it honest are all on the **update path**, not the
+comparison — opt-in updates only, review as a version-control diff, volatile
+parts explicitly marked ignorable, the recording adjacent to its case and
+self-locating, and nothing written unless the check would otherwise fail.
+
+**This row also produced a method observation.** `research-map` scored
+"snapshot testing" against `versioning-snapshots` at 9 — an entirely unrelated
+concept (entity versions you restore to). That is the second instance in two
+waves of this territory being invisible to the slug map, after all 56 `fuzz`
+hits turning out to be *fuzzy matching*. For testing subjects, map on mechanism;
+never let the word decide.
+
+## Wave 3 — untriaged and honest negatives
+
+- **Row 9, "The Write Last, Read First Rule" — real, and left untriaged for want
+  of a home.** The rule: when composing two systems with no shared transaction,
+  order the writes so the observable intermediate state is safe, and read from
+  the authority — *"the sequential composition of two transactions is not itself
+  a transaction"*, with idempotency as the stated precondition. It strips
+  cleanly and it is consumer-position. It fits neither `sync-replication` (whose
+  boundary is *the same data* converging, and which explicitly says not to build
+  sync for a fact rather than a record) nor `delivery-guarantees` (message
+  delivery) without an argument this wave did not have budget to make. **Not a
+  decline** — a real finding whose placement is the open question. *Return with
+  a home argument; candidate: a technique in `delivery-guarantees`, or a
+  subject-sized gap around composing stores without a distributed transaction.*
+- **Row 23, Copy Hunting — thin.** Compile to an intermediate representation and
+  grep it for the operation you are trying to avoid, because the IR is closer to
+  source than assembly and target-independent. Builder-position, and the authors
+  state it is not productionized: *"We haven't fully productionized and put this
+  into our CI."*
+- **Row 16, Docs from Scratch — thin, and an honest negative about my own
+  wave-2 ranking.** I banded it **B** expecting the two-tier documentation
+  taxonomy with an ingest-optimized internal lane. That material is in the
+  *repository* (`docs/internals/docs.md`, banked as untriaged item 7 by the
+  morning run), not in this post, which is largely a static-site-generator
+  migration. The one portable claim — content must render correctly in an
+  editor, on a forge and on a website, which constrains it to a portable subset
+  — is real but small. **Ranking lesson: a blog post and a repository document
+  can share a topic and not share the content**, and the ledger's own bank is
+  the better predictor of which holds the material.
 
 ## Already covered — and covered better
 

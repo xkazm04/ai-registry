@@ -6,7 +6,7 @@ technique: model-based-oracle
 status: forged
 laws: [failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
-use_when: [a randomized suite only catches crashes and assertion failures, deciding whether a reference implementation is worth its cost, a well-formed wrong answer reached production]
+use_when: [a randomized suite only catches crashes and assertion failures, deciding whether a reference implementation is worth its cost, a well-formed wrong answer reached production, choosing between a recorded output and a stated property]
 ---
 
 # Model-based oracle
@@ -47,6 +47,48 @@ subject, a query returning an empty result where a record existed was invisible
 to roughly twenty generators and to their invariant checks, and was found
 immediately by an external checker holding an independent model of what the
 answers should be.
+
+## The rung between: a recorded expected output
+
+There is a fourth position on that ladder, and it sits between invariants and a
+model rather than above either. A **recorded expected output** — the result of
+running the system once, reviewed by a human, and committed — answers a
+narrower question than a model: *is this the same answer as last time?* It is a
+change detector, not a correctness oracle, and its entire value rests on one
+event, which is a person having actually read the output the first time.
+
+That makes it cheap in a way the model is not, because the "second
+implementation" is the system's own past behaviour. It also makes it fragile in
+a specific way: the check degrades to nothing the moment updating becomes
+reflexive. The disciplines that keep it honest are all about the update path
+rather than the comparison:
+
+- **Updating is opt-in and explicit** — an environment variable, a flag, a
+  deliberate method — never the default action on failure and never automatic
+  in the pipeline. A recorded output that regenerates itself when it disagrees
+  is a test that always passes.
+- **The review surface is a diff in version control.** Update in place, then
+  read the change the way any other change is read. This is the whole quality
+  gate, so it must land somewhere review already happens rather than in a
+  reviewer's terminal scrollback.
+- **Volatile parts are marked ignorable at the point they occur** —
+  timestamps, durations, generated identifiers, addresses. A recording full of
+  values that legitimately change every run trains everyone to update without
+  reading, which removes the only thing making it work.
+- **The recording lives adjacent to the case it belongs to**, close enough to
+  read both at once, and carries the location it must be written back to so
+  updating is mechanical. A recording in a distant file is reviewed by nobody.
+- **Nothing is written unless the check would otherwise fail.** A test that
+  rewrites its own expectations on every green run has no expectations.
+
+The decision rule against the other rungs: **use a recorded output where you
+can recognise a correct result but cannot state what makes it correct** —
+rendered structure, generated code, a formatted report, an error message, a
+compiled plan. Where the property *can* be stated, state it: an invariant
+survives a legitimate refactor that a recording flags, and a recording freezes
+incidental structure the system was free to change. Where the answer is
+computable independently, a model is stronger, because a recording can only
+tell you the answer changed, never that it was wrong to begin with.
 
 ## Building a model that is worth having
 
