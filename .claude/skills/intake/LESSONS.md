@@ -4687,3 +4687,51 @@ content.
   line, and it was not answered. The scorecard's next focus moves the question to where
   it is concrete: ask at Phase 7.5, holding a named seam and a run A/B, not at triage
   holding a hypothesis.
+
+## 1.5.0 - 2026-08-31 - pgrust
+
+- **The vendor-repository class predicts the parts correctly and the ratio wrongly,
+  and one question separates the two shapes.** The class entry describes a company's
+  repo for a product "whose engine is a hosted service" — marketing-dominant, one
+  honest rules page, the real data model hiding in a client's types. This source is
+  the same nominal class and inverts it: 2,480 rendered words against ~7,500 words of
+  operating documents, with no hosted engine and therefore no client types to check.
+  The discriminating question is **is the repository the product, or an SDK over a
+  product that lives elsewhere?** When the repository *is* the product, the class's
+  reliability ordering still holds (README last) but its yield expectation is far too
+  low, and the run should be budgeted like a first-party practitioner account. Not
+  applied to the reference yet — one source is thin evidence for a class edit, and a
+  second sighting should make it a row.
+
+- **Third consecutive run in which the denial hunt (Phase 6 step 3) carried the entire
+  yield**, and this one is the cleanest instance: all three landings are enumerations
+  that claim completeness and miss a case the same file describes. Two rot axes named
+  with the third in the file's own prose; "there is no self-check" true for only one
+  direction of a distinction the file never draws; "compare against that one rather
+  than writing a third" silent on what that oracle cannot see. The rule is already in
+  `SKILL.md`, so no edit is owed — what is worth recording is that the hunt is now the
+  *primary* extraction method on mature subjects rather than a supplementary one, and
+  that its best targets are the sentences a technique writes to sound thorough.
+
+- **An apply step refuted the run's own new document, for the second consecutive run.**
+  The draft covered the fitted corpus and not the fitted grading predicate; the arm
+  that exposed it scored 11/11 while 9 of 11 payloads passed through the artifact
+  unmodified. Worth generalising as a habit rather than a rule: when the landing is a
+  *measurement* technique, run its own check against the apply's instrument before
+  writing the row — the technique that says "the corpus can be fitted" is the one
+  likeliest to have forgotten that the question can be too.
+
+- **Operational, cost one failed gate run:** application filenames are
+  `<stack>--<technique>.md` **exactly**, one per (stack, technique) pair, and a
+  descriptive suffix fails `check-bundles`. When a technique already has an
+  application on your stack from a different tree, the collision is real and the
+  repair is to pick the more specific accurate stack label (here `next` over `node`),
+  not to invent a suffix. `verified_against` must then name that same stack, which
+  is a second failure if only the filename is changed.
+
+- **A wrong first hypothesis about a project's CI, settled by one command** — the
+  fourth consecutive run where an instrument's or a tree's first apparent reading was
+  wrong. The test files skip on an unset environment variable, which reads as
+  "env-gated out of CI"; the workflow stands the infrastructure up and marks the arms
+  required. Reading the test file is not reading the pipeline, and the pipeline is
+  where the policy lives.
