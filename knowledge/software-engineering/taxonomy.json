@@ -295,7 +295,8 @@
             "dead-code",
             "docs-sync",
             "concurrent-vcs",
-            "machine-authored-documentation"
+            "machine-authored-documentation",
+            "dependency-declaration"
           ]
         },
         {
