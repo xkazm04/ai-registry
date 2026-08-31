@@ -3448,3 +3448,72 @@ rather than continuing to record these as unapplied.
   the thing it approximates. The note records `sample: 100%` for exactly this reason - it
   is what makes four already-covered catches evidence rather than an artifact of which
   three links looked interesting.
+
+## 1.3.1 - 2026-08-31 - tigerbeetle-blog
+
+- **The scorecard's declared focus had no reader, and that is why four runs missed it.**
+  Phase 11 writes "next run's declared focus" into `SCORECARD.md`. Phase 1 loads
+  `check-bundles`, `build-index --check`, `librarian-scan`, the source ledger and the
+  board - and never this file. So the focus is written at the end of run N and
+  discovered at the end of run N+1, after the triage table it was meant to shape has
+  already shipped. Three prior rows each diagnosed a different proximate mechanism and
+  each prescribed a fix the *next* run's shape made inapplicable; all three are
+  downstream of a feedback loop with no read step. **Applied in v1.4.0**: Phase 1 gains
+  a fifth item. This is the first structural change in the sequence rather than another
+  prescription, and the next row says whether it was sufficient.
+
+- **A first-party reference index is a hybrid whose two halves must be routed
+  separately.** Where a source's value is its links but every link is the *same
+  organisation's* writing, Phase 2c's **mechanics** are entirely right - enumerate all
+  31, rank the whole set, cut waves from the returns, table the unread tail - and its
+  headline **triage signal is void**. Within-index convergence means independent
+  curated references reaching one rule; here the index is 3-4 voices and one author
+  wrote 13 of 31, so two posts agreeing is one voice twice. Worse, the same
+  organisation's *repository* had been mined the same morning, so several posts
+  elaborate bullets already banked - which is **depth, not independence**. Read the
+  mechanics and the signal as separable; taking Phase 2c as a package is the failure.
+
+- **`--wave` sizing should come from the operator's scope when they give one.** The
+  operator scoped this run "2026 first, then 2025 if valuable", which cut wave 1 at a
+  natural boundary (6 articles) and made the wave-2 decision a real yield judgement
+  rather than an arbitrary top-N. That is better than the skill's default banding and
+  worth offering explicitly: when a source has a date axis, propose waves along it.
+
+- **The corpus can be empty of a concept while being full of its word.** All 56 `fuzz`
+  hits in `software-engineering` are *fuzzy matching*; `research-map` over testing
+  vocabulary returned confident slug collisions into four unrelated bundles. The
+  2026-08-31 rule says never let a proper noun decide an absence. Its converse also
+  holds: **never let a common word decide a presence.** Establish an absence by grepping
+  the *concept* under several names and reading what matched - the false-positive
+  vocabulary is the tell that a slug map cannot see this territory at all, which is
+  itself the explanation for how a subject-sized hole survives 153 subjects.
+
+- **Prefer the technique's own procedure as the apply arm when the technique is a
+  reading discipline.** `generator-bounds-the-space` prescribes "enumerate what the
+  generator cannot produce". Running exactly that against a live property suite *is* a
+  two-arm comparison - arm A is the suite's green report, arm B is the enumeration - and
+  it produced 9 dimensions and 3 confirmed-unreachable code paths in about ten minutes,
+  with no code changed. Techniques whose content is "ask this question" have a cheap
+  `experiment` arm that is easy to miss because it looks like reading rather than
+  measuring. This generalises the prior run's finding that the seam can live in the
+  *instrument* rather than the product.
+
+- **A confirming tree is worth applying to, when the confirmation is asymmetric.** The
+  instinct is to seek a tree that lacks the technique. The bitemporal row here landed
+  against a tree that already had it - and the finding was that the clock the system
+  *originates* is `not null` while the clock it must *learn from the world* is nullable
+  and empty. A tree that designed for the rule and still drifted is stronger evidence
+  than one that never knew it, which only shows that people forget.
+
+### Redesign proposal - not applied this run
+
+- **The triage table should carry a `project` column by default, not by exhortation.**
+  Two rows of this scorecard have now prescribed carrying a project on picked rows, and
+  both were written as advice to the next run rather than as a change to the Phase 5
+  table format shown in `SKILL.md`. The format in the file has seven columns and none of
+  them is a project; a run copying that format faithfully cannot comply. If v1.4.0's
+  Phase 1 read does not close the ship gap by itself, the next change is to the table in
+  Phase 5 - add the column, and let a row with no plausible seam say `-` explicitly.
+  Deliberately not applied here: two method edits in one run, from one session, with
+  three live siblings reading this file, is more churn than one run's evidence supports.
+

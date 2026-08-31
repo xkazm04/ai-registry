@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 1.3.1
+version: 1.4.0
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index
 ---
 
@@ -372,6 +372,15 @@ rule that granularity was serving.
    already inside is a source to route elsewhere or to mine for its other half. Say in
    the source note how many siblings were live and which subjects they held - that
    line is what makes a later collision legible instead of mysterious.
+5. **Read the last row and the closing paragraph of
+   [`SCORECARD.md`](SCORECARD.md), and say this run's declared focus out loud
+   before Phase 5.** Phase 11 writes "next run's declared focus" at the end of every
+   run; until v1.4.0 nothing read it, so four consecutive runs discovered their own
+   instruction at Phase 11 - after shipping the triage table it was meant to shape -
+   and each diagnosed a different proximate cause for the same zero. The focus is the
+   one input that makes this skill improve across runs rather than merely repeat, and
+   it costs one file read. If the focus does not apply to this source, say why in the
+   scorecard row; that is a result, not a miss.
 
 ### Phase 2 - Ingest
 
