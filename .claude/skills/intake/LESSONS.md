@@ -3573,3 +3573,81 @@ the operator chooses between comparable quantities rather than between one large
 and four small certainties. Not applied here because it is a Phase 5 format change and
 this run has only one sighting of the failure; a second run that banks an `XL` row it
 marked `real gap` makes it a rule.
+
+## 1.3.1 - 2026-08-31 - tanstack-query
+
+- **A Phase 1 instruction reaches only runs that START after it lands, and this
+  run is the controlled instance.** v1.4.0 added "read SCORECARD's declared
+  focus" to Phase 1 precisely because four consecutive rows had missed the
+  focus. I loaded the skill at Phase 0 while that edit was in flight, got
+  1.3.1, and missed the focus for exactly the diagnosed reason. That is not an
+  argument against the fix — it is the boundary on it. **In a fleet that
+  routinely runs a dozen terminals, every method edit has a propagation delay
+  equal to the longest in-flight run**, so the first row after a Phase 1 change
+  is expected to miss it and should not be read as the fix failing. The
+  scorecard's "next run's declared focus" should probably say *runs starting
+  after <timestamp>*, so a mid-flight run can tell whether the instruction was
+  ever addressed to it.
+
+- **Open one cited line per number before it reaches a document.** The apply
+  harness produced two confident, plausible, entirely fabricated results in one
+  run. First: a flat constant lookup let `GC_TIME_MS.STANDARD` (600000)
+  overwrite `CACHE_TTL_MS.STANDARD` (300000), and the run reported a **2.0x
+  spread on a key where all seven sites agree**. Second: a 900-character
+  lookahead window bled past the end of one registration into the next, and
+  invented a divergence between two *different* keys. Neither looked wrong in
+  the output — both looked like exactly the finding the technique predicted,
+  which is what made them dangerous. Both died the moment the cited lines were
+  opened by hand. The existing rule ("open one cited line to see that it says
+  what the citation claims") is written for reviewing a *forge worker's* diff;
+  it belongs just as much to Phase 7.5, where the director is the one holding
+  a freshly written instrument. **A number produced by a harness you wrote this
+  hour is not evidence until one of its rows has been read in the source.**
+
+- **Make the harness assert its own parse, not just its own presence.** The
+  corrective that actually worked was cheap: assert that the parsed constant
+  table has the values it must have (`CACHE_TTL_MS.STANDARD === 300000`) and
+  that two tables which must stay distinct actually are. It fired immediately
+  on the next run and refused to print — `failure-not-empty-success` applied to
+  the apply lane's own instruments. A harness that reports zero findings and a
+  harness that parsed zero rows must not look the same, and in this run they
+  briefly did: the first version silently parsed **0 of 39** error codes and
+  would have reported a clean tree.
+
+- **A repository that ships a linter: read the linter second, after the
+  migration guides and long before the README.** New class note, and the
+  strongest routing signal this run found. The tree held 134,411 words of
+  documentation across 497 files and a 383-word README, and the densest single
+  artifact was neither — it was an eight-rule lint plugin whose rule documents
+  run to a few hundred words each. A linter is the one file that **cannot hedge
+  about what the contract is**: the docs say a rule exists, the plugin says
+  what the rule actually is, in a form that has to execute. Two of the three
+  landings trace back to it. The corollary is the untriaged finding this run
+  did not land: read together, a shipped rule set is a **taxonomy of the type
+  system's blind spots** — key order where inference flows between keys,
+  referential identity, which fields were read, whether a value was returned —
+  and every entry is a contract term whose violation is silent.
+
+- **The enumeration hunt paid again, but the more valuable probe this run was
+  the half-stated symmetry.** Two landings came from documents declaring
+  themselves complete ("Every cache declares four policies"; "exactly four
+  legitimate terminal states"), which is the familiar move. The third came from
+  a subject that describes one side of a symmetry without ever naming it as one
+  side: `client-state` models *declared* subscription narrowing and had no
+  vocabulary for the *observed* form. **This is invisible to both the slug map
+  and a summary**, because the file genuinely covers the concept — it scores
+  well on every keyword and reads as complete. The question that finds it is
+  not "is this covered" but **"is this covered from more than one direction,
+  and does the document know which direction it is standing in?"**
+
+### Redesign proposal (not applied)
+
+The declared focus has now been missed five runs running, and v1.4.0's fix
+addresses the reader while leaving the writer untouched. A focus line is prose
+at the bottom of a 220-line file; every run must notice it, interpret it, and
+remember it through triage. **Consider making the focus a structured field the
+triage table is checked against** — e.g. a `focus:` key the run echoes in its
+Phase 5 table header, so that producing a table without the focus's required
+column is visible at the moment the table is written rather than at Phase 11.
+The current design asks a run to remember an instruction across the six phases
+where it is most loaded; the cheap version asks it to copy one line.
