@@ -52,6 +52,7 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 | 2026-08-29 | prompt-dialect-matching | image-prompt-composition | gravity | experiment | unmeasurable | pipeline/build-style-trials.mts re-run dialect-matched - the repo's own 6-style x 5-beat grid, 60 graded cells per policy, scored usable = on-brief AND free of text. The existing 60-cell trial that demoted the caption-class provider ran one dialect's prompt across both classes, so it is the same instrument with the confound removed. |
 | 2026-08-30 | engagement-paced-cadence | cost-metering | ascent | simulation | better | upgrade to experiment when the episode store can be queried: count consecutive declared-silence episodes per org; the cheap-probe lever needs no cron change |
 | 2026-08-30 | tiered-history-projection | prompt-assembly | ascent | simulation | not-better | technique gained its adoption gate from this seam; return when stored conversations routinely exceed the flat tail (countable from the persisted turns) |
+| 2026-08-31 | dual-anchor-scoring | reference-parity-gating | personas | experiment | not-better | a second anchor over the SAME representation is not a second authority - arm B flagged 2 of 4 specs and both were its own parser's artifacts. Seam class is 'gate over a text artifact whose only cheap second measurement re-reads the same document'; do not re-run a static second anchor here. Return when the golden-output eval layer exists and supplies a behavioural anchor. |
 
 ## Backtest waves
 
@@ -92,3 +93,19 @@ owed. Rows in the table above are minted from deviations, one project per techni
   finding class whose enumeration can truncate mid-scan rather than fail outright.
 - Seams NOT recorded in the project's `.ai/applied.jsonl` for any of the three: that is a
   project-tree write and the operator confirmed no project. Owed on the next confirmed run.
+- `evidence-without-verdict` (machine-authored-documentation) x politicas - **experiment** -
+  **better**. Seam: a design-quality detector's visual engine returns a finding or `null` from
+  five places; four of them mean "could not measure" and one means "measured and clean", and
+  the caller collapses all five with `finding ? [finding] : []`. Two arms over the shipped
+  module (arm B = the same file with a three-state outcome, nothing else changed), six
+  path-coverage cases, one harness: distinguishable outcomes 2 -> 6, not-measured cases hidden
+  as clean 4 -> 0, findings emitted unchanged at 1. The last number is the safety property -
+  the amendment changes what the engine can say, not what it detects.
+  **The structural fact outranks the A/B**: the detector's finding record mints one shape and
+  there is no skipped record type anywhere in its CLI or entrypoint, so the report has no
+  vocabulary in which a not-measured candidate could be expressed. Nobody chose the
+  conflation; a denominator cannot be added at a call site, it has to exist in the record type
+  first. Seam recorded in the project's `.ai/applied.jsonl` (uncommitted).
+  Return condition: operator confirms the cross-repo lane, or `puppeteer` lands in that tree
+  and the detection-rate arm - how often a selector actually goes stale - becomes runnable.
+  Not run this session: the engine is browser-only and the dependency is absent.

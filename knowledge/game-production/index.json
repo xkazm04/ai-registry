@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 41,
-  "techniques": 246,
-  "applications": 110,
+  "subjects": 42,
+  "techniques": 252,
+  "applications": 113,
   "laws": 11,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "246/246",
+  "use_when_coverage": "252/252",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3512,6 +3512,125 @@
     }
    ]
   },
+  "reference-parity-gating": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/reference-parity-gating/reference-parity-gating.md",
+   "techniques": [
+    {
+     "slug": "defect-cap-bounded-to-its-reach",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a parity component cannot pass because the reference itself is defective",
+      "granting a waiver against a comparison gate",
+      "repairing a reference other verdicts were measured against",
+      "a long-standing cap turns out to have the wrong premise"
+     ]
+    },
+    {
+     "slug": "dual-anchor-scoring",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a parity gate against a reference that may itself be defective",
+      "a producer is matching the reference's flaws and scoring well",
+      "deciding how many anchors a comparison needs",
+      "a parity score is high and the artifact is visibly wrong"
+     ]
+    },
+    {
+     "slug": "findings-carry-the-correction",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a parity gate emits besides a score",
+      "a producer keeps iterating without converging",
+      "deciding whether to cap gate iterations",
+      "a gate report has to be translated by a human before anyone can act on it"
+     ]
+    },
+    {
+     "slug": "instrument-blindness-register",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a defect shipped at a passing parity score",
+      "deciding whether a gate miss is a tuning problem or a structural one",
+      "choosing which witness certifies which defect class",
+      "arguing that an automated gate can replace a human review"
+     ]
+    },
+    {
+     "slug": "no-average-hides-a-failure",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how a parity gate aggregates per-sample deviations",
+      "a score is high and one region is clearly broken",
+      "a fix moves nothing and the change is about to be reverted",
+      "setting a pass threshold for a comparison gate"
+     ]
+    },
+    {
+     "slug": "register-once-from-the-invariant",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "aligning a candidate artifact to a reference before scoring it",
+      "a displaced component keeps scoring clean",
+      "deciding which transforms a comparison may compensate for",
+      "a comparison frame shifts when an unrelated part changes"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "dual-anchor-scoring",
+     "file": "knowledge/game-production/content-pipeline/reference-parity-gating/applications/node--dual-anchor-scoring.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "dual-anchor-scoring",
+     "file": "knowledge/game-production/content-pipeline/reference-parity-gating/applications/process--dual-anchor-scoring.md",
+     "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "process",
+     "technique": "instrument-blindness-register",
+     "file": "knowledge/game-production/content-pipeline/reference-parity-gating/applications/process--instrument-blindness-register.md",
+     "verified_on": "2026-08-31"
+    }
+   ]
+  },
   "regeneration-vs-repair-economics": {
    "category": "asset-production",
    "subcategory": null,
@@ -4685,6 +4804,7 @@
     "production-coverage-measurement/craft-ladder-and-medium-ceilings",
     "prompt-fitness-and-evolution/exclude-synthetic-fixtures-from-fitness",
     "quality-verdict-integrity/sibling-context-projection",
+    "reference-parity-gating/no-average-hides-a-failure",
     "subsystem-review-doctrine/severity-by-consequence"
    ]
   },
@@ -4789,6 +4909,7 @@
     "quality-verdict-integrity/calibration-against-confirmed-labels-only",
     "quality-verdict-integrity/condemn-vs-elevate-asymmetry",
     "quality-verdict-integrity/stale-superseded-unknown-classification",
+    "reference-parity-gating/findings-carry-the-correction",
     "regeneration-vs-repair-economics/bounded-refine-iteration",
     "regeneration-vs-repair-economics/defect-class-to-remedy-map",
     "regeneration-vs-repair-economics/refuse-the-fix-that-cannot-help",
@@ -4894,6 +5015,8 @@
     "realtime-combat-semantics/death-via-state-tag-not-input-disable",
     "realtime-combat-semantics/hit-dedup-per-swing",
     "realtime-combat-semantics/single-source-of-health-truth",
+    "reference-parity-gating/defect-cap-bounded-to-its-reach",
+    "reference-parity-gating/dual-anchor-scoring",
     "regeneration-vs-repair-economics/defect-class-to-remedy-map",
     "runtime-observation-evidence/observation-spine-contract",
     "shader-budget-authoring/channel-packing",
@@ -4991,6 +5114,9 @@
     "quality-verdict-integrity/calibration-against-confirmed-labels-only",
     "realtime-combat-semantics/active-defense-two-axis-split",
     "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
+    "reference-parity-gating/findings-carry-the-correction",
+    "reference-parity-gating/no-average-hides-a-failure",
+    "reference-parity-gating/register-once-from-the-invariant",
     "regeneration-vs-repair-economics/reroll-economics-per-credit",
     "regeneration-vs-repair-economics/score-basis-must-be-stated",
     "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
@@ -5041,6 +5167,9 @@
     "prompt-fitness-and-evolution/min-trials-and-confidence-banded-conclusion",
     "quality-verdict-integrity/calibration-against-confirmed-labels-only",
     "quality-verdict-integrity/condemn-vs-elevate-asymmetry",
+    "reference-parity-gating/dual-anchor-scoring",
+    "reference-parity-gating/findings-carry-the-correction",
+    "reference-parity-gating/instrument-blindness-register",
     "regeneration-vs-repair-economics/best-of-n-parameter-sweep",
     "regeneration-vs-repair-economics/bounded-refine-iteration",
     "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
@@ -5119,6 +5248,7 @@
     "quality-verdict-integrity/content-hash-binding",
     "quality-verdict-integrity/rubric-version-supersession",
     "quality-verdict-integrity/stale-superseded-unknown-classification",
+    "reference-parity-gating/defect-cap-bounded-to-its-reach",
     "runtime-observation-evidence/bounded-evidence-with-provenance",
     "runtime-observation-evidence/unverifiable-is-not-fail",
     "ship-pipeline-gating/validator-log-classification",
@@ -5221,6 +5351,7 @@
     "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
     "realtime-combat-semantics/single-source-of-health-truth",
     "realtime-combat-semantics/telegraph-or-homing-for-area-effects",
+    "reference-parity-gating/instrument-blindness-register",
     "runtime-observation-evidence/tiers-of-truth",
     "ship-pipeline-gating/editor-only-api-audit-for-shipping",
     "ship-pipeline-gating/post-cook-process-liveness-smoke",
