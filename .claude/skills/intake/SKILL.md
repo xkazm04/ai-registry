@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 1.5.0
+version: 1.6.0
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index
 ---
 
@@ -642,7 +642,20 @@ and prefer writing the boundary over writing a duplicate.
 3  X     applicat.  M    Personas already does this       -                          fills-stack-gap  [17:05]
 ```
 
-Then ask: **"Which should I verify and (if real) land? (numbers / all / none / leads-only)"**
+Then ask for the picks **and the ship authorization in one question**:
+
+> **"Which should I verify and (if real) land? (numbers / all / none / leads-only)
+> And which project trees may I touch if an apply row comes back `better`?
+> (slugs / none / ask-me-again)"**
+
+The second half is not politeness, it is the stage the scorecard keeps losing.
+Three consecutive runs filed `better` apply rows against `ship 0`, every one of
+them blocked on nothing but Phase 8's confirmation gate, and in two of the three
+the operator lifted it in a single line the moment they were asked - after the
+session that had the seam, the measurable and the arms already loaded had ended.
+A pick that names no tree does not mean the operator declined the tree; it means
+nobody asked, and the difference costs a whole session to recover. `none` is a
+real answer and a cheap one; not asking is not.
 
 **Carry an altitude on every row**, and prefer the highest altitude the corroboration
 supports: `law` (a convergence across runs, provider-portable, clock-proof) /

@@ -4735,3 +4735,62 @@ content.
   "env-gated out of CI"; the workflow stands the infrastructure up and marks the arms
   required. Reading the test file is not reading the pipeline, and the pipeline is
   where the policy lives.
+
+## 1.5.0 - 2026-08-31 - agentic-operating-level
+
+- **A doctrine talk inverts the strip-test/corroboration ordering, and the shipped
+  order wastes a pass.** A practitioner presenting a framework with no system, no
+  artifact and no measurement produces claims that are proper-noun-free *by
+  construction* - so the strip test, which exists to kill most candidates cheaply,
+  kills none, and all fourteen candidates arrive at the corroboration table that was
+  always going to refuse eleven of them. For this class ask *what could authorize
+  this* before asking *what survives stripping*. Recorded as a class note in the
+  source note; not yet in `references/source-classes.md`, because one observation.
+- **The move that works when a source can authorize nothing: find a document
+  declaring its own completeness and ask whether it is short by one.** Both landings
+  came from it - *"There are three honest resolutions"* was short by one, and *"every
+  failing case is owned by exactly one of these"* had a row holding two causes with
+  opposite repairs. `SKILL.md` Phase 6 already names the enumeration hunt; what this
+  run adds is that it is the *primary* instrument for an unauthorizable source rather
+  than one of three, because it sources the finding from the corpus and uses the
+  source only as a pointer.
+- **Fourth run running: a source that implements a good idea badly beat one that
+  implements it well** - and this is the cleanest instance, because nothing here was
+  quotable. The source pointed at both findings and got both wrong: a direction with
+  no mechanism, and a mechanism that is backwards (it prescribed teaching for the
+  half that teaching does not move). Neither finding could have been written from it;
+  neither would have been looked for without it.
+- **An instrument built at the wrong altitude does not go quiet, it produces
+  confident numbers.** The apply harness harvested a glossary's own
+  *must-translate* callout as protected terms and reported a 29.6% violation rate,
+  counting every correct translation as a defect. It cleared its own self-check
+  because the self-check tested that terms *parsed*, not that they were the right
+  terms. Fifth consecutive run where an instrument's first reading was wrong; the
+  standing corrective (an instrument's first number is not its measurement) held
+  again, and the failure is now the same shape as the finding the run was landing.
+- **`research-map` is near-useless on a doctrine source and the reason is structural.**
+  Doctrine terms are abstractions - altitude, leverage, control - and the index
+  matches slugs, so every call returned high-scoring, semantically unrelated hits
+  (`ui-controls` for "leverage control tradeoff"). All four homes were found by
+  reading subjects' **stated boundary paragraphs** instead. Worth a line in Phase 4:
+  for a doctrine candidate, go to the boundary statements directly and treat the map
+  as neighbourhood-only.
+- **A sibling swept this run's ledger appends into their commit, and nothing was
+  lost.** `librarian/applied.md` and `librarian/sources/index.md` were appended under
+  the `ledger` lock and were in `HEAD` under another run's name minutes later.
+  A second sibling appended a `SCORECARD.md` row *while this run held the ledger
+  lock* - both rows survived only because this run inserted by line position rather
+  than rewriting the file. **Mid-flight runs on 1.5.0: nothing to do, finish on the
+  version you loaded.** The 1.6.0 edit is the Phase 5 question only.
+
+### Promoted to a rule this run
+
+- **Ask for the tree in the same question that asks for the pick.** The scorecard
+  named this fix twice, in two consecutive closing paragraphs, and a third run
+  (this one) reproduced the blocker anyway: two `better` apply rows, `ship 0`,
+  blocked on nothing but Phase 8's confirmation gate. Three runs running is this
+  file's own threshold, so Phase 5's question now asks for both halves and
+  `SKILL.md` went to 1.6.0. **The second-order lesson is the more uncomfortable
+  one**: the diagnosis was already written down and did not travel, because a
+  scorecard's closing paragraph is read at Phase 1 for the focus line and
+  apparently for nothing else.
