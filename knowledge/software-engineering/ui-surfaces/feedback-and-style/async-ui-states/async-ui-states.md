@@ -10,6 +10,7 @@ techniques:
   - empty-state-design
   - failure-states
   - arrival-choreography
+  - windowing-vs-identifying-keys
 ---
 
 # Async UI states
@@ -64,6 +65,7 @@ states, and the transitions between them are part of the design:
 | **loading** | first request in flight, nothing held | chrome, with a calm geometry-matched placeholder *under* it, delayed so warm loads never flash it |
 | **settled-data** | request complete, content held | the content |
 | **refreshing** | content held, a request in flight | the *existing content*, with at most an ambient indicator — never a placeholder over data |
+| **superseded** | content held from a *previous window* of the same subject, a request in flight | the *previous window's content*, with the content region itself marked (a dim) — it is not stale, it is an answer to a different question |
 | **settled-empty** | request complete, zero content | an empty state that names *why* it is empty and offers the next action |
 | **failed** | request failed, nothing held | a failure state, visually and semantically distinct from empty, with a retry path |
 
@@ -105,7 +107,7 @@ and [action-busy-states](./techniques/action-busy-states.md).
 
 ## The honesty rules
 
-An async surface can lie in three ways, and each lie has a rule against it:
+An async surface can lie in four ways, and each lie has a rule against it:
 
 1. **Never assert empty before settling.** "Nothing here" rendered while the
    first response is in flight is a false statement with a lifetime of one
@@ -121,6 +123,14 @@ An async surface can lie in three ways, and each lie has a rule against it:
    failure quietly, and says how stale the data now is. Blanking a populated
    surface — for a refresh, a filter change handled carelessly, or a failure —
    destroys context the user was standing on.
+
+4. **Never answer a question with another question's content.** Keeping the
+   previous rendering while the next one loads is a kindness across a *window*
+   change — page two really is results for this search — and a lie across an
+   *identity* change, where what is on screen was produced under a predicate
+   the surface is no longer asking. Which key changes may keep content, and
+   the four other subsystems that need the same answer, are
+   [windowing-vs-identifying-keys](./techniques/windowing-vs-identifying-keys.md).
 
 The taxonomy of honest empty states is
 [empty-state-design](./techniques/empty-state-design.md); the taxonomy of honest
@@ -192,6 +202,10 @@ The state model must reach assistive technology, not only the pixels:
   state: distinct from empty, retry that retries, staleness admitted.
 - [arrival-choreography](./techniques/arrival-choreography.md) — staggered
   entrance coupled to the load cycle, guarded by identity, played once.
+- [windowing-vs-identifying-keys](./techniques/windowing-vs-identifying-keys.md) —
+  classifying each component of a compound request key, the five subsystems
+  that consume the classification, and declaring it on the input rather than
+  on the payload.
 
 Where the surface is specifically a table, the table subject specializes this
 doctrine — chrome/body split, row-shaped ghosts, and the body state machine —

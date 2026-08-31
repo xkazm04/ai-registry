@@ -67,10 +67,15 @@ progress affordance in the chrome, a subtle opacity shift) admits the fetch.
 When the response lands, rows update in place — keyed by identity, so update
 means *update*, not teardown-and-recreate.
 
-This rule has a corollary for filter changes: applying a filter re-enters
-in-flight with rows present. Either keep showing the old rows dimmed until the
-new response lands, or clear to EMPTY-LOADING — but pick one per product and
-apply it everywhere; mixing the two makes the surface feel nondeterministic.
+This rule has a corollary for changes to the window state, and which way it
+resolves depends on *which* part of that state moved. A page, sort or size
+change leaves the rows on screen a truthful partial answer, so keep them
+dimmed until the new response lands. A filter change does not — those rows
+were produced under a predicate the table is no longer asking — so clear to
+EMPTY-LOADING. The classification and the other subsystems that need it are
+[windowing-vs-identifying-keys](../../../feedback-and-style/async-ui-states/techniques/windowing-vs-identifying-keys.md);
+what is never right is choosing per call site, which is the mixing that makes
+a surface feel nondeterministic.
 
 ## EMPTY-SETTLED — empty is a claim, and it names its cause
 
