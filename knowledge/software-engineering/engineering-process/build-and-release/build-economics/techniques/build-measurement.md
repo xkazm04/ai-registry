@@ -77,6 +77,58 @@ The minimum label on any build measurement:
 - **When**: builds drift as the codebase grows; a six-month-old baseline is a
   historical document, not a comparison point.
 
+## The scenario says which build, not whose
+
+Every axis above — cold or warm, which variant, which machine, when — describes a build that
+happens in this repository. Some of the costs a repository creates are not paid here at all. A
+published artifact imposes compile cost on everything that consumes it: the consumer's type
+check, their editor responsiveness, their own build time. That cost accretes exactly like local
+build cost does, regresses for the same reasons, and is invisible to every instrument named so
+far, because none of them is standing where it is paid.
+
+It also passes every other check. A change that doubles a consumer's compile time is correct,
+fully tested, and green; there is no assertion it violates and no suite that gets slower. The
+producing repository has no signal at all until the reports arrive from outside, which is the
+condition [gate-sees-target](../../../../_laws.md#gate-sees-target) names — the instruments here
+are all measuring something adjacent to the thing that hurts.
+
+**Add a vantage axis, and for consumer-visible cost the vantage is a consumer.** Measuring from
+inside the project is the intuitive move and it is the one that fails, because the project's own
+compilation carries the entire codebase as baseline overhead and the delta being hunted is a small
+fraction of a large constant. The magnitude is not marginal: one library measuring its type-level
+cost in source mode sat at roughly 115,000 symbols of baseline before the measured change was
+reached — against an effect worth low single-digit percent, which is unresolvable inside that
+much noise. The same measurement taken through the published artifact resolves it cleanly.
+
+So the harness is a separate, minimal project that consumes the build output the way a consumer
+does — through the published entry point and its generated type surface, never the source tree —
+and exercises a representative use. Two protocol requirements make its numbers trustworthy:
+
+- **Rebuild before measuring, and check that you did.** The harness reads an artifact rather than
+  the source, so a stale artifact silently reports the previous version's cost — a before/after
+  pair where one arm measured code that no longer exists. Make it a precondition rather than a
+  habit: compare the artifact's timestamp against the sources that produce it, and refuse to run
+  when it is older. Scope that comparison to the inputs that actually reach the artifact; tests
+  and fixtures change constantly without invalidating a build, and a freshness check that counts
+  them cries wolf until it is disabled.
+- **Discard the first pass.** The first run absorbs cache warming and resolution work that belongs
+  to no version. Warm once, throw it away, then take two or three timed passes.
+
+## Gate on the number that moves first
+
+A consumer-cost harness reports several figures — elapsed time, peak memory, and the counts of
+intermediate work the compiler performed. They do not move together, and the ranking is
+consistent: **the count of intermediate work items moves first**, well before wall time or memory
+budge. Wall clock is noisy at the scale where a regression is still cheap to fix, and memory does
+not move at all until the problem is nearly user-visible.
+
+Gate on the leading indicator and report the rest. A metric that only shifts once the cost is
+perceptible is a detector, not a gate — it will fire after the change has shipped and after the
+decision that caused it has been forgotten. This is the same argument as the regression baseline
+below, one level finer: the cheap number that moves early beats the meaningful number that moves
+late, and the meaningful one is kept alongside so the early signal can be checked against
+something a person cares about.
+
 ## The before/after discipline
 
 Any claimed improvement — a unit split, a flag change, a cache — ships with a

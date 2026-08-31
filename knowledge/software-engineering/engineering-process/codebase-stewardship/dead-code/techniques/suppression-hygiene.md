@@ -58,6 +58,63 @@ axis — entries whose target survives but whose *justification* died. Without i
 the list only ever grows, and a growing suppression list is the instrument's
 coverage shrinking on a schedule nobody approved.
 
+## The three reaper forms are not equals
+
+The clause above offers an expiry date, a re-review cadence, or a checkable condition as
+interchangeable ways to name a reaper. They are not, and the ranking runs opposite to how often
+each is reached for.
+
+**A date is the worst of the three and should be treated as unavailable.** It expires on a
+schedule nobody chose, which means it fires on whoever happens to run the instrument that day —
+a person with no context on the entry, usually mid-task on something unrelated, holding a red
+build they did not cause. The expiry is working exactly as designed and it has still arrived at
+the wrong person, so the repair it forces is the cheapest one available: push the date out. A
+reaper whose most probable outcome is its own postponement has bought a recurring interruption
+and no reaping. The failure is not that dates are ignored; it is that they detonate, correctly,
+at a moment chosen by the calendar rather than by the work.
+
+**Prefer a threshold on a version the team itself moves.** Tie the entry to the next major bump
+of the artifact it lives in, or to the version of the dependency whose defect made it necessary.
+Such a threshold fires when somebody takes the action that makes the deferred work relevant —
+opening the major, upgrading the dependency — so the person present is the one with the context,
+and the surrounding work is already open. It is the practical realization of the checkable
+condition: an event the team causes, rather than one that arrives on its own.
+
+That leaves the ranking: a condition tied to an event the team causes, then a version threshold
+as its usual concrete form, then a re-review cadence for entries with no such event, and a date
+only where an external deadline genuinely is the condition — a certificate, a contractual
+sunset, a regulatory boundary. In those cases the date is not a stand-in for a condition; it *is*
+the condition.
+
+## Prefer the suppression that fails when the defect is repaired
+
+The strongest reaper is one nobody has to write, and it comes from choosing the suppression's
+**form**. Most instruments offer two ways to silence the same finding, and they differ in what
+happens on the day the underlying problem goes away:
+
+- A directive that **asserts the finding is expected** stops being satisfied once the finding
+  stops occurring, and the instrument reports the now-unnecessary suppression as an error. The
+  entry reaps itself, at the exact moment its justification lapses, in front of whoever made the
+  improvement.
+- An override that **forces the value through** — a cast, a coercion, a blanket exclusion —
+  succeeds identically before and after. It is correct on the day it is written and stays green
+  forever, including long after the instrument improved, the upstream defect was fixed, or the
+  code it guards was replaced.
+
+Where both forms are available, the first is mandatory. This is the one case where
+[creation-names-reaper](../../../../_laws.md#creation-names-reaper) is satisfied without a reaper
+clause at all, because the instrument is the reaper — and it is strictly better than any clause,
+since it fires on the real condition rather than on a proxy for it.
+
+The rule has a sharp corollary for the case where you believe the instrument is wrong. When a
+finding is a suspected defect in the tool rather than in the code, the tempting move is to reshape
+the code until the tool stops complaining. Do not: a reshaped workaround is indistinguishable from
+intended design, carries no record of why it looks like that, and outlives the defect
+silently — which is the same rot as the stale exemption, minus the entry that would have made it
+findable. Suppress in the self-retiring form instead, say in the reason that the tool is suspected
+wrong, and link the upstream report. The link is what makes the condition checkable, and the
+suppression's own form is what makes the check happen without anyone scheduling it.
+
 ## The ignore roster is a published blind-spot inventory
 
 The healthiest suppression surface is not a confession of weakness but a coverage
