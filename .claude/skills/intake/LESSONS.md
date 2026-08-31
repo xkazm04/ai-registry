@@ -4260,3 +4260,47 @@ reads this should do nothing about it and finish on the version it loaded.**
   twice in two unrelated codebases in one run. Sits beside the missing-stage, the
   enumeration and the asymmetry hunts in Phase 6; not promoted to the method yet -
   **one sighting**.
+
+## 1.4.0 - 2026-08-31 - tkdodo-creating-query-abstractions
+
+- **A ship blocker is a queue, not a value.** v1.4.0's focus - name the blocker
+  from {size, confirmation, indeterminacy, environment} and act per class - worked
+  and is incomplete. This row hit `confirmation` (the triage pick named a knowledge
+  row, not a project), and then, once the operator authorized the tree, hit `size`:
+  making the change compile required narrowing two *pre-existing* pass-through
+  option bags, which is past the slice that had just been authorized. The second
+  blocker was **unknowable before the first cleared** - nobody can see that a
+  change exceeds a slice until the slice exists. The four-class table is written as
+  if a row has one blocker; the correct shape is name the one in front, clear it,
+  re-ask. A run that names one blocker and stops has answered only what it could
+  see from where it stood. **One sighting** - not promoted to the method.
+
+- **A census's first number is never the measurement, and the gap between its
+  first and its hand-verified number is the reportable quantity.** This
+  instrument said 13 divergent keys, then 3 after the parse window was cut at the
+  next key, then **1 real** after opening the files - and the most serious defect
+  in the tree appeared in none of those numbers, because its declarations live in
+  a declarative array that no enclosing-call resolver can parse. Three of four
+  rows were wrong, in *both* directions: one over-counted from textual fetcher
+  comparison (two spellings of one call), one under-counted, one was a
+  normalization artifact. The corrective is not a better parser. It is to **report
+  two figures and a blind spot** - what the instrument said, what survived hand
+  verification, and what shape it structurally cannot see - and to put that in the
+  application's own limitations section, where a reader deciding whether to copy
+  the method will actually meet it. Sits beside the existing self-assertion rule:
+  asserting the instrument proves it can see the shape, and says nothing about
+  whether what it saw is real. **One sighting.**
+
+- **Cross-run convergence arrived through the subject note and would have been
+  missed without it.** The most serious finding in the applied tree - one key,
+  two different API clients - was already banked as an open lead by a different
+  intake run against the same subject, reached from the other side while
+  verifying a *lifetime* census. Neither run's instrument can see it; both found
+  it by hand. Reading the subject note before writing the application turned a
+  claimed discovery into a **second sighting**, which is a materially different
+  and stronger claim. Phase 9 tells you to write the subject note; this run is
+  evidence for *reading* it at Phase 6, beside the source ledger.
+
+- **Mid-flight runs on 1.4.0: nothing to do.** No method file changed this run;
+  both lessons above are one-sighting and stay lessons.
+
