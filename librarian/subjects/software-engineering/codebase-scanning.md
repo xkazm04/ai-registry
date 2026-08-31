@@ -68,6 +68,20 @@ is real as history and closed in the version in use. `better` on a zero, because
 the instrument converted an unmeasurable property into a measured negative in ten
 minutes.
 
+## Shipped
+
+The probe landed in the managed project the same session, once the operator
+cleared the confirmation blocker. Dependency-free, own task, fixture generated in
+a temp dir (a committed fixture of dead exports would inflate the baseline it
+protects). Proven red on all three exit paths before being trusted green, and the
+project's ratchet was re-run unmoved: 3 buckets, 2294 findings, all matching.
+
+Worth recording for the next run: the **controls are the load-bearing half**. A
+probe that asserts "N dead exports were reported" fails open if the reporter's
+output shape changes - the parse yields an empty set and every name is missing,
+which a naive implementation reports as success. The live-export and
+unique-dead-export controls turn that into a could-not-run.
+
 ## Owed
 
 The technique's third branch — a scanner where the recall loss is *found* — has

@@ -8,6 +8,7 @@ status: reconciled
 applied: experiment
 ab_verdict: better
 proof: ab-paired
+shipped: 2026-08-31
 verified_on: 2026-08-31
 verified_against: node@24
 ---
@@ -108,6 +109,25 @@ anything it is shown, to learn that a recall class exists, let alone that it was
 closed. The technique's corrective is not louder prose — it is that the recall
 number must exist somewhere a consumer can find it. Here the consumer had to
 build it.
+
+## Shipped
+
+The probe landed in the project on 2026-08-31 as a dependency-free script wired
+to its own task, generating the fixture in a temp directory rather than in the
+tree — a committed fixture of deliberately-dead exports would be walked by the
+project's own scan and would inflate the very baseline it exists to protect. The
+project's ratchet was re-run after the change: 3 buckets, 2294 findings, every
+bucket matching.
+
+It was **proven red before it was trusted green**, on all three exit paths. A
+seeded recall loss — one dead export made genuinely imported — exits 1 and names
+the construct that went unreported. An absent control, or an absent scanner,
+exits 2. Two controls run before any verdict: the live export must not be
+reported, and the unique-named dead export must be. That pair is load-bearing
+rather than decorative, because a change in the reporter's output shape would
+otherwise yield an empty finding set that reads as *"everything was found"* —
+which is precisely the false green the recall question exists to avoid, arriving
+through the probe built to detect it.
 
 ## What this realization cannot do
 
