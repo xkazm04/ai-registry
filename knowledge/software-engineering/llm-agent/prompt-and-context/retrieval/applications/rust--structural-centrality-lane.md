@@ -56,6 +56,51 @@ The predicate matters here per
 is 510 nodes of kind `fact`, `procedural` or `doctrine`, the exact population
 the always-include tier draws from — not the whole 1,630-node corpus.
 
+## The tie block hands the ranking to the tiebreaker, and the tiebreaker is a batch job
+
+`semantic::list_facts` and `procedural::list_rules` both serve the tier with
+
+```sql
+ORDER BY n.importance DESC, n.updated_at DESC LIMIT ?
+```
+
+which reads as "importance, then recency". Over a 93.7% tie block it is not
+that. Running the tier's own query against the live corpus, the six facts it
+actually returns are:
+
+| rank | importance | updated_at |
+| --- | --- | --- |
+| 1 | 3 | `2026-08-26T16:53:45.337162900Z` |
+| 2 | 3 | `2026-08-26T16:53:45.334843Z` |
+| 3 | 3 | `2026-08-26T16:53:45.332219300Z` |
+| 4 | 3 | `2026-08-26T16:53:45.328965100Z` |
+| 5 | 3 | `2026-08-26T16:53:45.326143700Z` |
+| 6 | 3 | `2026-08-26T16:53:45.322931700Z` |
+
+**Six of six at the default, spanning 15 milliseconds.** The primary sort key
+discriminates nothing, so the order is entirely the tiebreaker's; and the
+tiebreaker is not recency in any sense a reader would mean by the word — those
+timestamps are one bulk write, so the tier returns *the last six rows a batch
+job happened to touch*. (Procedurals fare marginally better: two of six carry a
+real `importance = 4`, and the remaining four come from the same batch.)
+
+Two consequences, and the second is the one the roster cares about:
+
+- The module doc's description of this tier — "top facts / procedurals by
+  importance", "query-independent by design" — is accurate about the intent and
+  wrong about the behaviour, and nothing in the system can report the
+  difference.
+- A tier ordered by `updated_at` is **a second recency lane**. The roster's
+  admission rule is that each lane covers a distinct failure; this one now
+  covers the failure the recency tail already covers, while occupying the seats
+  reserved for the value recency cannot express. That is the
+  quota-versus-budget waste this subject warns about, arriving through a sort
+  key rather than through an allocation.
+
+Nobody designed this. It is the product of a `NOT NULL DEFAULT 3`, a sensible
+tiebreaker, and one reindex — which is what makes it evidence rather than a bug
+report.
+
 ## Arm A vs Arm B, same corpus, same tier
 
 The technique's claim is that a graph derived from content beats a curated

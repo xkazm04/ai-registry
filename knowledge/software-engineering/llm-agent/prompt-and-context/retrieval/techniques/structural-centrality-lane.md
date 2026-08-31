@@ -177,6 +177,26 @@ great majority of its rows is not a weak signal to be blended in; it is an
 **absent** one, and a derived structural signal is strictly better than it
 because it discriminates without asking anyone to maintain it.
 
+**Then ask what the tiebreaker encodes, because it is now the ranking.** A
+degenerate sort column does not produce a random order — it hands the ordering
+to whatever the query breaks ties on, and that second key was chosen when it
+was expected to settle the occasional collision rather than to decide every
+row. `ORDER BY importance DESC, updated_at DESC` reads as "importance, then
+recency"; over a tie block covering the population it *is* `ORDER BY
+updated_at DESC`, and a tier documented as query-independent silently becomes a
+second recency lane competing with the real one — which the roster in
+[hybrid-lane-fusion](./hybrid-lane-fusion.md) forbids on the grounds that a
+lane must cover a distinct failure.
+
+Worse, the tiebreaker is often not even a meaningful version of its own axis.
+Timestamps written by a bulk reindex or a migration differ by milliseconds
+across thousands of rows, so "most recently updated" resolves to *the order a
+batch job happened to write them in*. The check is one query and it is the
+same shape as the first: pull the top N the tier actually serves, and look at
+whether the primary key discriminates within them at all. If it does not, the
+tier is sorted by an implementation detail, and no amount of tuning the
+primary key will change that until the tie block is broken.
+
 ## When this lane earns no seat
 
 - **The items do not reference each other.** Independent records — support
