@@ -4303,4 +4303,44 @@ reads this should do nothing about it and finish on the version it loaded.**
 
 - **Mid-flight runs on 1.4.0: nothing to do.** No method file changed this run;
   both lessons above are one-sighting and stay lessons.
+## 1.4.0 - 2026-08-31 - pgsql-hackers-2026-08
 
+- **`research-ingest` truncates a paginated source silently, and reports the
+  truncated length as the source's length.** The archive offered 31 days; the
+  ingest returned 4 and wrote `words: 2480` with nothing in its metadata saying
+  "page 1 of 20". A run that trusts it mines 7.5% of the source and reports the
+  result as the source's yield - the precise failure Phase 2c was written to end,
+  arriving through the instrument rather than through the reader's laziness. The
+  landing page carried `Next` links and a day index, so the truncation was
+  cheaply detectable and only if somebody looked. **Check for pagination affordances
+  whenever a source is an archive, an index or a listing, before ranking anything.**
+  **One sighting**, but the mechanism is general to every listing-shaped source.
+
+- **The reference-index lane assumes a CURATOR, and three common source shapes
+  have none.** The lane's "one finding of its own" is what the curator chose to
+  include and leave out - a bibliography as a stated opinion about a field's
+  boundary. A mailing list archive, an issue tracker and a commit log all invert
+  the link-to-word ratio exactly as the lane's tell predicts, and none of them was
+  curated by anyone. Reaching for the curator finding there **invents an opinion
+  nobody held**. What an uncurated index offers instead is a *distribution* - a
+  fact about where attention went, not about anyone's judgement - and that is a
+  weaker and differently-shaped artifact. Proposed as one line in
+  `references/source-classes.md` under the reference-index entry. **One sighting.**
+
+### Redesign proposal (not applied)
+
+- **The ship-blocker table is missing a position, and measurement techniques will
+  hit it every time.** The four positions are `confirmation`, `size`,
+  `indeterminacy`, `environment` - all of which presume the shippable object is
+  known and only its authorization, scope, semantics or build is in question. A
+  technique that is a *measurement* has no product change to ship at all: what
+  would ship is the harness, and this run's harness was the very thing its own
+  A/B proved unreliable in its most attention-grabbing column. Call the fifth
+  position **artifact-choice** - the row is authorized and the change is small,
+  but which object the landing *is* remains open (project script, registry
+  `scripts/`, or nothing). Not applied because it is one sighting and the table
+  is load-bearing for three other skills; a second measurement-shaped landing
+  that stalls the same way should promote it.
+
+- **Mid-flight runs on 1.4.0: nothing to do.** No method file changed this run;
+  all three entries above are one-sighting and stay lessons.
