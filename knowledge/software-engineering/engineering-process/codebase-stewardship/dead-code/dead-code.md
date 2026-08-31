@@ -81,7 +81,7 @@ were never analysed at all, and a candidate list from a single configuration is 
 sample rather than a proof — measured once as a wave that verified green under the
 developer default and broke the shipping configuration in dozens of compile errors.
 The union rule, the gate-versus-exempt decision, and the verbatim-restore repair are
-[configuration-union-proof](techniques/configuration-union-proof.md).
+[configuration-union-proof](./techniques/configuration-union-proof.md).
 
 ### 3. Suppression rots
 
@@ -175,7 +175,7 @@ burying the living.
 - [carrying-cost-economics](./techniques/carrying-cost-economics.md) — per-edit build
   tax, catalog multipliers, false affordances, dependency retention, ranking by cost
   × confidence.
-- [configuration-union-proof](techniques/configuration-union-proof.md) — a candidate
+- [configuration-union-proof](./techniques/configuration-union-proof.md) — a candidate
   list is scoped to the configuration that produced it; the union rule, compiling the
   shipping shape before believing a lint, gating over exempting, verbatim restore.
 - [dead-code-detection](../codebase-scanning/techniques/dead-code-detection.md)

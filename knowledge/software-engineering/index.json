@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 154,
-  "techniques": 1055,
-  "applications": 543,
+  "subjects": 155,
+  "techniques": 1073,
+  "applications": 560,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1055/1055",
+  "use_when_coverage": "1073/1073",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -279,13 +279,15 @@
      "laws": [
       "failure-not-empty-success",
       "creation-names-reaper",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "gate-sees-target"
      ],
      "shared_with": [],
      "use_when": [
       "deriving how deep the queue may grow",
       "picking which arrivals to shed at the bound",
-      "bound keeps getting raised under pressure"
+      "bound keeps getting raised under pressure",
+      "urgent work is refused while bulk work waits in the queue"
      ]
     },
     {
@@ -432,6 +434,13 @@
     },
     {
      "stack": "rust",
+     "technique": "depth-bounds-and-shed",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--depth-bounds-and-shed.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
      "technique": "load-aware-admission",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/rust--load-aware-admission.md",
      "verified_on": "2026-08-18"
@@ -518,7 +527,9 @@
      "use_when": [
       "comparing an assessment taken before uptake with one taken after",
       "a rollout impact claim is being assembled",
-      "one half of a before/after pair is missing"
+      "one half of a before/after pair is missing",
+      "the practice under measurement creates work that did not exist before",
+      "a unit appears on the after side with no before-side counterpart"
      ]
     },
     {
@@ -561,7 +572,8 @@
      "stack": "node",
      "technique": "before-after-outcome-pairing",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/applications/node--before-after-outcome-pairing.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -1318,7 +1330,9 @@
      "use_when": [
       "running a scheduled recall health check",
       "a memory eval scores better every month for no reason",
-      "deciding which callers of recall count as usage"
+      "deciding which callers of recall count as usage",
+      "the usage counter rises but recall never improves",
+      "auditing which code path increments a usage column"
      ]
     },
     {
@@ -1427,10 +1441,23 @@
     },
     {
      "stack": "rust",
+     "technique": "probe-without-write-back",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--probe-without-write-back.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
      "technique": "recall-injection",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--recall-injection.md",
      "verified_on": "2026-08-30",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "sql",
+     "technique": "consolidation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/sql--consolidation.md",
+     "verified_on": "2026-08-31"
     }
    ]
   },
@@ -1887,7 +1914,22 @@
      "use_when": [
       "deriving ui states from request machinery",
       "an empty state flashes before data lands",
-      "a slow stale response lands after a fast one"
+      "a slow stale response lands after a fast one",
+      "deciding what counts as a context change"
+     ]
+    },
+    {
+     "slug": "windowing-vs-identifying-keys",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a key change may keep the previous content on screen",
+      "scroll position resets when the user only turned a page",
+      "a page number survives a new search",
+      "choosing which value to defer when showing stale content during a transition"
      ]
     }
    ],
@@ -1903,6 +1945,13 @@
      "technique": "state-model",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/applications/react--state-model.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "windowing-vs-identifying-keys",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/applications/react--windowing-vs-identifying-keys.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -3281,6 +3330,21 @@
      ]
     },
     {
+     "slug": "portable-read-definitions",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a shared read's key and fetcher should live",
+      "a prefetch warms an entry the reading surface never hits",
+      "the same question is declared at more than one call site",
+      "a read must also run from a route loader or a server render or an event handler",
+      "a shared read wrapper keeps growing a parameter per new option"
+     ]
+    },
+    {
      "slug": "prefetch-and-defer",
      "status": "forged",
      "laws": [
@@ -3333,6 +3397,13 @@
      "stack": "next",
      "technique": "plural-policy-claims",
      "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--plural-policy-claims.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "portable-read-definitions",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--portable-read-definitions.md",
      "verified_on": "2026-08-31",
      "verified_against": "next@16"
     },
@@ -3687,6 +3758,22 @@
      ]
     },
     {
+     "slug": "precision-trades-have-a-direction",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "swapping an analysis backend for a faster one",
+      "a speed refactor lands on a scanner",
+      "stating what a reported speedup cost",
+      "a scanner's recall has never been measured",
+      "deciding which precision loss to announce and where"
+     ]
+    },
+    {
      "slug": "rule-precision-discipline",
      "status": "forged",
      "laws": [
@@ -3732,6 +3819,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "precision-trades-have-a-direction",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--precision-trades-have-a-direction.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "rule-precision-discipline",
@@ -5686,6 +5780,22 @@
      ]
     },
     {
+     "slug": "post-landing-repair-density",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a landed feature should ship or be pulled",
+      "a team fixes forward and produces no revert signal at all",
+      "ranking landed work by risk after a freeze instant",
+      "reading a machine-generated risk ranking before circulating it"
+     ]
+    },
+    {
      "slug": "revert-linkage",
      "status": "forged",
      "laws": [
@@ -5732,6 +5842,13 @@
      "technique": "review-coverage-rate",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/applications/node--review-coverage-rate.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "post-landing-repair-density",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/applications/rust--post-landing-repair-density.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -5949,6 +6066,113 @@
      "technique": "runtime-dispatch-not-build-flag",
      "file": "knowledge/software-engineering/client-architecture/demo-data-plane/applications/react--runtime-dispatch-not-build-flag.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    }
+   ]
+  },
+  "dependency-declaration": {
+   "category": "engineering-process",
+   "subcategory": "codebase-stewardship",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dependency-declaration/dependency-declaration.md",
+   "techniques": [
+    {
+     "slug": "declaration-cost-floor",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding the first dependency to a project requires choosing and configuring a build pipeline",
+      "deciding whether a capability belongs in the platform or in a dependency",
+      "newcomers stall at the point of reusing something",
+      "judging whether a mechanism's tooling requirement is proportionate"
+     ]
+    },
+    {
+     "slug": "declaration-invariants",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "evaluating a proposed mechanism for declaring dependencies",
+      "a plugin cannot ship its own requirements",
+      "a generated manifest must be rebuilt whenever any participant changes",
+      "deciding whether a declaration mechanism will survive third-party extension"
+     ]
+    },
+    {
+     "slug": "logical-name-or-address",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between a logical name and a direct path for a reference",
+      "two consumers need different versions of the same dependency",
+      "a reference must be redirectable in one place",
+      "deciding whether a mechanism needs a resolution layer at all"
+     ]
+    },
+    {
+     "slug": "progressive-resolution",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated dependency map must be rebuilt whenever anything changes",
+      "deciding whether to resolve the whole graph up front or on traversal",
+      "transitive entries outnumber declared ones by an order of magnitude",
+      "a resolution map has gone stale without anyone noticing"
+     ]
+    },
+    {
+     "slug": "shortcut-is-not-the-substrate",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a capability works in one context and cannot be extended to an obviously similar one",
+      "a mechanism is bound to a single file format or document type",
+      "deciding whether to ship a convenient form before the general one",
+      "a feature request keeps being refused for reasons about the binding rather than the feature"
+     ]
+    },
+    {
+     "slug": "vendored-copy-loses-composition",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "shipping a unit as a self-contained artifact so consumers need no setup",
+      "two bundled units carry private copies of the same shared thing",
+      "deciding whether to inline a dependency or declare it",
+      "a consumer reports the same code loaded twice"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "react",
+     "technique": "declaration-invariants",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dependency-declaration/applications/react--declaration-invariants.md",
+     "verified_on": "2026-08-31",
      "verified_against": "react@19"
     }
    ]
@@ -7342,13 +7566,17 @@
      "status": "forged",
      "laws": [
       "one-authority-per-vocabulary",
-      "identity-survives-reuse"
+      "identity-survives-reuse",
+      "one-validation-door",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "deciding what archived means for each behavior",
       "an archived entity still fires its schedules",
-      "restore meets a name claimed while it slept"
+      "restore meets a name claimed while it slept",
+      "a bulk delete destroyed rows a soft delete should have kept",
+      "a name is rejected as taken and nothing visible holds it"
      ]
     },
     {
@@ -7539,6 +7767,22 @@
      ]
     },
     {
+     "slug": "reclassification-is-not-repair",
+     "status": "forged",
+     "laws": [
+      "deletion-is-not-repair",
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a failure class declared unreachable turns out to be reachable",
+      "deciding between assigning a real error code and fixing the caller",
+      "using your own test suite as a detector for internal errors",
+      "an internal-error count is being reported or driven to zero"
+     ]
+    },
+    {
      "slug": "structured-propagation",
      "status": "forged",
      "laws": [],
@@ -7604,6 +7848,13 @@
      "technique": "error-doors",
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/react--error-doors.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "reclassification-is-not-repair",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--reclassification-is-not-repair.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -9004,6 +9255,23 @@
      ]
     },
     {
+     "slug": "oracle-before-gate",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which machine output a human should review",
+      "a reviewer approves everything and cannot say what they checked it against",
+      "deciding whether a reversible-but-opaque change needs a gate",
+      "a review queue is ordered by impact and effort alone",
+      "an approval rate sits near 100% and the items are not obviously safe"
+     ]
+    },
+    {
      "slug": "resume-after-decision",
      "status": "forged",
      "laws": [
@@ -9077,6 +9345,13 @@
      "technique": "fail-loud-classification-default",
      "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--fail-loud-classification-default.md",
      "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "oracle-before-gate",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/react--oracle-before-gate.md",
+     "verified_on": "2026-08-31",
      "verified_against": "react@19"
     },
     {
@@ -10783,6 +11058,21 @@
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
    "techniques": [
     {
+     "slug": "co-published-numbers-must-reconcile",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing a summary statistic beside the distribution it was derived from",
+      "citing an association or correlation figure from an external report",
+      "a dashboard shows a total and its parts on one screen",
+      "deciding whether an outside number is strong enough to build on"
+     ]
+    },
+    {
      "slug": "incomplete-not-verdict",
      "status": "forged",
      "laws": [
@@ -10794,6 +11084,21 @@
       "a collection stage partly failed but downstream still produced a report",
       "designing the boundary between ingestion and analysis",
       "deciding what confidence to attach to a run"
+     ]
+    },
+    {
+     "slug": "instrument-exposure-control",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a score is used to claim a capability",
+      "a measure has been published long enough to be optimised against",
+      "a number improved and the instrument did not change",
+      "deciding whether two readings taken years apart are comparable"
      ]
     },
     {
@@ -10883,6 +11188,20 @@
      "technique": "unmeasurable-vs-zero",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--unmeasurable-vs-zero.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "react",
+     "technique": "co-published-numbers-must-reconcile",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/react--co-published-numbers-must-reconcile.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "instrument-exposure-control",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/rust--instrument-exposure-control.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -11674,7 +11993,8 @@
      "use_when": [
       "arguing that a boundary is in the wrong place",
       "choosing between two competing structural proposals",
-      "deciding what to co-locate"
+      "deciding what to co-locate",
+      "pricing a boundary that is about to be made private"
      ]
     },
     {
@@ -11783,6 +12103,13 @@
      "technique": "io-free-core",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--io-free-core.md",
      "verified_on": "2026-08-29",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "locality-and-leverage",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--locality-and-leverage.md",
+     "verified_on": "2026-08-31",
      "verified_against": "rust@1"
     },
     {
@@ -13194,6 +13521,21 @@
       "a restart kills every pending approval",
       "choosing what an expired gate resolves to"
      ]
+    },
+    {
+     "slug": "valid-but-degraded-plans",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a planner rather than a person authors the graph that runs",
+      "a pipeline is correct but slower or costlier than its shape allows",
+      "deciding whether a declared dependency is load-bearing",
+      "a blast-radius or impact count over a dependency set looks wrong"
+     ]
     }
    ],
    "applications": [
@@ -13202,6 +13544,13 @@
      "technique": "conditional-edges",
      "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/applications/go--conditional-edges.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "next",
+     "technique": "valid-but-degraded-plans",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/applications/next--valid-but-degraded-plans.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@16.3.3"
     },
     {
      "stack": "rust",
@@ -14189,6 +14538,22 @@
      ]
     },
     {
+     "slug": "excess-indicts-the-instrument",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a new check reports hundreds of findings on its first run",
+      "deciding whether a large legacy population is debt or misconfiguration",
+      "recording the founding baseline for a ratchet",
+      "a finding population clusters on one directory or package boundary"
+     ]
+    },
+    {
      "slug": "fabrication-economics",
      "status": "forged",
      "laws": [
@@ -14398,6 +14763,13 @@
     },
     {
      "stack": "node",
+     "technique": "excess-indicts-the-instrument",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--excess-indicts-the-instrument.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "gate-liveness",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--gate-liveness.md",
      "verified_on": "2026-08-18"
@@ -14453,6 +14825,12 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/react--policy-projection.md",
      "verified_on": "2026-08-29",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "false-positive-economics",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--false-positive-economics.md",
+     "verified_on": "2026-08-31"
     }
    ]
   },
@@ -18587,6 +18965,20 @@
      ]
     },
     {
+     "slug": "liveness-needs-a-quiet-period",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing that a system recovers rather than that it stays correct",
+      "a fault-injecting suite that has never reported a hang",
+      "deciding what a randomized run asserts at the end"
+     ]
+    },
+    {
      "slug": "model-based-oracle",
      "status": "forged",
      "laws": [
@@ -18597,7 +18989,8 @@
      "use_when": [
       "a randomized suite only catches crashes and assertion failures",
       "deciding whether a reference implementation is worth its cost",
-      "a well-formed wrong answer reached production"
+      "a well-formed wrong answer reached production",
+      "choosing between a recorded output and a stated property"
      ]
     },
     {
@@ -18612,6 +19005,21 @@
       "testing a parser validator or decoder",
       "a suite built from the specification's happy path",
       "deciding how to generate inputs the system must reject"
+     ]
+    },
+    {
+     "slug": "seed-is-not-a-reproduction",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording a failing randomized case for later",
+      "a regression seed that no longer reproduces",
+      "deciding what a randomized suite persists when it fails",
+      "choosing a format to persist a generated input in"
      ]
     },
     {
@@ -18633,6 +19041,13 @@
      "stack": "rust",
      "technique": "generator-bounds-the-space",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--generator-bounds-the-space.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.80.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "seed-is-not-a-reproduction",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--seed-is-not-a-reproduction.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.80.0"
     }
@@ -20088,6 +20503,7 @@
    "techniques": [
     "accessibility/a11y-verification",
     "adaptive-fidelity-tiers/measured-not-declared-capability",
+    "admission-queue/depth-bounds-and-shed",
     "admission-queue/load-aware-admission",
     "admission-queue/resource-denominated-bounds",
     "admission-queue/wait-telemetry",
@@ -20166,6 +20582,7 @@
     "delivery-analytics/off-platform-signal-detection",
     "delivery-analytics/review-coverage-rate",
     "demo-data-plane/runtime-dispatch-not-build-flag",
+    "dependency-declaration/shortcut-is-not-the-substrate",
     "deployment-contract/direct-push-delivery",
     "deployment-contract/platform-build-parity",
     "design-tokens/cross-language-token-parity",
@@ -20224,6 +20641,7 @@
     "hitl-approval/cosmetic-vs-enforced-threshold-invariant",
     "hitl-approval/fixed-policy-amendable-plan",
     "hitl-approval/gate-state-machines",
+    "hitl-approval/oracle-before-gate",
     "hitl-approval/unattended-mode",
     "i18n/completeness-gates",
     "i18n/encoding-corruption-ratchet",
@@ -20290,6 +20708,7 @@
     "pipeline-authoring/change-scoped-work-selection",
     "pipeline-dag/external-adapter-nodes",
     "pipeline-dag/pause-and-gate-nodes",
+    "pipeline-dag/valid-but-degraded-plans",
     "plan-entitlements/capability-gate-predicates",
     "plan-entitlements/deployment-mode-short-circuit",
     "plan-entitlements/price-book-authority",
@@ -20306,6 +20725,7 @@
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/chokepoint-tag-registry",
     "quality-gates/enforcement-binding",
+    "quality-gates/excess-indicts-the-instrument",
     "quality-gates/fabrication-economics",
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
@@ -20386,6 +20806,8 @@
     "test-harness/suite-partitioning",
     "test-input-generation/generator-bounds-the-space",
     "test-input-generation/inside-out-invariants",
+    "test-input-generation/liveness-needs-a-quiet-period",
+    "test-input-generation/seed-is-not-a-reproduction",
     "test-input-generation/swarm-feature-sampling",
     "ui-controls/adoption-enforcement",
     "ui-controls/control-inventory-and-discovery",
@@ -20472,6 +20894,7 @@
     "client-state/status-fsms",
     "codebase-scanning/ingestion-budget",
     "codebase-scanning/llm-assisted-scanning",
+    "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
     "codegen/drift-gating",
@@ -20519,6 +20942,7 @@
     "demo-data-plane/network-faithful-mocks",
     "demo-data-plane/one-interface-many-planes",
     "demo-data-plane/runtime-dispatch-not-build-flag",
+    "dependency-declaration/progressive-resolution",
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/direct-push-delivery",
     "design-tokens/token-enforcement",
@@ -20550,6 +20974,7 @@
     "entity-lifecycle/provenance-denormalization",
     "error-handling/cancellation-attribution",
     "error-handling/error-doors",
+    "error-handling/reclassification-is-not-repair",
     "eval-harness/assertion-vs-judgment",
     "eval-harness/candidate-write-access",
     "eval-harness/certification-levels",
@@ -20682,6 +21107,7 @@
     "public-verdict-badge/outcome-branched-cache",
     "quality-gates/chokepoint-tag-registry",
     "quality-gates/enforcement-binding",
+    "quality-gates/excess-indicts-the-instrument",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
     "quality-gates/operation-assertion-gates",
@@ -20783,8 +21209,10 @@
     "test-input-generation/exhaustive-when-bounded",
     "test-input-generation/generator-bounds-the-space",
     "test-input-generation/inside-out-invariants",
+    "test-input-generation/liveness-needs-a-quiet-period",
     "test-input-generation/model-based-oracle",
     "test-input-generation/negative-space-generation",
+    "test-input-generation/seed-is-not-a-reproduction",
     "time-travel-replay/timeline-derivation",
     "toasts-notifications/os-escalation",
     "tracing/raw-record-viewers",
@@ -20850,6 +21278,7 @@
     "docs-sync/dated-corrections",
     "embedded-db/storage-accounting-and-pruning",
     "entity-lifecycle/change-logging",
+    "error-handling/reclassification-is-not-repair",
     "executive-reporting/bad-news-labelling",
     "hash-pinned-translation-pipeline/shape-sync-is-not-content-sync",
     "health-checks/remediation-affordances",
@@ -20930,6 +21359,7 @@
     "analytics-time-windows/baseline-as-window-start",
     "analytics-time-windows/cohort-matched-comparison",
     "app-shell/badge-and-attention",
+    "async-ui-states/windowing-vs-identifying-keys",
     "audit-logging/audit-querying",
     "audit-logging/best-effort-with-accounting",
     "audit-logging/retention-and-partitioning",
@@ -20948,6 +21378,7 @@
     "codebase-scanning/dead-code-detection",
     "codebase-scanning/evidence-scoping",
     "codebase-scanning/ingestion-budget",
+    "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
     "codegen/generator-failure-isolation",
@@ -20976,10 +21407,12 @@
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
     "delivery-analytics/delivery-metric-denominators",
+    "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
     "delivery-analytics/review-coverage-rate",
     "delivery-guarantees/retry-escalation",
     "demo-data-plane/fake-surface-honesty-contract",
+    "dependency-declaration/declaration-cost-floor",
     "device-pairing/verb-allowlists",
     "diff-comparison/diff-honesty",
     "diff-comparison/pair-and-baseline-selection",
@@ -21031,6 +21464,7 @@
     "hash-pinned-translation-pipeline/translation-fan-out-sizing",
     "health-checks/health-rollup",
     "hitl-approval/fail-loud-classification-default",
+    "hitl-approval/oracle-before-gate",
     "hitl-approval/review-queues",
     "hitl-approval/unattended-mode",
     "i18n/completeness-gates",
@@ -21059,6 +21493,8 @@
     "maturity-ladders/band-design",
     "maturity-ladders/rung-criteria",
     "mcp-tools/orchestration-to-tool-migration",
+    "measurement-honesty/co-published-numbers-must-reconcile",
+    "measurement-honesty/instrument-exposure-control",
     "measurement-honesty/lower-bound-disclosure",
     "measurement-honesty/minimum-sample-floors",
     "measurement-honesty/noise-band-and-hysteresis",
@@ -21107,6 +21543,7 @@
     "pipeline-authoring/pipeline-plan-auditability",
     "pipeline-authoring/step-identity-stability",
     "pipeline-dag/conditional-edges",
+    "pipeline-dag/valid-but-degraded-plans",
     "plan-review/decision-sized-slicing",
     "plan-review/informational-fold-in",
     "plan-review/silent-decision-surfacing",
@@ -21123,6 +21560,7 @@
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/verdict-honesty-qualifiers",
     "quality-gates/advancement-evidence-fields",
+    "quality-gates/excess-indicts-the-instrument",
     "quality-gates/false-positive-economics",
     "quality-gates/item-liveness",
     "quality-gates/ratchet-design",
@@ -21236,6 +21674,9 @@
     "conversation-orchestration/recall-transparency",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "delivery-analytics/post-landing-repair-density",
+    "dependency-declaration/logical-name-or-address",
+    "dependency-declaration/progressive-resolution",
     "docs-sync/earned-verification-state",
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/screen-then-confirm-detection",
@@ -21243,12 +21684,14 @@
     "error-handling/cancellation-attribution",
     "eval-harness/measurement-revision",
     "fleet-orchestration/absent-status-passthrough",
+    "hitl-approval/oracle-before-gate",
     "knowledge-registry/verification-is-contributed",
     "machine-authored-documentation/declared-truth-boundary",
     "machine-authored-documentation/evidence-without-verdict",
     "machine-authored-documentation/three-gate-acceptance",
     "markdown-vault/replicated-substrate",
     "mcp-tools/egress-argument-gating",
+    "measurement-honesty/instrument-exposure-control",
     "migrations/error-propagation",
     "model-routing/quality-axis-separation",
     "optional-dependency-degradation/capability-honest-refusal",
@@ -21323,11 +21766,13 @@
     "cost-metering/spend-attribution",
     "data-retention/erasure-requests",
     "data-viz/encoding-vocabulary",
+    "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
     "delivery-guarantees/atomic-claiming",
     "delivery-guarantees/guarantee-selection",
     "demo-data-plane/fixture-self-consistency",
     "demo-data-plane/seeded-determinism",
+    "dependency-declaration/vendored-copy-loses-composition",
     "device-pairing/pairing-ceremony",
     "device-pairing/token-binding-and-transport",
     "diff-comparison/drift-against-declared",
@@ -21529,6 +21974,7 @@
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/ownership-boundaries",
     "embedded-preview/origin-validation",
+    "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/cascade-design",
     "executive-reporting/grounded-narrative-generation",
     "file-browsing/file-mutations",
@@ -21697,6 +22143,8 @@
     "delivery-guarantees/atomic-claiming",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/stuck-reaping",
+    "dependency-declaration/declaration-invariants",
+    "dependency-declaration/progressive-resolution",
     "device-pairing/pairing-ceremony",
     "device-pairing/revocation-and-expiry",
     "device-pairing/token-binding-and-transport",
@@ -21876,6 +22324,7 @@
     "cicd-monitoring/provider-capability-honesty",
     "client-fetch-cache/cache-key-discipline",
     "client-fetch-cache/plural-policy-claims",
+    "client-fetch-cache/portable-read-definitions",
     "client-state/async-race-guards",
     "client-state/rehydration-narrowing",
     "client-state/status-fsms",
@@ -21915,6 +22364,10 @@
     "demo-data-plane/fixture-self-consistency",
     "demo-data-plane/one-interface-many-planes",
     "demo-data-plane/runtime-dispatch-not-build-flag",
+    "dependency-declaration/declaration-invariants",
+    "dependency-declaration/logical-name-or-address",
+    "dependency-declaration/shortcut-is-not-the-substrate",
+    "dependency-declaration/vendored-copy-loses-composition",
     "deployment-contract/deployment-config-as-code",
     "deployment-contract/platform-build-parity",
     "design-tokens/cross-language-token-parity",
@@ -21940,6 +22393,7 @@
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/change-logging",
     "error-handling/cancellation-attribution",
+    "error-handling/reclassification-is-not-repair",
     "error-handling/taxonomy-design",
     "error-handling/user-facing-mapping",
     "eval-harness/judge-stability",
@@ -22225,6 +22679,7 @@
     "maturity-ladders/migrate-on-read",
     "maturity-ladders/ordinal-first-comparability",
     "mcp-tools/orchestration-to-tool-migration",
+    "measurement-honesty/co-published-numbers-must-reconcile",
     "media-playback/media-resource-lifecycle",
     "media-playback/playback-clock",
     "media-playback/timeline-scheduling",
@@ -22327,6 +22782,7 @@
     "deployment-contract/direct-push-delivery",
     "document-text-extraction/recognition-boundary-and-escalation",
     "document-text-extraction/structural-amplification-caps",
+    "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
     "fleet-orchestration/brief-carries-the-session",
     "knowledge-registry/verification-is-contributed",

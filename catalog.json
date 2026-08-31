@@ -590,7 +590,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:c6cde01799e75ae1"
+      "contentHash": "sha256:b863cce7e1160b9a"
     },
     {
       "name": "game-production",
@@ -677,11 +677,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 154,
-      "techniques": 1055,
-      "applications": 543,
-      "files": 1757,
-      "contentHash": "sha256:b049021d216ff7c9"
+      "subjects": 155,
+      "techniques": 1073,
+      "applications": 560,
+      "files": 1793,
+      "contentHash": "sha256:e46a430f8b1b902c"
     }
   ]
 }

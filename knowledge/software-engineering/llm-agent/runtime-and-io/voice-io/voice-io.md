@@ -218,7 +218,7 @@ conversation itself — and keeping on your side of the line the things that
 make the handover reversible: the persona, the state after every exchange, the
 transcript, and a runnable check that the remote configuration still matches
 what the repository intends.
-[duplex-agent-sessions](techniques/duplex-agent-sessions.md) owns that
+[duplex-agent-sessions](./techniques/duplex-agent-sessions.md) owns that
 decision and its consequences.
 
 ## The engine layer travels as a package
@@ -298,7 +298,7 @@ decision, the transform contract, the typed outcome, and the cut.
 - [on-device-vs-cloud](./techniques/on-device-vs-cloud.md) — residency as a
   privacy decision, the decision matrix, the degradation ladder, the
   provisioning boundary.
-- [duplex-agent-sessions](techniques/duplex-agent-sessions.md) — when a vendor
+- [duplex-agent-sessions](./techniques/duplex-agent-sessions.md) — when a vendor
   runs the whole conversation: the transport-or-brain decision, the
   account-vs-session configuration split, drift-checking remote configuration,
   the audience-safe brief, transport reachability, and the verdict at hang-up.
