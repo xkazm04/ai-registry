@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-08-29
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -90,3 +90,35 @@ written dialogue); structure-is-not-delegable (two 2026 studies measure the divi
 labour). Banked: selection-agreement benchmark (return: one measuring choice, not
 fidelity); kp Phase 3 cv_analysis fold-in (python — impact-only); onecli re-verification
 on clock.
+
+## 2026-08-31 - intake (youtube:3IyKC5EtNkM, "9 Ways to do Inheritance in Rust")
+
+New technique **`borrowed-surface`** (7 -> 8 techniques), plus a **fourth signal**
+on `seams-and-adapters`, which had declared "three signals, which can disagree".
+
+The finding is an asymmetry in the subject's own model, not an omission. `module-depth`
+corrects the author's interface denominator **downstream** - with enough callers every
+observable behaviour is interface, promised or not, and hiding must therefore be active.
+Nothing in the subject ran the other way: part of a module's interface can be authored
+**upstream**, in a file the reviewer is not reading, changing without an edit on your side.
+Two constructs do it - implicit delegation (a wrapper adopting a foreign type's whole
+callable surface in one declaration) and a disjointness premise taken from a contract you
+do not own. The existing pass-through model is per-method and countable; implicit
+delegation is the same failure with the evidence removed.
+
+The technique's decision rule is the discriminator: delegation is correct when the
+wrapper's job is **orthogonal** to the delegated surface, self-defeating when the wrapper's
+job **is** the distinction. `seams-and-adapters`'s *When not to use it* section would have
+told you not to own the contract in exactly the case where you must, so the fourth signal
+explicitly suspends it.
+
+Applied to a managed tree as an experiment, `better`: the tree carries a scrubbing wrapper
+that forwards its wrapped type's whole mutating surface, and **the invariant is held by a
+comment** - one caller reaches through and hand-rolls the scrub in four lines. Same probe
+line, arm A compiles clean, arm B is `error[E0596]`. Not committed: that crate's build
+script fails before rustc reaches the code.
+
+Open: nothing owns **build-time diagnostics** anywhere in the corpus. Banked untriaged
+from the same source - a capability gated by a predicate reports its absence as
+nonexistence ("no such method"), never as a failed bound. Return condition: a second
+source complaining about a diagnostic rather than a behaviour.

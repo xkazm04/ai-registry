@@ -7,6 +7,7 @@ use_when: [deciding where a boundary belongs, arguing whether a proposed split i
 techniques:
   - module-depth
   - seams-and-adapters
+  - borrowed-surface
   - io-free-core
   - locality-and-leverage
   - structural-improvement-loop
@@ -306,9 +307,13 @@ measurement is the wrong instrument.
   everything a caller must know, the shallow-module failures, why more modules
   is not better design, and why depth is placed rather than maximised.
 - [seams-and-adapters](./techniques/seams-and-adapters.md) — where substitution
-  becomes possible: the three placement signals, the single-door rule for
+  becomes possible: the four placement signals, the single-door rule for
   adapters, the shared contract that keeps a double honest, and pinning
   behaviour before moving a boundary.
+- [borrowed-surface](./techniques/borrowed-surface.md) — the half of a module's
+  interface somebody else authors: implicit delegation that dissolves the
+  distinction a wrapper was created to draw, a disjointness premise taken from
+  a contract you do not own, and the one question that finds both.
 - [io-free-core](./techniques/io-free-core.md) — the other answer to the
   testability question: logic over events as a transition function with time
   as a parameter, one driver at the edge doing all the I/O, the verb-count

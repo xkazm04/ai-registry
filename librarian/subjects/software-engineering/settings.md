@@ -77,3 +77,37 @@ preserving the model protects nothing on its own.
   or detach), not a value change. Stated in the new technique's third carve-out;
   `settings-audit-and-history` does not yet model transitions as a record kind.
   Return condition: when a project grows an org-inherited policy value.
+
+## 2026-08-31 - intake (youtube:3IyKC5EtNkM, "9 Ways to do Inheritance in Rust")
+
+Amendment to **`typed-accessors`**: the case where the type is the *caller's* parameter
+rather than a per-key declaration, and the case of an **open key space** where "one
+accessor per key" cannot be written at all.
+
+Found by reading the technique's 4-step contract as the enumeration it is. The contract
+rests on an unstated premise - the type is declared at the accessor - and its step 2 uses
+**parse failure as the type detector**, which is a heuristic rather than a check: a compact
+binary encoding reads one width as another and succeeds, a decoder with optional fields
+reads a foreign record as a fully-defaulted one and succeeds. When it succeeds, step 4
+returns a value "the type system vouches for", which is the subject's own thesis
+(misconfiguration indistinguishable from configuration) arriving through the door meant to
+prevent it - and **worse than the corruption case the subject does model**, because no
+default is substituted and the value looks chosen.
+
+Grep confirmed the gap rather than assumed it: zero hits for type-mismatch vocabulary
+across the whole subject, and `Boundaries` claims typing rather than scoping it out.
+`ipc-contract` was rejected as an alternative home on its own stated boundary - "no version
+skew in the field, both halves ship together" - which is precisely what a persisted store
+does not have.
+
+Remedies ranked in the amendment: bind the type to the key in the registry (closed key
+space, no runtime tag needed), tag the record (open key space, catches *named*
+disagreements only), or bind the type into the handle at build time.
+
+Applied to a managed tree as code, `better`, committed. The store had already adopted the
+technique well - closed key registry, write door enforced at the repository layer, blobs
+validated against the consumer's exact type - and the gap was the one the amendment's audit
+paragraph predicts: enforcement is **per key with nothing counting it**. 58 of 90 key
+constants reachable inside the validator; within the store's own "limits" category, 3 of 4,
+the fourth a spend ceiling whose sibling is enforced *and* carries six negative test cases.
+Nobody decided that - the key was added after the validator's shape was set.
