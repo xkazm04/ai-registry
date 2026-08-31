@@ -128,8 +128,8 @@ judgement that was never available, at full attention cost, and it does so
 however few such items arrive. So the trigger has a precondition as well as a
 predicate: name the thing the reviewer will compare the output against, and
 where there is nothing to name, the repair is to build that instrument, narrow
-the task until one exists, or decline the delegation — never to arm the gate
-anyway ([oracle-before-gate](./techniques/oracle-before-gate.md)).
+the task until one exists, drop to an altitude where one does, or decline the
+delegation — never to arm the gate anyway ([oracle-before-gate](./techniques/oracle-before-gate.md)).
 
 ## The gate lives in the substrate, not the prompt
 

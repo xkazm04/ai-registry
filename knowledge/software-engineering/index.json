@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 155,
   "techniques": 1080,
-  "applications": 566,
+  "applications": 568,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -8170,6 +8170,13 @@
     },
     {
      "stack": "rust",
+     "technique": "failure-attribution",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--failure-attribution.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
      "technique": "scenario-design",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--scenario-design.md",
      "verified_on": "2026-08-18"
@@ -9366,6 +9373,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "oracle-before-gate",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/node--oracle-before-gate.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
     {
      "stack": "react",
      "technique": "cosmetic-vs-enforced-threshold-invariant",

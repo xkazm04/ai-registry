@@ -203,3 +203,45 @@ boundary stated there: `plan-review` produces artifacts *for* this subject's dec
 surface and must not re-mint the emit/persist/dispose ordering, which is this
 subject's. When the spec is forged, this golden path should gain one sentence
 pointing at it where it says "not a summary produced by the gated party".
+
+
+## 2026-08-31 - `oracle-before-gate` gains a fourth resolution
+
+[[2026-08-31-agentic-operating-level]] (a doctrine talk, n=0) proposed nothing this
+subject could accept on its own authority. What it did was point at
+`oracle-before-gate`'s enumeration - *"There are three honest resolutions and the
+gate is not among them"* - and the enumeration turned out to be short by one.
+
+The technique's own four worked examples all **refuse to narrow**. A refactor
+plausible on every line, split six ways, is six refactors plausible on every line;
+a configuration change whose effect appears three environments away is not repaired
+by a smaller configuration change; a summary nobody has time to re-read does not
+shrink into checkability; a translation into an unread language is no more decidable
+at one string. Narrowing an item that is opaque *in kind* produces **more**
+unverifiable items - the `no-oracle` count rises while every queue metric improves,
+which is the armed gate's dishonest arithmetic reached by the other road.
+
+So the fourth resolution is **descend an altitude**, and the distinction it turns on
+is now the amendment's spine: *narrowing keeps the artifact class and reduces its
+scope; descending keeps the scope and changes the artifact class.* It carries one
+constraint, because descending buys a partial oracle: state what the lower verdict
+does not cover, or the remainder inherits a verdict earned somewhere else. The
+golden path's one-line summary of the resolutions was updated in step (under the
+`content` lock).
+
+Applied same-run to a managed tree as an `experiment`, verdict **better**: a
+localization stack that had already descended - key parity, value-differs-from-source,
+section refs - and reports green over 262,106 strings while one further descent
+found 353 candidate violations it could not see. That tree's own contract records
+the identical inheritance one rung down, paid for in production, and repaired
+without generalising. The application also records the instrument's first run being
+wrong in the flattering direction, which is the technique's lesson arriving from the
+other side: **an oracle built at the wrong altitude does not go quiet, it produces
+confident numbers.**
+
+Not taken: the source's larger framing - a full artifact-altitude ladder as the
+stage before the gate. It verified as a real seam (this subject owns the gate,
+`plan-review` the payload, `machine-paced-delivery` the rate, `proposal-not-push`
+the change classes; all key on consequence or on a given artifact) but a doctrine
+talk with no measurement cannot author a subject. Banked as a lead with a
+two-sighting return condition.

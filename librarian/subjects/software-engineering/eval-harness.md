@@ -388,3 +388,45 @@ write access); `resolution-precondition` **better** (r = -0.378 between how much
 subject was judged and its deviation rate, and the precondition's real output was a
 third state - *the check cannot be performed*, since 0 of 142 pairs were ever
 double-judged).
+
+
+## 2026-08-31 - the model owner holds two causes, and one of them is not a ceiling
+
+[[2026-08-31-agentic-operating-level]] claimed that out-of-distribution has two
+halves - what the model lacks, and what it was trained to resist - then declined to
+give examples and prescribed the **wrong repair** for the half it had just found
+(teach it, which is exactly what a trained constraint does not yield to). The claim
+was unauthorizable as delivered; the gap it pointed at was real.
+
+`failure-attribution` declares its own completeness - *"Every failing case is owned
+by exactly one of these"* - and its **Model** row prescribes *a different model, or
+an accepted limit*, written as though the residual had a single cause. It has two,
+they present identically at the point of attribution, and only one of them is a
+ceiling. Absent capability fails **graded**: it tracks difficulty, gives partial
+credit, and moves when an example or a larger budget arrives. A trained constraint
+fails **sharp**: the same boundary at every difficulty, no partial credit, no
+movement on examples - and it reproduces on the next tier and the next generation,
+because it is a property of how the class of models was trained rather than of this
+one's ceiling. Graded-versus-sharp is the whole discriminator and costs one re-run
+at two difficulties.
+
+This is the **mirror** of the section already at the end of the file. That one
+repairs *under*-attribution: pre-run failures fall through the funnel to Model,
+which prescribes the most expensive available response for a class no model can fix.
+Here the attribution is correct and the prescription is still wrong. The amendment
+also names the direction the misreading takes - a class that will not move under a
+stricter instruction reads as a *prompt* failure, so the cases go back up the funnel
+and accrete a compensation that no upgrade retires, because it was never a defect.
+
+Corroboration was **training-data convergence**, recorded as such: zero fetches, and
+the tell is checkable in any harness.
+
+Applied same-run as a `simulation`, verdict **better**, against an evaluation engine
+whose verdict line collapses both causes into one boolean while storing both. The
+stronger fact was a rung down and one character wide: the cross-candidate rollup
+averages each dimension's value and **OR**s its `floor_hit`, so a dimension that hit
+its floor on every candidate and one that hit it on one of five become the same
+record - the distribution that *is* the discriminator, reduced to its maximum. The
+per-sample reasoning survives beside it, deliberately, because its tokens were paid
+for. Nothing designed that, and it is better evidence for the amendment than an
+adopting tree would have been.
