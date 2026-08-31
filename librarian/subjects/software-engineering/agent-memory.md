@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-08-30
-touched_by: deepen
+last_touched: 2026-08-31
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -11,6 +11,38 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-08-31 - `/intake`, operator-directed at memory
+
+Gained `lane-reconciliation` and `probe-without-write-back` (11 -> 13 techniques), plus
+two applications carrying `better` verdicts. Source: [[2026-08-31-genesis-agi]] - a
+20,905-LOC memory subsystem shipped with its own architecture documents and ADRs.
+
+Both findings are **below the pipeline**, which is why eleven techniques of judgment
+could not see them. Every existing technique governs what belongs in the store; these
+two govern the machinery underneath it, and both defects are produced by components
+that are individually correct.
+
+The first is a missing stage. A store is a record plus derived retrieval lanes with no
+shared transaction, so a half-completed fan-out leaves an item that satisfies
+provenance, freshness and non-redundancy and cannot be recalled - and
+`coverage-instrumentation` reports it covered, because coverage joins the record. The
+severity discriminator did **not** come from the source: it came from the A/B tree,
+where two structurally identical derived lanes land in opposite severity classes purely
+because one lane's readers carry a fallback and the other's is promoted back into the
+record on rehydration.
+
+The second is an asymmetry the corpus had already half-modelled twice. `retrieval-
+evaluation` requires the eval to run the production path and models eval-to-system
+contamination only through the human tuning channel; `memory-value-model` models the
+retrieval-feeds-rank loop and bounds it against organic traffic. Neither asks who else
+calls recall. The read path writes, so a scheduled probe inflates its own ground truth
+forever. The source implements the fix and gets the observation period wrong - it
+reports `healthy` before a baseline exists, which is exactly the unverifiable-as-
+verified collapse - so the technique is written against the corrected rule.
+
+Still the #1 attention point after this run: the two largest memory files in the source
+(`retrieval.py`, `dream_cycle.py`, 3,518 LOC combined) were never opened. Lead banked.
 
 ### 2026-08-22 - `/research`, from an external source
 

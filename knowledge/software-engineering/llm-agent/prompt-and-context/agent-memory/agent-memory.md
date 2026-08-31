@@ -15,6 +15,8 @@ techniques:
   - coverage-instrumentation
   - procedure-promotion
   - baseline-ladder
+  - lane-reconciliation
+  - probe-without-write-back
 ---
 
 # Agent memory
@@ -226,6 +228,33 @@ where it is not. That instrument is not a listing surface, however good:
 **a list can only show what is there; it structurally cannot show an
 absence** (coverage-instrumentation).
 
+## Below the pipeline: the store is machinery, and machinery drifts
+
+Everything above is about judgment — what to capture, what to believe, what to
+retire. Underneath it sits plumbing that makes no judgments at all, and it fails
+in ways no amount of judgment can detect.
+
+The store is not one backend. A record owns identity and provenance; the
+retrieval lanes over it are separate engines with no shared transaction, so the
+write fans out and can half-succeed. The item that results is correct by every
+measure this subject defines and unreachable through the door the agent uses —
+and the coverage instrument, which joins the record, reports it present
+(lane-reconciliation). Absence from a lane is invisible to every technique that
+reads the store's contents, because the item *is* in the store's contents.
+
+And the read path is not read-only. Recall increments the usage term the value
+model ranks on, which makes every scheduled machine caller of recall a writer to
+the ranking — including whatever was installed to measure recall. A probe
+replaying a fixed question set through the production retriever inflates its own
+expected answers on a schedule, forever, and its rising numbers are the loop
+closing rather than the store improving (probe-without-write-back).
+
+Both defects share a shape worth naming: they are produced by components that
+are individually correct. Nothing is misconfigured, no judgment was wrong, and
+reading any one file explains nothing. They are found only by asking two
+questions the pipeline never asks — *do the stores still agree*, and *who else
+calls this*.
+
 ## The human's role: what an agent is allowed to believe
 
 An agent's memory is not merely its own affair. Beliefs about the operator,
@@ -340,6 +369,12 @@ comparison a stated result instead of an unexamined premise.
 - **The self-poisoning summary** — a compaction or rollup pass that falls
   back to a mechanical stand-in when its judgment is unavailable, minting an
   item that supersedes several real ones and speaks for all of them.
+- **The unfindable memory** — a record that survived every quality gate and is
+  absent from the retrieval lane that was its only door, because the fan-out
+  half-failed and nothing ever compares the stores.
+- **The instrument on the drip** — a scheduled measurement running through the
+  production read path, entrenching the very items it uses as ground truth, so
+  the metric climbs while the store decays.
 
 ## The techniques
 
@@ -378,3 +413,9 @@ comparison a stated result instead of an unexamined premise.
   measured against: no memory, the whole history in context, retrieval over
   the raw record, then the pipeline — with the consumer, the index and the
   write cost carried as the score's predicate.
+- [lane-reconciliation](./techniques/lane-reconciliation.md) — whether the
+  retrieval lanes still agree with the record: declared lane membership,
+  absence versus pollution, and why an absence claim needs a complete scan.
+- [probe-without-write-back](./techniques/probe-without-write-back.md) — the
+  read path is not read-only, so a scheduled measurement through it entrenches
+  its own fixtures: suppress the feedback write, per caller.

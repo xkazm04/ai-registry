@@ -1,8 +1,8 @@
 ---
 subject: health-checks
 domain: software-engineering
-last_touched: 2026-08-22
-touched_by: external-reconcile
+last_touched: 2026-08-31
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -13,6 +13,31 @@ First touch: [[2026-08-22-7]], external reconcile against `hashicorp/consul`
 stack; single-stack debt cleared. The worker was killed mid-trim by a network
 outage; the director finished the trim (134 -> 130) and re-ran the citation
 check (~20 probes, all landed).
+
+## Touch log
+
+### 2026-08-31 - `/intake`, amendment only
+
+`three-state-outcomes` gained a per-class section. Source:
+[[2026-08-31-genesis-agi]].
+
+The technique was picked as a likely catch and mostly was - it covers the three-valued
+verdict more thoroughly than the source did, including the retrofit trap where a legacy
+boolean folds "never probed" into "passed". What it did not reach: a check that reports
+several **finding classes** has a second axis, and the same collapse reappears on it
+invisibly. The check completes, the dependency is reachable, the overall verdict is
+honest, and one class was never computed because an enumeration hit a budget - and zero
+is the accumulator value a truncated loop already holds. Worse than the per-check
+collapse in one respect: a green check at least invites the question of when it last
+ran, while a zero inside a green check invites nothing.
+
+Applied against a managed tree's lint ratchet and came back **not-better** - the tree
+already implements all three obligations (a distinct cannot-run exit path, refusal to
+re-baseline partially "because a partial re-baseline would silently delete the skipped
+buckets", and an empty-population assertion before trusting counts), and its findings
+ledger draws the same line one level down with a state meaning "absence also happens
+when the sensor never ran". Zero edits to reach arm B. That is independent
+corroboration from a tree unconnected to the source, not a failed application.
 
 ## Open leads (banked, convergence rule applies)
 

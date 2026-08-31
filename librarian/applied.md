@@ -71,3 +71,24 @@ owed. Rows in the table above are minted from deviations, one project per techni
 - `gate-laddering` amendment (asking controls at stage boundaries) - 2026-08-29.
 - `eval-economics` amendment (configuration in the golden-set trigger) - 2026-08-29.
 - `self-healing` two-ladders amendment and `failure-diagnosis` rule - 2026-08-29.
+
+### 2026-08-31 - intake, genesis-agi (memory focus)
+
+- `lane-reconciliation` (agent-memory) x goat - **experiment** - **better**. A: shipped
+  write path, 2 of 4 category fixtures diverge record-vs-cache-lane and lose the write on
+  reload, 0 detected. B: + read-only reconcile predicate, same 2 diverge, 2 detected,
+  0 false positives. Return condition: re-run as `code` when the operator confirms the
+  project lane - the fix is one shared key derivation, or an observable no-op path on the sync.
+- `probe-without-write-back` (agent-memory) x goat - **experiment** - **better**. Call-site
+  enumeration over a rank-feeding counter. A (count on the read path, suppress per caller):
+  3 machine caller classes reach the counter, 3 flags required, new readers default to
+  counting. B (shipped: uncounted read + explicit fire-once write): 0, 0, default correct.
+  The tree's shape fed a new section back into the technique.
+- `three-state-outcomes` per-class amendment (health-checks) x goat - **experiment** -
+  **not-better**. Zero edits required to reach arm B: the tree's lint ratchet already carries
+  a distinct cannot-run exit, refuses partial re-baselining, and asserts a non-empty
+  population before trusting counts. Not a rejection - independent corroboration from a tree
+  with no connection to the source. Return condition: re-test when a checker here grows a
+  finding class whose enumeration can truncate mid-scan rather than fail outright.
+- Seams NOT recorded in the project's `.ai/applied.jsonl` for any of the three: that is a
+  project-tree write and the operator confirmed no project. Owed on the next confirmed run.
