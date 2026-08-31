@@ -292,7 +292,8 @@
             "module-design",
             "dead-code",
             "docs-sync",
-            "concurrent-vcs"
+            "concurrent-vcs",
+            "machine-authored-documentation"
           ]
         },
         {

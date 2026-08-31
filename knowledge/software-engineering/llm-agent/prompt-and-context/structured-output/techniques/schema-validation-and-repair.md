@@ -167,6 +167,59 @@ Three disciplines keep the loop honest:
   value 'analyze' not in allowed set [a, b, c]" repairs; "validation failed"
   re-rolls the dice.
 
+## When the error count is ordinal, not binary
+
+The loop above assumes a candidate is valid or it is not, and a fixed budget of
+one or two attempts is right for that shape: each attempt either clears the door
+or does not, so a third attempt is a third roll of the same dice.
+
+A different shape appears where the validator counts *compositional* defects
+rather than deciding a predicate — a document whose layout produces eleven
+overlaps, a spec whose geometry emits six routing diagnostics, any artifact
+whose failures are a population that can shrink. There a repair attempt is not
+a re-roll; it is a step, and steps can be measured. Two changes follow, and both
+matter more than the budget:
+
+- **Stop on a non-improving best count, not on an attempt count.** Track the
+  minimum objective error count reached so far. Continue while an attempt
+  reaches a new minimum; when two consecutive rounds fail to improve the best,
+  stop. This spends attempts where they are working and abandons a plateau
+  immediately, which a fixed budget does in neither case — it truncates a
+  converging repair at two and burns two attempts on a stuck one.
+- **Apply one diagnosed control per round.** When several diagnostics are open,
+  the temptation is to address them all in one edit. Doing so destroys
+  attribution: the count moved, and nothing says which change moved it or
+  whether one of them made things worse under cover of another's improvement.
+  One control per round keeps the sequence readable and keeps a regression
+  attributable to the edit that caused it.
+
+The give-up outcome is unchanged in kind and richer in content: it carries the
+best count reached, the sequence of counts, and the diagnostics still open at
+the plateau. **Report the residue truthfully rather than describing a partial
+repair as a pass** — a document at three overlaps from eleven is a real
+improvement and is not an accepted artifact.
+
+## Errors carry their admissible fixes
+
+"Feedback must be actionable" above is a floor, and a validator addressed to a
+machine can do materially better than a well-worded message. Where the set of
+legitimate repairs for a diagnostic is knowable — and for a compositional
+validator it usually is — the error carries them as data: a stable code, the
+addressed subject, the observed evidence, and an enumerated list of supported
+fixes.
+
+The instruction to the repairing producer then becomes closed rather than
+open: change only the diagnosed subject, verify against the stated evidence,
+and choose from the supported fixes. That converts repair from invention into
+selection, which is the difference between a loop that converges and a loop
+that wanders — and it makes an unsupported repair detectable, because a change
+outside the enumerated set is a category the receipt can name.
+
+The list is also a design instrument pointed back at the validator. A
+diagnostic whose supported-fix list is empty is a complaint rather than a
+contract, and it is usually a sign the check knows something is wrong without
+knowing what would make it right.
+
 ## Give-up semantics
 
 Budget exhausted, the loop produces the **extraction-failed outcome** — not
