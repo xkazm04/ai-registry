@@ -67,3 +67,30 @@ Append-only reflection lane. One entry per run that taught something. Format:
   saying so: both `recruiting` and `game-production` returned deviations against their own
   origin repo, because a technique describing what a repo used to do is not conformance.
 
+- **The wave's own verdicts are a backtest, and they refuted the fix every worker
+  proposed.** After the 2026-08-31 wave the fleet held 287 labelled pairs. A
+  `not-applicable` IS the matcher's error and `conformant`/`deviation` are both its
+  successes, so the set grades matcher changes directly. Ten workers had independently
+  proposed down-weighting the polysemous tokens (`vault`, `eval`, the bare `matrix` that
+  scored 324). Measured, every variant traded about ONE real governance pair for ONE bad
+  pair — a scaffolding stoplist, a path-weight cut, an ambiguity penalty, all three
+  together, and dropping lexical-only outright (which cost a sixth of everything the
+  matcher correctly found). The tokens are polysemous *and* they are how the right pairs
+  are found. What worked instead was the verdicts themselves: "this subject already has
+  >= 2 not-applicable verdicts in this project, and more not-applicable than governed"
+  predicts the next one at 69% precision / 57% recall — better than 2:1 where every token
+  fix was 1:1. **A skill that accumulates judgments eventually holds the data to grade its
+  own instrument; reach for that before reaching for a heuristic.**
+- **A ranking hint must never become a verdict.** `priorNotApplicable` ships as a
+  deprioritization, not a filter: the pair is still emitted and still judgeable, and a
+  `conformant` verdict weakens the prior that produced it. The failure mode to guard is a
+  reader writing an unread `not-applicable` *because the map suggested one* — that poisons
+  the exact tally the next run trusts, and unlike a dropped pair it looks like evidence.
+- **Priming a worker toward a pattern will get you the pattern.** Three briefs in the
+  2026-08-31 wave suggested that N contexts failing one subject "probably share one root
+  cause — one fix, not N." All three came back split: four `fleet-orchestration` contexts
+  had four different answers, the `settings` triple was two not-applicable plus one
+  conformant, and `browser-credential-boundary` turned out not to apply because that repo
+  routes all data through a server-only client. Every one of those refusals was correct
+  and the tidier answer would have been wrong. State the hypothesis, ask for it to be
+  falsified, and say plainly that splitting it is a first-class result.
