@@ -25,6 +25,17 @@ Two siblings were live at claim time: one on `codebase-stewardship/module-design
 run touched; the board was clear at Phase 4 and again immediately before the
 first write.
 
+**A late collision, recorded because it will look mysterious later.** By the time
+this run reached Phase 10, the second sibling had gone QUIET (36 minutes stale)
+holding seven subjects, two of which matter here: `adoption-measurement`, which
+this run amended, and `integration/document-text-extraction`, which is adjacent
+to the PDF reader landed in `scripts/lib/`. Both claims post-date this run's
+Phase 4 and Phase 7 checks, which were clear when taken. This run's content
+committed first; a later run merging that sibling's work should expect to
+reconcile `before-after-outcome-pairing` and should read `pdf-text.mjs` before
+writing anything about text extraction, rather than landing a second reader
+beside it.
+
 ## The class, and what it predicts
 
 **Vendor prediction report** — a class the reference does not carry. It is a
