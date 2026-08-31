@@ -130,7 +130,7 @@
       "invokes30d": 0,
       "lessons": 1,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:9c3cef18dc9d9f2e",
+      "lessonsHash": "sha256-n1:f5c29b1f1755ba64",
       "usageContributors": []
     },
     {
@@ -655,7 +655,7 @@
       "techniques": 132,
       "applications": 57,
       "files": 214,
-      "contentHash": "sha256:622a3960a1ff70b5"
+      "contentHash": "sha256:6b1d92a186098ff7"
     },
     {
       "name": "recruiting",
@@ -678,10 +678,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 155,
-      "techniques": 1073,
-      "applications": 560,
-      "files": 1793,
-      "contentHash": "sha256:9f68a9dd71452ba1"
+      "techniques": 1074,
+      "applications": 563,
+      "files": 1797,
+      "contentHash": "sha256:096dfd00ea50ffc1"
     }
   ]
 }

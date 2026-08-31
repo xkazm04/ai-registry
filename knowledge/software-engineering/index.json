@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 155,
-  "techniques": 1073,
-  "applications": 560,
+  "techniques": 1074,
+  "applications": 563,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1073/1073",
+  "use_when_coverage": "1074/1074",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -19919,6 +19919,22 @@
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
    "techniques": [
     {
+     "slug": "authored-voice-identity",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "derivation-names-recomputation",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an engine offers to build a voice from a description or a sample instead of a catalog",
+      "storing a user's custom voice so it survives an engine upgrade",
+      "deciding whether a voice control needs a consent record",
+      "a custom voice sounds different every time it is regenerated"
+     ]
+    },
+    {
      "slug": "duplex-agent-sessions",
      "status": "forged",
      "laws": [
@@ -19962,7 +19978,8 @@
      "use_when": [
       "deciding whether voice runs on-device or in the cloud",
       "voice falls back to cloud without asking",
-      "settings say the model is ready but it fails"
+      "settings say the model is ready but it fails",
+      "checking whether an open-weights engine's license permits shipping its output"
      ]
     },
     {
@@ -20095,9 +20112,28 @@
     },
     {
      "stack": "rust",
+     "technique": "authored-voice-identity",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--authored-voice-identity.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "a desktop companion app with two local TTS engines behind one synthesis command"
+    },
+    {
+     "stack": "rust",
      "technique": "engine-abstraction",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--engine-abstraction.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "on-device-vs-cloud",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--on-device-vs-cloud.md",
+     "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "rust",
+     "technique": "tts-pipeline",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--tts-pipeline.md",
+     "verified_on": "2026-08-31"
     }
    ]
   },
@@ -21225,6 +21261,7 @@
     "usage-analytics/coverage-from-registries",
     "usage-analytics/sink-abstraction",
     "versioning-snapshots/restore-semantics",
+    "voice-io/authored-voice-identity",
     "voice-io/duplex-agent-sessions",
     "voice-io/engine-abstraction",
     "voice-io/on-device-vs-cloud",
@@ -21904,6 +21941,7 @@
     "usage-analytics/event-taxonomy",
     "versioning-snapshots/lineage-and-variants",
     "versioning-snapshots/version-identity",
+    "voice-io/authored-voice-identity",
     "voice-io/tts-pipeline",
     "web-scraping/dedup-and-datasets",
     "webhook-ingestion/duplicate-and-replay-dedup",
@@ -22757,6 +22795,7 @@
     "triage-queues/queue-lifecycle",
     "ui-controls/control-inventory-and-discovery",
     "undo-history/undo-model-selection",
+    "voice-io/authored-voice-identity",
     "voice-io/tts-pipeline",
     "web-scraping/negotiated-representation-probe",
     "wizard-flows/progress-communication"
