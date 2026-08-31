@@ -67,6 +67,56 @@ does not consume shared positions. Two subtleties:
   an entry admitted under one limit and promoted under another is a
   race with a policy.
 
+## Whether the origin may hold its own capacity depends on who mints the origin
+
+The per-origin cap above assumes something it does not say: that origins are
+*attested* — that the identity an entry arrives under was issued by the system,
+or by something it trusts, and that a caller cannot manufacture a second one at
+will. Under that assumption, giving each origin its own capacity is exactly
+right. Where it does not hold, the same instrument becomes the attack.
+
+The failure is arithmetic rather than subtle. If each origin may occupy K units
+and the origin key is a value the caller supplies — a session identifier minted
+client-side, an unauthenticated tenant header, an API key accepted before it is
+validated — then a caller who presents N distinct keys occupies N×K, and the
+process-wide bound the queue was defending is whatever the caller decides to
+make it. Every gauge reads healthy while it happens: no origin exceeds its cap,
+no cap was misconfigured, and the aggregate bound that would have caught it was
+never expressed anywhere as a number a gate reads
+([gate-sees-target](../../../../_laws.md#gate-sees-target) — a fairness policy
+keyed on an identity the caller authors is gating against a fiction).
+
+The repair separates two roles the origin key was quietly serving at once:
+
+- **Capacity is bounded globally, once.** There is a single budget for the
+  resource, and every admission — whatever it claims to be — draws from it.
+  This bound is the one that must hold, and it must hold against a caller
+  actively trying to defeat it.
+- **Identity decides the order, not the allowance.** The origin key remains
+  genuinely useful, because the thing it is good at survives being untrusted:
+  dispatching waiters round-robin across distinct keys stops one busy caller
+  from monopolising the *front of the line* under contention. A caller who
+  mints a thousand identities gains a thousand positions in the rotation and
+  not one byte of additional capacity — the manipulation costs them their own
+  scheduling fairness and takes nothing from anyone else.
+
+So the rule is: **an unattested origin key is a fairness scheduling key, never
+a capacity shard.** Where the key *is* attested — an authenticated tenant, an
+internal service identity, a validated API key bound to an account — the
+per-origin cap of the previous section is correct and should be used; it is the
+better instrument when it is safe, because it isolates rather than merely
+interleaves. The question to answer before choosing is not "do we have a tenant
+identifier" but "what does it cost the caller to have a second one", and the
+answer must be checked against the *unauthenticated* path, since that is the
+one an attacker will use.
+
+A system that has already shipped per-key capacity on a mintable key cannot
+repair it by validating the key later in the pipeline. Admission runs before
+authentication in most designs — deliberately, because parsing and
+authenticating a request is itself work worth bounding — so the gate sees the
+claim, never the verdict. The bound has to be correct for an identity that was
+never checked.
+
 ## Starvation, and aging as the repair
 
 Every preference mechanism starves whatever it deprioritizes. Strict

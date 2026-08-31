@@ -13,6 +13,7 @@ techniques:
   - model-identity
   - failover-horizon
   - candidate-ranking
+  - quality-axis-separation
   - cache-continuity
 ---
 
@@ -109,7 +110,14 @@ The consequences of that stance form the spine of this subject:
    Eligibility is decided by policy and floors; order is decided by
    what the roster is doing this hour, ranked by commensurable terms with
    guardrails that demote rather than reorder (see candidate-ranking).
-10. **A continuing conversation carries a cached prefix, and the prefix is
+10. **What a clean response proves is that the transport worked.** The
+    reliability term every ranker computes for free is a measurement of the
+    exchange, not of the answer — and on this subject's central failure, the
+    mis-route that returns something plausible, transport is the one axis
+    where a bad route and a good one look identical. The value of the output
+    is a second axis, written only by something that read it, and absent until
+    then rather than defaulted to a number (see quality-axis-separation).
+11. **A continuing conversation carries a cached prefix, and the prefix is
     keyed to the model that wrote it.** The class table prices a call as if
     it arrived alone; a warm turn on the incumbent re-reads its prefix at a
     tenth of base price while any other model writes it at 1.25×. Route by

@@ -64,3 +64,42 @@ does not track any of the technique's three exemptions. Return condition is an
 instrument, not a judgment: the tree counts records dropped when the drain falls behind
 but does not emit drain size, so the falsifying measurement (a batch-size distribution
 dominated by 1) cannot currently be taken.
+
+## 2026-08-31 - /intake omniroute
+
+Two techniques and one correction from `github:diegosouzapw/OmniRoute` @ `b7a0c54`, an
+OSS LLM gateway. **Both techniques land against something this subject already said**,
+which is why they are worth more than additions would have been.
+
+- **`resource-denominated-bounds`** contradicts `depth-bounds-and-shed`'s instruction to
+  size the depth bound "under the pessimistic case where every entry is maximal". Right
+  arithmetic, wrong unit: pessimistic *count* sizing is exactly what produced the source's
+  default cap of 1 and its 503s under ordinary coding-agent load. Denominate in the
+  resource, charge each item its real cost, derive the ceiling from the host's own limits,
+  and refuse at the door an arrival larger than the whole budget. Closes with the three
+  cases where a count is still honest.
+- **`speculative-work-admission`** fills a stage the subject never had: the three-verdict
+  contract assumes a caller who benefits from *queued*, and for redundant work that verdict
+  is the worst one available. Probe non-blocking, skip, release on admit, no wait knob.
+  Distinct from `depth-bounds-and-shed`'s fan-out backpressure rule, which is producer-side;
+  this is the gate side.
+- **`priority-and-fairness` amendment**: the per-origin cap assumed origins are attested and
+  never said so. Where the key is caller-minted, per-origin capacity is a multiplier — the
+  source shipped it and removed it in #10110. Capacity bounds globally; identity orders the
+  line.
+
+Applied same-run to `goat`: `speculative-work-admission` **code / better, shipped**
+(`58453a3`) after an A/B on the real prefetch queue across three network tiers — 3g went
+52 dispatches/18 useful to 30/30 with zero waste, 4g is a no-op. The arm that *failed* is
+the reusable part: skipping every source served 0/6 high-intent prefetches, so the
+technique gained a boundary section stating that the arrival's class must be readable by
+the gate rather than inferred from load, and that below saturation the rule buys nothing.
+`resource-denominated-bounds` came back **unmeasurable** on the same tree with its
+instrument named (per-source response size).
+
+## Open leads (banked, with return conditions)
+
+- **Advisory-then-blocking as a gate rollout discipline** — the source ships new gates
+  advisory with a named calibration window and a retained artifact before they block.
+  Adjacent to `quality-gates/gate-laddering`; return if a second source shows the retained
+  calibration artifact, which is the part gate-laddering does not carry.

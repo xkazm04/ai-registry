@@ -8,6 +8,8 @@ techniques:
   - admission-vocabulary
   - depth-bounds-and-shed
   - priority-and-fairness
+  - resource-denominated-bounds
+  - speculative-work-admission
   - load-aware-admission
   - wait-telemetry
   - drain-and-shutdown
@@ -155,6 +157,38 @@ assumes the request cannot wait and *idle* occupancy is the resource to
 spend. Choosing between them is a statement about which side of the gate
 holds the urgency.
 
+## The bound is spelled in a unit, and the unit is a claim
+
+Every bound above is a number of *something*, and the something is chosen. A
+count of items is the default spelling and it carries an unwritten assumption —
+that items cost roughly the same — which holds until it spectacularly does
+not. Where arrival cost varies by orders of magnitude, a count sized for the
+heavy arrival refuses ordinary load, a count sized for the median admits a
+lethal sum, and no single number is right because the quantity being counted
+is not the quantity running out. The repair is to denominate the bound in the
+resource itself, derive its ceiling from the host's real limits rather than
+shipping a constant, and refuse at the door an arrival that could never fit the
+whole budget — a promise the gate has already decided to break.
+[resource-denominated-bounds](./techniques/resource-denominated-bounds.md)
+owns the unit choice, the derivation, and the cases where a count is still the
+honest instrument.
+
+## Not every arrival wants to wait
+
+The three-verdict contract assumes a caller who benefits from *queued* —
+someone waiting, for whom a slower success beats a refusal. A queue also
+receives work submitted in case it proves useful: a prefetch, a redundant
+fan-out target, a precomputation for a screen nobody may open. For that class
+the queue's kindest verdict is its worst one. The result arrives after the
+moment that would have used it, and the capacity it consumed on promotion was
+taken from work someone is actually waiting for — during exactly the congestion
+the bound exists to relieve. Speculative work is therefore probed non-blocking
+and **skipped** when capacity is short, never queued; the skip resolves to
+whatever was going to serve instead, and it is counted separately because it
+appears in none of this subject's other measurements.
+[speculative-work-admission](./techniques/speculative-work-admission.md) owns
+the probe, the release-on-admit rule, and the knob that must not be added.
+
 ## Admission watches the host
 
 Capacity counted in slots is a model; the machine is the reality. A queue
@@ -247,7 +281,14 @@ Two rules fall out of the table:
 - [depth-bounds-and-shed](./techniques/depth-bounds-and-shed.md) — bounded
   depth, shed policy selection, backpressure to producers.
 - [priority-and-fairness](./techniques/priority-and-fairness.md) — priority
-  levels, per-tenant/per-class occupancy caps, starvation and aging.
+  levels, per-tenant/per-class occupancy caps, starvation and aging, and why an
+  unattested origin key may order the line but never shard the capacity.
+- [resource-denominated-bounds](./techniques/resource-denominated-bounds.md) —
+  the unit a bound is spelled in, host-derived ceilings, the unsatisfiable
+  arrival, and where a count is still right.
+- [speculative-work-admission](./techniques/speculative-work-admission.md) —
+  probe-and-skip for work nobody is waiting on, release-on-admit, the wait knob
+  that must not exist, and skip accounting.
 - [load-aware-admission](./techniques/load-aware-admission.md) — host
   pressure gates, asymmetric thresholds, hysteresis, probe honesty.
 - [wait-telemetry](./techniques/wait-telemetry.md) — queue-time as its own
