@@ -3651,3 +3651,121 @@ Phase 5 table header, so that producing a table without the focus's required
 column is visible at the moment the table is written rather than at Phase 11.
 The current design asks a run to remember an instruction across the six phases
 where it is most loaded; the cheap version asks it to copy one line.
+
+## 1.3.1 - 2026-08-31 - remeda
+
+- **The apply step refuted the technique it was testing, twice, in the same run — and this
+  is the first time in this file it has run in that direction.** `mutating-local-gates` was
+  drafted from the source claiming that *mutation* creates a turn-end gate's termination
+  contract. Phase 7.5 found the seam in a managed project: a turn-end gate that neither
+  mutates nor blocks, and still guards re-entry, because its advisory exit feeds the model,
+  the model acts, and acting ends another turn. Draft 2 said *blocking* creates it; the same
+  file refuted that in its own header (*"Nothing here ever blocks"*). Draft 3 carries a
+  three-tier ladder — advisory / blocking / mutating — and names the advisory tier as the one
+  most likely to ship unguarded precisely because it looks harmless. **The method treats
+  Phase 7.5 as validation; this run says it is also a drafting instrument.** A technique
+  written from one source is a hypothesis, and the seam is the first thing that has ever
+  actually disagreed with it. Worth doing deliberately: draft, then apply, then re-draft
+  before the commit — which is the order this run stumbled into rather than chose.
+
+- **A source-class tell worth adding to the Phase 2b sweep: the `.agents/` tree.** A
+  repository that carries agent-facing instructions, path-scoped rule files and turn-end
+  hooks is giving a first-party practitioner account of *agent operation*, regardless of what
+  the repository is for. This source is a utility library; nothing that landed touches utility
+  libraries. The `.agents/` + `.claude/` surface outproduced every other part of the tree
+  combined, and it is not in the sweep order — which currently names operating documents, the
+  instrument, the measurement, types, tests, README. It belongs at position 1, and its
+  distinguishing property is that its comments record failures the maintainer *paid for*
+  rather than decisions they are advertising.
+
+- **Rank our own enumerations — third consecutive sighting, and this time the corpus's
+  enumeration was ranked in the wrong order rather than merely flat.** `suppression-hygiene`
+  offers "an expiry date, a re-review cadence, or the checkable condition" as interchangeable.
+  The source rejects the first outright with a mechanism the corpus had not considered: a date
+  fires on a schedule nobody chose, at whoever runs the instrument that day, working exactly as
+  designed and arriving at the wrong person — so the cheapest available repair is to postpone
+  it, and a reaper whose most probable outcome is its own postponement is decorative. The wave-3
+  lesson said rank our enumerations; the sharper form is **check whether the order we implied is
+  backwards**, because a flat list read left-to-right teaches the first item as the default.
+
+- **Contention became the dominant filter on yield for the first time.** Four of twelve
+  candidates routed into subjects a single sibling held, including a finding (inverted release
+  severity by blast radius) the corpus has no owner for at all. The board did its job and the
+  run routed around it correctly — but the cost is real and invisible in any single note. If
+  parallel intake keeps concentrating on the same central bundles, the ledger will accumulate
+  untriaged rows whose only defect was arrival time. Worth watching across runs rather than
+  fixing now; the untriaged table with anchors is the mitigation and it held.
+
+### Redesign proposal (not applied)
+
+- **Phase 7.5 should run before the technique is committed, not after it is written.** The
+  method's order is Phase 7 land → Phase 7.5 apply, and this run had to edit a landed technique
+  twice because the seam disagreed with it. Nothing was harmed — the commit happens later — but
+  the method's prose reads as though landing settles the content and applying merely scores it.
+  It does not. Proposal: rename the boundary so Phase 7 is *draft and place*, Phase 7.5 is
+  *apply, and re-draft from what the seam showed*, and the commit in Phase 10 is the first
+  moment the content is fixed. This is a wording change to an order the skill already
+  implicitly permits, which is why it is a proposal rather than an edit — a sibling is at 1.4.0
+  in the same afternoon and a second structural edit today should be reviewed, not stacked.
+
+## 1.4.0 - 2026-08-31 - youtube:3IyKC5EtNkM (9 Ways to do Inheritance in Rust)
+
+- **The seam hunt is a better ship mechanism than the operator naming a project,
+  and this is the first run in five to ship because of it.** `ship` has been 0
+  for four consecutive runs, and every post-mortem located the cause upstream -
+  the operator's triage pick did not name a project, so Phase 8's confirmation
+  gate never opened. This source names no project and could not have: it is a
+  language talk. What produced Ship 1 was grepping the fleet in Phase 7.5 for
+  **the technique's own shape** rather than for the source's subject matter -
+  implicit delegation, and a read function parameterized by the caller's type.
+  Both returned real seams in the first project searched. The generalisation:
+  *a technique describes a code pattern, and a code pattern is greppable across
+  seven trees in about a minute.* Phase 7.5 step 1 already says to grep for "the
+  decision the technique governs"; what this run adds is that the grep should be
+  written from the technique's **mechanism**, which is concrete, rather than from
+  its **subject**, which is abstract and matches nothing.
+
+- **Two picked rows can verify into one root, and merging them is the higher
+  landing even though it makes the scorecard look worse.** The operator picked
+  rows 5 and 7 as separate candidates. Verification found they are one idea seen
+  twice - an interface authored upstream, once via delegation and once via a
+  borrowed taxonomy - and the technique that names the root is stronger than
+  either would have been beside the other. The altitude rule in Phase 5 covers
+  the *cross-run* case ("when this run's finding and two prior runs' findings
+  share a root, the landing is the root") and is silent on the within-run case,
+  which is more common and easier to miss because the two rows arrive in the same
+  table with different numbers. **Say in the note that N picks became M landings
+  and why**, or the source note reads as two dropped candidates.
+
+- **Distinguish an instrument that failed from an arm that failed.** The first
+  attempt at the `borrowed-surface` A/B ran the project's own compiler over the
+  probe and came back exit 0 - which looked like arm A passing and was actually
+  the build script dying before the compiler reached any of the code. Ten minutes
+  spent, and the result was worth nothing in either direction. A green or red
+  gate is only evidence if the gate *ran the thing being tested*; the check is to
+  confirm the instrument reached your code before reading its verdict. When it
+  cannot, the honest move is to drop to a faithful reduction and record the mode
+  as `experiment` rather than `code` - and, for a change to security-adjacent
+  code, to leave it uncommitted, because `unproven` does not commit.
+
+- **A source that numbers its own completeness is pre-marked for the enumeration
+  hunt, and the refutation is usually in its Q&A.** This talk is "9 ways"; two
+  audience members named a tenth and an eleventh, and the speaker had used
+  neither. That is the enumeration hunt (Phase 6 step 3) being run *by the source
+  on itself*, for free, and it is worth reading a talk's question period before
+  its content for exactly that reason. Filed as a lead with a return condition
+  rather than as a class rule - one sighting.
+
+### Redesign proposal (not applied)
+
+**The apply-row obligation mis-counts when two landings share a root.** The
+method says a run that lands N techniques/amendments owes N rows in
+`librarian/applied.md`. This run landed three things and paid two rows, honestly:
+the `seams-and-adapters` fourth signal *is* `borrowed-surface`'s second form
+stated from the neighbouring subject's side, so it shares not only the root but
+the seam and the arms - testing it separately would have meant running the same
+A/B twice and reporting it as two results. The current rule makes that
+double-count the compliant answer and the honest answer look like a shortfall.
+Consider making the obligation **one row per distinct A/B**, with landings listed
+in the row, so a run that correctly refuses to re-run an experiment is not
+scored as owing.
