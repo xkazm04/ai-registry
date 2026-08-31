@@ -6,7 +6,7 @@ technique: ranking-budgets
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
-use_when: [allocating seats before or after seeing candidates, item counts filling wildly different window shares, near-duplicates each claiming their own seat]
+use_when: [allocating seats before or after seeing candidates, item counts filling wildly different window shares, near-duplicates each claiming their own seat, admitting one more item costs nothing or costs a header, the assembled artifact is larger than the sum of what went into it]
 ---
 
 # Ranking budgets
@@ -99,3 +99,74 @@ diversity pressure is tuned by
 [measurement](./retrieval-evaluation.md), not by feel: it trades recall of
 corroborating evidence for coverage, and which side of that trade is right is
 a property of the consumer, not of the corpus.
+
+## When admission cost is not additive, the cut is a search
+
+The section above establishes that admission *value* is conditional on what is
+already admitted. Admission **cost** can be conditional in exactly the same
+way, and the greedy pack described earlier quietly assumes it is not: walking
+the order and admitting each item whose cost fits the remainder requires that
+an item's cost be a property of the item.
+
+It frequently is not. Whenever the slice is *rendered* into a structured
+artifact rather than concatenated, the marginal cost of one more item depends
+on what its neighbours already paid for:
+
+- Items grouped under a shared heading pay for that heading once. The first
+  admission from a group costs the header plus the item; the second costs the
+  item alone. Cost therefore falls as a group fills, and the cheapest item in
+  the corpus can be the most expensive thing to admit.
+- Items that render with surrounding context — lines around a match, a parent
+  scope, an enclosing path — cost nothing extra when their contexts overlap
+  and cost the full context when they do not. Two adjacent items are cheaper
+  than one item twice.
+- Any framing the artifact adds per section, per source, or per tier behaves
+  the same way: a fixed cost amortized over an unknown number of admissions.
+
+The distortion is largest exactly where budgets bite hardest. Measured on a
+590-item corpus assembled into a three-tier briefing, the fixed framing was
+17.9% of the rendered block for the twenty smallest items and 0.14% for the
+twenty largest — a 128x swing in the share of the budget that per-item
+accounting cannot see at all.
+
+**Where cost is non-additive, stop pricing items and start measuring
+artifacts.** The cut becomes a search over how many of the ranked order to
+admit, with the whole artifact rendered and measured at each probe:
+
+1. **Probe a prefix length**, render the artifact from the top-k of the fused
+   order, and measure the *rendered* result in the consumer's units.
+2. **Bisect on the result.** Under budget, admit more; over, admit fewer.
+   Convergence is logarithmic in the candidate count, so the render happens
+   ten or twenty times, not once per item.
+3. **Seed the first probe from a calibrated cost-per-item** — the budget
+   divided by a rough observed average. It is a guess whose only job is to
+   start the search near the answer, and it saves more probes than any other
+   refinement.
+4. **Ratchet the best under-budget artifact seen.** The search visits
+   over-budget prefixes on the way, and the last probe is not necessarily the
+   best one. Keep the largest artifact that fit and return that.
+5. **Stop inside a tolerance band, not at the exact fit.** Terminate once the
+   rendered size is within a few percent of the budget — a band around 10-15%
+   is generous and typical. The probes needed to close the last few percent
+   cost real latency and buy a slice nobody can tell apart.
+
+Two disciplines from the additive case survive unchanged and one does not.
+Honest truncation seams and per
+[count-carries-predicate](../../../../_laws.md#count-carries-predicate) a cut
+that reports itself both still hold — and the report gains a term, because
+"admitted 12 of 31, cut by token budget" should say the budget was *measured
+on the artifact* rather than summed over items. What does not survive is
+per-item accounting as a diagnostic: no item can be blamed for the overflow,
+so an operator debugging a fat context needs the rendered artifact and its
+probe trace, not a table of item sizes that will not add up to what was sent.
+
+**Measuring the artifact is only affordable if measuring is cheap**, and for a
+token budget it is not: tokenizing a large rendered tree ten times per turn is
+real cost on the request path. Tokenize exactly below a size threshold where
+exactness is cheap, and above it **sample and extrapolate** — take every Nth
+line, tokenize the sample, and scale by the character ratio. The estimate is
+wrong by a percent or two, which is inside the tolerance band the search is
+already stopping on, and the ratchet only ever admits an artifact that
+measured under the line. Where the estimator's error and the band are the same
+order, say so in the eval rather than tightening the band to a precision the
+measurement cannot support.

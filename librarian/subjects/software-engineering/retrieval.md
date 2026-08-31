@@ -78,16 +78,53 @@ began at `query`, so the decision to issue one was never modelled and defaulted 
 to apply one stage earlier - a skip, an empty result and an outage are three facts, and
 only the last two had names.
 
+## 2026-08-31 - a lane that needs no query, and a cut that is a search
+
+Gained `structural-centrality-lane` (8 -> 9 techniques) and an amendment section on
+`ranking-budgets`. Source: [[2026-08-31-aider]] (`github:Aider-AI/aider` @ `5dc9490`).
+
+**The lane came from a denial, not a gap.** The golden path enumerates its lanes and
+states that "every other lane is a function of the query", with the proximity lane
+singled out as a function of *results*. The missing kind was a function of neither -
+the corpus's own link structure, ranked before any query exists and then steered by
+the query as a personalization vector rather than filtered by it. `research-map` on
+"pagerank centrality" returned zero corpus-wide. The technique also carries the move
+that is easiest to miss in the source: rank the graph's nodes, then redistribute each
+node's rank across its out-edges so the unit you *emit* is the unit you ranked.
+
+**The amendment came from an asymmetry inside `ranking-budgets` itself.** That file
+argues at length that admission *value* is conditional on what is already admitted -
+and models admission *cost* as per-item and additive in the same breath. Where the
+slice is rendered rather than concatenated, cost is set-conditional too: shared
+headers are paid once per tier, overlapping contexts cost nothing twice. Then the
+greedy pack is unavailable and the cut becomes a bisection over prefix length,
+measuring the rendered artifact per probe, with a tolerance band, a best-under-budget
+ratchet, and a sampled token estimator to keep the probes affordable.
+
+Both were A/B tested against a managed tree the same run, both `better`. The
+centrality arm found the tier's ranking field (`importance`) holding its schema
+default for 93.7% of the tier - an `unknown-is-not-a-value` instance that became a
+section of the technique rather than a footnote of the application.
+
 ## Open leads
 
+- **The centrality lane has no floor story of its own.** It always produces an order,
+  including over a corpus containing nothing relevant. The technique says the floor is
+  the operator's job; a later run touching `relevance-floors` should check whether that
+  file wants a clause for lanes whose score is not a similarity at all.
+- **Personalization is unmeasured.** The 2026-08-31 application exercised only the
+  uniform restart, i.e. global centrality. The per-query half of the lane has no
+  measurement on any tree yet. **Return when** a connected project populates a
+  query-time path over a derived graph.
 - **The trigger's calibration set is the same machinery as the floors'.** If a later run
   touches `retrieval-evaluation`, check whether the labelled-query-set section should
   now cover trigger decisions explicitly rather than by implication.
 
 ## Standing debt
 
-- **Two stacks** (`rust`, `react` per the index) - better than most of this bundle, but
-  the new technique has no application yet.
+- **Three stacks** (`go`, `rust`, `react` per the index). `structural-centrality-lane`
+  and the `ranking-budgets` amendment both have a `rust` application as of 2026-08-31;
+  `retrieval-triggering` still has none.
 - **Never swept by `/librarian`.**
 
 ## Declines

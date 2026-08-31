@@ -9,6 +9,7 @@ techniques:
   - embedding-lifecycle
   - hybrid-lane-fusion
   - relationship-proximity-lane
+  - structural-centrality-lane
   - ranking-budgets
   - relevance-floors
   - retrieval-evaluation
@@ -85,6 +86,15 @@ reach; it is unlike the others in being a function of results rather than of
 the query, and
 [relationship-proximity-lane](./techniques/relationship-proximity-lane.md)
 holds the consequences, including the one that qualifies the paragraph below.
+A sixth seat goes further still: where the corpus's items reference each other
+by name, its own link structure ranks them with **no query and no seed at
+all** — the item everything else depends on, which every query-conditioned
+lane under-ranks precisely because a request names what it wants changed
+rather than what that rests on. It is the only lane whose order exists before
+the question does, and
+[structural-centrality-lane](./techniques/structural-centrality-lane.md) owns
+it, including why its graph is derived from content rather than stored as
+edges and why it must not be fused as a peer of the proximity lane.
 And a new lane must be a strict
 *addition*: run alongside the existing lanes and unioned in, so the richer
 configuration is a superset of the leaner one — never a replacement whose own
@@ -196,8 +206,13 @@ memory subject demands when it labels recalled beliefs before injection.
 - [relationship-proximity-lane](./techniques/relationship-proximity-lane.md) —
   expansion along typed relations, why it is not a peer lane, correlated
   evidence, per-relation policy, and when a stored graph earns no seat.
+- [structural-centrality-lane](./techniques/structural-centrality-lane.md) —
+  the corpus's own link structure as a lane, derived graphs, personalization
+  over filtering, discriminative edge weights, and the curated importance
+  field that has gone constant.
 - [ranking-budgets](./techniques/ranking-budgets.md) — shared budget vs per-lane
-  quotas, overfetch-then-select, size-aware cuts, diversity.
+  quotas, overfetch-then-select, size-aware cuts, diversity, and the search
+  that replaces the greedy pack when admission cost is non-additive.
 - [relevance-floors](./techniques/relevance-floors.md) — thresholds, honest
   empties, degraded modes, fallback lanes.
 - [retrieval-evaluation](./techniques/retrieval-evaluation.md) — labeled query
