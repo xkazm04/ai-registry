@@ -13,7 +13,7 @@ already_covered: 1
 untriaged: 5
 dispatched: 0
 applied: 1
-shipped: 0
+shipped: 1
 run_id: intake-arxiv-260418071
 siblings: 4
 fetches_spent: 0
@@ -111,7 +111,7 @@ section inside technique 1 rather than as a second technique; it is the same
 reconciliation discipline applied to a metric's definition rather than to its
 value.
 
-## Applied — `goat`, experiment, better
+## Applied — `goat`, code, better
 
 Seam found via the project's own `.ai/registry-map.json`, which already joined
 a collection-panel context to `measurement-honesty`. The panel computes a
@@ -121,12 +121,14 @@ grid size — and clamps the result at 100%. The same application computes the
 same quantity correctly in the store that owns the grid, where numerator and
 denominator share a predicate and **no clamp is needed**.
 
-A/B ran as an `experiment` (no product code changed): both computations
-transcribed verbatim into a harness, with the store's version as a ground-truth
-arm. Over 120 states enumerated from the tree's own parameters, arm A published
-a well-formed percentage in **all 120**; arm B flagged **101 (84%)** as
-refuted; the displayed figure disagreed with the application's own ground truth
-in **66 (55%)**, and `isComplete` in 21.
+The A/B ran twice. First as an `experiment` while the tree write was ungated -
+both computations transcribed into a harness with the store’s version as a
+ground-truth arm - and then, once the operator lifted the blocker, as arm A
+versus arm B of the **real code** on the project’s own test runner. Both
+passes agree. Over 120 states enumerated from the tree’s own parameters, arm A
+published a well-formed percentage in **all 120** and never refuses; the
+displayed figure disagreed with the application’s own ground truth in **66
+(55%)**, `isComplete` in 21, and the clamp fired in 9. Arm B: **0 on all three.**
 
 **A prediction was falsified and the correction is the useful part.** The clamp
 looked like the defect; it fires in only 9 of 101 flagged states and never in
@@ -139,12 +141,29 @@ carries the grid's real capacity *and* the already-correct percentage. The
 correct denominator was on the object the consumer already held. Nobody designed
 that; it is better evidence for the technique than the arithmetic is.
 
-**Ship: 0. Blocker class: `confirmation`.** Per the run's declared focus, named
-rather than left as a bare zero. The change is a few lines and the tree has no
-foreign WIP in the file, so it is not `size`; the store's own statistic shows
-the project's intent, so it is not `indeterminacy`. The operator's triage pick
-named registry rows only, and Phase 8 step 2 requires explicit confirmation
-before touching a project tree. Return condition: operator says go.
+**Ship: 1** (`4788b2c`, default branch, pathspec, not pushed). The run first
+reported **ship 0, blocker class `confirmation`** — named per the declared focus
+rather than left as a bare zero, and with the other three excluded: not `size`
+(a few lines, no foreign WIP in the file), not `indeterminacy` (the store's own
+statistic shows the intent), not `environment` (the harness ran). The operator
+lifted it in one sentence, and the apply moved from `experiment` to `code` in
+the same session.
+
+The re-run is the part worth keeping. Arms A and B were re-measured as the
+**real code** on the project's own test runner rather than as transcriptions in
+a scratch harness, and reproduced the earlier numbers exactly — 66/120 (55%)
+percentages wrong, 21 `isComplete` wrong, 9 clamped, against 0/0/0 after. A
+harness that reproduces itself against the tree it was modelling is the
+strongest form this proof takes, and it is only available once the change is
+authorized.
+
+Shipped alongside the fix: the computation extracted so the invariant is pinned
+by six tests rather than trusted, and the clamp replaced by a dev warning that
+**names the pair** rather than hiding it. **Honest limit recorded in the
+application**: reconciliation proved something was wrong and never what was
+right — the repair needed a second source of intent, supplied here by the code's
+own "proxy" comment. Had the two readings of the label been equally supported,
+the correct outcome was to report the pair and ship nothing.
 
 ## Already covered
 

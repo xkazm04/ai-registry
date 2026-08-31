@@ -55,12 +55,17 @@ likely to share the asymmetry.
 
 ## Applied
 
-One application, `goat`, mode `experiment`, verdict `better`. A collection
-panel publishes a completion percentage whose numerator is counted over one
-population and whose denominator over another, and clamps the result — while
-the store that owns the data computes the same quantity correctly and needs no
-clamp. 101 of 120 enumerated states flagged; 66 disagreed with the
-application's own ground truth. Not shipped: blocker class `confirmation`.
+One application, `goat`, mode `code`, verdict `better`, **shipped**. A
+collection panel publishes a completion percentage whose numerator is counted
+over one population and whose denominator over another, and clamps the result —
+while the store that owns the data computes the same quantity correctly and
+needs no clamp. Over 120 enumerated states: 66 percentages and 21 completion
+flags disagreed with the application's own ground truth, against 0 after.
+
+The run reported `ship 0, blocker class confirmation` first, and the operator
+lifted it in one sentence. Worth recording as a method observation rather than a
+subject fact: naming the blocker by class is what made the ship a one-word
+request instead of a re-derivation.
 
 The structural fact is the durable half: the consumer already held the object
 carrying the correct denominator and reached past it. That is the general shape

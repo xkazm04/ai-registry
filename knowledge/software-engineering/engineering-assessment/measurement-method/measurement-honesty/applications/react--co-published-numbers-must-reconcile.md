@@ -7,7 +7,7 @@ stack: react
 status: forged
 verified_on: 2026-08-31
 verified_against: react@19
-applied: experiment
+applied: code
 ab_verdict: better
 proof: ab-paired
 ---
@@ -59,13 +59,13 @@ detection, leaving a well-formed number that renders exactly like one that
 earned its digits. That is the sixth datum state — *refuted* — being coerced
 into *measured*.
 
-## The A/B
+## The A/B, then the fix
 
-Both computations are pure functions of their inputs, so the paired comparison
-ran in a harness with **no product code changed**. Arm A is the hook's memo
-transcribed verbatim; arm B is arm A plus the technique's reconciliation
-assertions; the store's `computeGridStatistics` supplied a **ground truth arm**,
-because the app already contains the correct answer for the same quantity.
+The paired comparison ran twice: first in a scratch harness, then — once the
+change was authorized — as arm A and arm B of the shipped code, measured on the
+project's own test runner. Both arms score against the ratio the grid store
+computes for the same inputs, so the comparison has a **ground truth arm**: the
+application already contains the correct answer for this quantity.
 
 The state space was enumerated from the tree's own parameters rather than
 invented: grid capacities across `GRID_LIMITS.MIN_SIZE`–`MAX_SIZE` (5–50, from
@@ -73,20 +73,41 @@ invented: grid capacities across `GRID_LIMITS.MIN_SIZE`–`MAX_SIZE` (5–50, fr
 and 20 (the value the hook's own usage-example documents), and page fill states
 for a partial last page, a partial page and a full page.
 
-| | arm A (as shipped) | arm B (with reconciliation) |
+| over 120 reachable states | arm A (before) | arm B (shipped) |
 | --- | --- | --- |
-| states exercised | 120 | 120 |
-| states rendering a well-formed percentage | **120** | 19 |
-| states flagged as refuted | 0 | **101 (84%)** |
-| of those, hidden by the `Math.min` clamp | — | 9 |
-| displayed % disagreeing with the store's own figure | **66 (55%)** | 0 published |
-| `isComplete` disagreeing with the store | **21** | 0 published |
+| percentages disagreeing with the store's own figure | **66 (55%)** | **0** |
+| `isComplete` disagreeing with the store | **21** | **0** |
+| states where the `Math.min` clamp fired | 9 | n/a — no clamp |
+| percentage recomputes from the pair it is derived from | no | yes, asserted |
 
-Verdict: **better**. Arm A never refuses; it publishes a number in every
-reachable state, and in 55% of them that number contradicts the figure the same
-application computes for the same thing. The disagreements are not marginal — a
-five-slot grid with one item placed shows **2%** in the panel while the store
-says **20%**.
+Verdict: **better**. Arm A publishes a number in every reachable state and never
+refuses; in 55% of them that number contradicts the figure the same application
+computes for the same thing. The disagreements are not marginal — a five-slot
+grid with one item placed shows **2%** in the panel while the store says
+**20%**. `CollectionStats` renders that figure and turns it green at `>= 100`,
+so the clamp was surfacing a false *complete* badge.
+
+## What shipped
+
+The grid store owns the real capacity, and the hook was **already subscribed to
+it** — `state.maxGridSize` sits on the same object the hook reads placed ids
+from. The hook now tracks that capacity and uses it as the denominator; the
+caller-supplied size survives only as a pre-mount fallback, and the caller stops
+passing a page size for it.
+
+Two smaller moves carry the technique rather than just the fix. The computation
+was extracted into an exported pure function so the invariant is **pinned by a
+test rather than trusted** — six of them, including a sweep asserting that the
+percentage never leaves its declared range and recomputes from its own pair. And
+the clamp was replaced by a **dev-mode warning that names the pair**: if
+`placedCount` ever exceeds capacity, the two numbers cannot both be right and
+which one is wrong is not knowable at that call site, so the code says exactly
+that instead of clamping the evidence away.
+
+Gate: typecheck 29 errors before and after with none in these files; the suite
+went 275 → 281 passing; eslint 0 errors and 3 warnings on both sides. (The
+project's `docs:unmappedAreas` ratchet is red, and reproduces identically with
+these changes stashed — pre-existing, and not this change's to fix.)
 
 ## What the clamp was and was not doing
 
@@ -118,13 +139,20 @@ clamp is where that shows.
 
 ## What this realization cannot do
 
-The harness proves the two figures disagree and that arm B catches it; it does
-not decide **which** figure the panel should show. "Grid fullness" (the store's
-answer) and "progress through my collection" are both defensible things for that
-label to mean, and the code's own comment — page size as a *proxy* — suggests
-the author wanted the former and did not have it. Choosing between them is a
-product decision, not a reconciliation result, and this application deliberately
-stops at the pair.
+Reconciliation proved the two figures disagree and that the assertion catches
+it. It did **not** decide which figure the panel should show — "grid fullness"
+and "progress through my collection" are both defensible readings of that label,
+and no arithmetic settles a label. What settled it here was evidence of intent
+rather than the measurement: the code's own comment calls the page size a
+*proxy* for grid size, and the store already computes grid fullness correctly.
+That is a reading of what the author meant, and it is the one part of this
+change a reviewer should challenge if they think the label meant the other
+thing. Had the two readings been equally supported, the honest outcome would
+have been to report the pair and ship nothing.
+
+Worth stating plainly because it is the general limit: **a reconciliation
+failure is evidence that something is wrong, never evidence of what is right.**
+The repair always needs a second source of intent.
 
 A second finding sits one function away and is left recorded rather than tested:
 `cowGridUpdate` (`grid-store.ts:259-290`) maintains `matchedCount`
