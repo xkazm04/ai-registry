@@ -286,3 +286,49 @@ path. Golden-path edits were made under the `content` lock; the index was
 regenerated inside the `index` lock and consequently carries that sibling's
 undeclared technique, so the generated artifacts were left unstaged for
 whoever finishes last.
+
+## 2026-08-31 — `whatwg-html-0831` (intake, `github:whatwg/html` @ `778afd9`)
+
+Landed `fabrication-economics`, declared in the golden path (roster entry, prose
+section "False compliance is how rules die", technique list entry) and applied
+same-run — the mid-run state a sibling note recorded as undeclared was a Phase 7
+snapshot, not the landing.
+
+The technique is the **mirror of `false-positive-economics`**: that one is how a
+*gate* dies (firing on correct content, bypass becomes reflex); this is how a
+*rule* dies, leaving the gate healthy and the report green forever. Where a
+requirement's satisfaction cannot be verified, the author with nothing true to
+write is offered two moves and the fabrication is always cheaper — **the gate is
+not fooled, it is the cause** — so no detector improvement helps and the fix
+moves to the rule's design: a declared inability token, artifact stays
+non-conforming, verdict silent, census counted elsewhere, token itself exempt.
+
+Home found by the enumeration hunt against `unmeasurable-criteria`, which states
+"there are exactly three honest resolutions" over a *missing* value. Here nothing
+is missing — the gate reads the value perfectly and the undecidable part is the
+requirement behind it — and the fourth state is **known-violating, deliberately
+unreported, separately counted**. Two of that technique's rules invert (a skip
+must be loud; this token must be silent in the verdict) and the discriminator is
+written on both sides: does a louder report yield more information, or a worse
+artifact?
+
+Applied to `personas` as a paired experiment, `better`, and **the seam amended
+the technique**. The tree has no accessibility linter at all — 21 hand-written
+lint rules, none touching the field — and 55.6% of its 63 `<img>` elements still
+carry the null-shaped value. So the technique now states that a gate is
+*sufficient, not necessary*: the pressure comes from the requirement's shape and
+propagates by convention and editor completion. Arm A raises 1 finding and it is
+a false positive; the one site in the tree that declares its decorative intent
+with the platform's real mechanism is the one site the standard rule reports.
+
+Contended for the whole run with `tc39-proposals-0831`, which held this subject
+and was mining the other major web standard's process repository. That routed
+this source's change-admission gate (two-implementer interest plus filed
+downstream obligations) **away** as untriaged rather than mined — the sibling's
+source is the better authority for staged advancement. Golden-path edits under
+the `content` lock; the re-read inside it found two techniques the sibling had
+added between Phase 4 and Phase 7, and the insert preserved both.
+
+The generated index and catalog were regenerated under the `index` lock and left
+**unstaged**: three siblings held uncommitted or untracked content, so a
+committed index would reference files absent from `HEAD`.

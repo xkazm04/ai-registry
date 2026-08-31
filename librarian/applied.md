@@ -197,3 +197,30 @@ owed. Rows in the table above are minted from deviations, one project per techni
   claim is about components that absorb by design, and nothing in the fleet absorbs by
   design. Return condition: when a project grows a lenient reader over foreign binary
   input, or adopts a third-party one whose recovery policy it must audit.
+
+- **2026-08-31** · `fabrication-economics` · `personas` · **experiment** · **better** ·
+  arms paired over one population: 63 `<img>` elements, one parser, two predicates.
+  Arm A (the rule as adopted - is the attribute present?) raises 1 finding and it is a
+  false positive; arm B (is the no-content claim supportable?) raises 35, 55.6% - 30
+  empty values asserting no-information on a runtime-computed source, 5 filenames used
+  as descriptions. The premise was disproved and the result strengthened: the tree has
+  no accessibility linter at all, and the fabrication is at a clear majority anyway, so
+  the technique gained the correction that a gate is *sufficient, not necessary* - the
+  pressure comes from the requirement's shape. Structural fact: the one site that
+  declares its decorative intent with the platform's real mechanism is the one site arm
+  A reports, and it is correct as written. Return condition: when the token is separated
+  from the affirmative claim, re-run arm B - the 35 should split into a declared set and
+  a real backlog, and the split is the adoption test.
+
+- **2026-08-31** · `declared-deviation-register` · `personas` · **simulation** · **better** ·
+  8 behavioural conformance claims to external specifications (after excluding ~200
+  incidental format references); 1 of 8 carries a declared deviation, scoring 2 of the
+  technique's 4 fields; 0 of 8 are enumerable without reading implementation code, and
+  no register exists in any surface. Structural fact: a module header claims a named RPC
+  protocol, its entry point takes one line and returns at most one response, and no array
+  handling exists anywhere in either file while the cited specification's §6 requires
+  batch support - a probably-correct deviation that a maintainer cannot distinguish from
+  an omission. Three of the eight sites are near misses the register must refuse, which
+  is where the boundary was tested rather than asserted. Return condition: when the
+  project publishes a register, re-walk the eight and count entries that survive the
+  boundary - a register that admits the three near misses has become a changelog.

@@ -18,6 +18,9 @@ techniques:
   - prose-rule-drift
   - oracle-frozen-during-repair
   - operation-assertion-gates
+  - fabrication-economics
+  - advancement-evidence-fields
+  - item-liveness
 ---
 
 # Quality gates & ratchets
@@ -360,6 +363,25 @@ the harm. The economics, the measurement method, and the quarantine
 protocol for flaky checks are
 [false-positive-economics](./techniques/false-positive-economics.md).
 
+## False compliance is how rules die
+
+The mirror failure kills the *rule* while leaving the gate healthy, so nothing
+in the report ever shows it. When a requirement's satisfaction cannot be
+verified — an alternative description, a rationale, a justification for an
+exception — the gate can decide *present or absent* perfectly and *meaningful*
+not at all, and an author with nothing true to write is offered exactly two
+moves: stay blocked, or write something shaped like an answer. The second is
+always cheaper, and it is overwhelming when the author is a program filling the
+field across a whole tree. The gate is not fooled; **the gate is the cause**,
+and no improvement to the detector helps, because the distinction is not in the
+data. The corrective is a third value — an explicit token meaning *no value was
+obtainable here*, which leaves the artifact non-conforming, is counted outside
+the verdict, and produces no finding, because a token that still turns the
+report red buys the author nothing against the lie that turns it green. The
+economics, the conflated-token failure that is the usual starting state, and the
+rule that a contract must name its own undecidable clauses are
+[fabrication-economics](./techniques/fabrication-economics.md).
+
 ## Hooks are guests in someone else's working tree
 
 The commit and push rungs run inside the author's workspace, possibly
@@ -387,6 +409,56 @@ hook can refuse — and both halves carry limits strong enough that quoting
 the result without them overstates it. The construction, the extension to
 any second per-operation table, and the two disclaimers are
 [chokepoint-tag-registry](./techniques/chokepoint-tag-registry.md).
+
+## When the item outlives the verdict
+
+Everything above takes the gate's natural lifespan: a checker runs against
+a commit, returns a verdict, and the verdict's job ends at the merge
+decision. A different shape appears wherever items advance through
+**stages** over months or years — a change walking a design review, a
+component climbing a readiness ladder, a proposal crossing a standards
+body. There the verdict is the transient half and the item is the durable
+one, and two questions arise that one-shot machinery never has to answer.
+
+The first is what the item's own record shows for an obligation. The field
+that carries it belongs to the stage that binds it — minted where the
+obligation becomes live, retired once permanently discharged, so the schema
+is the ladder rather than a uniform grid — and its non-satisfied side needs
+a closed vocabulary, because a blank merges "not yet," "done but
+unrecorded" and "nobody looked" into one unreadable cell. Four states
+(satisfied, in progress, absent with a pointer to why, and an explicitly
+rendered unknown) are the floor. The payoff is measured wherever one board
+tracks two obligations under two conventions: the field with explicit
+markers produces a countable, attributable backlog and the field with
+blanks produces a 55% hole nobody can act on — and the obligation with the
+readable field is the one that gets discharged, though neither blocks
+anything. This also supplies the resolution
+[unmeasurable-criteria](./techniques/unmeasurable-criteria.md) cannot,
+because a skip disappears with the run: **advance the item and write the
+hole into the row**, which is the honest move for a gate whose verdict is a
+judgment some authority can override, and the only thing that keeps the
+override on the record. The schema rule, the vocabulary, the fourth
+resolution and the sharp limit — this reports, it does not refuse — are
+[advancement-evidence-fields](./techniques/advancement-evidence-fields.md).
+
+The second question is the mirror of gate liveness. A gate green for a year
+is unverified machinery; an *item* in flight for a year whose owner has
+stopped speaking is unverified work, and it fails the same way — the
+default reading is the reassuring one and nothing emits a signal when it
+stops being true. Ownership is the one entrance criterion that decays
+continuously after admission, so checking it once makes it a birth
+certificate; in a decade-long public pipeline, owner departure is the
+single largest named cause of terminated work, and a third of the in-flight
+board had been silent for two years or more while being counted as active.
+The correction is cheap because the data is already there — last-touched is
+computable from the activity trail the pipeline keeps anyway — and it ends
+in a scheduled sweep that asks the owner question rather than reopening the
+merits, resolves silence to a terminal state, and records a rationale and a
+successor so the reaping stays information
+([creation-names-reaper](../../../_laws.md#creation-names-reaper)). The
+clock, the derivation, the liveness predicate a published count must carry,
+and the reaper's mechanics are
+[item-liveness](./techniques/item-liveness.md).
 
 ## Domain gates ride the same ladder
 
@@ -440,6 +512,10 @@ is asked to refuse something.
 - [false-positive-economics](./techniques/false-positive-economics.md) —
   precision as survival, measuring before enforcing, the trust budget, and
   quarantining flaky checks.
+- [fabrication-economics](./techniques/fabrication-economics.md) — the
+  requirement a machine cannot verify and an author cannot satisfy, the
+  declared-inability token and why the gate must go silent on it, and naming
+  a contract's own undecidable clauses.
 - [unmeasurable-criteria](./techniques/unmeasurable-criteria.md) — skip,
   fail-closed, or refuse the verdict; deriving the measured-nothing state;
   making skips visible and counted.
@@ -459,3 +535,12 @@ is asked to refuse something.
   denylists with their replacements attached, normalising comments and
   literals out before matching, testing the scanner itself, and the timing
   lane's demotion to scheduled evidence.
+- [advancement-evidence-fields](./techniques/advancement-evidence-fields.md)
+  — the field minted at the stage its obligation binds, the closed
+  vocabulary its non-satisfied side needs, advancing an item with the hole
+  written into the row, and the limit that this reports rather than
+  refuses.
+- [item-liveness](./techniques/item-liveness.md) — ownership as the
+  entrance criterion that decays, deriving last-touched from the trail
+  already kept, the liveness predicate a published active count carries,
+  and a scheduled reaper that records a rationale and a successor.
