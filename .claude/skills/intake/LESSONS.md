@@ -2413,3 +2413,43 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   production state no local gate reaches, and both fell to simulation. Prefer a
   seam whose instrument is in the tree (fixture, recorded log, replayable
   script) over a sharper seam whose instrument is remote.
+
+## 1.2.0 - 2026-08-31 - 3d-documentary-ai
+
+- **A source that contradicts one of the corpus's own DENIALS, without noticing
+  it has, is the cheapest high-altitude finding available - and confidence-ranked
+  triage cannot see it.** Phase 6 already says to hunt enumerations and treats a
+  denial as one. This run adds the retrieval side: the creator narrates the
+  disqualifying case in nine seconds as a nice cinematic moment and moves on. He
+  does not think it is interesting, states it with no emphasis, and never returns
+  to it. Every signal a triage naturally ranks on - emphasis, dwell time, how
+  confidently the source asserts it, whether the source frames it as a lesson -
+  pointed at the eight candidates that turned out to be catches. The finding was
+  reachable only by holding the corpus's denials in mind while reading, and asking
+  of each segment "does anything here do the thing we say cannot be done?" That is
+  a different read of the transcript than "what is this source claiming", and it
+  should be a named pass, not a hope.
+- **Check seam existence at Phase 5, not at Phase 7.5.** Both amendments landed
+  this run govern calls that no fleet project makes - no generative-video request
+  path, no composite subject+plate imaging call - and that was discovered after the
+  verification budget was spent. It is a one-grep question at triage time. A row
+  with no seam anywhere is still worth landing (both of these were), but it should
+  be picked in the knowledge that it will produce a simulation, and the run should
+  say so where it says the expected yield. This is the fourth consecutive
+  source-driven run with zero `code` rows and the first to find the cause upstream
+  of the seam: the corpus is being deepened where the fleet does not operate.
+- **A sponsored tutorial's craft half is better than the class average, for a
+  structural reason.** The sponsorship corrupts the tour half completely (no
+  failures, no retakes, no reject counts in twelve minutes, and the proudest
+  segment is where the boundary is missing) and leaves the operating half alone -
+  because a tutorial must be *reproducible by a stranger*, so its rules get stated
+  as rules rather than demonstrated as moves. Every one of this run's thirteen
+  candidates came from sentences the creator volunteered as generalizations at the
+  end of a segment. One observation; not yet a class row.
+- The strip test kept its record as the cheapest instrument here: eight of
+  thirteen candidates were killed or routed by it before any file was opened, and
+  the two that survived to landing were both relations rather than attributes -
+  which may be a pattern worth watching. A mature bundle's remaining gaps were not
+  missing opinions or missing stages this run; both were **missing relations
+  between two things the corpus already models separately** (two anchors, two
+  references). Second sighting of this shape would be worth a method line.
