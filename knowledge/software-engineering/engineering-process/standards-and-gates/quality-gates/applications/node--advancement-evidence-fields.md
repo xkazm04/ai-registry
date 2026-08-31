@@ -94,6 +94,57 @@ clearly *trying* to record reasons and the schema gave them nowhere
 structured to put one. A boolean is what an absence state degenerates to
 when it is added as an afterthought rather than designed as a vocabulary.
 
+## The same error again, one layer down, in a type system
+
+The passport above is a hand-maintained document with no type behind it —
+the skip flag appears in no source file, so nothing generates or validates
+it. The same project also carries a **typed** passport model, used to render
+many projects side by side, and reading it found the identical failure in a
+form that no author discipline can paper over.
+
+Every one of its eleven per-dimension level unions begins with the member
+`none`. None of them has a member for *not assessed*, and the level field is
+non-optional — so a dimension nobody has evaluated must still be given a
+value, and the only value available means "this project genuinely has none
+of this." The conflation is not an oversight: the deriving module documents
+it as the intent, stating that where there is no signal the passport shows
+an explicit gap.
+
+What makes it worth recording is that the mistaken value does not sit
+quietly. It propagates all the way to a claim:
+
+- one dimension's level is derived as a **binary** over a five-member union,
+  leaving three levels unreachable — the record can express states the
+  producer can never emit;
+- the `none` value scores zero of that dimension's eighteen points, so an
+  unassessed project ranks as a failing one;
+- and it is rendered to the reader as a **sentence asserting the absence** —
+  a blocker line telling the user this project has no monitoring bound.
+
+An absent measurement is thereby published as a definite negative claim
+about a real project, which is
+[unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value) at the
+type level in eleven places at once.
+
+Two further asymmetries fall out of the same read. The evidence fields per
+dimension are uneven — one dimension carries three, another two, another
+one, and one carries **none at all** — and the dimension with no evidence
+field is precisely the one whose level cannot be corroborated from the
+record. And the skip flag that the hand-maintained document does carry has
+no counterpart in the typed model, so a deliberate, reasoned skip is not
+merely unstructured there: it is **discarded at the boundary**.
+
+The pair is the argument for the technique in miniature. One project
+produced two independent shapes of the same error — an absence state
+degenerating to a boolean in the document, and to a definite value in the
+types — and neither was designed. Both are what happens when the
+non-satisfied side of an evidence field is added as an afterthought instead
+of enumerated as a vocabulary. The instrument that makes it visible is
+cheap and precedes any change to scoring or gating: add the not-assessed
+member, then count the dimensions holding it. That count immediately
+separates the absence claims that are findings from the ones that are
+guesses.
+
 ## What this application cannot claim
 
 Both arms measure **readability of the record**, not compliance: no
