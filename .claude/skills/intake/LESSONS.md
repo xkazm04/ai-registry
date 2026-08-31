@@ -3316,3 +3316,79 @@ different jobs with different risk profiles and they currently share a brief, wh
 resolves the conflict in favour of the safe half every time. The scorecard row would then
 carry which lane got write access, making the decision visible at dispatch rather than
 inferable from a zero six phases later.
+
+## 1.3.1 - 2026-08-31 - voltagent-awesome-ai-agent-papers, wave 3
+
+The wave that changed what the ranking is FOR, and it was the highest-yield change the
+lane has made. 8 of 8 lanes worth a slot against wave 2's roughly half.
+
+- **Rank OUR enumerations, then match references to them.** Waves 1-2 both landed
+  almost entirely from hunting the corpus's own completeness claims - a stated ranking,
+  a stated inventory, a stated "what this does not buy" - while the papers mostly said
+  which claim to open. Wave 3 inverted the ranking accordingly: it read `agent-memory`'s
+  five stated enumerations first and picked references positioned to test them. Result:
+  two independent three-way convergences, where topic-ranked waves produced one
+  two-way each. The banked redesign proposal from wave 2 is now applied in practice
+  and should be written into Phase 2c step 3 if a second reference-index run repeats it.
+- **An abstract paraphrase does not merely carry zero ranking signal - it
+  systematically mis-ranks MEASUREMENT papers downward**, because abstracts are written
+  to sell the framework. The run's single best return would have been skipped on its
+  annotation: a "reframes memory as dynamic decision-making" abstract concealed a stage
+  ablation over working memory, the durable store, supersedence and forgetting, plus a
+  limitation section that converged with our provenance obligation from the optimization
+  side. New rank signal, cheap to check: **does the reference have an ablation table and
+  a limitation section?** Prefer annotations promising a mismatch, a negative
+  correlation or an ablation over those promising an architecture.
+- **A headline number does not survive a relay.** This run committed a lead saying a
+  paper published a "43% detection base rate"; the paper says generic detectors *miss*
+  43%, n=200, on a claim type that is 13.8% of its taxonomy. It came from a wave-2
+  worker's second-hand impression of a reference it had not read, and the sign flipped
+  in one hop. The corroboration section already says a relay is downstream of its
+  primary; the operational form is narrower and sharper: **the run that LANDS a number
+  must have read the sentence containing it.** A lead may carry a claim; it may not
+  carry a figure.
+- **Third denominator inflation in three waves, which is convergence.** "48,000
+  scenarios" that were 300 base cases under ~160 conditions; "1,187 bug reports" that
+  were 73% help-desk posts; "1,847 queries" whose observation unit was 24 self-reporting
+  analysts. Past the threshold for a rule rather than a third log entry: **establish the
+  observation unit before quoting any count, and expect the largest number in a paper to
+  be its corpus size rather than its evaluation size.**
+- **The `ledger` lock covers the append, not the commit - and those are different
+  critical sections.** This run appended its scorecard row under the lock, released, and
+  a sibling's commit swept the uncommitted row into their message minutes later. The
+  content landed intact; the attribution did not. Either append and commit inside one
+  hold, or accept that shared-ledger rows may land under a neighbour's commit and stop
+  treating `git log` as the record of who wrote a row. The board record is the honest
+  index; the commit is not.
+- **Subject-level board claims are the right granularity for announcing and the wrong
+  one for blocking** - confirmed a second time. `model-routing` was held all run while
+  the file this run needed sat untouched. The pairing that works: the board says who is
+  in the neighbourhood, `git status` says whether the specific file is contended.
+- **`research-map` was blind three times, and the third measured its cost.** Fourteen
+  techniques across two `civic-intelligence/accountability-method` subjects own claim
+  verification completely, and every `llm-agent` query missed them, so the agent lane has
+  been re-deriving that material from finance-ML papers. `--prose` now reads document
+  bodies. Two things to keep from building it: the first weighting was wrong in a way
+  that made the fix invisible - a subject sharing the single word "verification"
+  outranked a subject whose prose carried the whole concept, so **a retrieval fix is not
+  done when it scores, only when it ranks** - and its limit is real and recorded: it
+  helps where vocabulary overlaps and not where it does not. It raises the floor; it is
+  not a semantic index.
+- **The bottleneck moved from discovery to landing, and the wave machinery is what
+  moved it.** Three waves produced 13 landed amendments against roughly 30 verified
+  candidates. That gap is the wiki anti-pattern in a new form: not techniques with no
+  apply row, but findings with no landing. A fourth wave would widen it. When a wave's
+  candidate count outruns the session's landing capacity by more than about two to one,
+  the honest next move is to land or to hand off, not to mine.
+
+### Redesign proposal - not applied
+
+Apply 0 twice in a row now, and both times for the same structural reason rather than a
+skipped step: the findings are rules about **how a number is produced**, and the fleet
+has no project that produces that kind of number - no memory comparison, no structural
+extractor, no tolerant comparator. Phase 7.5 assumes every technique has a seam in
+running code. A whole class does not: measurement-discipline techniques have their seam
+in *another measurement*, and the only honest A/B for them is a re-analysis of a study,
+ours or someone else's. If a third run reports apply 0 for this reason, Phase 7.5 needs
+a fourth mode - `re-analysis`, whose A and B are two readings of one published protocol -
+rather than continuing to record these as unapplied.
