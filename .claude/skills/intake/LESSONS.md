@@ -3977,3 +3977,48 @@ measurement.
   the content**, and the ledger's own bank is the better predictor of which holds the
   material. Wave 2's ranking used the title.
 
+
+## 1.4.0 - 2026-08-31 - arxiv-2606-10106-agent-harness-definition
+
+- **Mine a paper's "future work" against the corpus before mining its contribution.** A
+  paper's stated open problems are a free, high-precision list of things an author who
+  just surveyed the field believes nobody has solved, and checking that list is one grep
+  each. It resolves two ways and both are worth more than the paper's positive claims. If
+  the corpus holds the answer, that is the strongest already-covered signal available -
+  stronger than any slug match, because the author *looked* and reported an absence. If it
+  does not, the gap is a lead vouched for by a survey rather than by our own map. This run
+  is the clean case: the paper closes on "an evaluation that isolates the harness's
+  contribution, controlling for the model, is missing" and leaves it as future work; it is
+  `eval-harness/unaided-baseline-screening`, shipped, with an operational trigger. Same
+  shape one level up - the paper *admits* its validation was near-tautological (six systems
+  chosen for already being harnesses, all passing), which is `quality-gates/gate-liveness`
+  as a practice. **The section a paper is least proud of is the one to read first**, which
+  is the paper-class analogue of the demo rule already in the method: the segment a source
+  is proudest of is where its boundary is missing.
+
+- **`paper` has a definitional subclass, and its expected yield is near zero.** The class
+  entry already says a paper is authoritative for *its measurement, in its protocol* and
+  weak for its framework. This source is the limiting case - a conceptual analysis with no
+  measurement anywhere in it, over a corpus of grey literature, which by the tiering rule
+  is commentary about primaries rather than a primary. The tell is cheap and available from
+  the abstract: **it proposes a definition, a taxonomy or a vocabulary, and its validation
+  is that the definition classifies known cases consistently.** That validation is
+  near-tautological by construction, and the honest expected yield is 1-2 leads and a pile
+  of catches. Saying so before the triage table is what kept eight catches reading as
+  calibration rather than as a failed run. Worth adding to `source-classes.md` as a
+  sub-class of **paper** on a second sighting.
+
+- **Third consecutive confirmation that a near-empty is a seam, and the first with a clean
+  count: 3 of 3.** `verifier` (2 weak hits, both in other bundles), `guardrail` (1, in
+  `recruiting`), `containment sandbox` (4 spurious) - every one of them was a concern living
+  inside `hitl-approval`, `quality-gates` or `eval-harness` under a different name. Believing
+  the three near-empties would have minted four duplicate techniques into a corpus that
+  states each rule more sharply than the source does. The existing rule needs no edit; this
+  is the sighting that should promote it from lesson to method text on the next one.
+
+- **A run can land nothing and still owe the scorecard a distinction the scorecard cannot
+  express.** `landed 0 because the corpus already owned every candidate` and `landed 0
+  because the run failed to convert its picks` are opposite results and render identically
+  in the five stage counts. Recorded under the table rather than as a method edit, because
+  fixing it means changing the row format every parallel sibling is appending to - a change
+  that needs a version bump and a fleet that is not mid-flight.
