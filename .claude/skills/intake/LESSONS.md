@@ -4022,3 +4022,91 @@ measurement.
   in the five stage counts. Recorded under the table rather than as a method edit, because
   fixing it means changing the row format every parallel sibling is appending to - a change
   that needs a version bump and a fleet that is not mid-flight.
+
+## 1.4.0 - 2026-08-31 - agent-loops-to-structured-graphs (arXiv 2604.11378)
+
+- **A source that disclaims its own evidence is still worth mining, and the class rule
+  predicts exactly what for.** This was a position paper that says twice that it has no
+  results. By the class entry that makes it "the class's marketing" - and the yield came
+  from the four things a framework paper carries that are *not* framework: a failure
+  taxonomy, two proved propositions, a self-declared boundary table, and a survey. Saying
+  the expected yield out loud before triage (1-2, amendment-shaped) made a 1-landing run
+  read as calibration rather than as a thin result. The class rule works; the mistake
+  would have been to skip the source because its headline claim authorises nothing.
+- **The enumeration hunt found the landing, and the enumeration was in the technique's
+  own honest-split section.** `graph-validation` explicitly divides defects into
+  provable-at-the-door and named-run-time-check, and names the space between them as what
+  "must never exist". That is a completeness claim about a *partition*, and the question
+  it invites is not "is the middle handled" but "is the partition exhaustive". It was not:
+  a defect that never causes a failure is in neither half. **A partition stated as a
+  virtue is a stronger hunting ground than a list**, because the author has committed to
+  covering the space rather than to covering N items.
+- **A subject's standing assumption can hide in its boundary prose for months.** Every
+  document in `pipeline-dag` is written for a graph *the user authored* - the golden path
+  says "the user drew fifty edges", the technique opens "a document the user authored" -
+  and that assumption is load-bearing for the finding: the defect class is nearly harmless
+  for an authored graph and becomes a rate under a planner. The boundary statement that
+  makes a subject well-scoped is also the place its untested premise lives. Worth reading
+  boundary prose as a *claim* rather than as scope.
+- **The apply step produced the technique's best rule, not just its verdict.** The inert
+  edge - an edge that cannot fail still counting in a ratio's denominator, silently capping
+  the scale - was not in the source. It came out of running the A/B and asking why exactly
+  five nodes differed. The method already says a contradicted source is the best case; this
+  is the adjacent case: **an apply step against real code can return a rule the source never
+  had**, and the technique should be edited from the apply's return before it is committed,
+  not treated as finished at Phase 7.
+- **Purity greps must include the *project's* vocabulary, not only the source's.** The
+  grep caught "wound" - the consumer tree's internal word for a cascade failure - sitting
+  in the new technique's `use_when`, where it had arrived by osmosis during the seam
+  reading. The method's Phase 7 review names the source's vocabulary as the grep target
+  ("a game-design source is made of game titles"); in a run that also opens a tree, the
+  tree's nouns are the likelier leak, because they are the ones being read at the moment
+  of drafting. Grep both.
+- **The index lock does not give you a private tree, and this run hit the case the method
+  warns about.** Regenerating produced an `index.json` referencing four siblings'
+  uncommitted techniques eight times. Committing it would have baked their WIP into a hash
+  under this run's name. Content committed, `index.json` and `catalog.json` left dirty -
+  and the counts in the regeneration output (`1064 -> 1069` techniques for one added
+  document) are the cheap tell that this is happening, visible before any grep.
+
+## 1.4.0 - 2026-08-31 - agent-harness-design-decisions
+
+- **A paper source has a landing page too, and `research-ingest` exits 0 on it.** The
+  `/abs/` URL for an arXiv paper returns the abstract plus site chrome - 661 words here,
+  against 16,055 in the `/html/<id>v1` full text, a 24x gap. Exit code 0, no thin-source
+  warning, nothing to distinguish it from a successful ingest of a genuinely short source.
+  This is Phase 2b's README rule in a class that has no clone step, and the run-level trap is
+  sharper than for a repository: a README at least advertises a tree, whereas an abstract IS
+  the paper's own summary of itself, so triaging off it produces candidates that read as
+  perfectly reasonable findings. `source-classes.md` already says the per-paper budget is
+  "abstract, then full text"; what neither file says is that **the ingest of an abstract URL
+  is indistinguishable from success**. The tell is the same one Phase 2b uses - a `words:`
+  under ~2,000 on a source described as a 35-page paper with 13 tables - and the fix is a URL
+  rewrite, not a fetch decision. Recorded rather than applied: the rule generalizes past
+  arXiv (a journal DOI landing page, a conference abstract page) and the right edit is a line
+  in the paper class entry, which is worth doing with the next paper source rather than from
+  one sighting.
+
+- **The declared focus worked as a mechanism, and the row it produced rules blockers out
+  rather than merely naming one.** Phase 1 step 5 cost one file read and changed the shape of
+  the scorecard row: the apply reached `better`, and the row names `confirmation` *and*
+  says why it is not `size`, not `indeterminacy` and not `environment`. Naming the class is
+  cheap; excluding the other three is what makes the zero readable six weeks later, and it
+  took about two sentences. Worth carrying into the next row's expectations.
+
+- **The re-read-inside-the-ledger-lock rule paid visibly, with a measurable number.** The
+  scorecard's last data row was at line 144 when I read the file at Phase 1 and at line 176
+  when the lock opened - 32 lines of sibling appends in between, across three ledgers. An
+  append computed from the Phase 1 read would have silently destroyed them. This is the first
+  entry in this file able to quantify the gap rather than assert the risk, and 4 live siblings
+  is a modest fleet by current standards.
+
+- **The apply step falsified my own prediction for the fourth time in six runs, and the
+  falsification was the useful half.** I expected a `Math.min(x, 100)` clamp to be the defect;
+  it fires in 9 of 101 flagged states and never in the shipped configuration. The defect was
+  the denominator and the clamp was only its fingerprint - a distinction that matters because
+  removing the clamp changes nothing and *looks* like a fix. The generalizable form: **a
+  defensive coercion is evidence that an impossible state is reachable, not the reason it is
+  reachable.** Worth watching for a second sighting before it becomes method text; it is close
+  to the corpus's own "defaulting to zero at a read site is the most common laundering point"
+  and may belong there rather than here.
