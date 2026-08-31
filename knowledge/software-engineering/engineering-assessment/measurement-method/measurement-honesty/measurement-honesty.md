@@ -11,6 +11,7 @@ techniques:
   - renormalize-over-present
   - incomplete-not-verdict
   - lower-bound-disclosure
+  - co-published-numbers-must-reconcile
 ---
 
 # Measurement honesty
@@ -62,11 +63,11 @@ checks can refuse, at what severity, in which pipeline stage. This subject
 supplies the honest input a gate reasons over, and stops at the point where
 the decision to block belongs to the gate.
 
-## A datum has five states, not two
+## A datum has six states, not two
 
 The naive model of a measurement has two states: present, or null. That model
 is the root cause of most of this subject's failure modes, because it forces
-four genuinely different facts through one channel. A system that reports
+five genuinely different facts through one channel. A system that reports
 honestly can distinguish:
 
 1. **Measured, non-zero** — the ordinary case.
@@ -78,6 +79,11 @@ honestly can distinguish:
 4. **Not yet measured** — a pending state. The instrument exists and will run.
 5. **Measurement failed** — the instrument ran and errored, or the source
    refused. An incident, not a datum.
+6. **Refuted** — the instrument ran, returned a well-formed value, and another
+   number the same system publishes proves that value cannot be true. A joint
+   frequency larger than its own marginal; a part exceeding its whole; a rate
+   that does not recompute from the numerator and denominator printed beside
+   it.
 
 States 2 and 3 are the pair that costs the most, because they are the pair
 that arithmetic conflates by default and that *look* identical to a reader:
@@ -93,6 +99,21 @@ The bar is: name the mechanism, or the zero stands.
 States 4 and 5 differ by whether anyone is on the hook. Collapsing them
 produces the worst operational outcome available — a broken collector that
 looks like a queue, forever.
+
+State 6 is the one the other five cannot absorb, and it was added late because
+it is invisible from inside a single number. Nothing errored, so no incident
+fires; the value is well-formed and in range, so it renders exactly like a
+measurement that earned every digit; and the instrument that produced it has no
+way to know, because the number that refutes it was produced somewhere else.
+The honest handling is unlike all five above: the value cannot be published,
+but it also cannot be called unmeasurable or failed, and — critically — **you
+do not yet know which of the two conflicting numbers is the wrong one**, so the
+finding is the *pair* rather than either member of it.
+[co-published-numbers-must-reconcile](./techniques/co-published-numbers-must-reconcile.md)
+covers the constraints worth asserting, why a joint frequency bounded by its
+marginal is an identity rather than a heuristic, the related defect of
+evidencing a metric with an object it is not defined over, and why this is the
+class of error that review reliably fails to catch.
 
 ## The denominator decides how many digits you own
 
@@ -244,12 +265,15 @@ that they do. Two rules follow:
 - Confidence derives from acquisition success rate; counts that can only be
   undercounts are published as declared lower bounds.
 - Where two readings are arguable, the lower one ships.
+- Numbers published together are checked against each other before release, by
+  assertions living beside the emitter; a pair that cannot both be true blocks
+  on the pair, not on a guess about which half is wrong.
 
 ## The techniques
 
-- [unmeasurable-vs-zero](./techniques/unmeasurable-vs-zero.md) — the five states
-  of a datum, and the conservative named-mechanism test that separates "we
-  cannot see it" from "there is none".
+- [unmeasurable-vs-zero](./techniques/unmeasurable-vs-zero.md) — the measured,
+  unmeasurable and pending states of a datum, and the conservative
+  named-mechanism test that separates "we cannot see it" from "there is none".
 - [minimum-sample-floors](./techniques/minimum-sample-floors.md) — the stated
   denominator below which a derived rate is not reported, how to set it, and
   how to refuse usefully.
@@ -265,3 +289,7 @@ that they do. Two rules follow:
 - [lower-bound-disclosure](./techniques/lower-bound-disclosure.md) — publishing a
   structurally undercounting tally as an explicit floor, and the under-claim
   rule for ambiguous levels.
+- [co-published-numbers-must-reconcile](./techniques/co-published-numbers-must-reconcile.md)
+  — the arithmetic constraints a set of numbers published together creates, the
+  identity that bounds a joint by its marginal, and why a failed reconciliation
+  is a finding about the pair rather than about either number.
