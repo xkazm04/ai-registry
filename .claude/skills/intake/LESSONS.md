@@ -2591,3 +2591,58 @@ lane" and "the operator is sitting here to be asked."
 Not applied in this version - it changes the invocation surface and eight sibling runs
 were live on the board while this was written. A mid-flight run should do nothing about
 it and finish on the version it loaded.
+
+## 1.3.0 - 2026-08-31 - claude-of-tanks-geometry-gate
+
+- **The dated-addendum contract is the highest-yield document class this method has
+  met.** Not "a repository has docs" but a narrower tell: a contract file whose sections
+  are numbered *and* carry the directive date plus the incident that caused each. That is
+  the release-walkthrough property - a change carries its own motivation - preserved in a
+  repository instead of a talk. Thirteen such addenda produced four of six techniques,
+  while the 26,981-word landing page produced none. When the sweep finds one, read it
+  before the code and before the README.
+- **Read the postmortem before the lessons file when hunting corrections.** A repository's
+  lessons file explains why the current rules exist and is therefore written from the
+  winning side; the postmortem is written from the losing side and names root causes the
+  rulebook has already absorbed and stopped arguing with. Both of this run's strongest
+  leads came from the postmortem, including one that contradicts standard doctrine (small
+  commits give no protection when N of them share one global assumption). Phase 2b's sweep
+  order lists operating documents as one bucket; postmortems deserve to be called out
+  inside it.
+- **The category cap is a placement authority, and Phase 4's `HOME IF NEW` does not know
+  about it.** The instrument pointed at `asset-production`, my own reading agreed, and both
+  were wrong: the category sat at exactly ten child directories, so an eleventh subject
+  there is a gate failure rather than a preference. The 2026-08-22 lesson said to verify
+  structural claims against `taxonomy.json` rather than a subject count; this run shows the
+  same check is owed even when nobody wrote a spec, because `HOME IF NEW` reads like an
+  answer. Count the child directories before writing the first file - and note that the cap
+  forced a *better* home, since the techniques transplant across asset types.
+- **An A/B can refute the technique it is testing, using that technique's own rule.** The
+  arm-B probe added a second anchor that was stricter, differently coded, and read the same
+  representation as arm A - so both its catches were its own parser's artifacts. That is
+  precisely `dual-anchor-scoring`'s third decision rule, which I had written an hour
+  earlier and then violated. Worth generalising: **when a run applies a technique it landed
+  in the same session, check the application against the technique's own decision rules
+  before reporting a verdict** - the author is the reader least likely to notice they are
+  the counter-example.
+- **Ship-0 is two different outcomes and the scorecard has been summing them.** A `better`
+  verdict that never shipped is blocked; a `not-better` verdict that never shipped is
+  finished. Four consecutive rows of the first kind made ship look like a standing failure,
+  and a stage that is always red stops steering. Scored against *`better` verdicts that did
+  not ship*, the denominator is honest. Applied to the focus paragraph in `SCORECARD.md`,
+  not to `SKILL.md` - one observation, and the blocked cases remain the majority.
+- **`apply` as a bare count hides coverage.** A run that lands six techniques and applies
+  one reads `0c/1e/0s`, identical to a run that landed one and applied it. Five wiki pages
+  are invisible in that notation. Next row writes `<rows>/<landed>`.
+
+### Redesign proposal - not applied
+
+Phase 7.5 budgets "one project per finding per run", which reads as a ceiling and behaved
+as one: this run stopped at a single apply because the budget language made the sixth
+technique's row feel optional rather than owed. The anti-pattern list already says a
+technique with no applied row is a wiki page. Those two are in tension, and the budget
+wins by being concrete. A future version should make the *unit* of the budget the landing
+rather than the finding - a run that lands N techniques owes N rows, and the budget caps
+the mode (simulation is always reachable) rather than the count. Not applied in this
+version: five sibling runs were live on the board, and this changes what every one of them
+owes mid-flight. A mid-flight run should finish on the version it loaded.
