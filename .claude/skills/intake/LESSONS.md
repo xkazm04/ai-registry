@@ -3152,3 +3152,102 @@ and it is a redesign, not an adjustment.
   second source rather than a checkbox; the pattern is now strong enough that the apply
   step should probably be described in SKILL.md as a corroboration lane, not only as a
   proof lane.
+
+## 1.3.1 - 2026-08-31 - whatwg-html
+
+- **A new source class arrived and the method has no row for it: the *standard
+  repository*.** It is the only class so far that sits at the top of the
+  corroboration table on its own — a primary normative document, so its statements
+  about its own conformance model *authorize* rather than merely originate, and
+  the 3-fetch budget is irrelevant because there is nothing upstream to check it
+  against. Its yield profile is unlike every other repository class and inverts
+  twice. Against the landing page: 302 words versus 717,109 in-tree, **2,374x**,
+  the sharpest the ledger holds by two orders of magnitude. And *inside* the tree:
+  711,540 words of normative text produced **zero** landings, while ~120 words of
+  editorial notes plus a 5,472-word FAQ and contributor guide produced both. The
+  reason is structural rather than incidental — **a standard's subject matter is
+  un-strippable by construction.** Its substance is element names, attribute
+  names, algorithms for one format; the strip test kills all of it, every time. So
+  the extraction lane for this class is never the specification, it is the
+  meta-layer: how the specification is engineered as an artifact, which lives in
+  the contributor guide, the FAQ, the change template, and the editorial notes.
+
+  ### Redesign proposal — the row, ready to paste
+
+  For the routing table in SKILL.md:
+
+  | **standard repository** | is this the normative text of a specification, maintained in the open? | its own conformance model, its change process, and the annotations it defines for itself - never its subject matter |
+
+  And for `references/source-classes.md`, the operative instruction, which is the
+  part that would have saved this run an hour: **do not read the normative text —
+  grep it for its annotation vocabulary.** A mature specification defines
+  marked-up concept classes for itself (a term for deliberate deviations from
+  other standards, a term for privacy-relevant features, a heading class for
+  guidance addressed to checkers rather than authors) and every one of them is a
+  hand-built, curated, enumerable index into exactly the places where its
+  engineering doctrine is written down. `grep -c` over each marker gives the yield
+  before a single paragraph is read. Both landings here came from two such
+  markers; the 711,540 words around them contributed nothing.
+
+  Not applied to SKILL.md this run on purpose: five siblings were live and one had
+  just committed a skill-lessons change, and the method's own rule is not to edit
+  the file from two runs in one afternoon without reading the other's diff. This
+  is a lesson with the edit pre-written, for whoever bumps next.
+
+- **The board changed what was mined, for the first time on the record.** The
+  method has said since 1.2 that a source whose obvious home is a subject a
+  sibling holds should be "routed elsewhere or mined for its other half", and this
+  is the first run where that actually fired and mattered. A sibling held
+  `quality-gates` while mining the process repository of the *other* major web
+  standard. The obvious extraction here — the change-admission gate (independent
+  implementer interest, plus a filed obligation in the test suite, in each
+  engine's tracker, in the mapping specifications, in the docs site) — is the
+  canonical staged-advancement material, and that sibling's source is the better
+  *authority* for it, not merely the earlier claimant. So it was recorded
+  untriaged with its anchor and both landings came from material that source does
+  not carry.
+
+  The refinement worth carrying: the routing rule currently reads as collision
+  avoidance, and the useful version is **authority comparison**. When two live
+  runs can both reach a finding, the one whose source is the primary for it should
+  take it, and the other should say so in its untriaged table rather than racing.
+  That is a better allocation than "first claim wins" and it costs one line.
+
+- **Two candidates shared a root and were deliberately NOT merged — and saying why
+  is the same discipline as merging.** The standing critique asks the skill to
+  synthesise, and the last two runs did (cline merged two candidates into one
+  technique; the ledger praised it). This run reached the same fork and went the
+  other way: an authoring-side inability marker and a maintainer-side deviation
+  register are both "a true known violation, declared in band, not reported as
+  news", and the decision rules still do not overlap — different actor, different
+  failure mode (an undetectable fabrication versus a repair that reintroduces the
+  avoided problem), different required fields. The lesson is that the synthesis
+  step needs a stated *test*, not a preference. The one used here: **merge when
+  the two candidates would share a decision rule; keep them apart and cross-link
+  when they share only a shape.** Written into both files as an explicit
+  discriminator so a later run recognises the pair instead of re-litigating it.
+
+- **The apply step disproved the premise it was set up to test, and the finding
+  got stronger.** The tree was picked to measure a gate manufacturing fabrications
+  and turned out to have no such gate — 21 hand-written lint rules, none touching
+  the field — while carrying the fabrication at 55.6% of the population anyway. A
+  run that had scoped the experiment to "find the gate, measure its output" would
+  have reported *no seam* and moved on. Scoping it to the *population* instead
+  (every element the rule would govern, two predicates, same instrument) is what
+  let a disproved premise become a measured correction to the technique. Sixth
+  consecutive run where the A/B tree acted as a second source; the previous
+  lesson's proposal — describe the apply step in SKILL.md as a corroboration lane
+  and not only a proof lane — now has its third sighting and should be applied.
+
+- **A parallel-run failure worth a Phase 10 line: a pathspec commit that omits the
+  shared spine.** A sibling committed two techniques and two applications to
+  `main` without `quality-gates.md`, so `HEAD` carried two techniques its golden
+  path did not list — a bidirectional-link break that no gate could see, because
+  every checker reads the *working tree*, where the edit was present and green.
+  This run inherited the file, added its own section, and committed the whole
+  thing (said so in the message). The rule the method is missing: **when a landing
+  edits a golden path, the golden path is part of the pathspec, and the HEAD
+  verification must check the roster and not only the technique file.** Phase 10
+  already says to verify with `git grep <slug> HEAD`; verifying the *slug* passes
+  while the declaration is missing, because the slug is in the file you did commit.
+  Verify the golden path names it, in `HEAD`, as a separate check.
