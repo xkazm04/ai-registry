@@ -62,3 +62,40 @@ cheap grep-shaped proxy estimated 79% tree-wide, within ten points of the compil
 and conservative by construction, which removes the usual reason the cleanup never
 starts. Nobody chose the 829:6 ratio; it is the sum of 835 local decisions none of
 which was about retirement.
+
+## 2026-08-31 - intake(pgrust): a third rot axis, named in the file's own prose
+
+`suppression-hygiene` enumerates **two** rot axes and says so in a sentence that
+reads as complete: stale-match reaps entries whose *target* died, the reaper clause
+reaps entries whose *justification* died. Both are properties of the entry as
+written, and the technique is thorough about both.
+
+The third is a property of the world the entry sits in: **an entry whose target is
+alive and whose reason still holds, but whose reach grew.** The file already names
+the hazard - a pattern that outlives its author "will eventually re-match something
+new, silently exempting code its author never saw" - and has no instrument aimed at
+it, because the only check pointed that way fires on entries matching *nothing*.
+
+Corroborated by within-source convergence across three subsystems written by
+different workstreams in one tree: a differential oracle's known-wart list ("a wart
+hit is counted - suppressed, never invisible"), a lint's exemptions file ("prints
+each exemption it applies… never skips one silently"), and a training-corpus
+quarantine ("prints a loud line for every exclusion, so it cannot rot into
+silence"). Three surfaces, one rule.
+
+**Measured on a managed project, and the tree had already paid for it.** A lint debt
+ratchet whose committed baseline states its own predicate - population = repository
+minus the ignores block - carries one entry removing **305 of 677 files (45%) and 19
+live warnings**, with neither number in any output. The entry is correct and its
+comment records the incident that produced it: a second checkout doubled every
+bucket, the ratchet went red, and *the gate could not say the rise was reach rather
+than debt*, so it read as "you added fourteen hook violations" and pointed at a
+refactor nobody needed. Reach was never a number. Structural fact nobody designed:
+that entry's reach is set by how many agent worktrees exist that day, so it moves
+with no commit touching config, baseline or source.
+
+The corrective is a count taken where the entry fires, and the strongest form is the
+one this project already has for findings and not for reach - a committed count the
+run compares against, which turns the axis into an ordinary ratchet. Adjacent from
+the other side: `quality-gates/severity-by-construction` owns the enforcement-vs-display
+two-channel model for **flags**; neither subject owned an entry's firing volume.

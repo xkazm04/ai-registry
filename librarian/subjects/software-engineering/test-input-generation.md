@@ -96,3 +96,39 @@ matching*. For this subject, map on mechanism, never on the word.
   across seven projects use any recorded-output assertion. Return when one does;
   the amendment is unapplied by absence, not by judgement.
 
+
+## 2026-08-31 - intake(pgrust): what the reference oracle cannot be asked
+
+`model-based-oracle` was forged the same day by a sibling run and is strong. Its
+disqualifier list ends with "when the behaviour is the reference… compare against
+that one rather than writing a third" - correct about cost, and silent about reach.
+That silence is the amendment.
+
+A model written from the specification fails **independently**, so its being wrong
+is a visible event. A reference implementation cannot: the artifact was derived from
+it, so every faithfully reproduced defect produces agreement, and agreement is what
+correctness produces too. `one-authority-per-vocabulary` at its degenerate case - the
+reference became the sole authority and nothing left in the system can contradict it.
+The consequence for reporting is narrow and load-bearing: a campaign of this shape
+establishes **no divergence from the reference**, never correctness, and N behaviours
+"proved equivalent" is N behaviours proved equal to something whose own correctness
+was never tested.
+
+Remedy from the source and written against the mechanism rather than its vendor
+claims: **make the reference disagree with itself** by running the same comparison
+under a condition it is not invariant to - a second platform, toolchain or version.
+Where behaviour is implementation-defined rather than specified, the two runs
+disagree with each other while each stays faithful to its local reference, and that
+split is visible to the harness already in hand.
+
+**Three real cases from a managed project's history decided it**, and the first
+hypothesis was wrong: I expected the non-default backends to be env-gated out of CI;
+the workflow runs all three and marks two required, which one command settled. Case 1
+is the discriminator - usage caps rode a trait's default check-then-insert, **the
+embedded backend overrode that default and was green**, and the hosted backend
+admitted 8/8 against a cap of 4 under a live burst. A single arm there is not merely
+silent, it is *actively reassuring*, because the implementation it exercises has
+already fixed the defect privately. **Negative structural fact**: that tree has no
+designated reference at all - its authority is a written suite, the configuration
+this technique calls correct - so the amendment's ledger clause has nothing to
+attach to. The mechanism transferred; the vocabulary did not.

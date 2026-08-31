@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 155,
-  "techniques": 1079,
-  "applications": 563,
+  "techniques": 1080,
+  "applications": 566,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1079/1079",
+  "use_when_coverage": "1080/1080",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5705,6 +5705,13 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "suppression-hygiene",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/next--suppression-hygiene.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@16.3.3"
+    },
+    {
      "stack": "node",
      "technique": "instrument-per-orphan-class",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/node--instrument-per-orphan-class.md",
@@ -8001,7 +8008,9 @@
       "an agent-based system failed and both the prompt and the model look correct",
       "designing the change a failing class calls for",
       "an optimizer or agent is proposing harness changes and nothing says how many at once",
-      "a model upgrade landed and the harness still carries the previous model's workarounds"
+      "a model upgrade landed and the harness still carries the previous model's workarounds",
+      "a failing class does not move when the instruction is made stricter",
+      "deciding whether a residual model failure is worth a stronger model"
      ]
     },
     {
@@ -9290,7 +9299,9 @@
       "a reviewer approves everything and cannot say what they checked it against",
       "deciding whether a reversible-but-opaque change needs a gate",
       "a review queue is ordered by impact and effort alone",
-      "an approval rate sits near 100% and the items are not obviously safe"
+      "an approval rate sits near 100% and the items are not obviously safe",
+      "an unverifiable item was split into smaller items that are each still unverifiable",
+      "deciding at which artifact altitude a reviewer should be shown the work"
      ]
     },
     {
@@ -11193,6 +11204,22 @@
      ]
     },
     {
+     "slug": "tuning-corpus-disjointness",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an artifact was optimised against a workload you chose and is measured on a workload you publish",
+      "deciding whether a speed or quality number is partly a measurement of its own tuning",
+      "a threshold or heuristic was fitted on a sample and reported on a benchmark",
+      "publishing a number produced by a build step that consumed a corpus"
+     ]
+    },
+    {
      "slug": "unmeasurable-vs-zero",
      "status": "forged",
      "laws": [
@@ -11219,6 +11246,13 @@
      "technique": "minimum-sample-floors",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--minimum-sample-floors.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "tuning-corpus-disjointness",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--tuning-corpus-disjointness.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -19168,6 +19202,13 @@
     },
     {
      "stack": "rust",
+     "technique": "model-based-oracle",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--model-based-oracle.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
      "technique": "seed-is-not-a-reproduction",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--seed-is-not-a-reproduction.md",
      "verified_on": "2026-08-31",
@@ -20801,6 +20842,7 @@
     "mcp-tools/transport-selection",
     "mcp-tools/untrusted-result-handling",
     "measurement-honesty/incomplete-not-verdict",
+    "measurement-honesty/tuning-corpus-disjointness",
     "metric-forecasting/projection-presentability-gates",
     "migrations/error-propagation",
     "migrations/idempotent-steps",
@@ -21168,6 +21210,7 @@
     "mcp-tools/tool-schema-design",
     "measurement-honesty/incomplete-not-verdict",
     "measurement-honesty/renormalize-over-present",
+    "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unmeasurable-vs-zero",
     "media-playback/engine-adapters",
     "media-playback/source-resilience",
@@ -21630,6 +21673,7 @@
     "measurement-honesty/minimum-sample-floors",
     "measurement-honesty/noise-band-and-hysteresis",
     "measurement-honesty/renormalize-over-present",
+    "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unmeasurable-vs-zero",
     "metric-forecasting/fit-confidence-honesty",
     "metric-forecasting/threshold-crossing-eta",

@@ -86,6 +86,56 @@ only where an external deadline genuinely is the condition — a certificate, a 
 sunset, a regulatory boundary. In those cases the date is not a stand-in for a condition; it *is*
 the condition.
 
+## The third rot axis: the entry whose reach grew
+
+The two axes named above are both properties of the entry *as written*. The
+target died, and stale-match failure reaps it; the justification died, and the
+reaper clause reaps it. Neither can see the third, and the third is the one an
+audit of the roster cannot detect at all: **an entry whose target is alive and
+whose reason still holds, but whose reach has grown.**
+
+The stale-match section already names this hazard without being able to act on
+it — a pattern that outlives its author "will eventually re-match something new,
+silently exempting code its author never saw." An entry that went from
+suppressing three findings to suppressing three hundred passes every check in
+this technique. It matches, so it is not stale. Its reason is still true, so its
+reaper has not fired. Its delegation note is still accurate about the class. And
+the instrument's coverage has collapsed while every audit on the roster stays
+green.
+
+**The corrective is one number: what each entry suppressed on this run, printed
+where the run's output is read.** Suppressed, never invisible. This is
+[failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)
+spoken in the suppression surface's own vocabulary — an entry doing exactly the
+job it was written for and an entry eating a hundred findings nobody has ever
+read produce the same silence, and only a count tells them apart.
+
+It is cheaper than it sounds, because the instrument already has the number. The
+finding was produced and then discarded, so the entry that discarded it is known
+at that instant; what is missing is almost always the printing, not the
+counting. Three forms work, in ascending strength:
+
+- a per-entry tally in the run's summary — enough for a person who goes looking;
+- a line naming the entry each time it fires — right for a surface with few
+  entries and expensive ones, and the form that survives being read in a log;
+- **a committed count the run compares against**, so an increase arrives as a
+  diff in review rather than as a number nobody reads. This is the strongest,
+  because it converts the axis into an ordinary ratchet and puts the change in
+  front of the person whose commit caused it.
+
+What to do with the number is a review trigger, not a gate. Hits growing is
+perfectly legitimate when the exempted surface legitimately grew — the vendor
+tree got bigger, the generated directory has more files. It becomes a finding
+when **the hits grew and the reason did not**: the entry is now covering a
+population its author never assessed, and the honest repair is to narrow the
+pattern back to what was assessed, not to write a wider justification for
+territory nobody examined.
+
+This pairs with the blind-spot roster below rather than replacing it. The roster
+says which class an entry hides and which instrument covers that class; the
+count says how much of it. A delegation to an instrument that genuinely exists is
+still worthless once the delegating entry's reach has outgrown the delegate's.
+
 ## Prefer the suppression that fails when the defect is repaired
 
 The strongest reaper is one nobody has to write, and it comes from choosing the suppression's
