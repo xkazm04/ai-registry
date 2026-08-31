@@ -7,3 +7,4 @@
 
 ### Redesign proposal
 - Phase 4/5 assume the forge's manifest shapes. The pair-spec runner + a `judge prepare/park` helper (blind maps, Gemini with model fallback, unblinding, pick-rate arithmetic) were rebuilt in the consuming repo this run; if a second repo needs them, they belong in the skill's references as a named contract (gen-spec.json / readbacks.json / judging-worksheet.json) rather than re-derived.
+- Control-arm cycles (challenger = a deliberate violation of a standing law) are the cheapest evidence a window can buy, but the gate reads backwards: the human must REJECT the challenger to confirm the law. Say so in the cycle's claim, or the verdict row will lie to the next reflection.
