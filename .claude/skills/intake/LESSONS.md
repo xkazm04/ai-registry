@@ -4208,3 +4208,55 @@ reads this should do nothing about it and finish on the version it loaded.**
   380 words on the landing page, 32,535 in the tree. Neither landing touched the
   README. Nothing new, just another data point for a rule that is already carried.
 
+
+## 1.4.0 - 2026-08-31 - github:TkDodo/pacer
+
+- **A forward pointer that resolves is not the same as a claim that is owned.**
+  The denial hunt is written as "where a subject explicitly denies a symmetry,
+  check whether it denied too much", and this run found a variant one step to the
+  side: the denial was correct, the exception it named was real, and the file it
+  forwarded to genuinely carried that exception - as one of three items on a
+  menu. Everything resolved. What nothing owned was the *precondition* that makes
+  the named policy reachable at all. **Following a cross-reference and finding the
+  concept present is where the check usually stops; the question worth asking
+  after it is whether the destination states the policy or merely offers it.**
+
+- **The word-count field lies on a generated-docs repository, and the lie is
+  flattering.** This tree's `docs/` is 116k words, of which 87k are generated API
+  reference across 267 files and 29k are authored guides across 21. Reporting
+  116k would have made the sweep look four times deeper than it was and would have
+  put the run's densest material in a 20% minority of its own count. The method's
+  repo rule says record honest counts on both sides of the landing page; it does
+  not say to **separate generated from authored inside the tree**, and on any repo
+  with a docs generator that is the split that matters. Cheap tell: a `reference/`
+  or `api/` subtree whose file count is an order of magnitude above the rest.
+
+- **A slice is only honest if it compiles on both sides of every boundary it
+  crosses.** The ship valve's `size` position says to ship the smallest honest
+  slice. This run had a tested, green, four-line-ish engine change and a caller
+  change in a second crate that could not be built for pre-existing environment
+  reasons. Shipping the tested half alone was available and would have been wrong:
+  it changes a type the other crate consumes, so it converts a build failure the
+  operator already has into a build failure the operator has *and* did not cause.
+  **`size` and `environment` can co-occur, and when the seam crosses a compilation
+  boundary the smallest honest slice is the whole change.** Recorded against the
+  valve table rather than as a new position.
+
+- **The evidence overlay recorded a defect as a design.** This subject's
+  consumer-side overlay described the project as "bounded depth with refuse-newest
+  shed" - accurate as a description of behaviour and wrong as a description of
+  intent, because refuse-newest was inherited from the check order rather than
+  selected. Overlays are generated from the consuming repo's own frontmatter, so
+  they inherit that repo's belief about itself. **An overlay line is evidence that
+  something is true of the tree, never evidence that anyone chose it** - which is
+  exactly the distinction this run's finding turned on, and it is worth knowing
+  that the overlay cannot carry it.
+
+- **Untested-intersection is a reusable hunt, and it is cheap.** Two well-tested
+  features whose *combination* is the actual policy: 8 priority tests and 7
+  capacity tests in the source, 34 tests in the project, and zero on either side
+  constructing both. It costs two greps once a candidate has a home, it produces a
+  concrete missing test case rather than an opinion, and it found the same hole
+  twice in two unrelated codebases in one run. Sits beside the missing-stage, the
+  enumeration and the asymmetry hunts in Phase 6; not promoted to the method yet -
+  **one sighting**.
