@@ -220,6 +220,30 @@ model can be talked into *saying* nearly anything; the architecture decides
 whether saying it makes anything happen. Design so that the worst fully
 successful injection yields an embarrassing sentence, not an action.
 
+**That ranking bounds action harms and is silent on disclosure harms, and the
+subject already knows it.** Two sections above, output flowing to a text surface
+is called *the attack proper: a secret recalled into prose*. Both statements
+cannot be load-bearing at once. Where the pipeline's deliverable **is** the
+model's prose — a report a person will act on, an answer in a regulated domain, a
+recommendation a reviewer signs — the capability ladder holds perfectly and buys
+nothing, because nothing downstream needs to act. The closed grammar admits
+"write the document"; the identifiers resolve, because the subject of the
+sentence is a real person the caller is entitled to; the human gate never fires,
+because the irreversible step is a human believing the text. An injection that
+makes the model recite a secret into prose has *fully succeeded* and taken no
+action at all. For that class the embarrassing sentence is not the floor, it is
+the exploit.
+
+So the last fence has two halves, and this section named only one. Against action
+harms it is capability: what the acting layer may **do**. Against disclosure and
+content harms it is **least privilege on the read side** — what the acting layer
+was allowed to have *read* before it began composing. A prose channel cannot leak
+what was never in its context, and that is the only categorical defense available
+on this side of the boundary; everything else is sanitization, which is
+probabilistic in exactly the way this section warns about. The discriminating
+question at design time: **is the deliverable itself the payload?** If yes, spend
+the budget on retrieval scope and context minimization, not on the acting door.
+
 That is also why the subject is **defense in depth by necessity, not by
 slogan**. No single fence survives contact: fences get forged, caps get limbo'd
 under, canaries get quoted innocently, sanitizers meet an encoding they did not

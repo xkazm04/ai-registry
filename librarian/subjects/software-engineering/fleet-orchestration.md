@@ -140,3 +140,35 @@ Phase 4's map came back clear. Technique file uncontended; golden-path
 - Lazy identity: allocate in memory, persist on first accepted turn. Sits
   beside `session-registry`. Return when a project grows an empty-session
   problem.
+
+## 2026-08-31 - reference-index run
+
+Touched by [[2026-08-31-voltagent-agent-papers]]. One amendment to
+`coordination-failure-triage`, which **corrects a sentence the technique publishes**:
+that the label set is small enough for an agent judge to do the bulk pass with human
+spot-checks.
+
+Half true, and the failing half is the load-bearing one. Measured on a corpus of
+developer-reported agent failures, the same judging agent with the same tools labelled
+the observable *effect* at roughly 0.86-0.90 F1 and the *root cause* at roughly
+0.45-0.57 on the same artifacts, agreeing with human annotators on 39% of held-out items
+from title and body alone. What a machine reads off a failure is what it looked like;
+the cause axis - the one that routes the fix - is the one it cannot read. Automate the
+symptom pass, keep cause attribution human, and treat a judge-built cause distribution
+as unlabelled data.
+
+**Board note.** The subject was held by a sibling at Phase 7 when the finding was ready.
+Per the operator's call the run waited rather than taking the content lock; the claim
+released after one poll and the amendment landed on the file as the sibling left it.
+
+Banked as leads rather than landed: blame attribution for a step in a failed multi-step
+run (nothing here assigns it, and four near-misses each decline the job - with the
+counter-refutation already in hand, since around 42% of failures are specification
+defects and the brief is not a step); the unqualified "warm context is the asset" in
+`hibernation-and-resume`; and the mid-run health verdict on a persistent member that is
+alive, responsive, inside every guard, and getting worse.
+
+**This subject also refuted the run's own premise.** `worker-trajectory-anatomy` is a
+measured trajectory-scoring technique (1,794 annotated trajectories, 63k steps, plus an
+independent 20,574-session field corpus) that wave 1 declared missing, on the strength of
+a proper-noun grep that a purity-gated corpus guarantees will return empty.

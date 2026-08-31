@@ -20,6 +20,31 @@ that fetches a web page, reads an inbox, lists issue titles, or summarizes a
 document is a channel by which whoever wrote that upstream content speaks to
 the model — with the model's tool belt within reach.
 
+**That premise selects one direction of the arbitration, and this technique
+implements only that one.** Every mechanism below *lowers* the weight of a
+result: fence it, attribute it, never re-promote it, validate its shape, gate
+what it may reach. None of them raises it. The excluded case is the honest tool
+returning a correct result that contradicts the model's prior — no attacker
+anywhere — and there the discipline has no opinion at all, so the model's prior
+wins by default. That default is a choice nobody made.
+
+It is also not a safe default. The measured direction is unstable: some settings
+find the parametric answer winning a substantial share of conflicts even at
+frontier scale, others find models deferring to retrieved content that is wrong.
+The literature does not agree, and the disagreement is the finding — **the
+arbitration outcome varies by model, by setup and by conflict type, so a system
+that implements distrust alone has not picked a conservative tiebreaker, it has
+picked an unpredictable one.** Below a certain capability the failure is
+lopsided: a small model can be given a tool catalog, call it correctly, and
+answer from its prior anyway, and nothing in the transcript records that it did.
+
+The corrective is not to trust results more. It is to notice that *distrust is a
+defense against a compromised result and not a policy for a contested one*, and
+that a contested result needs a decision — defer, re-ask, escalate, or surface
+both — written down where the conflict happens. A system with no such rule is not
+neutral; it has silently delegated the arbitration to whichever side the model
+happens to favour on that day.
+
 The discipline has three layers, because no single one holds alone: how
 results are *framed* for the model, what the *application* refuses to do
 regardless of what the model decides, and how the *human* is kept a

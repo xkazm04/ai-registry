@@ -347,3 +347,23 @@ When that is true, the discipline is narrow and worth following exactly:
   cells under the fixed policy is the only thing that redistributes them to
   a real owner; the fix alone tells you nothing about how many cells it
   moves, and the answer is routinely a minority of them.
+
+**The same blindness runs the other way, and that half is larger.** The funnel's
+tells are written from inside a run that executed, so an owner that prevents the
+run from *starting* fails every one of them: the dependency that would not
+resolve, the environment that was not assembled, the component wired in wrongly at
+design time, the capability the platform does not offer at any version. None of
+those produces a bad label, a malformed input, a silent parse, a misleading tool
+contract or a weak prompt. They fall through the whole funnel to **Model**, which
+prescribes the most expensive response available — a different model — for a class
+of problem no model can fix.
+
+On corpora of developer-reported agent failures these classes are not a long tail;
+dependency and version conflicts alone are among the largest single causes
+reported, and the share attributed to a platform's stated capability limits grows
+year over year as the surrounding libraries move faster than the code written
+against them. Give them a pre-run owner with its own tell — **nothing executed, or
+the capability the case requires does not exist in the dependency at any version**
+— and route it to the environment, the lockfile or the roadmap rather than to the
+model. An attribution funnel with no pre-run row does not report zero of these; it
+reports them as model failures.

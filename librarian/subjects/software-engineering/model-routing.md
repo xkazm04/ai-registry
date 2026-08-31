@@ -1,7 +1,7 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-08-25
+last_touched: 2026-08-31
 dry_streak: 0
 ---
 
@@ -54,3 +54,30 @@ worthless output that single-axis scoring would rate maximal.
   scoring-only, scoring+event and scoring+event+export, and retracts its own earlier
   aggregate figure for not separating them. Relevant to `count-carries-predicate` at the
   benchmark layer. Return when a fleet project publishes a hot-path overhead number.
+
+## 2026-08-31 - reference-index run
+
+Touched by [[2026-08-31-voltagent-agent-papers]]. One amendment to
+`failover-horizon` and its unusable-success enumeration, whose six listed forms are
+**all** detectable by shape - empty, malformed, truncated, schema-violating. The seventh
+form is a response that parses, validates, targets an available tool and is wrong, and
+no check on the response alone can reach it.
+
+The instrument came from **the baseline column of a paper whose own thesis failed**: its
+internal-representation probe lost to its own black-box baselines on every model, and
+the winner was agreement across repeated draws, canonicalized on tool name and
+arguments - precision 1.0 at useful recall, no model internals, so it works against a
+hosted candidate. Its price is the honest part, and is why the rung is usually missing
+rather than unnoticed: n draws cost n times the tokens and n times the latency, paid
+before the horizon closes.
+
+Two cheaper alternatives were measured and rejected in the same wave: reading the
+model's internal state scores worse, and asking the model its own confidence
+discriminates barely better than a coin flip on genuinely agentic work while publishing
+no bound on the confidently-wrong tail.
+
+**Contention note.** A sibling held this subject for the whole run and was editing the
+golden path plus adding a new technique. `failover-horizon.md` was untouched by them
+(`git status`), so the amendment landed with zero collision and the golden path's
+`techniques:` list was never opened. Subject-level contention is not file-level
+contention, and `git status` is the finer instrument.

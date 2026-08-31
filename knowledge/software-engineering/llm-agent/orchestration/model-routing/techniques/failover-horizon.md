@@ -73,6 +73,42 @@ recurring forms:
 - a stream that stalled indefinitely, or ended between one token and the close
   of the object being built.
 
+Every form on that list is detectable by **shape**: something is empty, malformed,
+truncated, or violates a declared schema. There is a seventh form the list does
+not contain, and it is the one the shape tests are structurally unable to reach —
+a response that parses, validates, targets an available tool, fills every required
+field, and is **wrong**. A stale value returned as current, an argument that is
+plausible and incorrect, a tool selected that is semantically inappropriate for
+the request. Nothing about its form distinguishes it from a good answer, so no
+check on the response alone can find it.
+
+That is why the seventh form needs a different instrument rather than a longer
+list, and why it costs more than every check above it. The only portable one is
+**agreement across repeated draws**: issue the same request more than once and
+require the responses to agree on the parts that matter — the tool's identity and
+its arguments after canonicalization — treating disagreement as the signal.
+Measured on tool-selection, that check reaches near-perfect precision at useful
+recall, and it needs no access to model internals, which is what makes it
+available against a hosted candidate at all. Approaches that read the model's own
+internal state do exist and score worse; so does asking the model how confident it
+is, which on genuinely agentic work discriminates barely better than a coin flip
+and publishes no bound on how often it is confidently wrong.
+
+Its price is the honest part: **n draws cost n times the tokens and n times the
+latency**, paid before the horizon closes, on a check that a single response can
+never justify. That is a different order of expense from the parse-shaped checks
+above, and it is why this form is usually left undetected rather than because
+nobody noticed it. Spend it where a wrong answer costs more than n draws — an
+irreversible action, a figure that will be reported, a tool call that writes —
+and accept the exposure elsewhere, deliberately and in writing.
+
+One thing the check must preserve: **a detector that reports only "something is
+wrong" cannot route.** This subject already rules that a failure class unable to
+name the scope it implicates is under-specified and defaults to the narrowest.
+A disagreement signal that does not say whether the draws diverged on the tool,
+the arguments, or the answer defaults to the narrowest scope forever, which is
+the same as not routing on it.
+
 Every one of these is a **routing signal, not an application error** — another
 candidate usually serves the same request correctly — and every one is caught
 before the horizon closes, which is what makes recovery invisible. Left

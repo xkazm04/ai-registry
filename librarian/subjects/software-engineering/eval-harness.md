@@ -281,3 +281,30 @@ file uncontended; golden-path list edited under the `content` lock.
 - Flakiness as binary entropy over the pass rate — 0 at either extreme, 1 at a
   50% rate. Graded thin; the subject already treats variance as first-class.
   Return if a second source ties the entropy form to a decision.
+
+## 2026-08-31 - reference-index run
+
+Touched by [[2026-08-31-voltagent-agent-papers]]. One amendment to
+`failure-attribution`, symmetric to that technique's own eighth-owner argument run
+backwards.
+
+The eighth owner exists because the funnel's tells are written from inside a completed
+run, so any owner that can end a run early is invisible to all of them. The same
+blindness runs the other way, and that half is larger: an owner that prevents the run
+from **starting** - a dependency that would not resolve, an environment never assembled,
+a component wired in wrongly at design time, a capability the platform does not offer at
+any version - fails every tell and falls through to **Model**, which prescribes the most
+expensive response available for a class of problem no model can fix. On
+developer-reported corpora these are not a long tail; dependency and version conflicts
+alone are among the largest single reported causes.
+
+**Board note.** Held by two siblings for most of the run. The operator chose to wait
+rather than write into a contended file; both claims cleared and the amendment landed on
+the file at its then-current state.
+
+Recorded, not landed: a rising inter-rater kappa is protocol drift rather than
+reliability (observed 0.000 rising monotonically to 1.000 with annotation order, headline
+reported near 0.99), and this subject has no rule for validating one's own attribution
+labels. Also a catch worth keeping - `assertion-vs-judgment` already names
+correct-shape-but-false, describing a suite that asserts structure while the defect lives
+in meaning as gating a proxy, which is half of what wave 1 believed the corpus lacked.
