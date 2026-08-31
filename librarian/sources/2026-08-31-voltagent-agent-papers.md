@@ -14,13 +14,13 @@ waves: 3
 refs_untriaged: 358
 fetches: 44
 extracted: 66
-accepted: 13
+accepted: 28
 declined: 0
 leads: 21
 already_covered: 16
 untriaged: 358
 dispatched: 0
-applied: 2
+applied: 4
 shipped: 0
 run_id: 2026-08-31-voltagent-papers
 siblings: 7
@@ -313,7 +313,7 @@ prose carried the whole concept.
 "evidence conditioned faithfulness" still misses both builds, because those words are
 not in those documents. A prose pass raises the floor; it is not a semantic index.
 
-### Wave 3 leads, not landed (scope)
+### Wave 3 leads - LANDED in a follow-up pass
 
 The agent-memory cluster produced roughly a dozen more amendment candidates, all in
 free subjects, all with anchors: the Relocated-bullet correction and the provenance
@@ -329,6 +329,30 @@ rather than by failure; downstream accuracy is not a coverage detector (a model
 extractor dropped ~a third of its source files while its accuracy score barely moved);
 a validated citation is not a verified one; and "absent from the store" is a fourth
 flavour of absence whose next action is neither none, nor re-run, nor fix-the-instrument.
+
+**All fifteen landed** in a follow-up pass across ten files, after the board showed
+every target clear. Two of them then applied against a live store with paired arms,
+and the pairing is the run's cleanest measurement:
+
+- **74 evidence rows whose citations resolve. Referential integrity - what the
+  pipeline runs - passes 74 of 74. The read-back the amendment prescribes passes 14
+  and fails 60.** The shipped schema has carried a `verified_at` column on that table
+  the whole time and **0 of 104 rows have ever had it set**: the store was built with
+  somewhere to record the check and the check has never run. Honest bound on the 60 -
+  they are unconfirmable against current source, which collapses paraphrase with
+  drift-since-recording, and the measurement cannot separate them. That is itself the
+  finding: **the read-back is a write-time instrument**, so deferring it converts a
+  checkable claim into an unresolvable one at no visible moment.
+- **693 memory nodes against 14 edges** - 20 nodes (2.9%) participate in any relation,
+  so 673 are reachable from exactly one place, and of 29 contexts one holds 555. Nobody
+  designed it; it falls out of writing nodes with a context id and adding the edge
+  table afterwards, which is the ordinary way a store acquires single-home assignment.
+
+Thirteen remain unapplied for one structural reason recorded once rather than thirteen
+times: they govern how a number or a derived artifact is produced, and no managed
+project builds the artifact each governs - no memory comparison, no structural
+extractor, no tolerant comparator, no compiled navigation surface, no per-claim
+citation regime.
 
 ## Untriaged (358)
 

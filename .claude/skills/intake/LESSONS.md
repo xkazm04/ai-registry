@@ -3769,3 +3769,50 @@ double-count the compliant answer and the honest answer look like a shortfall.
 Consider making the obligation **one row per distinct A/B**, with landings listed
 in the row, so a run that correctly refuses to re-run an experiment is not
 scored as owing.
+
+## 1.3.1 - 2026-08-31 - voltagent wave-3 leads, landing pass
+
+The pass that closed the gap the previous entry named. Fifteen banked amendments
+landed across ten files, and the two that found a seam produced the run's cleanest
+measurement.
+
+- **A banked lead is worth landing the same day, and the reason is mechanical rather
+  than motivational.** The previous entry recorded that candidates were outrunning
+  landings roughly two to one and called that the wiki anti-pattern in a new form.
+  Clearing it cost far less than the mining did, because every anchor had already been
+  verified in-tree and every home already checked on the board. The expensive half of a
+  landing is the argument, and the argument was already paid for. **Land within the
+  session that argued it, or pay to rebuild the context** - the same rule Phase 7 states
+  for an XL spec, and it generalizes to any banked finding.
+- **`git status` beat the board again, and this time in the other direction.** The board
+  said all four subject roots were clear; a sibling named for the very subject about to
+  be written in was live and had claimed nothing yet. Claiming ten files immediately, at
+  file granularity, is what made the pass safe - the neighbour then arrived to a board
+  that already said who was inside. **Claim before reading, not before writing**: the
+  window between deciding a target and editing it is where a collision is cheapest to
+  prevent and invisible to prevent later.
+- **A structural fact beats an argument, and the tree keeps supplying them.** Two arms on
+  one population: referential integrity passes 74 of 74; the read-back passes 14 and
+  fails 60. The amendment predicted the gap between those checks and the tree measured
+  it, on a schema that had carried a `verified_at` column the whole time with zero rows
+  ever set. That column is the strongest evidence in the pass - it is a design-time
+  admission that the check was known to be owed.
+- **Report what a crude instrument can and cannot separate.** The 60 failures collapse
+  paraphrase-rather-than-reproduction with drift-since-recording, and a substring match
+  cannot tell them apart. Naming that honestly produced a better finding than pretending
+  to: **the read-back is a write-time instrument**, because the two populations are
+  distinguishable at write and merged forever after. A measurement's blind spot is often
+  the technique's real content.
+- **Apply 0 twice running was a false alarm about the fleet and a true one about the
+  method.** This pass found two seams in a store three earlier passes had walked past,
+  by asking what tables the project *has* rather than what code implements the decision.
+  The earlier runs looked for a seam in code; the seam was in data. **For a
+  data-discipline technique, grep the schema before grepping the source** - a store that
+  carries a column for a check nobody runs is a paired A/B already set up. The thirteen
+  that stayed unapplied still stand as a real gap, and the `re-analysis` redesign
+  proposal is unchanged.
+- **Fifteen amendments across ten files in one commit is at the edge of reviewable, and
+  the batching that made it safe was by FILE, not by finding.** Three scripted batches,
+  gate run between each, so a broken anchor could only ever cost one batch. Anchors were
+  taken from a prior read in the same session; two needed a list renumber, which is the
+  kind of edit that fails silently and was worth the explicit check.
