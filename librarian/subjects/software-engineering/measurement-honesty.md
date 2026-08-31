@@ -84,3 +84,56 @@ lacked the denominator, and a clamp is where it shows.
   up, "the arbiter exists and nothing calls it" is a technique of its own rather
   than a paragraph in an application. **Return condition:** a second
   independent sighting.
+
+
+## 2026-08-31 — `/intake` icse-2026-seip: a seventh datum state
+
+The enumeration hunt paid on an enumeration this file had **already extended
+once**. The golden path's heading read "A datum has six states, not two", and
+state 6 (*Refuted*) carries its own note that it "was added late because it is
+invisible from inside a single number." State 7 is the same move one level out:
+invisible from inside the **system**.
+
+**`compromised`** — the instrument ran, returned a well-formed value, nothing
+the system publishes refutes it, and the value is invalid anyway, because the
+*subject was exposed to the instrument before it was measured*. It passes all
+six prior states and every technique in the subject in turn:
+`co-published-numbers-must-reconcile` clears it, the denominator is honest,
+nothing was imputed, no collector errored. The corruption is in the relationship
+between instrument and subject, which no internal check can reach.
+
+Landed with one technique, **`instrument-exposure-control`**: the
+deprived-input negative control (re-run with the input the task requires
+removed; whatever survives is the floor of what is being measured by another
+route), the matched-twin population read as a **gap** rather than a level, the
+rule that a fixed harness is not a fixed instrument when the subject can learn
+it, the input-leak rate published as a pair, and the drift signature that
+**inverts `noise-band-and-hysteresis`** — exposure drift is monotone and
+direction-consistent where the band assumes symmetric jitter, so a symmetric
+band calls instrument decay an improvement and hysteresis then holds the
+inflated reading in place.
+
+Two boundaries stated rather than linked, both worth remembering:
+
+- Against `renormalize-over-present`: same arithmetic, **inverted
+  precondition**. That technique fires when part of the input is *absent*; this
+  defect leaves nothing absent — the inputs are present and unusable — so the
+  present-weight technique never fires on it.
+- Against `lower-bound-disclosure`: its three questions cover *no record*
+  (undercount) and *many records per event* (overcount). Neither is *many
+  events, one published*, which is the selection bias a leaderboard's best-of-N
+  submission produces. **Banked as a lead**, not landed — the source for it was
+  relay-tier.
+
+Cross-bundle note, deliberately not linked: `llm-observability`'s
+`cross-provider-benchmark-operations` carries
+`dataset-sampling-anonymize-freeze`, which prescribes building eval sets from
+**private production traffic**. That is the correct structural defence against
+everything in this state, and the technique argues it purely from privacy — the
+word contamination appears nowhere in that subject. The corpus already does the
+right thing for a reason it has not written down. **Return condition:** when
+that subject is next swept, state the validity reason beside the privacy one.
+
+Applied to a consumer benchmark service (`experiment`, `better`, shipped): 88
+comparability claims in the tree hand-verified to 8 cross-run claims, **0** of
+which condition on exposure, and zero contamination vocabulary anywhere.

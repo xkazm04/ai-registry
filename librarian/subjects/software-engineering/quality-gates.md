@@ -363,3 +363,63 @@ Not landed, deliberately: the source's advisory-by-default plus one escalation
 flag is `gate-laddering` and `severity-by-construction` already; only the
 detail that the report's *rendering* follows the severity setting is novel, and
 it is one sentence.
+
+
+## 2026-08-31 — `/intake` icse-2026-seip: the spiral's unstated precondition
+
+`false-positive-economics` opened by calling precision "the survival property"
+and stated the death spiral unconditionally, with step 1 reading "The author,
+knowing they are right, bypasses or suppresses it." **That author is a
+precondition, not scenery**, and two independent industrial measurements from
+one venue-year found the cases where they are absent.
+
+This is the run's genuine within-index convergence, and it is worth recording
+*how* it was earned, because the convergence the wave was actually ranked on
+turned out to be fake (two benchmark papers where the second cites the first).
+These two were admitted for unrelated reasons — one ranked as a gate technique,
+one as a static-analysis measurement — and are independent by every test that
+matters: different authors, institutions, countries, problem domains, and
+neither cites the other.
+
+- **Nobody was entitled to the artifact.** A repair pipeline ships its proposal
+  filter at precision **0.30** against a population base rate of **0.19**, and
+  is right to. The refused thing is a machine-generated candidate, so a false
+  positive costs one wasted generation rather than a person's obedience.
+- **The power to close was taken from the author.** A mandatory pre-integration
+  detector ran at a **76%** false-alarm rate (above 90% counting exclusions) for
+  ten months, unbypassed and undeleted, because an alarm the first reviewer
+  calls false goes to a **second** reviewer before it may be closed.
+
+Landed as an amendment section, plus two obligations the same sources measured:
+read precision **against the population's prevalence** (the no-skill policy that
+accepts everything has precision equal to the base rate, so 0.30 is a gain at
+0.19 and a loss at 0.40), and grade a downstream suppressor on its **recall**,
+not its suppression rate — the degenerate suppressor that calls everything a
+false positive scores a perfect suppression rate and an accuracy equal to the
+base rate.
+
+Deliberately **not** landed, though both are real and both are recorded here so
+a later run does not re-derive them:
+
+- The same repair-pipeline source contradicts `fabrication-economics` head-on
+  and then repairs it: it has a model *generate* a fix specification with no
+  access to ground truth — textbook fabrication by that technique's own table —
+  and measures it working (spec-based false-positive rate 0.28 vs 0.64 without).
+  The boundary it implies is sharp and I did not have a second sighting for it:
+  **a fabricated criterion is admissible when it ranks a population and
+  inadmissible when it certifies an instance.** Ranking tolerates a wrong rubric
+  statistically; certification does not. **Return condition:** one more
+  independent source, or a project seam where a generated rubric ranks.
+- `excess-indicts-the-instrument` offers a binary discriminator — debt
+  distributed like the code, or misconfiguration clustering on a boundary. The
+  static-analysis source is a **third shape**: excess by construction, from a
+  deliberate soundness-over-precision design, where the volume indicts neither.
+  The technique's standing rule would fire there and be wrong. One clause.
+  **Return condition:** the next deliberate edit of that technique.
+
+Applied to a consumer's governed-taxonomy proposal gate (`experiment`,
+`unmeasurable`, no change owed): 12 sites setting the live flag hand-verified
+to **0** production paths promoting a machine proposal without a human. The tree
+already implements the amendment, for governance reasons, with the precision
+economics falling out for free. Instrument named for the missing behavioural
+arm: per-proposal review-outcome telemetry, which the project does not emit.

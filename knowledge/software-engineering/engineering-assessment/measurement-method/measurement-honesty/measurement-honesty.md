@@ -12,6 +12,7 @@ techniques:
   - incomplete-not-verdict
   - lower-bound-disclosure
   - co-published-numbers-must-reconcile
+  - instrument-exposure-control
 ---
 
 # Measurement honesty
@@ -63,7 +64,7 @@ checks can refuse, at what severity, in which pipeline stage. This subject
 supplies the honest input a gate reasons over, and stops at the point where
 the decision to block belongs to the gate.
 
-## A datum has six states, not two
+## A datum has seven states, not two
 
 The naive model of a measurement has two states: present, or null. That model
 is the root cause of most of this subject's failure modes, because it forces
@@ -84,6 +85,11 @@ honestly can distinguish:
    frequency larger than its own marginal; a part exceeding its whole; a rate
    that does not recompute from the numerator and denominator printed beside
    it.
+7. **Compromised** — the instrument ran, returned a well-formed value, nothing
+   the system publishes refutes it, and the value is invalid anyway, because
+   the *subject* was exposed to the instrument before it was measured. A score
+   on a test whose answers the candidate had already read; a capability
+   benchmark whose cases circulated in the material the model was trained on.
 
 States 2 and 3 are the pair that costs the most, because they are the pair
 that arithmetic conflates by default and that *look* identical to a reader:
@@ -114,6 +120,32 @@ covers the constraints worth asserting, why a joint frequency bounded by its
 marginal is an identity rather than a heuristic, the related defect of
 evidencing a metric with an object it is not defined over, and why this is the
 class of error that review reliably fails to catch.
+
+State 7 is the one that defeats every instrument in this subject, and it is
+worth being precise about why. State 6 is invisible from inside a single
+number but perfectly visible from inside the *system*, because the number that
+refutes it is published a few lines away. State 7 is invisible from inside the
+system altogether: the value is measured, non-zero, well-formed, in range, no
+collector errored, nothing was imputed, the denominator is honest and every
+co-published number reconciles. It passes all six of the states above and each
+technique below in turn. The corruption is not in the arithmetic and not in
+the pipeline — it is in the relationship between the instrument and the thing
+it measures, which no amount of internal discipline can reach.
+
+Two consequences follow, and both are counter-intuitive enough to state. The
+first is that **only a second instrument the subject has not been exposed to
+can detect it**; there is no self-check, and a system reporting on its own
+validity here is reporting on the one question it structurally cannot answer.
+The second is that **exposure accumulates with an instrument's usefulness**: a
+measure becomes compromised in proportion to how widely it is published,
+studied and optimised against, so the most cited, most carefully curated
+instrument in a field is the likeliest to be the compromised one. That
+inverts the ordinary prior, under which a well-maintained popular measure is
+the trustworthy one.
+[instrument-exposure-control](./techniques/instrument-exposure-control.md)
+covers what a second instrument has to satisfy to be one, why the *gap*
+between paired populations is the reading rather than either level, and the
+drift signature that separates a subject improving from an instrument decaying.
 
 ## The denominator decides how many digits you own
 

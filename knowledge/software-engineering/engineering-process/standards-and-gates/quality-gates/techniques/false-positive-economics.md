@@ -34,6 +34,60 @@ teaches people to bypass the ladder, not the rule. This is why a single
 imprecise check is not a local problem — it is spending everyone's
 credibility.
 
+## The spiral needs an author who can dismiss
+
+Every step above runs through one person: the author who knows they are
+right and suppresses the finding. That author is a **precondition**, not
+scenery, and where they are absent the economics invert — precision stops
+being a survival property and becomes an ordinary cost.
+
+Two shapes remove them, and both have been measured in production:
+
+- **Nobody was entitled to the artifact.** Where the thing refused is a
+  machine-generated *candidate* — a proposed patch, a drafted change, a
+  suggestion awaiting review — a false positive costs one wasted
+  generation, not a person's obedience. A repair pipeline that filters its
+  own proposals can therefore ship at a precision that would bankrupt an
+  author-facing gate, and be right to: measured at 0.30 against a
+  population whose base rate of success was 0.19, it is buying real
+  signal at a price nobody pays in trust.
+- **The power to close a finding was taken from the author.** A mandatory
+  pre-integration detector has been observed running at a 76% false-alarm
+  rate — above 90% counting excluded cases — for ten months, unbypassed
+  and undeleted, because an alarm the first reviewer calls false goes to a
+  *second* reviewer before it may be closed. Dismissal is not the gated
+  party's act, so step 1 of the spiral has nowhere to start.
+
+The discriminator is therefore **who authored the thing being refused, and
+who may close the finding** — not the false-positive rate. Answer those
+two and the rate's meaning follows: where the author can dismiss, the rate
+is a trust question and the survival band is narrow; where they cannot,
+it is an arithmetic question — reviewer-minutes times volume against the
+recall it buys — and a rate an order of magnitude past the usual band can
+be the correct configuration.
+
+This is not a licence for imprecise author-facing gates. It is the
+boundary that keeps the spiral's rule honest, and it carries two
+obligations wherever it applies:
+
+- **Read precision against the population's prevalence, never bare.** The
+  no-skill policy that accepts everything has a precision exactly equal to
+  the base rate of success in the population it judges. A filter is
+  earning nothing until it beats that line, and a filter reported without
+  it is unreadable — 0.30 is a real gain where prevalence is 0.19 and a
+  loss where it is 0.40. This is
+  [count-carries-predicate](../../../../_laws.md#count-carries-predicate)
+  applied to the denominator the predicate hides.
+- **Grade a suppressor on its recall, not its suppression rate.** A filter
+  placed downstream of a detector to retire review is a second detector
+  facing the other way, and its false negatives are the original defects
+  arriving unannounced. The degenerate suppressor that calls everything a
+  false positive scores a perfect suppression rate and an accuracy equal
+  to the base rate; only recall separates it from a real one. Recall — not
+  how much noise it removed — decides how many rounds of human review it
+  may retire, and where recall sits below the standard's floor it may
+  retire one round and never the review itself.
+
 ## Measure precision before granting severity
 
 A detector earns blocking severity by evidence, not intention. The method:
