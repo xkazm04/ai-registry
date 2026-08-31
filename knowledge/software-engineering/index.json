@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 155,
-  "techniques": 1073,
-  "applications": 560,
+  "techniques": 1079,
+  "applications": 563,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1073/1073",
+  "use_when_coverage": "1079/1079",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3803,6 +3803,21 @@
      ]
     },
     {
+     "slug": "the-tree-is-not-the-population",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scan reports full sensor coverage and zero findings",
+      "a detector is quiet on a class of files nobody has confirmed it can see",
+      "the traversal inherits ignore rules from tools that are not the scanner",
+      "a user suspects a result is being hidden and has no way to check"
+     ]
+    },
+    {
      "slug": "verify-after-generate",
      "status": "forged",
      "laws": [
@@ -3831,6 +3846,13 @@
      "technique": "rule-precision-discipline",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--rule-precision-discipline.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "the-tree-is-not-the-population",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--the-tree-is-not-the-population.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -10502,14 +10524,16 @@
      "laws": [
       "gate-sees-target",
       "absent-guard-is-loud",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
      ],
      "shared_with": [],
      "use_when": [
       "changes are merged faster than anyone could have read them",
       "the reviewer is named as the bottleneck but never measured",
       "one person both dispatches the agents and approves their merges",
-      "deciding whether to widen the autonomous path or send fewer changes"
+      "deciding whether to widen the autonomous path or send fewer changes",
+      "one change is too large for anyone to review completely"
      ],
      "stage": "solo"
     },
@@ -10587,7 +10611,8 @@
       "the changes arriving at the gate are authored by people who do not own it",
       "a maintainer is drowning in well-intentioned contributions",
       "writing a contribution policy for agent-assisted submitters",
-      "deciding what may be judged before a change is read"
+      "deciding what may be judged before a change is read",
+      "review replies read fluently and answer nothing"
      ],
      "stage": "solo"
     },
@@ -10624,9 +10649,21 @@
     },
     {
      "stack": "process",
+     "technique": "human-gate-capacity",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/applications/process--human-gate-capacity.md",
+     "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "process",
      "technique": "pre-authorship-verification",
      "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/applications/process--pre-authorship-verification.md",
      "verified_on": "2026-08-21"
+    },
+    {
+     "stack": "process",
+     "technique": "stake-before-merit",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/applications/process--stake-before-merit.md",
+     "verified_on": "2026-08-31"
     }
    ]
   },
@@ -12619,6 +12656,23 @@
       "writing a helper named \"is X available\"",
       "a store was hardened and writes started failing silently"
      ]
+    },
+    {
+     "slug": "refusal-is-not-failure",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wrapping a caller-registered hook so a broken one cannot take the process down",
+      "a validator someone registered was overridden by the built-in default",
+      "deciding what an exception from an extension point means",
+      "a policy check runs inside a try block",
+      "auditing whether registered gates are advisory or authoritative"
+     ]
     }
    ],
    "applications": [
@@ -12708,6 +12762,23 @@
       "sent messages ignore the user's language",
       "events originate on a side with no locale",
       "send sites keep bypassing the single door"
+     ]
+    },
+    {
+     "slug": "destination-guard-integrity",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "dispatching to an endpoint a user or operator supplied",
+      "writing a guard that validates a hostname before a request",
+      "a private address range passed a public-address check",
+      "a guard mutates a shared client to enforce itself",
+      "deciding whether a destination check belongs per call or per client"
      ]
     },
     {
@@ -14743,6 +14814,23 @@
       "a policy condition has no data to evaluate",
       "deciding whether missing evidence blocks or skips",
       "a gate reports a verdict over a partly failed assessment"
+     ]
+    },
+    {
+     "slug": "vacuous-by-evaluation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rule set reports conformant on data you know is wrong",
+      "a checker runs with an inference or expansion layer beneath it",
+      "deciding whether a green rule was satisfied or was unfalsifiable",
+      "seeding a violation to prove a rule can fire",
+      "a schema rule and its type declaration say the same thing"
      ]
     }
    ],
@@ -18022,6 +18110,23 @@
      ]
     },
     {
+     "slug": "lockfile-freshness-oracle",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a lockfile check goes red because an upstream published a release",
+      "deciding what \"the lockfile is out of date\" should mean",
+      "one lockfile serves several runtime versions",
+      "a regenerated lockfile diff is unreviewable",
+      "a manifest edit shipped without its lockfile"
+     ]
+    },
+    {
      "slug": "permission-manifest-scoping",
      "status": "forged",
      "laws": [
@@ -18108,6 +18213,23 @@
       "a vendored copy of a library has drifted from any known upstream commit",
       "deciding what must be recorded before a local patch is allowed to land",
       "an upstream release lands and nobody knows which local patches it obsoletes"
+     ]
+    },
+    {
+     "slug": "verification-scope",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an install is hash-verified and something unpinned still reached the machine",
+      "auditing which fetches a pinning flag actually covers",
+      "a build step fetches its own toolchain",
+      "a package manager subcommand downloads a model or plugin",
+      "deciding whether a pinned pipeline is fully pinned"
      ]
     }
    ],
@@ -20697,6 +20819,7 @@
     "optional-dependency-degradation/fallback-retirement-condition",
     "optional-dependency-degradation/probe-the-grant-not-the-config",
     "outbound-notifications/compose-at-the-locale-layer",
+    "outbound-notifications/destination-guard-integrity",
     "p2p-networking/exposure-controls",
     "p2p-networking/resilience-and-reconnection",
     "packaging/installed-tree-acceptance",
@@ -20736,6 +20859,7 @@
     "quality-gates/prose-rule-drift",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/vacuous-by-evaluation",
     "rate-limiting/limiter-topology",
     "rate-limiting/metered-step-selection",
     "rate-limiting/untrusted-key-derivation",
@@ -20783,12 +20907,14 @@
     "subprocess-lifecycle/spawn-contract",
     "supply-chain/archive-extraction-safety",
     "supply-chain/dependency-policy-gates",
+    "supply-chain/lockfile-freshness-oracle",
     "supply-chain/permission-manifest-scoping",
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
     "supply-chain/toolchain-floor-drift",
     "supply-chain/update-automation-review",
     "supply-chain/vendored-fork-ledger",
+    "supply-chain/verification-scope",
     "sync-replication/projection-security",
     "sync-replication/topology-declaration",
     "telemetry-pii-redaction/emit-site-inventory",
@@ -20897,6 +21023,7 @@
     "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
+    "codebase-scanning/the-tree-is-not-the-population",
     "codegen/drift-gating",
     "codegen/generator-failure-isolation",
     "codegen/task-registry-design",
@@ -21064,6 +21191,7 @@
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/degradation-coupled-to-hardening",
     "optional-dependency-degradation/guarded-singleton-accessor",
+    "optional-dependency-degradation/refusal-is-not-failure",
     "outbound-notifications/channel-adapter-traits",
     "outbound-notifications/channel-health-tracking",
     "outbound-notifications/per-channel-templating",
@@ -21114,6 +21242,7 @@
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/ratchet-design",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/vacuous-by-evaluation",
     "rate-limiting/refusal-contract",
     "readiness-passports/blocker-rollups",
     "readiness-passports/declined-by-choice",
@@ -21193,6 +21322,7 @@
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
     "supply-chain/update-automation-review",
+    "supply-chain/verification-scope",
     "sync-replication/change-tracking-and-cursors",
     "sync-replication/conflict-detection-and-policy",
     "sync-replication/sync-observability",
@@ -21381,6 +21511,7 @@
     "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
+    "codebase-scanning/the-tree-is-not-the-population",
     "codegen/generator-failure-isolation",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/signal-economy-contract",
@@ -21565,6 +21696,7 @@
     "quality-gates/item-liveness",
     "quality-gates/ratchet-design",
     "quality-gates/severity-by-construction",
+    "quality-gates/vacuous-by-evaluation",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
     "rate-limiting/metered-step-selection",
@@ -21613,6 +21745,7 @@
     "structured-output/output-budget-signal",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/host-resource-protection",
+    "supply-chain/lockfile-freshness-oracle",
     "supply-chain/toolchain-floor-drift",
     "sync-replication/sync-observability",
     "table/client-server-split",
@@ -22016,6 +22149,7 @@
     "optional-dependency-degradation/guarded-singleton-accessor",
     "outbound-notifications/channel-adapter-traits",
     "outbound-notifications/compose-at-the-locale-layer",
+    "outbound-notifications/destination-guard-integrity",
     "outbound-notifications/inbound-counterparts",
     "outbound-notifications/subscription-patterns",
     "p2p-networking/exposure-controls",
@@ -22205,6 +22339,7 @@
     "observability-telemetry/rotation-and-retention",
     "optional-dependency-degradation/fallback-retirement-condition",
     "outbound-notifications/channel-health-tracking",
+    "outbound-notifications/destination-guard-integrity",
     "outbound-notifications/inbound-counterparts",
     "p2p-networking/connection-lifecycle",
     "p2p-networking/manifest-negotiation",
@@ -22435,6 +22570,7 @@
     "long-form-reading-surface/fixed-chrome-offset-budget",
     "machine-authored-documentation/packaged-surface-evaluation",
     "machine-authored-documentation/rescored-baseline-uplift",
+    "machine-paced-delivery/human-gate-capacity",
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/ordinal-first-comparability",
@@ -22533,6 +22669,7 @@
     "streaming-output/stream-parsing",
     "structured-output/op-grammar-allowlisting",
     "structured-output/schema-validation-and-repair",
+    "supply-chain/lockfile-freshness-oracle",
     "supply-chain/permission-manifest-scoping",
     "sync-replication/conflict-detection-and-policy",
     "sync-replication/topology-declaration",
@@ -22579,6 +22716,7 @@
     "machine-authored-documentation/declared-truth-boundary",
     "machine-authored-documentation/three-gate-acceptance",
     "optional-dependency-degradation/guarded-singleton-accessor",
+    "optional-dependency-degradation/refusal-is-not-failure",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
     "voice-io/portable-provider-package",
@@ -22796,6 +22934,7 @@
     "module-design/borrowed-surface",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
+    "optional-dependency-degradation/refusal-is-not-failure",
     "plan-review/informational-fold-in",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
@@ -22805,6 +22944,7 @@
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",
+    "supply-chain/verification-scope",
     "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/duplicate-and-replay-dedup"
    ]
