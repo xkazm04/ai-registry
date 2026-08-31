@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
-  "techniques": 130,
-  "applications": 53,
+  "techniques": 132,
+  "applications": 55,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "130/130",
+  "use_when_coverage": "132/132",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1592,6 +1592,21 @@
      ]
     },
     {
+     "slug": "delivery-promise-lock",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a pipeline can serve one brief in several media at very different costs",
+      "a compose stage cannot obtain the material the plan assumed",
+      "deciding what a quality ratio counts in its numerator",
+      "a delivered output satisfies its own metric and disappoints the person who commissioned it"
+     ]
+    },
+    {
      "slug": "long-run-as-background-job",
      "status": "forged",
      "laws": [
@@ -1650,6 +1665,13 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "delivery-promise-lock",
+     "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/node--delivery-promise-lock.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "react",
      "technique": "long-run-as-background-job",
      "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/react--long-run-as-background-job.md",
@@ -1695,6 +1717,22 @@
       "building a ledger of what a render spent on each piece of evidence",
       "budget or coverage numbers look inflated or contradict the engine's own summary",
       "deciding how edits update attribution"
+     ]
+    },
+    {
+     "slug": "critique-carries-its-fix",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a self-review stage hands its findings to an automated next stage",
+      "designing the severity vocabulary of a review pass",
+      "revisions keep missing what the review meant",
+      "a reviewer blocks on concerns it cannot resolve",
+      "deciding whether a review pass is good enough to gate on"
      ]
     },
     {
@@ -1787,6 +1825,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "critique-carries-its-fix",
+     "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/node--critique-carries-its-fix.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
     {
      "stack": "process",
      "technique": "edit-plan-over-regeneration",
@@ -2404,11 +2449,13 @@
     "platform-format-adaptation/format-as-measured-template",
     "platform-format-adaptation/image-led-vs-narration-led",
     "platform-format-adaptation/sound-off-first-design",
+    "production-pipeline-phasing/delivery-promise-lock",
     "production-pipeline-phasing/long-run-as-background-job",
     "production-pipeline-phasing/phase-order-and-graduation",
     "production-pipeline-phasing/shared-clock-across-phases",
     "production-pipeline-phasing/worst-news-first-progress",
     "review-iteration-loops/anchored-variation-slate",
+    "review-iteration-loops/critique-carries-its-fix",
     "review-iteration-loops/edit-plan-over-regeneration",
     "review-iteration-loops/partial-regeneration-seams",
     "review-iteration-loops/refusal-as-valid-outcome",
@@ -2538,6 +2585,7 @@
     "narrative-engine-selection/engine-arbitration-order",
     "narrative-engine-selection/fit-vs-hazard-axes",
     "review-iteration-loops/attribution-share-accounting",
+    "review-iteration-loops/critique-carries-its-fix",
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
     "trailer-structure/concealment-and-its-tells",
     "trailer-structure/promise-ledger",
@@ -2598,6 +2646,7 @@
     "image-prompt-composition/prompt-dialect-matching",
     "narrative-engine-selection/fit-vs-hazard-axes",
     "production-pipeline-phasing/asset-vs-disposable-render",
+    "production-pipeline-phasing/delivery-promise-lock",
     "production-pipeline-phasing/phase-order-and-graduation",
     "review-iteration-loops/partial-regeneration-seams",
     "sound-effect-generation/layered-element-assembly",

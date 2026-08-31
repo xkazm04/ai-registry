@@ -6,7 +6,7 @@ technique: ranking-budgets
 stack: rust
 verified_on: 2026-08-31
 verified_against: rust@1.80.0
-applied: experiment
+applied: code
 ab_verdict: better
 proof: ab-paired
 ---
@@ -94,22 +94,44 @@ item, and no property of either item says so.
   length, rendering and measuring the briefing at each probe, ratcheting the
   best under-budget render, stopping inside a tolerance band.
 
-Arm B is `better` on the only axis this experiment can measure: it bounds the
+Arm B is `better` on the only axis this comparison can measure: it bounds the
 quantity the consumer actually spends, where Arm A bounds a proxy that varies
 25.1x against it. Arm A's variance is not noise to be tuned out — it is the
 consequence of measuring the wrong thing, and no value of
 `RECALL_EPISODE_TARGET` fixes it.
 
+## Shipped
+
+Arm B is now the tree's behaviour. `format_episodes` admits the largest
+trailing run of episodes whose *rendered* block fits a declared budget, and
+reports how many it dropped; the fit bisects over prefix length, seeds its
+first probe from a calibrated cost-per-item, ratchets the best under-budget
+render, and stops inside a tolerance band. Four cases ship with it: everything
+fits, the same count at 800x the size does not, the recency tail survives a
+cut, and a single oversized episode is admitted anyway rather than blanking the
+turn.
+
+The measurement that motivated it is in the commit message, which is where a
+reader of this tree will meet it.
+
 ## What this does not show
 
-- **No product code was changed**, which is why this is `experiment` and not
-  `code`. Arm B was rendered and measured offline against the live corpus, not
-  shipped behind a flag.
+- **The project's test runner has not executed the committed tests.** The crate
+  builds only under a feature combination another session held the build lock
+  for throughout; `cargo check --lib --features desktop` type-checks both
+  changed modules with no diagnostics, and the four cases were run standalone
+  under `rustc` against the real size distribution, but the suite itself has
+  not run them in place. The pre-commit gate (formatting, secret scan) did run.
 - **Answer quality was not measured.** Whether a size-bounded window produces
-  better companion turns than a count-bounded one needs an eval slice this
-  tree does not have for the companion path. What is shown is that the current
-  budget does not bound what it is believed to bound.
+  better companion turns than a count-bounded one needs an eval slice this tree
+  does not have for the companion path. What is shown is that the previous
+  budget did not bound what it was believed to bound.
 - **The measurement is in characters, not tokens.** For the spread ratio that
-  is immaterial — the ratio is what carries the finding — but a real Arm B
-  would tokenize, and would then need the sampled-estimator half of the
-  amendment to stay affordable on the request path.
+  is immaterial — the ratio is what carries the finding — but the block is
+  spent in tokens, and a token-denominated version would need the
+  sampled-estimator half of the amendment to stay affordable on the request
+  path.
+- **Only the episode section was cut.** The `recall` block folds five other
+  memory sections that remain count-bounded, so the block-level budget is still
+  not enforced end to end; the episodes were simply the section with the 25x
+  spread.

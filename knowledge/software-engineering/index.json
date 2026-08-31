@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 151,
-  "techniques": 1007,
-  "applications": 502,
+  "subjects": 153,
+  "techniques": 1035,
+  "applications": 521,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1007/1007",
+  "use_when_coverage": "1035/1035",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -332,6 +332,36 @@
      ]
     },
     {
+     "slug": "queue-cardinality",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether one queue or several should stand in front of a pool",
+      "a free worker sits idle while work waits",
+      "classes of work need isolation but per-class state is unaffordable",
+      "choosing between priority levels and separate lines"
+     ]
+    },
+    {
+     "slug": "resource-denominated-bounds",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "item cost varies by orders of magnitude across arrivals",
+      "a concurrency cap tuned for the worst arrival starves the common one",
+      "choosing the unit a capacity bound is spelled in"
+     ]
+    },
+    {
      "slug": "self-paced-intake",
      "status": "forged",
      "laws": [
@@ -343,6 +373,20 @@
       "deciding whether an arrival should trigger a step at all",
       "one write producing N downstream round-trips",
       "a consumer whose cost scales with its producer's burst shape"
+     ]
+    },
+    {
+     "slug": "speculative-work-admission",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "admitting work whose result may never be needed",
+      "a redundant fan-out target finds the gate full",
+      "deciding whether a speculative request may wait in line"
      ]
     },
     {
@@ -366,6 +410,12 @@
      "technique": "priority-and-fairness",
      "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/go--priority-and-fairness.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "next",
+     "technique": "speculative-work-admission",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/applications/next--speculative-work-admission.md",
+     "verified_on": "2026-08-31"
     },
     {
      "stack": "rust",
@@ -904,6 +954,22 @@
      ]
     },
     {
+     "slug": "capability-coverage-contract",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a capability exists in the runtime and no agent has ever reached for it",
+      "a new tool or script landed and no instruction file mentions it",
+      "deciding what a test over prose should assert",
+      "an instruction file points at documents that may not exist",
+      "an agent's output is plausible but consistently uses the poorer of two available means"
+     ]
+    },
+    {
      "slug": "enforcement-demotion",
      "status": "forged",
      "laws": [
@@ -1057,6 +1123,13 @@
     },
     {
      "stack": "node",
+     "technique": "capability-coverage-contract",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--capability-coverage-contract.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "single-source-topology",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--single-source-topology.md",
      "verified_on": "2026-08-25",
@@ -1147,6 +1220,21 @@
      ]
     },
     {
+     "slug": "lane-reconciliation",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a stored memory is never returned by recall",
+      "memory lives in a record plus one or more search indexes",
+      "deciding whether a store's indexes still agree with its record"
+     ]
+    },
+    {
      "slug": "memory-governance",
      "status": "forged",
      "laws": [
@@ -1172,6 +1260,22 @@
       "ranking what to recall",
       "tuning how fast memory ages",
       "deciding what may be forgotten"
+     ]
+    },
+    {
+     "slug": "probe-without-write-back",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "running a scheduled recall health check",
+      "a memory eval scores better every month for no reason",
+      "deciding which callers of recall count as usage"
      ]
     },
     {
@@ -1239,9 +1343,23 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "lane-reconciliation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--lane-reconciliation.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
      "technique": "memory-value-model",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--memory-value-model.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "probe-without-write-back",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--probe-without-write-back.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@22"
     },
     {
      "stack": "rust",
@@ -4168,6 +4286,22 @@
      ]
     },
     {
+     "slug": "declared-deviation-register",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an implementation deliberately differs from a specification it claims to follow",
+      "a checker keeps re-reporting a failure somebody already decided to accept",
+      "deciding where an intentional non-conformance is written down",
+      "a maintainer cannot tell a deliberate difference from a bug"
+     ]
+    },
+    {
      "slug": "declared-then-proven",
      "status": "forged",
      "laws": [
@@ -4242,6 +4376,13 @@
      "technique": "pass-ratio-comparability",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/process--pass-ratio-comparability.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "declared-deviation-register",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/rust--declared-deviation-register.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.80.0"
     }
    ]
   },
@@ -6468,6 +6609,94 @@
     }
    ]
   },
+  "document-text-extraction": {
+   "category": "integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/integration/document-text-extraction/document-text-extraction.md",
+   "techniques": [
+    {
+     "slug": "extraction-yield-bands",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an extraction returned text but far less than the document visibly holds",
+      "text came back fluent but wrong through a character mapping nothing verified",
+      "you are about to attach a confidence float to an extraction result"
+     ]
+    },
+    {
+     "slug": "recognition-boundary-and-escalation",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "callers keep asking why scanned documents come back short",
+      "adding an expensive recognition path behind a cheap extractor",
+      "deciding whether an expensive fallback should be on by default"
+     ]
+    },
+    {
+     "slug": "screen-then-confirm-detection",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a per-region readability check is too slow to run over the whole corpus",
+      "users are being shown failures that turn out to be readable documents",
+      "someone proposes a second heuristic to clean up the first heuristic's output"
+     ]
+    },
+    {
+     "slug": "structural-amplification-caps",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a few kilobytes of upload made the process allocate gigabytes",
+      "adding a repeat or reference construct to a container reader",
+      "someone asks to make a safety limit configurable"
+     ]
+    },
+    {
+     "slug": "unreadable-region-refusal",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an extractor returned clean text for a document you know is partly scanned",
+      "choosing between a count of unreadable regions and a list of them",
+      "deciding whether one bad page should fail a hundred-page document"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "unreadable-region-refusal",
+     "file": "knowledge/software-engineering/integration/document-text-extraction/applications/rust--unreadable-region-refusal.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96"
+    }
+   ]
+  },
   "draft-editing": {
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
@@ -7208,7 +7437,8 @@
      "use_when": [
       "deciding whether timeout and unreachable are one kind or two",
       "retry loop hammers a dependency that can never succeed",
-      "a new category degrades to unknown across the wire"
+      "a new category degrades to unknown across the wire",
+      "a component recovers by default and you must say what it may never recover from"
      ]
     },
     {
@@ -7404,6 +7634,20 @@
      ]
     },
     {
+     "slug": "reliability-aggregation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the aggregation rule for repeated trials",
+      "a headline score looks strong and the feature is unreliable in production",
+      "deciding whether a capability is good enough to run unattended"
+     ]
+    },
+    {
      "slug": "scenario-design",
      "status": "forged",
      "laws": [
@@ -7439,6 +7683,13 @@
      "technique": "judge-stability",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--judge-stability.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "reliability-aggregation",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/react--reliability-aggregation.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -7769,6 +8020,21 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
    "techniques": [
     {
+     "slug": "absent-status-passthrough",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a record arrives carrying no status and something must decide what to show",
+      "a session is permanently busy with no turn that could ever finish it",
+      "a liveness probe cannot reach the thing that answers whether a process exists"
+     ]
+    },
+    {
      "slug": "brief-carries-the-session",
      "status": "forged",
      "laws": [
@@ -7968,6 +8234,13 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/react--session-registry.md",
      "verified_on": "2026-08-29",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "absent-status-passthrough",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--absent-status-passthrough.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -8390,6 +8663,13 @@
      "technique": "check-scheduling",
      "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/go--check-scheduling.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "three-state-outcomes",
+     "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/node--three-state-outcomes.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@22"
     },
     {
      "stack": "react",
@@ -9595,6 +9875,136 @@
     }
    ]
   },
+  "machine-authored-documentation": {
+   "category": "engineering-process",
+   "subcategory": "codebase-stewardship",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/machine-authored-documentation/machine-authored-documentation.md",
+   "techniques": [
+    {
+     "slug": "declared-truth-boundary",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a derived view over a document will be read as stronger evidence than it is",
+      "naming a feature that traverses authored relationships",
+      "a generated artifact is about to carry a confidence or impact figure",
+      "deciding what a diagram is allowed to be cited for"
+     ]
+    },
+    {
+     "slug": "evidence-without-verdict",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a tool that helps a human review generated output",
+      "an automated check is about to emit a pass field for a judgment it cannot make",
+      "a screenshot harness reports green",
+      "deciding what a capture run should return when its capture tool is missing"
+     ]
+    },
+    {
+     "slug": "packaged-surface-evaluation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "benchmarking a generator that ships as an installable package",
+      "an evaluation ran inside the development repository",
+      "comparing two generator configurations",
+      "a benchmark score does not reproduce for users"
+     ]
+    },
+    {
+     "slug": "preregistered-kill-criterion",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "count-carries-predicate",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether to build a component into a generator",
+      "an experiment is about to be judged on how the outputs look",
+      "a planned feature keeps surviving reviews on enthusiasm",
+      "an experiment failed and the criteria are being renegotiated"
+     ]
+    },
+    {
+     "slug": "rescored-baseline-uplift",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "claiming a generator improved after a fix",
+      "the acceptance criteria changed while the fix was being built",
+      "comparing a new benchmark run against a published number",
+      "a targeted fix improved its own case and the aggregate did not move"
+     ]
+    },
+    {
+     "slug": "stale-artifact-on-failed-write",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generation step writes atomically and something downstream inspects its output path",
+      "a check reported green on a run whose generator failed",
+      "ordering an inspection stage after a write stage",
+      "a pipeline reuses an output path across runs"
+     ]
+    },
+    {
+     "slug": "three-gate-acceptance",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target",
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated document validated cleanly and is missing something the request named",
+      "deciding whether an automated check can stand in for looking at the output",
+      "a review was skipped and the run reported green",
+      "defining what first-pass usable means for a generator"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "evidence-without-verdict",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/machine-authored-documentation/applications/node--evidence-without-verdict.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    }
+   ]
+  },
   "machine-paced-delivery": {
    "category": "engineering-process",
    "subcategory": "continuous-integration",
@@ -10110,6 +10520,12 @@
      "technique": "transport-selection",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--transport-selection.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "react",
+     "technique": "untrusted-result-handling",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/react--untrusted-result-handling.md",
+     "verified_on": "2026-08-31"
     },
     {
      "stack": "rust",
@@ -10893,6 +11309,21 @@
      ]
     },
     {
+     "slug": "quality-axis-separation",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "feeding request outcomes back into candidate ranking",
+      "a provider ranks well on transport and badly on answers",
+      "deciding what a clean response proves about a candidate"
+     ]
+    },
+    {
      "slug": "routing-policy",
      "status": "forged",
      "laws": [
@@ -10921,6 +11352,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "quality-axis-separation",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/next--quality-axis-separation.md",
+     "verified_on": "2026-08-31"
+    },
     {
      "stack": "process",
      "technique": "candidate-ranking",
@@ -13153,6 +13590,12 @@
      "verified_on": "2026-08-18"
     },
     {
+     "stack": "react",
+     "technique": "payoff-removal",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/applications/react--payoff-removal.md",
+     "verified_on": "2026-08-31"
+    },
+    {
      "stack": "rust",
      "technique": "untrusted-span-fencing",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/applications/rust--untrusted-span-fencing.md",
@@ -13405,6 +13848,21 @@
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "techniques": [
     {
+     "slug": "advancement-evidence-fields",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an item passes many gates over months or years rather than one pipeline run",
+      "deciding what the record shows for an obligation a gate waived",
+      "a tracking board whose compliance column is mostly empty cells",
+      "a gate whose verdict can be overridden by a vote"
+     ]
+    },
+    {
      "slug": "blocking-by-input-determinism",
      "status": "forged",
      "laws": [
@@ -13415,7 +13873,8 @@
      "use_when": [
       "deciding whether a check is permitted to block",
       "a gate advisory since the day it was added",
-      "one invocation mixing deterministic and externally-moving checks"
+      "one invocation mixing deterministic and externally-moving checks",
+      "a gate whose verdict varies on an unchanged commit"
      ]
     },
     {
@@ -13450,6 +13909,21 @@
      ]
     },
     {
+     "slug": "fabrication-economics",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "gate-sees-target",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rule demands a value only a human can judge",
+      "a required field is passing everywhere and nobody believes the coverage",
+      "deciding what a gate should do about a violation whose only cheap fix is a plausible lie"
+     ]
+    },
+    {
      "slug": "false-positive-economics",
      "status": "forged",
      "laws": [
@@ -13473,7 +13947,9 @@
      "use_when": [
       "placing each check on the rung its latency affords",
       "local green but pipeline red on the same content",
-      "pipeline red every run while merging continues"
+      "pipeline red every run while merging continues",
+      "a compile-gated branch breaks only in the pipeline",
+      "deciding whether the local rung analyzes every build configuration"
      ]
     },
     {
@@ -13502,6 +13978,36 @@
       "deciding whether a hook may fix what it finds",
       "a second tool installs its own commit check",
       "checks pass on clones where nothing ran"
+     ]
+    },
+    {
+     "slug": "item-liveness",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an item has sat at the same stage for a year",
+      "a backlog whose active count nobody believes",
+      "deciding what happens to work whose owner left",
+      "an entrance criterion that is never re-checked after admission"
+     ]
+    },
+    {
+     "slug": "operation-assertion-gates",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a performance rule keeps failing on runner noise",
+      "deciding how to gate a cost standard that has no stable threshold",
+      "a benchmark gate that has been advisory since the day it was added",
+      "turning \"do not do expensive work here\" into something a pipeline can refuse"
      ]
     },
     {
@@ -13598,6 +14104,13 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "advancement-evidence-fields",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--advancement-evidence-fields.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24.12.0"
+    },
+    {
+     "stack": "node",
      "technique": "chokepoint-tag-registry",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--chokepoint-tag-registry.md",
      "verified_on": "2026-08-22",
@@ -13608,6 +14121,13 @@
      "technique": "gate-liveness",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--gate-liveness.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "operation-assertion-gates",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--operation-assertion-gates.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24.12.0"
     },
     {
      "stack": "node",
@@ -13633,6 +14153,19 @@
      "technique": "gate-laddering",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--gate-laddering.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "item-liveness",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/process--item-liveness.md",
+     "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "react",
+     "technique": "fabrication-economics",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/react--fabrication-economics.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -14547,7 +15080,9 @@
      "use_when": [
       "allocating seats before or after seeing candidates",
       "item counts filling wildly different window shares",
-      "near-duplicates each claiming their own seat"
+      "near-duplicates each claiming their own seat",
+      "admitting one more item costs nothing or costs a header",
+      "the assembled artifact is larger than the sum of what went into it"
      ]
     },
     {
@@ -14612,6 +15147,23 @@
       "diagnosing answers that were degraded by irrelevant recall",
       "wiring a retrieval call into an agent turn"
      ]
+    },
+    {
+     "slug": "structural-centrality-lane",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the corpus's own structure carries relevance the query cannot express",
+      "a curated importance field has gone constant",
+      "ranking a corpus whose items reference each other by name",
+      "a seat for the item every other item depends on",
+      "deciding whether relevance requires a query at all"
+     ]
     }
    ],
    "applications": [
@@ -14635,9 +15187,23 @@
     },
     {
      "stack": "rust",
+     "technique": "ranking-budgets",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--ranking-budgets.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.80.0"
+    },
+    {
+     "stack": "rust",
      "technique": "relationship-proximity-lane",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--relationship-proximity-lane.md",
      "verified_on": "2026-08-27",
+     "verified_against": "rust@1.80.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "structural-centrality-lane",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--structural-centrality-lane.md",
+     "verified_on": "2026-08-31",
      "verified_against": "rust@1.80.0"
     }
    ]
@@ -16800,6 +17366,21 @@
       "months of claimed automation with zero proposals",
       "a framework patch release that mitigates by disabling a capability",
       "judging an upgrade by the label on its release notes"
+     ]
+    },
+    {
+     "slug": "vendored-fork-ledger",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "patching a third-party dependency instead of waiting for upstream",
+      "a vendored copy of a library has drifted from any known upstream commit",
+      "deciding what must be recorded before a local patch is allowed to land",
+      "an upstream release lands and nobody knows which local patches it obsoletes"
      ]
     }
    ],
@@ -19045,6 +19626,7 @@
     "accessibility/a11y-verification",
     "adaptive-fidelity-tiers/measured-not-declared-capability",
     "admission-queue/load-aware-admission",
+    "admission-queue/resource-denominated-bounds",
     "admission-queue/wait-telemetry",
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/cycle-and-depth-guards",
@@ -19052,9 +19634,11 @@
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/permission-stance-enforcement",
     "agent-instruction-files/capability-before-steering",
+    "agent-instruction-files/capability-coverage-contract",
     "agent-instruction-files/enforcement-demotion",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
+    "agent-memory/probe-without-write-back",
     "alerting/evaluation-loop",
     "alerting/rule-authoring-validation",
     "app-shell/entitlement-gating",
@@ -19134,6 +19718,7 @@
     "docs-sync/same-change-enforcement",
     "docs-sync/source-as-data-without-the-app",
     "docs-sync/source-doc-mapping",
+    "document-text-extraction/screen-then-confirm-detection",
     "draft-editing/debounced-save-groups",
     "draft-editing/dirty-tracking",
     "draft-editing/navigation-guards",
@@ -19153,6 +19738,7 @@
     "eval-harness/failure-attribution",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
+    "eval-harness/reliability-aggregation",
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/expiring-share-links",
     "executive-reporting/grounded-narrative-generation",
@@ -19188,6 +19774,10 @@
     "lazy-section-addressability/ssr-gating-decision-tree",
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
+    "machine-authored-documentation/packaged-surface-evaluation",
+    "machine-authored-documentation/rescored-baseline-uplift",
+    "machine-authored-documentation/stale-artifact-on-failed-write",
+    "machine-authored-documentation/three-gate-acceptance",
     "machine-paced-delivery/human-gate-capacity",
     "machine-paced-delivery/pre-authorship-verification",
     "machine-paced-delivery/proposal-not-push",
@@ -19248,9 +19838,11 @@
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/chokepoint-tag-registry",
     "quality-gates/enforcement-binding",
+    "quality-gates/fabrication-economics",
     "quality-gates/gate-laddering",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
+    "quality-gates/operation-assertion-gates",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/prose-rule-drift",
@@ -19307,6 +19899,7 @@
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
     "supply-chain/update-automation-review",
+    "supply-chain/vendored-fork-ledger",
     "sync-replication/projection-security",
     "sync-replication/topology-declaration",
     "telemetry-pii-redaction/emit-site-inventory",
@@ -19468,6 +20061,7 @@
     "docs-sync/repair-rides-the-open-page",
     "docs-sync/same-change-enforcement",
     "docs-sync/source-as-data-without-the-app",
+    "document-text-extraction/unreadable-region-refusal",
     "draft-editing/debounced-save-groups",
     "embedded-db/connection-pooling",
     "embedded-db/extension-lifecycle",
@@ -19494,6 +20088,7 @@
     "feed/feed-retention",
     "feed/live-prepend",
     "file-browsing/listing-and-refresh",
+    "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/lifecycle-signals",
@@ -19530,6 +20125,8 @@
     "knowledge-registry/deterministic-seeding",
     "lazy-section-addressability/scroll-to-hydrate-then-retry",
     "long-form-reading-surface/scroll-spy-reading-band",
+    "machine-authored-documentation/evidence-without-verdict",
+    "machine-authored-documentation/stale-artifact-on-failed-write",
     "machine-paced-delivery/agent-readable-build-outcomes",
     "machine-paced-delivery/pre-authorship-verification",
     "machine-paced-delivery/verification-throughput-as-constraint",
@@ -19556,6 +20153,7 @@
     "migrations/transactional-ddl",
     "model-routing/capability-floors",
     "model-routing/failover-horizon",
+    "model-routing/quality-axis-separation",
     "model-routing/routing-policy",
     "module-design/structural-improvement-loop",
     "motion/content-bearing-degradation",
@@ -19610,6 +20208,7 @@
     "quality-gates/enforcement-binding",
     "quality-gates/gate-liveness",
     "quality-gates/hook-hygiene",
+    "quality-gates/operation-assertion-gates",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/ratchet-design",
     "quality-gates/unmeasurable-criteria",
@@ -19779,6 +20378,7 @@
     "judgment-guardbands/self-audit-budget",
     "knowledge-registry/propose-then-adopt",
     "lazy-section-addressability/anchor-coverage-guard",
+    "machine-authored-documentation/preregistered-kill-criterion",
     "machine-paced-delivery/proposal-not-push",
     "markdown-vault/knowledge-integrity-lint",
     "maturity-ladders/present-vs-enforced",
@@ -19792,6 +20392,7 @@
     "plan-entitlements/entitlement-lifecycle-revocation",
     "proactive-nudges/efficacy-feedback",
     "prompt-safety/payoff-removal",
+    "quality-gates/fabrication-economics",
     "quality-gates/false-positive-economics",
     "release-pipeline/size-budgets",
     "repo-manifest-standard/spec-ships-with-artifact",
@@ -19821,7 +20422,10 @@
     "adaptive-fidelity-tiers/measured-not-declared-capability",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/priority-and-fairness",
+    "admission-queue/queue-cardinality",
+    "admission-queue/resource-denominated-bounds",
     "admission-queue/self-paced-intake",
+    "admission-queue/speculative-work-admission",
     "admission-queue/wait-telemetry",
     "adoption-measurement/adoption-distribution-bands",
     "adoption-measurement/adoption-vs-outcome-separation",
@@ -19836,6 +20440,8 @@
     "agent-instruction-files/sibling-floor-ownership",
     "agent-memory/baseline-ladder",
     "agent-memory/coverage-instrumentation",
+    "agent-memory/lane-reconciliation",
+    "agent-memory/probe-without-write-back",
     "agent-memory/procedure-promotion",
     "agent-memory/recall-injection",
     "alerting/dedup-and-cooldown",
@@ -19865,6 +20471,7 @@
     "companion-runtime/signal-economy-contract",
     "concurrency-guards/attempt-attribution",
     "concurrent-vcs/commit-verification",
+    "conformance-checking/declared-deviation-register",
     "conformance-checking/pass-ratio-comparability",
     "conversation-orchestration/recall-transparency",
     "cost-metering/engagement-paced-cadence",
@@ -19901,6 +20508,7 @@
     "docs-sync/dated-corrections",
     "docs-sync/doc-rot-detection",
     "docs-sync/same-change-enforcement",
+    "document-text-extraction/unreadable-region-refusal",
     "draft-editing/completeness-derivation",
     "embedded-db/db-self-instrumentation",
     "embedded-db/storage-accounting-and-pruning",
@@ -19916,6 +20524,7 @@
     "eval-harness/measurement-revision",
     "eval-harness/metric-role-contract",
     "eval-harness/overshoot-and-restore",
+    "eval-harness/reliability-aggregation",
     "eval-harness/scenario-design",
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/denominator-naming",
@@ -19953,6 +20562,10 @@
     "knowledge-registry/standard-versus-consumer-split",
     "long-form-reading-surface/scroll-spy-reading-band",
     "long-form-reading-surface/server-parsed-once-reused",
+    "machine-authored-documentation/declared-truth-boundary",
+    "machine-authored-documentation/packaged-surface-evaluation",
+    "machine-authored-documentation/preregistered-kill-criterion",
+    "machine-authored-documentation/rescored-baseline-uplift",
     "machine-paced-delivery/agent-readable-build-outcomes",
     "machine-paced-delivery/human-gate-capacity",
     "machine-paced-delivery/verification-throughput-as-constraint",
@@ -19980,6 +20593,7 @@
     "model-routing/candidate-ranking",
     "model-routing/effort-calibration",
     "model-routing/policy-governance",
+    "model-routing/quality-axis-separation",
     "module-design/locality-and-leverage",
     "module-design/module-depth",
     "module-design/scoreable-designs-are-built-not-argued",
@@ -20021,7 +20635,9 @@
     "public-verdict-badge/embed-reach-attribution",
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/verdict-honesty-qualifiers",
+    "quality-gates/advancement-evidence-fields",
     "quality-gates/false-positive-economics",
+    "quality-gates/item-liveness",
     "quality-gates/ratchet-design",
     "quality-gates/severity-by-construction",
     "rate-limiting/limit-derivation",
@@ -20044,6 +20660,7 @@
     "retrieval/relationship-proximity-lane",
     "retrieval/retrieval-evaluation",
     "retrieval/retrieval-triggering",
+    "retrieval/structural-centrality-lane",
     "retry-backoff/retry-observability",
     "runner-fleet/queue-depth-elasticity",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
@@ -20115,6 +20732,8 @@
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/decay-and-forgetting",
+    "agent-memory/lane-reconciliation",
+    "agent-memory/probe-without-write-back",
     "authorization/delegated-authority",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
@@ -20126,16 +20745,27 @@
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
     "docs-sync/earned-verification-state",
+    "document-text-extraction/extraction-yield-bands",
+    "document-text-extraction/screen-then-confirm-detection",
+    "document-text-extraction/unreadable-region-refusal",
     "error-handling/cancellation-attribution",
     "eval-harness/measurement-revision",
+    "fleet-orchestration/absent-status-passthrough",
     "knowledge-registry/verification-is-contributed",
+    "machine-authored-documentation/declared-truth-boundary",
+    "machine-authored-documentation/evidence-without-verdict",
+    "machine-authored-documentation/three-gate-acceptance",
     "markdown-vault/replicated-substrate",
     "mcp-tools/egress-argument-gating",
     "migrations/error-propagation",
+    "model-routing/quality-axis-separation",
     "optional-dependency-degradation/capability-honest-refusal",
     "p2p-networking/peer-state-honesty",
     "plan-review/informational-fold-in",
+    "quality-gates/advancement-evidence-fields",
     "quality-gates/enforcement-binding",
+    "quality-gates/fabrication-economics",
+    "retrieval/structural-centrality-lane",
     "structured-output/schema-validation-and-repair",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "terminal-multiplexing/occupant-state-detection",
@@ -20149,6 +20779,7 @@
     "accessibility/keyboard-navigation-models",
     "admission-queue/drain-and-shutdown",
     "admission-queue/priority-and-fairness",
+    "admission-queue/queue-cardinality",
     "agent-chaining/chain-identity-and-rollup",
     "agent-instruction-files/single-source-topology",
     "agent-memory/episodic-capture",
@@ -20406,6 +21037,7 @@
     "entity-lifecycle/cascade-design",
     "executive-reporting/grounded-narrative-generation",
     "file-browsing/file-mutations",
+    "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/hibernation-and-resume",
     "fleet-orchestration/outbound-compute-plane",
     "fleet-orchestration/parallel-dispatch",
@@ -20512,6 +21144,7 @@
     "adaptive-fidelity-tiers/probe-deferral-to-idle",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/drain-and-shutdown",
+    "admission-queue/speculative-work-admission",
     "agent-addressable-ui/uninstrumented-degradation",
     "agent-chaining/graph-to-wiring-translation",
     "agent-instruction-files/sibling-floor-ownership",
@@ -20605,6 +21238,7 @@
     "ipc-contract/drift-gates",
     "job-coordination/lease-renewal",
     "lazy-section-addressability/scroll-to-hydrate-then-retry",
+    "machine-authored-documentation/stale-artifact-on-failed-write",
     "machine-paced-delivery/scoped-delivery-access-for-agents",
     "markdown-vault/editor-interop",
     "mcp-tools/authentication-and-scoping",
@@ -20638,6 +21272,7 @@
     "plan-entitlements/entitlement-lifecycle-revocation",
     "proactive-nudges/notice-delivery-decoupling",
     "public-verdict-badge/outcome-branched-cache",
+    "quality-gates/item-liveness",
     "rate-limiting/key-design",
     "rate-limiting/storm-hygiene",
     "realtime-events/outbound-fan-out",
@@ -20666,6 +21301,7 @@
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/termination-and-reaping",
     "supply-chain/archive-extraction-safety",
+    "supply-chain/vendored-fork-ledger",
     "sync-replication/tombstone-propagation",
     "templates-scaffolding/adoption-lifecycle",
     "templates-scaffolding/catalog-curation",
@@ -20753,6 +21389,7 @@
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/host-seam-contracts",
     "concurrency-guards/guard-key-design",
+    "conformance-checking/declared-deviation-register",
     "conformance-checking/declared-then-proven",
     "conformance-checking/finding-severity-ladder",
     "connector-catalog/adapter-normalization",
@@ -20842,6 +21479,8 @@
     "lazy-section-addressability/external-anchor-vs-internal-id",
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/fixed-chrome-offset-budget",
+    "machine-authored-documentation/packaged-surface-evaluation",
+    "machine-authored-documentation/rescored-baseline-uplift",
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/ordinal-first-comparability",
@@ -20978,8 +21617,12 @@
     "credential-vault/token-refresh-lifecycle",
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/environment-promotion",
+    "document-text-extraction/extraction-yield-bands",
+    "document-text-extraction/recognition-boundary-and-escalation",
     "error-handling/cancellation-attribution",
     "knowledge-registry/verification-is-contributed",
+    "machine-authored-documentation/declared-truth-boundary",
+    "machine-authored-documentation/three-gate-acceptance",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
@@ -20990,44 +21633,10 @@
     "web-scraping/soak-mode-and-verdict-replay"
    ]
   },
-  "absent-guard-is-loud": {
-   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
-   "techniques": [
-    "admission-queue/self-paced-intake",
-    "agent-cli-transport/fallback-ladder",
-    "agent-cli-transport/permission-stance-enforcement",
-    "agent-cli-transport/subscription-auth-selection",
-    "agent-instruction-files/enforcement-demotion",
-    "agent-instruction-files/workspace-ancestry-isolation",
-    "client-state/store-dependency-topology",
-    "companion-identity/operator-profile-synthesis",
-    "companion-runtime/autonomous-cycle-hosting",
-    "data-access/cross-driver-invariant-parity",
-    "deployment-contract/direct-push-delivery",
-    "error-handling/crash-capture",
-    "fleet-orchestration/brief-carries-the-session",
-    "knowledge-registry/verification-is-contributed",
-    "machine-paced-delivery/human-gate-capacity",
-    "markdown-vault/knowledge-integrity-lint",
-    "mcp-tools/transport-selection",
-    "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
-    "optional-dependency-degradation/capability-honest-refusal",
-    "plan-review/informational-fold-in",
-    "public-claim-provenance/provenance-as-a-build-gate",
-    "quality-gates/blocking-by-input-determinism",
-    "quality-gates/enforcement-binding",
-    "quality-gates/oracle-frozen-during-repair",
-    "quality-gates/prose-rule-drift",
-    "scale-investment-timing/ceiling-as-deadline-not-trigger",
-    "structured-output/schema-validation-and-repair",
-    "supply-chain/update-automation-review",
-    "web-scraping/soak-mode-and-verdict-replay",
-    "webhook-ingestion/duplicate-and-replay-dedup"
-   ]
-  },
   "derivation-names-recomputation": {
    "statement": "Any stored derived value names how it is recomputed. A cached count, a denormalized rollup, or a materialized summary without a documented, invokable recomputation path is a future discrepancy with no arbiter.",
    "techniques": [
+    "admission-queue/resource-denominated-bounds",
     "agent-addressable-ui/build-time-source-stamping",
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
@@ -21035,6 +21644,7 @@
     "agent-instruction-files/machine-owned-regions",
     "agent-memory/baseline-ladder",
     "agent-memory/consolidation",
+    "agent-memory/lane-reconciliation",
     "agent-memory/memory-value-model",
     "app-shell/badge-and-attention",
     "audit-logging/tamper-evidence",
@@ -21081,6 +21691,7 @@
     "docs-sync/doc-rot-detection",
     "docs-sync/earned-verification-state",
     "docs-sync/source-doc-mapping",
+    "document-text-extraction/structural-amplification-caps",
     "draft-editing/completeness-derivation",
     "draft-editing/dirty-tracking",
     "embedded-db/analytical-reads-off-the-serving-store",
@@ -21158,6 +21769,7 @@
     "retrieval/chunking-and-indexing",
     "retrieval/embedding-lifecycle",
     "retrieval/retrieval-triggering",
+    "retrieval/structural-centrality-lane",
     "runner-fleet/shared-cache-integrity",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "scale-investment-timing/next-order-of-magnitude-only",
@@ -21193,6 +21805,48 @@
     "wizard-flows/progress-communication"
    ]
   },
+  "absent-guard-is-loud": {
+   "statement": "An optional guard is an absent guard. A check that must be configured, mounted, or switched on protects the examples and not the installations — a deployed fleet converges on the default, and the default is off. Either the guard engages on its own, or its absence is loud: a logged, visible, deliberate choice. A system that degrades to unguarded because a config row is missing, a validator was not attached, or a strict mode was not requested has made its most important decision silently — and the vendor that ships the safe mode without self-enabling it has signed the same waiver.",
+   "techniques": [
+    "admission-queue/self-paced-intake",
+    "agent-cli-transport/fallback-ladder",
+    "agent-cli-transport/permission-stance-enforcement",
+    "agent-cli-transport/subscription-auth-selection",
+    "agent-instruction-files/capability-coverage-contract",
+    "agent-instruction-files/enforcement-demotion",
+    "agent-instruction-files/workspace-ancestry-isolation",
+    "agent-memory/probe-without-write-back",
+    "client-state/store-dependency-topology",
+    "companion-identity/operator-profile-synthesis",
+    "companion-runtime/autonomous-cycle-hosting",
+    "conformance-checking/declared-deviation-register",
+    "data-access/cross-driver-invariant-parity",
+    "deployment-contract/direct-push-delivery",
+    "document-text-extraction/recognition-boundary-and-escalation",
+    "document-text-extraction/structural-amplification-caps",
+    "error-handling/crash-capture",
+    "fleet-orchestration/brief-carries-the-session",
+    "knowledge-registry/verification-is-contributed",
+    "machine-authored-documentation/evidence-without-verdict",
+    "machine-authored-documentation/three-gate-acceptance",
+    "machine-paced-delivery/human-gate-capacity",
+    "markdown-vault/knowledge-integrity-lint",
+    "mcp-tools/transport-selection",
+    "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
+    "optional-dependency-degradation/capability-honest-refusal",
+    "plan-review/informational-fold-in",
+    "public-claim-provenance/provenance-as-a-build-gate",
+    "quality-gates/blocking-by-input-determinism",
+    "quality-gates/enforcement-binding",
+    "quality-gates/oracle-frozen-during-repair",
+    "quality-gates/prose-rule-drift",
+    "scale-investment-timing/ceiling-as-deadline-not-trigger",
+    "structured-output/schema-validation-and-repair",
+    "supply-chain/update-automation-review",
+    "web-scraping/soak-mode-and-verdict-replay",
+    "webhook-ingestion/duplicate-and-replay-dedup"
+   ]
+  },
   "silent-state-is-ungoverned": {
    "statement": "An agent's internal state — its assumptions, its uncertainty, its belief that it has finished — shapes the outcome whether or not anyone can see it, and it can be governed only once it is converted into an artifact something else can read: an assumption stated before it is built on, alternatives presented instead of one silently chosen, a completion claim checked against what actually landed. The failure signature is uniform across every corpus that has measured it: the agent is wrong at the same confidence as when it is right, the decisive error precedes its first observable signal by most of the trajectory, and unverified completion claims concentrate exactly where recovery is no longer possible. Rules, gates and reviews bind only surfaced state; whatever remains internal is outside their reach by construction. Sibling of unknown-is-not-a-value, one level up: that law forbids rendering unknown as definite in *data*; this one demands the conversion of private epistemic state into inspectable output before anything downstream relies on it.",
    "techniques": [
@@ -21200,6 +21854,7 @@
     "deployment-contract/deployment-config-as-code",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
+    "machine-authored-documentation/preregistered-kill-criterion",
     "plan-review/decision-sized-slicing",
     "plan-review/fresh-posture-self-challenge",
     "plan-review/objection-before-artifacts",
