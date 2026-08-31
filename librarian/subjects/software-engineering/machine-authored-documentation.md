@@ -65,13 +65,16 @@ re-litigating it.
 
 ## Applications
 
-- `node--evidence-without-verdict` — `politicas`, mode `experiment`, verdict
-  `better`, proof `ab-paired`. Six path-coverage cases, two arms over the
-  shipped module; 2→6 distinguishable outcomes, 4→0 not-measured cases hidden as
-  clean, detection unchanged. **The structural fact outranks the A/B**: the
-  detector's finding record has no skipped type and its report has no
-  skip/checked vocabulary, so the conflation is forced by the record shape
-  rather than chosen at the call site.
+- `node--evidence-without-verdict` — `politicas`, mode `code`, verdict `better`,
+  proof `ab-paired`, **shipped** (3 files, +92/-9, unpushed). Both arms run the
+  real exported caller over one stubbed page: real findings 2 vs 2 and
+  byte-identical, unmeasured candidates visible 0 → 3, coverage matching ground
+  truth. **The structural facts outrank the A/B** and there are three: the
+  report had no skipped record type (so the conflation was forced, not chosen);
+  the vocabulary already existed one layer up and died at a module boundary; and
+  the same repository implements `checked-vs-skipped-denominators` exemplarily
+  in a *different* gate. That last one is the reusable finding — a discipline is
+  adopted by a gate, not by a codebase.
 - Single-stack (`node`). Single-source debt: the whole subject is forged from
   one repository. Both are real debts and both are the obvious next work — a
   reconcile wave against a second generator would be the highest-value touch.
@@ -80,6 +83,8 @@ re-litigating it.
 
 - A second stack and a second source; this subject is single-everything.
 - `docs-sync`'s side of the authorship/standing-claim seam.
-- The cross-repo lane for the `politicas` seam: the change is specified in the
-  application and in the project's `.ai/applied.jsonl`, uncommitted, waiting on
-  one sentence of operator confirmation.
+- The live-page rate the change makes measurable but does not supply: how often
+  a contrast candidate actually goes unresolved on a real page. Returns when
+  `puppeteer` is in that tree.
+- 31 of the detector's 39 conflation sites sit in four untouched engines, and
+  `--no-advisory` can still suppress the denominator the change added.

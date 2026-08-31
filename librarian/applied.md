@@ -102,22 +102,36 @@ owed. Rows in the table above are minted from deviations, one project per techni
   finding class whose enumeration can truncate mid-scan rather than fail outright.
 - Seams NOT recorded in the project's `.ai/applied.jsonl` for any of the three: that is a
   project-tree write and the operator confirmed no project. Owed on the next confirmed run.
-- `evidence-without-verdict` (machine-authored-documentation) x politicas - **experiment** -
-  **better**. Seam: a design-quality detector's visual engine returns a finding or `null` from
-  five places; four of them mean "could not measure" and one means "measured and clean", and
-  the caller collapses all five with `finding ? [finding] : []`. Two arms over the shipped
-  module (arm B = the same file with a three-state outcome, nothing else changed), six
-  path-coverage cases, one harness: distinguishable outcomes 2 -> 6, not-measured cases hidden
-  as clean 4 -> 0, findings emitted unchanged at 1. The last number is the safety property -
-  the amendment changes what the engine can say, not what it detects.
-  **The structural fact outranks the A/B**: the detector's finding record mints one shape and
-  there is no skipped record type anywhere in its CLI or entrypoint, so the report has no
-  vocabulary in which a not-measured candidate could be expressed. Nobody chose the
-  conflation; a denominator cannot be added at a call site, it has to exist in the record type
-  first. Seam recorded in the project's `.ai/applied.jsonl` (uncommitted).
-  Return condition: operator confirms the cross-repo lane, or `puppeteer` lands in that tree
-  and the detection-rate arm - how often a selector actually goes stale - becomes runnable.
-  Not run this session: the engine is browser-only and the dependency is absent.
+- `evidence-without-verdict` (machine-authored-documentation) x politicas - **code** -
+  **better**, shipped. Seam: a design-quality detector's visual engine returned a finding or
+  `null` from five places; four meant "could not measure" and one meant "measured and clean",
+  and the caller collapsed them with `finding ? [finding] : []`. Three edits - a
+  pass/fail/unresolved return, an advisory `contrast-coverage` rule so the denominator rides
+  the findings array without becoming a failure, and a tally across both arms.
+  Paired proof, both arms running the real exported `runVisualContrastFallback` over one
+  stubbed page, 8 candidates: real findings 2 vs 2 and byte-identical, unmeasured candidates
+  visible to a reader 0 -> 3, coverage line matching ground truth exactly (5 of 8 measured,
+  3 unresolved with the correct reason breakdown). The change alters what the detector can
+  say, not what it detects. Committed to the project's default branch, +92/-9, not pushed.
+  **Three structural facts, none designed.** (1) The report had no skipped record type at
+  all, so the conflation was forced by the record shape rather than chosen at the call site -
+  a denominator cannot be added at a call site. (2) The vocabulary already existed one layer
+  up: the browser-side analyzer speaks `unresolved` with reasons and its caller dropped them
+  at the module boundary - `verdict-survives-boundary`, not an absent vocabulary. (3) The
+  same repository implements `checked-vs-skipped-denominators` **exemplarily in a different
+  gate** - its doc-sync hook prints four named skip classes at zero and says of its own
+  informational block that it cannot fail a build. A discipline is adopted by a gate, not by
+  a codebase, and the gate next door does not inherit it.
+  And the defect demonstrated itself on this commit: the 77-second `eslint-staged` pre-commit
+  hook passed by *not looking* - `.claude/skills/**` is an ignore pattern, so eslint exits 0
+  with "File ignored". The detector that gates this project's design quality sits outside
+  every one of the project's own gates, which makes the paired proof load-bearing rather
+  than decorative.
+  Return condition: the live-page rate - how often a selector actually goes stale - is the
+  measurement this change makes possible and does not supply; the first real scan after
+  `puppeteer` lands produces it. Open: `--no-advisory` still suppresses the coverage line,
+  and 31 of the detector's 39 conflation sites are in four untouched engines.
+
 - `speculative-work-admission` (admission-queue) x goat - **code** - **better**, shipped.
   Seam: the prefetch manager enqueued speculative arrivals into a 50-deep queue drained at
   the live concurrency limit, so under congestion a promoted prefetch lands after its value
