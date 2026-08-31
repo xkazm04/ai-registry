@@ -4625,3 +4625,65 @@ content.
   that argue for a method edit (the third near-empty reading, and the confounder rule
   reaching its threshold) are recorded and unapplied, and the scorecard names the next
   run to touch `SKILL.md` as their carrier.
+## 1.5.0 - 2026-08-31 - semantica
+
+- **An A/B that returns `not-better` and then corrects the technique it tested is the
+  highest-value outcome this method produces, and this run got two in one sitting.** The
+  SSRF consumer's own comments supplied a rule the technique had implicitly denied — the
+  pre-flight validator is *not* redundant with the connect-time resolver, because a
+  literal address never reaches a resolver at all — and the lockfile row discovered that
+  the ecosystem's strict-install command already *is* the oracle the technique
+  prescribed building, which would otherwise have shipped duplicated logic to every
+  reader whose installer already enforces it. In both cases the technique was **less
+  correct before the apply step than after it**, and neither correction was reachable
+  from the source: one came from a consumer that had solved the problem better, the
+  other from a tool's documented behaviour. The scorecard now records this as the third
+  consecutive run producing an amendment from a `not-better`. **This is past the
+  three-run threshold and belongs in `SKILL.md` as a rule of Phase 7.5** — a `not-better`
+  row asks "what did the seam know that the technique did not", and the answer is
+  written into the technique before the run ends, not banked. Not applied here: three
+  sibling runs have edited the skill lane today (`6ac2b4a`, and three more touching
+  `SCORECARD`/`LESSONS`), and a fourth editing `SKILL.md` in the same afternoon without
+  reading their diffs is the exact hazard the method names. **A mid-flight run should do
+  nothing about this bullet; the next run to open `SKILL.md` should carry it.**
+
+- **Read the prior-art file for what it *declines*, not only for what it covers.** Two
+  of six landings were located this way, and neither was visible in the candidate list.
+  `absent-degrades-malformed-fails-fast` contains the sentence "malformed is not 'the
+  dependency rejected it' — that is a runtime fact and a different technique", and that
+  technique did not exist; `quality-gates` enumerates three ways a check cannot fire and
+  the source supplied a fourth of a different kind. Phase 6 step 3 already says to hunt
+  enumerations, and step 4 says to hunt asymmetries. This adds the cheapest variant of
+  both: **a document that names a neighbouring technique as out of scope has told you
+  whether that technique exists — and the corpus is large enough now that it usually
+  does not.** A grep for "a different technique", "not this subject", "belongs to" across
+  the bundle would return a standing worklist of gaps the corpus has already localised
+  for free. Worth an instrument if a second run confirms the yield.
+
+- **A declared focus is scoped to a lane, and a run in a different lane should say so
+  rather than comply.** The inherited focus was to parallelise Phase 6's mechanical half
+  when a *wave* returns more candidates than the director can verify. This was a
+  single-source repository run: no wave, one director, 18 candidates. Manufacturing
+  parallelism to satisfy it would have produced worse work and a meaningless scorecard
+  row. Phase 1 step 5 already permits "if the focus does not apply to this source, say
+  why in the scorecard row" — this run is the case that makes the permission load-bearing
+  rather than decorative, and the ratio it was aimed at (Extract→Test) came in at 18→6
+  anyway, by a different mechanism.
+
+- **A sibling swept this run's `SCORECARD` append into its own commit** (`0cf4da6`)
+  between the ledger unlock and this run's commit. Nothing was lost — the row is in
+  `HEAD` under another run's message — and the `ledger` lock did its job, because the
+  append itself did not race. But it shows the lock's boundary: it serializes the
+  *write*, not the window between the write and the writer's commit, and a shared file
+  appended by twelve runs will routinely be committed by whoever reaches `git commit`
+  first. That is benign and probably not worth fixing; it is worth **not** diagnosing as
+  a lost append the next time a run finds its own row already in `HEAD` under a stranger's
+  commit message.
+
+- **Two `ship 0` rows this run were `better` with the change argued, the measurable
+  named, and the fix under ten lines**, and both stopped on `confirmation` — the operator's
+  triage answer picked six rows and named no project. The previous run's lesson was to
+  ask for the tree in the same question that asks for the pick; this run asked, in one
+  line, and it was not answered. The scorecard's next focus moves the question to where
+  it is concrete: ask at Phase 7.5, holding a named seam and a run A/B, not at triage
+  holding a hypothesis.
