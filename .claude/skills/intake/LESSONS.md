@@ -4562,3 +4562,66 @@ into `references/reference-waves.md` when someone next edits it deliberately.
   the lessons above are recorded and unapplied, and no version bump is owed. The
   first two bullets argue for a Phase 2/2c wording change, but a method edit with
   six sessions live belongs to a run that is not also landing content.
+
+## 1.5.0 - 2026-08-31 - boundary-software-factory
+
+- **A near-empty is sometimes neither a hole nor a seam: it is material we own, filed
+  in a subject that does not make decisions.** The method already names two readings of
+  a weak map result. This run found a third and it was the whole finding.
+  `human-gate-capacity` models the review rubber stamp and enumerates its remedies;
+  `batch-size-thresholds`, two categories away in a *measurement* subject, had already
+  written "approval is a formality" as the definition of its top size bucket. Neither
+  file was wrong and no map query would have connected them, because the concept lives
+  under different slugs on both sides. The generalisable move: when a candidate looks
+  already-covered, ask not only *which file measures it* (the existing asymmetry hunt)
+  but **whether the file that measures it is allowed to decide anything**. A measurement
+  subject can hold a fact for months without any decision subject inheriting it.
+
+- **An amendment inside a technique file is the collision-free landing, and that is a
+  structural property worth exploiting deliberately.** Two siblings held
+  `machine-paced-delivery` while this run wrote into it. A new technique would have
+  contended on the golden path's `techniques:` list - the one line every landing on a
+  subject must touch. An amendment touches only the technique file plus, optionally, one
+  prose clause. The method already prefers amendments on yield grounds ("often the
+  higher-yield move and always the cheaper one"); it should also say they are the
+  *parallel-safe* one. When the board shows a sibling on your subject, check whether the
+  finding can be an amendment before deciding to wait.
+
+- **The apply step's control is not optional, and the first number lied twice in one
+  run.** Arm B separated post-merge repair 81% vs 57% by changed lines - a clean 1.42x
+  that would have shipped as a confirmation. Holding *files touched* fixed collapsed the
+  gradient and inverted it in the single-file band: the effect was surface area, since
+  larger changes touch more files. The baseline lied too - 62.9% repair across the whole
+  population was a saturated predicate at 40 changes/day on overlapping files. Both were
+  caught by the same cheap move: **name the confounder you would most like not to have,
+  and hold it fixed once.** This is the fifth sighting across three runs of "an
+  instrument's first number is not its measurement"; the scorecard now says it belongs in
+  the method rather than here.
+
+- **A negative unit result is a landing.** The refutation did not weaken the amendment,
+  it gave the amendment the one thing it was missing - a stated unit condition. The
+  owning threshold table names the unit as an open choice and defaults to changed lines;
+  this run is the first evidence in the corpus that the default can carry almost none of
+  the signal it appears to carry. Phase 7.5 has now re-drafted a technique on this
+  subject three separate times, which is enough to say plainly: **the apply step is a
+  drafting instrument, not a validation step**, and a technique landed without one is a
+  first draft regardless of how well it reads.
+
+### Redesign proposal - the Test column is measuring operator selectivity as loss
+
+Not applied this run. The scorecard has named Extract->Test as the weakest stage for two
+windows running, but three of the last four runs recorded that ratio explicitly as
+*operator choice* (1 of 12 here, 2 of 12, 2 of 21). Phase 3 is instructed to extract
+5-15 candidates precisely so Phase 5 can steer cheaply, so most candidates not advancing
+is the gate working as designed. Counting them as funnel loss commits the error the
+method forbids elsewhere - treating untriaged as declined - and it has now sent two
+consecutive runs chasing a director-throughput problem that the numbers do not show.
+Proposal: record `test` as `picked/verified/dropped` against `extracted`, so
+picked->verified is the only ratio read as loss. Belongs to a run not also landing
+content.
+
+- **Mid-flight runs on 1.5.0: nothing to do.** No `SKILL.md` edit was made this run and
+  no version bump is owed. Five sibling sessions were live at commit; the two rules above
+  that argue for a method edit (the third near-empty reading, and the confounder rule
+  reaching its threshold) are recorded and unapplied, and the scorecard names the next
+  run to touch `SKILL.md` as their carrier.

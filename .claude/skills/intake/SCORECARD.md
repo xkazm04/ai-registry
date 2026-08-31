@@ -8,6 +8,7 @@ funnel loses most at under the table; that stage is the next run's declared focu
 
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1.5.0 | 2026-08-31 | `semantica` | 1 | 18 | 6 | 5 techniques + 1 amendment | 6 rows: 2c/3e/0s + 1 unapplied | 0 (declined: confirmation — 2 `better` rows had the change argued and the measurable named, but the triage answer named no project, and Phase 8 step 2 gates on it) | Focus **did not apply** — it was scoped to the reference-index wave lane and this was a single-source repository run; said so rather than manufacturing parallelism. Extract→Test landed at 18→6 (a third) anyway, via the enumeration hunt rather than via parallelism |
 | 0.15.0 | 2026-08-29 | ai-native-sdlc-and-ci-on-call | 2 | 15 | 8 | 5 | 0c/0e/0s | 0 | Phase 7.5 did not exist; run landed five and applied none. Backfill owed: `oracle-frozen-during-repair`, and the four amendments. |
 | 1.0.0 | 2026-08-29 | apply wave 1 (backtest deviations, personas + gravity) | 0 (no source - apply-only run) | 0 | 0 | 0 | 24c/4e/1s | 23 of 24 branches merged (same day, director-reviewed diff + project gates: tsc, 188 vitest, 312 playwright-node) | First run of the apply lane. 29 rows: 27 better / 1 not-better / 1 unmeasurable. One branch held: its gate is deliberately red until a repair lands. |
 | 1.1.0 | 2026-08-30 | tesana-loop-mode-game-builds | 1 | 13 | 1 | 1 | 0c/1e/0s | 0 (record-only commit in pof) | Ship 0: the `better` change touches three harness files and the gate that would see it (visual-check) cannot start on this machine, so it is filed as the project's next change rather than committed unpaired. First end-to-end `/intake <url>` run since the apply lane landed: research -> extract -> test -> apply all converted on one source. |
@@ -218,6 +219,7 @@ Recording both rather than resolving them by majority:
 | **indeterminacy** | the change is small and authorized but its semantics is open: report the finding, ship nothing, say what would settle it |
 | **environment** | say in one line what the operator would have to do; leave the diff uncommitted rather than commit code that could not be built |
 | 1.5.0 | 2026-08-31 | awesome-agentic-patterns | 1 (1,748-word landing page vs **~996k in-tree**; queue graded it a reference index, the **link/word ratio refuted that at Phase 2c** — 1 link per 193 words is a code-repository ratio, so no wave ran) | 11 | 3 | 2 (1 technique amendment + 1 script) | **1 row / 1 landing** (0c/1e/0s; 1 not-better) | 0 — the experiment returned `not-better`, so no ship was owed | **Declared focus did not apply and that is the result.** The focus (parallelise Phase 6 when a wave floods the director) presumes a reference index; this source was not one, and the queue's grade was the thing that was wrong. Focus should attach to the LANE, not to the next run. |
+| 1.5.0 | 2026-08-31 | boundary-software-factory | 1 | 12 | 1 | 1 | 1e | 0 | **Ship 0 is correct and owed nothing** - the landing is a registry-side gate measure; no project change was warranted, and the apply step was read-only by design. The declared focus (parallelise the mechanical half of Phase 6) **did not apply and was said so before the table**: it was written for wave runs returning more candidates than a director can verify, and a single dialogue with one operator-picked row has no mechanical half to fan out. Extract->Test is 1/12 by operator choice, not director capacity. Class economics predicted the run exactly: dialogue, expected yield stated as 1-3 findings before triage, **0 of 3 fetches spent**, corroboration entirely corpus-internal. **The apply step refuted its own first number for the second time in this skill's history** - arm B's 1.42x by changed lines was surface-area artifact; the control (hold files-touched fixed) collapsed and inverted the gradient. Instrument's first number wrong again: that is now five sightings across three runs |
 
 Next run's declared focus: **when an apply row reaches `better`, name the ship blocker
 from those four, and act per class.** A run that reports "ship 0" without naming which
@@ -557,3 +559,83 @@ beside the corrected one.** Every run that has done this found the first number
 wrong; no run has yet reported the pair, so the corpus cannot see how large the
 correction usually is. A run that reports both numbers has made the rule measurable
 instead of merely repeated.
+
+---
+
+**Run 2026-08-31 (`semantica`), and the declared focus did not apply.** The focus
+inherited from the wave run was to parallelise the mechanical half of Phase 6 when a
+wave returns more candidates than the director can verify. This run had no wave: one
+repository, one director, 18 candidates. **Saying why a focus did not fire is a result,
+not a miss** — the focus was written for a reference-index lane and is scoped to it, and
+a single-source run should say so rather than manufacture parallelism to comply.
+
+What the run has instead is a clean number on the stage that focus was aimed at.
+**Extract→Test was 18→6, a third**, against the 30→7 that named Extract→Test as the
+weakest stage. The mechanism was not parallelism; it was **reading the corpus's own
+denials first**. Two of the six landings were located by the Phase 6 enumeration hunt
+rather than by the source: `absent-degrades-malformed-fails-fast` declines a case in one
+line ("that is a runtime fact and a different technique") and the technique it names did
+not exist; `quality-gates` enumerates three ways a check cannot fire and the source
+supplied a fourth of a different kind. Neither was visible in the candidate list — both
+were visible in the file the candidate mapped to.
+
+**The apply stage produced the run's best material, and it did so by losing.** Six rows,
+six modes, and the two `not-better` verdicts each **corrected the technique that
+generated them** before it was a day old. The SSRF consumer's own comments explained why
+the pre-flight validator the technique had implicitly deprecated is not redundant — a
+literal address never reaches a connect-time resolver — and the lockfile row discovered
+that the ecosystem's strict-install command already *is* the oracle the technique
+prescribes building, which would otherwise have shipped duplicated logic to every reader
+whose installer already enforces it. **A technique that survives its own A/B unchanged
+has been confirmed; one that is corrected by it has been finished.** Three runs have now
+produced an amendment from a `not-better`; that is a rule this method should carry rather
+than a recurring pleasant surprise.
+
+The counter-observation is worth recording against it: `ship` is 0 again, and the reason
+is the same one the blocker taxonomy keeps naming — **confirmation**. Two rows
+(`vacuous-by-evaluation`, `verification-scope`) came back `better` with the change
+argued, the measurable named, and the fix under ten lines, and both stopped at Phase 8
+step 2 because the operator's triage answer named no project. The previous run learned
+that the cheapest fix is to ask for the tree in the same question that asks for the pick;
+this run asked, in one line, and the answer did not include one. Asking is necessary and
+was not sufficient.
+
+Next run's declared focus: **when a triage answer picks rows but names no project, treat
+the highest-`better` row's project as a second question asked at the moment the apply
+step confirms a seam — not at Phase 8.** The seam is what makes the question concrete
+("this gate scores identically with its manifest gutted; may I fix it in `personas`?"),
+and asking it at Phase 7.5, with the arms already run, is a different question from the
+speculative one asked at triage. A run that reports a non-zero `ship` after that change
+has found something; before it, the taxonomy has only been re-confirmed.
+
+**Weakest stage, last ten runs: still Extract->Test, and the previous focus never got
+tested.** Roughly 27 verified out of ~134 extracted, about a fifth - no better than the
+window that named it. `apply` is healthy (ten of ten rows carry a row or a stated
+none-owed) and `ship` has genuinely moved, 5 of the last 10 against 1 in 10 two windows
+ago. The declared focus - parallelise the mechanical half of Phase 6 - has now sat
+undischarged for three consecutive runs because all three were single-source runs with
+no wave to parallelise. A focus that only fires on one source class is not a focus, it
+is a contingency.
+
+**And the ratio is probably measuring the wrong thing.** Three of the last four runs
+recorded Extract->Test explicitly as *operator choice*: 1 of 12 here, 2 of 12 on
+ripgrep, 2 of 21 on knip. Phase 3 is instructed to extract 5-15 candidates and Phase 5
+is a cheap steering gate whose whole purpose is that most of them do not advance - so a
+low ratio is the gate working, not the funnel leaking. Counting an unpicked candidate as
+loss reads operator selectivity as pipeline failure, and it is the same error the method
+forbids elsewhere: an untriaged candidate carries no judgment, and filing it as one
+poisons the reading.
+
+Next run's declared focus: **split the Test column so the funnel stops mismeasuring
+itself.** Record `test` as `picked/verified/dropped` against `extracted`, where `picked`
+is the operator's (or the unattended rule's) selection and `dropped` is a candidate that
+was verified and resolved to already-covered. Then the stage that can actually leak -
+picked-but-not-resolved - becomes visible, and the untriaged remainder stops being
+counted against the run. A run that reports the split and finds picked->verified below
+80% has found a real loss; before the split, nobody can tell the two apart.
+
+Second, carried because it is now well past its threshold: **an instrument's first
+number is not its measurement** has fired five times across three runs, and twice in
+this one (arm B's 1.42x line gradient was surface-area artifact; the 62.9% baseline was
+a saturated predicate). It is no longer a lesson. It belongs in the method as a rule of
+Phase 7.5, and the next run to touch `SKILL.md` should carry it there.
