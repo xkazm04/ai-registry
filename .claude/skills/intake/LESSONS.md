@@ -4509,3 +4509,56 @@ into `references/reference-waves.md` when someone next edits it deliberately.
 
 - **Mid-flight runs on 1.5.0: nothing to do.** No `SKILL.md` edit was made this run;
   the lessons above are recorded and unapplied, and no version bump is owed.
+
+## 1.5.0 - 2026-08-31 - awesome-agentic-patterns
+
+- **The queue's class grade is a hypothesis, and the ratio test is the cheapest way
+  to refute it.** This source was graded `paper aggregator / reference index` in the
+  harvest queue, and the operator picked it specifically to run the `--wave` lane.
+  The tree said otherwise in one command: 5,080 outbound links over ~996,000 words
+  of prose is **one link per 193 words**, a code-repository ratio, where a reference
+  index inverts it. Phase 2c already describes this test but frames it as something
+  to reach for once you suspect a bibliography. It should run on **every**
+  repository-shaped source, before the lane is chosen, because the failure it
+  prevents is not a mis-read — it is a whole run executed in the wrong lane. Eight
+  parallel readers would have been dispatched over a corpus whose value was three
+  JSON files.
+
+- **A declared focus is only spendable when the run's class matches, and that is not
+  a miss.** The focus inherited from 1.5.0's last row was about waves flooding the
+  director's verification budget. No wave ran, so the focus had no occasion. The
+  right move is to hand it forward intact rather than report it as unmoved — a focus
+  attached to a *lane* survives a class correction, one attached to "the next run"
+  does not. Four runs' worth of the same instruction have now been consumed by
+  whichever source happened to arrive next.
+
+- **Record the first number beside the corrected one.** Three instruments produced
+  three wrong first numbers this run — 576 contradictions, then 114, then roughly 1
+  after hand-inspection — and each correction came from opening the artifact rather
+  than from re-running the count. The scorecard promoted "an instrument's first
+  number is not its measurement" to a rule last run; this run is its fourth, fifth
+  and sixth confirmation, which means the rule is established and the *interesting*
+  quantity is now the size of the correction. No run has yet reported the pair. A
+  note that says "576 → 29" teaches the next run how much slack to budget; one that
+  says "29" teaches it nothing.
+
+- **When the corpus refuses a candidate, say which file refused it.** One candidate
+  died against `gate-liveness`, which owned the whole idea and owned it better than
+  the source explained it — seeded-failure tests, "time since last red", fixtures
+  that never contain the pattern the rule exists to catch. Writing the refuting
+  file's name into the source note's catch is what stops the candidate being
+  re-derived; writing only "already covered" does not.
+
+- **A `not-better` from domain mismatch is a condition, and the condition outlives
+  the verdict.** The apply step failed in the connected project not because the
+  technique was wrong but because the predicate meant something different there: a
+  statute's neighbouring years are process dates, so "earlier year, later
+  identifier" is normal rather than impossible. That sentence is now the most
+  portable thing the run produced — it tells any future reader exactly which corpora
+  the cheap check is decisive in. A `not-better` row whose note says only "did not
+  hold here" would have thrown it away.
+
+- **Mid-flight runs on 1.5.0: nothing to do.** No `SKILL.md` edit was made this run;
+  the lessons above are recorded and unapplied, and no version bump is owed. The
+  first two bullets argue for a Phase 2/2c wording change, but a method edit with
+  six sessions live belongs to a run that is not also landing content.

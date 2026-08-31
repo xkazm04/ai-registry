@@ -217,6 +217,7 @@ Recording both rather than resolving them by majority:
 | **confirmation** | say so in one clause and stop; the operator's to fix, not the run's |
 | **indeterminacy** | the change is small and authorized but its semantics is open: report the finding, ship nothing, say what would settle it |
 | **environment** | say in one line what the operator would have to do; leave the diff uncommitted rather than commit code that could not be built |
+| 1.5.0 | 2026-08-31 | awesome-agentic-patterns | 1 (1,748-word landing page vs **~996k in-tree**; queue graded it a reference index, the **link/word ratio refuted that at Phase 2c** — 1 link per 193 words is a code-repository ratio, so no wave ran) | 11 | 3 | 2 (1 technique amendment + 1 script) | **1 row / 1 landing** (0c/1e/0s; 1 not-better) | 0 — the experiment returned `not-better`, so no ship was owed | **Declared focus did not apply and that is the result.** The focus (parallelise Phase 6 when a wave floods the director) presumes a reference index; this source was not one, and the queue's grade was the thing that was wrong. Focus should attach to the LANE, not to the next run. |
 
 Next run's declared focus: **when an apply row reaches `better`, name the ship blocker
 from those four, and act per class.** A run that reports "ship 0" without naming which
@@ -527,3 +528,32 @@ incomparable populations. Record the mode on the row (attended / unattended /
 wave), read the two series separately, and name the weakest stage *within* the
 series the next run belongs to. A run that reports a stage loss without saying which
 series it belongs to has measured nothing the method can act on.
+
+**The focus missed because the grade did, and that is a new failure mode.** Nine of the
+last ten rows moved their declared focus or said why not; this one could not even
+attempt it, because the focus was written for a source class this source turned out
+not to belong to. The queue graded it a reference index from its stars and its
+topic; Phase 2c's ratio test — outbound links over the source's own word count —
+refuted that in one command, before a single fetch. **Grade the class from the tree,
+never from the queue row**, and run the ratio test on every repository-shaped source
+rather than only on ones that look like bibliographies. A focus inherited from run
+N-1 is only spendable if run N's class matches; otherwise it should be handed
+forward intact rather than reported as missed.
+
+**Extract→Test is 11→3 and still the loss**, but this run says the ratio is not
+one number. Eight of the eleven candidates were never picked, and that was correct:
+the corpus is mature (343 subjects, 2,224 techniques), so most extractions resolve to
+prior art that already says it better — `gate-liveness` owned an entire candidate,
+and owned it more thoroughly than the source explained it. The stage that actually
+cost this run was neither Extract nor Test but **verification of the instrument**:
+three separate first numbers (24 surviving placeholders, 576 contradictions, 1797
+statute flags) were each wrong, and each correction came from opening the artifact
+instead of trusting the count. That is now the fourth, fifth and sixth confirmations
+of the rule the last scorecard promoted.
+
+Next run's declared focus: **when a run builds or runs an instrument, budget a
+hand-inspection pass before the number reaches the note, and record the first number
+beside the corrected one.** Every run that has done this found the first number
+wrong; no run has yet reported the pair, so the corpus cannot see how large the
+correction usually is. A run that reports both numbers has made the rule measurable
+instead of merely repeated.
