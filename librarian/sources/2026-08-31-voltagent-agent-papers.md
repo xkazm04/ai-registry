@@ -9,16 +9,16 @@ words: 16346
 refs_found: 1159
 refs_distinct: 382
 refs_ranked: 382
-refs_read: 16
-waves: 2
-refs_untriaged: 366
-fetches: 31
-extracted: 40
-accepted: 7
+refs_read: 24
+waves: 3
+refs_untriaged: 358
+fetches: 44
+extracted: 66
+accepted: 13
 declined: 0
-leads: 9
-already_covered: 11
-untriaged: 366
+leads: 21
+already_covered: 16
+untriaged: 358
 dispatched: 0
 applied: 2
 shipped: 0
@@ -200,15 +200,137 @@ has drawn from that instrument is suspect.
 
 ## Wave-3 references, ranked and unread
 
-- `2604.23588` FinGround - atomic claim verification against **table cells**, with a
-  detection base rate (43% of computational errors). Likely the runtime remedy the
-  finance paper was not. Highest-value unread reference in the set.
+- ~~`2604.23588` FinGround - atomic claim verification against **table cells**, with a
+  detection base rate (43% of computational errors).~~ **READ IN WAVE 3, AND THE NUMBER
+  ABOVE IS INVERTED.** The paper's sentence is that existing detectors *miss* 43% of
+  computational errors; it is the miss rate of generic detectors, not a catch rate of
+  domain-specific ones - and it is n=200 on a claim type that is 13.8% of its taxonomy.
+  This lead was written from a wave-2 worker's second-hand impression and the sign
+  flipped in one hop. **A reference's headline number does not survive a relay; the run
+  that lands it must re-read the sentence containing it.**
 - `2603.04663` VeNRA - deterministic fact ledgers; retrieve variables, not prose.
 - `2605.25338` CausalFlow - causal attribution and counterfactual repair for agent
   failures; the natural counterpart to `failure-attribution`. Not in this index.
 - `2603.16475` Breaking the Chain - faithfulness to intermediate structures.
 
-## Untriaged (366)
+## Wave 3 - the ranking was aimed at our enumerations, not at topics
+
+Wave 2's lesson was that the landings came from hunting our own completeness claims
+rather than from what the papers contained. Wave 3 applied it: instead of ranking
+references by subject, it ranked **our** stated enumerations and matched references to
+them. `agent-memory` - the registry's highest-attention subject, freed when the board
+emptied from nine siblings to two - carries five, including a stated assumptions
+section naming the very architecture two of the papers implement.
+
+**8 of 8 lanes returned worth-a-slot, the run's best hit rate**, and the aiming
+produced two independent three-way convergences.
+
+### Convergence one: `baseline-ladder` is under-specified in three ways
+
+Three papers, three distinct gaps, none of which is about the papers' own subjects:
+
+- **The standard promises a ladder it never delivers.** § "What this standard assumes"
+  says that where memory behaviour moves into weights, enforcement moves to "reward
+  design, held-out evaluation, and an explicit ladder of baselines". Verified: all four
+  rungs are frozen-reader architectures, and a grep of that file for
+  learned/trained/weights/policy returns zero. The rung that was missing is *the same
+  system with the learned decision pinned* - and the substitution routinely made
+  instead is a comparison against rival systems, which answers a different question.
+- **The predicate enumeration omits the elaboration regime**, which is the largest
+  uncontrolled term available: same evidence, same consumer, one instruction to reason
+  step by step moved a result 21.8 points - further than any architecture comparison
+  the technique discusses - with a token control ruling out generation volume.
+- **A stage ablation measures its operating regime, not the stage.** One paper's
+  "forgetting is worth nothing" result was run on a store that never filled; its own
+  capacity appendix shows delete rates rising once capped.
+
+Landed as three amendments. The ladder also gained a **ceiling arm** it lacked, with
+the caution that a ceiling is a diagnostic and not a bound - a staged process was
+measured above one even with elaboration held equal, because a minimal-sufficient
+evidence set is not a maximally-helpful one.
+
+### Convergence two: `deterministic-backbone` gains three
+
+- **Enforced declarations are backbone-grade; honored ones are not.** The technique
+  said "prefer structural evidence over declared evidence", drawn too wide from an
+  example of an *unenforced* declaration. An annotation a container consumes cannot lie
+  without breaking the program; a runtime-resolved subscription is perfectly structural
+  and invisible to any parser. The cut is whether something executes the declaration.
+- **A tolerance band is a detection hole exactly its own width.** A tolerant comparator
+  satisfies all three of the technique's stated properties and is blind where a wrong
+  number is most plausible: one verifier holding near-perfect recall in general fell to
+  roughly seven in ten on discrepancies within a few percent.
+- **A stored backbone is admitted, not computed.** Where the rows were proposed by a
+  model, determinism is manufactured at the door. Bind the value *and* bind the key -
+  a figure can be quoted perfectly and filed under the wrong metric, and value-binding
+  alone passes it. One ledger gating both rejected ~30% of model-proposed rows.
+
+### The best single result, and it argues for us
+
+The standard's own boundary statement **over-concedes**. Its "Relocated" bullet claims
+tiering the budget moves into weights under a learned architecture. In the reference
+implementation of that architecture the tier partition stayed a design-time constant,
+and it out-ablates every learned operation. The strongest available argument for the
+three-layer design came from a paper built to replace it. Banked as a lead rather than
+landed (scope), with the paired finding that provenance is the *training signal* that
+architecture is missing, not merely the audit record it owes - the paper's own
+limitation section names per-entry credit assignment as its open problem, which is the
+same missing edge approached from the optimization side.
+
+### A number this run got wrong, and fixed
+
+Lead 9 of wave 2 recorded a "43% detection base rate". Wave 3 read the paper: the
+sentence says existing detectors *miss* 43% of computational errors - a miss rate of
+generic detectors, not a catch rate of domain-specific ones, on n=200 across a claim
+type that is 13.8% of its taxonomy. It reached the note from a worker's second-hand
+impression and the sign flipped in one hop. Corrected in place. **A headline number
+does not survive a relay; the run that lands it must re-read the sentence containing
+it.**
+
+### A fourth wrong annotation
+
+"Don't Retrieve, Navigate" appears zero times in its paper, which spends a section
+disowning the framing ("a complementary primitive rather than a universal
+replacement"). Running total: 4 of 24 annotations materially wrong.
+
+### The instrument fix - the finding that outgrew the source
+
+Wave 2 established that `research-map` matches slugs and is blind to a concept filed
+under an unrelated name. Wave 3 measured it twice more: `claim-verification-and-provenance`
+(six techniques, forged 2026-08-30) also surfaced only by hand. **Fourteen techniques
+across two `civic-intelligence/accountability-method` subjects own claim verification
+completely, and the `llm-agent` lane has been independently re-deriving them from
+finance-ML papers.**
+
+`scripts/research-map.mjs` now takes `--prose`, which reads document bodies and scores
+the term against the text. Measured before and after on the query that failed:
+`llm-forensic-gating` went from absent to second, and on "atomic claim verification"
+both civic builds now rank first and second. Weighting had to be corrected once - a
+subject sharing the single word "verification" initially outranked a subject whose
+prose carried the whole concept.
+
+**Its honest limit**: it helps where vocabulary overlaps and not where it does not.
+"evidence conditioned faithfulness" still misses both builds, because those words are
+not in those documents. A prose pass raises the floor; it is not a semantic index.
+
+### Wave 3 leads, not landed (scope)
+
+The agent-memory cluster produced roughly a dozen more amendment candidates, all in
+free subjects, all with anchors: the Relocated-bullet correction and the provenance
+inversion above; a harmful delivery must not read as a use (a delivery counter cannot
+tell an item that helped from one that hurt, and the corpus's bound is calibrated for
+the *useless* case); the recall budget is a ceiling rather than a target (ranking plus
+greedy packing structurally cannot leave it unspent, and reordering alone reproduced
+the baseline to three decimals); packing assumes items are substitutes where a
+composing task makes them complements (one absent required item cost 28.7 points with
+no partial compensation); routing-grade and assertion-grade distillation have different
+correctness bars; a compiled access structure over a store is stale by construction
+rather than by failure; downstream accuracy is not a coverage detector (a model
+extractor dropped ~a third of its source files while its accuracy score barely moved);
+a validated citation is not a verified one; and "absent from the store" is a fourth
+flavour of absence whose next action is neither none, nor re-run, nor fix-the-instrument.
+
+## Untriaged (358)
 
 Ranked, unread, recorded with class, score band and map hit in the companion file.
 Nobody verified them. They are not declines.

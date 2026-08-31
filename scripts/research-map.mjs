@@ -24,6 +24,17 @@
  * has to be read before a correction is written against it. This is the same split
  * every instrument here runs on: the script counts, the skill judges.
  *
+ * `--prose` reads the BODY of every concept document and scores the term against the
+ * text itself. This exists because slug-and-frontmatter matching has a measured blind
+ * spot: on 2026-08-31 a query for "groundedness verification" returned six subjects and
+ * did not surface `civic-intelligence/accountability-method/llm-forensic-gating`, an
+ * eight-technique build that owns exactly that concept, because the concept lives in
+ * those documents' prose under different slugs. Two waves of an intake run concluded
+ * the corpus "has no material on X" from empties of that shape. A slug index cannot
+ * see a concept it was not named after, and cross-bundle material is where that bites
+ * hardest — the same idea is filed under the vocabulary of whichever domain forged it.
+ * Use `--prose` before believing any empty, and always before proposing a new subject.
+ *
  * Matching is over slugs and law statements, deliberately. Slugs in this corpus are
  * descriptive noun phrases, so token overlap is a decent recall signal at zero cost;
  * `--deep` additionally reads each concept document's `use_when` frontmatter, which
@@ -65,6 +76,7 @@ for (let i = 0; i < argv.length; i += 1) {
 
 const asJson = flag('--json');
 const deep = flag('--deep');
+const prose = flag('--prose');
 const topN = Number(pick('--top', 6));
 const onlyDomain = pick('--domain', null);
 const terms = [...positional, ...String(pick('--terms', '')).split(',')]
@@ -72,7 +84,7 @@ const terms = [...positional, ...String(pick('--terms', '')).split(',')]
   .filter(Boolean);
 
 if (terms.length === 0) {
-  console.error('usage: node scripts/research-map.mjs <term> [<term> ...] [--terms "a, b"] [--domain <d>] [--top N] [--deep] [--json]');
+  console.error('usage: node scripts/research-map.mjs <term> [<term> ...] [--terms "a, b"] [--domain <d>] [--top N] [--deep] [--prose] [--json]');
   process.exit(2);
 }
 
@@ -203,7 +215,54 @@ if (deep) {
   }
 }
 
+// ---------------------------------------------------------------- prose corpus
+// file -> lowercased body (frontmatter stripped). Built once, only under --prose.
+// The cost is one read per concept document; the alternative is an instrument that
+// reports a hole over ground the corpus already covers under another name.
+const proseOf = new Map();
+if (prose) {
+  const readBody = (file) => {
+    try {
+      const raw = fs.readFileSync(path.join(ROOT, file), 'utf8');
+      return raw.replace(/^---\r?\n[\s\S]*?\r?\n---/, '').toLowerCase();
+    } catch {
+      return '';
+    }
+  };
+  for (const b of bundles) {
+    for (const [slug, sub] of Object.entries(b.index.subjects ?? {})) {
+      if (sub.file) proseOf.set(sub.file, readBody(sub.file));
+      for (const t of sub.techniques ?? []) {
+        const tf = t.file ?? (sub.file ? sub.file.replace(/\/[^/]+\.md$/, `/techniques/${t.slug}.md`) : null);
+        if (tf) proseOf.set(`${slug}::${t.slug}`, readBody(tf));
+      }
+    }
+  }
+}
+
+// A term is PRESENT in a body when the whole phrase occurs, or when every one of its
+// non-stopword tokens occurs somewhere in it. The phrase is worth more: co-occurrence
+// of "evidence" and "verification" across a long document is weak, the literal phrase
+// is not.
+const proseHit = (body, term, tt) => {
+  if (!body) return 0;
+  if (tt.size === 0) return 0;
+  if (body.includes(term.toLowerCase())) return 2;
+  for (const w of tt) if (!body.includes(w)) return 0;
+  return 1;
+};
+
 // ---------------------------------------------------------------- score
+// A document that carries EVERY token of a multi-word term is stronger evidence than a
+// slug sharing one common word with it, and the weights have to say so or the fix does
+// not surface anything: before tuning, a subject matching only the word "verification"
+// outranked an eight-technique build whose prose carries the whole concept. Additional
+// carrying documents add less each (a large subject should not win on size alone) and
+// the subject's prose contribution is capped.
+const W_PROSE_FIRST = 8;
+const W_PROSE_MORE = 3;
+const W_PROSE_CAP = 20;
+const W_PROSE_PHRASE_BONUS = 6;
 const W_SUBJECT_EXACT = 20;
 const W_SUBJECT_TOKEN = 4;
 const W_TECHNIQUE_EXACT = 14;
@@ -254,6 +313,26 @@ const scoreTerm = (term) => {
             if (!techHits.includes(t.slug)) techHits.push(t.slug);
             if (!why.some((w) => w.startsWith('use_when'))) why.push(`use_when shares ${ushared.join('+')}`);
           }
+        }
+      }
+      if (prose) {
+        let carriers = 0;
+        let phrase = false;
+        const gp = proseHit(proseOf.get(s.file) ?? '', term, tt);
+        if (gp) { carriers += 1; if (gp === 2) phrase = true; }
+        for (const t of s.techniques ?? []) {
+          const tp = proseHit(proseOf.get(`${slug}::${t.slug}`) ?? '', term, tt);
+          if (tp) {
+            carriers += 1;
+            if (tp === 2) phrase = true;
+            if (!techHits.includes(t.slug)) techHits.push(t.slug);
+          }
+        }
+        if (carriers) {
+          let ps = W_PROSE_FIRST + W_PROSE_MORE * (carriers - 1);
+          if (phrase) ps += W_PROSE_PHRASE_BONUS;
+          score += Math.min(ps, W_PROSE_CAP);
+          why.push(`prose in ${carriers} doc(s)${phrase ? ', incl. the phrase' : ''}`);
         }
       }
       if (deep && s.file) {
