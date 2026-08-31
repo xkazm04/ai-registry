@@ -15,6 +15,8 @@ Verdicts: `better` / `not-better` (a rejection - the technique gains a condition
 
 | Date | Technique | Subject | Project | Mode | Verdict | Return condition / note |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-08-31 | operation-assertion-gates | quality-gates | personas | experiment | not-better | tree already refuses an empty scope in 4 of 4 checkers tested (arm B exit 1-2, never 0), so the rule moves nothing here; technique gained the tree-based-rule condition from this seam. Return when the 21 custom lint rules gain fixture tests and the per-rule suppression count can be re-read |
+| 2026-08-31 | vendored-fork-ledger | supply-chain | - | - | unapplied | no seam in the fleet: none of the 7 managed projects carries a patched or vendored dependency (no manifest-level source override in any tree). Return when a project forks a dependency instead of waiting for upstream |
 | 2026-08-31 | self-paced-intake | admission-queue | personas | simulation | better | emit the per-drain batch size and read its distribution; the tree counts dropped records but not batch sizes, so proof is structural-only |
 | 2026-08-30 | prose-rule-drift | quality-gates | ascent | experiment | better | 27 drift violations across 4 projects found by a checker nothing invokes; fix filed, not shipped - awaiting operator confirmation to touch the tree |
 | 2026-08-30 | failure-attribution (8th owner) | eval-harness | - | - | unapplied | when a managed project runs an agent loop whose termination policy can cut a run short; no project currently owns one |

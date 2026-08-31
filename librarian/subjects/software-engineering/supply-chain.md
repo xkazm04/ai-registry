@@ -1,7 +1,7 @@
 ---
 subject: supply-chain
 domain: software-engineering
-last_touched: 2026-08-26
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -61,3 +61,25 @@ one sighting and should be revisited at two - see the lead below.
 - **The exposure window is named as the metric and has never been measured
   here.** The fleet learned of a critical advisory because an unrelated question
   was asked. Return condition: a watch lane that produces the number.
+
+## 2026-08-31 - `/intake` herdr (Rust/backend lens), run `intake-herdr-rust`
+
+6 -> 7 techniques. New technique `vendored-fork-ledger`.
+
+The finding is a hole in the subject's own model rather than a correction to
+anything it says. Its thesis is that every crossing is guarded by a standing
+mechanical policy, and its dependency model has two states: consume (policy
+gates read the resolved lockfile) and update (automation proposes, a human
+reviews). **Forking is a third state, and it does not fail either guard - it
+ends them.** The resolved graph stops naming an upstream version, advisory
+matching has nothing to match, update automation has no update to propose, and
+every mechanical test reclassifies the code as first-party. Nothing goes red.
+
+The technique prices the fork: a recorded upstream commit, per-patch entries
+carrying a removal condition stated as a falsifiable event (and the upstream
+conversation's *absence*, written down), two-way inventory, and clean
+reverse-application of every patch against the vendored tree - which is what
+proves the index still describes the tree rather than one somebody hand-edited.
+
+**Unapplied.** No managed project in the fleet carries a patched or vendored
+dependency; none has a manifest-level source override. Return when one forks.

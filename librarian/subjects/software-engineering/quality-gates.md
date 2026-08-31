@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-08-29
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -181,3 +181,37 @@ its stated risk region on all three axes - and one nominally-backed rule with
 
 Was the #2 attention point (52). This run added one technique and one
 application and did not sweep the other twelve techniques.
+
+## 2026-08-31 - `/intake` herdr (Rust/backend lens), run `intake-herdr-rust`
+
+13 -> 14 techniques. Two landings and both came from the same root: **what a
+gate's instrument actually reads of the source.**
+
+New technique `operation-assertion-gates`. The subject already owned the axis
+via `blocking-by-input-determinism`, which enumerates exactly two advisory
+shapes - debt-shaped and input-shaped. A timing gate is neither: its variance
+lives in the apparatus, not in any input, so the technique's own promotion test
+("name the work that would make this safe to promote") has no answer for it.
+That gap landed as a third-class section in `blocking-by-input-determinism`
+plus a golden-path paragraph, and the mechanism - scoped denylists, normalising
+comments and literals out before matching, and testing the scanner rather than
+only the codebase - became the new technique.
+
+Amendment to `gate-laddering`: **source the compiler removed.** Conditional
+compilation excises regions before semantic analysis, so a local rung of
+formatter, type checker, linter and full suite reports clean over a
+configuration it never analyzed. Distinct from an untested platform cell, which
+is execution coverage and belongs to `packaging`; this is analysis coverage.
+Home was contested and `packaging`'s own boundary settled it - its jurisdiction
+"begins where the build system declares victory," and this happens before that.
+Also a fourth bullet in the golden path's "gate must see its target"
+enumeration, which had carried three.
+
+Applied against personas, `experiment`, **`not-better`**: 4 of 4 checkers
+already refuse an empty scope, one stating the rule almost verbatim. The seam
+did yield the technique's condition - 0 of 21 tree-based lint rules carry
+tests against 3 of ~15 text checkers, with one untested rule holding 59% of all
+custom-rule suppressions.
+
+Contended with `omniroute-0831`, which held this subject live; golden-path
+edits were made under the `content` lock.

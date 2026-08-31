@@ -17,6 +17,7 @@ techniques:
   - enforcement-binding
   - prose-rule-drift
   - oracle-frozen-during-repair
+  - operation-assertion-gates
 ---
 
 # Quality gates & ratchets
@@ -85,6 +86,30 @@ by attrition ([absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud)).
 The axis, the split, the clock an externally-fed gate needs, and the
 boundary against ratchets are
 [blocking-by-input-determinism](./techniques/blocking-by-input-determinism.md).
+
+## When the input is fine and the instrument is not, change the instrument
+
+The axis above assumes the verdict is computed reliably and asks only where
+its input lives. Gates that *measure* rather than read — elapsed time,
+throughput, a sampled resource count — break that assumption from a third
+direction: re-run against the same commit they return a different answer,
+and neither the tree nor any external feed moved. The machine did. Such a
+gate is deterministic in its subject and nondeterministic in its apparatus,
+and both honest configurations fail it: block, and the threshold has to sit
+above the regressions worth catching; stay advisory, and no work inside the
+repository can ever discharge the trigger.
+
+The move is to stop grading the measurement and restate the standard as
+something the source text either contains or does not — *this loop must not
+call these operations* rather than *this loop must finish in this long*. That
+input is deterministic, so the ordinary rule lets it block, and the
+measurement moves to a non-gating scheduled lane comparing against the
+previous release's own artifact rather than a guessed number. The cost is
+real and must be written down: the assertion holds the architecture that
+produces the performance, not the performance. The translation, the scanner
+normalisation that lets a rule be documented in the file it governs, and the
+instrument assertions such a scanner needs are
+[operation-assertion-gates](./techniques/operation-assertion-gates.md).
 
 ## Gates are laddered by cost
 
@@ -186,6 +211,13 @@ every gap between them is a place the gate passes while the target fails
   catalog, or yesterday's build output verifies the intermediate, and passes
   precisely when the intermediate has drifted from the source — the one
   condition it existed to catch.
+- **Source the compiler removed.** Where the language excises code by
+  build configuration, every static instrument the project owns — types,
+  lints, dead-code detection — runs over a tree the excluded branch was
+  deleted from before any of them looked. The whole local rung reports clean
+  on a configuration it never analyzed, and says nothing about which one.
+  Restoring that coverage is
+  [gate-laddering](./techniques/gate-laddering.md)'s cross-configuration check.
 
 Before trusting any green result, the question is never "did the check
 pass" but "what did the check read."
@@ -422,3 +454,8 @@ is asked to refuse something.
   static call-site ↔ tag ↔ registry bijection, negative-space confinement of
   the underlying capability, extending both to any second per-operation
   table, and the two limits that bound what the result may claim.
+- [operation-assertion-gates](./techniques/operation-assertion-gates.md) —
+  restating a cost standard as an assertion over source text, scoped
+  denylists with their replacements attached, normalising comments and
+  literals out before matching, testing the scanner itself, and the timing
+  lane's demotion to scheduled evidence.
