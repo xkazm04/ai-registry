@@ -242,3 +242,38 @@ literal no-sources string as if it were a citation.
 - Four techniques (one-value-model, provenance-as-trust-anchor, human-gated identity,
   empty-vs-failed recall) were **not attacked this run** and produced no new evidence.
   Recorded as not-examined rather than as dry, which are different facts.
+
+### 2026-08-31 - `/intake`, second pass, operator-directed at memory
+
+Gained no techniques. `probe-without-write-back` gained two sections and a refinement;
+`applications/rust--probe-without-write-back.md` is new and carries `better`. Source:
+[[2026-08-31-future-agi]] - an open-core platform whose tree holds two agent memory
+systems built to different standards, neither aware of the other.
+
+**The amended technique was created earlier the same day**, by the run above. That is
+not a collision but the useful case: a technique lands, a second source is read against
+it within hours, and the second source is a counterexample to a specific sentence in it.
+The sentence was the closing claim of "Which default the structure hands you" - that a
+misplaced explicit write produces an under-count, and that an under-count "is the better
+failure" because the item is ranked conservatively.
+
+It is not conservative when the misplacement inverts the counter's meaning rather than
+lowering it. In the source, the usage columns are written by the persistence helper -
+the get-or-create every writer already calls - and by a single-key lookup, while the
+bulk read that actually serves memory to the agent writes nothing. The usage axis then
+counts edits, which is the exact failure `memory-value-model` installed that axis to
+repair. Absence would have been safer: zeros get noticed, plausible integers do not.
+
+So the technique now carries the writer-side enumeration beside the reader-side one, and
+the argument that they do not substitute for each other - the reader-side question
+presupposes that counting happens at the read path at all.
+
+The A/B is the strongest part and it ran both arms on one managed tree. Arm A returned
+zero findings over four production read sites; arm B returned one, and the finding is a
+delivery surface arm A's own default (suppress new machine callers) correctly blesses.
+The apply step also corrected the amendment: a read that hands its selection to a later
+consumer must be counted at the consumer, not the read, and a naive writer-side audit
+flags that correct deferral as an omission.
+
+Second technique amended this run in another bundle - see [[entity-lifecycle]], which
+holds the opposite side of the same source's memory-deletion story.

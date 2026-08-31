@@ -6,7 +6,7 @@ technique: probe-without-write-back
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud, unknown-is-not-a-value, count-carries-predicate]
 shared_with: []
-use_when: [running a scheduled recall health check, a memory eval scores better every month for no reason, deciding which callers of recall count as usage]
+use_when: [running a scheduled recall health check, a memory eval scores better every month for no reason, deciding which callers of recall count as usage, the usage counter rises but recall never improves, auditing which code path increments a usage column]
 ---
 
 # Probe without write-back
@@ -119,6 +119,101 @@ The trade is that the explicit write must then be placed correctly exactly once,
 and a miss there is now an under-count rather than an over-count. That is the
 better failure: an under-counted item is ranked conservatively, while an
 over-counted one is ranked by its own machinery.
+
+## The under-count that is not conservative
+
+The trade above is priced on the assumption that a misplaced explicit write
+*lowers* a count. There is a placement that inverts it instead, and it is the
+one the structure of most stores makes easiest to reach.
+
+Ask what actually writes the usage term. In a store whose entry point is a
+get-or-create helper — find the row by key, insert it if absent, hand it back —
+that helper is the cheapest possible home for "touch the counters." It has
+already loaded the row, it is already going to save, and every writer in the
+system already calls it. So the increment gets attached there, and it is real,
+monotonic, and entirely plausible-looking. What it counts is a **write**.
+
+Meanwhile the path that actually packs items into a context is a bulk read. It
+returns a result set the caller iterates, and incrementing there costs an extra
+write per item on the hot path against a counter nobody is watching. It does
+not get done. The delivery boundary — the only event the term claims to measure
+— writes nothing at all.
+
+The consequence is not a conservatively ranked store. The usage axis exists in
+[memory-value-model](./memory-value-model.md) to repair the failure of ordering
+by last edit, where a typo fix outranks a load-bearing procedure. A usage term
+fed by the write path *is* an edit count. The repair and the defect have become
+the same field, and the value model goes on composing trust and decay over it
+correctly, which is what makes the result look sound to anyone reading the
+scoring function.
+
+**Absence is visible; misplacement is not.** A usage term nobody writes reads
+as a column of zeros, and a column of zeros is noticed the first time anyone
+sorts by it. A usage term written by the wrong path produces a spread of
+plausible integers, correlated with nothing anybody will check, and every
+component touching it behaves exactly as designed.
+
+So the enumeration this technique runs over the read path has a mandatory
+counterpart on the other side: **enumerate the counter's writers, and confirm
+the delivery boundary is one of them.** The two audits do not substitute for
+each other. The reader-side question — which of these callers should count —
+presupposes that counting happens at the read path at all, and cannot discover
+that it happens somewhere else entirely. Only the writer-side enumeration
+answers [count-carries-predicate](../../../../_laws.md#count-carries-predicate)
+for this term: at each site that increments, which event is being claimed?
+
+Two cheap tests, neither of which requires reading every site:
+
+- **Compare before you read.** If the term is a write counter it is a function
+  of revision count and last-edit recency. Check it against both. A usage term
+  that tracks how often an item was *edited* is not a usage term, and the check
+  is one query.
+- **Look for the item that was never edited.** An item unchanged since creation
+  with a non-zero count is positive evidence that the delivery path does write.
+  A store where every non-zero count belongs to an edited item has answered the
+  question without anyone opening the scoring code.
+
+One refinement keeps the audit from producing false positives, and it is the
+first thing a real enumeration hits: **the boundary is where material reaches
+the consumer, not where it was read.** A site that selects items and hands them
+to a later stage — a prepared-prompt cache, a queued dispatch, a rendered blob
+consumed on a subsequent turn — has not delivered anything yet, and the run it
+was prepared for may never happen. Counting there inflates; counting again at
+the consumer double-counts. Trace the selection forward to the point of no
+return and put the single write there. An audit that flags every read site
+lacking an increment will condemn the correct deferral along with the real
+omission, and the "fix" it prompts is the over-count this technique opened by
+warning about.
+
+The rule being checked is short: **the delivery boundary is the term's primary
+writer, the increment lands on the selected set after packing, and every other
+writer argues its way in.** Omission there does not merely lose a statistic. The
+age anchor and the usage bonus both hang off that write, so an item the consumer
+relies on every run ages as though it had never been read — the store starves
+its own decay model of the one signal that was supposed to rescue the items
+worth keeping.
+
+## An enumeration in prose decays; put it where drift fails loudly
+
+The writer-side audit produces a claim of the form *this is the only writer, and
+its only caller is the delivery path*. The claim is true when written and is
+exactly the kind that rots: a second delivery surface appears, an unattended
+dispatch grows its own injection point, and each addition is individually
+correct while the stated enumeration quietly becomes false.
+
+A contract naming its callers in prose therefore carries a maintenance
+obligation nobody has been assigned. Where the claim is load-bearing — and here
+it is, because the audit above is only as good as its inventory — **the
+enumeration belongs somewhere that fails when it drifts**: a test asserting the
+writer set, a check over the column's call sites, an allow-list something reads.
+The prose then argues the rule and the check owns the list.
+
+The failure this prevents is not the drift. Three correct callers where the
+comment claims one is harmless on the day it happens, and stays harmless for as
+long as every caller is a genuine delivery. It is that the next reader runs the
+writer-side audit *against the comment* rather than against the code, finds the
+one caller it names, concludes the term is sound, and moves on — which is
+precisely the audit the section above exists to make somebody run.
 
 ## The fixture set must not feed on itself either
 
