@@ -169,6 +169,7 @@ which is where this run decided it.
 | 1.3.1 (loaded; a sibling landed 1.4.0 mid-run) | 2026-08-31 | github:remeda/remeda | 1 repo @ `e11dcf2` (**240-word README vs 47,025 words of in-tree markdown**; 58,249 LOC ts) | 20 | 4 | 4 (2 techniques + 2 amendments) | **4 rows / 4 landings** (1c/1e/1s + 1 unapplied; 2 better, 1 unmeasurable) | **1** (personas, master, pathspec, `ba7f613e`) | **Declared focus (price the XL row) did not apply — no candidate was XL, and the run says so rather than claiming a hit.** Ship was 0 at first pass for a stated reason (pick named no project; repair 71 sites/32 files), then **the operator confirmed the lane and set the size constraint, and the slice shipped in the same session** — which is the addendum below being executed rather than merely written. **The finding worth carrying is that the apply step corrected its own technique, twice, in the same run.** `mutating-local-gates` was drafted claiming mutation creates the termination contract; the seam (a managed project's turn-end gate) neither mutates nor blocks and *still* guards re-entry, because its advisory exit re-enters the model's loop — so the contract is created by the gate's **output reaching the agent**, and the technique now carries a three-tier ladder naming the advisory tier as the one most likely to ship unguarded. This is the first row in this file where Phase 7.5 refuted the technique it was testing rather than confirming or bounding it, and it argues the apply step is a *drafting* instrument and not only a validation one. **Best number:** 0 warnings vs 63, same crate, one minute apart, only the suppression form changed — 63 of 71 (89%) stale, against a surface that is 0.7% self-retiring, with a grep-shaped proxy landing within ten points of the compiler for free. **Contention was the dominant filter on yield for the first time**: 4 of 12 candidates routed into subjects one sibling held (`release-pipeline`, `quality-gates`, `test-input-generation`, `test-harness`) and were recorded untriaged with anchors rather than declined — including an inverted-semver finding the corpus has no owner for. The board worked; the cost is real and belongs in the trend, not in this row's yield. **Class note:** the `.agents/` tree is a source-class tell — a repository instrumented for agent contributors gives a first-party account of agent operation whatever the repository is *for*, and here it outproduced every other surface combined while the README was 0.5% of the tree's prose. 0 of 3 fetches, eleventh consecutive. 5 siblings live. |
 | 1.3.1 | 2026-08-31 | voltagent-awesome-ai-agent-papers (wave-3 leads, landing pass) | 0 (no new source - banked findings) | 0 | 15 | 15 | 2e/0c/0s (13 unapplied, one reason) | 0 | **The pass that cleared the backlog the previous row named.** 15 banked amendments landed across 10 files in 3 file-batched scripted passes, gate between each. Two applied with paired arms on a live store and both `better`: referential integrity passes 74/74 where the read-back passes 14 and fails 60, on a schema carrying an unused `verified_at` column; and 693 memory nodes against 14 edges. Apply rose from 0 to 2 because the seam was found by **grepping the schema rather than the source** - three earlier passes looked for code implementing the decision and walked past a store that already had a column for the check. Ship 0: both arms are read-only measurements, no product change proposed. |
 | 1.3.1 | 2026-08-31 | verou-2026-blog (XL follow-up) | 0 (no new ingest - the banked XL row from the same source) | 4 folded | 4 | **7 (1 new subject: golden path + 6 techniques)** | 1 row / 7 landed (0c/1e/0s; 5 unapplied with per-technique reasons) | 0 (the repair is architectural, not a diff) | **The previous row's declared focus, tested immediately and answered.** That row said an `XL` candidate loses every head-to-head against a technique that lands in one file, and proposed pricing it in the triage table. The operator instead picked it directly, which produced the better experiment: the XL row *was* built, in the same session, from context still loaded - and the cost came in far below what the triage table would have estimated, because the four cheap rows it absorbed were the same four candidates that made it XL. **The generalizable form is stronger than the pricing proposal**: an XL row's cost is not additive with the small rows beside it, it is *substitutive* - four fragments folded into one subject cost less than four techniques written separately, because the fragments were always one subject that extraction had shattered. A triage table that prices XL against the cheap rows is still pricing it wrongly, just more precisely. Second observation: `apply` coverage was 1 of 7 and the row does NOT treat that as a miss - a new subject's techniques are not seven independent findings, and four of the five untested ones need a project that *owns a resolver* rather than one that consumes somebody else's, which no managed project does. The row states that per technique rather than as one reason |
+| 1.4.0 | 2026-08-31 | github:TkDodo/react-query-beyond-the-basics | 1 repo @ `32c39be` (**158-word README, 13 source files - and seven feature branches whose diffs are the actual source**) | 10 | 1 verified + 3 caught | 1 technique + 1 golden-path correction (2 subjects touched) | 1e/0c/0s | 0 | **Ship 0 for a reason the standing binary does not cover: neither confirmation nor size, but that the verdict never reached `better`.** The seam is real and structural (7-field params bag, 3 identifying + 4 windowing, no retention, search setter does not reset the page) and **latent** - pagination is off by default with no caller enabling it and no shipped control calls the sort setters, so no gate can see a difference no user can trigger. Recorded `unmeasurable` with the instrument named rather than promoted to `better` on a structural confirmation. **Declared focus (price the XL row) was a no-op and is reported as such**: no row this run was XL, the largest being one technique document. Extract 10 / test 1 reflects an operator pick of one row, not a triage failure - 4 rows recorded untriaged with anchors |
 
 Reading the last ten rows: **ship is still the weakest stage — zero in ten of ten** —
 but the diagnosis has finally bottomed out. Four consecutive rows named four different
@@ -270,3 +271,39 @@ So the sharper form of the focus, for the next run: **when an apply row reaches 
 and the full repair is too large, the slice is not a consolation prize — it is the step
 that converts an aggregate into an understood one.** Pick the instance the team got most
 right, ship that, and expect the finding to change.
+
+**Addendum from the `rq-beyond-basics` row.** The previous focus — price the `XL`
+row — did not fire, because this source produced no `XL` row. That is worth
+recording as a property of the mechanism rather than as a miss: **a declared
+focus is written from the last source and executed against the next one**, and
+the two are unrelated. A focus phrased as a rule about a *row type* only fires
+when that row type recurs. The focuses that have actually moved the funnel were
+phrased as rules about a *stage* ("ask for the lane", "ask after the A/B, not at
+triage"), which fire on every run regardless of what arrived.
+
+On ship, this run adds a third cause to the standing two (confirmation, size),
+and it is the one the binary cannot express: **the verdict never reached
+`better`, because the seam was latent.** The census found a real mixed-axis key
+with a real one-directional-reset defect — and then found that both windowing
+coordinates are unreachable from the UI, because pagination is off by default
+with no caller enabling it and no shipped control calls the sort setters. There
+is nothing to ship and no gate that could have seen a difference. Promoting that
+to `better` on the strength of the structural confirmation would have been the
+easy and dishonest move; `unmeasurable` with the instrument named is the correct
+one, and it costs the run its ship column.
+
+The expensive part is that this was discovered **at the end** of Phase 7.5, after
+the instrument was written, self-asserted, debugged and hand-verified. Phase 7.5
+step 1 says "find the seam" and treats reachability as given. It is not: a seam
+is `file:line` where a decision is made, and a decision no user can trigger is a
+seam the A/B cannot grade no matter how good the technique is.
+
+Next run's declared focus, phrased as a stage rule so it fires regardless of what
+arrives: **before building any apply instrument, spend one grep proving the seam
+is reachable** — that a shipped control, route or entry point actually drives the
+input the technique governs. If it is not reachable, say so in the triage table
+and pick the mode from that fact (a latent seam is a `simulation` over the code's
+history, not an `experiment` over its present), rather than discovering it after
+the harness is built. A run that reports `unmeasurable` should say whether the
+seam was latent *before* or *after* it wrote the instrument.
+

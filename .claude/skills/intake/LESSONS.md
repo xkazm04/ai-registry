@@ -3816,3 +3816,60 @@ measurement.
   gate run between each, so a broken anchor could only ever cost one batch. Anchors were
   taken from a prior read in the same session; two needed a list renumber, which is the
   kind of edit that fails silently and was worth the explicit check.
+
+## 1.4.0 - 2026-08-31 - rq-beyond-basics
+
+- **A repository's operating document can be its branch list, and no file-tree
+  sweep can see it.** This source scored thin on every heuristic the method
+  has: 158-word README, 13 source files, one markdown file. It was not thin —
+  seven feature branches carry the content, and the diffs between them are a
+  maintainer's ordered curriculum, each step motivated by a failure the README
+  only names. Phase 2b's sweep order (operating documents, instrument,
+  measurement, types, tests, README last) has no row that finds this, because
+  the artifact is in the refs rather than in the tree, and a `--depth 1` clone
+  hides it by construction. The instrument is one command —
+  `git ls-remote --heads` — and it costs nothing. **One observation, so it stays
+  a lesson**; if a second run meets a workshop, tutorial or conference-talk repo
+  and finds the same shape, this is a Phase 2b line.
+
+- **The most valuable diff in a curriculum is the one that replaces working code
+  with different working code.** Steps 4 and 7 of this source produce the same
+  visual affordance by two mechanisms at two layers — a predicate over the
+  previous payload, then a deferred input — and the whole landed technique came
+  from the gap between them. A step that *adds* a feature teaches what the tool
+  does; a step that *rewrites* an earlier step is the only place a curriculum
+  puts two designs for one problem side by side with the author's preference
+  recorded as the ordering. When a source is a sequence, diff non-adjacent
+  steps, not only consecutive ones.
+
+- **The corpus saying something twice is a signal to check it, not to trust
+  it.** Two subjects carried the same prescription in near-identical words, and
+  the natural reading — independent convergence, therefore settled — was
+  backwards here: the second document inherited the sentence from the first as
+  a specialization, so the two are one observation with one author. The tiering
+  rule this method already applies to external sources (a relay is downstream of
+  its primary, so three relays are one observation) applies inside the corpus
+  too, and nothing currently says so. Before treating internal repetition as
+  corroboration, ask which document is upstream.
+
+- **The apply instrument's self-assertion earned its cost on its first run**, one
+  day after a sibling added the practice. It refused to print because
+  `a: b || undefined` was yielding `undefined` as a key. Worth noting the shape:
+  the bug was in the *parser*, not the predicate, and it would have inflated the
+  census with a plausible-looking field name rather than producing an obvious
+  error. Two of two recent runs that asserted their instrument caught something.
+
+### Redesign proposal (not applied this run)
+
+- **Phase 7.5 step 1 treats seam reachability as given, and it is not.** This run
+  wrote, debugged and hand-verified a census before discovering that the
+  coordinates it measures are unreachable from any shipped control — which caps
+  the verdict at `unmeasurable` regardless of the technique's quality. A seam is
+  `file:line` where a decision is made; a decision no user can trigger cannot be
+  graded by an experiment. The proposal is a reachability check *before* mode
+  selection: prove a shipped control, route or entry point drives the governed
+  input, and if it does not, choose `simulation` over the code's history rather
+  than `experiment` over its present. Not applied because it is one run's
+  experience and changes a mandatory phase; the scorecard's next focus tests it
+  cheaply first.
+
