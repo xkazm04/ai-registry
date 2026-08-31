@@ -181,3 +181,49 @@ Fleet tally: 11 refuse-on-broadcast sites against ~9 degrade families, and **no
 project applies one policy consistently** - the choice is being made per call
 site. Two unrelated trees already write the last-known-good copy and neither
 reads it back.
+
+## 2026-08-31 - the member that must never fire (intake, [[2026-08-31-pgsql-hackers-2026-08]])
+
+Third touch of this subject today, and the second to land on `taxonomy-design`'s
+boundaries rather than inside them. New technique `reclassification-is-not-repair`
+plus a golden-path section placed ahead of "Classify on structure, never on prose".
+
+**The seam.** `taxonomy-design` is thorough about the closed set, about categories
+earning their place, and about the catch-all being an explicit member with the most
+conservative properties. It has nothing about the **opposite** member. The catch-all
+means *we did not recognise this*; the internal class means *we recognised it and it is
+impossible*. Those are opposite claims needing opposite handling, and the slug map
+cannot see the difference - both ends are "the taxonomy". Worth noting beside the
+anydoc run's finding earlier today: that one added a fourth *axis* to the same file,
+this one adds a distinguished *member*. Two runs, one file, neither colliding, because
+a mature technique's gaps are at its edges rather than in its middle.
+
+**Source and corroboration.** A development mailing list, where a patch proposed
+assigning real error codes to every condition under which the regression suite reached
+the internal class. The senior committer's objection is the finding: "if someone passes
+OID 0 to relation_open, that IS an internal bug; labeling it otherwise is a lie and does
+nothing to fix the real problem at the caller level... blaming the messenger rather than
+looking for the root cause." A contradicted pick, kept - the source located the free
+detector and proposed the wrong repair for it.
+
+**The A/B returned `not-better`, which is the useful row.** The connected Rust tree had
+already taken both branches of the fork without the technique existing: `Unsupported`
+was split out of the internal class with a comment saying a permanent capability gap
+must not read as a transient outage (the "declaration was wrong" branch), and a
+store-layer commit replaced a coercing enum parse with a failing one, drawing the fork
+per vocabulary - "Unknown is a value those two vocabularies deliberately have; `status`
+and `redaction` do not." All three construction sites of the internal class passed the
+separating question, 3 of 3. Nothing to fix, so the technique gained the amendment
+naming the condition under which it finds nothing: a taxonomy already split
+deliberately.
+
+**Open, and the reason to come back.** The *detector* half is genuinely absent in that
+tree and unusually cheap - the class already has a stable wire string with a unit test
+pinning it, and zero tests assert it never fires across the suite. The expensive
+prerequisite is built; the sweep is the whole instrument.
+
+**A third sighting would promote the root.** `flake-lifecycle` holds the test form
+(quarantine, never delete) and this technique holds the taxonomy form, both descending
+from `deletion-is-not-repair`. Two independent sightings of *a signal relabelled instead
+of repaired*, in different subjects, from different sources. One more and the root is
+worth proposing at law altitude rather than as two techniques citing one law.
