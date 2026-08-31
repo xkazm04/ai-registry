@@ -4163,3 +4163,48 @@ change is precisely the edit a mid-flight run cannot absorb. It also wants the o
 judgment: pre-authorizing a tree before the verdict exists is a different consent than
 approving a diff, and that trade is theirs to make, not this run's. **A mid-flight run that
 reads this should do nothing about it and finish on the version it loaded.**
+
+## 1.4.0 - 2026-08-31 - github:TkDodo/knip
+
+- **The apply step refuted the technique the same run had just landed, and this
+  is the first time that has happened.** `excess-indicts-the-instrument`
+  predicted that finding-distribution separates misconfiguration from debt; the
+  A/B fired on 7 clusters and was right about misconfiguration 0 times. The
+  method already says a contradicted *source* is the best case; it does not say
+  what to do when the contradicted claim is **the run's own draft**. What worked:
+  the technique was corrected *before* the commit, so the corpus never carried
+  the wrong version, and the refutation became a named section rather than an
+  erratum. Generalises as: **Phase 7.5 is not a validation step after the writing
+  is done - it is the last review of the draft**, and a run that writes the
+  technique file only after the A/B returns would produce the same document with
+  less rework. Worth considering as an ordering change if a second run hits this.
+
+- **A one-directional vocabulary is a findable gap, and grep finds it.** Both
+  landings came from the same move: pick the subject's core concept, grep the
+  bundle for its *opposite*, and count. "false negative" -> 6 hits bundle-wide,
+  0 in the three checker techniques. Every instrument-failure signal in
+  `gate-liveness` -> all deficiency, none excess. This is cheaper than the
+  enumeration hunt and the missing-stage hunt, it runs before any file is opened,
+  and it produced two techniques in one run. Candidate for Phase 6 as a fourth
+  named hunt: **count the corpus's coverage of a concept and of its inverse; a
+  large asymmetry is the finding.**
+
+- **The board and the working tree disagreed, and the tree was right.** The board
+  reported 0 live siblings while `git status` showed four files of uncommitted
+  sibling work across three subjects. The board only sees runs that claimed and
+  have not released; sessions that ended without releasing, or never claimed, are
+  invisible to it and completely visible to `git status --short`. Phase 10
+  already pairs the two - the lesson is that Phase 1 should too, because the
+  disagreement changes the regeneration decision at Phase 7, not at Phase 10.
+
+- **A `better` verdict on a measured zero is a real `better`.** The second
+  apply found no defect: 11 of 11 constructs detected. It is still `better`,
+  because the technique converted a property the project could not measure into a
+  measured negative in ten minutes. The vocabulary handles this correctly, but it
+  reads as a null result at a glance, and the ledger row has to argue it. Worth
+  saying once in the method: **the verdict grades the technique, not the tree.**
+
+- **Repository classes keep paying for the clone, and the ratio keeps growing.**
+  380 words on the landing page, 32,535 in the tree. Neither landing touched the
+  README. Nothing new, just another data point for a rule that is already carried.
+
