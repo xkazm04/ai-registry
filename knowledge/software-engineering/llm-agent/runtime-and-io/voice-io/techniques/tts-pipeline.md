@@ -111,6 +111,48 @@ integrity:
   mapping is itself part of the catalog, so "who is speaking" is a stable,
   inspectable fact.
 
+### A voice reference resolves to a recording chain, not only to a speaker
+
+The tuple above — engine, identifier, rate, pitch — is what the product
+*controls*. It is not everything the product gets. A synthesis model learns
+whatever was in its training audio, and training audio is recorded: through a
+microphone, in a room, often through a broadcast or telephony processing chain
+that was never stripped before training. Those artifacts survive into the
+weights, so a voice arrives carrying an EQ curve, a room, and a mic character
+that no parameter in the catalog can express and no downstream processing can
+remove. The tell in the wild is a "newsreader" voice that sounds like it is
+coming out of a television — the timbre and the transmission chain were learned
+as one thing, because in the training data they were one thing.
+
+**This defect is invisible to auditioning on content, because it is constant
+across content.** Every hard passage a casting process throws at the voice — a
+dense numeric run, a hedged claim, a joke — comes back with the same room on it,
+which is exactly why it reads as the voice's character rather than as a defect.
+It becomes audible only in *comparison*, which makes it a property of the
+catalog rather than of any single entry:
+
+- **Compare candidates against the product's own audio, not against each
+  other in isolation.** The question a compare surface must be able to ask is
+  not "which voice do I prefer" but "does this voice sound like it was recorded
+  in the same place as everything else this product plays". Auditioning one
+  voice at a time cannot ask it.
+- **Speaker-identity consistency has an acoustic half.** The rule above keeps
+  one voice per context so a switch does not read as a second speaker arriving.
+  Two voices drawn from different entries can satisfy that rule at the identity
+  level and break it at the acoustic level: the personas are correct, the rooms
+  are not, and a listener hears a scene change nobody wrote.
+- **It is a selection-time property, like language coverage.** Rate and pitch
+  are adjustable, the recording chain is not; a voice whose baked-in artifact
+  suits one destination is a defect in another, and there is no post-processing
+  fix on the product's side. Where the engine exposes voices trained on clean,
+  processing-stripped audio, that is a capability worth preferring over a
+  higher score on any single-voice quality benchmark.
+- **Fallback can be audible even when it is correct.** The retired-voice path
+  degrades to a declared fallback with a *visible* note. The difference the
+  listener actually registers is acoustic and arrives before they read
+  anything, so a fallback chosen for identity similarity alone will still
+  announce itself.
+
 ## The playback lifecycle
 
 Each utterance moves through `queued → synthesizing → playing → ` one of

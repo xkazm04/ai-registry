@@ -6,7 +6,7 @@ technique: on-device-vs-cloud
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
-use_when: [deciding whether voice runs on-device or in the cloud, voice falls back to cloud without asking, settings say the model is ready but it fails]
+use_when: [deciding whether voice runs on-device or in the cloud, voice falls back to cloud without asking, settings say the model is ready but it fails, checking whether an open-weights engine's license permits shipping its output]
 ---
 
 # On-device versus cloud
@@ -52,7 +52,7 @@ present in surface code or logs.
 
 ## The decision matrix
 
-Six axes decide placement per direction, and writing them down turns a vibe
+Seven axes decide placement per direction, and writing them down turns a vibe
 into a review:
 
 | Axis | On-device | Cloud |
@@ -63,6 +63,48 @@ into a review:
 | **Cost shape** | one-time footprint (download, disk, memory while resident) | per-use metering that scales with adoption — success raises the bill |
 | **Offline** | works in the airplane row and the locked-down network | absent exactly when connectivity is |
 | **Footprint** | model weights are large; download, disk, and RAM are real UX costs | near-zero install cost |
+| **Rights** | the weights' license governs what you may do with the *output*, and it is the one axis that can forbid shipping outright | the provider's terms are a contract already accepted at signup; output rights are usually granted and the exposure question moves to residency |
+
+**The rights axis is not a trade-off, and that is why it is listed last and
+checked first.** The other six are quantities to balance; this one is a gate.
+An engine can win every other row — top of the open-weights leaderboards,
+lowest time-to-first-audio, runs on hardware you already own — and still be
+unusable, because its license permits research and evaluation and forbids
+shipping the audio, or forbids distilling a smaller model from it, or both.
+Nothing about the model's behaviour reveals this; it is the one placement
+input that no probe can establish.
+
+It also **inverts the matrix's central asymmetry**, which is the reason it
+was missed. Residency is the axis on-device wins by construction: nothing
+leaves the machine, so no consent, disclosure or vendor agreement is needed.
+Rights is the axis on-device can lose by construction, and for the same
+reason it wins the first — a hosted engine comes with terms accepted at
+signup, and open weights on your own disk come with a license nobody was
+forced to read. The most private placement available can be the one you are
+least permitted to ship, and the two facts are not in tension: privacy is
+about what leaves, rights are about what you may do with what stays.
+
+Three consequences for how the axis is evaluated:
+
+- **Read it per use, not per engine.** Evaluating, shipping the generated
+  audio, and training or distilling from the outputs are three separate
+  permissions, and a single license routinely grants the first while denying
+  the other two. A placement record that says "licensed: yes" has recorded
+  nothing.
+- **It binds hardest on the direction that produces an artifact.** Synthesis
+  emits something the product ships to its users; transcription emits text
+  *about* the user's own speech. So the output-rights question is decisive on
+  the synthesis side and close to vacuous on the capture side — the mirror of
+  the residency asymmetry, which is decisive on capture and mild on synthesis.
+  A product that evaluates both directions against one license has answered
+  the wrong question on one of them.
+- **Store the license and the version it was read at, beside the placement
+  decision.** [engine-abstraction](./engine-abstraction.md) already names
+  re-licensing as a cause of engine *retirement*, which is this axis arriving
+  too late to help. Licensing is the placement input most likely to change
+  with no technical signal whatsoever — the weights on disk are byte-identical
+  before and after — so it is also the input the review trigger below cannot
+  detect by probing, and must therefore carry as recorded state.
 
 The matrix is evaluated **per direction, per installation** — not once per
 product. A powerful desktop and a low-end laptop resolve the same policy

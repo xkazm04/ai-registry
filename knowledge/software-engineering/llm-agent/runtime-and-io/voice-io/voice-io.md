@@ -14,6 +14,7 @@ techniques:
   - portable-provider-package
   - speech-ready-text
   - transcript-normalization
+  - authored-voice-identity
 ---
 
 # Voice input and output
@@ -237,6 +238,27 @@ rather than a benchmark deciding for them.
 [portable-provider-package](./techniques/portable-provider-package.md) owns
 the seam, the wrapper and the compare surface.
 
+## A voice can be chosen, or it can be authored
+
+The output pipeline's catalog assumes a voice is **picked**: the engine
+publishes a set, the product stores a reference into it, and the hazard is
+that reference going stale. Engines increasingly let a voice be **authored**
+instead — built from a prose description, or cloned from a few seconds of real
+speech — and that inverts the hazard rather than adding to it. There is no
+engine-side identifier to retire; what is durable is the specification, and
+what is volatile is the timbre, because nothing guarantees that re-synthesis
+from the same description returns the same person. So an authored voice stores
+its *inputs* as the system of record and treats any render as a cache, which
+is the mirror image of how a selected voice is stored.
+
+The same control also hides a consent boundary: a described voice is authored
+from nothing, and a cloned voice is a real person's likeness that must arrive
+with a provenance record. They are one field in a schema and two different
+objects everywhere else.
+[authored-voice-identity](./techniques/authored-voice-identity.md) owns the
+three specification kinds, the storage rule, the consent line, and the
+capability axis that says which kinds an adapter accepts.
+
 ## What the product holds is written for the eye
 
 A chat reply is headings, bullets, emphasis, code, links and emoji — and an
@@ -310,6 +332,11 @@ decision, the transform contract, the typed outcome, and the cut.
   speakable text: the markup door, what not to expand, prosody that travels
   (punctuation), chunk boundary rules and sizes, chunks as one utterance with
   one verdict.
+- [authored-voice-identity](./techniques/authored-voice-identity.md) — the three
+  specification kinds (selected, described, cloned), why an authored voice
+  stores its inputs rather than a reference, the consent line between a clone
+  and a description, and the capability axis that says which kinds an adapter
+  accepts.
 - [transcript-normalization](./techniques/transcript-normalization.md) — heard
   text to written text: reader-versus-reasoner destinations, the transform
   contract and its input-derived output ceiling, the destination as a typed

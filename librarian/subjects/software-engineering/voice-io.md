@@ -1,7 +1,7 @@
 ---
 subject: voice-io
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-08-31
 dry_streak: 0
 ---
 
@@ -87,3 +87,70 @@ a normalizer sidecar inherits the per-call model-reload constraint the node
 `portable-provider-package` application already records for synthesis; whether
 ASR engines' own punctuation modes overlap the cheap half of the new stage.
 Nobody verified these — they are not declines.
+
+## 2026-08-31 - /intake breeze-tts2-local-voice ([[2026-08-31-breeze-tts2-local-voice]])
+
+Eleventh technique, and two amendments. All three were found by holding the
+subject's own **enumerations** in mind while reading the source, not by ranking
+what the source emphasised - the source's three loudest claims were all catches.
+
+- **NEW `authored-voice-identity`** (11th technique). `engine-abstraction`'s
+  capability axes - streaming, timestamps, language coverage, partials, speed,
+  execution location - all describe what an engine does with the *text*, and
+  none can express what an engine accepts as a *voice*. Three specification
+  kinds: selected, described, cloned. The inversion that carries the technique:
+  for a selected voice the identifier is durable and the hazard is retirement
+  (which is what the catalog integrity rule was built for); for an authored
+  voice the **specification is durable and the timbre is volatile**, so the
+  inputs are the system of record and every render is a cache. Plus the consent
+  line - a described voice is authored from nothing, a cloned voice is a real
+  person's likeness - which is one schema field and two different objects.
+- **`tts-pipeline` amendment - a voice reference resolves to a recording
+  chain.** Training audio's microphone, room and broadcast EQ are learned into
+  the weights and none of (engine, id, rate, pitch) can express them. The sharp
+  consequence: the defect is **constant across content**, so no content-based
+  audition can see it, and it is audible only in comparison against the
+  product's own audio. Cross-bundle: this falsified an enumeration in
+  `media-generation/creator-voice-and-tone/spoken-delivery-direction`, whose
+  audition rule lists four kinds of hard *passage*. Both sides amended; the
+  boundary is stated in prose on each rather than linked.
+- **`on-device-vs-cloud` amendment - six axes to seven, adding `rights`.** The
+  corpus had licensing only as a cause of engine *retirement*, i.e. the axis
+  arriving too late. Rights is a gate rather than a trade-off, no probe can
+  establish it, and it **inverts the matrix's central asymmetry**: residency is
+  the axis on-device wins by construction, rights is the axis on-device can lose
+  by construction, because a hosted engine's terms were accepted at signup and
+  open weights on your own disk come with a license nobody was forced to read.
+
+### What the connected tree said back (3 apply rows, 1:1 with landings)
+
+- It **confirmed** the authored-voice storage rule without being designed to:
+  its cloned voices are stored as reference wavs with no engine-side id.
+- It **refuted** the technique's transcript bullet at its premise - the engine is
+  zero-shot, so self-containment is an engine property and not a rule. The
+  technique was corrected in the same run.
+- It supplied a better fact than the source did: a **non-commercially-licensed**
+  engine recorded as a module doc comment, where the surface that writes
+  publishable files refuses it only via `if engine != <engine>` - the right
+  outcome from an unrelated rule, which the obvious next feature deletes. The
+  engine type's `impl` block is literally empty, so every capability question in
+  that tree is answered by naming the engine.
+
+### Open leads from this run
+
+- **A third placement position between local process and vendor cloud**: the
+  operator's own hardware, off this machine, over a private network overlay. The
+  matrix is a binary and this is neither. Return when a second source describes
+  it or a fleet project runs an engine off-box.
+- **Direction prompts may split into a reliable continuous channel (prosody,
+  pace) and an unreliable discrete one (cough, laugh, throat-clear).** One
+  source's ear is not evidence. Return on a second source or a fleet engine
+  exposing both.
+
+### Untriaged, with anchors
+
+- Speaker identity and language as separable inputs (a four-second reference in
+  one language generating another); possibly `localization`'s concern too.
+- A voice quality leaderboard split into open-weights and closed brackets.
+  Currency-shaped; no `verified_on` was moved on its account.
+

@@ -32,6 +32,20 @@ not learned, and the first thing an audience recognizes.
   hardest material — a dense numeric passage, a hedged claim, a rhetorical
   question, one joke — and cast the voice that survives all four. A voice cast on
   an easy line fails on the first contested figure.
+- **The audition script cannot catch a defect that is constant across scripts.**
+  All four hard passages test what the voice *says*. A synthesized voice also
+  carries what it was *recorded through* — the microphone, the room, and any
+  broadcast processing present in the training audio, learned into the weights
+  as part of the timbre and not removable afterward. Every passage returns it
+  identically, so it presents as the voice's character until the take is cut
+  against the channel's existing audio. So the audition has a second half with a
+  different shape: play the candidate **beside** a finished piece and beside the
+  other candidates, and listen for whether it sounds recorded in the same place.
+  A voice that passes all four passages and cannot sit in the bed is a failed
+  cast, and it is the failure a per-passage audition is structurally unable to
+  report. The plumbing-side consequences — catalog integrity, compare surfaces,
+  fallback that is audible before it is visible — belong to the voice-I/O
+  channel and are owned there, not here.
 - **Cast per creator × format**, exactly as the written profile is stored. A
   procedural walkthrough and a commentary piece want different deliveries even from
   the same identity; a single cast voice across formats reproduces the merged-profile
