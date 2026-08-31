@@ -2413,3 +2413,44 @@ Operator dispatch: a vendor's release post plus "and impact on gravitone project
   production state no local gate reaches, and both fell to simulation. Prefer a
   seam whose instrument is in the tree (fixture, recorded log, replayable
   script) over a sharper seam whose instrument is remote.
+
+## 1.2.0 - 2026-08-31 - method: parallel safety and the reference-wave lane
+
+Two operator directives, both about the method rather than about a source. No run
+was mined; this entry records why 1.3.0 exists.
+
+- **The skill had no concept of a sibling, and was about to be run twelve at a time.**
+  Every parallel hazard in this method was already written down as a *war story* -
+  a branch switched under a run (2026-08-21), a directory-wide `git add` that swept a
+  sibling's instrument (2026-08-23), a subject landed mid-run that Phase 4's map had
+  declared absent (2026-08-27), a scratch sweep that races a neighbour (Phase 2b) -
+  and every one of them was mitigated by asking the run to *be careful*. Care does not
+  scale to twelve terminals, and the failures do not announce themselves: an interleaved
+  ledger append succeeds and one line silently ceases to exist. The corrective is
+  `scripts/run-board.mjs` plus SKILL § "Running beside a dozen siblings": announce, claim
+  what you will write, and take a named lock across the three genuinely shared operations
+  (index regeneration, ledger append, commit). Nothing else is serialized.
+- **The board is a DIRECTORY, not a document, and that is the whole design.** The obvious
+  artifact was a shared `.active-runs.md` every session appends to - which is precisely
+  the race it exists to prevent. One file per run, written only by that run, collated on
+  read. It lives in `$(git rev-parse --git-common-dir)/run-board/` so it is shared across
+  worktrees, can never be staged, and needs no `.gitignore` line.
+- **Liveness must be measured in time, not in process liveness.** First implementation
+  used `process.kill(pid, 0)`. Each board command is a one-shot `node` invocation that
+  exits immediately, so the pid check declared every lock holder dead a millisecond after
+  it acquired - the lock was a no-op that looked like it worked. The agent session is the
+  run; the process that wrote the record is not. TTL and heartbeat only.
+- **A fetch budget written for one class silently became a sample size in another.** The
+  run-wide 3-fetch cap is right where fetching is *corroboration*. For a bibliography the
+  references ARE the extraction, so the same rule quietly enforced reading 3 of 200 - a
+  1.5% sample, drawn on titles, reported as the source's yield, with the unread tail
+  leaving no trace for the next pass. The operator's complaint ("we gambled with top 2-3
+  references and many valuable ones were ignored") is this bug, and it was invisible
+  because it read as discipline. New class (`reference index`), new lane
+  (`references/reference-waves.md`): enumerate all, rank the whole set against measured
+  attention points rather than against titles, read in parallel waves until the yield
+  floor, and **record the ranked tail** so the next pass diffs instead of re-deriving.
+- **Generalisation worth watching**: the same shape may exist elsewhere in this method -
+  a cap chosen for one source class inherited by a class whose economics invert. The
+  paper aggregator's "~3 papers per run" was the same bug and is now corrected. Check any
+  other number in this file that was set once and never re-derived per class.

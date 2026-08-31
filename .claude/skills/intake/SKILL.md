@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 1.2.0
-tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test
+version: 1.3.0
+tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index
 ---
 
 # Intake
@@ -37,6 +37,9 @@ ORIGINATES a finding. It never AUTHORIZES one.**
 /intake apply <technique> [--project <slug>] [--mode code|experiment|simulation]
                               # run Phase 7.5 alone against knowledge that already landed
 /intake <url> --no-apply      # land without applying; the reason goes in the scorecard row
+/intake <url> --run <id>      # join the run board under a chosen id (default: derived)
+/intake <url> --wave          # reference-index source: mine its references in waves, not its top 3
+/intake board                 # read the run board - who else is live, and what they hold
 ```
 
 The pipeline this skill is trying to master, and the five stages every run is scored
@@ -56,6 +59,7 @@ Two instruments, both dependency-free, both asserting themselves before they rep
 ```sh
 node scripts/research-ingest.mjs <url|path|-> --json    # source  -> deduped transcript + metadata
 node scripts/research-map.mjs "<term>" "<term>" ...     # terms   -> prior art + where a new subject goes
+node scripts/run-board.mjs claim|beat|check|lock|list   # this run -> visible to every sibling session
 ```
 
 `research-ingest` exits **2** when the instrument failed and **3** when the source is
@@ -67,8 +71,100 @@ subject's **address**. Bundles are nested and depth is dynamic, so a constructed
 writes a document into a folder no consumer walks - the same rule `deepen` workers and
 `librarian` dispatches run on.
 
-Neither instrument decides anything. They put you in the neighbourhood; you still open
-the file.
+Neither of the first two decides anything. They put you in the neighbourhood; you still
+open the file. The third decides nothing either - it makes a collision visible before
+you cause it. Its exit **3** means CONTENDED, which is an answer and not a failure.
+
+## Running beside a dozen siblings
+
+This skill is now routinely run **a dozen at a time**, one source per terminal, against
+one checkout. That is the intended mode, not an abuse of it - the front of the funnel is
+the stage the scorecard keeps naming as weakest, and parallel sources are the only cheap
+way to feed it. But every one of those sessions is a *writer*: it lands into shared
+bundles, appends to shared ledgers, regenerates a shared index whose hash the catalog
+covers, and commits on a shared branch. Run naively, twelve of those do not produce
+twelve runs' worth of corpus. They produce interleaved appends that lose lines, an index
+built over a neighbour's half-written subject, and commits that carry work nobody
+reviewed.
+
+Three rules make it safe, and they are worth stating as one idea: **read the board,
+write only what you claimed, and take the lock for the few seconds where sharing is
+unavoidable.**
+
+**1. Announce yourself before you read anything.** The board is
+`$(git rev-parse --git-common-dir)/run-board/` - inside the git common directory, so it
+is shared by every worktree of this repo, can never be staged, and needs no `.gitignore`
+line. Every run writes exactly one file there and reads all the others; there is no
+shared document to append to, because a shared append is the race the board exists to
+prevent.
+
+```sh
+node scripts/run-board.mjs claim --skill intake --source "<url>" --run <id>
+node scripts/run-board.mjs list                      # who else is live, and what they hold
+```
+
+`claim` exits **3** if a live sibling is already mining the same source or already holds
+a subject you named. Same source is the cheapest waste there is - two terminals paying
+twice for one transcript and then racing to write one source note - and it is invisible
+without the board because the ledger only learns about a source *after* it is mined.
+
+**2. Claim a subject before you write in it, not after you decide to.** Add every
+address you might land in - as soon as Phase 4 names it, not at Phase 7 - and re-check
+before the write:
+
+```sh
+node scripts/run-board.mjs beat --run <id> --phase 6 --subject <domain/category/subject>
+node scripts/run-board.mjs check --run <id> <path> [<path>...]   # exit 3 = a sibling holds it
+```
+
+A contended subject is **not** a stop. It is a different job: two runs adding techniques
+to one golden path will collide on that file's `techniques:` list even though their
+techniques are unrelated, so the second one either waits for the first to commit, or
+writes its technique and takes the `content` lock for the golden-path line alone. Say in
+the source note which you did.
+
+**3. Serialize the three things that genuinely cannot be shared**, and nothing else,
+with a named lock. A lock is an atomic file create with a TTL; it is breakable after 15
+minutes, loudly, so a crashed session cannot deadlock the fleet.
+
+| Lock | What it covers | Hold it for |
+| --- | --- | --- |
+| `index` | `build-index.mjs` + `build-catalog.mjs` + the two checkers | the regeneration, and nothing before it |
+| `ledger` | appending to `librarian/sources/index.md`, `librarian/applied.md`, `SCORECARD.md`, `LESSONS.md` | one append |
+| `commit` | `git add` + `git commit` + the HEAD verification | one commit |
+
+```sh
+node scripts/run-board.mjs lock index --run <id> --wait 600
+node scripts/build-index.mjs && node scripts/build-catalog.mjs
+node scripts/check-bundles.mjs && node scripts/check-skills.mjs
+node scripts/run-board.mjs unlock index --run <id>
+```
+
+**Re-read every shared file inside the lock, immediately before appending to it.** A
+ledger you read at Phase 1 is eleven runs out of date by Phase 9. This is the single
+most common way parallel runs lose content, and it never fails loudly: the append
+succeeds, and one line quietly ceases to exist.
+
+Four consequences that follow from the above and are easy to get wrong:
+
+- **Never switch the branch, ever.** A sibling did this on 2026-08-21 and every other
+  session's working tree changed under it. If you need isolation, take a worktree
+  (`git worktree add <short path> -b <branch>` - keep the path SHORT; the deepest bundle
+  paths blow past the platform limit under a scratch prefix). The board follows you
+  there for free.
+- **Scratch is per run or it is a hazard.** Every clone, transcript and temp file goes
+  under `<scratchpad>/<run-id>/`, and Phase 9 deletes *that* directory by name. A blind
+  sweep of the scratch root deletes a neighbour's half-swept clone.
+- **`git add -A` is a fleet-wide incident, not a local mistake.** With twelve live runs
+  it is guaranteed to stage somebody's in-flight file. Stage new files by name, commit
+  with a pathspec, verify in `HEAD`.
+- **Do not regenerate to be helpful.** If the index is stale for files you do not own,
+  that is the owning run's job and it holds the lock. Regenerate only after your own
+  content lands, only under the lock, and only once.
+
+Release the claim when the run ends - `release --run <id>` - or leave it to `gc`, which
+reaps any record whose heartbeat is more than 45 minutes old. A run that ends without
+releasing costs its siblings 45 minutes of unnecessary caution, so release it.
 
 ## The six outcomes
 
@@ -118,6 +214,7 @@ index, not a substitute for it.
 | **vendor release announcement** | is it the vendor's OWN post about its OWN release? | its numbers - the prose is the strip test's problem |
 | **practitioner build-walkthrough** | a personal tool they actually use daily? | the operating half only - see below |
 | **paper aggregator** | a list of papers? | measurements in their protocol, not frameworks |
+| **reference index** | is its VALUE the outbound links rather than its own text? | nothing itself - it is a bibliography, and the references are the source |
 | **vendor repository** | a company's repo over a hosted engine? | its docs' rules page and its client's types |
 | **research-model release** | open weights plus real inference code? | its prompt artifacts and its config |
 | **app/tutorial aggregator** | a monorepo of example apps? | the operational periphery, not the apps |
@@ -212,6 +309,16 @@ Budget corroboration like `deepen` does: at most **3** web fetches for the whole
 spent only on picked candidates, preferring primary and vendor documents over
 commentary about them. A news video reporting on a paper is not the paper.
 
+**Two classes are exempt, and the exemption is structural rather than generous.** For a
+paper aggregator and a **reference index**, the referenced documents are not
+corroboration for the source - they *are* the source, and the list is a bibliography.
+A run-wide budget of 3 against a 200-entry index does not enforce discipline; it
+enforces a 1.5% sample and then reports the result as if it were the source's yield.
+For those two, the budget is **per reference and lives with the worker that reads it**
+(~2 fetches each: the document, then at most one primary it points at), and the
+*run-wide* discipline moves to the number of references admitted, which the ranking in
+Phase 2c decides and the operator sees before a single fetch is spent.
+
 **Tier sources; never count them.** Convergence means *independent* sources reaching
 one rule, and most sources are not independent: a relay is downstream of the primary
 it relays, so three relays agreeing with each other are one observation, and three
@@ -237,6 +344,16 @@ rule that granularity was serving.
   either: each project declares its own in its `.ai/manifest.yaml`. The prose half is
   [`librarian/projects.md`](../../librarian/projects.md).
 - If the bridge is missing and the run needs it, ask for paths rather than guessing.
+- **Claim this run on the board before reading anything else.** It costs one command and
+  it is what makes the next eleven terminals safe:
+
+  ```sh
+  node scripts/run-board.mjs claim --skill intake --source "<url>" --run <id>
+  ```
+
+  Exit 3 means a live sibling already holds this source: stop and say so, or take a
+  different source. Nothing after this point is safe to write without a claim, and a run
+  that skips it is invisible to everyone else for its whole life.
 
 ### Phase 1 - Prove the instruments, then load memory
 
@@ -248,6 +365,13 @@ rule that granularity was serving.
 3. Read `librarian/sources/index.md`. **If this source was already mined, say so and
    stop** unless the operator wants a re-run; then read the prior note first, because
    its declines are the answer to half of what you are about to propose.
+4. `node scripts/run-board.mjs list` - the ledger answers "was this mined", the board
+   answers "is this being mined **right now**", and only the second one can see the
+   eleven sessions whose notes do not exist yet. Read what the live siblings hold, and
+   let it steer the run: a source whose obvious home is a subject two siblings are
+   already inside is a source to route elsewhere or to mine for its other half. Say in
+   the source note how many siblings were live and which subjects they held - that
+   line is what makes a later collision legible instead of mysterious.
 
 ### Phase 2 - Ingest
 
@@ -276,9 +400,13 @@ with restated marketing.
 So the ingest is the *trigger*, never the extraction:
 
 ```sh
-git clone --depth 1 <url> <scratchpad>/<run-slug>
-git -C <scratchpad>/<run-slug> log -1 --format=%H     # pin it; the note records the commit
+git clone --depth 1 <url> <scratchpad>/<run-id>
+git -C <scratchpad>/<run-id> log -1 --format=%H       # pin it; the note records the commit
 ```
+
+The directory is named for **this run's board id**, never for the source, and never the
+scratch root itself. Twelve concurrent runs share one scratch directory, two of them may
+be mining the same organisation's repos, and Phase 9's cleanup deletes by name.
 
 Then **sweep the tree before extracting a single candidate**, in this order - it is
 ordered by yield density, which is close to the inverse of how prominent each part is:
@@ -323,6 +451,83 @@ problem one of our own projects has. Those land in `scripts/`, `practices/` and
 often the highest-value thing a repository run produces. Ask of the tree the question
 you cannot ask of a video: **what here is good enough to reuse, and what does it do
 that we do worse?**
+
+#### Phase 2c - If the source's value IS its links, the links are the source
+
+Some repositories carry almost no knowledge of their own. An awesome-list, a curated
+bibliography, a "papers we read" vault, a links section in a handbook: what it holds is
+**a filtered set of pointers somebody paid attention to build**, and its own prose is a
+one-line annotation per row. Mining that source by reading its README is not merely
+incomplete, the way it is for a code repository - it is reading a library's card catalog
+and filing a report on the catalog.
+
+The tell is a ratio, and it is worth computing rather than eyeballing: **outbound links
+to third-party documents, over the source's own word count.** A code repository has a
+handful of links across tens of thousands of words. A reference index inverts that -
+hundreds of links, a few thousand words, most of them link text. When the ratio inverts,
+switch lanes.
+
+**The failure this lane exists to end.** Past runs mined these sources by picking the two
+or three references that looked most promising from their titles and reading those. That
+is a 1.5% sample chosen on the weakest available signal - a title - and it discarded, by
+construction, everything the curator had actually done work to include. The runs then
+reported their yield as the source's yield. **Titles do not rank references**; a title
+tells you a paper's topic and nothing about whether it measures anything, contradicts us,
+or lands anywhere. The corrective is not "read more carefully". It is to stop sampling:
+**enumerate every reference, rank the whole set against the corpus, and read the maximum
+the run can afford in parallel waves** - explicitly accepting that most will return
+`already covered` or `nothing`, because a cheap negative on a real reference is worth
+more than a confident guess about an unread one.
+
+Full procedure, worker brief, wave sizing and the stop rule are in
+[`references/reference-waves.md`](references/reference-waves.md). Read it before the
+first wave. The shape in five steps:
+
+1. **Enumerate exhaustively, by instrument, never by reading.** Clone the tree (Phase 2b
+   still applies - the index is a repository) and extract every URL from every file, not
+   just the README: sub-lists, `docs/`, per-topic pages and the git history's removed
+   entries all carry references. Dedupe by normalized URL, then again by *document* - a
+   paper on arXiv, a PDF mirror and a blog summary of it are one reference. Report the
+   honest total. A run that says "we found 47 references" over a tree holding 213 has
+   already reproduced the failure at a larger sample size.
+2. **Classify each reference by its own source class** (paper, vendor doc, first-party
+   account, relay) from its URL and the curator's annotation. This costs no fetch and it
+   is what makes ranking possible: a relay of a primary already in the set is not a
+   second reference, it is a duplicate with a different domain name.
+3. **Rank the whole set against the corpus, not against your interest.** One
+   `research-map` call carrying every reference's terms at once - that is what the
+   instrument is for. Score each reference on: does it map to a subject that
+   `librarian-scan` says has attention points; is it a class that can *authorize*
+   something (primary/paper) or only originate (relay); does its annotation claim a
+   measurement, a negative result or a contradiction; and is it already in the source
+   ledger. Rank descending, and **keep the whole ranked list in the source note** - the
+   tail is the artifact that makes the next pass over this index cheap instead of a
+   re-derivation.
+4. **Cut waves, not a top-N.** A wave is 5-8 references read by 5-8 parallel workers,
+   one reference each, each with its own ~2-fetch budget. Run wave 1 over the top band,
+   read what comes back, then decide wave 2 *from the returns* - the first wave routinely
+   moves the ranking, because a reference that came back with a measurement promotes
+   everything the curator grouped beside it, and a band that returns eight catches
+   demotes its whole cluster. Keep going while a wave is still returning something; the
+   stop rule is a yield floor, not a fixed number of waves. Two or three waves over a
+   large index is normal and expected.
+5. **Merge serially, exactly like a batch.** The director holds every write; workers
+   return proposals and touch nothing. Within-index convergence - two independently
+   curated references reaching the same rule - is the strongest triage signal this lane
+   produces, and it is available *only* because the sample was broad. Dedupe it by
+   author, not by reference.
+
+**The board matters more here than anywhere else in this method**, because one reference
+index can generate more landings than a dozen video runs. Claim the subjects the ranking
+implicates as soon as step 3 names them, before wave 1 dispatches, and heartbeat every
+wave. A wave run unclaimed against a bundle two siblings are inside is the worst
+collision this skill can produce.
+
+**A reference index also carries one finding of its own, and only one**: what the curator
+chose to include and what they left out. A bibliography is a stated opinion about a
+field's boundary. When it converges with ours, that is corroboration for a boundary we
+drew; when it does not, the gap is a lead worth more than most of the references. Record
+it, once, and do not mistake it for the source's yield.
 
 #### Then read, then clean up
 
@@ -378,6 +583,19 @@ commits that land on *this* one after you read the worklist. On 2026-08-27 a par
 session landed a new subject in the same bundle mid-run, and Phase 4's first map would
 have mis-homed two candidates. In a shared checkout, re-run the map - or at least
 re-read the bundle's subject list - before Phase 6's homes are final.
+
+**And it cannot see the future at all**, which is the failure the board exists for: a
+sibling's subject is not in the index until that sibling commits, so the map reports a
+hole over ground another terminal is standing on. As soon as the map names a home,
+claim it and check it:
+
+```sh
+node scripts/run-board.mjs beat --run <id> --phase 4 --subject <domain/category/subject>
+```
+
+A `new-subject` impact over a domain a live sibling holds is the one to distrust hardest.
+Read that sibling's claim, and prefer an amendment inside their subject over a competing
+one beside it.
 
 **A near-empty is more dangerous than a total empty.** The instrument matches slugs, so
 it cannot see a concept that lives inside a document's prose. Zero hits usually means a
@@ -544,8 +762,11 @@ worker on it before Phase 9**, and stay in the director's chair:
   when the spec spans more than one subject, which is `/forge`'s job and not one
   worker's.
 
-The forge worker is the only agent this skill dispatches, and it is dispatched exactly
-once per spec.
+The forge worker is dispatched exactly once per spec, and it is the only agent this skill
+dispatches **in the course of mining one document**. A reference index is not one
+document - it is a bibliography, and Phase 2c dispatches a pool of reader workers across
+its waves. The rule those workers inherit is the one that makes any of this safe:
+**workers return proposals, the director writes.**
 
 **Verify every structural claim in the spec against the authority, not against a count.**
 A dispatch that names the wrong category sends a worker to build in a folder the tooling
@@ -566,13 +787,33 @@ a vendor talk is made of product names), confirm `use_when` on every new techniq
 open one cited line to see that it says what the citation claims. The check is the point,
 not the result.
 
-After content changes, regenerate in this order and never the reverse - the catalog's
-hash covers the index:
+**Check the board immediately before the first write, not at Phase 4.** Minutes have
+passed and siblings have moved:
 
 ```sh
+node scripts/run-board.mjs check --run <id> <every file you are about to touch>
+```
+
+Exit 3 on a *technique* file you are creating is nearly impossible and means somebody is
+writing your document. Exit 3 on a *golden path* or a *taxonomy* entry is expected and
+routine, because those are the shared spines every landing has to touch: take the
+`content` lock, re-read the file, make your one-line edit, unlock. Never hold a lock
+across drafting - only across the edit.
+
+After content changes, regenerate **under the `index` lock**, in this order and never the
+reverse - the catalog's hash covers the index, and a regeneration that runs while a
+sibling is mid-write bakes their half-written subject into an artifact you then commit:
+
+```sh
+node scripts/run-board.mjs lock index --run <id> --wait 600
 node scripts/build-index.mjs && node scripts/build-catalog.mjs
 node scripts/check-bundles.mjs && node scripts/check-skills.mjs
+node scripts/run-board.mjs unlock index --run <id>
 ```
+
+If the gate goes red inside that lock on a file you do not own, **unlock first, then
+report it**. Holding the lock while you investigate somebody else's breakage stalls
+eleven terminals; the red gate is theirs to fix and yours to name.
 
 ### Phase 7.5 - Apply and A/B test (mandatory per landed technique or amendment)
 
@@ -713,10 +954,30 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
 
 ### Phase 9 - Persist
 
+Everything in this phase except the source note and the subject notes is an **append to
+a file every sibling also appends to**. Take the `ledger` lock once, re-read each file
+inside it, append, unlock - all of it in one short hold. A ledger read at Phase 1 is
+stale by now, and appending from that stale read silently deletes whatever landed in
+between.
+
+```sh
+node scripts/run-board.mjs lock ledger --run <id> --wait 600
+#   re-read, append: librarian/sources/index.md, librarian/applied.md, SCORECARD.md
+node scripts/run-board.mjs unlock ledger --run <id>
+```
+
+The source note and the subject notes are yours alone (`<date>-<slug>.md`,
+`<domain>/<subject>.md`), so they need no lock - except a subject note a sibling also
+touched this session, which is an append like any other. Delete this run's scratch
+directory **by its run id**, never by sweeping the scratch root.
+
 - **Source note** `librarian/sources/<YYYY-MM-DD>-<slug>.md`: frontmatter (`source`,
   `kind`, `url`, `title`, `author`, `words`, `extracted`, `accepted`, `declined`,
-  `leads`, `already_covered`, `untriaged`, `dispatched`), then one block per candidate
-  with its outcome and, for declines, the reason. A decline nobody wrote down gets re-proposed
+  `leads`, `already_covered`, `untriaged`, `dispatched`, `run_id`, `siblings`), then one
+  block per candidate with its outcome and, for declines, the reason. `siblings` is how
+  many runs were live on the board when this one started, and it is the field that
+  explains, six weeks later, why two notes from one afternoon disagree about what the
+  corpus contained. A decline nobody wrote down gets re-proposed
   every run forever.
 - **Source ledger** `librarian/sources/index.md`: one line per mined source. This is
   what makes "already mined" a one-second check next time. The source note's
@@ -742,13 +1003,28 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
   `check-skills`, `build-index --check`) are the review, and the operator pushes after
   reading the log. A branch is for a run whose diff is too large to read in one
   sitting or that the operator asked to hold back - not the default.
-- **Check for parallel sessions before touching the tree.** This checkout is routinely
-  shared with other agent sessions: on 2026-08-21 another session switched the branch
-  out from under this one mid-run, and on 2026-08-23 a directory-wide `git add` swept a
-  sibling's in-flight instrument into a commit. When anything else is live, regenerate
-  index/catalog only from files you own, and if a branch is needed after all, take it
-  as `git worktree add <short path> -b <branch>` - keep the path SHORT, the deepest
-  bundle paths blow past the platform limit under a scratch-directory prefix.
+- **Take the `commit` lock, and hold it for the commit only.**
+
+  ```sh
+  node scripts/run-board.mjs lock commit --run <id> --wait 600
+  git add <your new files by name>
+  git commit -m "..." -- <your paths>
+  git grep <slug> HEAD -- <path>                  # verify inside the lock
+  node scripts/run-board.mjs unlock commit --run <id>
+  ```
+
+  Git's own index (`.git/index`) is a single shared file: two concurrent `git add`s
+  produce `index.lock` errors at best and a commit carrying a sibling's staged work at
+  worst. The lock costs seconds and removes the whole class.
+- **Check for parallel sessions before touching the tree** - `run-board.mjs list`, plus
+  `git status --short` for anything the board does not know about (an operator editing
+  by hand is not on the board). This checkout is routinely shared: on 2026-08-21 another
+  session switched the branch out from under this one mid-run, and on 2026-08-23 a
+  directory-wide `git add` swept a sibling's in-flight instrument into a commit. Never
+  switch the branch. If a branch is needed after all, take it as
+  `git worktree add <short path> -b <branch>` - keep the path SHORT, the deepest bundle
+  paths blow past the platform limit under a scratch-directory prefix, and the board
+  follows you into the worktree because it lives in the git common directory.
 - **Commit with a pathspec**: `git commit -m "..." -- <your paths>`. A worktree isolates
   the checkout but shares the object store and the branch namespace, and a pathspec-less
   commit still takes whatever is staged.
@@ -759,8 +1035,12 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
   pathspec. This bites once per run and the error is easy to misread as a bad path.
 - Treat any modified file you did not touch as live WIP. Never `git add -A`.
 - Close by verifying each shipped artifact is in `HEAD` (`git grep <slug> HEAD -- <path>`),
-  not by trusting that the commit command succeeded. A parallel session can rewrite
-  history and drop your content back into the working tree, where the gates still pass.
+  **inside the lock**, not by trusting that the commit command succeeded. A parallel
+  session can rewrite history and drop your content back into the working tree, where the
+  gates still pass. Verifying after the unlock re-opens exactly that window.
+- **Release the claim when the run ends**: `node scripts/run-board.mjs release --run <id>`.
+  A record left behind makes every sibling cautious about subjects nobody is holding for
+  the next 45 minutes.
 
 ### Phase 11 - Skill Reflection
 
@@ -772,6 +1052,11 @@ clause); this file is not stamped by that machinery because it lives under
 produce nothing beyond lane 0. An empty reflection is a valid result; a forced lesson
 is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry
 (occasionally) / a redesign proposal (rare).
+
+`SCORECARD.md` and `LESSONS.md` are shared append targets like any ledger: take the
+`ledger` lock, **re-read the file inside it**, append, unlock. Twelve runs reflecting at
+once onto one scorecard is where the funnel measurement quietly loses rows, and a lost
+row is worse than no row - it makes the weakest-stage reading wrong rather than absent.
 
 **Lane 0 - the scorecard, every run, no exceptions.** Append one row to
 `SCORECARD.md`: version used, date, source slug, and the five stage counts -
@@ -804,7 +1089,14 @@ every project):
 4. Ask the operator once, batched, why declined picks were declined. A decline reason
    seen three times is a rule this file should carry.
 5. Commit the skill's files in their own commit with a pathspec, after
-   `node scripts/check-skills.mjs` passes.
+   `node scripts/check-skills.mjs` passes and under the `commit` lock.
+6. **A method edit is the one change a parallel fleet cannot absorb quietly.** Eleven
+   sessions are reading this file right now, from the version they loaded at their own
+   Phase 0. Bump the version, say in `LESSONS.md` what a mid-flight run should do about
+   it (usually: nothing, finish on the version you loaded), and never edit `SKILL.md`
+   from two runs in the same afternoon without one of them reading the other's diff
+   first - the board makes that visible if you claim
+   `--path .claude/skills/intake/SKILL.md`.
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves
 this method, a lead proposes knowledge for a bundle. Intake IS the lane that turns leads
@@ -846,3 +1138,22 @@ corroboration behind it.
 - **Committing to a connected project on an unpaired claim.** A technique landing in
   a tree is a measurement with two arms, or it is a branch.
 - **Committing without a pathspec in a shared checkout.**
+- **Running without a board claim.** An unclaimed run is invisible to eleven siblings
+  and sees none of them; every collision rule in this method degrades to hope.
+- **Appending to a ledger from a read taken before the lock.** The append succeeds and a
+  line ceases to exist. This is the parallel failure that never announces itself.
+- **Regenerating the index outside the `index` lock**, or regenerating "to be helpful"
+  over files you do not own. The catalog's hash covers the index; a regeneration over a
+  sibling's half-written subject bakes their WIP into an artifact you then commit under
+  your name.
+- **Switching the branch.** Not once, not briefly. Take a worktree.
+- **Sweeping the scratch root at cleanup** instead of deleting this run's own directory
+  by its run id.
+- **Holding a lock across thinking.** Locks cover an edit, an append, a commit - seconds,
+  never a drafting pass. A lock held across a verification round stalls the whole fleet
+  and gets broken at its TTL anyway.
+- **Mining a reference index at its top three links.** The list IS the source; three of
+  its two hundred pointers is a sample, not an extraction. Enumerate all of them, rank
+  them, and run waves.
+- **Letting a wave worker write.** Workers return proposals. The director writes, holds
+  the locks, and owns the diff.

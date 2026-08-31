@@ -160,9 +160,15 @@ the timers.
 ## Paper aggregator
 
 An awesome-list or survey repo of research papers. Triage at **cluster level, never item
-level** - map the list's own taxonomy onto the corpus's subjects, present clusters with
-one or two anchor papers each, and read at most ~3 papers per run, chosen where a bundle
-or a connected project could act on the result.
+level** - map the list's own taxonomy onto the corpus's subjects and present clusters
+with one or two anchor papers each.
+
+**This class is a reference index, and it is mined in waves.** An earlier version of this
+entry said "read at most ~3 papers per run", which turned a fetch budget written for a
+different class into a 1.5% sample of the source. Cluster triage is still how you
+*rank*; it is not how many you read. Enumerate every paper, rank the whole set, and run
+parallel waves until the yield floor - the procedure is
+[`reference-waves.md`](reference-waves.md).
 
 A paper is authoritative for **its measurement, in its protocol**, and weak for its
 framework - framework papers are the class's marketing; measurements, failure taxonomies
@@ -174,11 +180,48 @@ benchmark of the same system is one fetch and is usually the cheapest honest num
 available. The cluster map itself goes in the source note: it is what makes the next
 300-paper list a one-table triage.
 
+## Reference index
+
+A repository, page or vault whose value **is its outbound links**: an awesome-list, a
+curated bibliography, a reading list, a "papers we studied" vault, a handbook's
+references section. The paper aggregator is one shape of it; a links collection over
+articles, blog posts, talks and specs is another and is more common.
+
+**The tell is a ratio**, and it is worth computing rather than eyeballing: outbound links
+to third-party documents over the source's own word count. A code repository has a
+handful of links across tens of thousands of words. A reference index inverts that -
+hundreds of links across a few thousand words, most of them link text with a one-line
+annotation. When the ratio inverts, the source is a bibliography and its own prose
+authorizes nothing at all.
+
+**It is reliable for exactly one thing about itself: its boundary.** What the curator
+included and excluded is a stated opinion about where a field ends, and it is the only
+finding the index itself can carry. Everything else in it is a pointer, and a pointer is
+mined by reading what it points at.
+
+The class's failure mode is not "read the README" - it is **sampling**. Reading the two
+or three references whose titles look best is a 1.5% sample drawn on the weakest signal
+in the set, reported as the source's yield, with the other 197 references leaving no
+trace for the next pass to build on. **Enumerate all of them, rank the whole set against
+the corpus, read the maximum the run can afford in parallel waves, and record the ranked
+tail.** Cheap negatives on references actually read beat confident guesses about
+references that were not.
+
+Its fetch economics are the inverse of every commentary class: the references are the
+*extraction*, not the corroboration, so the run-wide 3-fetch budget does not apply. The
+budget is per reference and lives with the worker reading it (~2 each), and the run-wide
+discipline moves to how many references are admitted - which the ranking decides and the
+operator sees before a fetch is spent.
+
+Full procedure - enumeration, classification, ranking weights, wave sizing, the worker
+brief, the stop rule and the note's frontmatter - is
+[`reference-waves.md`](reference-waves.md).
+
 ## Every repository class shares one rule: the landing page is not the source
 
-Five of the classes below arrive as a repository - vendor repository, research-model
-release, app/tutorial aggregator, paper aggregator, and the build-walkthrough in repo
-form. They differ in where their yield sits and agree completely on where it does
+Six of the classes here arrive as a repository - vendor repository, research-model
+release, app/tutorial aggregator, paper aggregator, reference index, and the
+build-walkthrough in repo form. They differ in where their yield sits and agree completely on where it does
 **not**: the README. Each row states this in its own vocabulary (a marketing surface,
 a method's advertisement, a tour half), which made it easy to miss that they were all
 saying one thing.

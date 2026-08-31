@@ -3,7 +3,7 @@ name: harvest
 description: "Drain the graded source queue in librarian/harvest/ through the /intake method, in parallel and in bulk: admit only sources that map to a measured live gap, mine a batch with scoped subagent miners, land what survives the intake discipline, then prove or refute the landing's impact with an A/B evaluation on a connected project. The loop that turns 100+ queued URLs into corpus mastery without turning the corpus into a feed. Use when the queue has rows and nobody is hand-feeding /intake links."
 category: ai-native
 memory: project
-version: 0.1.0
+version: 0.2.0
 tags: research, queue, batch, orchestration, evaluation, ab-test, cross-repo
 ---
 
@@ -124,6 +124,20 @@ the tree, the ledger, or the queue is the same bug as a librarian worker outside
 folder - the single-writer rule is what makes parallelism safe in a lane where
 every file is shared. Miners may read anything, fetch within budget, and must not
 touch `git`.
+
+**The orchestrator is one writer among many, and claims the board like any run.** The
+single-writer rule makes a harvest pass internally safe; it says nothing about the
+eleven other terminals landing into the same bundles. Claim before Phase 1 and hold the
+`index`, `ledger` and `commit` locks in Phase 4 exactly as `/intake` does (its §
+"Running beside a dozen siblings" is the whole rule):
+
+```sh
+node scripts/run-board.mjs claim --skill harvest --source "<domain> batch <n>" --run <id>
+node scripts/run-board.mjs beat  --run <id> --subject <addr>   # per admitted row's target
+```
+
+A harvest pass is the largest single writer in the fleet - it lands a whole batch - so an
+unclaimed one is the most expensive thing that can be invisible on the board.
 
 ### Phase 4 - land serially: intake's triage, harvest's bookkeeping
 
