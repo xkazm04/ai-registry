@@ -5,9 +5,10 @@ subject: retry-backoff
 technique: suspension-is-not-failure
 stack: next
 status: forged
-applied: experiment
+applied: code
 ab_verdict: better
 proof: ab-paired
+shipped: d4995c3
 verified_on: 2026-08-31
 verified_against: next@16
 ---
@@ -103,3 +104,27 @@ class and by outcome, so that *suspended* is distinguishable from *exhausted*
 in something an operator can read. Until the second exists, this application
 reports a classifier that cannot fire, not a fleet that is measurably worse
 off for it.
+
+## Shipped
+
+The wire is connected, in `d4995c3` (not pushed). The predicate now reads the
+`category` every error in this hierarchy already carries, with the offline code
+deliberately excluded — the request was never made, so it is a suspension and
+not evidence of permanence, and the fetch layer's network mode already pauses
+the ladder there. The message-substring path is kept beneath it as a fallback
+for errors thrown outside the hierarchy.
+
+Both arms were re-run by **extracting each revision's own predicate and
+executing it**, rather than by reimplementing either: **0 of 20 permanent codes
+refused before, 20 of 20 after, with 0 false positives in either arm.** Four
+regression checks travel with the change and pass — offline is not declared
+permanent, 5xx still retries, the attempt budget still caps, and an untyped
+`403` is still refused through the fallback.
+
+Project gates: typecheck 29 before and after with 0 in the changed file;
+`eslint src` 0 errors; ratchet unchanged across all 27 buckets.
+
+The second return condition stands untouched: nothing yet counts retries by
+error class, so **suspended** and **exhausted** remain indistinguishable in
+anything an operator reads. The classifier can now fire; whether it saves
+anything is still unmeasured.

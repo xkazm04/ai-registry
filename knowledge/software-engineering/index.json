@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 153,
-  "techniques": 1036,
-  "applications": 528,
+  "subjects": 154,
+  "techniques": 1055,
+  "applications": 543,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1036/1036",
+  "use_when_coverage": "1055/1055",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -727,6 +727,21 @@
      ]
     },
     {
+     "slug": "grounding-over-deliberation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a step to a chain to raise confidence in a claim",
+      "choosing between another reviewer and an execution step",
+      "an agent's causal explanation is about to be acted on",
+      "a chain step produces a reproduction artifact"
+     ]
+    },
+    {
      "slug": "handoff-payload-contracts",
      "status": "forged",
      "laws": [
@@ -778,6 +793,13 @@
      "technique": "cycle-and-depth-guards",
      "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/node--cycle-and-depth-guards.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "grounding-over-deliberation",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/applications/node--grounding-over-deliberation.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -1975,6 +1997,20 @@
      ]
     },
     {
+     "slug": "two-clock-records",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fact is learned after it happened",
+      "designing the time columns of a ledger",
+      "a report over a past window must be reproducible later"
+     ]
+    },
+    {
      "slug": "write-chokepoint",
      "status": "forged",
      "laws": [
@@ -2025,6 +2061,13 @@
      "technique": "write-chokepoint",
      "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--write-chokepoint.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "sql",
+     "technique": "two-clock-records",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/sql--two-clock-records.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "sql@0.4"
     }
    ]
   },
@@ -3223,6 +3266,21 @@
      ]
     },
     {
+     "slug": "plural-policy-claims",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two call sites ask for the same key with different cache options",
+      "deciding whose TTL wins when one entry has many readers",
+      "data vanishes while a view is still showing it",
+      "one component's cache settings change another's refetch behaviour"
+     ]
+    },
+    {
      "slug": "prefetch-and-defer",
      "status": "forged",
      "laws": [
@@ -3270,6 +3328,13 @@
      "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--admission-hypothesis.md",
      "verified_on": "2026-08-31",
      "verified_against": "next@15"
+    },
+    {
+     "stack": "next",
+     "technique": "plural-policy-claims",
+     "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/applications/next--plural-policy-claims.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@16"
     },
     {
      "stack": "node",
@@ -3339,6 +3404,21 @@
       "choosing how cached state learns it is wrong",
       "deciding to patch from an event or refetch instead",
       "events arrive but the list still shows old names"
+     ]
+    },
+    {
+     "slug": "observed-read-subscription",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "consumers re-render on fields they never read",
+      "deciding between declared and inferred subscription granularity",
+      "a rendering optimization works until someone spreads the result object",
+      "narrowing subscriptions without asking every call site to declare them"
      ]
     },
     {
@@ -3446,6 +3526,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "observed-read-subscription",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/next--observed-read-subscription.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "async-race-guards",
@@ -5524,6 +5611,13 @@
      "technique": "deletion-protocols",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/process--deletion-protocols.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "suppression-hygiene",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/rust--suppression-hygiene.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -7540,6 +7634,22 @@
      ]
     },
     {
+     "slug": "candidate-write-access",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the candidate is an agent with a shell in the harness's own environment",
+      "an optimization loop reports a large win on a suite it can read",
+      "conditions in a matrix run share a working directory",
+      "choosing between forbidding overfitting and declaring a holdout"
+     ]
+    },
+    {
      "slug": "certification-levels",
      "status": "forged",
      "laws": [
@@ -7697,6 +7807,21 @@
      ]
     },
     {
+     "slug": "resolution-precondition",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a matrix run produced a ranking",
+      "publishing an order over models or prompts or configurations",
+      "a small margin is about to decide which variant ships",
+      "a benchmark's headline is a sorted list"
+     ]
+    },
+    {
      "slug": "scenario-design",
      "status": "forged",
      "laws": [
@@ -7729,6 +7854,13 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "candidate-write-access",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--candidate-write-access.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "judge-stability",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--judge-stability.md",
      "verified_on": "2026-08-18"
@@ -7739,6 +7871,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--reliability-aggregation.md",
      "verified_on": "2026-08-31",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "resolution-precondition",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--resolution-precondition.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
@@ -10100,6 +10239,23 @@
      "stage": "solo"
     },
     {
+     "slug": "mutating-local-gates",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a local check fixes what it finds",
+      "deciding whether an agent's turn-end gate may write to the tree",
+      "an auto-fixing check keeps re-firing on the same turn",
+      "two formatting rules disagree and the tree will not settle"
+     ],
+     "stage": "solo"
+    },
+    {
      "slug": "pre-authorship-verification",
      "status": "forged",
      "laws": [
@@ -10145,6 +10301,22 @@
      "stage": "team"
     },
     {
+     "slug": "stake-before-merit",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the changes arriving at the gate are authored by people who do not own it",
+      "a maintainer is drowning in well-intentioned contributions",
+      "writing a contribution policy for agent-assisted submitters",
+      "deciding what may be judged before a change is read"
+     ],
+     "stage": "solo"
+    },
+    {
      "slug": "verification-throughput-as-constraint",
      "status": "forged",
      "laws": [
@@ -10167,6 +10339,13 @@
      "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/applications/node--agent-readable-build-outcomes.md",
      "verified_on": "2026-08-21",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
+     "technique": "mutating-local-gates",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/applications/node--mutating-local-gates.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24.12.0"
     },
     {
      "stack": "process",
@@ -11456,6 +11635,21 @@
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
    "techniques": [
     {
+     "slug": "borrowed-surface",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a wrapper type forwards the wrapped type's methods implicitly",
+      "an extension assumes two upstream categories stay disjoint",
+      "deciding whether a delegating wrapper still earns its name",
+      "a dependency upgrade changed a type's surface without changing your code"
+     ]
+    },
+    {
      "slug": "io-free-core",
      "status": "forged",
      "laws": [
@@ -11576,6 +11770,13 @@
      "technique": "structural-improvement-loop",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/process--structural-improvement-loop.md",
      "verified_on": "2026-08-29"
+    },
+    {
+     "stack": "rust",
+     "technique": "borrowed-surface",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--borrowed-surface.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1"
     },
     {
      "stack": "rust",
@@ -12035,6 +12236,22 @@
      ]
     },
     {
+     "slug": "fallback-retirement-condition",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fallback written for a platform gap that the platform is expected to close",
+      "deciding whether to gate a substitute implementation on a capability check or always run it",
+      "a compatibility path nobody has measured since it was written",
+      "a workaround still shipping years after the capability it covered arrived"
+     ]
+    },
+    {
      "slug": "guarded-singleton-accessor",
      "status": "forged",
      "laws": [
@@ -12098,6 +12315,13 @@
      "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/node--probe-the-grant-not-the-config.md",
      "verified_on": "2026-08-29",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "fallback-retirement-condition",
+     "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/react--fallback-retirement-condition.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -15349,9 +15573,31 @@
       "one restart wakes every queued caller at once",
       "an outage flooding the log with duplicate errors"
      ]
+    },
+    {
+     "slug": "suspension-is-not-failure",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a client exhausts its retries while offline and gives up before reconnecting",
+      "deciding whether a blocked attempt counts against the budget",
+      "work resumes in a backgrounded tab and nobody wanted it to",
+      "distinguishing \"the dependency failed\" from \"we could not reach it to ask\""
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "suspension-is-not-failure",
+     "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/next--suspension-is-not-failure.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@16"
+    },
     {
      "stack": "node",
      "technique": "storm-control",
@@ -16253,6 +16499,22 @@
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
    "techniques": [
     {
+     "slug": "inherited-default-override",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "derivation-names-recomputation",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a preference whose default comes from the operating environment rather than from code",
+      "a user's stored choice stopped tracking a platform setting they expected it to follow",
+      "deciding whether a two-state control needs a third automatic option",
+      "a toggle that can never be returned to its inherited value once pressed"
+     ]
+    },
+    {
      "slug": "key-registry",
      "status": "forged",
      "laws": [
@@ -16324,17 +16586,27 @@
      "status": "forged",
      "laws": [
       "one-validation-door",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "twelve call sites each parsing the same string",
       "deciding what an absent key should mean",
-      "default change never reaching untouched installs"
+      "default change never reaching untouched installs",
+      "one read function parameterized by the caller's expected type",
+      "a stored value read back as a type it was not written as"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "inherited-default-override",
+     "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/next--inherited-default-override.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "read-batching",
@@ -16346,6 +16618,13 @@
      "technique": "key-registry",
      "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--key-registry.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "typed-accessors",
+     "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--typed-accessors.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1"
     }
    ]
   },
@@ -17408,6 +17687,20 @@
      ]
     },
     {
+     "slug": "toolchain-floor-drift",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "claiming support for an older toolchain or runtime",
+      "a build broke on a machine nobody changed",
+      "deciding how long a compatibility window should be"
+     ]
+    },
+    {
      "slug": "update-automation-review",
      "status": "forged",
      "laws": [
@@ -17465,6 +17758,13 @@
      "technique": "archive-extraction-safety",
      "file": "knowledge/software-engineering/security/supply-chain/applications/rust--archive-extraction-safety.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "toolchain-floor-drift",
+     "file": "knowledge/software-engineering/security/supply-chain/applications/rust--toolchain-floor-drift.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.80.0"
     }
    ]
   },
@@ -18235,6 +18535,106 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--negative-control-tests.md",
      "verified_on": "2026-08-24",
      "verified_against": "rust@1.96"
+    }
+   ]
+  },
+  "test-input-generation": {
+   "category": "engineering-process",
+   "subcategory": "build-and-release",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
+   "techniques": [
+    {
+     "slug": "exhaustive-when-bounded",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reaching for a randomized test by reflex",
+      "the input space may be small enough to enumerate",
+      "a suite cannot say whether it has finished covering a space"
+     ]
+    },
+    {
+     "slug": "generator-bounds-the-space",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a randomized test has run a long time without finding anything",
+      "a defect escaped the suite and was found elsewhere",
+      "reviewing a generator that produces realistic structured inputs"
+     ]
+    },
+    {
+     "slug": "inside-out-invariants",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a defect appeared far from its cause",
+      "testing a system whose components hold related state",
+      "an external test suite cannot express the property that actually matters"
+     ]
+    },
+    {
+     "slug": "model-based-oracle",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a randomized suite only catches crashes and assertion failures",
+      "deciding whether a reference implementation is worth its cost",
+      "a well-formed wrong answer reached production"
+     ]
+    },
+    {
+     "slug": "negative-space-generation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing a parser validator or decoder",
+      "a suite built from the specification's happy path",
+      "deciding how to generate inputs the system must reject"
+     ]
+    },
+    {
+     "slug": "swarm-feature-sampling",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a randomized test draws each operation with fixed probability",
+      "deep or extreme states are never reached across many runs",
+      "choosing a distribution for a sequence generator"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "generator-bounds-the-space",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--generator-bounds-the-space.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.80.0"
     }
    ]
   },
@@ -19694,6 +20094,7 @@
     "agent-addressable-ui/opt-in-instrumentation-gate",
     "agent-chaining/cycle-and-depth-guards",
     "agent-chaining/graph-to-wiring-translation",
+    "agent-chaining/grounding-over-deliberation",
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/permission-stance-enforcement",
     "agent-instruction-files/capability-before-steering",
@@ -19796,6 +20197,7 @@
     "error-handling/crash-capture",
     "error-handling/swallowed-error-prevention",
     "eval-harness/assertion-vs-judgment",
+    "eval-harness/candidate-write-access",
     "eval-harness/certification-levels",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
@@ -19842,8 +20244,10 @@
     "machine-authored-documentation/stale-artifact-on-failed-write",
     "machine-authored-documentation/three-gate-acceptance",
     "machine-paced-delivery/human-gate-capacity",
+    "machine-paced-delivery/mutating-local-gates",
     "machine-paced-delivery/pre-authorship-verification",
     "machine-paced-delivery/proposal-not-push",
+    "machine-paced-delivery/stake-before-merit",
     "markdown-vault/knowledge-integrity-lint",
     "markdown-vault/mirror-indexes",
     "markdown-vault/replicated-substrate",
@@ -19872,6 +20276,7 @@
     "multi-project/project-identity-and-joins",
     "observability-telemetry/diagnostic-access",
     "optional-dependency-degradation/degradation-coupled-to-hardening",
+    "optional-dependency-degradation/fallback-retirement-condition",
     "optional-dependency-degradation/probe-the-grant-not-the-config",
     "outbound-notifications/compose-at-the-locale-layer",
     "p2p-networking/exposure-controls",
@@ -19961,6 +20366,7 @@
     "supply-chain/permission-manifest-scoping",
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
+    "supply-chain/toolchain-floor-drift",
     "supply-chain/update-automation-review",
     "supply-chain/vendored-fork-ledger",
     "sync-replication/projection-security",
@@ -19978,6 +20384,9 @@
     "test-harness/negative-control-tests",
     "test-harness/out-of-graph-artifacts",
     "test-harness/suite-partitioning",
+    "test-input-generation/generator-bounds-the-space",
+    "test-input-generation/inside-out-invariants",
+    "test-input-generation/swarm-feature-sampling",
     "ui-controls/adoption-enforcement",
     "ui-controls/control-inventory-and-discovery",
     "usage-analytics/activation-and-funnel-honesty",
@@ -20013,6 +20422,7 @@
     "agent-addressable-ui/framework-internals-independence",
     "agent-addressable-ui/uninstrumented-degradation",
     "agent-chaining/cycle-and-depth-guards",
+    "agent-chaining/grounding-over-deliberation",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/run-conditions",
     "agent-chaining/stop-reason-ledgers",
@@ -20141,10 +20551,12 @@
     "error-handling/cancellation-attribution",
     "error-handling/error-doors",
     "eval-harness/assertion-vs-judgment",
+    "eval-harness/candidate-write-access",
     "eval-harness/certification-levels",
     "eval-harness/eval-economics",
     "eval-harness/failure-attribution",
     "eval-harness/overshoot-and-restore",
+    "eval-harness/resolution-precondition",
     "executive-reporting/grounded-narrative-generation",
     "executive-reporting/provenance-caveats",
     "executive-reporting/single-ranked-next-move",
@@ -20191,6 +20603,7 @@
     "machine-authored-documentation/evidence-without-verdict",
     "machine-authored-documentation/stale-artifact-on-failed-write",
     "machine-paced-delivery/agent-readable-build-outcomes",
+    "machine-paced-delivery/mutating-local-gates",
     "machine-paced-delivery/pre-authorship-verification",
     "machine-paced-delivery/verification-throughput-as-constraint",
     "markdown-vault/knowledge-integrity-lint",
@@ -20299,6 +20712,7 @@
     "retrieval/retrieval-triggering",
     "retry-backoff/circuit-breakers",
     "retry-backoff/retry-observability",
+    "retry-backoff/suspension-is-not-failure",
     "runner-fleet/capability-typed-queues",
     "scheduling/missed-run-semantics",
     "scheduling/schedule-observability",
@@ -20366,6 +20780,11 @@
     "test-harness/long-lane-certification",
     "test-harness/negative-control-tests",
     "test-harness/platform-quirk-absorption",
+    "test-input-generation/exhaustive-when-bounded",
+    "test-input-generation/generator-bounds-the-space",
+    "test-input-generation/inside-out-invariants",
+    "test-input-generation/model-based-oracle",
+    "test-input-generation/negative-space-generation",
     "time-travel-replay/timeline-derivation",
     "toasts-notifications/os-escalation",
     "tracing/raw-record-viewers",
@@ -20514,6 +20933,7 @@
     "audit-logging/audit-querying",
     "audit-logging/best-effort-with-accounting",
     "audit-logging/retention-and-partitioning",
+    "audit-logging/two-clock-records",
     "authorization/authorization-audit",
     "authorization/privilege-tiers",
     "background-jobs/loop-health-telemetry",
@@ -20580,6 +21000,7 @@
     "entity-lifecycle/bulk-deletion-rails",
     "entity-lifecycle/cascade-design",
     "error-handling/swallowed-error-prevention",
+    "eval-harness/candidate-write-access",
     "eval-harness/certification-levels",
     "eval-harness/comparison-modes",
     "eval-harness/discriminating-task-selection",
@@ -20589,6 +21010,7 @@
     "eval-harness/metric-role-contract",
     "eval-harness/overshoot-and-restore",
     "eval-harness/reliability-aggregation",
+    "eval-harness/resolution-precondition",
     "eval-harness/scenario-design",
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/denominator-naming",
@@ -20665,6 +21087,7 @@
     "multi-project/portfolio-drill-hierarchy",
     "observability-telemetry/remote-telemetry-economics",
     "observability-telemetry/rotation-and-retention",
+    "optional-dependency-degradation/fallback-retirement-condition",
     "optional-dependency-degradation/per-variable-blast-radius",
     "outbound-notifications/channel-health-tracking",
     "outbound-notifications/per-channel-templating",
@@ -20752,6 +21175,7 @@
     "structured-output/output-budget-signal",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/host-resource-protection",
+    "supply-chain/toolchain-floor-drift",
     "sync-replication/sync-observability",
     "table/client-server-split",
     "table/pagination",
@@ -20763,6 +21187,8 @@
     "test-harness/long-lane-certification",
     "test-harness/out-of-graph-artifacts",
     "test-harness/suite-partitioning",
+    "test-input-generation/exhaustive-when-bounded",
+    "test-input-generation/negative-space-generation",
     "time-travel-replay/accrual-overlays",
     "time-travel-replay/estimate-labeling",
     "time-travel-replay/transport-and-time-mapping",
@@ -20798,7 +21224,9 @@
     "agent-memory/decay-and-forgetting",
     "agent-memory/lane-reconciliation",
     "agent-memory/probe-without-write-back",
+    "audit-logging/two-clock-records",
     "authorization/delegated-authority",
+    "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
     "companion-identity/operator-profile-synthesis",
@@ -20830,6 +21258,9 @@
     "quality-gates/enforcement-binding",
     "quality-gates/fabrication-economics",
     "retrieval/structural-centrality-lane",
+    "retry-backoff/suspension-is-not-failure",
+    "settings/inherited-default-override",
+    "settings/typed-accessors",
     "structured-output/schema-validation-and-repair",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "terminal-multiplexing/occupant-state-detection",
@@ -21130,6 +21561,7 @@
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
     "model-routing/routing-policy",
+    "module-design/borrowed-surface",
     "module-design/io-free-core",
     "module-design/seams-and-adapters",
     "module-design/structure-is-not-delegable",
@@ -21166,6 +21598,7 @@
     "schema-driven-ui/spec-validation-and-repair",
     "search/query-parsing",
     "self-healing/blast-radius-bounds",
+    "settings/inherited-default-override",
     "settings/key-registry",
     "settings/typed-accessors",
     "signed-artifacts/import-verification-flow",
@@ -21231,6 +21664,7 @@
     "cicd-monitoring/liveness-scoped-polling",
     "client-fetch-cache/in-flight-dedup",
     "client-fetch-cache/parse-and-derive-caches",
+    "client-fetch-cache/plural-policy-claims",
     "client-fetch-cache/prefetch-and-defer",
     "client-fetch-cache/swr-design",
     "client-fetch-cache/warm-remount-caches",
@@ -21321,6 +21755,7 @@
     "multi-project/project-onboarding-lifecycle",
     "observability-telemetry/crash-record-storage",
     "observability-telemetry/rotation-and-retention",
+    "optional-dependency-degradation/fallback-retirement-condition",
     "outbound-notifications/channel-health-tracking",
     "outbound-notifications/inbound-counterparts",
     "p2p-networking/connection-lifecycle",
@@ -21440,6 +21875,7 @@
     "chat-transcript/inline-structured-rows",
     "cicd-monitoring/provider-capability-honesty",
     "client-fetch-cache/cache-key-discipline",
+    "client-fetch-cache/plural-policy-claims",
     "client-state/async-race-guards",
     "client-state/rehydration-narrowing",
     "client-state/status-fsms",
@@ -21652,6 +22088,7 @@
     "terminal-multiplexing/keystroke-injection",
     "terminal-multiplexing/occupant-state-detection",
     "test-harness/fixture-economics",
+    "test-input-generation/model-based-oracle",
     "time-travel-replay/renderer-reuse",
     "toasts-notifications/announcement-accessibility",
     "toasts-notifications/severity-taxonomy",
@@ -21842,6 +22279,7 @@
     "scoring-rubrics/weight-design",
     "search/full-text-indexing",
     "self-healing/effectiveness-accounting",
+    "settings/inherited-default-override",
     "settings/read-batching",
     "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/model-storage-lifecycle",
@@ -21880,6 +22318,7 @@
     "agent-instruction-files/enforcement-demotion",
     "agent-instruction-files/workspace-ancestry-isolation",
     "agent-memory/probe-without-write-back",
+    "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
@@ -21894,8 +22333,11 @@
     "machine-authored-documentation/evidence-without-verdict",
     "machine-authored-documentation/three-gate-acceptance",
     "machine-paced-delivery/human-gate-capacity",
+    "machine-paced-delivery/mutating-local-gates",
+    "machine-paced-delivery/stake-before-merit",
     "markdown-vault/knowledge-integrity-lint",
     "mcp-tools/transport-selection",
+    "module-design/borrowed-surface",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
     "plan-review/informational-fold-in",

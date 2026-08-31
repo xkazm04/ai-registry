@@ -66,3 +66,14 @@ wrapper rather than a leaf. Blast radius honestly 2 consumers.
 - **Install the lint rule** is a one-dependency repair in `goat` and would
   convert this application from a census into a standing gate. Sized and
   measured; the ask was not made at triage because the row named no project.
+
+**Shipped** `goat` `d4995c3`: lint plugin installed, six rules at error/0 under
+the project’s own severity policy. It found **three** violations where the
+census predicted one — two `no-unstable-deps` the census was not hunting.
+**The apply step corrected and amended the technique.** The flagged spread is on
+an object that is already untracked; the real subscription cost is the
+wrapper’s thirteen-field mapping one level up, which is deliberate good
+practice and which **no linter can flag**. The technique gained the section
+*A wrapper that normalizes the result destroys the observation*. That mapping
+is NOT repaired — converting it to lazy getters is a public-interface change
+and was outside this run’s authorization.

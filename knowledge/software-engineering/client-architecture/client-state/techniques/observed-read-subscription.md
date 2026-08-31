@@ -89,6 +89,48 @@ spreading is harmless there. Declared and observed narrowing compose — the
 declaration wins where present — and the lint rule should recognise the
 declaration and stand down.
 
+## A wrapper that normalizes the result destroys the observation
+
+The spread above is the accidental defeat. There is a deliberate one, it is
+far more common in mature code, and it does not look like a mistake at all:
+**a wrapper hook that maps the tracked result onto its own declared shape.**
+
+The pattern is good practice on its own terms. A team wraps the data layer so
+consumers depend on a stable, enumerated interface rather than on the
+library's full surface, and the wrapper returns an object literal naming each
+field it promises. That literal reads every field it names — which is the
+whole declared surface — so the wrapper marks all of them observed, on behalf
+of consumers that may read one. Every consumer is then woken by every field in
+the interface, including the high-churn ones a consumer almost never reads:
+whether a background refetch is in flight, the last update timestamp, the
+running failure count.
+
+**The declared-surface pattern and the observed-subscription optimization are
+in direct tension, and the wrapper seam is where they meet.** Neither is
+wrong. What is wrong is holding both and believing you have both, because the
+tension is invisible: the wrapper looks like an abstraction boundary, not like
+a subscription decision, and the field it costs you is the field you never
+wrote down.
+
+Three ways out, in increasing order of cost:
+
+- **Forward lazily.** Define the wrapper's surface with getters that read
+  through to the underlying result, so a field is observed when the consumer
+  reads it rather than when the wrapper describes it. This keeps both
+  properties and is usually a small change.
+- **Let the consumer name its fields.** The wrapper takes the projection as an
+  argument and reads only that. This is the declared form re-entering through
+  the wrapper, which is legitimate — the point of this technique is that the
+  two forms compose, not that one wins.
+- **Accept the loss and say so.** A wrapper whose consumers all read most of
+  the surface anyway loses little. Write that down at the wrapper, because the
+  next reader will otherwise assume the optimization is intact.
+
+The tell that separates this from the accidental case: **the accidental defeat
+is a spread, and a linter finds it; the deliberate one is an explicit field
+list, and no linter will ever flag it**, because reading a field you named is
+exactly what the code is supposed to do.
+
 ## The observed set is necessary but not sufficient
 
 A read-set records what the render body touched. It cannot record what the
@@ -131,6 +173,9 @@ declare.
 - The first update after mount is unconditional.
 - A lint rule flags rest-destructuring and spreading of the tracked result,
   and stands down where an explicit declaration is present.
+- Every wrapper that maps the result onto a declared shape either forwards
+  lazily, takes the consumer's projection, or states that it has given the
+  optimization up. No linter can find this one.
 - Configuration-implied fields are unioned into the resolved set at one named
   place, and that place is enumerable.
 - Reads that happen outside the wrapped pass are documented as requiring an

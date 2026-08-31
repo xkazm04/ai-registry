@@ -81,3 +81,9 @@ one module away.
   it is the whole repair, and the offline code that already exists is the one
   that should map to *suspend* rather than to a failure. Sized and measured;
   ask outstanding.
+
+**Shipped** `goat` `d4995c3`: the predicate now reads the category the error
+already carries, offline excluded as a suspension. **0/20 -> 20/20** permanent
+codes refused, 0 false positives in either arm, both arms extracted from their
+own revision and executed. Still open: nothing counts retries by class, so
+`suspended` and `exhausted` remain indistinguishable to an operator.

@@ -101,3 +101,9 @@ consumer, so the prefetch's stated warmth is inert.
   reads in one component run serially where two non-suspending ones run in
   parallel; concurrency has to be expressed by a plural primitive. Untriaged
   (row 5), anchored in the source note.
+
+**Shipped** `goat` `d4995c3`: both colliding alias tables deleted, the two
+prefetch claims aligned to what the cache resolves. Divergent shared keys
+**1 -> 0**. Correction to the row above: **one** key diverges
+explicit-vs-explicit; the second is explicit against the resolved client
+default, which is real but invisible to a reviewer reading two call sites.

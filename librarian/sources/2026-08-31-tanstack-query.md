@@ -14,7 +14,7 @@ already_covered: 2
 untriaged: 7
 dispatched: 0
 applied: 3
-shipped: 0
+shipped: 1
 fetches: 0 of 3
 run_id: tanstack-query-2026
 siblings: 4
@@ -97,11 +97,13 @@ a contract term a compiler cannot hold and whose violation is silent. This is
 row 4 in the triage and the operator did not pick it; it is recorded untriaged
 rather than declined, and it is the highest-value unlanded thing here.
 
-## Applied — 3 of 3, all read-only experiments on one connected tree
+## Applied — 3 of 3, measured read-only, then shipped
 
 All three found seams in `goat`, the one fleet project that consumes this
-library (23 files). Ship 0: the operator's pick named no project, so Phase 8
-step 2 confirmation was absent and no project tree was edited.
+library (23 files), and all three shipped after the operator was asked with the
+numbers in hand. The triage pick named no project, so the run went read-only
+and correctly refused to edit a tree nobody had authorized; the ask was then
+made **after** the A/B, carrying a measured delta and a diff size.
 
 **The instrument lied twice and was caught both times**, which is the process
 note worth keeping. A flat constant table let a `GC_TIME_MS.STANDARD` of
@@ -112,15 +114,15 @@ caught by opening the cited lines by hand, not by re-reading the output. The
 harness now asserts its own parse before printing, and refused to print once,
 correctly.
 
-- **plural-policy-claims / goat / experiment / better.** 65 registrations over
-  50 keys; 7 keys shared by more than one site; **2 diverge numerically (2.0x
-  and 3.0x)**. Both have the same shape: a prefetcher claims longer freshness
+- **plural-policy-claims / goat / code / better.** 65 registrations over
+  50 keys; 7 keys shared by more than one site; **2 diverge in resolved lifetime (2.0x
+  explicit-vs-explicit, 3.0x explicit-vs-default — see the correction below)**. Both have the same shape: a prefetcher claims longer freshness
   than the consuming component, and believability resolves to the shortest live
   claim, so the prefetcher's stated warmth is **inert**. The 2.0x case is a
   **vocabulary collision** nobody designed — two modules define a local duration
   table under the same name binding `SHORT` to different constants. The largest
   shared key (7 sites) is consistent, which keeps the result honest.
-- **suspension-is-not-failure / goat / experiment / better.** The tree gets the
+- **suspension-is-not-failure / goat / code / better.** The tree gets the
   hard half right by configuration (start and resume are different predicates;
   a distinct offline error code exists) and loses the easy half: the retry
   predicate substring-scans the error message for `401|403|404`, but the message
@@ -128,12 +130,12 @@ correctly.
   Over all **39 defined error codes**, the shipped predicate correctly refuses
   **0 of the 17** that must never be retried. The classification it needs
   already exists one module away and is never consulted.
-- **observed-read-subscription / goat / experiment / better (structural-only).**
+- **observed-read-subscription / goat / code / better (structural-only on the subscription cost).**
   The project relies on observation at 100% of call sites: the explicit
   declaration appears **nowhere**, and the lint plugin is **not installed**
-  (zero references in the manifest and the lint config). One shared wrapper
-  spreads the tracked result, defeating tracking for every consumer downstream
-  — the propagation the technique predicts, in a wrapper rather than a leaf.
+  (zero references in the manifest and the lint config). One shared wrapper spreads a
+  result object — though **see the correction below: that object is already
+  untracked, and the real cost is the mapping one level up**.
   Blast radius measured honestly at **2 consumers**; the finding is the absent
   instrument, not a large cost today.
 
@@ -183,3 +185,39 @@ Rows 6 and 10 resolved to the catches above.
 - **The lint plugin is the densest single artifact in a repo that ships one.**
   It is the file that implements what the docs merely name, and eight short rule
   documents outproduced 134k words of guides.
+
+## Shipped, and what shipping corrected
+
+`goat` `d4995c3` (not pushed). Typecheck 29 before and after with 0 in the
+changed files; `eslint src` 0 errors; the project's own ratchet matching on all
+27 buckets.
+
+- **Retry classifier: 0/20 -> 20/20** permanent codes refused, 0 false
+  positives in either arm, both arms produced by extracting each revision's own
+  function and running it rather than reimplementing either.
+- **Divergent cache keys: 1 -> 0.** Two colliding alias tables deleted so the
+  shared constants are the single authority.
+- **Lint plugin installed**, six rules at error/0 under the project's own
+  severity policy.
+
+Three corrections the shipping produced, all of which make the record more
+honest rather than less:
+
+1. **The divergence count was overstated in shape, not in kind.** A strict
+   explicit-vs-explicit comparison finds **one** divergent key (2.0x). The
+   second (3.0x) is an explicit value against the *resolved client default* —
+   a real divergence in effect, invisible to a reviewer reading two call sites,
+   and worth distinguishing rather than folding into one number.
+2. **The tracking finding was located correctly and explained wrongly.** The
+   flagged spread is on an object that is **already untracked**: the paginated
+   hook spreads its sibling's return value, and the sibling has already mapped
+   the tracked result to a plain literal. The real cost is that mapping — it
+   reads thirteen fields to build the declared interface, subscribing every
+   consumer to the whole surface. **Nothing was done wrong**, which is what
+   makes it the better finding: the loss is an unavoidable side effect of
+   describing a surface, and **no linter can flag it**. The technique gained a
+   section from this.
+3. **The linter found a class the census did not.** Three violations, not one —
+   two `no-unstable-deps` this run never searched for, where a memoized
+   callback depended on two mutation objects that are not referentially stable.
+   The census finds the idiom it hunts; the instrument finds the class.
