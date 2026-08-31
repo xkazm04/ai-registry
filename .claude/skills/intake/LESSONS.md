@@ -2914,3 +2914,30 @@ Both method findings above are first sightings, and six sessions are live on 1.3
 now. A mid-flight run that reads this should do nothing differently: finish on the version
 you loaded. If a second run confirms either the `.github/releases/` sweep gap or the
 phrase-empty trap, that is the point to bump.
+
+## 1.3.0 - 2026-08-31 - archify (apply turn)
+
+- **Ask for the confirmation before Phase 9, not after.** This run reached a `better`
+  verdict, could not ship for want of one sentence, filed the change, and finished. The
+  operator then said the sentence and the whole cross-repo lane completed in a fraction of
+  the original cost - because the seam, the proof harness, the two arms and the corpus
+  technique were all still loaded. Nothing had to be rediscovered. That is the *same*
+  argument Phase 7 already makes for dispatching a forge worker before Phase 9 ("the
+  context that argued the spec is the cheapest input the registry will ever have"), and it
+  applies verbatim to the apply stage, where the method does not currently make it. A run
+  that reaches `better` and is blocked only on confirmation should ask **while the tree is
+  still open**, not file and end. Filing is correct only when the operator is absent.
+- **The confirmation affordance is now demonstrated rather than asserted.** Five runs
+  reported ship 0 and blamed the missing standing authorisation; none had shown that the
+  authorisation was sufficient, because none had ever received it. This one did, and the
+  change shipped in the same session with no other blocker appearing. That is the second
+  sighting for the 1.3.0 redesign proposal and the stronger kind - a positive control, not
+  another negative.
+- **A gate that passed by not looking, on the commit repairing exactly that defect.** The
+  target project's pre-commit hook ran for 77 seconds and reported success on files its
+  own lint config ignores by pattern. Worth generalising into how this skill verifies a
+  cross-repo commit: **a green hook is not evidence the change was checked** - confirm the
+  gate's scope covers the paths you touched, or say in the application that the paired
+  proof is the only verification. The corpus already holds the law
+  (`failure-not-empty-success`); what was missing was the reflex to apply it to *my own*
+  commit's gate rather than only to the code under study.
