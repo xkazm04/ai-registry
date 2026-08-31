@@ -6,7 +6,7 @@ technique: before-after-outcome-pairing
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate]
 shared_with: []
-use_when: [comparing an assessment taken before uptake with one taken after, a rollout impact claim is being assembled, one half of a before/after pair is missing]
+use_when: [comparing an assessment taken before uptake with one taken after, a rollout impact claim is being assembled, one half of a before/after pair is missing, the practice under measurement creates work that did not exist before, a unit appears on the after side with no before-side counterpart]
 ---
 
 # Before/after outcome pairing
@@ -63,6 +63,51 @@ halves, not on the arithmetic of the delta.
    +6" alone is a selection-biased highlight reel, because the subjects that
    got re-assessed are rarely a random half.
 
+## Two reasons a half is missing, and only one of them is out of scope
+
+Step 5 excludes a part scored on one side and not the other, because including
+it publishes a delta manufactured by coverage change. That is right, and it is
+under-specified: a part can be absent from the *before* side for two reasons
+that present identically and mean opposite things.
+
+- **Coverage change.** The part existed and was not measured — the rubric did
+  not cover it, the scan did not reach it, the instrument's population moved.
+  The before-side value is *unknown*. Step 5 governs, exclusion is correct, and
+  including it would be inventing the missing half.
+- **Induced scope.** The part did not exist. The practice being measured is
+  what created it — work that would not have been done at all, now being
+  counted because it now happens. The before-side value is not unknown; it is
+  **observed zero**.
+
+Excluding induced scope under step 5 is not a conservative choice. Where a
+practice's principal effect is to make previously uneconomic work economic, the
+intersection of both sides is precisely the part of the effect that is smallest,
+and a pairing that reports only that intersection reports the residue while
+deleting the finding.
+
+**The discriminator is one question, and it is answerable from the instrument's
+own records:** was the unit *absent from the before-side measurement*, or
+*absent from the before-side world*? Absent from the measurement is
+`no-before`. Absent from the world requires evidence — a creation timestamp
+after the adoption instant, an origin field naming the practice, a unit class
+that did not exist in the earlier taxonomy — and without that evidence the
+answer is coverage change by default, because that is the direction that cannot
+flatter the practice.
+
+Nothing here relaxes the absolute rule below. An observed zero is not an
+invented baseline: it is a reading, and it carries its evidence like any other.
+A zero asserted because the row would otherwise not render is exactly the
+fabrication that rule forbids, and the evidence requirement above is what keeps
+the two apart.
+
+Where induced scope is established, it is reported as **its own quantity beside
+the paired delta, never folded into it** — the pair answers "did the work that
+existed before get better", and induced scope answers "how much work exists now
+that did not", and averaging them produces a number that answers neither. The
+status set gains `induced` alongside `paired` and `no-before`, so a pairing
+engine's output says which of the three it found rather than rendering two of
+them the same way.
+
 ## The absolute rule: never invent the missing half
 
 No cohort average standing in for a missing "before". No trend extrapolation
@@ -106,6 +151,11 @@ that will still be true in a year.
 ## Decision rules
 
 - If either half is missing, emit the status and stop. Do not compute.
+- If a unit is absent from the before side, decide *why* before excluding it:
+  absent from the measurement is `no-before`; absent from the world, with
+  evidence, is `induced`. Without evidence, treat it as coverage change.
+- Report induced scope as its own quantity beside the delta. Never fold it in,
+  and never let it substitute for a pair.
 - If the instrument versions differ, void the pair rather than normalizing
   across versions — cross-version normalization is an invention wearing
   arithmetic.

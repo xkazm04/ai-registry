@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: hitl-approval
-last_touched: 2026-08-28
+last_touched: 2026-08-31
 touched_by: intake
 dry_streak: 0
 ---
@@ -11,6 +11,36 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-08-31 - `/intake` (run `intake-agentic-trends-0831`)
+
+Gained `oracle-before-gate` (11 -> 12 techniques) and two golden-path edits: the
+mandatory-gate section gains a precondition, and the fatigue section gains the second
+cause of rubber-stamping plus the instruction to split the 100% approval rate by oracle
+presence. Source: [[2026-08-31-agentic-coding-trends-report]] - a vendor prediction
+report, low-yield by class, whose one first-party practitioner observation located this.
+
+**The gap, and why it hid.** Every one of the subject's four mandatory triggers -
+irreversibility, spend, external visibility, novelty - is a property of the *consequence*
+of being wrong. `verifiab*` appeared **zero times** across the golden path and all eleven
+techniques. The subject models rubber-stamping as an attention-budget failure and every
+countermeasure it offers reduces volume; none of them reaches the reviewer who reads
+carefully and still has nothing to check the item against. The two axes come apart in
+the quadrant the subject explicitly exempts as white space: **reversible-but-unverifiable
+work**, which is precisely the work practitioners refuse to delegate.
+
+This is the enumeration hunt paying again, on the fatigue list rather than on a flow
+count - and note the subject had already been extended twice at its "two mirror-image
+flows" enumeration (2026-08-27, and the third/fourth flow before that). A subject that
+has survived two enumeration extensions is not thereby finished; the third one was on a
+different list.
+
+Applied to `personas` (simulation, `better`): the review surface's three decision
+functions carry three terms - impact, effort, risk - and six sort keys resolve to the
+same three. The row type carries `verifyState`, the backend has a writer for it with an
+evidence field, two surfaces render it as a chip, and **no decision function mentions
+it**. See [[../../librarian/applied]].
+
 
 ### 2026-08-27 - `/intake` (run 33)
 

@@ -15,6 +15,7 @@ techniques:
   - cosmetic-vs-enforced-threshold-invariant
   - fail-loud-classification-default
   - fixed-policy-amendable-plan
+  - oracle-before-gate
 ---
 
 # Human-in-the-loop approval
@@ -118,6 +119,17 @@ The complement is equally load-bearing: **actions that cannot change the world
 need no gate**. Reads, previews, dry runs, and queries are exempt *by design*,
 not by oversight — gating them spends the human's attention budget on events
 where their judgment cannot matter. A correct gate map is mostly white space.
+
+All four triggers above are properties of the *consequence* of being wrong.
+None of them says whether the reviewer, once asked, has any way to find out —
+and that is a second axis which varies independently. A gate armed over an item
+whose correctness nobody can establish produces a decision record for a
+judgement that was never available, at full attention cost, and it does so
+however few such items arrive. So the trigger has a precondition as well as a
+predicate: name the thing the reviewer will compare the output against, and
+where there is nothing to name, the repair is to build that instrument, narrow
+the task until one exists, or decline the delegation — never to arm the gate
+anyway ([oracle-before-gate](./techniques/oracle-before-gate.md)).
 
 ## The gate lives in the substrate, not the prompt
 
@@ -223,6 +235,13 @@ subject carries part of the countermeasure:
 - **Learn from verdicts.** A gate whose approvals run near 100% for months is
   measuring nothing; its trigger belongs at a higher threshold. Rejection
   reasons are the highest-signal input for tuning triggers.
+
+Every countermeasure above reduces **volume**, because fatigue is a volume
+failure. Rubber-stamping has a second cause that volume does not touch: the
+reviewer reads carefully and still has nothing to check the item against. The
+symptom is identical and the repair is disjoint — see
+[oracle-before-gate](./techniques/oracle-before-gate.md), including why the
+100% approval rate above must be split by oracle presence before it is read.
 
 ## Defaults are part of the design
 
