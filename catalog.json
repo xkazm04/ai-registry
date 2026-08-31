@@ -130,7 +130,7 @@
       "invokes30d": 0,
       "lessons": 1,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:f943d5209a53207b",
+      "lessonsHash": "sha256-n1:39846b277814eafa",
       "usageContributors": []
     },
     {
@@ -405,9 +405,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 10,
+      "lessons": 11,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:e9debcd47e6a29f6",
+      "lessonsHash": "sha256-n1:40bff42322d3b45b",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -462,9 +462,9 @@
         "systedo-case@plugin:1.7.0"
       ],
       "invokes30d": 2,
-      "lessons": 10,
+      "lessons": 11,
       "lessonsPath": "skills/uat/LESSONS.md",
-      "lessonsHash": "sha256-n1:a3eef7d1d26b3c6c",
+      "lessonsHash": "sha256-n1:7727360a360baf6f",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -576,7 +576,7 @@
     "skills": 29,
     "practices": 5,
     "memory": 4,
-    "lessons": 93
+    "lessons": 95
   },
   "bundles": [
     {
@@ -653,9 +653,9 @@
       "purity": "media",
       "subjects": 20,
       "techniques": 130,
-      "applications": 53,
-      "files": 208,
-      "contentHash": "sha256:9193937b0bd14241"
+      "applications": 55,
+      "files": 210,
+      "contentHash": "sha256:146a36744f24a4b9"
     },
     {
       "name": "recruiting",

@@ -101,6 +101,63 @@ short. Where the graphic's exactness is load-bearing for a factual claim, this
 rung is the floor and not the ceiling — a graphic that must be *right* is
 composited from a deterministic render, not sampled.
 
+### Rung 3 across two worlds: the pair stops being a move and becomes a cut
+
+Both rung-3 rules above are written for a pair whose members share a space:
+the paired-panel rule says the anchors must be cut from one cloth, and the
+exact-graphic rule says they must be identical everywhere except the one
+element that changes. Both are correct, and both describe the same job — the
+model's task is to *move between two views of one world*, and anything the two
+anchors disagree about is damage.
+
+There is a third configuration, and the rules above read it as the failure
+case when it is not one. Give the request a head anchor in one location and a
+reference showing a **different** location, and the model does not attempt the
+impossible interpolation the one-cloth rule predicts. It covers the anchored
+space, then **cuts** to the referenced one. The disagreement between the two
+images is total — different room, different camera, different light — and
+that totality is exactly what stops the model reading them as two views of one
+scene. Past some threshold of difference the pair is no longer a move; it is a
+scene boundary, and the model renders the boundary as an edit.
+
+So the second image's role depends on how far it sits from the first, and the
+ladder has been describing only one end of that range:
+
+| The pair | What the model does | What comes back |
+| --- | --- | --- |
+| Two views of one space | interpolates a path | one shot, a move |
+| Two views that *nearly* match | interpolates across a mismatch | one shot, visibly broken mid-move |
+| Two unmistakably different spaces | reads a boundary | several shots and the cut between them |
+
+The middle row is the failure the one-cloth rule exists to prevent, and
+naming the third row is what keeps that rule from over-reaching: the fix for a
+broken interpolation is to make the anchors agree *or* to make them disagree
+completely, and only the first of those was written down.
+
+**What the third row buys, and what it costs.** It buys coverage and a
+transition in one request — the anchored location gets several angles the
+brief never described, then hands off — which is the same economy the
+angle-library probe above trades on. The cost is specific and it lands
+downstream: **the cut is inside the clip, so the assembly does not own it.**
+Every other cut in this subject is a seam between requests, chosen at brief
+time on a structural beat; this one is chosen by the model, at a moment
+nobody specified, and it arrives on the timeline already made. That is the
+same defect as a seam left to land wherever the cap fell — a cut nobody made
+— reaching the cut list through a door the cap section does not watch.
+
+The discriminator is therefore not whether the transition looks good:
+
+> **Ask whether the assembly needs to own this cut point.** If the edit has to
+> land on a beat, a narration boundary, or a music cue, the two locations are
+> two requests and the seam is yours. If the transition is one you would have
+> made anyway at that beat, and nothing downstream needs to trim it, the pair
+> buys it for the price of one generation.
+
+And where the third row is used deliberately, the clip's provenance records
+that it contains an internal edit, beside the prompt, the rung and the
+anchors. A clip whose cut count is assumed to be one is a clip the cut list
+has miscounted.
+
 ## Clip caps are a structural constraint
 
 Models emit seconds, not scenes — single-digit to low-double-digit seconds

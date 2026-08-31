@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
   "techniques": 130,
-  "applications": 53,
+  "applications": 55,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -1271,6 +1271,13 @@
     },
     {
      "stack": "react",
+     "technique": "reference-role-map",
+     "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/react--reference-role-map.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "two-block-style-and-action",
      "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/react--two-block-style-and-action.md",
      "verified_on": "2026-08-19"
@@ -2252,6 +2259,13 @@
      "technique": "gap-and-refusal-honesty",
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--gap-and-refusal-honesty.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "react",
+     "technique": "generated-shot-sourcing",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/react--generated-shot-sourcing.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "react@19"
     }
    ]
   },

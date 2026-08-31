@@ -79,6 +79,59 @@ dozens: the marginal reference adds one map line, not one more ambiguity.
 - When the reference count grows, grow the map and nothing else — beats that
   re-describe mapped subjects are where drift re-enters a well-mapped call.
 
+## The seam between two references belongs to neither
+
+Step 3 forbids the beats from re-describing a mapped asset, and the decision
+rules name re-description as where drift re-enters a well-mapped call. That is
+right about *attributes* and it has one exception, which shows up on the most
+common heterogeneous call there is: a subject reference and a location plate,
+merged into one frame.
+
+The map handles this cleanly on paper — image one is the room and controls the
+set and its lighting, image two is the subject and controls identity only. But
+a subject reference is not a floating identity. It is an image of a subject
+*somewhere*, and the conditioning channel carries the whole of it, key light
+included ([reference-shows-only-invariants](../../character-identity-continuity/techniques/reference-shows-only-invariants.md)).
+So both attachments arrive holding lighting authority, and the map's exclusive
+scope cannot actually be granted: telling the subject's card to control
+"identity, never lighting" does not remove the light already baked into it.
+
+The result is the composite failure that passes every per-asset check. The room
+is the right room, the subject is the right subject, the map is well formed —
+and the subject reads as pasted onto the plate rather than standing in it,
+because it is still lit by the light of wherever its reference was made.
+
+What is missing is not an attribute of either asset. It is the **relation**
+between them, and a map with one row per asset has no row that can hold one:
+
+> **Where two references must merge in one frame, the beats author the
+> interaction — how the subject meets the plate's light, its floor, its
+> scale, its atmosphere. That is not re-description, because neither
+> reference contains it.**
+
+Concretely, and in the described-effect vocabulary the lighting dials already
+use: name the plate's own source and put the subject in it — the amber
+practical behind them catching the back of the coat, the window throwing the
+shadow across the same floor the plate lights, the fog of the room passing in
+front of them at depth. The test is the same one a compositor uses: **the
+subject must pick up something that already exists in the plate.** A subject
+that shares no light, no contact and no atmosphere with its background has
+been placed in front of it, not in it.
+
+Two constraints keep this from reopening the door step 3 closed:
+
+- **Author the relation, never the endpoints.** "Lit by the lamp behind him"
+  is the seam; "in his black coat, under the lamp behind him" has smuggled a
+  re-description of the identity card back in and re-earned the drift.
+- **The plate is the authority in the exchange.** The interaction is written
+  from what the plate already contains, so the map's grant of set-and-lighting
+  to the location is strengthened by the clause rather than contradicted — the
+  subject bends to the room's light, the room is never re-lit to suit the
+  subject's card.
+
+A frame with no subject needs none of this: an empty plate passes through as
+itself, and there is no seam to author.
+
 ## When not to use it
 
 A call with a single reference class keeps the one-sentence labeling rule;
