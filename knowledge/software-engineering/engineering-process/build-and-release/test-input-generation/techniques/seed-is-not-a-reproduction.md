@@ -6,7 +6,7 @@ technique: seed-is-not-a-reproduction
 status: forged
 laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
-use_when: [recording a failing randomized case for later, a regression seed that no longer reproduces, deciding what a randomized suite persists when it fails]
+use_when: [recording a failing randomized case for later, a regression seed that no longer reproduces, deciding what a randomized suite persists when it fails, choosing a format to persist a generated input in]
 ---
 
 # A seed is not a reproduction
@@ -71,6 +71,50 @@ artifact for a *failure* is the generated input itself, serialized.
   deserializing because the input *type* changed, that is a loud failure and
   the correct one — a schema change genuinely invalidates the case, and you
   want to be told.
+
+## The persisted input must round-trip exactly, and this is not free
+
+Replacing the seed with the derived input moves the correctness burden onto the
+**serialization format**, and that burden is routinely assumed rather than
+checked. A persisted case is only the case that was recorded if
+
+> deserialize(serialize(input)) == input
+
+holds **bit for bit**, for every field. Where the input carries floating-point
+values this is a real constraint rather than a formality, and the failure is
+quiet in the now-familiar way: the replayed case runs, passes, and is a
+*neighbour* of the case you meant to keep.
+
+This was measured while applying the technique, and the result was not the
+expected one. In a mainstream JSON implementation, the **writer** emitted the
+shortest exactly-round-tripping representation of every value, and the
+**reader** returned a value one unit in the last place away from the original
+on **38 of 50** generated inputs. The language's own standard parser handled the
+identical strings correctly, so the loss was in the library's default decoder
+rather than in the format or the text. The library documents an opt-in mode that
+makes parsing exact; enabling it moved the same measurement to 50 of 50. The
+default trades exactness for decoding speed, deliberately and in the
+documentation — which is precisely the kind of decision a team inherits without
+ever making it.
+
+Two rules follow, and the first is the general one:
+
+- **Assert the round trip on the persistence path itself**, as a test. One case
+  comparing a structure against its own serialize-deserialize cycle costs
+  nothing and converts an assumption into a checked property. Without it, the
+  regression lane's fidelity is a belief about a dependency's default settings.
+- **Prefer an exactly-round-tripping encoding for float-bearing inputs** — an
+  explicitly exact decoder mode where the format offers one, or storing the bit
+  pattern beside the human-readable value where it does not. Reserve this for
+  the persisted-input lane; it is not worth doing to ordinary output.
+
+Whether one unit in the last place *matters* is a property of the system, not
+of the technique, and it must be decided rather than waved away. For a
+comparison with a generous tolerance it changes nothing. For a defect that
+lives at a boundary — which is the whole point of
+[negative-space-generation](./negative-space-generation.md) — it is exactly the
+difference between the recorded case and a case that no longer reproduces the
+defect.
 
 ## Three lanes, and they are not interchangeable
 
