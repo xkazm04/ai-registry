@@ -1198,3 +1198,33 @@ that check stays cheap.
   FILE rather than by context to make that true — two findings that both wanted
   `CardTile.tsx` went to one agent rather than two, which is the only reason there
   was nothing to resolve.
+
+## 2.8.0 - 2026-09-01 - pof (harness-autonomy, --develop --one, first sweep, eval run)
+
+- **`| grep` on a gate is the same defeat as `| tail`, and §7.2 lists only `tail`.** I ran
+  `npx vitest run ... | grep -E "Tests |×" && git commit` and the commit landed on a red suite:
+  grep matched the failure line, exited 0, and the chain proceeded. Caught only because the
+  transcript showed the two `×` lines above the sha. Recovered with `reset --soft` (own branch,
+  unpushed) and re-ran with the gate's stdout redirected to a file and its own status on the
+  chain. Suggested wording for §7.2: *any* pipe on the gate takes the last command's status -
+  redirect to a file, grep the file afterwards.
+- **A scripted edit through `node - <<'EOF'` mangled a template literal three times in one
+  round** (`$${x}` arrived as `${x}` and dropped the dollar signs from user-visible copy; a regex
+  anchor with `\.` never matched; a heredoc with a stray quote failed to parse). §7.6 says use
+  the file-writing tool for anything with a backslash - the dollar-in-template case is a fourth
+  shape, and the safe form that held was writing the script to the scratchpad with the file tool
+  and running `node <file>`. Also: files in this repo are CRLF, so a script that anchors on `\n`
+  must normalize on read and restore on write, or its anchors miss silently.
+- **Subagents were unavailable (concurrent-agent limit hit by the sibling run) and the sweep
+  completed without them.** For a `--one` round the skill prescribes none anyway; recording that
+  the full 23-lens pass over ~15k lines (72 files) was read by one session in ~4 h wall time.
+- **The registry-map homonym band held again**: harness-autonomy's top joins were
+  `test-harness` (409) and `eval-harness` (394); the governing subject `unattended-build-loop`
+  ranked fifth at 265. The two subjects that actually fed the lenses produced 3 of 12 builds
+  (gate coverage agenda, overshoot width, visual-gate self-certification) - the read side
+  changed the findings, not just the wording, exactly as the 2026-08-29 ascent entry said.
+- Yield: 23 candidates / 23 lens-passes = 1.0 per pass (20 within the `--one` budget), 12 built,
+  8 backlogged, 1 rejected `not-better`, 2 over-budget candidates unrecorded. The highest-value
+  builds were pairs: a route that computed `checkpoints` for a panel that read none of it, a
+  guide renderer with two verdict words beside a summary renderer with three, and a `visual`
+  gate branch still self-certifying under a header comment that said no gate does.
