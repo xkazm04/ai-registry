@@ -72,3 +72,47 @@ KC3000 PCIe-4 NVMe, 255 GB free) otherwise could not run?
   streaming (Colibri-class) reprices "what this machine can run" from VRAM
   to NVMe bandwidth; a routing table whose local rows are VRAM-gated is
   stale for MoE checkpoints.
+
+## Comparison: FreeToken (FlashML-org), same question, different tier
+
+Operator follow-up 2026-09-01: how does FreeToken bring GLM, and does its
+approach hold an advantage? (github.com/FlashML-org/FreeToken, Apache-2.0,
+10.8k stars / 46 commits — a squashed public mirror by the ratio; paper at
+arxiv 2608.16157.)
+
+**The one-line difference: FreeToken's expert tier stops at HOST RAM;
+Colibri's extends to NVMe.** FreeToken's MoE backends (`offload` / `cpu` /
+`hybrid`) keep routed experts resident in host RAM with a GPU LRU of expert
+slots — misses stream over PCIe or are computed on the CPU where the data
+already is, with the split calibrated per machine by `ft bench bw`. Nothing
+pages from disk, so **the checkpoint must fit in RAM**, and the "290B+
+locally" headline assumes a 256-512 GB workstation. On Wolf (64 GB RAM) its
+real ceiling is the ~30-120B-at-4-bit class; GLM-5.2 NVFP4 (~370 GB) and
+DeepSeek-V4-Flash (~142 GB) do not fit. Colibri's disk tier is precisely
+what reaches 321B on this box.
+
+**For the eye question FreeToken is out on both counts, by its own docs:**
+GLM-5.3-Flash is not in its supported table (GLM-5.2 / GLM-4.7 NVFP4 only),
+and — the closing line of docs/models.md — **"Multimodal checkpoints are
+served text-only."** No vision path at all.
+
+**Where FreeToken IS ahead, worth stealing or bookmarking:**
+- `hybrid` fetch-vs-compute-at-the-data overlap, bandwidth-calibrated per
+  machine — the general idea (compute a miss where its bytes already are,
+  instead of always moving them) applies to any tiered engine, including a
+  disk tier.
+- No conversion step: loads HF safetensors directly (fast-format optional).
+  Colibri's GLM-5.3 path costs a ~25 h one-time convert.
+- Elastic runtime VRAM reallocation between expert cache and KV, no restart.
+- Anthropic/OpenAI-compatible serving with semantic-anchor KV checkpoints
+  aimed at agentic edits (tool calls re-using prefix state) — built for
+  coding agents, irrelevant to one-shot vision readbacks.
+- On models that FIT in RAM it should decode an order of magnitude faster
+  than disk streaming (PCIe ~25 GB/s vs NVMe ~2-5 GB/s effective).
+
+**Verdict for this fleet:** Colibri remains the only route to the GLM-5.3
+vision experiment; keep the acquisition. FreeToken is the better tool for a
+DIFFERENT niche — fast local TEXT MoE serving in the 30-120B class on
+24 GB-VRAM/64 GB-RAM boxes (e.g. gpt-oss-120b-class local reasoning behind
+an OpenAI-compatible endpoint, a candidate local rung for a text fallback
+ladder). Filed as a lead, no action taken.
