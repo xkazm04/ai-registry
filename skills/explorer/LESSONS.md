@@ -253,3 +253,8 @@ Not applied off a single incident in one repo; recorded so a second sighting can
 - A triage band the user approves 4/4 is not evidence the sizing runs large: two m items were ~30 min each, but each carried a judgement the gates could not settle (warn vs refuse; a published prediction changes). m means "needs a decision", not "takes an hour".
 - Two triaged items that edit the same region of one file landed in one commit. Apply-and-commit sequentially even when the file is shared; the atomic-revert property is the auto band's safety story.
 - Bash heredocs carrying quote-heavy Rust/Python payloads broke the shell parser three times; writing the patch script to the scratchpad and running it was reliable every time.
+
+## 2.0.0 - 2026-09-01 - politicas (second pass, --triage-all)
+
+- **--triage-all is one question, not seven.** Presenting the whole list once and asking a single multi-select (the m/l items named individually, the xs/s ones bundled as "the small band") got a full answer in one round trip; per-item prompts would have cost seven. Worth writing into Phase 7 as the shape --triage-all takes.
+- **The cached-stat check is not paranoia - it fired.** A concurrent session had pre-staged two unrelated files; `git diff --cached --stat` showed five paths for a three-path `git add`, the commit-msg hook refused the commit on the foreign files' doc obligations, and `git restore --staged <path>` on the two strangers fixed it without touching the working tree. Measured 2026-09-01 on a shared checkout.
