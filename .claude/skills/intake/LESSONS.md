@@ -4794,3 +4794,48 @@ content.
   one**: the diagnosis was already written down and did not travel, because a
   scorecard's closing paragraph is read at Phase 1 for the focus line and
   apparently for nothing else.
+
+## 1.3.1 - 2026-09-01 - voltagent-awesome-ai-agent-papers, wave 4
+
+The Multi-Agent cluster wave 1 dropped for contention, mined once the board emptied.
+8 of 8 lanes worth a slot. Three rules landed in SKILL 1.3.2; the rest is here.
+
+- **Never establish an absence from a truncated output.** Wave 1's rule was about a
+  bad query. This is the same failure with a *good* query and a cut-off result, and it
+  is worse because nothing looks wrong: a grep returned 22 files, `head -8` showed
+  eight, and the subject that refuted the whole acceptance rule was in the fourteen
+  that scrolled past. Independently, `research-map --prose` ranked the same subject 7th
+  against a default top-6. **Two correct instruments, two truncations, one hidden
+  subject** — and I wrote a wave-wide acceptance rule on the strength of it. Two
+  workers caught it; one diagnosed the mechanism more precisely than I had.
+- **A worker retracting its own candidate is the system working.** The MAS-Orchestra
+  lane proposed an amendment, then withdrew it after applying the corpus's own
+  family-diversity test and finding the paper's negative result was our rule's
+  prediction. Briefs should keep asking for the override *and the argument*; this is
+  what it buys, and it is cheaper than a director catching it at review.
+- **Three headlines died to arithmetic in one wave, and each died differently** — a
+  denominator swap (the reported gap was against a per-problem hindsight oracle, which
+  reproduced 5/5 while the advertised baseline reproduced 0/5), a direction inversion
+  (a paper measuring the opposite of its title), and a control parameter that does not
+  contain the variable in the title. The common defence is the same and it is cheap:
+  **re-derive the headline from the table before quoting it.** None of the three needed
+  a fetch to catch — only arithmetic on numbers already extracted.
+- **Apply 0 twice is not one pattern.** Wave 3's unapplied set were rules about how a
+  *number* is produced; wave 4's are rules about *structures the fleet does not build*
+  — no chain that forks and rejoins, no recursive decomposer, no multi-model panel, no
+  a11y ladder. Recording them as one class would have merged two different gaps and
+  falsely triggered the `re-analysis` redesign. **Check each finding against the tree
+  individually and state the reason per class, not per run.**
+- **A demand signal and an absence can be the same fact from two ends.** The librarian
+  scan ranks `accessibility` third at 46 points with a single-stack flag; the fleet's
+  one React desktop app has no axe dependency and no a11y script at all. The scan
+  measures demand from the consumer side and the tree shows the vacuum from the other.
+  Worth a standing check: when a subject ranks high on attention and its consumers run
+  none of its tooling, that is not a coverage gap in the corpus, it is an adoption gap
+  in the fleet, and the two want different work.
+- **The wave's best material came from papers that failed.** Four of eight lanes
+  returned no content and were still worth their slot: one killed a fabricated
+  threshold before it landed, one proved its own thesis unmineable, one turned out to
+  be repository metadata rather than failure data, and one was an instance of a smell
+  we already publish. The corroboration section's "a source that implements a good idea
+  badly is worth more" held four times in one wave.
