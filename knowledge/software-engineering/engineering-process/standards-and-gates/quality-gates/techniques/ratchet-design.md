@@ -6,7 +6,7 @@ technique: ratchet-design
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
-use_when: [gating a metric that cannot be zeroed today, a below-baseline reading passes silently, upward re-baselines are becoming routine]
+use_when: [gating a metric that cannot be zeroed today, a below-baseline reading passes silently, upward re-baselines are becoming routine, the baseline's editors are a smaller set than the authors who trip it]
 ---
 
 # Ratchet design
@@ -83,6 +83,28 @@ and the diff's message should therefore *name the cause*, because a
 reviewer approving "update baseline −3" without a cause is approving all
 three explanations at once, including the broken instrument.
 
+**Refusing silence is not the same as refusing the build, and conflating the
+two taxes the fix.** A ratchet that reddens on the drop makes every
+conformance improvement a two-part change — repair the violation, then edit
+the baseline — and the second part costs whatever editing that file costs. It
+is nearly free where the people who fix violations are the people who own the
+baseline, and it is a toll where they are not: a smaller set of editors than
+subjects turns the shared baseline into a serialization point, and the
+extreme case is a fleet of parallel authors forbidden to touch shared files
+at all, for whom the toll is not a delay but a wall. Where the editing set is
+narrower than the fixing set, split the two directions by *severity*: a rise
+is blocking, and a drop is a loud, counted note carrying the exact command
+that records it. The recording may then be performed unattended, which is the
+one sanctioned exception to *never auto-update* and holds only under all
+three of its conditions — the automatic move is **downward only**, it lands
+as a diff on the change under review rather than as a write to the mainline,
+and it runs behind the counter's own instrument assertions so a walk that
+found no files cannot zero the list
+([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+A drop that is *entirely* burnt down deserves the recording most: a ceiling
+lowered to zero locks the win, because the next occurrence to arrive is a
+rise.
+
 ## Re-baselining is deliberate, downward, and reviewed
 
 - **Downward re-baselining** (the metric improved): update the baseline in
@@ -93,9 +115,12 @@ three explanations at once, including the broken instrument.
   trade. It must be its own reviewed diff with a stated reason, never a
   side effect. The moment upward re-baselines become routine, the ratchet
   has died socially while remaining green mechanically.
-- **Never auto-update.** A pipeline that rewrites the baseline to whatever
-  it measured has converted the gate into a recorder. The whole mechanism
-  rests on the baseline changing only by human intent.
+- **Never auto-update — except downward, onto the change under review.** A
+  pipeline that rewrites the baseline to whatever it measured has converted
+  the gate into a recorder, and the rise direction must never be automatic.
+  The narrow exception above (downward only, as a reviewable diff, behind the
+  counter's instrument assertions) is what keeps a drop recordable without
+  blocking the fix that caused it.
 
 ## The endgame: graduation
 

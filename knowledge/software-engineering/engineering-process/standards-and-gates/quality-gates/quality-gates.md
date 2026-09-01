@@ -24,6 +24,7 @@ techniques:
   - item-liveness
   - excess-indicts-the-instrument
   - self-reported-gate-inputs
+  - instrument-answers-only-its-own-question
 ---
 
 # Quality gates & ratchets
@@ -177,6 +178,22 @@ script, means the remote run confirms what already ran rather than
 discovering it. Rung design, control placement, what belongs where, and
 the bypass economics are
 [gate-laddering](./techniques/gate-laddering.md).
+
+The ladder's own picture — one standard, enforced repeatedly at rising cost
+— hides a rule that has to be stated separately, because the cheap rung is
+often not a preview of the expensive one at all. Two instruments reading the
+same source usually **partition** the questions between them rather than
+duplicating one, and the partition is settled by switching the overlap off in
+the cheaper one, in a shared configuration that the invocation names nowhere.
+The cheap rung then reports clean, with total confidence, on precisely the
+question it was configured to stop asking. So a rung's green is evidence
+about that rung's question and nothing else, and an automated edit is
+verified by the instrument that owns the question the edit raises — a
+resolution question goes to the type checker, whatever else happens to read
+the same file first. The partition, the invisible disabling, the rule for a
+machine author, and the mirror error of retiring one of two "redundant"
+checks are
+[instrument-answers-only-its-own-question](./techniques/instrument-answers-only-its-own-question.md).
 
 ## The merge decision is bound to the gates by a separate mechanism
 
@@ -517,6 +534,11 @@ is asked to refuse something.
 - [gate-laddering](./techniques/gate-laddering.md) — cost tiers by pipeline
   stage, scope-vs-latency trades, the binding rung, and the full-suite
   backstop.
+- [instrument-answers-only-its-own-question](./techniques/instrument-answers-only-its-own-question.md)
+  — a check's green as evidence only about its own question, the overlap
+  disabled in a configuration the call site never shows, verifying an
+  automated edit with the instrument that owns it, and overlap that is
+  division of labour rather than redundancy.
 - [severity-by-construction](./techniques/severity-by-construction.md) —
   tracing what a severity level can actually fail; advisory feedback vs
   enforcement; escalation paths for new rules.

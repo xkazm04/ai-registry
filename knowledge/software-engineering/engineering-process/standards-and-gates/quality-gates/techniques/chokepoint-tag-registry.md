@@ -35,6 +35,23 @@ it looks tagged. Direction 3 catches the row whose call site was deleted —
 a fixture that still passes, testing nothing, and quietly padding the
 coverage number.
 
+Direction 3 generalises past registries to any table whose entries name a
+**location**: a classifier that sorts shared code from feature code by an
+allowlist of location prefixes is a registry whose rows must resolve, and a
+prefix left behind by a move stops matching in perfect silence — every
+assertion about the classifier still green, the classification simply wrong
+from then on. The check is one line: resolve each declared prefix against
+the tree and fail on the first that names nothing. The trap sits in *how* the
+test gets the list — a suite that re-types the prefixes it is meant to be
+checking has become a second authority over the same vocabulary and proves
+only its own copy consistent, so the list is exported from the module that
+classifies and read from there
+([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)).
+This is the one place the usual advice against sharing production constants
+with tests inverts: where the assertion is *this value still denotes
+something in the world*, the production value is the subject of the test, and
+a literal copy would be testing a string.
+
 ## The bijection is not the whole invariant
 
 The three counts can all reconcile while the property they are supposed to
@@ -137,6 +154,26 @@ against intent**, and a design that needs the stronger property has to buy
 it somewhere the source is not the authority — a linker boundary, a package
 boundary, a capability-restricted runtime.
 
+The same weakness runs in the *positive* direction and is easier to miss,
+because the gate looks like it is passing rather than failing: a rule that
+recognises compliance by matching the chokepoint's **name** — the module
+path, the exported symbol, the wrapper's own identifier — silently stops
+recognising anything when that name changes, and a rename or a second
+legitimate door then reclassifies unchecked code as compliant with no finding
+either way. Configuration of that kind is generally not validated against the
+tree at all: a named target that resolves to nothing is a rule that never
+fires, not a rule that errors. So every door into the chokepoint is
+enumerated as a table beside the rule, and the gate asserts that each name
+still resolves at its export site — the door table gets both directions of
+the bijection like any other, and a new or renamed door reddens the gate as a
+**broken instrument** rather than quietly changing what the codebase is
+judged against
+([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+Failing on the instrument rather than on the code is also what keeps this out
+of [false-positive-economics](./false-positive-economics.md)'s death spiral:
+the finding accuses the gate's own table, which nobody is tempted to bypass
+on the grounds that their code is fine.
+
 Both limits share a shape worth naming: the gate's claim must be exactly as
 strong as its instrument, and an adoption that inherits the mechanism
 without inheriting the two disclaimers will be cited as proof of something
@@ -154,6 +191,12 @@ it never checked.
   with a reasoned exclusions map checked in both directions.
 - Assert the instrument: zero call sites, zero source files, or an
   unreadable table are failures, not clean runs.
+- Resolve every entry that names a location — registry row, scope prefix,
+  classifier allowlist — against the tree, from the list the code itself
+  exports, never from a copy the test re-typed.
+- Enumerate the doors into the chokepoint as a table, and assert each name
+  still resolves at its export site, so a rename reddens the instrument
+  instead of re-classifying the code.
 - Keep the static bijection on the commit rung and the live proving run
   on-demand; write down when the demotion happened and why.
 - State both limits — the copied-fixture drift axis and the pattern-match
