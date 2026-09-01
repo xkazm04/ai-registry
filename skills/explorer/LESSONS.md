@@ -241,3 +241,8 @@ Not applied off a single incident in one repo; recorded so a second sighting can
   boundary (the module that owns the policy the area must honour), not along the taxonomy's group
   adjacency: the gap lived in project-management, the group neighbour was cost-pricing.
 
+
+## 2.0.0 - 2026-09-01 - personas
+- First auto-band run in the field: 9/10 items xs/s, all built unasked, the single `m` was a visual call (catalog tab primitive changes the look). The rubric's "gates can settle it" split held exactly.
+- Two cheap greps that produced 5 of 10 items in a fully-localized, lint-clean area, worth naming in 4b: (1) `aria-label="` / `placeholder="` / `title="` followed by a literal - attribute strings are outside every JSX-text lint; (2) for each key a UI helper reads out of a `Record<string, unknown>` config, grep the same key in the validating layer - zero hits there is a bug (found the run's top item).
+- Under sibling sessions, the isolated-index commit leaves `.git/index` stale for the whole run; the Execution rules should say to resync with `git reset HEAD -- <own paths>` only, never a bare `git reset` - a sibling had three files staged throughout.
