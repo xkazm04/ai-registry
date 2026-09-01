@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-01
 touched_by: intake
 dry_streak: 0
 ---
@@ -457,3 +457,41 @@ cannot fail with respect to the manifest. A separate observation — the only ru
 verifies capability commands actually work sits behind a flag CI does not pass — was
 classified to `gate-liveness` rather than folded in to inflate the finding. Ship 0
 (confirmation); the fix is ~6 lines and the fixture exists.
+
+## 2026-09-01 — `/intake`, source `github:kunchenguid/firstmate`
+
+19 -> 20 techniques, 11 -> 13 applications. One new technique and one
+amendment, both from a multi-harness agent-supervision codebase whose
+`docs/verification/` lane records dated measurements and explicitly-marked
+uncovered surfaces.
+
+- **`self-reported-gate-inputs` (new).** A fifth way a gate is unfireable,
+  beside the three in `severity-by-construction` and the derived condition in
+  `vacuous-by-evaluation`: severity real, exit code dependent, evaluation
+  honest — and the input supplied by the party being judged, so the population
+  it judges is exactly the one that did not need judging. The sharp form is
+  structural inertness rather than evasion, and the recovery instinct is
+  provably dead: no check keyed on the record can detect the record's absence.
+  Carries the override half — where the gated party is machinery, after-the-fact
+  attribution is circular, so the escape hatch needs a property of the
+  **channel** (unwritable by the subject during the run it would authorize),
+  which is a different discipline from `enforcement-binding`'s ledger.
+- **`unmeasurable-criteria` (amendment).** Its three resolutions are correct for
+  a gate standing *beside* the work; one branch inverts for a gate standing *in*
+  it. Splits the previously-single "hole in the gate's own vision" into *the
+  instrument did not run* and *the instrument ran and could not decide* — the
+  first must not block an in-path actor, because the remedy path runs through
+  the capability being denied; the second stays FAIL-CLOSED.
+
+**Both applied `experiment`/`better`.** The amendment's own wording was
+**refuted by the apply** before commit: a fleet turn-end hook already ships the
+split with three exit codes, routing could-not-check to the operator as
+non-blocking, which showed the draft's "fail-open, silently" was wrong —
+withdrawing and going quiet are two decisions and only the first is licensed.
+Rewritten to *open to the actor, loud to the operator, on a code of its own*.
+
+The `self-reported-gate-inputs` application is this registry's own concurrency
+board, whose `check` returns bytes indistinguishable between "an unclaimed
+writer is mid-edit" and "nobody is here" — and whose failure the method's own
+prose already names as an anti-pattern without mechanising it
+(`prose-rule-drift`, with the reason now supplied).

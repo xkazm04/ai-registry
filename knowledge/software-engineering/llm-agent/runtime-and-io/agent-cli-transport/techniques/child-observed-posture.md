@@ -6,7 +6,7 @@ technique: child-observed-posture
 status: forged
 laws: [gate-sees-target, unknown-is-not-a-value, failure-not-empty-success]
 shared_with: []
-use_when: [proving a spawned agent run got the stance and billing it was configured with, a platform wrapper sits between the host and the binary, a probe and the real run disagree about what is installed]
+use_when: [proving a spawned agent run got the stance and billing it was configured with, a platform wrapper sits between the host and the binary, a probe and the real run disagree about what is installed, confirming injected context actually reached the model, a startup hook runs cleanly and the agent behaves as though it never fired]
 ---
 
 # Posture is what the child observed
@@ -21,9 +21,11 @@ subject's spawn record documents the intent, deliberately and well; this
 technique is the other half, and it exists because **the intent and the
 outcome disagree in the direction that looks healthy**.
 
-The failure has one shape at three seams. In each, the host's own view
-remains correct and unchanged, the run produces no error, and the thing that
-was lost is exactly the thing the transport promised.
+The failure has one shape at three seams below, a fourth where enforcement
+must build itself, and a fifth whose only possible witness is the model. In
+each, the host's own view remains correct and unchanged, the run produces no
+error, and the thing that was lost is exactly the thing the transport
+promised.
 
 ## The three seams, and why each is invisible in-process
 
@@ -103,6 +105,59 @@ reading that the tool supports one. Where the tool exposes a way to execute
 a probe command *inside* the same sandbox, that is the check
 ([permission-stance-enforcement](./permission-stance-enforcement.md) owns
 what the classes mean; this technique owns proving the claimed one is live).
+
+## The seam whose only witness is the model
+
+The four seams above are all read by *code*: argv the child reports, an
+authorization record it prints, an exit status, a sandbox that came up. Each
+is a fact about how the child was **set up**, and something in the process can
+be asked for it.
+
+There is one more promise this class of transport makes, and no process can
+answer for it. These tools compose context from the environment before the
+first turn — repo instruction files, a startup hook's output, whatever the
+host arranged to have injected — and the destination is the **model's
+context**. A producer can run, exit zero, and emit exactly the right bytes
+onto exactly the right stream, and the host can still be wrong about whether
+the model received them: the tool may not wire that stream into context on
+that surface, on that version, at all. Field measurement across a set of these
+tools found precisely that — a project hook that ran successfully and whose
+stdout never reached the model, sitting beside tools where the identical
+wiring worked.
+
+This subject already half-knows it. The `generate` mode's neutral working
+directory exists **so the tool loads no ambient project instructions** — the
+subject models ambient context as a contamination to be suppressed, and gives
+it a whole mode. The inverse case, where the host *intends* the context to
+arrive, gets nothing: no mode, no probe, no row. One direction is designed;
+the other is assumed.
+
+**Prove arrival from the consumer, not the producer.** The instrument is an
+echo, and it is cheap:
+
+- Have the injected content carry a **unique token**, freshly generated per
+  open and stamped with the event that produced it.
+- Ask the model, as its first instruction, to quote that token back.
+- A quoted token proves delivery. **A successful producer proves nothing** —
+  it separates "the hook ran" from "the hook was heard," and without the echo
+  those two are the same observation
+  ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+
+Stamp the token with the *source* as well as a nonce, because the answer is
+per-event and not per-tool: a tool that delivers on a cold open may deliver
+nothing on a context reset, and one that delivers in headless mode may fire no
+hook at all in its interactive surface. Each is a separate
+[dated-capability-matrix](./dated-capability-matrix.md) row with its own
+verification date, and a surface that was never exercised is recorded as
+**uncovered** rather than inferred from the surface that worked
+([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)). The
+inference is the tempting error and it runs in the unsafe direction: the
+surfaces that silently drop context are exactly the ones nobody probed.
+
+Where a surface does drop it, that is a bounded fact to design around — the
+floor is unavailable there, and the compensating move belongs to whatever was
+relying on it — not a defect to route around with a second delivery path that
+has the same unverified property.
 
 ## What this is not
 

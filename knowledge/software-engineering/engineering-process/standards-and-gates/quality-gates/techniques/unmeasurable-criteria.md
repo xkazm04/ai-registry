@@ -4,9 +4,9 @@ type: technique
 subject: quality-gates
 technique: unmeasurable-criteria
 status: forged
-laws: [gate-sees-target, failure-not-empty-success]
+laws: [gate-sees-target, failure-not-empty-success, absent-guard-is-loud]
 shared_with: []
-use_when: [a policy condition has no data to evaluate, deciding whether missing evidence blocks or skips, a gate reports a verdict over a partly failed assessment]
+use_when: [a policy condition has no data to evaluate, deciding whether missing evidence blocks or skips, a gate reports a verdict over a partly failed assessment, a guard sits in the path of the work rather than beside it, deciding what a check does when its own runtime is missing]
 ---
 
 # Unmeasurable criteria
@@ -95,6 +95,64 @@ it. Three rules keep it honest:
   skip decision belongs to the shared evaluator; a second evaluator that
   omits an input silently converts that condition into a skip for
   everything it judges.
+
+## Where the gate stands changes the direction
+
+The three resolutions are correct for a gate that stands **beside** the work:
+it judges an artifact, and refusing costs that artifact its advancement while
+leaving everything else — including every capability needed to repair the
+instrument — untouched. That is the shape almost every gate in this subject
+has, and under it "a gate that cannot see the subject blocks" is right.
+
+A gate placed **in** the work's execution path inverts one branch of it. Such
+a gate does not judge a finished artifact; it stands between an actor and a
+capability, and it is consulted on every use. Now the cost of refusing on a
+broken instrument is not one blocked advancement. It is the capability, for
+as long as the instrument stays broken — and the repair path runs *through*
+the capability being denied. A guard on a shell invocation that fails closed
+because its interpreter is missing denies the commands that would install the
+interpreter. Fail-closed there is not strictness; it is a deadlock whose exit
+is outside the system.
+
+So split the branch this technique currently states as one. The deciding
+question is not only *whose world does the absence describe* but **which of
+the two failed**:
+
+- **The instrument did not run.** A missing runtime, an unparseable payload,
+  a policy component that is absent or returned nothing intelligible. The
+  gate has no verdict because it never executed. For a gate beside the work,
+  this is REFUSE, spelled as failure. For a gate in the path, it **must not
+  block the actor** — the guard withdraws rather than bricking the surface it
+  was mounted on, because the blast radius is total and the remedy is inside
+  it.
+
+  Withdrawing is not the same as going quiet, and the distinction is the
+  whole craft here: the two audiences are different, and only one of them can
+  repair an instrument. A field implementation of exactly this gate resolves
+  it with **three exit codes rather than two** — checked-and-clean,
+  checked-and-violated, and *could-not-check* — where the third is routed to
+  the operator as a non-blocking error while the actor's work proceeds. That
+  is the correct shape: **open to the actor, loud to the operator, on a code
+  of its own.** A gate that folds could-not-check into clean has bought the
+  deadlock's cure at the price of a green that means nobody looked; one that
+  folds it into violated has bought the loudness at the price of the
+  deadlock ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).
+- **The instrument ran and could not decide.** It executed, read the input,
+  and the input is outside what it can model. That is a *result*: a verdict
+  of "I cannot classify this particular thing." **FAIL-CLOSED**, unchanged,
+  and for the original reason — it is a hole in the gate's vision and must
+  never read as compliance. The blast-radius argument does not rescue it,
+  because refusing this one input leaves every other input allowed and the
+  remedy path intact.
+
+The pairing is what makes it safe: an in-path gate may open on its own
+breakage precisely because it still closes on every input it can see and does
+not like. A design that fails open on both has no gate; a design that fails
+closed on both removes its own repair path. And a withdrawal that reaches
+nobody is a **liveness** claim gone false
+([gate-liveness](./gate-liveness.md)) — the third code is what keeps the
+withdrawal on the record instead of letting the fleet converge quietly on an
+unguarded default.
 
 ## When SKIP is the wrong answer
 

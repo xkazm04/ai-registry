@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: agent-cli-transport
-last_touched: 2026-08-30
-touched_by: deepen
+last_touched: 2026-09-01
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -98,3 +98,31 @@ knowledge — the shape [[intake-hardening-series]] says news sources mostly yie
 strip-at-one-door rule, the three-mode separation, and the extraction ladder with rung
 telemetry all survived the counter-evidence lane **untouched** — verified and left alone,
 which is a first-class result and not a gap.
+
+## 2026-09-01 — `/intake`, source `github:kunchenguid/firstmate`
+
+7 techniques unchanged, 6 applications unchanged in count (the
+`child-observed-posture` application was extended rather than duplicated —
+the checker enforces one application per stack/technique pair).
+
+- **`child-observed-posture` (amendment).** The technique enumerated three
+  seams plus a fourth where enforcement must construct itself, and **every one
+  is read from the child's setup**: argv received, environment received, binary
+  exists, sandbox came up. Context *arrival* is a seam with a different observer
+  — the model's context is the destination, so only the model can testify. A
+  producer can run, exit zero and emit correct bytes on the right stream while
+  the harness routes none of it into context, and no process-side assertion can
+  see the difference. Instrument is an echo: a per-open unique token, stamped
+  with its source event, quoted back by the model.
+- The asymmetry that carried it: the subject already half-knows this and only in
+  the *suppressing* direction. `generate` mode's neutral working directory
+  exists **so the tool loads no ambient project instructions** — one direction
+  gets a whole mode, while the inverse case, where the host intends context to
+  arrive, gets no probe and no matrix row.
+
+Applied `experiment`/`better`: same hook, same bytes, same exit 0, one variable
+(the stream), delivered vs `NO_TOKEN`, with byte-identical producer evidence
+either way. The **negative arm is the half worth paying for** — it is what shows
+the probe is necessary rather than that today's wiring happens to be right. A
+second harness did not complete inside budget and is recorded **not exercised**
+rather than as a negative.

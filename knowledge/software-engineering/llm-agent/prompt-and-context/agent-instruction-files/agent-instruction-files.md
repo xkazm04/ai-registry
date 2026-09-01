@@ -13,6 +13,7 @@ techniques:
   - capability-before-steering
   - workspace-ancestry-isolation
   - substrate-coupled-expiry
+  - context-reset-redelivery
   - sibling-floor-ownership
   - capability-coverage-contract
 ---
@@ -27,6 +28,13 @@ author assembles the prompt and the content is an input; here, the repo owner
 authors content for an assembler they do not control. The harness decides
 where the file loads, in what order, and with what siblings; the author
 controls only what the lines say. That asymmetry is the whole subject.
+
+It extends one step past loading, and the step is easy to miss: the harness
+also decides **when the file is read again**. What the agent holds is a copy
+taken at one moment, and a session that clears or compacts its context gets
+whatever the harness re-delivers — which is not necessarily what the file
+says by then
+([context-reset-redelivery](./techniques/context-reset-redelivery.md)).
 
 The position: **the instruction file is a paid, advisory, always-loaded floor
 — so every line must be unreachable by the agent, load-bearing in behavior,
@@ -228,6 +236,11 @@ two separate decisions only one of which anybody ever makes.
   the second rot axis: the model improves and accurate lines go inert;
   restraints expire first, expired lines contradict rather than idle, and
   the held-out trial replaces the origin story as the measurement.
+- [context-reset-redelivery](./techniques/context-reset-redelivery.md) —
+  the third rot axis, and the only one that leaves the file innocent: the
+  agent holds a *copy*, taken at one moment, and a clear or a compaction
+  re-delivers whatever the injector cached rather than what the file now
+  says; the tell is an instruction obeyed early in a session and not late.
 - [sibling-floor-ownership](./techniques/sibling-floor-ownership.md) —
   the installed half of the always-loaded floor: the discovery budget
   nobody authored, install versus retain as separate decisions, the

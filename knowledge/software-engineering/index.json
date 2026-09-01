@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 156,
-  "techniques": 1088,
-  "applications": 570,
+  "techniques": 1090,
+  "applications": 573,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1088/1088",
+  "use_when_coverage": "1090/1090",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -866,7 +866,9 @@
      "use_when": [
       "proving a spawned agent run got the stance and billing it was configured with",
       "a platform wrapper sits between the host and the binary",
-      "a probe and the real run disagree about what is installed"
+      "a probe and the real run disagree about what is installed",
+      "confirming injected context actually reached the model",
+      "a startup hook runs cleanly and the agent behaves as though it never fired"
      ]
     },
     {
@@ -947,8 +949,8 @@
      "stack": "claude-code",
      "technique": "child-observed-posture",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--child-observed-posture.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "claude-code@2.1.251"
+     "verified_on": "2026-09-01",
+     "verified_against": "claude-code@2.1.252"
     },
     {
      "stack": "claude-code",
@@ -1022,6 +1024,21 @@
       "deciding what a test over prose should assert",
       "an instruction file points at documents that may not exist",
       "an agent's output is plausible but consistently uses the poorer of two available means"
+     ]
+    },
+    {
+     "slug": "context-reset-redelivery",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent stopped following a rule that is present and correct in the file",
+      "the instruction file was edited during a long session",
+      "a harness compacts or clears context mid-session",
+      "deciding what a session-start injector must re-read and when"
      ]
     },
     {
@@ -1162,6 +1179,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "context-reset-redelivery",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--context-reset-redelivery.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "claude-code@2.1.252"
+    },
     {
      "stack": "claude-code",
      "technique": "instruction-freshness",
@@ -14852,6 +14876,22 @@
      ]
     },
     {
+     "slug": "self-reported-gate-inputs",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gate counts records the gated party writes",
+      "designing an override for a check that machinery rather than a person will trip",
+      "a guard passed every review and never fired in production",
+      "deciding which layer of a guard stack is load-bearing"
+     ]
+    },
+    {
      "slug": "severity-by-construction",
      "status": "forged",
      "laws": [
@@ -14870,13 +14910,16 @@
      "status": "forged",
      "laws": [
       "gate-sees-target",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "a policy condition has no data to evaluate",
       "deciding whether missing evidence blocks or skips",
-      "a gate reports a verdict over a partly failed assessment"
+      "a gate reports a verdict over a partly failed assessment",
+      "a guard sits in the path of the work rather than beside it",
+      "deciding what a check does when its own runtime is missing"
      ]
     },
     {
@@ -14898,6 +14941,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "unmeasurable-criteria",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/claude-code--unmeasurable-criteria.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "claude-code@2.1.252"
+    },
     {
      "stack": "node",
      "technique": "advancement-evidence-fields",
@@ -14944,6 +14994,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--prose-rule-drift.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "self-reported-gate-inputs",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--self-reported-gate-inputs.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "node@24.12.0"
     },
     {
      "stack": "node",
@@ -21044,6 +21101,7 @@
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/prose-rule-drift",
+    "quality-gates/self-reported-gate-inputs",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
     "quality-gates/vacuous-by-evaluation",
@@ -21431,6 +21489,7 @@
     "quality-gates/operation-assertion-gates",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/ratchet-design",
+    "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
     "quality-gates/vacuous-by-evaluation",
     "rate-limiting/refusal-contract",
@@ -21986,6 +22045,7 @@
     "agent-cli-transport/availability-probe",
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/dated-capability-matrix",
+    "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/decay-and-forgetting",
@@ -22932,6 +22992,7 @@
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
     "agent-cli-transport/dated-capability-matrix",
+    "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/machine-owned-regions",
     "agent-memory/baseline-ladder",
     "agent-memory/consolidation",
@@ -23140,6 +23201,8 @@
     "quality-gates/enforcement-binding",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/prose-rule-drift",
+    "quality-gates/self-reported-gate-inputs",
+    "quality-gates/unmeasurable-criteria",
     "repository-landing-document/style-rule-ships-its-detector",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",

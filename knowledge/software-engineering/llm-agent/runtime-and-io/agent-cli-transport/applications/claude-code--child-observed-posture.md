@@ -4,8 +4,11 @@ type: application
 subject: agent-cli-transport
 technique: child-observed-posture
 stack: claude-code
-verified_on: 2026-08-30
-verified_against: claude-code@2.1.251
+verified_on: 2026-09-01
+verified_against: claude-code@2.1.252
+applied: experiment
+ab_verdict: better
+proof: ab-paired
 ---
 
 # The three seams, reproduced on win32
@@ -132,3 +135,55 @@ Three tests, none of which needs a model call: an argv round-trip through
 the real spawn path; an auth-status parse taken from the door's constructed
 environment and asserted as a whole record; and a not-installed descent
 exercised against a binary name that genuinely does not exist.
+
+## The delivery seam, on a later build: arrival has no producer-side signal
+
+Run 2026-09-01 against Claude Code 2.1.252 in a throwaway git repository,
+testing the fifth seam: whether a host can tell that context it arranged
+to inject actually reached the model.
+
+Both arms use the **same hook script**, the same event, the same bytes,
+and the same exit status. The single variable is the stream the bytes are
+written to — stdout, which this harness routes into model context, versus
+stderr, which it does not. Writing to the wrong stream is not a contrived
+fault; it is an ordinary wiring mistake and it is precisely the shape of
+the field report this technique is written from, where a harness ran a
+project hook successfully and its output never reached the model.
+
+### The two arms
+
+| Arm | Channel | Producer evidence — the only signal a host-side check has | Echo probe |
+| --- | --- | --- | --- |
+| B | stdout | `ran=…, rc=0` | token quoted back → **delivered** |
+| A′ | stderr | `ran=…, rc=0` — *byte-identical* | `NO_TOKEN` → **not delivered** |
+
+The token was generated fresh for the run and stamped into the injected
+text; the model's first instruction was to quote it back, so a correct
+answer could only have come through the channel under test.
+
+**Every producer-side observable agrees across the two arms.** The hook
+ran, exited zero, and wrote its marker in both. A host asserting "the hook
+succeeded" passes in the arm where nothing arrived. Only the echo
+separates them, which is the technique's claim stated as a measurement:
+producing is not delivering, and no amount of watching the producer will
+tell you which one you got.
+
+### The negative arm is the useful half
+
+A reader deciding whether to build the probe should note that the arm
+worth paying for is A′. Arm B — the working case — proves only that the
+wiring is right today. It is arm A′ that shows the *instrument* is
+necessary: without the echo, arm A′ is indistinguishable from success, and
+a transport shipping in that state reports healthy while its injected
+context silently does not exist.
+
+### Bounds
+
+This run establishes the seam and the instrument on one harness, on one
+surface, on one date. It does **not** establish per-surface delivery for
+any other tool. A second harness was installed and probed in the same lab
+and its run did not complete inside a four-minute budget — plausibly an
+authorization state rather than a delivery result — so it is recorded as
+**not exercised**, not as a negative. Inferring a delivery answer from a
+run that never produced one would reproduce, in the measurement, exactly
+the confusion the technique exists to prevent.
