@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: authorization
-status: forged
+status: reconciled
 techniques:
   - privilege-tiers
   - dispatch-chokepoint-gating
@@ -12,6 +12,7 @@ techniques:
   - failure-direction
   - identity-bearing-keys
   - delegated-authority
+  - read-write-predicate-symmetry
 ---
 
 # Authorization & capability scoping
@@ -279,6 +280,36 @@ at all. The construction, its three failure modes, and the migration rule
 that follows from treating a key format as a storage contract are
 [identity-bearing-keys](./techniques/identity-bearing-keys.md).
 
+## Where the address cannot carry the owner, the predicate must carry itself
+
+Most systems cannot make the owner unaddressable — legitimate reads span
+owners, the query language *is* the access path — so tenancy stays a
+predicate on a query. That is a workable posture with one reliable defect:
+**the predicate is born on the read path and does not follow the writes.**
+The list is where visibility is first needed, so that is where the owner
+clause lands, gets reviewed and gets centralized; the update, the retire,
+the republish and the delete arrive later, through a by-identifier
+primitive that takes a key and mutates the row it names — and that
+primitive is routinely exempted from tenancy review on read-only reasoning
+that stops being true the moment a write calls it. The result is an object
+a caller cannot see and can nonetheless change.
+
+The rule is symmetry in **terms, not in outcome**: read and write may
+legitimately differ in reach, but they resolve one *named* predicate rather
+than two clauses that agree today, and any deliberate narrowing is stated
+where the predicate is defined. And the symmetry extends past the decision
+to the refusal — **the write borrows the read's answer**. Where the
+convention is to tell a caller who may not see a record that it does not
+exist, a write that instead says "not permitted" has confirmed the record
+is real, on the surface that accepts a bare identifier with no other
+context. Same status, same body, same timing, no side effects; the reason
+lives in the audit trail, which stays fully informative. The ordering that
+makes it hold (gate before any spend and before the first step of a
+multi-step mutation), the ownership-fact helper that must not fold *unowned*
+and *unknown* into a default, and the enumeration that proves no
+by-identifier write escaped are
+[read-write-predicate-symmetry](./techniques/read-write-predicate-symmetry.md).
+
 ## What is *not* this subject
 
 - **Authentication** — establishing identity. This subject consumes an
@@ -320,3 +351,8 @@ that follows from treating a key format as a storage contract are
   the owner into the storage address so a cross-tenant reference is
   unrepresentable; the single composer, component sanitization against the
   store's own syntax, prove-before-compose, and key formats as migrations.
+- [read-write-predicate-symmetry](./techniques/read-write-predicate-symmetry.md)
+  — a read-side visibility rule re-appearing as a write-side gate resolved
+  from one named predicate, the refusal borrowed from the read so writes
+  disclose no existence, gating before the spend, and the enumeration of
+  by-identifier write paths that proves it.
