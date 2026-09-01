@@ -20115,7 +20115,7 @@
      "technique": "authored-voice-identity",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--authored-voice-identity.md",
      "verified_on": "2026-08-31",
-     "verified_against": "a desktop companion app with two local TTS engines behind one synthesis command"
+     "verified_against": "rust@1.97.1"
     },
     {
      "stack": "rust",

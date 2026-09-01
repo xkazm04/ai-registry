@@ -3,8 +3,8 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 42,
-  "techniques": 252,
+  "subjects": 43,
+  "techniques": 259,
   "applications": 113,
   "laws": 11,
   "categories": [
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "252/252",
+  "use_when_coverage": "259/259",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2481,6 +2481,120 @@
     }
    ]
   },
+  "judgeable-spec-authoring": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/judgeable-spec-authoring.md",
+   "techniques": [
+    {
+     "slug": "enumeration-closure-as-arithmetic",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a spec introduces a field and lists the schema elsewhere",
+      "a grader reports an invented field",
+      "auditing a spec corpus for self-contradiction",
+      "a list in an artifact claims to be complete"
+     ]
+    },
+    {
+     "slug": "execute-the-rules-against-the-worked-example",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a spec states a composition or format rule and shows a resolved example",
+      "auditing artifacts no finding has flagged",
+      "a rule has passed review repeatedly",
+      "checking a spec before submitting it for grading"
+     ]
+    },
+    {
+     "slug": "interpolated-counts-over-typed-counts",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring spec artifacts in bulk",
+      "a grader reports a number that does not reproduce",
+      "a count in prose disagrees with the structure it counts",
+      "repairing a corpus where one edit invalidates numbers elsewhere"
+     ]
+    },
+    {
+     "slug": "one-field-one-question",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a spec keeps contradicting itself about one value",
+      "propagating a corrected value reintroduces the contradiction",
+      "two numbers named the same thing disagree",
+      "several sections of an artifact say incompatible things"
+     ]
+    },
+    {
+     "slug": "quantity-ownership-and-the-bindable-row",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the same number is stated by several sibling specs",
+      "deciding which artifact owns a shared quantity",
+      "a consumer cites an identifier that does not exist",
+      "deduplicating values across a content catalog"
+     ]
+    },
+    {
+     "slug": "register-discipline-in-a-spec",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a spec scores just below the shippable bar with rising sub-scores",
+      "a grader cites tone or voice",
+      "sweeping artifacts an agent has just rewritten",
+      "content quality is high and the score will not move"
+     ]
+    },
+    {
+     "slug": "simulate-the-mechanism-not-the-constant",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a spec describes a process over time",
+      "a decay or drain or cadence claim needs numbers",
+      "several fields quote the same constant and disagree",
+      "a grader says an identity is unsatisfiable as written"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "mesh-finishing-for-engine-readiness": {
    "category": "asset-production",
    "subcategory": null,
@@ -4799,6 +4913,8 @@
     "generated-mesh-acceptance/stage-declared-grading",
     "generative-provider-auditing/arena-benchmark-protocol",
     "image-to-3d-input-gating/canonical-pose-rule",
+    "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
+    "judgeable-spec-authoring/register-discipline-in-a-spec",
     "motion-quality-gating/absolute-not-curved-judgment",
     "motion-quality-gating/six-dimension-motion-rubric",
     "production-coverage-measurement/craft-ladder-and-medium-ceilings",
@@ -4883,6 +4999,7 @@
     "image-to-3d-input-gating/canonical-pose-rule",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
     "image-to-3d-input-gating/single-subject-plain-background",
+    "judgeable-spec-authoring/register-discipline-in-a-spec",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/high-to-low-bake-coverage",
@@ -4995,6 +5112,10 @@
     "generative-provider-auditing/pin-a-model-per-asset-class",
     "image-to-3d-input-gating/multi-view-master-reference",
     "image-to-3d-input-gating/reference-role-tagging",
+    "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
+    "judgeable-spec-authoring/interpolated-counts-over-typed-counts",
+    "judgeable-spec-authoring/one-field-one-question",
+    "judgeable-spec-authoring/quantity-ownership-and-the-bindable-row",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/genre-response-latency-norms",
@@ -5092,6 +5213,9 @@
     "generated-mesh-acceptance/unmeasured-is-not-pass",
     "generative-provider-auditing/record-negative-benchmarks-in-place",
     "image-to-3d-input-gating/reference-role-tagging",
+    "judgeable-spec-authoring/interpolated-counts-over-typed-counts",
+    "judgeable-spec-authoring/one-field-one-question",
+    "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
     "mesh-finishing-for-engine-readiness/high-to-low-bake-coverage",
     "mesh-finishing-for-engine-readiness/unwrap-only-the-low-poly",
     "motion-quality-gating/absolute-not-curved-judgment",
@@ -5206,6 +5330,7 @@
     "game-economy-tuning/faucet-sink-balance-band",
     "game-economy-tuning/progression-curve-shape-tests",
     "generative-artifact-gating/generation-history-as-artifact",
+    "judgeable-spec-authoring/quantity-ownership-and-the-bindable-row",
     "procedural-level-planning/algorithm-parameter-support-matrix",
     "procedural-level-planning/pacing-linter-rules",
     "production-coverage-measurement/audited-fact-drift-detection",
@@ -5337,6 +5462,9 @@
     "generated-mesh-acceptance/structural-scorecard",
     "generative-artifact-gating/gate-before-every-credit-spend",
     "generative-artifact-gating/placeholder-is-not-an-asset",
+    "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
+    "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
+    "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",
