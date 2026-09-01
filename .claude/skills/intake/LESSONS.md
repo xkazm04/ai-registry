@@ -5092,3 +5092,39 @@ The Multi-Agent cluster wave 1 dropped for contention, mined once the board empt
   technique forbids, ask what surface the tree was serving before writing it up as
   the failure** — a correct-for-its-purpose implementation that a second consumer
   silently inherits is a different and more useful finding than a defect.
+
+### Addendum (same run) — the code arm was reachable, and what made it reachable
+
+The row above shipped after the operator lifted the tree question at Phase 7.5. Four
+observations, because this is the first `code` row in eight runs and the scorecard has
+been naming that zero for weeks:
+
+- **What unblocked it was not permission — it was picking a quiescent tree at Phase 5.**
+  The focus two runs ago said to check WIP state at triage rather than at Phase 8. Doing
+  it took one `git status --short` per candidate project and eliminated four of six
+  in-domain trees on the spot (66, 19, 8, 2 dirty files). The tree that survived had one
+  untracked file. **The seam and the authorization were never the constraint; the
+  constraint was that the fleet is usually mid-work, and that is a property you can
+  filter on cheaply and in advance.**
+- **A code arm is reachable when the change fits the call boundary, and the boundary is
+  worth looking for before the schema is.** The technique's own procedure opens with
+  "store the baseline as a record, never as a scalar" — a four-store schema migration,
+  and not shippable in a session. The reachable version was one signature: the caller
+  already held everything and narrowed it to a float one line early. **Ask what the
+  caller already has before asking what the schema lacks**; a narrowing at a seam is the
+  cheap half of most provenance findings and it is invisible in a schema diff.
+- **Shipping corrected the technique a second time, and differently from the
+  experiment.** The experiment arm found a *boundary* (aggregation wants a family, a
+  predicate wants a variant). The code arm found *limits*: it checks one condition
+  rather than the predicate, the frozen flag is a proxy that produces false refusals,
+  and the tree cannot detect judge drift at all because immutability is doing the work a
+  check appears to do. Worth stating as a rule: **an experiment tells you whether the
+  idea is right; shipping tells you how much of it you actually got.** Both belong in
+  the application, and the second is the half a run that stops at `experiment` never
+  writes.
+- **The five identical cases were the load-bearing number, not the three that differed.**
+  The subject's own doctrine says added rigour may trade a false alarm for a detection
+  and may never disarm the gate. An A/B that reports only what changed cannot answer
+  that; reporting 5 of 8 byte-identical is what shows the change is a detection and not
+  a rewrite. **When a technique's home subject states a safety property, size the arm to
+  measure that property, not just the effect.**
