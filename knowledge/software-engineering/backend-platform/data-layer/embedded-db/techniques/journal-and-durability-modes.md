@@ -77,7 +77,29 @@ Every path that treats the database as a file must honor the set:
   "copy my data" affordance that grabs one file is a data-loss feature.
 - **Delete / reset** paths remove the whole set; a reset that deletes the
   main file and leaves sidecars invites the engine to marry stale journal
-  frames to a fresh store.
+  frames to a fresh store. The failure signature is specific and worth
+  knowing: the rebuilt store opens fresh and empty beside the previous
+  store's journal, and the next write fails with a bare I/O error that
+  nothing in the reset path logged — reproducible on demand by resetting
+  while a writer is active.
+
+The set is only honored if it is *named* correctly, and the names are the
+engine's, not the application's. Every engine that journals derives its
+sidecar names from the **full** main file name by appending a fixed suffix,
+so the sidecar of `store` is `store-wal` and the sidecar of `data.sqlite` is
+`data.sqlite-wal`. Application code reaches for the path library's
+"replace the extension" helper, or for a suffix it half-remembers, and both
+produce a name that is right for the one store the code was written against
+and wrong for the next — a store named without an extension, a second store
+with a different one, a backup copy with a stacked suffix. A delete that
+removes `store.db-wal` while the engine wrote `store-wal` has honored the
+set in intent and missed it in fact, and a run whose stores all happen to be
+named `*.db` cannot tell the difference. Ask the engine for the sidecar
+names where it exposes them (the mature ones do, as a function of the open
+connection); where it does not, construct them by appending to the whole
+file name, never by substituting an extension, and keep one test that opens
+a store under a name *without* the conventional extension, writes under
+write-ahead journaling, and asserts the constructed sidecar paths exist.
 
 This is [gate-sees-target](../../../../_laws.md#gate-sees-target) in storage
 form: the backup gate must see the actual durability target — the file

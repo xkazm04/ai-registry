@@ -1,7 +1,7 @@
 ---
 subject: concurrency-guards
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-09-01
 touched_by: intake
 dry_streak: 0
 ---
@@ -112,3 +112,34 @@ it in three unrelated subsystems.
   to no path, so it takes a single global guard while per-path writes run in parallel. The
   enumeration does not contain the case where the entity axis cannot be determined. Return
   if a second source draws the same boundary.
+
+## 2026-09-01 - intake [[2026-09-01-matrix-rust-sdk]]
+
+`cross-process-exclusion` gained a section on the lease generation's second
+reader: the technique carried the generation OUT as a write fence and never
+read it back IN on re-acquisition, where an advance proves another holder
+wrote in between and every cache derived from the shared store is stale. The
+source's own bug was the sharper half: it detected the dirtied generation,
+reloaded the one cache whose code path noticed, and consumed the flag -
+leaving the other caches serving the pre-handover picture. Rule landed: one
+dirt flag on the store's shared state, every derived cache reloads under it,
+cleared once after all of them. Plus the in-process holder-count trap (the
+handle is not a holder; cloning a guard counts).
+
+Applied at `simulation` against the one fleet tree with a real leadership
+lease: **not-better**, and recorded as the condition - every leader loop
+re-reads its cursor from the store per tick, so nothing is derived across
+tenures and the generation would have nothing to dirty. The falsifier is the
+first in-memory cache over the shared store; the verdict flips the day one
+appears.
+
+Open lead (no home, XL): the source's other concurrency finding is a
+lock-ordering deadlock - a read guard held across a call that takes a second
+read guard while a writer is queued between them, on writer-preferring
+reader-writer locks; fixed by taking one guard over the composite and
+projecting it. The corpus holds no material on in-process lock composition
+at all (zero hits for reader-writer, lock ordering, nested acquisition), and
+this subject is about single-flight, not mutual exclusion. A subject on
+in-process lock discipline is the home; one changelog entry is thin evidence
+for a subject. Return condition: a second source, or a managed project's
+incident, of the same shape.

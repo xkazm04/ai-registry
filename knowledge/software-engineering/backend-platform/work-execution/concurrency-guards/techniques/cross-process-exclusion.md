@@ -136,6 +136,53 @@ state, the write itself must re-verify tenure (a fencing token — the lease
 generation carried into the write and checked there), because the guard alone
 cannot reach into the future where the pause ends.
 
+## The generation is read on regain, not only carried on writes
+
+Everything above treats the lease generation as a fencing token: the holder
+carries it *out* to its writes so a zombie's late write is refused. There is
+a second reader of the same counter, on the opposite side of the handover,
+and the design that forgets it corrupts nothing in the shared store while
+quietly corrupting everything derived from it. **A process that re-acquires
+the lock and finds the generation advanced has proof that another holder
+wrote in between — so every in-memory cache this process derived from the
+shared store is now stale, wholesale.** The store is fine; the process's
+picture of it is not, and no write fence can see that, because the stale
+picture is never written anywhere.
+
+Two rules turn the observation into a mechanism:
+
+- **Compare the generation on every acquisition, not only the first.** A
+  holder that took the lock at generation 7, released it, and takes it again
+  at generation 9 has been dirtied twice; the same process at generation 7
+  both times has not. The comparison is against the generation *this
+  process last held*, which the process must therefore remember.
+- **A dirty verdict is one state, consumed once, across every derived
+  cache.** The failure that motivated this section: a store with several
+  in-memory caches over it detected the dirtied generation correctly,
+  reloaded the *one* cache whose code path noticed, marked the dirt as
+  handled, and left the others serving the pre-handover picture — a
+  divergence between caches of the same store that no single cache could
+  have detected. The dirt flag belongs to the store's shared state, every
+  derived cache reloads under it, and it is cleared once, after all of them.
+  A per-cache flag reintroduces the bug with better logging.
+
+The check pays only when the process *keeps* something derived from the
+store between tenures. A design whose loops re-read their cursor, index or
+summary from the shared store on every tick has nothing to dirty, and that
+is the cheaper answer wherever the re-read is cheap — it is the "worklist
+lives in the shared state" clause above, applied to reads. Tested against a
+tree with a real leadership lease and per-tick re-reads, the regain check
+changed nothing (see the subject's applications); add it when the first
+in-memory cache over the shared store appears, not before.
+
+The in-process shape of the same lock has its own trap. A lease held by a
+process is usually handed out to several holders inside that process; the
+lease is released to *other processes* only when the last in-process holder
+drops, and the handle through which it was acquired is not itself a holder.
+Dropping the handle while guards are alive must not release; cloning a guard
+must count. Get either wrong and the counter overflows or reaches zero early
+— an unreleasable lock, or one released while writers still hold it.
+
 ## Decision rules
 
 - Name the duplicate's origin first: if any second process can produce it, an
@@ -154,3 +201,6 @@ cannot reach into the future where the pause ends.
   never the sole wall for correctness.
 - Where a paused holder could resume into a lost lease, carry a fencing token
   into the effect and verify it at the write site.
+- On every acquisition, compare the generation with the one this process last
+  held; an advance dirties every cache derived from the shared store, and the
+  dirt is one flag consumed once after all of them reload.

@@ -4,7 +4,11 @@ type: application
 subject: concurrency-guards
 technique: cross-process-exclusion
 stack: rust
-verified_on: 2026-08-18
+verified_on: 2026-09-01
+verified_against: rust@1.97
+applied: simulation
+ab_verdict: not-better
+proof: structural-only
 ---
 
 # Cross-process exclusion in Personas (Rust + one process-level guard)
@@ -83,3 +87,44 @@ transitions and `trigger_version` checks). That machinery is
 technique); it is listed here only to complete the map of which mechanism
 answers which origin: lease for singleton *loops*, CAS claim for singleton
 *items*, population check for advisory *machine-level* exclusion.
+
+## 4. The generation on regain — tested, and not needed here (2026-09-01)
+
+The technique gained a section on the lease generation's second reader: a
+process that re-acquires a lease and finds the generation advanced has proof
+another holder wrote in between, and every cache it derived from the shared
+store is stale. Personas is the one fleet tree with a real leadership lease,
+so it is where the clause was tried. The lease file carries `pid` and
+`heartbeat_at` and **no generation**; a follower that becomes leader in
+`tick` starts its loops with whatever it held in memory from its last
+tenure. Three real regain paths exist:
+
+1. **The non-atomic takeover** named in §1 — `remove_file` then
+   `create_new` — can bounce one instance leader → follower → leader within
+   seconds while the other instance briefly led.
+2. **Upgrade overlap** — the old instance leads until exit, the new one
+   follows, then takes over on the first stale tick.
+3. **Parallel test instances** against one database, which the module doc
+   already lists as a duplicate origin.
+
+Walked under policy A (the tree: no generation, no reload on regain) and
+policy B (the amendment: compare generations on every acquisition, dirty
+every derived cache once), the two policies **do not differ**, and the
+reason is structural. Every leader loop reads its position from the shared
+store on each tick: the chat pollers call `read_cursor(pool, …)` per poll
+and write it back per batch; the cloud sync and remote-command loops gate
+on `cursor::is_enabled(&state.db)` each pass; the subscription runner
+re-checks leadership per tick. Nothing derived from the database survives
+in memory across a follower period, so a dirtied generation would have
+nothing to invalidate. The one process-lived state that *does* survive a
+bounce — the per-bridge failure counter in the chat poller, a static map —
+is a circuit-breaker tally, and resetting it on regain would be wrong, not
+better.
+
+**Verdict: not-better**, with the condition recorded in the technique: the
+regain check pays only when a process keeps derived caches over the shared
+store, and a design whose loops re-read the store per tick has already
+taken the cheaper route the technique's own "worklist lives in the shared
+state" clause recommends. The falsifier is a loop that caches a cursor,
+index or summary in memory across ticks; the tree has none today, and the
+first one added is the moment this verdict flips.

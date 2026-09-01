@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 156,
-  "techniques": 1091,
-  "applications": 576,
+  "techniques": 1093,
+  "applications": 582,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1091/1091",
+  "use_when_coverage": "1093/1093",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3651,6 +3651,13 @@
     },
     {
      "stack": "react",
+     "technique": "optimistic-write-path",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--optimistic-write-path.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "persistence-and-migration",
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/react--persistence-and-migration.md",
      "verified_on": "2026-08-29",
@@ -4401,7 +4408,8 @@
      "stack": "rust",
      "technique": "cross-process-exclusion",
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-01",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -5970,6 +5978,22 @@
      ]
     },
     {
+     "slug": "ordered-lane-blocking",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "identity-survives-reuse",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a dead-lettered item releases the items queued behind it",
+      "messages in one conversation arrive out of order after a failure",
+      "a failed upload's local echo still says sending",
+      "choosing whether a stuck head blocks or is skipped"
+     ]
+    },
+    {
      "slug": "retry-escalation",
      "status": "forged",
      "laws": [
@@ -6004,6 +6028,13 @@
      "technique": "dead-letter-design",
      "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/applications/react--dead-letter-design.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "ordered-lane-blocking",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/applications/react--ordered-lane-blocking.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -7024,6 +7055,13 @@
     },
     {
      "stack": "node",
+     "technique": "dated-corrections",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/applications/node--dated-corrections.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "source-doc-mapping",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/applications/node--source-doc-mapping.md",
      "verified_on": "2026-08-21",
@@ -7476,6 +7514,13 @@
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/node--single-writer-holder-discipline.md",
      "verified_on": "2026-08-24",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "rust",
+     "technique": "journal-and-durability-modes",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/rust--journal-and-durability-modes.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -14857,7 +14902,9 @@
       "auditing which standards are actually mechanised",
       "a documented invariant turns out to have been violated for months",
       "deciding where to put enforcement for a rule about an action rather than an artifact",
-      "a convention that governs setup or provisioning rather than code"
+      "a convention that governs setup or provisioning rather than code",
+      "a file or page has a stated size cap and every edit to it obeys a per-edit cap",
+      "an accreting artifact is over its bound and no commit broke a rule"
      ]
     },
     {
@@ -14947,6 +14994,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/claude-code--unmeasurable-criteria.md",
      "verified_on": "2026-09-01",
      "verified_against": "claude-code@2.1.252"
+    },
+    {
+     "stack": "next",
+     "technique": "prose-rule-drift",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/next--prose-rule-drift.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "next@15"
     },
     {
      "stack": "node",
@@ -19129,6 +19183,20 @@
      "stage": "team"
     },
     {
+     "slug": "gate-scope-is-not-report-scope",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a coverage gate is green over a scoped include set",
+      "deciding which files a quality report is defined over",
+      "an untested directory has never appeared in any report"
+     ]
+    },
+    {
      "slug": "history-driven-partitioning",
      "status": "forged",
      "laws": [
@@ -19245,6 +19313,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "gate-scope-is-not-report-scope",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--gate-scope-is-not-report-scope.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "live-app-harness",
@@ -21347,6 +21422,7 @@
     "delivery-analytics/off-platform-signal-detection",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/non-delivery-ledgers",
+    "delivery-guarantees/ordered-lane-blocking",
     "delivery-guarantees/stuck-reaping",
     "demo-data-plane/fake-surface-honesty-contract",
     "demo-data-plane/network-faithful-mocks",
@@ -21617,6 +21693,7 @@
     "templates-scaffolding/integrity-and-provenance",
     "templates-scaffolding/readiness-prerequisites",
     "terminal-multiplexing/pty-management",
+    "test-harness/gate-scope-is-not-report-scope",
     "test-harness/live-app-harness",
     "test-harness/long-lane-certification",
     "test-harness/negative-control-tests",
@@ -21688,6 +21765,7 @@
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
     "delivery-guarantees/dead-letter-design",
+    "delivery-guarantees/ordered-lane-blocking",
     "delivery-guarantees/retry-escalation",
     "design-tokens/token-enforcement",
     "device-pairing/revocation-and-expiry",
@@ -22046,6 +22124,7 @@
     "templates-scaffolding/integrity-and-provenance",
     "terminal-multiplexing/bounded-replay-buffers",
     "test-harness/flake-lifecycle",
+    "test-harness/gate-scope-is-not-report-scope",
     "test-harness/history-driven-partitioning",
     "test-harness/long-lane-certification",
     "test-harness/out-of-graph-artifacts",
@@ -22196,6 +22275,7 @@
     "delivery-analytics/revert-linkage",
     "delivery-guarantees/atomic-claiming",
     "delivery-guarantees/guarantee-selection",
+    "delivery-guarantees/ordered-lane-blocking",
     "demo-data-plane/fixture-self-consistency",
     "demo-data-plane/seeded-determinism",
     "dependency-declaration/vendored-copy-loses-composition",

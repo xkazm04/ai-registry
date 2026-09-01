@@ -5304,3 +5304,29 @@ been naming that zero for weeks:
   standing docs for stated size caps. For a *shape* finding, "does any managed project
   state the same rule?" is a corroboration lane that costs one grep and produces the
   apply seam at the same time.
+
+## 1.6.0 - 2026-09-01 - matrix-rust-sdk
+- **Per-PR changelog fragments outrank `docs/` in a repository that keeps them.** Three of
+  four landings came from `changelog.d/*.fixed.md` files of 40-250 words, each a paid-for
+  failure with its mechanism written by the person who paid, under a contributing rule
+  that a fragment must read to an outsider. The Phase 2b sweep order puts operating
+  documents first; for this shape the fragments directory belongs ahead of them, and a
+  `*.fixed.md` glob is the cheapest first read in the tree.
+- **An empty ingest body is a class signal, not a retry.** 597 landing words with zero
+  body text on a repository URL is the vendor-repository class announcing that the clone
+  is the source; spending a second ingest on it would have bought the README.
+- **A rule inversion between two subjects is a technique, and the discriminator is the
+  landing.** The source said a failed head must block its lane; `optimistic-write-path`
+  said the opposite; both were right for their lane. Writing the question that sorts a
+  lane (would item N still mean what its author meant if N-1 vanished) on both sides was
+  worth more than either rule, and it is the shape the cross-bundle clause already
+  prescribes - it applies inside one bundle too.
+- **A `not-better` reached by structure is still a row.** The regain check had nothing to
+  dirty in the only tree with a lease, because every loop re-reads the store per tick.
+  That took one grep, produced the technique's own precondition, and cost less than the
+  three `better` rows; the ledger wants it exactly as much.
+- **Foreign WIP in a golden path routes the landing into the technique file.** Two of the
+  four homes carried a sibling's uncommitted technique in the golden path; amending the
+  technique file alone kept the commit clean and lost nothing, because the golden path
+  already linked the technique. Check `git diff --stat` on every home before deciding
+  between a new technique (needs the golden path) and an amendment (does not).
