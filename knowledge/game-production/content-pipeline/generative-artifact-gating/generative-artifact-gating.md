@@ -21,7 +21,8 @@ this a stand-in that happens to render?* Everything in this subject follows from
 that question seriously. It is not a philosophical question. A placeholder is cheap,
 deterministic, always available, and looks exactly like success to any check that asks
 whether a field is populated. A generated asset costs money, takes wall-clock time, can
-fail, and is the only thing that can carry the line forward. A gate that cannot tell them
+fail, and — for the asset classes whose only producer is a generator — is the only thing
+that can carry the line forward. A gate that cannot tell them
 apart is not a gate; it is a formality that converts the absence of work into a green
 light.
 
@@ -72,8 +73,10 @@ collapsing any pair of them is how the line starts lying:
   reported at the same severity as a bad result, because the remedy is different: run the
   generator.
 - **A deterministic stand-in occupies the slot.** Something renders. It is structurally
-  valid. No local edit can turn it into a real asset — the generator has to run. The
-  correct verdict is a *deferral naming what is missing*, not a pass and not a failure.
+  valid. For a class the generator alone can produce, no local edit turns it into a real
+  asset — the generator has to run — and the correct verdict is a *deferral naming what is
+  missing*, not a pass and not a failure. Where the class has a terminal deterministic
+  producer, this state is not reachable at all; that case is the next section.
 - **A real generated asset is selected and resolves.** This may advance. It should pass at
   the lowest tier that its evidence actually supports, and the verdict should name the
   asset it judged.
@@ -101,6 +104,38 @@ internal contradiction: a selection resolving to nothing, or a selected candidat
 disagrees with the field claiming to select it. Holding that line makes a failure
 informative. When one appears, nobody wonders whether the work is merely unfinished; the
 record itself is broken, and that is a different and more urgent class of problem.
+
+## Deterministic is not a synonym for unfinished
+
+Everything above routes on a proxy, and the proxy is worth naming because it is load-bearing
+and it is not always true: *was a generator involved* stands in for *has the work happened*.
+The two coincide exactly when a generator is the only producer an asset class has. For a
+class that also has a **terminal deterministic producer** they come apart, and the gate then
+files a deferral over an artifact that is finished.
+
+Those classes are easy to recognise once looked for: they are the ones a parameter set
+describes completely. A rope, a cable, a railing, a road, a wire — a curve with a profile and
+a depth reproduces one exactly, faster than a generation and with control a generation does
+not offer. A practitioner running an otherwise fully generative asset pipeline reached for a
+curve instead of the generator for exactly this reason and put the difference at roughly five
+times the speed at better quality. This bundle already holds a subject whose shipped artifact
+is of that kind: a procedural level plan is locally computed, reproducible from a seed, and
+terminal — nobody regenerates it with a model — and the seed contract standing behind it is
+the evidence-of-work record, playing the part a generation history plays for a generated
+asset.
+
+So origin is not a boolean. It has three values — **generated**, **constructed**,
+**stand-in** — and only the third defers. A constructed artifact carries its own evidence:
+the algorithm, its version, the parameter set, the seed. A stand-in carries none, and that
+absence is what makes it a stand-in. Collapsing *constructed* into *stand-in* costs more than
+a wrong verdict, because the deferral names a generator run as the work that resolves it: the
+line then pays a paid stage to replace a finished artifact with a worse one. That is the
+failure the neighbouring repair-economics subject calls refusing the fix that cannot help,
+arriving one stage earlier and costing more.
+
+Which producers are terminal for a class is a **declaration**, made once per asset class and
+reviewed like any other, never inferred from the artifact in front of the gate. Inference is
+what the origin field exists to prevent, and it does not become safe here.
 
 ## Grade the candidate, not the fact of a choice
 

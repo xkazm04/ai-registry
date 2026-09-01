@@ -5,7 +5,7 @@ subject: generative-artifact-gating
 technique: placeholder-is-not-an-asset
 status: forged
 laws: [unmeasured-is-not-a-pass, structural-proof-is-never-sufficient]
-use_when: [a generative step reports green with no generator run, deciding the verdict for a seeded stand-in, auditing whether gates are sensitive to their own content]
+use_when: [a generative step reports green with no generator run, deciding the verdict for a seeded stand-in, auditing whether gates are sensitive to their own content, an asset class is cheaper to construct than to generate]
 ---
 
 # Placeholder is not an asset
@@ -27,7 +27,8 @@ its origin before it grades anything:
 | What is in the slot | Verdict | Why |
 | --- | --- | --- |
 | No generation history at all | **defer, not measured** | absence of work, not bad work |
-| A deterministic stand-in | **defer, naming the missing artifact** | no local edit can produce one; the generator must run |
+| A deterministic stand-in, for a class only a generator produces | **defer, naming the missing artifact** | no local edit can produce one; the generator must run |
+| A constructed artifact, for a class with a declared terminal deterministic producer | **grade it on the class's own terms** | the work happened; the construction record is its evidence |
 | A generated asset that resolves cleanly | **pass at the lowest tier its evidence supports**, naming the asset | the only advancing state |
 | A selection that resolves to nothing, or contradicts itself | **fail** | the record of what happened is corrupt |
 
@@ -78,14 +79,22 @@ the work exists.
 The distinction is only checkable if the producer preserves it, so stand-ins are built to
 be identifiable rather than to be convincing:
 
-- Every candidate records its **origin** as a first-class value: generated, or
-  deterministic stand-in. Never infer origin from a filename, a size, or a hash — guessing
-  is how the distinction dies.
-- Where the origin must be read off the representation rather than a flag, make the two
-  representations **structurally disjoint by construction**: a real asset is always a
+- Every candidate records its **origin** as a first-class value, and the value has three
+  states, not two: generated, constructed, or deterministic stand-in. *Constructed* is
+  reachable only for an asset class that has declared a terminal deterministic producer,
+  and it carries that producer's own evidence — the algorithm, its version, the parameter
+  set, the seed — which is what separates it from a stand-in, since a stand-in carries
+  none. Never infer origin from a filename, a size, or a hash — guessing is how the
+  distinction dies.
+- Where the origin must be read off the representation rather than a flag, make the
+  representations **structurally disjoint by construction**: a generated asset is always a
   reference to a served location, a stand-in is always a locally computed value, and no
   string can be both. Disjointness by design is decidable; disjointness by convention is a
-  heuristic that fails on the first unusual case.
+  heuristic that fails on the first unusual case. Note what that rule assumes — that
+  *locally computed* means *unfinished* — and that a constructed artifact breaks it: it is
+  computed locally and it is done. Where a class has a terminal deterministic producer,
+  two representations are not enough and the origin must be carried as a flag, because no
+  property of the artifact distinguishes a finished construction from a stand-in.
 - The stand-in is **self-describing in the data**, not only in the surface: the recorded
   direction or prompt says in plain words that no generator has run, so a reader of the
   raw artifact — human or machine — sees it without consulting a schema.
@@ -105,6 +114,14 @@ be identifiable rather than to be convincing:
   purpose — a fallback, a neutral default, a licence-safe substitute. Then the stand-in is
   the intended output and the gate grades it on its own terms. Mark those slots explicitly;
   the exception must be declared, never inferred from the fact that a stand-in is present.
+- **Where deterministic construction is the better producer, not a lesser one.** The
+  exception above is a slot accepting a substitute. This one is a whole asset class whose
+  best producer is not a model: anything a parameter set describes completely — a rope, a
+  cable, a railing, a road — is constructed faster, cheaper and with more control than it
+  is generated, and the constructed result is finished work rather than something settled
+  for. Declare the terminal producer on the class, grade the construction on the class's
+  own terms, and do not let the gate route it to a generator. A deferral here does not
+  merely mis-report; it buys a paid stage that can only make the artifact worse.
 - **Before a generator exists at all.** During bring-up, the deferral is correct and
   expected, and firing it as an alarm on every step trains people to ignore the gate. Defer
   quietly, count the deferrals, and escalate on the trend rather than the instance.
