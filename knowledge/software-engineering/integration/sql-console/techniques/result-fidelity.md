@@ -63,6 +63,17 @@ rule that keeps them apart: an empty grid with no verdict could be either,
 and the user's next action differs completely (refine the question vs fix
 the query). Settled-empty must say it settled.
 
+There is a third confusion the table does not show, because it is a
+transition rather than a state: the surface is re-run **in place**, so the
+outcome of run N is still on screen when run N+1 arrives. A failed run must
+therefore **clear the previous result**, not merely add an error beside it —
+an error rendered above rows the earlier run produced reads as that error's
+own output, and the user attributes stale data to the statement that
+failed. Stale-success-plus-error is a fourth shape the truth table never
+declared, so the executor must not be able to produce it: entering a run
+clears the outcome slot, and the run's terminal state — rows, zero rows,
+count, refusal, or error — is the only thing that refills it.
+
 ## Bounds carry their predicate
 
 Consoles cap result windows — a `LIMIT` appended when the user wrote none, a
