@@ -5225,3 +5225,53 @@ been naming that zero for weeks:
   rule decided every row — the single landing came from one offhand aside in the operating
   half, and the entire tour half (roughly 85% of runtime) produced nothing but proper
   nouns against a bundle that already held ten subjects over the same territory.
+
+## 1.6.0 - 2026-09-01 - faceless-channel-claude-code
+
+- **An absence established from a truncated FILE is the same failure as one established
+  from a truncated grep, and it is harder to see because reading feels like verification.**
+  The method already warns against establishing an absence from a piped or capped
+  instrument output (Phase 4, added earlier the same day). This run reproduced the identical
+  root through a different door: a triage read of `never-the-account-default` was formed
+  from `head -45` of the technique, and the "missing case" it claimed was present twice in
+  the unread remainder — once as a decision rule (*when the response does not state which
+  model served, treat identity as unverified*) and once as a *When NOT to use this* clause.
+  **Second sighting of this root in two days.** The existing warning lives under Phase 4 and
+  is phrased for instrument output; the door this run came through is Phase 6 step 1, which
+  says "Read the actual file" and does not say *whole*. If a third run trips on it, the
+  mechanical fix is one word there — "read the actual file, in full, before writing the word
+  *missing*" — plus a note that `head`/`sed -n` on a technique is the same hazard as `head`
+  on a grep. Holding at lesson per the three-sightings rule; recording the exact edit so the
+  third sighting can apply it without re-deriving it.
+- **A wrong triage read is not a wasted row when the verification is what ships.** The run's
+  only landing came from the candidate it got wrong. The row was picked as a `partial`
+  amendment, resolved to `already covered` on a full read, and the act of confirming the
+  catch is what opened the connected tree and found the real defect there. Worth stating
+  because the instinct on discovering "already covered" is to close the row and move on:
+  the catch is a *reason to open the consumer*, since a technique the corpus states well
+  and a tree implements badly is exactly where an application lives. Two of the last three
+  landings now have this shape.
+- **A source can be worth a run while authorizing nothing in it.** This one contributed
+  exactly one thing to the standard — that a provider disclosing no model identifier at all
+  is now a marketed product category rather than a hypothetical — which justified a third
+  enum value and nothing more. Recording that as *currency, deliberately not inflated* was
+  the correct size, and the scorecard row should read as a good run: 1 landing, 1 ship, 6
+  catches, 0 fetches. The temptation the method keeps naming is to promote the other seven
+  rows to justify the hour; the corrective is that the class predicted this yield out loud
+  at Phase 2 and was right.
+- **Build-walkthrough calibration held for the second consecutive run**, in its
+  tour-half-dominant variant (a sponsored vendor demo, ~4 sentences of genuine operating
+  half in 2,837 words). Every content row lost to the corpus, and lost *informatively*: the
+  video's headline rule is `asset-vs-disposable-render`, and the video then commits on
+  camera the exact failure `delivery-promise-lock` predicts — specifying two purely temporal
+  attributes as "style" and proofing them on a still frame that cannot render either. **A
+  source demonstrating the failure our corpus already names is a stronger confirmation of
+  the corpus than a source agreeing with it**, and it costs nothing to notice once the
+  neighbours are open.
+- **Two runs authorized against one project tree on one afternoon was safe, and the board is
+  why.** A sibling simulated against `gravity`'s `cinematic-language` seam while this run
+  shipped to `lib/imaging/`. Disjoint files, no contention, neither had to wait. The
+  regeneration was the only real hazard and the existing rule handled it: `index.json` and
+  `catalog.json` were left uncommitted because they had absorbed the sibling's in-flight
+  applications. Recording this as the clean counter-case — the collision rules are usually
+  written up only when they fire.
