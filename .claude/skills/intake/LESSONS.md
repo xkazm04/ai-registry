@@ -5035,3 +5035,60 @@ The Multi-Agent cluster wave 1 dropped for contention, mined once the board empt
   it, and `verified_against` must be `<stack>@<version>` - a project slug there
   fails. Both are the corpus preferring amendment over duplication, expressed as
   a filename rule.
+
+## 1.6.0 - 2026-09-01 - adaptive-harness-review
+
+- **The fetch budget belongs to the source's HALF, not to the source.** The class
+  table states, correctly and with evidence, that for a second-hand review "the
+  fetch is not corroboration, it is the extraction" — a demo states no operating
+  constraints, so the vendor's own document is where the technique comes from. This
+  run was that class and spent **0 of 3**, and the reason is not discipline, it is
+  that the rule scopes to the wrong unit. A hybrid review has a relay half and a
+  critique half; the fetch rule was written from the relay half, and here the relay
+  half came back **6 of 6 already covered**, so a fetch would have bought
+  corroboration for candidates that needed none. The critique half — the reviewer
+  reading the paper's own evidence tables — is a first-party account, and the method
+  already says first-party accounts corroborate corpus-internally. The routing rule
+  is the one the method already carries one paragraph earlier ("route per half,
+  never per source"); it simply was not applied to the *fetch* line. Worth folding
+  into the class entry when someone next edits it: **decide the fetch per half, at
+  triage, and say which half you are buying.**
+
+- **A ship-class prediction should name the project and must not name the file.**
+  The declared focus asked each triage row to carry `seam: <slug>` or `seam: none`,
+  and to report whether any prediction turned out wrong. One did, in the most useful
+  way available: the project was right and the file was wrong. A `.rs` + schema grep
+  pointed at the gate function and the baseline column; those turned out
+  **unmeasurable** (an immutable row with no update path, a store with zero rows),
+  and the arm that actually ran was a **shipped JSON config file** the seam grep had
+  no reason to open. The general form is that a seam grep searches code for a
+  decision, and a real system also encodes decisions in configuration, fixtures and
+  schemas — so file-level seam prediction is systematically biased toward the
+  language the grep was written for. Project-level prediction cost one command and
+  held. **Carry `seam: <slug>`; let the file be discovered at Phase 7.5.**
+
+- **A grep that times out is an unknown seam, not an absent one — and the timeout
+  is the tell that the query was wrong.** A cross-fleet loop-termination grep over
+  six trees hit the 2-minute limit and was abandoned. It was recorded as `seam: ?`
+  and the row went to the untriaged table, which is correct per the truncation rule
+  the method added on 2026-09-01. The addition worth making: a timeout is not just a
+  missing answer, it is evidence the query was unscoped — six repository trees with
+  five include-globs is a query nobody would run twice. The corrective is to scope
+  to one candidate project chosen from the domain declaration first, then grep. The
+  fleet-domain filter exists precisely to make the seam grep small and it was not
+  used before the grep, only after it failed.
+
+- **Third consecutive run in which the apply step corrected the technique it was
+  testing, and this time the correction was a BOUNDARY rather than a defect.** The
+  arms measured a canonicalization table that collapses dated model variants to a
+  family — 8 identities where 11 instruments exist — and the naive reading is that
+  the tree has the bug the technique describes. It does not: the table's own header
+  argues for the collapse, and for the leaderboard it serves the collapse is right.
+  What the arms actually established is that a codebase carries **one** identity
+  function, the aggregation surface is the one people look at daily, and a
+  comparability predicate therefore inherits the aggregation surface's answer for
+  free. That discriminator went into the technique and was not in it before. Worth
+  generalising as a Phase 7.5 reading: **when an arm shows a tree doing the thing a
+  technique forbids, ask what surface the tree was serving before writing it up as
+  the failure** — a correct-for-its-purpose implementation that a second consumer
+  silently inherits is a different and more useful finding than a defect.

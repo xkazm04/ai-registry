@@ -46,3 +46,34 @@ real decision function via the tree's own vitest harness.
   errors from the denominator vs the newer skill reading s.errors).
 - Docs advertise a nonexistent --fail-on-error flag; small upstream doc fix.
 - --resume incomplete-run semantics untraced.
+
+## 2026-09-01 — intake, adaptive-harness-review
+
+Added `baseline-carries-its-conditions`, amended `paired-per-case-testing`'s
+comparability predicate to include the judge model and version, and extended the golden
+path's "Honesty about what the test cannot see" enumeration with the baseline's
+currency.
+
+The gap was found by the asymmetry hunt, not by the source. The subject was already
+mature on sampling noise and silent on comparator decay: four comparability conditions
+that all describe the experiment and none the instrument; three stated baseline
+limitations that are all standard-error limitations; and a routing rule that waives the
+predicate on the floor test — the test whose comparator is oldest — and reaches it
+precisely when comparability has already failed.
+
+Boundary held rather than linked: `judge-calibration-and-drift` owns the judge's own
+drift and its recalibration schedule; this subject owns whether a stored number produced
+by that judge may still be compared against. Recruiting's
+`an-organisation-owned-manual-baseline` reaches "the baseline value and its provenance
+travel with it" from the opposite side — a *declared* counterfactual baseline that never
+decays because no instrument produced it. That inversion is the technique's "when not to
+use it" and is stated in prose on this side only; no cross-bundle link.
+
+Applied to tracklight, `experiment`/`better`, on the collective-ingest canonicalization
+table. The apply step added the technique's normalization-surface discriminator.
+
+## Open leads
+
+- The gate's own arm is unmeasured anywhere in the fleet: no connected tree can produce
+  two runs spanning a judge change, because the one implementation makes a benchmark row
+  immutable. Return when a project grows a re-baseline or benchmark-update path.
