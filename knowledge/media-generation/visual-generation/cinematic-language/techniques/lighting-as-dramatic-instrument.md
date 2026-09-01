@@ -33,7 +33,14 @@ near-black"), never as equipment, and restated on every call.
    Name the in-world source and let it carry the frame: "lit only by the
    visible table lamp, warm pool of lamplight, the rest of the room dim."
    A believable named source produces more coherent light than any stack
-   of mood adjectives.
+   of mood adjectives. Subtract-to-one is a close and medium rule. In a
+   wide or extreme-wide frame, one dominant source plus exactly ONE
+   named environmental layer — a dusk sky state above, distant
+   practicals below — separates the depth planes without lifting the
+   darks; annotated A-tier animated frames name two or more in-world
+   sources in 89% of cases (one 63-frame study). The layer is an
+   environmental *state*, not a second key: it establishes distance and
+   must leave the darkness clause untouched.
 2. **Hardness.** Hard light (small, distant source) gives crisp-edged
    shadows and accentuated texture: tension, interrogation, noon, noir.
    Soft light (large, diffused) gives melting falloff and flattered skin:
@@ -70,6 +77,10 @@ near-black"), never as equipment, and restated on every call.
 - Specify, for every lit scene: source count + direction + hardness +
   color + what stays dark. If the prompt has no darkness clause, the
   mood was left to the model.
+- Count sources by shot size: one dominant source in close and medium
+  frames; in wide and extreme-wide frames that source plus exactly one
+  named environmental layer — one, never two — with the darkness clause
+  unchanged.
 - Genre first: the ensemble contract (see genre-visual-contracts) picks
   the lighting family; these dials tune within it.
 - One temperature contrast per scene carries more drama than three; the
