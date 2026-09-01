@@ -5,7 +5,7 @@ subject: quality-regression-gating
 technique: baseline-carries-its-conditions
 stack: rust
 status: forged
-applied: experiment
+applied: code
 ab_verdict: better
 proof: ab-paired
 verified_on: 2026-09-01
@@ -82,14 +82,65 @@ aggregation surface's answer. That discriminator — aggregate on the canonical
 identity, compare on the measured one, keep both fields — was added to the
 technique from this result; the technique did not carry it before.
 
+## The change that shipped
+
+The verdict function now takes the benchmark rather than its `baseline_score`, and
+applies the one predicate the run can actually answer: a run scored against an
+**unfrozen dataset** may have used a different case set than the one the baseline was
+established on, so the two means are over different populations. That degrades to the
+unverified lane the exit-code contract already carries — deliberately a distinct code
+from a regression, so CI warns rather than hard-fails — and a `caveat` field names which
+condition expired, because "no_baseline" alone sends an operator hunting for a baseline
+that is sitting right there.
+
+Paired arms over eight cases, same inputs, both arms in one test binary:
+
+| case | arm A (as shipped) | arm B (predicate) | caveat |
+| --- | --- | --- | --- |
+| passed / unfrozen | `pass` | `no_baseline` | yes |
+| regressed / unfrozen | `regressed` | `no_baseline` | yes |
+| legacy scalar / unfrozen | `pass` | `no_baseline` | yes |
+| partial / unfrozen | `partial` | `partial` | — |
+| legacy / unfrozen / no baseline | `no_baseline` | `no_baseline` | — |
+| passed / frozen | `pass` | `pass` | — |
+| regressed / frozen | `regressed` | `regressed` | — |
+| passed / inline dataset | `pass` | `pass` | — |
+
+Three of eight differ, and all three are exactly where a verdict rested on a comparison
+against a moving case set. Green count 4 → 2. **Five of eight are byte-identical**,
+which is the number that matters for the golden path's composition doctrine: the
+predicate adds detection and disarms nothing.
+
+Two restraints are worth recording because both were tempting and both are wrong.
+Verdicts that never consulted the baseline — `partial`, and `no_baseline` arising from
+*absence* — keep their status; overwriting them would trade one honest unverified state
+for another and lose the reason. And an inline dataset stamps no frozen flag at all, so
+absence is read as "nothing says the cases moved" rather than as a refusal: a benchmark
+carrying its own cases has no separate dataset to drift underneath it.
+
 ## What this realization cannot do
 
-The gate's own arm is **not measured here.** The verdict function never
-consults judge identity at all, so there is no A and B to run against it, and
-the store this workspace ships with holds zero benchmarks and zero runs. The
-instrument that would measure it is a populated benchmark store with at least
-two runs spanning a judge change — which this tree cannot currently produce,
-because the immutable benchmark row means a judge change is a *new benchmark*
-and therefore a new baseline. That immutability is why the failure has not
-bitten here, and it is not a property the technique can assume elsewhere: a
-service that adds an update endpoint acquires the full failure the same day.
+**It checks one condition, not the predicate.** The technique asks for judge
+model and version, dataset version, and the baseline's own date. This ships
+only the dataset's frozen flag, because that is the only condition where the
+run's stamp and the baseline's silence produce a decidable answer. The judge
+is recorded per run and *inherited* from an immutable benchmark row, so within
+one benchmark it can never disagree with itself — which means this tree cannot
+detect judge drift at all, and the appearance of safety comes from
+immutability rather than from a check. A service that adds a
+benchmark-update endpoint acquires the full failure the same day.
+
+**Nor does it date the baseline.** The remaining half needs the baseline
+stored as a record rather than a scalar — the number beside the run it came
+from, the judge and version that produced it, and when it was set — which is a
+schema change across four stores and was deliberately left out of a change
+scoped to the call boundary.
+
+**And the frozen flag is a proxy, not the condition.** An unfrozen dataset
+*may* have changed; it is not established that it did. The predicate therefore
+produces false refusals on benchmarks whose unfrozen dataset happened to stay
+stable. That is the correct direction to be wrong in for a gate — an
+unverified verdict costs a re-run, where a false `pass` costs the thing the
+gate exists for — but it is a real cost, and the honest fix is comparing the
+recorded `dataset_version` against the baseline's, which is the same schema
+change.
