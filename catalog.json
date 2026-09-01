@@ -601,9 +601,9 @@
       "purity": "game",
       "subjects": 43,
       "techniques": 259,
-      "applications": 113,
-      "files": 419,
-      "contentHash": "sha256:92c57fc4fd979ce7"
+      "applications": 115,
+      "files": 421,
+      "contentHash": "sha256:169bc7549012b43a"
     },
     {
       "name": "grant-funding",
@@ -629,7 +629,7 @@
       "techniques": 102,
       "applications": 53,
       "files": 176,
-      "contentHash": "sha256:aa9f1346e846f957"
+      "contentHash": "sha256:e51eed5150059418"
     },
     {
       "name": "localization",
@@ -653,9 +653,9 @@
       "purity": "media",
       "subjects": 20,
       "techniques": 132,
-      "applications": 57,
-      "files": 214,
-      "contentHash": "sha256:6b1d92a186098ff7"
+      "applications": 58,
+      "files": 215,
+      "contentHash": "sha256:5b65038e3cb02659"
     },
     {
       "name": "recruiting",

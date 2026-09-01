@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 43,
   "techniques": 259,
-  "applications": 113,
+  "applications": 115,
   "laws": 11,
   "categories": [
    "systems-canon",
@@ -2231,7 +2231,8 @@
      "use_when": [
       "a generative step reports green with no generator run",
       "deciding the verdict for a seeded stand-in",
-      "auditing whether gates are sensitive to their own content"
+      "auditing whether gates are sensitive to their own content",
+      "an asset class is cheaper to construct than to generate"
      ]
     }
    ],
@@ -2241,6 +2242,13 @@
      "technique": "grade-the-selected-candidate",
      "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/node--grade-the-selected-candidate.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "placeholder-is-not-an-asset",
+     "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/node--placeholder-is-not-an-asset.md",
+     "verified_on": "2026-09-01",
      "verified_against": "node@24"
     },
     {
@@ -2351,6 +2359,13 @@
      "technique": "capability-is-not-registry-membership",
      "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/node--capability-is-not-registry-membership.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "never-the-account-default",
+     "file": "knowledge/game-production/production-governance/generative-provider-auditing/applications/node--never-the-account-default.md",
+     "verified_on": "2026-09-01",
      "verified_against": "node@24"
     },
     {
