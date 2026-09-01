@@ -9,6 +9,7 @@ techniques:
   - intermediate-representation
   - import-validation
   - review-before-commit
+  - overlay-merge-absence-semantics
   - lossy-conversion-disclosure
 ---
 
@@ -128,7 +129,16 @@ The IR is where identity is minted. Foreign identifiers are recorded as
 provenance but never trusted as primary keys — they collide across files,
 across re-imports of the same file, and across formats. Internal identity is
 minted at IR construction and survives everything downstream, including the
-user deselecting half the entities at review. Owned by
+user deselecting half the entities at review.
+
+The waist only holds while it is the last writer. Every guarantee it
+enforces is a property of the document *as the waist left it*, so an adapter
+that reaches past the waist to correct its own format's output afterwards
+has silently opted those entities out of all of them at once — identity,
+reference rewriting, schema validity, provenance, ledger fidelity. **No
+adapter writes to the intermediate representation after the waist has run**;
+an override either runs before the waist, or it re-applies every guarantee
+explicitly, by name. Owned by
 [intermediate-representation](./techniques/intermediate-representation.md).
 
 ## An imported definition is untrusted input
@@ -173,6 +183,28 @@ the user clicked. Commit is atomic per selection: the confirmed subset lands
 through the normal creation door in one transaction-like unit, and a failure
 mid-commit leaves the store as if the import never happened. Owned by
 [review-before-commit](./techniques/review-before-commit.md).
+
+## When the proposal is a change, absence must mean absence
+
+The second import of the same material is not a fresh proposal but an
+**overlay** on something canonical, and one question decides whether it
+preserves or destroys: what does the overlay's *silence* mean? A key the
+overlay never mentions, a collection it carries empty, and a collection it
+fills are three distinguishable inputs, and a merge that collapses the first
+two has already lost the argument. This path's declared choice — because the
+overlay's author is typically an exporter omitting what it considers
+unchanged, or a person who edited one branch of a large document — is that
+**an empty collection means "not mentioned", and wholesale replacement
+requires an explicit marker somebody had to type.** Other conventions exist
+and are coherent; the failure is leaving the choice implicit, where it gets
+decided by a guard's edge case. The measured shape: a universal quantifier
+over the incoming members ("are these all safe to replace with?") is
+vacuously true of an empty set, so an empty overlay satisfied the guard,
+took the wholesale-replace branch, and erased the canonical set — while the
+integrity digest that protects the canonical file, computed *before* the
+merge wrote, still reported green over a state that no longer existed. Owned
+by
+[overlay-merge-absence-semantics](./techniques/overlay-merge-absence-semantics.md).
 
 ## Losses are enumerated, never absorbed
 
@@ -229,6 +261,9 @@ metric that converts directly into a roadmap.
 - [review-before-commit](./techniques/review-before-commit.md) — the selection
   gate: per-entity opt-in, collision policy, disclosure at the decision
   point, atomic commit.
+- [overlay-merge-absence-semantics](./techniques/overlay-merge-absence-semantics.md) —
+  what an overlay's silence means: absence versus emptiness, the vacuously
+  true guard, and digesting the artifact that lands.
 - [lossy-conversion-disclosure](./techniques/lossy-conversion-disclosure.md) —
   conversion grades, the itemized ledger, counts with predicates, and the
   round-trip contract.
