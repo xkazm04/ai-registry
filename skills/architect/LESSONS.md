@@ -224,6 +224,42 @@ Append-only reflection lane. One entry per run that taught something. Format:
   every line of files it never touched, which is precisely what the pathspec-commit discipline in
   7d exists to prevent. Cheap check, belongs beside 7d step 6's staged-index verification.
 
+## 1.5.0 - 2026-09-01 - kp (error-handling; evaluation run, operator delegated)
+
+- **The harness can refuse the fan-out, and the method has no branch for it.** Two of five `Explore`
+  agents launched; the other three returned "concurrent subagent limit reached, do not retry"
+  (a sibling run was sharing the pool). Phase 3 says "spawn 3-5 in parallel" and nothing else. The
+  fallback that worked: run the refused angles in the main session with the same brief, say so in
+  the scan note's per-angle summary, and count them as angles, not as sub-agents. Worth one line in
+  3b: "if the harness refuses an agent, run that angle yourself against the same brief - do not
+  drop the angle".
+- **A number in a brief is treated as a fact by the agent that receives it, so it had better carry
+  its predicate.** I put "1172 catch sites" and "48 ternaries" in the briefs from quick `grep -c`
+  runs; both were wrong (923 by a brace matcher, 793 by the agent's own predicate; the 48 was an
+  `-oE` sample). Both agents challenged them unprompted - the "verify premises" sentence from the
+  personas run is now three-for-three - but the cost was theirs. The 3b template should say:
+  background numbers carry the command that produced them, or are omitted.
+- **The falsifier can be a comment.** My census flagged three empty catches in `core.ts`; all three
+  were the literal `catch{}` inside comments that argue *against* bare catches. Shipping "3 to fix"
+  would have made the new gate lie in the flattering direction. Ninth observation of
+  verify-before-quoting; first where the headline example was prose, not code. Corollary for any
+  regex census: read every hit in the smallest class before it becomes a count.
+- **The deliverable contract held, and the artifact type it lacked is "the ratchet".** The largest
+  finding was an unfinished generalization (`safeJsonError`: 79 adopters, 61 hold-outs, a doc
+  claiming all). None of the three artifact kinds fit cleanly: an ADR alone is prose, a lint rule
+  cannot express the predicate, a 61-file rollout is not one session. What shipped was a
+  shrink-only allowlist test - the dry-run count IS the list, a new offender fails, a converted
+  route must delist itself - plus an honest doc and a repo ADR. The 7c dry-run step already produces
+  the number; the method should name "pin the count as a shrink-only list" as the sanctioned
+  terminal artifact for a partial migration, because it is what turns a big finding into a
+  one-session gate without pretending the migration happened.
+- **Repo law beat the skill's commit prefix.** kp's `commit-msg` hook (added after the last
+  architect run) accepts only conventional types; `architect: <step>` was rejected outright. 7d
+  step 7 should say "the `architect:` prefix unless the repo's hook forbids it - then a conventional
+  type with `architect:` in the body". Also: four sequenced execute-nows with a full lint per step
+  cost ~20 min of lint alone in a worktree; the step gate should allow "lint the touched paths"
+  between steps with the full lint at 7e.
+
 ## 1.5.0 - 2026-08-30 - personas
 - A "performance" brief is a claim about an AXIS (cold-start / interaction / steady-state CPU / RAM growth), not a codebase. The scan data ranked differently per axis and the operator's pain was steady-state while my council led with cold-start; one clarifying select before ranking would have prevented the correction. Consider an axis question in Q2a when the free-form theme says "performance".
 - Concurrent Sonnet builders editing ONE shared worktree with "no git mutations" briefs + orchestrator-serial pathspec commits: 8 builders, 11 commits, zero staging races or foreign sweeps. This is a viable middle ground between per-builder worktrees and sequential building; the write-set disjointness declaration in each brief is the load-bearing part.
