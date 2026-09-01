@@ -116,3 +116,22 @@ DIFFERENT niche — fast local TEXT MoE serving in the 30-120B class on
 24 GB-VRAM/64 GB-RAM boxes (e.g. gpt-oss-120b-class local reasoning behind
 an OpenAI-compatible endpoint, a candidate local rung for a text fallback
 ladder). Filed as a lead, no action taken.
+
+## Measured on Wolf (2026-09-02, protocol step 1 + the vision wall)
+
+- **Acquisition beat the reference 2.6x:** 62 shards, 194.7 GB, **9.6 h**
+  (their 25 h) — download dominated (~8 min/shard dl, ~1 min convert).
+- **Text decode: the NVMe projection held.** Cold first answer 44 s total;
+  warm decode **~2.3 s/token** (100 tokens / 232 s) vs the reference's
+  20-44 s/token. The disk-bandwidth arithmetic in the docs is honest and
+  transfers.
+- **Vision on the CPU-only release build: impractical.** One 1280px craft
+  readback burned 93 CPU-minutes without completing (server-side timeout at
+  ~90 min). Cause is compute, not disk: ~1.5k vision-prefill tokens x 40B
+  active params on 6 CPU cores, with the RTX 4090 idle — the prebuilt
+  Windows binary carries no CUDA/Vulkan backend. A 672px retry is the last
+  cheap probe; the real gate for the eye role is a **CUDA-backend source
+  build** (docs/cuda.md, BUILD-cuda-glibc241.md), unattempted this round.
+- Protocol steps 2-4 (field agreement vs qwen/gemini, judge replay) are
+  therefore POSTPONED behind the CUDA build, not abandoned — the decision
+  rule stands unchanged.
