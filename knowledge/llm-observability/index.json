@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
   "techniques": 102,
-  "applications": 53,
+  "applications": 54,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -364,7 +364,7 @@
   "cross-provider-benchmark-operations": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
    "techniques": [
     {
@@ -481,7 +481,7 @@
   "federated-benchmark-sharing": {
    "category": "federation-and-surfaces",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
    "techniques": [
     {
@@ -1072,7 +1072,7 @@
   "margin-and-unit-economics": {
    "category": "economics-and-governance",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/margin-and-unit-economics.md",
    "techniques": [
     {
@@ -1389,7 +1389,7 @@
   "production-trace-scoring": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/production-trace-scoring.md",
    "techniques": [
     {
@@ -1520,7 +1520,7 @@
   "quality-regression-gating": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
    "techniques": [
     {
@@ -1658,7 +1658,7 @@
   "trace-rollup-and-attribution": {
    "category": "telemetry-and-data",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
    "techniques": [
     {
@@ -1695,7 +1695,8 @@
      "use_when": [
       "list and detail views report the same derived number",
       "defining trace duration or status",
-      "two computation paths must agree to the integer"
+      "two computation paths must agree to the integer",
+      "a summary tile sits above the itemized list of the same things"
      ]
     },
     {
@@ -1753,6 +1754,13 @@
      "technique": "derived-trace-rollup",
      "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/react--derived-trace-rollup.md",
      "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "single-shape-rule",
+     "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/react--single-shape-rule.md",
+     "verified_on": "2026-09-01",
      "verified_against": "react@19"
     },
     {

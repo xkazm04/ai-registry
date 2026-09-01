@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
   "techniques": 132,
-  "applications": 58,
+  "applications": 61,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -216,6 +216,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "camera-position-semantics",
+     "file": "knowledge/media-generation/visual-generation/cinematic-language/applications/process--camera-position-semantics.md",
+     "verified_on": "2026-09-01",
+     "refresh_by": "2027-03-01"
+    },
     {
      "stack": "process",
      "technique": "genre-visual-contracts",
@@ -1632,7 +1639,8 @@
      "use_when": [
       "running minutes-long generation or research from an interactive product",
       "deciding which jobs may run concurrently",
-      "handling reloads and duplicate launches during long runs"
+      "handling reloads and duplicate launches during long runs",
+      "a job record and the result it produced live in different stores with different lifetimes"
      ]
     },
     {
@@ -1684,6 +1692,13 @@
      "technique": "delivery-promise-lock",
      "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/node--delivery-promise-lock.md",
      "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "long-run-as-background-job",
+     "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/node--long-run-as-background-job.md",
+     "verified_on": "2026-09-01",
      "verified_against": "node@24"
     },
     {
@@ -2154,7 +2169,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "cue-first-assembly",
+     "file": "knowledge/media-generation/narrative-craft/trailer-structure/applications/node--cue-first-assembly.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "node@24"
+    }
+   ]
   },
   "video-assembly": {
    "category": "production-ops",

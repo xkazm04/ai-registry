@@ -1339,7 +1339,7 @@
   "translation-pipeline-topology": {
    "category": "craft",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
    "techniques": [
     {

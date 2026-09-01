@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 43,
   "techniques": 259,
-  "applications": 115,
+  "applications": 116,
   "laws": 11,
   "categories": [
    "systems-canon",
@@ -2608,7 +2608,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "execute-the-rules-against-the-worked-example",
+     "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/applications/node--execute-the-rules-against-the-worked-example.md",
+     "verified_on": "2026-09-01",
+     "refresh_by": "2027-03-01"
+    }
+   ]
   },
   "mesh-finishing-for-engine-readiness": {
    "category": "asset-production",
