@@ -296,7 +296,8 @@
             "docs-sync",
             "concurrent-vcs",
             "machine-authored-documentation",
-            "dependency-declaration"
+            "dependency-declaration",
+            "repository-landing-document"
           ]
         },
         {

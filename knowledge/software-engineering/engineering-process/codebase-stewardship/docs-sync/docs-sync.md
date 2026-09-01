@@ -15,6 +15,7 @@ techniques:
   - checked-vs-skipped-denominators
   - earned-verification-state
   - repair-rides-the-open-page
+  - rendered-surface-coupling
 ---
 
 # Docs-as-code synchronization
@@ -292,6 +293,27 @@ and repaired on none, so the batch lane stays the backstop and the cold set
 belongs in the marker's consciously-skipped list, where a permanent hole becomes
 a scoped debt.
 [repair-rides-the-open-page](./techniques/repair-rides-the-open-page.md).
+
+### 12. A figure is a coupled surface nobody can read
+
+Every wall above assumes the artifact can be inspected. A document's pictures
+cannot be, and they are derived artifacts with the same standing claim as the
+prose beside them. Two existing disciplines each disqualify a rendered surface
+for a different reason, which is how it comes to sit in a gap both owners
+correctly disclaim: the regeneration diff needs byte-stable output and
+rasterization is not byte-stable, so that gate goes red on a toolchain upgrade
+that changed nothing visible and is switched off within the month; and the rot
+scan resolves coupling by reading, so a figure terminates at the ladder's third
+rung and is `unverifiable` permanently rather than occasionally. The
+resolution inverts the comparison — digest the **inputs** (the source document,
+the parameters that selected this rendering, the renderer's identity), never the
+output bytes — and the population must be reported rather than dropped, because
+a sweep that counts documents while omitting their figures is publishing the
+wrong denominator. The characteristic failure is not an absent obligation but an
+obligation filed where nothing executes it: a review-template checkbox asking
+the author to re-render, which states the coupling correctly and observes
+nothing.
+[rendered-surface-coupling](./techniques/rendered-surface-coupling.md).
 
 ## The economics: why per-change wins, and what it costs
 

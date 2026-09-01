@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 155,
-  "techniques": 1080,
-  "applications": 568,
+  "subjects": 156,
+  "techniques": 1088,
+  "applications": 570,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1080/1080",
+  "use_when_coverage": "1088/1088",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6912,6 +6912,21 @@
       "deciding what a freshness stamp on a document is allowed to mean",
       "a rot finding was triaged away and the document still reads as current",
       "one document is current in one paragraph and two quarters stale in another"
+     ]
+    },
+    {
+     "slug": "rendered-surface-coupling",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a document's figures are rendered from something that keeps changing",
+      "a regeneration diff goes red on a toolchain upgrade that changed no content",
+      "a rot scan reports clean over documents whose pictures it never opened"
      ]
     },
     {
@@ -15813,6 +15828,121 @@
     }
    ]
   },
+  "repository-landing-document": {
+   "category": "engineering-process",
+   "subcategory": "codebase-stewardship",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
+   "techniques": [
+    {
+     "slug": "caption-carrying-figures",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing a screenshot on a front page",
+      "two images are shown side by side to make a point",
+      "an image on the page has no visible text attached to it"
+     ]
+    },
+    {
+     "slug": "evidence-linked-badges",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a badge to a front page",
+      "auditing a badge row nobody has looked at in a year",
+      "a badge asserts a property no automated check enforces"
+     ]
+    },
+    {
+     "slug": "input-channel-distinction",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a front page mixes shell commands with sentences meant for an agent",
+      "a reader pasted the wrong block somewhere and it failed",
+      "choosing a visual treatment for a new kind of block"
+     ]
+    },
+    {
+     "slug": "landing-document-as-router",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a front page has grown past a screen and nobody can say what to cut",
+      "deciding whether a section moves out to its own page",
+      "writing the destination cells of a routing table"
+     ]
+    },
+    {
+     "slug": "multi-surface-degradation",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a project is about to be published to a package registry or a marketplace",
+      "the front page uses host-specific block syntax",
+      "relative image and section links stop working off the code host"
+     ]
+    },
+    {
+     "slug": "style-rule-ships-its-detector",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a house style guide for a project's public prose",
+      "a style rule keeps being violated and re-explained at review",
+      "deciding whether a taste preference deserves to be a rule"
+     ]
+    },
+    {
+     "slug": "visual-text-cadence",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a front page reads as a wall of text and nobody can say why",
+      "setting a house rule a reviewer can apply to page density",
+      "deciding what must appear above the fold"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "evidence-linked-badges",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/process--evidence-linked-badges.md",
+     "verified_on": "2026-09-01"
+    },
+    {
+     "stack": "process",
+     "technique": "landing-document-as-router",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/process--landing-document-as-router.md",
+     "verified_on": "2026-09-01"
+    }
+   ]
+  },
   "retrieval": {
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
@@ -20772,6 +20902,7 @@
     "docs-content-model/catalog-referential-invariants",
     "docs-sync/coupled-surface-inventory",
     "docs-sync/cross-repo-drift-detection",
+    "docs-sync/rendered-surface-coupling",
     "docs-sync/repair-rides-the-open-page",
     "docs-sync/same-change-enforcement",
     "docs-sync/source-as-data-without-the-app",
@@ -20928,6 +21059,8 @@
     "remediation-handoff/finding-refutation-channel",
     "repo-manifest-standard/generated-from-provenance",
     "repo-manifest-standard/spec-ships-with-artifact",
+    "repository-landing-document/evidence-linked-badges",
+    "repository-landing-document/style-rule-ships-its-detector",
     "retrieval/embedding-lifecycle",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
@@ -21612,6 +21745,7 @@
     "docs-sync/cross-repo-drift-detection",
     "docs-sync/dated-corrections",
     "docs-sync/doc-rot-detection",
+    "docs-sync/rendered-surface-coupling",
     "docs-sync/same-change-enforcement",
     "document-text-extraction/unreadable-region-refusal",
     "draft-editing/completeness-derivation",
@@ -21770,6 +21904,10 @@
     "remediation-handoff/single-artifact-prompt-construction",
     "remediation-roadmaps/projected-gain-modelling",
     "repo-manifest-standard/generated-from-provenance",
+    "repository-landing-document/caption-carrying-figures",
+    "repository-landing-document/evidence-linked-badges",
+    "repository-landing-document/landing-document-as-router",
+    "repository-landing-document/visual-text-cadence",
     "retrieval/hybrid-lane-fusion",
     "retrieval/ranking-budgets",
     "retrieval/relationship-proximity-lane",
@@ -22775,6 +22913,8 @@
     "machine-authored-documentation/three-gate-acceptance",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "optional-dependency-degradation/refusal-is-not-failure",
+    "repository-landing-document/input-channel-distinction",
+    "repository-landing-document/multi-surface-degradation",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
     "voice-io/portable-provider-package",
@@ -22841,6 +22981,7 @@
     "docs-sync/cross-repo-drift-detection",
     "docs-sync/doc-rot-detection",
     "docs-sync/earned-verification-state",
+    "docs-sync/rendered-surface-coupling",
     "docs-sync/source-doc-mapping",
     "document-text-extraction/structural-amplification-caps",
     "draft-editing/completeness-derivation",
@@ -22999,6 +23140,7 @@
     "quality-gates/enforcement-binding",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/prose-rule-drift",
+    "repository-landing-document/style-rule-ships-its-detector",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",
