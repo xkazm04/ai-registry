@@ -6,9 +6,9 @@ technique: failure-attribution
 stack: rust
 verified_on: 2026-08-31
 verified_against: rust@1.96
-applied: simulation
+applied: code
 ab_verdict: better
-proof: structural-only
+proof: ab-paired
 ---
 
 # A judge that computes both failure causes and reports one (Rust)
@@ -63,10 +63,39 @@ floor. The per-sample reasoning strings survive, deliberately, because their
 tokens were paid for — the evidence is retained as prose beside a boolean that
 threw away its own shape.
 
-## Policy A against policy B, on three cases from this tree
+## The paired arm, and what it decided
 
-No scored run exists in the store to count, so this is reasoned rather than
-measured, and the cases are real code rather than invented ones.
+The rollup half is measured. The verdict line's half is not, and the split between
+them is the honest boundary of this application.
+
+**Measurable:** can the merged record separate a dimension that crossed its floor on
+every candidate from one that crossed on one of three?
+
+Both arms ran the same two constructed cells through the same merge, in the same
+session. **Arm A** (the merge as shipped): both cells report `floor_hit: true` and a
+count of `Some(1)` — indistinguishable, and the boolean assertions pass in both,
+which is the defect stated as an assertion rather than as prose. **Arm B** (the
+counts summed beside the OR): `3 of 3` against `1 of 3`. The test is the instrument
+and it ships with the change, so the arm is re-runnable rather than reported.
+
+**Shipped** to the default branch with a pathspec, not pushed: `floor_hits` and
+`floor_of` on the dimension record, stamped one-per-verdict where the runner builds
+it and summed where it merges. `None` for a dimension with no floor, because it
+cannot hit one. Six lines of production logic; the rest is the test and the doc
+comments. **`floor_hit` and `pass` are unchanged** — no verdict moves, only what a
+stored record can still answer afterwards. 34 test binaries green, clippy clean, and
+the schema's own comment enumerating the JSON shape moved with it.
+
+Two latent facts became documented rather than merely true. The merged `floor_hit`
+is an OR and can be true while the merged mean clears the floor — its doc comment
+had defined it as `value < floor`, which quietly stopped holding after a merge. And
+`agreement` is computed over candidates' overall scores, never per dimension, so
+nothing else in the record recovered the shape.
+
+## The half that stayed a simulation
+
+The verdict line's own repair is still reasoned rather than measured, and the cases
+are real code rather than invented ones.
 
 **The verdict line.** Under A, a red class is a count of `pass == false`, and
 the moves it suggests are a stronger model or a stricter prompt. Under B the
@@ -90,6 +119,15 @@ in practice and the split is a column carrying no information. That check is one
 query against the score store, and it is the return condition: the store's schema
 already holds `run_id`, `case_index` and the per-dimension detail, so nothing has
 to be built to run it — only rows have to exist.
+
+**And one reduction was left in place deliberately.** The judge computes a
+dimension's `floor_hit` from the *mean over samples*, so a floor crossed by a
+minority of samples disappears before the runner ever sees it. That is the same
+quantity reduced two incompatible ways in one pipeline — the judge's mean hides a
+minority crossing, the runner's OR promotes one — and only the second was repaired
+here. Fixing the first changes what the engine reports for a single verdict rather
+than what a merge preserves about several, which is a larger claim than this
+application tested.
 
 ## What this realization cannot do
 

@@ -430,3 +430,33 @@ record - the distribution that *is* the discriminator, reduced to its maximum. T
 per-sample reasoning survives beside it, deliberately, because its tokens were paid
 for. Nothing designed that, and it is better evidence for the amendment than an
 adopting tree would have been.
+
+### 2026-09-01 - the amendment shipped, and the pipeline reduces one quantity two ways
+
+The operator authorized the tracklight tree, which was the whole of the ship blocker,
+and the `simulation` row escalated to `code` with no new investigation - the seam, the
+measurable and the arms were already established, which is the third consecutive time
+that has been true.
+
+What shipped is small and deliberately narrow: the dimension record gains a count with
+its own denominator, stamped one-per-verdict where the runner builds it and summed
+where it merges, so the OR on `floor_hit` no longer flattens all-of-N and one-of-N into
+one record. `floor_hit` and `pass` are untouched; **no verdict moves**, only what a
+stored record can still answer afterwards. The arm is the test and it ships with the
+change - reverting the two merge lines makes it fail `left: Some(1), right: Some(3)`
+while both boolean assertions still pass, which is the defect written as an assertion.
+
+**The finding got sharper in the shipping, and this is the part worth carrying.** The
+same quantity - how many observations crossed a floor - is reduced **two incompatible
+ways in one pipeline**. The judge computes a dimension's `floor_hit` from the *mean
+over samples*, so a floor crossed by a minority of samples **disappears**. The runner
+then ORs that boolean across candidates, so a floor crossed by a minority of candidates
+**dominates**. One stage hides a minority crossing and the next promotes one, and
+nothing in the record marks which reduction produced the value being read. Only the
+cross-candidate half was repaired here, because fixing the judge changes what a single
+verdict *reports* rather than what a merge *preserves*, and that is a larger claim than
+this application tested.
+
+Worth generalising if a second tree shows it: **when a distribution is reduced at more
+than one stage, the reductions have to agree, and a boolean is where they stop being
+able to.** Not yet a technique - one tree, one pipeline.
