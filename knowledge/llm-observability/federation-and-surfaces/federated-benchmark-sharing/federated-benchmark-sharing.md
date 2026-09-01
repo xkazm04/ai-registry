@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: federated-benchmark-sharing
-status: forged
+status: reconciled
 use_when: [publishing evaluation results outside the organization that produced them, building or operating a shared model leaderboard fed by many installations, designing what an opt-in telemetry digest may contain, deciding which fields of a benchmark result are safe to share]
 techniques:
   - aggregate-only-digests

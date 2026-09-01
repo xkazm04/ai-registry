@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: embedded-db
-status: forged
+status: reconciled
 techniques:
   - connection-pooling
   - quiet-window-maintenance

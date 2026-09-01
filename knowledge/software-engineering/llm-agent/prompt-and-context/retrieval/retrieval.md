@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: retrieval
-status: forged
+status: reconciled
 techniques:
   - retrieval-triggering
   - chunking-and-indexing

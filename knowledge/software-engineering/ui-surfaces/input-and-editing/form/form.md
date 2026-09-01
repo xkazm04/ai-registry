@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: form
-status: forged
+status: reconciled
 techniques:
   - validation-timing
   - field-composition

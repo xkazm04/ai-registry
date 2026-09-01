@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: webhook-ingestion
-status: forged
+status: reconciled
 techniques:
   - sender-authentication
   - payload-bounds

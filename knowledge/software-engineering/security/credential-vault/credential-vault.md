@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: credential-vault
-status: forged
+status: reconciled
 techniques:
   - encryption-at-rest
   - token-refresh-lifecycle

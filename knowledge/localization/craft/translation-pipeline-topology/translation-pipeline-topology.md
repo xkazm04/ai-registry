@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: translation-pipeline-topology
-status: forged
+status: reconciled
 use_when:
   - deciding what translated content is committed, generated, or served at runtime
   - a repository is about to commit machine translations to its source branch

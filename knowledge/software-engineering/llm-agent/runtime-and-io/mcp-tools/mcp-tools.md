@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: mcp-tools
-status: forged
+status: reconciled
 techniques:
   - transport-selection
   - orchestration-to-tool-migration

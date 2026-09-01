@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: design-tokens
-status: forged
+status: reconciled
 techniques:
   - token-taxonomy
   - theme-architecture

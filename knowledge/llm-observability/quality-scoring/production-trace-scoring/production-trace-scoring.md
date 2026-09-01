@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: production-trace-scoring
-status: forged
+status: reconciled
 use_when: [scoring live traffic with a model judge, designing an online eval sampling policy, deciding when a trace is finished, preventing double-paid judge calls]
 techniques:
   - settle-window-completion

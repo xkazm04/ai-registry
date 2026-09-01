@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: cross-provider-benchmark-operations
-status: forged
+status: reconciled
 use_when: [choosing which model should serve a workload, standing up a recurring benchmark over real traffic, a benchmark run needs a cost ceiling or a cancel button, a scorecard must be comparable to last month's]
 techniques:
   - target-matrix-runs

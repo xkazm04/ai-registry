@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: retry-backoff
-status: forged
+status: reconciled
 techniques:
   - error-classification-for-retry
   - backoff-design

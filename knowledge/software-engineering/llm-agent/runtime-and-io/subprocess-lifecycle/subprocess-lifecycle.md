@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: subprocess-lifecycle
-status: forged
+status: reconciled
 techniques:
   - spawn-contract
   - termination-and-reaping

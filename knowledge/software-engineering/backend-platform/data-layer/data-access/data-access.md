@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: data-access
-status: forged
+status: reconciled
 techniques:
   - query-construction
   - row-mapping
