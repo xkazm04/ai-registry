@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-01
 touched_by: intake
 dry_streak: 0
 ---
@@ -423,3 +423,75 @@ to **0** production paths promoting a machine proposal without a human. The tree
 already implements the amendment, for governance reasons, with the precision
 economics falling out for free. Instrument named for the missing behavioural
 arm: per-proposal review-outcome telemetry, which the project does not emit.
+
+## 2026-08-31 — `/intake` (`semantica`)
+
+18 -> 19 techniques. Landed `vacuous-by-evaluation`.
+
+Found by the Phase 6 enumeration hunt against this subject's own golden path, which
+declares its completeness: "a gate exists only if it can fail… name the input that
+makes it block", followed by three ways a check fails that test. All three are
+defects of **plumbing** and all three are found the same way — trace the exit-code
+path. The source supplied a fourth that the prescribed discipline cannot find,
+because the plumbing is correct: the rule is blocking, the exit code depends on it,
+the engine reads the real target, and the **evaluation layer beneath the rule derives
+the condition the rule tests**. A constraint asserting a value's declared type,
+evaluated under a regime that infers the declared type onto every value, reports
+conformant on non-conforming data.
+
+Deliberately not folded into `severity-by-construction` (which owns "can this
+severity ever fail a build" and traces the plumbing) or `unmeasurable-criteria`
+(which owns a condition with no data to evaluate — here there is data, the rule is
+evaluated, and it passes). The golden path's three-item enumeration now names the
+fourth and links out.
+
+Phase 7.5 (`personas`, code, `better`) — the strongest arm this run produced. The
+project's conformance checker is wired to a merge gate and reports 92%, 0 fail. Two
+arms over the same filesystem: a manifest declaring its three path pointers, and the
+same manifest with the entire `paths:` block **deleted**. Both scored 100%, 0 fail, 0
+warn, byte-identical, and the second printed `[OK] context index
+.ai/context-index.json` — a path it never declared. The defaulting layer directly
+above the predicate supplies the value before the existence check reads it, so three
+checks labelled as manifest-pointer resolution are filesystem existence checks that
+cannot fail with respect to the manifest. A separate observation — the only rule that
+verifies capability commands actually work sits behind a flag CI does not pass — was
+classified to `gate-liveness` rather than folded in to inflate the finding. Ship 0
+(confirmation); the fix is ~6 lines and the fixture exists.
+
+## 2026-09-01 — `/intake`, source `github:kunchenguid/firstmate`
+
+19 -> 20 techniques, 11 -> 13 applications. One new technique and one
+amendment, both from a multi-harness agent-supervision codebase whose
+`docs/verification/` lane records dated measurements and explicitly-marked
+uncovered surfaces.
+
+- **`self-reported-gate-inputs` (new).** A fifth way a gate is unfireable,
+  beside the three in `severity-by-construction` and the derived condition in
+  `vacuous-by-evaluation`: severity real, exit code dependent, evaluation
+  honest — and the input supplied by the party being judged, so the population
+  it judges is exactly the one that did not need judging. The sharp form is
+  structural inertness rather than evasion, and the recovery instinct is
+  provably dead: no check keyed on the record can detect the record's absence.
+  Carries the override half — where the gated party is machinery, after-the-fact
+  attribution is circular, so the escape hatch needs a property of the
+  **channel** (unwritable by the subject during the run it would authorize),
+  which is a different discipline from `enforcement-binding`'s ledger.
+- **`unmeasurable-criteria` (amendment).** Its three resolutions are correct for
+  a gate standing *beside* the work; one branch inverts for a gate standing *in*
+  it. Splits the previously-single "hole in the gate's own vision" into *the
+  instrument did not run* and *the instrument ran and could not decide* — the
+  first must not block an in-path actor, because the remedy path runs through
+  the capability being denied; the second stays FAIL-CLOSED.
+
+**Both applied `experiment`/`better`.** The amendment's own wording was
+**refuted by the apply** before commit: a fleet turn-end hook already ships the
+split with three exit codes, routing could-not-check to the operator as
+non-blocking, which showed the draft's "fail-open, silently" was wrong —
+withdrawing and going quiet are two decisions and only the first is licensed.
+Rewritten to *open to the actor, loud to the operator, on a code of its own*.
+
+The `self-reported-gate-inputs` application is this registry's own concurrency
+board, whose `check` returns bytes indistinguishable between "an unclaimed
+writer is mid-edit" and "nobody is here" — and whose failure the method's own
+prose already names as an anti-pattern without mechanising it
+(`prose-rule-drift`, with the reason now supplied).

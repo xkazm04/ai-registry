@@ -5,6 +5,7 @@ subject: outbound-notifications
 status: forged
 techniques:
   - channel-adapter-traits
+  - destination-guard-integrity
   - per-channel-templating
   - subscription-patterns
   - channel-health-tracking
@@ -72,6 +73,14 @@ four others and rots fastest when it absorbs their jobs:
   channels that carry *replies to messages this layer sent* are this
   subject's mirror lane; the [inbound-counterparts](./techniques/inbound-counterparts.md)
   technique owns that distinction precisely.
+
+One thing this subject *does* own, and which is easy to file under security and
+therefore under nobody: the destination is an address a user typed, so every
+dispatch is an outbound request to an attacker-influenced endpoint made from
+inside the deployment's network position. The guard that decides whether an
+address may be reached — and the surprisingly large number of ways such a guard
+is written so that it does not actually govern the connection it protects — is
+[destination-guard-integrity](./techniques/destination-guard-integrity.md).
 
 ## Channels are adapters behind one seam
 

@@ -119,3 +119,44 @@ at stable. Two identical claims, asymmetric enforcement, nobody's decision.
 
 - **The drift rate is unmeasured.** This run measured a gap on one date, not how
   fast it opened. Return when historical resolutions can be replayed.
+
+## 2026-08-31 — `/intake` (`semantica`)
+
+8 -> 10 techniques. Landed `verification-scope` and `lockfile-freshness-oracle`,
+both from a repository whose `.github/requirements/README.md` is the densest
+document in its tree and states **mechanisms** where most sources state rules.
+
+`verification-scope` is deliberately distinguished from `dependency-policy-gates` in
+its opening, because the two look like the same advice and are found differently.
+That technique's "inventory the resolution mechanisms" finds *missing* ecosystems by
+listing. This one cannot be found by listing: nothing is missing from the list, the
+install step is present, the verification flag is on it, the lockfile is complete —
+and a source build still fetches its own build backend outside the hash check,
+because the flag's scope is a **stage** and the command runs several. The second
+family (a tool subcommand that "downloads" a model, a driver, a plugin) falls out of
+the same question.
+
+`lockfile-freshness-oracle` owns the check that guards the artifact every other guard
+in this subject reads. Its core claim is that the naive construction is worse than
+absent — it fires whenever a stranger publishes a release, so it gets switched off
+along with the real condition — and the correction is one step away: re-resolve with
+the committed file as a *constraint*.
+
+Phase 7.5 ran both against `personas`:
+
+- `verification-scope` → `better`. The dependency-policy engine and the advisory
+  scanner are installed with a lockfile flag and **no version pin**, 3 sites, and a
+  fourth project references the pattern. The flag pins the tool's dependencies and
+  leaves the tool floating. `dependency-policy-gates` already names exactly this
+  hazard from the other direction ("engine floats, policy frozen, gate silently
+  dead") — two techniques converging on one unpinned line. Ship 0 (confirmation).
+- `lockfile-freshness-oracle` → `not-better`, **and it corrected the technique**.
+  The ecosystem's strict-install command already *is* the constrained-resolution
+  oracle: it refuses when the lockfile cannot satisfy the manifest and never
+  resolves, so upstream releases cannot fire it. 62 manifest dependencies, 0 drift,
+  and any nonzero would have failed the install rather than needing a gate. The
+  technique now opens by telling the reader to check that first, and names the case
+  where it does not hold — a lockfile *compiled* from the manifest by a separate
+  tool, which is the source's own situation and the reason it needed a hand-built
+  check. Without the A/B this technique would have prescribed duplicated logic to
+  every ecosystem whose installer already enforces it.

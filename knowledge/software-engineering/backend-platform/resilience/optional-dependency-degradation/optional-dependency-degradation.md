@@ -6,6 +6,7 @@ status: forged
 use_when: [starting a repository that must clone and run with no credentials, deciding what an unset configuration value should do, a deployment silently ran in fallback mode for a week, hardening a store's permissions and a fallback stops writing]
 techniques:
   - absent-degrades-malformed-fails-fast
+  - refusal-is-not-failure
   - per-variable-blast-radius
   - guarded-singleton-accessor
   - probe-the-grant-not-the-config
@@ -82,6 +83,16 @@ revoked, a bucket that no longer exists. Shape validation cannot see it and
 boot is the wrong time to ask. That state belongs to a probe against the real
 dependency, and its rule is that a capability check must test the credential
 that performs the operation rather than the value that proves configuration.
+
+All three states are read at **boot**, from a value. A fourth is read at **call
+time**, from code, and it inverts the subject'''s posture rather than extending
+it: when the thing that fails is not a dependency the deployment lacks but an
+extension a caller deliberately registered — a validator, a policy hook, a
+redaction filter — an exception may mean "I broke" or it may mean "I object",
+and the customary wrapper answers both by running the default anyway. Degrading
+there is not resilience; it is overruling a check that someone installed on
+purpose. [refusal-is-not-failure](./techniques/refusal-is-not-failure.md) owns
+that seam and argues the opposite default.
 
 ## A fallback is named, or it does not exist
 

@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 155,
-  "techniques": 1074,
-  "applications": 563,
+  "subjects": 156,
+  "techniques": 1091,
+  "applications": 576,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1074/1074",
+  "use_when_coverage": "1091/1091",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -866,7 +866,9 @@
      "use_when": [
       "proving a spawned agent run got the stance and billing it was configured with",
       "a platform wrapper sits between the host and the binary",
-      "a probe and the real run disagree about what is installed"
+      "a probe and the real run disagree about what is installed",
+      "confirming injected context actually reached the model",
+      "a startup hook runs cleanly and the agent behaves as though it never fired"
      ]
     },
     {
@@ -947,8 +949,8 @@
      "stack": "claude-code",
      "technique": "child-observed-posture",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--child-observed-posture.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "claude-code@2.1.251"
+     "verified_on": "2026-09-01",
+     "verified_against": "claude-code@2.1.252"
     },
     {
      "stack": "claude-code",
@@ -1022,6 +1024,21 @@
       "deciding what a test over prose should assert",
       "an instruction file points at documents that may not exist",
       "an agent's output is plausible but consistently uses the poorer of two available means"
+     ]
+    },
+    {
+     "slug": "context-reset-redelivery",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent stopped following a rule that is present and correct in the file",
+      "the instruction file was edited during a long session",
+      "a harness compacts or clears context mid-session",
+      "deciding what a session-start injector must re-read and when"
      ]
     },
     {
@@ -1162,6 +1179,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "context-reset-redelivery",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/claude-code--context-reset-redelivery.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "claude-code@2.1.252"
+    },
     {
      "stack": "claude-code",
      "technique": "instruction-freshness",
@@ -3803,6 +3827,21 @@
      ]
     },
     {
+     "slug": "the-tree-is-not-the-population",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scan reports full sensor coverage and zero findings",
+      "a detector is quiet on a class of files nobody has confirmed it can see",
+      "the traversal inherits ignore rules from tools that are not the scanner",
+      "a user suspects a result is being hidden and has no way to check"
+     ]
+    },
+    {
      "slug": "verify-after-generate",
      "status": "forged",
      "laws": [
@@ -3831,6 +3870,13 @@
      "technique": "rule-precision-discipline",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--rule-precision-discipline.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "the-tree-is-not-the-population",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/applications/node--the-tree-is-not-the-population.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -5683,6 +5729,13 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "suppression-hygiene",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/next--suppression-hygiene.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "next@16.3.3"
+    },
+    {
      "stack": "node",
      "technique": "instrument-per-orphan-class",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/node--instrument-per-orphan-class.md",
@@ -6886,6 +6939,21 @@
      ]
     },
     {
+     "slug": "rendered-surface-coupling",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a document's figures are rendered from something that keeps changing",
+      "a regeneration diff goes red on a toolchain upgrade that changed no content",
+      "a rot scan reports clean over documents whose pictures it never opened"
+     ]
+    },
+    {
      "slug": "repair-rides-the-open-page",
      "status": "forged",
      "laws": [
@@ -7979,7 +8047,9 @@
       "an agent-based system failed and both the prompt and the model look correct",
       "designing the change a failing class calls for",
       "an optimizer or agent is proposing harness changes and nothing says how many at once",
-      "a model upgrade landed and the harness still carries the previous model's workarounds"
+      "a model upgrade landed and the harness still carries the previous model's workarounds",
+      "a failing class does not move when the instruction is made stricter",
+      "deciding whether a residual model failure is worth a stronger model"
      ]
     },
     {
@@ -8136,6 +8206,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/react--reliability-aggregation.md",
      "verified_on": "2026-08-31",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "failure-attribution",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--failure-attribution.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -9268,7 +9345,9 @@
       "a reviewer approves everything and cannot say what they checked it against",
       "deciding whether a reversible-but-opaque change needs a gate",
       "a review queue is ordered by impact and effort alone",
-      "an approval rate sits near 100% and the items are not obviously safe"
+      "an approval rate sits near 100% and the items are not obviously safe",
+      "an unverifiable item was split into smaller items that are each still unverifiable",
+      "deciding at which artifact altitude a reviewer should be shown the work"
      ]
     },
     {
@@ -9333,6 +9412,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "oracle-before-gate",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/node--oracle-before-gate.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
     {
      "stack": "react",
      "technique": "cosmetic-vs-enforced-threshold-invariant",
@@ -10502,14 +10588,16 @@
      "laws": [
       "gate-sees-target",
       "absent-guard-is-loud",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
      ],
      "shared_with": [],
      "use_when": [
       "changes are merged faster than anyone could have read them",
       "the reviewer is named as the bottleneck but never measured",
       "one person both dispatches the agents and approves their merges",
-      "deciding whether to widen the autonomous path or send fewer changes"
+      "deciding whether to widen the autonomous path or send fewer changes",
+      "one change is too large for anyone to review completely"
      ],
      "stage": "solo"
     },
@@ -10587,7 +10675,8 @@
       "the changes arriving at the gate are authored by people who do not own it",
       "a maintainer is drowning in well-intentioned contributions",
       "writing a contribution policy for agent-assisted submitters",
-      "deciding what may be judged before a change is read"
+      "deciding what may be judged before a change is read",
+      "review replies read fluently and answer nothing"
      ],
      "stage": "solo"
     },
@@ -10624,9 +10713,21 @@
     },
     {
      "stack": "process",
+     "technique": "human-gate-capacity",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/applications/process--human-gate-capacity.md",
+     "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "process",
      "technique": "pre-authorship-verification",
      "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/applications/process--pre-authorship-verification.md",
      "verified_on": "2026-08-21"
+    },
+    {
+     "stack": "process",
+     "technique": "stake-before-merit",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/applications/process--stake-before-merit.md",
+     "verified_on": "2026-08-31"
     }
    ]
   },
@@ -11156,6 +11257,22 @@
      ]
     },
     {
+     "slug": "tuning-corpus-disjointness",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an artifact was optimised against a workload you chose and is measured on a workload you publish",
+      "deciding whether a speed or quality number is partly a measurement of its own tuning",
+      "a threshold or heuristic was fitted on a sample and reported on a benchmark",
+      "publishing a number produced by a build step that consumed a corpus"
+     ]
+    },
+    {
      "slug": "unmeasurable-vs-zero",
      "status": "forged",
      "laws": [
@@ -11182,6 +11299,13 @@
      "technique": "minimum-sample-floors",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--minimum-sample-floors.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "tuning-corpus-disjointness",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/node--tuning-corpus-disjointness.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -12619,6 +12743,23 @@
       "writing a helper named \"is X available\"",
       "a store was hardened and writes started failing silently"
      ]
+    },
+    {
+     "slug": "refusal-is-not-failure",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wrapping a caller-registered hook so a broken one cannot take the process down",
+      "a validator someone registered was overridden by the built-in default",
+      "deciding what an exception from an extension point means",
+      "a policy check runs inside a try block",
+      "auditing whether registered gates are advisory or authoritative"
+     ]
     }
    ],
    "applications": [
@@ -12708,6 +12849,23 @@
       "sent messages ignore the user's language",
       "events originate on a side with no locale",
       "send sites keep bypassing the single door"
+     ]
+    },
+    {
+     "slug": "destination-guard-integrity",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "dispatching to an endpoint a user or operator supplied",
+      "writing a guard that validates a hostname before a request",
+      "a private address range passed a public-address check",
+      "a guard mutates a shared client to enforce itself",
+      "deciding whether a destination check belongs per call or per client"
      ]
     },
     {
@@ -14718,6 +14876,22 @@
      ]
     },
     {
+     "slug": "self-reported-gate-inputs",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gate counts records the gated party writes",
+      "designing an override for a check that machinery rather than a person will trip",
+      "a guard passed every review and never fired in production",
+      "deciding which layer of a guard stack is load-bearing"
+     ]
+    },
+    {
      "slug": "severity-by-construction",
      "status": "forged",
      "laws": [
@@ -14736,17 +14910,44 @@
      "status": "forged",
      "laws": [
       "gate-sees-target",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "a policy condition has no data to evaluate",
       "deciding whether missing evidence blocks or skips",
-      "a gate reports a verdict over a partly failed assessment"
+      "a gate reports a verdict over a partly failed assessment",
+      "a guard sits in the path of the work rather than beside it",
+      "deciding what a check does when its own runtime is missing"
+     ]
+    },
+    {
+     "slug": "vacuous-by-evaluation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rule set reports conformant on data you know is wrong",
+      "a checker runs with an inference or expansion layer beneath it",
+      "deciding whether a green rule was satisfied or was unfalsifiable",
+      "seeding a violation to prove a rule can fire",
+      "a schema rule and its type declaration say the same thing"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "unmeasurable-criteria",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/claude-code--unmeasurable-criteria.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "claude-code@2.1.252"
+    },
     {
      "stack": "node",
      "technique": "advancement-evidence-fields",
@@ -14793,6 +14994,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--prose-rule-drift.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "self-reported-gate-inputs",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--self-reported-gate-inputs.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "node@24.12.0"
     },
     {
      "stack": "node",
@@ -15674,6 +15882,121 @@
      "technique": "spec-ships-with-artifact",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/process--spec-ships-with-artifact.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "repository-landing-document": {
+   "category": "engineering-process",
+   "subcategory": "codebase-stewardship",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
+   "techniques": [
+    {
+     "slug": "caption-carrying-figures",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing a screenshot on a front page",
+      "two images are shown side by side to make a point",
+      "an image on the page has no visible text attached to it"
+     ]
+    },
+    {
+     "slug": "evidence-linked-badges",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a badge to a front page",
+      "auditing a badge row nobody has looked at in a year",
+      "a badge asserts a property no automated check enforces"
+     ]
+    },
+    {
+     "slug": "input-channel-distinction",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a front page mixes shell commands with sentences meant for an agent",
+      "a reader pasted the wrong block somewhere and it failed",
+      "choosing a visual treatment for a new kind of block"
+     ]
+    },
+    {
+     "slug": "landing-document-as-router",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a front page has grown past a screen and nobody can say what to cut",
+      "deciding whether a section moves out to its own page",
+      "writing the destination cells of a routing table"
+     ]
+    },
+    {
+     "slug": "multi-surface-degradation",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a project is about to be published to a package registry or a marketplace",
+      "the front page uses host-specific block syntax",
+      "relative image and section links stop working off the code host"
+     ]
+    },
+    {
+     "slug": "style-rule-ships-its-detector",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a house style guide for a project's public prose",
+      "a style rule keeps being violated and re-explained at review",
+      "deciding whether a taste preference deserves to be a rule"
+     ]
+    },
+    {
+     "slug": "visual-text-cadence",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a front page reads as a wall of text and nobody can say why",
+      "setting a house rule a reviewer can apply to page density",
+      "deciding what must appear above the fold"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "evidence-linked-badges",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/process--evidence-linked-badges.md",
+     "verified_on": "2026-09-01"
+    },
+    {
+     "stack": "process",
+     "technique": "landing-document-as-router",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/process--landing-document-as-router.md",
+     "verified_on": "2026-09-01"
     }
    ]
   },
@@ -18022,6 +18345,23 @@
      ]
     },
     {
+     "slug": "lockfile-freshness-oracle",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a lockfile check goes red because an upstream published a release",
+      "deciding what \"the lockfile is out of date\" should mean",
+      "one lockfile serves several runtime versions",
+      "a regenerated lockfile diff is unreviewable",
+      "a manifest edit shipped without its lockfile"
+     ]
+    },
+    {
      "slug": "permission-manifest-scoping",
      "status": "forged",
      "laws": [
@@ -18108,6 +18448,23 @@
       "a vendored copy of a library has drifted from any known upstream commit",
       "deciding what must be recorded before a local patch is allowed to land",
       "an upstream release lands and nobody knows which local patches it obsoletes"
+     ]
+    },
+    {
+     "slug": "verification-scope",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an install is hash-verified and something unpinned still reached the machine",
+      "auditing which fetches a pinning flag actually covers",
+      "a build step fetches its own toolchain",
+      "a package manager subcommand downloads a model or plugin",
+      "deciding whether a pinned pipeline is fully pinned"
      ]
     }
    ],
@@ -19043,6 +19400,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--generator-bounds-the-space.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.80.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "model-based-oracle",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--model-based-oracle.md",
+     "verified_on": "2026-08-31",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -20631,6 +20995,7 @@
     "docs-content-model/catalog-referential-invariants",
     "docs-sync/coupled-surface-inventory",
     "docs-sync/cross-repo-drift-detection",
+    "docs-sync/rendered-surface-coupling",
     "docs-sync/repair-rides-the-open-page",
     "docs-sync/same-change-enforcement",
     "docs-sync/source-as-data-without-the-app",
@@ -20715,6 +21080,7 @@
     "mcp-tools/transport-selection",
     "mcp-tools/untrusted-result-handling",
     "measurement-honesty/incomplete-not-verdict",
+    "measurement-honesty/tuning-corpus-disjointness",
     "metric-forecasting/projection-presentability-gates",
     "migrations/error-propagation",
     "migrations/idempotent-steps",
@@ -20733,6 +21099,7 @@
     "optional-dependency-degradation/fallback-retirement-condition",
     "optional-dependency-degradation/probe-the-grant-not-the-config",
     "outbound-notifications/compose-at-the-locale-layer",
+    "outbound-notifications/destination-guard-integrity",
     "p2p-networking/exposure-controls",
     "p2p-networking/resilience-and-reconnection",
     "packaging/installed-tree-acceptance",
@@ -20770,8 +21137,10 @@
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/prose-rule-drift",
+    "quality-gates/self-reported-gate-inputs",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/vacuous-by-evaluation",
     "rate-limiting/limiter-topology",
     "rate-limiting/metered-step-selection",
     "rate-limiting/untrusted-key-derivation",
@@ -20784,6 +21153,8 @@
     "remediation-handoff/finding-refutation-channel",
     "repo-manifest-standard/generated-from-provenance",
     "repo-manifest-standard/spec-ships-with-artifact",
+    "repository-landing-document/evidence-linked-badges",
+    "repository-landing-document/style-rule-ships-its-detector",
     "retrieval/embedding-lifecycle",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
@@ -20819,12 +21190,14 @@
     "subprocess-lifecycle/spawn-contract",
     "supply-chain/archive-extraction-safety",
     "supply-chain/dependency-policy-gates",
+    "supply-chain/lockfile-freshness-oracle",
     "supply-chain/permission-manifest-scoping",
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
     "supply-chain/toolchain-floor-drift",
     "supply-chain/update-automation-review",
     "supply-chain/vendored-fork-ledger",
+    "supply-chain/verification-scope",
     "sync-replication/projection-security",
     "sync-replication/topology-declaration",
     "telemetry-pii-redaction/emit-site-inventory",
@@ -20933,6 +21306,7 @@
     "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
+    "codebase-scanning/the-tree-is-not-the-population",
     "codegen/drift-gating",
     "codegen/generator-failure-isolation",
     "codegen/task-registry-design",
@@ -21077,6 +21451,7 @@
     "mcp-tools/tool-schema-design",
     "measurement-honesty/incomplete-not-verdict",
     "measurement-honesty/renormalize-over-present",
+    "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unmeasurable-vs-zero",
     "media-playback/engine-adapters",
     "media-playback/source-resilience",
@@ -21100,6 +21475,7 @@
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/degradation-coupled-to-hardening",
     "optional-dependency-degradation/guarded-singleton-accessor",
+    "optional-dependency-degradation/refusal-is-not-failure",
     "outbound-notifications/channel-adapter-traits",
     "outbound-notifications/channel-health-tracking",
     "outbound-notifications/per-channel-templating",
@@ -21149,7 +21525,9 @@
     "quality-gates/operation-assertion-gates",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/ratchet-design",
+    "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/vacuous-by-evaluation",
     "rate-limiting/refusal-contract",
     "readiness-passports/blocker-rollups",
     "readiness-passports/declined-by-choice",
@@ -21229,6 +21607,7 @@
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
     "supply-chain/update-automation-review",
+    "supply-chain/verification-scope",
     "sync-replication/change-tracking-and-cursors",
     "sync-replication/conflict-detection-and-policy",
     "sync-replication/sync-observability",
@@ -21418,6 +21797,7 @@
     "codebase-scanning/precision-trades-have-a-direction",
     "codebase-scanning/rule-precision-discipline",
     "codebase-scanning/sensor-pipeline",
+    "codebase-scanning/the-tree-is-not-the-population",
     "codegen/generator-failure-isolation",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/signal-economy-contract",
@@ -21461,6 +21841,7 @@
     "docs-sync/cross-repo-drift-detection",
     "docs-sync/dated-corrections",
     "docs-sync/doc-rot-detection",
+    "docs-sync/rendered-surface-coupling",
     "docs-sync/same-change-enforcement",
     "document-text-extraction/unreadable-region-refusal",
     "draft-editing/completeness-derivation",
@@ -21536,6 +21917,7 @@
     "measurement-honesty/minimum-sample-floors",
     "measurement-honesty/noise-band-and-hysteresis",
     "measurement-honesty/renormalize-over-present",
+    "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unmeasurable-vs-zero",
     "metric-forecasting/fit-confidence-honesty",
     "metric-forecasting/threshold-crossing-eta",
@@ -21602,6 +21984,7 @@
     "quality-gates/item-liveness",
     "quality-gates/ratchet-design",
     "quality-gates/severity-by-construction",
+    "quality-gates/vacuous-by-evaluation",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
     "rate-limiting/metered-step-selection",
@@ -21617,6 +22000,10 @@
     "remediation-handoff/single-artifact-prompt-construction",
     "remediation-roadmaps/projected-gain-modelling",
     "repo-manifest-standard/generated-from-provenance",
+    "repository-landing-document/caption-carrying-figures",
+    "repository-landing-document/evidence-linked-badges",
+    "repository-landing-document/landing-document-as-router",
+    "repository-landing-document/visual-text-cadence",
     "retrieval/hybrid-lane-fusion",
     "retrieval/ranking-budgets",
     "retrieval/relationship-proximity-lane",
@@ -21650,6 +22037,7 @@
     "structured-output/output-budget-signal",
     "subprocess-lifecycle/concurrency-and-slots",
     "subprocess-lifecycle/host-resource-protection",
+    "supply-chain/lockfile-freshness-oracle",
     "supply-chain/toolchain-floor-drift",
     "sync-replication/sync-observability",
     "table/client-server-split",
@@ -21694,6 +22082,7 @@
     "agent-cli-transport/availability-probe",
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/dated-capability-matrix",
+    "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/instruction-freshness",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/decay-and-forgetting",
@@ -22054,6 +22443,7 @@
     "optional-dependency-degradation/guarded-singleton-accessor",
     "outbound-notifications/channel-adapter-traits",
     "outbound-notifications/compose-at-the-locale-layer",
+    "outbound-notifications/destination-guard-integrity",
     "outbound-notifications/inbound-counterparts",
     "outbound-notifications/subscription-patterns",
     "p2p-networking/exposure-controls",
@@ -22243,6 +22633,7 @@
     "observability-telemetry/rotation-and-retention",
     "optional-dependency-degradation/fallback-retirement-condition",
     "outbound-notifications/channel-health-tracking",
+    "outbound-notifications/destination-guard-integrity",
     "outbound-notifications/inbound-counterparts",
     "p2p-networking/connection-lifecycle",
     "p2p-networking/manifest-negotiation",
@@ -22473,6 +22864,7 @@
     "long-form-reading-surface/fixed-chrome-offset-budget",
     "machine-authored-documentation/packaged-surface-evaluation",
     "machine-authored-documentation/rescored-baseline-uplift",
+    "machine-paced-delivery/human-gate-capacity",
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/ordinal-first-comparability",
@@ -22571,6 +22963,7 @@
     "streaming-output/stream-parsing",
     "structured-output/op-grammar-allowlisting",
     "structured-output/schema-validation-and-repair",
+    "supply-chain/lockfile-freshness-oracle",
     "supply-chain/permission-manifest-scoping",
     "sync-replication/conflict-detection-and-policy",
     "sync-replication/topology-declaration",
@@ -22617,6 +23010,9 @@
     "machine-authored-documentation/declared-truth-boundary",
     "machine-authored-documentation/three-gate-acceptance",
     "optional-dependency-degradation/guarded-singleton-accessor",
+    "optional-dependency-degradation/refusal-is-not-failure",
+    "repository-landing-document/input-channel-distinction",
+    "repository-landing-document/multi-surface-degradation",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
     "voice-io/portable-provider-package",
@@ -22634,6 +23030,7 @@
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
     "agent-cli-transport/dated-capability-matrix",
+    "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/machine-owned-regions",
     "agent-memory/baseline-ladder",
     "agent-memory/consolidation",
@@ -22683,6 +23080,7 @@
     "docs-sync/cross-repo-drift-detection",
     "docs-sync/doc-rot-detection",
     "docs-sync/earned-verification-state",
+    "docs-sync/rendered-surface-coupling",
     "docs-sync/source-doc-mapping",
     "document-text-extraction/structural-amplification-caps",
     "draft-editing/completeness-derivation",
@@ -22835,15 +23233,20 @@
     "module-design/borrowed-surface",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
+    "optional-dependency-degradation/refusal-is-not-failure",
     "plan-review/informational-fold-in",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/enforcement-binding",
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/prose-rule-drift",
+    "quality-gates/self-reported-gate-inputs",
+    "quality-gates/unmeasurable-criteria",
+    "repository-landing-document/style-rule-ships-its-detector",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
     "supply-chain/update-automation-review",
+    "supply-chain/verification-scope",
     "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/duplicate-and-replay-dedup"
    ]

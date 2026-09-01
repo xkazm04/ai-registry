@@ -1,7 +1,7 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-01
 dry_streak: 0
 ---
 
@@ -200,3 +200,35 @@ means.
 The measurement shows a coverage gap, not an unused skill. Nothing ran the sibling
 technique's mechanical test - attempt the behaviour outside the agent - so no single
 unnamed skill has been shown to go unreached.
+
+## 2026-09-01 — `/intake`, source `github:kunchenguid/firstmate`
+
+11 -> 12 techniques, 4 -> 5 applications. One new technique, plus a correction
+to the golden path's opening claim.
+
+- **`context-reset-redelivery` (new).** The subject's first sentence says the
+  harness injects the file at session start, and all eleven prior techniques
+  audit **the file**. Nothing audited the **copy**. `instruction-freshness`
+  couples the file to repo change and `substrate-coupled-expiry` adds the model
+  axis; the third divergence leaves the file entirely innocent — the agent holds
+  a snapshot taken at one moment, and a clear or a compaction re-delivers
+  whatever the injector cached rather than what the file now says. **`compact`
+  returned zero prior art corpus-wide**; every hit was an unrelated sense of the
+  word. The expensive case is a *correction* ignored, not a new rule ignored:
+  corrections are minted mid-session, into a file the agent will not re-read,
+  and the operator then concludes the line does not work and writes a longer
+  one. Signature: an instruction obeyed early in a session and not late, with no
+  edit in between.
+- Golden-path opening amended to say the harness also decides *when the file is
+  read again*, forwarding to the technique.
+
+Applied `experiment`/`better` on a live harness: caching injector delivered a
+stale rule twice while a re-reading injector tracked the file, with **an
+identical producer signal in all four opens**. Honest bound recorded — the
+mechanism is proven, the compaction *trigger* is corroborated but unobserved,
+since a compaction cannot be forced headlessly.
+
+Fleet note worth carrying: **no managed project ships a session-start injector
+at all**, so none holds the defect — and every project's floor therefore rides
+on native re-injection whose per-event behaviour nobody has verified. The
+exposure moved rather than vanished.

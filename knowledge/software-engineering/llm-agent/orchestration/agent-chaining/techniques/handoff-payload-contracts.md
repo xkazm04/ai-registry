@@ -94,6 +94,37 @@ neighboring techniques) key on them; a guard that reads a depth the
 payload's author could have written is a guard the payload's author can
 disarm.
 
+## On the way back, every compartment rule inverts
+
+The three compartments are written for a payload moving *forward*: output is replaced
+wholesale at each hop, context accumulates across links, provenance records the edge
+that fired. Where a chain fans out and rejoins — a step that spawns children and reads
+their results — the return leg breaks each of those in a different way, and none of
+the forward rules transfers unchanged.
+
+- **Output is merged, not replaced.** The forward rule has one producer per hop, so
+  "replaced wholesale" is well defined. A join has N producers and one consumer, and
+  the consumer must state what it does with N outputs that may disagree — which is a
+  rule the merging link owns and the producers cannot supply.
+- **Context flows the wrong way.** Forward, context is setup the emitter chose to
+  carry. Backward, it is evidence the emitter chose to *report*, and the receiving
+  link is usually the one under budget pressure — so the compression decision moves to
+  a party that did not produce the content and cannot tell what was load-bearing in it.
+- **Truncation loses its owner.** The bound is enforced at emit, with truncation
+  recorded, precisely because the emitter knows what it dropped. An aggregator
+  compressing four children's returns is bounding somebody else's output; if it
+  records anything, it records that *it* truncated, not what the child considered
+  essential. One measured system gave its aggregating role by far the largest token
+  budget in the pipeline and still spent nearly half its input tokens there, which is
+  the shape of a compartment doing work it was not specified for.
+
+So a chain with a join owes one more contract than a linear one: **the child's return
+envelope**, stating what a child must report, what it may summarize, and what it must
+never drop — set by the parent that will read it, not by the child that fills it. And
+a child that partially succeeded needs a way to say so in that envelope, because a
+merged result assembled from three successes and one silence is indistinguishable from
+four successes unless the envelope has a slot for the silence.
+
 ## Decision rules
 
 - One envelope schema system-wide; an arrow never invents its own shape.

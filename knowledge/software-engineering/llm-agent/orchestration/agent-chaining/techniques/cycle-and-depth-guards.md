@@ -111,6 +111,37 @@ user-facing, edge-local version of the global depth bound, and it turns an
 accidental infinite loop into a bounded refinement cycle — which is the
 legitimate thing the user usually wanted.
 
+## When the graph is minted at runtime, layer one does not exist
+
+Both layers are required — but layer one is only *available* where a wiring pass
+holds the whole graph, and a chain that decomposes itself has no such moment. Where
+a step's continuation is a model deciding "is this small enough, or should it split",
+the topology is produced one node at a time by the process being guarded, and there
+is never an instant at which the graph exists to be analysed for cycles.
+
+That is not a reason to relax the requirement. It is a reason to say what happens to
+it: **where layer one is structurally unavailable, layer two is not the guard of last
+resort — it is the only guard**, and every bound it carries has to be set as if
+nothing upstream will catch anything. A published system of this shape shipped with a
+breadth cap on one node and no depth bound, no cumulative budget, and no revisit
+count; its worst case is that cap raised to the power of a depth nobody declared.
+
+The rule about ownership then extends one step, and the extension is the part that
+bites. This technique already insists the depth counter is written by the machinery,
+because a counter the payload's author can write is a counter they can reset. In a
+self-decomposing chain the **continuation predicate** is model-authored too — the
+"is this atomic" decision reads a task string the same model family produced a moment
+earlier, under the same prompt lineage. A guard whose stopping condition is an opinion
+formed by the thing being stopped is not a guard; it is a preference. So:
+
+- the **counter** is machinery-owned, as above;
+- the **predicate** may consult a model, but the *bound* it is checked against may
+  not — depth, spend and revisit limits stay in the wiring, and the model's opinion
+  can only stop early, never continue past a limit;
+- and where the decomposition is genuinely open-ended, the honest configuration is a
+  budget rather than a depth, because nobody can name the right depth in advance and
+  a budget degrades into a stop rather than into a surprise.
+
 ## Decision rules
 
 - Cycle detection runs where the whole graph is in hand — the wiring pass;

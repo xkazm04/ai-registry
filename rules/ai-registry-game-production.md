@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 42 subjects, 252 techniques, 113 applications.
+`game-production` - 43 subjects, 259 techniques, 113 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
@@ -10,7 +10,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - combat-pacing-and-dramatic-arc, difficulty-design-and-adaptation, encounter-balance-simulation, procedural-level-planning
 
 ### content-pipeline
-- acceptance-verdict-spine, catalog-pipeline-authoring, content-acceptance-tiering, content-drift-and-revision, generative-artifact-gating, reference-parity-gating, wiring-contract-doctrine
+- acceptance-verdict-spine, catalog-pipeline-authoring, content-acceptance-tiering, content-drift-and-revision, generative-artifact-gating, judgeable-spec-authoring, reference-parity-gating, wiring-contract-doctrine
 
 ### asset-production
 - asset-class-poly-budgeting, generated-asset-world-scale, generated-mesh-acceptance, image-to-3d-input-gating, mesh-finishing-for-engine-readiness, motion-quality-gating, regeneration-vs-repair-economics, shader-budget-authoring, spatial-audio-scene-authoring, tiling-texture-acceptance

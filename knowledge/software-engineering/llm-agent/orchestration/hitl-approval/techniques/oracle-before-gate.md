@@ -6,7 +6,7 @@ technique: oracle-before-gate
 status: forged
 laws: [gate-sees-target, unknown-is-not-a-value, count-carries-predicate]
 shared_with: []
-use_when: [choosing which machine output a human should review, a reviewer approves everything and cannot say what they checked it against, deciding whether a reversible-but-opaque change needs a gate, a review queue is ordered by impact and effort alone, an approval rate sits near 100% and the items are not obviously safe]
+use_when: [choosing which machine output a human should review, a reviewer approves everything and cannot say what they checked it against, deciding whether a reversible-but-opaque change needs a gate, a review queue is ordered by impact and effort alone, an approval rate sits near 100% and the items are not obviously safe, an unverifiable item was split into smaller items that are each still unverifiable, deciding at which artifact altitude a reviewer should be shown the work]
 ---
 
 # An oracle before a gate
@@ -79,7 +79,7 @@ renders as an ordinary pending item is not
 
 ## What to do when the field is empty
 
-There are three honest resolutions and the gate is not among them.
+There are four honest resolutions and the gate is not among them.
 
 1. **Build the oracle.** Usually the cheapest, and usually skipped because it
    looks like scope. A golden-file comparison, a property the output must hold,
@@ -93,13 +93,48 @@ There are three honest resolutions and the gate is not among them.
    produces an artifact nobody can accept or reject. That is a legitimate,
    recordable outcome, and writing it down is what stops the same task from
    being re-delegated every quarter.
+4. **Descend an altitude.** The field is empty at the altitude the item was
+   framed at, which is not the same as empty everywhere. A refactor nobody can
+   vouch for has a public signature diff that reads against the committed one;
+   a translation nobody in the room speaks has placeholder parity, plural forms
+   and glossary terms; a summary nobody has time to re-read has citations that
+   either resolve to a span saying that or do not. Review the lower artifact and
+   **state what the verdict does not cover** — the remainder stays `no-oracle`,
+   because a verdict inherited upward from the altitude that could be checked is
+   the rubber stamp again with evidence attached to the wrong claim.
 
-A gate armed over an empty field is the fourth option and it is the only
+A gate armed over an empty field is the fifth option and it is the only
 dishonest one, because it manufactures a decision record — a name, a timestamp,
 a version, a verdict — for a judgement that was never possible
 ([gate-sees-target](../../../../_laws.md#gate-sees-target) is about the gated party
 being unable to open the gate; this is the adjacent failure where the gate opens
 correctly and means nothing).
+
+## Narrowing and descending are different moves, and one of them can make it worse
+
+The two middle resolutions are routinely taken for one, because both end with
+smaller things to look at. They are opposite operations:
+
+> **Narrowing keeps the artifact class and reduces its scope. Descending keeps
+> the scope and changes the artifact class.**
+
+Which one is available is decided by *why* the item is opaque, and there are two
+reasons that present identically at the queue. An item can be opaque **because it
+is large** — an oracle exists for the kind of thing it is, and the diff simply
+outran it. Or it can be opaque **in kind** — nothing at that altitude was ever
+checkable against anything, at any size.
+
+Narrowing repairs the first and does nothing to the second. Split a
+plausible-on-every-line refactor into six commits and there are six
+plausible-on-every-line commits, not one verifiable one: the `no-oracle` count
+went from one to six, the average item got smaller, and every queue metric
+improved. That is the same dishonest arithmetic an armed gate produces, reached
+by the other road, and it is harder to see because the work looks like diligence.
+
+So the questions are asked in order, and the first one is not about size:
+*is there an oracle for this kind of thing, at this altitude?* If yes and the
+item outgrew it, narrow. If no, narrowing is contraindicated — descend until an
+oracle exists, or go back to build or withhold.
 
 ## Carry verifiability into the queue, not only into the display
 
@@ -135,7 +170,13 @@ record that the work happened at all.
 
 - Do not arm a gate for a class until the oracle field is filled or explicitly
   recorded as empty.
-- An empty field routes to build, narrow, or withhold — never to a gate.
+- An empty field routes to build, narrow, descend, or withhold — never to a gate.
+- Ask whether the item is opaque because it is large or opaque in kind before
+  choosing between them. Narrowing an item that is opaque in kind multiplies
+  `no-oracle` items while every queue metric improves.
+- A verdict reached at a lower altitude covers what that altitude can see and
+  nothing above it. Record the remainder rather than letting it inherit the
+  verdict.
 - Reversibility exempts an item from a gate; it does not exempt it from needing
   an oracle. Reversible-but-unverifiable work is where undetected drift
   accumulates, because nothing fires and nothing can be reconstructed later.

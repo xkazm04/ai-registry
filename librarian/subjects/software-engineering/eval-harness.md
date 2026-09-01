@@ -388,3 +388,75 @@ write access); `resolution-precondition` **better** (r = -0.378 between how much
 subject was judged and its deviation rate, and the precondition's real output was a
 third state - *the check cannot be performed*, since 0 of 142 pairs were ever
 double-judged).
+
+
+## 2026-08-31 - the model owner holds two causes, and one of them is not a ceiling
+
+[[2026-08-31-agentic-operating-level]] claimed that out-of-distribution has two
+halves - what the model lacks, and what it was trained to resist - then declined to
+give examples and prescribed the **wrong repair** for the half it had just found
+(teach it, which is exactly what a trained constraint does not yield to). The claim
+was unauthorizable as delivered; the gap it pointed at was real.
+
+`failure-attribution` declares its own completeness - *"Every failing case is owned
+by exactly one of these"* - and its **Model** row prescribes *a different model, or
+an accepted limit*, written as though the residual had a single cause. It has two,
+they present identically at the point of attribution, and only one of them is a
+ceiling. Absent capability fails **graded**: it tracks difficulty, gives partial
+credit, and moves when an example or a larger budget arrives. A trained constraint
+fails **sharp**: the same boundary at every difficulty, no partial credit, no
+movement on examples - and it reproduces on the next tier and the next generation,
+because it is a property of how the class of models was trained rather than of this
+one's ceiling. Graded-versus-sharp is the whole discriminator and costs one re-run
+at two difficulties.
+
+This is the **mirror** of the section already at the end of the file. That one
+repairs *under*-attribution: pre-run failures fall through the funnel to Model,
+which prescribes the most expensive available response for a class no model can fix.
+Here the attribution is correct and the prescription is still wrong. The amendment
+also names the direction the misreading takes - a class that will not move under a
+stricter instruction reads as a *prompt* failure, so the cases go back up the funnel
+and accrete a compensation that no upgrade retires, because it was never a defect.
+
+Corroboration was **training-data convergence**, recorded as such: zero fetches, and
+the tell is checkable in any harness.
+
+Applied same-run as a `simulation`, verdict **better**, against an evaluation engine
+whose verdict line collapses both causes into one boolean while storing both. The
+stronger fact was a rung down and one character wide: the cross-candidate rollup
+averages each dimension's value and **OR**s its `floor_hit`, so a dimension that hit
+its floor on every candidate and one that hit it on one of five become the same
+record - the distribution that *is* the discriminator, reduced to its maximum. The
+per-sample reasoning survives beside it, deliberately, because its tokens were paid
+for. Nothing designed that, and it is better evidence for the amendment than an
+adopting tree would have been.
+
+### 2026-09-01 - the amendment shipped, and the pipeline reduces one quantity two ways
+
+The operator authorized the tracklight tree, which was the whole of the ship blocker,
+and the `simulation` row escalated to `code` with no new investigation - the seam, the
+measurable and the arms were already established, which is the third consecutive time
+that has been true.
+
+What shipped is small and deliberately narrow: the dimension record gains a count with
+its own denominator, stamped one-per-verdict where the runner builds it and summed
+where it merges, so the OR on `floor_hit` no longer flattens all-of-N and one-of-N into
+one record. `floor_hit` and `pass` are untouched; **no verdict moves**, only what a
+stored record can still answer afterwards. The arm is the test and it ships with the
+change - reverting the two merge lines makes it fail `left: Some(1), right: Some(3)`
+while both boolean assertions still pass, which is the defect written as an assertion.
+
+**The finding got sharper in the shipping, and this is the part worth carrying.** The
+same quantity - how many observations crossed a floor - is reduced **two incompatible
+ways in one pipeline**. The judge computes a dimension's `floor_hit` from the *mean
+over samples*, so a floor crossed by a minority of samples **disappears**. The runner
+then ORs that boolean across candidates, so a floor crossed by a minority of candidates
+**dominates**. One stage hides a minority crossing and the next promotes one, and
+nothing in the record marks which reduction produced the value being read. Only the
+cross-candidate half was repaired here, because fixing the judge changes what a single
+verdict *reports* rather than what a merge *preserves*, and that is a larger claim than
+this application tested.
+
+Worth generalising if a second tree shows it: **when a distribution is reduced at more
+than one stage, the reductions have to agree, and a boolean is where they stop being
+able to.** Not yet a technique - one tree, one pipeline.

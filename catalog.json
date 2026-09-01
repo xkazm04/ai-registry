@@ -130,7 +130,7 @@
       "invokes30d": 0,
       "lessons": 1,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:f5c29b1f1755ba64",
+      "lessonsHash": "sha256-n1:0d13c682f2a0ce5c",
       "usageContributors": []
     },
     {
@@ -590,7 +590,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:b863cce7e1160b9a"
+      "contentHash": "sha256:a8a9498d7d020547"
     },
     {
       "name": "game-production",
@@ -599,11 +599,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 42,
-      "techniques": 252,
+      "subjects": 43,
+      "techniques": 259,
       "applications": 113,
-      "files": 411,
-      "contentHash": "sha256:3fb8f2a3121efd91"
+      "files": 419,
+      "contentHash": "sha256:92c57fc4fd979ce7"
     },
     {
       "name": "grant-funding",
@@ -677,11 +677,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 155,
-      "techniques": 1074,
-      "applications": 563,
-      "files": 1797,
-      "contentHash": "sha256:096dfd00ea50ffc1"
+      "subjects": 156,
+      "techniques": 1091,
+      "applications": 576,
+      "files": 1828,
+      "contentHash": "sha256:fa4860056d23c229"
     }
   ]
 }

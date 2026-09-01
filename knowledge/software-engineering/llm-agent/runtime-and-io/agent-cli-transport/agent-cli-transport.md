@@ -176,8 +176,9 @@ honesty.
   when the transport is absent, and the labels that keep it honest.
 - [child-observed-posture](./techniques/child-observed-posture.md) — proving
   the stance, the billing direction and the tool's presence from the child
-  rather than from the host's intent, at the three seams that lose them
-  silently.
+  rather than from the host's intent, at the seams that lose them silently —
+  including the one only the model can testify to, where injected context
+  never arrives and the producer still exits clean.
 - Borrowed:
   [spawn-contract](../subprocess-lifecycle/techniques/spawn-contract.md) and
   [termination-and-reaping](../subprocess-lifecycle/techniques/termination-and-reaping.md)

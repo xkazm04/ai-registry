@@ -6,6 +6,7 @@ status: forged
 techniques:
   - gate-laddering
   - severity-by-construction
+  - vacuous-by-evaluation
   - blocking-by-input-determinism
   - ratchet-design
   - gate-liveness
@@ -22,6 +23,7 @@ techniques:
   - advancement-evidence-fields
   - item-liveness
   - excess-indicts-the-instrument
+  - self-reported-gate-inputs
 ---
 
 # Quality gates & ratchets
@@ -49,6 +51,20 @@ usually *configured* in one place and *neutralized* in another:
 - a threshold flag set beyond any count the codebase could plausibly
   produce — strictness in review, unfireable in fact;
 - a check that prints findings to a log nobody's exit code depends on.
+
+A fourth case passes all three of those inspections and is still unfireable:
+the rule is blocking, the exit code depends on it, the engine reads the real
+target — and the evaluation layer beneath the rule *derives* the condition the
+rule tests, so no input can violate it. That one is not visible in the
+exit-code path at all, and it is
+[vacuous-by-evaluation](./techniques/vacuous-by-evaluation.md).
+
+A fifth is unfireable only against the cases that matter: the rule blocks, the
+exit code depends on it, nothing is derived — and the input it counts is a
+record the gated party writes by cooperating, so the population it judges is
+exactly the population that did not need judging.
+[self-reported-gate-inputs](./techniques/self-reported-gate-inputs.md) owns it,
+and owns why a second check on the same record cannot recover the case.
 
 In each case the severity label says "enforced" and the construction says
 "decorative." The discipline is to reason about severity **by construction,
@@ -534,7 +550,12 @@ is asked to refuse something.
   a contract's own undecidable clauses.
 - [unmeasurable-criteria](./techniques/unmeasurable-criteria.md) — skip,
   fail-closed, or refuse the verdict; deriving the measured-nothing state;
-  making skips visible and counted.
+  making skips visible and counted; and the in-path exception where a dead
+  instrument must open rather than close.
+- [self-reported-gate-inputs](./techniques/self-reported-gate-inputs.md) —
+  evidence the gated party authors: the inert branch a second check cannot
+  recover, fencing the act upstream of the record, shape over enumeration,
+  and the override channel the subject cannot write mid-run.
 - [policy-projection](./techniques/policy-projection.md) — one enumeration
   rendered into every surface, display caps that are not data caps, and
   the effective policy travelling with the verdict.

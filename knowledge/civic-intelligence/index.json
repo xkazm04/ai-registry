@@ -830,7 +830,8 @@
      "shared_with": [],
      "use_when": [
       "model prose may contain legal or registry references outside citation slots",
-      "closing the gap between a clean citation list and fabricated prose"
+      "closing the gap between a clean citation list and fabricated prose",
+      "a reference resolves but its venue, year or imprint may be invented"
      ]
     },
     {

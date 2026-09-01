@@ -41,6 +41,36 @@ matter:
   the conversation — the classic first bug of every hand-rolled server. With
   protocol-level logging deprecated, stderr plus ordinary telemetry *is* the
   logging story, not a fallback.
+
+  The rule is usually stated as authorial discipline — *do not print* — and
+  that is the half a server author can keep. The half they cannot is the
+  libraries beneath them. A progress indicator inside an export routine, a
+  download meter, a first-run notice, a deprecation warning: none of these are
+  in the server's source, all of them write to stdout because their author
+  assumed a human was reading, and any one of them silently ends the session
+  the first time a tool takes long enough to trigger it. So the channel is
+  defended **process-wide, at startup**, not maintained call by call: the
+  server disables human-facing output for its whole process — the environment
+  switches such libraries offer, the global "not a terminal" mode, whatever the
+  ecosystem's convention is — before it serves a single request. Auditing every
+  dependency's stdout behaviour is not a strategy; a process-wide default is.
+
+  Two properties make this worth a startup line rather than a bug fix. The
+  failure **does not look like corruption**: a client receiving unparseable
+  bytes in the frame typically waits for a message that will never be
+  well-formed, so the symptom is a hang that expires on a timeout minutes
+  later, on an operation whose real work may have finished instantly — and a
+  hang gets diagnosed as a slow tool, not as a framing fault. And it is
+  **load-dependent**: the noisy path is often the one that only runs on large
+  inputs, so the server passes every small test and fails in front of the user
+  with the real graph.
+
+  The mirror obligation belongs to whoever writes the library: attach a console
+  display only when the output is actually a terminal, honour the ecosystem's
+  standard suppression variables, and offer an explicit force switch for the
+  cases where a caller knows better. A library that decorates a redirected
+  stream is not only breaking protocols — it is writing escape sequences into
+  every log file and captured output it touches.
 - **Lifecycle is custody.** The spawner reaps the child
   ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)): on host
   shutdown, on connection replacement, on config change. Orphaned tool

@@ -111,6 +111,31 @@ in two minutes. The charters are distinct enough that bundling them softens each
 a different job from *find what was chosen without anyone noticing a choice was
 available*. A reader asked to do all three does the first thing it finds and stops.
 
+## Two readers are less independent than the ladder implies
+
+The escalation above is built on separation buying independence, and it does —
+but the ladder never states what two *separated* readers agree at before anything
+is done to them, and the answer is high. Two identically-configured readers,
+given the same material and no reason to converge, have been measured agreeing on
+better than nine judgments in ten on a question with no correct answer. That is
+the floor a second reader starts from, not the independence a second reader adds.
+
+Two things follow, and neither is a reason to abandon separation.
+
+- **A second reader agreeing is weak evidence, and the ladder should not read it
+  as confirmation.** Concordance between two seats of the same family says how
+  similar they are. The rungs that buy something are the ones that change what
+  the reader *is* — a different family, a different evidence packet — not the
+  ones that merely run the same reader twice.
+- **Divergence is the informative outcome**, and it is rarer than intuition
+  suggests. Where two readers split, the split has located something; where they
+  agree, the agreement is mostly the baseline. Design the record so a split is
+  legible rather than averaged away.
+
+The honest summary is that separation is necessary and insufficient: it removes
+the anchoring a single reader has on its own plan, which is what this subject
+opened by naming, and it does not manufacture an independent opinion.
+
 ## Two record classes, and a routing rule that is not a judgment call
 
 Two of the readers emit records, and the difference between them is not severity — it

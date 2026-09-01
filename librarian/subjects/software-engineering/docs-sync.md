@@ -1,7 +1,7 @@
 ---
 subject: docs-sync
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-09-01
 dry_streak: 0
 ---
 
@@ -138,3 +138,47 @@ which is the rule the query's correctness rests on.
 - **Law candidate, one sighting**: a verification stamp names what it was
   verified against. Recurs at three unrelated sites in this run alone. Return on
   a second sighting in a different bundle.
+
+## 2026-09-01 — [[2026-09-01-slideops-readme]] — one technique, EXTENDS
+
+11 -> 12 techniques. `rendered-surface-coupling`, plus wall 12 of the golden
+path. No existing paragraph rewritten.
+
+The finding is an **asymmetry between two subjects this corpus already holds**,
+which is why it had gone unwritten: a document's rendered figures are derived
+artifacts with the same standing claim as the prose, and each existing
+discipline disqualifies them for a *different* reason. `codegen/drift-gating`
+needs byte-stable output and rasterization is not byte-stable, so that gate goes
+red on a toolchain upgrade that changed nothing visible. `doc-rot-detection`
+resolves coupling by reading, so a figure terminates at the ladder's third rung
+and is `unverifiable` permanently rather than occasionally. Both owners can
+correctly say it is not theirs, and it falls between them.
+
+Resolution written into the technique: digest the **inputs** — source document,
+rendering parameters, renderer identity — never the output bytes. The input set
+fails in both directions and both are stated: too narrow and a renderer upgrade
+substitutes the picture behind a green gate; too wide and the gate fires on every
+dependency bump and gets switched off.
+
+The source repository is the exemplar and it is a *negative* one. It implements
+the input-digest discipline for every quoted snippet inside the documents it
+generates, and guards the composite image on its own landing page — whose
+generator's docstring says it rots the same way — with a review-template
+checkbox. The remedy was one directory away.
+
+## Honest limits (2026-09-01)
+
+- **Unapplied, and not for lack of trying.** No managed project has a single
+  authored documentation figure — 6 of 7 have zero image references in any
+  markdown, and the seventh's 22 are scraped web artifacts, not authored docs.
+  No seam exists to test against and a simulation would have needed invented
+  cases. Return condition: a managed project growing an authored figure in a
+  maintained document.
+- The technique's input-set composition is argued, not measured. Nobody in this
+  run built the digest and watched it fail in either direction.
+
+## Boundary recorded
+
+`repository-landing-document` (new this run) decides whether a figure earns its
+place on a landing document; this subject decides whether it is still true. The
+two are confused often enough that both sides now say so in prose.

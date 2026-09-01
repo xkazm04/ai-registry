@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 1.5.0
+version: 1.6.0
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index
 ---
 
@@ -500,6 +500,12 @@ Full procedure, worker brief, wave sizing and the stop rule are in
 [`references/reference-waves.md`](references/reference-waves.md). Read it before the
 first wave. The shape in five steps:
 
+0. **Confirm each reference resolves before a lane commits to it.** For an arXiv
+   reference that means one fetch of `/abs/<id>`, not `/html/<id>`: HTML is rendered
+   only for LaTeX submissions, so a PDF-only paper 404s at `/html/<id>` and at
+   `/html/<id>v1` alike and a lane aimed at one can spend its entire budget on empty
+   responses. The `/abs/` page also returns the **untruncated title**, which on
+   2026-09-01 carried more triage signal than the curator's annotation did — twice.
 1. **Enumerate exhaustively, by instrument, never by reading.** Clone the tree (Phase 2b
    still applies - the index is a repository) and extract every URL from every file, not
    just the README: sub-lists, `docs/`, per-topic pages and the git history's removed
@@ -586,6 +592,13 @@ impact**, from a closed vocabulary that maps onto the scan's weights:
 
 `new-subject` - `new-technique` - `corrects-claim` - `fills-stack-gap` - `dates-application` - `resets-clock` - `new-law` - `none`
 
+**A curator's TITLE is as unreliable as the annotation, and fails differently.**
+An annotation paraphrases and can be checked against the abstract; a title is
+*truncated*, and what gets dropped is the qualifying clause — a scope precondition
+("for discrete-choice reasoning"), or the half that carries the measurement ("and
+controlled benchmarks"). Both were observed on 2026-09-01, and both decide whether a
+reference is relevant at all. Recover the full title at step 0 and rank on that.
+
 `none` is honest and common. It is also the value that should make you ask whether the
 candidate belongs in `skills/` or `memory/` rather than in a bundle.
 
@@ -613,6 +626,17 @@ node scripts/run-board.mjs beat --run <id> --phase 4 --subject <domain/category/
 A `new-subject` impact over a domain a live sibling holds is the one to distrust hardest.
 Read that sibling's claim, and prefer an amendment inside their subject over a competing
 one beside it.
+
+**An absence read off a TRUNCATED output is not evidence either, and this is the
+harder one to notice** because the instrument was working. On 2026-09-01 a run
+verified "nothing owns this" with a grep that returned 22 files, piped it through
+`head -8`, and treated the eight it saw as the answer; the subject that refuted the
+claim was in the fourteen it did not. In the same run `research-map --prose` read the
+right document bodies and put the same subject at rank 7 of a default top-6. Two
+different instruments, both correct, both cut off — one hidden subject. So: **never
+establish an absence from a piped, capped or paginated result.** Re-run with the cap
+removed (`--top 40`), or with `wc -l` first, and read the whole set before writing the
+word "nothing".
 
 **A total empty over banned vocabulary is not evidence of anything.** The upper
 layers may not carry product, framework or scaffold names — `check-bundles.mjs` enforces
@@ -642,7 +666,20 @@ and prefer writing the boundary over writing a duplicate.
 3  X     applicat.  M    Personas already does this       -                          fills-stack-gap  [17:05]
 ```
 
-Then ask: **"Which should I verify and (if real) land? (numbers / all / none / leads-only)"**
+Then ask for the picks **and the ship authorization in one question**:
+
+> **"Which should I verify and (if real) land? (numbers / all / none / leads-only)
+> And which project trees may I touch if an apply row comes back `better`?
+> (slugs / none / ask-me-again)"**
+
+The second half is not politeness, it is the stage the scorecard keeps losing.
+Three consecutive runs filed `better` apply rows against `ship 0`, every one of
+them blocked on nothing but Phase 8's confirmation gate, and in two of the three
+the operator lifted it in a single line the moment they were asked - after the
+session that had the seam, the measurable and the arms already loaded had ended.
+A pick that names no tree does not mean the operator declined the tree; it means
+nobody asked, and the difference costs a whole session to recover. `none` is a
+real answer and a cheap one; not asking is not.
 
 **Carry an altitude on every row**, and prefer the highest altitude the corroboration
 supports: `law` (a convergence across runs, provider-portable, clock-proof) /

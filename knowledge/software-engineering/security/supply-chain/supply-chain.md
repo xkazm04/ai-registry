@@ -6,6 +6,8 @@ status: forged
 techniques:
   - secret-scanning-architecture
   - dependency-policy-gates
+  - verification-scope
+  - lockfile-freshness-oracle
   - scheduled-deep-analysis
   - permission-manifest-scoping
   - archive-extraction-safety
@@ -90,6 +92,18 @@ which names only the surface
 ([gate-sees-target](../../_laws.md#gate-sees-target)). Policy shape,
 exception hygiene, and multi-ecosystem coverage are
 [dependency-policy-gates](./techniques/dependency-policy-gates.md).
+
+Two properties of that lockfile have to hold before any of the gates reading it
+mean anything, and each fails quietly in its own way. It must still correspond
+to the manifest it came from — a check that is trivially built so badly that it
+fires whenever a stranger publishes a release, and is then switched off along
+with the real condition it was meant to catch
+([lockfile-freshness-oracle](./techniques/lockfile-freshness-oracle.md)). And
+the verification that consumes it must actually cover the whole install: a
+hash-checking flag governs a stage rather than a command, so a source build
+fetching its own build tooling, or a tool subcommand downloading a model, walks
+straight past a step everyone reads as fully pinned
+([verification-scope](./techniques/verification-scope.md)).
 
 ## Updates arrive as code wearing a friendly label
 

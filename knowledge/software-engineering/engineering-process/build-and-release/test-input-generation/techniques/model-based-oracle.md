@@ -133,6 +133,52 @@ which is why this technique pairs with a shrinking step or with
 [exhaustive-when-bounded](./exhaustive-when-bounded.md), whose enumeration
 delivers the minimal case for free.
 
+## Reading an agreement, when the reference is the oracle
+
+Where a trusted implementation of the same behaviour already exists, comparing
+against it is the cheapest strong oracle available, and the disqualifier list
+below says so. It is worth being precise about what that trade buys and what it
+spends, because the two are easy to conflate.
+
+What it buys is rung 3 at no modelling cost. What it spends is the property that
+made a written model worth its price: **independence of failure.** A model
+written from the specification can be wrong, and its being wrong is a visible
+event — the disagreement fires, and reading it tells you which side erred. A
+reference implementation cannot play that role, because your artifact was
+derived *from* it. Every defect faithfully reproduced from the reference
+produces agreement, and agreement is also exactly what correctness produces. The
+oracle sorts your work into "diverges" and "everything else", and the second
+bucket silently holds both.
+
+This is [one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)
+arriving at its degenerate case. The specification was supposed to be the
+authority both artifacts answer to; when the reference *becomes* the authority,
+nothing left in the system is able to contradict it. So the scope claim has to
+be written the narrow way it is actually true: a campaign of this shape
+establishes **no divergence from the reference**, never correctness. N behaviours
+proved equivalent is N behaviours proved equal to something whose own
+correctness the campaign never tested, and reporting it as the second thing is
+the single most common overstatement this oracle produces.
+
+**The remedy is to make the reference disagree with itself.** Run the same
+comparison a second time under a condition the reference is not invariant to —
+a second platform, a second toolchain, a second version — and keep both
+verdicts. Where the reference's behaviour is implementation-defined rather than
+specified (a width or signedness the platform chooses, a library routine whose
+acceptance differs, an overflow that traps on one architecture and silently
+wraps on another), the two runs disagree with *each other* while each remains
+faithful to its local reference. That split is visible to the harness you
+already have, needs no model, and is the one channel through which the
+reference's own defects can reach you at all.
+
+Two consequences for how the results are kept. A finding produced this way is
+**not a defect in your artifact**, and the ledger needs a column that says so —
+collapsing "we diverged" and "the reference is wrong" into one issue count
+destroys the only evidence that the campaign ever saw past its own oracle. And a
+reference defect that is *not* platform-dependent stays invisible to every run:
+that residual is the honest limit of the technique in this configuration, and it
+belongs in the write-up beside the count.
+
 ## When the cost is not justified
 
 - **When invariants already pin the answer.** If the correct output is uniquely
@@ -140,7 +186,9 @@ delivers the minimal case for free.
   model, and writing a second implementation adds cost and no discrimination.
 - **When the behaviour is the reference.** For a system whose whole job is a
   well-defined transformation with an existing trusted implementation, compare
-  against that one rather than writing a third.
+  against that one rather than writing a third — under the narrower scope claim
+  the section above requires, and with its second-platform run, without which
+  the reference's own defects are unreachable.
 - **When the output is not deterministic** for a fixed input — a scheduler, a
   cache with timing-dependent contents, a model-driven component. There the
   oracle has to be a property or an acceptance band, and this technique does

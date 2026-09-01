@@ -8,6 +8,8 @@ funnel loses most at under the table; that stage is the next run's declared focu
 
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1.5.0 | 2026-08-31 | `pgrust` | 1 (2,480 landing / ~7,500 in-tree operating docs + a 1,241-row unit catalog) | 13 | 6 | 3 (1 technique + 2 amendments) | 3 rows: 0c/2e/1s — **1:1 with landings** | 0 (declined: no change warranted for 1 of 3; blocked: confirmation for 2 of 3 — the changes are argued and the measurables named, but the triage answer named no project and Phase 8 step 2 gates the tree write) | **Ship written with its predicate, as the focus asked, and the split matters: 1 of the 3 zeros is not a funnel loss.** The oracle row's tree already implements the remedy, so no change was warranted; the other two are the modal `confirmation` blocker again. **Focus's other half could not fire** — parallelising Phase 6's mechanical lane needs a wave, and one repository is one document; agent dispatch is also off in this session by standing operator instruction. Said so rather than manufacturing it. Extract→Test was 13→6 (46%) serially, above the window. **All three landings came from one hunt — an enumeration that claims completeness and misses a case the same file describes**: two rot axes named with a third in the prose; "no self-check exists" true for only one direction of an undrawn distinction; "compare against that one rather than writing a third" silent on what that oracle cannot see. Third consecutive run where the denial hunt carried the yield. **The apply refuted the run's own document before commit** (second consecutive run): the new technique covered the fitted *corpus* and not the fitted *predicate*, and the arm that found it scored **11/11 while 9 of 11 payloads passed through unmodified** — a section was added. **A first hypothesis was wrong and one command settled it** (fourth consecutive run of this): I expected a project's non-default test arms to be env-gated out of CI; the workflow runs all three. 0 of 3 fetches, thirteenth consecutive zero-fetch run on a source carrying its own primary material. |
+| 1.5.0 | 2026-08-31 | `semantica` | 1 | 18 | 6 | 5 techniques + 1 amendment | 6 rows: 2c/3e/0s + 1 unapplied | 0 (declined: confirmation — 2 `better` rows had the change argued and the measurable named, but the triage answer named no project, and Phase 8 step 2 gates on it) | Focus **did not apply** — it was scoped to the reference-index wave lane and this was a single-source repository run; said so rather than manufacturing parallelism. Extract→Test landed at 18→6 (a third) anyway, via the enumeration hunt rather than via parallelism |
 | 0.15.0 | 2026-08-29 | ai-native-sdlc-and-ci-on-call | 2 | 15 | 8 | 5 | 0c/0e/0s | 0 | Phase 7.5 did not exist; run landed five and applied none. Backfill owed: `oracle-frozen-during-repair`, and the four amendments. |
 | 1.0.0 | 2026-08-29 | apply wave 1 (backtest deviations, personas + gravity) | 0 (no source - apply-only run) | 0 | 0 | 0 | 24c/4e/1s | 23 of 24 branches merged (same day, director-reviewed diff + project gates: tsc, 188 vitest, 312 playwright-node) | First run of the apply lane. 29 rows: 27 better / 1 not-better / 1 unmeasurable. One branch held: its gate is deliberately red until a repair lands. |
 | 1.1.0 | 2026-08-30 | tesana-loop-mode-game-builds | 1 | 13 | 1 | 1 | 0c/1e/0s | 0 (record-only commit in pof) | Ship 0: the `better` change touches three harness files and the gate that would see it (visual-check) cannot start on this machine, so it is filed as the project's next change rather than committed unpaired. First end-to-end `/intake <url>` run since the apply lane landed: research -> extract -> test -> apply all converted on one source. |
@@ -185,6 +187,7 @@ which is where this run decided it.
 | 1.5.0 | 2026-08-31 | icse-2026-seip | 1 (74 refs, 8 read) | 30 | 7 | 2 | 0c/2e/0s | 1 | Ship 1 (tracklight docs correction, `de0a85f`). The second apply row is `unmeasurable` with its instrument named, not a zero. **Focus was handed forward and worked in an unexpected direction**: the declared focus said treat a ship blocker as a queue; here the queue was empty because the operator named the apply targets *in the triage answer*, so `confirmation` never fired and the run reached a tree write with no blocker at all. The other half of the focus — report an instrument's first number and its hand-verified number as two different figures — fired **four** times and changed a conclusion each time (150→74 references, 88→8→0 comparability claims, 12→0 promotion paths, and a worker's convergence premise that the citation graph refuted). |
 | 1.2.0 | 2026-08-31 | 3d-documentary-ai | 1 | 13 | 2 | 2 | 0c/0e/2s | 0 (record-only commit in gravity) | Ship 0, and the reason is NEW - not an unreachable instrument (2026-08-30 first reading) and not an unconfirmed lane (second reading), but an **absent precondition**: neither amendment governs a call any fleet project makes. The tree has no generative-video request path at all and no composite subject+plate imaging call, so there was no code arm to build. Both simulations used three real cases from shipped data and each names its falsifier. Read fraction focus from the last run did not apply - this source is a 2,214-word video, not a repository |
 | 1.5.0 | 2026-08-31 | breeze-tts2-local-voice | 1 (2,746-word video; apply step read 7 files across one connected tree) | 11 | 3 | 3 (1 new technique + 2 amendments + 1 cross-boundary half) | 3 rows (0c/2e/1s) — **1:1 with landings** | 0 (both experiments read-only and uncommitted; the operator's pick named no project, and Phase 8 step 2 gates the tree write) | **Declared focus NOT met, and the reason is a session constraint rather than a finding**: the focus asked for one parallel verification lane per candidate, and this session's standing instruction forbids dispatching agents unless asked, so Phase 6 ran serially. Extract→Test was 3/11, which the focus predicted would only be meaningful *after* the parallel change; it is owed by the next run that can dispatch. **Class calibration was declared and beat its own average**: a review class is reliable for "it shipped" and little else, but the hybrid's operating half is first-party, the expected yield was said out loud as 2–3 before the table, and it landed 3 — all from the operating half, none from the sponsored tour half. **The retrieval move is the reusable part**: all three landings came from holding the corpus's own ENUMERATIONS in mind while listening (a six-axis matrix, a capability-axis list, a four-item audition script) rather than from ranking the source's emphasis — which would have picked three catches instead. **The apply step produced corpus content twice and is now the run's most productive stage**, continuing the pattern the last five rows converge on: it refuted the new technique's transcript bullet at its premise (the tree's cloning engine is zero-shot), and it found a fact larger than anything the source said — a **non-commercially-licensed** engine recorded as a doc comment, protected today only by an identity guard about something else, which the obvious next feature deletes. |
+| 1.5.0 | 2026-08-31 | ripgrep | 1 | 12 | 2 | 2 | 1c/0e/1s | 1 | **Extract->Test was 2/12 by operator choice, not by director capacity** - the declared focus does not apply and the reason is worth recording rather than scoring as a miss. Test->Landed converted 2/2, both landings carry an apply row with a verdict, and **one escalated `experiment` -> `code` and shipped in the same session** once the operator authorized the tree. `confirmation` was again the entire ship blocker, and again it cost one round trip - the second run in a row where the modal blocker was a question rather than an obstacle. Board pressure shaped the run: 3 of 12 candidates routed to subjects a live sibling held, so they sit untriaged rather than verified. |
 
 **apply, at `code` mode specifically (2026-08-31 fourth reading) - and the cause is
 upstream of everything the last three correctives addressed.** Across the four
@@ -248,6 +251,12 @@ Recording both rather than resolving them by majority:
 | **confirmation** | say so in one clause and stop; the operator's to fix, not the run's |
 | **indeterminacy** | the change is small and authorized but its semantics is open: report the finding, ship nothing, say what would settle it |
 | **environment** | say in one line what the operator would have to do; leave the diff uncommitted rather than commit code that could not be built |
+| 1.5.0 | 2026-08-31 | awesome-agentic-patterns | 1 (1,748-word landing page vs **~996k in-tree**; queue graded it a reference index, the **link/word ratio refuted that at Phase 2c** — 1 link per 193 words is a code-repository ratio, so no wave ran) | 11 | 3 | 2 (1 technique amendment + 1 script) | **1 row / 1 landing** (0c/1e/0s; 1 not-better) | 0 — the experiment returned `not-better`, so no ship was owed | **Declared focus did not apply and that is the result.** The focus (parallelise Phase 6 when a wave floods the director) presumes a reference index; this source was not one, and the queue's grade was the thing that was wrong. Focus should attach to the LANE, not to the next run. |
+| 1.5.0 | 2026-08-31 | agentic-operating-level | 1 (7,937-word doctrine talk; **no system, no artifact, no number, no n=1** — class read at Phase 2 and expected yield stated as 1-2 amendments before the table) | 14 | 3 (operator picked 1/2/6) | 2 amendments | **2 rows / 2 landings** (0c/1e/1s; both `better`) | 0 — triage answer named no project, and Phase 8 requires operator confirmation before a project tree is touched; both arms were read-only | **Declared focus did not bind and the row says why**: it governs a wave returning more candidates than the director can verify, and one video produced 14 candidates of which the operator picked 3 — Phase 6 ran serially in full. **The class reading did the work the focus would have.** A doctrine talk inverts this method's economics: it **strips perfectly** (a proper-noun-free ladder) and **corroborates not at all**, so the strip test performed zero triage and the corroboration table refused nearly everything. Both landings came from the same move — a document declaring its own completeness (`"three honest resolutions"`, `"owned by exactly one of these"`) — and **the source was contradicted on both while having located both**, the cleanest instance of that pattern the ledger holds. Extract→Test 3/14 is low by design, not by failure |
+| 1.5.0 | 2026-08-31 | boundary-software-factory | 1 | 12 | 1 | 1 | 1e | 0 | **Ship 0 is correct and owed nothing** - the landing is a registry-side gate measure; no project change was warranted, and the apply step was read-only by design. The declared focus (parallelise the mechanical half of Phase 6) **did not apply and was said so before the table**: it was written for wave runs returning more candidates than a director can verify, and a single dialogue with one operator-picked row has no mechanical half to fan out. Extract->Test is 1/12 by operator choice, not director capacity. Class economics predicted the run exactly: dialogue, expected yield stated as 1-3 findings before triage, **0 of 3 fetches spent**, corroboration entirely corpus-internal. **The apply step refuted its own first number for the second time in this skill's history** - arm B's 1.42x by changed lines was surface-area artifact; the control (hold files-touched fixed) collapsed and inverted the gradient. Instrument's first number wrong again: that is now five sightings across three runs |
+| 1.3.1 | 2026-09-01 | voltagent-awesome-ai-agent-papers (wave 4) | 1 (32 of 382 read, 350 ranked+recorded) | 24 | 8 | 9 | 0c/0e/0s (9 unapplied, one reason, checked per finding) | 0 | **8/8 lanes worth a slot - the run's best rate**, on the Multi-Agent cluster wave 1 dropped for contention. Three headlines died to arithmetic (a hindsight-oracle denominator reproduced 5/5; an authority paper that measured the inverse of its title; a phase transition whose control parameter has no budget term). One worker retracted its own candidate after applying the corpus's own test. **The run's own error: an acceptance rule built on a hole that was not one** - a verification grep returned 22 files piped through `head -8`, and a second instrument truncated the same subject out of its top-6. Two independent truncations, one hidden subject. Apply 0 for a reason distinct from wave 3's: these govern structures the fleet does not build (no join, no recursive decomposer, no panel, no a11y ladder), each checked against the tree individually. |
+| 1.6.0 | 2026-09-01 | `slideops` (practitioner repo, README as artifact of FORM) | 1 (1,033 landing / ~2,470 in-tree operating docs) | 8 | 7 | **1 new subject** (golden path + 7 techniques + 2 applications) + 1 technique in `docs-sync` + 1 instrument (`check-readmes.mjs`) | 2 rows: 0c/**1e**/0s + 1 unapplied — 2:2 with the landing clusters | 0 (**blocked: foreign WIP**, not confirmation) | **Both halves of the declared focus applied, and the second one worked.** Class carried into the numbers: this was a repository mined under an *inverted* rule — the operator scoped the run to the README as an artifact of form, so the file Phase 2b says to distrust was the primary source. Expected yield was stated as 4-8 candidates + one subject-sized gap before the triage table; actual 8 and one. The tree question was moved to Phase 7.5 and **the ship zero changed character because of it**: the operator authorized a named tree against a concrete seam and a measured two-arm result, and the block that remained was the tree carrying a live 38-line in-flight append in the exact file — a genuine authorization-independent boundary, which is precisely the distinction the focus was written to expose. Six consecutive runs blocked on `confirmation`; this one was not. |
+| 1.6.0 | 2026-09-01 | `firstmate` (OSS tool repo behaving as first-party practitioner account; **2,434 landing / 174,027 in-tree**, 76:1) | 1 | 14 | 4 | 2 techniques + 2 amendments | **4 rows: 0c/4e/0s — 1:1 with landings** | 0 (**3 of 4 `declined: no change warranted`**, 1 open decision) | **Both halves of the declared focus applied.** Class carried into the numbers before the triage table: expected yield stated as *above the class norm, 3-5, mostly amendments*; actual 4. The 14→4 ratio is an operator pick, not director capacity — 10 rows recorded **untriaged with anchors**, none declined. **The tree question was asked at Phase 7.5, not at triage**, and the ship zero changed character again because of it: three of four rows are `declined: no change warranted` rather than `blocked: confirmation` — no project holds the caching-injector defect, the fleet's turn-end hook *already implements* the amendment (which is why it could validate it), and the delivery probe is an instrument rather than a change. Seventh consecutive run with ship 0; second consecutive run where the zero is not an authorization failure. **The apply step refuted the run's own document before commit for the second consecutive run**, and this time from a tree that had already solved the problem *better* than the draft prescribed — the amendment's "fail-open, silently" became "open to the actor, loud to the operator, on a code of its own." Reading a project that agrees with a finding is where the finding's wording gets fixed. **0 of 3 fetches — fourteenth consecutive.** Three of four landings came from an enumeration declaring its own completeness. |
 
 Next run's declared focus: **when an apply row reaches `better`, name the ship blocker
 from those four, and act per class.** A run that reports "ship 0" without naming which
@@ -512,3 +521,330 @@ and re-running. A cross-repo ship onto a red board is fine when the red is prove
 pre-existing and named, and the proving costs one stash — but a run that does not stash
 cannot tell its own breakage from the tree's, and would either claim a false green or
 abandon a good landing.
+
+### 2026-08-31 - ripgrep
+
+**The declared focus did not apply, and that is a result rather than a miss.** The
+previous run's focus was to parallelise the mechanical half of Phase 6 when a wave
+returns more candidates than one director can verify. This run had no wave: one
+source, twelve candidates, and an attended triage in which the operator picked two.
+Extract->Test reads 2/12, and the ratio is a *steering decision*, not a capacity
+loss - the eight unverified rows were never in contention for the budget. Reporting
+2/12 beside the wave runs' 7/30 without that distinction would corrupt the funnel
+reading the lane exists to produce, which is the lesson worth carrying: **the
+Extract->Test ratio is only a capacity signal on unattended or wave runs; on an
+attended run it measures the operator's appetite and nothing about the method.**
+The scorecard should separate the two before the next reading is taken.
+
+**What the run confirms instead is the value of the class-first read.** The class
+was named before extraction, its prediction was stated out loud - corroborates
+corpus-internally, fetch budget will not bind, yield concentrated in amendments to
+mature subjects - and all three held: **0 of 3 fetches spent**, both landings in
+ten-technique and eight-technique subjects, neither a new subject. Three runs now
+have made a class prediction before the triage table; three have had it hold.
+
+**The strongest landing came from the contradiction hunt, again.** `stake-before-merit`
+explicitly denies that text authorship matters, and the source draws exactly that
+denied distinction by channel. That is the third consecutive run where a *denied
+symmetry* in a mature technique produced the finding, and it is now the highest-yield
+Phase 6 hunt this method has: an enumeration invites one question, and a denial
+invites the same question with a stronger prior, because somebody already thought
+about it and wrote down a boundary that can be tested.
+
+**The two-numbers discipline fired again and changed the verdict's meaning.** The
+apply probe's raw falsifier count was 184 excluded files carrying URL-shaped content;
+hand-classifying every one collapsed it to **0**. Reporting 184 would have turned a
+disclosure finding into a phantom near-miss. That is now five consecutive runs in
+which an instrument's first number was wrong and the correction came from opening the
+thing - the rule the method already carries, earning its keep on a run that had no
+wave and no worker to blame it on.
+
+Next run's declared focus: **split the Extract->Test column by triage mode before
+reading the funnel again.** An attended run and a wave run are measuring different
+things through the same ratio, and the last ten rows mix them freely - which means the
+"weakest stage" reading that drives every method edit is computed over two
+incomparable populations. Record the mode on the row (attended / unattended /
+wave), read the two series separately, and name the weakest stage *within* the
+series the next run belongs to. A run that reports a stage loss without saying which
+series it belongs to has measured nothing the method can act on.
+
+**The focus missed because the grade did, and that is a new failure mode.** Nine of the
+last ten rows moved their declared focus or said why not; this one could not even
+attempt it, because the focus was written for a source class this source turned out
+not to belong to. The queue graded it a reference index from its stars and its
+topic; Phase 2c's ratio test — outbound links over the source's own word count —
+refuted that in one command, before a single fetch. **Grade the class from the tree,
+never from the queue row**, and run the ratio test on every repository-shaped source
+rather than only on ones that look like bibliographies. A focus inherited from run
+N-1 is only spendable if run N's class matches; otherwise it should be handed
+forward intact rather than reported as missed.
+
+**Extract→Test is 11→3 and still the loss**, but this run says the ratio is not
+one number. Eight of the eleven candidates were never picked, and that was correct:
+the corpus is mature (343 subjects, 2,224 techniques), so most extractions resolve to
+prior art that already says it better — `gate-liveness` owned an entire candidate,
+and owned it more thoroughly than the source explained it. The stage that actually
+cost this run was neither Extract nor Test but **verification of the instrument**:
+three separate first numbers (24 surviving placeholders, 576 contradictions, 1797
+statute flags) were each wrong, and each correction came from opening the artifact
+instead of trusting the count. That is now the fourth, fifth and sixth confirmations
+of the rule the last scorecard promoted.
+
+Next run's declared focus: **when a run builds or runs an instrument, budget a
+hand-inspection pass before the number reaches the note, and record the first number
+beside the corrected one.** Every run that has done this found the first number
+wrong; no run has yet reported the pair, so the corpus cannot see how large the
+correction usually is. A run that reports both numbers has made the rule measurable
+instead of merely repeated.
+
+---
+
+**Run 2026-08-31 (`semantica`), and the declared focus did not apply.** The focus
+inherited from the wave run was to parallelise the mechanical half of Phase 6 when a
+wave returns more candidates than the director can verify. This run had no wave: one
+repository, one director, 18 candidates. **Saying why a focus did not fire is a result,
+not a miss** — the focus was written for a reference-index lane and is scoped to it, and
+a single-source run should say so rather than manufacture parallelism to comply.
+
+What the run has instead is a clean number on the stage that focus was aimed at.
+**Extract→Test was 18→6, a third**, against the 30→7 that named Extract→Test as the
+weakest stage. The mechanism was not parallelism; it was **reading the corpus's own
+denials first**. Two of the six landings were located by the Phase 6 enumeration hunt
+rather than by the source: `absent-degrades-malformed-fails-fast` declines a case in one
+line ("that is a runtime fact and a different technique") and the technique it names did
+not exist; `quality-gates` enumerates three ways a check cannot fire and the source
+supplied a fourth of a different kind. Neither was visible in the candidate list — both
+were visible in the file the candidate mapped to.
+
+**The apply stage produced the run's best material, and it did so by losing.** Six rows,
+six modes, and the two `not-better` verdicts each **corrected the technique that
+generated them** before it was a day old. The SSRF consumer's own comments explained why
+the pre-flight validator the technique had implicitly deprecated is not redundant — a
+literal address never reaches a connect-time resolver — and the lockfile row discovered
+that the ecosystem's strict-install command already *is* the oracle the technique
+prescribes building, which would otherwise have shipped duplicated logic to every reader
+whose installer already enforces it. **A technique that survives its own A/B unchanged
+has been confirmed; one that is corrected by it has been finished.** Three runs have now
+produced an amendment from a `not-better`; that is a rule this method should carry rather
+than a recurring pleasant surprise.
+
+The counter-observation is worth recording against it: `ship` is 0 again, and the reason
+is the same one the blocker taxonomy keeps naming — **confirmation**. Two rows
+(`vacuous-by-evaluation`, `verification-scope`) came back `better` with the change
+argued, the measurable named, and the fix under ten lines, and both stopped at Phase 8
+step 2 because the operator's triage answer named no project. The previous run learned
+that the cheapest fix is to ask for the tree in the same question that asks for the pick;
+this run asked, in one line, and the answer did not include one. Asking is necessary and
+was not sufficient.
+
+Next run's declared focus: **when a triage answer picks rows but names no project, treat
+the highest-`better` row's project as a second question asked at the moment the apply
+step confirms a seam — not at Phase 8.** The seam is what makes the question concrete
+("this gate scores identically with its manifest gutted; may I fix it in `personas`?"),
+and asking it at Phase 7.5, with the arms already run, is a different question from the
+speculative one asked at triage. A run that reports a non-zero `ship` after that change
+has found something; before it, the taxonomy has only been re-confirmed.
+
+**Weakest stage, last ten runs: still Extract->Test, and the previous focus never got
+tested.** Roughly 27 verified out of ~134 extracted, about a fifth - no better than the
+window that named it. `apply` is healthy (ten of ten rows carry a row or a stated
+none-owed) and `ship` has genuinely moved, 5 of the last 10 against 1 in 10 two windows
+ago. The declared focus - parallelise the mechanical half of Phase 6 - has now sat
+undischarged for three consecutive runs because all three were single-source runs with
+no wave to parallelise. A focus that only fires on one source class is not a focus, it
+is a contingency.
+
+**And the ratio is probably measuring the wrong thing.** Three of the last four runs
+recorded Extract->Test explicitly as *operator choice*: 1 of 12 here, 2 of 12 on
+ripgrep, 2 of 21 on knip. Phase 3 is instructed to extract 5-15 candidates and Phase 5
+is a cheap steering gate whose whole purpose is that most of them do not advance - so a
+low ratio is the gate working, not the funnel leaking. Counting an unpicked candidate as
+loss reads operator selectivity as pipeline failure, and it is the same error the method
+forbids elsewhere: an untriaged candidate carries no judgment, and filing it as one
+poisons the reading.
+
+Next run's declared focus: **split the Test column so the funnel stops mismeasuring
+itself.** Record `test` as `picked/verified/dropped` against `extracted`, where `picked`
+is the operator's (or the unattended rule's) selection and `dropped` is a candidate that
+was verified and resolved to already-covered. Then the stage that can actually leak -
+picked-but-not-resolved - becomes visible, and the untriaged remainder stops being
+counted against the run. A run that reports the split and finds picked->verified below
+80% has found a real loss; before the split, nobody can tell the two apart.
+
+Second, carried because it is now well past its threshold: **an instrument's first
+number is not its measurement** has fired five times across three runs, and twice in
+this one (arm B's 1.42x line gradient was surface-area artifact; the 62.9% baseline was
+a saturated predicate). It is no longer a lesson. It belongs in the method as a rule of
+Phase 7.5, and the next run to touch `SKILL.md` should carry it there.
+
+**Ship converted after the fact, and the mechanism is worth naming.** The row above
+first read `ship 0` for the reason nine of the last ten did: the operator's triage
+answer named the rows and not a tree, so Phase 8's confirmation gate was unsatisfied
+and the apply row banked the authorization as a return condition. The operator then
+asked for the change in one line, and it shipped in one session - an `experiment` row
+escalating to `code` with no new investigation, because the seam, the measurable, the
+arms and the falsifier were all already established. **That is the second consecutive
+run where `confirmation` was the whole of the ship blocker and lifting it cost a single
+round trip**, which says the previous focus's fix - ask for the tree in the same
+question that asks for the pick - is the right fix and simply was not applied here. It
+should be a standing part of the Phase 5 question rather than a lesson that has to be
+re-derived: **the triage prompt should ask which rows to land AND which trees may be
+touched, in one question.**
+
+**Run 2026-08-31 (`agentic-operating-level`), and the third consecutive confirmation
+zero.** The paragraph above named the fix - *the triage prompt should ask which rows
+to land AND which trees may be touched, in one question* - and this run did not apply
+it either, asked the standard question, got three row numbers and no tree, and filed
+two `better` apply rows with `ship 0 (blocked: confirmation)`. That is now three runs
+running, which is this method's own threshold for promoting a lesson into a rule, so
+it has been promoted: Phase 5's question in `SKILL.md` now asks for both in one
+breath. **The instructive part is that the diagnosis was already written down and
+still did not travel** - the closing paragraph of a scorecard is read at Phase 1 for
+the focus line and apparently not for anything else, which is a second-order version
+of the same failure the focus mechanism exists to fix.
+
+**What the run did produce is a class reading, and it belongs beside the
+source-class table.** A **doctrine talk** - a practitioner presenting a framework
+with no system, no artifact and no measurement - inverts this method's economics.
+The strip test and the corroboration table are ordered on the assumption that
+sources are made of proper nouns: strip first because it is cheap and kills most
+candidates, then spend the corroboration budget on survivors. A doctrine talk strips
+*perfectly*, by construction, so the cheap filter removes nothing and every candidate
+arrives at the expensive one. Running the two in the shipped order cost a full
+ranking pass over rows the corroboration table was always going to refuse.
+**For a doctrine talk, ask what could authorize this before asking what survives
+stripping.**
+
+Both landings then came from one move, and it is the move that works when a source
+cannot authorize anything: **find where a document declares its own completeness and
+ask whether it is short by one.** *"There are three honest resolutions"* was short by
+one; *"every failing case is owned by exactly one of these"* had a row holding two
+causes. Neither finding is in the source. The source pointed at both and got both
+wrong - a direction with no mechanism, and a mechanism that is backwards - which is
+the fourth run to say that a source implementing a good idea badly outperforms one
+implementing it well, and the cleanest instance so far, because *nothing* here was
+quotable.
+
+Next run's declared focus: **stop reporting Extract→Test as a funnel loss without
+splitting it by what the corroboration table can authorize.** This run extracted 14
+and tested 3, which reads as a 79% loss at the method's weakest-looking stage - and
+is nothing of the kind, because eleven of those rows were unmeasured doctrine that no
+amount of verification budget could have promoted. The stage that actually loses
+content is invisible in that ratio. Split the extract count at triage into
+*authorizable* (a primary exists, or convergence is reachable, or a tree can be
+opened) and *unauthorizable-by-class*, carry both numbers into the row, and measure
+Test against the first. A run that then still shows a low ratio has found a real
+verification-budget problem; before the split, it has only found that it read a
+source class whose claims nobody could have landed.
+
+---
+
+**Run 2026-08-31 (`pgrust`), and the authorizability split arrived one run early.**
+The focus above was written by a sibling *after* this run's triage table had shipped,
+so it could not steer the run — but the run happens to be the cleanest possible test
+of it, and the answer is not the one the split was designed to produce.
+
+Of 13 candidates, **13 were authorizable and 0 were unauthorizable-by-class.** That
+is not luck, it is the class: a repository source ships the code that implements its
+claims, so every row arrives with a tree that can be opened, and the corroboration
+table's "real code you read" lane is available for all of them at zero fetch. Test
+was 6 of 13 (46%), and the seven that did not advance were dropped on *judgment* —
+two resolved to catches against subjects that say it better, three went to leads
+because they had no home or too little evidence, two were parked untriaged. Under the
+new split this run reports 6/13 authorizable, which is a real verification-budget
+number and not a class artefact.
+
+So the split works, and it immediately shows something the aggregate hides: **the
+Extract→Test ratio is a property of the source class, not of the method.** A vendor
+prediction report cannot exceed a low ratio no matter how well it is mined; a
+repository cannot fall below a high one without the director actually wasting budget.
+Reporting one number across both has been comparing a talk to a codebase.
+
+The other half of the previous focus — parallelising Phase 6's mechanical lane —
+could not fire and this is the second run to say so. It is scoped to the wave lane,
+and a single repository is one document. Two consecutive non-applications is enough
+to say the focus was mis-scoped rather than unmet: it belongs in
+`references/reference-waves.md` as a wave-lane rule, not in the scorecard as a
+standing focus every source-class run has to decline.
+
+**Ship, read under the predicate the focus before last asked for, is 0 of 3 with one
+of the three not a loss.** The oracle row is `declined: no change warranted` — that
+tree already implements the remedy, which is exactly why it could validate it. The
+other two are `blocked: confirmation`, the modal blocker for the sixth run running,
+and both are now stronger cases than the usual: each has a measured two-arm result, a
+named repair under ten lines, and a return condition that retires it. The pattern is
+no longer "the change was not argued well enough"; it is that a triage answer naming
+picks does not name trees, and nothing after triage asks again.
+
+Next run's declared focus: **carry the source class into the funnel numbers, and ask
+for the tree at Phase 7.5 rather than at triage.** Two edits, both cheap. Put the
+class beside `Research` in the row so `Extract`→`Test` is read against its class
+expectation rather than against the ten-row average — the last ten rows mix a PDF
+prediction report, two videos, a mailing list and five repositories, and their ratios
+have been averaged as if they measured one thing. And move the tree question to the
+moment it is concrete: Phase 7.5 holds a named seam, a run A/B and a verdict, and an
+operator answering "yes, ship that" there is answering about something they can see,
+where at triage they were answering about a hypothesis. A run that then still reports
+`ship 0 (blocked: confirmation)` has found a genuine authorization boundary; before
+the move, it has only found that it asked too early.
+
+---
+
+**Read across the last ten rows, the funnel's weakest stage is still `ship`, but for
+the first time in seven runs the reason is not `confirmation`.** The previous focus
+predicted exactly this test: move the tree question to Phase 7.5, and a remaining zero
+either reveals a genuine boundary or reveals that the earlier ask was premature. It
+revealed a boundary — the authorized tree held a live in-flight append in the one file
+the change touches, and no amount of asking earlier would have moved it. That is a
+result, and it retires the `confirmation` diagnosis rather than repeating it.
+
+The stage now worth naming is **`apply` mode, not apply count**. Two rows for two
+landing clusters is 1:1 and healthy, but both are the weakest admissible modes:
+one `experiment` and one honest `unapplied`. Zero `code` rows have been filed in seven
+runs. The blocker is no longer permission and is not effort — it is that the fleet's
+trees are almost always mid-work, because the same operator runs a dozen sessions
+across them. A method that only lands `code` into a quiescent tree will never land one.
+
+**Next run's declared focus: check the target tree's WIP state at Phase 5, not at
+Phase 8.** The tree question was moved once already and it worked; this is the same
+move one stage earlier for the same reason. `git status --short` on the candidate
+project costs one command and turns "which tree may I touch?" into "which tree is
+*touchable today*?" — a question the operator can answer correctly, where the current
+one invites an authorization that the tree then refuses. Two consequences to check in
+the next row: whether a `code` row becomes reachable at all, and whether naming the
+constraint at triage changes which project the operator picks.
+
+---
+
+**Read across the last ten rows, `ship` is still the losing stage at 0 — but for
+the first time the zero has two different causes and merging them would misread
+the funnel.** Six runs to 2026-08-31 reported `blocked: confirmation`. The last
+two do not: slideops was `blocked: foreign WIP` against an authorized tree, and
+firstmate is **3 of 4 `declined: no change warranted`**. Moving the tree question
+to Phase 7.5 retired the authorization cause; what remains is a different fact
+and it is not a stage failure at all — the fleet does not hold the defects these
+findings describe. No project ships a session-start injector, none spawns an
+agent CLI relying on injected context, and the fleet's one in-path gate already
+implemented the amendment it was tested against.
+
+That points at the stage *upstream* of ship, and it is the one nothing currently
+measures: **source-to-fleet fit**. Four consecutive runs have landed via the
+enumeration and asymmetry hunts against mature subjects, which is the corpus
+finding gaps in itself. Those findings are genuine and they raise the standard —
+but a standard-level finding often has no project behind it, and a run that
+discovers this at Phase 8 has spent its apply budget learning something it could
+have predicted at Phase 4, where `research-map` already names the subject and
+`loadFleet()` already knows which projects declare its domain.
+
+Next run's declared focus: **predict the ship class at triage, from the fleet,
+before the picks are made.** For each candidate row, say in the triage table
+whether any managed project has a seam for it — the bridge resolves in one call
+and the answer is usually a one-line grep — and carry the prediction into the
+row as `seam: <slug>` or `seam: none`. A row marked `seam: none` is not a row to
+drop; it is a row whose apply mode is known in advance to be `simulation` and
+whose ship is known to be `declined: no change warranted`, which stops the run
+reporting as a loss what was actually a correct outcome. The check the next row
+should make: did any row's predicted ship class turn out wrong, in either
+direction? A prediction that is never wrong is not being made honestly, and a
+prediction that is often wrong means the seam grep is looking in the wrong place.
+

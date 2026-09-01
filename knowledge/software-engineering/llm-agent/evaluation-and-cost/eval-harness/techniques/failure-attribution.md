@@ -6,7 +6,7 @@ technique: failure-attribution
 status: forged
 laws: [failure-not-empty-success, gate-sees-target, count-carries-predicate]
 shared_with: []
-use_when: [a suite went red and nobody knows what to change, the aggregate improved but the same failures recur, deciding whether a failing case is a defect or a bad label, an agent-based system failed and both the prompt and the model look correct, designing the change a failing class calls for, an optimizer or agent is proposing harness changes and nothing says how many at once, a model upgrade landed and the harness still carries the previous model's workarounds]
+use_when: [a suite went red and nobody knows what to change, the aggregate improved but the same failures recur, deciding whether a failing case is a defect or a bad label, an agent-based system failed and both the prompt and the model look correct, designing the change a failing class calls for, an optimizer or agent is proposing harness changes and nothing says how many at once, a model upgrade landed and the harness still carries the previous model's workarounds, a failing class does not move when the instruction is made stricter, deciding whether a residual model failure is worth a stronger model]
 ---
 
 # Failure attribution
@@ -367,3 +367,36 @@ the capability the case requires does not exist in the dependency at any version
 — and route it to the environment, the lockfile or the roadmap rather than to the
 model. An attribution funnel with no pre-run row does not report zero of these; it
 reports them as model failures.
+
+## Inside a correct model attribution, two causes and one response
+
+The pre-run row repairs the funnel's *under*-attribution: cases that were never
+the model's, arriving at the model because no earlier row could hold them. The
+same prescription fails a second time from the opposite direction, and here the
+attribution is right when it fails. Everything upstream is genuinely clean, the
+run executed, the residual is real — and *a different model* is the correct
+response to one of the two causes the residual contains and a wasted
+re-baseline against the other.
+
+- **Absent capability.** The model cannot do it. *Tell:* the failure is
+  **graded**. It tracks difficulty — partial credit, the right shape with wrong
+  content, a better rate on the easy half of the class — and it moves when an
+  example, a decomposition or a larger budget is supplied. *Response:* the one
+  the row already names.
+- **Trained constraint.** The model will not do it, because declining is
+  something the training holds rather than something the weights lack. *Tell:*
+  the failure is **sharp**. The same boundary at every difficulty, no partial
+  credit, no movement when examples are added, and often an output that says
+  what it is doing instead. *Response:* not a stronger model. The constraint is
+  a property of how the class of models was trained, not of this one's ceiling,
+  so the next tier and the next generation reproduce it and the suite pays a
+  full re-baseline to find out. Reframe the task, route the class off the model,
+  or record the accepted limit — the one branch the two causes share.
+
+Graded-versus-sharp is the whole discriminator and it costs one re-run at two
+difficulties. It is worth spending, because misreading the second cause has a
+direction: a class that does not move when the instruction is made stricter
+reads as a *prompt* failure, so the cases go back up the funnel and the response
+is a stricter reminder, which does not move it either. What accretes there is the
+third compensation state above — now the failure — built against a model property
+that no upgrade retires, because it was never a defect to begin with.

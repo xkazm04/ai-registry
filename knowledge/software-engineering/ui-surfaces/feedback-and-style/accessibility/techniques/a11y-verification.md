@@ -154,6 +154,30 @@ feed backward: every defect the human pass catches becomes, where
 possible, a new layer-2 or layer-3 assertion, so the expensive layer
 converges toward confirming rather than discovering.
 
+**A model standing in for the user does not substitute for this layer, and the
+reason is structural rather than a matter of current accuracy.** Systems that
+predict how people will respond to an interface are measured against recorded
+human answers about *static screenshots* — which preference wins, how a screen
+is rated — and their own authors state the boundary plainly: usability problems
+that emerge only through multi-step interaction, navigation breakdowns, delayed
+feedback, error recovery, expectation mismatch, are outside what such a system
+sees. That list is layer 5's entire subject. Layers 1–4 already cover what a
+static check can reach, and they are deterministic and cheaper than any model.
+
+So a synthetic evaluator has no seat on this ladder: it is strictly worse than
+layers 1–4 at the thing they do, and blind to the thing layer 5 exists for. The
+one number worth carrying is the shape of the evidence rather than its value —
+those systems report rank correlation against pooled human ratings, with **no
+human-to-human agreement reported**, which means the alignment figure has no
+ceiling to be read against and cannot be compared to a human pass at all.
+
+Two related caveats, so this is not read as a blanket refusal. A model *is*
+useful here for what it does elsewhere in this ladder — generating candidate
+journeys to walk, drafting assertions from a defect the human found, triaging
+which surfaces changed enough to need a pass. And the boundary is about
+substitution, not assistance: the failure is spending layer 5's budget on a
+proxy that cannot experience a journey, then reporting the ladder as complete.
+
 ## Cadence
 
 Layers 1–4 run on every change; they are the regression floor. Layer 5

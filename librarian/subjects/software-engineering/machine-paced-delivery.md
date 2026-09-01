@@ -140,3 +140,85 @@ transcripts, zero detections - and ran green the whole time, because its
 turn-boundary predicate broke on line one. It independently reached
 `gate-liveness`'s three-state contract afterwards, which is corroboration for the
 standard rather than an application of it.
+
+## 2026-08-31 - `/intake` (run `intake-ripgrep-0831`)
+
+Source: the same search-tool repository, for its `AI_POLICY.md` and
+`CONTRIBUTING.md`. Amended `stake-before-merit` with a channel split; the
+subject gains one application (`process--stake-before-merit`) and no new
+technique.
+
+**This was a contradiction, and the contradiction is why it was worth taking.**
+`stake-before-merit` closes its central argument with "the distinction is
+authorship of the accountability, **not** authorship of the text" - and the
+source's policy draws precisely that denied distinction, by channel: generated
+code is welcome, generated replies to maintainers may be hidden without notice.
+The technique is right that stake is *asked for* at admission; it is only
+*tested* in the review round trip the same technique separately names as the
+expensive half, and the reviewer's question there is a probe of comprehension
+rather than a request for text. The asymmetry is structural: the diff has
+instruments that do not care who wrote it, while the conversation has only the
+reviewer's attention - the scarce server the whole technique exists to protect.
+So generated discourse is the one contribution class that consumes the
+protected resource while adding nothing to it.
+
+The denied-symmetry hunt found this. That is now three consecutive runs where a
+technique's explicit denial of a distinction was the highest-yield thing to
+test, and it is worth treating as the first hunt rather than the third.
+
+The amendment kept the technique's own guardrail intact: it restricts a
+*channel*, never tooling, and it carries a translation carve-out, because the
+rule otherwise falls hardest on contributors working in a second language and
+becomes a language test nobody intended.
+
+**Contention note.** `intake-yt-tgbj-0831` held this subject concurrently and
+was editing the golden path and `human-gate-capacity.md` while this run amended
+`stake-before-merit.md`. Contended subject, disjoint files - no `content` lock
+was needed and none was taken.
+
+## 2026-08-31 - intake, a two-founder software-factory dialogue
+
+[[2026-08-31-boundary-software-factory]]. **The asymmetry shape a third time**, and
+this note's own generalization predicted it: size is stated in prose in
+`proposal-not-push` ("the size at which review degrades to skimming is lower than
+people admit") and rate is modelled in `human-gate-capacity` with four measures, a
+distribution discipline and an ordered lever ladder. What made this one different
+from the first two is that the corpus had **already written the missing half and
+filed it elsewhere**: `batch-size-thresholds` in `delivery-analytics` names its top
+size bucket *approval is a formality* - the rubber stamp, at size - and nothing
+connected it to the gate that models the rubber stamp. Worth carrying: a near-empty
+map over a concept is sometimes not a hole and not a seam, but **material we own in
+a measurement subject and never lifted into the decision subject that needs it**.
+
+Amendment to `human-gate-capacity` (no new technique, so the `techniques:` list was
+untouched - which is what made this landable while two siblings held the subject).
+It carries the discriminator (rising post-merge repair with *low* arrival is the
+size case), the inverted remedy (this one *raises* arrival), the honest split
+predicate borrowed from `proposal-not-push` (independently mergeable and
+independently worth merging - because `batch-size-thresholds` already warns that
+splitting is the canonical gameable move), and a correction to a decision rule:
+per-item slimming is a constant factor for *shape* work and not for size.
+
+**The apply step re-drafted the technique again - that is now three times on this
+subject.** First application for `human-gate-capacity`, which discharges the debt
+recorded here on 2026-08-28. Arm B by changed lines looked like a clean 1.42x
+confirmation; the control destroyed it. Post-merge repair tracks *files touched*
+monotonically (34% to 92%) and, holding files fixed, the line gradient vanishes and
+inverts in the single-file band. Larger changes touch more files, so a line-based
+size measure reproduces the files result and confirms itself. The technique gained
+the condition: state the unit, validate it against the other candidate once. The
+owning table leaves the unit open and defaults to lines.
+
+Bound recorded in the application rather than smoothed over: the measured tree has
+no human merge gate on that population, so the premise is corroborated and the
+mechanism is unobserved. Return condition is a tree with recorded review events -
+which would also give this subject the two measures (dwell, backlog age) that no git
+history can supply.
+
+## Still owed here
+
+- `verification-throughput-as-constraint`'s prioritization rule at the human gate -
+  unchanged from 2026-08-27, still nothing written.
+- The **law lead** is at its second sighting (2026-08-29) and this run did not
+  advance it; the size finding is a different root, not a third sighting of the
+  thesis.

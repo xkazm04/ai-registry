@@ -54,7 +54,18 @@ Two readings matter more than the tabulated modes:
    machine can read off a failure is what it looked like; what it cannot
    read off is why it happened — and the cause axis is the one that routes
    the fix. So automate the effect pass, keep cause attribution human, and
-   treat a cause distribution built by a judge as unlabelled data. The
+   treat a cause distribution built by a judge as unlabelled data.
+
+The hazard is wider than an agent judge. A distribution produced by *any*
+unvalidated classifier is unlabelled data — a supervised model fine-tuned on a
+neighbouring domain and applied here without a reported accuracy, a topic model
+whose clusters were confirmed by an unquantified "manual inspection", a
+heuristic over metadata. A large corpus makes this harder to see rather than
+easier, because the scale reads as rigour: one published study classified more
+than forty thousand artifacts this way, reported no classifier accuracy, no
+annotator count and no agreement statistic, and its taxonomy was quoted as a
+field-wide finding. **Ask what validated the labels, never how many there
+are.** The
    discipline is that the *distribution* is computed before any redesign is
    argued,
    because a fix chosen from the most recent failure optimises an anecdote
@@ -106,6 +117,18 @@ Two readings matter more than the tabulated modes:
 The taxonomy is descriptive of current frameworks on current tasks; its
 shares will drift as harnesses fix their plumbing, and per-system
 distributions differ enough that the published aggregate is a prior, not
-your measurement. The technique's claim survives that drift: classify
+your measurement.
+
+**The reason a pooled distribution misleads is composition, not variance, and
+that makes the corrective constructive rather than cautionary.** Pool failures
+across N systems without a per-system cap and the result describes whichever
+system reports most; impose a cap and the result describes the cap. Both
+failures have been observed in published corpora — one where a hard cap per
+project manufactured uniformity across frameworks of wildly different size, and
+one uncapped where two repositories of eight supplied three quarters of the
+population and the pooled taxonomy's largest category turned out to be one of
+those two repositories' label vocabulary. So **publish per-system distributions
+and let the reader pool**, with the per-system denominators beside them. An
+aggregate with no composition table cannot be checked and cannot be reused. The technique's claim survives that drift: classify
 against a closed taxonomy first, fix the dominant class, and expect
 verification and specification — the unglamorous ends — to dominate.

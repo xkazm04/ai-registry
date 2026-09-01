@@ -4556,3 +4556,482 @@ into `references/reference-waves.md` when someone next edits it deliberately.
   cannot see it, and the instrument that would - an acoustic measure over
   rendered samples plus one usage fact - is nameable. A run that had forced a
   `better` out of one live case would have recorded an opinion.
+## 1.5.0 - 2026-08-31 - ripgrep
+
+- **The Extract->Test ratio means two different things and the scorecard conflates
+  them.** On a wave or unattended run it is a director-capacity signal - candidates
+  arrived faster than one serial verifier could judge them, which is what the last
+  focus was written to fix. On an attended run it is the operator's appetite, and
+  the unverified rows were never in contention for the verification budget at all.
+  This run reads 2/12 and lost nothing; the previous window's 7/30 lost plenty.
+  Averaging them produces a "weakest stage" that describes no real population, and
+  that reading is what every method edit is aimed at. Record the triage mode on the
+  row and read the series separately. Filed as the next run's declared focus.
+
+- **A denied symmetry is now the highest-yield Phase 6 hunt, ahead of the missing
+  stage and the enumeration.** Three consecutive runs have had their best landing
+  come from a technique that explicitly says "the distinction is X, *not* Y" - and
+  in each case Y turned out to be load-bearing in a neighbouring case the author had
+  not separated. It outperforms the plain enumeration hunt for a structural reason
+  worth stating: an enumeration is a claim somebody made carelessly while writing
+  something else, whereas a denial is a boundary somebody *thought about* and drew,
+  which means it is both more likely to be nearly right and more likely to be
+  wrong in an interesting place. The method lists this third among the hunts; on the
+  evidence it should be first. Not applied as an edit yet - one more run confirms it.
+
+- **The fetch budget's class prediction has now held three times running, and saying
+  it out loud before the triage table is what makes it useful.** This run named the
+  class, predicted zero fetches and amendments-not-subjects, and spent zero of three.
+  The prediction is not a formality - it is what stopped a "no prior art" reflex on
+  two candidates that turned out to be seams inside ten-technique subjects.
+
+- **`git`-shaped repository sources tempt a proper-noun map query and the method's
+  2026-08-31 warning caught it.** The candidate vocabulary here was almost entirely
+  banned words - the tool's name, the ignore-file names, the alternate regex engine.
+  Mapping on concepts instead ("directory traversal", "filter escape hatch") returned
+  the neighbourhoods that mattered. The warning added this morning did its job on the
+  first run that could have tripped over it.
+
+### Redesign proposal - not applied
+
+  **The scorecard's funnel table should carry a `mode` column** (attended /
+  unattended / wave / apply-only), and the closing "weakest stage" line should be
+  computed per mode rather than over the last ten rows regardless of shape. The
+  current single series has now mixed an apply-only run with 0 extract, wave runs
+  with 30, and attended runs with 12, and the resulting stage reading has changed
+  its diagnosis three times in ten rows - which is better explained by the population
+  changing than by the method changing. This is a change to the measurement rather
+  than to the pipeline, so it belongs to a run that is not also landing content.
+
+- **Mid-flight runs on 1.5.0: nothing to do.** No `SKILL.md` edit was made this run;
+  the lessons above are recorded and unapplied, and no version bump is owed.
+
+## 1.5.0 - 2026-08-31 - awesome-agentic-patterns
+
+- **The queue's class grade is a hypothesis, and the ratio test is the cheapest way
+  to refute it.** This source was graded `paper aggregator / reference index` in the
+  harvest queue, and the operator picked it specifically to run the `--wave` lane.
+  The tree said otherwise in one command: 5,080 outbound links over ~996,000 words
+  of prose is **one link per 193 words**, a code-repository ratio, where a reference
+  index inverts it. Phase 2c already describes this test but frames it as something
+  to reach for once you suspect a bibliography. It should run on **every**
+  repository-shaped source, before the lane is chosen, because the failure it
+  prevents is not a mis-read — it is a whole run executed in the wrong lane. Eight
+  parallel readers would have been dispatched over a corpus whose value was three
+  JSON files.
+
+- **A declared focus is only spendable when the run's class matches, and that is not
+  a miss.** The focus inherited from 1.5.0's last row was about waves flooding the
+  director's verification budget. No wave ran, so the focus had no occasion. The
+  right move is to hand it forward intact rather than report it as unmoved — a focus
+  attached to a *lane* survives a class correction, one attached to "the next run"
+  does not. Four runs' worth of the same instruction have now been consumed by
+  whichever source happened to arrive next.
+
+- **Record the first number beside the corrected one.** Three instruments produced
+  three wrong first numbers this run — 576 contradictions, then 114, then roughly 1
+  after hand-inspection — and each correction came from opening the artifact rather
+  than from re-running the count. The scorecard promoted "an instrument's first
+  number is not its measurement" to a rule last run; this run is its fourth, fifth
+  and sixth confirmation, which means the rule is established and the *interesting*
+  quantity is now the size of the correction. No run has yet reported the pair. A
+  note that says "576 → 29" teaches the next run how much slack to budget; one that
+  says "29" teaches it nothing.
+
+- **When the corpus refuses a candidate, say which file refused it.** One candidate
+  died against `gate-liveness`, which owned the whole idea and owned it better than
+  the source explained it — seeded-failure tests, "time since last red", fixtures
+  that never contain the pattern the rule exists to catch. Writing the refuting
+  file's name into the source note's catch is what stops the candidate being
+  re-derived; writing only "already covered" does not.
+
+- **A `not-better` from domain mismatch is a condition, and the condition outlives
+  the verdict.** The apply step failed in the connected project not because the
+  technique was wrong but because the predicate meant something different there: a
+  statute's neighbouring years are process dates, so "earlier year, later
+  identifier" is normal rather than impossible. That sentence is now the most
+  portable thing the run produced — it tells any future reader exactly which corpora
+  the cheap check is decisive in. A `not-better` row whose note says only "did not
+  hold here" would have thrown it away.
+
+- **Mid-flight runs on 1.5.0: nothing to do.** No `SKILL.md` edit was made this run;
+  the lessons above are recorded and unapplied, and no version bump is owed. The
+  first two bullets argue for a Phase 2/2c wording change, but a method edit with
+  six sessions live belongs to a run that is not also landing content.
+
+## 1.5.0 - 2026-08-31 - boundary-software-factory
+
+- **A near-empty is sometimes neither a hole nor a seam: it is material we own, filed
+  in a subject that does not make decisions.** The method already names two readings of
+  a weak map result. This run found a third and it was the whole finding.
+  `human-gate-capacity` models the review rubber stamp and enumerates its remedies;
+  `batch-size-thresholds`, two categories away in a *measurement* subject, had already
+  written "approval is a formality" as the definition of its top size bucket. Neither
+  file was wrong and no map query would have connected them, because the concept lives
+  under different slugs on both sides. The generalisable move: when a candidate looks
+  already-covered, ask not only *which file measures it* (the existing asymmetry hunt)
+  but **whether the file that measures it is allowed to decide anything**. A measurement
+  subject can hold a fact for months without any decision subject inheriting it.
+
+- **An amendment inside a technique file is the collision-free landing, and that is a
+  structural property worth exploiting deliberately.** Two siblings held
+  `machine-paced-delivery` while this run wrote into it. A new technique would have
+  contended on the golden path's `techniques:` list - the one line every landing on a
+  subject must touch. An amendment touches only the technique file plus, optionally, one
+  prose clause. The method already prefers amendments on yield grounds ("often the
+  higher-yield move and always the cheaper one"); it should also say they are the
+  *parallel-safe* one. When the board shows a sibling on your subject, check whether the
+  finding can be an amendment before deciding to wait.
+
+- **The apply step's control is not optional, and the first number lied twice in one
+  run.** Arm B separated post-merge repair 81% vs 57% by changed lines - a clean 1.42x
+  that would have shipped as a confirmation. Holding *files touched* fixed collapsed the
+  gradient and inverted it in the single-file band: the effect was surface area, since
+  larger changes touch more files. The baseline lied too - 62.9% repair across the whole
+  population was a saturated predicate at 40 changes/day on overlapping files. Both were
+  caught by the same cheap move: **name the confounder you would most like not to have,
+  and hold it fixed once.** This is the fifth sighting across three runs of "an
+  instrument's first number is not its measurement"; the scorecard now says it belongs in
+  the method rather than here.
+
+- **A negative unit result is a landing.** The refutation did not weaken the amendment,
+  it gave the amendment the one thing it was missing - a stated unit condition. The
+  owning threshold table names the unit as an open choice and defaults to changed lines;
+  this run is the first evidence in the corpus that the default can carry almost none of
+  the signal it appears to carry. Phase 7.5 has now re-drafted a technique on this
+  subject three separate times, which is enough to say plainly: **the apply step is a
+  drafting instrument, not a validation step**, and a technique landed without one is a
+  first draft regardless of how well it reads.
+
+### Redesign proposal - the Test column is measuring operator selectivity as loss
+
+Not applied this run. The scorecard has named Extract->Test as the weakest stage for two
+windows running, but three of the last four runs recorded that ratio explicitly as
+*operator choice* (1 of 12 here, 2 of 12, 2 of 21). Phase 3 is instructed to extract
+5-15 candidates precisely so Phase 5 can steer cheaply, so most candidates not advancing
+is the gate working as designed. Counting them as funnel loss commits the error the
+method forbids elsewhere - treating untriaged as declined - and it has now sent two
+consecutive runs chasing a director-throughput problem that the numbers do not show.
+Proposal: record `test` as `picked/verified/dropped` against `extracted`, so
+picked->verified is the only ratio read as loss. Belongs to a run not also landing
+content.
+
+- **Mid-flight runs on 1.5.0: nothing to do.** No `SKILL.md` edit was made this run and
+  no version bump is owed. Five sibling sessions were live at commit; the two rules above
+  that argue for a method edit (the third near-empty reading, and the confounder rule
+  reaching its threshold) are recorded and unapplied, and the scorecard names the next
+  run to touch `SKILL.md` as their carrier.
+## 1.5.0 - 2026-08-31 - semantica
+
+- **An A/B that returns `not-better` and then corrects the technique it tested is the
+  highest-value outcome this method produces, and this run got two in one sitting.** The
+  SSRF consumer's own comments supplied a rule the technique had implicitly denied — the
+  pre-flight validator is *not* redundant with the connect-time resolver, because a
+  literal address never reaches a resolver at all — and the lockfile row discovered that
+  the ecosystem's strict-install command already *is* the oracle the technique
+  prescribed building, which would otherwise have shipped duplicated logic to every
+  reader whose installer already enforces it. In both cases the technique was **less
+  correct before the apply step than after it**, and neither correction was reachable
+  from the source: one came from a consumer that had solved the problem better, the
+  other from a tool's documented behaviour. The scorecard now records this as the third
+  consecutive run producing an amendment from a `not-better`. **This is past the
+  three-run threshold and belongs in `SKILL.md` as a rule of Phase 7.5** — a `not-better`
+  row asks "what did the seam know that the technique did not", and the answer is
+  written into the technique before the run ends, not banked. Not applied here: three
+  sibling runs have edited the skill lane today (`6ac2b4a`, and three more touching
+  `SCORECARD`/`LESSONS`), and a fourth editing `SKILL.md` in the same afternoon without
+  reading their diffs is the exact hazard the method names. **A mid-flight run should do
+  nothing about this bullet; the next run to open `SKILL.md` should carry it.**
+
+- **Read the prior-art file for what it *declines*, not only for what it covers.** Two
+  of six landings were located this way, and neither was visible in the candidate list.
+  `absent-degrades-malformed-fails-fast` contains the sentence "malformed is not 'the
+  dependency rejected it' — that is a runtime fact and a different technique", and that
+  technique did not exist; `quality-gates` enumerates three ways a check cannot fire and
+  the source supplied a fourth of a different kind. Phase 6 step 3 already says to hunt
+  enumerations, and step 4 says to hunt asymmetries. This adds the cheapest variant of
+  both: **a document that names a neighbouring technique as out of scope has told you
+  whether that technique exists — and the corpus is large enough now that it usually
+  does not.** A grep for "a different technique", "not this subject", "belongs to" across
+  the bundle would return a standing worklist of gaps the corpus has already localised
+  for free. Worth an instrument if a second run confirms the yield.
+
+- **A declared focus is scoped to a lane, and a run in a different lane should say so
+  rather than comply.** The inherited focus was to parallelise Phase 6's mechanical half
+  when a *wave* returns more candidates than the director can verify. This was a
+  single-source repository run: no wave, one director, 18 candidates. Manufacturing
+  parallelism to satisfy it would have produced worse work and a meaningless scorecard
+  row. Phase 1 step 5 already permits "if the focus does not apply to this source, say
+  why in the scorecard row" — this run is the case that makes the permission load-bearing
+  rather than decorative, and the ratio it was aimed at (Extract→Test) came in at 18→6
+  anyway, by a different mechanism.
+
+- **A sibling swept this run's `SCORECARD` append into its own commit** (`0cf4da6`)
+  between the ledger unlock and this run's commit. Nothing was lost — the row is in
+  `HEAD` under another run's message — and the `ledger` lock did its job, because the
+  append itself did not race. But it shows the lock's boundary: it serializes the
+  *write*, not the window between the write and the writer's commit, and a shared file
+  appended by twelve runs will routinely be committed by whoever reaches `git commit`
+  first. That is benign and probably not worth fixing; it is worth **not** diagnosing as
+  a lost append the next time a run finds its own row already in `HEAD` under a stranger's
+  commit message.
+
+- **Two `ship 0` rows this run were `better` with the change argued, the measurable
+  named, and the fix under ten lines**, and both stopped on `confirmation` — the operator's
+  triage answer picked six rows and named no project. The previous run's lesson was to
+  ask for the tree in the same question that asks for the pick; this run asked, in one
+  line, and it was not answered. The scorecard's next focus moves the question to where
+  it is concrete: ask at Phase 7.5, holding a named seam and a run A/B, not at triage
+  holding a hypothesis.
+
+## 1.5.0 - 2026-08-31 - pgrust
+
+- **The vendor-repository class predicts the parts correctly and the ratio wrongly,
+  and one question separates the two shapes.** The class entry describes a company's
+  repo for a product "whose engine is a hosted service" — marketing-dominant, one
+  honest rules page, the real data model hiding in a client's types. This source is
+  the same nominal class and inverts it: 2,480 rendered words against ~7,500 words of
+  operating documents, with no hosted engine and therefore no client types to check.
+  The discriminating question is **is the repository the product, or an SDK over a
+  product that lives elsewhere?** When the repository *is* the product, the class's
+  reliability ordering still holds (README last) but its yield expectation is far too
+  low, and the run should be budgeted like a first-party practitioner account. Not
+  applied to the reference yet — one source is thin evidence for a class edit, and a
+  second sighting should make it a row.
+
+- **Third consecutive run in which the denial hunt (Phase 6 step 3) carried the entire
+  yield**, and this one is the cleanest instance: all three landings are enumerations
+  that claim completeness and miss a case the same file describes. Two rot axes named
+  with the third in the file's own prose; "there is no self-check" true for only one
+  direction of a distinction the file never draws; "compare against that one rather
+  than writing a third" silent on what that oracle cannot see. The rule is already in
+  `SKILL.md`, so no edit is owed — what is worth recording is that the hunt is now the
+  *primary* extraction method on mature subjects rather than a supplementary one, and
+  that its best targets are the sentences a technique writes to sound thorough.
+
+- **An apply step refuted the run's own new document, for the second consecutive run.**
+  The draft covered the fitted corpus and not the fitted grading predicate; the arm
+  that exposed it scored 11/11 while 9 of 11 payloads passed through the artifact
+  unmodified. Worth generalising as a habit rather than a rule: when the landing is a
+  *measurement* technique, run its own check against the apply's instrument before
+  writing the row — the technique that says "the corpus can be fitted" is the one
+  likeliest to have forgotten that the question can be too.
+
+- **Operational, cost one failed gate run:** application filenames are
+  `<stack>--<technique>.md` **exactly**, one per (stack, technique) pair, and a
+  descriptive suffix fails `check-bundles`. When a technique already has an
+  application on your stack from a different tree, the collision is real and the
+  repair is to pick the more specific accurate stack label (here `next` over `node`),
+  not to invent a suffix. `verified_against` must then name that same stack, which
+  is a second failure if only the filename is changed.
+
+- **A wrong first hypothesis about a project's CI, settled by one command** — the
+  fourth consecutive run where an instrument's or a tree's first apparent reading was
+  wrong. The test files skip on an unset environment variable, which reads as
+  "env-gated out of CI"; the workflow stands the infrastructure up and marks the arms
+  required. Reading the test file is not reading the pipeline, and the pipeline is
+  where the policy lives.
+
+## 1.5.0 - 2026-08-31 - agentic-operating-level
+
+- **A doctrine talk inverts the strip-test/corroboration ordering, and the shipped
+  order wastes a pass.** A practitioner presenting a framework with no system, no
+  artifact and no measurement produces claims that are proper-noun-free *by
+  construction* - so the strip test, which exists to kill most candidates cheaply,
+  kills none, and all fourteen candidates arrive at the corroboration table that was
+  always going to refuse eleven of them. For this class ask *what could authorize
+  this* before asking *what survives stripping*. Recorded as a class note in the
+  source note; not yet in `references/source-classes.md`, because one observation.
+- **The move that works when a source can authorize nothing: find a document
+  declaring its own completeness and ask whether it is short by one.** Both landings
+  came from it - *"There are three honest resolutions"* was short by one, and *"every
+  failing case is owned by exactly one of these"* had a row holding two causes with
+  opposite repairs. `SKILL.md` Phase 6 already names the enumeration hunt; what this
+  run adds is that it is the *primary* instrument for an unauthorizable source rather
+  than one of three, because it sources the finding from the corpus and uses the
+  source only as a pointer.
+- **Fourth run running: a source that implements a good idea badly beat one that
+  implements it well** - and this is the cleanest instance, because nothing here was
+  quotable. The source pointed at both findings and got both wrong: a direction with
+  no mechanism, and a mechanism that is backwards (it prescribed teaching for the
+  half that teaching does not move). Neither finding could have been written from it;
+  neither would have been looked for without it.
+- **An instrument built at the wrong altitude does not go quiet, it produces
+  confident numbers.** The apply harness harvested a glossary's own
+  *must-translate* callout as protected terms and reported a 29.6% violation rate,
+  counting every correct translation as a defect. It cleared its own self-check
+  because the self-check tested that terms *parsed*, not that they were the right
+  terms. Fifth consecutive run where an instrument's first reading was wrong; the
+  standing corrective (an instrument's first number is not its measurement) held
+  again, and the failure is now the same shape as the finding the run was landing.
+- **`research-map` is near-useless on a doctrine source and the reason is structural.**
+  Doctrine terms are abstractions - altitude, leverage, control - and the index
+  matches slugs, so every call returned high-scoring, semantically unrelated hits
+  (`ui-controls` for "leverage control tradeoff"). All four homes were found by
+  reading subjects' **stated boundary paragraphs** instead. Worth a line in Phase 4:
+  for a doctrine candidate, go to the boundary statements directly and treat the map
+  as neighbourhood-only.
+- **A sibling swept this run's ledger appends into their commit, and nothing was
+  lost.** `librarian/applied.md` and `librarian/sources/index.md` were appended under
+  the `ledger` lock and were in `HEAD` under another run's name minutes later.
+  A second sibling appended a `SCORECARD.md` row *while this run held the ledger
+  lock* - both rows survived only because this run inserted by line position rather
+  than rewriting the file. **Mid-flight runs on 1.5.0: nothing to do, finish on the
+  version you loaded.** The 1.6.0 edit is the Phase 5 question only.
+
+### Promoted to a rule this run
+
+- **Ask for the tree in the same question that asks for the pick.** The scorecard
+  named this fix twice, in two consecutive closing paragraphs, and a third run
+  (this one) reproduced the blocker anyway: two `better` apply rows, `ship 0`,
+  blocked on nothing but Phase 8's confirmation gate. Three runs running is this
+  file's own threshold, so Phase 5's question now asks for both halves and
+  `SKILL.md` went to 1.6.0. **The second-order lesson is the more uncomfortable
+  one**: the diagnosis was already written down and did not travel, because a
+  scorecard's closing paragraph is read at Phase 1 for the focus line and
+  apparently for nothing else.
+
+## 1.3.1 - 2026-09-01 - voltagent-awesome-ai-agent-papers, wave 4
+
+The Multi-Agent cluster wave 1 dropped for contention, mined once the board emptied.
+8 of 8 lanes worth a slot. Three rules landed in SKILL 1.3.2; the rest is here.
+
+- **Never establish an absence from a truncated output.** Wave 1's rule was about a
+  bad query. This is the same failure with a *good* query and a cut-off result, and it
+  is worse because nothing looks wrong: a grep returned 22 files, `head -8` showed
+  eight, and the subject that refuted the whole acceptance rule was in the fourteen
+  that scrolled past. Independently, `research-map --prose` ranked the same subject 7th
+  against a default top-6. **Two correct instruments, two truncations, one hidden
+  subject** — and I wrote a wave-wide acceptance rule on the strength of it. Two
+  workers caught it; one diagnosed the mechanism more precisely than I had.
+- **A worker retracting its own candidate is the system working.** The MAS-Orchestra
+  lane proposed an amendment, then withdrew it after applying the corpus's own
+  family-diversity test and finding the paper's negative result was our rule's
+  prediction. Briefs should keep asking for the override *and the argument*; this is
+  what it buys, and it is cheaper than a director catching it at review.
+- **Three headlines died to arithmetic in one wave, and each died differently** — a
+  denominator swap (the reported gap was against a per-problem hindsight oracle, which
+  reproduced 5/5 while the advertised baseline reproduced 0/5), a direction inversion
+  (a paper measuring the opposite of its title), and a control parameter that does not
+  contain the variable in the title. The common defence is the same and it is cheap:
+  **re-derive the headline from the table before quoting it.** None of the three needed
+  a fetch to catch — only arithmetic on numbers already extracted.
+- **Apply 0 twice is not one pattern.** Wave 3's unapplied set were rules about how a
+  *number* is produced; wave 4's are rules about *structures the fleet does not build*
+  — no chain that forks and rejoins, no recursive decomposer, no multi-model panel, no
+  a11y ladder. Recording them as one class would have merged two different gaps and
+  falsely triggered the `re-analysis` redesign. **Check each finding against the tree
+  individually and state the reason per class, not per run.**
+- **A demand signal and an absence can be the same fact from two ends.** The librarian
+  scan ranks `accessibility` third at 46 points with a single-stack flag; the fleet's
+  one React desktop app has no axe dependency and no a11y script at all. The scan
+  measures demand from the consumer side and the tree shows the vacuum from the other.
+  Worth a standing check: when a subject ranks high on attention and its consumers run
+  none of its tooling, that is not a coverage gap in the corpus, it is an adoption gap
+  in the fleet, and the two want different work.
+- **The wave's best material came from papers that failed.** Four of eight lanes
+  returned no content and were still worth their slot: one killed a fabricated
+  threshold before it landed, one proved its own thesis unmineable, one turned out to
+  be repository metadata rather than failure data, and one was an instance of a smell
+  we already publish. The corroboration section's "a source that implements a good idea
+  badly is worth more" held four times in one wave.
+
+## 1.6.0 - 2026-09-01 - slideops-readme
+
+- **A source class can be inverted by the operator's question, and the inversion is
+  worth naming rather than treating as an exception.** Phase 2b's rule is that a
+  repository's README is its advertisement and must be read last. This run's scope was
+  *the README's form* — styling, formatting, the balance of visual and text elements —
+  which makes that same file the primary source and the tree the corroborating
+  evidence that the form was engineered rather than stumbled into. The generalisation:
+  **when the question is about a document's form rather than its claims, the file the
+  class tells you to distrust becomes the artifact under study.** The class still
+  decides where the yield hides; it just stops deciding which file is the ad. Phase 2b
+  should say this in one sentence rather than leaving the next run to rediscover it,
+  because the naive reading ("clone it, read the README last") would have produced a
+  run that never opened the thing it was asked about.
+
+- **When a run forges a rule AND its detector, reconcile the detector to the rule
+  BEFORE the rule's numbers are argued — not after.** This run wrote
+  `check-readmes.mjs` with provisional thresholds, measured the fleet, handed those
+  numbers to a forge worker, and the worker argued its threshold against them. Then the
+  forged technique turned out to state a *closed break set* that my counter did not
+  implement: it admitted paragraph breaks and bare headings, and read the fleet's worst
+  prose run at 39 lines where the rule's own break set reads 96. Reconciling the
+  instrument invalidated the argument the worker had built — "a limit of forty would
+  pass every project in the survey" was true of the draft counter and false of the
+  corrected one — and the subject's cited distribution and its defence of its threshold
+  both had to be rewritten after the gate was already green.
+
+  The order that avoids it: draft the rule's *shape* first, implement the detector
+  against the shape, measure, and only then argue the numbers. What made this
+  recoverable rather than embarrassing is that the technique itself states the meta-rule
+  — the numbers live in the written rule and the instrument reads them, never the
+  reverse — so the corpus contained its own correction before the correction was needed.
+
+  ### Redesign proposal (not applied)
+  Phase 7.5 currently tests a landed technique against a project. It has no step for
+  the case where **the run's own instrument is one of the landings**, which is now
+  common enough to name: three of the last four repository runs produced a script. Such
+  an instrument is a consumer of the corpus like any project, and it deserves the same
+  question — does the artifact do what the document says? A cheap version is one line
+  in Phase 7: *if this run wrote an instrument that encodes a rule it also wrote, run
+  the instrument against the rule's stated definition and report the disagreement.*
+  Not proposing a SKILL.md edit on one sighting; return on a second.
+
+- **A hand-count in the triage table is a measurement without a predicate, and it was
+  wrong.** My Phase 3 survey credited a fleet project with 7 images; they were badge
+  images. The instrument written two phases later caught it, and the spec had already
+  been dispatched with the bad table. Cheap corrective, no method change needed: when a
+  run is going to build a counter anyway, build it before the triage table rather than
+  after, and let the table quote it.
+
+## 1.6.0 - 2026-09-01 - firstmate
+
+- **A `docs/verification/` directory is a source-class signal, and it outranks
+  the operating documents.** This repository's whole yield came from eight
+  documents whose job is recording *what was measured, against which version, on
+  which date, and what remains uncovered* - not from its architecture or design
+  docs, which Phase 2b ranks first. The tell is cheap: version numbers and
+  observed output inside fenced blocks, and sentences of the form "remains
+  uncovered rather than inferred from". When a tree carries one, read it before
+  the operating documents. It is a maintainer's evidence file, and evidence
+  files carry the failure modes that were paid for rather than the ones that
+  were anticipated.
+- **Reading a project that AGREES with the finding is where the finding's
+  wording gets fixed.** The apply step corrected this run's own amendment for
+  the second consecutive run - but this time not by exposing a defect. The tree
+  had already solved the problem, and solved it *better than the draft
+  prescribed*: the amendment said an in-path gate should fail "open, silently",
+  and the tree's three-exit-code form showed that withdrawing and going quiet
+  are two decisions, only one of which the argument licensed. The instinct at
+  Phase 7.5 is to hunt for a project exhibiting the defect. A project holding
+  the cure is at least as valuable and is the **only** thing that catches a
+  prescription which is subtly wrong rather than absent - a defect-holding tree
+  can only confirm that the problem exists.
+- **`ship 0` has two causes that must not be merged in the scorecard.**
+  `blocked: confirmation` is an authorization failure the method can fix, and
+  moving the tree question to Phase 7.5 largely did fix it. `declined: no change
+  warranted` is a different fact entirely: the fleet does not hold the defect.
+  Three of this run's four rows were the second kind. Merging them makes seven
+  consecutive ship zeros read as one unsolved problem when the last two runs
+  actually retired the first cause. Say which kind, per row, or the funnel
+  reading is wrong in the direction that keeps a solved problem on the worklist.
+- **The corpus is increasingly finding gaps in itself rather than gaps the fleet
+  exhibits, and that has a cost the apply stage pays.** Four consecutive runs
+  landed via the enumeration and asymmetry hunts against mature subjects. Those
+  findings are real and they are about *the standard*; a standard-level finding
+  frequently has no project defect behind it, because the project either already
+  complies or has no seam at all. This run: no fleet project ships a session-start
+  injector, none spawns an agent CLI with injected context, and the one in-path
+  gate already implemented the amendment. The hunts are not wrong - but a run
+  that expects `ship` to move should weight source selection toward domains where
+  the fleet actually has code, and a run mining a mature subject should predict
+  `declined: no change warranted` out loud at triage rather than discovering it
+  at Phase 8.
+- **Mechanical, costs one gate round-trip:** the bundle checker enforces one
+  application per `<stack>--<technique>` pair. A second application of a
+  technique on the same stack must **extend the existing file**, not sit beside
+  it, and `verified_against` must be `<stack>@<version>` - a project slug there
+  fails. Both are the corpus preferring amendment over duplication, expressed as
+  a filename rule.

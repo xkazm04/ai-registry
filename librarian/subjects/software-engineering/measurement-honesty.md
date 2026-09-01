@@ -137,3 +137,42 @@ that subject is next swept, state the validity reason beside the privacy one.
 Applied to a consumer benchmark service (`experiment`, `better`, shipped): 88
 comparability claims in the tree hand-verified to 8 cross-run claims, **0** of
 which condition on exposure, and zero contamination vocabulary anywhere.
+
+## 2026-08-31 - intake(pgrust): the exposure you cause is the one you can prove absent
+
+`instrument-exposure-control` landed six days earlier and closes with the honest
+sentence that there is no self-check - every probe it offers convicts and none
+acquits. That is exactly right for exposure the subject **suffers**, which is the
+case it was written for: a measure gets published, the world learns it, and its
+future subjects arrive pre-exposed through a history nobody controls.
+
+It is exactly wrong for the inverse, and the file draws no boundary there. When a
+step in the pipeline takes a workload as input and shapes the artifact around it -
+profile-guided compilation, a fitted threshold, a warmed index, an instruction
+bundle iterated against cases - **both sets are files you hold**, so disjointness
+is provable in advance rather than probed afterward. `tuning-corpus-disjointness`
+is that case, and the two now state each other's boundary in their opening
+paragraphs.
+
+The half worth more than the check: **the split between what you can enforce and
+what you can only disclose.** Item overlap is enforceable. Shape overlap is not,
+and avoiding it would produce a worse artifact *and* a less honest number, because
+choosing a fitting workload is choosing which paths get optimised. So the residual
+travels with the number as a sentence. Nothing in the corpus made that split;
+`packaged-surface-evaluation` (`machine-authored-documentation`, landed the same
+day from the other side) treats contamination as fully eliminable by separating
+the surface - true for a package the model reads, impossible for a binary the
+compiler baked.
+
+**The apply refuted the document's own completeness before commit.** Measured on a
+managed project: a sanitiser of 13 pattern families, a fixture corpus of 9 payloads
+whose every label names a pattern family, and assertions written from the same
+list. Arm A 9/9; arm B, same shape classes in phrasings absent from the list, also
+**11/11 - with 9 of the 11 passing through the sanitiser unmodified.** The corpus
+was fitted and so was the **predicate**, which the draft did not say. A section was
+added. The cheap check it now carries: ask whether the predicate could fail on an
+input the artifact ignores, and if it cannot, add the one that can.
+
+Note for a later run: `instrument-exposure-control` was in the golden path's
+frontmatter list and had **no bullet** in the prose "The techniques" section. Added
+alongside this one.

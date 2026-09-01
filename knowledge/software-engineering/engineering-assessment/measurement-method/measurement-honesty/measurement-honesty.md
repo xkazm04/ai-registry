@@ -13,6 +13,7 @@ techniques:
   - lower-bound-disclosure
   - co-published-numbers-must-reconcile
   - instrument-exposure-control
+  - tuning-corpus-disjointness
 ---
 
 # Measurement honesty
@@ -325,3 +326,12 @@ that they do. Two rules follow:
   — the arithmetic constraints a set of numbers published together creates, the
   identity that bounds a joint by its marginal, and why a failed reconciliation
   is a finding about the pair rather than about either number.
+- [instrument-exposure-control](./techniques/instrument-exposure-control.md) —
+  the compromised state of a datum whose subject had already met the instrument,
+  the deprived-input control that probes for it, and why every probe here
+  convicts but none acquits.
+- [tuning-corpus-disjointness](./techniques/tuning-corpus-disjointness.md) — the
+  inverse case, where the exposure is one you caused at build time and can
+  therefore prove absent: the canonical-form check over the workload an artifact
+  was fitted on, and the shape-class residual that must be disclosed because it
+  cannot be enforced.
