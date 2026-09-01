@@ -196,3 +196,11 @@ Not applied off a single incident in one repo; recorded so a second sighting can
   for `String.includes` in the guard assertion. Worth stating in the execution rules: a
   source-level guard should prefer a literal substring check over a regex, both because it
   survives the tool boundary and because it is what a reader can verify at a glance.
+
+## 2.0.0 - 2026-09-01 - kp (eval run, Job & JD Management)
+
+- **The commit subject the skill prescribes can be repo-illegal.** Phase 7 step 4 says `explorer: <short title>`; kp's `commit-msg` hook admits conventional types only and also rejects a subject that reads like a report heading. Three commits bounced, then a fourth. The step should say: use the repo's commit convention for the subject, and carry the explorer attribution in the body — the skill's prefix is a default, not a law.
+- **A concurrency claim needs a failing test, not a reading.** The run's critical item (a route's `ensureDb().transaction` spanning a module-private second connection → `SQLITE_BUSY_SNAPSHOT` on the debit, role live and unmetered under a 500) was arguable from source in both directions. A 20-line better-sqlite3 probe and then a real-module test in the repo's own harness settled it and became the regression pin. Phase 5's premise gate should name the case: when the defect is about locks, snapshots or ordering, the anchor is not evidence; a reproducing test is.
+- **Source guards pin call SHAPE.** A repo test required `jobId` inside `insertJob(...)`'s own parentheses; moving the argument into a helper broke it. Inlining beat loosening — worth a line in the execution rules: read the guard's regex before restructuring a pinned call.
+- **The three-way red split (yours / stale artifact / foreign) needs a fourth verification step:** run the red test against a clean `git archive main` export before calling it foreign. Cheap, decisive, and it is what makes "committed anyway, reported" honest.
+- **A vault write through a shell heredoc failed on quoting and lost nothing only because nothing had been written yet.** Phase 8's note contains backticks, apostrophes and `${}`; write it with a file tool, not `cat <<EOF`.
