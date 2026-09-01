@@ -5275,3 +5275,32 @@ been naming that zero for weeks:
   `catalog.json` were left uncommitted because they had absorbed the sibling's in-flight
   applications. Recording this as the clean counter-case — the collision rules are usually
   written up only when they fire.
+
+## 1.6.0 - 2026-09-01 - awesome-game-security
+
+- **A reference index with no home in the corpus is not waved; it is ranked at the
+  granularity the corpus can rank and filed as a lead.** The wave lane's weights are all
+  about the corpus (attention points, refutation, a subject to land in). When every
+  domain term returns a total empty on *concept* vocabulary and no managed project has
+  the seam, all N references score the one weight the lane says to distrust, and eight
+  workers would return one sentence eight times. Run the enumeration (it is cheap and it
+  is the artifact), rank by section, record the ranking as the wave plan, and spend the
+  run on the half that has a home. Say why in the note; `refs_read: 0` over
+  `refs_distinct: 4,017` must read as a decision, not the old failure.
+- **A pipeline's own ledgers are its measurement.** Phase 2b item 3 says `evals/`,
+  `benchmarks/`, results tables. For a curation or maintenance pipeline the equivalent is
+  the log it appends to and the state file it keeps: counts per mode, ring sizes, the
+  empty separators at the top of a journal. This run's landing was a count (3,950 : 0)
+  read off a log, corroborated by a size (2,728 : 200) read off the tree - no prose in
+  the source states either.
+- **A "list" that mirrors its references is a code repository by weight.** A plain
+  shallow clone pulled 864 MB and timed out; `--filter=blob:none --no-checkout` plus a
+  sparse checkout of markdown, then scripts, finished in seconds. Check the tree's
+  extension histogram (`git ls-tree -r HEAD | sed 's/.*\.//' | sort | uniq -c`) before
+  the first full checkout of any repository class.
+- **Convergence can arrive from the fleet rather than from a second source.** The
+  amendment's corroboration was a managed project that carried the identical rule pair
+  (per-edit cap beside artifact cap) and the identical violation, found by grepping
+  standing docs for stated size caps. For a *shape* finding, "does any managed project
+  state the same rule?" is a corroboration lane that costs one grep and produces the
+  apply seam at the same time.
