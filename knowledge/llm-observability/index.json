@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
-  "techniques": 101,
-  "applications": 52,
+  "techniques": 102,
+  "applications": 53,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "101/101",
+  "use_when_coverage": "102/102",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1524,6 +1524,23 @@
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
    "techniques": [
     {
+     "slug": "baseline-carries-its-conditions",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "the-judge-is-both-untrusted-and-under-test",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gate compares a run against a stored baseline score",
+      "deciding whether an old baseline may still be compared against",
+      "a benchmark passes its floor and nobody can say when the floor was set",
+      "the judge or dataset changed and the baseline did not",
+      "a comparison is arithmetically valid and means nothing"
+     ]
+    },
+    {
      "slug": "family-wise-correction",
      "status": "forged",
      "laws": [
@@ -1614,6 +1631,13 @@
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/node--unverified-vs-regressed-exit-states.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "rust",
+     "technique": "baseline-carries-its-conditions",
+     "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/rust--baseline-carries-its-conditions.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "rust@1.97.1"
     },
     {
      "stack": "rust",
@@ -1930,6 +1954,7 @@
     "operator-surfaces-for-llm-spend/glyph-encoded-business-thresholds",
     "operator-surfaces-for-llm-spend/single-render-layer-many-consumers",
     "production-trace-scoring/drift-classified-rescoring",
+    "quality-regression-gating/baseline-carries-its-conditions",
     "quality-regression-gating/partial-run-never-green",
     "quality-regression-gating/tested-superiority-claims",
     "quality-regression-gating/unverified-vs-regressed-exit-states",
@@ -2039,6 +2064,7 @@
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
+    "quality-regression-gating/baseline-carries-its-conditions",
     "quality-regression-gating/family-wise-correction",
     "quality-regression-gating/fixed-alpha-discipline",
     "quality-regression-gating/paired-per-case-testing",
@@ -2073,7 +2099,8 @@
     "judge-contract-design/nonce-fenced-candidate-isolation",
     "judge-contract-design/reference-guided-grading",
     "production-trace-scoring/error-analysis-first-taxonomy",
-    "production-trace-scoring/verdict-coverage-receipt"
+    "production-trace-scoring/verdict-coverage-receipt",
+    "quality-regression-gating/baseline-carries-its-conditions"
    ]
   }
  }

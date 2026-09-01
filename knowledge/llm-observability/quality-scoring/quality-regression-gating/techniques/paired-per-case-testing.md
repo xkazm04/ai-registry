@@ -24,9 +24,13 @@ cannot tell" and a gate that fires on real regressions.
 ## Procedure
 
 1. **Establish comparability first.** Pair only against the previous run
-   with the same mode, same target, same case count, and — when both runs
-   recorded it — the same dataset version. A "previous run" that scored a
-   different dataset is a different experiment, not a baseline.
+   with the same mode, same target, same case count, the same judge model
+   and version, and — when both runs recorded it — the same dataset version.
+   A "previous run" that scored a different dataset is a different
+   experiment, not a baseline; one scored by a different judge was measured
+   with a different instrument, which this standard treats as under test for
+   as long as it is in service
+   ([baseline-carries-its-conditions](./baseline-carries-its-conditions.md)).
 2. **Compute per-case deltas by case identity.** Match on case identifier,
    never on array position. If the case sets do not line up — different
    length, missing ids — **refuse to pair and say so**. Silently truncating

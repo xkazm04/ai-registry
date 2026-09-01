@@ -626,10 +626,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 16,
-      "techniques": 101,
-      "applications": 52,
-      "files": 174,
-      "contentHash": "sha256:b385537ba5f353a4"
+      "techniques": 102,
+      "applications": 53,
+      "files": 176,
+      "contentHash": "sha256:aa9f1346e846f957"
     },
     {
       "name": "localization",

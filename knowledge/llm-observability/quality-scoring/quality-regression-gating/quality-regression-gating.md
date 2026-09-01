@@ -11,6 +11,7 @@ techniques:
   - tested-superiority-claims
   - unverified-vs-regressed-exit-states
   - partial-run-never-green
+  - baseline-carries-its-conditions
 ---
 
 # Quality regression gating
@@ -116,6 +117,12 @@ itself — not in documentation:
 - A conservative correction costs power. The report says so, and names the
   remedy — more cases — instead of choosing the trade-off silently for the
   operator.
+- Every limitation above is about how the baseline was *sampled*. A baseline
+  also expires: it was produced by a judge and a dataset revision that have
+  since moved on, and the floor test — unlike the paired test — carries no
+  comparability precondition at all. The verdict names the baseline's
+  conditions and refuses the floor when they no longer hold
+  (baseline-carries-its-conditions).
 
 This is the discipline that separates a gate you can defend from a gate you
 can merely operate. When the verdict is challenged, the artifact already
