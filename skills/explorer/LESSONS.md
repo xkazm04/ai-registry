@@ -235,3 +235,9 @@ Not applied off a single incident in one repo; recorded so a second sighting can
 - **When the repo's script runner cannot resolve path aliases, probe with a throwaway test file in the repo's own test lane.** `tsx -e` with `@/` imports printed nothing at all (no error, no output); a `zz-probe.test.ts` dropped next to the area and run through vitest measured the same question in two seconds and was deleted before staging. The premise gate needs measurements, and the test runner is the one tool guaranteed to resolve the repo's imports.
 - **A repo with a same-change doc gate turns atomic commits into a per-commit dismissal chore - budget for it, do not collapse commits to avoid it.** Every commit here owed five docs; scoped `Doc-sync(<doc>): <reason>` trailers cost a minute each and left a countable record, which is the gate's whole point. Worth a line in Phase 7's execution rules: read the hook once, then write the trailers into every commit template.
 - **Cross-layer lens, measured again: 3 of 9 items** (a comment claiming prerender that the build manifest refuted, a comment crediting an inert `revalidate`, a section claiming ties are read live while folding four of them away). All three anchors had been read by earlier passes; none was visible from inside its own file.
+- **`sec` pass, first move: for every boolean a write API accepts, count its readers.** A flag with
+  a setter, a column, a listing and a docs row - and zero readers on the path it names - is the
+  highest-severity shape a sec sweep finds, and it is one grep. Widen a `sec` run along the trust
+  boundary (the module that owns the policy the area must honour), not along the taxonomy's group
+  adjacency: the gap lived in project-management, the group neighbour was cost-pricing.
+
