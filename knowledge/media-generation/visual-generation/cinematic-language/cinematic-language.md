@@ -39,7 +39,15 @@ not equipment or numbers**: the working vocabulary here is "shadow side
 of the face falling to near-black", never lighting units, and "background
 compressed flat behind her", never focal lengths. Where a professional
 would say a ratio or a millimetre, this subject says what the ratio or
-millimetre *looks like*.
+millimetre *looks like*. That second fact is about the **channel**, not
+about the models: it holds wherever prose is the only thing setting a
+dimension, and it inverts where something else sets it. A generator
+driven by a typed camera path takes the numbers exactly, and the prose
+must then go silent on that dimension rather than describe it — the
+grammar below still decides *what the move means*, but a different hand
+executes it. movement-motivation owns that boundary and the question
+that draws it; read it before concluding this subject is addressed only
+to text-conditioned pipelines.
 
 The stack has an order. Genre (or register) is chosen first, because it
 constrains everything below it. Lighting is the strongest single lever —
