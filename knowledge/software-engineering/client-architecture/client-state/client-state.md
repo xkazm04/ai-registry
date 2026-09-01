@@ -15,6 +15,7 @@ techniques:
   - identity-scoped-eviction
   - singleton-lifecycle
   - observed-read-subscription
+  - effect-identity-and-latched-callbacks
 ---
 
 # Client state management
@@ -298,6 +299,30 @@ Placement (module vs global scope), the generation pattern, and the
 discriminator for which globals are actually state are the
 [singleton-lifecycle](./techniques/singleton-lifecycle.md) technique.
 
+## A long-lived effect is a session, and its dependencies are its identity
+
+State that is neither in the store nor in module scope has a third home:
+inside a long-lived effect — a poll, a subscription, a connection — that
+the view framework starts, holds, and tears down on a declared set of
+dependencies. That set is not a performance hint. It is the **identity of
+the session**, and every entry is a standing instruction to kill the
+running one and start another when it changes. Addresses belong in it;
+callbacks the caller handed down do not, because their identity changes
+whenever the caller re-renders — including when it re-renders *because
+this effect wrote state*, which closes a loop that restarts the session on
+every tick. The visible symptom is a poll that hammers instead of pacing;
+the invisible one is that everything the session accumulated — backoff
+schedules, consecutive-failure counters, attempt tokens, pacing marks —
+is reborn empty each time, so the very counters added to diagnose the
+problem never grow. Latching caller-supplied callbacks and cross-tick
+accumulators in stable reference cells, keeping the dependency list to
+what actually identifies the session, and tearing a session down so its
+late work writes nothing, are the
+[effect-identity-and-latched-callbacks](./techniques/effect-identity-and-latched-callbacks.md)
+technique. It decides how often a session is born;
+[async-race-guards](./techniques/async-race-guards.md) decides which of
+its responses may write, and neither substitutes for the other.
+
 ## The techniques
 
 - [store-slicing](./techniques/store-slicing.md) — slice boundaries, selective
@@ -328,3 +353,7 @@ discriminator for which globals are actually state are the
 - [observed-read-subscription](./techniques/observed-read-subscription.md) —
   inferring the subscription from the reads a consumer actually made, the
   fail-open empty set, and the spread that silently defeats it.
+- [effect-identity-and-latched-callbacks](./techniques/effect-identity-and-latched-callbacks.md)
+  — the dependency list as session identity, callbacks and accumulators
+  latched in stable cells, the self-sustaining restart loop and the
+  counters it erases.
