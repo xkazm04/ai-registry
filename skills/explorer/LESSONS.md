@@ -211,3 +211,20 @@ Not applied off a single incident in one repo; recorded so a second sighting can
 - A hand-maintained list inside a contract test is the codebase's own claim about itself; what it omits is where the rule is still broken (the four route names in `lifecycle-signals.test.ts`).
 - Fourth cause of a red gate: the CHECKOUT, not the commit. Before any bisect, `git worktree add --detach <sha>` outside the shared tree and re-run there; and a comparison baseline must be a SHA, because `main` moves under a worktree that follows a branch.
 - Prose in a file a source-scanning test reads is part of that test's input: a comment quoting the rate-limit marker strings put them above the limiter and broke the ordering assertion.
+## 2.0.0 - 2026-09-01 - LightTrack (first run in this vault, autonomous)
+
+- **An empty coverage ledger makes the Phase 2b tie-break degenerate.** With every area at max
+  staleness, "smaller file count wins" picks the one-file context (`cli-tool`) - the area least
+  likely to yield ten items, so the run would widen twice before finding anything. First-run
+  auto-pick should prefer the context with the most `cross_refs` (or the product's declared golden
+  path) among those with >= 3 files, and fall back to file count only among visited areas.
+- **A response flag computed downstream of a gate is a constant unless the gate's definition says
+  otherwise - check it against the definition, not the comment.** `IngestResponse.throttled` was
+  `any(rejects_ingest)` after `admitted`, and `admitted` was defined as `!any(rejects_ingest)` in
+  another crate. Two doc comments at the site were internally consistent; the contradiction was
+  only visible after reading the constructor. Cheap grep: every boolean in a response struct that
+  is filtered from the same collection an earlier `if !x` already branched on.
+- **In a non-interactive run, the `m`/`l` band has one honest destination: the sweep note as
+  `deferred`, and ONE sentence in the final summary framing the decision.** Asking is a no-op when
+  nobody is there to answer; silently skipping loses the finding. Worth saying in Phase 7.
+
