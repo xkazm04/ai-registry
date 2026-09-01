@@ -4889,3 +4889,53 @@ The Multi-Agent cluster wave 1 dropped for contention, mined once the board empt
   been dispatched with the bad table. Cheap corrective, no method change needed: when a
   run is going to build a counter anyway, build it before the triage table rather than
   after, and let the table quote it.
+
+## 1.6.0 - 2026-09-01 - firstmate
+
+- **A `docs/verification/` directory is a source-class signal, and it outranks
+  the operating documents.** This repository's whole yield came from eight
+  documents whose job is recording *what was measured, against which version, on
+  which date, and what remains uncovered* - not from its architecture or design
+  docs, which Phase 2b ranks first. The tell is cheap: version numbers and
+  observed output inside fenced blocks, and sentences of the form "remains
+  uncovered rather than inferred from". When a tree carries one, read it before
+  the operating documents. It is a maintainer's evidence file, and evidence
+  files carry the failure modes that were paid for rather than the ones that
+  were anticipated.
+- **Reading a project that AGREES with the finding is where the finding's
+  wording gets fixed.** The apply step corrected this run's own amendment for
+  the second consecutive run - but this time not by exposing a defect. The tree
+  had already solved the problem, and solved it *better than the draft
+  prescribed*: the amendment said an in-path gate should fail "open, silently",
+  and the tree's three-exit-code form showed that withdrawing and going quiet
+  are two decisions, only one of which the argument licensed. The instinct at
+  Phase 7.5 is to hunt for a project exhibiting the defect. A project holding
+  the cure is at least as valuable and is the **only** thing that catches a
+  prescription which is subtly wrong rather than absent - a defect-holding tree
+  can only confirm that the problem exists.
+- **`ship 0` has two causes that must not be merged in the scorecard.**
+  `blocked: confirmation` is an authorization failure the method can fix, and
+  moving the tree question to Phase 7.5 largely did fix it. `declined: no change
+  warranted` is a different fact entirely: the fleet does not hold the defect.
+  Three of this run's four rows were the second kind. Merging them makes seven
+  consecutive ship zeros read as one unsolved problem when the last two runs
+  actually retired the first cause. Say which kind, per row, or the funnel
+  reading is wrong in the direction that keeps a solved problem on the worklist.
+- **The corpus is increasingly finding gaps in itself rather than gaps the fleet
+  exhibits, and that has a cost the apply stage pays.** Four consecutive runs
+  landed via the enumeration and asymmetry hunts against mature subjects. Those
+  findings are real and they are about *the standard*; a standard-level finding
+  frequently has no project defect behind it, because the project either already
+  complies or has no seam at all. This run: no fleet project ships a session-start
+  injector, none spawns an agent CLI with injected context, and the one in-path
+  gate already implemented the amendment. The hunts are not wrong - but a run
+  that expects `ship` to move should weight source selection toward domains where
+  the fleet actually has code, and a run mining a mature subject should predict
+  `declined: no change warranted` out loud at triage rather than discovering it
+  at Phase 8.
+- **Mechanical, costs one gate round-trip:** the bundle checker enforces one
+  application per `<stack>--<technique>` pair. A second application of a
+  technique on the same stack must **extend the existing file**, not sit beside
+  it, and `verified_against` must be `<stack>@<version>` - a project slug there
+  fails. Both are the corpus preferring amendment over duplication, expressed as
+  a filename rule.

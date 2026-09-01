@@ -224,6 +224,7 @@ Recording both rather than resolving them by majority:
 | 1.5.0 | 2026-08-31 | boundary-software-factory | 1 | 12 | 1 | 1 | 1e | 0 | **Ship 0 is correct and owed nothing** - the landing is a registry-side gate measure; no project change was warranted, and the apply step was read-only by design. The declared focus (parallelise the mechanical half of Phase 6) **did not apply and was said so before the table**: it was written for wave runs returning more candidates than a director can verify, and a single dialogue with one operator-picked row has no mechanical half to fan out. Extract->Test is 1/12 by operator choice, not director capacity. Class economics predicted the run exactly: dialogue, expected yield stated as 1-3 findings before triage, **0 of 3 fetches spent**, corroboration entirely corpus-internal. **The apply step refuted its own first number for the second time in this skill's history** - arm B's 1.42x by changed lines was surface-area artifact; the control (hold files-touched fixed) collapsed and inverted the gradient. Instrument's first number wrong again: that is now five sightings across three runs |
 | 1.3.1 | 2026-09-01 | voltagent-awesome-ai-agent-papers (wave 4) | 1 (32 of 382 read, 350 ranked+recorded) | 24 | 8 | 9 | 0c/0e/0s (9 unapplied, one reason, checked per finding) | 0 | **8/8 lanes worth a slot - the run's best rate**, on the Multi-Agent cluster wave 1 dropped for contention. Three headlines died to arithmetic (a hindsight-oracle denominator reproduced 5/5; an authority paper that measured the inverse of its title; a phase transition whose control parameter has no budget term). One worker retracted its own candidate after applying the corpus's own test. **The run's own error: an acceptance rule built on a hole that was not one** - a verification grep returned 22 files piped through `head -8`, and a second instrument truncated the same subject out of its top-6. Two independent truncations, one hidden subject. Apply 0 for a reason distinct from wave 3's: these govern structures the fleet does not build (no join, no recursive decomposer, no panel, no a11y ladder), each checked against the tree individually. |
 | 1.6.0 | 2026-09-01 | `slideops` (practitioner repo, README as artifact of FORM) | 1 (1,033 landing / ~2,470 in-tree operating docs) | 8 | 7 | **1 new subject** (golden path + 7 techniques + 2 applications) + 1 technique in `docs-sync` + 1 instrument (`check-readmes.mjs`) | 2 rows: 0c/**1e**/0s + 1 unapplied — 2:2 with the landing clusters | 0 (**blocked: foreign WIP**, not confirmation) | **Both halves of the declared focus applied, and the second one worked.** Class carried into the numbers: this was a repository mined under an *inverted* rule — the operator scoped the run to the README as an artifact of form, so the file Phase 2b says to distrust was the primary source. Expected yield was stated as 4-8 candidates + one subject-sized gap before the triage table; actual 8 and one. The tree question was moved to Phase 7.5 and **the ship zero changed character because of it**: the operator authorized a named tree against a concrete seam and a measured two-arm result, and the block that remained was the tree carrying a live 38-line in-flight append in the exact file — a genuine authorization-independent boundary, which is precisely the distinction the focus was written to expose. Six consecutive runs blocked on `confirmation`; this one was not. |
+| 1.6.0 | 2026-09-01 | `firstmate` (OSS tool repo behaving as first-party practitioner account; **2,434 landing / 174,027 in-tree**, 76:1) | 1 | 14 | 4 | 2 techniques + 2 amendments | **4 rows: 0c/4e/0s — 1:1 with landings** | 0 (**3 of 4 `declined: no change warranted`**, 1 open decision) | **Both halves of the declared focus applied.** Class carried into the numbers before the triage table: expected yield stated as *above the class norm, 3-5, mostly amendments*; actual 4. The 14→4 ratio is an operator pick, not director capacity — 10 rows recorded **untriaged with anchors**, none declined. **The tree question was asked at Phase 7.5, not at triage**, and the ship zero changed character again because of it: three of four rows are `declined: no change warranted` rather than `blocked: confirmation` — no project holds the caching-injector defect, the fleet's turn-end hook *already implements* the amendment (which is why it could validate it), and the delivery probe is an instrument rather than a change. Seventh consecutive run with ship 0; second consecutive run where the zero is not an authorization failure. **The apply step refuted the run's own document before commit for the second consecutive run**, and this time from a tree that had already solved the problem *better* than the draft prescribed — the amendment's "fail-open, silently" became "open to the actor, loud to the operator, on a code of its own." Reading a project that agrees with a finding is where the finding's wording gets fixed. **0 of 3 fetches — fourteenth consecutive.** Three of four landings came from an enumeration declaring its own completeness. |
 
 Next run's declared focus: **when an apply row reaches `better`, name the ship blocker
 from those four, and act per class.** A run that reports "ship 0" without naming which
@@ -780,3 +781,38 @@ project costs one command and turns "which tree may I touch?" into "which tree i
 one invites an authorization that the tree then refuses. Two consequences to check in
 the next row: whether a `code` row becomes reachable at all, and whether naming the
 constraint at triage changes which project the operator picks.
+
+---
+
+**Read across the last ten rows, `ship` is still the losing stage at 0 — but for
+the first time the zero has two different causes and merging them would misread
+the funnel.** Six runs to 2026-08-31 reported `blocked: confirmation`. The last
+two do not: slideops was `blocked: foreign WIP` against an authorized tree, and
+firstmate is **3 of 4 `declined: no change warranted`**. Moving the tree question
+to Phase 7.5 retired the authorization cause; what remains is a different fact
+and it is not a stage failure at all — the fleet does not hold the defects these
+findings describe. No project ships a session-start injector, none spawns an
+agent CLI relying on injected context, and the fleet's one in-path gate already
+implemented the amendment it was tested against.
+
+That points at the stage *upstream* of ship, and it is the one nothing currently
+measures: **source-to-fleet fit**. Four consecutive runs have landed via the
+enumeration and asymmetry hunts against mature subjects, which is the corpus
+finding gaps in itself. Those findings are genuine and they raise the standard —
+but a standard-level finding often has no project behind it, and a run that
+discovers this at Phase 8 has spent its apply budget learning something it could
+have predicted at Phase 4, where `research-map` already names the subject and
+`loadFleet()` already knows which projects declare its domain.
+
+Next run's declared focus: **predict the ship class at triage, from the fleet,
+before the picks are made.** For each candidate row, say in the triage table
+whether any managed project has a seam for it — the bridge resolves in one call
+and the answer is usually a one-line grep — and carry the prediction into the
+row as `seam: <slug>` or `seam: none`. A row marked `seam: none` is not a row to
+drop; it is a row whose apply mode is known in advance to be `simulation` and
+whose ship is known to be `declined: no change warranted`, which stops the run
+reporting as a loss what was actually a correct outcome. The check the next row
+should make: did any row's predicted ship class turn out wrong, in either
+direction? A prediction that is never wrong is not being made honestly, and a
+prediction that is often wrong means the seam grep is looking in the wrong place.
+
