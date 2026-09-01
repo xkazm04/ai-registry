@@ -5174,3 +5174,54 @@ been naming that zero for weeks:
   conditioning) so the vendor's framing could be checked against a primary rather than
   restated. That is the correct use of the budget on this class and it still ended in
   catches, because the corpus had already been there.
+
+## 1.6.0 - 2026-09-01 - stefan3d-free-ai-level
+
+- **The A/B instrument is the one thing in Phase 7.5 that nothing checks, and it lied
+  confidently.** The mutation probe this run built to decide its apply verdict reported
+  4 of 13 gates insensitive on its first run. All four were the probe's fault: it scaled
+  every number at once, which leaves a predicate reading a *ratio* exactly invariant, and
+  it walked only the top level, so a step whose artifact is a single nested object was
+  never mutated at all. Nothing about the output looked wrong — it was well-formed,
+  plausible, and it named specific steps. Had it shipped, this run would have filed a
+  finding indicting four working gates in a connected project, in a ledger row that reads
+  as evidence forever. The corpus already holds this rule for *remedies*
+  (`regeneration-vs-repair-economics`: a remedy earns its place by measurement on a
+  before/after pair, never by plausibility) and the run had to rediscover it for the
+  measuring instrument. **Corrective, now the declared focus: before writing an A/B
+  verdict, run the instrument against a case whose answer is already known** — one
+  known-good and one known-bad input, checked by hand. It is cheap, because the known
+  case is usually an artifact already in front of the run.
+- **In a parallel fleet the declared focus can change under a run mid-flight.** The
+  focus read at Phase 1 was *predict the ship class at triage*; by Phase 9 a sibling had
+  appended a newer closing block (*open the prior-art subject's `librarian/subjects/`
+  note before writing `real gap`*). Neither read was wrong and both were honoured, but
+  the run only noticed because it re-read the file inside the ledger lock. Worth knowing
+  rather than fixing: Phase 1's `tail` is a snapshot, and the honest scorecard row names
+  which focus it was actually run under.
+- **Corroborating corpus-internally beats a fetch when two subjects of one bundle
+  disagree, and the disagreement is findable by hunting the denial.** The golden path
+  said a generated asset "is the only thing that can carry the line forward"; a subject
+  in the same bundle ships a locally computed, seed-reproducible terminal artifact. That
+  is not a contradiction to resolve by tiering sources — it is the corpus telling you
+  where its own boundary is drawn wrong, and it costs nothing. Sixteenth consecutive
+  zero-fetch run, and the first where the corroboration came from the bundle contradicting
+  *itself* rather than from a neighbouring subject agreeing.
+- **Opening the technique file downgraded the finding and improved it.** `research-map`'s
+  summary did not surface the technique's existing "where the stand-in is the deliverable"
+  exception; reading the file did, which turned "a missing exception" into the sharper and
+  correct "a missing third origin". This is the standing Phase 6 rule paying again, and it
+  is the second consecutive run where the run's own first write-up was wrong in a way only
+  the file could catch.
+- **When the corpus is right and the tree already agrees, the shippable artifact is the
+  instrument the technique prescribes and nobody ran.** Three of the last four runs closed
+  `declined: no change warranted` — a correct outcome that still reports as a zero. Here
+  the technique's own mutation probe had never been run against the connected project, so
+  the apply step needed it, and the probe itself became the commit. That converts the
+  common "nothing needs changing" case into a real ship without inventing a change, and it
+  is repeatable wherever a technique prescribes a check rather than a behaviour.
+- **Build-walkthrough calibration held.** Expected yield stated as *low* before the triage
+  table; actual 1 landing, 2 leads, 6 catches, 3 untriaged from 5,616 words. The class
+  rule decided every row — the single landing came from one offhand aside in the operating
+  half, and the entire tour half (roughly 85% of runtime) produced nothing but proper
+  nouns against a bundle that already held ten subjects over the same territory.
