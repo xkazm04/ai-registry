@@ -135,3 +135,26 @@ ladder). Filed as a lead, no action taken.
 - Protocol steps 2-4 (field agreement vs qwen/gemini, judge replay) are
   therefore POSTPONED behind the CUDA build, not abandoned — the decision
   rule stands unchanged.
+
+## The one completed vision readback (2026-09-02, 672px, clean engine)
+
+- **It works, and slowly: 1372 s (~23 min)** for 376 prompt tokens (image
+  included) + 217 out — both prefill and decode near ~2.3 s/token on CPU;
+  the batched-prefill benefit does not show on this path, so vision cost
+  scales with resolution. 1280px frames did not complete inside 90 min.
+- **Quality preview (n=1, NOT the scored protocol):** on arcane-fights-005,
+  where qwen3.8:27b and gemini-3.6-flash both read "graphic posterization,
+  duotone, crushed blacks", GLM-5.3-Flash wrote "painterly mixed-media with
+  watercolor and ink-wash textures... warm desaturated sepia-and-cream base
+  punctuated by a single intensely saturated neon pink accent (the glowing
+  orb)... black handled not as flat fill but as a dominant opaque silhouette"
+  — it volunteered PALETTE ROLES and black-as-shape, the exact vocabulary the
+  colour-roles and what-stays-dark rules are written in. The bigger eye reads
+  craft the smaller eyes flatten.
+- **Ops lessons:** the serve engine is single-slot — killing a client leaves
+  the request cooking and later calls 429; killing the engine leaves the
+  Python launcher squatting the port answering 500s ("dispatcher stopped").
+  Tear down launcher AND engine together, then restart.
+- **Round verdict:** feasibility PROVEN, quality signal PROMISING, throughput
+  BLOCKED on the missing GPU backend. Next action is the CUDA source build;
+  the scored 5-frame protocol and judge replay run after it, unchanged.
