@@ -495,3 +495,24 @@ board, whose `check` returns bytes indistinguishable between "an unclaimed
 writer is mid-edit" and "nobody is here" — and whose failure the method's own
 prose already names as an anti-pattern without mechanising it
 (`prose-rule-drift`, with the reason now supplied).
+
+## 2026-09-01 - prose-rule-drift gains its converse: the artifact rule enforced at the edit
+
+Amendment landed by [[2026-09-01-awesome-game-security]] (run `intake-game-security`,
+3 siblings live, none on this subject). The technique's own section says action-shaped
+rules go unbacked because a gate has nowhere to read; the converse is a rule about an
+**artifact's size** that gets its only check at the **edit** (append <=2 lines, touch
+<=8 files, "short cite"), so every step is compliant and the sum is never read. The
+violation is composed entirely of compliant actions. Two measured instances: an
+external machine-maintained wiki at 13.6x its stated page cap after ~3,950 capped
+ingests with the lint pass that alone read the sum starved by the ingest queue
+(0 runs in 9 days), and a connected project's shared session-memory file over its
+200-line cap for 13 days across 26 consecutive commits that all obeyed the 2-line
+append cap. Applied `code`/`better` on that project, `ab-paired` over the same 59
+commits with two checks (per-edit: 0/26 flagged since the crossing; artifact: 26/26),
+calibrated first on a known-clean backlog and a known-over page. Shipped: an
+artifact-reading check with the document's own prune remedy adjacent, wired at the end
+of the per-CLI gate. Application `next--prose-rule-drift`. Left open: the per-CLI gate
+is a per-edit quantifier by construction, which is exactly where the amendment predicts
+the artifact rule has no home; the check sits at its end as the fail-closed fallback,
+not in an appender that could refuse.

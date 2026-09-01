@@ -6,7 +6,7 @@ technique: prose-rule-drift
 status: forged
 laws: [absent-guard-is-loud, gate-sees-target, silent-state-is-ungoverned]
 shared_with: []
-use_when: [a rule everyone agrees on has never had a check written for it, auditing which standards are actually mechanised, a documented invariant turns out to have been violated for months, deciding where to put enforcement for a rule about an action rather than an artifact, a convention that governs setup or provisioning rather than code]
+use_when: [a rule everyone agrees on has never had a check written for it, auditing which standards are actually mechanised, a documented invariant turns out to have been violated for months, deciding where to put enforcement for a rule about an action rather than an artifact, a convention that governs setup or provisioning rather than code, a file or page has a stated size cap and every edit to it obeys a per-edit cap, an accreting artifact is over its bound and no commit broke a rule]
 ---
 
 # Prose-rule drift
@@ -163,3 +163,49 @@ checker, existing and invoked by nothing, was holding a rule that had
 accumulated violations across the majority of the repositories it governed,
 none of them reported anywhere, and running it by hand produced the entire
 backlog in one command.
+
+## An artifact rule enforced at the edit reads as compliance
+
+The section above says action-shaped rules go unbacked because the gate
+has nowhere to read. The converse trap is quieter, because it produces a
+compliance signal — a true one — for the wrong rule. A standing document
+states a bound on an **artifact** (a file stays under N lines; a page is
+split past N; a ledger holds at most N entries) and, beside it, a bound on
+each **edit** (append at most two lines; touch at most eight files; patch
+with a short cite). The edit rule is the one that gets checked, because an
+edit is what a reviewer, a hook or a commit diff can see. Every edit passes.
+The artifact drifts past its bound anyway, because a bound on the step is
+not a bound on the sum, and nothing ever reads the sum.
+
+The failure has a signature that distinguishes it from an ordinary unbacked
+rule: **the violation is composed entirely of compliant actions.** There is
+no edit to point at, no author who broke a rule, and no commit whose diff
+would have been refused. A per-edit check is the wrong quantifier for a
+growth invariant — it answers "was this step small?" when the rule asked
+"is the whole thing still bounded?" — and its steady green is what retires
+the artifact rule from everyone's attention. The prior from the section
+above applies with one refinement: the violation began at the commit where
+the sum first crossed the bound, and every compliant edit since has extended
+it by exactly its own permitted size.
+
+Two measured instances, from opposite ends of the scale. A machine-maintained
+knowledge wiki whose schema capped each ingest at eight touched files and a
+"short cite", and each page at roughly two hundred lines, ran some four
+thousand compliant ingests and carried its largest page at over thirteen
+times the page cap, while the lint pass that alone could have read the sum
+never ran. A shared session-memory file in a connected project capped each
+append at two lines and the file at two hundred: twenty-six consecutive
+commits after the file crossed the line all obeyed the append cap, none
+read the length, and the file sat over its bound for thirteen days.
+
+The remedy is the one this technique already prescribes, applied to the
+right quantifier: **the check reads the artifact, not the edit**, and it
+runs where the artifact is produced — at the end of the tool that appends,
+or as the fail-closed consistency check when appends are made by hand. It
+carries the rule's own stated remedy adjacent to the red, because the
+document that stated the bound usually stated what to do at it (prune the
+oldest entries of one kind, split the page) and that sentence was as
+unmechanised as the bound. Keep the per-edit check if it earns its place,
+but never let it stand in for the artifact check: the audit question for a
+rule about size is not "what refuses a large edit?" but **"what reads the
+file's length, and on what event?"**
