@@ -258,6 +258,7 @@ Recording both rather than resolving them by majority:
 | 1.3.1 | 2026-09-01 | voltagent-awesome-ai-agent-papers (wave 4) | 1 (32 of 382 read, 350 ranked+recorded) | 24 | 8 | 9 | 0c/0e/0s (9 unapplied, one reason, checked per finding) | 0 | **8/8 lanes worth a slot - the run's best rate**, on the Multi-Agent cluster wave 1 dropped for contention. Three headlines died to arithmetic (a hindsight-oracle denominator reproduced 5/5; an authority paper that measured the inverse of its title; a phase transition whose control parameter has no budget term). One worker retracted its own candidate after applying the corpus's own test. **The run's own error: an acceptance rule built on a hole that was not one** - a verification grep returned 22 files piped through `head -8`, and a second instrument truncated the same subject out of its top-6. Two independent truncations, one hidden subject. Apply 0 for a reason distinct from wave 3's: these govern structures the fleet does not build (no join, no recursive decomposer, no panel, no a11y ladder), each checked against the tree individually. |
 | 1.6.0 | 2026-09-01 | `slideops` (practitioner repo, README as artifact of FORM) | 1 (1,033 landing / ~2,470 in-tree operating docs) | 8 | 7 | **1 new subject** (golden path + 7 techniques + 2 applications) + 1 technique in `docs-sync` + 1 instrument (`check-readmes.mjs`) | 2 rows: 0c/**1e**/0s + 1 unapplied — 2:2 with the landing clusters | 0 (**blocked: foreign WIP**, not confirmation) | **Both halves of the declared focus applied, and the second one worked.** Class carried into the numbers: this was a repository mined under an *inverted* rule — the operator scoped the run to the README as an artifact of form, so the file Phase 2b says to distrust was the primary source. Expected yield was stated as 4-8 candidates + one subject-sized gap before the triage table; actual 8 and one. The tree question was moved to Phase 7.5 and **the ship zero changed character because of it**: the operator authorized a named tree against a concrete seam and a measured two-arm result, and the block that remained was the tree carrying a live 38-line in-flight append in the exact file — a genuine authorization-independent boundary, which is precisely the distinction the focus was written to expose. Six consecutive runs blocked on `confirmation`; this one was not. |
 | 1.6.0 | 2026-09-01 | `firstmate` (OSS tool repo behaving as first-party practitioner account; **2,434 landing / 174,027 in-tree**, 76:1) | 1 | 14 | 4 | 2 techniques + 2 amendments | **4 rows: 0c/4e/0s — 1:1 with landings** | 0 (**3 of 4 `declined: no change warranted`**, 1 open decision) | **Both halves of the declared focus applied.** Class carried into the numbers before the triage table: expected yield stated as *above the class norm, 3-5, mostly amendments*; actual 4. The 14→4 ratio is an operator pick, not director capacity — 10 rows recorded **untriaged with anchors**, none declined. **The tree question was asked at Phase 7.5, not at triage**, and the ship zero changed character again because of it: three of four rows are `declined: no change warranted` rather than `blocked: confirmation` — no project holds the caching-injector defect, the fleet's turn-end hook *already implements* the amendment (which is why it could validate it), and the delivery probe is an instrument rather than a change. Seventh consecutive run with ship 0; second consecutive run where the zero is not an authorization failure. **The apply step refuted the run's own document before commit for the second consecutive run**, and this time from a tree that had already solved the problem *better* than the draft prescribed — the amendment's "fail-open, silently" became "open to the actor, loud to the operator, on a code of its own." Reading a project that agrees with a finding is where the finding's wording gets fixed. **0 of 3 fetches — fourteenth consecutive.** Three of four landings came from an enumeration declaring its own completeness. |
+| 1.6.0 | 2026-09-01 | `reallusion-ai-studio` (**vendor release announcement**, product landing page) | 1 (1,263 words) | 7 | 3 | **1 golden-path scope clause** (`cinematic-language`) + 1 application | 1 row: 0c/0e/**1s** — 1:1 with the landing | 0 (**declined: no change warranted** — the clause confirms the authorized tree's design; gravity AND pof were both authorized and neither needed a commit) | **The declared focus worked and the run still landed almost nothing — those are the same sentence.** Seam prediction was made at triage from `loadFleet()` + each candidate's registry-map, before picks: `gravity` predicted for rows 1/2/4/7, `seam: none` for 3/5/6. **Prediction was right in direction and wrong about what it would buy** — gravity was the first `code`-reachable tree in eight runs (0 WIP, both seams, a calibrated A/B harness already built), the operator authorized it *and* pof, and the correct mode was still `simulation`, because what survived verification was navigational rather than behavioural. That is the honest answer to the focus's own check question: the prediction was not wrong, the *ship-class inference from it* was — a seam predicts where a finding would land, not that the finding will be code-shaped. **5 of 7 candidates already covered, including one this run first wrote up as a verified hole and caught before commit.** Both operator-picked "real gaps" fell to techniques stating the same rules with more care. The run's product is a method lesson (lane 2): an absence check run on *industry jargon* (`previsualization`, `blocking pass`, `proxy render`) returns a genuine zero over a corpus that strips jargon as thoroughly as product names — it measured the purity gate, and `scene-grammar-progression` had owned the concept since run 26. Expected yield was stated at 1-3 before the triage table; actual 1 landing, 0 leads, 5 catches, 3 untriaged. |
 
 Next run's declared focus: **when an apply row reaches `better`, name the ship blocker
 from those four, and act per class.** A run that reports "ship 0" without naming which
@@ -789,6 +790,7 @@ where at triage they were answering about a hypothesis. A run that then still re
 `ship 0 (blocked: confirmation)` has found a genuine authorization boundary; before
 the move, it has only found that it asked too early.
 
+| 1.6.0 | 2026-09-01 | `faceless-channel-claude-code` (**practitioner build-walkthrough**, tour-half dominant, sponsored vendor demo) | 1 (2,837 words) | 8 | 6 | **1 application** (`never-the-account-default`, game-production) | 1 row: **1c**/0e/0s — 1:1 with the landing | **1** (`e3b3f09`, gravity, main, pathspec, not pushed) | **Focus APPLIED and it was wrong in the informative direction.** Every row carried `seam: <slug>` before the picks, from `loadFleet()` + one grep; `systedo-case` was predicted and confirmed to have no provider seam, so gravity was the sole candidate. The prediction that FAILED is the one worth recording: row 6 was predicted `partial` → an amendment, and it resolved to **already covered** — the corpus contained the case twice — while its *seam* prediction held exactly and the run shipped from it anyway. So the seam grep was right and the corpus read was wrong, which is the opposite pairing the focus was designed to catch. **Cause: an absence established from a truncated FILE** (`head -45` on the technique), the method's own grep warning applied to a Read. Ship 0 did not recur: the triage question named the tree and the operator answered it in one line, and the `code` arm was reachable because the measurable was the project's own `tsc`. |
 ---
 
 **Read across the last ten rows, the funnel's weakest stage is still `ship`, but for
@@ -849,3 +851,42 @@ should make: did any row's predicted ship class turn out wrong, in either
 direction? A prediction that is never wrong is not being made honestly, and a
 prediction that is often wrong means the seam grep is looking in the wrong place.
 
+
+---
+
+**The prediction was made and it was half-wrong, in the direction the focus asked
+about.** Seam class was carried into the triage table before picks (`gravity` for
+rows 1/2/4/7, `seam: none` for 3/5/6), and `gravity` was right — 0 WIP, both seams,
+and a calibrated A/B harness already in the tree. It was still a `simulation`. The
+prediction that failed was not *where* but *what*: a seam says a finding has a place
+to land, and the run inferred from that a `code`-shaped ship. What survived
+verification was a navigational clause, which no seam and no gate can be behind.
+**So `seam: <slug>` should keep being carried, and the inference drawn from it should
+be narrowed to what it actually supports** — a seam predicts the apply *target*, never
+the apply *mode*. Mode is decided by the finding's shape, and that is knowable at
+triage too: a row whose `shape` is `correction` or a golden-path clause is a
+`simulation` row before anyone opens a tree.
+
+**Across the last ten rows, `ship` is still 0 — and this row makes it three
+consecutive zeros with three different, all-correct causes**: foreign WIP, no change
+warranted because the fleet lacks the defect, and now no change warranted because the
+finding is not code-shaped. The ship column has now spent five rows measuring
+something other than a failure to ship, which is a strong signal it is the wrong
+denominator. But the stage genuinely worth naming is upstream of all of it and this
+run is the clearest instance yet: **`extract`→`test` conversion, where 5 of 7
+candidates and *both* operator-picked "real gaps" resolved to already-covered.** Four
+of the last five runs have had catch rates at or above 50%, and the cost is not the
+wasted verification — it is that the triage table's own read column said `real gap` on
+two rows the corpus already owned better than the source did.
+
+Next run's declared focus: **before writing `real gap` in the read column, open the
+top prior-art subject's `librarian/subjects/` note — not just the technique files.**
+This run's single worst error was a "verified uncapped" absence that was refuted by a
+subject note recording the exact concept, landed by run 26, under a name no query
+built from the source's vocabulary could reach. The note is the cheapest artifact in
+the repository and it is written specifically to say what a subject has recently
+gained; Phase 6 currently sends the run to `research-map`'s `file` and to the
+neighbouring techniques, and never to the note. One file read per picked candidate.
+The check the next row should make: did reading the note change any row's read from
+`real gap` to `likely catch` *before* the verification budget was spent — and if it
+never does, the note is not carrying what this focus assumes it carries.

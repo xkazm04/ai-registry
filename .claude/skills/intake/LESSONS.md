@@ -5128,3 +5128,49 @@ been naming that zero for weeks:
   that; reporting 5 of 8 byte-identical is what shows the change is a detection and not
   a rewrite. **When a technique's home subject states a safety property, size the arm to
   measure that property, not just the effect.**
+
+## 1.6.0 - 2026-09-01 - reallusion-ai-studio
+
+- **An absence check run on the SOURCE's vocabulary measures the purity gate, not the
+  corpus.** The method already says this for banned proper nouns ("a total empty over
+  banned vocabulary is not evidence of anything"). This run hit the same wall through a
+  door the method does not name: *industry jargon*. `previsualization`, `blocking pass`,
+  `proxy render`, `depth map` returned a genuine, uncapped, verified zero across eight
+  bundles — and `scene-grammar-progression` has owned the concept since run 26 as **the
+  blocking frame**, with an operating detail (the hard-scoped role line that stops the
+  stand-in's emptiness leaking into the shot) that the vendor page does not have. The
+  zero was real; it was a fact about how this corpus names things. A source's own
+  vocabulary is the single worst query set for establishing an absence, because a
+  news/vendor source is made of exactly the words the upper layers strip.
+- **The refutation came from `librarian/subjects/<domain>/<subject>.md`, not from any
+  grep or any technique file.** The note said "run 26 … camera pose (the blocking
+  frame) — a neutral 3D stand-in scene exported as a frame". Phase 6 sends a run to
+  `research-map`'s `file` and to the neighbouring techniques; it never sends it to the
+  subject note, which is the one artifact written specifically to record what a subject
+  recently gained and in what words. It is one file read per picked candidate and it
+  would have moved two rows from `real gap` to `likely catch` before the verification
+  budget was spent. Promoted to the next run's declared focus.
+- **The golden-path/technique hedging asymmetry runs both ways.** The method warns that
+  "golden paths in this corpus routinely hedge better than their techniques do" and that
+  a correction written against a summary is a phantom fix. Here it inverted:
+  `cinematic-language`'s opening states a governing fact flat ("models read described
+  effects, not equipment or numbers") that its own `movement-motivation` scopes in full
+  one level down. The residual finding was therefore **navigational, not substantive** —
+  a reader deciding whether the subject applies to them meets the unqualified version
+  first. Worth checking in both directions, and worth noticing that the fix is a clause,
+  not a technique.
+- **A seam predicts the apply TARGET, never the apply MODE.** The declared focus
+  (predict ship class at triage from the fleet) worked as far as it can: `gravity` was
+  correctly predicted, was the first `code`-reachable tree in eight runs, and the
+  operator authorized it. The mode was still `simulation`, because the surviving finding
+  was a golden-path clause. Mode follows the finding's *shape* and is knowable at triage
+  from the `shape` column alone — a `correction` is a `simulation` row before anyone
+  opens a tree.
+- **Vendor-page calibration held exactly.** Expected yield stated at 1-3 before the
+  triage table; actual 1 landing, 0 leads, 5 catches, 3 untriaged. The class table's
+  "reliable for its numbers - the prose is the strip test's problem" is right, and the
+  operator's broader-research ask did not change the yield so much as change what the
+  fetches were *for*: they located the general technique class (geometry-proxy
+  conditioning) so the vendor's framing could be checked against a primary rather than
+  restated. That is the correct use of the budget on this class and it still ended in
+  catches, because the corpus had already been there.
