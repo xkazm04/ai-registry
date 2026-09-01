@@ -14,6 +14,7 @@ techniques:
   - long-lane-certification
   - negative-control-tests
   - out-of-graph-artifacts
+  - gate-scope-is-not-report-scope
 ---
 
 # Test harness architecture
@@ -146,7 +147,7 @@ attached is the first thing a future cleanup deletes. See
 
 ## Lane health: green must be earned, red must be loud
 
-Two failure modes destroy a harness's authority, and both are silent.
+Three failure modes destroy a harness's authority, and all of them are silent.
 
 **A lane that has never passed.** A suite can be added, wired into the
 pipeline, and fail 100% of its runs from inception — and if nothing
@@ -173,6 +174,19 @@ failure is flake-masking; a retry that **records** the first failure while
 salvaging the run is flake-measurement. The count of retried tests is a health
 metric of the harness, and like any count it travels with its predicate
 ([_laws: count-carries-predicate_](../../../_laws.md#count-carries-predicate)).
+
+**A lane that is green over a population chosen to make it green.** The two
+above are failures of the tests. The third is a failure of the *denominator*,
+and it hides better than either, because nothing is red, nothing is flaky, and
+the number is arithmetically correct. A coverage gate scoped to the directories
+the suite already covers reports honestly on those directories and says nothing
+at all about the rest of the tree — a file no test imports does not appear at
+0%, it does not appear. The scoped gate is the right way to introduce a
+threshold; the mistake is letting one include list serve both the gate and the
+report, which redefines the codebase as the part already tested and makes the
+ratchet structurally unable to notice a new untested directory. Two include
+sets, two predicates, one run:
+[gate-scope-is-not-report-scope](./techniques/gate-scope-is-not-report-scope.md).
 
 Flakiness is not a state a test sits in, it is a **process it goes through** —
 detected, labelled, quarantined, fixed, released — with an owner at every
@@ -210,6 +224,9 @@ a soak run misunderstands both; the design of these lanes is
 - [live-app-harness](./techniques/live-app-harness.md) — driving the real
   product through a test-only control surface: serial constraints, readback
   for fire-and-forget operations, the test-identifier contract.
+- [gate-scope-is-not-report-scope](./techniques/gate-scope-is-not-report-scope.md)
+  — the gate's scoped include set versus the report's whole-tree denominator,
+  the ratchet's blind spot, and the obligation an exclusion carries.
 - [isolation-lanes](./techniques/isolation-lanes.md) — clean-environment
   launchers, fresh profiles, the singleton catalog, parallelism as per-suite
   policy.

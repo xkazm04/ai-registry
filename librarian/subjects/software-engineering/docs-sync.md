@@ -182,3 +182,64 @@ checkbox. The remedy was one directory away.
 `repository-landing-document` (new this run) decides whether a figure earns its
 place on a landing document; this subject decides whether it is still true. The
 two are confused often enough that both sides now say so in prose.
+
+---
+
+## 2026-09-01 (second touch today) — [[2026-09-01-openwiki-v050]]
+
+Class: SHARPENS. One amendment to `dated-corrections`, one application. No new
+technique, and the reason is the finding.
+
+**The source this subject argued against conceded, one release later.** On
+2026-08-27 `dated-corrections` gained its "Retraction is a verb, never an
+absence" section by rejecting one detail of a vendor's claim-reconciliation
+contract: omission as the retraction signal, on the grounds that it makes
+forgetting and deciding produce byte-identical results. The v0.5.0 delta ships
+the reversal — an explicit withdrawal field, an omitted healthy claim retained,
+an omitted *flagged* claim refused by the runtime. Verified in the
+implementation rather than the prose, per the rule this subject's own prior run
+established.
+
+**The amendment is not a victory lap; it is a correction of our own cure.** Our
+rule refused *every* omission, which forces the worker to re-declare the complete
+set on every pass — precisely the round-trip cost that
+`repair-rides-the-open-page`, two files away in this same subject, exists to
+avoid. The two techniques were quietly in tension and nobody had noticed. The
+shipped resolution is three-way and cheaper: bind omission to the
+non-destructive reading, and reserve the refusal for claims *already flagged
+stale*, where retaining silently would re-stamp evidence as current and launder
+a known-broken claim into a fresh confirmation. Two new rules came with it —
+withdrawal idempotent while confirmation stays strict (retry safety across a
+split write), and a result floor that refuses a pass emptying the set.
+
+## Measured (2026-09-01)
+
+The subject's own registry has the defect. `scripts/signals-collect.mjs` folds a
+rolling 30-day window into a whole-file replace, so an aged-out subject is not
+expired — it is unwritten, and the replacement carries no evidence it was there.
+Same recorded inputs, one variable (the window): 87 pairs at 30d with **0
+dropped**, 71 at 8d with **16 dropped**, 51 at 4d with 36. At the shipped window
+the defect is real and not yet observable — the oldest consult is 2026-08-23 —
+so the honest output is a date rather than a verdict: **the first genuine silent
+drop lands 2026-09-22.**
+
+The **asymmetry** is the durable half. `librarian-scan.mjs` models
+unknown-versus-zero at *bundle* granularity with visible care and explicit
+prose; at *subject* granularity the same distinction is destroyed by the write
+path rather than by a decision. One lane, one author, modelled where it was
+thought about and lost where it was not.
+
+## Honest limits (2026-09-01)
+
+- **Nothing was committed to the collector**, and the ship zero is deliberate.
+  The repair is a schema decision on a lane whose key set is closed and
+  validated, and the 2026-08-27 run already left this lane owing an unemitted
+  `citations` key. A second key before the first is emitted widens the gap.
+  Return condition / named instrument: `signals-collect.mjs` emitting
+  `citations`.
+- The three-way rule is corroborated by one vendor's reversal plus this
+  registry's own seam. That is a first-party account and an internal
+  measurement, not two independent producers. **A second independent system
+  binding omission to retain would promote this toward a law candidate**; on one
+  sighting it stays a technique.
+

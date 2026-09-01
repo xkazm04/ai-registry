@@ -81,6 +81,59 @@ with a reason, and a claim that is simply missing is a **validation error the
 runtime refuses** — not a signal it acts on. The cost is one field and one
 check; what it buys is that every disappearance had an author.
 
+### Omission is ambiguous; bind it to the safe reading
+
+Refusing every omission is one resolution of the ambiguity, and it is the
+expensive one: it forces the worker to re-declare the complete set on every
+pass, which is exactly the round-tripping cost that makes claim-level freshness
+unaffordable on a large corpus (see
+[repair-rides-the-open-page](./repair-rides-the-open-page.md)). There is a
+cheaper resolution that gives up nothing, and a machine-maintained corpus that
+started with omission-as-retraction and then reversed it arrived at this shape:
+
+- **Omission of a healthy claim retains it.** The default reading of silence is
+  the non-destructive one. A worker that ran out of context, mis-parsed the
+  page or summarised loosely now loses nothing — the claim keeps its identity
+  and its evidence is re-resolved against current source.
+- **Omission of a *flagged* claim is refused.** A claim already marked stale or
+  unresolved is the one case where retaining silently is also wrong, because
+  the retain path re-stamps evidence as current and would launder a known-broken
+  claim into a fresh confirmation. These, and only these, must carry an explicit
+  confirm, revise or withdraw.
+- **Withdrawal is always an explicit token** — a named field carrying the ids
+  being removed. Never inferred, never a side effect of absence.
+
+The obligation set is therefore small, bounded, and — this is the load-bearing
+part — **enumerated by the system, not by the worker**. The assignment states
+how many claims the page holds and lists the flagged ones requiring a decision;
+everything else the worker never sees and never repeats. A worker that needs
+the full set to revise something healthy asks for it on demand, scoped to the
+unit it currently owns. A sparse protocol is safe exactly when the set of
+things you may not omit is computed by the thing that will check you.
+
+### Destruction is idempotent; confirmation is strict
+
+The two directions want opposite retry semantics, and a system that gives them
+the same one is wrong in one of them. Persisting the reconciled set and
+recording that the pass completed are separate writes, so a retry after the
+first succeeded and the second failed is normal. On that retry the withdrawal
+names an id that is already gone: strictness would fail a correct resubmission
+forever. So **a withdrawal naming an absent id succeeds silently** — it is
+delete-like, and the state it asks for is the state that holds. Confirmations
+and revisions stay strict, because an unknown id there means the worker is
+reasoning about a record that does not exist, which is a real error and not a
+replay.
+
+### The set may not empty itself
+
+One more guard, and it is cheap: a pass that withdraws everything and
+establishes nothing is refused. Not because emptying is never right, but
+because the difference between *this document asserts nothing any more* and
+*this worker lost its place* is invisible in the resulting artifact, and the
+first is rare enough to be worth stating deliberately elsewhere. The check is
+on the result, not the payload — withdrawals minus additions against the
+retained set — so a legitimate wholesale rewrite still passes.
+
 Note that a durability guard does not substitute for this, and the confusion
 is common: a runtime that refuses to finish until the reconciled set is
 persisted has proven the *write* completed. It has proven nothing about
