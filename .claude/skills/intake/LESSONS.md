@@ -4839,3 +4839,53 @@ The Multi-Agent cluster wave 1 dropped for contention, mined once the board empt
   be repository metadata rather than failure data, and one was an instance of a smell
   we already publish. The corroboration section's "a source that implements a good idea
   badly is worth more" held four times in one wave.
+
+## 1.6.0 - 2026-09-01 - slideops-readme
+
+- **A source class can be inverted by the operator's question, and the inversion is
+  worth naming rather than treating as an exception.** Phase 2b's rule is that a
+  repository's README is its advertisement and must be read last. This run's scope was
+  *the README's form* — styling, formatting, the balance of visual and text elements —
+  which makes that same file the primary source and the tree the corroborating
+  evidence that the form was engineered rather than stumbled into. The generalisation:
+  **when the question is about a document's form rather than its claims, the file the
+  class tells you to distrust becomes the artifact under study.** The class still
+  decides where the yield hides; it just stops deciding which file is the ad. Phase 2b
+  should say this in one sentence rather than leaving the next run to rediscover it,
+  because the naive reading ("clone it, read the README last") would have produced a
+  run that never opened the thing it was asked about.
+
+- **When a run forges a rule AND its detector, reconcile the detector to the rule
+  BEFORE the rule's numbers are argued — not after.** This run wrote
+  `check-readmes.mjs` with provisional thresholds, measured the fleet, handed those
+  numbers to a forge worker, and the worker argued its threshold against them. Then the
+  forged technique turned out to state a *closed break set* that my counter did not
+  implement: it admitted paragraph breaks and bare headings, and read the fleet's worst
+  prose run at 39 lines where the rule's own break set reads 96. Reconciling the
+  instrument invalidated the argument the worker had built — "a limit of forty would
+  pass every project in the survey" was true of the draft counter and false of the
+  corrected one — and the subject's cited distribution and its defence of its threshold
+  both had to be rewritten after the gate was already green.
+
+  The order that avoids it: draft the rule's *shape* first, implement the detector
+  against the shape, measure, and only then argue the numbers. What made this
+  recoverable rather than embarrassing is that the technique itself states the meta-rule
+  — the numbers live in the written rule and the instrument reads them, never the
+  reverse — so the corpus contained its own correction before the correction was needed.
+
+  ### Redesign proposal (not applied)
+  Phase 7.5 currently tests a landed technique against a project. It has no step for
+  the case where **the run's own instrument is one of the landings**, which is now
+  common enough to name: three of the last four repository runs produced a script. Such
+  an instrument is a consumer of the corpus like any project, and it deserves the same
+  question — does the artifact do what the document says? A cheap version is one line
+  in Phase 7: *if this run wrote an instrument that encodes a rule it also wrote, run
+  the instrument against the rule's stated definition and report the disagreement.*
+  Not proposing a SKILL.md edit on one sighting; return on a second.
+
+- **A hand-count in the triage table is a measurement without a predicate, and it was
+  wrong.** My Phase 3 survey credited a fleet project with 7 images; they were badge
+  images. The instrument written two phases later caught it, and the spec had already
+  been dispatched with the bad table. Cheap corrective, no method change needed: when a
+  run is going to build a counter anyway, build it before the triage table rather than
+  after, and let the table quote it.

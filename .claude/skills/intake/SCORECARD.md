@@ -223,6 +223,7 @@ Recording both rather than resolving them by majority:
 | 1.5.0 | 2026-08-31 | agentic-operating-level | 1 (7,937-word doctrine talk; **no system, no artifact, no number, no n=1** — class read at Phase 2 and expected yield stated as 1-2 amendments before the table) | 14 | 3 (operator picked 1/2/6) | 2 amendments | **2 rows / 2 landings** (0c/1e/1s; both `better`) | 0 — triage answer named no project, and Phase 8 requires operator confirmation before a project tree is touched; both arms were read-only | **Declared focus did not bind and the row says why**: it governs a wave returning more candidates than the director can verify, and one video produced 14 candidates of which the operator picked 3 — Phase 6 ran serially in full. **The class reading did the work the focus would have.** A doctrine talk inverts this method's economics: it **strips perfectly** (a proper-noun-free ladder) and **corroborates not at all**, so the strip test performed zero triage and the corroboration table refused nearly everything. Both landings came from the same move — a document declaring its own completeness (`"three honest resolutions"`, `"owned by exactly one of these"`) — and **the source was contradicted on both while having located both**, the cleanest instance of that pattern the ledger holds. Extract→Test 3/14 is low by design, not by failure |
 | 1.5.0 | 2026-08-31 | boundary-software-factory | 1 | 12 | 1 | 1 | 1e | 0 | **Ship 0 is correct and owed nothing** - the landing is a registry-side gate measure; no project change was warranted, and the apply step was read-only by design. The declared focus (parallelise the mechanical half of Phase 6) **did not apply and was said so before the table**: it was written for wave runs returning more candidates than a director can verify, and a single dialogue with one operator-picked row has no mechanical half to fan out. Extract->Test is 1/12 by operator choice, not director capacity. Class economics predicted the run exactly: dialogue, expected yield stated as 1-3 findings before triage, **0 of 3 fetches spent**, corroboration entirely corpus-internal. **The apply step refuted its own first number for the second time in this skill's history** - arm B's 1.42x by changed lines was surface-area artifact; the control (hold files-touched fixed) collapsed and inverted the gradient. Instrument's first number wrong again: that is now five sightings across three runs |
 | 1.3.1 | 2026-09-01 | voltagent-awesome-ai-agent-papers (wave 4) | 1 (32 of 382 read, 350 ranked+recorded) | 24 | 8 | 9 | 0c/0e/0s (9 unapplied, one reason, checked per finding) | 0 | **8/8 lanes worth a slot - the run's best rate**, on the Multi-Agent cluster wave 1 dropped for contention. Three headlines died to arithmetic (a hindsight-oracle denominator reproduced 5/5; an authority paper that measured the inverse of its title; a phase transition whose control parameter has no budget term). One worker retracted its own candidate after applying the corpus's own test. **The run's own error: an acceptance rule built on a hole that was not one** - a verification grep returned 22 files piped through `head -8`, and a second instrument truncated the same subject out of its top-6. Two independent truncations, one hidden subject. Apply 0 for a reason distinct from wave 3's: these govern structures the fleet does not build (no join, no recursive decomposer, no panel, no a11y ladder), each checked against the tree individually. |
+| 1.6.0 | 2026-09-01 | `slideops` (practitioner repo, README as artifact of FORM) | 1 (1,033 landing / ~2,470 in-tree operating docs) | 8 | 7 | **1 new subject** (golden path + 7 techniques + 2 applications) + 1 technique in `docs-sync` + 1 instrument (`check-readmes.mjs`) | 2 rows: 0c/**1e**/0s + 1 unapplied — 2:2 with the landing clusters | 0 (**blocked: foreign WIP**, not confirmation) | **Both halves of the declared focus applied, and the second one worked.** Class carried into the numbers: this was a repository mined under an *inverted* rule — the operator scoped the run to the README as an artifact of form, so the file Phase 2b says to distrust was the primary source. Expected yield was stated as 4-8 candidates + one subject-sized gap before the triage table; actual 8 and one. The tree question was moved to Phase 7.5 and **the ship zero changed character because of it**: the operator authorized a named tree against a concrete seam and a measured two-arm result, and the block that remained was the tree carrying a live 38-line in-flight append in the exact file — a genuine authorization-independent boundary, which is precisely the distinction the focus was written to expose. Six consecutive runs blocked on `confirmation`; this one was not. |
 
 Next run's declared focus: **when an apply row reaches `better`, name the ship blocker
 from those four, and act per class.** A run that reports "ship 0" without naming which
@@ -753,3 +754,29 @@ operator answering "yes, ship that" there is answering about something they can 
 where at triage they were answering about a hypothesis. A run that then still reports
 `ship 0 (blocked: confirmation)` has found a genuine authorization boundary; before
 the move, it has only found that it asked too early.
+
+---
+
+**Read across the last ten rows, the funnel's weakest stage is still `ship`, but for
+the first time in seven runs the reason is not `confirmation`.** The previous focus
+predicted exactly this test: move the tree question to Phase 7.5, and a remaining zero
+either reveals a genuine boundary or reveals that the earlier ask was premature. It
+revealed a boundary — the authorized tree held a live in-flight append in the one file
+the change touches, and no amount of asking earlier would have moved it. That is a
+result, and it retires the `confirmation` diagnosis rather than repeating it.
+
+The stage now worth naming is **`apply` mode, not apply count**. Two rows for two
+landing clusters is 1:1 and healthy, but both are the weakest admissible modes:
+one `experiment` and one honest `unapplied`. Zero `code` rows have been filed in seven
+runs. The blocker is no longer permission and is not effort — it is that the fleet's
+trees are almost always mid-work, because the same operator runs a dozen sessions
+across them. A method that only lands `code` into a quiescent tree will never land one.
+
+**Next run's declared focus: check the target tree's WIP state at Phase 5, not at
+Phase 8.** The tree question was moved once already and it worked; this is the same
+move one stage earlier for the same reason. `git status --short` on the candidate
+project costs one command and turns "which tree may I touch?" into "which tree is
+*touchable today*?" — a question the operator can answer correctly, where the current
+one invites an authorization that the tree then refuses. Two consequences to check in
+the next row: whether a `code` row becomes reachable at all, and whether naming the
+constraint at triage changes which project the operator picks.
