@@ -156,6 +156,36 @@ bumped independently (that run 1.1→1.2, this one 1.2→1.3).
   failing test NAMES had been filtered out by my own pipe, so the file could not answer "which". Had to
   re-run. Log raw, filter on read.
 
+## 1.8.0 - 2026-09-01 - pof (eval run, CoplayDev/unity-mcp, operator delegated)
+
+- **Second sighting of the peer-codebase profile.** 2026-08-26 (openhuman → Athena) proposed a Phase 3
+  row — *peer codebase / competitor repo → low findings + many catches, findings from the LEAST glamorous
+  material* — and withheld it on one run's evidence. This run matched it exactly: 2 shipped / 5 persisted /
+  13 catches / 3 n/a from ~30k words, and the shipped delta was a decorator argument
+  (`annotations=ToolAnnotations(...)`) the repo's server never set. Two sightings; still not applied here
+  (the table is read by 8+ projects and this run was an eval with no operator) — the next real run that
+  lands a peer-codebase source should add the row.
+- **Restore a fault injection by inverting the edit, never with `git checkout -- <file>`.** The injection
+  did its job (the new guard failed on exactly the flipped tool), and the "restore" reverted the whole
+  file to HEAD, erasing nine uncommitted edits with a green-looking build failure as the only tell. The
+  tree recovered because the original insertion was a script. Generalizes the 08-19 "measure whether the
+  intervention applied" lesson to the restore step: a restore is an intervention too, and `checkout` on a
+  file with uncommitted work is a destructive one. Phase 6/8 could say it in one line where they ask for
+  fault injection.
+- **The security-escalation rule can fire on a documented DECISION; the honest output is then a
+  deviation, not a CRITICAL.** "No auth boundary, single-owner tool" was a recorded decision; what the rule
+  surfaced was that the repo's *own* doctrine ("loopback-only") is enforced by clients dialing 127.0.0.1
+  while the server binds 0.0.0.0. Worth a clause in Phase 6: when the zero-auth grep hits a surface whose
+  posture is documented, state the gap between the documented posture and the measured bind/gate, and let
+  the operator own the severity.
+- **Classify read-only by reading the route, not the description.** Eight POST-backed tools were pure
+  (disk reads / compute); one description-identical sibling persisted a run. A `readOnlyHint` set from
+  prose would have auto-approved a write. Pairs with Phase 6 Step 3b: the thing that decides is one layer
+  down.
+- **Worktree gates:** a package the root gate excludes (`tools/` out of tsconfig/vitest/eslint) has its OWN
+  gate, and a fresh worktree lacks its `node_modules` — link it (gitignored) rather than reading the root
+  gate's green as coverage. The skill's `## Gates` default ("detect from package.json") stops at the root.
+
 ## 1.8.0 - 2026-08-30 - personas
 - Topic-driven invocation with NO pasted source works: when the argument names a
   popular external PRODUCT ("Grok bot, why is it popular, compare with our X"),
