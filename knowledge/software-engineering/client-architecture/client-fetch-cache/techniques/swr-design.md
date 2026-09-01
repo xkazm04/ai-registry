@@ -62,7 +62,14 @@ no event covers, not the primary freshness mechanism.
 
 Revalidate on: **read of a stale entry** (the core of the pattern), **key
 change** (a different question is a different entry), and **explicit
-invalidation** (an event said so). Treat with suspicion: revalidate on
+invalidation** (an event said so). Explicit invalidation is the trigger with
+a second obligation: a revalidation already in flight when the invalidation
+arrives was launched against the superseded world, and dropping only the
+entry leaves that flight free to write its pre-invalidation answer back
+moments later. Invalidation must therefore retire the in-flight work as well
+as the stored value — the per-flight identity token in
+[in-flight-dedup](./in-flight-dedup.md) is the mechanism. Treat with
+suspicion: revalidate on
 every window focus or visibility flip — the default posture of several
 popular tools — which on a many-surface application produces a refetch
 storm per alt-tab. If focus-revalidation is wanted at all, it belongs on
@@ -113,6 +120,8 @@ for the next read to try again.
 - Dedupe the background revalidation; N stale readers are one flight.
 - No ambient focus-refetch; revalidation triggers are enumerated, not
   environmental.
+- An invalidation retires the flight as well as the entry; a revalidation
+  launched before it never writes back after it.
 - Cap the entry count and sweep independently of reads; expiry is not
   eviction.
 - Never evict on failed revalidation; report the failure beside the stale
