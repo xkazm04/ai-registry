@@ -85,6 +85,50 @@ keyed on the authority, per
 - **Presentation table ↔ union.** Key the table by the union and a new
   member is a compile error; key it by string and a new member is
   `undefined` at runtime — a badge with no classes and no label.
+- **Union ↔ map, when the map *is* the enumeration.** Sometimes the
+  hand-written table is the only place the members are written down, and
+  the running program also wants the member list. The derivation may then
+  run the other way — but the gate may not vanish with it. Assert the map
+  **against** the vocabulary with a conformance check that verifies the
+  literal covers the type without widening it (the *satisfies*-style
+  operator where a typed language has one; a total-match at the definition
+  otherwise), and take the runtime enumeration from the **gated** map's
+  keys. The key-list cast that step needs is a **derivation, never a
+  gate**, and the failure is letting it stand in for one — asserting an
+  *ungated* map's keys into the vocabulary type, or minting the vocabulary
+  as "the keys of this map" and calling that a definition. That cast is
+  unchecked by design: a structurally typed value may carry keys its
+  declared type never mentions, which is exactly why the key list arrives
+  typed as plain strings in the first place. Over an ungated literal it
+  makes an incomplete map emit a confidently typed, silently short
+  enumeration — the drift signal is not weakened, it is **deleted**. Gate
+  first, derive second. And watch for the near-miss that reads as a gate
+  and is not one: a conformance check whose key side is left open to any
+  string constrains the *values* and asserts nothing about coverage.
+- **Ordering ↔ union.** A vocabulary that carries an *order* — severity
+  rank, lifecycle precedence, sort priority — needs the same totality, and
+  an array of members is the wrong container to hold it in. An array typed
+  as members-of-the-union checks each **entry** and never the **count**:
+  omit a member and it still compiles, still reads as the vocabulary. Then
+  the position lookup answers the omitted member with the not-found
+  sentinel — a value *smaller than every real rank* — so the unknown
+  member does not degrade toward the attention-demanding end and does not
+  raise anything; it sorts silently to the front and reads as the most
+  urgent row on the page
+  ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+  Hold the order as a **total map from the vocabulary to its rank**, so a
+  new member is a compile error at the keystroke and a lookup miss is
+  distinguishable from a rank that happens to be zero.
+
+These gates share one decision rule, and it is a rule about
+*direction*: **every derived container over a closed vocabulary must be
+total by construction, and totality must be checked in the direction the
+derivation actually runs.** Keyed by the union where the union is the
+authority; gated against the union where the map is the authority. A
+container whose type constrains only its contents — an array of members, a
+string-keyed lookup — offers no direction to check and therefore checks
+nothing, and a cast that manufactures the union out of the container
+converts the one remaining signal into a confident answer.
 
 ## Registries that do not see their writers
 
