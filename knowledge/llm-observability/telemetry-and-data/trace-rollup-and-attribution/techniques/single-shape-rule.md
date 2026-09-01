@@ -6,7 +6,7 @@ technique: single-shape-rule
 status: forged
 laws: []
 shared_with: []
-use_when: [list and detail views report the same derived number, defining trace duration or status, two computation paths must agree to the integer]
+use_when: [list and detail views report the same derived number, defining trace duration or status, two computation paths must agree to the integer, a summary tile sits above the itemized list of the same things]
 ---
 
 # Single shape rule
@@ -17,7 +17,9 @@ built from a grouped aggregate, a detail folded from raw events — the
 paths terminate in. The shape holds the minimal facts (first start, last
 finish, error count) and owns the rules that turn them into the displayed
 values (duration, status). Each path may gather the facts its own way; neither
-path may state the rule.
+path may state the rule — and "its own way" governs only *how* the facts are
+fetched, never *which things* they are fetched over. The shape fixes the
+collection too.
 
 ## Why a shared definition, not a shared warning
 
@@ -31,6 +33,58 @@ screens at once. A comment saying "keep these in sync" would not have
 prevented it, because each author believed they *were* in sync. Only making
 drift structurally impossible — one place to state the rule, so a second
 statement has nowhere to live — prevents it.
+
+## The rule alone is not enough: pin the collection
+
+The clause "each path may gather the facts its own way" is the one that has to
+be read narrowly, because taken loosely it licenses the exact divergence the
+technique exists to kill. Two paths can hold the identical rule, apply it
+without error, and still print different numbers — because they applied it to
+different *sets*. The sharpest form of this is a **summary sitting directly
+above the itemized list of the same things**: a strip of tiles over a span
+list, a total over the rows beneath it. The tile folds the raw arrival set; the
+list renders the merged or enriched set (raw records plus the ones a
+reconciliation step joined in, or minus the ones a display filter drops). Both
+obey the shared predicate. The reader sees "12" over nineteen rows.
+
+This failure is worse than the rule-drift case, not milder, because the two
+numbers are adjacent on one screen rather than one screen apart, so it is the
+first thing a reader notices and the last thing anyone can explain. And it
+survives every defense the technique has so far: the shared shape is being
+used, the definitions agree, the conformance test passes — because a
+conformance test that feeds *one* event set through both paths cannot see a
+disagreement that lives in which set each path chose.
+
+So the decision rule extends. A shared shape must fix two things, not one:
+
+1. **The rule** — what the facts mean (where a trace ends, what one failure
+   does to the whole).
+2. **The collection** — the exact set the rule ranges over: raw or merged,
+   pre- or post-filter, before or after truncation.
+
+Operationally, that means the collection is **passed in, never re-derived at
+the display site**. A tile that reaches for a set of its own — even a set it
+believes is the same one — has restated the rule's domain, and restating the
+domain is restating the rule. Whichever caller owns the list is the caller that
+must also hand down the counts and totals printed above it; nothing on a
+summary strip counts its own population. When a number cannot be handed down,
+label the population in the number's own words ("backend spans") rather than
+letting the reader assume the set below it.
+
+Extend the conformance test the same way: assert the two paths agree on a trace
+where the collections *could* differ — where a merge step adds rows, or a
+filter removes them — because a fixture in which raw and merged happen to be
+identical is a test that cannot fail for this reason.
+
+This is the observability instance of a defect long catalogued elsewhere. In
+reporting practice it is the "same metric, different filter context" bug, where
+two panels carrying one governed definition disagree because one silently
+excludes cancelled rows, test accounts, or a region; and it is why the
+dimensional-modeling tradition insists that figures from separate queries may
+only be set beside each other when their row headers are *conformed* — the
+merge is licensed by the sets matching, not by the metric matching. The
+correction is identical at every scale: agreement on the formula is half a
+guarantee, and the other half is agreement on the population.
 
 ## What earns a place in the shape
 
@@ -46,9 +100,13 @@ would answer differently:
   makes the trace an error"), stated once, so the list's error badge and the
   detail's header can never disagree about the same trace.
 
-Do not centralize mechanical sums (token counts, span counts) — there is no
-choice inside them, and a bloated shape stops being read as "the contested
-definitions".
+Do not centralize the *arithmetic* of mechanical sums (token counts, span
+counts) — there is no choice inside a sum, and a bloated shape stops being read
+as "the contested definitions". But note where the previous section lands on
+these: a mechanical sum still has a collection, and the collection is a genuine
+choice. The rule for them is therefore the weaker one — they need no entry in
+the shape, but they must be handed down from whoever owns the set they count,
+never folded locally.
 
 ## Agreement to the integer
 
