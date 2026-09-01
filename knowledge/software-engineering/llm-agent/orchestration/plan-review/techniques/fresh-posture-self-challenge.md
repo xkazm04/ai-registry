@@ -82,6 +82,34 @@ a boundary that was never emitted, and a pass that silently skipped the element
 sentinel costs one string and it is the only thing that makes the escalation trigger
 below computable at all.
 
+## The posture's label is a pinned parameter, not a framing choice
+
+The posture is stated as a role, and *which* role is not free. Measured on frozen
+transcripts with the content held byte-identical and only the participant's role
+name changed, a reader's verdict moved by up to thirty-odd points — so the label is
+an input to the output, and an unpinned one wherever it is chosen by whoever wrote
+the prompt that day.
+
+Two things follow for a technique that runs on posture.
+
+- **Pin the label with the rest of the instrument.** It belongs beside the model,
+  the parameters and the rubric in whatever record says how a review was produced.
+  A review whose posture drifted between runs is not comparable to itself, and
+  nothing in the output shows it.
+- **Expertise-derived labels hold position harder than office-derived ones.** In the
+  same measurement, seats named for what they *know* moved their verdicts less
+  under peer pressure than seats named for what they *decide*. That cuts in this
+  technique's favour: the failure being defended against is a reader collapsing
+  into agreement with the plan, so a label that resists movement is the one to
+  pick — and the obvious name for a reviewing seat, the one derived from office,
+  is measurably the weaker instrument.
+
+The same finding bounds the claim, and the bound must travel with it: the
+measurement was on a task with no correct answer, chosen deliberately so that
+convergence could be observed without accuracy confounding it. It shows a label
+moves a verdict. It does not show the movement is toward truth, and a label chosen
+to make a reader stubborn will make it stubborn when it is wrong.
+
 ## The escalation ladder, with its trigger
 
 Three rungs, in cost order:

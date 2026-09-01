@@ -9,16 +9,16 @@ words: 16346
 refs_found: 1159
 refs_distinct: 382
 refs_ranked: 382
-refs_read: 24
-waves: 3
-refs_untriaged: 358
-fetches: 44
+refs_read: 32
+waves: 4
+refs_untriaged: 350
+fetches: 59
 extracted: 66
-accepted: 28
+accepted: 37
 declined: 0
 leads: 21
 already_covered: 16
-untriaged: 358
+untriaged: 350
 dispatched: 0
 applied: 4
 shipped: 0
@@ -354,7 +354,131 @@ project builds the artifact each governs - no memory comparison, no structural
 extractor, no tolerant comparator, no compiled navigation surface, no per-claim
 citation regime.
 
-## Untriaged (358)
+## Wave 4 - the Multi-Agent cluster, and a truncation that lied twice
+
+The cluster wave 1 dropped for contention, mined once the board emptied to zero
+siblings for the first time in the run. Ranked by our own enumerations again:
+`plan-review` (5 techniques) and `agent-chaining` (7) are the thinnest orchestration
+subjects and both carry rich stated claims. **8 of 8 lanes returned worth-a-slot.**
+
+### The run's own error, caught by two workers independently
+
+The wave opened with an acceptance rule built on a hole that was not one. A
+verification grep returned 22 files; it was piped through `head -8` and the truncated
+list was treated as the answer. `heterogeneous-model-panels` was in the hidden 14.
+A second lane found the same material missing from `research-map --prose` for a
+different reason - the subject scored 14 and fell outside the printed top-6.
+
+**Two independent truncations hid the same subject.** Wave 1's lesson was that a
+proper-noun query manufactures an empty; this is the same failure with a working
+query and a cut-off output, which is a distinct mechanism and the more insidious one
+because the instrument was right both times.
+
+What the corpus actually owns is ahead of every paper in this wave:
+`heterogeneous-model-panels` already carries the voting baseline, a measured
+head-to-head ("homogeneous multi-round debate performs about as well as that voting
+baseline at equal call count - and worse than voting at equal *response* count"),
+divergence as first-class, and panels-as-default already named as a smell. One lane's
+paper turned out to be an instance of a smell we publish.
+
+### Three headlines died to arithmetic
+
+- **"Teams underperform their best member by 6.3-41.1%"** is computed against a
+  per-problem hindsight oracle. A worker reproduced (oracle-team)/oracle on 5 of 5
+  benchmarks to within 0.05pp; the best-member denominator reproduces on 0 of 5.
+  Against the honest baseline the deficit is 0.5-2 points at n=100 - binomial noise.
+  The real result is an arm where expertise is *induced* rather than selected, so
+  there is no hindsight: a team told which seat holds the answer key still loses
+  56-99% relative to that seat alone.
+- **An authority-bias paper measured the inverse of its title.** It cleared the hinge
+  most such studies fail - frozen transcripts, content byte-identical, a real control
+  row - and found the label makes the *labelled* agent stop deferring, while two
+  identically-configured agents were already agreeing at 91-94% on a task with no
+  correct answer. Not an attack surface; an unpinned instrument parameter.
+- **A "phase transition in budgeted synergy"** has a control parameter containing no
+  budget term at all. A run trusting the annotation would have landed a fabricated
+  threshold into fleet sizing. That negative was the lane's highest-value output.
+
+### A worker retracted its own candidate
+
+The MAS-Orchestra lane proposed an amendment qualifying `grounding-over-deliberation`,
+then withdrew it after applying the corpus's own family-diversity test: the paper's
+seats were one model given different jobs, which the technique already classifies as
+division of labour rather than independence, so the paper's negative result is what
+our rule predicts. Retracted to `already covered` with a corroboration note. That is
+the discipline working without being asked for.
+
+### Accepted (9 amendments)
+
+Five corroborated in-tree, independent of any paper's authority:
+
+- `agent-chaining.md` - **many-into-one has no owner here.** Verified: zero mentions
+  of fan-in across the golden path and all seven techniques, one in an application
+  file. Both neighbouring subjects model convergence with a component that holds the
+  contributor set - a pipeline's predecessor map, a fleet's dispatch roster - and a
+  chain has neither by design, so a target with two inbound edges fires twice by
+  default and all-fire requires inventing a barrier.
+- `cycle-and-depth-guards.md` - **layer one does not exist where the graph is minted
+  at runtime.** The technique requires "the whole graph in hand - the wiring pass",
+  and a self-decomposing chain never has that moment; its stated "both halves are
+  required" enumeration has no entry for the case where only one half can exist. The
+  ownership rule extends from the counter to the **predicate**.
+- `handoff-payload-contracts.md` - **the return leg inverts all three compartments.**
+  Output is merged rather than replaced, context flows back as evidence, and the
+  truncation decision moves to a party that did not produce the content.
+- `heterogeneous-model-panels.md` - **the martingale is conditional on symmetric
+  competence.** Under asymmetry later rounds are negative and the deficit grows with
+  seat count; and naming the expert does not fix it, because the shortfall is in
+  leveraging rather than identification.
+- `a11y-verification.md` Layer 5 - **a synthetic evaluator has no seat on this
+  ladder**, by the authors' own limitation rather than by a current accuracy number.
+  Reduces a rank-3 subject at 46 attention points.
+
+Four methodology, from the negatives:
+
+- `coordination-failure-triage.md` x2 - a pooled distribution misleads by
+  *composition*, so publish per-system distributions and let the reader pool; and the
+  unlabelled-data hazard is wider than an agent judge, covering any unvalidated
+  classifier, where scale reads as rigour.
+- `plan-review` x2 - the posture's role label is a pinned parameter with a measured
+  effect on unchanged material (and expertise-derived labels hold position harder than
+  office-derived ones, which cuts in the technique's favour); and two separated readers
+  are less independent than the escalation ladder implies.
+
+### Apply 0, for a reason distinct from wave 3's
+
+Wave 3's unapplied set were rules about how a *number* is produced. These are rules
+about **structures the fleet does not build** - no project runs a chain that forks and
+rejoins, a recursive decomposer, a multi-model panel, or an accessibility ladder. Each
+was checked against the tree individually. The goal-dependency table holds one row;
+the React desktop app has no axe dependency and no a11y script.
+
+### Annotation failure rate now 6-7 of 33, with a new mode
+
+Two titles this wave were **truncated**, not paraphrased - dropping "for
+discrete-choice reasoning" (a scope precondition) and "and Controlled Benchmarks" (the
+only measured half). Truncation is a distinct failure from paraphrase and it removes
+exactly the qualifying clause that decides relevance.
+
+### Operational finding
+
+arXiv renders HTML only for LaTeX submissions; a PDF-only paper 404s at `/html/<id>`
+and at `/html/<id>v1` alike, and one lane spent its whole budget on empty responses
+before flagging the overrun honestly. **Hit `/abs/` first in enumeration**: one fetch,
+confirms the id resolves, and returns the untruncated title - which in that lane
+carried more triage signal than the curator's annotation did.
+
+### Wave-4 leads
+
+The unread references two workers recommended by name: **Kim et al. 2025**, the
+matched-budget fan-out measurement a theory paper leans on without reproducing, which
+is the only thing that could authorize the fleet-sizing stage; and **Chen et al. 2024**
+plus **Ye et al. 2024**, which attach an authority signal to the *material* rather than
+to a peer agent and are the configuration the span-fencing residual actually asked
+about. Also: the ROMA repository as a separate Phase-2b clone source - the paper's
+config appendix is truncated and the guard question lives in the code.
+
+## Untriaged (350)
 
 Ranked, unread, recorded with class, score band and map hit in the companion file.
 Nobody verified them. They are not declines.

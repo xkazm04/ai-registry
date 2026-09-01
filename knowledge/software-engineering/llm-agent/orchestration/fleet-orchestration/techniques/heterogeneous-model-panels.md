@@ -64,7 +64,34 @@ answers predate contamination.
 Later rounds, where members read each other and may revise, are consistency
 machinery: analysis of simultaneous-revision debate shows belief in the
 correct answer moves as a martingale — no expected gain beyond what the
-first-round vote already held. Rounds therefore get a **cap declared at
+first-round vote already held.
+
+**That result is for a panel whose seats are equally competent on the item, and
+the asymmetric case is worse than neutral.** Where one seat is right and the
+others are not — the ordinary situation when seats are drawn from different
+capability tiers, which this technique treats as a standard arrangement — later
+rounds are measurably *negative*, and the deficit grows with seat count. The
+mechanism is symmetric and both halves are hostile: members averaging the
+strongest position toward the middle, and the strongest member accommodating
+weaker feedback. Both were measured to correlate with worse outcomes, so the
+two remedies collapse into one rule — **the seat most likely to be right must
+not be the seat that moves.**
+
+Two consequences, and the second is the one that surprises.
+
+- Where competence is known to be unequal, the round cap is **zero**: take the
+  first-round positions and route, rather than convening an exchange that can
+  only cost. An exchange earns its place when the panel is peers.
+- **Telling the panel which seat is authoritative does not fix it.** Measured,
+  the panel identifies the expert readily and still fails to defer — the
+  shortfall is in leveraging, not in identification, and announcing the expert
+  moved outcomes by a few points where routing its answer around the vote
+  recovers the whole gap. A label is not a routing rule.
+
+The related failure is one this technique already warns about from the other
+side: a role label is not a free framing device. Naming a seat authoritative
+makes *that seat* hold position harder on unchanged material, which is useful
+where the seat is strong and a liability where it is not. Rounds therefore get a **cap declared at
 dispatch**, and "no member budged" is a completed measurement, not a failed
 debate ([failure ≠ empty success](../../../../_laws.md#failure-not-empty-success)
 applied to deliberation: an unchanged-positions round is a result, and it says
