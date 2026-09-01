@@ -1,6 +1,6 @@
 ---
 domain: llm-observability
-last_swept: 2026-08-21
+last_swept: 2026-09-01
 layout: nested
 demand_known: false
 ---
@@ -78,3 +78,11 @@ re-checked at the primary and confirmed with its n.
 
 Owed: demand for this bundle is a **range until a contributor-identity notion exists**;
 read the floor. Ten subject notes now exist against sixteen subjects.
+
+## 2026-09-01 - librarian sweep ([[2026-09-01-1]])
+
+Six subjects flipped to `reconciled` (the 2026-08-23 class-A wave). Inbox: `trace-rollup-
+and-attribution/single-shape-rule` closed its own loophole - the shape pins the collection
+as well as the rule. Banked: `llm-call-telemetry-model` (ship the ban as a gate in the same
+change), `quality-regression-gating` (grouping key from parameters, never position). Three
+leads filed here by consumers belonged to software-engineering and were re-homed.

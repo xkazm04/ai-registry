@@ -1,8 +1,8 @@
 ---
 subject: trace-rollup-and-attribution
 domain: llm-observability
-last_touched: 2026-08-23
-touched_by: external-reconcile
+last_touched: 2026-09-01
+touched_by: librarian-inbox-writer
 dry_streak: 0
 ---
 
@@ -45,3 +45,16 @@ NULL-ordering probe.
   truncation boolean (numSpans must be compared by hand) - a second-worker
   target on the same pin.
 - tenant-scoped-trace-ids: scope-in-the-query sighting at Project.trace.
+
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+One lead (personas). `single-shape-rule`'s own "each path may gather the facts its own way"
+was the loophole; it now governs how facts are fetched, never which things, and a new
+section pins the collection as well as the rule: counts and totals above a list are passed
+down from the list's owner, never re-derived at the display site, and the conformance test
+uses a fixture where the collections could differ. Corroborated by the dimensional-modeling
+tradition (drilling across requires conformed row headers) and the reporting practice's
+"same metric, different filter context" defect class. Application `react--single-shape-rule`
+at personas `b6dcf28aa` (span count handed down beside error count; asymmetric regression).
+Proposals: measurement-honesty `co-published-numbers-must-reconcile` lacks a collection
+constraint; `span-cap-truncation-signal` interacts with a pinned collection.

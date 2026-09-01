@@ -87,3 +87,7 @@ already carries, offline excluded as a suspension. **0/20 -> 20/20** permanent
 codes refused, 0 false positives in either arm, both arms extracted from their
 own revision and executed. Still open: nothing counts retries by class, so
 `suspended` and `exhausted` remain indistinguishable to an operator.
+
+## 2026-09-01 - fate recorded for the maturity ladder
+
+Hint fate (from [[2026-08-22-1]] and the application's own close): **confirmed** - cross-item budget scoped to the failure domain, refill as a function of successes, jitter everywhere with server hints clamped; one deviation recorded (refusal classification erased at the caller boundary). Counterpart smithy-lang/smithy-typescript @ 6815d3e, @smithy/core 3.33.3. Recorded by [[2026-09-01-1]] so the subject meets the `reconciled` definition in [[standard]]; nothing else changed.

@@ -72,3 +72,7 @@ instruction verbatim, and one of them pays it to benchmark the incumbent at all.
 fork from the other end: it shapes the derived copy, this subject decides which reads
 leave the serving store. Same fork, opposite ends, discriminator stated in prose on each
 side. Neither absorbs the other; cross-bundle links are forbidden.
+
+## 2026-09-01 - fate recorded for the maturity ladder
+
+Hint fate (from [[2026-08-22-2]] and the application's own close): **confirmed** - both journaling families realized, sidecar set named and exposed as API; the worker's citation re-check caught 7+ drift errors including two wrong test-file counts. Counterpart sqlite/sqlite @ 45f4f1c (3.54.0). Recorded by [[2026-09-01-1]] so the subject meets the `reconciled` definition in [[standard]]; nothing else changed.

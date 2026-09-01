@@ -1,7 +1,7 @@
 ---
 subject: production-pipeline-phasing
 domain: media-generation
-last_touched: 2026-08-31
+last_touched: 2026-09-01
 dry_streak: 0
 ---
 
@@ -55,3 +55,15 @@ worst-news-first merge.
 The anti-substitution ratio - the technique's sharpest claim - has never been measured.
 No project in the fleet assembles a cut from mixed motion and slide grammar, so the
 half that matters most is corroborated from the source tree and simulated, not tested.
+
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+One lead (systedo-case). `long-run-as-background-job` gains the lifetime rule: a persisted
+job whose result is not persisted is a settled lie - give the result at least the job's
+lifetime, or make the read reconcile the two out loud (a state with a reason, never a silent
+downgrade); reconcile at the delete where survivors are known; the reload correction only
+reaches jobs found running. Corroborated by two task systems whose task record and result
+retention run on independent clocks. Application `node--long-run-as-background-job` at
+systedo-case `6279066f` (both designs present). The bundle does not declare `next` as a
+stack, so the application is `node`. Proposal: the general form belongs in software-
+engineering `job-coordination`.

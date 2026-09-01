@@ -1,8 +1,8 @@
 ---
 subject: data-viz
 domain: software-engineering
-last_touched: 2026-08-23
-touched_by: external-reconcile
+last_touched: 2026-09-01
+touched_by: librarian-inbox-writer
 dry_streak: 0
 ---
 
@@ -39,3 +39,14 @@ verified by capturing the logger; numerics from runtime output.
   strongest remaining uncovered technique here; same pin reusable.
 - The palette half of encoding-vocabulary wants a design-system charting
   layer, not a compiler - target note for a future wave.
+
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+One lead (personas), re-homed from llm-observability. Landed as an amendment to
+`encoding-vocabulary` rather than a new technique: the redundant non-hue channel is itself
+an encoding painted in the referencing mark's coordinate space, so per-element rotation
+rotates the tile and two textures collapse while the legend keeps both; pin the encoding to
+something the mark's transform cannot reach; the grayscale audit does not catch a vocabulary
+that dies under rotation. Application `react--encoding-vocabulary` at personas `b6dcf28aa`
+(fix `d371c3423`, counter-rotated pattern transform, regression tests). Owed: a cross-link
+from llm-observability `glyph-encoded-business-thresholds`.

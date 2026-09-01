@@ -1,7 +1,7 @@
 ---
 subject: cinematic-language
 domain: media-generation
-last_touched: 2026-08-27
+last_touched: 2026-09-01
 dry_streak: 0
 ---
 
@@ -49,3 +49,16 @@ First note: [[2026-08-26-joyai-echo]] - /intake run 23. Subject predates the not
 - That application holds only the **easy arm** and says so: prose is uncontested there, so the withdrawal boundary is unexercisable. `applied: simulation`, `ab_verdict: unmeasurable` — the instrument is not a better argument, it is an executor.
 - Run 24's banked lead (a project driving a generator with a camera path) got a **second sighting and a mechanism**: geometry-proxy conditioning reallocates model capacity — the proxy means the model "neither has to remember what it previously generated nor infer the image structure from the camera pose" (GEN3C, CVPR 2025). Return trigger is now concrete: the day that project's motion channel gains an executor.
 - A vendor source's "3D previs to AI cinematography" pitch is **already owned** by `scene-grammar-progression`'s blocking frame (run 26). The residue is that every schematic-family member is a still 2D attachment while the proxy-render regime is time-varying — thin, and already the run-24 lead.
+
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+Seven leads from the gravity dojo lane (seed-matched image A/B, human and machine judges).
+Five were already covered and land only as evidence rows. Amendments: `camera-position-
+semantics` gains the diagonal as a third placement value (a vocabulary that cannot say it
+never produces it; readback 0/3 -> 2/3); `lighting-as-dramatic-instrument` scopes subtract-
+to-one to close and medium and gives wides one dominant source plus exactly one named
+environmental layer; `lens-effect-language` carries a dated measured limit (long-lens
+compression did not land from words on one model family). Application
+`process--camera-position-semantics` records seven runs from the tree's own dojo records at
+gravity `51c0eea` (recipes, judge reasons and structured readbacks survive; frames deleted).
+Both study rows are n=3 single-stack and the documents say so.

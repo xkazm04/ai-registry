@@ -1,8 +1,8 @@
 ---
 subject: client-fetch-cache
 domain: software-engineering
-last_touched: 2026-08-31
-touched_by: intake
+last_touched: 2026-09-01
+touched_by: librarian-inbox-writer
 dry_streak: 0
 ---
 
@@ -155,3 +155,17 @@ tuple — and one caller had already cast `as any` to get past it.
   already said well enough inside `portable-read-definitions`, is a judgment
   for the next sweep.
 
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+Two leads from the ascent sweep, both landed as amendments plus one application.
+`in-flight-dedup` gains "invalidation reaches the flight, not just the entry": a per-flight
+identity token minted at launch and checked at settle; a superseded flight resolves its
+joiners but writes nothing back and is not joinable; the reaper deletes only the entry it
+registered. `swr-design` names explicit invalidation's second obligation. `cache-key-discipline`
+gains the absent-component sentinel (built from the unforgeable joiner; never the empty
+string; never omission). Application `next--in-flight-dedup` at ascent `7ed00bb9` documents
+the identity-checked reaper AND the gap (a bare delete never touches in-flight scans).
+Corroborated by two independent query-cache libraries' cancel-on-invalidate behaviour.
+Proposals placed in the run note: reciprocal pointer in client-state `async-race-guards`;
+`invalidation-strategy` should state that invalidation retires in-flight work; the settle-time
+identity check is a general single-flight rule.

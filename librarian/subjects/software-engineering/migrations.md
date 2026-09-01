@@ -33,3 +33,7 @@ single-stack debt is cleared.
 
 - 2026-08-22-3: **persist the verdict** applied to `error-propagation` ([[2026-08-22-3]]).
 - 2026-08-22-10: `error-propagation` now cites the promoted `unknown-is-not-a-value` law ([[2026-08-22-10]]).
+
+## 2026-09-01 - fate recorded for the maturity ladder
+
+Hint fate (from [[2026-08-22-2]] and the application's own close): **confirmed** - unconditional halt with leniency structurally inexpressible, failed-state verdict persisted in the ledger, refusal a distinct typed verdict at every entry point. Counterpart golang-migrate/migrate @ 18966c7. Recorded by [[2026-09-01-1]] so the subject meets the `reconciled` definition in [[standard]]; nothing else changed.

@@ -1,6 +1,6 @@
 ---
 domain: grant-funding
-last_swept: 2026-08-21
+last_swept: 2026-09-01
 layout: nested
 demand_known: false
 ---
@@ -49,3 +49,7 @@ been dispatched at content. See the run notes for why.
 ## Declined
 
 Nothing yet.
+
+## 2026-09-01 - librarian sweep ([[2026-09-01-1]])
+
+Swept by the scan; no structural defect, no dispatch. Demand still unwitnessed here. Dry is a result.
