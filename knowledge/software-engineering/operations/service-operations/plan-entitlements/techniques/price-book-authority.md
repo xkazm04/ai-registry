@@ -50,9 +50,15 @@ nothing behind it, and it is written by the one person who will remember.
 - **It runs where a failure is seen** — in the test suite, in a scheduled
   check, or in the deploy pipeline. A detector that only runs on request is a
   script, not a gate.
-- **It compares by product identifier**, matching the product in the price
-  book to the tier in the model, so an added tier without a price mapping is
-  itself a failure rather than a silent skip.
+- **It compares by the price identifier the checkout actually uses**, not by
+  the product. At the largest providers a price is an immutable object under a
+  product; a product carries several of them — monthly, annual, per currency,
+  archived — and "changing a price" means minting a new identifier and
+  archiving the old one while existing subscribers stay on it. A detector keyed
+  on the product cannot say which of those it compared; one keyed on the price
+  identifier (or the lookup key that names it) also fails correctly when a
+  tier's mapping points at a retired price. An added tier without a price
+  mapping is itself a failure rather than a silent skip.
 - **It reports which direction it drifted.** A local price that is *lower*
   than the book means customers are quoted less than they will be charged —
   a customer-facing problem and often a legal one. Higher means lost
@@ -117,7 +123,10 @@ recomputed, per
 [derivation naming recomputation](../../../../_laws.md#derivation-names-recomputation).
 A stored total that reads the current price at render time will restate last
 quarter's revenue the day pricing changes, and nobody will connect the two
-events.
+events. Providers that make prices immutable enforce half of this for you — a
+subscriber keeps the price object they subscribed under until they are moved —
+which is exactly why the in-product duplicate records *which price identifier*
+it mirrors and not merely an amount.
 
 ## Decision rules
 
