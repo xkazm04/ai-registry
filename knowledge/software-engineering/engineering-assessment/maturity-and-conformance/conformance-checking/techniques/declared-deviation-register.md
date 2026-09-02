@@ -4,7 +4,7 @@ type: technique
 subject: conformance-checking
 technique: declared-deviation-register
 status: forged
-laws: [absent-guard-is-loud, one-authority-per-vocabulary, count-carries-predicate]
+laws: [absent-guard-is-loud, one-authority-per-vocabulary, count-carries-predicate, identity-survives-reuse]
 shared_with: []
 use_when: [an implementation deliberately differs from a specification it claims to follow, a checker keeps re-reporting a failure somebody already decided to accept, deciding where an intentional non-conformance is written down, a maintainer cannot tell a deliberate difference from a bug]
 ---
@@ -117,6 +117,32 @@ with dates on it, so the accepted set can be swept for entries whose stated
 cost has expired — a deviation nobody re-reads is a permanent one, and
 [absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud) applies to a
 waiver as much as to a check.
+
+## Key the entry by the finding's identity, never by its position
+
+A register is only as durable as the key that joins an entry to the finding
+it accepts, and the natural key — the one a tool prints and a maintainer
+pastes — is a *position*: file, line, column. It is an index-based key, and
+it fails under exactly the operation source files undergo constantly
+([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)):
+an unrelated edit above the site shifts the line, the entry silently stops
+matching, and the accepted finding reappears as a fresh failure with no
+cause anyone can see — a score "regresses," a red build names a decision
+someone already made, and the investigation lands on the innocent commit
+that moved the lines. The register was correct on the day it was written
+and wrong on the first unrelated edit, which is the same shape as a
+suppression that never fired: nothing announced the drift.
+
+Key by what the finding *is*, not where it sits: the rule plus the symbol,
+the mutation's name inside its function, the clause reference — whatever
+the checker emits that survives a reflow. Where the identity is not unique
+within a file, qualify it by the enclosing declaration before reaching for a
+line. And when a position genuinely cannot be avoided, the entry must be
+loud about not matching: a register entry that joins to nothing is a
+finding about the register
+([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)) and is
+reported as such, never dropped as a no-op — otherwise the day the site
+moves is also the day the acceptance quietly expires.
 
 ## Related shapes, and how this one differs
 

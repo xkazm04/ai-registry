@@ -1,7 +1,7 @@
 ---
 subject: client-state
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-02
 touched_by: intake
 dry_streak: 0
 ---
@@ -89,3 +89,22 @@ local state stamp, never by the absence of a server id. Applied at
 `simulation` against a fleet conversation queue (react application, better):
 the drain fired on a `finally` that could not tell success from failure.
 Golden path untouched this run - it carried a sibling's uncommitted technique.
+
+
+## 2026-09-02 - intake (dora, run intake-dora-0902)
+
+`persistence-and-migration` gained two clauses under "The versioned
+shape": the encoding decides what a shape change is (keyed encodings
+tolerate optional additions under one version; positional encodings have
+no additive change, and a wire carrying one negotiates the version in
+both directions because a positional misparse is silent); and a version
+that has covered two shapes is retired by bumping past it and refusing it
+wholesale, never reinterpreted by a cleverer reader. Source: a changelog
+that walked the failure three times (a field added without a bump under a
+positional format, decode failures swallowed as warnings, terminal records
+vanishing from listings; then a barrier field; then an encoding change with
+a handshake version). New application `next--persistence-and-migration`
+(simulation, better, structural-only) against a step store whose shape
+policy is honest only because its encoding is keyed and whose
+"every field optional" clause nothing enforces; next change filed as a
+fifth policy rule plus a type-level test.

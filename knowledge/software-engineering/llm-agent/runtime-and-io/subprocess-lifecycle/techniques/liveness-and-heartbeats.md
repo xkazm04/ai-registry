@@ -107,6 +107,61 @@ Principles:
   the same minute of every run — the fastest way to teach operators to
   ignore it.
 
+## The clock arms at first contact, not at spawn
+
+Everything above assumes the activity record exists and asks how to read
+it. The prior question — *when does the clock start* — is where a
+supervisor that is right about thresholds still kills the wrong child, and
+the answer is the same for every liveness clock in this subject: **it arms
+on the first genuine signal from the run, never on the spawn.** A record
+seeded with the spawn timestamp cannot tell a slow-but-legitimate cold
+start (interpreter imports, model weights loading, workspace indexing)
+from a child that hung before it ever spoke; both are silence measured from
+the same instant, and a threshold short enough to catch the second kills
+the first — under a restart policy, forever, since every respawn repeats
+the cold start and the kill.
+
+Three rules follow, and a supervisor that has only one timer cannot honour
+any of them:
+
+- **Startup gets its own deadline.** Before first contact the stall clock
+  is unarmed, so the pre-contact hang is invisible to it by construction —
+  a child deadlocked in its own initialisation holds the slot and the
+  dataflow waits on it indefinitely. Bound that phase with a *separate*
+  time-to-first-contact deadline, sized from the class profile's declared
+  cold start, and record which deadline fired: "never connected" and
+  "went silent" route to different repairs.
+- **Respawn resets the record.** A restarted child that inherits the
+  previous incarnation's activity timestamp is born already past the
+  threshold and is killed before it can register — the restart loop's
+  quietest form. The record belongs to the run identity, and a respawn is
+  a new run.
+- **A staleness clock attaches only to a channel that promised
+  continuity.** The same arming rule governs the input side: a deadline on
+  an upstream stream arms on the first message, so an input that is idle at
+  startup is not "timed out" before anything was owed. And it belongs only
+  on channels whose contract is periodic. On a request-shaped channel —
+  responses, results, anything populated on demand — a natural idle
+  interval is byte-identical to a dead upstream, and the detector becomes
+  a false-alarm generator; per-request bounds carry that case, one deadline
+  per outstanding request, never a channel-wide timer.
+
+The single-ceiling design that most hosts start with is the reason these
+rules are worth the extra clock. With one timer that is both the startup
+bound and the stall detector, the ceiling must be tight enough to notice a
+hang and is then tight enough to kill a working child; loosen it and a hang
+is noticed only at the ceiling. Measured on three child shapes (hang before
+first byte, slow cold start then work, work then hang): the tight ceiling
+detected both hangs at the ceiling and killed the working child; the
+generous ceiling spared the working child and detected both hangs only at
+the ceiling; the armed clocks under the generous ceiling spared the working
+child and detected the two hangs at 42% and 31% of it (the harness ended
+each run at detection to read the time; in a real host the stall detection
+degrades the claim per the rules above and the ceiling still does the
+killing, while the startup deadline may terminate outright, because a
+child that never made contact holds no work to destroy). Arming is what
+lets the ceiling be generous.
+
 ## The stall ledger
 
 Every stall episode — run identity, silence duration, which instrument

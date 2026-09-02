@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-09-02
 touched_by: intake
 dry_streak: 0
 ---
@@ -516,3 +516,27 @@ of the per-CLI gate. Application `next--prose-rule-drift`. Left open: the per-CL
 is a per-edit quantifier by construction, which is exactly where the amendment predicts
 the artifact rule has no home; the check sits at its end as the fail-closed fallback,
 not in an appender that could refuse.
+
+
+## 2026-09-02 - intake (dora, run intake-dora-0902)
+
+`gate-liveness` gained "Assert the oracle, not only the instrument": a
+score-shaped gate has two populations, the targets and the oracle that
+judges them, and the oracle's default scope is silently narrower than the
+tests that actually protect a target whenever those live in another
+package, another runner or a spawned process. Two rules: declare the
+oracle's population in the baseline's predicate; test a surprising number
+against the smallest controlled experiment before believing it. This is
+the deficient-direction twin of `excess-indicts-the-instrument`. Source:
+a QA report's measured case (5.8% mutation score under package scope, 21
+of 21 escaped mutants caught under workspace scope). New application
+`next--gate-liveness` (experiment, better) against a coverage gate that
+repaired its target population the day before and left the oracle at the
+default, with eight spawn-driven scripts invisible to the instrument.
+
+Catches recorded in the source note: the unwrap-ratchet founding baseline
+that counted test code (second sighting of the trap
+`excess-indicts-the-instrument` names); "what would fail if this job were
+removed" (time since last red). Lead banked: verification tiers organised
+by latency budget - check `gate-laddering` for the axis next time it is
+open.
