@@ -34,18 +34,18 @@
     },
     {
       "name": "architect",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
-      "contentHash": "sha256-n1:afc02b040c8d9a1e",
+      "contentHash": "sha256-n1:5175a68630d88a55",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 7,
+      "lessons": 10,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:ed5eb122c59e587b",
+      "lessonsHash": "sha256-n1:4a927bc1a667833b",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -122,31 +122,31 @@
     },
     {
       "name": "dojo",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "ai-native",
       "path": "skills/dojo/SKILL.md",
-      "contentHash": "sha256-n1:cad4732da495ca6a",
+      "contentHash": "sha256-n1:9ea53d0691d97d03",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:0d13c682f2a0ce5c",
+      "lessonsHash": "sha256-n1:c39263099974c6c0",
       "usageContributors": []
     },
     {
       "name": "explorer",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:af549060e893442e",
+      "contentHash": "sha256-n1:436a1a1eff4c627f",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 8,
+      "lessons": 10,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:cab2e61354d896a7",
+      "lessonsHash": "sha256-n1:a89a40c8dfbb7eae",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -164,16 +164,18 @@
     },
     {
       "name": "friend",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/friend/SKILL.md",
-      "contentHash": "sha256-n1:31f64fc66c14d157",
+      "contentHash": "sha256-n1:f8354ba40b53d85c",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/friend/LESSONS.md",
+      "lessonsHash": "sha256-n1:33029dc5e09c0705",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -286,10 +288,10 @@
     },
     {
       "name": "perfect",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "category": "workflow",
       "path": "skills/perfect/SKILL.md",
-      "contentHash": "sha256-n1:e47720fb5722aa31",
+      "contentHash": "sha256-n1:3401f4a40b75fd96",
       "adopters": [
         "ascent@plugin:2.3.0",
         "kp@plugin:2.3.0",
@@ -299,9 +301,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 8,
+      "lessons": 9,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:cb69978737b6e09e",
+      "lessonsHash": "sha256-n1:3b7c1f90362dac04",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -341,28 +343,28 @@
     },
     {
       "name": "research",
-      "version": "1.8.0",
+      "version": "1.9.0",
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
-      "contentHash": "sha256-n1:a3a7e718f859191a",
+      "contentHash": "sha256-n1:a40418b584af8147",
       "adopters": [
         "personas@plugin:1.5.0",
         "pof@1.7"
       ],
       "invokes30d": 20,
-      "lessons": 10,
+      "lessons": 11,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:826542380086bbc2",
+      "lessonsHash": "sha256-n1:a04d2c176aa12b79",
       "usageContributors": [
         "kazda-dev-box"
       ]
     },
     {
       "name": "scan-sweep",
-      "version": "2.8.0",
+      "version": "2.9.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:0fbf5a1b6c3b4c3d",
+      "contentHash": "sha256-n1:babd893415cfbf04",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -370,9 +372,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 26,
+      "lessons": 28,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:3c0402b93191d3dd",
+      "lessonsHash": "sha256-n1:88c6a8e4ce4239dd",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -397,17 +399,17 @@
     },
     {
       "name": "spark",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:57222f5b8abb0223",
+      "contentHash": "sha256-n1:5aca6d2fa537b8eb",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 11,
+      "lessons": 13,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:40bff42322d3b45b",
+      "lessonsHash": "sha256-n1:1af501ee645edb95",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -545,6 +547,15 @@
       "source": "decision-record"
     },
     {
+      "kind": "episodic",
+      "slug": "2026-09-01-fable-vs-opus-skill-bakeoff",
+      "path": "memory/episodic/2026-09-01-fable-vs-opus-skill-bakeoff.md",
+      "contentHash": "sha256-n1:08071e6c4628d20e",
+      "confidence": 1,
+      "namespace": "engineering",
+      "source": "skill-bakeoff-2026-09-01"
+    },
+    {
       "kind": "procedural",
       "slug": "rolling-back-a-bad-release",
       "path": "memory/procedural/rolling-back-a-bad-release.md",
@@ -552,6 +563,15 @@
       "confidence": 1,
       "namespace": "platform",
       "source": "incident-retro"
+    },
+    {
+      "kind": "semantic",
+      "slug": "model-choice-fable-vs-opus",
+      "path": "memory/semantic/model-choice-fable-vs-opus.md",
+      "contentHash": "sha256-n1:9a594ca377c2be58",
+      "confidence": 0.6,
+      "namespace": "engineering",
+      "source": "skill-bakeoff-2026-09-01"
     },
     {
       "kind": "semantic",
@@ -575,8 +595,8 @@
   "counts": {
     "skills": 29,
     "practices": 5,
-    "memory": 4,
-    "lessons": 97
+    "memory": 6,
+    "lessons": 110
   },
   "bundles": [
     {
