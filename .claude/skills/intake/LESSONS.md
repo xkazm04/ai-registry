@@ -5614,3 +5614,31 @@ been naming that zero for weeks:
   path> -b <run-branch>` gave the task its branch without moving anyone's checkout, and
   the plan plus the first step committed there. Same rule as the registry's, restated
   for the cross-repo lane.
+
+## 2.0.0 - 2026-09-02 - openbao (replication of the 1.6.0 run at the same commit)
+
+- **The replication owed by the 2.0.0 entry is paid, and it is a before/after not an
+  argument.** Same tree, same commit, same day: 1.6.0 read 20 claims (0 with no
+  corpus neighbour) and landed 5 amendments; 2.0.0 read 17 decisions in 7 record
+  entries (6 with no corpus subject) and handed off 9 NEW subjects. The 1.6.0 run
+  never opened the 37-RFC directory because nothing in 1.x asked for a design
+  surface; Phase 2d asked, and three parallel readers covered 57,188 words in one
+  pass. The design record's unit - decision/forces/rejects - is what made the NONE
+  count possible; claims always have a neighbour.
+- **Reader agents for the design read, scouts for the handoff - two different
+  briefs, and the second needs the first as its input.** Readers return decisions
+  with forces; scouts return where craft is embedded and candidate slugs. Dispatching
+  scouts without the record produced code-quality drift in past forges; here every
+  scout anchored to a record entry and one corrected it (an accepted RFC not landed).
+  Candidate for the method: Phase 2d may fan out readers over a large design
+  surface exactly as 2c fans out over references, director consolidating.
+- **The depth cell has no value for "handed off, pending".** A handoff run reads
+  `0/0/0/1/0` - indistinguishable from a run that found nothing - until the forge
+  closes it. Proposal, not applied: a `H` column (handoffs open) beside the depth
+  cell, decremented by the forge wave that executes one.
+- **The taxonomy cap is the first thing a handoff hits, and the record should say
+  so.** Nine NEW subjects cannot nest under a category that holds subjects directly;
+  the placement constraint was written into the handoff before any worker exists,
+  which is the 2026-08-22 lesson ("verify every structural claim against the
+  authority") applied one phase earlier.
+- Mid-flight runs on 2.0.0: nothing to do; no SKILL.md edit this run.

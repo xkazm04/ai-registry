@@ -1,7 +1,7 @@
 ---
 subject: credential-vault
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -56,3 +56,26 @@ single-stack debt cleared. Second hint refuted with evidence: OSS rotation is
 - **"An envelope is session state, not a credential"** - a per-request wrapper
   that the payload can close from inside (sql-console's stacked-COMMIT
   post-mortem). Candidate clause for brokered-egress or a law-level note.
+
+
+## 2026-09-02 - /intake openbao, design re-read under 2.0.0 (run intake-openbao-0902-v2)
+
+One source-tree application, no technique change, and a boundary this
+subject will soon have to state.
+
+- `go--encryption-at-rest` written against a secrets server's source tree
+  (design-record entry D): the barrier's three-key hierarchy over untrusted
+  storage is this technique's model; the tree extends it with rotation
+  split by layer (append the keyring, re-wrap the root), a transient
+  upgrade entry for standbys, and rotation behind authentication with
+  zero recovery shares at bootstrap. Recorded as the tree's extension, not
+  landed as technique text.
+- The forge handoff (`librarian/handoffs/2026-09-02-openbao.md`) proposes
+  `seal-and-key-hierarchy` (N custodies of one root, break-glass seal, seal
+  as a pre-storage plugin, per-tenant chains) and `dynamic-secret-lifecycle`
+  (the issuer's side of a lease) as NEW subjects beside this one, plus
+  EXTENDS rows on `rotation-and-remediation` (versioned key policy) and
+  `token-refresh-lifecycle` (renew-at-two-thirds with grace, the proxy's
+  revocation-interception matrix). When they land, this golden path owes a
+  boundary paragraph: custody of *other people's* secrets (this subject)
+  versus issuing and sealing your own (theirs).
