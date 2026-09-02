@@ -5485,3 +5485,36 @@ been naming that zero for weeks:
   in the method.
 - Version stays 1.6.0: six siblings were live at claim. A mid-flight run should do
   nothing.
+
+## 1.6.0 - 2026-09-02 - dora
+
+- **Assert the seam-search instrument before believing its empty.** Two silent
+  failures in one Phase 7.5: a recursive grep across eleven fleet trees timed out on
+  its first pattern (the monai row already says so), and a `timeout`-wrapped ripgrep
+  returned nothing for every project because the wrapper could not resolve the
+  binary - exit 0, empty, on a corpus that holds the word in dozens of files. The
+  catch was one command: search a word known to be present in a tree known to hold
+  it, and read the answer before reading the real one. The method's own
+  `gate-liveness` rule, applied to the shell loop that finds seams. Per-project
+  ripgrep without the wrapper answered in seconds.
+- **An experiment proves a policy, not a change, and the scorecard should count
+  that ceiling.** Both experiments this run were honest A/Bs (a harness over three
+  child shapes; a static census of two test populations) and neither could ship,
+  because the change they imply is a few lines in a function the harness never
+  called. The same session had the seam open and the harness written; substituting
+  the product's function under the harness would have cost minutes and produced a
+  paired proof against the tree. Next run's focus names it.
+- **A source that documents its own timers' arming points is a first-party
+  practitioner document even when it reads as reference.** The fault-tolerance
+  page looked like API docs and carried the arming rule, the respawn-reset defect
+  (from the audit) and the on-demand-channel warning - three failure modes
+  somebody paid for, each written beside the knob. Reference pages that explain
+  *why* a default is what it is belong in sweep item 1, not item 6.
+- **Changelog-as-index, third row.** The Unreleased section produced one landing's
+  entire content (the schema-version story, told three times) and the triggers for
+  the enumeration-failure catch; everything else came from `docs/`. Three rows now
+  agree: read the changelog first, mine it second. The sweep order in Phase 2b
+  should say so at the next version bump; not applied here because seven siblings
+  were live.
+- Version stays 1.6.0: seven siblings live at Phase 7. A mid-flight run should do
+  nothing.
