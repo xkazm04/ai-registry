@@ -5420,3 +5420,32 @@ been naming that zero for weeks:
 - **The changelog-fragment focus generalises to "wherever the project stores its why".** This tree has no changelog directory; its paid-for failure records are module-level doc comments that open with the issue number (`//! ... (#502)`), and five of those produced both landings while 9,108 words of markdown produced none. The sweep order in Phase 2b should say "the first-party failure record, in whatever form the tree keeps it: per-PR fragments, issue-citing module headers, test names after a failure" rather than naming one form.
 - **A paired test can amend the technique, not only the tree.** The A/B's arm A passed a case the technique said it must fail, because the runtime's HTTP client enforces the advertised length itself. The right landing was a caution inside the technique beside the checks, and the application carries the measurement. When arm A is right for a reason the seam did not build, that reason is a boundary the technique was missing - check for it before recording `not-better`.
 - **A project's commit hook can be the apply step's second gate.** The consumer's doc-sync hook refused the commit until the coupled doc was updated in the same change; that is the project's own instrument enforcing the "docs synced same-session" rule this registry only states. Note it in `.ai/applied.jsonl` for the project - Phase 8 step 4's "a few lines a reviewer can read" now includes the doc line the hook demands.
+
+## 1.6.0 - 2026-09-02 - monai
+
+- **A source whose domain has no bundle can still be a three-landing run, and the class
+  read predicts where.** Medical imaging yielded nothing and was never going to; the
+  contributing guide, the deprecation decorator, the release notes' advisory list and
+  one test helper yielded two techniques and an amendment. The sweep order's items 1
+  and 2 (operating documents, then the instrument) found all three; the README found
+  none. Nothing to change in the method - this is the method working - but the
+  expected-yield line at Phase 2 should say "from the periphery" explicitly when the
+  domain is foreign, so the operator does not read a domain-free triage table as a miss.
+- **Phase 7.5's seam search across a fleet must be per-project `git grep`, never a
+  recursive grep over the fleet root.** A recursive grep over eleven trees timed out at
+  two minutes; ripgrep with excludes timed out at twenty seconds; `git grep` per project
+  over tracked files, with lockfiles and markdown excluded by pathspec, returned every
+  seam in seconds. The difference is untracked build output the ignore files do not
+  cover. Worth a line in the Phase 7.5 step-1 text on the next version bump.
+- **The apply step corrected the technique's operand, which the source could not.**
+  The source runs a release train and its deprecation scheme compares versions; the
+  first fleet seam had a version unchanged for fifteen months, so version arithmetic
+  had no operand there. The technique now says "the unit the project actually advances"
+  - written from the seam, before the technique shipped, which is the cheapest place
+  that correction will ever be made.
+- **A `not-better` reached without an instrument is still worth its row.** The numerics
+  probe amendment was refuted by the substrate (no mode exists on a general-purpose
+  double lane), and the condition became the amendment's closing paragraph - the same
+  shape as the 2026-09-01 matrix-rust-sdk row. Two runs in a row have produced the
+  technique's boundary from the tree's shape; that is the structural-fact step working
+  on a negative, and the reason a simulation is the floor and not an excuse.
