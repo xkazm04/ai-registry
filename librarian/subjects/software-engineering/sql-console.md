@@ -51,3 +51,7 @@ application this run — no tree was read.
   clause of the guard story.
 - Softening "refuse batches in safe mode" — the post-mortem shows it is exactly
   the load-bearing rule.
+
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: personas (4). Apply row: see `librarian/applied.md`.

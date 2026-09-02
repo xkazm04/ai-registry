@@ -57,3 +57,7 @@ proof) is carried as the measured trap without the reporting project.
   without measurement.
 - The JSON deserializer's recursion-limit figure into the rust application — no
   tree read this run, no honest `verified_on` move.
+
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: personas (1). Apply row: see `librarian/applied.md`.

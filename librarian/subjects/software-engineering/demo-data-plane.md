@@ -51,3 +51,7 @@ cross-references it so the two do not contradict.
   belongs to whichever llm-agent subject owns grounding of content fed to a
   model. No note exists there; recorded here and in the run note.
 - `scripted-scene-choreography` (2026-08-22) still banked; condition unchanged.
+
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: systedo-case (1) - the project whose lead produced the condition. Apply row: see `librarian/applied.md`.

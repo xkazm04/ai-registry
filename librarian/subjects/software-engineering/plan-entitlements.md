@@ -51,3 +51,7 @@ landscape, ~3 months) — the first clock this subject has.
   acknowledgement latency (a checkout waits on the webhook response before
   redirecting; an unacknowledged invoice-created delays finalization). Recorded
   on [[webhook-ingestion]].
+
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: systedo-case (1), ascent (2). Apply row: see `librarian/applied.md`.

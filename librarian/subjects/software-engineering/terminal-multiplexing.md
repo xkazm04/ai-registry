@@ -108,3 +108,7 @@ pane; the tree discards and redraws, and "wait for the stuck display" is the
   could consume. Recorded on [[fleet-orchestration]].
 - pty-management owes one sentence pointing at the M-heads-one-device policy.
   No note there; recorded here and in the run note.
+
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: personas (1). Apply row for `multi-client-fan-out`: see `librarian/applied.md`.

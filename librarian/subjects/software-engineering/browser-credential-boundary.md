@@ -59,3 +59,7 @@ forced - a runtime role that ran the migrations is the realistic miss.
 
 - Renaming the key vocabulary in the two sql applications - they cite a tree at
   2026-08-22; re-reading it is not public work.
+
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: ascent (4). Apply row: see `librarian/applied.md`.
