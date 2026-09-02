@@ -124,6 +124,51 @@ be tested by shipping is untested.
   delete their source in the same release.
 - **The successor is behaviour-identical or the message says it is not.**
 
+## When the symbol is a public name with consumers, the clock is necessary and not sufficient
+
+Version arithmetic answers *when* a promise falls due. It cannot answer
+whether keeping it would break someone, and for a public *name* — a command,
+a mode, an alias routed to a canonical entry — that is the question the
+removal actually turns on. A harness that consolidated some seventy public
+names into a registry with aliases learned the shape the hard way: the
+release that was promised to remove them arrived, and the deletion still had
+to wait, because the clock was the only one of four conditions that had been
+written down.
+
+The gate that survived is a conjunction, and each term names a different
+failure the clock alone would have let through:
+
+- **Elapsed releases *and* elapsed time**, whichever is longer — enough
+  shipped versions for callers to notice, and enough wall-clock for slow
+  upgraders who skip versions. Two minors and ninety days was the number one
+  project chose; the shape is the point.
+- **Usage share** of the canonical name over the alias, from a *named*
+  emitter, above a threshold on **two consecutive releases** — a single
+  window can be a lucky sample. No telemetry is *not met*, never *met*: the
+  absence of the number is not permission
+  ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+- **Zero known critical consumers.** A named downstream that would break is
+  a blocker of a different kind from the three above, and the difference
+  matters at the next rule.
+
+**A major version waives time, never a known consumer.** A major boundary
+authorises breaking removal on its own — that is what the number promises —
+so the temporal and share terms drop away. The consumer term does not: it is
+about breaking something that exists, not about elapsed anything, and a
+version bump does not clear it. Record the waiver on the eligibility record
+with the blockers it waived, so the override is auditable rather than
+invisible.
+
+Two more rules come with the gate. **The check that decides removability
+must not be the tool that removes.** Emit an eligibility record per name —
+what is deletable now, what blocks it — and delete in a separate, reviewed
+change that attaches the record; the invariant to test is *premature*
+deletion, an artifact gone while its owner is still inside the window. And
+**a name-retirement sweep over prose is a change to review, not a script to
+trust**: a case-sensitive sweep that deleted every lowercase occurrence of a
+retired mode left the documentation defining the mode hierarchy with holes
+where its name had been, while the capitalised form survived a page away.
+
 ## When not to use this
 
 Internal symbols with no callers outside the repository need no window:

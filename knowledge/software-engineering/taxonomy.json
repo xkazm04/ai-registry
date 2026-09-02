@@ -102,7 +102,8 @@
             "retrieval",
             "agent-memory",
             "structured-output",
-            "agent-instruction-files"
+            "agent-instruction-files",
+            "context-hierarchy"
           ]
         },
         {
@@ -115,7 +116,8 @@
             "hitl-approval",
             "remediation-handoff",
             "proactive-nudges",
-            "plan-review"
+            "plan-review",
+            "session-continuation"
           ]
         },
         {
@@ -129,7 +131,8 @@
             "terminal-multiplexing",
             "sidecar-provisioning",
             "voice-io",
-            "agent-addressable-ui"
+            "agent-addressable-ui",
+            "agent-runtime-assembly"
           ]
         },
         {
