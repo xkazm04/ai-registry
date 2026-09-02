@@ -5388,3 +5388,29 @@ been naming that zero for weeks:
   check and belongs in Phase 7.5, but a sibling was mid-run on this version. A mid-flight
   run should do nothing about this; the next run alone on the board bumps to 1.7.0 with
   that one step added.
+
+## 1.6.0 - 2026-09-02 - create-better-t-stack
+
+- The changelog-fragment focus is class-conditional, and this repo showed the
+  condition: a commit-generated changelog has no fragments, and the substitute that
+  worked was the class's own advice (ADR, findings log, openspec design first). Read the
+  focus as "fragments where they exist, else the operating documents", not as a rule
+  that a repository without fragments is a thin source - this one produced two landings
+  and a 52-million-case bound from documents the README never mentions.
+- The Phase 1 lead check produced its first measurement, and it is about the *form* of
+  return conditions rather than their age. Ten notes read; no condition fired by its own
+  terms. The one lead that advanced did so because a source landed on it, and its
+  condition was written as a registry action ("a debugging subject is forged, or a
+  project adopts a postmortem template") - an event no source can produce. Conditions
+  written as observable events a source CAN produce ("a second independent sighting",
+  "a measured number") are the only ones a Phase 1 read can ever fire. Two-run
+  hypothesis for the scorecard: classify each banked lead's condition as
+  source-fireable or registry-fireable at Phase 1; if the registry-fireable ones never
+  fire across three runs, rewrite them at the source note, not at the method.
+- The Phase 1 scorecard read goes stale in a shared checkout. A sibling appended its
+  row and a new declared focus between this run's Phase 1 and Phase 11, so the focus
+  this run said out loud was one behind. Re-read the last row inside the ledger lock
+  before appending, and say in the row whether the newest focus was applied. Cheap,
+  and it is the same "re-read inside the lock" rule the ledgers already carry.
+- Version stays 1.6.0: the previous lesson reserved the 1.7.0 bump for a run alone on
+  the board, and this one had two live siblings. A mid-flight run should do nothing.

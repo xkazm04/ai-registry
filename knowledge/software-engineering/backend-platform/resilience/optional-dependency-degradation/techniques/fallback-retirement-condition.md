@@ -4,9 +4,9 @@ type: technique
 subject: optional-dependency-degradation
 technique: fallback-retirement-condition
 status: forged
-laws: [creation-names-reaper, gate-sees-target, count-carries-predicate]
+laws: [creation-names-reaper, gate-sees-target, count-carries-predicate, unknown-is-not-a-value]
 shared_with: []
-use_when: [a fallback written for a platform gap that the platform is expected to close, deciding whether to gate a substitute implementation on a capability check or always run it, a compatibility path nobody has measured since it was written, a workaround still shipping years after the capability it covered arrived]
+use_when: [a fallback written for a platform gap that the platform is expected to close, deciding whether to gate a substitute implementation on a capability check or always run it, a compatibility path nobody has measured since it was written, a workaround still shipping years after the capability it covered arrived, a pinned dependency carries workarounds and a fix for one of them has merged upstream, deciding whether an exact version pin is a workaround or a policy]
 ---
 
 # Fallback retirement condition
@@ -120,6 +120,81 @@ and the two most interesting readings — a number that will not fall, and a
 number that fell to zero — are both instructions rather than trivia. The first
 says the check is wrong or the frontier stopped moving. The second says delete
 the code.
+
+## When the gap is in something you pin: the release is the reaper
+
+The two lanes above assume the code can either test its premise or stamp it. A
+third kind of gap does neither cleanly. The capability is missing from **a
+dependency the codebase pins** — a prerelease of an infrastructure library, a
+wrapped binary, a platform SDK — and the defect is in how that dependency
+behaves against a real deployment, not in anything a runtime check can ask
+for. The workaround is a template that avoids the broken path, a pin held
+below a regression, a build flag that disables a cache. None of them can find
+out for themselves whether the gap is still there, and the dated stamp
+undercounts in one specific way: the upstream publishes the *fix* long before
+it publishes an *artifact containing the fix*, and the two events are
+routinely confused.
+
+So the rule for this lane is stated as evidence tiers, because that is where
+its retirements go wrong:
+
+1. **Released source** — the exact code a consumer installs — establishes what
+   the gap is.
+2. **A provider-free reproduction** proves the parts that need no credentials:
+   serialization, dependency edges, generated files, type behaviour.
+3. **A live reproduction** is required for anything the deployment target
+   decides: uploads, routing, bindings, cleanup.
+4. **A fix merged on upstream main is not evidence for removing anything.** It
+   predicts a future release. Until the pin moves to a published artifact that
+   contains it, the workaround's premise holds for every consumer, and a
+   cleanup that removes it "because it is fixed" has shipped the defect back.
+   Rendering *merged* as *fixed* is
+   [unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value) at the
+   dependency boundary.
+
+The reaper for this lane is therefore three things at once: a published
+artifact containing the fix, the pin moved to **exactly** that artifact, and
+the case the workaround was minted for rerun against it. Two consequences are
+less obvious than the rule.
+
+**The accepted version can itself carry a regression.** A pin advanced on the
+strength of a changelog — source-tier evidence — has landed inside a broken
+window more than once in trees this corpus was measured against, and once in
+the source that prompted this section: the release that closed one gap opened
+another on the same surface. Every row in the workaround ledger therefore
+re-runs on every pin move, not only the row the move was made for, and each
+row's status says which tier established it (`source-inspected`,
+`provider-free`, `live-reverified`) so a later reader knows what the closure
+actually proved.
+
+**Keep a ledger of disproved claims.** Static review of a pinned dependency
+produces plausible defects at a steady rate — a directory read
+non-recursively, a flag dropped during upload, a string in a bundle that
+"proves" which endpoint is active — and most of them are wrong in a way only
+a reproduction shows. A claim investigated and disproved is recorded with the
+evidence that disproved it, beside the confirmed rows, so it is not re-derived
+and re-filed by the next reviewer. This is the discipline a good defect record
+already practices — it states what would have refuted its own conclusion —
+applied to the claims that *were* refuted. Three sections, then, and they do
+not merge: confirmed defects, each with its removal condition; limitations
+observed but not source-confirmed; claims disproved.
+
+**A policy is not a workaround, and the ledger must say which is which.** An
+exact pin looks like a temporary measure taken around a defect, and in one
+common case it is a permanent policy: a caret range over a prerelease admits
+every prerelease with the same version tuple, and prerelease identifiers
+order lexically, so a stray `-test` tag published once outranks every
+`-beta.N` forever. The pin that guards against that has no removal condition
+because its premise never expires. A cleanup pass that reaps it along with
+the row above it has removed a policy, and the ledger's only defence is a
+label on the row.
+
+The lane also inherits the completeness problem
+[count-carries-predicate](../../../../_laws.md#count-carries-predicate) names.
+Where the workaround *disables* something — a build cache whose scope misses
+inputs outside its directory — one passing edit does not prove an
+include-list covers every input, and the removal condition has to name the
+class of inputs the replacement must be shown to see, not a sample of them.
 
 ## Where this does not reach
 

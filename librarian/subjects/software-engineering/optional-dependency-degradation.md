@@ -1,7 +1,7 @@
 ---
 subject: optional-dependency-degradation
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -122,3 +122,24 @@ independently and priced ("cost politicas a day of diagnosis"). Both miss the
 extension idiom, and the second misses it **by design**, because it exempts
 substantive return values and the extension fallback returns the default's real
 output. Amendment applied naming both rules and the shape of a third.
+
+## 2026-09-02 - `/intake` create-better-t-stack (run `intake-cbts-0902`)
+
+`fallback-retirement-condition` gained "When the gap is in something you pin: the
+release is the reaper". The technique's closing section handed every workaround that
+cannot test its premise to the dated-audit lane; the source (a scaffolding CLI pinning
+a prerelease infrastructure library, with a 13-row upstream-defect ledger) showed the
+third case: a pinned upstream, where the upstream merges the fix long before it
+publishes an artifact containing it. Landed: four evidence tiers with "upstream main is
+not evidence for removal", a three-part reaper (published artifact + pin moved to exactly
+it + minted case rerun), every row re-runs on a pin move because the accepted version can
+itself regress, a disproved-claims ledger (convergence with the 2026-09-01 firstmate lead
+on defect records that state their own falsifier), policy-vs-workaround labelling with
+the prerelease-ordering hazard (a caret over a prerelease admits any same-tuple
+prerelease, lexically ordered) as the case, and the unprovable-include-list corollary.
+
+Phase 7.5 (`personas`, simulation over the CLI-floor ledger, `better` on 2 of 3): the
+ledger already separates decisive / not-reachable / not-adopted, reached independently,
+and carries no removal condition on any row and no evidence-tier label; its own comments
+record the accepted floor sitting inside a broken window twice. Structural-only; the
+floor is advisory, so retirement cannot be read as a traffic share.
