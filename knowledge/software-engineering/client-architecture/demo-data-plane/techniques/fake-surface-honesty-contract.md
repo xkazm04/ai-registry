@@ -50,7 +50,16 @@ is hard to find gets replaced by a fallback that is automatic.
 **3. Not persisted across sessions.** Entry lives in session state and dies with
 it. A demo that survives a reload or returns days later puts a viewer in a state
 they did not choose and do not remember, which is precisely the state in which
-somebody screenshots a number and sends it to a colleague as fact.
+somebody screenshots a number and sends it to a colleague as fact. The clause
+is about *hidden* persistence, and there is one carrier that is not hidden: the
+address. A plane recorded in the path — a sandbox segment every link inside it
+carries — survives a reload and a shared link, but it is re-chosen by every
+navigation that keeps the segment, dropped by every one that does not, and
+readable in the one place a viewer looks before trusting a page. That is a
+fresh explicit act per visit rather than a remembered one, and it is how the
+best-known sandbox modes do it. What stays forbidden is a stored preference,
+a cookie, a remembered toggle: state the viewer cannot see and did not choose
+this time.
 
 **4. Excluded from indexing.** The demo route is kept out of search indexes and
 out of link previews. Otherwise the fabricated surface becomes the product's

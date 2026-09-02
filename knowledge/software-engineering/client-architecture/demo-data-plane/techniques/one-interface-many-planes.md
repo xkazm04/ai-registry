@@ -6,7 +6,7 @@ technique: one-interface-many-planes
 status: forged
 laws: [one-authority-per-vocabulary, failure-not-empty-success]
 shared_with: []
-use_when: [a demo surface is drifting behind the real client, adding a data source that can only answer some queries, deciding where the fake plane's methods should live]
+use_when: [a demo surface is drifting behind the real client, adding a data source that can only answer some queries, deciding where the fake plane's methods should live, deciding whether a result must carry which plane it came from, seed or sample rows live in the same store as a real tenant's data]
 ---
 
 # One interface, many planes
@@ -111,6 +111,30 @@ legitimate exception is a **descriptive** value: a human-readable name for where
 the data came from, which the product renders wherever it would name a real
 source. That is disclosure, not dispatch, and a consumer must not be able to
 compare it against a known constant to change behaviour.
+
+That rule holds on one condition, and the condition is worth stating because
+the products that break it are the ones with the most to lose: **a call returns
+one plane's data.** The session chose the plane; every value in the result
+shares it; identity therefore belongs to the session and not to the value. The
+moment that stops being true — fabricated rows stored beside a real tenant's own
+(a seed catalog, template content, sample records inserted at onboarding), a
+mixed query that reads from several sources at once, a result that will be
+re-fed to a ledger or a model as fact — provenance stops being session state
+and becomes an **attribute of the value**, and it is then a required field of
+every result, not a method on the client. The two shapes are not in tension.
+The client still has no "which plane am I" method; the *data* says where each
+row came from, the way a payments API stamps every object it returns with
+whether it is live, or a query gateway repeats the request's identifier on every
+frame so the frame can be joined back to the source that answered. And in this
+shape consumers *do* compare the field against a constant — a path that feeds
+content to a model must exclude the fabricated rows, and it can only do so by
+reading the field. Count that coupling honestly: every consumer of a mixed
+result acquires a provenance branch, and the check that no surface branches on
+the plane becomes a check that no surface *forgets* to. It is the price of the
+guarantee, and it is cheaper than the alternative, which is a source-blind
+loader handing a placeholder to a real tenant as their own. The rule for
+choosing: if a fabricated value can ever arrive in the same result as a real
+one, put the plane on the value; if it never can, keep it off the interface.
 
 ## Keeping the implementations honest against each other
 
