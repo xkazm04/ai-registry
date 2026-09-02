@@ -5414,3 +5414,9 @@ been naming that zero for weeks:
   and it is the same "re-read inside the lock" rule the ledgers already carry.
 - Version stays 1.6.0: the previous lesson reserved the 1.7.0 bump for a run alone on
   the board, and this one had two live siblings. A mid-flight run should do nothing.
+
+## 1.6.0 - 2026-09-02 - handy
+
+- **The changelog-fragment focus generalises to "wherever the project stores its why".** This tree has no changelog directory; its paid-for failure records are module-level doc comments that open with the issue number (`//! ... (#502)`), and five of those produced both landings while 9,108 words of markdown produced none. The sweep order in Phase 2b should say "the first-party failure record, in whatever form the tree keeps it: per-PR fragments, issue-citing module headers, test names after a failure" rather than naming one form.
+- **A paired test can amend the technique, not only the tree.** The A/B's arm A passed a case the technique said it must fail, because the runtime's HTTP client enforces the advertised length itself. The right landing was a caution inside the technique beside the checks, and the application carries the measurement. When arm A is right for a reason the seam did not build, that reason is a boundary the technique was missing - check for it before recording `not-better`.
+- **A project's commit hook can be the apply step's second gate.** The consumer's doc-sync hook refused the commit until the coupled doc was updated in the same change; that is the project's own instrument enforcing the "docs synced same-session" rule this registry only states. Note it in `.ai/applied.jsonl` for the project - Phase 8 step 4's "a few lines a reviewer can read" now includes the doc line the hook demands.
