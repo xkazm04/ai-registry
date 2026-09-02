@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.1.1
-tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map
+version: 2.2.0
+tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers
 ---
 
 # Intake
@@ -642,9 +642,15 @@ Three rules make the record worth having:
 - **Stage, not slug, decides the home.** Ask where in the corpus subject's own pipeline
   this decision is made, and whether any technique sits at that point. That is the same
   hunt Phase 6 runs on claims, moved to the front where it changes what gets extracted.
-- **The `corpus:` line is the routing count.** Entries reading NONE are the number the
-  forge handoff (above) is decided on. Write them before deciding, and write the
-  decision under the record.
+- **The `corpus:` line is the routing count, and it is counted twice (v2.2).** Group the
+  entries by the SYSTEM they belong to - a repository holds several - and count NONE per
+  system; a system at three or more with no home is a scoped forge, a system at three or
+  more with an existing home is a technique triple inside that subject, one or two stay
+  in intake. Then count the `HOME IF NEW` clause across systems: three or more entries
+  sharing one home-if-new fire the XL trigger even when no single system clears alone
+  (round 3: whole tree six, per system at most two, four sharing one home). Either
+  clause can fire; hand off the system or the cluster, never the repository. Write both
+  counts before deciding, and write the decision under the record.
 
 The design record is also the brief a forge scout receives if the run hands off, and
 it is the body of the source-tree application (Phase 7, v2) if it does not. Either way
@@ -895,7 +901,7 @@ Route by shape. Every content change is gate-clean before it is committed.
 | --- | --- | --- |
 | `technique` | `<subject>/techniques/<slug>.md` + the owning golden path's `techniques:` list | Bidirectional or it does not exist. Cite `laws:` that already have anchors; do not invent one. |
 | `golden-path` correction | the subject document | Keep the file's prior voice. The corpus reads as one author. |
-| `application` | `<subject>/applications/<stack>--<technique>.md` | `verified_on` is today only if you resolved its citations today. `verified_against` only if you opened the tree. **The source's own clone is an opened tree (v2):** a repository run writes applications against the source itself, one per design-record entry whose `corpus:` names a subject, with `stack:` the source's stack and the design record's `decision`/`forces`/`buys` as the body. This is where a system's architecture is recorded in the registry; under v1 applications existed only for fleet projects, so the architecture of every mined repository went nowhere. |
+| `application` | `<subject>/applications/<stack>--<technique>.md` | `verified_on` is today only if you resolved its citations today. `verified_against` only if you opened the tree. **The source's own clone is an opened tree (v2):** a repository run writes applications against the source itself, one per design-record entry whose `corpus:` names a subject, with `stack:` the source's stack and the design record's `decision`/`forces`/`buys` as the body. This is where a system's architecture is recorded in the registry; under v1 applications existed only for fleet projects, so the architecture of every mined repository went nowhere. `verified_against` names the document's stack at the version the tree **witnesses** (an engines field, a CI pin, a lockfile), never the version a dispatch guessed, and the first paragraph says which witness (v2.2). |
 | `currency` | the affected application's frontmatter, or a `/deepen` dispatch | A re-checked citation MUST move `verified_on`, or the corpus ages while the work says it did not. |
 | `skill` | `skills/<name>/` | Bump `version` in the same change; append to `LESSONS.md` after the run. |
 | `practice` / `memory` | `practices/<slug>/`, `memory/<kind>/<slug>.md` | ASCII only in these lanes. One idea per file. |
@@ -1127,6 +1133,23 @@ Three rules keep this lane from becoming a feature-request generator:
 
 A run over a source with no design record (a video, a listicle) skips this phase and
 says so in the scorecard's depth cell (`directions=n/a`).
+
+**The peer shape (v2.2).** When a fleet project's `scope.does` names the same class of
+system the source *is* - an agent runtime and an agent runtime, a provider gateway and an
+observability service that ingests what the gateway emits, an engine multiplexer and an
+engine multiplexer - three proposals is the wrong cap, and the operator will say so
+mid-run if the method does not. For a peer, the pass writes a **comparison study** in
+the project's own `.ai/directions/` (`<date>-<source>-comparison.md`): 25-45 points
+grouped by area, each with file:line on both sides and a verdict from the closed set
+`adopt` / `adapt` / `keep ours` / `different forces` - with the reason on every verdict,
+because `keep ours` is expected to be the largest class and is worthless without it. The
+study closes with the tests to initiate (paired, instrument named, the number that would
+move), the features ranked with why the scope admits each, and the inverse list of what
+the project does better. The three-proposal cap then applies to the study's ranked
+features, not to the pass. The front-half worker runs the peer check and seeds 8-12
+points; the study worker expands them against the project's own tree and is expected to
+correct seeded points against it. Three rounds established this shape (2026-09-02:
+personas, tracklight, pumper); a study is dispatched, never written by the director.
 
 ### Phase 8 - The cross-repo lane (default for `code` and `better`; confirm before editing)
 

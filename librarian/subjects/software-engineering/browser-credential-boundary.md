@@ -59,3 +59,7 @@ forced - a runtime role that ran the migrations is the realistic miss.
 
 - Renaming the key vocabulary in the two sql applications - they cite a tree at
   2026-08-22; re-reading it is not public work.
+
+## 2026-09-02 - `/intake` portkey-gateway (run `intake-portkey-0902`, intake 2.1.1, Opus workers)
+
+New technique `allowlisted-operator-stream` (design candidate, corpus NONE): an operator debug stream that survives only through a fixed allowlist of keys with every header redacted, behind an admin token the process refuses to boot without. Slug argued against the subject`s X-plus-Y idiom. Source-tree application `node--allowlisted-operator-stream` with five shortfalls, the sharpest: the tree`s "throws at startup" is a per-request 500 in all three callers, and the allowlist covers three sub-objects rather than the record. Direction proposals written for tracklight (the strongest transfer in the run: self-hosted, holds provider keys, serves an operator dashboard).

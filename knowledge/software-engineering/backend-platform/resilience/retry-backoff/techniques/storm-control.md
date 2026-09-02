@@ -8,7 +8,7 @@ laws:
   - creation-names-reaper
   - verdict-survives-boundary
 shared_with: []
-use_when: [deciding how much worse resilience can make an outage, one restart wakes every queued caller at once, an outage flooding the log with duplicate errors]
+use_when: [deciding how much worse resilience can make an outage, one restart wakes every queued caller at once, an outage flooding the log with duplicate errors, choosing the default retry policy for a component every caller passes through]
 ---
 
 # Storm control
@@ -43,6 +43,21 @@ contains the problem. Two structural rules keep the exponent down:
   breaker denial. The budget is the system's stated answer to "how much worse can
   our resilience make an outage," and without one the honest answer is the
   product of every ladder in the call graph.
+
+A third rule governs one specific place in the graph: the component every caller
+fans in through — a shared adapter, an egress hop, the one client library the
+whole estate imports. **Its retry default is not a starting point; it is the
+fleet's setting**, because a deployed estate converges on the default and almost
+nobody revisits it. So a fan-in component ships with retries **off** and its
+retryable-failure set empty until an operator opts in, and it states the
+amplification opting in buys. This inverts the intuition that a helpful default
+spares every caller a decision: that is right for a library one team calls and
+exactly wrong for a component the whole fleet routes through, where the
+amplifier's exponent is the number of callers who never changed it. The mirror of
+the rule for safety guards is worth naming, because it is the same observation
+with the sign flipped — a guard that defaults off protects nobody, and an
+amplifier that defaults on recruits everybody. Opting in costs one line of
+configuration; opting out of a multiplier nobody knew was armed happens mid-incident.
 
 ## Correlated wake-ups
 

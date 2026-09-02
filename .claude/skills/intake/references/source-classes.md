@@ -334,6 +334,17 @@ that file and the rules page, and none from the README. Check the client's types
 concluding an engine is unreadable, and expect the benchmark claims to be the least
 useful thing present.
 
+**The branch with no rules page (2026-09-02).** Some vendor repositories carry no
+"things we learned running this" document at all - a cookbook of deployment recipes and
+nothing operational. Phase 2b's first sweep step then returns empty, and the temptation
+is to read the cookbook as the operating half. Do not: the density has moved wholesale
+into the pipeline code, and the ratio to expect is roughly nine findings from code for
+every one from prose. Sweep the request pipeline, the config schema and the adapter
+interface as the operating documents, treat the test suite with a mocked provider
+boundary as the measurement, and expect the design record to be as full as it is for a
+documented tree - six design decisions the corpus did not model came from ~5,500 lines of
+code and zero from 22,000 words of markdown.
+
 ## Research-model release
 
 A lab's open-weights drop: paper links, real inference code, checkpoints hosted

@@ -8,7 +8,7 @@ laws:
   - gate-sees-target
   - failure-not-empty-success
 shared_with: []
-use_when: [deciding whether a dependency is down for everyone, recovery jobs keep lifting cooldowns they should not, denied calls look like failed calls]
+use_when: [deciding whether a dependency is down for everyone, recovery jobs keep lifting cooldowns they should not, denied calls look like failed calls, every candidate in a pool is open at once]
 ---
 
 # Circuit breakers
@@ -76,6 +76,66 @@ egress path is broken" breaker — but the moment two breakers can both speak, t
   feeds the global breaker only; letting it also count against per-dependency
   breakers double-charges one failure to two ledgers and makes recovery order
   dependent on bookkeeping.
+
+## One breaker per candidate: the verdict as a selection input
+
+The precedence rules above describe *several breakers over one call*, where the
+question is "may this call proceed?" and deny wins. There is a second composition
+with a different rule. When a call has **interchangeable candidates** — a failover
+list, a weighted pool, a set of equivalent replicas — each candidate carries its
+own breaker, and a breaker's verdict stops being an admission decision and becomes
+an input to "which candidate should carry this?". The output is not admit-or-deny;
+it is a **filter over the candidate set**, applied before the selection strategy
+runs.
+
+The filter has one rule that is never obvious in advance and always discovered
+during an incident:
+
+- **Prune open candidates from the set — unless pruning would empty it.** With at
+  least one closed candidate present, the open ones are removed and the strategy
+  chooses among the survivors. With *every* candidate open, the filter does not
+  apply: the strategy runs over the full set and the call is attempted.
+
+**All open is not no candidates.** A breaker's evidence is a health hypothesis, not
+a permission, and a hypothesis that indicts every candidate simultaneously is the
+case where it is least likely to be exactly right and most expensive to obey.
+Refusing on it converts a partial outage into a total one; worse, it removes the
+only thing that could ever revise it, because the traffic that closes a breaker is
+traffic that was allowed through it. An outage-wide open state must degrade to
+**trying**, not to **refusing**.
+
+The rejected alternative is to spell all-open as a denial and stop with an
+exhausted-candidates outcome. That is the right answer for a *different* filter,
+and the two are worth separating explicitly because in code they are the same
+operation — remove members from a list, then pick one. A set narrowed by
+**permission** (only these candidates may serve this class of traffic) fails
+closed: proceeding anyway is the exact breach the rule existed to prevent, so empty
+means refuse, loudly. A set narrowed by **health** fails open: proceeding anyway is
+the probe. Every filter over a candidate set states which of the two it is; one
+that cannot say is treated as permission, because being wrong in that direction
+costs a refused call and being wrong in the other costs the guarantee.
+
+Two riders on the degenerate case:
+
+- **The attempt made under all-open is not an ordinary attempt.** It is a
+  deliberate override of every breaker in the set, and it is recorded as one. An
+  operator watching traffic climb against a dependency their dashboard shows as
+  open needs the line that says the empty-set rule fired, not a contradiction.
+- **Pruning must not renumber identity.** Candidates are commonly addressed by
+  position, and removing one shifts every position after it. If a candidate's
+  identity in logs, telemetry and breaker bookkeeping is its index in the list,
+  then the moment a breaker prunes a sibling it silently re-points every downstream
+  record — and the next verdict is filed against the wrong member, which is how a
+  healthy candidate inherits a sick one's streak. Carry the pre-filter identity
+  through the filter.
+
+The boundary between the two compositions is worth stating once: *deny wins*
+governs breakers stacked over one call; the empty-set rule governs one breaker per
+candidate across a set. They never contradict, because they answer different
+questions — but read either into the other and the failure only shows under load.
+Deny-wins applied to a candidate set refuses the whole fan-out the moment its last
+member trips; the empty-set rule applied to layered breakers admits a call that
+every applicable breaker refused.
 
 ## Provenance decides who may lift it early
 

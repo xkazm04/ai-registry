@@ -11,6 +11,7 @@ techniques:
   - aggregate-view-not-base-table
   - omit-the-column-not-the-value
   - default-deny-plus-defaulted-owner
+  - allowlisted-operator-stream
 ---
 
 # The browser credential boundary
@@ -243,3 +244,8 @@ this.
 - [default-deny-plus-defaulted-owner](./techniques/default-deny-plus-defaulted-owner.md)
   — policies on, zero anonymous policies, and an owner column defaulted from
   the authenticated identity so the writer never sends what the policy checks.
+- [allowlisted-operator-stream](./techniques/allowlisted-operator-stream.md) —
+  the debug surface over a process that holds other parties' credentials: a
+  short list of keys that survive into the stream, every header value replaced,
+  and an operator credential whose absence stops the process rather than
+  warning it.

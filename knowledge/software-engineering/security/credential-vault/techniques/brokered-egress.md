@@ -120,6 +120,47 @@ proportionate (how much traffic does degrading this affect?), and makes an
 exposure post-mortem answerable (what did the leaked credential touch, and
 when?).
 
+## The credential can carry a priced roster
+
+Rate limits bound *how much*. The record that answers *what, and at what rate*
+is the same record, and putting it there is a second dividend of the singular
+door. Alongside the reference and the binding, a credential may carry a
+**roster**: the destinations or capabilities this credential is permitted to
+reach, each row with a status so a capability is withdrawn by disabling the row
+rather than deleting it — and each row with the **price** the caller is charged
+for what it consumes there.
+
+The roster half composes with scope intersection: the effective set is the
+intersection of the roster and what the caller's context is entitled to, refused
+at the door with a local, named failure rather than downstream as somebody
+else's generic rejection. It earns its place because "this team may reach these
+capabilities and not those" is otherwise expressed nowhere — the grant's own
+scopes are the provider's vocabulary, not yours, and they rarely divide the way
+an internal entitlement does.
+
+The price half is the sharper claim, because it adds an axis most cost
+accounting does not have. Rates are conventionally resolved from the destination
+and the units consumed — that pair is assumed to determine the number. Behind a
+brokered door it does not: two credentials against the same destination are
+routinely billed differently, one at a negotiated rate and one at list, and the
+door is the only component in the topology that knows which credential was
+applied. So the resolved rate travels with the audit line rather than being
+re-derived downstream from the destination alone, which for the negotiated half
+of the fleet silently produces a confident wrong number. State it as a rule: if
+two credentials to one destination can cost different amounts, the credential is
+an input to price resolution, and any layer resolving without it is guessing.
+
+The boundary is worth stating because it is easy to cross by accident. This
+technique owns the *axis and its carriage* — the credential holds a roster, the
+roster rows carry prices, the door publishes the resolved rate with the use it
+belongs to. It does not own the price book itself: the catalog of rates, their
+versioning and effective dates, the fallbacks when a destination is unpriced,
+and reconciliation against what the provider actually invoiced are a separate
+discipline with its own subject, and a vault that starts maintaining rate tables
+has acquired a second job it will do badly. The handoff is one field wide — the
+door emits which credential, which capability, which rate applied; the
+accounting layer decides whether that rate was right.
+
 ## What refuses the pattern
 
 Watch for the pressure points where plaintext tries to escape: a third-party

@@ -79,3 +79,7 @@ subject will soon have to state.
   revocation-interception matrix). When they land, this golden path owes a
   boundary paragraph: custody of *other people's* secrets (this subject)
   versus issuing and sealing your own (theirs).
+
+## 2026-09-02 - `/intake` portkey-gateway (run `intake-portkey-0902`, intake 2.1.1, Opus workers)
+
+`brokered-egress` gained "The credential can carry a priced roster": the brokered credential names which models it may reach and at what price, so price resolution gains the credential as an axis; boundary to the observability price book stated in prose. Direction proposal in tracklight.

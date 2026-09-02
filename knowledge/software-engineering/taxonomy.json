@@ -198,7 +198,8 @@
             "webhook-ingestion",
             "stream-proxy-hop",
             "optional-dependency-degradation",
-            "scale-investment-timing"
+            "scale-investment-timing",
+            "multi-provider-gateway-plane"
           ]
         },
         {

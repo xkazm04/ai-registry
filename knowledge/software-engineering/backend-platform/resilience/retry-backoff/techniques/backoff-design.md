@@ -6,7 +6,7 @@ technique: backoff-design
 status: forged
 laws: []
 shared_with: []
-use_when: [tuning base factor and cap for a retry ladder, recovery collapses under synchronized retries, backoff resets on every accepted handshake]
+use_when: [tuning base factor and cap for a retry ladder, recovery collapses under synchronized retries, backoff resets on every accepted handshake, a stated retry-after is longer than the remaining budget]
 ---
 
 # Backoff design
@@ -62,7 +62,13 @@ together.
 
 Jitter belongs on *every* scheduled delay in the resilience layer, not only ladder
 rungs: dependency-stated reset times, breaker cooldowns, and startup reconnects all
-synchronize herds in exactly the same way (see storm-control).
+synchronize herds in exactly the same way (see storm-control). The rule is easiest
+to lose in the component that can least afford to lose it: shared entry points that
+a whole fleet routes through have been found shipping their ladder with
+randomization explicitly switched off, which makes the one component that
+correlates every caller also the one that schedules them all identically. A ladder
+inside a shared hop is the fleet's ladder, and its jitter setting is not a local
+tuning detail.
 
 ## Reset conditions — the subtle knob
 
@@ -87,7 +93,12 @@ stability before believing in recovery*.
   retry-after hint (see error-classification-for-retry), the next attempt honors
   it — plus jitter — and the ladder resumes only if the stated time also fails.
   Backing off exponentially against a limiter that already told you the reset time
-  is either too early (banned harder) or too late (capacity wasted).
+  is either too early (banned harder) or too late (capacity wasted). A stated
+  schedule also arrives under more than one spelling and in more than one unit, so
+  the reader is an **ordered accept-list of names, first present wins, with the
+  unit bound to the name** rather than assumed from the value — the same fact
+  expressed in seconds and in milliseconds differs by a factor of a thousand, and
+  the wrong reading is not an error, it is a plausible delay.
 - **Ladder position is per-key state.** One key per failure domain — per
   dependency, per endpoint, per account — never a single global rung. Too coarse a
   key lets one sick dependency slow retries against healthy ones; too fine a key
@@ -101,3 +112,41 @@ stability before believing in recovery*.
 - **Long delays outlive processes.** Any rung that schedules minutes ahead has
   left the lifetime a process can promise; that rung belongs in a persisted
   retry-at, not a sleeping task (see durable-retries).
+
+## When the stated schedule does not fit the budget
+
+Two of those rules collide, and the collision is not an edge case — it is the
+ordinary shape of a bad hour. A stated schedule outranks the ladder; the ladder is
+bounded by a total-time budget. When the dependency states a wait longer than what
+remains of the budget, both rules cannot be obeyed, and a design that never chose
+resolves it by accident, in whichever branch happens to run first.
+
+The resolution: **honour the stated wait inside the budget; outside it, end the
+ladder rather than shorten the wait.**
+
+- **Inside.** The stated wait replaces the remaining computed rungs, and it is
+  *debited from the budget* like any other delay. A stated wait is not free time —
+  a budget that counts only rungs it computed itself is not a bound, and the first
+  stated wait falsifies its stated worst case.
+- **Outside.** Do not retry earlier than the dependency asked. Truncating a stated
+  wait to whatever fits is the worst of the available moves: it spends an attempt
+  the dependency has already said will fail, charges it against the very allowance
+  the wait was protecting, and against limiters that count refused requests it
+  lengthens the window it was trying to outrun. Stop, spend no further attempts,
+  and report.
+
+The budget does not stretch to accommodate the wait, and the asymmetry has a
+reason: the budget is a number the operator chose against a deadline they own,
+while the stated wait is a number that arrived from outside — shaped by an
+incident, and in an adversarial reading, by whoever is having the incident. A
+component that extends its own worst case to whatever a remote party names has
+handed its latency guarantee to that party. So the stated wait wins the right to
+be *honoured* and never the right to *extend*.
+
+That stop needs its own name. It is not *exhausted*: the budget was not spent, it
+was found insufficient before anything was attempted. It is not *denied*: no
+breaker judged anything. It is not *reclassified*. Record it as its own terminal
+state, attributed to the budget, and carry **the stated wait that did not fit** in
+the record — that number is the only evidence an operator has for whether the
+budget is set correctly, and folding this outcome into *exhausted* destroys exactly
+the fact that would have fixed it.

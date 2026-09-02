@@ -1,7 +1,7 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -81,3 +81,7 @@ golden path plus adding a new technique. `failover-horizon.md` was untouched by 
 (`git status`), so the amendment landed with zero collision and the golden path's
 `techniques:` list was never opened. Subject-level contention is not file-level
 contention, and `git status` is the finer instrument.
+
+## 2026-09-02 - `/intake` portkey-gateway (run `intake-portkey-0902`, intake 2.1.1, Opus workers)
+
+`failover-horizon` gained one paragraph on check cadence: input checks are idempotent per request and run once, output checks run per attempt, both on one shared budget (the budget half is storm-control`s). No fleet project admits the force - every project excludes `llm-agent/orchestration` by scope list - so this landing is corpus-only and was sequenced last.

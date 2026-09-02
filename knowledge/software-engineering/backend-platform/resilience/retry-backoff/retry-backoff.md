@@ -87,7 +87,7 @@ other caller for one bad payload.
 
 ## Stopping is a first-class outcome
 
-Retry machinery is judged by how it stops. There are exactly four legitimate
+Retry machinery is judged by how it stops. There are exactly five legitimate
 terminal states, and each must be spelled differently (law:
 failure-not-empty-success):
 
@@ -96,15 +96,20 @@ failure-not-empty-success):
   every call eventually lands;
 - **exhausted** — the budget ran out; the work moves to whatever holds failed work
   (a dead-letter lane, an operator queue), never silently vanishing;
+- **over-budget wait** — the dependency stated a delay longer than the budget
+  could hold, so the ladder ended rather than the wait being shortened; distinct
+  from *exhausted*, because the budget was not spent but found insufficient in
+  advance, and the stated delay that did not fit is the number an operator needs
+  (see backoff-design);
 - **reclassified** — a retry attempt returned evidence of permanence; stop
   immediately, mid-ladder;
 - **denied** — a breaker refused to even attempt; this is not a failure of the
   dependency but a policy decision, attributed to the breaker that made it.
 
-An operator reading the record must be able to tell which of the four happened
+An operator reading the record must be able to tell which of the five happened
 without reading source. "It stopped" is not a state (see retry-observability).
 
-All four are *terminal*, and a ladder has one more state that is not: it can be
+All five are *terminal*, and a ladder has one more state that is not: it can be
 **suspended** — halted on an unmet precondition, spending no budget, still owed a
 result. A client with no network has not failed three times; it has not attempted
 once, and a design that cannot say so exhausts its budget against a dependency it
@@ -139,5 +144,5 @@ operator can see, and recovery is probed deliberately rather than discovered by
 stampede; retry state that must survive restart does, and the restart itself does
 not read as a recovery; total retry volume is bounded by budget so the layer cannot
 amplify an outage more than a stated factor; every stopped retry names which of
-the four terminal states it reached; and work halted on an unmet precondition is
+the five terminal states it reached; and work halted on an unmet precondition is
 recorded as suspended rather than spending the budget it never used.

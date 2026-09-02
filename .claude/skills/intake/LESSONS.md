@@ -5887,3 +5887,46 @@ been naming that zero for weeks:
   handoff). Technique-grain directions blocked by grain: 0 this run, because the comparison
   study made the grain question moot for personas; still 1 from round 1. Not yet the second
   sighting the fleet-map change waits for.
+
+## 2.1.1 - 2026-09-02 - portkey-gateway (round 3 of the 2.x series; Opus workers throughout)
+
+- **A vendor repository with no rules page is a different sweep, not a thin source.** Step
+  1 of Phase 2b returned nothing for the first time in the ledger; the front-half worker
+  read the pipeline code as the operating documents and produced six design NONEs from
+  ~5,500 lines against zero from 22,000 words of cookbook. The branch is now written into
+  `references/source-classes.md` under the vendor-repository entry. Yield ratio to expect:
+  about nine from code for every one from prose.
+- **Per-system routing produced a third shape: no system clears alone, the cluster does.**
+  Whole-tree count 6, per-system maximum 2, and four NONEs sharing one `HOME IF NEW`
+  across four consecutive pipeline stages. The mechanical trigger's `HOME IF NEW` clause
+  fired where the per-system count did not, and that is the right outcome - a scoped
+  forge on one subject, three ordinary landings alongside. Phase 2d's text should say both
+  counts are computed and either can fire.
+- **The peer shape held for a second and a third project without a mid-run note.** The
+  front-half worker was told to run the peer check and returned twelve seeded points; the
+  study worker expanded them to 32 for tracklight and 13 for pumper, corrected one seeded
+  point against the tree (pumper's retries default off, same as the source - a convergence,
+  not a contrast), and found pumper's `capped_retry_sleep` had independently reached the
+  source's hardest retry decision, so the fleet's own code became the reference the
+  tracklight proposal cites. This is the second sighting of the peer shape; the 2.2.0 bump
+  writes it into Phase 7.6.
+- **Opus, round 3: nothing redone.** Five workers, five reports, one anchor the forge
+  worker re-checked before claiming (the strictness key is in the validated schema), one
+  seeded row corrected by the study worker, one slug the security worker argued against
+  the subject's own naming idiom. The director's review found the same things it found in
+  rounds 1 and 2: gate, purity, `use_when`, taxonomy order, one cited line - and nothing
+  else. Three rounds is the threshold the skill sets for a lesson becoming a rule: **the
+  method shields the model; Opus is the default worker for every phase but the review.**
+- **A foreign restructure appeared mid-run without a board claim** (game-production's
+  asset-production nested into four groups, 94 deletions and four new folders, no live
+  record). The run's pathspec excluded it and the index/catalog were left uncommitted.
+  The board only protects runs that claim; an operator's manual restructure is invisible
+  to it. Worth one line in the board doc: claim a manual restructure too.
+- **`verified_against` witness.** Two workers noted the tree's only node witness was a
+  types package or a CI pin (20.x), and wrote the dispatched `node@22`. The rule should be:
+  the version the tree WITNESSES (engines, CI, lockfile), not the one the dispatch guessed;
+  write the witness source in the application's first paragraph.
+
+### 2.2.0 - 2026-09-02 - applied at round 3 Phase 11
+
+- Phase 7.6 gains the peer shape (comparison study, closed verdicts, cap on the ranked features); Phase 2d counts NONE per system AND the HOME-IF-NEW clause across systems; Phase 7 states the witnessed `verified_against`. Mid-flight runs: none live at the bump (board held only this run). A run that loaded 2.1.x finishes on it.
