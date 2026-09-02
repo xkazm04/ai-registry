@@ -134,6 +134,28 @@ function norm(s) {
   return String(s).trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/\/+$/, '').toLowerCase();
 }
 
+/**
+ * One identity for one SOURCE, however it was spelled. `norm` folds case and
+ * trailing slashes, which is right for subjects and paths and wrong for URLs:
+ * measured 2026-09-02, the SAME SOURCE check missed three of four spellings
+ * of one repository (`.git` suffix, `www.` prefix, a query string), so two
+ * terminals could mine one repo at once. A URL folds to host + path with the
+ * scheme, `www.`, `.git`, query and fragment removed; anything that is not a
+ * URL falls back to `norm`. The fold is deliberately narrow — a different
+ * path is a different source (`openbao/openbao` vs `openbao/openbao-plugins`).
+ */
+function normSource(s) {
+  const raw = String(s).trim().replace(/\\/g, '/');
+  try {
+    const u = new URL(raw);
+    const host = u.hostname.toLowerCase().replace(/^www\./, '');
+    const p = u.pathname.replace(/\/+$/, '').replace(/\.git$/i, '').toLowerCase();
+    return host + p;
+  } catch {
+    return norm(raw);
+  }
+}
+
 /** Do two claim tokens touch? Prefix containment in either direction counts. */
 function touches(a, b) {
   const x = norm(a);
@@ -200,7 +222,7 @@ function cmdClaim() {
   const conflicts = [];
 
   for (const s of siblings) {
-    if (norm(s.source) === norm(source)) {
+    if (normSource(s.source) === normSource(source)) {
       conflicts.push('SAME SOURCE   ' + s.runId + ' is already mining ' + s.source + ' (phase ' + (s.phase || '?') + ', ' + s._staleMin + 'm since heartbeat)');
     }
   }

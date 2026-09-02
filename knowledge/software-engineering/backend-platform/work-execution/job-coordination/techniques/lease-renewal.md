@@ -153,6 +153,53 @@ immediately instead of waiting out the stale window. The stale window is
 the price of *crash* detection; paying it on every orderly restart is
 pure waste.
 
+## Renewal must not queue behind the work
+
+The stall the previous section guards against — renewal waiting on progress
+computation — has a quieter twin: renewal waiting on the *resources* the
+work holds. The renewal is a write, and a write needs a connection, a
+transaction slot, a writer lock. If it takes those from the same bounded
+pool the work draws on, then under exactly the load the lease exists to
+survive, the renewal queues behind the work: the pool is full of long
+transactions, the renewal's acquire times out, the executor logs "renewal
+failed, will retry", and after a few retries a live executor that was
+merely busy is reaped as dead. A storage backend for a secrets server
+shipped precisely this — its transaction pool was sized to the connection
+pool, so a burst of transactions starved the high-availability lock's own
+renewal — and the fix was one line: the transaction limit is the connection
+limit minus one, so the lock's heartbeat and non-transactional operations
+always have a slot.
+
+The rule is a reservation, and it has an engine-shaped condition:
+
+- **On a pooled multi-writer engine, reserve capacity for the control
+  path.** The renewal — and the lock acquisition, and whatever else proves
+  liveness — draws from a slot the work cannot take: a dedicated connection,
+  or a cap on the work's transactions set one below the pool's size. The
+  measurable is the renewal's wait under a saturated pool: with the
+  reservation it is bounded by the renewal itself; without it, by the
+  longest transaction ahead of it.
+- **On a single-writer engine the reservation does not exist, and
+  pretending it does makes things worse.** An embedded store with one
+  serialized writer queues every write, on every connection, behind the
+  write in progress; a dedicated renewal connection gains nothing and
+  *loses* something, because it carries a busy-timeout that converts
+  "waited behind a long write" into "failed", where the shared writer's
+  queue would have waited and succeeded. Measured with a managed project's
+  own parameters (busy-timeout 5 s, TTL 120 s, renewal every 40 s): a 6 s
+  write held the shared-writer renewal for 6 s and it succeeded; the
+  dedicated connection failed at 5.5 s with the engine's lock error. Here
+  the bound to state is different — **the longest write transaction in the
+  system must be shorter than the TTL minus the renewal cadence** — and it
+  is a property of the work, enforced by chunking large writes, not by a
+  slot the engine cannot give.
+
+Which engine you are on decides which rule applies, and the tell is whether
+two connections can hold write transactions at once. Either way the check
+is the same: name the resource the renewal write needs, find who else holds
+it under load, and put a number on how long the renewal can wait before the
+lease is lost.
+
 ## Expiry has an owner and a policy
 
 A lease is a created resource, and it names its reaper at creation

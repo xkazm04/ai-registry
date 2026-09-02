@@ -65,6 +65,60 @@ degenerate case of an empty pin list. The empty list must mean *nothing*,
 not *everything*; a parser that collapses "no pins recorded" into
 "unrestricted" has built the widening bug into the data layer.
 
+## Canonical once, and every guard reads the canonical value
+
+"Exact equality on canonical forms" presumes a canonical form exists, and
+*where* it is produced decides whether the matcher's exactness means
+anything. The failure is not a soft matcher but a **split**: one path
+canonicalizes an identifier before it is stored or resolved, and another
+path inspects the identifier before that happens. A guard that reads the raw
+spelling — "this grant may not carry the root policy" — is bypassed by any
+spelling the canonicalizer folds onto the forbidden value: a capital letter,
+a trailing space, a path segment that resolves one level up. The guard says
+no to a string the resolver never sees and yes to the one it does. One
+secrets-management codebase paid for this single shape four times in one
+year: policy names lowercased at lookup but checked raw at assignment;
+entity aliases matched case-insensitively at login but compared
+case-sensitively by the lockout counter; a tenant path whose spelling of the
+root resolved to the parent; and a one-time code whose replay cache keyed on
+the code *with* its spaces while the verifier stripped them — so the same
+code passed twice.
+
+Three rules follow, each a *place* rather than a check:
+
+- **Canonicalize at admission, once, and store the canonical form.** The
+  identifier that enters from a request is folded — case, whitespace, path
+  segments, separators — by one function at the boundary, before any guard
+  runs, and the stored record carries the folded value. A record written
+  with the raw spelling is the split waiting to happen: every later reader
+  has to remember to fold, and one will not.
+- **Every guard downstream reads the canonical value, never the request's
+  spelling.** The deny-list check, the reserved-name check, the
+  may-not-escalate check all run on what the resolver will actually
+  resolve. A guard that runs before canonicalization is a guard on a
+  different identifier than the one that will be used.
+- **Replay and deduplication caches key on the form the verifier
+  consumes.** A cache keyed on raw input beside a verifier that normalizes
+  is two identities for one credential, and the cache admits the second
+  spelling as new. It is the rule this technique already applies to the
+  matcher: one function decides identity, and everything that stores or
+  compares identity calls it.
+
+The audit is mechanical: for each identifier class the kernel resolves, name
+the canonicalizer, then list every comparison of that identifier and confirm
+it runs *after* the fold. A comparison found before the fold is the finding,
+whether or not anyone has found the spelling that exploits it yet. The same
+discipline governs the canonicalizer's **coverage**: two spellings it does
+not fold are two identities, and every "same source / same tenant / same
+user" check built on it admits the second as new. So the canonicalizer's own
+tests enumerate the spellings it claims to fold, and an identity the system
+never expected to meet twice is exactly where a missing fold turns up —
+measured on a coordination instrument in this registry's own fleet, a
+comparison that folded case and trailing slashes missed three of four
+spellings of one repository address (a `.git` suffix, a `www.` prefix, a
+query string), and folding at the address level caught all four with no
+false collision.
+
 ## Intersection is the only combination rule
 
 Effective capability for an action =

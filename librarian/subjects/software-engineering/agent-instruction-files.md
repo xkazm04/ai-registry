@@ -1,7 +1,7 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -232,3 +232,25 @@ Fleet note worth carrying: **no managed project ships a session-start injector
 at all**, so none holds the defect — and every project's floor therefore rides
 on native re-injection whose per-event behaviour nobody has verified. The
 exposure moved rather than vanished.
+
+
+## 2026-09-02 - /intake openbao (run intake-openbao-0902)
+
+One amendment, one application.
+
+- `workspace-ancestry-isolation` gained "The author's chair: terms for
+  agents you did not invite". The source's repository carries the first
+  instruction file this skill has met that is addressed to agents the
+  author did not run: it refuses generated contributions, permits
+  analysis and translation, gives four rules for machine-assisted security
+  reports, and hides a disclosure canary in a comment. The technique owned
+  the reader's chair only. The amendment says: write terms, not steering;
+  the canary must be inert for the invited; it is mechanically an
+  injection and the discriminator is who owns the tree; the precondition
+  is a repository that accepts outside contributions.
+- Applied to the registry itself (`node--workspace-ancestry-isolation`,
+  `simulation`, `not-better`): no root instruction file, one owner, no
+  outside contributions - the precondition is absent, and a canary would
+  tax the owner's own sessions. The reader-side layout (flat sibling
+  scratch clone) was confirmed working on this very run, which read the
+  source's file as material and obeyed none of it.

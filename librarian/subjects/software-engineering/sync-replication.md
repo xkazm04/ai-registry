@@ -1,7 +1,7 @@
 ---
 subject: sync-replication
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -38,3 +38,29 @@ shadow-WAL generations with LTX/TXIDs.
 ## Applied to the technique layer
 
 - 2026-08-22-3: **lifecycle state is not health state** applied to `sync-observability` ([[2026-08-22-3]]).
+
+
+## 2026-09-02 - /intake openbao (run intake-openbao-0902)
+
+One amendment, one application.
+
+- `topology-declaration` gained "The mirror's derived state": a
+  read-serving replica's caches, indexes and counters are where the
+  read-only promise breaks from the inside, and the failure arrives as a
+  series of one-per-cache bugs (the source paid twelve over a year on its
+  read-serving standbys). Three obligations - enumerate derivations with a
+  keyed invalidation; declare a staleness bound only against the most
+  sensitive fact the cache holds (a revocation is not reference data); an
+  unroutable invalidation fails loud - plus forward-by-default for what the
+  replica cannot serve. The corpus had no standby material before this
+  (one grep hit across the bundle).
+- Applied to a desktop app's per-process connector cache
+  (`rust--topology-declaration`, `simulation`, `better`): in-process
+  invalidation beside a 30 s cross-process TTL, which is the half-built
+  form the amendment now names; the deleted-connector case is the
+  revocation the bound was not sized for.
+
+Home was contested: the corpus reads sync as client data sync, and a hot
+standby is infrastructure. It landed here because the one-way mirror's
+definition ("same data in more than one place, on purpose") already covers
+it and the failure is a topology fact, not a cache fact.

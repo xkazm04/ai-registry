@@ -59,6 +59,37 @@ decision path degrades. The checklist a design review walks:
   dispatch" is the catastrophic wiring, and it happens whenever
   authorization is bolted on as middleware whose failure the pipeline
   interprets as absence.
+- **The half-success.** A handler returns a positive decision *and* an
+  error — an authenticated-principal block beside a failure, a grant object
+  beside an exception — and the code that consumes the pair acts on the
+  positive half. Nothing above covers it, because every case above is a
+  failure resolving too permissively; this is a *success* travelling with a
+  failure, and it is the more dangerous shape because the handler's author
+  believed the error was the result. The wiring is structural: at the
+  boundary where a handler's return is consumed, **an error voids whatever
+  result accompanies it** — the auth block is discarded, no token is
+  minted, the error is what propagates. A secrets-management server shipped
+  this hole as a security advisory: an authentication method returned both
+  an auth block and an error during protocol negotiation, and the core
+  issued a token for the failed login. The fix was two lines at the
+  consumer of the pair, and the shape is *lintable* — a pattern rule that
+  flags `return response-carrying-auth, non-nil-error` in handler code
+  shipped beside the fix. That is the right move for every state in this
+  list with a syntactic signature: the enumeration lives in the design
+  review, and the rows that a static shape can name move into the gate
+  ([gate-sees-target](../../../_laws.md#gate-sees-target)). The rule is for
+  authority-bearing results; a *display* value kept beside a fresh error
+  (last-good data on a screen while a refresh fails) is a legitimate pair,
+  provided the surface renders the error before the value.
+- **The wrong minter.** Only one component class may return authority —
+  the one whose job is issuing it. A response carrying an auth block from
+  anything else (a secrets engine, a workflow runner, an inline
+  authentication path that reached an internal operation type) is refused
+  as an internal error at the same boundary, error or no error. This is
+  [privilege-tiers](./privilege-tiers.md)' closed vocabulary applied to
+  *who may mint*: the set of components licensed to produce authority is
+  enumerated, the consumer checks the producer's class against it, and a
+  token from anywhere else is not "unexpected", it is denied.
 
 ## Fail-closed needs a debugging story, or it gets removed
 
