@@ -35,6 +35,13 @@ step's forward/exit controls must never depend on anchor resolution
 succeeding. They render unconditionally; only the spotlight and the pointer
 are conditional on the anchor.
 
+The first step is the invariant's most common failure site. Eligibility is
+decided at tour start and resolution at step show, and an engine that skips
+missing anchors by walking to the next step has nowhere to walk from when
+the *first* anchor is absent — the tour has started, nothing has shown, and
+the exit controls belong to a step that never rendered. Verify the
+never-strand invariant with the first anchor removed, not only a middle one.
+
 ## The two honest policies
 
 When resolution fails after a bounded wait, a step does one of two things:
@@ -54,13 +61,25 @@ single global fallback is a category error: global-skip silently deletes
 conceptual steps for some users; global-recenter shows "here is the export
 button" with no export button in sight, which reads as a broken product.
 
+Expect the tour engine to ship the category error as its default. The
+framework-agnostic engines resolve a missing target to a *global* fallback —
+usually re-center, sometimes skip — and expose the other policy as an opt-in
+that can be set per step or for the whole tour. The per-step declaration is
+therefore the integrator's authoring discipline layered over the engine, not
+something the engine does for you; a tour that never sets the option has
+chosen a global policy by omission.
+
 Two refinements both policies share:
 
 - **Bounded patience.** Interfaces render late — data loads, panels animate
   in, routes settle. Resolution retries briefly before declaring absence, so
   a slow anchor is not misread as a missing one. The bound is short and
   fixed; an unbounded wait is the stranding invariant violated in slow
-  motion.
+  motion. The field form of this wait is a **mutation watch with a
+  deadline**: re-resolve the anchor whenever the document changes, give up
+  when the deadline passes, and keep the previous step on screen — or the
+  neutral posture — while waiting, so the wait itself never shows a dimmed
+  void. A polling loop is the fallback, not the design.
 - **A tour that degrades to nothing ends.** If skipping cascades through
   every remaining step, the tour completes gracefully rather than marching
   the user through a sequence of apologies.
@@ -82,6 +101,15 @@ Silent degradation is the tempting failure: the tour "works" for everyone,
 nobody is stranded, and the coaching quietly evaporates step by step over
 months while its authors believe it is running. The save without the signal
 converts a visible defect into an invisible one.
+
+The engines make the silent form the easy one. A skipped step typically
+fires **no event at all** — the engine's step lifecycle hooks run only for
+steps that showed — and a re-centered step fires the ordinary show hooks with
+the target argument empty. So the degradation record is written by the
+integration, not read from the engine: wrap step advancement to diff the
+declared step list against the steps that actually showed, and treat an
+empty target in a show hook as the re-center signal. A tour that trusts the
+engine's own events for this will report every run as clean.
 
 ## What this technique refuses
 

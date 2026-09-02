@@ -58,10 +58,32 @@ focus trap while pointing into interactive territory:
   assistive users know the step exists and can reach its controls — but the
   anchored element and the path to it remain reachable. A tour whose target
   is unreachable by keyboard is coaching only mouse users.
+- **A scoped trap is the field's compromise, and it is acceptable on two
+  conditions.** The framework-agnostic engines do not leave focus free;
+  they cycle it over the union of the step's dialog and the anchored
+  element, and nothing else on the page. That satisfies the accessibility
+  standard's no-keyboard-trap criterion (SC 2.1.2, level A) only because
+  escape is a standard exit method — so the trap is honest exactly when
+  escape truly leaves the tour, and it is a violation the moment escape is
+  disabled or reinterpreted. And it must include the anchor: a trap over the
+  dialog alone, pointing at a control the keyboard cannot reach, is the
+  mouse-only coaching named above. A step that asks the user to operate
+  something *near* the anchor — a menu the anchored button opens, a field
+  beside it — needs the trap off for that step, declared like any other step
+  property.
 - **The tour never holds focus it cannot release.** Every path out of a step
   — advance, skip, exit, degradation, pause-for-modal — restores focus to
-  the product deterministically. The tour that exits leaving focus on a
-  removed element has broken keyboard navigation as a parting gift.
+  the element that held it before the tour started, or to the anchored
+  control, deterministically. The tour that exits leaving focus on a removed
+  element has broken keyboard navigation as a parting gift.
+- **The dimming must not swallow the focused element.** The standard's
+  focus-not-obscured criterion (SC 2.4.11, level AA) forbids author-created
+  content from entirely hiding the component that holds keyboard focus. A
+  spotlight cutout that follows the anchor satisfies it for the anchor; a
+  tour that lets focus land on a control under the dimming — because the
+  trap was off and the user tabbed past the cutout — fails it, and a
+  semi-transparent dim that leaves the focus ring visible passes this
+  criterion while still owing the contrast one.
 - **The dimmed region is inert to pointers but the anchor's cutout is not**
   — the spotlight is a hole in the shield, not a picture of one. If the step
   is explanatory and the product should not be operated, that is a declared
