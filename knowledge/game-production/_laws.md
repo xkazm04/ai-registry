@@ -151,3 +151,22 @@ well as the result — a structural check written to prove an exclusion carries 
 that its own scope is non-empty, because the cheapest way to satisfy any check is to hand it
 nothing. This is not the absence of a measurement, which is already forbidden; it is a
 measurement taken over an empty set and reported as though it had been taken over the subject.
+
+---
+
+<a id="declaring-an-input-is-not-consuming-it"></a>
+## L13 — Declaring an input is not consuming it
+
+A field a producer fills and no consumer ever reads is, from the producing side, indistinguishable
+from one that governs everything downstream: it validates, it round-trips, it appears in the schema,
+and the artifact carrying it looks configured. From the consuming side it does not exist. So the
+question a pipeline must be able to answer about every declared input is not whether something wrote
+it but whether something *reads* it — a census of readers, never of writers — and an input with no
+reader is reported as ignored at the moment it is declared, not discovered later by whoever trusted
+it. A generator states which of its declared parameters the selected algorithm actually consumes; an
+authored vocabulary is audited in both directions, for names referenced but never declared and for
+names declared but never referenced; and a constraint stored as prose in a field no checker parses
+is worse than an absent one, because absence is visible and prose reads as authored. This is the
+mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can
+reach, this one governs a declared input nothing consults, and they are the same disease at opposite
+ends of the pipe.

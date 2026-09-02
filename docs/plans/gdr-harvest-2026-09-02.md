@@ -248,3 +248,224 @@ CROSS-SUBJECT CONTRADICTION (director action required): `combat-pacing-and-drama
 that "an ability used a tenth of a time per fight should be buffed or cut"; this subject's
 `unused-mechanic-detection` inverts that default (teaching defect until proven a balance defect).
 Two balance-validation subjects currently disagree in prose.
+
+## Waves 1-2 closed — commit `42e7ac53`
+
+Gate green. 43 -> 47 subjects, 259 -> 295 techniques, 115 -> 127 applications. All four new
+subject folders verified present in HEAD (9 files each), 295 technique files in HEAD.
+
+**Law review (director, seeing the whole wave).** Seven laws were proposed by workers who could
+not see each other. Exactly one met the recurrence bar and was added:
+
+- **L12 — an instrument proves it had input before it reports a verdict.** Proposed independently
+  and near-identically by the rubric worker (*a guard must prove it is not vacuous*) and the
+  narrative worker (*an instrument must assert it had input*), each citing three recurrences,
+  including the registry's own gate treating an empty walk as FATAL rather than green. Cited by
+  `deliberately-overlapping-criteria` and `reachability-and-orphan-detection`, the two techniques
+  whose authors proposed it. Independent duplication across a wave IS the bar; nothing else met it.
+
+**Standing law proposals (NOT added — carried for a future wave):**
+1. *a set-level property cannot be recovered from per-item scores* (prioritization)
+2. *a classification is declared, never inferred* (economy)
+3. *an agent may only act on what it was authored to know* — unknown is distinct from false (agent behaviour)
+4. *a synthesized estimate and a measurement may not share a field* (runtime patterns)
+5. *a declared field that no consumer reads is a lie with a schema* (level planning)
+Proposals 2, 3 and 4 are three faces of one candidate invariant about declared provenance; 4 may
+already be L2 applied to ranking. Deliberately left unresolved — one wave is not enough evidence
+to mint a law, and a wrong law is more expensive than a missing one.
+
+**Cross-subject contradiction resolved by the director:** the pacing report's advice that an
+ability used a tenth of a time per fight should be buffed or cut now defers to the teaching
+subject ("once it is established that the player was ever taught to use it") in both places it
+appears, rather than contradicting `unused-mechanic-detection`.
+
+**Left deliberately uncommitted:** `catalog.json` and the software-engineering /
+llm-observability rule files. A parallel session's uncommitted work feeds their hashes; they
+regenerate in one command and belong to whoever owns that work.
+
+### Wave 3+4 — 2026-09-02 — asset-production subdivision + 4 NEW subjects
+
+`asset-production` was at the cap of 10 and is now subdivided (owner-approved), applied through
+`scripts/apply-taxonomy.mjs --to nested --apply`: 10 subject folders moved, 44 link rewrites
+across 17 files, 275 links verified to resolve to the same file after the move.
+
+  geometry (4)              asset-class-poly-budgeting, generated-asset-world-scale,
+                            generated-mesh-acceptance, mesh-finishing-for-engine-readiness
+  surface-and-imagery (3)   shader-budget-authoring, tiling-texture-acceptance,
+                            sprite-and-atlas-production [new]
+  motion-and-audio (3)      motion-quality-gating, spatial-audio-scene-authoring,
+                            adaptive-music-authoring [new]
+  sourcing-economics (2)    image-to-3d-input-gating, regeneration-vs-repair-economics
+
+Taxonomy also registers `terrain-synthesis-acceptance` (balance-validation) and
+`playtest-signal-to-defect` (craft-judgment). Four workers dispatched.
+
+### Wave 3+4 reports
+
+**`sprite-and-atlas-production` (NEW) — landed, gate green.**
+Golden path (260 lines) + 6 techniques (101-115 lines each) + 2 applications
+(node--atlas-packing-and-bleed-margins, process--pixel-grid-and-resolution-contract).
+Boundaries: against tiling-texture-acceptance — a tiling texture's seam is between an image and a
+TRANSLATED COPY OF ITSELF, a sprite's seam is between an image and a DIFFERENT CATALOGUED IMAGE;
+the sharp practical test is bleed, which a tiling texture must never have and a sprite must always
+have. Against shader-budget-authoring — the seam is the page count: this owns the page budget and
+what is packed where, that owns how many pages a material may bind. Against asset-class-poly-
+budgeting — same budget doctrine, different unit (authored pixels per world unit and atlas pages
+per class instead of triangles).
+Upward lessons: mip depth on an atlas is floored by the CELL, not the page — a 7-level chain on a
+4096 page would run 256px cells down to 4px; and the 3D half of the same tree had already solved
+the flat-default resolution problem with a declared texel density, which named the missing 2D
+piece precisely.
+Deviations recorded: an icon-set step declares "no padding (UV boundary = cell boundary)" ALONGSIDE
+a 4-level mip chain — the exact forbidden combination; the atlas step's acceptance only checks that
+strings are present and name something real, reading no bytes and measuring no gutter; NOTHING
+anywhere in the tree reads a delivered image's width or height, so a 256px class contract is
+unenforced while the generation call defaults to 512; art-step acceptance is a human selection.
+Confirmed well-realized: cell budget with reserved headroom, index-based UV addressing, unit-plus-
+basis outline statement, and a gallery artifact that refuses a selection with no generation
+history — L12 applied to art selection, in the repo, before L12 existed.
+No proposed law — every recurring rule had an anchor. L11 transferred cleanly from triangles to
+pixels; L12 carried the autotile completeness check.
+
+**`terrain-synthesis-acceptance` (NEW) — landed, gate green.**
+Golden path (204 substance lines) + 6 techniques + 2 applications
+(process--terrain-to-room-graph-handoff, node--heightfield-resolution-and-vertical-basis).
+Boundary with procedural-level-planning: that owns the GRAPH (rooms, connections, seeds, pacing,
+landmarks, gate-and-key), this owns the GROUND (field, basis, gradient, masks, traversable mask).
+The handoff is a ONE-WAY payload — basis, traversable mask, locomotion class, connected
+components, play boundary, constraint surfaces. Terrain may never nominate arenas or gates; the
+planner may never re-derive walkability with its own threshold; unmet needs return as a
+regeneration request with a stated constraint; and ON DISAGREEMENT THE GROUND WINS, because the
+plan is a request and the mask is a measurement.
+Against generated-asset-world-scale: mirrors its unit discipline and names the one difference —
+a heightfield carries TWO scales, and the vertical one is dangerous because it silently
+multiplies every slope.
+Upward lessons: connectivity reported as a single ratio (largest passable region / all passable
+cells) beside the region count, because one number travels into a build report and a component
+list does not; and a real incident fix — a point SNAPS to the nearest cell the geometry actually
+emits a floor for and records WHICH reason moved it, while a footprint whose position carries
+design meaning is rejected. The draft had said "reject rather than adjust" flatly; reality was
+more precise.
+Deviations recorded: the tree's one heightfield generator is UNITLESS — a sample count and a bare
+"height value"; the vertical is a hand-typed `heightScale: 10` at the far end and the horizontal
+is `grid_size / max(rows, cols)` fed the SAMPLE COUNT, so spacing evaluates to 1 by accident.
+The same codebase is rigorous about units EVERYWHERE ELSE (cm extents, "in metres (glTF axes)",
+an explicit px/m texel-density unit) — the heightfield is the one place the discipline lapses.
+No erosion, drainage, slope/gradient or splat code exists anywhere; "biome" means a texture-search
+preset or a gallery step whose acceptance is "a candidate is selected"; the project's own audit
+records a deferred terrain build for want of a terrain mesh engine; and the terrain test suite's
+seven cases are ALL numeric-shape assertions — precisely the "a heightfield cannot be malformed"
+trap the golden path opens on.
+PROPOSED LAW (not added): *when a rule and a measurement of the same thing disagree, the
+measurement is the authority and the finding is against the rule.* L3 covers duplication and L7
+covers self-certification; neither states precedence between a declared rule and a measured field.
+
+**`playtest-signal-to-defect` (NEW) — landed, gate green.**
+Golden path (225 substance lines) + 6 techniques (97-119 lines each) + 2 applications
+(process--observation-before-interpretation, node--unreproducible-is-a-state-not-a-dismissal).
+Boundary with crash-forensics-attribution, as a picking rule: WHEN THE BUILD PRODUCED MACHINE
+EVIDENCE OF ITS OWN FAILURE IT IS CRASH FORENSICS; WHEN THE BUILD KEPT RUNNING AND A PERSON OR AN
+AGENT IS THE ONLY INSTRUMENT THAT NOTICED ANYTHING, IT IS THIS SUBJECT. The two meet at one report
+and deliberately do not merge. Subsystem review: this feeds it and borrows its consequence severity
+ladder wholesale, adding only the frequency axis a review does not need. Quality verdict integrity:
+a playtest finding ages exactly as a verdict does, cited rather than repeated. Runtime observation
+evidence: the session contract sits on its ladder and the observed rung is a required field of an
+agent's report; the ladder is named, never restated.
+Upward lessons: (1) a regression tracker in the tree carries its own post-mortem — a global
+"mark fixed" sweep declared every untested category fixed and then fired regression alerts against
+fixes that never happened; that produced the rule *a session can only testify about ground it
+covered*, adding declared coverage as a fifth required record, plus total-coverage-not-overlap and
+unknown-scope-counts-as-not-covered. (2) The same file confesses two taxonomies (finding categories
+vs session test categories) with no stored mapping — which became the routing rule that the classes
+you route by must be the classes a session declares coverage in.
+Deviations recorded: no unreproducible state anywhere in the triage status set and no attempt count
+in either schema — `snooze` is exactly the parking lot the technique forbids; `occurrence_count` is
+a numerator with no denominator, though the sweep already computes the sessions that looked;
+`confidence INTEGER NOT NULL DEFAULT 80` is an unmeasured quantity rendering as a number, in a tree
+that elsewhere uses `number | null` for precisely this; the description column is unvalidated free
+text and the fixture mixes observation with theory inside it.
+No proposed law. Notably, the worker DECLINED to cite `refuse-rather-than-destroy` on the
+silent-close failure after checking that it governs live-workspace tools — dropped rather than
+decorated. L12 carried three of the six techniques and was the strongest new fit: a "could not
+reproduce" with no attempt count is an instrument reporting a conclusion over an unstated scope.
+
+**`adaptive-music-authoring` (NEW) — landed, gate green.**
+Golden path (217 substance lines) + 6 techniques (124-150 lines each) + 2 applications
+(node--music-acceptance-beyond-decode-checks, process--intensity-mapping-from-declared-game-state).
+Boundary with spatial-audio-scene-authoring, stated as an AUTHORITY rule rather than a topic split:
+the scene owns the total simultaneous-playback budget and music consumes a DECLARED RESERVATION out
+of it; the derived layer count comes FROM that reservation, music yields first when the budget
+binds, and the reverse direction is barred — the scene never schedules music, having no tempo.
+Motion-quality-gating: the shape of the argument transplants (time-based medium, rungs of evidence,
+sampling is part of the instrument), the rubric does not. Content-acceptance-tiering owns the ladder
+construct and wins any vocabulary dispute; this owns only which rungs a score needs.
+Upward lessons: a transition reversed mid-overlap must RESUME the interrupted tier in progress,
+never restart it; the top intensity tier needs a DWELL CEILING as well as a floor, because the
+densest material is the least tolerable to repeat; and GRID ALIGNMENT IS NOT PHRASE ALIGNMENT — a
+demand-loaded layer started on a bar boundary is on-beat and in the wrong place in the form.
+Deviations recorded: loop boundaries declared in MILLISECONDS rather than samples; per-stem
+crossfades up to 200ms CONCEALING tails instead of folding them, with no pre-roll or tail-fold
+anywhere; a block-based compressed packaging format whose loop boundary is never re-measured after
+re-encode; combat entry waiting up to 2500ms for a bar with no immediate unpitched accent covering
+the gap; and the largest — RUNG 2 DOES NOT EXIST: every number is author-typed, so no step recovers
+tempo, grid or loudness FROM audio, and the generation layer marks files loopable by a request flag
+and reports duration asserted from the request. Honest half: the runtime gate is `deferred` with a
+parseable reason, never passed.
+No proposed law. One scout-style assumption (that the repo generates music) was FALSE and is
+reported as the refusal it actually is rather than written up as a finding.
+
+## Campaign closed — 2026-09-02
+
+All 12 ledger units landed, every one gate-green. Bundle 43 -> 51 subjects, 259 -> 319 techniques,
+115 -> 135 applications. `asset-production` subdivided into four subcategories.
+
+### Final law review
+
+Thirteen laws now. Two were added by this campaign, on DIFFERENT evidence, and the distinction is
+recorded because a future director will need to know which bar was applied:
+
+- **L12 — an instrument proves it had input before it reports a verdict.** Promoted on
+  *independent duplication*: two workers who could not see each other proposed it near-identically,
+  each citing three recurrences.
+- **L13 — declaring an input is not consuming it.** Promoted on *corpus-level recurrence*, which is
+  stronger evidence than duplication and predates the wave: two techniques written BEFORE this
+  campaign (`declare-what-each-engine-ignores`, `declared-vs-referenced-tag-audit`) exist for no
+  other purpose than this invariant and cited no law that stated it — a law-shaped hole. Five of the
+  twelve units then independently found instances of it in the consuming repo: a room connection's
+  gate condition as free text no linter reads; a zone edge's locked flag ignored by the only
+  traversal that consumes those edges; an economy converter's input pool written and never read;
+  no code anywhere reading a delivered image's dimensions; an occurrence count with no denominator
+  while the sweep already computes one. Cited from the two pre-existing techniques, deliberately not
+  from this wave's own output.
+
+**Standing proposals carried forward, NOT added** (each raised once, none independently duplicated):
+1. *a set-level property cannot be recovered from per-item scores*
+2. *a classification is declared, never inferred*
+3. *an agent may only act on what it was authored to know* — unknown is distinct from false
+4. *a synthesized estimate and a measurement may not share a field* (possibly L2 applied to ranking)
+5. *when a rule and a measurement of the same thing disagree, the measurement is the authority*
+Proposals 2 and 3 remain candidate faces of one invariant about declared provenance. A future wave
+that hits any of these again should promote it; one occurrence is not evidence.
+
+### What the source actually yielded
+
+The link directory is old and its tools are mostly obsolete. Its value was never the links: it was
+the CANON it points at (the pattern literature, the AI-for-games literature, the lens tradition,
+the internal-economy diagramming discipline, the level-design and playtesting literature) read as a
+coverage checklist. Four whole territories turned out to be uncovered — agent behaviour, generated-
+code shape, narrative topology, and teaching — plus 2D imagery, music, ground and playtest signal.
+
+The reusable finding for the next campaign: putting old craft beside an automated pipeline produces
+knowledge that exists in NEITHER. The clearest instance is `emittability` in
+`agent-behaviour-authoring` — an arbitration graph stored as opaque binary content is unauthorable
+by a text-emitting generator, so the pipeline's reach co-decides the behaviour model. No textbook
+lists that criterion, because a human author with an editor never encounters it.
+
+### Anchor errors made by the director, corrected by workers
+
+- the engine-trap corpus is at `src/lib/knowledge/ue-gotchas.ts`, not `src/lib/ue-gotchas.ts`
+- the `proc-terrain` checklist prompt is at `module-registry.ts:1177`, not 1168
+- the briefed claim that double-counting is intrinsic to overlapping criteria was WRONG: it is a
+  property of a MEAN composition, and the corpus was corrected upward rather than following the brief
+- one worker was briefed to expect generated music in the consuming repo; there is none, and it
+  reported the refusal rather than manufacturing a finding
