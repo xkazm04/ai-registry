@@ -5584,3 +5584,33 @@ been naming that zero for weeks:
 - **Replication owed:** one of last week's forge-shaped sources re-run under 2.0.0 as
   `--design-only`, its design record and routing count diffed against the 1.x note, so
   the version bump has a measured before/after rather than an argued one.
+
+## 2.0.0 - 2026-09-02 - monai (second pass; the replication the 2.0.0 entry owed)
+
+- **The before/after the bump owed, measured.** Same commit, same operator, twelve
+  hours apart. 1.6.0: 15 claims, 3 landings from the periphery, 3 homeless leads,
+  routing count not computable. 2.0.0: 11 design decisions, routing count 9, a forge
+  handoff, 2 source-tree applications, 1 task row. The three homeless leads of the first
+  run are three of the nine decisions of the second - which is the concrete form of the
+  redesign's diagnosis: under 1.x a mechanism with no home became a lead, and a lead
+  is where a subject goes to be forgotten. Nothing the 1.6.0 run landed was wrong; the
+  design read simply reached the 40,000 words the claim read never opened (type
+  docstrings, design pages, release-note rationale), so the two methods are
+  complementary on one source and the design read should go first.
+- **A forge handoff has a cost the method does not state: three agents' worth of
+  session budget on top of the run.** The first scout dispatch died on a session rate
+  limit with nothing returned, and the run stalled until the limit reset. Rule worth a
+  patch line in Phase 2d: **if the session is near its limit, bank the design record and
+  hand off `--design-only`; dispatch scouts only from a fresh budget.** The design record
+  is the handoff; the scouts deepen it, and a banked record loses nothing but time.
+- **The `verified_against` format is a gate, and a source-tree application has no
+  fleet stack version to name.** `<stack>@<version>` was written for fleet trees; for a
+  source clone the honest value is the source's own minimum runtime (`python@3.10` here,
+  from its release notes), with the commit in a separate `source_commit:` line. A
+  sibling run hit the same gate on four files in the same hour with a prose value. The
+  Phase 7 (v2) row should say this in one clause.
+- **Task mode needs a worktree, not a branch switch, on any tree with foreign WIP.** The
+  project tree had two other sessions' uncommitted files; `git worktree add <short
+  path> -b <run-branch>` gave the task its branch without moving anyone's checkout, and
+  the plan plus the first step committed there. Same rule as the registry's, restated
+  for the cross-repo lane.
