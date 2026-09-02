@@ -11,6 +11,7 @@ techniques:
   - scheduled-deep-analysis
   - permission-manifest-scoping
   - archive-extraction-safety
+  - unsafe-deserialization-off-by-default
   - update-automation-review
   - toolchain-floor-drift
   - vendored-fork-ledger
