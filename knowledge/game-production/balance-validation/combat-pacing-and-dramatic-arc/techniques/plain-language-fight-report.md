@@ -29,7 +29,7 @@ is cut rather than shipped:
    The example is what converts a name into a quantity the reader can picture.
 3. **The design judgment that makes it actionable.** *A one-shot rate above roughly five
    percent reads as unfair.* *An ability used a tenth of a time per fight should be buffed or
-   cut.* These are the expensive part: accumulated opinion from people who have tuned fights.
+   cut, once it is established that the player was ever taught to use it.* These are the expensive part: accumulated opinion from people who have tuned fights.
    Written next to the number, they turn a telemetry dump into a design conversation; omitted,
    the reader supplies their own threshold and two readers disagree without noticing.
 

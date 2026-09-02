@@ -136,3 +136,18 @@ spends what it is given. State budgets per class as the intended size of the thi
 budget for a part from the budget for the whole rather than repeating the whole's allowance, and
 grade what was delivered against what was requested — not only against the class ceiling. The
 same holds for runtime budgets: a declared headroom that nothing checks is a wish.
+
+---
+
+<a id="an-instrument-proves-it-had-input"></a>
+## L12 — An instrument proves it had input before it reports a verdict
+
+A check that examined nothing and a check that examined everything and found nothing return the
+same clean result, and from the outside the two are indistinguishable. So a gate, a walk, a scan
+or a rubric states the size and identity of what it examined beside what it concluded, and an
+empty scope is a loud failure rather than a quiet pass: no nodes, no declared entries, no files
+in the scanned directory, no criterion covering the dimension. The corollary binds the guard as
+well as the result — a structural check written to prove an exclusion carries a second assertion
+that its own scope is non-empty, because the cheapest way to satisfy any check is to hand it
+nothing. This is not the absence of a measurement, which is already forbidden; it is a
+measurement taken over an empty set and reported as though it had been taken over the subject.

@@ -11,6 +11,9 @@ techniques:
   - checkable-against-the-stored-artifact
   - ceiling-as-a-market-assumption
   - lens-versioning-as-invalidation
+  - question-form-criteria-for-open-judgment
+  - deliberately-overlapping-criteria
+  - criterion-set-coverage-audit
 ---
 
 # Authoring a craft rubric that grades against what ships
@@ -106,6 +109,36 @@ the stored artifact alone, by an examiner with no access to the process that mad
 And the whole document carries a version that acts as an invalidation switch, so a
 verdict scored under an older lens reads as ungauged rather than being silently
 re-meant ([lens-versioning-as-invalidation](./techniques/lens-versioning-as-invalidation.md)).
+
+## Beside the scored bar sits an interrogative one
+
+Not every quality that decides whether a piece reads can be written as a bar. Whether a
+space tells the player where to go, whether an ability reads differently from the three
+beside it, whether a motion has a moment the eye lands on — a practitioner recognises the
+failure of each instantly and can state a threshold for none of them. The instrument for
+those is a criterion phrased as a question the examiner answers with evidence located in
+the artifact. It is the older half of design review and it is not a softer one: a
+question-form criterion still names what evidence answers it and what a failing answer
+looks like, or it is taste with extra steps
+([question-form-criteria-for-open-judgment](./techniques/question-form-criteria-for-open-judgment.md)).
+This is also the half where a machine examiner is strongest and weakest at once, which is
+why its answers are required to point at something.
+
+The interrogative half brings a second inheritance the scored half would reject: the
+questions are meant to overlap. A criterion set engineered to partition the craft cleanly
+has thrown away the second look, and a defect that hides from one framing is usually
+visible from another. Overlap in the interrogation and deduplicate in the arithmetic — a
+finding names the defect, not the criteria that found it
+([deliberately-overlapping-criteria](./techniques/deliberately-overlapping-criteria.md)).
+
+Both halves share one exposure, and it is the quietest failure in the subject. Whatever no
+criterion asks about is not scored badly; it is not scored, and the composite is computed
+over the rest and rendered as the artifact's quality. A blind spot in a rubric is a defect
+of the rubric, it renders as silence, and silence reads as a pass. Enumerating the
+deliverable's dimensions independently of the rubric, mapping the criteria onto them, and
+reporting the uncovered ones as unmeasured beside the grade is what keeps a total from
+implying a coverage it never had
+([criterion-set-coverage-audit](./techniques/criterion-set-coverage-audit.md)).
 
 ## One lens per deliverable class, and the class is not negotiable
 
@@ -228,6 +261,10 @@ traffic and is not duplicated here.
    known-bad passes, the disqualifier list is short; if the known-good fails, a
    criterion is measuring the wrong thing. Expect four to eight weeks of this per
    class, and expect the pilot to change the document.
+9. **Audit what the set does not ask.** Enumerate the class's dimensions from the
+   incidents alone, without the rubric in front of you, map the criteria onto them, and
+   publish the dimensions nothing covers as unmeasured. Re-run this whenever a defect
+   escapes to a downstream consumer; the escape names the dimension for you.
 
 ## The rubric is also an instrument you read
 

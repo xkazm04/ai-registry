@@ -168,7 +168,8 @@ miscomputed curve fails.
 What that means in practice: every metric that reaches a human ships with a definition in
 ordinary words, a worked example with real units, and the design judgment that makes it
 actionable — *a one-shot rate above roughly five percent reads as unfair*, *an ability used a
-tenth of a time per fight should be buffed or cut*. Those judgments are the expensive part.
+tenth of a time per fight should be buffed or cut, once it is established that the player
+was ever taught to use it*. Those judgments are the expensive part.
 They are the accumulated opinion of people who have tuned fights, and writing them next to
 the number is what converts a telemetry dump into a design conversation. When the numbers
 support it, naming a single dominant cause — one damage source responsible for a large share

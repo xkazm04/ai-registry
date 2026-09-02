@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: production-work-prioritization
 status: forged
-use_when: [deciding what a production team should build next, designing a recommendation engine over production evidence, an operator is staring at a wall of amber and asks what to touch first, auditing why a ranked backlog keeps recommending the wrong thing]
+use_when: [deciding what a production team should build next, designing a recommendation engine over production evidence, an operator is staring at a wall of amber and asks what to touch first, auditing why a ranked backlog keeps recommending the wrong thing, setting the shape of the milestone the ranking is meant to serve]
 techniques:
   - curriculum-prerequisite-graph
   - five-factor-weighted-scoring
@@ -11,6 +11,9 @@ techniques:
   - null-success-odds-with-sample-provenance
   - blocked-if-any-produced-feature-is-blocked
   - urgency-ladder-for-what-next
+  - vertical-slice-as-the-first-milestone
+  - fixed-deadline-scope-triage
+  - declared-scope-as-a-shaping-budget
 ---
 
 # Production work prioritization
@@ -158,6 +161,34 @@ same entity is told two different things by two surfaces of the same tool. Hold 
 as data in one place, consumed by every surface, so it cannot fork. A rung missing from
 one copy is worse than a wrong rung: the surface that lacks it coaches confidently against
 a state it has no way to distrust.
+
+## Ranking serves a milestone, and the milestone has a shape
+
+Everything above orders a set of candidates. Nothing above has an opinion about whether
+that set, finished, adds up to something anyone can play — and a ranking cannot acquire
+one, because the property lives at the level of the set and every factor it holds is
+per-item. So the shape of the milestone is declared *beside* the ranking and applied above
+it, or it is not present at all.
+
+The shape that matters first is **depth before breadth**: one complete path through every
+layer, built for real, before any layer goes wide. State it explicitly, because an
+unattended planner drifts the other way as its equilibrium — breadth parallelises and
+depth does not, so ten systems are ten dispatchable candidates while one path is a chain
+walked a step at a time, and every throughput measure prefers the ten. The result is the
+failure every horizontal plan produces on schedule: every system at eighty percent, no
+path through the game, and a completion metric that reported health right up to the
+integration.
+
+The second thing the ranking cannot see is that **scope is a variable, and where the date
+is fixed it is the only one**. The plan then fits by shedding parts, and the ordered list
+of what sheds is worth far more authored in week one than argued in the last week, because
+under pressure the cut lands on whatever is least far along rather than whatever is least
+necessary. And a scope figure handed to a producer is an instruction about the intended
+size of the thing, not a ceiling to approach: a process spends what it is given, so an
+over-generous allowance degrades the result rather than merely permitting a larger one.
+
+None of this replaces the ranking. It constrains the candidate set the ranking runs over,
+which is a different job, done first.
 
 ## What this instrument cannot do, stated honestly
 

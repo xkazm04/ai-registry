@@ -9,6 +9,7 @@
       "title": "Systems canon",
       "order": 1,
       "subjects": [
+        "agent-behaviour-authoring",
         "arpg-systems-canon",
         "design-canon-as-executable-law",
         "game-economy-tuning",
@@ -23,6 +24,7 @@
         "combat-pacing-and-dramatic-arc",
         "difficulty-design-and-adaptation",
         "encounter-balance-simulation",
+        "learning-curve-and-teaching-design",
         "procedural-level-planning"
       ]
     },
@@ -32,6 +34,7 @@
       "order": 3,
       "subjects": [
         "acceptance-verdict-spine",
+        "branching-narrative-graph-validation",
         "catalog-pipeline-authoring",
         "content-acceptance-tiering",
         "content-drift-and-revision",
@@ -66,6 +69,7 @@
         "crash-forensics-attribution",
         "engine-integration-safety",
         "engine-pitfall-corpus",
+        "gameplay-runtime-patterns",
         "runtime-observation-evidence",
         "ship-pipeline-gating",
         "visual-script-to-code-transpilation"
