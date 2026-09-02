@@ -16,6 +16,7 @@ techniques:
   - transcript-normalization
   - authored-voice-identity
   - decode-time-vocabulary-biasing
+  - transcript-handoff-receipts
 ---
 
 # Voice input and output
@@ -302,6 +303,26 @@ absent, or out of language coverage without any consumer changing.
 [transcript-normalization](./techniques/transcript-normalization.md) owns the
 decision, the transform contract, the typed outcome, and the cut.
 
+## The transcript leaves through a channel the product does not own
+
+The last stage of the input pipeline is the one the stage table names and
+nothing built: the transcript, disposed as *accepted*, has to arrive
+somewhere — and in a dictation product that somewhere is whichever
+application holds the cursor, reached through a channel the product neither
+owns nor observes: synthesized keystrokes, or the system clipboard plus a
+paste chord. The clipboard route is fast and layout-proof and it clobbers
+the one thing the user was holding, so it has to restore what it displaced —
+and *when* to restore is a race, because the paste chord is only enqueued and
+the target reads whenever its event loop gets there. A fixed delay loses that
+race some fraction of the time, and the failure is the user's old clipboard
+pasted into their document. The correction is to wait for the operating
+system's own evidence that a consumer read the channel, count only the reads
+that came after the product's own chord, restore only while the product
+still owns the channel, and bound the wait with a timeout whose failure mode
+is "the transcript lingers", never "stale content lands".
+[transcript-handoff-receipts](./techniques/transcript-handoff-receipts.md)
+owns the route decision, the receipt rules, and the restore's obligations.
+
 ## The techniques
 
 - [stt-pipeline](./techniques/stt-pipeline.md) — capture, metering, endpointing,
@@ -349,3 +370,9 @@ decision, the transform contract, the typed outcome, and the cut.
   that must run before a prompted decoder sees silence, the engine's
   no-speech verdict arriving as a token in the text channel, bias only where
   a confusion is measured, and turn-scoped bias from the parser's own source.
+- [transcript-handoff-receipts](./techniques/transcript-handoff-receipts.md)
+  — delivering the accepted transcript into a foreign application: typing
+  versus pasting through the shared clipboard, why a timed restore is a race,
+  restore on the consumer's read receipt (post-chord receipts only, ownership
+  unchanged, a quiet period, a bounded wait with a benign failure mode), what
+  the restore must preserve, and changing one variable when introducing it.

@@ -171,3 +171,27 @@ own precondition unmet - a small distinct grammar), one shipped code change
 (blank-audio marker stripped so the typed no-speech path finally fires), one
 simulation (no hold cap against a two-minute engine timeout). Leads: word-
 timestamp accuracy as its own measurement, diarization, enhancement.
+
+
+## 2026-09-02 - intake (Handy, practitioner build-walkthrough in repo form) - second run today
+
+- **New technique `transcript-handoff-receipts`** (13th). The stt-pipeline stage table
+  ends at "awaiting disposition" and no technique owned delivery into a foreign
+  application. Owns: typing vs pasting through the shared clipboard, why a timed
+  restore is a race (the chord is only enqueued), restore on the OS read receipt with
+  four rules (post-chord receipts only; ownership unchanged; quiet period after the
+  last receipt; bounded wait whose failure is "lingers", never "stale content lands"),
+  what the restore must preserve (an image when no text; clear when empty), and the
+  one-variable rule when introducing the mechanism. Golden path gained the section
+  "The transcript leaves through a channel the product does not own".
+- **Unapplied** - no fleet project injects text into a foreign application. Return:
+  when one grows the seam.
+- **Lead, not landed** (source note #4): activation-edge rules for stt-pipeline's
+  endpointing section - external triggers never debounced, busy-window presses
+  remembered with parity, one machine for push-to-talk / toggle / hold-or-toggle.
+  Real gap; unapplied by construction today.
+- Untriaged and flagged for `decode-time-vocabulary-biasing`: the source runs a
+  guarded post-decode fuzzy correction as the fallback for engines that accept no
+  decode prompt (25% length ratio, punctuation boundary, no phonetic boost on
+  numerics, ASCII only) - a discriminator candidate for that technique's "won for one"
+  argument, not a contradiction.
