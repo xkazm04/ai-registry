@@ -5694,3 +5694,33 @@ been naming that zero for weeks:
   can carry at the next bump.
 - Version stays 2.0.0: five siblings live. A mid-flight run finishes on the version it
   loaded.
+
+## 2.0.0 - 2026-09-02 - openviking
+
+- **The XL trigger fired on a count and the count was right.** Twelve design entries,
+  five NONE, three with one nearest neighbour - and the neighbour was a *paragraph*
+  (`agent-memory`'s shape hedge), not a technique. A hedge that names a force and owns
+  no mechanism is the strongest "corpus: NONE" there is, because the corpus already
+  argued the subject should exist. Read golden-path hedges as unfilled homes.
+- **A resumed worker beats a redispatched one.** The forge worker died on a rate limit
+  after writing the golden path and one technique; one message to the same agent
+  finished the other three and the report, with zero re-reading. The reader that died
+  earlier was not resumed and its slice was covered by director greps - which found the
+  one thing the worker later overrode (a declared-but-unused constant), so the greps
+  were not a loss, but the resume path is the cheaper habit and it is now proven twice.
+- **`verified_against` is `<stack>@<version>` and nothing else.** Eight applications by
+  three runs in one afternoon put the commit in that field and tripped the gate; the
+  commit belongs in prose. One line in the application rule would end it.
+- **A falsify-first row can be three rejections and still be the run's best apply
+  column** - but only if each rejection lands its condition somewhere durable. Here one
+  did it in the amendment's own text (the join that makes delete order moot), one in the
+  technique's "when not to use" (audience is not counterpart), one in a ledger note
+  (validation against the read set is the same property). The third is the weakest
+  placement; a not-better whose condition lives only in a ledger is a lead wearing a
+  verdict.
+- **Docs that describe the previous implementation as current are a finding, not an
+  obstacle.** The concept pages said parent bubbling was unconditional; the code at the
+  same commit implemented the digest-and-ratio policy. The worker caught it by opening
+  the anchor; a run that trusted the concept page would have landed the source's past
+  as its present. For a repository, the design document is the *forces*; the code is
+  the *decision*; read both before writing either.
