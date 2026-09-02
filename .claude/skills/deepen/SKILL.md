@@ -3,7 +3,7 @@ name: deepen
 description: "Review and widen an existing knowledge-bundle topic via deep web research + training data: scan a domain for undercooked subjects, research the chosen ones in mandatory-counter-evidence lanes, and land gate-clean corrections, techniques and dated field applications. Runs interactively (finding-level triage), in batch (worker-per-subject under Director diff-review), or as a long-running loop with a saturation ledger. Use when a bundle's subjects should rise above the repo they were forged from, or stay current as the field moves."
 category: ai-native
 memory: project
-version: 1.1.0
+version: 1.2.0
 tags: knowledge, rkb, research, saturation, loop
 ---
 
@@ -52,7 +52,34 @@ untriaged table and the decline ledger, which is the memory that makes run N+1 c
    a routine application needs no clock of its own. Corrections keep `status: forged`;
    nothing self-promotes. **A correction that re-checks a citation must move
    `verified_on` - otherwise the corpus ages while the work says it did not.**
-4. **Reflect** - decline-why (once, batched), a per-domain **saturation ledger**
+4. **Propagate** - a landing that stops at the registry is a wiki edit. Measured
+   2026-09-02: every one of the fleet's 287 recorded verdicts was judged against a
+   subject that had since moved, and nothing had told any project. Three
+   obligations, none skippable, all after the commit:
+   - **Regenerate the join.** `node scripts/build-knowledge-rules.mjs` (the always-on
+     rule consumers read; CI gates it and this skill's old sequence omitted it), then
+     `node scripts/build-registry-map.mjs`. The map now stamps every pair with the
+     subject's own digest and marks judged pairs `stale: true` when the subject they
+     were judged against changed; its impact table prints *which subjects moved under
+     which projects' verdicts*. Commit each project's `.ai/registry-map.json` with a
+     pathspec on its active branch (single-owner doctrine; never push).
+   - **Read the impact table into the ledger.** For every subject you touched, the
+     projects and contexts now carrying a stale verdict go into the subject note
+     under "Impact" - slugs and counts only. That list is the project's `/conform
+     --stale` queue and it is what makes run N+1's demand real instead of inferred.
+   - **Apply what is new.** Every NEW technique and every golden-path rule that
+     *flipped* (a condition added, an absolute refuted) owes one row in
+     `librarian/applied.md`, by the `/intake` Phase 7.5 method and vocabulary:
+     find the seam in a project the map already joins to the subject, choose the
+     highest reachable mode (`code` / `experiment` / `simulation`), record `better` /
+     `not-better` / `unmeasurable`, and write `applied:` + `ab_verdict:` on the
+     application. A simulation with three real cases is the floor; `unapplied` with
+     the return condition "when a project grows the seam" is the only other honest
+     row. A `not-better` is the row worth most - the technique gains the condition
+     it lacked. Budget: the effort of the landing, one project per finding; in
+     batch mode the Director dispatches one apply worker per new technique after
+     the diff review, under the intake Phase 8 rules for touching a project tree.
+5. **Reflect** - decline-why (once, batched), a per-domain **saturation ledger**
    (depth rung L1 synthesis / L2 primary / L3 empirical; last-pass yield; clocks;
    demand; dry-streak), and banked leads with return conditions. Recompute scores
    fresh every cycle - carried-forward derived metrics drift silently.
@@ -69,7 +96,9 @@ only on lane convergence; never touch shared files; never commit. **The Director
 reviews actual diffs, never worker self-reports** - purity grep over upper layers, a
 read of every new technique, corrections checked against the file's prior voice.
 That review is the quality gate that replaces per-finding triage; it is not
-delegable, and it is the batch-size ceiling (~8 per sitting).
+delegable, and it is the batch-size ceiling (~8 per sitting). Workers never run
+step 4; the Director runs it once over the whole batch, because the map
+regeneration is one fleet-wide pass and the apply workers need a quiet tree.
 
 ## Loop mode
 
@@ -109,3 +138,6 @@ applications with their n - never laundered into upper layers as universal numbe
 - A benchmark that asserts data round-tripped rather than behavior observed.
 - Re-running a saturated subject with no clock or event to point at - the loop's
   own law is that unmeasured is not pass.
+- Ending a run at the registry commit. A landing nobody's map has seen and no
+  project has tried is an edit to a wiki; the corpus was measured at 100% stale
+  verdicts fleet-wide on 2026-09-02 because every run before that one did exactly this.
