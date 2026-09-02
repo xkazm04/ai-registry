@@ -5518,3 +5518,69 @@ been naming that zero for weeks:
   were live.
 - Version stays 1.6.0: seven siblings live at Phase 7. A mid-flight run should do
   nothing.
+
+## 1.6.0 - 2026-09-02 - openbao
+
+- **An `experiment` needs the tree's parameters, not the tree's binary.** The
+  lease-renewal A/B ran in a 60-line scratch harness against the engine with the
+  project's own constants (busy-timeout, TTL, cadence) read off three `file:line`s,
+  and it *inverted the source's remedy* - which a simulation would have argued
+  the other way, because the argument is intuitive and wrong. When the seam is a
+  storage engine, a scheduler or a protocol, the cheapest paired measurement is
+  the engine under the tree's numbers; building the tree is rarely required.
+- **Choose the apply seam to falsify, not to confirm.** Three of five rows were
+  `not-better` this run and two of them are the most reusable output. Every one
+  came from asking "where would this NOT hold" *before* picking the seam (a
+  single-writer store for a pool-reservation rule; a display hook for an
+  authority rule; a one-owner repo for an uninvited-agent rule). Written into
+  the next declared focus; a third run confirming it moves it into Phase 7.5.
+- **A source's changelog `security` category is a shape detector.** Four
+  advisories with different components were one shape (canonicalize-once), and
+  the shape was visible only because all 46 were read in one sitting, sorted by
+  category rather than by date. Read the security fragments as a set before
+  reading any one of them.
+- **The reader-side technique was tested on this run by the source itself.**
+  The tree's instruction file addressed this agent directly, with a canary. The
+  method held (the file became a finding; nothing was obeyed), and the author's
+  side landed as an amendment. A source that tries to instruct the run is source
+  material of the highest yield, not a hazard to route around - but only under
+  the flat-sibling scratch layout the technique prescribes, which this skill's
+  Phase 2b already uses.
+- Mid-flight runs on 1.6.0: nothing to do; no SKILL.md edit this run.
+
+## 2.0.0 - 2026-09-02 - method redesign (operator challenge after twelve repository runs)
+
+### Redesign proposal - applied
+
+- **The measurement that triggered it.** Twelve consecutive runs over large systems
+  (a secrets manager, a dataflow runtime, an agent harness, a medical-imaging toolkit,
+  an error tracker, a chat SDK): 193 candidates extracted, 11 amendments, 6 techniques,
+  0 subjects, 0 XL specs, 0 forge dispatches, 0 project changes larger than a few
+  lines, 8 of 12 apply rows simulation or structural-only. The operator's read - "so
+  many impressive repositories and took so little" - was confirmed by the scorecard
+  before any method text was touched.
+- **Root cause, in the method's own rules.** The unit of extraction was a sentence
+  (Phase 3 records title/claim/anchor), so architecture never reached the triage
+  table. Prior-art mapping against 1,100 techniques always found a neighbour, so the
+  impact column read `amendment`, and Phase 7 said in so many words that the
+  amendment "is often the higher-yield move and always the cheaper one". The
+  unattended rule advanced `real gap` only, and a design decision always overlaps a
+  subject, so it always read `partial` and was banked. Phase 7.5's budget was "at most
+  the effort of the landing", written for a video, so the cheapest apply mode won.
+  The scorecard counted landings without weighing them. And `/forge` - the engine
+  built for exactly this shape - was never invoked, because nothing routed to it.
+- **Six changes, all applied in this version.** (1) Phase 2d design read with a
+  routing count; three or more unmodelled load-bearing decisions hand off to `/forge`
+  (forge 1.4.0 accepts the design record as its Phase 0 brief). (2) `design` candidate
+  shape with deferred strip test and a technique-or-subject default landing. (3)
+  Applications written against the source tree itself. (4) Mechanical XL trigger:
+  three design candidates with one home is a spec by construction. (5) `partial` rows
+  get their promoting question executed in-run. (6) A `task` apply mode with a
+  branch-first ship rule, a 3x repository budget for Phase 7.5, and a depth cell on
+  the scorecard.
+- **Mid-flight runs:** none live at the bump (board reaped, zero siblings). A run that
+  loaded 1.6.0 finishes on it; its scorecard row has no depth cell and is read as
+  `0/T/A/0/0`.
+- **Replication owed:** one of last week's forge-shaped sources re-run under 2.0.0 as
+  `--design-only`, its design record and routing count diffed against the 1.x note, so
+  the version bump has a measured before/after rather than an argued one.
