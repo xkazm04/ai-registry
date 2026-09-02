@@ -39,3 +39,20 @@ single-stack debt cleared. Second hint refuted with evidence: OSS rotation is
 
 - 2026-08-22-6: **the taxonomy survives the wire as a typed field** applied to `token-refresh-lifecycle` ([[2026-08-22-6]]). The verdict-survives family is now the standing LAW candidate; a fourth sighting triggers the law pass, not another technique edit.
 - 2026-08-22-8: `token-refresh-lifecycle` now cites the promoted `verdict-survives-boundary` law; the family's fourth sighting triggered the law pass as recorded here ([[2026-08-22-8]]).
+
+## 2026-09-02 - leads placed by [[2026-09-02-1]]
+
+- **SSRF has no owner.** Four files touch it - `brokered-egress` (one
+  sentence: a redirect must not carry the credential), its rust application
+  (SSRF guards, a rebinding-safe client), the web-scraping golden path, and
+  browser-credential-boundary's broker-proxy. A consumer lead (2026-08-27,
+  measured twice on one shape) exceeds all four: **a URL that arrives inside a
+  dependency's response is attacker-controlled input** - validate scheme, IP
+  literals AND the resolved address, and re-validate every redirect hop with
+  manual redirect handling; a first-hop check is defeated by a legitimate host
+  answering a redirect to a private address. `brokered-egress` is the closest
+  home. Return when this subject is next opened; land as a clause with a
+  cross-link from broker-proxy.
+- **"An envelope is session state, not a credential"** - a per-request wrapper
+  that the payload can close from inside (sql-console's stacked-COMMIT
+  post-mortem). Candidate clause for brokered-egress or a law-level note.

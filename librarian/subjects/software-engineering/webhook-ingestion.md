@@ -39,3 +39,11 @@ single-stack debt cleared. Hint held.
 - 2026-08-22-6: **fail closed when the dedup instrument fails** applied to `duplicate-and-replay-dedup` ([[2026-08-22-6]]).
 - 2026-08-22-8: **the digest fallback is the default, not a feature** (opt-in-guard family) applied to `duplicate-and-replay-dedup` ([[2026-08-22-8]]).
 - 2026-08-22-10: `duplicate-and-replay-dedup` now cites the promoted `absent-guard-is-loud` law ([[2026-08-22-10]]).
+
+## 2026-09-02 - lead placed by [[2026-09-02-1]]
+
+- **A slow endpoint changes provider behaviour.** From [[plan-entitlements]]'s
+  spec application: a hosted checkout waits on the webhook response (order of
+  ten seconds) before redirecting; an unacknowledged invoice-created event
+  delays finalization by days. Delivery-side facts, not entitlement facts.
+  Return when this subject is next opened; check prior art first.

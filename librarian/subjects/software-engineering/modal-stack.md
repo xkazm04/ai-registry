@@ -37,3 +37,13 @@ bare-reset double-apply (x=30 vs x=20).
   layering-and-precedence's context trap.
 - useDismiss (outside-click territory incl. the anchor, escape routing) ->
   a future dismissal-semantics application from the same repo's react pkg.
+
+## 2026-09-02 - leads placed by [[2026-09-02-1]]
+
+- **Third-party overlays arrive with their own number.** Two tour engines mint
+  their own z-index and cannot register into a product layering authority; the
+  product wraps them via container options. A named condition for
+  layering-and-precedence. From [[guided-tours]].
+- Popover placement/collision (flip, shift, clipping to scroll parents) belongs
+  to anchored-positioning, not to the tour subject. Recorded so it is not
+  re-proposed there.

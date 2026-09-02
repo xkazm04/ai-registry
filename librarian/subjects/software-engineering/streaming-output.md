@@ -52,3 +52,12 @@ human never attributes a scheduler's instruction to themselves), and the assembl
 the span by its true origin - an inbound external message is untrusted input wearing the
 user's clothes. Cross-referenced in prose to `prompt-assembly`'s trust classes rather than
 duplicating them.
+
+## 2026-09-02 - lead placed by [[2026-09-02-1]]
+
+- **Multi-consumer buffering rule**, from terminal-multiplexing's new
+  `multi-client-fan-out`: a shared buffer drains to the slowest *un-paused*
+  reader's offset, so the bound is conditional on pausing or disconnecting the
+  laggard, with the gap disclosed (failure-not-empty-success). Generic, not
+  terminal-shaped; belongs beside buffering-and-backpressure with the terminal
+  subject deferring. Return when this subject is next opened.

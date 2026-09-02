@@ -172,3 +172,11 @@ alive, responsive, inside every guard, and getting worse.
 measured trajectory-scoring technique (1,794 annotated trajectories, 63k steps, plus an
 independent 20,574-session field corpus) that wave 1 declared missing, on the strength of
 a proper-noun grep that a purity-gated corpus guarantees will return empty.
+
+## 2026-09-02 - lead placed by [[2026-09-02-1]]
+
+- **A per-subscriber buffered-age field is a staleness signal.** The reference
+  multiplexer's control protocol stamps each output block with how long it sat
+  buffered before send; lifecycle-signals could consume it as one more
+  observation from the weakest channel. From [[terminal-multiplexing]]; noted,
+  not placed.
