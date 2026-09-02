@@ -5772,3 +5772,34 @@ been naming that zero for weeks:
   focus paragraph proposes the source tree itself as the `task` target.
 - Version stays 2.0.0: the method edits above are proposals; three siblings were
   live. A mid-flight run should do nothing.
+
+## 2.1.0 - 2026-09-02 - the direction lane (operator design question, same day as 2.0.0)
+
+- **The gap 2.0.0 did not close.** The pipeline could improve a path the project already
+  has a context for, and could forge a sibling subject, but it could not propose a
+  capability a project lacks entirely - because the registry map is a join from contexts
+  to subjects, and a subject with no context never appears in it. Reforging cannot see
+  it either: the same repository yields the same subjects.
+- **Three pieces, all built.** (1) A `scope:` block in every fleet manifest (does /
+  does_not / out_of_scope_categories / out_of_scope_subjects / directions_ledger) -
+  drafted by the registry for ten projects, owner-edited from here. (2)
+  `scripts/build-fleet-map.mjs` -> `librarian/fleet-map.json` + `.md`: the map of context
+  maps (projects -> groups -> contexts -> governing subjects) and its inverse (subjects ->
+  projects present / absent, each absence classified out-of-domain / out-of-scope /
+  declined / deferred / accepted / candidate). (3) Phase 7.6 direction pass + the Phase 8
+  lane split: coverage ships on the recommendation, a direction is a proposal in the
+  project's `.ai/directions/` and waits for the owner's ledger row. Doc:
+  `docs/fleet-map.md`.
+- **First measurement, before scope blocks existed:** candidates per project ran 43-139
+  (ten mapped projects, 348 subjects). That is the "tens per project" reading the design
+  predicted - scope needs tightening, not a fleet missing a hundred features each. The
+  number to track across the next runs is candidates per project after the owner's first
+  scope edit; the second measurement (draft scope blocks in place) is in the 2.1.0 commit.
+- **What is deliberately not automated.** "Does the project's scope admit the decision's
+  forces" is a judgment; the proposal schema makes it reviewable, the cap (three per run)
+  makes it cheap to decline, and the ledger makes a decline permanent. If the direction
+  pass ever produces more accepted rows than declined ones, the cap is too high, not the
+  judgment too good.
+- **Next.** Five to ten repository intakes under 2.1.0 with a reflect after each, before
+  the redesign is published. Watch: routing counts, handoffs executed, candidates per
+  project after scope edits, proposals written vs accepted.

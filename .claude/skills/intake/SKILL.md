@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.0.0
-tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff
+version: 2.1.0
+tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map
 ---
 
 # Intake
@@ -1077,7 +1077,63 @@ this phase. The v1 budget was written for a source that reports; applied to a so
 that is a system, it guaranteed that no project ever changed by more than a few lines,
 and eight of twelve apply rows were simulations or structural-only reads.
 
+### Phase 7.6 - The direction pass (v2.1: new capabilities, human-gated)
+
+Phase 7.5 asks whether a project would be better off doing what the corpus now says at a
+seam it already has. This phase asks the question 7.5 cannot: **which project has no
+seam at all for a capability this source shows matters** - and proposes one, never
+builds one. It runs once per design-record entry (Phase 2d) whose `corpus:` line names a
+subject, and it reads one instrument:
+
+```sh
+node scripts/build-fleet-map.mjs --check || node scripts/build-fleet-map.mjs
+```
+
+`librarian/fleet-map.json` is the map of context maps and its inverse
+([`docs/fleet-map.md`](../../../docs/fleet-map.md)): for every subject, the projects
+that have a context it governs and the projects that do not, each absence classified
+against the project's manifest `scope:` block and its directions ledger. Only an absence
+classified `candidate` is eligible. For each one, the judgment step - and it is a
+judgment, stated so it can be reviewed - is:
+
+> Does this project's `scope.does` admit the decision's **forces**? Not its feature: the
+> forces. A project that never faces the trust boundary, the scale, or the operator
+> constraint the decision answered has no direction here, whatever its domain says.
+
+Where the answer is yes, write a **direction proposal** into the project's own tree,
+`.ai/directions/<date>-<subject>.md`, in the fixed shape the doc gives: why the scope
+implies it, what the first context would contain and must not absorb, the measurable,
+the falsifier, a size. Commit it with a pathspec on the project's active branch. **Do not
+build it, do not open a task row for it, do not add it to the registry map.** The owner's
+decision arrives as a row in `.ai/directions/ledger.jsonl`, and the next fleet-map run
+reads it: `accepted` becomes a `task` row for the next intake, `declined` is never
+re-proposed, `deferred` carries its return condition.
+
+Three rules keep this lane from becoming a feature-request generator:
+
+- **At most three proposals per run**, ranked by how many of the design record's
+  entries the same project is a candidate for - a project absent from four decisions of
+  one system is the one with the direction, not four projects absent from one each.
+- **A proposal cites the source's forces, never its features.** "The source has a plugin
+  system" is not a reason; "this project loads operator-supplied code at the same trust
+  boundary and isolates nothing" is.
+- **Record the ones you did not write.** Candidates that read as admitted but were
+  cut by the cap go in the source note under "Directions not proposed", with the project
+  and the reason, so the fleet map's next sweep can pick them up without re-deriving.
+
+A run over a source with no design record (a video, a listicle) skips this phase and
+says so in the scorecard's depth cell (`directions=n/a`).
+
 ### Phase 8 - The cross-repo lane (default for `code` and `better`; confirm before editing)
+
+**Two lanes (v2.1).** A *coverage* change - a `code`, `experiment` or `task` row against
+a seam the project already has - ships on the recommendation under the rules below; the
+project's own gate is the review. A *direction* - a new context, a new capability - never
+ships from a run: it is proposed in Phase 7.6 and waits for the owner's ledger row. The
+two are not a matter of size. A one-line change that creates a capability the scope
+does not name is a direction; a two-hundred-line refactor inside a governed context is
+coverage. When a `task` row's plan would create a context the registry map does not
+have, split it: the proposal goes to `.ai/directions/`, the rest stays a task.
 
 A finding can land in the registry AND in a project that consumes it. That second half
 is a different repository with its own review, so it is gated separately and never
@@ -1271,7 +1327,7 @@ row is worse than no row - it makes the weakest-stage reading wrong rather than 
 `research` (sources ingested), `extract` (candidates), `test` (picks verified),
 `apply` (rows by mode, e.g. `1c/0e/2s/1t`), `ship` (project commits), and `depth`
 (v2: `S/T/A/Asrc/task-lines` with the Phase 2d routing count and the handoff
-decision). A zero in `apply` or `ship` carries its reason in the row. Then read the
+decision; v2.1 adds `directions=<proposed>/<not-proposed>` or `n/a`). A zero in `apply` or `ship` carries its reason in the row. Then read the
 last ten rows and name, in one line under the table, **the stage the funnel is losing
 most at** - that stage is the next run's declared focus, and the next run's row says
 whether it moved. Read the depth column across the same ten rows and say whether the
