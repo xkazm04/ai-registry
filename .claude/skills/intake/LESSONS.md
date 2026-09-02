@@ -5724,3 +5724,51 @@ been naming that zero for weeks:
   the anchor; a run that trusted the concept page would have landed the source's past
   as its present. For a repository, the design document is the *forces*; the code is
   the *decision*; read both before writing either.
+
+## 2.0.0 - 2026-09-02 - dora (v2 re-run; first forge handoff)
+
+- **The routing rule works, and the same tree proves it.** Under 1.6.0 this
+  repository yielded four paragraphs; under 2.0.0 the design read counted four
+  unmodelled decisions out of seven and the handoff produced a five-subject
+  subcategory the same day. The v1 run was not careless - it opened the same
+  documents - it simply had no row for a decision. Keep the routing count written
+  before the decision; it was not close here (4 of 7) and the count made the
+  handoff non-negotiable.
+- **A handoff over a bundle that exists must run in an isolated worktree, and the
+  method should say so.** A taxonomy entry with no folders reds the shared
+  checkout's gate for every live sibling until the wave lands; the forge skill
+  already says to use the harness worktree, but intake's handoff paragraph does
+  not, and this run discovered it after the entry was written. Then the worktree's
+  isolation refused writes to the shared checkout, so the ledgers had to wait for
+  the exit. Sequence for next time: commit intake's own outputs to main first,
+  create the worktree from local HEAD, forge and commit there, exit with keep,
+  then persist on main.
+- **One application per stack per technique is a real limit v2 did not
+  anticipate.** The checker requires `<stack>--<technique>.md`, so a source-tree
+  application for a technique whose slot another tree already holds cannot be
+  written (D7 here: the rust slot on `terminal-state-recovery` belongs to a
+  different tree). The design record is where that reconciliation now lives.
+  Either the naming rule grows a qualifier or the method says "record in the
+  design record when the slot is taken" - a redesign proposal for the checker,
+  not for this skill.
+- **The forge brief's golden-path budget is stale against the corpus.** A forger
+  measured 162 golden paths (median 236 lines, p90 325) against the brief's
+  120-220 and overrode it with the argument. The override was right; the brief
+  should carry the corpus number or say "match the neighbour you read for voice".
+- **Scouts corrected the design record on five entries, and one correction
+  retracts a v1 catch.** The fault-tolerance page's recovery section describes a
+  blanket boot-fail the code no longer does; the v1 run filed a catch against it
+  (#5) as "the corpus says the opposite". The corpus and the code agree; the page
+  is stale. A repository's operating documents are first-party AND can lag the
+  tree - the class table should name "stale operating document" as the vendor
+  repository's failure mode beside "the README is the ad". A design read that
+  opens the code at the anchors catches it; a claims read of the page does not.
+- **Rate limits are a fleet-scale cost now.** Eleven agent dispatches for eight
+  that finished; every death was before the first write, so nothing was
+  corrupted, but a wave that dies mid-write in a shared checkout would be worse.
+  The worktree isolation is also the answer to that.
+- **A forged subject from a system the fleet does not run has no seam, and the
+  scorecard should expect it.** Five `unapplied` rows is the honest result; the
+  focus paragraph proposes the source tree itself as the `task` target.
+- Version stays 2.0.0: the method edits above are proposals; three siblings were
+  live. A mid-flight run should do nothing.
