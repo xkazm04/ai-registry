@@ -254,3 +254,19 @@ One amendment, one application.
   tax the owner's own sessions. The reader-side layout (flat sibling
   scratch clone) was confirmed working on this very run, which read the
   source's file as material and obeyed none of it.
+
+## 2026-09-02 - intake `claudeception` (run `claudeception`)
+
+- Amendment to `enforcement-demotion`: § "A hook that prints prose is not a demotion" -
+  a lifecycle hook whose only effect is text for the model is on the prose branch of
+  the sort with a per-turn multiplier and no reviewer; sort the trigger, not the
+  channel. Fleet measurement inside: two projects, 1,631 human turns replayed with
+  their doc-sync hook's own predicate, 122 fires (7.5%); every-prompt delivery would
+  inject 15-25x the words.
+- Applications: `claude-code--enforcement-demotion` (the source's every-prompt banner
+  hook, read against the tree and its commit log) and `node--enforcement-demotion`
+  (the replay; `experiment`, `better` for the condition-observed form, cost only -
+  the compliance falsifier is named and has no fleet instrument).
+- Structural fact carried into the node application: three copies of the fleet hook
+  at 185/204/320 lines; the longest records a lifetime silent-green before a
+  turn-boundary fix and a third exit code for could-not-check.

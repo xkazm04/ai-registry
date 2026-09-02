@@ -5803,3 +5803,46 @@ been naming that zero for weeks:
 - **Next.** Five to ten repository intakes under 2.1.0 with a reflect after each, before
   the redesign is published. Watch: routing counts, handoffs executed, candidates per
   project after scope edits, proposals written vs accepted.
+
+## 2.1.0 - 2026-09-02 - claudeception
+
+- A repository under ten thousand words is read whole in one session - no workers, no
+  sampling - and its commit log is the operating half: both paid-for failures (duplicate
+  skills -> a contributed dedupe step; under-firing -> an every-prompt hook) were in commit
+  messages and neither was in the body. Unshallow the clone before the design read.
+- Gates that export their predicate as a pure function are the cheap experiment seams. The
+  fleet's doc-sync hook exposes `evaluateEditedFiles(edited, map)`, so an A/B over 1,631
+  recorded turns was one forty-line replay script. When Phase 7.5 looks for an experiment,
+  grep the project's hooks for exported functions before designing a harness.
+- Measure the corpus's suggested instrument, not only the source's claim. The technique
+  text recommended a pairwise vocabulary lint; run on a real store it ranked the one true
+  duplicate third of five. The source's trigger search was the control arm. The amendment
+  is written from the corpus's guard failing, which is the stronger provenance.
+
+## 2.1.0 - 2026-09-02 - gstack (round 1 of the 2.x calibration series)
+
+- **The routing count worked, and it worked on a sub-tree.** The repository as a whole is
+  a skill suite the corpus mostly models (instruction files, quality gates, memory,
+  hitl); the count reached three only inside one subsystem (the browser daemon), and the
+  handoff was scoped to that subsystem - one forge worker, one subject, not a scout wave
+  over 840k words. Write that into Phase 2d: the count is per *system*, and a repository
+  can hold several; hand off the system, not the repository.
+- **The fleet map's grain hides technique-level directions.** `host-contract-compilation`
+  implies a direction for the desktop app (its provider trait has one implementation and
+  its scope says "wrapped CLIs", plural), but the app is *present* for the technique's
+  subject, so Phase 7.6 - which reads only `candidate` absences at subject grain - could
+  not propose it. Recorded as "not proposed" with the reason. Two-run hypothesis: if a
+  second run hits the same wall, the fleet map gains a per-pair `techniques_absent` list
+  (registry-map pairs already carry the subject digest; the technique list is in the
+  index) and 7.6 reads both grains.
+- **Source-tree applications are cheap and they are where the architecture went.** Three
+  written in the time one fleet simulation used to take, each carrying a "where the tree
+  falls short" section the tree itself admits. The gate wants `verified_against` to name
+  the document's `stack`, so a runtime that is not the stack (a compatible one) goes in
+  the body with the commit, not in the field.
+- **The scorecard focus (a `task` row against the source tree for a handoff with no fleet
+  seam) is executable only after the worker returns its deviations.** Sequence it after
+  the forge review, not beside it.
+- **Depth cell for this run** is the first with a subject and a handoff in the same row;
+  read it against the 1.x rows over comparable trees (openbao, dora) before calling the
+  method better - the comparison the user asked for is rounds, not runs.

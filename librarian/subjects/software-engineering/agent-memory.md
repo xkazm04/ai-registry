@@ -333,3 +333,17 @@ Apply rows: three simulations on personas, all `not-better`, each chosen to fals
 and each landing its condition. The technique pair is unapplied in the fleet's
 current shape (one human, no model-authored links between existing memories); return
 conditions in `librarian/applied.md`.
+
+## 2026-09-02 - intake `claudeception` (run `claudeception`)
+
+- Amendment to `procedure-promotion`: § "When the promoted store is the only durable
+  store" - the four conditions assume an episodic layer to count in; a coding harness
+  that persists only skills forces promote-first, and the count moves to the write
+  door (search by trigger, then the six-row update/create/variant table). Measured
+  on a 24-item first-sight store with one true duplicate: trigger search found the
+  pair exactly; the technique's suggested pairwise vocabulary lint ranked it 3rd of 5.
+- Application `claude-code--procedure-promotion`: the source tree (a skill that writes
+  skills, PR #13's dedupe table) and the applied arm (the registry harness's memory
+  store, two files on one trigger merged; `code`, `better`).
+- Apply row in `librarian/applied.md`. Return condition: the store passing ~50 entries,
+  when scoping joins the door.
