@@ -46,3 +46,13 @@ policy) is a sentence in the golden path and a candidate seventh technique.
 **Apply debt.** Four of six techniques are unapplied with return conditions;
 the fleet has no runtime extension surface, no contributed routers, no
 per-run assembly record and no modal checkpoint store today.
+
+## 2026-09-02 - `/intake` gstack (run `intake-gstack-0902`, intake 2.1.0)
+
+Source-tree application `node--operator-tier-code-loading` written against a Stop hook
+that runs a command declared in the repository's instruction file only after the operator
+records its content hash in a per-repo trust store; any edit invalidates trust; every
+absence fails open; grants are logged with a tty flag. The tree reaches the technique's
+rule by a different door - the repo file proposes, the store enables - and admits the gap
+in its own comment: the grant is agent-runnable, so the log rather than the store is
+where a determined actor is caught. Structural confirmation; no amendment.

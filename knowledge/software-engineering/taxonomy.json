@@ -132,7 +132,8 @@
             "sidecar-provisioning",
             "voice-io",
             "agent-addressable-ui",
-            "agent-runtime-assembly"
+            "agent-runtime-assembly",
+            "agent-browser-control"
           ]
         },
         {

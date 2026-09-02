@@ -270,3 +270,19 @@ One amendment, one application.
 - Structural fact carried into the node application: three copies of the fleet hook
   at 185/204/320 lines; the longest records a lifetime silent-green before a
   turn-boundary fix and a third exit code for could-not-check.
+
+## 2026-09-02 - `/intake` gstack (run `intake-gstack-0902`, intake 2.1.0)
+
+New technique `host-contract-compilation`, the first `design` candidate landed under
+2.0.0's rule that a mechanism gets a technique. `single-source-topology` covered hosts
+that differ in file name; the source (a fifty-skill suite compiled for ten harnesses)
+showed the case topology cannot solve - hosts differ in accepted frontmatter, tool
+vocabulary and capability - and the mechanism: a declarative contract per host read by
+every tool, suppression by capability validated against a section registry, goldens and
+prose validation per render into a temp dir, and the cross-model boundary instruction as
+a host-pair property. Source-tree application `node--host-contract-compilation` written
+against the pinned clone (verified_against carries the runtime; the commit is in the body).
+
+Phase 7.5 (registry skills lane, simulation, `better` on 2 of 3): six links to one host
+need nothing; the desktop-surface zip delivery and the trigger-collision check are the
+two cases a host contract would give a field to. Boundary stated to agent-cli-transport.
