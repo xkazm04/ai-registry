@@ -71,7 +71,13 @@ imports that quietly overwrite, or quietly duplicate on every re-run,
 convert the second import of the same file into either data loss or a
 naming landfill. Provenance-based matching is what makes **re-import**
 tractable: recognizing "this is the same foreign entity, newer" upgrades
-the choice from name-guessing to an informed update-or-fork decision.
+the choice from name-guessing to an informed update-or-fork decision. When
+the user chooses *update* and the incoming document is partial, the
+replace branch runs only for fields the document actually **supplies** —
+absent, null, and empty are three different words, and
+[import-validation](./import-validation.md) owns which one means
+"untouched"; a replace that fires on an empty incoming collection is a
+silent overwrite wearing the user's consent.
 
 ## Disclosure at the decision point
 

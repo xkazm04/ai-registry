@@ -47,6 +47,16 @@ Rules that keep the classifier trustworthy:
   a single cheap parse that the validation stage's caps already protect; a
   detector that fully deserializes a hostile file has moved the
   denial-of-service from the parser to the sniffer.
+- **Sniffing is safe here because the outcome selects a parser, not a
+  sink.** The web platform forbids content sniffing (`nosniff` exists to
+  turn it off) for a reason that does not go away by changing domain:
+  there, the sniffed type decides what *executes*, and a file named as an
+  image that sniffs as script is a stored injection. An import detector
+  is exempt only while its outcome chooses which *adapter reads* the
+  bytes. The moment a detection outcome would select an executable or
+  rendering sink — a runner for a recognized snippet format, a renderer
+  for recognized markup — the declared label must win over the bytes, or
+  the detector has become a sniffing-based execution primitive.
 
 ## The three-outcome contract
 

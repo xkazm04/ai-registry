@@ -140,8 +140,15 @@ rendered into prompts, expressions that look executable, URLs that will be
 fetched, credential values that must not land in plaintext. The pipeline
 therefore enforces, before anything persists:
 
-- **bounded parsing** — size and depth caps *before* deserialization, so a
-  hostile file exhausts a limit, not the process;
+- **bounded parsing** — size, depth *and* reference-expansion caps *before*
+  deserialization, so a hostile file exhausts a limit, not the process
+  (size and depth alone are not a bound: a small, shallow document with
+  aliases to collections of aliases expands exponentially at resolution);
+- **presence before content** — when the document is partial (a
+  re-import, an overlay), absent, null and empty are three different
+  words, the format declares which one means *untouched*, and a replace
+  branch is guarded by *is the field supplied*, never by an all-of test
+  that is vacuously true over an empty collection;
 - **one validation door** — every entity the import proposes passes the same
   schema validation as entities created by hand; import is a writer like any
   other, not a trusted bulk side-channel around the model's invariants;
