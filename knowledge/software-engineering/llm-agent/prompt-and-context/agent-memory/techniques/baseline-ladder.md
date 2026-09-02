@@ -166,6 +166,33 @@ comparisons do not clear this bar**, so a design decision imported from one is
 resting on an uncontrolled variable. Re-run the ladder on your own consumer
 before adopting anyone's verdict, including a favourable one.
 
+## The judge and the per-arm budget travel with the rung
+
+Two more variables belong in the list a number travels with, and a
+first-party benchmark tree makes both visible by holding them in code rather
+than in the report. The **judge**: a memory benchmark scores free-text answers
+with a model, and the prompt that model is given has a *direction* — one
+tree's default judge awards a correct mark when at least one gold item
+appears, accepts dates within two weeks and durations within half, and is
+instructed to use evidence only to accept, never to reject; a second judge in
+the same tree is told to be generous and count an answer that touches the
+gold's topic. Paired with an answer prompt that forbids abstention, that
+grading rewards guessing, inflates both arms, and compresses the gap the
+comparison exists to measure. The strict variant was one flag away and was
+not the default. A rung's number therefore names its judge, the judge's
+leniency direction, and whether the answerer was allowed to say "unknown" —
+or two rungs graded under different judges are not comparable, and two
+rungs graded under one lenient judge are comparable about the wrong thing.
+
+The **per-arm retrieval budget**: when the treatment arm recalls under a
+stated cap — six items, ten thousand tokens — and the control arm is the
+consumer's own native memory under whatever it does, a reported token
+reduction compares two budgets, not two memories. Hold the budget constant
+across arms or report the token number as the *budget's* effect. Where the
+control is a different consumer altogether (a harness that ran the "native"
+arm against a different model than the one it is named for), the row is not a
+rung at all and should be reported as an integration test of the harness.
+
 ## Write cost is an axis, not a footnote
 
 Accuracy-only reporting hides where this class of system actually spends.

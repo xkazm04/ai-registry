@@ -17,6 +17,8 @@ techniques:
   - baseline-ladder
   - lane-reconciliation
   - probe-without-write-back
+  - owner-and-counterpart-scope
+  - read-set-bounded-links
 ---
 
 # Agent memory
@@ -449,7 +451,16 @@ comparison a stated result instead of an unexamined premise.
   write cost carried as the score's predicate.
 - [lane-reconciliation](./techniques/lane-reconciliation.md) — whether the
   retrieval lanes still agree with the record: declared lane membership,
-  absence versus pollution, and why an absence claim needs a complete scan.
+  absence versus pollution, why an absence claim needs a complete scan, and
+  the invariant that chooses each operation's write order.
+- [owner-and-counterpart-scope](./techniques/owner-and-counterpart-scope.md) —
+  the two identity axes a memory answers to: the owner its address derives,
+  the counterpart it was formed with as a per-request view filter, and why
+  the runtime that wrote it is neither.
+- [read-set-bounded-links](./techniques/read-set-bounded-links.md) — letting
+  the model relate memories without letting it dangle a reference:
+  request-local ids that can only name what was read or is being written,
+  links stored beside the body and rendered on read.
 - [probe-without-write-back](./techniques/probe-without-write-back.md) — the
   read path is not read-only, so a scheduled measurement through it entrenches
   its own fixtures: suppress the feedback write, per caller.

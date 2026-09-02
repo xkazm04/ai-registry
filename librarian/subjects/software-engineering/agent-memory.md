@@ -306,3 +306,30 @@ change with the keep-rate comparison as the return condition.
 Untriaged with anchor: a subagent sharing the parent's thread id must skip
 the parent's memory flush or its internal turns pollute the parent's durable
 memory.
+
+## 2026-09-02 - intake run `intake-openviking-0902` (vendor repository, design read under 2.0.0)
+
+Two techniques and two amendments, five source-tree applications, and a sibling subject.
+
+- `owner-and-counterpart-scope` (new): the two identity axes a memory answers to;
+  the runtime that wrote it is neither. From a store that retired its agent-id
+  namespace for an owner/peer split and refused to migrate ownerless sessions.
+- `read-set-bounded-links` (new): request-local integer ids so a model-authored
+  link can only name what was read in or is being written; links beside the body.
+- `lane-reconciliation` gained "the invariant chooses the write order, per
+  operation" - delete lane-first where the lane is the consumer's door; with the
+  scope condition (a join that drops missing rows makes the order moot) found on
+  the personas seam.
+- `baseline-ladder` gained "the judge and the per-arm budget travel with the rung".
+- Applications: `python--lane-reconciliation`, `python--baseline-ladder`,
+  `python--owner-and-counterpart-scope`, `python--read-set-bounded-links`,
+  `python--probe-without-write-back` - the first applications written against a
+  mined source's own tree in this subject.
+- The golden path's shape hedge (lines 77-89) now has a subject on its far side:
+  `context-hierarchy`, beside this one. The hedge text is unchanged; a later pass
+  should add one sentence pointing across.
+
+Apply rows: three simulations on personas, all `not-better`, each chosen to falsify
+and each landing its condition. The technique pair is unapplied in the fleet's
+current shape (one human, no model-authored links between existing memories); return
+conditions in `librarian/applied.md`.
