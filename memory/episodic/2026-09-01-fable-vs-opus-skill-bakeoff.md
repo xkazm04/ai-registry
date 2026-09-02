@@ -26,7 +26,7 @@ project trunks; the reading is in
 | explorer | kp | Job & JD Management, any | merge both |
 | scan-sweep | pof | --develop --one harness-autonomy | merge both |
 | perfect | kp | resume, one round, self-gated | merge both |
-| dojo | gravitone | one local-stack image cycle | see below |
+| dojo | gravitone | one local-stack image cycle | Opus method; both runs' notes merged |
 
 ## What the runs produced
 
@@ -39,7 +39,10 @@ project trunks; the reading is in
 - ascent: a weekly-digest tab and a rebuilt dimension explorer.
 - gravitone: the Fable dojo cycle rendered five of eight pairs before the breaker tripped
   under a foreign GPU process; its partial readbacks read as a null result for the
-  scoped-override technique.
+  scoped-override technique. The Opus cycle rendered two of twelve in eleven hours while
+  a third session's dojo job held the card, refused to force-recycle it, and parked as
+  failed with zero duos. Both cycles are resumable; both runs' consult lines, leads and
+  overlay notes were merged into gravitone's main.
 
 ## What broke and what it taught
 

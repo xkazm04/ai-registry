@@ -43,7 +43,7 @@ run each, so every claim below is a tendency, not a law: `confidence: 0.6`.
 | Structural scans and gate audits (`/architect`) | Opus base, Fable extras | Opus found the dead gate that no defect-shaped search can find, and refuted two hypotheses; Fable executed more code fixes on disjoint files. Merge both when budget allows. |
 | Quality sweeps (`/explorer`, `/scan-sweep`) | Run both | Item sets were nearly disjoint: Fable's defects were deeper (concurrency, data), Opus's broader (abuse, injection, hygiene). Two runs on one area beat one run at twice the depth. |
 | Source mining (`/research`) | Run both, or Fable when time-boxed | Complementary findings (tool annotations vs tool groups). Fable read more of the source faster; Opus checked whether the composite gate covered the changed files. |
-| Media training loops (`/dojo`) | See the episode note | Fable's cycle tripped the breaker under a foreign GPU process and reported a null result from partial readbacks; the Opus cycle is recorded in the episode. |
+| Media training loops (`/dojo`) | Opus method, no pin | Both cycles failed on GPU contention. Fable ranked its dimension on the fleet-aggregate scan; Opus ranked on the repo's own conformance record and found the interlock the convention lacked. The operator kept Opus's method; Fable's partial readbacks still yielded a lead. |
 
 ## Operating rules that both runs taught
 

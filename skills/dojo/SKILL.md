@@ -4,7 +4,7 @@ description: "Autonomous infinite training loop for media-generation craft: each
 argument-hint: "[run|status|reflect] [--fixture] [--resume <cycle-id>]"
 category: ai-native
 memory: project
-version: 1.0.0
+version: 1.1.0
 tags: training, media-generation, ab-testing, judge, foundry, loop, craft
 allowed-tools: Read, Write, Edit, Bash, PowerShell, Glob, Grep, Monitor, WebSearch, Agent
 ---
@@ -104,18 +104,27 @@ does not yet know.
 
 ### Phase 1 — Scan
 
-Prove the instrument first: `node scripts/check-bundles.mjs`, then
-`node scripts/build-index.mjs`, in the registry. Then
-`node scripts/librarian-scan.mjs --json` for the per-subject scores. **Never
-count anything yourself** — this registry once reported 0/267 over a corpus at
-267/267 because a counter read a different shape than the parser emitted.
-Spot-check one number against one real file before trusting any score.
+Prove the instrument first: `node scripts/check-bundles.mjs` (read-only), then
+`node scripts/build-index.mjs` (WRITES `index.json`; use `--check` when the
+registry checkout is not yours to edit or another session is mid-edit there),
+in the registry. Then `node scripts/librarian-scan.mjs --json` (read-only) for
+the per-subject scores. **Never count anything yourself** — this registry once
+reported 0/267 over a corpus at 267/267 because a counter read a different
+shape than the parser emitted. Spot-check one number against one real file
+before trusting any score. A `check-bundles` failure in a bundle this cycle does
+not consume is reported, not repaired.
 
-Ranking: **demand outranks scan points** — a consuming repo's live deviation or
-a repeatedly-not-better dimension beats any structural gap. Pick **ONE
-dimension/subject per cycle**, from the overlay's allowed set. A dimension whose
-recent cycles all came back not-better with no new technique in sight is
-saturated for now; say so and pick the next.
+Ranking: **demand outranks scan points, and demand means THIS repo's** — the
+consuming repo's own `.ai/conform-detail.json` (its live deviations) or a
+repeatedly-not-better dimension beats any structural gap. The scan's aggregate
+deviation count is a bundle signal across the fleet, not a this-repo signal: a
+subject with six consumer deviations and no conformance pair here has never
+been deviated on here. Pick **ONE dimension/subject per cycle**, from the
+overlay's allowed set. A dimension whose recent cycles all came back not-better
+with no new technique in sight is saturated for now; say so and pick the next.
+A live deviation the loop's only instrument cannot measure (a schema gap, a
+cross-frame property under a still-image A/B) is a standing blind spot; name it
+and pass.
 
 ### Phase 2 — Research
 
@@ -159,9 +168,23 @@ $log = "pipeline/foundry/logs/dojo-<cycle-id>.log"
 Start-Process -FilePath "npx" -ArgumentList <runner args from overlay> -RedirectStandardOutput $log -RedirectStandardError "$log.err" -NoNewWindow
 ```
 
+**Check the engine's owner before launching.** Where the runner keeps a run-id
+registry (gravitone's `guard.py` does), a foreign run-id on the engine is
+`runner: busy`: stop the cycle the way `runner: absent` stops it, and say whose
+job holds the card. Never force-recycle another job's engine. Two loops on one
+card is an interlock problem, not a convention problem; the safety rail below is
+the convention and this check is the interlock. Diagnostic rule while polling:
+**a unit taking more than 3x its measured per-unit time is contention, not a
+bad seed** — re-check the owner instead of waiting out the timeout. When the
+card is contended rather than absent, `--fixture` still exercises the protocol.
+
 Track `fail_streak` on the manifest; the breaker trips at **3** consecutive
-failures -> `status: "failed"`, stop the cycle, move on next wake. A failed cycle
-is a result, not an embarrassment; the manifest's log says what broke.
+failures -> `status: "failed"`, stop the cycle, move on next wake. `failed` means
+more broadly *the runner did not deliver a judgeable set, and the log says why*
+— a breaker, an engine refusal, or a pass that ran out of window all park as
+`failed`. A failed cycle is a result, not an embarrassment; the manifest's log
+says what broke, and a PNG on disk is a finished render, so `--resume` on a
+quiet card needs only the missing units.
 
 ### Phase 5 — Judge
 
@@ -187,7 +210,10 @@ with the decision recorded in the overlay.
 ### Phase 6 — Park
 
 Set `status: "awaiting-gate"`, write the cycle log line, then loop to Phase 1
-for the next cycle. Human gating happens in the app (Foundry -> Dojo; K approve
+for the next cycle. **A cycle with zero complete duos never parks for a human**,
+however it got there: with no pairs there is no thumbnail and no pick rate, and
+an empty cycle in the tab risks a fabricated row in the cross-machine ledger.
+It stays `failed` with its log. Human gating happens in the app (Foundry -> Dojo; K approve
 / X reject / U clear). Commit from the tab is **destructive**: one tracked
 thumbnail per approved improvement survives; undecided media is preserved until
 someone decides. The loop NEVER waits here — parked cycles accumulate, and
@@ -199,7 +225,10 @@ verdicts are picked up by whichever future cycle runs Phase 0.
   ledger where it keeps one; the manifest's `lease` field marks who is driving a
   cycle, and a leased cycle is not yours to resume.
 - **One dojo loop per machine.** Two loops share one budget window and one GPU;
-  one of them will trip the other.
+  one of them will trip the other. This is the convention; Phase 4's owner check
+  is the interlock, and it is the interlock that holds (two eval cycles on
+  2026-09-01 honoured the convention on paper and still spent eleven hours on
+  two renders because a third job held the card).
 - **Never edit `knowledge/`** — evidence goes to `/deepen` and `/intake`.
 - **Never edit `styles.json` by hand** — the catalogue is written by commits from
   the app's own commit path.
@@ -252,3 +281,7 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
+
+## Model choice (bake-off 2026-09-01, gravitone / one local-stack image cycle)
+
+No pin. Both cycles failed on GPU contention: Fable rendered five of eight pairs (one complete duo) before its breaker tripped, Opus two of twelve in eleven hours because a third, foreign dojo job held the card. Neither produced a judgeable set; both kept the registry read-only, released the lock and parked honestly. The operator kept Opus's method: the demand signal is the consuming repo's own conformance record (Fable ranked on the fleet-aggregate scan and picked a subject this repo had never deviated on), an engine-owner check before launch is the interlock, a zero-duo cycle never parks for a human, and Phase 1's registry commands are marked read-only versus writing. Those edits are in Phases 1, 4 and 6 and the safety rails above. Fable's cycle contributed the partial-readback reading that a contradicting tail clause is obeyed as well as an in-block override at ~1.1k characters on Flux 2, recorded in gravitone's overlay as a lead for `/deepen`.
