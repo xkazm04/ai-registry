@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 156,
-  "techniques": 1093,
-  "applications": 582,
+  "techniques": 1094,
+  "applications": 589,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1093/1093",
+  "use_when_coverage": "1094/1094",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2704,6 +2704,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "public-vs-server-env-split",
+     "file": "knowledge/software-engineering/security/browser-credential-boundary/applications/next--public-vs-server-env-split.md",
+     "verified_on": "2026-09-02"
+    },
     {
      "stack": "sql",
      "technique": "aggregate-view-not-base-table",
@@ -6104,7 +6110,9 @@
      "use_when": [
       "a demo surface is drifting behind the real client",
       "adding a data source that can only answer some queries",
-      "deciding where the fake plane's methods should live"
+      "deciding where the fake plane's methods should live",
+      "deciding whether a result must carry which plane it came from",
+      "seed or sample rows live in the same store as a real tenant's data"
      ]
     },
     {
@@ -6138,6 +6146,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "one-interface-many-planes",
+     "file": "knowledge/software-engineering/client-architecture/demo-data-plane/applications/go--one-interface-many-planes.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1"
+    },
     {
      "stack": "react",
      "technique": "fake-surface-honesty-contract",
@@ -9012,6 +9027,18 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "missing-anchor-degradation",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/applications/node--missing-anchor-degradation.md",
+     "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "node",
+     "technique": "overlay-precedence",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/applications/node--overlay-precedence.md",
+     "verified_on": "2026-09-02"
+    },
+    {
      "stack": "react",
      "technique": "action-driven-advancement",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/applications/react--action-driven-advancement.md",
@@ -9706,7 +9733,9 @@
      "use_when": [
       "sizing caps that guard an untrusted parse",
       "deciding whether imports reuse the creation door",
-      "embedded tokens surfacing in an imported file"
+      "embedded tokens surfacing in an imported file",
+      "an empty collection in a partial document or overlay being read as delete",
+      "a small shallow file exhausting memory at parse time"
      ]
     },
     {
@@ -13866,6 +13895,13 @@
    ],
    "applications": [
     {
+     "stack": "elixir",
+     "technique": "entitlement-lifecycle-revocation",
+     "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/elixir--entitlement-lifecycle-revocation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "elixir@1.20"
+    },
+    {
      "stack": "node",
      "technique": "capability-gate-predicates",
      "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/node--capability-gate-predicates.md",
@@ -13882,6 +13918,13 @@
      "technique": "price-book-authority",
      "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/process--price-book-authority.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "spec",
+     "technique": "entitlement-lifecycle-revocation",
+     "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/spec--entitlement-lifecycle-revocation.md",
+     "verified_on": "2026-09-02",
+     "refresh_by": "2026-12-02"
     }
    ]
   },
@@ -17705,7 +17748,9 @@
      "use_when": [
       "deciding if generated sql may skip the guard",
       "a generated mutation wants to auto-run",
-      "failed extraction shows up as empty results"
+      "failed extraction shows up as empty results",
+      "a confirmed statement's rows landed on the wrong message",
+      "an agent lane with no human to confirm"
      ]
     },
     {
@@ -17719,7 +17764,9 @@
      "use_when": [
       "deciding how null empty string and literal null render distinctly",
       "verifying an empty grid says zero rows not error",
-      "scrubbing credentials from engine errors before display"
+      "scrubbing credentials from engine errors before display",
+      "an error banner rendered above the previous run's rows",
+      "an id column losing its last digits after transport"
      ]
     },
     {
@@ -17734,7 +17781,9 @@
      "use_when": [
       "deciding where the authoritative guard stands",
       "mutations hiding in literals or comments",
-      "an unclassified string reaching the executor"
+      "an unclassified string reaching the executor",
+      "a confirmed mutation's result appeared under a different message or tab",
+      "relying on a read-only transaction instead of a read-only credential"
      ]
     }
    ],
@@ -19065,6 +19114,22 @@
      ]
     },
     {
+     "slug": "multi-client-fan-out",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "several viewers attached to one session at once",
+      "one slow remote client stalls every terminal in the session",
+      "two attached terminals of different sizes fight over the window size",
+      "a second viewer's keystrokes land in a shared session",
+      "deciding whether output fans out to clients as bytes or as redraws"
+     ]
+    },
+    {
      "slug": "multiplexer-state",
      "status": "forged",
      "laws": [
@@ -19123,6 +19188,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "c",
+     "technique": "multi-client-fan-out",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/c--multi-client-fan-out.md",
+     "verified_on": "2026-09-02"
+    },
     {
      "stack": "react",
      "technique": "attach-detach-lifecycle",
@@ -21692,6 +21763,7 @@
     "telemetry-pii-redaction/redaction-invariants-as-tests",
     "templates-scaffolding/integrity-and-provenance",
     "templates-scaffolding/readiness-prerequisites",
+    "terminal-multiplexing/multi-client-fan-out",
     "terminal-multiplexing/pty-management",
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/live-app-harness",
@@ -22763,6 +22835,7 @@
     "templates-scaffolding/catalog-curation",
     "terminal-multiplexing/attach-detach-lifecycle",
     "terminal-multiplexing/bounded-replay-buffers",
+    "terminal-multiplexing/multi-client-fan-out",
     "terminal-multiplexing/multiplexer-state",
     "terminal-multiplexing/pty-management",
     "terminal-multiplexing/renderer-economics",
