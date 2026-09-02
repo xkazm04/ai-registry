@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 156,
-  "techniques": 1094,
-  "applications": 589,
+  "techniques": 1095,
+  "applications": 594,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1094/1094",
+  "use_when_coverage": "1095/1095",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -9235,7 +9235,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/health-checks/health-checks.md",
-   "digest": "sha256:957ca830aa63e71c",
+   "digest": "sha256:7ceea0ea6ad32c99",
    "techniques": [
     {
      "slug": "check-scheduling",
@@ -9288,7 +9288,8 @@
      "use_when": [
       "deciding whether a check observes the target or a proxy",
       "timed-out probes leave orphaned children behind",
-      "deciding if a probe may change anything"
+      "deciding if a probe may change anything",
+      "a worker has no port or request surface to probe"
      ]
     },
     {
@@ -9345,6 +9346,13 @@
      "technique": "probe-caching",
      "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/rust--probe-caching.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "probe-design",
+     "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/rust--probe-design.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -13239,7 +13247,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/packaging.md",
-   "digest": "sha256:a12318ce34e5e42b",
+   "digest": "sha256:61a5b0b4b1c03b8a",
    "techniques": [
     {
      "slug": "installed-tree-acceptance",
@@ -13266,7 +13274,8 @@
      "use_when": [
       "choosing per-user versus per-machine scope",
       "upgrades land as side-by-side duplicates",
-      "deciding what uninstall may remove"
+      "deciding what uninstall may remove",
+      "an upgrade needs a value changed in a config file the operator edits"
      ]
     },
     {
@@ -13327,6 +13336,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "installer-authoring",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/applications/node--installer-authoring.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "native-payload-verification",
@@ -18553,7 +18569,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/supply-chain/supply-chain.md",
-   "digest": "sha256:49a84e0c38074935",
+   "digest": "sha256:488f64a653e2396d",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -18672,7 +18688,8 @@
       "one manifest bump dragging strangers into the lockfile",
       "months of claimed automation with zero proposals",
       "a framework patch release that mitigates by disabling a capability",
-      "judging an upgrade by the label on its release notes"
+      "judging an upgrade by the label on its release notes",
+      "deciding how soon after publication a bump may be proposed"
      ]
     },
     {
@@ -18727,6 +18744,12 @@
      "technique": "dependency-policy-gates",
      "file": "knowledge/software-engineering/security/supply-chain/applications/process--dependency-policy-gates.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "process",
+     "technique": "update-automation-review",
+     "file": "knowledge/software-engineering/security/supply-chain/applications/process--update-automation-review.md",
+     "verified_on": "2026-09-02"
     },
     {
      "stack": "rust",
@@ -19362,7 +19385,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:67aade892fa6f575",
+   "digest": "sha256:827a5eb540b02bd7",
    "techniques": [
     {
      "slug": "fixture-economics",
@@ -19392,7 +19415,8 @@
      "use_when": [
       "a test fails intermittently",
       "quarantine has grown and nobody reviews it",
-      "deciding whether to retry or to quarantine"
+      "deciding whether to retry or to quarantine",
+      "a scheduled lane over floating inputs keeps entering the flake register"
      ],
      "stage": "team"
     },
@@ -20579,7 +20603,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256:0feec1fdc6967176",
+   "digest": "sha256:262e2ee205542f6b",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -20595,6 +20619,22 @@
       "storing a user's custom voice so it survives an engine upgrade",
       "deciding whether a voice control needs a consent record",
       "a custom voice sounds different every time it is regenerated"
+     ]
+    },
+    {
+     "slug": "decode-time-vocabulary-biasing",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "verdict-survives-boundary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product already knows which words are likely before the user speaks and the engine keeps mis-hearing them",
+      "deciding whether to hand a known vocabulary to the engine or only match against it afterwards",
+      "a transcription engine accepts a prompt or a phrase list and silent captures started coming back with words in them",
+      "an engine reports no speech as a token in the text channel"
      ]
     },
     {
@@ -20782,6 +20822,13 @@
     },
     {
      "stack": "rust",
+     "technique": "decode-time-vocabulary-biasing",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--decode-time-vocabulary-biasing.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
      "technique": "engine-abstraction",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--engine-abstraction.md",
      "verified_on": "2026-08-18"
@@ -20791,6 +20838,13 @@
      "technique": "on-device-vs-cloud",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--on-device-vs-cloud.md",
      "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "rust",
+     "technique": "stt-pipeline",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--stt-pipeline.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.97.1"
     },
     {
      "stack": "rust",
@@ -21946,6 +22000,7 @@
     "usage-analytics/sink-abstraction",
     "versioning-snapshots/restore-semantics",
     "voice-io/authored-voice-identity",
+    "voice-io/decode-time-vocabulary-biasing",
     "voice-io/duplex-agent-sessions",
     "voice-io/engine-abstraction",
     "voice-io/on-device-vs-cloud",
@@ -22372,6 +22427,7 @@
     "usage-analytics/batching-and-quota",
     "usage-analytics/event-taxonomy",
     "versioning-snapshots/lineage-and-variants",
+    "voice-io/decode-time-vocabulary-biasing",
     "web-scraping/dedup-and-datasets",
     "web-scraping/shape-change-detection",
     "webhook-ingestion/delivery-logging-and-replay",
@@ -23324,6 +23380,7 @@
     "repository-landing-document/multi-surface-degradation",
     "retry-backoff/storm-control",
     "structured-output/schema-validation-and-repair",
+    "voice-io/decode-time-vocabulary-biasing",
     "voice-io/portable-provider-package",
     "voice-io/speech-ready-text",
     "voice-io/stt-pipeline",

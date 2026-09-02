@@ -698,10 +698,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 156,
-      "techniques": 1094,
-      "applications": 589,
-      "files": 1844,
-      "contentHash": "sha256:34e5e612b832fc47"
+      "techniques": 1095,
+      "applications": 594,
+      "files": 1850,
+      "contentHash": "sha256:7f51d54be08c7d42"
     }
   ]
 }
