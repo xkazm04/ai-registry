@@ -15,6 +15,7 @@ techniques:
   - speech-ready-text
   - transcript-normalization
   - authored-voice-identity
+  - decode-time-vocabulary-biasing
 ---
 
 # Voice input and output
@@ -342,3 +343,9 @@ decision, the transform contract, the typed outcome, and the cut.
   contract and its input-derived output ceiling, the destination as a typed
   parameter, why per-segment cleanup cannot resolve self-corrections, and the
   five-arm outcome where empty-by-design is a success.
+- [decode-time-vocabulary-biasing](./techniques/decode-time-vocabulary-biasing.md)
+  — handing the known vocabulary to the engine before it decodes: score-boost
+  versus prompt biasing and their opposite failure physics, the level gate
+  that must run before a prompted decoder sees silence, the engine's
+  no-speech verdict arriving as a token in the text channel, bias only where
+  a confusion is measured, and turn-scoped bias from the parser's own source.

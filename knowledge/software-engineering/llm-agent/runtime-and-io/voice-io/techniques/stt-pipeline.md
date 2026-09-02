@@ -96,6 +96,55 @@ Auto-*start* — capture that opens without a gesture on a wake condition — is
 a different product with a different consent architecture; do not back into
 it from a dictation feature.
 
+### The silence threshold is not one number
+
+"Trailing silence past a threshold" reads as a single constant, and a
+pipeline built from that sentence picks one value and then fails at both
+ends: a threshold generous enough for a thinking pause mid-sentence keeps
+the microphone open for seconds after somebody who said nothing walks away,
+and one short enough to close promptly on an empty capture cuts off the
+composer. The two cases are different states, and the mature runtimes
+condition the rule on **whether anything has been decoded yet**:
+
+- **silence with no content so far** — a longer wait (a few seconds), because
+  the user may still be about to speak, and the cost of closing early is a
+  lost utterance;
+- **silence after content** — a shorter wait (around a second), because the
+  decoder has already seen the utterance's shape and a pause after words is
+  usually the end;
+- **a hard utterance cap regardless of silence** — tens of seconds, after
+  which the utterance closes whether or not anyone stopped talking, because
+  the engine's bounded input, the latency budget and the transcription
+  timeout all count from the utterance's start.
+
+"Content" here means a decoded non-blank token, not a level reading: the
+decoder is the arbiter of whether something was *said*, and the meter only
+of whether something was *heard*. Each rule is a triple — does it require
+content, how much trailing silence, how long an utterance — and the
+endpoint fires when any rule holds. Expose the triples as configuration
+with a log line naming which rule fired, because "why did it cut me off"
+is otherwise unanswerable from the outside.
+
+**The cap applies to explicit endpointing too.** A push-to-talk pipeline has
+no silence rule and so tends to have no cap at all — and a hold that runs
+long produces one capture whose transcription exceeds the engine's timeout,
+losing the whole utterance at the moment the user finished it. The cap is a
+property of the engine's bounded input, not of the auto-stop policy, and it
+belongs on every path that feeds the engine: close the segment at the cap
+(at silence if one is near, with the overlap rule below if not), transcribe
+it, and keep capturing.
+
+The detector's own threshold has the same shape one level down. A speech
+probability compared against one number flaps at the boundary, so the exit
+threshold sits below the entry threshold (a hysteresis band, the same
+discipline the corpus applies to any measured signal near a limit), each side
+carries a minimum duration before it counts (a short burst is not speech; a
+short gap is not silence), and when a speech segment runs past its own
+maximum the detector *lowers the bar* for what counts as its end rather than
+cutting at a fixed interval — so a forced cut lands at the least speech-like
+frame available, which is the segmentation rule below applied by the
+detector itself.
+
 ## Segmentation: bounded audio, cut where nothing is said
 
 Engines want bounded input — for memory, for latency, and because
@@ -188,3 +237,17 @@ that was load-bearing. Each stage's empty is classified **by that stage**, as
 a typed outcome, and the classification travels
 ([verdict-survives-boundary](../../../../_laws.md#verdict-survives-boundary))
 — it is not re-derived downstream from the length of a string.
+
+**And the engine's own empty is not always empty on the wire.** Several
+engines report "no speech" as a *token in the text channel* — a bracketed
+marker printed where the transcript would be, with a success exit. A
+pipeline that classifies the engine's outcome by string length reads that
+marker as a one-word transcript, inserts it, and never reaches the anomaly
+path it built for exactly this case. Measured on 2026-09-02 in a push-to-talk
+product: two near-silent captures came back as a blank-audio marker, the
+empty-transcript guard did not fire, and the literal token would have landed
+as dictation. The engine adapter recognizes its engine's marker vocabulary
+and reduces it to the typed no-speech outcome before anything downstream
+sees a string; the full treatment, including the level gate that should run
+before a prompted decoder ever sees silence, is in
+[decode-time-vocabulary-biasing](./decode-time-vocabulary-biasing.md).

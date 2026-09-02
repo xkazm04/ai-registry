@@ -1,7 +1,7 @@
 ---
 subject: voice-io
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -154,3 +154,20 @@ what the source emphasised - the source's three loudest claims were all catches.
 - A voice quality leaderboard split into open-weights and closed brackets.
   Currency-shaped; no `verified_on` was moved on its account.
 
+
+## 2026-09-02 - [[2026-09-02-sherpa-onnx]] (intake, vendor repository)
+
+Twelfth technique: `decode-time-vocabulary-biasing` - the stage between
+segmentation and transcription where the product's known vocabulary reaches the
+engine instead of only the matcher. Two mechanisms with opposite failure physics
+(score-boost cannot invent text; prompt biasing can), the level gate that must
+run before a prompted decoder sees silence, and the engine's no-speech verdict
+arriving as a token in the text channel. `stt-pipeline` amended twice: the
+silence threshold is not one number (content-conditioned rules plus a hard cap
+that applies to explicit endpointing too; VAD hysteresis and the lowered bar on
+a long segment), and the engine's empty is not always empty on the wire.
+Applied 3/3 to one connected tree: one `not-better` experiment (the technique's
+own precondition unmet - a small distinct grammar), one shipped code change
+(blank-audio marker stripped so the typed no-speech path finally fires), one
+simulation (no hold cap against a two-minute engine timeout). Leads: word-
+timestamp accuracy as its own measurement, diarization, enhancement.

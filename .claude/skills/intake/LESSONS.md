@@ -5330,3 +5330,36 @@ been naming that zero for weeks:
   technique file alone kept the commit clean and lost nothing, because the golden path
   already linked the technique. Check `git diff --stat` on every home before deciding
   between a new technique (needs the golden path) and an amendment (does not).
+
+## 1.6.0 - 2026-09-02 - sherpa-onnx
+
+- **Arm A is a source.** The baseline of a Phase 7.5 A/B - the connected tree exactly
+  as it stands, run on the source's named failure case - produced this run's shipped
+  fix and its strongest amendment, and neither the source nor the corpus nor the
+  tree's own comments could have: the guard, its comment and the technique all said
+  "empty is a claim" and the engine had never once produced an empty. When the
+  connected project ships the engine class the source is about, run the baseline at
+  Phase 6, before drafting; it is a first-party measurement at the top of the tier
+  table for the price of one download and five runs.
+- **A crate gate that fails in its build script is not a red gate for the change.**
+  The project's test command stopped on a capabilities file naming an undeclared
+  plugin permission, before any source compiled; the arms were run as a faithful
+  standalone reduction under the same compiler, the pattern earlier applications
+  against the same tree used. Record the gate's failure text in the row so the
+  return condition is checkable, and do not let an unrelated red gate demote a
+  `code` row to `experiment`.
+- **Changelog-fragment focus, third data point: fragments can be triggers rather than
+  content.** Here the 10,400-word per-PR changelog named one hazard in one line and
+  the implementation supplied the rule; the fragments cost ~10,400 words for one
+  pointer. The matrix-rust-sdk result (fragments as content) held because that
+  project's contributing rule requires each fragment to be understandable outside the
+  project; this one's fragments are PR titles. Read the fragment format before
+  deciding whether the sweep is an extraction or an index.
+- **A project pre-commit hook is part of the ship step.** The first commit attempt was
+  rejected by the project's formatter hook; the fix was one formatter run, but a run
+  that does not read the hook's output reports a commit that never happened. Verify
+  in `HEAD`, as Phase 10 says - the hook is one more reason.
+- **Do not append a long ledger row through a shell heredoc.** One append in this run
+  was cut mid-sentence and the two after it never ran, silently, with the ledger lock
+  still held. Write the row to a scratch file with the file tool and `cat` it in;
+  then re-read the tail before unlocking.
