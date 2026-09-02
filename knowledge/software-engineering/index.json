@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 156,
-  "techniques": 1095,
-  "applications": 594,
+  "subjects": 161,
+  "techniques": 1130,
+  "applications": 625,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1095/1095",
+  "use_when_coverage": "1130/1130",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1000,7 +1000,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:88e1dd3b8ae15a51",
+   "digest": "sha256:81751861b496aa76",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1221,6 +1221,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--single-source-topology.md",
      "verified_on": "2026-08-25",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "workspace-ancestry-isolation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--workspace-ancestry-isolation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24.14"
     }
    ]
   },
@@ -1229,7 +1236,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:43f38eacca404f2d",
+   "digest": "sha256:b0ca78aae4b26467",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1462,7 +1469,7 @@
      "stack": "rust",
      "technique": "decay-and-forgetting",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--decay-and-forgetting.md",
-     "verified_on": "2026-08-26",
+     "verified_on": "2026-09-02",
      "verified_against": "rust@1.97"
     },
     {
@@ -1997,7 +2004,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
-   "digest": "sha256:835b728d154a07ec",
+   "digest": "sha256:301497eb4bb0fc42",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -2145,6 +2152,13 @@
     },
     {
      "stack": "rust",
+     "technique": "two-clock-records",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--two-clock-records.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
      "technique": "write-chokepoint",
      "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--write-chokepoint.md",
      "verified_on": "2026-08-18"
@@ -2258,7 +2272,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/authorization/authorization.md",
-   "digest": "sha256:0225b1c955ba51b2",
+   "digest": "sha256:4edeb532856a5137",
    "techniques": [
     {
      "slug": "authorization-audit",
@@ -2387,10 +2401,24 @@
     },
     {
      "stack": "node",
+     "technique": "failure-direction",
+     "file": "knowledge/software-engineering/security/authorization/applications/node--failure-direction.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "identity-bearing-keys",
      "file": "knowledge/software-engineering/security/authorization/applications/node--identity-bearing-keys.md",
      "verified_on": "2026-08-22",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "scope-design",
+     "file": "knowledge/software-engineering/security/authorization/applications/node--scope-design.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24.14"
     },
     {
      "stack": "rust",
@@ -3487,7 +3515,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
-   "digest": "sha256:f7ae8ff8020344ae",
+   "digest": "sha256:390152d1719e7d59",
    "techniques": [
     {
      "slug": "async-race-guards",
@@ -3659,6 +3687,13 @@
      "file": "knowledge/software-engineering/client-architecture/client-state/applications/next--observed-read-subscription.md",
      "verified_on": "2026-08-31",
      "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "persistence-and-migration",
+     "file": "knowledge/software-engineering/client-architecture/client-state/applications/next--persistence-and-migration.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "next@16.3.3"
     },
     {
      "stack": "react",
@@ -4571,7 +4606,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
-   "digest": "sha256:43567b5b2c0ee271",
+   "digest": "sha256:6a7e489b6972dcc3",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -4607,7 +4642,8 @@
      "laws": [
       "absent-guard-is-loud",
       "one-authority-per-vocabulary",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "identity-survives-reuse"
      ],
      "shared_with": [],
      "use_when": [
@@ -4675,6 +4711,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "declared-deviation-register",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--declared-deviation-register.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24.14.0"
+    },
     {
      "stack": "node",
      "technique": "declared-then-proven",
@@ -4972,6 +5015,117 @@
      "technique": "progress-beat-grammar",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/rust--progress-beat-grammar.md",
      "verified_on": "2026-08-23"
+    }
+   ]
+  },
+  "correlated-exchange-over-broadcast": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/correlated-exchange-over-broadcast.md",
+   "digest": "sha256:5c8f53203d288847",
+   "techniques": [
+    {
+     "slug": "binding-parity-floor",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "verdict-survives-boundary",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "documenting which languages support an exchange pattern",
+      "a binding cannot read metadata",
+      "a control-plane mutation is recorded as applied without proof"
+     ]
+    },
+    {
+     "slug": "correlation-key-vocabulary",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a new exchange pattern to a broadcast bus",
+      "a scheduler misclassifies correlated traffic as ordinary",
+      "plumbing keys are leaking into application code"
+     ]
+    },
+    {
+     "slug": "orphaned-correlation-on-peer-restart",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a caller hangs after a peer crashes and restarts",
+      "deciding whether to reissue a request",
+      "designing the outcome type of a correlated wait"
+     ]
+    },
+    {
+     "slug": "passthrough-buffered-wait",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a blocking call for one reply is eating unrelated events",
+      "implementing a request helper on a shared event stream",
+      "pipelined requests resolve out of order"
+     ]
+    },
+    {
+     "slug": "reply-fan-out-filtering",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second client is added to a service that worked with one",
+      "a client receives a reply it did not ask for",
+      "sizing the reply edge of a shared service"
+     ]
+    },
+    {
+     "slug": "terminal-status-set",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when a correlated wait may return",
+      "a status string arrives in unexpected spelling",
+      "a long-running goal needs an end condition"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "binding-parity-floor",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--binding-parity-floor.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "orphaned-correlation-on-peer-restart",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--orphaned-correlation-on-peer-restart.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
     }
    ]
   },
@@ -5456,6 +5610,119 @@
     }
    ]
   },
+  "data-plane-transport-selection": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/data-plane-transport-selection.md",
+   "digest": "sha256:98acf18f6ee6f3b8",
+   "techniques": [
+    {
+     "slug": "control-plane-off-the-data-path",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a supervisor's event loop is on the message hot path",
+      "a control loop deadlocked awaiting a guaranteed send",
+      "deciding what a supervisor is allowed to hold",
+      "metrics collection stalls the scheduler"
+     ]
+    },
+    {
+     "slug": "moved-payload-has-no-fallback",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a zero-copy send takes ownership of the buffer",
+      "writing a fallback from a fast path to a slow one",
+      "the shared pool runs dry under a burst",
+      "a retry silently sends nothing"
+     ]
+    },
+    {
+     "slug": "path-divergence-audit",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second transport was added beside an existing one",
+      "a queue policy stopped being honoured after a fast path shipped",
+      "deciding what a bypass is allowed to lose",
+      "tests all pass and the new path is untested"
+     ]
+    },
+    {
+     "slug": "policy-demotes-transport",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an edge declares a guarantee the fast path cannot observe",
+      "deciding whether a declared deadline forbids a bypass",
+      "a policy in a descriptor stopped taking effect after a transport change"
+     ]
+    },
+    {
+     "slug": "route-probe-then-freeze",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fast path must be proven before traffic is trusted to it",
+      "messages disappear into a peer session nobody joined",
+      "deciding whether a route may change mid-run",
+      "sizing a startup grace window"
+     ]
+    },
+    {
+     "slug": "size-threshold-by-page-cost",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the payload size above which a zero-copy path is used",
+      "a fast path made the median message slower",
+      "a threshold constant has no stated derivation"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "control-plane-off-the-data-path",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/applications/rust--control-plane-off-the-data-path.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "route-probe-then-freeze",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/applications/rust--route-probe-then-freeze.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    }
+   ]
+  },
   "data-retention": {
    "category": "operations",
    "subcategory": "governance-and-records",
@@ -5820,6 +6087,117 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/rust--suppression-hygiene.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.96.1"
+    }
+   ]
+  },
+  "declared-process-graph": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/declared-process-graph.md",
+   "digest": "sha256:d2926b19c6711b3e",
+   "techniques": [
+    {
+     "slug": "additive-live-mutation",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "identity-survives-reuse",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a node to a graph that is already running",
+      "removing an edge without hanging its consumers",
+      "a control-plane mutation reports success and nothing changed",
+      "a late subscriber waits forever on a barrier that already resolved"
+     ]
+    },
+    {
+     "slug": "bounded-expansion",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a document rewrite reads further documents chosen by the author",
+      "a load step hangs or exhausts memory before validation",
+      "deciding where a composite body may be read from"
+     ]
+    },
+    {
+     "slug": "composite-expansion-contract",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "factoring a repeated sub-topology into a reusable body",
+      "wiring an outer graph to a composite's ports",
+      "deciding whether a check belongs in the expander or the validator"
+     ]
+    },
+    {
+     "slug": "panic-proof-numeric-fields",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a declared duration or size reaches a runtime conversion",
+      "a control plane must survive any document an author submits",
+      "a periodic node spins at full rate on a small declared period"
+     ]
+    },
+    {
+     "slug": "per-kind-field-whitelist",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a declared field appears to have no effect on a running node",
+      "adding a node kind to a topology document",
+      "deciding whether an unrecognized key is a refusal or a warning"
+     ]
+    },
+    {
+     "slug": "typed-port-compatibility",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "annotating channel types on a graph that was written untyped",
+      "deciding whether a producer and consumer disagree",
+      "resolving a schema for a channel whose type is parameterized"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "additive-live-mutation",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/applications/rust--additive-live-mutation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "bounded-expansion",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/applications/rust--bounded-expansion.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
     }
    ]
   },
@@ -7442,6 +7820,116 @@
     }
    ]
   },
+  "edge-queue-policy": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/edge-queue-policy.md",
+   "digest": "sha256:05657f1ae54dcfd5",
+   "techniques": [
+    {
+     "slug": "control-channel-headroom",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "lifecycle and data messages share one bounded channel",
+      "a shutdown or close notice was lost during a burst",
+      "sizing the reserve on a mixed channel"
+     ]
+    },
+    {
+     "slug": "drop-accounting",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an edge drops on purpose and nobody can tell",
+      "a consumer sees fewer messages than the producer sent",
+      "one edge policy must hold across two transports"
+     ]
+    },
+    {
+     "slug": "eviction-priority-classes",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a bounded channel carries more than one kind of message",
+      "deciding what a full queue sacrifices",
+      "a stalled consumer's queue fills with markers"
+     ]
+    },
+    {
+     "slug": "in-band-flush",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "queued output must be abandoned the moment it is superseded",
+      "interruption is racing the data it cancels",
+      "deciding whether sessions may share one input"
+     ]
+    },
+    {
+     "slug": "least-recently-used-input-fairness",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one consumer reads several typed inputs at different rates",
+      "a slow input is never served under load",
+      "choosing between a fair receive and a chronological stream"
+     ]
+    },
+    {
+     "slug": "per-edge-depth-and-policy",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sizing the queue on a declared edge",
+      "choosing between drop-oldest and backpressure",
+      "a consumer needs losslessness on one input and freshness on another"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "eviction-priority-classes",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/applications/rust--eviction-priority-classes.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "per-edge-depth-and-policy",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/applications/rust--per-edge-depth-and-policy.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    }
+   ]
+  },
   "embedded-db": {
    "category": "backend-platform",
    "subcategory": "data-layer",
@@ -8455,6 +8943,122 @@
     }
    ]
   },
+  "fault-signal-propagation": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/fault-signal-propagation.md",
+   "digest": "sha256:28425eec0acdbd8b",
+   "techniques": [
+    {
+     "slug": "edge-deadline-arming",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an input that is idle at boot is being declared dead",
+      "deciding which party refreshes a staleness clock",
+      "a fast transport bypasses the component that enforces a declared timeout"
+     ]
+    },
+    {
+     "slug": "last-value-degradation",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "identity-survives-reuse",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a consumer stops entirely because one of several inputs died",
+      "designing what a stage does while an input is stale",
+      "a restarted producer's first values are fused with the old producer's cached ones"
+     ]
+    },
+    {
+     "slug": "no-synthetic-terminal",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a producer restarted with requests in flight against it",
+      "deciding whether a runtime should fabricate an error reply to keep a code path uniform",
+      "a wait needs to distinguish a dead peer from a slow one"
+     ]
+    },
+    {
+     "slug": "recoverable-vs-closed",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a consumer exits during its upstream's restart window",
+      "deciding what counts toward an all-inputs-closed verdict",
+      "a recovery signal fires while the receiver is still saturated"
+     ]
+    },
+    {
+     "slug": "restart-notification-scope",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding who hears that a producer was restarted",
+      "a restart storm floods every consumer with facts about strangers",
+      "a consumer fuses state from two generations of the same producer"
+     ]
+    },
+    {
+     "slug": "typed-edge-events-in-band",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a consumer must learn its upstream failed without inventing a timeout",
+      "designing the event vocabulary a data channel carries beside payloads",
+      "deciding whether supervision facts travel in-band or on a side channel"
+     ],
+     "stage": "multi-service"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "edge-deadline-arming",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/applications/rust--edge-deadline-arming.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "typed-edge-events-in-band",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/applications/rust--typed-edge-events-in-band.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    }
+   ]
+  },
   "feed": {
    "category": "ui-surfaces",
    "subcategory": "data-display",
@@ -8663,7 +9267,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:f500543689e80897",
+   "digest": "sha256:11936ca94b84392c",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -8693,6 +9297,24 @@
       "deciding whether to fork the conversation or start a fresh session",
       "a worker re-derived something the dispatcher already knew",
       "choosing which worker class runs a task"
+     ]
+    },
+    {
+     "slug": "completion-claim-verification",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a delegate reports done and nothing has read the artifact",
+      "writing acceptance criteria for a delegated task",
+      "a test run cited as evidence ran in the worker's own shell",
+      "deciding what a verifier says when it cannot decide",
+      "a completion cue parsed from a transcript parks a session as finished"
      ]
     },
     {
@@ -8894,6 +9516,13 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--brief-carries-the-session.md",
      "verified_on": "2026-08-25",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "completion-claim-verification",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--completion-claim-verification.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -10017,7 +10646,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256:7b71624c9e00080b",
+   "digest": "sha256:35f82cb015a575e2",
    "techniques": [
     {
      "slug": "job-observability",
@@ -10110,7 +10739,8 @@
      "stack": "rust",
      "technique": "lease-renewal",
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--lease-renewal.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -10118,6 +10748,13 @@
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/rust--terminal-state-recovery.md",
      "verified_on": "2026-08-28",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "sql",
+     "technique": "lease-renewal",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/sql--lease-renewal.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "sql@3.45"
     }
    ]
   },
@@ -11166,7 +11803,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:4deb18fb78cdf0a2",
+   "digest": "sha256:0c0c967a3f95531d",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -11285,6 +11922,23 @@
       "fencing tool results so the model reads them as data",
       "an argument in a call came from a prior tool result",
       "caught an injection and tempted to delete the poisoned turn"
+     ]
+    },
+    {
+     "slug": "write-freshness-gate",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model edits a file it read many turns ago",
+      "two parallel tool calls write one path in the same turn",
+      "an agent keeps appending a section it already wrote",
+      "deciding whether a write tool needs a precondition",
+      "a summarised context still holds an edit in flight"
      ]
     }
    ],
@@ -12811,7 +13465,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/optional-dependency-degradation.md",
-   "digest": "sha256:fc9deba29e5460d5",
+   "digest": "sha256:0cefb91357cf23c8",
    "techniques": [
     {
      "slug": "absent-degrades-malformed-fails-fast",
@@ -12867,14 +13521,17 @@
      "laws": [
       "creation-names-reaper",
       "gate-sees-target",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "a fallback written for a platform gap that the platform is expected to close",
       "deciding whether to gate a substitute implementation on a capability check or always run it",
       "a compatibility path nobody has measured since it was written",
-      "a workaround still shipping years after the capability it covered arrived"
+      "a workaround still shipping years after the capability it covered arrived",
+      "a pinned dependency carries workarounds and a fix for one of them has merged upstream",
+      "deciding whether an exact version pin is a workaround or a policy"
      ]
     },
     {
@@ -12960,11 +13617,25 @@
      "verified_against": "node@24"
     },
     {
+     "stack": "python",
+     "technique": "guarded-singleton-accessor",
+     "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/python--guarded-singleton-accessor.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "python@3.10"
+    },
+    {
      "stack": "react",
      "technique": "fallback-retirement-condition",
      "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/react--fallback-retirement-condition.md",
      "verified_on": "2026-08-31",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "fallback-retirement-condition",
+     "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/rust--fallback-retirement-condition.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -13780,7 +14451,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/pipeline-dag.md",
-   "digest": "sha256:5bc44b47cf4a69be",
+   "digest": "sha256:c663cd39b16d3e2c",
    "techniques": [
     {
      "slug": "conditional-edges",
@@ -13906,6 +14577,13 @@
      "technique": "external-adapter-nodes",
      "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/applications/rust--external-adapter-nodes.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "graph-validation",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/applications/rust--graph-validation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
     },
     {
      "stack": "rust",
@@ -14845,7 +15523,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:c9405ec5715a160e",
+   "digest": "sha256:f0284c4a7ebc61c8",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -15162,6 +15840,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/claude-code--unmeasurable-criteria.md",
      "verified_on": "2026-09-01",
      "verified_against": "claude-code@2.1.252"
+    },
+    {
+     "stack": "next",
+     "technique": "gate-liveness",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/next--gate-liveness.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "next@16.3.3"
     },
     {
      "stack": "next",
@@ -15665,7 +16350,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256:3bd5bc726e96dbc9",
+   "digest": "sha256:cd8a4c6535d22efa",
    "techniques": [
     {
      "slug": "changelog-generation",
@@ -15679,6 +16364,22 @@
       "writing commit subjects that survive extraction",
       "deciding which kinds count as user-facing",
       "hand edits vanish on the next compile"
+     ]
+    },
+    {
+     "slug": "deprecation-by-version-arithmetic",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "marking a public symbol deprecated",
+      "a deprecation tag that has outlived several releases with callers still attached",
+      "deciding which version removes a replaced API",
+      "a warning that names no removal point",
+      "reviewing what a release is allowed to delete"
      ]
     },
     {
@@ -15755,6 +16456,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "deprecation-by-version-arithmetic",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/applications/node--deprecation-by-version-arithmetic.md",
+     "verified_on": "2026-09-02"
+    },
     {
      "stack": "node",
      "technique": "size-budgets",
@@ -16005,7 +16712,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
-   "digest": "sha256:01cb175cc8d8443f",
+   "digest": "sha256:b15ea4d26169eafd",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -16111,6 +16818,13 @@
      "technique": "spec-ships-with-artifact",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/process--spec-ships-with-artifact.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "spec-ships-with-artifact",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/python--spec-ships-with-artifact.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -17438,7 +18152,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
-   "digest": "sha256:a6b8dfdeb6bc72ad",
+   "digest": "sha256:960ff1a42b860ec6",
    "techniques": [
     {
      "slug": "inherited-default-override",
@@ -17453,7 +18167,10 @@
       "a preference whose default comes from the operating environment rather than from code",
       "a user's stored choice stopped tracking a platform setting they expected it to follow",
       "deciding whether a two-state control needs a third automatic option",
-      "a toggle that can never be returned to its inherited value once pressed"
+      "a toggle that can never be returned to its inherited value once pressed",
+      "a key's sensible default depends on what was chosen for a sibling key",
+      "a validation error blames a value the user never set",
+      "deciding whether an agent-facing surface should offer defaults at all"
      ]
     },
     {
@@ -17557,6 +18274,13 @@
     },
     {
      "stack": "rust",
+     "technique": "inherited-default-override",
+     "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--inherited-default-override.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
      "technique": "key-registry",
      "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--key-registry.md",
      "verified_on": "2026-08-18"
@@ -17575,7 +18299,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/sidecar-provisioning.md",
-   "digest": "sha256:91772c9896bcff75",
+   "digest": "sha256:1aa4c3aecbdb6242",
    "techniques": [
     {
      "slug": "atomic-downloads",
@@ -17683,6 +18407,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "atomic-downloads",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/node--atomic-downloads.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24.14.0"
+    },
     {
      "stack": "rust",
      "technique": "atomic-downloads",
@@ -18187,7 +18918,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/streaming-output.md",
-   "digest": "sha256:b68df827ae03a8d9",
+   "digest": "sha256:7d559ce0c8a4cf1c",
    "techniques": [
     {
      "slug": "buffering-and-backpressure",
@@ -18290,6 +19021,13 @@
      "technique": "buffering-and-backpressure",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/applications/react--buffering-and-backpressure.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "cancellation-and-finalization",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/applications/rust--cancellation-and-finalization.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
     },
     {
      "stack": "rust",
@@ -18447,7 +19185,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256:39a1c87724b2fd3c",
+   "digest": "sha256:4e92566e442039ce",
    "techniques": [
     {
      "slug": "concurrency-and-slots",
@@ -18551,6 +19289,13 @@
      "verified_on": "2026-08-22"
     },
     {
+     "stack": "node",
+     "technique": "liveness-and-heartbeats",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/node--liveness-and-heartbeats.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24.14.0"
+    },
+    {
      "stack": "rust",
      "technique": "concurrency-and-slots",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--concurrency-and-slots.md",
@@ -18569,7 +19314,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/supply-chain/supply-chain.md",
-   "digest": "sha256:488f64a653e2396d",
+   "digest": "sha256:87d4b5b7cf1bc62c",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -18675,6 +19420,23 @@
      ]
     },
     {
+     "slug": "unsafe-deserialization-off-by-default",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "loading a saved model",
+      "checkpoint",
+      "array archive or object graph produced outside the current process",
+      "a loader whose permissive mode is the default",
+      "choosing a serialization format for state that will be shared or downloaded",
+      "a security advisory names a load path"
+     ]
+    },
+    {
      "slug": "update-automation-review",
      "status": "forged",
      "laws": [
@@ -18747,6 +19509,12 @@
     },
     {
      "stack": "process",
+     "technique": "unsafe-deserialization-off-by-default",
+     "file": "knowledge/software-engineering/security/supply-chain/applications/process--unsafe-deserialization-off-by-default.md",
+     "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "process",
      "technique": "update-automation-review",
      "file": "knowledge/software-engineering/security/supply-chain/applications/process--update-automation-review.md",
      "verified_on": "2026-09-02"
@@ -18771,7 +19539,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/sync-replication.md",
-   "digest": "sha256:f2576b5ecb668434",
+   "digest": "sha256:4ba9e3efc7a66b08",
    "techniques": [
     {
      "slug": "change-tracking-and-cursors",
@@ -18885,6 +19653,13 @@
      "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/rust--tombstone-propagation.md",
      "verified_on": "2026-08-29",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "topology-declaration",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/rust--topology-declaration.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.97"
     }
    ]
   },
@@ -19385,7 +20160,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:827a5eb540b02bd7",
+   "digest": "sha256:b420327dc5250ffd",
    "techniques": [
     {
      "slug": "fixture-economics",
@@ -19583,6 +20358,12 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--negative-control-tests.md",
      "verified_on": "2026-08-24",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "platform-quirk-absorption",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--platform-quirk-absorption.md",
+     "verified_on": "2026-09-02"
     }
    ]
   },
@@ -20603,7 +21384,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256:262e2ee205542f6b",
+   "digest": "sha256:1faa21100c54ddc8",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -20741,6 +21522,22 @@
       "mic denied but the affordance shows nothing",
       "empty transcript while the meter was moving",
       "a partial transcript fired a real action"
+     ]
+    },
+    {
+     "slug": "transcript-handoff-receipts",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a dictation product inserts the transcript into whatever application holds the cursor",
+      "users report their previous clipboard content pasted instead of the transcript",
+      "deciding between synthesized keystrokes and a clipboard paste for delivery",
+      "a timed clipboard restore works on the developer's machine and fails under load",
+      "a screenshot or image vanished from the clipboard after a dictation"
      ]
     },
     {
@@ -21330,11 +22127,14 @@
     "data-access/batching-and-n-plus-one",
     "data-access/cross-driver-invariant-parity",
     "data-access/repo-testing",
+    "data-plane-transport-selection/path-divergence-audit",
     "data-retention/confirm-by-echo",
     "data-retention/dry-run-preview",
     "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
+    "declared-process-graph/bounded-expansion",
+    "declared-process-graph/panic-proof-numeric-fields",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-analytics/review-coverage-rate",
     "demo-data-plane/runtime-dispatch-not-build-flag",
@@ -21361,6 +22161,8 @@
     "draft-editing/dirty-tracking",
     "draft-editing/navigation-guards",
     "drag-drop/ownership-boundaries",
+    "edge-queue-policy/drop-accounting",
+    "edge-queue-policy/least-recently-used-input-fairness",
     "embedded-db/journal-and-durability-modes",
     "embedded-db/quiet-window-maintenance",
     "embedded-preview/dev-server-registry",
@@ -21381,7 +22183,10 @@
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/expiring-share-links",
     "executive-reporting/grounded-narrative-generation",
+    "fault-signal-propagation/edge-deadline-arming",
+    "fault-signal-propagation/recoverable-vs-closed",
     "file-browsing/listing-and-refresh",
+    "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/coordination-failure-triage",
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/lifecycle-signals",
@@ -21435,6 +22240,7 @@
     "mcp-tools/tool-schema-design",
     "mcp-tools/transport-selection",
     "mcp-tools/untrusted-result-handling",
+    "mcp-tools/write-freshness-gate",
     "measurement-honesty/incomplete-not-verdict",
     "measurement-honesty/tuning-corpus-disjointness",
     "metric-forecasting/projection-presentability-gates",
@@ -21501,6 +22307,7 @@
     "rate-limiting/metered-step-selection",
     "rate-limiting/untrusted-key-derivation",
     "realtime-events/event-registry",
+    "release-pipeline/deprecation-by-version-arithmetic",
     "release-pipeline/pipeline-staging",
     "release-pipeline/release-verification",
     "release-pipeline/updater-chain",
@@ -21551,6 +22358,7 @@
     "supply-chain/scheduled-deep-analysis",
     "supply-chain/secret-scanning-architecture",
     "supply-chain/toolchain-floor-drift",
+    "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
     "supply-chain/vendored-fork-ledger",
     "supply-chain/verification-scope",
@@ -21693,12 +22501,15 @@
     "data-access/repo-testing",
     "data-access/row-mapping",
     "data-access/transactions-and-units-of-work",
+    "data-plane-transport-selection/control-plane-off-the-data-path",
+    "data-plane-transport-selection/moved-payload-has-no-fallback",
     "data-retention/destructive-override-floor",
     "data-retention/time-budgeted-batch-purge",
     "data-viz/empty-and-degraded-chart-states",
     "dead-code/instrument-per-orphan-class",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
+    "declared-process-graph/per-kind-field-whitelist",
     "delivery-analytics/delivery-metric-denominators",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-guarantees/dead-letter-design",
@@ -21727,6 +22538,8 @@
     "docs-sync/source-as-data-without-the-app",
     "document-text-extraction/unreadable-region-refusal",
     "draft-editing/debounced-save-groups",
+    "edge-queue-policy/control-channel-headroom",
+    "edge-queue-policy/drop-accounting",
     "embedded-db/connection-pooling",
     "embedded-db/extension-lifecycle",
     "embedded-db/quiet-window-maintenance",
@@ -21752,10 +22565,14 @@
     "executive-reporting/grounded-narrative-generation",
     "executive-reporting/provenance-caveats",
     "executive-reporting/single-ranked-next-move",
+    "fault-signal-propagation/no-synthetic-terminal",
+    "fault-signal-propagation/recoverable-vs-closed",
+    "fault-signal-propagation/typed-edge-events-in-band",
     "feed/feed-retention",
     "feed/live-prepend",
     "file-browsing/listing-and-refresh",
     "fleet-orchestration/absent-status-passthrough",
+    "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/durable-fleet-state",
     "fleet-orchestration/heterogeneous-model-panels",
     "fleet-orchestration/lifecycle-signals",
@@ -21806,6 +22623,7 @@
     "maturity-ladders/rung-criteria",
     "mcp-tools/server-composition",
     "mcp-tools/tool-schema-design",
+    "mcp-tools/write-freshness-gate",
     "measurement-honesty/incomplete-not-verdict",
     "measurement-honesty/renormalize-over-present",
     "measurement-honesty/tuning-corpus-disjointness",
@@ -22007,6 +22825,7 @@
     "voice-io/portable-provider-package",
     "voice-io/spoken-intent-parsing",
     "voice-io/stt-pipeline",
+    "voice-io/transcript-handoff-receipts",
     "voice-io/voice-ux-integration",
     "web-scraping/dry-run-preview",
     "web-scraping/extraction-rule-dsl",
@@ -22175,6 +22994,7 @@
     "credential-vault/encryption-at-rest",
     "data-access/batching-and-n-plus-one",
     "data-access/read-models-and-projections",
+    "data-plane-transport-selection/size-threshold-by-page-cost",
     "data-retention/dry-run-preview",
     "data-retention/time-budgeted-batch-purge",
     "data-viz/scale-and-axis-design",
@@ -22206,6 +23026,7 @@
     "docs-sync/same-change-enforcement",
     "document-text-extraction/unreadable-region-refusal",
     "draft-editing/completeness-derivation",
+    "edge-queue-policy/drop-accounting",
     "embedded-db/db-self-instrumentation",
     "embedded-db/storage-accounting-and-pruning",
     "entity-lifecycle/blast-radius-computation",
@@ -22463,6 +23284,11 @@
     "conversation-orchestration/recall-transparency",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "correlated-exchange-over-broadcast/orphaned-correlation-on-peer-restart",
+    "correlated-exchange-over-broadcast/terminal-status-set",
+    "data-plane-transport-selection/route-probe-then-freeze",
+    "declared-process-graph/panic-proof-numeric-fields",
+    "declared-process-graph/typed-port-compatibility",
     "delivery-analytics/post-landing-repair-density",
     "dependency-declaration/logical-name-or-address",
     "dependency-declaration/progressive-resolution",
@@ -22470,9 +23296,14 @@
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/screen-then-confirm-detection",
     "document-text-extraction/unreadable-region-refusal",
+    "edge-queue-policy/per-edge-depth-and-policy",
     "error-handling/cancellation-attribution",
     "eval-harness/measurement-revision",
+    "fault-signal-propagation/edge-deadline-arming",
+    "fault-signal-propagation/last-value-degradation",
+    "fault-signal-propagation/no-synthetic-terminal",
     "fleet-orchestration/absent-status-passthrough",
+    "fleet-orchestration/completion-claim-verification",
     "hitl-approval/oracle-before-gate",
     "knowledge-registry/verification-is-contributed",
     "machine-authored-documentation/declared-truth-boundary",
@@ -22484,6 +23315,7 @@
     "migrations/error-propagation",
     "model-routing/quality-axis-separation",
     "optional-dependency-degradation/capability-honest-refusal",
+    "optional-dependency-degradation/fallback-retirement-condition",
     "p2p-networking/peer-state-honesty",
     "plan-review/informational-fold-in",
     "quality-gates/advancement-evidence-fields",
@@ -22549,12 +23381,17 @@
     "concurrency-guards/guard-key-design",
     "concurrency-guards/idempotency-by-design",
     "concurrent-vcs/shared-resource-arbitration",
+    "conformance-checking/declared-deviation-register",
     "connector-catalog/catalog-as-data",
     "connector-catalog/matching-and-ranking",
+    "correlated-exchange-over-broadcast/passthrough-buffered-wait",
+    "correlated-exchange-over-broadcast/reply-fan-out-filtering",
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/spend-attribution",
     "data-retention/erasure-requests",
     "data-viz/encoding-vocabulary",
+    "declared-process-graph/additive-live-mutation",
+    "declared-process-graph/composite-expansion-contract",
     "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
     "delivery-guarantees/atomic-claiming",
@@ -22580,6 +23417,9 @@
     "eval-harness/discriminating-task-selection",
     "eval-harness/scenario-design",
     "executive-reporting/expiring-share-links",
+    "fault-signal-propagation/last-value-degradation",
+    "fault-signal-propagation/recoverable-vs-closed",
+    "fault-signal-propagation/restart-notification-scope",
     "feed/event-clustering",
     "feed/live-prepend",
     "feed/read-position-and-unseen",
@@ -22747,6 +23587,8 @@
     "concurrency-guards/single-flight-primitives",
     "connector-catalog/shipped-vs-operator-ownership",
     "conversation-orchestration/model-proposed-quick-replies",
+    "correlated-exchange-over-broadcast/correlation-key-vocabulary",
+    "correlated-exchange-over-broadcast/reply-fan-out-filtering",
     "cost-metering/budget-enforcement",
     "credential-vault/acquisition",
     "credential-vault/brokered-egress",
@@ -22754,9 +23596,11 @@
     "data-access/layering-rules",
     "data-access/query-construction",
     "data-access/read-models-and-projections",
+    "data-plane-transport-selection/policy-demotes-transport",
     "data-retention/confirm-by-echo",
     "data-retention/destructive-override-floor",
     "data-retention/erasure-requests",
+    "declared-process-graph/composite-expansion-contract",
     "demo-data-plane/network-faithful-mocks",
     "device-pairing/admission-scoping",
     "device-pairing/pairing-ceremony",
@@ -22795,6 +23639,7 @@
     "mcp-tools/authentication-and-scoping",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/server-composition",
+    "mcp-tools/write-freshness-gate",
     "metric-forecasting/projection-presentability-gates",
     "modal-stack/stack-ownership",
     "model-routing/routing-policy",
@@ -22923,15 +23768,19 @@
     "conversation-orchestration/layered-avatar-state-machine",
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
+    "correlated-exchange-over-broadcast/passthrough-buffered-wait",
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/usage-ledgers",
     "credential-vault/brokered-egress",
     "credential-vault/token-refresh-lifecycle",
+    "data-plane-transport-selection/control-plane-off-the-data-path",
+    "data-plane-transport-selection/moved-payload-has-no-fallback",
     "data-retention/per-tenant-retention-policy",
     "data-retention/time-budgeted-batch-purge",
     "data-viz/chart-loading-economics",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
+    "declared-process-graph/additive-live-mutation",
     "delivery-guarantees/atomic-claiming",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/stuck-reaping",
@@ -22943,6 +23792,7 @@
     "diff-comparison/computation-offload",
     "drag-drop/cross-surface-handoff",
     "drag-drop/drag-lifecycle",
+    "edge-queue-policy/eviction-priority-classes",
     "embedded-db/connection-pooling",
     "embedded-db/single-writer-holder-discipline",
     "embedded-db/storage-accounting-and-pruning",
@@ -23064,6 +23914,7 @@
     "usage-analytics/batching-and-quota",
     "versioning-snapshots/retention-and-pruning",
     "voice-io/stt-pipeline",
+    "voice-io/transcript-handoff-receipts",
     "voice-io/tts-pipeline",
     "voice-io/voice-ux-integration",
     "web-scraping/scrape-scheduling",
@@ -23142,6 +23993,9 @@
     "conversation-orchestration/progress-beat-grammar",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "correlated-exchange-over-broadcast/binding-parity-floor",
+    "correlated-exchange-over-broadcast/correlation-key-vocabulary",
+    "correlated-exchange-over-broadcast/terminal-status-set",
     "cost-metering/price-tables",
     "credential-vault/health-probing",
     "credential-vault/rotation-and-remediation",
@@ -23152,6 +24006,7 @@
     "data-retention/per-tenant-retention-policy",
     "data-viz/encoding-vocabulary",
     "data-viz/metric-identity",
+    "declared-process-graph/per-kind-field-whitelist",
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
     "delivery-guarantees/non-delivery-ledgers",
@@ -23181,6 +24036,8 @@
     "docs-sync/source-doc-mapping",
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/cross-surface-handoff",
+    "edge-queue-policy/eviction-priority-classes",
+    "edge-queue-policy/in-band-flush",
     "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/extension-lifecycle",
     "embedded-preview/cross-frame-protocol",
@@ -23194,6 +24051,8 @@
     "eval-harness/metric-role-contract",
     "executive-reporting/bad-news-labelling",
     "executive-reporting/single-ranked-next-move",
+    "fault-signal-propagation/restart-notification-scope",
+    "fault-signal-propagation/typed-edge-events-in-band",
     "feed/reverse-chronology-semantics",
     "file-browsing/kind-taxonomy",
     "fleet-orchestration/lifecycle-signals",
@@ -23365,12 +24224,23 @@
     "authorization/delegated-authority",
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
+    "correlated-exchange-over-broadcast/binding-parity-floor",
+    "correlated-exchange-over-broadcast/orphaned-correlation-on-peer-restart",
+    "correlated-exchange-over-broadcast/terminal-status-set",
     "credential-vault/token-refresh-lifecycle",
+    "data-plane-transport-selection/route-probe-then-freeze",
+    "declared-process-graph/additive-live-mutation",
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/environment-promotion",
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/recognition-boundary-and-escalation",
+    "edge-queue-policy/control-channel-headroom",
+    "edge-queue-policy/eviction-priority-classes",
+    "edge-queue-policy/in-band-flush",
     "error-handling/cancellation-attribution",
+    "fault-signal-propagation/no-synthetic-terminal",
+    "fault-signal-propagation/restart-notification-scope",
+    "fault-signal-propagation/typed-edge-events-in-band",
     "knowledge-registry/verification-is-contributed",
     "machine-authored-documentation/declared-truth-boundary",
     "machine-authored-documentation/three-gate-acceptance",
@@ -23581,12 +24451,20 @@
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
     "conformance-checking/declared-deviation-register",
+    "correlated-exchange-over-broadcast/binding-parity-floor",
     "data-access/cross-driver-invariant-parity",
+    "data-plane-transport-selection/path-divergence-audit",
+    "data-plane-transport-selection/policy-demotes-transport",
+    "data-plane-transport-selection/size-threshold-by-page-cost",
+    "declared-process-graph/bounded-expansion",
+    "declared-process-graph/typed-port-compatibility",
     "deployment-contract/direct-push-delivery",
     "document-text-extraction/recognition-boundary-and-escalation",
     "document-text-extraction/structural-amplification-caps",
+    "edge-queue-policy/per-edge-depth-and-policy",
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
+    "fault-signal-propagation/edge-deadline-arming",
     "fleet-orchestration/brief-carries-the-session",
     "knowledge-registry/verification-is-contributed",
     "machine-authored-documentation/evidence-without-verdict",
@@ -23608,9 +24486,11 @@
     "quality-gates/prose-rule-drift",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
+    "release-pipeline/deprecation-by-version-arithmetic",
     "repository-landing-document/style-rule-ships-its-detector",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "structured-output/schema-validation-and-repair",
+    "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
     "supply-chain/verification-scope",
     "web-scraping/soak-mode-and-verdict-replay",
@@ -23622,6 +24502,8 @@
    "techniques": [
     "agent-instruction-files/restraint-amplifier-balance",
     "deployment-contract/deployment-config-as-code",
+    "fault-signal-propagation/last-value-degradation",
+    "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
     "machine-authored-documentation/preregistered-kill-criterion",
