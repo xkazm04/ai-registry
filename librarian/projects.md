@@ -57,15 +57,23 @@ once, **at a different path on each**. `projects.json` gives every project a
 
 The keys ARE the machines it exists on; a machine absent from the map does not have
 it, and resolving there yields nothing rather than an error. Adding a machine is
-adding one key. `.machine.local.json` says which machine this is, the root those
-paths resolve against, and — for a checkout that cannot be expressed relative to
-that root at all (another drive) — an optional `overrides` map, which is where an
-absolute path is allowed to live because that file is never published.
+adding one key. The machine's **root** — the absolute directory those relative paths
+resolve against — is declared in `projects.json` too, under `machines.<name>.root`
+(since 2026-09-02), so the committed file alone yields a full path per device.
+`.machine.local.json` then says only which machine this is and who the contributor is,
+plus — for a checkout that cannot be expressed relative to the root at all (another
+drive) — an optional `overrides` map, and an optional `root` that overrides the
+declared one.
 
-| Machine | Role |
-| --- | --- |
-| `Fox` | secondary dev box |
-| `Wolf` | primary dev box |
+**Every path the registry publishes about a project is relative to the project root**,
+never to a device: the fleet map's context paths, an application's seam, a direction
+proposal's anchors. Parallel development on several devices reads the same file and
+resolves it against its own root.
+
+| Machine | Role | Root |
+| --- | --- | --- |
+| `Fox` | secondary dev box | not declared yet (its local file supplies one) |
+| `Wolf` | primary dev box | `C:/Users/kazda` |
 
 Domains are deliberately NOT in `projects.json`. Every project declares its own in its
 `.ai/manifest.yaml` (`knowledge.domains`), which is committed in that project and is the

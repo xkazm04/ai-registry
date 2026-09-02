@@ -63,8 +63,13 @@ Classification of an absence, first match wins:
 | `accepted` | a direction in flight - not a candidate, a task | directions ledger |
 | `candidate` | everything else | - |
 
-Public-safe: slugs, group and context names, states and counts. No paths, no evidence
-strings, no hosts. The evidence stays in the project's own map.
+Public, with one rule about paths: **every path is relative to the project's root.** The
+JSON carries each context's paths exactly as the registry map stores them
+(project-relative), and a row carrying an absolute path is dropped and counted in that
+project's `absolutePathsDropped`. The root per device lives in `projects.json` under
+`machines.<name>.root`, and the project's checkout under it in `checkouts.<name>`, so the
+same fleet map resolves on every device without editing. No evidence strings, no hosts;
+those stay in the project's own map.
 
 **3. The direction proposal and its ledger**, in the project's own tree:
 
