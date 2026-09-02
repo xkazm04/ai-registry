@@ -197,3 +197,10 @@ bumped independently (that run 1.1→1.2, this one 1.2→1.3).
   for documented-but-unimplemented enum values (here `consumer='mention'` -
   "routes to an actor" - zero implementations). The schema often knows the
   feature before the code does, and the finding arrives pre-designed.
+
+## 1.8.0 - 2026-09-01 - pof (Fable vs Opus bake-off, CoplayDev/unity-mcp)
+- Same source, two disjoint top findings: tool annotations (Fable) and tool-group gating (Opus). Fable judged groups unearned; Opus never surfaced annotations. Both merged. A peer tool-server publishes its contract as generated reference docs, so its invariants arrive as testable parameter descriptions; read the parameter tables before the architecture pages (second sighting of the peer-codebase yield profile: ~1:3 findings to catches, findings from the least glamorous material).
+- Before trusting a composite gate, confirm it reaches the paths you touched: root `tsconfig` excluded `tools/`, eslint ignored it, vitest's globs stopped at `src/**`. Every line shipped was invisible to `npm run validate`; the package's own `npm test` was the real gate, and a fresh worktree lacks its `node_modules`.
+- Never read a gate's verdict through a pipe: `npm run validate | tail` reports `tail`'s status. Run the gate bare, capture its exit code, filter afterwards.
+- Restore an injected fault by inverting the edit, never `git checkout -- <file>` on a file carrying uncommitted work; nine annotations were lost that way once.
+- A dead premise whose reason is a deliberate opposite choice ("PoF avoids double-apply by never retrying") is a catch with a reason, not redundancy; record it so a future run does not add retries and manufacture the hazard.

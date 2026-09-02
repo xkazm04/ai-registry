@@ -1,6 +1,6 @@
 ---
 name: research
-version: 1.8.0
+version: 1.9.0
 description: Extract actionable improvements for a project from external sources (video, blog, article, raw text). Scores ideas against the codebase, buckets into Code / Template / Credential, and persists findings to an Obsidian memory vault.
 argument-hint: "[source or question]"
 category: ai-native
@@ -1402,3 +1402,7 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
+
+## Model choice (bake-off 2026-09-01, pof / unity-mcp)
+
+No pin. The two runs shipped disjoint, complementary findings from the same source (Fable: MCP tool annotations on every tool plus an operator skill; Opus: tool-group gating per the server-composition technique plus a build long-poll) and the operator merged both. Fable read more of the source faster; Opus checked whether the repo's composite gate covers the files it changed (it did not) and never wrote outside its worktree. Time-boxed: Fable. Gate-sensitive package under a monorepo root: Opus. Both when the source is rich.

@@ -1228,3 +1228,12 @@ that check stays cheap.
   builds were pairs: a route that computed `checkpoints` for a panel that read none of it, a
   guide renderer with two verdict words beside a summary renderer with three, and a `visual`
   gate branch still self-certifying under a header comment that said no gate does.
+
+## 2.8.0 - 2026-09-01 - pof (Fable vs Opus bake-off, --develop --one harness-autonomy)
+- Same context, both runs applied all 23 lenses: Fable 23 candidates / 12 built, Opus 26 / 6 built. Shared fixes: the visual gate self-pass and the phantom-catch 400. Only Opus found the self-heal re-verify running `exec` at Node's 1 MB `maxBuffer` against the gate's 10 MB (ENOBUFS turns a landed repair into a fresh failure) and the replayed `AGENTS.md` learnings spliced as bare instruction into a `--dangerously-skip-permissions` session. Only Fable shipped the durable-sidecar status GET and the run-end verdict tally. Both merged.
+- The `--one` budget of 20 is below what a 23-lens package can produce (tier caps admit 46). Record the true count and `degraded: true`; never trim finished analysis to fit.
+- §5 has no state for "approved and not built"; a `carry` disposition would make the next round build carries before finding anything new.
+- Load `.ai/applied.jsonl` in §2: it is this repo's experiment log against the registry, with a `next_change` field. One run presented an owed item as a discovery until write-up.
+- The seed's landing check is itself a source-scanning matcher: anchor it on the changed line or an inserted `SEEDED_` token, never on the rule's vocabulary, which the explaining comment satisfies.
+- Two exhaustiveness claims over hand-written lists where the omitted member was the broken one (gate-honesty 6 of 10 gate types; cli-parity 2 of 4 surfaces). Derive the population from the type.
+- Third sighting: reorder §4.6 so "a documented or computed rule with no reader" leads; four of six Opus builds and most of Fable's came from that shape, none from a defect-shape grep.

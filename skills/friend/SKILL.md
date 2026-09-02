@@ -5,7 +5,8 @@ argument-hint: "[context]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.1.0
+version: 1.2.0
+model: fable
 ---
 # Friend
 
@@ -766,3 +767,7 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
+
+## Model choice (bake-off 2026-09-01, kp / Hiring Pipeline)
+
+`model: fable`. Run head-to-head with identical inputs, Fable read the registry subject before proposing and shipped the direction it named (role-keyed aging thresholds, one group boundary crossed and declared); Opus stayed strictly in-area, shipped the editor + tooltip half, and deferred the role-keyed change as its next direction. The operator picked Fable's cycle. Opus's method notes were folded in: the knowledge-sync read is a Phase 1 input (not a closing ritual), the recency signal in a fresh worktree comes from `git log --since`, never from mtime, and Phase 6b can only write `passes.md` in an interactive session. See LESSONS.md.

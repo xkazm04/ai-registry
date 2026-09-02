@@ -239,3 +239,10 @@ rule that only this loop's participants currently follow.
   as the rationale in `references/worktree-recipe.md`.
 - Body is 290-ish lines; the verbatim shared-resource block, the worktree recipe, the base-moved
   surgery, the builder brief template and the outbox detail live in `references/`.
+
+## 2.4.0 - 2026-09-01 - kp (Fable vs Opus bake-off, round 24, delegate-gated)
+- Both directors reconciled a 545-commit-stale vault claim by claim and refuted the same carried "round-24 lead" (`GET /api/schedule?slots=1` open: the smoke ran keyless in dev mode; `proxy.ts` fail-closes in production). Age the vault's claims one at a time; a lead that survived a smoke pass is only as good as the configuration it was observed under. Four "missing" ledger SHAs were squashes; grep the signature symbol before calling a ship lost.
+- Fable shipped six directions in two contexts; Opus three in three disjoint contexts with a registry standard named on each and four candidates rejected at gate. Both merged. Thin slates by evidence are the method; a context reported CONFORMANT with its golden path is a first-class scout verdict.
+- Capture the fork point's gate result with its exit code before the first builder writes; `| tail` masked an exit-1 baseline and proving the failures pre-existing cost a detached worktree.
+- Builder death has three dispositions: complete (re-gate and land as the direction's own commit), partial (keep the half whole, finish inline, say which half was whose), unverifiable (only then the `wip` snapshot). Scaffolding can hide inside tracked files (a probe block in `eslint.config.mjs`); diff every touched file before committing on a dead builder's behalf.
+- When the pool refuses a dispatch, the lot does not disappear: wait, dispatch fewer lots, or build inline and say so. Five of ten dispatches were refused across the two runs.

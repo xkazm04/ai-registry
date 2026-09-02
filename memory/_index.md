@@ -14,6 +14,9 @@ the registry; edit the notes, not the counts.
 - [Service naming and ownership](semantic/service-naming-and-ownership.md) - `platform`,
   confidence 1.0. Domain-first repo names, one owning team per repo, never a person.
 
+- [When to run a lane skill on Fable 5.1 and when on Opus 5](semantic/model-choice-fable-vs-opus.md) - `engineering`,
+  confidence 0.6. Fable ships more and deeper into the data layer; Opus audits gates, contracts and its own scope. Per-skill guidance table.
+
 ### Procedural - what worked: a workflow, a runbook, a tool sequence
 
 - [Rolling back a bad release](procedural/rolling-back-a-bad-release.md) - `platform`,
@@ -25,6 +28,9 @@ the registry; edit the notes, not the counts.
   confidence 1.0. Four checks made blocking after a two-week grace period, and why the grace
   period was the reason it landed.
 
+- [2026-09-01: Fable vs Opus skill bake-off](episodic/2026-09-01-fable-vs-opus-skill-bakeoff.md) - `engineering`,
+  confidence 1.0. Nine lane skills run twice with identical inputs; picks per skill and what the harness taught.
+
 ### Summary - rollups that consolidate other notes
 
 - [2026 H1 delivery guardrails](summary/2026-h1-delivery-guardrails.md) - `engineering`,
@@ -33,7 +39,7 @@ the registry; edit the notes, not the counts.
 ## By namespace
 
 - `platform` - service naming and ownership, rolling back a bad release
-- `engineering` - required checks decision, 2026 H1 delivery guardrails
+- `engineering` - required checks decision, 2026 H1 delivery guardrails, model choice Fable vs Opus, the 2026-09-01 skill bake-off
 
 ## Conventions for a new note
 

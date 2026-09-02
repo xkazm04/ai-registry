@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N]
 category: workflow
 contexts: tracked
 memory: project
-version: 2.8.0
+version: 2.9.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -642,3 +642,7 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
+
+## Model choice (bake-off 2026-09-01, pof / harness-autonomy)
+
+No pin. Fable built twelve fixes including a feature (durable-sidecar status GET) and junctioned the package's node_modules to run its own gate; Opus built six, all defensive, including the two most severe defects of either run (a self-heal re-verify under a tenth of the gate's buffer; a prior session's output replayed as instruction into a permission-free session), refused to manufacture a gate it could not reproduce, and marked its snapshot degraded. The operator merged both. Fable for throughput on a `--one` round; Opus when the context is a control surface for autonomous execution.
