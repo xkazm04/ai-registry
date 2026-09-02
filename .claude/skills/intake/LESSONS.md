@@ -5363,3 +5363,28 @@ been naming that zero for weeks:
   was cut mid-sentence and the two after it never ran, silently, with the ledger lock
   still held. Write the row to a scratch file with the file tool and `cat` it in;
   then re-read the tail before unlocking.
+## 1.6.0 - 2026-09-02 - sentry-self-hosted
+
+- **A fleet tree can complete a source's finding instead of confirming it.** The source
+  had a progress heartbeat and no ownership one; the apply seam had the reverse, with its
+  coupling rule stated in a comment ("liveness must never wait on anything the work
+  computes"). The amendment is the *split*, and neither side alone would have produced it.
+  When the seam's shape is the inverse of the source's, write the discriminator - not an
+  adoption, not a rejection.
+- **The calibration case that moved a count was a row from the run's own output.** The
+  planted checks (a merged proposal must not count; a single-proposal package yields no
+  pair) passed and changed nothing. Reading the four rows the classifier returned found
+  that three were a different mechanism (the bot rebuilding grouped proposals). Before
+  writing a verdict, read the instrument's positive rows, not only its known cases.
+- **The registry's own scripts are managed-project seams.** The not-better row against
+  `link-registry.mjs` needed no cross-repo confirmation, ran in seconds, and *bounded* the
+  technique (machine-owned regions are out of its scope). When a finding is about a tool
+  the registry itself is, apply it here first.
+- **On a packaging repository the "changelog fragments" are the step scripts.** The
+  CHANGELOG is PR titles; the first-party unit that explains a paid-for failure is the
+  install script with the issue number in its comment. The fragments-first focus should
+  read "the smallest first-party unit that explains a failure", whichever file that is.
+- Method edit deferred, deliberately: the calibration focus has met its own three-run
+  check and belongs in Phase 7.5, but a sibling was mid-run on this version. A mid-flight
+  run should do nothing about this; the next run alone on the board bumps to 1.7.0 with
+  that one step added.

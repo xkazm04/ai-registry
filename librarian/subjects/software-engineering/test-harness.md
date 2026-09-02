@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -87,3 +87,13 @@ visible. Both shipped; neither gate weakened.
   Nobody has counted how fast a hand-maintained include list falls behind its
   tree. Return condition: a project where the list has been in place long enough
   for the drift to be a number.
+
+## 2026-09-02 - intake [[2026-09-02-sentry-self-hosted]]
+
+Class: EXTENDS. `flake-lifecycle` § Detected gained "Same code means same inputs" - a suite
+whose inputs float by design measures the world; its scheduled transitions go to a currency
+ledger, never the flake register. **Unapplied**: no fleet project has such a lane; both
+scheduled Rust lanes pin the toolchain and say why in a comment that is the amendment's own
+discriminator ("a certification judged by a floating toolchain would attribute a compiler's
+change to the product"). Return when a project tracks a moving upstream by design. No
+application written - no arms.

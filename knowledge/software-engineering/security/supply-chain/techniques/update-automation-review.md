@@ -6,7 +6,7 @@ technique: update-automation-review
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, absent-guard-is-loud]
 shared_with: []
-use_when: [deciding if green checks justify merging a dependency bump, one manifest bump dragging strangers into the lockfile, months of claimed automation with zero proposals, a framework patch release that mitigates by disabling a capability, judging an upgrade by the label on its release notes]
+use_when: [deciding if green checks justify merging a dependency bump, one manifest bump dragging strangers into the lockfile, months of claimed automation with zero proposals, a framework patch release that mitigates by disabling a capability, judging an upgrade by the label on its release notes, deciding how soon after publication a bump may be proposed]
 ---
 
 # Update automation review
@@ -75,6 +75,45 @@ Group updates by ecosystem and cadence window rather than letting them
 arrive as a continuous trickle: a scheduled weekly batch gets a sitting
 of real attention; thirty proposals dripping in daily get thirty
 reflexive approvals.
+
+## Release age is a tier input
+
+A version's *age* belongs beside its size in the tiering, for two reasons
+that price differently. The first is the supply-chain window: a hijacked
+or poisoned release is usually withdrawn within days of publication, once
+the first victims report it, and a proposal opened on day zero is opened
+inside the window the ecosystem has not yet had time to close. The second
+is churn: a release followed within days by its own successor — a
+regression fixed, a version withdrawn — produces a proposal that will be
+closed as superseded before anyone reads it. The major package managers
+and update bots now offer a **minimum release age** for exactly this; set
+it, from a few days for patches to a week or more for majors, and exempt
+security updates from it explicitly — the floor defends against the
+*unknown* bad release, and an advisory is a known one.
+
+Measure the churn half rather than assuming it. On a four-repository fleet
+with 67 bot proposals over five weeks, 8 were superseded by a later proposal
+for the same package; once grouped proposals the bot itself rebuilds were
+removed from that count, exactly **one** was a release replaced by its
+successor inside a three-day window. The floor's value on such a fleet is
+the supply-chain window, not review time saved, and a team adopting it for
+the second reason should expect a number like that.
+
+A distribution that packages *other* systems' stateful components — a
+database, a broker, a cache — carries a stricter ceiling than age: **the
+major it operates itself.** A self-hosted user must never be the first
+installation to run a version, so the bot is told to ignore majors above
+what the vendor's own production runs. That ignore is an exception in the
+sense [dependency-policy-gates](./dependency-policy-gates.md) defines — it
+must name the condition that lifts it — and the condition here is an
+*event* (the operated version moves), not a date. An event is an
+acceptable expiry when it is named in the file and a reader can check
+whether it has happened; the same ignore with its reason in a contributing
+guide two directories away is the unexpiring exception that technique
+warns against, wearing a comment. Read the bot's own documentation before
+writing one: on some bots an ignore rule also suppresses the *security*
+proposals for that package, which is precisely the class the ceiling was
+never meant to mute.
 
 ## When the dependency is the framework
 

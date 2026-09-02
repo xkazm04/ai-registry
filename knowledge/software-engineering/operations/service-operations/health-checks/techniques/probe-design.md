@@ -6,7 +6,7 @@ technique: probe-design
 status: forged
 laws: [gate-sees-target]
 shared_with: []
-use_when: [deciding whether a check observes the target or a proxy, timed-out probes leave orphaned children behind, deciding if a probe may change anything]
+use_when: [deciding whether a check observes the target or a proxy, timed-out probes leave orphaned children behind, deciding if a probe may change anything, a worker has no port or request surface to probe]
 ---
 
 # Probe design
@@ -98,6 +98,53 @@ artifact is created infrastructure and names its reaper — deletion is part
 of the probe, including on the failure paths — and it never touches real
 entities. "Side-effect-free" precisely stated is: *no durable effect on any
 state the system cares about*.
+
+## The consuming probe: a pulse for a process with no door
+
+A worker with no request surface — a queue consumer, a batch loop, a
+scheduled runner — offers the probe nothing to handshake with, and the
+"process is running" row of the table above is the only proxy left. The
+honest instrument inverts the direction: **the target produces a token and
+the probe consumes it.** The worker touches a file (or bumps a counter,
+or writes a row) from its own loop; the probe deletes the file and reports
+healthy on the deletion, unhealthy when there was nothing to delete. The
+deletion is the whole design, and it is the second principled side effect
+beside the scratch round-trip: the only state the probe changes is a token
+the target minted for exactly this purpose.
+
+- **A stale pulse cannot pass twice.** A timestamp probe compares an age
+  against a window, needs a clock both sides agree on, and needs a declared
+  cadence to compare against — which drifts the first time someone changes
+  the loop. Consumption needs none of that: the target must have written
+  *between two probes*, and the probe's own interval is the only parameter,
+  held by the checker.
+- **The pulse is honest exactly when the loop that does the work emits it.**
+  A token written by a timer thread beside a wedged worker is the
+  heartbeat-from-a-corpse failure the
+  [liveness technique](../../../../llm-agent/runtime-and-io/subprocess-lifecycle/techniques/liveness-and-heartbeats.md)
+  ranks weakest; a token written at the end of each iteration — after the
+  poll, after the batch — stops the moment the worker does. Idle iterations
+  must write it too, or a quiet queue reads as a dead consumer.
+- **Warm-up is declared, not discovered.** A consumer that rebalances,
+  loads a model, or replays a log before its first iteration needs a start
+  period an order of magnitude longer than a server's, or the probe cries
+  wolf at the same minute of every restart. The window is the target's
+  known quiet phase, and it lives in the check's configuration next to the
+  interval.
+- **Interval times retries is the longest one unit of work may take.** Size
+  it against the worker's own maximum poll interval, and prefer a runtime
+  that enforces that maximum itself, so the two bounds cannot silently
+  diverge.
+
+Keep the consuming probe apart from an **ownership** heartbeat. A lease
+renewal proves *this worker still holds this job*, and it runs on its own
+timer, deliberately independent of progress, so that a slow honest run is
+not reclaimed mid-work
+([loop-supervision](../../../../backend-platform/work-execution/background-jobs/techniques/loop-supervision.md)
+owns that claim). A consuming probe proves *this worker is still making
+progress*. The two answer different questions, want opposite couplings to
+the work, and a system that has only the first has an operator surface
+that cannot tell stuck from busy.
 
 ## Real work is the strongest probe
 

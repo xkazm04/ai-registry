@@ -1,7 +1,7 @@
 ---
 subject: supply-chain
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-02
 touched_by: intake
 dry_streak: 0
 ---
@@ -160,3 +160,14 @@ Phase 7.5 ran both against `personas`:
   tool, which is the source's own situation and the reason it needed a hand-built
   check. Without the A/B this technique would have prescribed duplicated logic to
   every ecosystem whose installer already enforces it.
+
+## 2026-09-02 - intake [[2026-09-02-sentry-self-hosted]]
+
+Class: EXTENDS. `update-automation-review` gained "Release age is a tier input" - a minimum
+release age (security exempt), the operated-major ceiling for a distribution's stateful
+components, and event-expiry as an acceptable exception form (pointing at
+`dependency-policy-gates`). `process--update-automation-review`: experiment over 67 bot
+proposals in four fleet repos; 8 superseded, 4 within 3 days, **1 real** after calibration
+removed grouped-proposal rebuilds. Verdict unmeasurable for the supply-chain half, instrument
+named. A fleet tree (politicas) already carried the event-expiring ignore before this source
+was read. 10 -> 10 techniques, 5 -> 6 applications.
