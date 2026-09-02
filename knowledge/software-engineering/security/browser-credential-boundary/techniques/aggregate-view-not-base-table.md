@@ -49,7 +49,17 @@ Two consequences follow that surprise people:
 - The view's own grant is necessary but not sufficient. The caller needs the
   grant on the view *and* a policy on the base table that lets them see the
   rows the aggregate is computed from. An aggregate over rows the caller may
-  not read returns nothing rather than a number.
+  not read does not fail; it returns a *wrong number that looks like a
+  result* — a grouped aggregate returns no groups, an ungrouped count returns
+  zero, an ungrouped sum returns null — and the feature renders a tally of
+  nothing without a single error anywhere
+  ([failure-not-empty-success](../../../_laws.md#failure-not-empty-success)).
+  A suite for the view asserts the expected count, never mere success.
+- The invoker option is recent. In the most widely deployed open-source
+  engine it arrived in the 2022 major and is off by default; a deployment
+  pinned to an older major has no caller-evaluated view at all, and the
+  choice collapses to column-level grants or the privileged routine below.
+  Read the engine's major before designing around the view.
 - If the aggregate must be visible to callers who may *not* read the underlying
   rows — the common case for a public tally — the base table needs a read
   policy for that role that is narrow enough to be harmless, or the aggregate

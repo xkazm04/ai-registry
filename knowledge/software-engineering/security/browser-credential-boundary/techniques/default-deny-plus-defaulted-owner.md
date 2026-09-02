@@ -19,6 +19,15 @@ returns nothing, accepts nothing. That is the correct resting state, and it is
 also the correct final state for every table the browser has no business
 touching.
 
+"Non-privileged" carries one exemption people forget: the **table's owner**
+is not subject to its own policies unless the table is explicitly told to
+force them. A runtime role that also ran the migrations owns every table and
+walks past every policy, and nothing in the policy set says so. Either the
+runtime never connects as the owner — the normal hosted arrangement, where
+the browser-facing role owns nothing — or the table is set to force row
+security and the exemption is closed at the object. Confirm which of the two
+holds; it is a property of the deployment, not of the policy text.
+
 So the posture is two rules that fit on one line each. **Policies on for every
 table in the reachable schema, without exception** — including the ones you are
 sure are unreachable, because "unreachable" is a claim about grants that a

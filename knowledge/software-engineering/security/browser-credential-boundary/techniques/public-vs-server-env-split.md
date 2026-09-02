@@ -59,6 +59,29 @@ drifts on the first value somebody adds while looking at the other one.
    get read. A rule that lives only in a security review is applied only during
    security reviews.
 
+## Mark the module, not the entry point
+
+The prefix guards *values*. A second boundary needs guarding — *modules*:
+a helper that reads a server-only value is importable from client code, and
+the build does not stop it; in the common toolchains the unprefixed value is
+silently replaced by an empty string in the client chunk, so the helper ships,
+runs, and fails at the upstream with a credential of `""`. That is a silent
+fallback of the kind step 4 exists for, and it is not caught by any check on
+names.
+
+The guard for it is a **marker inside the module** — a declared "this file is
+server-only" that the compiler enforces at the moment a client module graph
+reaches it, by any path. Put it in the module that holds the secret-bearing
+code, not in the barrel that re-exports it. A guard enumerated at the entry
+point — "these fifteen names are the client's imports from the root module" —
+is scoped to one import path, and the richest modules are the ones reached by
+a deep path that bypasses the barrel. Enumerate by *what the client imports*,
+never by *which path the import came through*; a marker that travels with the
+module does that by construction, and a list maintained beside it does not.
+The strongest toolchains make the server-only value module itself
+un-importable from client code and fail the build, which is the same rule with
+no marker to forget.
+
 ## The gate reads the bundle, not the source
 
 Grep the source tree for the privileged name and you have checked a proxy. What

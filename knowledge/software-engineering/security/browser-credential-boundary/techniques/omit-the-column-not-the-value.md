@@ -50,9 +50,14 @@ There is a fourth home that is not honest: the same table, populated, with a
 policy predicate keeping it away from the anonymous role. It works today. It
 depends on a predicate staying correct through every future edit to that
 policy, and on nobody ever adding a second policy on the same table with a
-broader predicate — policies on one table combine permissively, so the widest
-one wins, and a hardening pass that adds a policy can widen access while
-looking like it narrowed it.
+broader predicate — ordinary (permissive) policies on one table combine with
+OR, so the widest one wins, and a hardening pass that adds a policy can widen
+access while looking like it narrowed it. Engines that offer a *restrictive*
+policy kind — one that combines with AND and can only ever narrow — give you
+a way to make the exclusion survive that edit; reach for it if the column
+truly cannot move. But a restrictive predicate is still a predicate, still
+edited, still trusted; the column with no home in the reachable shape needs
+none of it.
 
 ## Encrypted material makes the rule easier, not weaker
 
