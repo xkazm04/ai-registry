@@ -255,3 +255,14 @@ Untriaged with anchors in the source note: command-substitution audit by
 executes, an interpreter's code-string flag is an execution context anywhere,
 heredoc bodies are data) - no subject owns command auditing and this is the
 nearest gate shape.
+
+
+## 2026-09-02 - boundary sentence from intake `deer-flow` v2 ([[2026-09-02-deer-flow-v2]], run intake-deer-flow-0902-v2)
+
+The scope paragraph's "plugin systems that load code into the host's address
+space" now says where that ground lives: `agent-runtime-assembly` owns
+in-process plugin loading (operator-tier-code-loading, host-routes-win) and
+the host's custody of long-running tool work (bounded-projection-of-external-work).
+This subject keeps the wire half - "long-running work gets a durable handle,
+not a held connection" - and stops at the host's door, as its golden path
+already said. Edited under the content lock; one paragraph, no other change.

@@ -216,3 +216,12 @@ own) and a per-run total delegation cap beside the slot cap (repeated
 legal-sized batches at planning checkpoints bypass a per-response limit).
 Lead: additive stop-reason over a status enum, which sits against this
 subject's closed vocabulary and is unreconciled.
+
+## 2026-09-02 - intake `deer-flow` v2 back half ([[2026-09-02-deer-flow-v2]], run intake-deer-flow-0902-v2)
+
+Source-tree application added (python, against the source's own clone at
+`08b27aef`), from the v2 design record's catch: the tree realises this
+subject's forces one layer up from where the corpus wrote them. The design
+record and its routing count live in [[2026-09-02-deer-flow-v2-replication]];
+the catch, the anchors verified against the fresh clone, and what the tree
+adds to the technique are in the application document itself.

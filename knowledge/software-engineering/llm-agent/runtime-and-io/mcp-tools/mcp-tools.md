@@ -39,7 +39,10 @@ incidents are a consequence of not.
 What is *not* this subject: the model's own function-calling format (a private
 contract between one application and one model vendor), plugin systems that
 load code into the host's address space (no process boundary, so no protocol —
-a different and weaker isolation story), and generic RPC between services that
+a different and weaker isolation story; in-process plugin loading and the
+host's custody of long-running tool work belong to
+[agent-runtime-assembly](../agent-runtime-assembly/agent-runtime-assembly.md)),
+and generic RPC between services that
 no model ever reads (ordinary distributed-systems discipline applies, without
 the injection surface).
 

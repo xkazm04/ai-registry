@@ -5664,3 +5664,33 @@ been naming that zero for weeks:
 - Mid-flight runs on 2.0.0: nothing to do; no SKILL.md edit this run (the sweep-order
   promotion is a one-line patch edit the next run makes with the version bump, so two
   runs do not edit SKILL.md in one afternoon).
+
+## 2.0.0 - 2026-09-02 - deer-flow (v2 back half)
+
+- **A spec-scoped forge worker is the right size when the bundle exists.** The v2
+  routing rule says "hand off to /forge" at three unmodelled decisions; forge's Phase 0
+  scouts a whole repository into a bundle. When the XL trigger has already named one
+  subject in an existing bundle, the handoff is one worker on that spec under the
+  intake director (Phase 7's own XL path), and the bundle-level dispatch is for a source
+  whose decisions span bundles or categories. Both are "the handoff"; SKILL.md should say
+  which is which in the routing section - proposed as a wording patch, not applied here
+  (five siblings live).
+- **`verified_against` is `<stack>@<version>` and nothing else.** The v2 source-tree
+  application rule says "`verified_against` only if you opened the tree" and does not say
+  the gate's format; this run and the openviking sibling both wrote the commit into the
+  field in the same hour and both were rejected. The commit belongs in the body's first
+  line under the title. One sentence in Phase 7's application row would have saved two
+  runs a gate round.
+- **A rate-limited worker is resumable, and the folder is the state.** The forge worker
+  stopped at the session limit with a "failed" notification while five techniques were on
+  disk; on resume it turned out to have finished the sixth and three applications before
+  the stop registered. Read the folder before re-dispatching; a second worker would have
+  overwritten a finished subject.
+- **The falsifying-seam focus produced its best result on the row that came back
+  `better`.** The seam chosen to break the technique (two peers, no shared store) did not
+  break the custody rule but exposed the delivery rule's failure in a tree that had
+  built everything else correctly - a seam chosen to confirm would have read the
+  custody half and stopped. Third row confirming the 2026-09-02 focus; a rule this file
+  can carry at the next bump.
+- Version stays 2.0.0: five siblings live. A mid-flight run finishes on the version it
+  loaded.

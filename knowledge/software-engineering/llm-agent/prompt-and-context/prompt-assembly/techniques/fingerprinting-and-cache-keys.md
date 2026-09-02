@@ -20,6 +20,13 @@ configuration change forks reality — new sessions obey the new rules,
 resumed sessions obey rules that no longer exist anywhere in the source,
 and nothing anywhere records that two rule-sets are live.
 
+This fingerprint digests the prompt. The runtime's *assembly* identity —
+which hooks wrap the model and tool calls, in what order, with which
+declared policy parameters — is a different digest that contains this one
+as a field; agent-runtime-assembly's assembly-identity owns it, and the two
+answer different questions (is this cached prompt still valid, versus did
+this agent's runtime change between releases).
+
 ## Determinism first — a fingerprint over noise is noise
 
 The fingerprint's meaning rests entirely on assembly being a pure
