@@ -36964,6 +36964,55 @@
     }
    ]
   },
+  "software-engineering/agent-browser-control": {
+   "bundle": "software-engineering",
+   "category": "llm-agent",
+   "subcategory": "runtime-and-io",
+   "techniques": 5,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "ascent",
+     "classification": "out-of-scope"
+    }
+   ]
+  },
   "software-engineering/agent-chaining": {
    "bundle": "software-engineering",
    "category": "llm-agent",
@@ -37108,7 +37157,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
-   "techniques": 12,
+   "techniques": 13,
    "present": [
     {
      "project": "gravity",
@@ -37264,7 +37313,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
-   "techniques": 6,
+   "techniques": 10,
    "present": [],
    "absent": [
     {
@@ -40265,7 +40314,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "data-layer",
-   "techniques": 8,
+   "techniques": 9,
    "present": [
     {
      "project": "gravity",
@@ -43521,7 +43570,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
-   "techniques": 12,
+   "techniques": 14,
    "present": [
     {
      "project": "gravity",
@@ -45933,6 +45982,55 @@
     }
    ]
   },
+  "software-engineering/tenant-scoped-agent-runtime": {
+   "bundle": "software-engineering",
+   "category": "llm-agent",
+   "subcategory": "orchestration",
+   "techniques": 6,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "tracklight",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "pumper",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "politicas",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/terminal-multiplexing": {
    "bundle": "software-engineering",
    "category": "llm-agent",
@@ -46947,8 +47045,8 @@
    "contexts": 18,
    "governingSubjects": 40,
    "scope": "declared",
-   "candidate": 117,
-   "out-of-scope": 22,
+   "candidate": 118,
+   "out-of-scope": 23,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -46969,8 +47067,8 @@
    "contexts": 34,
    "governingSubjects": 53,
    "scope": "declared",
-   "candidate": 88,
-   "out-of-scope": 34,
+   "candidate": 89,
+   "out-of-scope": 35,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -46980,8 +47078,8 @@
    "contexts": 46,
    "governingSubjects": 88,
    "scope": "declared",
-   "candidate": 47,
-   "out-of-scope": 40,
+   "candidate": 48,
+   "out-of-scope": 41,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -46992,7 +47090,7 @@
    "governingSubjects": 72,
    "scope": "declared",
    "candidate": 93,
-   "out-of-scope": 25,
+   "out-of-scope": 27,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -47002,7 +47100,7 @@
    "contexts": 208,
    "governingSubjects": 146,
    "scope": "declared",
-   "candidate": 36,
+   "candidate": 38,
    "out-of-scope": 7,
    "declined": 0,
    "deferred": 0,
@@ -47013,8 +47111,8 @@
    "contexts": 143,
    "governingSubjects": 158,
    "scope": "declared",
-   "candidate": 66,
-   "out-of-scope": 13,
+   "candidate": 67,
+   "out-of-scope": 14,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -47024,7 +47122,7 @@
    "contexts": 38,
    "governingSubjects": 73,
    "scope": "declared",
-   "candidate": 113,
+   "candidate": 115,
    "out-of-scope": 16,
    "declined": 0,
    "deferred": 0,
@@ -47036,7 +47134,7 @@
    "governingSubjects": 95,
    "scope": "declared",
    "candidate": 26,
-   "out-of-scope": 38,
+   "out-of-scope": 40,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -47046,8 +47144,8 @@
    "contexts": 117,
    "governingSubjects": 113,
    "scope": "declared",
-   "candidate": 56,
-   "out-of-scope": 10,
+   "candidate": 57,
+   "out-of-scope": 11,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -47057,8 +47155,8 @@
    "contexts": 54,
    "governingSubjects": 87,
    "scope": "declared",
-   "candidate": 62,
-   "out-of-scope": 10,
+   "candidate": 63,
+   "out-of-scope": 11,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,

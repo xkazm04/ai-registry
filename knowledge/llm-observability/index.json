@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 16,
   "techniques": 102,
-  "applications": 53,
+  "applications": 54,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -861,7 +861,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
-   "digest": "sha256:2c0f991f46ed5eab",
+   "digest": "sha256:9d0b71ce4b115284",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
@@ -966,6 +966,13 @@
      "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/process--token-usage-quadruple.md",
      "verified_on": "2026-08-20",
      "refresh_by": "2026-11-20"
+    },
+    {
+     "stack": "python",
+     "technique": "server-owned-fields",
+     "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/python--server-owned-fields.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "rust",
