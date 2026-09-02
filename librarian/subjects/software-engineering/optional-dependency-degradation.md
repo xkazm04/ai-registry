@@ -143,3 +143,14 @@ ledger already separates decisive / not-reachable / not-adopted, reached indepen
 and carries no removal condition on any row and no evidence-tier label; its own comments
 record the accepted floor sitting inside a broken window twice. Structural-only; the
 floor is advisory, so retirement cannot be read as a traffic share.
+
+## 2026-09-02 — intake v2 design read, [[2026-09-02-monai-v2]]
+
+**Source-tree application** `python--guarded-singleton-accessor`: a deep-learning toolkit's
+`optional_import` returns a stand-in that fails at the call with a message naming the
+missing package, not at import; the minimal install is *proven* by a CI lane running with
+190 test modules excluded and the dependency absent. Design decision D9 in the note's
+record - the one of eleven whose forces this golden path already states (catch). One
+obligation the technique does not state and the tree does: a lane that runs with the
+dependency absent. Candidate amendment, not written this run - the handoff's forge wave
+reconciles against this application.
