@@ -10,6 +10,9 @@ techniques:
   - cross-process-exclusion
   - attempt-attribution
   - idempotency-by-design
+  - leadership-is-the-lock
+  - fence-inside-write-transaction
+  - renewal-deadline-two-thirds-ttl
 ---
 
 # Idempotency & in-flight guards
@@ -101,6 +104,32 @@ From that stance, the spine of the subject:
    effect — the duplicate becomes harmless instead of prevented, which is
    strictly more robust: it also covers the duplicates no guard can see, like
    the retry of a request whose response was lost (see idempotency-by-design).
+
+## The cluster lock: where cross-process exclusion becomes high availability
+
+One instance of cross-process exclusion is large enough to carry its own
+techniques: the lock that elects which node of a cluster is *active* and
+allowed to write the shared store at all. Its holder is a whole process
+serving every request, its loss is a failover, and its zombie writes corrupt
+the one store everything else trusts. Three techniques fix the rules that
+lock lives by, and they are chosen by one property of the store beneath it.
+Where the store is a replicated log that refuses writes from any node but its
+leader, leadership *is* the lock and no fencing token is needed (see
+leadership-is-the-lock). Where the store accepts writes from anyone, the
+fencing token is checked inside every write and at every commit, never only
+at acquire, and unfenced writes pass only through an explicit, marked
+allowlist (see fence-inside-write-transaction). Either way a lease-based
+holder must lose itself before another party can win: renewal is given up at
+two thirds of the TTL, expiry is evaluated in the store's clock, and one
+connection is reserved so the work cannot starve the heartbeat (see
+renewal-deadline-two-thirds-ttl). The boundary with
+[job coordination](../job-coordination/job-coordination.md)'s
+[lease-renewal](../job-coordination/techniques/lease-renewal.md) is the scope
+of the lease: that path owns a lease over one *job*, held by an executor
+among many and reaped per job; this path owns the lease over the *cluster's
+right to write*, held by exactly one node, and the fencing that makes its
+loss safe. The rule for a reader: if losing the lease costs one unit of work,
+read there; if losing it changes which process may write the store, read here.
 
 ## Belt and suspenders: guards and idempotency compose
 

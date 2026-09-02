@@ -11,6 +11,8 @@ techniques:
   - process-isolation
   - capability-detection
   - model-storage-lifecycle
+  - plugin-lazy-load-and-reload
+  - split-trust-by-registration-path
 ---
 
 # Sidecar binaries & model provisioning
@@ -155,6 +157,36 @@ door, termination ladder, orphan sweeps — is
 and
 [termination-and-reaping](../subprocess-lifecycle/techniques/termination-and-reaping.md)).
 
+## When the sidecar is a plugin, the seam gets a lifecycle and a trust rule
+
+One sidecar shape stretches the seam further than an engine does: the
+**plugin** — an executable the host did not build, dispensed from a catalog
+and mounted many times over, each mount a slightly different configuration,
+registered by whoever had the authority to register it. The handshake is
+still the seam, but two more questions have answers only here. *When* does
+a process exist behind a mount, and when may two mounts share one: dispense
+in metadata mode so routing questions are answered without running the
+plugin, load fully on the first real request, restart on the process's
+shutdown error and re-verify its declared shape before serving again, and
+share a process only between mounts whose whole runner configuration is
+identical — the
+[plugin-lazy-load-and-reload](./techniques/plugin-lazy-load-and-reload.md)
+technique owns all three, while the spawn and restart mechanics stay with
+[subprocess-lifecycle](../subprocess-lifecycle/subprocess-lifecycle.md).
+And *what the host trusts* about a loaded plugin, which is decided by the
+door it came through, not by the binary: a plugin the host's configuration
+file declares carries its operator's own authority, as the ladder's override
+rung already does, while one registered through the API must carry a digest
+and run from one directory; errors leaving the plugin pass a sanitizer that
+strips the host's secrets and keeps the verdict, and a privilege decision
+the plugin must never see stays on the host's side of the boundary. That is
+[split-trust-by-registration-path](./techniques/split-trust-by-registration-path.md).
+The line against [supply-chain](../../../security/supply-chain/supply-chain.md)
+is the moment of loading: provenance of what the host is about to run —
+where it was built, who signed it, what the download verified — is that
+subject's; how a plugin, once loaded, is isolated and trusted at run time is
+this one's.
+
 ## Absence is a designed state, not an error path
 
 Every capability built on an unshipped dependency will run on machines where
@@ -236,3 +268,11 @@ Two rules fall out of the table:
   version probes, status affordances, feature gating on absence.
 - [model-storage-lifecycle](./techniques/model-storage-lifecycle.md) — managed
   directories, storage accounting, sharing across features, eviction.
+- [plugin-lazy-load-and-reload](./techniques/plugin-lazy-load-and-reload.md)
+  — metadata mode at mount and full load on first request, restart on the
+  shutdown error with the shape re-verified, the full runner configuration as
+  the multiplexing key, the handshake as a user-experience feature.
+- [split-trust-by-registration-path](./techniques/split-trust-by-registration-path.md)
+  — the config author as host-level, the API caller's mandatory digest and
+  single execution directory, the error sanitizer at the boundary, privilege
+  decisions kept on the host's side.

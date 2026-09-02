@@ -10,6 +10,9 @@ techniques:
   - brokered-egress
   - acquisition
   - health-probing
+  - versioned-key-window
+  - renew-at-two-thirds-with-grace
+  - revocation-interception-cache
 ---
 
 # Credential vault
@@ -119,6 +122,30 @@ an impenetrable perimeter:
 - **Memory hygiene.** Plaintext lifetime in memory is minimized and ends in
   explicit wiping, not garbage collection eventually.
 
+## Two seats: custodian of keys, client of an issuer
+
+The spine above was drawn for a foreign credential the vault holds and
+cannot re-mint. Two adjacent seats sit inside the same subject and sharpen
+it. The first is the vault as **custodian of keys it can mint**: its own data
+keys, and keys it seals on behalf of callers — for these, rotation is not an
+overlap the provider must cooperate with but a version appended to a family,
+and the questions become which versions may still open, which may still seal,
+and what a deleted key must refuse; that is the
+[versioned-key-window](./techniques/versioned-key-window.md). The second is
+the vault as **client of an issuer that leases**: a secret with a clock the
+issuer extends on request, held by one consumer's renewal loop
+([renew-at-two-thirds-with-grace](./techniques/renew-at-two-thirds-with-grace.md)),
+or cached by an intermediary that must forget it exactly when the issuer
+does ([revocation-interception-cache](./techniques/revocation-interception-cache.md)).
+The boundary with the issuer's own side — how a lease is priced, persisted
+and revoked by the authority that minted it — is the seat: this subject is
+always the holder, never the minter of authority, and a mechanism belongs
+here when it is exercised by the party that received the secret. The
+boundary with delegated authority is the same rule from the other side: who
+may act for whom is that subject's model; this subject consumes the verdict
+when it brokers a call, caches a lease against the token that fetched it, or
+refuses to renew on behalf of a recipient it only holds an envelope for.
+
 ## Honesty of state
 
 A vault reports on credentials it cannot control, issued by services it does
@@ -208,3 +235,18 @@ secrets):
 - [health-probing](./techniques/health-probing.md) — three-state truth about
   credentials you don't control: probe design, staleness, layered result
   storage, and status vocabulary with one authority.
+- [versioned-key-window](./techniques/versioned-key-window.md) — a key the
+  vault mints as a family of versions: the four-ordinal window enforced on
+  every write, version-prefixed ciphertext the policy judges, rotate-persist-
+  restore, two-tier retirement where only the second destroys, and the
+  soft-delete guard at every entry point.
+- [renew-at-two-thirds-with-grace](./techniques/renew-at-two-thirds-with-grace.md)
+  — one consumer's renewal loop for one leased secret: the jittered grace
+  from the smaller quantity, the two-thirds sleep, the look-ahead exit into
+  re-acquisition, wrap-or-renew, and fatal as a parameter of the backoff.
+- [revocation-interception-cache](./techniques/revocation-interception-cache.md)
+  — an intermediary that caches leased secrets forgets them when the issuer
+  does: five indexes so every revocation verb evicts the right subtree,
+  eviction by watcher exit and never by shutdown, parents-before-children
+  restore by construction, latest-token supersession, and the stated blind
+  spot.
