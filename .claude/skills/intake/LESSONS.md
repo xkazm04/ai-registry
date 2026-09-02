@@ -5642,3 +5642,25 @@ been naming that zero for weeks:
   which is the 2026-08-22 lesson ("verify every structural claim against the
   authority") applied one phase earlier.
 - Mid-flight runs on 2.0.0: nothing to do; no SKILL.md edit this run.
+
+## 2.0.0 - 2026-09-02 - oh-my-claudecode
+
+- **The XL trigger worked as a count, and the handoff rule collapsed into it.** Nine
+  design entries, three `corpus: NONE`, one home: the forge-handoff threshold (three
+  or more -> hand off to `/forge` scouts) and the XL trigger (three design candidates
+  with one home -> one spec, one worker) both fired, and the second is the cheaper
+  and correct reading when the NONE entries share a category. Say so in the routing
+  section rather than dispatching a scout wave over a one-subject gap.
+- **A sweep worker that dies on a rate limit should be retried once after the reset,
+  not written off.** This run named the hook source as unopened and forged the
+  applications from the hook *reference*; the re-anchor is now owed in the subject
+  note. One retry costs minutes; the owed item costs a later pass.
+- **The B arm is often already in a sibling tree.** The experiment's rule was copied
+  from pumper's hook, which had it, into kp and ascent, which did not. Before
+  inventing a B arm, grep the fleet for a tree that already implements the
+  technique - it is a cheaper and more honest B than a first draft.
+- **Changelog-first has its fourth row; promoted to the sweep order.** For a
+  release-notes stub, the rule costs one sentence.
+- Mid-flight runs on 2.0.0: nothing to do; no SKILL.md edit this run (the sweep-order
+  promotion is a one-line patch edit the next run makes with the version bump, so two
+  runs do not edit SKILL.md in one afternoon).
