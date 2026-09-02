@@ -97,3 +97,27 @@ scheduled Rust lanes pin the toolchain and say why in a comment that is the amen
 discriminator ("a certification judged by a floating toolchain would attribute a compiler's
 change to the product"). Return when a project tracks a moving upstream by design. No
 application written - no arms.
+
+
+## 2026-09-02 — intake, [[2026-09-02-monai]] (second run on this subject today; the sibling's diff was in `flake-lifecycle`, this one is in `platform-quirk-absorption` — no shared file, no lock needed)
+
+**Amended** `platform-quirk-absorption` with the quirk that survives main: a numerics
+mode with an override outside the code (an accelerator's reduced-precision default, a
+container image's environment layer, a runtime default that flipped between versions).
+The flag is not the mode — env and driver override it at load — so the runner probes the
+*effective* mode by computing a small fixed operation in the reduced and the reference
+type, publishes the deviation as the tolerance every numeric assertion reads, and prints
+it in the run header. The boundary test gained its refinement: pre-main quirks are the
+runner's if they would bite zero tests; post-main quirks are the runner's if no test
+caused them and every test of their kind pays them. Source: a framework's test helper
+that does exactly this (a 1024-square product in double versus single, threshold 0.001,
+"~2 digits less precision, ~8x faster"), beside a doc listing three override layers for
+one precision flag. Corroboration: the corpus's own `gate-sees-target` and
+`probe-the-grant-not-the-config` (same doctrine, permission domain); zero fetches.
+
+**Applied** at mode `simulation`, verdict **`not-better`**, over three real tolerance
+sites in two connected native-code services (billionth assertions on a trend fit, a
+two-tenths assertion on a decay, an epsilon-padded ratio guard): the substrate has no
+mode — general-purpose double, no accelerator, no contraction flag — so the probe
+publishes a constant. The condition is written as the amendment's closing paragraph.
+Falsifier: a lane moved to an accelerator or a fast-math build profile.

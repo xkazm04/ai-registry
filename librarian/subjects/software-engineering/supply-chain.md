@@ -171,3 +171,27 @@ proposals in four fleet repos; 8 superseded, 4 within 3 days, **1 real** after c
 removed grouped-proposal rebuilds. Verdict unmeasurable for the supply-chain half, instrument
 named. A fleet tree (politicas) already carried the event-expiring ignore before this source
 was read. 10 -> 10 techniques, 5 -> 6 applications.
+
+
+## 2026-09-02 — intake, [[2026-09-02-monai]] (second run on this subject today; a sibling held the subject at the time — technique file written, golden-path line edited under the content lock)
+
+**Landed** `unsafe-deserialization-off-by-default` beside `archive-extraction-safety`:
+the container rule owns paths and sizes; this one owns what a member instantiates once
+opened. Rule in three parts — restricted loader is the default, permissive is a per-call
+opt-in named for the hazard (with an env override read once and logged, carrying its own
+removal version), and the storage format migrates to data-only so the opt-in retires.
+Prove the guard with two archives built from the project's own member set (producer-shaped
+must load identically restricted; hostile-shaped must be refused restricted and accepted
+permissive). Source: a framework's 1.5.1–1.6.0 release notes, which flipped three load
+paths after four advisories (weights-only checkpoint loading, an array loader gaining a
+default-off pickle flag, serialization moved from native pickling to structured text with
+an env escape hatch). Corroboration: training-data convergence — the same default flip in
+three ecosystems between 2019 and 2025. Zero fetches. Prior art before this run: none
+(uncapped grep for deserialization/pickle across all bundles: 0 owning files).
+
+**Applied and shipped** on a game project's motion-research scripts at mode `code`,
+verdict `better`, proof `ab-paired`: four archive readers, three permissive, one (the
+newest) restricted; the tree's only producer writes seven numeric arrays and a scalar.
+Harness: producer-shaped archive loads identically under both arms; hostile-shaped
+archive with one object member is executed under A and refused under B. Three sites
+flipped in one pathspec commit on the project's active branch, not pushed.
