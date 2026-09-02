@@ -23,6 +23,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/coalition-and-portfolio-strategy.md",
+   "digest": "sha256:57e9ab887c9fac22",
    "techniques": [
     {
      "slug": "capacity-floor-detection",
@@ -121,6 +122,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/deadline-pipeline-management.md",
+   "digest": "sha256:cfa13898c7fbb4b2",
    "techniques": [
     {
      "slug": "closing-instant-resolution",
@@ -241,6 +243,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/eligibility-analysis.md",
+   "digest": "sha256:a6127aa5227462e1",
    "techniques": [
     {
      "slug": "applicant-type-code-mapping",
@@ -366,6 +369,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/evidence-grounded-claims.md",
+   "digest": "sha256:7991d799a5017298",
    "techniques": [
     {
      "slug": "bracketed-placeholder-over-invention",
@@ -471,6 +475,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/funder-format-blueprints.md",
+   "digest": "sha256:82526c02b7275f63",
    "techniques": [
     {
      "slug": "arts-panel-sections",
@@ -581,6 +586,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index/funder-intelligence-index.md",
+   "digest": "sha256:a52b4fc0316b45f7",
    "techniques": [
     {
      "slug": "award-rate-by-revenue-bracket",
@@ -686,6 +692,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/funder-research/funder-research.md",
+   "digest": "sha256:5dc32f745fcfc694",
    "techniques": [
     {
      "slug": "adversarial-verification-pass",
@@ -790,6 +797,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/grant-matching/grant-matching.md",
+   "digest": "sha256:3d74979be3805542",
    "techniques": [
     {
      "slug": "diminishing-returns-keyword-overlap",
@@ -893,6 +901,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/grant-source-landscape.md",
+   "digest": "sha256:605e027ddf0114c2",
    "techniques": [
     {
      "slug": "close-date-normalization",
@@ -1010,6 +1019,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/grant-taxonomy-design/grant-taxonomy-design.md",
+   "digest": "sha256:a4ebc487d22f12f4",
    "techniques": [
     {
      "slug": "agency-and-programme-fallbacks",
@@ -1110,6 +1120,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/impact-reporting/impact-reporting.md",
+   "digest": "sha256:72dcd7f031e68ec6",
    "techniques": [
     {
      "slug": "four-section-report-model",
@@ -1236,6 +1247,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/jurisdiction-modelling.md",
+   "digest": "sha256:7f85406ebe7d3130",
    "techniques": [
     {
      "slug": "compliance-document-taxonomy",
@@ -1340,6 +1352,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/nonprofit-verification.md",
+   "digest": "sha256:d40042c3d47b9670",
    "techniques": [
     {
      "slug": "determinate-vs-inconclusive-outcomes",
@@ -1448,6 +1461,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/organizational-grant-readiness/organizational-grant-readiness.md",
+   "digest": "sha256:439bd1d2d1fcfd2e",
    "techniques": [
     {
      "slug": "applicant-evidence-corpus",
@@ -1550,6 +1564,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/proposal-narrative-structure/proposal-narrative-structure.md",
+   "digest": "sha256:aee3ac802a01e6de",
    "techniques": [
     {
      "slug": "evidence-base-citation",
@@ -1653,6 +1668,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/proposal-quality-review/proposal-quality-review.md",
+   "digest": "sha256:388163d9f6095a1e",
    "techniques": [
     {
      "slug": "critical-vs-quality-severity",
@@ -1755,6 +1771,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/submission-filing/submission-filing.md",
+   "digest": "sha256:6c54de904ee365f0",
    "techniques": [
     {
      "slug": "crowd-verified-filing-profiles",

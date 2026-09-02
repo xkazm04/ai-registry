@@ -28,6 +28,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
+   "digest": "sha256:738fd81914a77314",
    "techniques": [
     {
      "slug": "a11y-verification",
@@ -156,6 +157,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/adaptive-fidelity-tiers.md",
+   "digest": "sha256:b28d9f28795d6750",
    "techniques": [
     {
      "slug": "asymmetric-tier-transitions",
@@ -257,6 +259,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
+   "digest": "sha256:4264b4ab224eab61",
    "techniques": [
     {
      "slug": "admission-vocabulary",
@@ -473,6 +476,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/adoption-measurement.md",
+   "digest": "sha256:4240281a64bbf913",
    "techniques": [
     {
      "slug": "adoption-distribution-bands",
@@ -588,6 +592,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/agent-addressable-ui.md",
+   "digest": "sha256:c5736c50bee01a70",
    "techniques": [
     {
      "slug": "agent-pasteable-reference-format",
@@ -694,6 +699,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/agent-chaining.md",
+   "digest": "sha256:a2ab662fa831fc39",
    "techniques": [
     {
      "slug": "chain-identity-and-rollup",
@@ -839,6 +845,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
+   "digest": "sha256:0f027c30f5c4b115",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -993,6 +1000,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
+   "digest": "sha256:88e1dd3b8ae15a51",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1221,6 +1229,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
+   "digest": "sha256:43f38eacca404f2d",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -1490,6 +1499,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
+   "digest": "sha256:658e6f2611602977",
    "techniques": [
     {
      "slug": "alert-lifecycle",
@@ -1605,6 +1615,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
+   "digest": "sha256:e84b5105b8a35f4d",
    "techniques": [
     {
      "slug": "baseline-as-window-start",
@@ -1720,6 +1731,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
+   "digest": "sha256:ae100598f7bfe8ef",
    "techniques": [
     {
      "slug": "badge-and-attention",
@@ -1864,6 +1876,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/async-ui-states.md",
+   "digest": "sha256:4d89ccb3b7b69ed0",
    "techniques": [
     {
      "slug": "action-busy-states",
@@ -1984,6 +1997,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
+   "digest": "sha256:835b728d154a07ec",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -2149,6 +2163,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/authoring-block-vocabulary.md",
+   "digest": "sha256:d980db1bea253f54",
    "techniques": [
     {
      "slug": "blocks-as-machine-readable-source",
@@ -2243,6 +2258,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/authorization/authorization.md",
+   "digest": "sha256:0225b1c955ba51b2",
    "techniques": [
     {
      "slug": "authorization-audit",
@@ -2395,6 +2411,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/background-jobs.md",
+   "digest": "sha256:30e5629764653980",
    "techniques": [
     {
      "slug": "adaptive-cadence",
@@ -2509,6 +2526,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/batch-undo-commit-window.md",
+   "digest": "sha256:e9dd78bd49b9005f",
    "techniques": [
     {
      "slug": "bounded-fanout-commit",
@@ -2617,6 +2635,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/browser-credential-boundary/browser-credential-boundary.md",
+   "digest": "sha256:3815403fe774a0a5",
    "techniques": [
     {
      "slug": "aggregate-view-not-base-table",
@@ -2729,6 +2748,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/build-economics.md",
+   "digest": "sha256:454b7a914206e64b",
    "techniques": [
     {
      "slug": "build-measurement",
@@ -2844,6 +2864,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
+   "digest": "sha256:9eedbc25626767bc",
    "techniques": [
     {
      "slug": "canvas-accessibility",
@@ -2945,6 +2966,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/chat-transcript.md",
+   "digest": "sha256:f3f907efc77b38cb",
    "techniques": [
     {
      "slug": "composer-turn-queue",
@@ -3078,6 +3100,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/ci-execution-trust/ci-execution-trust.md",
+   "digest": "sha256:a24fb8a4e064920e",
    "techniques": [
     {
      "slug": "control-plane-execution-boundary",
@@ -3169,6 +3192,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/cicd-monitoring/cicd-monitoring.md",
+   "digest": "sha256:d3485a5a691fd995",
    "techniques": [
     {
      "slug": "deployment-history",
@@ -3287,6 +3311,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
+   "digest": "sha256:10746fcc4991da9e",
    "techniques": [
     {
      "slug": "admission-hypothesis",
@@ -3462,6 +3487,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
+   "digest": "sha256:f7ae8ff8020344ae",
    "techniques": [
     {
      "slug": "async-race-guards",
@@ -3702,6 +3728,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
+   "digest": "sha256:6a3441fc0f5a84b2",
    "techniques": [
     {
      "slug": "dead-code-detection",
@@ -3910,6 +3937,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
+   "digest": "sha256:36b10aa08395b698",
    "techniques": [
     {
      "slug": "commit-vs-derive-policy",
@@ -4024,6 +4052,7 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
+   "digest": "sha256:f923498c9a7bf176",
    "techniques": [
     {
      "slug": "anchored-identity-diffs",
@@ -4166,6 +4195,7 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/companion-runtime.md",
+   "digest": "sha256:0d0b7d17a538708c",
    "techniques": [
     {
      "slug": "action-catalog-single-source",
@@ -4314,6 +4344,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
+   "digest": "sha256:d863164a6b2e77f1",
    "techniques": [
     {
      "slug": "attempt-attribution",
@@ -4430,6 +4461,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
+   "digest": "sha256:dd87672e5d143a41",
    "techniques": [
     {
      "slug": "commit-verification",
@@ -4539,6 +4571,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
+   "digest": "sha256:43567b5b2c0ee271",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -4674,6 +4707,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/connector-catalog/connector-catalog.md",
+   "digest": "sha256:3d6cb9d96c563fe0",
    "techniques": [
     {
      "slug": "adapter-normalization",
@@ -4788,6 +4822,7 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/conversation-orchestration.md",
+   "digest": "sha256:7ee09cc0690f3023",
    "techniques": [
     {
      "slug": "layered-avatar-state-machine",
@@ -4945,6 +4980,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
+   "digest": "sha256:c701b1133c188f8a",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -5109,6 +5145,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/credential-vault/credential-vault.md",
+   "digest": "sha256:86aaae043178b8c1",
    "techniques": [
     {
      "slug": "acquisition",
@@ -5244,6 +5281,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
+   "digest": "sha256:dc3feeb61ee82674",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -5423,6 +5461,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/data-retention/data-retention.md",
+   "digest": "sha256:14f624480d0c165b",
    "techniques": [
     {
      "slug": "confirm-by-echo",
@@ -5537,6 +5576,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/data-viz.md",
+   "digest": "sha256:06938782e6de4edf",
    "techniques": [
     {
      "slug": "chart-loading-economics",
@@ -5650,6 +5690,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
+   "digest": "sha256:52099c8e9e65796e",
    "techniques": [
     {
      "slug": "carrying-cost-economics",
@@ -5787,6 +5828,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/delivery-analytics.md",
+   "digest": "sha256:c73267d7debfa753",
    "techniques": [
     {
      "slug": "attribution-channels",
@@ -5924,6 +5966,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
+   "digest": "sha256:309129574ca07a01",
    "techniques": [
     {
      "slug": "atomic-claiming",
@@ -6055,6 +6098,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/demo-data-plane/demo-data-plane.md",
+   "digest": "sha256:c98b63c050ca805c",
    "techniques": [
     {
      "slug": "fake-surface-honesty-contract",
@@ -6174,6 +6218,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dependency-declaration/dependency-declaration.md",
+   "digest": "sha256:c9521ec25ccff617",
    "techniques": [
     {
      "slug": "declaration-cost-floor",
@@ -6281,6 +6326,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/deployment-contract/deployment-contract.md",
+   "digest": "sha256:5a8c93785d80dc9d",
    "techniques": [
     {
      "slug": "deploy-gate-coupling",
@@ -6391,6 +6437,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
+   "digest": "sha256:6d02328ceb6e329d",
    "techniques": [
     {
      "slug": "cross-language-token-parity",
@@ -6503,6 +6550,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/device-pairing/device-pairing.md",
+   "digest": "sha256:6c3eadfe6f6ccba7",
    "techniques": [
     {
      "slug": "admission-scoping",
@@ -6640,6 +6688,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
+   "digest": "sha256:0df03bbd2dcbaf5d",
    "techniques": [
     {
      "slug": "computation-offload",
@@ -6784,6 +6833,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
+   "digest": "sha256:010ec06bc7c6b505",
    "techniques": [
     {
      "slug": "catalog-referential-invariants",
@@ -6880,6 +6930,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
+   "digest": "sha256:482da44711f83850",
    "techniques": [
     {
      "slug": "catch-up-markers",
@@ -7095,6 +7146,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/document-text-extraction/document-text-extraction.md",
+   "digest": "sha256:b779eddad2ab57c2",
    "techniques": [
     {
      "slug": "extraction-yield-bands",
@@ -7183,6 +7235,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/draft-editing.md",
+   "digest": "sha256:ed50e6289259ec84",
    "techniques": [
     {
      "slug": "completeness-derivation",
@@ -7295,6 +7348,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/drag-drop.md",
+   "digest": "sha256:884c0f919b53ebfc",
    "techniques": [
     {
      "slug": "cross-surface-handoff",
@@ -7393,6 +7447,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
+   "digest": "sha256:ae638c3634d2bdb9",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -7556,6 +7611,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-preview/embedded-preview.md",
+   "digest": "sha256:7a925d7600ef2e65",
    "techniques": [
     {
      "slug": "convention-discovery",
@@ -7688,6 +7744,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/entity-lifecycle.md",
+   "digest": "sha256:5967905d0c5e8892",
    "techniques": [
     {
      "slug": "archive-restore-semantics",
@@ -7846,6 +7903,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
+   "digest": "sha256:c32b13c5c6047c8a",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -7997,6 +8055,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
+   "digest": "sha256:ee8c56f25d93c245",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -8287,6 +8346,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/executive-reporting.md",
+   "digest": "sha256:96a71f4f3d97eb17",
    "techniques": [
     {
      "slug": "bad-news-labelling",
@@ -8400,6 +8460,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/feed.md",
+   "digest": "sha256:5ed8b6c16e149341",
    "techniques": [
     {
      "slug": "event-clustering",
@@ -8496,6 +8557,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
+   "digest": "sha256:ae56dce70c40004c",
    "techniques": [
     {
      "slug": "file-mutations",
@@ -8601,6 +8663,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
+   "digest": "sha256:f500543689e80897",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -8851,6 +8914,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/form/form.md",
+   "digest": "sha256:f4b61c428cfc26a0",
    "techniques": [
     {
      "slug": "error-aggregation-and-focus",
@@ -8946,6 +9010,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/guided-tours.md",
+   "digest": "sha256:384bd7e4421496c6",
    "techniques": [
     {
      "slug": "action-driven-advancement",
@@ -9057,6 +9122,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/hash-pinned-translation-pipeline/hash-pinned-translation-pipeline.md",
+   "digest": "sha256:77d54f5d8d2d7006",
    "techniques": [
     {
      "slug": "drift-classification",
@@ -9169,6 +9235,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/health-checks/health-checks.md",
+   "digest": "sha256:957ca830aa63e71c",
    "techniques": [
     {
      "slug": "check-scheduling",
@@ -9292,6 +9359,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
+   "digest": "sha256:7496b1f6f2bb56e5",
    "techniques": [
     {
      "slug": "consent-gates",
@@ -9531,6 +9599,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/i18n/i18n.md",
+   "digest": "sha256:78381092ab5e0cf9",
    "techniques": [
     {
      "slug": "catalog-architecture",
@@ -9694,6 +9763,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/import-normalization/import-normalization.md",
+   "digest": "sha256:af7ebd51ebd15b69",
    "techniques": [
     {
      "slug": "adapter-capability-tables",
@@ -9801,6 +9871,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/ipc-contract/ipc-contract.md",
+   "digest": "sha256:4c5a71b4b9492d4c",
    "techniques": [
     {
      "slug": "call-wrapping",
@@ -9938,6 +10009,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
+   "digest": "sha256:7b71624c9e00080b",
    "techniques": [
     {
      "slug": "job-observability",
@@ -10046,6 +10118,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/judgment-guardbands.md",
+   "digest": "sha256:7226834f4b17d524",
    "techniques": [
     {
      "slug": "confidence-weighted-blend",
@@ -10163,6 +10236,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
+   "digest": "sha256:9c9f691ae63896a8",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -10318,6 +10392,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/lazy-section-addressability.md",
+   "digest": "sha256:c40bce422c368962",
    "techniques": [
     {
      "slug": "always-present-anchor-wrappers",
@@ -10409,6 +10484,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/long-form-reading-surface/long-form-reading-surface.md",
+   "digest": "sha256:aeaa9fa2ed46d0b1",
    "techniques": [
     {
      "slug": "anchor-id-single-assigner",
@@ -10510,6 +10586,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/machine-authored-documentation/machine-authored-documentation.md",
+   "digest": "sha256:eecab5d87cb41501",
    "techniques": [
     {
      "slug": "declared-truth-boundary",
@@ -10640,6 +10717,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/machine-paced-delivery.md",
+   "digest": "sha256:c8e80d9b0e0465ce",
    "techniques": [
     {
      "slug": "agent-readable-build-outcomes",
@@ -10810,6 +10888,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/markdown-vault/markdown-vault.md",
+   "digest": "sha256:764c0c15a865ddd5",
    "techniques": [
     {
      "slug": "editor-interop",
@@ -10962,6 +11041,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/maturity-ladders.md",
+   "digest": "sha256:0f2f1d831991ecba",
    "techniques": [
     {
      "slug": "band-design",
@@ -11078,6 +11158,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
+   "digest": "sha256:4deb18fb78cdf0a2",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -11231,6 +11312,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
+   "digest": "sha256:7991ee4215a8fb53",
    "techniques": [
     {
      "slug": "co-published-numbers-must-reconcile",
@@ -11408,6 +11490,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/media-playback.md",
+   "digest": "sha256:20f6106deaa27de2",
    "techniques": [
     {
      "slug": "engine-adapters",
@@ -11514,6 +11597,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/metric-forecasting.md",
+   "digest": "sha256:08ee056c4c84ea49",
    "techniques": [
     {
      "slug": "fit-confidence-honesty",
@@ -11622,6 +11706,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metrics-rollups/metrics-rollups.md",
+   "digest": "sha256:25d42fbe3794b91f",
    "techniques": [
     {
      "slug": "aggregate-honesty",
@@ -11725,6 +11810,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
+   "digest": "sha256:76539942230744aa",
    "techniques": [
     {
      "slug": "data-migrations",
@@ -11841,6 +11927,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/modal-stack.md",
+   "digest": "sha256:78f2bb639c56d7d2",
    "techniques": [
     {
      "slug": "anchored-positioning",
@@ -11947,6 +12034,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
+   "digest": "sha256:17b52cb9b6ed1f7b",
    "techniques": [
     {
      "slug": "cache-continuity",
@@ -12150,6 +12238,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
+   "digest": "sha256:613bd6f071b52434",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -12324,6 +12413,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
+   "digest": "sha256:89022fde06571042",
    "techniques": [
     {
      "slug": "content-bearing-degradation",
@@ -12485,6 +12575,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/multi-project.md",
+   "digest": "sha256:0488243424dc82a4",
    "techniques": [
     {
      "slug": "cross-project-comparison",
@@ -12605,6 +12696,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/observability-telemetry.md",
+   "digest": "sha256:38568cd206dd2afa",
    "techniques": [
     {
      "slug": "crash-record-storage",
@@ -12711,6 +12803,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/optional-dependency-degradation.md",
+   "digest": "sha256:fc9deba29e5460d5",
    "techniques": [
     {
      "slug": "absent-degrades-malformed-fails-fast",
@@ -12879,6 +12972,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/outbound-notifications.md",
+   "digest": "sha256:b59fe375ccf4947a",
    "techniques": [
     {
      "slug": "channel-adapter-traits",
@@ -13032,6 +13126,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/p2p-networking/p2p-networking.md",
+   "digest": "sha256:47685e92b0420ae7",
    "techniques": [
     {
      "slug": "connection-lifecycle",
@@ -13144,6 +13239,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/packaging.md",
+   "digest": "sha256:a12318ce34e5e42b",
    "techniques": [
     {
      "slug": "installed-tree-acceptance",
@@ -13250,6 +13346,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
+   "digest": "sha256:898740060ce84b5d",
    "techniques": [
     {
      "slug": "basis-disclosure",
@@ -13348,6 +13445,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/people-analytics-ethics.md",
+   "digest": "sha256:87d336aa6d645733",
    "techniques": [
     {
      "slug": "aggregate-vs-individual-split",
@@ -13457,6 +13555,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/perf-instrumentation/perf-instrumentation.md",
+   "digest": "sha256:5f18efa3b13432a5",
    "techniques": [
     {
      "slug": "continuous-monitors",
@@ -13566,6 +13665,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/pipeline-authoring.md",
+   "digest": "sha256:013f395f996b2f29",
    "techniques": [
     {
      "slug": "change-scoped-work-selection",
@@ -13664,6 +13764,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/pipeline-dag.md",
+   "digest": "sha256:5bc44b47cf4a69be",
    "techniques": [
     {
      "slug": "conditional-edges",
@@ -13803,6 +13904,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
+   "digest": "sha256:e4f14128dbb67825",
    "techniques": [
     {
      "slug": "capability-gate-predicates",
@@ -13933,6 +14035,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md",
+   "digest": "sha256:2390063a36478f0d",
    "techniques": [
     {
      "slug": "decision-sized-slicing",
@@ -14034,6 +14137,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/proactive-nudges.md",
+   "digest": "sha256:33dd746e7b427a0c",
    "techniques": [
     {
      "slug": "attention-budgets",
@@ -14137,6 +14241,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
+   "digest": "sha256:296ba651844903fd",
    "techniques": [
     {
      "slug": "cache-breakpoint-allocation",
@@ -14345,6 +14450,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/prompt-safety.md",
+   "digest": "sha256:96e407d3c4405e4c",
    "techniques": [
     {
      "slug": "canary-tripwires",
@@ -14483,6 +14589,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/public-claim-provenance/public-claim-provenance.md",
+   "digest": "sha256:fbf0d276b5013545",
    "techniques": [
     {
      "slug": "build-time-derivation-off-the-client-bundle",
@@ -14610,6 +14717,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/public-verdict-badge.md",
+   "digest": "sha256:e8ed1f65f70634cf",
    "techniques": [
     {
      "slug": "customization-scope-guard",
@@ -14721,6 +14829,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
+   "digest": "sha256:c9405ec5715a160e",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -15144,6 +15253,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
+   "digest": "sha256:d29b78d8c05d427b",
    "techniques": [
     {
      "slug": "algorithm-selection",
@@ -15320,6 +15430,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
+   "digest": "sha256:bb184a54179a32d1",
    "techniques": [
     {
      "slug": "blocker-rollups",
@@ -15421,6 +15532,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/realtime-events/realtime-events.md",
+   "digest": "sha256:2ef9a5cde8f150f1",
    "techniques": [
     {
      "slug": "change-data-capture",
@@ -15537,6 +15649,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
+   "digest": "sha256:3bd5bc726e96dbc9",
    "techniques": [
     {
      "slug": "changelog-generation",
@@ -15645,6 +15758,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
+   "digest": "sha256:a59d2ce05cfb8d3c",
    "techniques": [
     {
      "slug": "batch-shaping-for-one-session",
@@ -15767,6 +15881,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/remediation-roadmaps.md",
+   "digest": "sha256:4a4d471536ab014d",
    "techniques": [
     {
      "slug": "cheapest-path-projection",
@@ -15874,6 +15989,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
+   "digest": "sha256:01cb175cc8d8443f",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -15987,6 +16103,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
+   "digest": "sha256:b2963440e0f609f4",
    "techniques": [
     {
      "slug": "caption-carrying-figures",
@@ -16102,6 +16219,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
+   "digest": "sha256:a39954aa3e6d0fcf",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -16291,6 +16409,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
+   "digest": "sha256:89b3995f37420227",
    "techniques": [
     {
      "slug": "backoff-design",
@@ -16421,6 +16540,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/runner-fleet.md",
+   "digest": "sha256:5f9ab9dee3cb91cc",
    "techniques": [
     {
      "slug": "capability-typed-queues",
@@ -16528,6 +16648,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/scale-investment-timing.md",
+   "digest": "sha256:00fad5a171bd8b02",
    "techniques": [
     {
      "slug": "ceiling-as-deadline-not-trigger",
@@ -16628,6 +16749,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/scheduling.md",
+   "digest": "sha256:57dbaa1a3de8c660",
    "techniques": [
     {
      "slug": "cooldown-and-debounce",
@@ -16731,6 +16853,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/schema-driven-ui.md",
+   "digest": "sha256:f1899f8c7ac0e807",
    "techniques": [
     {
      "slug": "action-consent-wiring",
@@ -16839,6 +16962,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/scoring-rubrics.md",
+   "digest": "sha256:15b8f40faf70bbf9",
    "techniques": [
     {
      "slug": "gap-ranking",
@@ -16968,6 +17092,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
+   "digest": "sha256:a273e4e3b5987408",
    "techniques": [
     {
      "slug": "command-surface",
@@ -17076,6 +17201,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/self-healing.md",
+   "digest": "sha256:073ba0779b723f2d",
    "techniques": [
     {
      "slug": "auto-rollback",
@@ -17195,6 +17321,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/session-resume.md",
+   "digest": "sha256:f8401219466605e7",
    "techniques": [
     {
      "slug": "content-freshness-states",
@@ -17295,6 +17422,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
+   "digest": "sha256:a6b8dfdeb6bc72ad",
    "techniques": [
     {
      "slug": "inherited-default-override",
@@ -17431,6 +17559,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/sidecar-provisioning.md",
+   "digest": "sha256:91772c9896bcff75",
    "techniques": [
     {
      "slug": "atomic-downloads",
@@ -17564,6 +17693,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/signed-artifacts/signed-artifacts.md",
+   "digest": "sha256:c16b6dc4f8ded2bd",
    "techniques": [
     {
      "slug": "canonical-hashing",
@@ -17693,6 +17823,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/sql-console/sql-console.md",
+   "digest": "sha256:3644d1ac9171faab",
    "techniques": [
     {
      "slug": "dialect-capability-declaration",
@@ -17813,6 +17944,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/status-vocabulary.md",
+   "digest": "sha256:bb87823986db48d5",
    "techniques": [
     {
      "slug": "number-formatting",
@@ -17930,6 +18062,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/stream-proxy-hop.md",
+   "digest": "sha256:e4191cd00fcec9e6",
    "techniques": [
     {
      "slug": "abort-versus-unreachable",
@@ -18038,6 +18171,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/streaming-output.md",
+   "digest": "sha256:b68df827ae03a8d9",
    "techniques": [
     {
      "slug": "buffering-and-backpressure",
@@ -18154,6 +18288,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
+   "digest": "sha256:9272be34b2908df9",
    "techniques": [
     {
      "slug": "answer-coverage-gating",
@@ -18296,6 +18431,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
+   "digest": "sha256:39a1c87724b2fd3c",
    "techniques": [
     {
      "slug": "concurrency-and-slots",
@@ -18417,6 +18553,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/supply-chain/supply-chain.md",
+   "digest": "sha256:49a84e0c38074935",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -18611,6 +18748,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/sync-replication.md",
+   "digest": "sha256:f2576b5ecb668434",
    "techniques": [
     {
      "slug": "change-tracking-and-cursors",
@@ -18732,6 +18870,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
+   "digest": "sha256:6a77e71f01e80b19",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -18831,6 +18970,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/telemetry-pii-redaction/telemetry-pii-redaction.md",
+   "digest": "sha256:2242599c0b897434",
    "techniques": [
     {
      "slug": "correlation-preserving-redaction",
@@ -18951,6 +19091,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/templates-scaffolding/templates-scaffolding.md",
+   "digest": "sha256:5b5300db8b9ce628",
    "techniques": [
     {
      "slug": "adoption-lifecycle",
@@ -19070,6 +19211,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/terminal-multiplexing.md",
+   "digest": "sha256:886543064d591056",
    "techniques": [
     {
      "slug": "attach-detach-lifecycle",
@@ -19220,6 +19362,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
+   "digest": "sha256:67aade892fa6f575",
    "techniques": [
     {
      "slug": "fixture-economics",
@@ -19424,6 +19567,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
+   "digest": "sha256:c9a635e2f9744d31",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",
@@ -19568,6 +19712,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/time-travel-replay.md",
+   "digest": "sha256:3d7994849a8aef6f",
    "techniques": [
     {
      "slug": "accrual-overlays",
@@ -19672,6 +19817,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
+   "digest": "sha256:4c6dc8858a53f603",
    "techniques": [
     {
      "slug": "actionable-toasts",
@@ -19775,6 +19921,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/tracing/tracing.md",
+   "digest": "sha256:c6d35b8697eafa28",
    "techniques": [
     {
      "slug": "cross-boundary-propagation",
@@ -19880,6 +20027,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/triage-queues/triage-queues.md",
+   "digest": "sha256:89add251704338ae",
    "techniques": [
     {
      "slug": "bulk-triage",
@@ -19993,6 +20141,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/ui-controls.md",
+   "digest": "sha256:c4ba5f507779c75e",
    "techniques": [
     {
      "slug": "adoption-enforcement",
@@ -20087,6 +20236,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/undo-history.md",
+   "digest": "sha256:e8aeccf7729b1547",
    "techniques": [
     {
      "slug": "checkpoint-restore",
@@ -20186,6 +20336,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/usage-analytics.md",
+   "digest": "sha256:d1faf87976598af1",
    "techniques": [
     {
      "slug": "activation-and-funnel-honesty",
@@ -20308,6 +20459,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/versioning-snapshots.md",
+   "digest": "sha256:cdd1d7edf30ac33d",
    "techniques": [
     {
      "slug": "lineage-and-variants",
@@ -20427,6 +20579,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
+   "digest": "sha256:0feec1fdc6967176",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -20652,6 +20805,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/web-scraping/web-scraping.md",
+   "digest": "sha256:1acbad2af86dd292",
    "techniques": [
     {
      "slug": "dedup-and-datasets",
@@ -20806,6 +20960,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/webhook-ingestion.md",
+   "digest": "sha256:70235356d700f8fb",
    "techniques": [
     {
      "slug": "delivery-logging-and-replay",
@@ -20922,6 +21077,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/wizard-flows/wizard-flows.md",
+   "digest": "sha256:27176b11b1406a6a",
    "techniques": [
     {
      "slug": "ai-driven-elicitation",

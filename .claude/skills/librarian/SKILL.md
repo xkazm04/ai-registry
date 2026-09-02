@@ -3,7 +3,7 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.2.0
+version: 1.3.0
 tags: registry, maintenance, coverage, dispatch, quality
 ---
 
@@ -50,9 +50,13 @@ run. A model that counts its own corpus produces a confident number nobody can c
 ## The loop
 
 **1. Prove the instrument.** `check-bundles`, then `build-index`, then `build-catalog`
-(that order - the catalog hash covers the index). Then the scan. Confirm one figure by
-opening one file. If a gate is red, stop: you are about to rank a corpus that does not
-parse.
+(that order - the catalog hash covers the index), then `build-knowledge-rules` (the
+always-on consumer rule; CI gates it under "bundle index freshness" and it has been found
+stale on trunk three times because this list used to omit it). Then the scan, and
+`node scripts/build-registry-map.mjs --check` for the **consumer side**: how many recorded
+verdicts in the fleet were judged against a subject that has since changed, by subject.
+Confirm one figure by opening one file. If a gate is red, stop: you are about to rank a
+corpus that does not parse.
 
 **2. Sweep and score.** Read the scan fresh. **Never carry forward last run's derived
 numbers** - deepen learned this the expensive way, and the vault stores what was DONE,
@@ -79,6 +83,12 @@ script cannot:
 - **A due lead is cheaper than a fresh scan.** `librarian/sources/` holds findings a
   research run proved real and could not land, each with a return condition. Read them
   before ranking: a lead whose condition has arrived is work somebody already scoped.
+- **Verdict debt is demand too.** The map check reports, per subject, which projects
+  hold verdicts the registry has since moved under. A subject with stale verdicts in
+  three projects is being *used*; that outranks a structural gap in one nobody joins
+  to. And a subject whose last landing was never applied anywhere (no row in
+  `librarian/applied.md`) is a wiki page the sweep should not enrich further before it
+  has been tried once.
 
 **5. Dispatch.** A fleet of scoped workers, **cap 10 concurrent, topped up one per
 completion** - the number both existing skills converged on across measured runs. Each
@@ -97,6 +107,8 @@ Choose the engine by what is missing:
 | subject is single-source (one stack, one origin) | `/reconcile` wave against an external counterpart |
 | missing `use_when`, dead link, bad frontmatter | fix in-session; no worker |
 | cap breach, misplaced subject | `apply-taxonomy.mjs`; no worker |
+| a new technique or flipped rule with no `applied.md` row | apply worker at the project the map joins it to (`/intake` Phase 7.5 method), one per finding |
+| stale verdicts in a project under a subject this run touched | that project's `/conform --stale`; hand it the list, do not judge from here |
 
 **6. Review diffs, not reports.** Purity grep over the upper layers, read every new
 technique, check corrections against the file's prior voice. Not delegable, and it is
@@ -106,6 +118,24 @@ what sets the batch ceiling near 8 per sitting.
 `librarian/subjects/<domain>/<subject>.md` for everything touched, the domain note,
 and one run note. **Record what you declined and why** - a decline nobody wrote down
 gets re-proposed every run forever.
+
+**8. Propagate.** The run is not over at the registry commit; that is where every run
+before 2026-09-02 stopped, and the measured result was a fleet whose recorded verdicts
+were 100% stale against the corpus with nothing having told any project. After the
+generated files are rebuilt (`build-index`, `build-catalog`, `build-knowledge-rules`):
+
+- `node scripts/build-registry-map.mjs` over the fleet. It carries every verdict
+  forward, marks the pairs whose subject moved `stale: true`, and prints the impact
+  table: subject → projects with stale verdicts. Commit each project's
+  `.ai/registry-map.json` with a pathspec on its active branch; never push.
+- Write the impact table into the run note under **Impact** and into each touched
+  subject note - slugs and counts, never paths. It is the project's `/conform --stale`
+  queue, and it is next run's demand.
+- Every new technique and every flipped rule this run landed owes a row in
+  `librarian/applied.md` (mode, verdict, or `unapplied` with a return condition).
+  Dispatch one apply worker per finding at the project the map joins it to, cap the
+  same as step 5, review their diffs the same as step 6. A run that lands six
+  techniques and applies none has enriched a wiki.
 
 ## The vault
 

@@ -62,6 +62,12 @@ standard say about this file?" into a lookup:
   `not-applicable`. **A `deviation` is a known, recorded gap** - do not rediscover it, and
   do not treat it as licence to add another.
 - `subjectIndex` inverts it: given a subject slug, which contexts it governs.
+- **A verdict can be stale.** Each pair carries the `digest` of the subject as it is now;
+  a judged pair whose `evaluatedAgainst` differs is marked `stale: true` - the standard
+  moved under the verdict, and the state is a claim about a document that no longer exists
+  in that form. The header's `stats.staleVerdicts` counts them and `staleSubjects` names
+  them. When the count is above zero, treat those states as unknown and run
+  `/conform --stale` before relying on them; the registry landed something there.
 - A row marked `governance: "weak"` means the declared domains barely cover that context.
   Treat guidance there with suspicion and say so; it is a coverage question for the
   registry, not a standard to force onto the code.
