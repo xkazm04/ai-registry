@@ -1,0 +1,152 @@
+From 8f76abbda67fbe74d8bd25a55219e9fd5a3d17a0 Mon Sep 17 00:00:00 2001
+From: xkazm04 <kazdan@seznam.cz>
+Date: Wed, 2 Sep 2026 18:50:58 +0200
+Subject: [PATCH] test(browse): pin the busy-is-not-dead decision table; move
+ decideDaemonRestart to a side-effect-free module
+
+decideDaemonRestart was documented as pure and exported for unit coverage and had no test.
+The first attempt to test it could not import cli.ts on Windows (the module throws at load
+when the server bundle is absent), so the decision and its budget constant move to
+browse/src/daemon-restart-decision.ts and cli.ts re-exports them. Six cases pin the IRON
+RULE: an alive pid is never auto-killed; only --force-restart on an unresponsive daemon does.
+
+Written by an ai-registry intake run (intake-gstack-0902) as a task row against the source
+tree; not a PR.
+---
+ browse/src/cli.ts                           | 30 +++---------------
+ browse/src/daemon-restart-decision.ts       | 32 +++++++++++++++++++
+ browse/test/daemon-restart-decision.test.ts | 35 +++++++++++++++++++++
+ 3 files changed, 72 insertions(+), 25 deletions(-)
+ create mode 100644 browse/src/daemon-restart-decision.ts
+ create mode 100644 browse/test/daemon-restart-decision.test.ts
+
+diff --git a/browse/src/cli.ts b/browse/src/cli.ts
+index c5b8757..01422d0 100644
+--- a/browse/src/cli.ts
++++ b/browse/src/cli.ts
+@@ -333,7 +333,9 @@ export async function reapRecordedChromium(state: {
+  * timed-out navigation still in flight — so live daemons got killed and every
+  * kill lost the session's cookies/tabs/logins. ~8s covers the observed busy
+  * windows; past it we REPORT busy instead of killing (never auto-kill). */
+-export const HEALTH_PROBE_TOTAL_BUDGET_MS = 8_000;
++import { HEALTH_PROBE_TOTAL_BUDGET_MS, decideDaemonRestart } from './daemon-restart-decision';
++export { HEALTH_PROBE_TOTAL_BUDGET_MS, decideDaemonRestart };
++export type { DaemonRestartAction } from './daemon-restart-decision';
+ 
+ /** Bounded /health probe. Returns true if the server answers within the
+  * total budget — distinguishes a busy-but-alive daemon from a dead one
+@@ -360,30 +362,8 @@ async function probeHealthWithBackoff(
+   }
+ }
+ 
+-export type DaemonRestartAction =
+-  | 'retry-command'   // healthy again after the bounded probe — retry against the SAME daemon
+-  | 'report-busy'     // alive but unresponsive — report + nonzero exit, daemon untouched
+-  | 'force-restart'   // alive but the user explicitly passed --force-restart
+-  | 'restart-dead';   // process is gone — safe to clean up and restart
+-
+-/**
+- * Decide what to do about a daemon that failed to answer (#2219, decision 9).
+- *
+- * IRON RULE: an alive pid is NEVER auto-killed. A kill loses the session's
+- * tabs, cookies, and logins — strictly worse than a slow command. The ONLY
+- * path that kills a live daemon is the user explicitly passing
+- * --force-restart. Pure and exported for unit coverage.
+- */
+-export function decideDaemonRestart(opts: {
+-  pidAlive: boolean;
+-  healthyAfterProbe: boolean;
+-  forceRestart: boolean;
+-}): DaemonRestartAction {
+-  if (opts.pidAlive && opts.healthyAfterProbe) return 'retry-command';
+-  if (opts.pidAlive && opts.forceRestart) return 'force-restart';
+-  if (opts.pidAlive) return 'report-busy';
+-  return 'restart-dead';
+-}
++// decideDaemonRestart + DaemonRestartAction live in daemon-restart-decision.ts so the pure
++// decision can be unit-tested without importing this module's platform side effects.
+ 
+ /** #2219 IRON RULE refusal for `connect`: a live daemon is never replaced
+  * without explicit consent. Single source for the refusal text (M7) — the
+diff --git a/browse/src/daemon-restart-decision.ts b/browse/src/daemon-restart-decision.ts
+new file mode 100644
+index 0000000..48c6bc3
+--- /dev/null
++++ b/browse/src/daemon-restart-decision.ts
+@@ -0,0 +1,32 @@
++/**
++ * The daemon restart decision (#2219, decision 9), in a module with no imports and no
++ * side effects so it can be unit-tested in isolation. cli.ts re-exports it.
++ */
++
++/** Total wall-clock budget the CLI spends probing /health before calling a live daemon busy. */
++export const HEALTH_PROBE_TOTAL_BUDGET_MS = 8_000;
++
++export type DaemonRestartAction =
++  | 'retry-command'   // healthy again after the bounded probe — retry against the SAME daemon
++  | 'report-busy'     // alive but unresponsive — report + nonzero exit, daemon untouched
++  | 'force-restart'   // alive but the user explicitly passed --force-restart
++  | 'restart-dead';   // process is gone — safe to clean up and restart
++
++/**
++ * Decide what to do about a daemon that failed to answer (#2219, decision 9).
++ *
++ * IRON RULE: an alive pid is NEVER auto-killed. A kill loses the session's
++ * tabs, cookies, and logins — strictly worse than a slow command. The ONLY
++ * path that kills a live daemon is the user explicitly passing
++ * --force-restart. Pure and exported for unit coverage.
++ */
++export function decideDaemonRestart(opts: {
++  pidAlive: boolean;
++  healthyAfterProbe: boolean;
++  forceRestart: boolean;
++}): DaemonRestartAction {
++  if (opts.pidAlive && opts.healthyAfterProbe) return 'retry-command';
++  if (opts.pidAlive && opts.forceRestart) return 'force-restart';
++  if (opts.pidAlive) return 'report-busy';
++  return 'restart-dead';
++}
+diff --git a/browse/test/daemon-restart-decision.test.ts b/browse/test/daemon-restart-decision.test.ts
+new file mode 100644
+index 0000000..ac67701
+--- /dev/null
++++ b/browse/test/daemon-restart-decision.test.ts
+@@ -0,0 +1,35 @@
++import { describe, test, expect } from 'bun:test';
++import { decideDaemonRestart, HEALTH_PROBE_TOTAL_BUDGET_MS } from '../src/daemon-restart-decision';
++
++/**
++ * Pins the IRON RULE in decideDaemonRestart (#2219, decision 9): an alive pid
++ * is never auto-killed. The function is documented as "pure and exported for
++ * unit coverage" and had no test; this is the whole decision table.
++ */
++describe('decideDaemonRestart — busy is not dead', () => {
++  test('alive and healthy after the bounded probe: retry against the SAME daemon', () => {
++    expect(decideDaemonRestart({ pidAlive: true, healthyAfterProbe: true, forceRestart: false })).toBe('retry-command');
++  });
++
++  test('alive, healthy, and --force-restart still retries: a healthy daemon is not replaced by a flag', () => {
++    expect(decideDaemonRestart({ pidAlive: true, healthyAfterProbe: true, forceRestart: true })).toBe('retry-command');
++  });
++
++  test('alive but unresponsive: report busy, daemon untouched', () => {
++    expect(decideDaemonRestart({ pidAlive: true, healthyAfterProbe: false, forceRestart: false })).toBe('report-busy');
++  });
++
++  test('alive, unresponsive, --force-restart: the only path that kills a live daemon', () => {
++    expect(decideDaemonRestart({ pidAlive: true, healthyAfterProbe: false, forceRestart: true })).toBe('force-restart');
++  });
++
++  test('pid gone: safe to clean up and restart, with or without the flag', () => {
++    expect(decideDaemonRestart({ pidAlive: false, healthyAfterProbe: false, forceRestart: false })).toBe('restart-dead');
++    expect(decideDaemonRestart({ pidAlive: false, healthyAfterProbe: false, forceRestart: true })).toBe('restart-dead');
++  });
++
++  test('the probe budget is bounded and stated in seconds the busy report can print', () => {
++    expect(HEALTH_PROBE_TOTAL_BUDGET_MS).toBeGreaterThan(0);
++    expect(HEALTH_PROBE_TOTAL_BUDGET_MS % 1000).toBe(0);
++  });
++});
+-- 
+2.43.0.windows.1
+

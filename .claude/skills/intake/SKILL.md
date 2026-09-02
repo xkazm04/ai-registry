@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.1.0
+version: 2.1.1
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map
 ---
 
@@ -508,7 +508,11 @@ counts on both sides - the landing page and the in-tree documents. A note whose
 `words:` is a single small number over a repository source is a run that read the ad.
 
 The tree is deleted with the rest of this run's scratch files at Phase 9, not before -
-Phase 6 verification reads it, and Phase 7.5 may need it again.
+Phase 6 verification reads it, and Phase 7.5 may need it again. **It is always deleted
+(v2.1.1).** A `task` row whose first step landed on a branch of the clone does not keep
+the clone alive: export the branch with `git format-patch` into `librarian/handoffs/`
+beside the task's plan, point the plan at the patch, and delete the clone. A clone left
+behind for "later" is dead space nobody reclaims, and the operator said so on 2026-09-02.
 
 **Read for reusable engineering, not only for claims.** A repository is the one source
 class that carries *executable* knowledge, and the intake habit of hunting quotable

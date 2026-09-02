@@ -4,7 +4,7 @@ run: intake-gstack-0902
 subject: software-engineering/agent-browser-control
 technique: persistent-browser-daemon
 mode: task
-branch: intake/busy-not-dead-test (local clone at C:/t/gstack, pinned base 0d1bd5616c0ef096bb7ccee336f63c60ee408618)
+branch: intake/busy-not-dead-test - exported as `2026-09-02-gstack-source-tree-task.patch` beside this file (git format-patch of commit 8f76abb over base 0d1bd5616c0ef096bb7ccee336f63c60ee408618); the clone was deleted at Phase 9. Re-apply with `git clone <url> && git am <patch>`.
 size: 2 files touched + 1 new / ~60 lines
 status: first step landed on the branch; not pushed; no PR opened
 ---
