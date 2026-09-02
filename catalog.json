@@ -91,10 +91,10 @@
     },
     {
       "name": "conform",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:439395027bf43372",
+      "contentHash": "sha256-n1:4b179a60c24c6197",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 2,
@@ -610,7 +610,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:a8a9498d7d020547"
+      "contentHash": "sha256:a22f8368414f8116"
     },
     {
       "name": "game-production",
@@ -623,7 +623,7 @@
       "techniques": 259,
       "applications": 115,
       "files": 421,
-      "contentHash": "sha256:169bc7549012b43a"
+      "contentHash": "sha256:c509adde6eced4eb"
     },
     {
       "name": "grant-funding",
@@ -636,7 +636,7 @@
       "techniques": 105,
       "applications": 38,
       "files": 165,
-      "contentHash": "sha256:31e94c240ca9cf05"
+      "contentHash": "sha256:df80ca4e2ca6bf66"
     },
     {
       "name": "llm-observability",
@@ -649,7 +649,7 @@
       "techniques": 102,
       "applications": 53,
       "files": 176,
-      "contentHash": "sha256:e51eed5150059418"
+      "contentHash": "sha256:3a760fa1d9546fa5"
     },
     {
       "name": "localization",
@@ -662,7 +662,7 @@
       "techniques": 85,
       "applications": 45,
       "files": 148,
-      "contentHash": "sha256:c4f1c0f99c38308d"
+      "contentHash": "sha256:e0a998f4c94dd41b"
     },
     {
       "name": "media-generation",
@@ -675,7 +675,7 @@
       "techniques": 132,
       "applications": 58,
       "files": 215,
-      "contentHash": "sha256:5b65038e3cb02659"
+      "contentHash": "sha256:9cfd5f784f9f98bf"
     },
     {
       "name": "recruiting",
@@ -688,7 +688,7 @@
       "techniques": 384,
       "applications": 194,
       "files": 646,
-      "contentHash": "sha256:8192916880c39fef"
+      "contentHash": "sha256:1cb82da820fa3090"
     },
     {
       "name": "software-engineering",
@@ -701,7 +701,7 @@
       "techniques": 1093,
       "applications": 582,
       "files": 1836,
-      "contentHash": "sha256:f587615abb6ba5f3"
+      "contentHash": "sha256:e59e7f4565927a0d"
     }
   ]
 }

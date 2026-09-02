@@ -24,6 +24,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/character-identity-continuity/character-identity-continuity.md",
+   "digest": "sha256:d722e34c8a79aa12",
    "techniques": [
     {
      "slug": "camera-position-not-focal-length",
@@ -113,6 +114,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
+   "digest": "sha256:6de616a11f72e6c8",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -238,6 +240,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/content-research-grounding/content-research-grounding.md",
+   "digest": "sha256:1d6e798c5f9f21f0",
    "techniques": [
     {
      "slug": "evidence-grading-ladder",
@@ -370,6 +373,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/creator-voice-and-tone.md",
+   "digest": "sha256:aa44cb07376b716c",
    "techniques": [
     {
      "slug": "delivery-rate-budgeting",
@@ -478,6 +482,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/evidence-bound-visuals.md",
+   "digest": "sha256:3b362457132ee869",
    "techniques": [
     {
      "slug": "causal-arrow-discipline",
@@ -628,6 +633,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/frame-direction/frame-direction.md",
+   "digest": "sha256:169a330e538eed24",
    "techniques": [
     {
      "slug": "motif-establish-vary-payoff",
@@ -732,6 +738,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/generated-music-acceptance/generated-music-acceptance.md",
+   "digest": "sha256:fa10523eaebe1526",
    "techniques": [
     {
      "slug": "brief-conformance-listen",
@@ -822,6 +829,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
+   "digest": "sha256:11592fb0cb041a7b",
    "techniques": [
     {
      "slug": "cross-provider-flip-analysis",
@@ -963,6 +971,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generative-provider-routing/generative-provider-routing.md",
+   "digest": "sha256:a7b62ea49e49e7c4",
    "techniques": [
     {
      "slug": "capability-to-vendor-plan",
@@ -1112,6 +1121,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
+   "digest": "sha256:9d562569e82b0a6d",
    "techniques": [
     {
      "slug": "assigned-colour-roles",
@@ -1297,6 +1307,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/music-prompt-composition/music-prompt-composition.md",
+   "digest": "sha256:41ed7160af5ec809",
    "techniques": [
     {
      "slug": "duration-and-tempo-locking",
@@ -1394,6 +1405,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/narrative-engine-selection.md",
+   "digest": "sha256:e76146a6ffbdd34d",
    "techniques": [
     {
      "slug": "adjudication-honesty-tells",
@@ -1484,6 +1496,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/platform-format-adaptation/platform-format-adaptation.md",
+   "digest": "sha256:f3c7a1753b4f59fe",
    "techniques": [
     {
      "slug": "derived-short-contract",
@@ -1590,6 +1603,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
+   "digest": "sha256:6952d266da689862",
    "techniques": [
     {
      "slug": "asset-vs-disposable-render",
@@ -1705,6 +1719,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
+   "digest": "sha256:08779736175407b3",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
@@ -1873,6 +1888,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/short-form-narrative-structure/short-form-narrative-structure.md",
+   "digest": "sha256:2f8fe8986f5d360f",
    "techniques": [
     {
      "slug": "but-therefore-beat-linking",
@@ -1967,6 +1983,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/sound-effect-generation/sound-effect-generation.md",
+   "digest": "sha256:ca3feb2c065143ff",
    "techniques": [
     {
      "slug": "envelope-first-briefing",
@@ -2069,6 +2086,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/trailer-structure/trailer-structure.md",
+   "digest": "sha256:319570f809893bc6",
    "techniques": [
     {
      "slug": "concealment-and-its-tells",
@@ -2161,6 +2179,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
+   "digest": "sha256:0c5707d14671f473",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2327,6 +2346,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/visual-style-locking/visual-style-locking.md",
+   "digest": "sha256:e2b6a8b9f9a0af7f",
    "techniques": [
     {
      "slug": "approved-reference-sheet",

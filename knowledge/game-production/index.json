@@ -26,6 +26,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
+   "digest": "sha256:efab67acec9b8749",
    "techniques": [
     {
      "slug": "capped-disqualifiers",
@@ -141,6 +142,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
+   "digest": "sha256:8ccc0b5501e25a82",
    "techniques": [
     {
      "slug": "declared-vs-referenced-tag-audit",
@@ -253,6 +255,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/acceptance-verdict-spine.md",
+   "digest": "sha256:2c396d7090f2bb11",
    "techniques": [
     {
      "slug": "explain-why-this-verdict",
@@ -370,6 +373,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/arpg-systems-canon/arpg-systems-canon.md",
+   "digest": "sha256:b12ac8bf1bcf16f8",
    "techniques": [
     {
      "slug": "added-increased-more-stacking",
@@ -478,6 +482,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
+   "digest": "sha256:0eb3eb6cfc215aa5",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -587,6 +592,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/catalog-pipeline-authoring/catalog-pipeline-authoring.md",
+   "digest": "sha256:0f122090d1189776",
    "techniques": [
     {
      "slug": "archetype-view-coherence-ratchet",
@@ -706,6 +712,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/combat-pacing-and-dramatic-arc.md",
+   "digest": "sha256:6132dd3b66db5ba4",
    "techniques": [
     {
      "slug": "beat-taxonomy-climax-comeback-deadzone",
@@ -797,6 +804,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/content-acceptance-tiering/content-acceptance-tiering.md",
+   "digest": "sha256:f195865b01191e50",
    "techniques": [
     {
      "slug": "config-complete-vs-runtime-verified",
@@ -903,6 +911,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/content-drift-and-revision/content-drift-and-revision.md",
+   "digest": "sha256:b24b30438b115292",
    "techniques": [
     {
      "slug": "add-only-hydration",
@@ -1030,6 +1039,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/crash-forensics-attribution.md",
+   "digest": "sha256:fd03a0a03435025f",
    "techniques": [
     {
      "slug": "caller-chain-decay",
@@ -1145,6 +1155,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/design-canon-as-executable-law/design-canon-as-executable-law.md",
+   "digest": "sha256:5294fd12c418816a",
    "techniques": [
     {
      "slug": "archetype-aware-envelopes",
@@ -1259,6 +1270,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/design-doc-compliance-scoring/design-doc-compliance-scoring.md",
+   "digest": "sha256:791786a59c2d1e8b",
    "techniques": [
     {
      "slug": "bidirectional-gap-detection",
@@ -1375,6 +1387,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/difficulty-design-and-adaptation.md",
+   "digest": "sha256:a9953289844e92f0",
    "techniques": [
     {
      "slug": "four-term-difficulty-decomposition",
@@ -1466,6 +1479,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/encounter-balance-simulation.md",
+   "digest": "sha256:4d3065526d21fd1f",
    "techniques": [
     {
      "slug": "goal-seek-on-a-seeded-monotonic-lever",
@@ -1580,6 +1594,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
+   "digest": "sha256:5d59d38675011278",
    "techniques": [
     {
      "slug": "editor-thread-timeout-budgeting",
@@ -1697,6 +1712,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
+   "digest": "sha256:3c6621c30d66cf18",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -1800,6 +1816,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/game-economy-tuning/game-economy-tuning.md",
+   "digest": "sha256:121de0b64d154fed",
    "techniques": [
     {
      "slug": "cost-curve-object-audit",
@@ -1943,6 +1960,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/generated-asset-world-scale/generated-asset-world-scale.md",
+   "digest": "sha256:fc07dcb44f62596a",
    "techniques": [
     {
      "slug": "generator-normalization-band",
@@ -2038,6 +2056,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/generated-mesh-acceptance.md",
+   "digest": "sha256:4e19f6fc7b7115d9",
    "techniques": [
     {
      "slug": "defect-code-taxonomy-not-prose",
@@ -2147,6 +2166,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
+   "digest": "sha256:cb53ef82acb00067",
    "techniques": [
     {
      "slug": "auto-picked-vs-human-chosen-provenance",
@@ -2264,6 +2284,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/generative-provider-auditing/generative-provider-auditing.md",
+   "digest": "sha256:d6c9753d58921e7a",
    "techniques": [
     {
      "slug": "arena-benchmark-protocol",
@@ -2388,6 +2409,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/image-to-3d-input-gating.md",
+   "digest": "sha256:a2a699d4950daad8",
    "techniques": [
     {
      "slug": "canonical-pose-rule",
@@ -2501,6 +2523,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/judgeable-spec-authoring.md",
+   "digest": "sha256:89eb8f8cef6d1161",
    "techniques": [
     {
      "slug": "enumeration-closure-as-arithmetic",
@@ -2615,6 +2638,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
+   "digest": "sha256:a8939bf0bf242d90",
    "techniques": [
     {
      "slug": "crease-angle-and-custom-normals",
@@ -2732,6 +2756,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-quality-gating/motion-quality-gating.md",
+   "digest": "sha256:6e0250d10f5ebac1",
    "techniques": [
     {
      "slug": "absolute-not-curved-judgment",
@@ -2851,6 +2876,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
+   "digest": "sha256:df19ce15d196311c",
    "techniques": [
     {
      "slug": "algorithm-parameter-support-matrix",
@@ -2966,6 +2992,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-coverage-measurement/production-coverage-measurement.md",
+   "digest": "sha256:f5c545d4ace70164",
    "techniques": [
     {
      "slug": "audited-fact-drift-detection",
@@ -3084,6 +3111,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-prompt-architecture/production-prompt-architecture.md",
+   "digest": "sha256:04ef223250cb94b2",
    "techniques": [
     {
      "slug": "acceptance-criteria-appended-not-replaced",
@@ -3191,6 +3219,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-work-prioritization/production-work-prioritization.md",
+   "digest": "sha256:30ee75c074fc21f9",
    "techniques": [
     {
      "slug": "blocked-if-any-produced-feature-is-blocked",
@@ -3304,6 +3333,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/prompt-fitness-and-evolution/prompt-fitness-and-evolution.md",
+   "digest": "sha256:1e4c8d8d453819e9",
    "techniques": [
     {
      "slug": "exclude-synthetic-fixtures-from-fitness",
@@ -3417,6 +3447,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/quality-verdict-integrity/quality-verdict-integrity.md",
+   "digest": "sha256:523a7830a1ecdb06",
    "techniques": [
     {
      "slug": "calibration-against-confirmed-labels-only",
@@ -3534,6 +3565,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/realtime-combat-semantics.md",
+   "digest": "sha256:d81e35ff68e40bae",
    "techniques": [
     {
      "slug": "active-defense-two-axis-split",
@@ -3646,6 +3678,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/reference-parity-gating/reference-parity-gating.md",
+   "digest": "sha256:4155fac43bb39973",
    "techniques": [
     {
      "slug": "defect-cap-bounded-to-its-reach",
@@ -3765,6 +3798,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
+   "digest": "sha256:60a55e5315340266",
    "techniques": [
     {
      "slug": "best-of-n-parameter-sweep",
@@ -3873,6 +3907,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/runtime-observation-evidence.md",
+   "digest": "sha256:c39d92e70857c9d1",
    "techniques": [
     {
      "slug": "behavioural-discriminators-over-symbolic-pass",
@@ -3991,6 +4026,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/shader-budget-authoring/shader-budget-authoring.md",
+   "digest": "sha256:ab765d3f91d3a320",
    "techniques": [
     {
      "slug": "channel-packing",
@@ -4105,6 +4141,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
+   "digest": "sha256:de0b345e898f6956",
    "techniques": [
     {
      "slug": "editor-only-api-audit-for-shipping",
@@ -4223,6 +4260,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/spatial-audio-scene-authoring.md",
+   "digest": "sha256:81f90d228d0baf73",
    "techniques": [
     {
      "slug": "attenuation-falloff-and-distance-filtering",
@@ -4331,6 +4369,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/subsystem-review-doctrine.md",
+   "digest": "sha256:1283ec821397f6bc",
    "techniques": [
     {
      "slug": "four-pass-ordering",
@@ -4445,6 +4484,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/tiling-texture-acceptance.md",
+   "digest": "sha256:dfeba0bd94fb8e35",
    "techniques": [
     {
      "slug": "biome-themed-tile-prompting",
@@ -4568,6 +4608,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/unattended-build-loop/unattended-build-loop.md",
+   "digest": "sha256:56104d94acef6086",
    "techniques": [
     {
      "slug": "budget-reservation-and-drain-not-kill",
@@ -4708,6 +4749,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/visual-script-to-code-transpilation/visual-script-to-code-transpilation.md",
+   "digest": "sha256:04918a29c58b25da",
    "techniques": [
     {
      "slug": "declaration-definition-parity",
@@ -4800,6 +4842,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/wiring-contract-doctrine/wiring-contract-doctrine.md",
+   "digest": "sha256:6f9e2fa312b961ba",
    "techniques": [
     {
      "slug": "contract-injection-into-prompts",

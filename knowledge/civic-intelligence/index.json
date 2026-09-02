@@ -23,6 +23,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/accountability-publishing-ethics.md",
+   "digest": "sha256:25abec8828ab9467",
    "techniques": [
     {
      "slug": "accountless-notification-privacy",
@@ -133,6 +134,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/beneficial-ownership-resolution.md",
+   "digest": "sha256:c033d9c5f0143009",
    "techniques": [
     {
      "slug": "identifier-checksum-validation",
@@ -235,6 +237,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/civic-knowledge-graphs.md",
+   "digest": "sha256:159304e69216f7cc",
    "techniques": [
     {
      "slug": "civic-entity-ontology",
@@ -345,6 +348,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/civic-source-adapters.md",
+   "digest": "sha256:57d0e18f114ba56f",
    "techniques": [
     {
      "slug": "entity-name-normalization",
@@ -455,6 +459,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/claim-verification-and-provenance.md",
+   "digest": "sha256:f487db18ae7c283a",
    "techniques": [
     {
      "slug": "claim-ref-addressing",
@@ -567,6 +572,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/conflict-of-interest-detection.md",
+   "digest": "sha256:5e5d75fdde3aee7c",
    "techniques": [
     {
      "slug": "registry-corroboration-gating",
@@ -677,6 +683,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/legislative-change-tracking.md",
+   "digest": "sha256:c4477b25f1be9c1a",
    "techniques": [
     {
      "slug": "amendment-instruction-grammar",
@@ -780,6 +787,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/llm-forensic-gating/llm-forensic-gating.md",
+   "digest": "sha256:ff6d10101b488fc1",
    "techniques": [
     {
      "slug": "citation-required-per-claim",
@@ -924,6 +932,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/parliamentary-data-modeling.md",
+   "digest": "sha256:76d570a43bcf2f16",
    "techniques": [
     {
      "slug": "cross-term-registry-loading",
@@ -1031,6 +1040,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/political-compass-from-votes/political-compass-from-votes.md",
+   "digest": "sha256:63194337cd00ced7",
    "techniques": [
     {
      "slug": "comparability-floor-for-ranking",
@@ -1146,6 +1156,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/politician-performance-scoring/politician-performance-scoring.md",
+   "digest": "sha256:ba3f45433a473ea2",
    "techniques": [
     {
      "slug": "comparison-fairness",
@@ -1260,6 +1271,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/public-money-attribution/public-money-attribution.md",
+   "digest": "sha256:aecff40f50f17ab2",
    "techniques": [
     {
      "slug": "attribution-perimeter",
@@ -1370,6 +1382,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/public-procurement-analysis/public-procurement-analysis.md",
+   "digest": "sha256:269141ed3a81ae62",
    "techniques": [
     {
      "slug": "contract-registry-record-model",
@@ -1486,6 +1499,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
+   "digest": "sha256:03dabf5c4212a95a",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1596,6 +1610,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/state-budget-analysis.md",
+   "digest": "sha256:a60bb31bf23ee0c9",
    "techniques": [
     {
      "slug": "consolidated-vs-headline-figures",

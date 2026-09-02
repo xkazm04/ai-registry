@@ -23,6 +23,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/analytics-store-design.md",
+   "digest": "sha256:ee9ee6c2e2807660",
    "techniques": [
     {
      "slug": "analytical-copy-partitioning",
@@ -139,6 +140,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/billing-revenue-normalization.md",
+   "digest": "sha256:ded209380899dd06",
    "techniques": [
     {
      "slug": "deterministic-external-ids",
@@ -244,6 +246,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/breach-alerting-and-attribution/breach-alerting-and-attribution.md",
+   "digest": "sha256:19d2ce4bc86521b8",
    "techniques": [
     {
      "slug": "identity-scope-attribution-refusal",
@@ -366,6 +369,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
+   "digest": "sha256:3c1147d95adcc480",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -483,6 +487,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
+   "digest": "sha256:617c29b88c910a81",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -598,6 +603,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/judge-calibration-and-drift.md",
+   "digest": "sha256:f5c7c90dc5531e2d",
    "techniques": [
     {
      "slug": "golden-set-agreement-measurement",
@@ -733,6 +739,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/judge-contract-design/judge-contract-design.md",
+   "digest": "sha256:3eaf5833eb0184fc",
    "techniques": [
     {
      "slug": "bias-counterbalancing-instructions",
@@ -854,6 +861,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
+   "digest": "sha256:2c0f991f46ed5eab",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
@@ -972,6 +980,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/llm-price-book-operations/llm-price-book-operations.md",
+   "digest": "sha256:eaf6705dc6983fa0",
    "techniques": [
     {
      "slug": "embedded-seed-fallback",
@@ -1074,6 +1083,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/margin-and-unit-economics.md",
+   "digest": "sha256:28a5b67e40e197ff",
    "techniques": [
     {
      "slug": "below-filter-honesty",
@@ -1182,6 +1192,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
+   "digest": "sha256:96ae32eb5ae856e5",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",
@@ -1292,6 +1303,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/federation-and-surfaces/operator-surfaces-for-llm-spend/operator-surfaces-for-llm-spend.md",
+   "digest": "sha256:fc6c9287a6fd13da",
    "techniques": [
     {
      "slug": "agent-prompts-as-dashboards",
@@ -1391,6 +1403,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/production-trace-scoring.md",
+   "digest": "sha256:e689501da78d13ac",
    "techniques": [
     {
      "slug": "drift-classified-rescoring",
@@ -1522,6 +1535,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
+   "digest": "sha256:ba2d6a5236fe483d",
    "techniques": [
     {
      "slug": "baseline-carries-its-conditions",
@@ -1660,6 +1674,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
+   "digest": "sha256:f14126914563fd4a",
    "techniques": [
     {
      "slug": "derived-trace-rollup",
@@ -1783,6 +1798,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/usage-limit-governance/usage-limit-governance.md",
+   "digest": "sha256:73b98ff8e4f5e9f3",
    "techniques": [
     {
      "slug": "concurrent-admission-integrity",
