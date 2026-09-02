@@ -142,6 +142,57 @@ const bridge = fleet;
 const catalog = fs.existsSync(CATALOG) ? JSON.parse(fs.readFileSync(CATALOG, 'utf8')) : { bundles: [] };
 const bundleHash = Object.fromEntries((catalog.bundles ?? []).map((b) => [b.name, b.contentHash]));
 
+// ---------------------------------------------------------- subject staleness
+// Per-subject digests from each bundle index (`build-index` writes them). A verdict is
+// judged against ONE subject, so it goes stale when THAT subject moves - not when any of
+// the bundle's other 155 do. Before this (2026-09-02) staleness was the bundle digest and
+// every judged pair in the fleet read STALE the day after any landing, which is the same
+// as never reading stale. This is the join that makes a `/deepen` landing actionable
+// downstream: the pairs whose `evaluatedAgainst` no longer equals their subject's digest.
+const subjectDigest = {};           // `${bundle}/${slug}` -> digest
+for (const b of fs.readdirSync(KNOWLEDGE, { withFileTypes: true })) {
+  if (!b.isDirectory()) continue;
+  const idxPath = path.join(KNOWLEDGE, b.name, 'index.json');
+  if (!fs.existsSync(idxPath)) continue;
+  const idx = JSON.parse(fs.readFileSync(idxPath, 'utf8'));
+  for (const [slug, s] of Object.entries(idx.subjects ?? {})) {
+    if (s.digest) subjectDigest[`${b.name}/${slug}`] = s.digest;
+  }
+}
+// Verdicts written before subject digests existed carry the BUNDLE digest in
+// `evaluatedAgainst`. Those are not all stale - most subjects did not move - so they are
+// re-dated from git: the subject folder's last commit date against the verdict's own
+// `evaluatedAt`. Unchanged since the verdict -> upgraded in place to the subject digest;
+// changed -> stale. Same-day is ambiguous and counts as stale (the cheaper error).
+const lastChangedCache = new Map();
+const subjectLastChanged = (bundle, slug) => {
+  const key = `${bundle}/${slug}`;
+  if (lastChangedCache.has(key)) return lastChangedCache.get(key);
+  let date = null;
+  try {
+    const idx = JSON.parse(fs.readFileSync(path.join(KNOWLEDGE, bundle, 'index.json'), 'utf8'));
+    const file = idx.subjects?.[slug]?.file;
+    if (file) {
+      const dir = path.dirname(path.join(ROOT, file));
+      date = execFileSync('git', ['log', '-1', '--format=%cs', '--', dir], { cwd: ROOT, encoding: 'utf8' }).trim() || null;
+    }
+  } catch { date = null; }
+  lastChangedCache.set(key, date);
+  return date;
+};
+const isStaleVerdict = (s) => {
+  if (!s.state || s.state === 'unknown') return false;
+  const current = subjectDigest[`${s.bundle}/${s.subject}`];
+  if (!current) return false;                       // subject gone from the index: reported elsewhere
+  if (s.evaluatedAgainst === current) return false;
+  const legacy = s.evaluatedAgainst && !Object.values(subjectDigest).includes(s.evaluatedAgainst);
+  if (legacy && s.evaluatedAt) {
+    const changed = subjectLastChanged(s.bundle, s.subject);
+    if (changed && changed < s.evaluatedAt) { s.evaluatedAgainst = current; return false; }
+  }
+  return true;
+};
+
 // ---------------------------------------------------------------- tokenizing
 const STOP = new Set(('the a an and or of to in for on with by from at as is are be it its this that these those not no ' +
   'when where which who what how why if then than so such use used using uses via per into onto out over under about ' +
@@ -307,7 +358,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       if (score >= SCORE_FLOOR) {
         hits.sort((a, b) => b[1] - a[1]);
         const grounding = triggerScore / score >= GROUNDING_FLOOR ? 'use_when' : 'lexical-only';
-        scored.push({ subject: s.slug, bundle: s.bundle, score: Math.round(score * 10) / 10, why: hits.slice(0, 3).map((h) => h[0]), grounding });
+        scored.push({ subject: s.slug, bundle: s.bundle, score: Math.round(score * 10) / 10, why: hits.slice(0, 3).map((h) => h[0]), grounding, digest: subjectDigest[`${s.bundle}/${s.slug}`] ?? null });
       }
     }
     scored.sort((a, b) => b.score - a.score);
@@ -401,7 +452,7 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       const ctx = key.slice(0, key.lastIndexOf('|'));
       const row = byContext.get(ctx);
       if (!row) continue;
-      row.subjects.push({ ...old, source: old.source ?? 'retained' });
+      row.subjects.push({ ...old, digest: subjectDigest[`${old.bundle}/${old.subject}`] ?? old.digest ?? null, source: old.source ?? 'retained' });
       restored += 1;
     }
 
@@ -425,6 +476,21 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     }
   }
 
+  // Stale verdicts: the pairs a bundle change actually touched. Tallied per subject so a
+  // landing can be read back as "these contexts in these projects now hold a claim about
+  // a document that changed". `/conform --stale` consumes the flag; the header count is
+  // what a session sees before trusting any state in this file.
+  const staleBySubject = {};
+  let staleVerdicts = 0;
+  for (const r of mapped) for (const s of r.subjects) {
+    if (isStaleVerdict(s)) {
+      s.stale = true;
+      staleVerdicts += 1;
+      (staleBySubject[s.subject] ??= []).push(r.context);
+    } else {
+      delete s.stale;
+    }
+  }
   const doc = {
     schema: 'rkb-registry-map/1',
     _note: 'GENERATED by ai-registry/scripts/build-registry-map.mjs - the join between this repo\'s contexts and the registry\'s subjects. Matching is deterministic and re-runnable; the per-pair `state` is JUDGEMENT, written by /conform, and is carried forward across regenerations. Regenerate after a context scan or a bundle change; `--check` reports what went stale.',
@@ -445,7 +511,9 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
       medianTopScore: Math.round(medianTop * 10) / 10,
       carriedVerdicts: carried,
       restoredPairs: restored,
+      staleVerdicts,
     },
+    staleSubjects: staleBySubject,
     subjectIndex,
     contexts: mapped,
   };
@@ -462,13 +530,27 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
 
   const evaluated = mapped.reduce((n, r) => n + r.subjects.filter((s) => s.state !== 'unknown').length, 0);
   const deviations = mapped.reduce((n, r) => n + r.subjects.filter((s) => s.state === 'deviation').length, 0);
-  rows.push({ slug, contexts: mapped.length, pairs: doc.stats.pairs, weak, evaluated, deviations, stale, dead, lexical: doc.stats.lexicalOnlyPairs, missing: contextsWithMissing });
+  rows.push({ slug, contexts: mapped.length, pairs: doc.stats.pairs, weak, evaluated, deviations, stale, dead, lexical: doc.stats.lexicalOnlyPairs, missing: contextsWithMissing, staleVerdicts, staleBySubject });
 }
 
 console.log(`registry map - ${rows.length} project(s), <=${TOP} subject(s) per context, kept within ${Math.round(RELATIVE_FLOOR * 100)}% of each context's best match\n`);
-console.log('  project        contexts  pairs  weak  evaluated  deviations  state    dead  stale-paths  lexical-only');
+console.log('  project        contexts  pairs  weak  evaluated  deviations  stale-verdicts  state    dead  stale-paths  lexical-only');
 for (const r of rows) {
-  console.log(`  ${r.slug.padEnd(14)} ${String(r.contexts).padEnd(9)} ${String(r.pairs).padEnd(6)} ${String(r.weak).padEnd(5)} ${String(r.evaluated).padEnd(10)} ${String(r.deviations).padEnd(11)} ${(r.stale ? (checkOnly ? 'STALE' : 'rebuilt') : 'current').padEnd(8)} ${String(r.dead).padEnd(5)} ${String(r.missing).padEnd(12)} ${r.lexical}`);
+  console.log(`  ${r.slug.padEnd(14)} ${String(r.contexts).padEnd(9)} ${String(r.pairs).padEnd(6)} ${String(r.weak).padEnd(5)} ${String(r.evaluated).padEnd(10)} ${String(r.deviations).padEnd(11)} ${String(r.staleVerdicts).padEnd(15)} ${(r.stale ? (checkOnly ? 'STALE' : 'rebuilt') : 'current').padEnd(8)} ${String(r.dead).padEnd(5)} ${String(r.missing).padEnd(12)} ${r.lexical}`);
+}
+// The impact view: which subjects moved under which projects' verdicts. This is the list a
+// registry landing owes its consumers - read it after `/deepen` or `/librarian run`, and
+// hand each line to that project's `/conform --stale`.
+const impact = {};
+for (const r of rows) for (const [subject, ctxs] of Object.entries(r.staleBySubject)) {
+  (impact[subject] ??= []).push(`${r.slug} (${ctxs.length})`);
+}
+const impactRows = Object.entries(impact).sort((a, b) => b[1].length - a[1].length);
+if (impactRows.length) {
+  console.log(`\n  ${rows.reduce((n, r) => n + r.staleVerdicts, 0)} verdict(s) judged against a subject that has since changed, by subject:`);
+  for (const [subject, where] of impactRows.slice(0, 25)) console.log(`    ${subject.padEnd(36)} ${where.join(', ')}`);
+  if (impactRows.length > 25) console.log(`    ... and ${impactRows.length - 25} more subject(s)`);
+  console.log('  Each project\'s map lists them under `staleSubjects`; `/conform --stale` re-judges them.');
 }
 const totalWeak = rows.reduce((n, r) => n + r.weak, 0);
 const totalPairs = rows.reduce((n, r) => n + r.pairs, 0);
