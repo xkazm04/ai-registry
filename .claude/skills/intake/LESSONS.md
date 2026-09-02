@@ -5852,3 +5852,38 @@ been naming that zero for weeks:
 - **Depth cell for this run** is the first with a subject and a handoff in the same row;
   read it against the 1.x rows over comparable trees (openbao, dora) before calling the
   method better - the comparison the user asked for is rounds, not runs.
+
+## 2.1.1 - 2026-09-02 - hermes-agent (round 2 of the 2.x calibration series; Opus workers throughout)
+
+- **The front half ran on an Opus worker end to end and the director's review found
+  nothing to redo.** Class read (research-model release, argued against the vendor
+  reading), a 14-document sweep with honest totals, 15 design entries with the golden path
+  opened per `corpus:` line, per-system routing counts, seven promoting questions
+  executed, a spec drafted in the template's shape with placement verified against the
+  taxonomy (and the cap collision named). Spot checks by the director: three tree anchors
+  held verbatim, the taxonomy counts matched, an uncapped concept map agreed with the
+  NONE verdicts. **The method shielded the model**: nothing in the file depended on which
+  model wrote it, and the parts the skill prescribes as mechanical (count per system, open
+  the file, never a slug match) are where a weaker reader would otherwise have failed.
+- **Per-system routing works, and it splits a repository three ways.** One system had
+  three NONE with no home (forge); two systems had three NONE each with an *existing* home
+  (technique triples inside those subjects, dispatched as briefs); one had two (stayed in
+  intake). The rule from round 1 held without amendment. What round 1 did not anticipate:
+  the technique-grain clusters are as large as the subject, and they need their own
+  workers - four Opus workers ran in parallel, one per home subject, with disjoint write
+  sets and the board claimed per subject.
+- **The direction pass has a third shape: the peer comparison.** When the source is a
+  peer of a fleet project (the operator: "very similar to what we do in personas... I would
+  expect dozens of comparison points"), three proposals is the wrong cap. The right output
+  is a comparison study in the project's own `.ai/directions/` - 30-45 points with a closed
+  verdict set (`adopt` / `adapt` / `keep ours` / `different forces`), tests to initiate,
+  features ranked, and the inverse list of what the project does better - with the top
+  three features as proposals in the schema. Phase 7.6 should say: *peer source -> study,
+  not cap*. Apply in the 2.2.0 bump after round 3 confirms it.
+- **`verified_against` must be `<stack>@<version>` naming the document's stack** - learned
+  in round 1, applied by every worker in round 2 because the brief said so. Put it in the
+  forge brief once rather than in every dispatch.
+- **Round-1 focus checks:** routing count named per system (yes: five systems, one
+  handoff). Technique-grain directions blocked by grain: 0 this run, because the comparison
+  study made the grain question moot for personas; still 1 from round 1. Not yet the second
+  sighting the fleet-map change waits for.

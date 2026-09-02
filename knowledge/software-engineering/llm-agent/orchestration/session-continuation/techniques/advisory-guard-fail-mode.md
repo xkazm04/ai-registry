@@ -119,8 +119,13 @@ the model reads and the operator does not.
   undone.
 - Make every blocking guard a total function of the current message with an
   enumerated accept grammar; unlisted, malformed and uncertain input passes.
-- Bound every handler by a registry-enforced timeout whose timer cannot hold
-  the process open.
+- Bound every handler **whose abandonment has a safe direction** by a
+  registry-enforced timeout whose timer cannot hold the process open. A
+  last-chance flush loses state when abandoned and a policy gate is unsafe in
+  both directions, so those are named as exemptions with a reason and a lift
+  condition rather than bounded; the predicate is
+  [honest-hook-registry](../../../runtime-and-io/agent-runtime-assembly/techniques/honest-hook-registry.md)'s.
+  A blanket bound reads as safety and is a silent state loss.
 - On instrument failure, pass with a structured diagnostic; never pass
   silently.
 

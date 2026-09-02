@@ -6,7 +6,7 @@ technique: stuck-loop-detection
 status: forged
 laws: [count-carries-predicate]
 shared_with: []
-use_when: [a continuation loop is repeating the same failed fix, choosing when a keep-working loop must stop anyway, a self-improvement loop keeps accepting negligible gains, a batching policy is deferring a stop the loop already earned]
+use_when: [a continuation loop is repeating the same failed fix, choosing when a keep-working loop must stop anyway, a self-improvement loop keeps accepting negligible gains, a batching policy is deferring a stop the loop already earned, a session auto-resumed after a crash crashes the process again]
 ---
 
 # Stuck-loop detection
@@ -99,6 +99,53 @@ must try a different one, and the streak resets only when a different family
 has been measured. The cost is one round; the benefit is that a loop
 climbing a local hill is forced to look off it before the budget is spent.
 
+## The interruption that leaves no signature
+
+Failure identity is the right instrument for a loop that fails and *reports*.
+It has one blind spot, and it is not a small one: an **involuntary
+interruption** — the process died, the drain timed out, the host restarted —
+produces no signature at all. No error class, no assertion, no location; the
+round simply never finished. A loop keyed only on failure identity cannot
+count what it never observed, so a session whose own history kills the process
+every time it is resumed will be resumed forever, each restart looking like a
+first attempt. Involuntary interruption is therefore a **second key**, counted
+separately, and the counter lives with whatever restores work across restarts
+rather than inside the loop that died.
+
+- **Mark on the way in, not on the way out.** On a start that follows an
+  unclean exit, every session touched inside a short recency window — a couple
+  of minutes, long enough to cover a turn that was in flight, short enough to
+  leave long-idle sessions alone — is marked *resume-pending* and
+  auto-continued. Sessions already marked are not re-marked; sessions somebody
+  deliberately suspended stay suspended.
+- **The mark survives the resume; only a success clears it.** Clearing it when
+  the resume *begins* is the mistake that costs the whole mechanism, because
+  the retry that matters is the one after the resumed turn dies too — and a
+  mark cleared at resume time makes every crash the first crash. The mark is
+  cleared when a turn returns a real result.
+- **Count consecutive restarts per session, and give the count a terminal
+  state.** Three restarts with the same session still live is a session that
+  cannot be run at all on this history, and the honest response is to stop
+  resuming it: move it to a suspended state so the next message starts clean,
+  rather than let one poisoned lane keep taking the process down with it. The
+  restart count obeys the same law as the attempt count above
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)) —
+  "restart 3" is meaningless, "3 consecutive restarts with this session still
+  active" is the predicate that makes it a verdict.
+- **A clean shutdown is a fact, and it has to be recorded.** A graceful stop
+  writes a marker; a start that finds one skips the sweep entirely and deletes
+  it. Without that marker every deliberate restart — an upgrade, a
+  configuration reload, an operator's own restart — is indistinguishable from
+  a crash, and the supervisor resurrects conversations nobody asked it to
+  resume. Absence of the marker is the crash signal, so it is written last,
+  after the drain completes, and never optimistically.
+
+The two keys do not merge into one counter. Failure identity halts a lane that
+is *doing the wrong thing*; the restart counter halts a lane that *cannot be
+run at all*. A design carrying only the first will run the second forever
+without noticing, because from inside a freshly started process there is
+nothing left to notice.
+
 ## Decision rules
 
 - Key the stop on the failure signature, normalised; halt a lane when the
@@ -109,6 +156,13 @@ climbing a local hill is forced to look off it before the budget is spent.
   only a meaningful win resets stagnation.
 - Accept a candidate only from the re-measured merged state.
 - Forbid one approach family from winning N consecutive rounds.
+- Count involuntary interruptions separately from failures: mark
+  recently-touched sessions resume-pending after an unclean start, clear the
+  mark only on a turn that succeeds, and suspend a session that survives N
+  consecutive restarts.
+- Record clean shutdowns explicitly, and skip the resume sweep when the marker
+  is present; a restart that cannot be distinguished from a crash resumes work
+  nobody interrupted.
 
 ## When not to use this
 

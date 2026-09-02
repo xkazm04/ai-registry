@@ -67,3 +67,7 @@ subject by construction.
   reference and the registry design, not the implementation. A later pass
   should open the persistent-mode staleness function and the drift guard's
   grammar and re-anchor.
+
+## 2026-09-02 - `/intake` hermes-agent (run `intake-hermes-0902`, intake 2.1.1, Opus workers)
+
+`stuck-loop-detection` gained "The interruption that leaves no signature": crash-resume marks recently touched sessions resume-pending, auto-continues them, keeps the mark until a turn succeeds, and escalates to suspended after three consecutive restarts; a clean-shutdown marker suppresses the sweep. The technique keyed only on failure identity; involuntary interruption is the second key. Also corrected on the other side of a boundary: `advisory-guard-fail-mode` says "bound every handler", and the peer runtime shows the handlers where abandonment has no safe direction (a last-chance flush, a policy gate) - the correction is recorded as a boundary in agent-runtime-assembly rather than an edit here. Deviation for the task backlog: the restart-count write and the suspend save are swallowed by bare excepts, so the terminal state can silently fail to arm.

@@ -1,0 +1,59 @@
+From 0a57be2cce97c2af81b59e425669f0bc175b2c6e Mon Sep 17 00:00:00 2001
+From: xkazm04 <kazdan@seznam.cz>
+Date: Wed, 2 Sep 2026 19:35:17 +0200
+Subject: [PATCH] gateway: log when the stuck-loop escalation cannot arm or
+ persist
+
+Two writes in the crash-resume escalation path were swallowed by bare excepts: the
+restart counter (which auto-suspend keys on) and the session-store save after a
+suspension. A failure at either site left the terminal state unreachable with no
+signal. Both now log a warning naming what will not happen.
+
+Written by an ai-registry intake run (intake-hermes-0902) as a task row against the
+source tree; not a PR.
+---
+ gateway/run.py | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/gateway/run.py b/gateway/run.py
+index 5d44f27..2009c57 100644
+--- a/gateway/run.py
++++ b/gateway/run.py
+@@ -12454,8 +12454,15 @@ class GatewayRunner(GatewayAuthorizationMixin, GatewayKanbanWatchersMixin, Gatew
+ 
+         try:
+             atomic_json_write(path, new_counts, indent=None)
+-        except Exception:
+-            pass
++        except Exception as exc:
++            # A counter that cannot be written is an escalation that cannot arm:
++            # the stuck-loop suspension below keys on this file. Say so instead
++            # of letting the next restart start from zero silently.
++            logger.warning(
++                "Stuck-loop restart counter could not be written to %s (%s); "
++                "auto-suspend after %d restarts will not arm for %d session(s)",
++                path, exc, self._STUCK_LOOP_THRESHOLD, len(new_counts),
++            )
+ 
+     def _suspend_stuck_loop_sessions(self) -> int:
+         """Suspend sessions that have been active across too many restarts.
+@@ -12495,8 +12502,14 @@ class GatewayRunner(GatewayAuthorizationMixin, GatewayKanbanWatchersMixin, Gatew
+         if suspended:
+             try:
+                 self.session_store._save()
+-            except Exception:
+-                pass
++            except Exception as exc:
++                # The suspension took effect in memory only; the next restart
++                # will resume the same sessions and the loop continues.
++                logger.warning(
++                    "Auto-suspended %d stuck session(s) but the session store "
++                    "could not be saved (%s); suspension will not survive restart",
++                    suspended, exc,
++                )
+ 
+         # Clear the file — counters start fresh after suspension
+         try:
+-- 
+2.43.0.windows.1
+

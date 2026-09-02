@@ -12,6 +12,7 @@ techniques:
   - db-self-instrumentation
   - single-writer-holder-discipline
   - analytical-reads-off-the-serving-store
+  - corruption-class-response
 ---
 
 # Embedded database operations
@@ -309,3 +310,8 @@ that motivated elevating the rule from advice to standard.
   that move an analytical read out, contention as the uncounted cost, the
   derived copy's reconciliation rules, and which duties the second quadrant
   retires.
+- [corruption-class-response](./techniques/corruption-class-response.md) — what
+  a handle may do after damage is already present: derived structures detach
+  and keep canonical writes flowing, canonical structure quarantines the handle
+  and stops writing, the checkpoint that must be skipped on close, and where
+  pending work goes instead.

@@ -117,7 +117,8 @@
             "remediation-handoff",
             "proactive-nudges",
             "plan-review",
-            "session-continuation"
+            "session-continuation",
+            "tenant-scoped-agent-runtime"
           ]
         },
         {

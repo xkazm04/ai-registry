@@ -11,6 +11,10 @@ techniques:
   - host-routes-win
   - bounded-projection-of-external-work
   - checkpoint-mode-custody
+  - observer-and-mutator-surfaces
+  - rewrite-before-the-gate
+  - honest-hook-registry
+  - session-scoped-capability
 ---
 
 # Agent runtime assembly
@@ -35,8 +39,10 @@ what wraps what, and therefore which gate sees which result. Code that extends
 the runtime enters by the operator's hand and fails in its own lane, because a
 contribution that can take the host down has been granted more than it was
 given. And the loop holds only what survives a compaction and a restart;
-everything else is a projection of a store that outlives the run. The six
-techniques are these three sentences made operational.
+everything else is a projection of a store that outlives the run. The
+techniques are these three sentences made operational - the first six from the
+runtime that raised the subject, four more from a peer runtime's extension host
+and capability surface, reconciled against them.
 
 ## Where this subject starts and stops
 
@@ -141,9 +147,10 @@ The same one-authority discipline reaches the capability roster. Where a
 policy decides which tools a run may hold, the assembly-time filter that
 withholds a capability from the roster and the run-time check that refuses
 its execution must derive from *one* policy, or the model is shown a tool the
-executor will refuse — a fluent invitation to fail. The corpus does not yet
-carry that pairing as a technique; it is recorded here as a consequence of
-assembly identity, not as a rule of its own.
+executor will refuse — a fluent invitation to fail. That pairing is now
+[session-scoped-capability](./techniques/session-scoped-capability.md), which
+adds the rule this paragraph could only imply: the capability resolves from the
+session's own source, never from a process-wide slot.
 
 ## Code enters by the operator's hand and fails in its own lane
 
@@ -294,3 +301,23 @@ owns the freeze, the accessor, the asymmetry, and the linearized resume.
   mode frozen per process; one accessor gates every read; compatibility
   fails closed toward the silent partial read and stays open the other way;
   a fork of non-self-contained state is rewritten as a linear head write.
+- [observer-and-mutator-surfaces](./techniques/observer-and-mutator-surfaces.md)
+  — two registration surfaces with opposite return contracts: an observer
+  surface whose returns the emitter discards, and a closed vocabulary of
+  points that may change behaviour; refusal is a typed result, never a
+  thrown exception; a contribution's power is legible from its registration.
+- [rewrite-before-the-gate](./techniques/rewrite-before-the-gate.md) — the
+  rewriting point runs outside every gate that evaluates the value, so
+  policy judges what executes; the original travels beside the effective
+  value with per-frame provenance; the continuation is single-use, and
+  fall-through is conditioned on whether the call beneath already ran.
+- [honest-hook-registry](./techniques/honest-hook-registry.md) — a timeout
+  is available only where abandonment has a safe direction, so coverage is
+  an allowlist whose exemptions are named with reasons; no event name
+  enters the registry ahead of a live emit site, and an unknown
+  registration is refused rather than stored.
+- [session-scoped-capability](./techniques/session-scoped-capability.md) — a
+  capability that exists because of which client is connected resolves from
+  the session's own source, never from a process environment slot; one
+  resolver folds in the named group; the assembly-time filter and the
+  run-time refusal derive from one policy on one session.

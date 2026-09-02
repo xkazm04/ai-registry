@@ -157,6 +157,36 @@ menu, not a default:
   someone else's stream; trades latency and an external dependency for
   working behind any network boundary.
 
+The relay clause has a boundary, and the case that crosses it looks ordinary
+enough to be worth naming. That clause assumes what is usually true: the final
+hop holds its own copy of the sender's secret, and the relay is a pipe that
+happens to see bytes. Where the relay is instead the **sole holder** — it
+fronts one shared subscription on behalf of many tenants, and each tenant's
+final hop is a separate, customer-managed, internet-exposed process — obeying
+the clause means *distributing* that shared secret to every one of those final
+hops, which is a cross-tenant compromise of exactly the kind verification
+exists to prevent. A second condition forces the same answer independently:
+where the sender places a bearer credential *inside* the signed body,
+preserving the bytes and stripping the credential are the same operation, and
+one of the two has to lose.
+
+So the discriminator is not "can the middle see the payload" — in every relay
+topology it can, which is why that test does not separate the cases. It is
+**who can hold the secret, and what distributing it would cost.** When the
+final hop can hold its own copy, verify there and treat the middle as
+untrusted transport. When the middle is the only place the secret can safely
+live, verification is edge-only by construction: the middle verifies the raw
+bytes, mints a normalized event, and forwards *that* — never the signed body —
+and the trust the sender's signature used to carry must be re-established on
+the middle-to-final-hop channel itself, with a per-recipient credential the
+recipient can hold without endangering anyone else. That is a different
+control, not a weaker one, and a design that delegates verification to the
+middle without also authenticating that channel has simply lost the boundary
+and not noticed. Either way
+[gate-sees-target](../../../_laws.md#gate-sees-target) survives: verification
+still runs over the exact bytes as received, at the one hop that can hold the
+key.
+
 Each option relocates trust, latency, and failure differently, and a system
 that supports more than one must decide what happens when both carry the same
 delivery (that is the dedup technique's problem) and which one is

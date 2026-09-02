@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-08-30
+last_touched: 2026-09-02
 touched_by: intake
 dry_streak: 0
 ---
@@ -212,3 +212,7 @@ position on: specificity is a **graded dial**, not a checklist.
 ## Standing
 
 One amendment. The other eleven techniques were not swept.
+
+## 2026-09-02 - `/intake` hermes-agent (run `intake-hermes-0902`, intake 2.1.1, Opus workers)
+
+Two techniques: `amortized-compaction-cadence` (the schedule compaction runs on rather than the threshold it fires at - one unit of history folded per turn to hold occupancy flat, priced against the cached prefix; the cursor never absorbs what the operator wrote; A1 and A2 folded into one because the exemption is only statable in terms of the absorbable unit) and `deferred-interface-invalidation` (a command that mutates a standing layer takes effect next session by default, immediate as an opt-in; the one exempt rewrite is compression). `history-compaction`, `cache-breakpoint-allocation` and `fingerprinting-and-cache-keys` were read whole and none stated cadence or avoidance. Source-tree application `python--amortized-compaction-cadence` with the measured 22%-and-held occupancy. Deviations: no reclaim-size gate; a half-committed pass reports as committed; the report script measures occupancy but not the cache-hit side of the trade.
