@@ -54,7 +54,8 @@
     },
     "kp": {
       "checkouts": {
-        "Wolf": "kiro/kp"
+        "Wolf": "kiro/kp",
+        "Fox": "dolla/kp"
       }
     },
     "pof": {
