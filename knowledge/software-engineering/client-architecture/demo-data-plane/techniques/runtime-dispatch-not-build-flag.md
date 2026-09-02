@@ -62,7 +62,10 @@ products:
 - **Anything persisted across sessions.** A stored preference means a viewer can
   return days later, in a state they do not remember choosing, with no memory
   of having entered a demo. Entry is per session and it expires with the
-  session.
+  session. The one carrier that is allowed to survive is the address: a plane
+  segment in the path is chosen afresh by every link that carries it and
+  visible before the page renders, which is the opposite of a remembered
+  preference (the honesty contract's third clause says when).
 
 The doors are one-way in the direction that matters. Entering the demo is a
 deliberate act with a visible exit. Leaving it — signing in, or taking the exit

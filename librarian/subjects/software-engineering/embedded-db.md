@@ -72,3 +72,16 @@ instruction verbatim, and one of them pays it to benchmark the incumbent at all.
 fork from the other end: it shapes the derived copy, this subject decides which reads
 leave the serving store. Same fork, opposite ends, discriminator stated in prose on each
 side. Neither absorbs the other; cross-bundle links are forbidden.
+
+## 2026-09-01 - intake [[2026-09-01-matrix-rust-sdk]]
+
+`journal-and-durability-modes` gained "name the set from the engine": the
+file-set clause said delete/reset removes the whole sidecar set, and a source
+showed it honored in intent and missed in fact (`.wal` where the engine writes
+`-wal`; the rebuilt store opened beside the stale journal and failed with a
+bare I/O error). Sidecar names are derived by appending to the FULL file name;
+the path library's extension swap is right only for the conventional name; one
+test opens a store named without the extension and asserts the sidecar. Applied
+at `code`, `ab-paired` 2/6 vs 6/6 over store names, **shipped** to the rust
+consumer with the test (rust application). Third application for the subject's
+journal technique, first on the rust stack.

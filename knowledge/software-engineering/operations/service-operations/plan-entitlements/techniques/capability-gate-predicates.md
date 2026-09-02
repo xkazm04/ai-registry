@@ -93,6 +93,11 @@ grant. Absence must be
   fail-open or fail-closed deliberately per call class, state the choice, and
   count every fail-open pass — an undeclared fail-open is how a product gives
   its paid features away during an outage.
+- **This is the gate's rule, not the grant handler's.** A lifecycle event for a
+  tenant the product has not yet created is a delivery that arrived early, not
+  a stranger: it is retried or parked, never refused — see
+  [entitlement-lifecycle-revocation](./entitlement-lifecycle-revocation.md).
+  The two lookups look identical and their correct outcomes are opposite.
 
 ## Composition with permission
 
@@ -109,6 +114,18 @@ refuses a paying member on the strength of a plan they hold. Keep two
 predicates and call both. When the refusal is surfaced, the *reason* matters:
 "your role cannot do this" and "your plan does not include this" lead to
 completely different next actions, and only one of them is a sale.
+
+The same separation holds against **rollout flags**. A flag answers "is this
+feature ready for this cohort?"; an entitlement answers "does this tenant's
+plan include it?". The test that sorts them: would the answer change if the
+tenant upgraded? If yes, it is an entitlement and belongs in the tier model
+with a lifecycle handler behind it; if no, it is a flag and belongs to release
+engineering. A flag system used to hold "which customers paid for this" is a
+second tier model with no revocation path — the flag never hears about the
+cancellation — and it is the commonest way the one-authority rule is broken by
+a team that believes it is being careful. The two may both apply to one
+feature: the entitlement decides access, the flag decides the variant, and the
+entitlement is evaluated first.
 
 ## Decision rules
 

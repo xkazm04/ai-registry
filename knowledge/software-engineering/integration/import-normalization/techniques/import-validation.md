@@ -6,7 +6,7 @@ technique: import-validation
 status: forged
 laws: [one-validation-door, failure-not-empty-success]
 shared_with: []
-use_when: [sizing caps that guard an untrusted parse, deciding whether imports reuse the creation door, embedded tokens surfacing in an imported file]
+use_when: [sizing caps that guard an untrusted parse, deciding whether imports reuse the creation door, embedded tokens surfacing in an imported file, an empty collection in a partial document or overlay being read as delete, a small shallow file exhausting memory at parse time]
 ---
 
 # Import validation & sanitization
@@ -27,7 +27,17 @@ logic runs: multi-hundred-megabyte files, pathologically deep nesting that
 overflows recursive parsers, entity counts chosen to make the review UI
 allocate forever. The counters are enforced **before and during** parse, not
 after: a byte-size cap at intake, a nesting-depth cap in (or wrapped around)
-the deserializer, and entity-count caps at adaptation. Each cap, when hit,
+the deserializer, an **expansion cap** wherever the syntax lets one node
+reference another (anchors, aliases, merge keys, entities), and
+entity-count caps at adaptation. The expansion cap is the one teams skip,
+because bytes and depth *feel* like a bound together — they are not: a
+small, shallow document whose aliases reference collections that contain
+aliases grows exponentially at resolution time, after both other caps have
+passed. CVE-2026-45304 is that exact gap in a mainstream YAML parser,
+closed by counting collection-alias resolutions against a default ceiling
+of 128 and adding a mode that refuses aliases outright for fully untrusted
+input; the second of those is the right default for an import door, since
+no foreign export needs aliases to be understood. Each cap, when hit,
 produces a described refusal naming the limit — "file exceeds the 10 MB
 import limit" is a support-ticket answer;
 an out-of-memory crash is an incident.
@@ -67,6 +77,46 @@ structure. The same reconstruction discipline governs the model-output
 boundary in [structured-output](../../../llm-agent/prompt-and-context/structured-output/structured-output.md);
 here it is cheaper, because lowering *has* to touch every field anyway —
 the only mistake available is to copy wholesale out of convenience.
+
+## Absent, null, and empty are three different words
+
+The reconstruction rule governs fields the adapter did not expect. Its
+mirror governs fields the document did not *supply* — and every path that
+accepts a partial document (a re-import that updates an earlier one, an
+overlay that contributes some fields to a canonical entity, any
+merge-patch-shaped update) must answer, per field, what each of three
+spellings means: the key is **absent**, the key is **null**, the key holds
+an **empty collection**. Published semantics disagree, which is why the
+answer cannot be delegated to whichever merge routine the code happens to
+call. JSON Merge Patch (RFC 7396) reads absence as *untouched*, `null` as
+*remove*, and any present value — an empty array included — as *replace
+wholesale*, because it cannot patch inside an array at all. JSON Patch
+(RFC 6902) has no implicit meanings; every change is an explicit
+operation. The common deep-merge utilities read an empty source collection
+as *nothing to contribute* and leave the target intact — the opposite of
+the merge-patch reading for the same bytes. And at least one widely
+deployed configuration-API merge dialect grew explicit `replace` and
+`delete` directives after its two documented spellings of *delete* were
+found to produce different results.
+
+The rule: **a partial-document format declares which spelling means
+"untouched", and the merge tests presence before it tests content.** When
+the format promises that some fields stay single-sourced in the canonical
+document — structural fields an overlay may not touch — the only spelling
+of "not mentioned" that survives every merge routine is absence: an
+omitted key, an unset option. Never an empty collection. And the guard on
+the replace branch must be *is the key present*, never *do all incoming
+elements pass*. That second form is the measured trap: an all-of predicate
+over an empty collection is vacuously true, so a wholesale-replace branch
+guarded by "every incoming element is well-formed" fires on `[]` and erases
+exactly the structure the overlay promised it could not reach — and it
+does so *after* the canonical document's integrity check has passed,
+because the checksum guards the input to the merge, not its output, so no
+integrity layer ever sees the loss. The empty-collection case is therefore
+a required fixture for any merge, not an edge case: whatever it returns
+*is* the format's semantics, whether or not anyone chose them
+([failure-not-empty-success](../../../_laws.md#failure-not-empty-success)
+— *nothing supplied* must never be spelled the same as *supply nothing*).
 
 Reference validation is part of the door's job here in a form hand-creation
 never exercises: an imported document arrives as a **closed graph of

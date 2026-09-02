@@ -69,11 +69,20 @@ work:
   can the anonymous role read" is a question with an exact answer that the
   store itself can be asked. Any belief about that answer which was not
   obtained by asking is a guess ([gate-sees-target](../../_laws.md#gate-sees-target)).
-- **Refusal is silent.** A row-level policy that denies a read does not raise;
-  it returns nothing. Denied and genuinely-empty are the same bytes on the
-  wire, so a policy suite that only asserts "the legitimate caller still sees
-  its rows" passes identically against a table with no protection at all
+- **Refusal is silent — under a row-policy engine.** A row-level policy that
+  denies a read does not raise; it returns nothing. Denied and
+  genuinely-empty are the same bytes on the wire, so a policy suite that only
+  asserts "the legitimate caller still sees its rows" passes identically
+  against a table with no protection at all
   ([failure-not-empty-success](../../_laws.md#failure-not-empty-success)).
+  Know which engine you have before writing the suite: a rule-evaluated
+  document store does the opposite — it judges a query against its
+  *potential* result set and fails the whole request if any document it
+  could touch is denied, even when every document it would actually return
+  is the caller's own. There the failure is loud but misattributed (an
+  under-constrained query reads as a permissions bug), and the suite must
+  assert a refusal class, not an empty set. Same regime, same enforcement
+  point, opposite bytes.
 
 ## Regime two: the browser must not hold it, so a broker attaches it
 

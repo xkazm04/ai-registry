@@ -77,3 +77,15 @@ practice and which **no linter can flag**. The technique gained the section
 *A wrapper that normalizes the result destroys the observation*. That mapping
 is NOT repaired — converting it to lazy getters is a public-interface change
 and was outside this run’s authorization.
+
+## 2026-09-01 - intake [[2026-09-01-matrix-rust-sdk]]
+
+`optimistic-write-path` gained the stream-lane inversion: its "waiting on a
+predecessor is not inheriting its failure" rule is the entity-lane half of a
+boundary whose other half (a failed head blocks a stream lane) now lives in
+delivery-guarantees/ordered-lane-blocking; the discriminating question is on
+both sides. Plus the id-less equality clause: local items compare by their
+local state stamp, never by the absence of a server id. Applied at
+`simulation` against a fleet conversation queue (react application, better):
+the drain fired on a `finally` that could not tell success from failure.
+Golden path untouched this run - it carried a sibling's uncommitted technique.

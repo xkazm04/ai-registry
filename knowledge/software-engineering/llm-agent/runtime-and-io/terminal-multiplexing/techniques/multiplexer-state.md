@@ -90,6 +90,14 @@ through it or past it explicitly. The two invariants:
   automation steal the keyboard, which converts every background job into
   a foreground interruption.
 
+"Exactly one keyboard" is a statement about one client. Where several
+clients may attach to the same session, each has its own focus pointer and
+their keystrokes merge at the device in arrival order, so the manager owes
+every attachment a write permission — read-only, writable, or holding the
+session's write lock — decided at attach rather than discovered when a
+second viewer answers a prompt. The
+[multi-client-fan-out](./multi-client-fan-out.md) technique owns that rule.
+
 ## Per-session view state outlives the view
 
 Scroll position, selection, whether the user had scrolled away from the

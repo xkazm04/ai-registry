@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
-last_swept: 2026-08-28
+last_swept: 2026-09-02
 layout: nested
-demand_known: false
+demand_known: true
 ---
 
 # Software engineering
@@ -285,3 +285,35 @@ should be made before anything is forged:
 3. **`librarian-scan` cannot see this class.** It ranks by attention debt over subjects
    that exist; a category that does not exist accrues none. Every hole this bundle has
    of this shape is invisible to the worklist by construction.
+
+## Run [[2026-09-02-1]] - seven fresh targets, six inbox rows ruled
+
+Shape at close (record, not input): 156 subjects, 1094 techniques, 589
+applications, `use_when` 1094/1094, version witness 212, expired 0, at-risk 0,
+never swept 58/156, attention points 1448, no cap breaches.
+
+Seven `/deepen` workers at subjects with no recent touch (four never swept,
+three single-stack). All seven landed; none dry. Three single-stack subjects
+closed (browser-credential-boundary → next, demo-data-plane → go, guided-tours →
+node). One new technique (terminal-multiplexing/multi-client-fan-out). One new
+stack in the vocabulary: `elixir`. The first `refresh_by` clock in
+plan-entitlements (spec application, 2026-12-02).
+
+The first six rows of `librarian/inbox.md` ever ruled on: four landed (one
+restated against the RFC it contradicted), one already present, one placed as
+a lead on credential-vault. 81 rows remain unruled.
+
+Trunk `rules/` was stale for two OTHER bundles before this run began - the
+third occurrence. Regenerated here.
+
+### What is owed (updated)
+
+- **The 81 unruled inbox rows** - the cheapest work on the table.
+- accessibility - three declines deep; it is a `/reconcile` job.
+- 84 single-stack subjects (was 87): one wave, not 84 dispatches.
+- The maturity ladder - every status still `forged`.
+- `rules/` regeneration is skipped by every non-librarian landing; the gate is
+  only green because the librarian pushes last.
+- A feature-flags subject: the bundle has none, and plan-entitlements now has
+  a seam with nothing to link to. Forge candidate.
+- The frontier question above is unchanged.

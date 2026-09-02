@@ -1,7 +1,7 @@
 ---
 subject: terminal-multiplexing
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -70,3 +70,41 @@ One such claim is still open and untriaged: the cost model's two columns
 assume a single viewer, and a server-owned runtime fans every frame to N
 attached clients — a third multiplier the table does not carry. See the
 untriaged table in [[2026-08-27-herdr]] (#4).
+
+## 2026-09-02 - deepen batch [[2026-09-02-1]]
+
+The untriaged claim from run 29 (#4) **held**: the cost model's two columns
+assume one viewer; a server-owned runtime emits every frame once per attached
+client. Landed as a golden-path correction ("K counts attachments, not
+sessions"; the rung is per attachment, the session's is the highest), a NEW
+technique `multi-client-fan-out`, and a `c` application on the reference
+multiplexer's tree at a pinned commit (third stack; pin in prose, no
+`verified_against`, per the c-application precedent).
+
+The technique's spine, all from maintainer source and man pages: the server
+owns one screen model per session so a client stream is *derived* and
+regenerable (discard-and-redraw for slow viewers); a byte-faithful subscriber
+is paused and told how far behind it is; the child is throttled only when
+nobody can consume; the buffer drains to the slowest un-paused reader; size
+arbitration is a named policy, per surface, and control clients do not vote;
+keyboards merge at the device so writes are permissioned per attachment.
+
+Three numbered rules taken literally and corrected: "exactly one rung" (per
+attachment), "exactly one keyboard" (per client), "focused session is
+unevictable" (per client). Golden path's "GPU contexts in single digits per
+process" was the wrong number - counted, not metered, oldest revoked - fixed
+from the browser engine's own review.
+
+Blind lane got the default backwards: predicted a slow tty client blocks the
+pane; the tree discards and redraws, and "wait for the stuck display" is the
+*older* lineage's default. Recorded because the next pass will guess the same.
+
+### Open leads / proposals (placed)
+
+- "Slowest un-paused reader pins the tail; pause or disconnect the laggard with
+  the gap disclosed" is generic multi-consumer buffering. Recorded on
+  [[streaming-output]]; this subject holds the terminal instance.
+- A per-subscriber buffered-age field is a staleness signal lifecycle-signals
+  could consume. Recorded on [[fleet-orchestration]].
+- pty-management owes one sentence pointing at the M-heads-one-device policy.
+  No note there; recorded here and in the run note.

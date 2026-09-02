@@ -9,7 +9,7 @@ purity: software
 # from are not all written in the default stacks — sqlite is C, golang-migrate
 # and litestream are Go — and the lane would otherwise bend its target list to
 # the tooling instead of the material.
-stacks: [go, c, claude-code, codex-cli, cursor-cli, gemini-cli, next, spec]
+stacks: [go, c, claude-code, codex-cli, cursor-cli, elixir, gemini-cli, next, spec]
 ---
 
 # Software engineering

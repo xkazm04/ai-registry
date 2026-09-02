@@ -67,6 +67,20 @@ addon is loaded on attach and dropped on detach and on context loss
 (`:265-297`), with the DOM renderer as the documented fallback — the
 technique's fallback ladder, including the context-loss-is-an-event rule.
 
+The count that budget is measured against is the browser engine's, not a
+driver's: Chromium caps active WebGL contexts per page at 16 (4 on workers)
+and, when a new context would exceed it, forcibly loses the *oldest* with
+the console warning "Too many active WebGL contexts. Oldest context will be
+lost" — introduced in Chromium code review 14217005 (2013: "16 contexts, or
+16 × 1024 × 1024 cumulative pixels; if either limit is exceeded the oldest
+context will be forcibly lost"), still the documented limit in Chromium
+issue 40939743, and read from GPU preferences at
+`webgl_rendering_context_base.cc:436-447` with the eviction loop calling
+`ForciblyLoseOldestContext` (main branch, read 2026-09-02). `MAX_PARKED =
+6` plus the attached pane sits well under it, but the headroom is shared
+with every other WebGL surface in the page, which is why the technique
+derives the budget from the cap rather than from the terminal count alone.
+
 ## Reload survival
 
 Registry, parked list, and the shared listener's unlisten handle all hang

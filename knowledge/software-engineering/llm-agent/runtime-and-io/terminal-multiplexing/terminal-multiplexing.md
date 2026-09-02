@@ -11,6 +11,7 @@ techniques:
   - keystroke-injection
   - multiplexer-state
   - occupant-state-detection
+  - multi-client-fan-out
 ---
 
 # Terminal emulation & multiplexing
@@ -61,6 +62,21 @@ a map entry) because N is unbounded from this subject's point of view;
 attention costs may be rich because K is bounded by screen area and human
 attention. The recurring failure of naive designs is a resource in the wrong
 column — most famously the renderer, covered below.
+
+The table carries one assumption it should state: **K counts attachments,
+not sessions.** In a host with one viewer the two are the same number. In a
+server-owned runtime that lets several clients attach to one session, a
+session watched by M clients spends the attention column M times, and the
+subscription row hides a third multiplier — every frame the session produces
+is emitted once per attached client. That multiplier is bounded only by a
+design choice the single-viewer table never has to make: the screen model
+moves to the server as an existence cost, so each client's stream is a
+*derived* redraw that can be dropped and regenerated when the client falls
+behind, rather than a transcript the runtime owes it. The
+[multi-client-fan-out](./techniques/multi-client-fan-out.md) technique owns
+that design, the slow-client policy that keeps one viewer from stalling the
+rest, and the size and keyboard arbitration that follow; a host with M = 1
+everywhere reads the table as written.
 
 ## Detach is not dispose
 
@@ -116,8 +132,9 @@ buffering discipline, not a rival to it.
 
 Terminal rendering at interactive quality wants hardware acceleration: a
 glyph atlas, a GPU context, a damage-tracked draw loop. Every one of those is
-scarce at the platform level — GPU contexts in particular are counted in
-single digits per process on real drivers — which forces the rule: **the
+scarce at the platform level — GPU contexts in particular are counted, not
+metered: a small fixed number per process or page, and exceeding it revokes
+the oldest rather than slowing the newest — which forces the rule: **the
 accelerated renderer belongs to the visible terminal, not to the session.**
 N parked sessions must hold **zero** GPU contexts among them.
 
@@ -257,7 +274,11 @@ the reload-survival wiring.
 ## The session ladder
 
 A session, seen from this subject, is always on exactly one rung, and every
-transition frees or restores a named set of resources:
+transition frees or restores a named set of resources. (The rung is a
+property of one viewer's attention; where a session can have several
+attached clients, each attachment sits on its own rung and the session's is
+the highest of them — see
+[multi-client-fan-out](./techniques/multi-client-fan-out.md).)
 
 | Rung | Child | Backend ring | Subscription | Emulator + renderer | Widget |
 | --- | --- | --- | --- | --- | --- |
@@ -307,3 +328,9 @@ Two rules fall out of the table:
   lifecycle hooks: channel ranking, the unscrollable detection buffer,
   per-occupant manifests as reloadable data, and the unknown state that
   never means done.
+- [multi-client-fan-out](./techniques/multi-client-fan-out.md) — the third
+  multiplier when several clients attach to one session: the server-owned
+  screen that makes client streams regenerable, drop-and-redraw for slow
+  viewers versus pause-and-notify for byte-faithful subscribers, throttling
+  the child only when nobody can consume, size arbitration among many boxes,
+  and per-attachment write permission.

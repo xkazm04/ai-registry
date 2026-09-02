@@ -39,7 +39,17 @@ contract:
   parallel identifier schemes — one for tests, one for tours — double the
   maintenance burden and halve the chance either is maintained. Reusing the
   identifiers the test suite already keeps honest is the cheapest reliability
-  this subject ever buys.
+  this subject ever buys — on one condition. Test identifiers are commonly
+  treated as dead weight in the shipped build, and every major toolchain
+  offers a production-only pass that strips them. A tour that anchors to
+  test identifiers therefore anchors to an attribute that may exist in every
+  environment except the one users see, and nothing in the test path can
+  notice, because the test path is the one environment guaranteed to keep
+  them. Before sharing the vocabulary, decide in writing that the attribute
+  ships, and point the drift gate at the production output — or at least at
+  the build configuration that would strip it — rather than at source
+  alone. A stripped attribute fails exactly like a vanished anchor, and only
+  in production.
 
 ## The manifest: making the gate see the target
 
