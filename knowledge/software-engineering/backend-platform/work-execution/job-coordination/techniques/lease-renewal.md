@@ -73,6 +73,69 @@ generator. The completion write is fenced like every other — "set completed
 where still running and generation matches" — so a slow executor that was
 lawfully replaced loses the finish-line race politely.
 
+## Absent is not lost, and a teardown is a held state
+
+The two-way channel above says a renewal reporting zero rows means the
+lease is no longer this executor's. That sentence hides two different
+facts, and a store that keeps leases *separately* from the work they
+govern forces them apart:
+
+- **Lapsed** — the lease key is simply absent. Nobody holds it. The store
+  restarted without persistence, evicted the key under memory pressure,
+  or the holder's own renewal fell behind the TTL.
+- **Lost** — a peer holds it. A reaper expired it and a successor took
+  over; an operator requeued; a takeover happened.
+
+Collapsing the two is how a store flush becomes a fleet-wide eviction:
+every live holder renews, every renewal finds no key, every holder reads
+that as *lost* and drops its work at once — while nothing was wrong with
+any of them. So renewal **re-establishes** on lapsed and **stops** on
+lost, and an unanswerable store on the renewal path is *unknown* rather
+than lost: the holder keeps working and retries, because failing closed
+there evicts every live executor the moment the store blinks. That is the
+one deliberately fail-open path. Adoption and reaping stay fail-closed —
+a store that cannot answer is read as "peer-owned", so an outage never
+turns live peers' work into orphans.
+
+The flush has a second face, on the reaper's side: an absent lease looks
+exactly like an orphan, and a reaper that adopts on first sight adopts
+every live holder's work one renewal tick before each holder republishes.
+Require an untracked item to be seen unowned across a **full TTL** before
+adoption, with any republish resetting the clock; a live owner republishes
+within one renewal interval, which is shorter than the TTL by construction,
+and a genuinely dead owner never does. Skip the grace where the store
+cannot see peers at all — there it can only delay.
+
+Two more distinctions follow once a lease governs a *resource* rather than
+a job. **A lease answers "who reaps this", not "who may use it."** Split
+the operation in two: an unconditional *take* on the acquire path, because
+a resource keyed deterministically by its owner legitimately lands on a
+different instance next turn and a conditional claim would strand it until
+the old lease expired; and a conditional *claim* — unowned or already mine
+— that gates every adopt and reap path. And give the lease a state: *owned*
+versus *being destroyed*. A take is refused against a destroying lease, so
+the resource cannot be re-acquired between a destroy path's claim and its
+actual stop.
+
+**The destroying state is held, not written.** Written once, it carries the
+ordinary TTL and nothing refreshes it — a stop that outlives the TTL lets a
+peer take the resource mid-stop, which reopens the window the state exists
+to close. Refresh the marker on the renewal cadence for the stop's whole
+duration, and make the **final release the heartbeat's own last act**, after
+its loop has stopped: a refresh still in flight when the caller releases
+would otherwise land after the release and re-mark a resource whose stop
+already completed. Keep the TTL finite on purpose — the heartbeat dies with
+its process, so a destroyer that crashes mid-stop still frees the resource
+one TTL later instead of marking it undestroyable forever.
+
+The condition, from a tree where none of this applied: where the lease is a
+column on the same durable row as the work, and every write is
+attempt-fenced, a renewal that updates zero rows has one meaning — the
+attempt is over — and absent and lost are one fact with nothing to
+distinguish. The distinctions above are for a lease store that lives apart
+from the resource it governs and can lose or serve state independently of
+it.
+
 ## Renewal can carry truth, but truth must not gate renewal
 
 The renewal write is a natural bus for cheap liveness metadata — current

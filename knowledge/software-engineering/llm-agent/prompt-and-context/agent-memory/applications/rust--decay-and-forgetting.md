@@ -4,8 +4,11 @@ type: application
 subject: agent-memory
 technique: decay-and-forgetting
 stack: rust
-verified_on: 2026-08-26
+verified_on: 2026-09-02
 verified_against: rust@1.97
+applied: simulation
+ab_verdict: better
+proof: structural-only
 ---
 
 # Decay, forgetting, and the third exit in the companion brain (Rust)
@@ -143,3 +146,66 @@ survive, only the closed one retires, and a second sweep is a no-op.
 every refusal. The crate's test profile did not finish compiling inside the
 run's time budget, so the committed unit tests are **unrun**; their assertions
 are the ones proven standalone.
+
+## The review window, tested against the tree's second store (2026-09-02)
+
+The tree holds a second belief store beside the companion brain above: the
+persona memory store, with tiers, a lifecycle pass and an LLM review pass —
+and no per-item deadline. The technique's "a review window is not an expiry"
+amendment was simulated against that store.
+
+**What the tree has.** Candidates for the reviewer's "won't-use" pass come
+from `get_archivable_candidates` (`src-tauri/db/src/repos/core/memories.rs:1392`):
+`active` and `working` tiers, never `core` or `archive`, ordered
+most-archivable first — low importance, low access, oldest — and bounded
+by a limit. The reviewer's verdicts are `delete | keep | update_importance`
+for curation and `synthesize | archive` for the reflection pass
+(`memory_review_proposal.rs:32-34`). The lifecycle pass (`memories.rs:1991`)
+promotes and archives by tier with a fixed thirty-day cutoff, and the
+injection ranking (`memories.rs:1864-1870`) is the decay-aware score in
+which importance strictly dominates a capped, hyperbolically fading access
+term. The `core` tier is user-pinned and never decays — the protected
+category, built. A separate claims table records `helpful | wrong |
+outdated` verdicts on a memory and resolves them as `reverified |
+deprecated | dismissed`. There is no column naming when a memory should be
+asked about again; "aged" is a rank, not a deadline.
+
+**Policy A** (as shipped): the reviewer sees the top of the archivability
+rank each cycle. **Policy B** (the amendment): each memory carries an
+expected-valid window assigned when written, clamped; the reviewer sees
+memories past their own window; verdicts gain `extend` with an absolute
+ceiling; a synthesized memory inherits the earliest source deadline and the
+newest source's creation time.
+
+1. *A time-scoped fact at high importance and fresh access* — the shape the
+   technique's expiry section already names as invisible to score-based
+   decay. Under A its rank keeps it out of every review batch for as long
+   as it is being injected, which is exactly while it is stale. Under B its
+   short window surfaces it at the deadline regardless of rank, and the
+   verdict is a question, not a removal.
+2. *A stable, low-access fact in `active`.* Under A it heads the
+   archivability rank and is re-asked every cycle the batch reaches it;
+   under B a long window means one question, then `extend`, then silence
+   until the ceiling. The reviewer's per-cycle budget stops being spent
+   confirming the same durable fact.
+3. *A synthesized insight from the reflection pass.* Under A the new row's
+   `created_at` is the synthesis time, so its age — and therefore its
+   staleness rank — restarts at zero on merge, and a volatile detail folded
+   into a stable insight is unreachable by review for the longest window in
+   the store. Under B the merged row carries the newest source's creation
+   time and the earliest source deadline. This is the case where the tree's
+   structure argues for the amendment on its own: the merge already exists,
+   and nothing about the merge preserves the sources' clocks.
+
+**What would falsify the prediction:** the reviewer's keep-rate on
+rank-selected candidates being no worse than on window-selected ones — that
+is, the rank already surfacing the removable memories and case 1 never
+occurring in practice. The tree's proposal rows carry `action` per
+candidate, so both rates are measurable from history once a window column
+exists for the comparison.
+
+**Verdict:** `better`, filed as the project's next change — an
+`expected_valid_days` column with a write-time clamp, a selector clause on
+it beside the rank, `extend` as a proposal action, and the reflection pass
+carrying the sources' clocks through `synthesize`. Return: the first two
+review cycles under both selectors, compared on keep-rate.

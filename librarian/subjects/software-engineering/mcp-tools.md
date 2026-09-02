@@ -223,3 +223,35 @@ host half was checked anyway and is clean — 6 spawn sites, stdout and stderr p
 separately at all of them, never merged, confirming `output-normalization`'s
 existing rule. A simulation over invented server code was declined. Return
 condition: the first managed project shipping a stdio protocol server.
+
+
+## 2026-09-02 - intake `deer-flow` ([[2026-09-02-deer-flow]], run intake-deer-flow-0902)
+
+**New technique `write-freshness-gate`** - the second host-side gate over tool
+calls beside `egress-argument-gating`. A write to an existing artifact is
+admitted only with proof the model saw its current version: a full-content
+hash stamped on the read result, compared against the file now. The four
+properties that make it an agent technique rather than a restatement of
+optimistic concurrency: the proof lives on the read message so context loss
+is proof loss, structurally; writes never refresh it, so consecutive edits
+force a re-read; check-and-write is one critical section per (writer, path)
+so a same-turn parallel duplicate is refused deterministically; and the gate
+fails open with a log on its own breakage and closed only on a stale mark
+(the in-path split from quality-gates' unmeasurable-criteria).
+
+**Home contested and decided.** The concept grep found no subject owning an
+agent's edit tools. The general stale-writer discipline lives in
+concurrency-guards (attempt-attribution) and client-state
+(optimistic-write-path), and the technique says so; this subject holds the
+model-facing gate because the tool boundary is the trust boundary and the
+gate stands on it.
+
+**Unapplied.** No managed project exposes its own write tool to a model; the
+one tool server in the fleet publishes feature-matrix and harness tools only.
+Return: a managed project that grows a write tool over shared artifacts.
+
+Untriaged with anchors in the source note: command-substitution audit by
+*position* rather than pattern (value position captures, command position
+executes, an interpreter's code-string flag is an execution context anywhere,
+heredoc bodies are data) - no subject owns command auditing and this is the
+nearest gate shape.

@@ -180,3 +180,39 @@ a proper-noun grep that a purity-gated corpus guarantees will return empty.
   buffered before send; lifecycle-signals could consume it as one more
   observation from the weakest channel. From [[terminal-multiplexing]]; noted,
   not placed.
+
+
+## 2026-09-02 - intake `deer-flow` ([[2026-09-02-deer-flow]], run intake-deer-flow-0902)
+
+**New technique `completion-claim-verification`** - the missing stage between
+dispatch and harvest. `result-harvest` settles what a member hands back and
+`worker-trajectory-anatomy` says a quarter of failing workers claim completion
+and the harvest must read the artifact; neither said how the parent decides
+or what it says when it cannot. The technique carries three layers from a
+harness that built all three: execution receipts stamped by the runtime
+outside every guard, which the report must cite and the parent resolves;
+decidable acceptance leaves checked in code on the parent's own instrument,
+with UNVERIFIED as the verdict for everything undecidable (out-of-scope
+paths, truncated evidence, unestablishable sizes, error-as-content reads);
+and evidence provenance - a test run recorded in the worker's own persistent
+shell proves nothing, unknown session semantics fails closed. Golden path
+gained one paragraph in the harvest section and the list entry.
+
+**Map note.** `research-map` returned a total empty for "subagent delegation";
+this subject owns it under session/member/worker vocabulary. A concept term
+can miss the corpus's house word as badly as a proper noun misses the purity
+gate.
+
+Applied to a fleet tree (simulation, better): its bridge parks a session
+Finished on a declared done-cue and its harvest correctly refuses to
+paraphrase, but nothing between the cue and Finished reads an artifact - and
+the brief demands a branch, which is the cheapest decidable leaf there is.
+Filed as the tree's next change; the first measurement is a query over its
+existing session rows.
+
+Untriaged here with anchors in the source note: benefit-based delegation
+routing (whether to delegate at all - a stage `parallel-dispatch` does not
+own) and a per-run total delegation cap beside the slot cap (repeated
+legal-sized batches at planning checkpoints bypass a per-response limit).
+Lead: additive stop-reason over a status enum, which sits against this
+subject's closed vocabulary and is unreconciled.

@@ -277,3 +277,32 @@ flags that correct deferral as an omission.
 
 Second technique amended this run in another bundle - see [[entity-lifecycle]], which
 holds the opposite side of the same source's memory-deletion story.
+
+
+## 2026-09-02 - intake `deer-flow` ([[2026-09-02-deer-flow]], run intake-deer-flow-0902)
+
+**`decay-and-forgetting` amended: "A review window is not an expiry."** A
+contradicted pick kept on purpose. The technique's expiry section forbids
+inventing a boundary; a harness's memory backend assigns every fact an
+expected-valid window at write. Both hold, for different fields: an expiry
+is a property of the claim and only the claim supplies it; a review deadline
+is a property of the store's confidence, and its consequence is a
+re-judgment (keep / remove / extend), so guessing it wrong costs a review,
+not a fact. Five rules landed: clamp at write; extend under an absolute
+ceiling rather than the creation multiplier; the reviewer touches only what
+the deterministic selector surfaced, protected kinds never enter; a merged
+item inherits the earliest source deadline relative to the newest source's
+creation; the clock is the source's, not the synthesis's. The inheritance
+rule is the half `consolidation` did not have - noted here, placed in the
+decay technique so the window's rules stay in one file.
+
+**Applied better** (simulation) against a fleet tree's persona memory store
+(its second belief store - the companion brain already carries the expiry
+exit from 2026-08-26): candidates are rank-selected, verdicts are
+delete/keep/update-importance, and the reflection pass's synthesize restarts
+the clock at merge and preserves no source clock. Filed as the tree's next
+change with the keep-rate comparison as the return condition.
+
+Untriaged with anchor: a subagent sharing the parent's thread id must skip
+the parent's memory flush or its internal turns pollute the parent's durable
+memory.

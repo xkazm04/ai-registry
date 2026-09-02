@@ -5449,3 +5449,39 @@ been naming that zero for weeks:
   shape as the 2026-09-01 matrix-rust-sdk row. Two runs in a row have produced the
   technique's boundary from the tree's shape; that is the structural-fact step working
   on a negative, and the reason a simulation is the floor and not an excuse.
+
+## 1.6.0 - 2026-09-02 - deer-flow
+
+- **A total empty on a concept term is not evidence either when the corpus speaks a
+  different house word.** `research-map "subagent delegation"` returned "the corpus has
+  never heard of this" over a subject that owns dispatch, roster, harvest and the
+  worker's failure anatomy under *session / member / worker*. The 2026-08-31 rule
+  covers proper nouns (the purity gate guarantees the empty) and the 2026-08-22 rule
+  covers near-empties (seams); this is the third case - a synonym gap - and the
+  corrective is the same as the seam rule's: before trusting an empty over a concept,
+  map on the corpus's own vocabulary for that concept, which the nearest category's
+  golden-path opening states in its first paragraph. One extra call.
+- **Changelog first: two rows now say trigger-not-content.** The sherpa row and this one
+  both swept the changelog first and both found that it named every landing's mechanism
+  in one line and supplied none of the rules; the operating documents (module guides,
+  design specs) did. Not yet a SKILL edit - the previous lesson reserved the bump and
+  the scorecard asks for three rows - but the shape to write when it lands: the
+  changelog is the *index* into the operating documents, read first to choose which
+  guides to open, and mined second, never alone.
+- **The densest document in a 225k-word tree was one paragraph.** The delegated-work
+  verifier's entire design - decidable leaves, UNVERIFIED semantics, provenance stamps,
+  evidence bounds, the accepted boundaries pinned by a named test class - lived in a
+  single 4,800-word paragraph of a module guide, not in `docs/`, not in a spec. The
+  sweep order's item 2 ("the instrument and its rules") found it because the guide was
+  read whole; a grep for the feature name would have returned the changelog line. Read
+  module guides whole when a tree maintains them as the source of truth for agents
+  (this one imports them into its assistant instruction file), because that is where
+  the paid-for cases go.
+- **A contradicted pick was the strongest landing.** The memory technique forbids
+  inventing an expiry; the source assigns one to every fact. A pass/fail read would have
+  dropped it. Asking which *field* each side was right about produced the amendment
+  (expiry is the claim's, review deadline is the store's) and the consolidation
+  inheritance rule beside it. Third run to confirm the 2026-08-21 rule; it is already
+  in the method.
+- Version stays 1.6.0: six siblings were live at claim. A mid-flight run should do
+  nothing.

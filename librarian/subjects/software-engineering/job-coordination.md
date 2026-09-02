@@ -120,3 +120,27 @@ module of named phase functions, and the engine's execution methods moved out
 of the module root). The file survived the move and its contents did not, so
 the old line numbers now resolve to unrelated registration entries - the
 failure mode a line citation has when only the contents move.
+
+
+## 2026-09-02 - intake `deer-flow` ([[2026-09-02-deer-flow]], run intake-deer-flow-0902)
+
+**`lease-renewal` amended: "Absent is not lost, and a teardown is a held
+state."** The two-way-channel section said a renewal reporting zero rows
+means the lease is no longer ours; a harness's sandbox-ownership store paid
+twice for that being one fact short. Lapsed (key absent, nobody holds) versus
+lost (a peer holds): collapse them and a store flush evicts every live holder
+at once. Renewal re-establishes on lapsed, stops on lost, and treats an
+unanswerable store as unknown - the one deliberately fail-open path, while
+adoption and reaping stay fail-closed; a reaper waits a full TTL of observed
+unownership before adopting after a flush. For a lease over a *resource*:
+take (unconditional, acquire path) versus claim (conditional, adopt/reap
+path); an owned-versus-destroying state; and the destroying marker held on
+the renewal cadence for the stop's duration with the release as the
+heartbeat's last act.
+
+**Applied not-better, and the condition landed.** A fleet job runner keeps
+its lease as a column on the job row with attempt-fenced writes; zero rows
+has one meaning there and the split protects nothing. The amendment's
+closing paragraph now says when it applies. Separately, that tree discards
+its heartbeat's boolean - the base technique's own two-way-channel rule,
+unbuilt - recorded in the project's ledger as the few-line change owed.

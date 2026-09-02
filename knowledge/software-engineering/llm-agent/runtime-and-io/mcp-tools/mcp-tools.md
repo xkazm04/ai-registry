@@ -12,6 +12,7 @@ techniques:
   - client-integration
   - untrusted-result-handling
   - egress-argument-gating
+  - write-freshness-gate
 ---
 
 # Tool protocols (MCP)
@@ -233,3 +234,8 @@ same obligations as the wire itself:
 - [egress-argument-gating](./techniques/egress-argument-gating.md) — the
   outbound defense: deciding from a call's arguments whether it hands a
   resource outside the sanctioned set, over a schema the host does not own.
+- [write-freshness-gate](./techniques/write-freshness-gate.md) — the
+  host-side precondition on write tools: a write to an existing artifact
+  needs proof the model saw its current version, the proof is a hash on
+  the read result so context loss is proof loss, writes never refresh it,
+  and check-plus-write is one critical section per path.
