@@ -4,7 +4,7 @@ description: "Autonomous infinite training loop for media-generation craft: each
 argument-hint: "[run|status|reflect] [--fixture] [--resume <cycle-id>]"
 category: ai-native
 memory: project
-version: 1.1.0
+version: 1.2.0
 tags: training, media-generation, ab-testing, judge, foundry, loop, craft
 allowed-tools: Read, Write, Edit, Bash, PowerShell, Glob, Grep, Monitor, WebSearch, Agent
 ---
