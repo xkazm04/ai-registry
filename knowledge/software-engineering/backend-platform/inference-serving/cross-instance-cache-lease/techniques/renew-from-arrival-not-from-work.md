@@ -119,3 +119,39 @@ at all — including nothing, for a long time.
   the peer at admission. Accepting late binding here means accepting an
   unrenewed window, and that window must at least be bounded and stated rather
   than left implicit.
+
+## The renewal must not carry a payload the holder has to compute
+
+The rule above moves renewal off the execution path at the *start* of a
+request's life. A second, independent coupling can put it back, and it is the
+one implementers reach for because it looks like a free efficiency: sending the
+liveness signal and the holder's *progress report* on the same call.
+
+They must be separate doors. Renewal answers "am I still here"; a progress
+report answers "here is what I have done", and only the second requires the
+holder to assemble something. Merge them and a holder that is alive but busy —
+wedged in a long computation, blocked on its own downstream call, mid-collection
+of the very status it is being asked to attach — stops renewing while it is
+perfectly healthy, and the resource is reclaimed underneath it. The failure is
+worse than the one the merge was meant to avoid, because it is load-correlated:
+it fires exactly when the holder is working hardest, which is when the held
+resource is most expensive to recreate.
+
+The discriminating question is whether the message can be produced by a
+timer with no access to the work's state. If it can, it is a renewal and it may
+be sent from anywhere, batched, and made best-effort. If producing it requires
+reading the work in flight, it is a report, and a report is allowed to be late
+in ways a renewal is not.
+
+This also fixes the retry semantics, which the merged shape gets wrong in both
+directions: a renewal is idempotent and safe to repeat, so it can be fired
+blindly on an interval, while a progress report is a state update whose
+duplicate delivery a receiver has to think about. One call cannot have both
+policies.
+
+**A renewal on a fenced resource should carry the fence, and only the fence.**
+Where the holder was issued a generation token when it acquired the resource,
+that token is exactly the payload a timer can send without consulting the work,
+and it closes the gap this technique's sibling names — a renewal arriving from a
+holder whose claim has already been superseded is then rejected rather than
+silently extending a lease the sender no longer owns.
