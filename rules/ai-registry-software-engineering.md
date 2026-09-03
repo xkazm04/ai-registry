@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 175 subjects, 1238 techniques, 703 applications.
+`software-engineering` - 177 subjects, 1261 techniques, 712 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -32,7 +32,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **service-operations** - health-checks, node-boot-and-declarative-bootstrap, perf-instrumentation, plan-entitlements, quorum-and-recovery-procedures, scoring-rubrics, triage-queues, usage-analytics
 
 ### security
-- authorization, browser-credential-boundary, credential-vault, device-pairing, p2p-networking, signed-artifacts, supply-chain, telemetry-pii-redaction
+- authorization, browser-credential-boundary, credential-vault, decentralized-artifact-distribution, device-pairing, p2p-networking, signed-artifacts, supply-chain, telemetry-pii-redaction, untrusted-extension-host
 
 ### integration
 - cicd-monitoring, connector-catalog, document-text-extraction, embedded-preview, import-normalization, markdown-vault, sql-console, templates-scaffolding, web-scraping
