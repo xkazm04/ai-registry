@@ -12,6 +12,7 @@ techniques:
   - failure-direction
   - identity-bearing-keys
   - delegated-authority
+  - machine-credential-consumption
 ---
 
 # Authorization & capability scoping
@@ -279,6 +280,25 @@ at all. The construction, its three failure modes, and the migration rule
 that follows from treating a key format as a storage contract are
 [identity-bearing-keys](./techniques/identity-bearing-keys.md).
 
+## When the caller is a machine presenting a secret it was issued
+
+Everything above consumes an identity. One case sits on the seam with
+authentication and belongs here anyway, because the decisions it forces are
+authorization decisions: a machine logs in by presenting a role identifier
+and a secret the issuer minted for it, and the issuer must decide — on every
+presentation, and again on every renewal — whether the credential still
+maps to the authority it was issued with. The secret is stored as a keyed
+hash and named by an accessor so nothing in the store can be verified or
+spoken without the key; a use-limited credential deletes itself on its last
+use and still succeeds; a child credential's bounds are a subset of its
+role's, re-proved at login; a renewal re-reads the role and refuses when it
+is gone or its policies moved; and every failure returns one message in one
+time, with the expensive comparison run even when the identity is absent.
+The credential vault owns how a consumer *obtains and keeps* such a secret
+([acquisition](../credential-vault/techniques/acquisition.md)); the issuer's
+side — storage, consumption, counting, renewal, refusal — is
+[machine-credential-consumption](./techniques/machine-credential-consumption.md).
+
 ## What is *not* this subject
 
 - **Authentication** — establishing identity. This subject consumes an
@@ -320,3 +340,8 @@ that follows from treating a key format as a storage contract are
   the owner into the storage address so a cross-tenant reference is
   unrepresentable; the single composer, component sanitization against the
   store's own syntax, prove-before-compose, and key formats as migrations.
+- [machine-credential-consumption](./techniques/machine-credential-consumption.md)
+  — the issuer's side of a machine login: keyed-hash storage addressed by
+  an accessor, use counting under an upgraded lock where the last use
+  deletes and succeeds, child bounds as a re-proved subset of the role's,
+  renewal that re-reads the role, and one error in one time.

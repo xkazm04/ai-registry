@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 163,
-  "techniques": 1155,
-  "applications": 651,
+  "subjects": 172,
+  "techniques": 1222,
+  "applications": 693,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -16,10 +16,11 @@
    "security",
    "integration",
    "engineering-process",
-   "engineering-assessment"
+   "engineering-assessment",
+   "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1155/1155",
+  "use_when_coverage": "1222/1222",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2433,7 +2434,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
-   "digest": "sha256:d916d63724e86c76",
+   "digest": "sha256:886e84efa1fa26d0",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -2467,13 +2468,15 @@
      "status": "forged",
      "laws": [
       "failure-not-empty-success",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "deciding whether an audit write may fail its action",
       "a ledger row doubles as the duplicate guard",
-      "the audit-failure counter keeps climbing"
+      "the audit-failure counter keeps climbing",
+      "the response itself is secret material"
      ]
     },
     {
@@ -2543,7 +2546,9 @@
      "use_when": [
       "deciding where audit writes should live",
       "proving every destructive action gets recorded",
-      "audit calls sprinkled across call sites"
+      "audit calls sprinkled across call sites",
+      "adding a second audit sink",
+      "an API can create a sink that writes to the host"
      ]
     },
     {
@@ -2556,11 +2561,27 @@
      "use_when": [
       "deciding what the free-form audit field may hold",
       "a credential surfaced in stored audit records",
-      "erasure obligations against an append-only ledger"
+      "erasure obligations against an append-only ledger",
+      "the ledger records whole requests it did not shape",
+      "a small request produces an expensive audit record"
      ]
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "write-chokepoint",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/go--write-chokepoint.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "write-path-sanitization",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/go--write-path-sanitization.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
     {
      "stack": "node",
      "technique": "best-effort-with-accounting",
@@ -2708,7 +2729,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/authorization/authorization.md",
-   "digest": "sha256:4edeb532856a5137",
+   "digest": "sha256:54c99ef93aa853b9",
    "techniques": [
     {
      "slug": "authorization-audit",
@@ -2800,6 +2821,23 @@
      ]
     },
     {
+     "slug": "machine-credential-consumption",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing how a server stores a machine's login secret",
+      "a use-limited credential must delete itself on its last use",
+      "a renewal must notice that the role behind it changed",
+      "a login endpoint must not leak which half of the credential was wrong",
+      "a child credential carries narrower network bounds than its role"
+     ]
+    },
+    {
      "slug": "privilege-tiers",
      "status": "forged",
      "laws": [
@@ -2834,6 +2872,13 @@
      "technique": "failure-direction",
      "file": "knowledge/software-engineering/security/authorization/applications/go--failure-direction.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "go",
+     "technique": "machine-credential-consumption",
+     "file": "knowledge/software-engineering/security/authorization/applications/go--machine-credential-consumption.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
     },
     {
      "stack": "node",
@@ -3091,6 +3136,127 @@
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/applications/react--partial-failure-reselect.md",
      "verified_on": "2026-08-22",
      "verified_against": "react@19"
+    }
+   ]
+  },
+  "bounded-enumeration": {
+   "category": "backend-platform",
+   "subcategory": "data-layer",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/bounded-enumeration.md",
+   "digest": "sha256:23e5886826293972",
+   "techniques": [
+    {
+     "slug": "after-plus-limit-not-cursor",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the parameters of a list endpoint",
+      "replacing offset or cursor pagination over a growing key space",
+      "a filtered listing that must not disclose hidden keys",
+      "teaching a store without native seek to page"
+     ]
+    },
+    {
+     "slug": "declare-the-inconsistency",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the documentation of a paginated endpoint",
+      "a caller reports a missed or duplicated entry across pages",
+      "deciding whether a listing runs inside a transaction",
+      "a consumer asks for a consistent snapshot of a collection"
+     ]
+    },
+    {
+     "slug": "deny-absorbs-and-lowest-limit-wins",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "merging several policies that each state a list capability or a page ceiling",
+      "adding a recursive listing to a system that already has a flat one",
+      "a caller with two policies receives the larger of two limits",
+      "defining what an explicit deny does to a numeric limit"
+     ]
+    },
+    {
+     "slug": "filter-after-return-under-limit",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "hiding keys a caller may not read from a listing",
+      "a listing exposes the existence of resources the caller cannot access",
+      "a filtered page comes back empty before the collection ends",
+      "deciding where in the request pipeline a result filter runs"
+     ]
+    },
+    {
+     "slug": "page-size-from-memory-budget",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a default page size",
+      "a list endpoint is exhausting server memory",
+      "reviewing a page-size constant with no stated origin",
+      "sizing a listing over keys with a known maximum length"
+     ]
+    },
+    {
+     "slug": "required-limit-breaks-unaware-clients",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "introducing a page limit onto an endpoint that existing clients call without one",
+      "deciding whether a limit-less request fails or is clamped",
+      "defining what zero or a negative limit means",
+      "a client must iterate a collection without knowing the ceiling"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "after-plus-limit-not-cursor",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/go--after-plus-limit-not-cursor.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "filter-after-return-under-limit",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/go--filter-after-return-under-limit.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "required-limit-breaks-unaware-clients",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/go--required-limit-breaks-unaware-clients.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
     }
    ]
   },
@@ -4837,7 +5003,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256:d863164a6b2e77f1",
+   "digest": "sha256:070b1745688eaa02",
    "techniques": [
     {
      "slug": "attempt-attribution",
@@ -4870,6 +5036,23 @@
      ]
     },
     {
+     "slug": "fence-inside-write-transaction",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cluster lock sits over a store that accepts writes from anyone",
+      "deciding where the fencing token is checked",
+      "a write must happen while the lock is deliberately not held",
+      "an unfenced write path is being added for a good local reason"
+     ],
+     "stage": "multi-service"
+    },
+    {
      "slug": "guard-key-design",
      "status": "forged",
      "laws": [
@@ -4897,6 +5080,22 @@
      ]
     },
     {
+     "slug": "leadership-is-the-lock",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing whether a cluster lock over a replicated log needs a fencing token",
+      "the active node must be exactly the log's leader",
+      "reading a \"how far have we applied\" index for a consistency check",
+      "deciding what the lock key's stored value actually proves"
+     ],
+     "stage": "multi-service"
+    },
+    {
      "slug": "release-guarantees",
      "status": "forged",
      "laws": [
@@ -4909,6 +5108,22 @@
       "an operation sometimes never runs again",
       "setting a reclamation bound for stale entries"
      ]
+    },
+    {
+     "slug": "renewal-deadline-two-thirds-ttl",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sizing a cluster lock's TTL against its renewal cadence",
+      "a renewal that hangs past the point another node could win",
+      "lease expiry compared across hosts with different clocks",
+      "the lock's heartbeat starving under the work it protects"
+     ],
+     "stage": "multi-service"
     },
     {
      "slug": "single-flight-primitives",
@@ -4928,6 +5143,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "fence-inside-write-transaction",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/go--fence-inside-write-transaction.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "leadership-is-the-lock",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/go--leadership-is-the-lock.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
     {
      "stack": "go",
      "technique": "release-guarantees",
@@ -5726,7 +5955,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/credential-vault/credential-vault.md",
-   "digest": "sha256:b39f2df1038cbd17",
+   "digest": "sha256:56493a29035068b0",
    "techniques": [
     {
      "slug": "acquisition",
@@ -5789,6 +6018,39 @@
      ]
     },
     {
+     "slug": "renew-at-two-thirds-with-grace",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the loop that keeps one leased secret alive against an issuer that answers renewals",
+      "deciding when a renewal loop should stop renewing and hand off to re-acquisition",
+      "a fleet of consumers renews in lockstep",
+      "choosing between retrying a failed renewal and giving up"
+     ]
+    },
+    {
+     "slug": "revocation-interception-cache",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "creation-names-reaper",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a local proxy caches leased secrets so consumers need not authenticate to the issuer each time",
+      "a revoked secret keeps being served from a cache",
+      "deciding what a persisted secret cache restores after restart and in what order",
+      "a re-login supersedes a token that sinks and consumers still hold"
+     ],
+     "stage": "multi-service"
+    },
+    {
      "slug": "rotation-and-remediation",
      "status": "forged",
      "laws": [
@@ -5820,6 +6082,22 @@
       "a refresh fires but the proof keeps aging",
       "classifying a failed refresh as retryable or fatal"
      ]
+    },
+    {
+     "slug": "versioned-key-window",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "deletion-is-not-repair",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a key the vault owns must rotate without re-encrypting what it sealed",
+      "deciding which key versions may still open ciphertext and which may still seal",
+      "trimming old key versions from a live policy",
+      "a deleted key keeps answering because a rotation raced the delete"
+     ]
     }
    ],
    "applications": [
@@ -5832,9 +6110,30 @@
     },
     {
      "stack": "go",
+     "technique": "renew-at-two-thirds-with-grace",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/go--renew-at-two-thirds-with-grace.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "revocation-interception-cache",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/go--revocation-interception-cache.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
      "technique": "token-refresh-lifecycle",
      "file": "knowledge/software-engineering/security/credential-vault/applications/go--token-refresh-lifecycle.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "go",
+     "technique": "versioned-key-window",
+     "file": "knowledge/software-engineering/security/credential-vault/applications/go--versioned-key-window.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
     },
     {
      "stack": "react",
@@ -8076,12 +8375,135 @@
     }
    ]
   },
+  "dynamic-secret-lifecycle": {
+   "category": "secret-custody-and-issuance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/dynamic-secret-lifecycle.md",
+   "digest": "sha256:f68b21d1371f040a",
+   "techniques": [
+    {
+     "slug": "expiry-buffer-beyond-lease",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the remote credential's own expiry at creation",
+      "deciding what a renewal does to the remote expiry",
+      "a revoke keeps arriving after the remote already expired the credential",
+      "a credential is found alive after its lease ended"
+     ]
+    },
+    {
+     "slug": "idempotent-revoke-and-give-up",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "deletion-is-not-repair",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the revocation callback for a minted credential",
+      "a revoke fails because the target is already gone",
+      "ordering local revocation against publishing a revocation list",
+      "deciding when revoked-artifact records may be deleted",
+      "an issuer's signing key has expired but its revocation list is still consulted"
+     ]
+    },
+    {
+     "slug": "lease-vs-native-tracking",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an issued artifact gets its own lease record",
+      "the lease store grows by one entry per certificate",
+      "an artifact enforces its own expiry at every relying party",
+      "an operator asks for revoke-by-lease over a whole issuer"
+     ]
+    },
+    {
+     "slug": "persist-before-provision",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ordering the lease write against the remote create",
+      "issuing from a node whose storage is read-only or degraded",
+      "a credential exists remotely that no local record accounts for",
+      "deciding what a caller receives when the ledger write fails"
+     ]
+    },
+    {
+     "slug": "ttl-ladder-derivation",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "computing how long a new lease lasts from a request and several defaults",
+      "answering a renewal request with more or less time than asked",
+      "a caller reports getting different lifetimes from different endpoints",
+      "deciding whether a capped request should warn or fail"
+     ]
+    },
+    {
+     "slug": "wal-per-external-side-effect",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a crash between a remote mutation and the local record that describes it",
+      "writing rollback for an issuer that mutates remote systems",
+      "rotating the root credential the issuer itself uses against a remote",
+      "deciding how old a write-ahead record must be before rollback may act on it"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "lease-vs-native-tracking",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--lease-vs-native-tracking.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "persist-before-provision",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--persist-before-provision.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "wal-per-external-side-effect",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--wal-per-external-side-effect.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    }
+   ]
+  },
   "embedded-db": {
    "category": "backend-platform",
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
-   "digest": "sha256:7d544b41fbab2b56",
+   "digest": "sha256:cc198e3d729b85a4",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -8140,6 +8562,22 @@
       "keying operation metrics by table not statement",
       "local reads feel slow yet pass networked thresholds",
       "metric writes contending with the measured path"
+     ]
+    },
+    {
+     "slug": "derived-capacity-limits",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing or raising a maximum entry or transaction size",
+      "sizing a per-transaction cache against a shared one",
+      "a record stored as one entry is approaching the entry limit",
+      "a counter-bounded key or cipher needs a rotation ceiling",
+      "an operator asks why a limit is the number it is"
      ]
     },
     {
@@ -8220,6 +8658,13 @@
      "technique": "journal-and-durability-modes",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/c--journal-and-durability-modes.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "go",
+     "technique": "derived-capacity-limits",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/go--derived-capacity-limits.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
     },
     {
      "stack": "node",
@@ -10713,6 +11158,129 @@
      "file": "knowledge/software-engineering/client-architecture/ipc-contract/applications/rust--error-shape-mapping.md",
      "verified_on": "2026-08-29",
      "verified_against": "rust@1.97"
+    }
+   ]
+  },
+  "issuance-policy-ladder": {
+   "category": "secret-custody-and-issuance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/issuance-policy-ladder.md",
+   "digest": "sha256:a0a4e9465e3c229d",
+   "techniques": [
+    {
+     "slug": "bounds-as-modes",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a request asks for a validity longer than the role allows",
+      "deciding whether to truncate or refuse at the issuing key's own expiry",
+      "three handlers each compute a lifetime cap",
+      "a bound must be a fixed timestamp rather than a duration"
+     ]
+    },
+    {
+     "slug": "explicit-forbid-beats-allow-any",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a role carries both an allow-any flag and a forbid list",
+      "deciding what an empty allowlist admits",
+      "a required extension is missing from the request",
+      "composing name matching rules"
+     ]
+    },
+    {
+     "slug": "float-references-resolve-at-use",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a role names an issuing key or policy by reference",
+      "rotating the default issuer without touching roles",
+      "a role references something that does not exist yet",
+      "deciding whether a bad reference is a definition-time or issue-time error"
+     ]
+    },
+    {
+     "slug": "program-role-returns-the-artifact",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a role field request arrives that no static field can express",
+      "embedding an expression language in an issuer",
+      "deciding what a policy program is allowed to return",
+      "a program only selects role attributes"
+     ]
+    },
+    {
+     "slug": "require-one-constraint",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the validator for a role definition",
+      "a role with every list empty still issues",
+      "deciding what an omitted constraint field means",
+      "auditing which roles can issue to anyone"
+     ]
+    },
+    {
+     "slug": "verbatim-is-a-separate-privilege",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operator asks for a role that trusts the request as-is",
+      "signing an intermediate or migrating from a previous issuer",
+      "a role allows any key type and the request supplies one",
+      "deciding where unconstrained signing lives in the capability table"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "bounds-as-modes",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/applications/go--bounds-as-modes.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "program-role-returns-the-artifact",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/applications/go--program-role-returns-the-artifact.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "require-one-constraint",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/applications/go--require-one-constraint.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
     }
    ]
   },
@@ -13665,6 +14233,129 @@
     }
    ]
   },
+  "node-boot-and-declarative-bootstrap": {
+   "category": "operations",
+   "subcategory": "service-operations",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/node-boot-and-declarative-bootstrap.md",
+   "digest": "sha256:12d6b91ccdadd5eb",
+   "techniques": [
+    {
+     "slug": "config-objects-are-api-immutable",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a device can be created both from configuration and through the API",
+      "an API caller deleted an audit sink the configuration created",
+      "deciding how startup handles a stored object that configuration no longer declares",
+      "a device that writes host paths is creatable by a network principal"
+     ]
+    },
+    {
+     "slug": "once-only-bootstrap-with-marker",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fresh node must configure its own policy and auth without a human",
+      "a provisioner stores a root credential returned by initialisation",
+      "deciding what a node does when bootstrap failed halfway last time",
+      "a bootstrap that re-runs on every start reverts operator edits"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "ordered-boot-dag",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a startup step to a stateful node",
+      "a verify-only or dry-run mode leaks a lock or a listener",
+      "writing a startup diagnostic tool",
+      "a component reads a value that is nil at boot",
+      "deciding where in startup a new subsystem is constructed"
+     ]
+    },
+    {
+     "slug": "reload-partition",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a configuration key is reloadable",
+      "an operator sent a reload signal and the change did not take effect",
+      "log rotation depends on a reload that also re-parses configuration",
+      "a reload reported success while the node kept an old value"
+     ]
+    },
+    {
+     "slug": "request-chain-not-dsl",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the schema of a declarative bootstrap file",
+      "a bootstrap step needs a value from an earlier step's response",
+      "a stored workflow can be triggered by a request",
+      "deciding whether bootstrap requests are audited like external ones"
+     ]
+    },
+    {
+     "slug": "seal-before-storage-plugins",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a sealing or key-unwrapping provider is loaded as a separate component",
+      "deciding where a pre-unseal component's configuration lives",
+      "a plugin catalog stored behind the seal is needed to construct the seal",
+      "choosing whether an integrity digest is required for a declared component"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "config-objects-are-api-immutable",
+     "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/go--config-objects-are-api-immutable.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "once-only-bootstrap-with-marker",
+     "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/go--once-only-bootstrap-with-marker.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "ordered-boot-dag",
+     "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/go--ordered-boot-dag.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    }
+   ]
+  },
   "observability-telemetry": {
    "category": "backend-platform",
    "subcategory": "platform-observability",
@@ -15138,6 +15829,136 @@
     }
    ]
   },
+  "priced-authority": {
+   "category": "secret-custody-and-issuance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/priced-authority.md",
+   "digest": "sha256:ffeb8ed3fbe36a7d",
+   "techniques": [
+    {
+     "slug": "approver-not-requester",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "identity-survives-reuse",
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a read is allowed only with a second person's agreement",
+      "an approver must be able to approve without seeing the value",
+      "the requester must not be able to be their own approver",
+      "deciding where a blocked request waits and who can collect it"
+     ],
+     "stage": "fleet"
+    },
+    {
+     "slug": "inline-auth-cannot-lease",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a caller authenticates and acts in one request and never wants the token back",
+      "deciding what an unpersisted authority may create",
+      "sizing the quota exposure of an endpoint that accepts inline credentials",
+      "a request under inline authority would mint a lease"
+     ]
+    },
+    {
+     "slug": "never-persisted-token-class",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a workload logs in and discards the session within one run",
+      "login writes are the bottleneck on the replicated log",
+      "deciding which token capabilities a stateless class may keep",
+      "a leaked token must be worthless outside its request"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "secondary-index-before-primary",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ordering the writes that create a token or lease",
+      "a crash between writes must not leave a valid unreachable record",
+      "choosing what a dangling index entry means on read",
+      "designing a tree revocation that must be complete"
+     ]
+    },
+    {
+     "slug": "single-use-cubbyhole-wrap",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "creation-names-reaper",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "delivering a first credential to a machine through a channel that logs or retries",
+      "a secret must cross an intermediary that must not be able to read it",
+      "choosing between a signed handoff token and a server-attested one",
+      "a receiver must detect that its handoff was intercepted"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "write-ahead-revocation-marker",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "revoking a token whose leases and children take time to tear down",
+      "a token must stop authenticating the instant revocation begins",
+      "a second revocation of the same token arrives mid-teardown",
+      "deciding what a lookup returns for a record being destroyed"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "never-persisted-token-class",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--never-persisted-token-class.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "secondary-index-before-primary",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--secondary-index-before-primary.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "single-use-cubbyhole-wrap",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--single-use-cubbyhole-wrap.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    }
+   ]
+  },
   "proactive-nudges": {
    "category": "llm-agent",
    "subcategory": "orchestration",
@@ -16298,12 +17119,134 @@
     }
    ]
   },
+  "quorum-and-recovery-procedures": {
+   "category": "operations",
+   "subcategory": "service-operations",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/quorum-and-recovery-procedures.md",
+   "digest": "sha256:686017d6ee40cc70",
+   "techniques": [
+    {
+     "slug": "cancel-leaves-prior-state-valid",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a cancel endpoint discards",
+      "a crashed procedure left an in-progress marker behind",
+      "sealing the system while a rotation is half-submitted",
+      "the operator asks whether it is safe to abandon a ritual"
+     ]
+    },
+    {
+     "slug": "migration-lock-in-source",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "copying a store's contents offline from one backend to another",
+      "two operators might run the same migration",
+      "deciding which keys a backend copy must skip",
+      "the server must refuse to start during a migration"
+     ]
+    },
+    {
+     "slug": "nonce-progress-verify",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a multi-share submission endpoint",
+      "a share arrives for an attempt that may no longer exist",
+      "deciding when newly rotated root material becomes the live material",
+      "an operator asks how far along a rotation is"
+     ]
+    },
+    {
+     "slug": "pick-highest-applied-index",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which peer to repair a cluster from",
+      "restoring a snapshot into a peer set",
+      "a snapshot was cut under different root material",
+      "the operator asks which node has the latest data"
+     ]
+    },
+    {
+     "slug": "single-node-recovery-resize",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "no quorum can form and the cluster must be operated anyway",
+      "the operator needs to read or delete raw entries below the barrier",
+      "deciding how the recovery credential is issued and how long it lives",
+      "bringing a repaired node back into a peer set"
+     ]
+    },
+    {
+     "slug": "unauthenticated-ritual-is-a-vulnerability",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which ritual endpoints require authentication",
+      "a rotation was cancelled and nobody admits to it",
+      "designing bootstrap so no long-lived privileged secret is handed to a provisioner",
+      "a threat model asks what an unauthenticated network position can do to the cluster"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "migration-lock-in-source",
+     "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/go--migration-lock-in-source.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "nonce-progress-verify",
+     "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/go--nonce-progress-verify.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "pick-highest-applied-index",
+     "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/go--pick-highest-applied-index.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    }
+   ]
+  },
   "rate-limiting": {
    "category": "backend-platform",
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
-   "digest": "sha256:d29b78d8c05d427b",
+   "digest": "sha256:0a3be83c396f02fe",
    "techniques": [
     {
      "slug": "algorithm-selection",
@@ -16443,6 +17386,13 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "limiter-topology",
+     "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/applications/go--limiter-topology.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
      "stack": "node",
      "technique": "limit-derivation",
      "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/applications/node--limit-derivation.md",
@@ -16472,6 +17422,128 @@
      "technique": "storm-hygiene",
      "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/applications/rust--storm-hygiene.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "read-serving-replicas": {
+   "category": "backend-platform",
+   "subcategory": "data-layer",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/read-serving-replicas.md",
+   "digest": "sha256:1f585683a73822ee",
+   "techniques": [
+    {
+     "slug": "client-carried-index",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a client cannot read back what it just wrote",
+      "choosing how a lagging replica answers a request that expects newer state",
+      "deciding whether writers should wait for replicas",
+      "designing a consistency token that survives load balancing"
+     ]
+    },
+    {
+     "slug": "committed-write-invalidation-hook",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cache on a replica outlives the write that changed its source",
+      "choosing between a time-to-live and an invalidation stream",
+      "a list endpoint on a replica omits an entry the leader shows",
+      "wiring a new storage backend into a replicated service"
+     ]
+    },
+    {
+     "slug": "evict-not-update-on-commit",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing what a cache does when it hears a commit",
+      "a cache entry is stale until the next write to the same key",
+      "deciding which log index a replica reports as its position",
+      "a freshness check passes while the cache still holds the old value"
+     ]
+    },
+    {
+     "slug": "fairshare-invalidation-queues",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one slow replica delays invalidations to every other replica",
+      "a tenant's bulk write delays a revocation on the core path",
+      "a replica reconnects after missing invalidations",
+      "sizing and bounding the invalidation stream"
+     ]
+    },
+    {
+     "slug": "forward-on-storage-error",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which requests a replica may handle locally",
+      "a replica answers a read with a read-only storage error",
+      "a routing table of forwardable operations keeps growing one incident at a time",
+      "a GET handler turns out to write"
+     ]
+    },
+    {
+     "slug": "preemptive-forward-for-known-writes",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a request wraps its response in a single-use token",
+      "a read consumes a use-count or a one-time credential",
+      "an operation must observe the authority's state at this instant",
+      "deciding what belongs on the pre-dispatch forward list"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "client-carried-index",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/go--client-carried-index.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "committed-write-invalidation-hook",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/go--committed-write-invalidation-hook.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "forward-on-storage-error",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/go--forward-on-storage-error.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
     }
    ]
   },
@@ -17511,7 +18583,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
-   "digest": "sha256:9afa5f8e11707625",
+   "digest": "sha256:cae39eff38db172c",
    "techniques": [
     {
      "slug": "backoff-design",
@@ -17541,6 +18613,23 @@
      ]
     },
     {
+     "slug": "client-retry-and-redirect-conventions",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the client library for a replicated or redirecting server",
+      "a client follows a redirect chain into a loop or onto plaintext",
+      "a not-found response carried data the client threw away",
+      "deciding whether a precondition-failed response is retryable",
+      "choosing where fatal-versus-retry lives in a client"
+     ]
+    },
+    {
      "slug": "durable-retries",
      "status": "forged",
      "laws": [
@@ -17566,6 +18655,23 @@
       "same outage retried by one path and dropped by another",
       "classifying a timed-out write that may have landed"
      ]
+    },
+    {
+     "slug": "jittered-revocation-with-irrevocable-terminal",
+     "status": "forged",
+     "laws": [
+      "deletion-is-not-repair",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a server must revoke credentials it issued and the remote that holds them is down",
+      "a revocation loop retries forever or deletes what it cannot revoke",
+      "a leadership change aborts in-flight cleanup and the log fills with errors",
+      "one backend's outage starves every other backend's revocations"
+     ],
+     "stage": "multi-service"
     },
     {
      "slug": "retry-observability",
@@ -17613,6 +18719,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "client-retry-and-redirect-conventions",
+     "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/go--client-retry-and-redirect-conventions.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "jittered-revocation-with-irrevocable-terminal",
+     "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/go--jittered-revocation-with-irrevocable-terminal.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
     {
      "stack": "next",
      "technique": "suspension-is-not-failure",
@@ -18196,6 +19316,131 @@
      "technique": "weight-design",
      "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/applications/react--weight-design.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "seal-and-key-hierarchy": {
+   "category": "secret-custody-and-issuance",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/seal-and-key-hierarchy.md",
+   "digest": "sha256:60fc694c4263df23",
+   "techniques": [
+    {
+     "slug": "any-one-seal-unseals",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the only custody of the root key is one external key service",
+      "adding a break-glass or second-region custody",
+      "deciding what happens when a seal is unreachable at start",
+      "migrating from one seal to another without downtime"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "append-only-keyring-rotation",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rotating the key that encrypts stored objects without re-encrypting the store",
+      "deciding which key rotation needs a quorum",
+      "a ciphertext must say which key produced it",
+      "a proposal to prune old keys from the keyring"
+     ]
+    },
+    {
+     "slug": "per-tenant-seal-chain",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tenant wants control of its own availability independent of the operator",
+      "a tenant must hold data the operator's root cannot open",
+      "sealing one tenant without sealing the server",
+      "loading a tenant tree with a sealed subtree in it"
+     ],
+     "stage": "fleet"
+    },
+    {
+     "slug": "recovery-key-is-not-unseal-key",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an automatic seal needs a quorum for privileged operations",
+      "someone proposes using recovery shares to unseal when the key service is down",
+      "initializing a cluster that must mint no long-lived secret",
+      "designing what a threshold of humans is allowed to do"
+     ]
+    },
+    {
+     "slug": "transient-upgrade-entry",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "replicas must survive a key rotation without being re-unsealed",
+      "a replica holds a stale keyring or a stale root after the leader rotated",
+      "deciding how long a key-under-old-key entry may live",
+      "a leadership failover inside a rotation window"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "usage-triggered-rotation",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing when the data key must rotate",
+      "a cipher with a per-key operation limit under random nonces",
+      "an operator estimating encryption counts from request metrics",
+      "persisting a counter that is itself encrypted"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "any-one-seal-unseals",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/go--any-one-seal-unseals.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "append-only-keyring-rotation",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/go--append-only-keyring-rotation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "per-tenant-seal-chain",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/go--per-tenant-seal-chain.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
     }
    ]
   },
@@ -18814,7 +20059,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/sidecar-provisioning.md",
-   "digest": "sha256:1aa4c3aecbdb6242",
+   "digest": "sha256:49b22e85528db13c",
    "techniques": [
     {
      "slug": "atomic-downloads",
@@ -18877,6 +20122,21 @@
      ]
     },
     {
+     "slug": "plugin-lazy-load-and-reload",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host mounts many instances of out-of-process plugins",
+      "deciding when a plugin process is spawned and when it is shared",
+      "a plugin process died under a live request",
+      "a plugin upgrade changed what a mounted instance can do"
+     ]
+    },
+    {
      "slug": "process-isolation",
      "status": "forged",
      "laws": [
@@ -18919,9 +20179,38 @@
       "a dependency downloads its own model at runtime",
       "an artifact fails to load only on some machines"
      ]
+    },
+    {
+     "slug": "split-trust-by-registration-path",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a plugin registration needs a digest",
+      "a plugin may be registered by an API caller as well as by the config file",
+      "an error from a plugin carries a backing-service credential",
+      "a privilege decision must not be visible to the plugin"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "plugin-lazy-load-and-reload",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/go--plugin-lazy-load-and-reload.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "split-trust-by-registration-path",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/applications/go--split-trust-by-registration-path.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
     {
      "stack": "node",
      "technique": "atomic-downloads",
@@ -21457,6 +22746,151 @@
     }
    ]
   },
+  "transactions-over-a-replicated-log": {
+   "category": "backend-platform",
+   "subcategory": "data-layer",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-layer/transactions-over-a-replicated-log/transactions-over-a-replicated-log.md",
+   "digest": "sha256:bb9e584191d0048c",
+   "techniques": [
+    {
+     "slug": "capture-index-before-snapshot",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a transaction records the log position it observed",
+      "a fast modified-since check keyed on a log index",
+      "a snapshot and an index read in the wrong order",
+      "deciding which direction of ordering error is safe"
+     ]
+    },
+    {
+     "slug": "compose-then-conform",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cache or encoding or view wrapper is added above a transactional store",
+      "proving a transaction behaves the same through every layer as through the bare engine",
+      "several storage backends must agree on a sequence of operations",
+      "a transaction is opened and never closed"
+     ]
+    },
+    {
+     "slug": "list-verification-by-present-keys",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a transaction lists a prefix and then writes based on the result",
+      "a list result reconciled with buffered writes needs a verification hash",
+      "a bounded list inside a transaction returns fewer keys than its limit",
+      "deciding what a list verification re-executes at apply"
+     ]
+    },
+    {
+     "slug": "live-file-is-the-snapshot",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "creation-names-reaper",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a durable single-writer engine sits beneath a consensus log and the log library wants periodic snapshots",
+      "a node replays its whole log at startup although its store was already current",
+      "installing a snapshot received from a leader onto a node whose store is a file",
+      "choosing the batch size for restoring a large snapshot into a copy-on-write engine",
+      "deciding who truncates the log when the snapshot never changes"
+     ]
+    },
+    {
+     "slug": "no-writes-no-log",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "committing a transaction whose write buffer is empty",
+      "a read-only transaction expected to detect that its reads went stale",
+      "caches above the store invalidated by transaction commits",
+      "read traffic appearing in the replicated log"
+     ]
+    },
+    {
+     "slug": "same-value-still-conflicts",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two transactions write the same new value to one key",
+      "a modified-since fast path proposed as the conflict check",
+      "choosing the error vocabulary a transaction interface returns",
+      "stating what a verified read costs the log"
+     ]
+    },
+    {
+     "slug": "snapshot-read-plus-verify-log",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a transaction must span a consensus round trip on a single-writer engine",
+      "deciding what a commit entry carries besides its writes",
+      "an in-transaction read of a key the transaction already wrote",
+      "a write lock held while waiting for a quorum"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "go",
+     "technique": "compose-then-conform",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/transactions-over-a-replicated-log/applications/go--compose-then-conform.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "list-verification-by-present-keys",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/transactions-over-a-replicated-log/applications/go--list-verification-by-present-keys.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "live-file-is-the-snapshot",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/transactions-over-a-replicated-log/applications/go--live-file-is-the-snapshot.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "snapshot-read-plus-verify-log",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/transactions-over-a-replicated-log/applications/go--snapshot-read-plus-verify-log.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "go@1.27"
+    }
+   ]
+  },
   "triage-queues": {
    "category": "operations",
    "subcategory": "service-operations",
@@ -22719,9 +24153,13 @@
     "authorization/declarative-requirements",
     "authorization/delegated-authority",
     "authorization/dispatch-chokepoint-gating",
+    "authorization/machine-credential-consumption",
     "authorization/scope-design",
     "background-jobs/startup-sweeps",
     "batch-undo-commit-window/freeze-refresh-during-window",
+    "bounded-enumeration/after-plus-limit-not-cursor",
+    "bounded-enumeration/deny-absorbs-and-lowest-limit-wins",
+    "bounded-enumeration/filter-after-return-under-limit",
     "browser-credential-boundary/aggregate-view-not-base-table",
     "browser-credential-boundary/allowlisted-operator-stream",
     "browser-credential-boundary/broker-proxy-attaches-secret",
@@ -22753,6 +24191,9 @@
     "companion-runtime/host-seam-contracts",
     "companion-runtime/metered-llm-seam",
     "concurrency-guards/cross-process-exclusion",
+    "concurrency-guards/fence-inside-write-transaction",
+    "concurrency-guards/leadership-is-the-lock",
+    "concurrency-guards/renewal-deadline-two-thirds-ttl",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/isolated-index-commits",
     "conformance-checking/checker-false-positive-discipline",
@@ -22763,6 +24204,7 @@
     "cost-metering/budget-enforcement",
     "cost-metering/preflight-estimation",
     "credential-vault/brokered-egress",
+    "credential-vault/revocation-interception-cache",
     "credential-vault/token-refresh-lifecycle",
     "data-access/batching-and-n-plus-one",
     "data-access/cross-driver-invariant-parity",
@@ -22843,6 +24285,9 @@
     "ipc-contract/casing-and-naming",
     "ipc-contract/command-registration",
     "ipc-contract/drift-gates",
+    "issuance-policy-ladder/explicit-forbid-beats-allow-any",
+    "issuance-policy-ladder/float-references-resolve-at-use",
+    "issuance-policy-ladder/program-role-returns-the-artifact",
     "job-coordination/lease-renewal",
     "judgment-guardbands/deterministic-backbone",
     "judgment-guardbands/narrate-dont-rescore",
@@ -22890,6 +24335,8 @@
     "module-design/seams-and-adapters",
     "module-design/structural-improvement-loop",
     "multi-project/project-identity-and-joins",
+    "node-boot-and-declarative-bootstrap/ordered-boot-dag",
+    "node-boot-and-declarative-bootstrap/request-chain-not-dsl",
     "observability-telemetry/diagnostic-access",
     "optional-dependency-degradation/degradation-coupled-to-hardening",
     "optional-dependency-degradation/fallback-retirement-condition",
@@ -22913,6 +24360,9 @@
     "plan-entitlements/price-book-authority",
     "plan-review/fresh-posture-self-challenge",
     "plan-review/objection-before-artifacts",
+    "priced-authority/inline-auth-cannot-lease",
+    "priced-authority/single-use-cubbyhole-wrap",
+    "priced-authority/write-ahead-revocation-marker",
     "proactive-nudges/quiet-windows",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-assembly/task-envelope",
@@ -22937,9 +24387,16 @@
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
     "quality-gates/vacuous-by-evaluation",
+    "quorum-and-recovery-procedures/migration-lock-in-source",
+    "quorum-and-recovery-procedures/nonce-progress-verify",
+    "quorum-and-recovery-procedures/pick-highest-applied-index",
     "rate-limiting/limiter-topology",
     "rate-limiting/metered-step-selection",
     "rate-limiting/untrusted-key-derivation",
+    "read-serving-replicas/client-carried-index",
+    "read-serving-replicas/evict-not-update-on-commit",
+    "read-serving-replicas/forward-on-storage-error",
+    "read-serving-replicas/preemptive-forward-for-known-writes",
     "realtime-events/event-registry",
     "release-pipeline/deprecation-by-version-arithmetic",
     "release-pipeline/pipeline-staging",
@@ -22965,6 +24422,7 @@
     "schema-driven-ui/emitter-registry-sync",
     "scoring-rubrics/rubric-stability",
     "scoring-rubrics/weight-lenses",
+    "seal-and-key-hierarchy/recovery-key-is-not-unseal-key",
     "search/full-text-indexing",
     "self-healing/auto-rollback",
     "session-continuation/continuation-as-state",
@@ -23018,6 +24476,9 @@
     "test-input-generation/liveness-needs-a-quiet-period",
     "test-input-generation/seed-is-not-a-reproduction",
     "test-input-generation/swarm-feature-sampling",
+    "transactions-over-a-replicated-log/compose-then-conform",
+    "transactions-over-a-replicated-log/list-verification-by-present-keys",
+    "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
     "ui-controls/adoption-enforcement",
     "ui-controls/control-inventory-and-discovery",
     "usage-analytics/activation-and-funnel-honesty",
@@ -23087,6 +24548,7 @@
     "authorization/declarative-requirements",
     "authorization/dispatch-chokepoint-gating",
     "authorization/failure-direction",
+    "authorization/machine-credential-consumption",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-health-telemetry",
     "background-jobs/startup-sweeps",
@@ -23095,6 +24557,7 @@
     "batch-undo-commit-window/deferred-write-window",
     "batch-undo-commit-window/flush-on-teardown",
     "batch-undo-commit-window/partial-failure-reselect",
+    "bounded-enumeration/filter-after-return-under-limit",
     "browser-credential-boundary/default-deny-plus-defaulted-owner",
     "browser-credential-boundary/opaque-upstream-errors",
     "build-economics/build-measurement",
@@ -23124,6 +24587,7 @@
     "companion-runtime/signal-economy-contract",
     "concurrency-guards/cross-process-exclusion",
     "concurrency-guards/release-guarantees",
+    "concurrency-guards/renewal-deadline-two-thirds-ttl",
     "concurrency-guards/single-flight-primitives",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/intent-ledgers",
@@ -23140,6 +24604,7 @@
     "cost-metering/usage-ledgers",
     "credential-vault/acquisition",
     "credential-vault/health-probing",
+    "credential-vault/renew-at-two-thirds-with-grace",
     "credential-vault/rotation-and-remediation",
     "credential-vault/token-refresh-lifecycle",
     "data-access/repo-testing",
@@ -23179,6 +24644,7 @@
     "docs-sync/source-as-data-without-the-app",
     "document-text-extraction/unreadable-region-refusal",
     "draft-editing/debounced-save-groups",
+    "dynamic-secret-lifecycle/persist-before-provision",
     "embedded-db/connection-pooling",
     "embedded-db/corruption-class-response",
     "embedded-db/extension-lifecycle",
@@ -23237,6 +24703,7 @@
     "ipc-contract/drift-gates",
     "ipc-contract/error-shape-mapping",
     "ipc-contract/generated-type-contracts",
+    "issuance-policy-ladder/program-role-returns-the-artifact",
     "job-coordination/job-observability",
     "job-coordination/job-state-machines",
     "job-coordination/step-position-and-resumability",
@@ -23288,6 +24755,8 @@
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
     "multi-provider-gateway-plane/per-provider-stream-framing",
     "multi-provider-gateway-plane/router-versus-candidate-failure",
+    "node-boot-and-declarative-bootstrap/once-only-bootstrap-with-marker",
+    "node-boot-and-declarative-bootstrap/reload-partition",
     "observability-telemetry/remote-telemetry-economics",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
@@ -23322,6 +24791,8 @@
     "plan-review/fresh-posture-self-challenge",
     "plan-review/objection-before-artifacts",
     "plan-review/silent-decision-surfacing",
+    "priced-authority/inline-auth-cannot-lease",
+    "priced-authority/write-ahead-revocation-marker",
     "proactive-nudges/notice-delivery-decoupling",
     "proactive-nudges/trigger-evaluators",
     "prompt-assembly/amortized-compaction-cadence",
@@ -23348,6 +24819,7 @@
     "quality-gates/unmeasurable-criteria",
     "quality-gates/vacuous-by-evaluation",
     "rate-limiting/refusal-contract",
+    "read-serving-replicas/fairshare-invalidation-queues",
     "readiness-passports/blocker-rollups",
     "readiness-passports/declined-by-choice",
     "readiness-passports/fingerprint-provenance",
@@ -23370,6 +24842,8 @@
     "retrieval/retrieval-evaluation",
     "retrieval/retrieval-triggering",
     "retry-backoff/circuit-breakers",
+    "retry-backoff/client-retry-and-redirect-conventions",
+    "retry-backoff/jittered-revocation-with-irrevocable-terminal",
     "retry-backoff/retry-observability",
     "retry-backoff/suspension-is-not-failure",
     "runner-fleet/capability-typed-queues",
@@ -23381,6 +24855,7 @@
     "schema-driven-ui/spec-validation-and-repair",
     "scoring-rubrics/unmeasured-honesty",
     "scoring-rubrics/weight-lenses",
+    "seal-and-key-hierarchy/per-tenant-seal-chain",
     "search/query-parsing",
     "search/saved-views",
     "self-healing/auto-rollback",
@@ -23397,6 +24872,7 @@
     "sidecar-provisioning/atomic-downloads",
     "sidecar-provisioning/capability-detection",
     "sidecar-provisioning/grade-selection",
+    "sidecar-provisioning/plugin-lazy-load-and-reload",
     "sidecar-provisioning/process-isolation",
     "sidecar-provisioning/resolution-ladders",
     "signed-artifacts/import-verification-flow",
@@ -23456,6 +24932,7 @@
     "tracing/raw-record-viewers",
     "tracing/trace-capture",
     "tracing/waterfall-rendering",
+    "transactions-over-a-replicated-log/no-writes-no-log",
     "triage-queues/focus-mode",
     "triage-queues/source-normalization",
     "triage-queues/verdict-writeback",
@@ -23509,6 +24986,7 @@
     "connector-catalog/catalog-lifecycle",
     "credential-vault/encryption-at-rest",
     "credential-vault/rotation-and-remediation",
+    "credential-vault/versioned-key-window",
     "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/quarantine-vs-delete",
@@ -23519,6 +24997,7 @@
     "design-tokens/token-enforcement",
     "device-pairing/revocation-and-expiry",
     "docs-sync/dated-corrections",
+    "dynamic-secret-lifecycle/idempotent-revoke-and-give-up",
     "embedded-db/corruption-class-response",
     "embedded-db/storage-accounting-and-pruning",
     "entity-lifecycle/change-logging",
@@ -23545,13 +25024,16 @@
     "people-analytics-ethics/risk-framing-anonymization",
     "perf-instrumentation/continuous-monitors",
     "plan-entitlements/entitlement-lifecycle-revocation",
+    "priced-authority/secondary-index-before-primary",
     "proactive-nudges/efficacy-feedback",
     "prompt-safety/payoff-removal",
     "quality-gates/fabrication-economics",
     "quality-gates/false-positive-economics",
     "release-pipeline/size-budgets",
     "repo-manifest-standard/spec-ships-with-artifact",
+    "retry-backoff/jittered-revocation-with-irrevocable-terminal",
     "schema-driven-ui/spec-validation-and-repair",
+    "seal-and-key-hierarchy/append-only-keyring-rotation",
     "signed-artifacts/signature-lifecycle",
     "status-vocabulary/vocabulary-evolution-checklist",
     "subprocess-lifecycle/host-resource-protection",
@@ -23612,6 +25094,8 @@
     "authorization/privilege-tiers",
     "background-jobs/loop-health-telemetry",
     "batch-undo-commit-window/partial-failure-reselect",
+    "bounded-enumeration/declare-the-inconsistency",
+    "bounded-enumeration/page-size-from-memory-budget",
     "build-economics/build-measurement",
     "build-economics/compilation-unit-splitting",
     "build-economics/debug-artifact-economics",
@@ -23675,7 +25159,9 @@
     "docs-sync/same-change-enforcement",
     "document-text-extraction/unreadable-region-refusal",
     "draft-editing/completeness-derivation",
+    "dynamic-secret-lifecycle/lease-vs-native-tracking",
     "embedded-db/db-self-instrumentation",
+    "embedded-db/derived-capacity-limits",
     "embedded-db/storage-accounting-and-pruning",
     "entity-lifecycle/blast-radius-computation",
     "entity-lifecycle/bulk-deletion-rails",
@@ -23798,6 +25284,7 @@
     "plan-review/decision-sized-slicing",
     "plan-review/informational-fold-in",
     "plan-review/silent-decision-surfacing",
+    "priced-authority/inline-auth-cannot-lease",
     "proactive-nudges/attention-budgets",
     "proactive-nudges/efficacy-feedback",
     "prompt-assembly/amortized-compaction-cadence",
@@ -23818,6 +25305,7 @@
     "quality-gates/ratchet-design",
     "quality-gates/severity-by-construction",
     "quality-gates/vacuous-by-evaluation",
+    "quorum-and-recovery-procedures/pick-highest-applied-index",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
     "rate-limiting/metered-step-selection",
@@ -23843,6 +25331,7 @@
     "retrieval/retrieval-evaluation",
     "retrieval/retrieval-triggering",
     "retrieval/structural-centrality-lane",
+    "retry-backoff/jittered-revocation-with-irrevocable-terminal",
     "retry-backoff/retry-observability",
     "runner-fleet/queue-depth-elasticity",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
@@ -23854,6 +25343,7 @@
     "schema-driven-ui/spec-validation-and-repair",
     "scoring-rubrics/normalization",
     "scoring-rubrics/score-explanation",
+    "seal-and-key-hierarchy/usage-triggered-rotation",
     "search/faceting-and-filters",
     "search/ranking-and-excerpts",
     "self-healing/effectiveness-accounting",
@@ -23894,6 +25384,9 @@
     "tracing/raw-record-viewers",
     "tracing/synthetic-and-estimated-traces",
     "tracing/trace-capture",
+    "transactions-over-a-replicated-log/list-verification-by-present-keys",
+    "transactions-over-a-replicated-log/live-file-is-the-snapshot",
+    "transactions-over-a-replicated-log/same-value-still-conflicts",
     "triage-queues/bulk-triage",
     "ui-controls/adoption-enforcement",
     "usage-analytics/activation-and-funnel-honesty",
@@ -23929,6 +25422,7 @@
     "agent-runtime-assembly/session-scoped-capability",
     "audit-logging/two-clock-records",
     "authorization/delegated-authority",
+    "bounded-enumeration/required-limit-breaks-unaware-clients",
     "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
@@ -23940,6 +25434,7 @@
     "conversation-orchestration/recall-transparency",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "credential-vault/versioned-key-window",
     "data-access/sequence-token-write-ordering",
     "delivery-analytics/post-landing-repair-density",
     "dependency-declaration/logical-name-or-address",
@@ -23948,11 +25443,14 @@
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/screen-then-confirm-detection",
     "document-text-extraction/unreadable-region-refusal",
+    "dynamic-secret-lifecycle/wal-per-external-side-effect",
     "error-handling/cancellation-attribution",
     "eval-harness/measurement-revision",
     "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/completion-claim-verification",
     "hitl-approval/oracle-before-gate",
+    "issuance-policy-ladder/float-references-resolve-at-use",
+    "issuance-policy-ladder/require-one-constraint",
     "job-coordination/liveness-proof-reclaim",
     "knowledge-registry/verification-is-contributed",
     "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
@@ -23971,12 +25469,18 @@
     "optional-dependency-degradation/fallback-retirement-condition",
     "p2p-networking/peer-state-honesty",
     "plan-review/informational-fold-in",
+    "priced-authority/write-ahead-revocation-marker",
     "quality-gates/advancement-evidence-fields",
     "quality-gates/enforcement-binding",
     "quality-gates/fabrication-economics",
+    "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
+    "read-serving-replicas/evict-not-update-on-commit",
     "retrieval/query-decomposition-before-the-lanes",
     "retrieval/structural-centrality-lane",
+    "retry-backoff/client-retry-and-redirect-conventions",
     "retry-backoff/suspension-is-not-failure",
+    "seal-and-key-hierarchy/per-tenant-seal-chain",
+    "seal-and-key-hierarchy/usage-triggered-rotation",
     "session-continuation/compaction-checkpoint",
     "session-continuation/single-loop-authority",
     "settings/inherited-default-override",
@@ -23986,6 +25490,8 @@
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
     "tenant-scoped-agent-runtime/stamp-ownership-before-the-router",
     "terminal-multiplexing/occupant-state-detection",
+    "transactions-over-a-replicated-log/capture-index-before-snapshot",
+    "transactions-over-a-replicated-log/live-file-is-the-snapshot",
     "web-scraping/negotiated-representation-probe",
     "web-scraping/soak-mode-and-verdict-replay"
    ]
@@ -24021,6 +25527,7 @@
     "background-jobs/loop-supervision",
     "batch-undo-commit-window/bounded-fanout-commit",
     "batch-undo-commit-window/single-pending-batch-invariant",
+    "bounded-enumeration/after-plus-limit-not-cursor",
     "canvas-graph/direct-manipulation",
     "canvas-graph/edge-management",
     "canvas-graph/graph-layout",
@@ -24051,6 +25558,7 @@
     "connector-catalog/matching-and-ranking",
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/spend-attribution",
+    "credential-vault/revocation-interception-cache",
     "data-access/sequence-token-write-ordering",
     "data-retention/erasure-requests",
     "data-viz/encoding-vocabulary",
@@ -24071,6 +25579,7 @@
     "docs-content-model/product-location-mapping",
     "draft-editing/draft-model",
     "drag-drop/payload-and-identity",
+    "dynamic-secret-lifecycle/idempotent-revoke-and-give-up",
     "embedded-preview/cross-frame-protocol",
     "embedded-preview/preview-checkpoints",
     "entity-lifecycle/archive-restore-semantics",
@@ -24128,11 +25637,14 @@
     "pipeline-dag/deterministic-vs-model-nodes",
     "pipeline-dag/node-execution-model",
     "plan-entitlements/id-vs-label-split",
+    "priced-authority/approver-not-requester",
+    "priced-authority/single-use-cubbyhole-wrap",
     "proactive-nudges/nudge-identity-dedup",
     "prompt-assembly/continuation-prompts",
     "prompt-assembly/history-compaction",
     "prompt-assembly/house-vocabulary-layer",
     "prompt-assembly/tiered-history-projection",
+    "quorum-and-recovery-procedures/nonce-progress-verify",
     "rate-limiting/unattributable-client-bucketing",
     "readiness-passports/blocker-rollups",
     "readiness-passports/fingerprint-provenance",
@@ -24154,6 +25666,7 @@
     "scheduling/overlap-and-reentrancy",
     "schema-driven-ui/emitter-registry-sync",
     "scoring-rubrics/gap-ranking",
+    "seal-and-key-hierarchy/append-only-keyring-rotation",
     "search/command-surface",
     "search/ranking-and-excerpts",
     "search/saved-views",
@@ -24161,6 +25674,7 @@
     "session-continuation/sealed-stage-advance",
     "sidecar-provisioning/grade-selection",
     "sidecar-provisioning/model-storage-lifecycle",
+    "sidecar-provisioning/plugin-lazy-load-and-reload",
     "signed-artifacts/detached-signatures-and-key-identity",
     "signed-artifacts/import-verification-flow",
     "signed-artifacts/key-custody",
@@ -24253,6 +25767,8 @@
     "companion-runtime/action-catalog-single-source",
     "companion-runtime/metered-llm-seam",
     "concurrency-guards/cross-process-exclusion",
+    "concurrency-guards/fence-inside-write-transaction",
+    "concurrency-guards/leadership-is-the-lock",
     "concurrency-guards/single-flight-primitives",
     "connector-catalog/shipped-vs-operator-ownership",
     "conversation-orchestration/model-proposed-quick-replies",
@@ -24260,6 +25776,7 @@
     "credential-vault/acquisition",
     "credential-vault/brokered-egress",
     "credential-vault/encryption-at-rest",
+    "credential-vault/versioned-key-window",
     "data-access/layering-rules",
     "data-access/query-construction",
     "data-access/read-models-and-projections",
@@ -24317,6 +25834,7 @@
     "multi-project/project-identity-and-joins",
     "multi-project/project-onboarding-lifecycle",
     "multi-provider-gateway-plane/adapter-direction-asymmetry",
+    "node-boot-and-declarative-bootstrap/request-chain-not-dsl",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "outbound-notifications/channel-adapter-traits",
     "outbound-notifications/compose-at-the-locale-layer",
@@ -24332,6 +25850,7 @@
     "pipeline-dag/graph-validation",
     "plan-entitlements/capability-gate-predicates",
     "plan-entitlements/deployment-mode-short-circuit",
+    "priced-authority/approver-not-requester",
     "prompt-assembly/layered-composition",
     "prompt-safety/input-caps-and-clamps",
     "prompt-safety/model-output-as-untrusted",
@@ -24339,6 +25858,7 @@
     "prompt-safety/untrusted-span-fencing",
     "public-verdict-badge/customization-scope-guard",
     "public-verdict-badge/embed-reach-attribution",
+    "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",
     "rate-limiting/limiter-topology",
     "readiness-passports/declined-by-choice",
     "realtime-events/change-data-capture",
@@ -24353,6 +25873,7 @@
     "settings/inherited-default-override",
     "settings/key-registry",
     "settings/typed-accessors",
+    "sidecar-provisioning/split-trust-by-registration-path",
     "signed-artifacts/import-verification-flow",
     "sql-console/introspection-architecture",
     "sql-console/nl-assist-gating",
@@ -24409,6 +25930,7 @@
     "app-shell/shell-hosted-services",
     "audit-logging/retention-and-partitioning",
     "authorization/identity-bearing-keys",
+    "authorization/machine-credential-consumption",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-supervision",
     "batch-undo-commit-window/deferred-write-window",
@@ -24445,6 +25967,8 @@
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/usage-ledgers",
     "credential-vault/brokered-egress",
+    "credential-vault/renew-at-two-thirds-with-grace",
+    "credential-vault/revocation-interception-cache",
     "credential-vault/token-refresh-lifecycle",
     "data-retention/per-tenant-retention-policy",
     "data-retention/time-budgeted-batch-purge",
@@ -24462,6 +25986,10 @@
     "diff-comparison/computation-offload",
     "drag-drop/cross-surface-handoff",
     "drag-drop/drag-lifecycle",
+    "dynamic-secret-lifecycle/idempotent-revoke-and-give-up",
+    "dynamic-secret-lifecycle/lease-vs-native-tracking",
+    "dynamic-secret-lifecycle/persist-before-provision",
+    "dynamic-secret-lifecycle/wal-per-external-side-effect",
     "embedded-db/connection-pooling",
     "embedded-db/single-writer-holder-discipline",
     "embedded-db/storage-accounting-and-pruning",
@@ -24516,6 +26044,8 @@
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-onboarding-lifecycle",
     "multi-provider-gateway-plane/per-provider-stream-framing",
+    "node-boot-and-declarative-bootstrap/once-only-bootstrap-with-marker",
+    "node-boot-and-declarative-bootstrap/ordered-boot-dag",
     "observability-telemetry/crash-record-storage",
     "observability-telemetry/rotation-and-retention",
     "optional-dependency-degradation/fallback-retirement-condition",
@@ -24533,11 +26063,17 @@
     "pipeline-dag/node-execution-model",
     "pipeline-dag/pause-and-gate-nodes",
     "plan-entitlements/entitlement-lifecycle-revocation",
+    "priced-authority/never-persisted-token-class",
+    "priced-authority/secondary-index-before-primary",
+    "priced-authority/single-use-cubbyhole-wrap",
     "proactive-nudges/notice-delivery-decoupling",
     "public-verdict-badge/outcome-branched-cache",
     "quality-gates/item-liveness",
+    "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
+    "quorum-and-recovery-procedures/single-node-recovery-resize",
     "rate-limiting/key-design",
     "rate-limiting/storm-hygiene",
+    "read-serving-replicas/fairshare-invalidation-queues",
     "realtime-events/outbound-fan-out",
     "realtime-events/subscription-lifecycle",
     "retrieval/chunking-and-indexing",
@@ -24548,6 +26084,8 @@
     "runner-fleet/shared-resource-serialization",
     "scheduling/overlap-and-reentrancy",
     "schema-driven-ui/host-capability-injection",
+    "seal-and-key-hierarchy/any-one-seal-unseals",
+    "seal-and-key-hierarchy/transient-upgrade-entry",
     "search/full-text-indexing",
     "session-continuation/continuation-as-state",
     "session-continuation/ordered-teardown",
@@ -24585,6 +26123,8 @@
     "toasts-notifications/durable-notification-ledger",
     "toasts-notifications/queue-discipline",
     "tracing/trace-capture",
+    "transactions-over-a-replicated-log/compose-then-conform",
+    "transactions-over-a-replicated-log/live-file-is-the-snapshot",
     "triage-queues/focus-mode",
     "triage-queues/queue-lifecycle",
     "undo-history/stack-policy",
@@ -24643,6 +26183,7 @@
     "authorization/identity-bearing-keys",
     "authorization/privilege-tiers",
     "authorization/scope-design",
+    "bounded-enumeration/deny-absorbs-and-lowest-limit-wins",
     "browser-credential-boundary/opaque-upstream-errors",
     "browser-credential-boundary/public-vs-server-env-split",
     "build-economics/capability-feature-gating",
@@ -24717,6 +26258,7 @@
     "docs-sync/source-doc-mapping",
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/cross-surface-handoff",
+    "dynamic-secret-lifecycle/ttl-ladder-derivation",
     "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/extension-lifecycle",
     "embedded-preview/cross-frame-protocol",
@@ -24753,6 +26295,8 @@
     "ipc-contract/command-registration",
     "ipc-contract/error-shape-mapping",
     "ipc-contract/generated-type-contracts",
+    "issuance-policy-ladder/bounds-as-modes",
+    "issuance-policy-ladder/explicit-forbid-beats-allow-any",
     "job-coordination/job-state-machines",
     "judgment-guardbands/narrate-dont-rescore",
     "judgment-guardbands/score-guardband",
@@ -24792,6 +26336,8 @@
     "multi-project/project-onboarding-lifecycle",
     "multi-provider-gateway-plane/adapter-direction-asymmetry",
     "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
+    "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
+    "node-boot-and-declarative-bootstrap/reload-partition",
     "observability-telemetry/log-architecture",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/per-variable-blast-radius",
@@ -24810,6 +26356,7 @@
     "plan-entitlements/id-vs-label-split",
     "plan-entitlements/price-book-authority",
     "plan-entitlements/tier-model-single-source",
+    "priced-authority/never-persisted-token-class",
     "prompt-assembly/capability-documentation",
     "prompt-assembly/context-reachability",
     "prompt-assembly/house-vocabulary-layer",
@@ -24822,6 +26369,7 @@
     "quality-gates/chokepoint-tag-registry",
     "quality-gates/policy-projection",
     "rate-limiting/metered-step-selection",
+    "read-serving-replicas/preemptive-forward-for-known-writes",
     "readiness-passports/named-vs-capability-metadata",
     "realtime-events/event-registry",
     "release-pipeline/version-single-truth",
@@ -24844,6 +26392,7 @@
     "scoring-rubrics/rubric-stability",
     "scoring-rubrics/weight-design",
     "scoring-rubrics/weight-lenses",
+    "seal-and-key-hierarchy/recovery-key-is-not-unseal-key",
     "search/command-surface",
     "search/faceting-and-filters",
     "search/saved-views",
@@ -24883,6 +26432,7 @@
     "toasts-notifications/announcement-accessibility",
     "toasts-notifications/severity-taxonomy",
     "tracing/span-model",
+    "transactions-over-a-replicated-log/compose-then-conform",
     "triage-queues/source-normalization",
     "ui-controls/variant-discipline",
     "usage-analytics/coverage-from-registries",
@@ -24910,6 +26460,7 @@
     "authorization/delegated-authority",
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
+    "credential-vault/renew-at-two-thirds-with-grace",
     "credential-vault/token-refresh-lifecycle",
     "data-access/capability-declared-in-the-type",
     "deployment-contract/deploy-gate-coupling",
@@ -24918,18 +26469,29 @@
     "document-text-extraction/recognition-boundary-and-escalation",
     "embedded-db/corruption-class-response",
     "error-handling/cancellation-attribution",
+    "issuance-policy-ladder/bounds-as-modes",
+    "issuance-policy-ladder/program-role-returns-the-artifact",
+    "issuance-policy-ladder/verbatim-is-a-separate-privilege",
     "knowledge-registry/verification-is-contributed",
     "machine-authored-documentation/declared-truth-boundary",
     "machine-authored-documentation/three-gate-acceptance",
     "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
     "multi-provider-gateway-plane/router-versus-candidate-failure",
+    "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "optional-dependency-degradation/refusal-is-not-failure",
+    "priced-authority/approver-not-requester",
     "prompt-assembly/deferred-interface-invalidation",
+    "read-serving-replicas/client-carried-index",
+    "read-serving-replicas/forward-on-storage-error",
     "repository-landing-document/input-channel-distinction",
     "repository-landing-document/multi-surface-degradation",
+    "retry-backoff/client-retry-and-redirect-conventions",
     "retry-backoff/storm-control",
+    "sidecar-provisioning/split-trust-by-registration-path",
     "structured-output/schema-validation-and-repair",
+    "transactions-over-a-replicated-log/same-value-still-conflicts",
+    "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
     "voice-io/decode-time-vocabulary-biasing",
     "voice-io/portable-provider-package",
     "voice-io/speech-ready-text",
@@ -24958,6 +26520,7 @@
     "audit-logging/tamper-evidence",
     "authoring-block-vocabulary/blocks-as-machine-readable-source",
     "background-jobs/loop-health-telemetry",
+    "bounded-enumeration/page-size-from-memory-budget",
     "browser-credential-boundary/aggregate-view-not-base-table",
     "build-economics/cache-budgeting",
     "canvas-graph/graph-layout",
@@ -25006,8 +26569,11 @@
     "document-text-extraction/structural-amplification-caps",
     "draft-editing/completeness-derivation",
     "draft-editing/dirty-tracking",
+    "dynamic-secret-lifecycle/expiry-buffer-beyond-lease",
+    "dynamic-secret-lifecycle/ttl-ladder-derivation",
     "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/db-self-instrumentation",
+    "embedded-db/derived-capacity-limits",
     "embedded-preview/convention-discovery",
     "eval-harness/eval-economics",
     "eval-harness/scenario-design",
@@ -25072,6 +26638,7 @@
     "quality-gates/ratchet-design",
     "rate-limiting/limit-derivation",
     "rate-limiting/limit-observability",
+    "read-serving-replicas/committed-write-invalidation-hook",
     "readiness-passports/declined-by-choice",
     "readiness-passports/fingerprint-provenance",
     "realtime-events/outbound-fan-out",
@@ -25139,11 +26706,14 @@
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
+    "audit-logging/best-effort-with-accounting",
+    "bounded-enumeration/required-limit-breaks-unaware-clients",
     "browser-credential-boundary/allowlisted-operator-stream",
     "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
+    "concurrency-guards/fence-inside-write-transaction",
     "conformance-checking/declared-deviation-register",
     "data-access/capability-declared-in-the-type",
     "data-access/cross-driver-invariant-parity",
@@ -25154,6 +26724,8 @@
     "error-handling/crash-capture",
     "fleet-orchestration/brief-carries-the-session",
     "import-normalization/durable-intermediate-representation",
+    "issuance-policy-ladder/require-one-constraint",
+    "issuance-policy-ladder/verbatim-is-a-separate-privilege",
     "knowledge-registry/verification-is-contributed",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/evidence-without-verdict",
@@ -25165,10 +26737,12 @@
     "mcp-tools/transport-selection",
     "module-design/borrowed-surface",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
+    "node-boot-and-declarative-bootstrap/seal-before-storage-plugins",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/refusal-is-not-failure",
     "plan-review/informational-fold-in",
+    "priced-authority/approver-not-requester",
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/enforcement-binding",
@@ -25176,9 +26750,14 @@
     "quality-gates/prose-rule-drift",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
+    "quorum-and-recovery-procedures/migration-lock-in-source",
+    "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",
+    "read-serving-replicas/committed-write-invalidation-hook",
     "release-pipeline/deprecation-by-version-arithmetic",
     "repository-landing-document/style-rule-ships-its-detector",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
+    "seal-and-key-hierarchy/any-one-seal-unseals",
+    "seal-and-key-hierarchy/usage-triggered-rotation",
     "structured-output/schema-validation-and-repair",
     "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
@@ -25208,6 +26787,7 @@
     "prompt-assembly/deferred-interface-invalidation",
     "prompt-assembly/task-envelope",
     "quality-gates/prose-rule-drift",
+    "quorum-and-recovery-procedures/single-node-recovery-resize",
     "retrieval/query-decomposition-before-the-lanes",
     "session-continuation/compaction-checkpoint",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global"

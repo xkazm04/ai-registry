@@ -117,6 +117,16 @@ The consequences of that stance form the spine of this subject:
    cost arithmetic invites a reviewer to harden it at an expense its purpose
    never justified.
 
+Three of those consequences have a second face. Limits of one kind declared at
+nested scopes — system, tenant, component, path, role — do not stack: exactly
+one rung governs, the most specific, through a ladder stated once, with the
+exempt set, the block interval and the unit of counting declared beside it (see
+limiter-topology). The key's fairness is decided again wherever limited work is
+queued per key and drained by a shared pool — the drain needs its own per-key
+cap, or one flood owns the workers (see key-design). And the refusal names
+whose limit it is when one status can mean the server's quota, an upstream's,
+or something that is not a limit at all (see refusal-contract).
+
 ## The limiter owns the policy
 
 A corollary of the contract stance that decides an API shape: **the limit's

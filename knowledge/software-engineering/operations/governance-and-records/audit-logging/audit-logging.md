@@ -178,6 +178,19 @@ acting without a durable claim is exactly the duplicate the claim
 existed to prevent. Such a record is a control record wearing an audit
 record's clothes, and the technique states what that costs.
 
+The inversion has a second, more common home: the ledger whose
+**responses are the secret material** — a credential broker, a key
+service. There the unrecorded success is the loss the trail exists to
+prevent, so the request is recorded before it executes and the response
+before it is sent, each failing the request when no configured sink
+took it. That rule, the sink-set invariant that keeps it from being a
+single point of failure, and the hashing discipline such a ledger needs
+because it records whole requests it did not shape, are amendments
+inside [best-effort-with-accounting](./techniques/best-effort-with-accounting.md),
+[write-path-sanitization](./techniques/write-path-sanitization.md) and
+[write-chokepoint](./techniques/write-chokepoint.md) rather than a
+technique of their own.
+
 ## Retention is policy, enforced where records enter
 
 Audit records have obligations in both directions: some must be **kept**

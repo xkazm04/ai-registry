@@ -172,7 +172,10 @@
             "data-access",
             "embedded-db",
             "migrations",
-            "sync-replication"
+            "sync-replication",
+            "transactions-over-a-replicated-log",
+            "bounded-enumeration",
+            "read-serving-replicas"
           ]
         },
         {
@@ -240,7 +243,9 @@
             "triage-queues",
             "usage-analytics",
             "plan-entitlements",
-            "scoring-rubrics"
+            "scoring-rubrics",
+            "node-boot-and-declarative-bootstrap",
+            "quorum-and-recovery-procedures"
           ]
         }
       ]
@@ -366,6 +371,17 @@
             "remediation-roadmaps"
           ]
         }
+      ]
+    },
+    {
+      "id": "secret-custody-and-issuance",
+      "title": "Secret custody and issuance",
+      "order": 10,
+      "subjects": [
+        "seal-and-key-hierarchy",
+        "priced-authority",
+        "dynamic-secret-lifecycle",
+        "issuance-policy-ladder"
       ]
     }
   ]

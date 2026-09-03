@@ -13,6 +13,7 @@ techniques:
   - single-writer-holder-discipline
   - analytical-reads-off-the-serving-store
   - corruption-class-response
+  - derived-capacity-limits
 ---
 
 # Embedded database operations
@@ -250,6 +251,40 @@ engines read it, and which of this subject's duties the second quadrant
 retires are
 [analytical-reads-off-the-serving-store](./techniques/analytical-reads-off-the-serving-store.md).
 
+## Every limit the store exposes was derived from another one
+
+The pruner above bounds growth; a different family of numbers bounds *shape*
+— the largest entry the store accepts, the largest transaction, the cache a
+transaction is granted, the page an enumerator gets back, the operations a
+key may perform before it rotates. They arrive as configuration beside each
+other and read as independent knobs. They are not: each is a measured
+property of the environment (a transport's chunk, a memory target, a
+cipher's published ceiling) or a fixed function of another limit, and the
+operator who raises one without the derivation revokes a property held two
+limits away — an entry that no longer fits the transaction meant to migrate
+it, a transaction cache that no longer sums to the shared one. The standard
+is that **the derivation is written beside the number and the branch's
+default is computed from its leaf as configured**; the case the discipline
+exists for is a control-plane structure stored as one entry that outgrows
+the entry limit, where the answer is to split the structure one record per
+entry, not to raise a limit that was never free to move. That tree, its
+margins, and the split are
+[derived-capacity-limits](./techniques/derived-capacity-limits.md).
+
+Two neighbours share the word *limit* and neither shares the ground. The
+resilience subject's [limit-derivation](../../resilience/rate-limiting/techniques/limit-derivation.md)
+derives a *rate* — how fast callers may arrive, priced from what one
+admission spends and floored by legitimate cadence; this subject derives the
+store's own *capacity* — how large a thing it accepts or holds, from its own
+engine's leaves. The rule for picking: if the number bounds arrivals per
+window, it is theirs; if it bounds bytes, entries or operations the store
+itself carries, it is here. And
+[bounded-enumeration](../bounded-enumeration/bounded-enumeration.md) owns
+enumeration as a governed operation, including the page-size arithmetic;
+this subject owns the fact that the page size is one branch of a tree whose
+other branches are entries, transactions, caches and keys, and what happens
+when one of them binds.
+
 ## The second database is the forgotten one
 
 Applications that embed one database eventually embed two: a vector sidecar,
@@ -315,3 +350,8 @@ that motivated elevating the rule from advice to standard.
   and keep canonical writes flowing, canonical structure quarantines the handle
   and stops writing, the checkpoint that must be skipped on close, and where
   pending work goes instead.
+- [derived-capacity-limits](./techniques/derived-capacity-limits.md) — the
+  store's limits as a tree of leaves and branches, the derivation written
+  beside the number and computed from the leaf as configured, margins sized
+  to tracking loss, constants pinned by tests, and the one-way split when a
+  limit binds a control-plane structure.

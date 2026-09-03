@@ -697,11 +697,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 163,
-      "techniques": 1155,
-      "applications": 651,
-      "files": 1974,
-      "contentHash": "sha256:bb5074b0889cc932"
+      "subjects": 172,
+      "techniques": 1222,
+      "applications": 693,
+      "files": 2092,
+      "contentHash": "sha256:790421d61e88dfed"
     }
   ]
 }

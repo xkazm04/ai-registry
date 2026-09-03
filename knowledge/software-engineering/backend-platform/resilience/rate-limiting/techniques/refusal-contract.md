@@ -94,8 +94,33 @@ state unavailable — did not refuse, and must not emit the refusal shape. Emitt
 a synchronized, dutiful, pointless wait, and buries the actual outage under
 plausible-looking throttling.
 
+## The refusal names whose limit it is
+
+A status alone is not a contract when one server can emit it for more than one
+condition — its own request quota, a limit inside the resource the request
+reached (an upstream provider's, a backend's), or a readiness signal that some
+endpoint has overloaded onto the same status. Each calls for a different
+reaction: the server's quota is healed by the server's clock and stated by its
+retry-after; an upstream's limit is healed by the upstream's window, which the
+server may not know and which is often keyed on a credential the server's quota
+is not; a readiness signal is not a limit at all and asks for a different node,
+not a wait. The rule: when the rate-limit status can originate from more than
+one authority, the response carries the path or authority that raised it, and
+the client library branches on that field *before* choosing a retry strategy,
+because the same status honoured as one thing is wrong for every other thing it
+can mean. The naive reading's failure: a client treats every such status as
+"the server throttled me", sleeps the server's cadence and retries into an
+upstream limit the server never priced — burning its own quota to do it — while
+the operator's panel shows the server's quota with headroom to spare. The
+disambiguating field belongs in the response the server already sends; a client
+that infers the origin from timing or from the body's prose is guessing at a
+contract the server could have stated.
+
 ## Decision rules
 
+- **Name the authority when the status is shared.** A rate-limit status the
+  server emits for more than one condition carries the path or authority that
+  raised it, and the client branches on it before it retries.
 - **Refuse before the world changes.** The limit check runs ahead of anything
   that persists, spends, or spawns; a refusal is a no-op on the world, leaving
   behind nothing but its own counter. A refusal issued after a durable record

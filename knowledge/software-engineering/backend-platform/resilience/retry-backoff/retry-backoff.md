@@ -11,6 +11,8 @@ techniques:
   - storm-control
   - retry-observability
   - suspension-is-not-failure
+  - jittered-revocation-with-irrevocable-terminal
+  - client-retry-and-redirect-conventions
 ---
 
 # Retry, backoff & circuit breaking
@@ -118,6 +120,25 @@ attributed oppositely — a breaker judges the dependency, a suspension reports 
 caller — and the predicate that *resumes* work is deliberately stricter than the
 one that *starts* it. That state, its record, and the two predicates are
 [suspension-is-not-failure](./techniques/suspension-is-not-failure.md).
+
+Two techniques carry the stance to the two ends of a replicated server. On the
+server's side, revocation of a credential it issued is a retry the server owes
+itself against a remote it does not control; the ladder is exponential and
+jittered, and when it runs out the lease enters a named **irrevocable** state —
+counted, listed, resolvable by hand, neither deleted nor retried forever — and
+a leadership change mid-ladder is the ordinary event that restarts the loop on
+the new leader rather than an error
+([jittered-revocation-with-irrevocable-terminal](./techniques/jittered-revocation-with-irrevocable-terminal.md)).
+On the client's side, the library that speaks to that server states its retry
+set, its one-redirect rule, its reading of a not-found that carries content,
+and its schedule-owned stop value once, so no application re-derives them
+([client-retry-and-redirect-conventions](./techniques/client-retry-and-redirect-conventions.md)).
+The seam with [delivery-guarantees](../../work-execution/delivery-guarantees/delivery-guarantees.md)
+runs through the first: that subject owns the dead-letter *destination* — the
+triage surface, the per-item and bulk verbs, the retention reaper — and this
+path owns the backoff that leads there and the *name* of the terminal state
+the item arrives in, so a reader designing the lane reads there and a reader
+deciding when an item enters it, and what to call it, reads here.
 
 ## Where this path meets scheduling
 

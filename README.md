@@ -100,7 +100,7 @@ rewrites the other, and a reader that knows only one of them still works.
 
 | Bundle | Covers |
 | --- | --- |
-| [`software-engineering`](knowledge/software-engineering/) | Building and operating software: UI surfaces (including the published surfaces a product shows people who are not users yet), client architecture, LLM/agent engineering, backend platform, operations, security, integration, engineering process, and engineering assessment (measuring maturity, delivery and adoption). |
+| [`software-engineering`](knowledge/software-engineering/) | Building and operating software: UI surfaces (including the published surfaces a product shows people who are not users yet), client architecture, LLM/agent engineering, backend platform, operations, security, secret custody and issuance (a server's own key hierarchy and seals, priced authority, dynamic-secret issuance and the roles that shape an issued artifact), integration, engineering process, and engineering assessment (measuring maturity, delivery and adoption). |
 | [`media-generation`](knowledge/media-generation/) | Producing factual audiovisual content with generative models: narrative craft, research grounding, image generation and prompting, frame direction, production operations. |
 | [`civic-intelligence`](knowledge/civic-intelligence/) | Watching public power with data: parliamentary records, legislation, public money, and the accountability methodology for publishing about real, named people. |
 | [`grant-funding`](knowledge/grant-funding/) | Finding, winning and accounting for grant money: the funding landscape, eligibility and matching, proposal craft, and grant operations from deadline to post-award. |

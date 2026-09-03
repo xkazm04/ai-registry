@@ -159,8 +159,34 @@ disagree about the same sentinel, and each states its direction and its reason
 where the sentinel is produced — an unexplained disagreement is how a later
 refactor "harmonizes" them and ships a month-long lockout.
 
+## Fairness at the drain: a per-key cap on a shared worker pool
+
+The key bounds what a source may cause per window; when the work is not refused
+but queued — one queue per key, all drained by one shared pool of workers — the
+key's fairness is decided a second time, at the drain, and a pool that takes
+jobs in arrival order gives it back. The longest queue owns the workers, so one
+tenant's burst starves every other queue exactly as if they all shared its key.
+The rule: cap the workers any single queue may hold at ceil(reserve × workers /
+live queues), with the reserve a stated fraction below one (nine tenths is the
+usual choice), recompute the cap whenever a queue appears or empties, and pick
+the next queue round-robin among those under their cap — because an even split
+among live queues is what per-key fairness means at the drain, and the withheld
+tenth is what guarantees a newly arrived key its first job while a flood is in
+progress. The cap counts workers in flight, not jobs waiting: a queue that
+empties and is pruned while its jobs still run keeps its count, or the next job
+for that key over-subscribes it. The naive reading's failure is the one this
+section exists for — fair on paper, because every key has its own queue, and
+starved in practice, because the queues share an unpartitioned pool. This is
+the question an admission queue asks of capacity, answered here because the key
+decides the queue, and a fairness leak at the drain has the tell of a pooled
+key: actors who did nothing stop working.
+
 ## Decision rules
 
+- **Cap each queue's share of the shared pool.** Where limited work is queued
+  per key and drained by one pool, no queue holds more than a stated fraction
+  of the workers divided by the live queues, recomputed as queues come and go;
+  the fraction held back is the next key's first job.
 - **Key for the blast radius you intend.** State, for each limit, who is
   punished together on purpose. If you cannot say it, the key was chosen by
   convenience of available fields, not by fairness.
