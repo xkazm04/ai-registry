@@ -6164,3 +6164,14 @@ and wants them tested hard rather than many and tested once.
 - **The peer study corrected the corpus upward again.** pumper's cassette layer grades replay fidelity as a three-valued fact about the *app's code* rather than the cassette, carries the grade on the result so a partial replay cannot read as full determinism, and refuses the unreplayable case at the door. The technique had the seam-as-precondition rule and no way to say how much of a green was actually recorded; it now carries the grading rule cited to `count-carries-predicate`. Two of the last three rounds have had a fleet project improve a technique rather than receive it - the `not-better` row is earning its billing as the most valuable one in the ledger.
 - **Worker rate-limit deaths: check, then re-dispatch clean.** Two workers died mid-run on a session limit. Both were checked for partial deliverables (neither had written anything), then re-dispatched with the same brief, and both succeeded. Checking first is what makes the choice between resume and re-dispatch cheap; a resume would have been wrong here and would have carried a poisoned context.
 - **Mid-flight runs on an older version: nothing to do.** No `SKILL.md` edit accompanies this entry, so a run that loaded 2.2.0 earlier today should finish on it.
+
+- **A dispatched worker's scratch discipline is the director's problem, not the
+  worker's.** The brief told the forge worker where to clone and said nothing about
+  where to put anything else, so the papers it downloaded to re-derive a claim landed
+  in the scratch **root** — outside this run's directory, where Phase 9's
+  delete-by-run-id could not reach them and where a sibling sweeping the root would
+  have taken them. Nothing broke here because the director noticed at cleanup, but the
+  rule the method already states for its own files does not currently propagate into
+  briefs. **Corrective:** every dispatch that may write anything names one directory,
+  `<scratch>/<run-id>/`, for *all* of the worker's artifacts — clones, downloads, temp
+  files — not just for the clone.
