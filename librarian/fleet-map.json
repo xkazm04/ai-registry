@@ -26976,7 +26976,7 @@
     "groups": 8,
     "governingSubjects": 47,
     "weaklyGoverned": 0,
-    "ledgerRows": 0,
+    "ledgerRows": 3,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/gravitone",
