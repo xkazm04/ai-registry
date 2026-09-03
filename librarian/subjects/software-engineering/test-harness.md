@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -121,3 +121,7 @@ two-tenths assertion on a decay, an epsilon-padded ratio guard): the substrate h
 mode — general-purpose double, no accelerator, no contraction flag — so the probe
 publishes a constant. The condition is written as the amendment's closing paragraph.
 Falsifier: a lane moved to an accelerator or a fast-math build profile.
+
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+Application `rust--suite-partitioning` against a control-plane client library@1.89: unit / integration-behind-a-feature / e2e-behind-a-live-cluster, the ladder in its contributing guide (heading at line 86, MUST rules 98-103, least-powerful rule 105). The same ladder became the practice `least-powerful-test-first`.

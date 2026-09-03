@@ -247,6 +247,15 @@
             "node-boot-and-declarative-bootstrap",
             "quorum-and-recovery-procedures"
           ]
+        },
+        {
+          "id": "control-plane-operations",
+          "title": "Control-plane operations",
+          "subjects": [
+            "declarative-resource-lifecycle",
+            "convergence-loop-and-requeue",
+            "watch-cache-and-resync"
+          ]
         }
       ]
     },

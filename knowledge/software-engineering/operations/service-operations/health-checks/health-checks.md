@@ -161,6 +161,28 @@ forged); what lives here is only the health-specific honesty of rollups:
 the meter, the badge, the trend — is the display side and belongs to
 [data-viz](../../../ui-surfaces/data-display/data-viz/data-viz.md).
 
+## One process, two answers: what a red is allowed to cause
+
+A check does not only report; something *acts* on it, and the action decides
+which question the check must answer. A supervisor that **restarts** on red is
+asking "is this process alive at all" — a stuck event loop, a deadlocked
+worker. A router that **stops sending traffic** on red is asking "can this
+instance serve a request right now" — the store opened, the seed verified,
+the warm-up done. These are different questions with different consequences,
+and a system that answers both from one endpoint gets one of them wrong: wire
+the serving question to the restarter and a slow dependency restarts every
+instance at once, converting a brownout into an outage; wire the alive
+question to the router and traffic reaches a process that is up and cannot
+answer. The rule is that **each consumer gets the answer shaped to what it
+will do** — the alive answer never depends on anything outside the process,
+and the serving answer does. A corollary that two independent trees have
+already tripped over: a process that wrote an honest serving check and then
+pointed its router at the root page has a green gate on a rule it breaks
+itself. The readiness answer is also the one that must wait for a
+[completeness barrier](../../control-plane-operations/watch-cache-and-resync/techniques/completeness-barrier-with-a-warm-queue.md)
+in a replica-backed process: serving before the replica is complete is a
+correctness bug, not a slow start.
+
 ## Attention is not a schedule
 
 When checks run is a design decision, not an accident of which screen the

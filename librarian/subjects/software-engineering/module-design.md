@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -169,3 +169,7 @@ Open: `hiding existence` and `hiding internals` are separable in principle - a
 boundary can publish what it is for while keeping every internal opaque - and
 nothing in the corpus says how. Untriaged from the same source: co-location
 buys cohesion and never decoupling, so the regrouping move is a half-move.
+
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+Application `rust--seams-and-adapters` against a control-plane client library@1.89: the store and dispatcher seams in its reflector module (implementation at `reflector/mod.rs:112-131`).

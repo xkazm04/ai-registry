@@ -1,7 +1,7 @@
 ---
 subject: settings
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -129,3 +129,7 @@ every cross-key rule in the server's validator is guarded by a boolean whose def
 off, so no derived value can ever be the trigger - the trees practise the rule where it
 costs nothing. The one live case is a resume path that replays a constant where the
 first run derived a value. Not shipped: crosses a provider-trait signature.
+
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+New technique `cross-source-precedence-chain` (slug kept over `config-resolution-chain`: cross-source is the discriminator against `inherited-default-override`, which is one key and one live source, and against `key-registry`, which is vocabulary not resolution): several partial, independently unreadable sources resolve one key space at boot, and an unreadable named source is a failure, never a fall-through to the next. Golden path gains the section "And some values arrive from one of several sources". Application `rust--cross-source-precedence-chain` against a control-plane client library@1.89, witnessed at `kube-client/src/config/mod.rs:212`.

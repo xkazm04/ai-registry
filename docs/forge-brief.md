@@ -127,6 +127,12 @@ status: forged
   name; so does "synchronous"). Reword the ordinary word rather than argue with the
   grep, and check with `grep -n -i` before reporting clean.
 
+- **An application slot is claimed by listing the directory, never by slug alone.** Run
+  `ls applications/` before writing and pick a free slot; if the slot the brief named is
+  taken, write to the nearest free technique and say so in the report. (Learned
+  2026-09-03: a worker overwrote an existing application and had to restore it from a
+  sibling worktree.)
+
 ## Quality bar
 
 Match `knowledge/software-engineering/` in density: every paragraph earns its place;

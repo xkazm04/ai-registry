@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 163 subjects, 1155 techniques, 651 applications.
+`software-engineering` - 175 subjects, 1238 techniques, 703 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -21,14 +21,15 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **runtime-and-io** - agent-addressable-ui, agent-browser-control, agent-cli-transport, agent-runtime-assembly, mcp-tools, sidecar-provisioning, streaming-output, subprocess-lifecycle, terminal-multiplexing, voice-io
 
 ### backend-platform
-- **data-layer** - data-access, embedded-db, migrations, sync-replication
+- **data-layer** - bounded-enumeration, data-access, embedded-db, migrations, read-serving-replicas, sync-replication, transactions-over-a-replicated-log
 - **platform-observability** - alerting, metrics-rollups, observability-telemetry, outbound-notifications
 - **resilience** - error-handling, multi-provider-gateway-plane, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
 - **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, job-coordination, pipeline-dag, scheduling
 
 ### operations
+- **control-plane-operations** - convergence-loop-and-requeue, declarative-resource-lifecycle, watch-cache-and-resync
 - **governance-and-records** - audit-logging, data-retention, entity-lifecycle, settings, versioning-snapshots
-- **service-operations** - health-checks, perf-instrumentation, plan-entitlements, scoring-rubrics, triage-queues, usage-analytics
+- **service-operations** - health-checks, node-boot-and-declarative-bootstrap, perf-instrumentation, plan-entitlements, quorum-and-recovery-procedures, scoring-rubrics, triage-queues, usage-analytics
 
 ### security
 - authorization, browser-credential-boundary, credential-vault, device-pairing, p2p-networking, signed-artifacts, supply-chain, telemetry-pii-redaction
@@ -46,3 +47,6 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **maturity-and-conformance** - conformance-checking, maturity-ladders, public-verdict-badge, readiness-passports
 - **measurement-method** - analytics-time-windows, measurement-honesty, metric-forecasting, peer-benchmarking, people-analytics-ethics
 - **reporting-and-remediation** - adoption-measurement, delivery-analytics, executive-reporting, remediation-roadmaps
+
+### secret-custody-and-issuance
+- dynamic-secret-lifecycle, issuance-policy-ladder, priced-authority, seal-and-key-hierarchy

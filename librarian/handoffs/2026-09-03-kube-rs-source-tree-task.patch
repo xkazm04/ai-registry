@@ -1,0 +1,280 @@
+From b839c0a14f1b1fb4888e05e68c6a282d409d46dd Mon Sep 17 00:00:00 2001
+From: xkazm04 <kazdan@seznam.cz>
+Date: Thu, 3 Sep 2026 13:24:31 +0200
+Subject: [PATCH] fix(runtime): precondition finalizer removal on the object
+ uid
+
+The removal patch tested only `/metadata/finalizers/<index>` for our own name. That
+name is identical across incarnations, so an object deleted, recreated under the same
+name and re-finalized between the `Cleanup` await and the patch would have the *new*
+object's finalizer removed - releasing a hold whose cleanup never ran, which is the one
+outcome finalizers exist to prevent. The patch now also tests `/metadata/uid` when the
+object has one, pinning the removal to the object cleanup was run for. The index test is
+kept, and objects without a uid patch exactly as before.
+
+Patch construction moves into two pure functions so it can be asserted without a server:
+`finalizer.rs` had no tests at all, and both `Test` operations were unexercised. Adds four
+unit tests over the built patches - the removal patch with and without a uid, and both add
+shapes, unchanged.
+
+Also states in the doc comment the two exits from a stuck delete (restore the controller,
+or strip the finalizer by hand and accept the leak), which the caveat named neither of.
+
+No public API or behaviour change beyond the added precondition.
+
+Written by an ai-registry intake run as a task row against the source tree; not a PR.
+
+Signed-off-by: xkazm04 <kazdan@seznam.cz>
+---
+ kube-runtime/src/finalizer.rs | 198 +++++++++++++++++++++++++---------
+ 1 file changed, 147 insertions(+), 51 deletions(-)
+
+diff --git a/kube-runtime/src/finalizer.rs b/kube-runtime/src/finalizer.rs
+index 42b883f..fbcad6b 100644
+--- a/kube-runtime/src/finalizer.rs
++++ b/kube-runtime/src/finalizer.rs
+@@ -100,6 +100,10 @@ impl FinalizerState {
+ ///
+ /// If [`Event::Apply`] is ever started then [`Event::Cleanup`] must succeed before the Kubernetes object deletion completes.
+ ///
++/// The removal of `finalizer_name` is preconditioned on the object's `uid` (when it has one), so an object that is
++/// deleted and recreated under the same name while [`Event::Cleanup`] is running keeps the finalizer that its own
++/// controller pass added.
++///
+ /// # Assumptions
+ ///
+ /// `finalizer_name` must be unique among the controllers interacting with the object
+@@ -112,6 +116,9 @@ impl FinalizerState {
+ /// # Caveats
+ ///
+ /// Object deletes will get stuck while the controller is not running, or if `cleanup` fails for some reason.
++/// There are two ways out of that state and no third: restore the controller and let it finish the cleanup, or have an
++/// operator remove the finalizer by hand. The second abandons the cleanup rather than completing it, so whatever the
++/// finalizer was protecting is leaked and has to be dealt with out of band.
+ ///
+ /// `reconcile` should take the object that the [`Event`] contains, rather than trying to reuse `obj`, since it may have been updated.
+ ///
+@@ -148,32 +155,17 @@ where
+         } => {
+             // Cleanup reconciliation must succeed before it's safe to remove the finalizer
+             let name = obj.meta().name.clone().ok_or(Error::UnnamedObject)?;
++            let uid = obj.meta().uid.clone();
+             let action = TryFutureExt::into_future(reconcile(Event::Cleanup(obj)))
+                 .await
+                 // Short-circuit, so that we keep the finalizer if cleanup fails
+                 .map_err(Error::CleanupFailed)?;
+             // Cleanup was successful, remove the finalizer so that deletion can continue
+-            let finalizer_path = format!("/metadata/finalizers/{finalizer_i}");
+-            api.patch::<K>(
+-                &name,
+-                &PatchParams::default(),
+-                &Patch::Json(json_patch::Patch(vec![
+-                    // All finalizers run concurrently and we use an integer index
+-                    // `Test` ensures that we fail instead of deleting someone else's finalizer
+-                    // (in which case a new `Cleanup` event will be sent)
+-                    PatchOperation::Test(TestOperation {
+-                        path: PointerBuf::from_str(finalizer_path.as_str())
+-                            .map_err(|_err| Error::InvalidFinalizer)?,
+-                        value: finalizer_name.into(),
+-                    }),
+-                    PatchOperation::Remove(RemoveOperation {
+-                        path: PointerBuf::from_str(finalizer_path.as_str())
+-                            .map_err(|_err| Error::InvalidFinalizer)?,
+-                    }),
+-                ])),
+-            )
+-            .await
+-            .map_err(Error::RemoveFinalizer)?;
++            let patch = remove_finalizer_patch(finalizer_name, finalizer_i, uid.as_deref())
++                .map_err(|_err| Error::InvalidFinalizer)?;
++            api.patch::<K>(&name, &PatchParams::default(), &Patch::Json(patch))
++                .await
++                .map_err(Error::RemoveFinalizer)?;
+             Ok(action)
+         }
+         FinalizerState {
+@@ -181,36 +173,8 @@ where
+             is_deleting: false,
+         } => {
+             // Finalizer must be added before it's safe to run an `Apply` reconciliation
+-            let patch = json_patch::Patch(if obj.finalizers().is_empty() {
+-                vec![
+-                    PatchOperation::Test(TestOperation {
+-                        path: PointerBuf::from_str("/metadata/finalizers")
+-                            .map_err(|_err| Error::InvalidFinalizer)?,
+-                        value: serde_json::Value::Null,
+-                    }),
+-                    PatchOperation::Add(AddOperation {
+-                        path: PointerBuf::from_str("/metadata/finalizers")
+-                            .map_err(|_err| Error::InvalidFinalizer)?,
+-                        value: vec![finalizer_name].into(),
+-                    }),
+-                ]
+-            } else {
+-                vec![
+-                    // Kubernetes doesn't automatically deduplicate finalizers (see
+-                    // https://github.com/kube-rs/kube/issues/964#issuecomment-1197311254),
+-                    // so we need to fail and retry if anyone else has added the finalizer in the meantime
+-                    PatchOperation::Test(TestOperation {
+-                        path: PointerBuf::from_str("/metadata/finalizers")
+-                            .map_err(|_err| Error::InvalidFinalizer)?,
+-                        value: obj.finalizers().into(),
+-                    }),
+-                    PatchOperation::Add(AddOperation {
+-                        path: PointerBuf::from_str("/metadata/finalizers/-")
+-                            .map_err(|_err| Error::InvalidFinalizer)?,
+-                        value: finalizer_name.into(),
+-                    }),
+-                ]
+-            });
++            let patch = add_finalizer_patch(finalizer_name, obj.finalizers())
++                .map_err(|_err| Error::InvalidFinalizer)?;
+             api.patch::<K>(
+                 obj.meta().name.as_deref().ok_or(Error::UnnamedObject)?,
+                 &PatchParams::default(),
+@@ -231,6 +195,76 @@ where
+     }
+ }
+ 
++/// A finalizer path could not be parsed as a JSON pointer; surfaced as [`Error::InvalidFinalizer`].
++#[derive(Debug)]
++struct InvalidFinalizerPath;
++
++/// Build the patch that removes our finalizer at `finalizer_index`.
++///
++/// The removal is preconditioned on both the position (the index still holds our name) and, when
++/// the object has one, its `uid`. The index alone does not identify an object: if the object is
++/// deleted, recreated under the same name and finalized again between the `Cleanup` call and this
++/// patch, our name sits at the same index on a *different* object, and removing it would release a
++/// hold whose cleanup never ran. Testing the uid pins the removal to the object cleanup ran for.
++fn remove_finalizer_patch(
++    finalizer_name: &str,
++    finalizer_index: usize,
++    uid: Option<&str>,
++) -> Result<json_patch::Patch, InvalidFinalizerPath> {
++    let finalizer_path = format!("/metadata/finalizers/{finalizer_index}");
++    let mut ops = Vec::with_capacity(3);
++    if let Some(uid) = uid {
++        ops.push(PatchOperation::Test(TestOperation {
++            path: PointerBuf::from_str("/metadata/uid").map_err(|_err| InvalidFinalizerPath)?,
++            value: uid.into(),
++        }));
++    }
++    // All finalizers run concurrently and we use an integer index
++    // `Test` ensures that we fail instead of deleting someone else's finalizer
++    // (in which case a new `Cleanup` event will be sent)
++    ops.push(PatchOperation::Test(TestOperation {
++        path: PointerBuf::from_str(finalizer_path.as_str()).map_err(|_err| InvalidFinalizerPath)?,
++        value: finalizer_name.into(),
++    }));
++    ops.push(PatchOperation::Remove(RemoveOperation {
++        path: PointerBuf::from_str(finalizer_path.as_str()).map_err(|_err| InvalidFinalizerPath)?,
++    }));
++    Ok(json_patch::Patch(ops))
++}
++
++/// Build the patch that adds our finalizer to an object whose current list is `finalizers`.
++fn add_finalizer_patch(
++    finalizer_name: &str,
++    finalizers: &[String],
++) -> Result<json_patch::Patch, InvalidFinalizerPath> {
++    Ok(json_patch::Patch(if finalizers.is_empty() {
++        vec![
++            PatchOperation::Test(TestOperation {
++                path: PointerBuf::from_str("/metadata/finalizers").map_err(|_err| InvalidFinalizerPath)?,
++                value: serde_json::Value::Null,
++            }),
++            PatchOperation::Add(AddOperation {
++                path: PointerBuf::from_str("/metadata/finalizers").map_err(|_err| InvalidFinalizerPath)?,
++                value: vec![finalizer_name].into(),
++            }),
++        ]
++    } else {
++        vec![
++            // Kubernetes doesn't automatically deduplicate finalizers (see
++            // https://github.com/kube-rs/kube/issues/964#issuecomment-1197311254),
++            // so we need to fail and retry if anyone else has added the finalizer in the meantime
++            PatchOperation::Test(TestOperation {
++                path: PointerBuf::from_str("/metadata/finalizers").map_err(|_err| InvalidFinalizerPath)?,
++                value: finalizers.into(),
++            }),
++            PatchOperation::Add(AddOperation {
++                path: PointerBuf::from_str("/metadata/finalizers/-").map_err(|_err| InvalidFinalizerPath)?,
++                value: finalizer_name.into(),
++            }),
++        ]
++    }))
++}
++
+ /// A representation of an action that should be taken by a reconciler.
+ pub enum Event<K> {
+     /// The reconciler should ensure that the actual state matches the state desired in the object.
+@@ -252,3 +286,65 @@ pub enum Event<K> {
+     /// - The grinch's heart grows a size or two
+     Cleanup(Arc<K>),
+ }
++
++#[cfg(test)]
++mod tests {
++    use super::{add_finalizer_patch, remove_finalizer_patch};
++    use serde_json::json;
++
++    const FINALIZER: &str = "example.com/cleanup";
++
++    fn as_json(patch: &json_patch::Patch) -> serde_json::Value {
++        serde_json::to_value(patch).unwrap()
++    }
++
++    #[test]
++    fn remove_patch_is_preconditioned_on_the_uid_and_the_index() {
++        let patch = remove_finalizer_patch(FINALIZER, 1, Some("uid-1")).unwrap();
++        assert_eq!(
++            as_json(&patch),
++            json!([
++                {"op": "test", "path": "/metadata/uid", "value": "uid-1"},
++                {"op": "test", "path": "/metadata/finalizers/1", "value": FINALIZER},
++                {"op": "remove", "path": "/metadata/finalizers/1"},
++            ])
++        );
++    }
++
++    #[test]
++    fn remove_patch_omits_the_uid_test_when_the_object_has_no_uid() {
++        let patch = remove_finalizer_patch(FINALIZER, 0, None).unwrap();
++        assert_eq!(
++            as_json(&patch),
++            json!([
++                {"op": "test", "path": "/metadata/finalizers/0", "value": FINALIZER},
++                {"op": "remove", "path": "/metadata/finalizers/0"},
++            ])
++        );
++    }
++
++    #[test]
++    fn add_patch_creates_the_list_when_it_is_absent() {
++        let patch = add_finalizer_patch(FINALIZER, &[]).unwrap();
++        assert_eq!(
++            as_json(&patch),
++            json!([
++                {"op": "test", "path": "/metadata/finalizers", "value": null},
++                {"op": "add", "path": "/metadata/finalizers", "value": [FINALIZER]},
++            ])
++        );
++    }
++
++    #[test]
++    fn add_patch_tests_the_whole_list_before_appending() {
++        let existing = ["other.example.com/cleanup".to_string()];
++        let patch = add_finalizer_patch(FINALIZER, &existing).unwrap();
++        assert_eq!(
++            as_json(&patch),
++            json!([
++                {"op": "test", "path": "/metadata/finalizers", "value": ["other.example.com/cleanup"]},
++                {"op": "add", "path": "/metadata/finalizers/-", "value": FINALIZER},
++            ])
++        );
++    }
++}
+-- 
+2.43.0.windows.1
+

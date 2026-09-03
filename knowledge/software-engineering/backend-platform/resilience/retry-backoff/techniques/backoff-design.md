@@ -6,7 +6,7 @@ technique: backoff-design
 status: forged
 laws: []
 shared_with: []
-use_when: [tuning base factor and cap for a retry ladder, recovery collapses under synchronized retries, backoff resets on every accepted handshake, a stated retry-after is longer than the remaining budget]
+use_when: [tuning base factor and cap for a retry ladder, recovery collapses under synchronized retries, backoff resets on every accepted handshake, a stated retry-after is longer than the remaining budget, a long-lived connection fails on a slow cycle and never advances past its first rung]
 ---
 
 # Backoff design
@@ -86,6 +86,52 @@ elapses, a new failure resumes from the previous rung. The same idea appears in 
 breaker's half-open state (one probe does not close the breaker until it actually
 succeeds; see circuit-breakers) — both are instances of *demand demonstrated
 stability before believing in recovery*.
+
+### Sizing the window: it is a period, not a constant
+
+The stability window's *duration* is the whole knob, and the reflex value — a
+few seconds, or "one rung" — reintroduces the defect it was added to fix, one
+timescale up. The crash loop above is the loud failure: it is visible in
+seconds and someone notices. The quiet one is a long-lived connection that
+fails every thirty minutes. Each individual reconnect looks correct in
+isolation; the window elapsed, the ladder reset, the next failure started at
+the shortest delay. It does that forever. The ladder never advances past its
+first rungs, the dependency sees identical first-rung pressure every half
+hour indefinitely, and no log line is wrong.
+
+So the window is sized against the **failure's period**, not against the
+ladder's base:
+
+- **Floor**: longer than a full traverse of the ladder to its cap. If a
+  failure recurs before the ladder could have finished climbing, the previous
+  streak has not ended — it paused.
+- **The real target**: longer than the interval at which the dependency is
+  observed to fail. A window shorter than that interval is a ladder that
+  cannot ever climb, which is the same thing as no ladder. If that interval is
+  unknown, that is the measurement to take before choosing the number, and the
+  number is worth restating when the measurement changes.
+- **Health is demonstrated, not elapsed.** The timer is armed by observed
+  successful work — delivered items, completed calls — and an open-but-silent
+  connection is not evidence of anything. Time spent waiting out a stated
+  retry-after is not health either; the window counts working, not waiting.
+
+Two placements follow, both against passages above. **The window is not
+jittered.** Jitter decorrelates *attempts*, which is a fleet-level property;
+randomizing the reset threshold decorrelates nothing and makes one host's
+ladder behave differently from its neighbour's for no gain, at the cost of
+being unable to reproduce either. **And a stated schedule does not reset the
+ladder.** A dependency that names its own reset time has told you when to
+knock again, not that it is well; honour the wait, then require the window on
+top of it before believing the streak is over.
+
+Finally, for anything long-lived, the ladder is **state of the connection, not
+of the call site**. Placed inside a caller's retry loop it is re-created on
+every re-entry and its rung is always zero; placed as an adapter around the
+long-lived stream itself — pausing the stream on failure, resetting on
+sustained health, and **ending the stream** when the ladder exhausts — the
+state has the same lifetime as the thing it describes, and exhaustion becomes
+a visible termination the consumer must handle rather than an infinite quiet
+retry nobody is watching.
 
 ## Decision rules
 
