@@ -169,3 +169,28 @@ tests the detector, the retry ladder and the exhaustion failure without a model.
   finds one shape. A model that trails off, repeats a syllable, or renders the
   wrong language passes it cleanly. Do not let a passing check be read as
   "the audio is good"; it means "the audio is not *that*".
+
+### Measured: an engine that decides its duration before it renders
+
+The first bullet carries a routing question, and it is worth asking out loud
+before the stage is built: **does this engine class decide when to stop?** An
+engine that predicts durations up front and renders to a fixed schedule cannot
+run away in the sense this detector hunts — it has no stop token to miss, so
+the speech-then-gap-then-noise shape is not in its failure vocabulary. Measured
+against one such engine on a real install: six renders, including the two
+degenerate inputs that engine class can actually reach — a non-phonetic token
+string, and an ellipsis-only string — all passed the detector cleanly, and the
+longest *legitimate* internal gap across the whole set was 160 ms, with the
+technique's own named false-positive case, a paced list, at 140 ms and a render
+at the caller's maximum accepted input length at 160 ms. A bound tuned honestly
+from the legitimate side therefore lands at ≥300 ms and the detector fires zero
+times in either arm. Where the duration is fixed before rendering begins the
+stage is inert, and the acceptance budget belongs on that engine's real
+degenerate outputs — silent, or the wrong length — which need a different
+signature.
+
+That measurement is a **floor, not a constant**. 160 ms is one engine class on
+one machine; the reusable part is the method — measure the longest legitimate
+internal gap across a corpus that deliberately includes the paced-list case,
+then set the bound above it with margin. A bound copied from another product's
+engine is a guess wearing a number.

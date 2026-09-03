@@ -126,3 +126,20 @@ reconnecting task outlives the surface it feeds
   and per window state.
 - **The event is rare and pollable.** A once-a-day change is served better by
   a poll on wake than by a connection held open all day for it.
+
+### The throttling must be demonstrated, not assumed
+
+The second bullet is the one most often waved through, so state its test: a
+view hidden for minutes with the stream observed, and a record of what arrived
+while it was hidden. Until someone has run that, **the view is the cheaper
+owner.** Checked against a real desktop application whose health-monitoring
+stream lives in the view and has not been observed to stall: relocation would
+have added a hop, a serialization boundary and a second reconnect policy while
+removing no failure. The mechanism is a host policy, not a law of hosts, and it
+is not expensive enough to buy on suspicion.
+
+The inverse belongs in the same breath, because it is the force that actually
+justifies the move in most products: the moment the stream must survive the
+view being closed, or must run when no view was ever opened, it has a consumer
+with no view — and ownership belongs to the native side then whether or not the
+host throttles anything.

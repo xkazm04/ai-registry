@@ -176,3 +176,27 @@ unshippable, and a trust gate will never say so.
   server deployed as source — none of these constructs break, and the
   audit is ceremony. The technique's whole force comes from the
   transform.
+
+## Classify the packaging mode before running the audit
+
+The last decision rule draws the boundary; this is how to apply it before
+paying for a sweep. The pattern set is not universal — each enumerated
+construct is hostile only to the transformations that touch it — so name the
+transformations the mode actually applies: source stripping, path relocation,
+metadata elision, graph closure. A bundler that ships sources, keeps the module
+graph resolvable and does not relocate resource paths applies none of them, and
+the audit has nothing to find. Measured over a real dependency closure of 326
+top-level entries and 464 manifests under such a non-freezing bundler: after
+the instrument was asserted against known-positive controls — a linting package
+with three source-reading files, and a compiler package that reads its own
+source — the four principal dependencies returned zero absolute-path
+resolutions in three of four, zero computed-name dynamic imports that are
+actually imported, and a priced shim cost of zero. It predicted nothing the
+existing post-hoc bundle check had not already caught, and the adoption budget
+it consumed bought a table of zeroes.
+
+Keep step 4 whatever the verdict, because it is what makes a zero readable: an
+audit that returns nothing is worthless unless it was first shown to return
+something against a known positive. A clean result under an unclassified mode
+and a clean result from an instrument that was never pointed at anything are
+indistinguishable in the record.

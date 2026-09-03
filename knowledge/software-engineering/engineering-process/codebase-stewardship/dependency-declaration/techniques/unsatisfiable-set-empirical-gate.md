@@ -157,3 +157,22 @@ declared expectation, and *either* direction of surprise opens a review.
   instead; and when the product cannot be exercised end to end — with no
   empirical gate to substitute, disabling resolution buys nothing but
   silence.
+
+## The entry test: name the pair
+
+The first decision rule says prove unsatisfiability before invoking this, and
+the proof has a fixed shape short enough to leave no excuse: **name the two
+constraints and the two packages, with versions, that cannot both be
+satisfied.** If you cannot write that pair down, the set is satisfiable and
+this technique does not apply. "The resolver is slow", "the lockfile is
+annoying" and "we pin loosely" are none of them unsatisfiability; they are
+complaints about a graph that exists. Tested against a real repository whose
+consistency gate is green and whose declared constraints, when read, contained
+no two mutually exclusive published upper and lower bounds: the bypass would
+have removed a working guarantee and replaced it with the materially weaker one
+above, for no gain.
+
+A bypass adopted without that named pair is not this technique. It is an
+unrecorded exception of exactly the kind the exception fields above exist to
+prevent — an identifier, a rationale and a review-by date hung on a conflict
+nobody can state.
