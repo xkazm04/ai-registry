@@ -213,7 +213,18 @@
             "observability-telemetry",
             "metrics-rollups",
             "alerting",
-            "outbound-notifications"
+            "outbound-notifications",
+            "metric-surface-contract"
+          ]
+        },
+        {
+          "id": "inference-serving",
+          "title": "Inference serving",
+          "subjects": [
+            "serving-process-topology",
+            "paged-block-cache",
+            "persistent-batch-mutation",
+            "cross-instance-cache-lease"
           ]
         }
       ]
@@ -262,7 +273,8 @@
         "signed-artifacts",
         "supply-chain",
         "telemetry-pii-redaction",
-        "browser-credential-boundary"
+        "browser-credential-boundary",
+        "extension-trust-boundary"
       ]
     },
     {
