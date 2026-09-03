@@ -181,3 +181,37 @@ because a dead stall detector over a fleet of silent children reads
 exactly like a healthy quiet system. The recurring-loop machinery is
 [background-jobs](../../../../backend-platform/work-execution/background-jobs/background-jobs.md)'s subject; the
 liveness loop is simply one of its registered customers.
+
+## A socket peer on a host that sleeps
+
+The ladder above assumes the run is a child and the host is awake. Aim the
+same watcher at a **peer across a socket** - a chat server, a push
+channel - and two of its rules need a boundary each.
+
+**The probe is sent only when the line has been quiet.** Inbound frames
+are rung one of the ladder already; the corollary is that a probe on a
+busy line is pure overhead, and its reply is noise. So the watcher's tick
+first asks whether anything arrived since the last tick. If so, that
+traffic *is* the pulse: the pending-reply flag clears, no probe goes out,
+and the "alive" signal is emitted. Only a tick that finds the whole
+interval silent sends a probe and arms the flag; only a tick that finds
+the flag still armed declares the peer gone. For a socket, that
+declaration is the ceiling - there is no other executioner - so the
+unanswered probe closes the connection and hands off to the reconnect
+ladder, and the ladder's single-pending-timer rule does the rest.
+
+**A tick that fires late is not a pulse.** A watcher whose tick arrives at
+several multiples of its interval was not running: the host slept, the
+process was stopped, a virtual machine was paused. Nothing measured across
+that gap is evidence about the peer - "traffic since last tick" may be
+hours old, "silence since last tick" was mostly the host's silence. So a
+tick whose elapsed time exceeds a small multiple of the interval
+(three is conventional) **withholds the healthy signal it would have
+emitted** and lets the next on-time tick decide; if that next tick finds
+the line quiet, it sends one probe and waits the ordinary grace, rather
+than treating the suspend as an unanswered probe. Measure the lateness on
+the monotonic clock. This is the socket-side twin of the scheduler's
+clock-jump rule in
+[missed-run-semantics](../../../../backend-platform/work-execution/scheduling/techniques/missed-run-semantics.md):
+a jump is an anomaly to record, never a schedule input, and never a death
+certificate.

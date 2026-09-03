@@ -12,6 +12,8 @@ techniques:
   - grant-change-consent
   - declared-schema-extension-storage
   - per-callback-failure-policy
+  - capability-subtraction-sandbox
+  - safe-mode-registration
 ---
 
 # Untrusted extension hosting
@@ -148,7 +150,10 @@ a host with no isolation runner degrade by *skipping* the sandboxed set instead
 of failing to start —
 [isolation-tier-independent-extension-api](./techniques/isolation-tier-independent-extension-api.md),
 which also states the honest cost of that degradation: a silent skip is empty
-success, and the operator must be told the extensions are not running.
+success, and the operator must be told the extensions are not running. The
+operator's own skip - a boot that registers every extension and runs none, so
+the disable control stays reachable when an extension breaks the host - is
+[safe-mode-registration](./techniques/safe-mode-registration.md).
 
 The isolation primitive itself is an injected dependency, because it is the one
 part of the design that is a property of the deployment platform rather than of
@@ -158,7 +163,11 @@ that had to reimplement the broker would reimplement the policy with it.
 [Pluggable-isolation-runner](./techniques/pluggable-isolation-runner.md) owns
 that seam and the asymmetry it creates: two runners implementing one interface
 do not enforce the same ceilings, and the host that advertises one word for
-both has published a guarantee it cannot make on one of them.
+both has published a guarantee it cannot make on one of them. A host with no
+isolation primitive at all - an embedded scripting runtime in its own process -
+still has one honest containment, reach without ceilings, and
+[capability-subtraction-sandbox](./techniques/capability-subtraction-sandbox.md)
+owns it.
 
 ## Privilege is declared in a form built for consent and for diffing
 

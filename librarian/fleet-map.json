@@ -34384,7 +34384,7 @@
    "bundle": "llm-observability",
    "category": "federation-and-surfaces",
    "subcategory": null,
-   "techniques": 6,
+   "techniques": 9,
    "present": [
     {
      "project": "tracklight",
@@ -41394,7 +41394,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
-   "techniques": 10,
+   "techniques": 11,
    "present": [
     {
      "project": "gravity",
@@ -42374,7 +42374,7 @@
    "bundle": "software-engineering",
    "category": "ui-surfaces",
    "subcategory": "shell-and-navigation",
-   "techniques": 7,
+   "techniques": 9,
    "present": [
     {
      "project": "gravity",
@@ -43480,6 +43480,59 @@
     }
    ]
   },
+  "software-engineering/correlated-exchange-over-broadcast": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "techniques": 6,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    },
+    {
+     "project": "gravitone",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/cost-metering": {
    "bundle": "software-engineering",
    "category": "llm-agent",
@@ -43719,6 +43772,59 @@
    "absent": [
     {
      "project": "gravity",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/data-plane-transport-selection": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "techniques": 6,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    },
+    {
+     "project": "gravitone",
      "classification": "candidate"
     }
    ]
@@ -44043,6 +44149,59 @@
     },
     {
      "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "gravitone",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/declared-process-graph": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "techniques": 6,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
      "classification": "candidate"
     },
     {
@@ -45000,6 +45159,59 @@
     }
    ]
   },
+  "software-engineering/edge-queue-policy": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "techniques": 6,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    },
+    {
+     "project": "gravitone",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/embedded-db": {
    "bundle": "software-engineering",
    "category": "backend-platform",
@@ -45308,7 +45520,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
-   "techniques": 15,
+   "techniques": 17,
    "present": [
     {
      "project": "gravity",
@@ -45455,6 +45667,59 @@
     {
      "project": "gravitone",
      "classification": "out-of-scope"
+    }
+   ]
+  },
+  "software-engineering/fault-signal-propagation": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "techniques": 6,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "out-of-scope"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    },
+    {
+     "project": "gravitone",
+     "classification": "candidate"
     }
    ]
   },
@@ -47581,6 +47846,59 @@
     }
    ]
   },
+  "software-engineering/modelled-performance-estimates": {
+   "bundle": "software-engineering",
+   "category": "uncategorized",
+   "subcategory": null,
+   "techniques": 4,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    },
+    {
+     "project": "gravitone",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/module-design": {
    "bundle": "software-engineering",
    "category": "engineering-process",
@@ -47816,7 +48134,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "resilience",
-   "techniques": 6,
+   "techniques": 9,
    "present": [
     {
      "project": "pumper",
@@ -49536,7 +49854,7 @@
    "bundle": "software-engineering",
    "category": "client-architecture",
    "subcategory": null,
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "personas",
@@ -50474,7 +50792,7 @@
    "bundle": "software-engineering",
    "category": "ui-surfaces",
    "subcategory": "data-display",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "pumper",
@@ -50746,7 +51064,7 @@
    "bundle": "software-engineering",
    "category": "operations",
    "subcategory": "governance-and-records",
-   "techniques": 8,
+   "techniques": 10,
    "present": [
     {
      "project": "pumper",
@@ -51851,7 +52169,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 12,
+   "techniques": 13,
    "present": [
     {
      "project": "gravity",
@@ -52473,7 +52791,7 @@
    "bundle": "software-engineering",
    "category": "security",
    "subcategory": null,
-   "techniques": 7,
+   "techniques": 9,
    "present": [
     {
      "project": "pumper",
@@ -53047,7 +53365,7 @@
    "contexts": 18,
    "governingSubjects": 41,
    "scope": "declared",
-   "candidate": 134,
+   "candidate": 140,
    "out-of-scope": 22,
    "declined": 0,
    "deferred": 0,
@@ -53069,7 +53387,7 @@
    "contexts": 34,
    "governingSubjects": 57,
    "scope": "declared",
-   "candidate": 97,
+   "candidate": 103,
    "out-of-scope": 34,
    "declined": 1,
    "deferred": 0,
@@ -53080,7 +53398,7 @@
    "contexts": 46,
    "governingSubjects": 87,
    "scope": "declared",
-   "candidate": 58,
+   "candidate": 64,
    "out-of-scope": 46,
    "declined": 0,
    "deferred": 0,
@@ -53091,7 +53409,7 @@
    "contexts": 49,
    "governingSubjects": 79,
    "scope": "declared",
-   "candidate": 106,
+   "candidate": 112,
    "out-of-scope": 23,
    "declined": 0,
    "deferred": 0,
@@ -53102,7 +53420,7 @@
    "contexts": 208,
    "governingSubjects": 155,
    "scope": "declared",
-   "candidate": 43,
+   "candidate": 49,
    "out-of-scope": 8,
    "declined": 0,
    "deferred": 0,
@@ -53113,7 +53431,7 @@
    "contexts": 143,
    "governingSubjects": 155,
    "scope": "declared",
-   "candidate": 83,
+   "candidate": 89,
    "out-of-scope": 16,
    "declined": 0,
    "deferred": 0,
@@ -53124,7 +53442,7 @@
    "contexts": 38,
    "governingSubjects": 83,
    "scope": "declared",
-   "candidate": 129,
+   "candidate": 135,
    "out-of-scope": 16,
    "declined": 0,
    "deferred": 0,
@@ -53135,8 +53453,8 @@
    "contexts": 56,
    "governingSubjects": 101,
    "scope": "declared",
-   "candidate": 33,
-   "out-of-scope": 43,
+   "candidate": 34,
+   "out-of-scope": 48,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
@@ -53146,7 +53464,7 @@
    "contexts": 117,
    "governingSubjects": 117,
    "scope": "declared",
-   "candidate": 69,
+   "candidate": 75,
    "out-of-scope": 11,
    "declined": 0,
    "deferred": 0,
@@ -53157,7 +53475,7 @@
    "contexts": 54,
    "governingSubjects": 91,
    "scope": "declared",
-   "candidate": 77,
+   "candidate": 83,
    "out-of-scope": 9,
    "declined": 0,
    "deferred": 0,
@@ -53168,7 +53486,7 @@
    "contexts": 78,
    "governingSubjects": 110,
    "scope": "declared",
-   "candidate": 47,
+   "candidate": 53,
    "out-of-scope": 20,
    "declined": 0,
    "deferred": 0,

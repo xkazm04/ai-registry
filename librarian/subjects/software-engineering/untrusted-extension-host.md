@@ -61,3 +61,17 @@ Fleet: **unapplied, and the reason is structural** — no managed project hosts 
 code, so the forces are absent rather than merely unbuilt. Return condition: when a fleet
 project grows an extension surface. Security is now at exactly ten subjects, the cap; the
 next one there forces subdivision.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+Technique triple from a desktop chat client's in-process scripting sandbox, the first
+non-web instance of the subject: `capability-subtraction-sandbox` (build the runtime from
+the full standard library, delete capabilities and their aliases, test by enumerating the
+extension's globals) and `safe-mode-registration` (an operator-initiated boot registers
+every extension and runs none, keeping the disable control reachable), plus a boundary
+section in `per-callback-failure-policy` for observe-and-augment surfaces where uniform
+non-fatal is correct and the host owes a re-entrancy mute. Two `cpp--` applications record
+the source's drift (its published allowlist omits two libraries the runtime opens; no
+globals test; safe mode untested) and one `rust--` application confirms the amendment
+against a fleet runtime whose observers are non-fatal by signature. Placement: `security`
+is at its ten-subject cap; anything further here is a technique, never a sibling subject.

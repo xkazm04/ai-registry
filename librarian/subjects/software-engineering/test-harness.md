@@ -125,3 +125,13 @@ Falsifier: a lane moved to an accelerator or a fast-math build profile.
 ## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
 
 Application `rust--suite-partitioning` against a control-plane client library@1.89: unit / integration-behind-a-feature / e2e-behind-a-live-cluster, the ladder in its contributing guide (heading at line 86, MUST rules 98-103, least-powerful rule 105). The same ladder became the practice `least-powerful-test-first`.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+New technique `approval-snapshots-with-guarded-update` (expected files re-approved only
+behind an explicit switch that a CI job asserts off; the authoring-time counterpart of
+`oracle-frozen-during-repair` in quality-gates). Applied as an experiment on a fleet
+project with snapshot tests and no gate: 17 of 17 snapshot commits also changed source,
+verdict unmeasurable with the instrument named (a pre-commit or CI check for marker-less
+re-approvals). The `cpp--` application records the source's compile-time switch and the
+integrity test that asserts it off; a `node--` application carries the measurement.

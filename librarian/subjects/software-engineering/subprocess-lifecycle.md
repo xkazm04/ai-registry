@@ -1,7 +1,7 @@
 ---
 subject: subprocess-lifecycle
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -64,3 +64,14 @@ guard (child watches the parent pid, kills its own process group; three
 named gaps) as the complement to the host-side startup sweep in
 `termination-and-reaping`; and "disable restart before sending stop" as a
 shutdown-ordering clause.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+Amendment in `liveness-and-heartbeats`: inbound traffic is the pulse so a probe is sent
+only after a silent tick, and a watcher tick that fires far past its schedule (the host
+slept) withholds a verdict - one probe plus the ordinary grace, never a death declaration.
+This was the run's code A/B: the fleet desktop app's cloud health monitor entered its
+reconnect loop on the first post-resume failure; with the guard it re-probes once. Two of
+three assertions fail on the original, three of three pass on the change, control intact,
+merged after a green gate. The `react--liveness-and-heartbeats` application carries the
+table.

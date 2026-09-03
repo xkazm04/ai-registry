@@ -16,6 +16,7 @@ techniques:
   - out-of-graph-artifacts
   - gate-scope-is-not-report-scope
   - context-starved-executor
+  - approval-snapshots-with-guarded-update
 ---
 
 # Test harness architecture

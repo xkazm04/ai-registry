@@ -10,6 +10,7 @@ techniques:
   - faceting-and-filters
   - saved-views
   - command-surface
+  - typed-filter-language
 ---
 
 # Search

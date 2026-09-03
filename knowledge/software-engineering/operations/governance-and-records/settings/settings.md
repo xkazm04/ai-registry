@@ -12,6 +12,8 @@ techniques:
   - settings-audit-and-history
   - save-experience
   - cross-source-precedence-chain
+  - applied-defaults-ledger
+  - config-backup-and-restore
 ---
 
 # Settings & preferences
@@ -258,3 +260,11 @@ surface that has outgrown scrolling. These are
   — configuration resolved across several partial sources in a declared order:
   absent skips and malformed stops, provenance per resolved value, every
   failure kept when the chain comes up empty.
+- [applied-defaults-ledger](./techniques/applied-defaults-ledger.md) — shipped
+  defaults that are rows in a user-editable collection: a ledger of applied
+  default names instead of a version chain, deletions durable, renames
+  impossible without a tombstone.
+- [config-backup-and-restore](./techniques/config-backup-and-restore.md) — an
+  operator-owned file with no other copy: bounded rotation before every save,
+  atomic write, and a restore surface at the point of load failure instead
+  of a silent boot on defaults.

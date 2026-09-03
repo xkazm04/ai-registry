@@ -3,8 +3,11 @@ layer: golden-path
 type: golden-path
 subject: multi-provider-gateway-plane
 status: forged
-use_when: [putting one process in front of several interchangeable upstreams for callers you do not control, a fallback list is burning every candidate on a failure the gateway itself caused, deciding how much of an upstream's native response shape survives translation, normalizing streams from providers that agree on nothing but that bytes arrive over time]
+use_when: [putting one process in front of several interchangeable upstreams for callers you do not control, a fallback list is burning every candidate on a failure the gateway itself caused, deciding how much of an upstream's native response shape survives translation, normalizing streams from providers that agree on nothing but that bytes arrive over time, several implementations answer on one wire protocol and the plane must say which is which, assembling one inventory from upstreams whose results are matched by different rules]
 techniques:
+  - upstream-identity-before-inventory
+  - named-members-over-a-uniform-collection
+  - join-breadth-follows-the-wrong-match-cost
   - strategy-tree-with-inherited-policy
   - router-versus-candidate-failure
   - policy-verdict-in-the-status-space
@@ -106,6 +109,67 @@ product being delivered to a caller who may have chosen this plane precisely for
 the capability that normalization erases, one canonical model is the defect.
 Same craft, opposite answer, and the discriminator is which side of the wire the
 payload is going to.
+
+## Before the request path: the plane's own picture of its upstreams
+
+Everything above and below assumes the candidates are **given** — an operator
+configured a tree, the addresses are known, and each leaf's identity is whatever
+the configuration called it. That assumption is safe when every upstream speaks
+its own dialect, because then the dialect is the identity. It fails in the
+direction this whole class of software is moving: toward **one shared wire
+protocol**, adopted precisely so a caller can swap one implementation for
+another.
+
+A shared protocol is designed to make implementations interchangeable, so it
+deliberately does not identify the implementation. The moment several of them
+answer the same protocol on addresses the plane discovers rather than is told
+about, the plane needs a stage nothing else here provides: **establish what each
+upstream is, and what each one has, before any request is routed to it.** Every
+per-upstream mechanism in the sections below — the framing entry, the policy
+leaf, the adapter, the capability set — is keyed on an answer this stage
+produces.
+
+Three obligations, and they run in this order.
+
+**Identity is established before anything is imported.** Probe once per endpoint
+for something only that implementation serves — its own native management route
+is the strongest evidence, a namespace it controls inside the shared protocol's
+own response is next, and a header the underlying web framework stamps is not
+evidence about the product at all. The case that breaks naive schemes is the
+*empty* one: an implementation with nothing loaded returns a well-formed empty
+list, so every per-record discriminator vanishes exactly on a machine somebody
+is setting up for the first time, and the honest answer there is unknown rather
+than the plane's best guess.
+[upstream-identity-before-inventory](./techniques/upstream-identity-before-inventory.md)
+owns the evidence hierarchy, the empty-inventory hole, and why identity rules are
+dated observations rather than invariants.
+
+**The inventory aggregate names its members; it does not iterate them.** The
+adapter interface is worth keeping as a uniformity contract, and on the request
+path a uniform collection of candidates is exactly right — that is what a
+fallback list *means*. On the inventory path it is usually wrong, because the
+members stop being interchangeable the moment their results come back: one
+upstream's ids are matched by substring and another's by equality, and one
+source is enrichment whose failure must degrade to "no extra detail" while its
+neighbours' failures are load-bearing. One collection has one error path and one
+match rule, so it necessarily handles one of those members incorrectly.
+[named-members-over-a-uniform-collection](./techniques/named-members-over-a-uniform-collection.md)
+owns the deciding question, the concurrent fan-out that keeps the aggregate's
+latency off the sum of every timeout, and the per-member policy written at the
+join site.
+
+**The join between the plane's catalog and an upstream's naming scheme has a
+breadth dial, and no default setting.** Neither side adopts the other's names,
+so keys are derived and matched fuzzily, and the only question that sets the dial
+is which direction a wrong match hurts. Where the join feeds a total that must be
+complete, a miss silently deletes real quantity and breadth is correct. Where it
+feeds a claim about what is *present*, a false positive asserts something
+specific and false — measured at one broadly-keyed match marking 238 of 9,250
+catalog rows as installed. The rule that falls out is that a broad key is
+reserved for the case where the specific identity is genuinely unavailable, and
+an entry that fails the join's own predicate contributes no keys at all.
+[join-breadth-follows-the-wrong-match-cost](./techniques/join-breadth-follows-the-wrong-match-cost.md)
+owns both settings and the derivation traps between them.
 
 ## The failure this subject exists to prevent
 
@@ -301,6 +365,17 @@ the lookup, the non-conforming readers, and the state object's contract.
 
 ## The techniques
 
+- [upstream-identity-before-inventory](./techniques/upstream-identity-before-inventory.md)
+  — establishing which implementation is behind an address that answers a shared
+  protocol, the evidence hierarchy from native route down to banner, and the
+  empty-inventory hole that resolves to unknown.
+- [named-members-over-a-uniform-collection](./techniques/named-members-over-a-uniform-collection.md)
+  — when an adapter set should be held as named fields rather than a collection
+  behind its interface, and the per-member match and failure policy that makes
+  the difference.
+- [join-breadth-follows-the-wrong-match-cost](./techniques/join-breadth-follows-the-wrong-match-cost.md)
+  — the breadth dial on a fuzzy name join, the opposite settings a total and a
+  presence claim require, and deriving keys from tokens that are marketing.
 - [strategy-tree-with-inherited-policy](./techniques/strategy-tree-with-inherited-policy.md)
   — strategies as composable nodes, the merge-versus-replace-versus-convert-once
   table, and the leaf address that survives filtering.

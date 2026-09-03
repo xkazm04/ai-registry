@@ -6,7 +6,7 @@ technique: scenario-design
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
-use_when: [deciding what belongs in a scenario cache key, improvement shows up but the exam changed underneath, coverage reported without naming which regions]
+use_when: [deciding what belongs in a scenario cache key, improvement shows up but the exam changed underneath, coverage reported without naming which regions, the environment a scenario runs in guarantees the precondition of the behaviour being measured]
 ---
 
 # Scenario design
@@ -215,7 +215,38 @@ ones is not "five hundred scenarios of coverage," and any number that
 travels must carry its predicate
 ([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
 
-## Expected properties, not expected outputs
+## A seeded environment moves the number one stage down the pipeline
+
+The scenario is not only the input; for an agent that acts, it is the
+**environment the agent acts in** — and an environment is routinely
+constructed so that the precondition of the interesting behaviour always
+holds. Every record in the store already matches. Every fixture host is
+reachable. Every document contains the answer. That construction is often
+correct and sometimes unavoidable: a suite that had to wait for a rare
+precondition to occur naturally would measure nothing at all.
+
+What it changes is **which stage the resulting number describes**. A pipeline
+of find → qualify → act, run in an environment where everything qualifies,
+produces a rate for *act given a qualified target* and no information
+whatsoever about find. The measurement is sound; the claim built on it is
+one stage wider than the evidence.
+
+The failure is not usually concealment — the methods section commonly says
+plainly how the environment was seeded. It is that the **predicate stays in
+the methods and the number travels without it**
+([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
+The observable tell is cheap and worth watching for: when two careful readers
+of the same honest protocol disagree about what a headline figure covers —
+one reading it as broader than it is, one as narrower — the disagreement is
+not about their care. It is evidence that the figure was published without
+its seeded stage attached.
+
+So: **name the seeded stage in the claim, beside the number, not only in the
+protocol.** "Exploited 74% of hosts" and "exploited 74% of hosts, each seeded
+with a known vulnerability" are different claims, and only the second one
+survives being quoted. Where the seeding is what makes the suite affordable,
+say that too — it converts an apparent weakness into a stated scope, and it
+tells the next reader exactly which stage still needs a harder environment.
 
 A deterministic fixture can declare its expected output. A scenario for a
 non-deterministic system declares expected *properties*: constraints any

@@ -133,3 +133,15 @@ first run derived a value. Not shipped: crosses a provider-trait signature.
 ## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
 
 New technique `cross-source-precedence-chain` (slug kept over `config-resolution-chain`: cross-source is the discriminator against `inherited-default-override`, which is one key and one live source, and against `key-registry`, which is vocabulary not resolution): several partial, independently unreadable sources resolve one key space at boot, and an unreadable named source is a failure, never a fall-through to the next. Golden path gains the section "And some values arrive from one of several sources". Application `rust--cross-source-precedence-chain` against a control-plane client library@1.89, witnessed at `kube-client/src/config/mod.rs:212`.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+Technique pair from the source's settings periphery: `applied-defaults-ledger` (record
+which named default sets were applied, never the values, so a user's edit is never
+overwritten and no version chain is needed) and `config-backup-and-restore` (rotating
+backups before each save plus a restore surface the product exposes). Applied against the
+fleet's local-first desktop app: the ledger came back **not-better** on every structural
+case because that tree's migrations are idempotent replays, and the technique gained a
+boundary section saying so; backup-and-restore came back better by simulation and produced
+the run's one direction proposal (the tree rotates three sets and admits in a comment that
+it has no restore path). Two `cpp--` and two `rust--` applications.

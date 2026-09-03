@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -540,3 +540,9 @@ that counted test code (second sighting of the trap
 removed" (time since last red). Lead banked: verification tiers organised
 by latency budget - check `gate-laddering` for the axis next time it is
 open.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+`cpp--enforcement-binding` application only (a catch): an external linter module pinned by
+hash in CI with findings posted as review comments. The review-comment half is the
+reusable part; the fleet already keeps its lint rules in-repo.

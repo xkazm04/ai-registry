@@ -170,3 +170,35 @@ declaration, because there is no correctness answer to get wrong. The
 per-registration policy earns its complexity the moment one hook point can
 change an operation's outcome, and the structured envelope earns its cost the
 moment one extension is expected to say no.
+
+## Boundary: an observe-and-augment surface, and the mute the host then owes
+
+The rule above is per registration because a hook point can change an
+operation's outcome. There is a whole class of host where no hook point can:
+every callback observes or augments - annotates a record before it is shown,
+replaces a message before it is painted, adds a completion, posts a
+notification - and none permits or refuses. On that surface a **uniform
+non-fatal policy is correct**, not a shortcut: every callback runs as a
+protected call, its failure goes to the extension's own log channel with the
+extension's identity on it, and the host's operation proceeds as if the
+callback had returned nothing. There is no correctness-safe side to default
+to, because there is no verdict for the failure to be mistaken for.
+
+Two duties follow, and the uniform policy is wrong without them. First, the
+dead extension never runs again. An extension whose entry file failed keeps
+its error and every later callback lookup returns empty; an extension that
+was unloaded has its registered closures *abandoned* - the host drops the
+reference without destroying the function, because destroying a foreign
+function after its runtime is gone is the host's own crash. Second, because
+an augmenting callback fires on exactly the mutation it can itself perform -
+replace fires the replaced hook, append fires the appended hook - the
+extension can re-trigger itself. The host cannot decide when that recursion is
+legitimate, so it hands the extension a **re-entrancy mute** on its own
+registration: block, unblock, is-blocked on the connection handle, documented
+beside every hook that is delivered synchronously. The host still bounds depth
+as a backstop, and the backstop is a release-mode guard, not a debug
+assertion.
+
+The boundary reverts the moment one hook point on the surface can veto: the
+per-registration rule returns for that point, and the uniform policy becomes
+the fail-open guard this file warns against.

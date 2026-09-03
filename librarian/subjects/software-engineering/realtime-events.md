@@ -70,3 +70,14 @@ None.
 ## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
 
 Golden path gains "The discriminator: when replication is the right answer" beside the sentence "invalidation, not replication" (line 79): replication is correct only under four stated source properties (totally ordered, resumable, compacting change log with an explicit desync signal). The other side of the same discriminator is the new subject `watch-cache-and-resync` under `operations/control-plane-operations`, born the same run.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+New technique `capacity-packed-subscription-pool` (push connections with a fixed topic
+capacity, packing into the first with room, a per-topic state machine so reconnect and
+unsubscribe cannot race) with a `cpp--` application whose negative finding is the point:
+the source holds the two halves of the technique in two pools that never meet, with a
+literal TODO where the capacity check should be. Amendment in `subscription-lifecycle` for
+deliberately synchronous dispatch where a subscriber transforms the item before render and
+may itself publish - the rule becomes a re-entry budget. Unapplied in the fleet (no project
+multiplexes capped push connections); return condition recorded.

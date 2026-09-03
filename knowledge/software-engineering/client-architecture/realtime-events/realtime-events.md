@@ -10,6 +10,7 @@ techniques:
   - push-vs-refetch-reconciliation
   - change-data-capture
   - outbound-fan-out
+  - capacity-packed-subscription-pool
 ---
 
 # Event bus & realtime subscriptions
@@ -268,3 +269,7 @@ A bus is infrastructure; its health claims are observability claims:
 - [outbound-fan-out](./techniques/outbound-fan-out.md) — durable watermarks,
   forward-only enablement, per-tick caps, retry taxonomy for channels you
   don't control.
+- [capacity-packed-subscription-pool](./techniques/capacity-packed-subscription-pool.md)
+  — when the push provider caps subscriptions per connection: pack topics
+  into the first connection with room, queue while one is opening, give each
+  topic its own state machine so a reconnect and a release cannot race.

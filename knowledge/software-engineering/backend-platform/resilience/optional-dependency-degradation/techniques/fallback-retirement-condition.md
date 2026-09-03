@@ -121,6 +121,51 @@ number that fell to zero — are both instructions rather than trivia. The first
 says the check is wrong or the frontier stopped moving. The second says delete
 the code.
 
+## The fallback is also the least-tested path, and for the same reason
+
+The section above measures the fallback at run time. Its build-time sibling is
+worth stating separately, because it is a *prediction* rather than an
+observation: within any family of alternative paths, **the fallback is
+systematically the one with the weakest tests**, and the mechanism is the same
+one that makes it the least-travelled.
+
+Testability seams get built where somebody had a reproducible failure. A primary
+path fails on real machines, so its author eventually extracts the parsing from
+the acquisition — passing in the root directory, the resolver, the command
+output — so the failure can be reproduced as a fixture. The fallback has no such
+history: it runs only where the primary is absent, nobody's development machine
+is in that state, and no bug report ever arrives with an input somebody can
+paste into a test. So the seam never gets built, and the code that most needs to
+be exercisable without the environment is the code still reading the real
+environment directly.
+
+The signature is visible by inspection and cheap to check. In a family of host
+or capability probes, look for the members whose logic takes its root, its path,
+or its resolver as a **parameter**, with a thin public wrapper supplying the real
+one. Those are the tested members. Any sibling that reaches for the live path
+inline has no seam, and almost certainly no tests — and in the families this has
+been measured in, the seamless sibling is reliably the fallback. One such family
+carried an injectable root and three fixture cases on the primary vendor's
+device-tree probe, and its sibling — the path taken *only* when the primary
+vendor's own tool is unavailable — read the system path inline with no test at
+all. That is the arrangement least able to survive the machines it exists for.
+
+Two rules follow, and both are cheap:
+
+- **Build the seam on the fallback first, not last.** It is the member you
+  cannot exercise by running the program, so a fixture is the only instrument
+  available for it. The primary at least fails in front of you.
+- **Prefer a run-time environment check to a compile-time one in the fallback's
+  own body.** A path excluded at compile time on every machine but its target is
+  a path the test suite cannot even link, let alone run; the same guard written
+  as a run-time condition keeps the body compiled and reachable everywhere, so a
+  fixture can drive it from any platform. The guard still returns nothing off
+  its target — it just does so where a test can watch.
+
+This does not replace the traffic measurement; it precedes it. A fallback with
+no fixture and no traffic is not a verified path, it is an assumption with a
+branch in front of it.
+
 ## When the gap is in something you pin: the release is the reaper
 
 The two lanes above assume the code can either test its premise or stamp it. A

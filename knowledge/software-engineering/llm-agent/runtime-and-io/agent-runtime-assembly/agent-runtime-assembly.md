@@ -15,6 +15,7 @@ techniques:
   - rewrite-before-the-gate
   - honest-hook-registry
   - session-scoped-capability
+  - guard-input-custody
 ---
 
 # Agent runtime assembly
@@ -321,3 +322,9 @@ owns the freeze, the accessor, the asymmetry, and the linearized resume.
   the session's own source, never from a process environment slot; one
   resolver folds in the named group; the assembly-time filter and the
   run-time refusal derive from one policy on one session.
+- [guard-input-custody](./techniques/guard-input-custody.md) — a guard's
+  policy inputs sit outside the write reach of the party it constrains, so
+  re-reading a rule per decision is custody's opposite rather than its
+  freshness; a missing input fails loudly instead of degrading; and the
+  strongest form is a ceiling issued by whoever grants the resource, which
+  the governed process can spend but cannot raise.

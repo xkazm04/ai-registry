@@ -1,7 +1,7 @@
 ---
 subject: release-pipeline
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -40,3 +40,9 @@ this technique is what the paragraph has to contain.
 
 Prior art before this run: none owned deprecation as a lifecycle (68 files mention the
 word; none models the window). Verified uncapped.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+`cpp--updater-chain` application only (a catch): nightly builds refuse in-app update and
+say so; stable and beta each check their own feed. Recorded where the tree confirms the
+technique and where it falls short.

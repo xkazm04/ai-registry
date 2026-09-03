@@ -178,3 +178,35 @@ acknowledged as lost, and a product that just vanished mid-task owes the
 user one honest sentence on return. Silence after a crash reads as "it
 lost my work and won't admit it" — the trust cost of the crash is mostly
 paid *here*, not at the moment of death.
+
+## The restart decision lives outside the store that may have crashed
+
+The crash-loop guard above assumes the restart path can read its own
+policy — whether this installation restarts after a crash at all, and
+under which run modes it must not. The natural home for that policy is the
+settings store, and that is the one place it cannot live. The store is the
+most likely thing to be mid-write at the moment of death, the most likely
+thing whose corruption *caused* the death, and the heaviest thing a dying
+program can be asked to load: reading the restart policy from it means the
+handler either parses a possibly-truncated file inside a crashing process,
+or links the whole settings machinery into a separate handler process that
+was kept minimal precisely so it would survive what the main process did
+not. Worse, a crash loop caused by the store reads its restart policy
+*from the store*, on every iteration, and the guard that should end the
+loop is itself a participant in it.
+
+So the restart policy is stored where the handler already lives: a
+one-key file beside the crash dumps, or an argument the launcher passes,
+readable with nothing more than the standard library and written on first
+run so its absence is never ambiguous. Absent or unparseable means *do not
+restart* — the conservative direction, because a restart nobody asked for
+is a loop and a restart that fails to happen is a dialog. The decision is
+computed **before** the settings store is opened, at the point the handler
+is installed, and handed to the handler as a fixed value; refusals for run
+modes that must never auto-restart (embedded, hosted, debug) are applied at
+the same point. The settings surface may still *show* the toggle, but the
+toggle writes the side file, not a settings key, and the rest of this
+technique's rules — minimal, self-contained, registered first — hold
+unchanged. Where a crash-count file already exists for loop detection, this
+is the same file: the guard and the policy share fate with each other and
+with nothing else.

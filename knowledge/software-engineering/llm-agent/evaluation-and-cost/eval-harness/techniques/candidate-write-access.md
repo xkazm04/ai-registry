@@ -112,7 +112,7 @@ deterministic subject already sells.
 
 ## The enumeration, before the run
 
-Four questions, answered in writing beside the suite:
+Five questions, answered in writing beside the suite:
 
 1. **What can the candidate read?** The scenarios, the assertions, the
    scoring code, the holdout — each is a separate answer, and each yes moves
@@ -122,6 +122,24 @@ Four questions, answered in writing beside the suite:
 3. **Who built the holdout?** If the answer includes the candidate or a
    sibling of it, there is no holdout.
 4. **Is the environment reconstructed per condition, or repaired in place?**
+5. **What confines the run, and can the candidate write *that*?** The suite's
+   own boundaries — the allowlist of hosts a scenario may reach, the budget
+   ceiling, the timeout, the paths declared out of bounds — are inputs too,
+   and they are usually stored beside the harness rather than beside the
+   fixtures, which is why question 2 misses them.
+
+The fifth question leaves this subject's jurisdiction and is answered
+properly in
+[guard-input-custody](../../../runtime-and-io/agent-runtime-assembly/techniques/guard-input-custody.md).
+The boundary between the two is worth stating, because the rule is shared and
+the corrective is not: a *measurement* can be defended by changing what the
+optimizer is chasing — declaring a holdout works precisely because it does not
+depend on the candidate's cooperation — while a *confinement* has no such
+move, because it must hold rather than merely be believed in. Where a run's
+boundary is enforced by something inside the candidate's write reach, no
+declaration repairs it and the environment-per-condition fix reinstates it
+fresh each time. Measurement integrity is bought with incentives; containment
+is bought with placement.
 
 A suite that cannot answer these has not measured the candidate; it has
 measured an interaction between the candidate and the instrument, and the
