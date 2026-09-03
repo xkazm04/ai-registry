@@ -211,3 +211,56 @@ Not applied off a single incident in one repo; recorded so a second sighting can
 - A hand-maintained list inside a contract test is the codebase's own claim about itself; what it omits is where the rule is still broken (the four route names in `lifecycle-signals.test.ts`).
 - Fourth cause of a red gate: the CHECKOUT, not the commit. Before any bisect, `git worktree add --detach <sha>` outside the shared tree and re-run there; and a comparison baseline must be a SHA, because `main` moves under a worktree that follows a branch.
 - Prose in a file a source-scanning test reads is part of that test's input: a comment quoting the rate-limit marker strings put them above the limiter and broke the ordering assertion.
+## 2.0.0 - 2026-09-01 - LightTrack (first run in this vault, autonomous)
+
+- **An empty coverage ledger makes the Phase 2b tie-break degenerate.** With every area at max
+  staleness, "smaller file count wins" picks the one-file context (`cli-tool`) - the area least
+  likely to yield ten items, so the run would widen twice before finding anything. First-run
+  auto-pick should prefer the context with the most `cross_refs` (or the product's declared golden
+  path) among those with >= 3 files, and fall back to file count only among visited areas.
+- **A response flag computed downstream of a gate is a constant unless the gate's definition says
+  otherwise - check it against the definition, not the comment.** `IngestResponse.throttled` was
+  `any(rejects_ingest)` after `admitted`, and `admitted` was defined as `!any(rejects_ingest)` in
+  another crate. Two doc comments at the site were internally consistent; the contradiction was
+  only visible after reading the constructor. Cheap grep: every boolean in a response struct that
+  is filtered from the same collection an earlier `if !x` already branched on.
+- **In a non-interactive run, the `m`/`l` band has one honest destination: the sweep note as
+  `deferred`, and ONE sentence in the final summary framing the decision.** Asking is a no-op when
+  nobody is there to answer; silently skipping loses the finding. Worth saying in Phase 7.
+
+
+## 2.0.0 - 2026-09-01 - politicas (first run in this vault, autonomous)
+
+- **Verify the smoke server's identity before using it.** The overlay said "run `npm run dev`"; port 3000 answered 200 - and belonged to a different project (the `<title>` said so). A run that had trusted the port would have "visually verified" someone else's app. One `curl` of the title is the check; with no matching server, the honest line is "not visually verified" in both the commit body and the run record.
+- **When the repo's script runner cannot resolve path aliases, probe with a throwaway test file in the repo's own test lane.** `tsx -e` with `@/` imports printed nothing at all (no error, no output); a `zz-probe.test.ts` dropped next to the area and run through vitest measured the same question in two seconds and was deleted before staging. The premise gate needs measurements, and the test runner is the one tool guaranteed to resolve the repo's imports.
+- **A repo with a same-change doc gate turns atomic commits into a per-commit dismissal chore - budget for it, do not collapse commits to avoid it.** Every commit here owed five docs; scoped `Doc-sync(<doc>): <reason>` trailers cost a minute each and left a countable record, which is the gate's whole point. Worth a line in Phase 7's execution rules: read the hook once, then write the trailers into every commit template.
+- **Cross-layer lens, measured again: 3 of 9 items** (a comment claiming prerender that the build manifest refuted, a comment crediting an inert `revalidate`, a section claiming ties are read live while folding four of them away). All three anchors had been read by earlier passes; none was visible from inside its own file.
+- **`sec` pass, first move: for every boolean a write API accepts, count its readers.** A flag with
+  a setter, a column, a listing and a docs row - and zero readers on the path it names - is the
+  highest-severity shape a sec sweep finds, and it is one grep. Widen a `sec` run along the trust
+  boundary (the module that owns the policy the area must honour), not along the taxonomy's group
+  adjacency: the gap lived in project-management, the group neighbour was cost-pricing.
+
+
+## 2.0.0 - 2026-09-01 - personas
+- First auto-band run in the field: 9/10 items xs/s, all built unasked, the single `m` was a visual call (catalog tab primitive changes the look). The rubric's "gates can settle it" split held exactly.
+- Two cheap greps that produced 5 of 10 items in a fully-localized, lint-clean area, worth naming in 4b: (1) `aria-label="` / `placeholder="` / `title="` followed by a literal - attribute strings are outside every JSX-text lint; (2) for each key a UI helper reads out of a `Record<string, unknown>` config, grep the same key in the validating layer - zero hits there is a bug (found the run's top item).
+- Under sibling sessions, the isolated-index commit leaves `.git/index` stale for the whole run; the Execution rules should say to resync with `git reset HEAD -- <own paths>` only, never a bare `git reset` - a sibling had three files staged throughout.
+
+## 2.0.0 - 2026-09-01 - pumper
+- Fan-out scouts (one Explore agent per 2-3 large files, each told to report "what I checked to rule out the guard elsewhere") then lead-verifies anchors: 21 candidates in ~3 min, 10 itemized, 0 killed by the premise gate. The rule-out line is what made verification a targeted re-read instead of a re-scan - make it a required field in the scout prompt.
+- The cross-layer lens produced 3 of the 4 high items again (a doc claim about a consumer in ANOTHER crate; a rule on 3 of 4 siblings). Check the consumer crates a doc names even when they sit outside the area's file list.
+- A triage band the user approves 4/4 is not evidence the sizing runs large: two m items were ~30 min each, but each carried a judgement the gates could not settle (warn vs refuse; a published prediction changes). m means "needs a decision", not "takes an hour".
+- Two triaged items that edit the same region of one file landed in one commit. Apply-and-commit sequentially even when the file is shared; the atomic-revert property is the auto band's safety story.
+- Bash heredocs carrying quote-heavy Rust/Python payloads broke the shell parser three times; writing the patch script to the scratchpad and running it was reliable every time.
+
+## 2.0.0 - 2026-09-01 - politicas (second pass, --triage-all)
+
+- **--triage-all is one question, not seven.** Presenting the whole list once and asking a single multi-select (the m/l items named individually, the xs/s ones bundled as "the small band") got a full answer in one round trip; per-item prompts would have cost seven. Worth writing into Phase 7 as the shape --triage-all takes.
+- **The cached-stat check is not paranoia - it fired.** A concurrent session had pre-staged two unrelated files; `git diff --cached --stat` showed five paths for a three-path `git add`, the commit-msg hook refused the commit on the foreign files' doc obligations, and `git restore --staged <path>` on the two strangers fixed it without touching the working tree. Measured 2026-09-01 on a shared checkout.
+- **For a registry-governed context, read the technique first and turn its invariants into
+  questions against the code.** The knowledge-sync clause says "read before you propose"; the
+  measured value is sharper than that: incremental-window-accounting's "what can the fold not
+  undo" found a cap-bypass that the code's own comment described as safe, in a file two prior
+  passes had read. A technique is a list of places the author already knows code goes wrong.
+
