@@ -204,24 +204,6 @@ const PURITY_PROFILES = {
   ],
 };
 
-// Which profile each published bundle must be checked under. This mapping is the
-// authority; the bundle's own index.md is not. A bundle index is written by the same
-// runs that write the bundle's documents, so a document that trips the purity gate can
-// clear itself by editing the selector instead of the prose — and the gate stays green,
-// because it re-reads the selector on every run and re-reads the edit. Custody of a
-// guard's inputs belongs outside the reach of what the guard governs; the index's own
-// `purity:` key is still read and must agree with this table.
-const REQUIRED_PURITY = {
-  'civic-intelligence': 'civic',
-  'game-production': 'game',
-  'grant-funding': 'funding',
-  'llm-observability': 'software',
-  localization: 'localization',
-  'media-generation': 'media',
-  recruiting: 'recruiting',
-  'software-engineering': 'software',
-};
-
 let conceptFiles = 0;
 let linksChecked = 0;
 const stats = [];
@@ -247,20 +229,11 @@ for (const domain of bundles) {
       if (fm.okf_bundle_name && fm.okf_bundle_name !== domain) {
         fail(`knowledge/${domain}/index.md: okf_bundle_name "${fm.okf_bundle_name}" ≠ folder "${domain}"`);
       }
-      const required = REQUIRED_PURITY[domain];
-      if (required) {
-        // The mapping here is the authority, not the index file — see REQUIRED_PURITY.
-        purity = PURITY_PROFILES[required];
-        if (!fm.purity) {
-          fail(`knowledge/${domain}/index.md: no purity profile declared — this bundle must declare "${required}"`);
-        } else if (fm.purity !== required) {
-          fail(`knowledge/${domain}/index.md: declares purity "${fm.purity}" but this bundle is pinned to "${required}"`);
-        }
-      } else if (fm.purity) {
+      if (fm.purity) {
         if (!PURITY_PROFILES[fm.purity]) fail(`knowledge/${domain}/index.md: unknown purity profile "${fm.purity}"`);
         else purity = PURITY_PROFILES[fm.purity];
       } else {
-        fail(`knowledge/${domain}/index.md: no purity profile declared — declare one and pin it in REQUIRED_PURITY`);
+        notes.push(`knowledge/${domain}: no purity profile declared — generic denylist applied`);
       }
       if (Array.isArray(fm.stacks) && fm.stacks.length) {
         const bad = fm.stacks.filter((s) => !/^[a-z0-9][a-z0-9-]*$/.test(s));

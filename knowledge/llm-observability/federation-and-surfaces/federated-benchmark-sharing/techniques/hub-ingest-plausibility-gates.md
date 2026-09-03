@@ -76,34 +76,6 @@ they are cheap:
   credential the request authenticated with — never from a name asserted
   inside the payload, which would let one party contribute as another.
 
-## A bound may come from the generator's own history
-
-The plausibility rules above are all internal to the payload — finite, ordered,
-under a ceiling, arithmetically possible. One useful class of bound is not, and
-it is cheap enough that leaving it out is an oversight rather than a trade-off:
-**a contribution cannot predate the thing that produces contributions.**
-
-The submitting feature shipped on a date. No genuine payload carries a capture
-time before it, so that date is a floor, and its authority is a fact about the
-federation's own history rather than a guess about contributors. Pair it with a
-ceiling of the hub's clock plus a slack window for skew, and a whole family of
-junk — a zeroed timestamp, a clock at epoch, a machine set to next decade — is
-refused by one comparison, with a reason that survives the conversation the
-technique demands: *your payload claims to have been produced before the feature
-that produces payloads existed.*
-
-This does not compete with the hub stamping its own receipt time; the two answer
-different questions and both are needed. The receipt stamp decides what
-*recent* means for retention and publication, because a contributor-asserted
-timestamp is client-writable and must never feed accounting. The floor decides
-whether the asserted timestamp is *believable at all*, which is a plausibility
-question like any other on this list — and an unbelievable one is a signal about
-the payload as a whole, not merely a field to ignore.
-
-Keep the floor as a named constant with its date and the reason beside it. A
-bare magic number in a comparison is the rule nobody dares change when the
-answer legitimately moves.
-
 ## Every field, every version, or the gate is theater
 
 The gate must cover the whole schema, including every field added later —

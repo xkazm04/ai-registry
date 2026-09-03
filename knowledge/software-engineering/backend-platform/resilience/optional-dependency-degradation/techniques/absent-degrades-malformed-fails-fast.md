@@ -161,71 +161,11 @@ govern them: they fail fast on *absence* as well as on malformation. Keep that
 set as small as the product allows — ideally empty — and make each member say,
 at the point of refusal, why it cannot be defaulted.
 
-## The third state: well-formed, and wrong for the role
-
-Absent and malformed are the two states a parser can see. There is a third it
-cannot, and it appears wherever a value is **shared between two roles**: a value
-that is present, syntactically valid, and semantically correct for a role other
-than the one reading it.
-
-The canonical instance is a bind address. A server is told to listen on the
-wildcard address so it accepts traffic on every interface, and that value is
-correct, deliberate, and meaningful — for the server. It is never valid as a
-*connect* target. When the two roles read the same variable, and they often do
-because the variable was named for the service rather than for the direction, a
-client picks up the server's binding and tries to dial a non-address. The parse
-succeeds, so the malformed rule does not fire; the value is present, so the
-absent rule does not fire; and the failure surfaces one layer down as an
-unhelpful connection error.
-
-Enumerating this class is cheap because it is small and it is a property of the
-value's *domain*, not of the deployment: wildcard and any-interface addresses,
-placeholder hosts, a port of zero meaning "pick one", a path that is valid but
-belongs to the other side of a boundary. Each has a check of a line or two.
-Treat a hit as **absent with a warning** — say which value was ignored and why,
-then take the fallback — rather than as malformed, because the operator did not
-make a mistake in the sense the fail-fast rule punishes. They set a variable
-correctly for a different consumer.
-
-## A fallback belongs to a value you chose, never to one the operator chose
-
-The related rule concerns what happens *after* the value resolves, and it cuts
-against the instinct to make retry behaviour uniform.
-
-A defaulted address may reasonably be tried more than one way. The classic case
-is a loopback hostname that resolves to the IPv6 address while the service is
-listening only on the IPv4 one; falling back from the name to the literal
-address is a correct, invisible repair, because the code — not the operator —
-chose the name in the first place, and both candidates encode the same
-intention.
-
-An **explicitly configured** address gets no such courtesy. If the operator
-named a host and it is unreachable, the honest response is to fail against the
-host they named. A fallback there does not repair anything: it hides a
-misconfiguration at exactly the moment the operator was being explicit, and it
-does so by succeeding — the process comes up healthy, pointed somewhere the
-operator did not ask for, and the boot summary reports a working dependency
-([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)). The
-resulting bug report is that the setting "does nothing".
-
-So the fallback chain is a property of *provenance*: values the code defaulted
-may carry alternates, values the operator supplied may not. That distinction has
-to survive into the resolved configuration — a resolver that returns only the
-address, discarding whether it was defaulted or supplied, has thrown away the
-input this decision needs.
-
 ## Decision rules
 
 - **Branch on presence, never on parse success.** A parse failure is not
   evidence of absence; treating it as such is the incident this technique
   exists to prevent.
-- **A value that is valid for another role is absent, loudly.** Check the small
-  domain-specific set — wildcard binds, placeholder hosts, port zero — name the
-  value you ignored, and degrade. It is not malformed and the operator is not at
-  fault.
-- **Fallbacks attach to defaults, not to configuration.** Carry provenance
-  (defaulted versus supplied) through resolution, and let only the defaulted
-  value try an alternate. An explicit setting that fails, fails.
 - **An empty string is absent.** Environments deliver unset values as empty
   strings through several layers, and a deployment tool that writes an empty
   value means "not set". Normalise once, at the reader. The one class where
