@@ -3,8 +3,8 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.2.0
-tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers
+version: 2.3.0
+tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
 # Intake
@@ -1150,6 +1150,54 @@ features, not to the pass. The front-half worker runs the peer check and seeds 8
 points; the study worker expands them against the project's own tree and is expected to
 correct seeded points against it. Three rounds established this shape (2026-09-02:
 personas, tracklight, pumper); a study is dispatched, never written by the director.
+
+### Phase 7.7 - The decision gate (v2.3: the operator decides in one screen, execution follows in the session)
+
+A proposal nobody reads is a wiki page with a schema. Under 2.1 and 2.2 the direction
+pass wrote twelve proposals across five projects in twenty-four hours and zero ledger
+rows were written, because the decision lived in a file the operator had to go and
+find. The gate moves the decision into the run.
+
+**When.** After Phase 7.6 has written this run's proposals, and before Phase 9. If the
+run is unattended, skip the gate and say so in the depth cell (`gate=skipped`); never
+decide on the operator's behalf.
+
+**What is shown.** Every proposal with `status: proposed` across the fleet - this run's
+and every earlier run's still waiting - grouped by project, as a **multi-select**: one
+question per project (up to four projects per screen; a fifth waits for the next run),
+each option one proposal with its slug as the label and one line of description carrying
+the registry subject, the mechanism, and the size from the proposal's frontmatter.
+Selected means **accepted**; unselected means **declined**. There is no third state on
+the screen - a proposal the operator wants to think about is declined now and may be
+re-raised by a later run, because "deferred" is how the twelve accumulated.
+
+**What is written.** One ledger row per proposal in the project's
+`.ai/directions/ledger.jsonl` (`accepted` or `declined`, reason
+`operator multi-select review <date>`), the proposal's `status:` line updated, committed
+in the project with a pathspec. The fleet map reads the rows on its next regeneration, so
+a declined direction is never re-proposed and an accepted one leaves the candidate list.
+
+**What executes.** Every accepted proposal is dispatched to its own worker **in the same
+session** - one worker per proposal, in an isolated worktree of the project
+(`git worktree add C:/t/w-<project>-<slug> -b direction/<slug>`, short path, per the
+long-path rule) so nine workers can run against five checkouts without sharing one. The
+worker reads the proposal as its spec, the project's own account of itself, and the
+registry subject it implements; builds the proposal's "first context" within the stated
+size; writes the tests the proposal's measurable implies; runs the cheapest gate that
+sees the change; appends one `task` row to the project's `.ai/applied.jsonl` with the
+verdict read from the gate; commits on the worktree branch with a pathspec and the
+project's own commit convention, never bypassing a hook, never pushing. The director
+reviews each report against the diff (the gate ran, the row's verdict matches what the
+gate said, the size did not creep), records the branches in `librarian/applied.md`, and
+removes the worktrees - **the branches stay**; merging is the operator's click, as it
+always was. Workers are the default model for this phase, as for every phase but the
+director's review.
+
+**Budget.** The gate costs one screen. The execution costs one worker per accepted
+proposal, and the operator chose the count. A run that lands in the registry and then
+executes the fleet's accepted directions has closed the loop this whole method exists
+for: research → extract → test → apply → ship, with the ship decided by the person who
+owns the tree.
 
 ### Phase 8 - The cross-repo lane (default for `code` and `better`; confirm before editing)
 

@@ -101,6 +101,19 @@ The fleet map reads it, so a declined direction is never re-proposed, and a defe
 carries its return condition. Three declines on one shape across projects are a scope
 rule, and the owner adds it to `out_of_scope_*` so the script stops asking.
 
+## The decision gate (intake 2.3.0)
+
+The ledger row is written by the operator through the run, not by hand. At the end of
+every attended intake, Phase 7.7 shows every proposal still `proposed` across the fleet as
+one multi-select screen per project: selected is accepted, unselected is declined, and
+there is no third state - a direction the operator wants to think about is declined now
+and can be re-raised by a later run. The rows land in each project's ledger and the
+proposal's `status:` line flips; accepted proposals are then executed in the same session,
+one worker per proposal in an isolated worktree on a `direction/<slug>` branch, with the
+gate's verdict written to the project's `.ai/applied.jsonl` and the branch left for the
+operator to merge. The first gate ran on 2026-09-03: eleven shown, nine accepted, two
+declined, nine workers dispatched.
+
 ## How intake uses it
 
 After the design read (Phase 2d) every design-record entry with a corpus home is looked up

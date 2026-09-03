@@ -5962,3 +5962,7 @@ been naming that zero for weeks:
   the same stage, and choose the task deviation. Everything else was review.
 - **Session crossed midnight.** `verified_on: 2026-09-02` on the subject's application
   was the dispatch's date; the forge finished on 09-03. Harmless, recorded.
+
+### 2.3.0 - 2026-09-03 - the decision gate (operator request)
+
+- Phase 7.7: every waiting proposal across the fleet shown as one multi-select per project at the end of an attended run; selected = accepted, unselected = declined, no third state; ledger rows and status lines written in the project; accepted proposals executed in the same session, one Opus worker per proposal in an isolated worktree on a `direction/<slug>` branch, gate verdict into `.ai/applied.jsonl`, branches left for the operator to merge. First gate: 11 shown, 9 accepted, 2 declined (a priced credential roster for tracklight; an entity-id grammar door for politicas), 9 workers dispatched. Mid-flight runs: none live at the bump.
