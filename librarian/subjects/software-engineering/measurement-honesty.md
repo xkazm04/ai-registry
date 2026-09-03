@@ -1,7 +1,7 @@
 ---
 subject: measurement-honesty
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -176,3 +176,22 @@ input the artifact ignores, and if it cannot, add the one that can.
 Note for a later run: `instrument-exposure-control` was in the golden path's
 frontmatter list and had **no bullet** in the prose "The techniques" section. Added
 alongside this one.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique: **`unelidable-measurement`**. An eighth mechanism beside the seven
+dishonest-number states, and distinct from state 7: contamination *by the harness*
+rather than *of the subject*, present rather than past, mechanically detectable
+and repairable.
+
+Any measurement harness sits inside an optimizing system entitled to elide work
+whose result nobody observes. The failure renders as an **implausibly fast,
+perfectly well-formed number** — no error, no warning, in range, reconciling with
+everything, and the subject never executed. Inverts where the optimizer's elision
+*is* the behaviour under test.
+
+**Convergence worth recording:** a production benchmarking tool in the source
+independently implements this subject's `noise-band-and-hysteresis` prescription
+exactly — store every measurement, suppress only the *announcement* when the delta
+sits inside the measured band. Corroboration from a source that never read the
+doctrine.

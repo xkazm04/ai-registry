@@ -10,6 +10,7 @@ techniques:
   - build-measurement
   - dev-variant-design
   - debug-artifact-economics
+  - declinable-capability-split
 ---
 
 # Build performance & economics
@@ -152,6 +153,23 @@ A build change that arrives without numbers is a hypothesis, not a win. The
 measurement technique defines the instruments; every other technique in this
 subject depends on them for its proof obligations.
 
+## A payoff this subject's three resources do not price
+
+Every measurement above is denominated in wall-clock, peak memory or disk, and
+paid to the people who build the tree. One structural decision escapes that
+frame while sitting squarely in the middle of this subject's mechanics: where a
+unit is *published* for others to consume, a boundary can be drawn so an
+optional capability and its whole transitive tail are absent for a consumer
+rather than merely unused. What that buys is not seconds — it is obligations
+the declining consumer never inherits: an upgrade cadence, a licence review, a
+vulnerability surface. The cut is decided by which capability a real consumer
+would say no to, which is why the three build-side payoffs will happily reject
+a split this argument requires.
+[declinable-capability-split](./techniques/declinable-capability-split.md) owns
+it, including the choice between a build-time gate (optional for people who
+build your tree) and a separate unit (optional for people who merely consume
+it) — only the second removes the obligation.
+
 ## The techniques
 
 - [compilation-unit-splitting](./techniques/compilation-unit-splitting.md) —
@@ -172,3 +190,7 @@ subject depends on them for its proof obligations.
 - [debug-artifact-economics](./techniques/debug-artifact-economics.md) — debug
   information and link-time choices as line items, and the hazards of build
   directories shared across concurrent sessions.
+- [declinable-capability-split](./techniques/declinable-capability-split.md) —
+  the fourth reason to cut a published unit: making an optional capability
+  *absent* rather than unused, so a consumer who declines it inherits none of
+  its upgrade, licence or vulnerability obligations.

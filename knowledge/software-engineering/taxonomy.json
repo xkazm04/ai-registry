@@ -332,7 +332,8 @@
             "quality-gates",
             "knowledge-registry",
             "repo-manifest-standard",
-            "multi-project"
+            "multi-project",
+            "invariant-placement"
           ]
         },
         {

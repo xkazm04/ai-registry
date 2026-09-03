@@ -15,6 +15,8 @@ techniques:
   - update-automation-review
   - toolchain-floor-drift
   - vendored-fork-ledger
+  - build-time-dependency-tier
+  - review-attestation-ledger
 ---
 
 # Supply-chain & secret hygiene
@@ -105,6 +107,46 @@ hash-checking flag governs a stage rather than a command, so a source build
 fetching its own build tooling, or a tool subcommand downloading a model, walks
 straight past a step everyone reads as fully pinned
 ([verification-scope](./techniques/verification-scope.md)).
+
+## The graph holds two populations, and only one of them ships
+
+One policy over one resolved graph treats every dependency as one kind of
+risk. The graph contains two. Some of that code will run inside the
+shipped product; the rest runs **at build time, on the developer's
+machine and on the build runner**, with those machines' filesystem,
+network, environment and whatever credentials are live while the build
+runs. A merged evaluation prices a build-time package by its shipped
+exposure — frequently nil — when its actual exposure is arbitrary
+execution beside an engineer's credential agent, so the misprice is
+worst exactly where compromise is cheapest. The build-time population is
+usually sparse enough to enumerate by hand, which makes a review nobody
+can afford over the whole graph affordable over this slice; and in a
+hermetic, credential-free build environment the distinction collapses
+and the extra inventory is ceremony. The split, the per-entry "what
+could this reach" question, and the escalation for a package that newly
+acquires build-time execution are
+[build-time-dependency-tier](./techniques/build-time-dependency-tier.md).
+
+## Known-bad and never-looked-at are different questions
+
+Every mechanism above matches the graph against something already known:
+an advisory, a licence set, a registry allowlist. All of them are silent
+about code nobody has ever opened, and that silence reads as a pass —
+*unknown* rendered as a definite verdict
+([unknown-is-not-a-value](../../_laws.md#unknown-is-not-a-value)). The
+complementary axis is a committed record of **who reviewed which version
+against which criteria**, kept as versioned files beside the lockfile and
+gated on the merge rung like everything else. Its recurring cost tracks
+graph churn rather than graph size, which is why importing peer
+organizations' records under a declared trust relationship is
+load-bearing rather than a convenience — and why an import whose criteria
+nobody read is worse than no ledger, because it renders as coverage. The
+same axis keeps one distinction the advisory feed cannot: a package with
+no known vulnerabilities may equally have no living maintainer, and
+abandonment is nobody's advisory. The ledger's shape, the delta
+certification that makes it survivable, and the graph size below which it
+is bookkeeping are
+[review-attestation-ledger](./techniques/review-attestation-ledger.md).
 
 ## Updates arrive as code wearing a friendly label
 
@@ -225,6 +267,14 @@ are [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md).
 - [dependency-policy-gates](./techniques/dependency-policy-gates.md) —
   advisory/license/source policy as reviewed config, the lockfile as the
   gate's target, and exceptions with rationale and expiry.
+- [build-time-dependency-tier](./techniques/build-time-dependency-tier.md) —
+  the graph split by execution phase, the build-time slice priced by the
+  host's exposure and inventoried by hand, and the hermetic build that
+  makes the split unnecessary.
+- [review-attestation-ledger](./techniques/review-attestation-ledger.md) —
+  committed per-version review records, delta certification, pooled
+  imports under declared trust, and the unread import that renders as
+  coverage.
 - [scheduled-deep-analysis](./techniques/scheduled-deep-analysis.md) — what
   belongs on the scheduled rung, liveness of recurring jobs, and routing
   findings to an owner.

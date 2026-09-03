@@ -94,6 +94,31 @@ recur:
   endianness, available instruction sets, the host's installed libraries —
   describes the host, not the target. Every probe result that flows into
   the target build is a potential wrong-architecture assumption.
+
+  The trap is wider than cross-compilation, and framing it as an
+  *architecture* problem is what lets the common case through. A probe
+  executed during a build describes **the machine performing the build**, on
+  every axis, including axes on which host and target are identical. The
+  frequent, same-architecture instance is an optional resource: a build step
+  detects whether an accelerator, a device, a driver, or a co-processor
+  utility is present and compiles the capability in or out accordingly. The
+  matrix is happy — one cell, one architecture, one operating system — and
+  the artifact is silently tied to the hardware configuration of whichever
+  runner picked up the job. Two builds of the same revision on two runners in
+  the same pool produce two different products, and the one built on the
+  richer runner fails on a deployment host that has less.
+
+  The admissibility rule is a single question, applied to every probe:
+  **can this property differ between the machine that builds and the machine
+  that runs?** Properties that cannot — the target architecture, the target
+  operating system, the availability of a library the artifact links against
+  and therefore carries — are legitimate build-time inputs. Properties that
+  can — present devices, accelerators, core counts, installed optional
+  utilities, available memory — are runtime detection, and compiling them in
+  is a build that has measured the wrong machine. Where a build-time answer
+  is genuinely required for such a property, the cell declares it as a
+  deliberate variant with the assumed configuration in its name, so the
+  artifact's constraint is on its label rather than in its behaviour.
 - **Mixed dependency trees.** A build that compiles most dependencies for
   the target but picks up one prebuilt host-architecture library — from a
   cache keyed without the architecture, or a path shared between host and

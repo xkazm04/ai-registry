@@ -69,6 +69,49 @@ loop it creates names its reaper
 ([creation-names-reaper](../../../_laws.md#creation-names-reaper)). A loop with no
 stop handle is a leak with a cadence.
 
+## The roster rule applies to spawned work, not only to registered loops
+
+The supervisor's roster answers "what exists?" for work that **registered**. It says
+nothing about work that a tick body, a handler or a job *spawns* in passing — the
+concurrent unit launched to do one thing and never referred to again. That work is
+unowned, and unowned work has three properties, each of which defeats one of the
+guarantees above:
+
+- **It cannot be counted.** Its cardinality is whatever the input happened to be. A
+  handler that spawns one unit per element of a collection has a concurrency limit
+  equal to the size of a collection somebody else controls, which is not a limit.
+- **It cannot be waited for.** Shutdown's drain walks the roster; work not on any
+  roster is neither drained nor recorded as abandoned, so the next startup sweep is
+  blind to it in exactly the way an unrecorded hard stop is.
+- **It cannot be stopped.** Cancellation targets something. There is nothing to
+  target, so the cooperative stop path — the one every job contract is built on —
+  has no entry point.
+
+So the rule is the supervisor's rule one level down: **concurrent work is spawned
+into a named group that can enumerate, await and abort its members.** The group is
+the owner, and it is what
+[creation-names-reaper](../../../_laws.md#creation-names-reaper) demands of a
+spawned unit exactly as it demands a stop handle of a loop. A group makes the three
+properties above their opposites: the count is the group's size, the drain is an
+await on the group, and the stop is an abort on the group. This is also precisely
+the space [drain-and-shutdown](../admission-queue/techniques/drain-and-shutdown.md)
+declines to fill — a queue's duty ends at not promoting into a closing system, and
+running work is handed to "the executor's drain problem." The group is what makes
+that problem solvable rather than merely someone else's.
+
+Where the group is unbounded because the input is, the group is not the whole answer
+— a bound on concurrent members belongs to
+[admission-queue](../admission-queue/admission-queue.md), and the group is what
+makes such a bound enforceable at all.
+
+**The inversion** is work that must genuinely **outlive its parent**: a job launched
+by a tick, continuing after the tick returns. That work is not unowned, and putting
+it in the parent's group would be wrong — its owner is its durable record, which is
+[job-coordination](../job-coordination/job-coordination.md)'s regime, where recovery
+finds it by query rather than by handle. The test is whether an owner exists at all,
+not whether the owner is a group: a spawned unit with neither a group nor a durable
+record has no owner, and that is the failure this rule names.
+
 ## Anatomy: ticks and jobs are different animals
 
 Background work comes in two durations, and conflating them is a classic

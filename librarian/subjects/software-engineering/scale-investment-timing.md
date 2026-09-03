@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: scale-investment-timing
-last_touched: 2026-08-29
+last_touched: 2026-09-03
 touched_by: forge
 dry_streak: 0
 ---
@@ -170,3 +170,27 @@ worsens). Survived: COST-survey claim (strengthened), M/M/1 arithmetic, incremen
 replacement record. Banked: kp migration execution (return: KP_DB_BACKEND second
 value); fleet load-test absence — zero load tests in seven projects, every limit
 basis: inherited (return: any project adds a load harness). Forecast thin next pass.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique, +1 amendment. **`execution-model-concurrency-threshold`** supplies an
+axis the subject lacked **with a number**.
+
+The subject's quantified baseline discipline had one axis: node count
+(`vertical-headroom-before-distribution`). Its axis list did not contain
+concurrent in-flight operations. The source states the threshold —
+**~1K–10K concurrent mostly-idle connections**, "most services are below that" —
+with a floor (below ~10 concurrent I/O operations, profile before committing) and
+a priced cost model (20–80KB resident per idle worker, the large figure being
+address space not commit; 1–5µs switch; creation amortized to zero by a pool).
+
+This reproduces the subject's own asymmetry argument on a new axis: the wrong
+choice fails silently and continuously — slower delivery, unreadable traces, every
+test needing a runtime — and generates no incident.
+
+Amendment to `migration-reason-audit`: promotes a finding that was **stranded in an
+application**. `node--migration-reason-audit.md:52-58` had 512 synchronous call
+sites across ~48 files and "that cascade, not the SQL, is the cost", while the
+technique above it carried no general rule. Now it does, with the four transitive
+surfaces the application lacked (shared-state ownership, exclusion primitive, test
+harness, diagnostic surface).

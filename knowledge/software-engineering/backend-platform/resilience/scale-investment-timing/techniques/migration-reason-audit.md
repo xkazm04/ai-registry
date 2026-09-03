@@ -117,6 +117,53 @@ that still looks correct with all four written down is a migration worth doing, 
 audit has strengthened it rather than blocked it — which is the outcome to aim for,
 because a technique that only ever says no gets routed around.
 
+## When the change is to an execution model, the cost is a call-site count
+
+One class of proposal is costed wrongly in a specific, repeatable way, and it is
+worth a rule of its own because the wrong estimate is always the intuitive one.
+
+**When a proposed change alters an execution or flow-control model — how work waits,
+how it is scheduled, how a caller is coloured by a callee — the cost estimate is the
+count of call sites that must change and the contracts each of them carries. It is
+not the size of the component where the change originates.** A store swapped behind
+an interface is a small change to the store and a large change to everything that
+talks to it, because the new model propagates upward through every caller by
+construction: once one function is coloured, everything above it in the call chain
+must follow.
+
+The count comes from an **instrument, not a memory**
+([count-carries-predicate](../../../../_laws.md#count-carries-predicate)): a search
+that can be re-run, with its pattern written down, so the figure is dated and
+reproducible rather than recalled. A remembered "a few dozen places" is the estimate
+that makes these migrations look tractable; a measured five hundred is the estimate
+that makes the decision honest.
+
+Four surfaces move with the call sites, and all four are routinely left out:
+
+- **Shared-state ownership.** State that was reachable directly becomes state that
+  must be shared with something outliving the caller, which means an ownership
+  wrapper on every piece of it.
+- **The exclusion primitive.** Whichever guard the old model used may be the wrong
+  one under the new one — held across a wait, or blocking a worker that must not
+  block — so every critical section is re-decided rather than translated.
+- **The test harness.** Every test that exercised a changed call site acquires a
+  dependency on the new model's runtime, and the suite's setup changes uniformly.
+- **The diagnostic surface.** Failure reports get deeper and noisier — a five-frame
+  call stack becoming twenty-five, half of it runtime internals — and every incident
+  afterwards is investigated through that. This is a permanent operating cost paid
+  by whoever is on call, and it never appears in a migration plan.
+
+**Inversion: a boundary already designed to absorb the change has a call-site count
+of one.** Where the logic was built with no dependencies of its own — inputs as
+values, outputs as values, time as a parameter, and one small driver at the edge
+performing all the I/O — the model lives only in the driver, and changing it is a
+change to the driver. That is exactly what
+[io-free-core](../../../../engineering-process/codebase-stewardship/module-design/techniques/io-free-core.md)
+buys, and it is the strongest argument the corpus has for paying that form's price
+before a migration is on the table rather than during one. Run the count first: if
+it comes back as one, the audit's cost column is short and the decision is easy,
+which is a finding and not a reason to skip the measurement.
+
 ## What the audit produces
 
 Not a verdict. A **written reason list with costs beside it**, kept with the decision

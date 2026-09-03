@@ -42,6 +42,29 @@ it references the runtime pin, it does not duplicate it — per
 [one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary). A platform
 file that restates three other files' contents is three future disagreements.
 
+## Declared is not the same as inherited
+
+Committing the configuration makes it reviewable; it does not make it *true*. Several
+serving and platform configuration languages compose nested blocks by **replacement rather
+than merge**: a child block that declares one entry of a directive family discards the
+parent's entire set for that family instead of adding to it. The reviewed diff then reads
+as an addition and behaves as a deletion, and the family this bites hardest is response
+headers — a block added to set one thing silently drops every protective header the outer
+block established, for exactly the paths that block matches.
+
+Nothing announces it. The configuration parses, the service starts, the paths serve, and
+the loss is visible only to whoever thinks to request one of those paths and read the
+response headers. Per
+[silent-state-is-ungoverned](../../../../_laws.md#silent-state-is-ungoverned), inheritance
+the reviewer assumed and the parser does not implement is ungoverned state wearing a
+committed file's credibility.
+
+Two habits close it: **know the composition rule of every configuration language before
+relying on inheritance in it**, and where the rule is replacement, have each block restate
+the full set it needs, with a comment at the site saying why the repetition is not
+redundancy — otherwise the next reader deduplicates it back into the bug. Where the set
+matters enough, assert it: one request per block shape, checking the headers came back.
+
 ## Inventory everything the platform cannot read
 
 Some state is genuinely dashboard-or-CLI-only: secret **values**, the linkage between this
@@ -75,6 +98,9 @@ separate document to maintain but the manifest read in order.
   dashboard is set only where the platform offers no declared alternative.
 - The platform file points at existing authorities (build task, runtime pin); it never
   restates them.
+- Where a configuration language composes nested blocks by replacement, every block restates
+  the directive set it needs and says at the site why; inheritance is relied on only where
+  the language's composition rule has been read.
 - Dashboard-only state is inventoried in a committed manifest: setting, location, purpose,
   re-creation steps. Variable names and scopes always; values never.
 - Project-linkage identifiers are recorded for non-interactive re-linking; the credential that

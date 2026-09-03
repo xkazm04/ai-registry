@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: build-economics
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -72,3 +72,33 @@ and not run. Instrument named as the vocabulary requires: a minimal crate
 depending on the engine, timed after an interface change against a body-only
 change — which separates the two costs the single producer-side number currently
 fuses. Nothing in the fleet has it, and it is cheap.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique, +2 amendments, +1 application.
+
+**`declinable-capability-split`** — a fourth payoff for splitting a publication
+unit. `compilation-unit-splitting` named exactly three (parallelism, invalidation
+frontier, memory peak), all build-economics. A boundary can also be drawn so a
+capability *and everything it drags in* is **absent** rather than merely unused:
+the consumer who declines it inherits none of its upgrade obligations, licence
+review or vulnerability surface.
+
+**This overrode the subject's own stated resource list** (wall-clock/memory/disk),
+and says so — the golden path gained a section titled "A payoff this subject's
+three resources do not price". Justified from `capability-feature-gating`'s
+existing reach into consumer territory ("the cheapest feature gate is the
+dependency you declined"). Inverts when nearly every consumer enables the
+capability: the split then buys nothing and costs a combinatorial matrix most of
+which is never built.
+
+Amendments: `capability-feature-gating` gains a second motive — buying a
+*verification* budget rather than a compile budget, since shrinking an expensive
+instrument's target is what makes the lane exist at all;
+`compilation-unit-splitting` gains the function-level fix for duplicated
+specialisation, cheaper and available before a split is justified.
+
+**Catch:** the run's brief predicted feature-flag combinatorics was a hole. It is
+covered twice and better — here at `:43-48` (feature unification, which the source
+never names) and `:49-55` ("Ten independent flags is 1,024 configurations"), and
+in `gate-laddering`'s cross-configuration section.

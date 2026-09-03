@@ -176,3 +176,37 @@ adds to the technique are in the application document itself.
 ## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
 
 New technique `liveness-proof-reclaim`: when legitimate job duration is unbounded no lease TTL is pickable, so a stale holder is reclaimed only on proof the holder is dead (an identity probe), never on a timer. Argued as a technique rather than a lease-renewal amendment: every rule there is parameterised on a renewable TTL and never reaches the holder that cannot renew. Spine item 2 gained the clause. Source-tree application. Deviations: the source keeps an alive-but-hung holder busy forever by design; reclaim no-ops off one platform with no runtime warning (the run`s task row).
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique, +1 application. **`no-unrestorable-state-at-a-suspension-point`**
+(`shared_with: [background-jobs, concurrency-guards]`) — a missing **stage**, and
+the run's highest-confidence finding.
+
+The subject owned the recovery and the request protocol thoroughly:
+`step-position-and-resumability`, `job-progress-and-cancellation`,
+`cancellation-attribution`, `drain-and-shutdown`. **Every one presumes the
+interrupted party survives to participate** — it polls a token, writes a
+checkpoint, runs a cleanup path, is later found and reaped.
+
+The missing regime is the other one: work destroyed between two operations, with
+no notification, no cleanup path and no reaper on its side. "Checked at safe
+points" is the code *choosing* when to be interruptible; the inverse rule is that
+the code does not choose, so every suspension point must already be a safe point —
+a design act performed before any recovery machinery is reachable.
+
+Note that `step-position-and-resumability` guarantees at-least-once per *step* and
+says nothing about state held *within* a step across a suspension. That is the gap.
+The corpus already applied the rule correctly twice without stating it
+(`in-flight-dedup.md:30`; a metered-work gate in the recruiting bundle, cited in
+prose only — no cross-bundle links).
+
+**Application (`rust`, fleet project, `applied: experiment`, `ab_verdict:
+not-better`).** The tree satisfies the rule across all twelve applications that
+checkpoint, by a shape convention — progress marker and accumulators in one
+atomically-saved blob. Arm A (contract as prose) 12/12 compliant; arm B (declared
+and checked) found the same 12, zero additional. The enforcement proposal is not
+an improvement on a fully compliant population. **Return when the checkpointing
+population outgrows one reviewer, or when an application first checkpoints an
+accumulator its own marker does not gate.** The structural fact: safety is real,
+compliance is total, and the mechanism is convention the runtime cannot inspect.

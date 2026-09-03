@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -121,3 +121,61 @@ two-tenths assertion on a decay, an epsilon-padded ratio guard): the substrate h
 mode — general-purpose double, no accelerator, no contraction flag — so the probe
 publishes a constant. The condition is written as the amendment's closing paragraph.
 Falsifier: a lane moved to an accelerator or a fast-math build profile.
+
+### 2026-09-03 - `/intake`, from a vendor's official MCP server monorepo
+
+Gained `recorded-interaction-fixtures`. Source: [[2026-09-03-microsoft-mcp]].
+
+A hole rather than a seam, and established by a counted grep rather than a guess: zero
+files anywhere under `knowledge/` mention a test proxy, record/playback, cassettes or
+sanitizers-at-rest, against a subject already holding eleven techniques. The corpus could
+price a database fixture and could not price a recorded API.
+
+Three things make it a technique rather than plumbing. The seam belongs in the
+*production* transport factory, below every client library's retry and serialization
+layers - which inverts the usual contract so that correct dependency injection becomes
+the precondition for recordability, a code-review-visible property. The sanitizer and the
+matcher are a fidelity dial whose halves pull opposite ways: every sanitizer weakens the
+recording to protect a secret, every matcher relaxation weakens the assertion to buy
+stability, and a suite's real strength is the intersection of what was not sanitized with
+what is still matched. And the freshness debt is this subject's own vicious-green failure
+in a form `fixture-economics` does not cover - that technique requires a template to name
+its rebuild, and a recording names only where it is stored, never the service version it
+captured, so playback certifies yesterday's service indefinitely with a green board.
+
+Placed beside `fixture-economics` in the golden path's own staleness paragraph, since it
+is the one fixture class whose rebuild is not a script this repository can run.
+
+**Contended.** A sibling `/intake` run held this subject and had already declared two
+techniques in the golden path. The edit was made under the `content` lock with the file
+re-read inside it, and only this run's line appended - the append that would otherwise
+have deleted two of theirs.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++2 techniques, +2 amendments.
+
+- **`dynamic-verifier-classes`** — verifiers partition by *how they observe*, not
+  by what they claim to find. One family re-executes the program's own semantic
+  representation and stops dead where the program leaves it (foreign code,
+  syscalls, device I/O); the other observes emitted machine code and knows none of
+  the source language's rules. The boundary that defeats the first is where the
+  second's findings concentrate, so a project running only one is unverified
+  exactly at its foreign-code seam.
+- **`verification-inherits-driver-reach`** — a dynamic verifier is a lens on an
+  execution, not a property of a program. Two numbers must travel together or
+  either overstates. This is `test-input-generation.md:52-63`'s rule for
+  *generators*, applied where the driver is a hand-written suite.
+
+Both landed here rather than in a new runtime-verification subject, argued: the
+golden path already draws the boundary ("the harness builds the machines;
+quality-gates decides which doors they guard"), and the verifier-family claim is
+the fidelity ladder's proxy argument applied to the *observer* instead of the
+subject. Recorded as a lead if the lane outgrows the harness.
+
+Amendments: `isolation-lanes` (instruments that rewrite the artifact contend for
+the same rewrite; the composed failure reads as a product defect) and
+`gate-scope-is-not-report-scope` (it owned the *denominator* half of coverage
+honesty and lacked the *criterion* half; the mandatory inversion is that gating on
+the strictest criterion measures compiler-synthesized decisions the source never
+wrote).

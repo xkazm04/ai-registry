@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -169,3 +169,34 @@ Open: `hiding existence` and `hiding internals` are separable in principle - a
 boundary can publish what it is for while keeping every internal opaque - and
 nothing in the corpus says how. Untriaged from the same source: co-location
 buys cohesion and never decoupling, so the regrouping move is a half-move.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++3 techniques, +3 amendments — the run's densest subject.
+
+- **`concurrency-at-the-edge`** — the *removal* test, complementary to
+  `io-free-core`'s shape test and cheaper to run: if removing the concurrency
+  would force you to reintroduce it as workers, queues or hand-rolled scheduling,
+  it is the logic; if removal costs nothing but a keyword, it was plumbing. Paired
+  with the decay signature (a single offloaded call is a fix; a large offloaded
+  region means the boundary is misplaced) — the explicit mirror of
+  `io-free-core:90-92`'s "the driver got clever".
+- **`declarative-or-sequential`** — the corpus had **no style-selection doctrine at
+  all**. Three quoted inversion conditions: multiple outputs built in parallel;
+  effects mixed into the logic; branch bodies that are statements. Plus the
+  state-machine case, and the fractal rule that within one chain, effectful steps
+  belong at the ends.
+- **`marked-unverifiable-region`** — a **promotion**. The corpus owned this only in
+  `data-access/query-construction`, where stewardship could not reach it, with
+  three of four properties. The two added: *minimize the region*, and *the
+  invariant is written at the site* rather than merely "justified". Distinguished
+  from `suppression-hygiene`: a suppression that never lapses is a defect, a
+  marked region that never lapses is working as designed.
+
+Amendments: `seams-and-adapters` (who may *call* and who may *implement* are two
+separable permissions; inverts where third-party implementations are the product);
+`module-depth` (a parameter's accepted-value set is interface — the meeting point
+of this technique's informal-interface argument and `taxonomy-design`'s closed-set
+argument, which had never met); `borrowed-surface` (forwarding a *mutator* is
+categorically worse than forwarding a *reader* — the technique's first
+second-source corroboration, it having been forged from one repo).
