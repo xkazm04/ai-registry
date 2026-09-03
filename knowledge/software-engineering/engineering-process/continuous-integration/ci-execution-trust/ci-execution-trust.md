@@ -9,6 +9,7 @@ techniques:
   - job-instruction-signing
   - injected-code-scope-ladder
   - untrusted-contribution-lanes
+  - measure-apply-split
   - secret-materialization-discipline
 ---
 
@@ -124,6 +125,28 @@ the command is a shell. The lane split, the approval gate for the trusted path, 
 untrusted-input handling rules are
 [untrusted-contribution-lanes](./techniques/untrusted-contribution-lanes.md).
 
+## A job does not hold their code and your credential at once
+
+A correct lane split is collapsed most often by addition, not by design. A
+verifying job is credential-free and stays that way until somebody wants it
+to be useful — post the measurement as a comment, apply the label, commit
+the regenerated snapshot back — and each of those needs a write scope,
+granted to the job that is already building and running a contributor's
+code. Nobody decided to hand foreign code a write token; a helpful feature
+did it one step at a time.
+
+The rule is a conjunction, not a lane: **measuring and applying are
+different jobs.** A read-only job runs the untrusted code and emits an inert
+artifact; a later job with write scope consumes that artifact, executes
+nothing from the change, and applies the result. The residual risk is worth
+naming because it is where this pattern is usually implemented carelessly —
+the applying job still trusts the artifact's *contents*, so the producing
+job must not be able to write arbitrary paths into it, and the applying job
+allowlists every path it commits. The split, the inert handoff, binding the
+application to the measured revision, and telling a missing artifact apart
+from a failed measurement are
+[measure-apply-split](./techniques/measure-apply-split.md).
+
 ## A secret exists for as short a time, in as few places, as the work allows
 
 The last technique is the one that pays at every scale including the smallest, because the
@@ -148,9 +171,11 @@ been in a repository variable for two years.
 1. **Secret materialization.** Cheapest, applies from the first credential, catches real leaks.
 2. **Untrusted-contribution lanes.** Necessary the day the first outside change arrives; free
    before that.
-3. **The injected-code ladder.** An audit and a preference, not a system to build.
-4. **The boundary map.** An afternoon with a diagram; the prerequisite for the next item.
-5. **Job-instruction signing.** Real infrastructure, real key management, real ongoing cost.
+3. **The measure/apply split.** Bought the first time a check wants to write something back —
+   one extra job, and far cheaper to build that way than to unpick later.
+4. **The injected-code ladder.** An audit and a preference, not a system to build.
+5. **The boundary map.** An afternoon with a diagram; the prerequisite for the next item.
+6. **Job-instruction signing.** Real infrastructure, real key management, real ongoing cost.
 
 ## The techniques
 
@@ -162,5 +187,9 @@ been in a repository variable for two years.
   and step tiers, pushing code down the ladder, and third-party extensions.
 - [untrusted-contribution-lanes](./techniques/untrusted-contribution-lanes.md) — two lanes with
   different capabilities, verifying the credential-free one, and untrusted input as data.
+- [measure-apply-split](./techniques/measure-apply-split.md) — the read-only
+  producer and the write-scoped applier, the inert artifact between them,
+  the allowlist on what may be committed, and binding the application to
+  the revision that was measured.
 - [secret-materialization-discipline](./techniques/secret-materialization-discipline.md) — late
   fetch, narrow scope, nothing durable, expiry at issue, detection at the boundary.

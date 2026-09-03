@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 175,
-  "techniques": 1238,
-  "applications": 703,
+  "subjects": 177,
+  "techniques": 1261,
+  "applications": 712,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1238/1238",
+  "use_when_coverage": "1261/1261",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1096,7 +1096,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:9161d9738d04681c",
+   "digest": "sha256:0086395c0a25097e",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1263,7 +1263,8 @@
       "deciding where the canonical instruction file lives",
       "per-tool instruction files have drifted apart",
       "structuring instruction files in a monorepo",
-      "the always-loaded floor has outgrown its budget and needs scoped overflow"
+      "the always-loaded floor has outgrown its budget and needs scoped overflow",
+      "instruction content is copied out into templates or a published package"
      ]
     },
     {
@@ -1716,7 +1717,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:d862a45cc8666c4b",
+   "digest": "sha256:bd6bc78eb61fdc7d",
    "techniques": [
     {
      "slug": "assembly-identity",
@@ -1819,14 +1820,16 @@
      "laws": [
       "one-validation-door",
       "failure-not-empty-success",
-      "verdict-survives-boundary"
+      "verdict-survives-boundary",
+      "one-authority-per-vocabulary"
      ],
      "shared_with": [],
      "use_when": [
       "deciding which configuration file may name code to load",
       "a broken extension takes the host down",
       "a contributed hook's timeout ends the run as cancelled",
-      "choosing whether a load failure is fatal"
+      "choosing whether a load failure is fatal",
+      "deciding whether a sandbox lets administrators install code through the product"
      ],
      "stage": "team"
     },
@@ -3752,7 +3755,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/ci-execution-trust/ci-execution-trust.md",
-   "digest": "sha256:ba3e36f615891a9a",
+   "digest": "sha256:fcf98abdda6ecb35",
    "techniques": [
     {
      "slug": "control-plane-execution-boundary",
@@ -3798,6 +3801,22 @@
       "an auditor asks what proves a job was authorized"
      ],
      "stage": "fleet"
+    },
+    {
+     "slug": "measure-apply-split",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check needs to comment or push back onto a proposed change",
+      "a job runs contributor code and also holds a write credential",
+      "adding a label or a commit to a verification job",
+      "deciding how a result crosses from an untrusted job to a trusted one"
+     ],
+     "stage": "team"
     },
     {
      "slug": "secret-materialization-discipline",
@@ -4596,7 +4615,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
-   "digest": "sha256:36b10aa08395b698",
+   "digest": "sha256:6a9aa0e9458e8f36",
    "techniques": [
     {
      "slug": "commit-vs-derive-policy",
@@ -4657,6 +4676,22 @@
      ]
     },
     {
+     "slug": "post-merge-regeneration",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated artifact conflicts between changes that touched unrelated things",
+      "deciding whether a derived file belongs in the change or after the merge",
+      "an extracted catalog or snapshot churns on every edit",
+      "an automated job needs to commit a regenerated artifact back to a branch"
+     ],
+     "stage": "team"
+    },
+    {
      "slug": "task-registry-design",
      "status": "forged",
      "laws": [
@@ -4691,6 +4726,13 @@
      "technique": "drift-gating",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--drift-gating.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "post-merge-regeneration",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/applications/node--post-merge-regeneration.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@20"
     },
     {
      "stack": "node",
@@ -5003,7 +5045,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256:070b1745688eaa02",
+   "digest": "sha256:a0676c0e2baa7a40",
    "techniques": [
     {
      "slug": "attempt-attribution",
@@ -5017,6 +5059,23 @@
       "state flickers backwards as old attempts land late",
       "deciding whether a guard alone closes the finish race",
       "choosing between a generation counter and an attempt id"
+     ]
+    },
+    {
+     "slug": "cache-value-not-handle",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "identity-survives-reuse",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one cancelled request wedges every later caller on a shared in-flight handle",
+      "choosing join semantics on a runtime that tears down continuations",
+      "a legitimately empty result is refetched on every call",
+      "invalidating a coalesced cache while a fetch is still running",
+      "a shared mutex deadlocks a whole worker after a client disconnect"
      ]
     },
     {
@@ -5162,6 +5221,13 @@
      "technique": "release-guarantees",
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/go--release-guarantees.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "cache-value-not-handle",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/node--cache-value-not-handle.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@20"
     },
     {
      "stack": "rust",
@@ -6265,7 +6331,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256:8b3b90769da6100c",
+   "digest": "sha256:e54b27fcb91ac228",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -6325,6 +6391,37 @@
       "data layer tests stand up the whole application",
       "partitioning a growing repository by aggregate",
       "a tenant or archived filter every read must carry"
+     ]
+    },
+    {
+     "slug": "localized-record-identity",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "user-authored records must exist in several languages",
+      "deciding whether a new field belongs to one translation or to all of them",
+      "a list screen shows the same entry twice under different languages",
+      "adding a language would otherwise require a schema change"
+     ]
+    },
+    {
+     "slug": "operator-defined-tables",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "one-validation-door",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a non-developer must add a record type without waiting for a release",
+      "choosing between a schema-in-code model and a universal document blob",
+      "a user-supplied field name is about to reach a data-definition statement",
+      "a table exists in the store that no part of the product knows about"
      ]
     },
     {
@@ -6850,6 +6947,136 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/rust--suppression-hygiene.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.96.1"
+    }
+   ]
+  },
+  "decentralized-artifact-distribution": {
+   "category": "security",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/security/decentralized-artifact-distribution/decentralized-artifact-distribution.md",
+   "digest": "sha256:8f01b32ca901d1dd",
+   "techniques": [
+    {
+     "slug": "fail-closed-trust-dependency",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "limits-are-derived",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a required trust signal's source is unreachable and you are deciding what to serve",
+      "choosing the timeout that declares a statement source unhealthy",
+      "a malformed trust policy is falling back to a previous or default value",
+      "arguing about whether stale approvals may be served during an outage"
+     ]
+    },
+    {
+     "slug": "origin-signed-record-with-index-as-cache",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing where a third-party listing's authoritative copy lives",
+      "an operator wants to hand-edit a listing row and you need the argument against it",
+      "deciding what a client must be able to verify without trusting the index",
+      "writing the acceptance test for a hostile index"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "publisher-declared-verification-floor",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "record-precedes-effect",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where the requirement for build provenance is configured",
+      "a release stripped its attestation and nothing noticed",
+      "giving a build system credentials to publish on a publisher's behalf",
+      "arguing that a registry-wide provenance switch is enough"
+     ],
+     "stage": "fleet"
+    },
+    {
+     "slug": "signal-that-only-subtracts",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "absent-guard-is-loud",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one moderation service is being asked to judge both listing text and artifact bytes",
+      "deciding whether an automated classifier may approve a listing",
+      "scoping what a content-assessment service is allowed to fetch",
+      "a positive outcome exists in a type but no code path can reach it"
+     ]
+    },
+    {
+     "slug": "split-admit-state-and-redact-authority",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a config has a trusted-moderator boolean and an operator wants to accept takedowns but not approvals",
+      "two parties have both issued a terminal state for the same revision",
+      "deciding which third parties an index listens to and for what",
+      "designing the trust configuration for a registry that federates moderation"
+     ]
+    },
+    {
+     "slug": "verdict-bound-to-the-exact-revision",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "gate-sees-target",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing how an approval or a block names what it applies to",
+      "a publisher edited a listing after it was approved and it stayed approved",
+      "deciding what a user's install consent is consent to",
+      "a moderator has to re-review every edit and you are asked to make approval sticky"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "fail-closed-trust-dependency",
+     "file": "knowledge/software-engineering/security/decentralized-artifact-distribution/applications/node--fail-closed-trust-dependency.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@22.16"
+    },
+    {
+     "stack": "node",
+     "technique": "origin-signed-record-with-index-as-cache",
+     "file": "knowledge/software-engineering/security/decentralized-artifact-distribution/applications/node--origin-signed-record-with-index-as-cache.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@22.16"
+    },
+    {
+     "stack": "node",
+     "technique": "split-admit-state-and-redact-authority",
+     "file": "knowledge/software-engineering/security/decentralized-artifact-distribution/applications/node--split-admit-state-and-redact-authority.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@22.16"
     }
    ]
   },
@@ -10713,7 +10940,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
-   "digest": "sha256:e2b58bfbcdd188af",
+   "digest": "sha256:b8bf4feb62dcd7f0",
    "techniques": [
     {
      "slug": "consent-gates",
@@ -10890,6 +11117,24 @@
      ]
     },
     {
+     "slug": "truncated-verdict-space",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an automated assessor may ever admit on its own",
+      "deciding WHICH verdict to delete when the irreversible direction is refusal rather than admission",
+      "a decider and an applier are separate components and only the decider enforces the truncation",
+      "a false positive would grant standing at a trust boundary rather than cause a recoverable mistake",
+      "a consent gate keeps being misconfigured or clicked through",
+      "an outcome type declares a verdict no code path can produce",
+      "throughput pressure argues for auto-approving clean assessments"
+     ]
+    },
+    {
      "slug": "unattended-mode",
      "status": "forged",
      "laws": [
@@ -10906,6 +11151,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "truncated-verdict-space",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/next--truncated-verdict-space.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "node",
      "technique": "oracle-before-gate",
@@ -13438,7 +13690,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
-   "digest": "sha256:dbecc623c853ebb5",
+   "digest": "sha256:559f9cee462b0b72",
    "techniques": [
     {
      "slug": "data-migrations",
@@ -13456,6 +13708,22 @@
      ]
     },
     {
+     "slug": "dynamic-table-set-migrations",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a migration must alter every table in a set the operator defined",
+      "a shape change landed on existing tables but not on tables created afterwards",
+      "a crash left half the tables in a loop migrated",
+      "deciding whether to enumerate targets from definitions or from a name pattern"
+     ]
+    },
+    {
      "slug": "error-propagation",
      "status": "forged",
      "laws": [
@@ -13469,6 +13737,22 @@
       "runner says nothing to do but the ledger was unreadable",
       "weighing a proposal to log the error and mark the step done"
      ]
+    },
+    {
+     "slug": "expand-deploy-contract",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a schema change must land while two code versions are serving traffic",
+      "renaming or dropping a column that live code still names",
+      "deciding whether the destructive half of a change is safe to run yet",
+      "a rollback would put old readers back in front of a contracted schema"
+     ],
+     "stage": "team"
     },
     {
      "slug": "idempotent-steps",
@@ -16921,7 +17205,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:d79a9cdc37d4bb61",
+   "digest": "sha256:d07bfc6ccd1474e4",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -16966,6 +17250,22 @@
       "proving statically that no call escaped a declared wrapper",
       "a new capability shipped unassignable in a policy table",
       "a registry row whose call site was deleted"
+     ]
+    },
+    {
+     "slug": "counted-set-snapshot",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a regression snapshot records only totals",
+      "a change swapped one counted item for another and nothing went red",
+      "deciding what a committed baseline should contain",
+      "a recorded artifact has gone stale without any gate noticing",
+      "normalising a generated snapshot so it stops churning"
      ]
     },
     {
@@ -17148,7 +17448,8 @@
       "deciding where to put enforcement for a rule about an action rather than an artifact",
       "a convention that governs setup or provisioning rather than code",
       "a file or page has a stated size cap and every edit to it obeys a per-edit cap",
-      "an accreting artifact is over its bound and no commit broke a rule"
+      "an accreting artifact is over its bound and no commit broke a rule",
+      "a rule is about intent and no parser can express it"
      ]
     },
     {
@@ -17163,7 +17464,8 @@
      "use_when": [
       "gating a metric that cannot be zeroed today",
       "a below-baseline reading passes silently",
-      "upward re-baselines are becoming routine"
+      "upward re-baselines are becoming routine",
+      "the metric can only be produced by a build the change's author cannot run"
      ]
     },
     {
@@ -22331,8 +22633,25 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:895fcd3ed09f5149",
+   "digest": "sha256:2e4a1a1696a71541",
    "techniques": [
+    {
+     "slug": "context-starved-executor",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "silent-state-is-ungoverned",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a deterministic suite cannot fail when a feature becomes undiscoverable",
+      "designing an agent-driven acceptance journey",
+      "an executor's own claim of completion is being taken as the test result",
+      "acceptance runs score infrastructure faults as product defects",
+      "a journey case runs against a fixture that does not supply its preconditions"
+     ]
+    },
     {
      "slug": "fixture-economics",
      "status": "forged",
@@ -23459,6 +23778,142 @@
     }
    ]
   },
+  "untrusted-extension-host": {
+   "category": "security",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/security/untrusted-extension-host/untrusted-extension-host.md",
+   "digest": "sha256:0519ce7535427b09",
+   "techniques": [
+    {
+     "slug": "canonicalizable-privilege-declaration",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the privilege set an extension declares",
+      "a privilege must be shown to a human and checked by a broker",
+      "an allowlist entry is empty or absent and the meanings differ"
+     ]
+    },
+    {
+     "slug": "declared-schema-extension-storage",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an extension needs persistence and must not be given schema authority",
+      "designing the query surface exposed to untrusted extension code",
+      "uninstall leaves data nobody owns"
+     ]
+    },
+    {
+     "slug": "grant-change-consent",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an installed extension ships an update with a changed privilege declaration",
+      "deciding whether a grant change needs a human to re-consent",
+      "an escalation check exists in the codebase but the update path does not call it"
+     ]
+    },
+    {
+     "slug": "isolation-tier-independent-extension-api",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the context object an extension receives",
+      "an extension must move between isolation tiers",
+      "the isolation runner is unavailable on a deployment target"
+     ]
+    },
+    {
+     "slug": "per-callback-failure-policy",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an extension callback's failure aborts the operation that triggered it",
+      "a timeout on foreign code must not be mistaken for stopping it",
+      "an extension needs to refuse an operation rather than crash on it"
+     ]
+    },
+    {
+     "slug": "pluggable-isolation-runner",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product must run isolated extensions on more than one deployment target",
+      "deciding what belongs in the isolation runner and what belongs above it",
+      "publishing what a sandbox actually enforces"
+     ]
+    },
+    {
+     "slug": "two-tier-extension-format",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which extension capabilities may run in the host process",
+      "an extension category needs privileges the sandbox cannot broker",
+      "choosing the install ceremony for each tier"
+     ],
+     "stage": "team"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "grant-change-consent",
+     "file": "knowledge/software-engineering/security/untrusted-extension-host/applications/node--grant-change-consent.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@22.16"
+    },
+    {
+     "stack": "node",
+     "technique": "per-callback-failure-policy",
+     "file": "knowledge/software-engineering/security/untrusted-extension-host/applications/node--per-callback-failure-policy.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@22.16"
+    },
+    {
+     "stack": "node",
+     "technique": "pluggable-isolation-runner",
+     "file": "knowledge/software-engineering/security/untrusted-extension-host/applications/node--pluggable-isolation-runner.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@22.16"
+    }
+   ]
+  },
   "usage-analytics": {
    "category": "operations",
    "subcategory": "service-operations",
@@ -24556,12 +25011,16 @@
     "credential-vault/token-refresh-lifecycle",
     "data-access/batching-and-n-plus-one",
     "data-access/cross-driver-invariant-parity",
+    "data-access/operator-defined-tables",
     "data-access/repo-testing",
     "data-retention/confirm-by-echo",
     "data-retention/dry-run-preview",
     "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
+    "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
+    "decentralized-artifact-distribution/publisher-declared-verification-floor",
+    "decentralized-artifact-distribution/verdict-bound-to-the-exact-revision",
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-analytics/review-coverage-rate",
@@ -24671,7 +25130,9 @@
     "measurement-honesty/incomplete-not-verdict",
     "measurement-honesty/tuning-corpus-disjointness",
     "metric-forecasting/projection-presentability-gates",
+    "migrations/dynamic-table-set-migrations",
     "migrations/error-propagation",
+    "migrations/expand-deploy-contract",
     "migrations/idempotent-steps",
     "migrations/migrate-from-data-shape",
     "migrations/pre-migration-snapshots",
@@ -24722,6 +25183,7 @@
     "public-claim-provenance/provenance-as-a-build-gate",
     "quality-gates/blocking-by-input-determinism",
     "quality-gates/chokepoint-tag-registry",
+    "quality-gates/counted-set-snapshot",
     "quality-gates/enforcement-binding",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/fabrication-economics",
@@ -24815,6 +25277,7 @@
     "templates-scaffolding/readiness-prerequisites",
     "templates-scaffolding/template-portability",
     "terminal-multiplexing/occupant-state-detection",
+    "test-harness/context-starved-executor",
     "test-harness/isolation-lanes",
     "test-harness/live-app-harness",
     "test-harness/negative-control-tests",
@@ -24830,6 +25293,7 @@
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
     "ui-controls/adoption-enforcement",
     "ui-controls/control-inventory-and-discovery",
+    "untrusted-extension-host/grant-change-consent",
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/coverage-from-registries",
     "versioning-snapshots/promotion-lifecycle",
@@ -24913,6 +25377,7 @@
     "build-economics/cache-budgeting",
     "chat-transcript/composer-turn-queue",
     "chat-transcript/turn-model",
+    "ci-execution-trust/measure-apply-split",
     "ci-execution-trust/untrusted-contribution-lanes",
     "cicd-monitoring/failure-drill-down",
     "cicd-monitoring/transition-detection-and-notify",
@@ -24967,6 +25432,8 @@
     "dead-code/instrument-per-orphan-class",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
+    "decentralized-artifact-distribution/fail-closed-trust-dependency",
+    "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
     "delivery-analytics/delivery-metric-denominators",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-guarantees/dead-letter-design",
@@ -25093,6 +25560,7 @@
     "metrics-rollups/aggregate-honesty",
     "metrics-rollups/bundle-endpoints",
     "metrics-rollups/stored-rollups",
+    "migrations/dynamic-table-set-migrations",
     "migrations/error-propagation",
     "migrations/idempotent-steps",
     "migrations/migrate-from-data-shape",
@@ -25268,6 +25736,7 @@
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
     "terminal-multiplexing/multi-client-fan-out",
     "terminal-multiplexing/pty-management",
+    "test-harness/context-starved-executor",
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/live-app-harness",
     "test-harness/long-lane-certification",
@@ -25290,6 +25759,9 @@
     "triage-queues/source-normalization",
     "triage-queues/verdict-writeback",
     "ui-controls/adoption-enforcement",
+    "untrusted-extension-host/declared-schema-extension-storage",
+    "untrusted-extension-host/isolation-tier-independent-extension-api",
+    "untrusted-extension-host/per-callback-failure-policy",
     "usage-analytics/coverage-from-registries",
     "usage-analytics/sink-abstraction",
     "versioning-snapshots/restore-semantics",
@@ -25655,6 +26127,7 @@
     "public-verdict-badge/embed-snippet-contract",
     "public-verdict-badge/verdict-honesty-qualifiers",
     "quality-gates/advancement-evidence-fields",
+    "quality-gates/counted-set-snapshot",
     "quality-gates/excess-indicts-the-instrument",
     "quality-gates/false-positive-economics",
     "quality-gates/item-liveness",
@@ -25785,6 +26258,7 @@
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
+    "concurrency-guards/cache-value-not-handle",
     "context-hierarchy/digest-gated-upward-refresh",
     "convergence-loop-and-requeue/told-that-not-why",
     "conversation-orchestration/progress-beat-grammar",
@@ -25793,6 +26267,7 @@
     "conversation-orchestration/two-surface-doctrine",
     "credential-vault/versioned-key-window",
     "data-access/sequence-token-write-ordering",
+    "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
     "delivery-analytics/post-landing-repair-density",
     "dependency-declaration/logical-name-or-address",
     "dependency-declaration/progressive-resolution",
@@ -25818,6 +26293,7 @@
     "mcp-tools/egress-argument-gating",
     "measurement-honesty/instrument-exposure-control",
     "migrations/error-propagation",
+    "migrations/expand-deploy-contract",
     "migrations/migrate-from-data-shape",
     "model-routing/quality-axis-separation",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
@@ -25850,6 +26326,8 @@
     "terminal-multiplexing/occupant-state-detection",
     "transactions-over-a-replicated-log/capture-index-before-snapshot",
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
+    "untrusted-extension-host/canonicalizable-privilege-declaration",
+    "untrusted-extension-host/pluggable-isolation-runner",
     "watch-cache-and-resync/desync-is-a-state",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "web-scraping/negotiated-representation-probe",
@@ -25910,6 +26388,7 @@
     "companion-identity/one-mind-many-mouths",
     "companion-runtime/headless-turn-stream",
     "concurrency-guards/attempt-attribution",
+    "concurrency-guards/cache-value-not-handle",
     "concurrency-guards/guard-key-design",
     "concurrency-guards/idempotency-by-design",
     "concurrent-vcs/shared-resource-arbitration",
@@ -25920,9 +26399,11 @@
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/spend-attribution",
     "credential-vault/revocation-interception-cache",
+    "data-access/localized-record-identity",
     "data-access/sequence-token-write-ordering",
     "data-retention/erasure-requests",
     "data-viz/encoding-vocabulary",
+    "decentralized-artifact-distribution/verdict-bound-to-the-exact-revision",
     "declarative-resource-lifecycle/ownership-edges-that-enqueue-the-parent",
     "declarative-resource-lifecycle/per-field-write-ownership",
     "delivery-analytics/post-landing-repair-density",
@@ -26120,6 +26601,7 @@
     "ci-execution-trust/control-plane-execution-boundary",
     "ci-execution-trust/injected-code-scope-ladder",
     "ci-execution-trust/job-instruction-signing",
+    "ci-execution-trust/measure-apply-split",
     "ci-execution-trust/secret-materialization-discipline",
     "client-state/identity-scoped-eviction",
     "client-state/optimistic-write-path",
@@ -26127,6 +26609,7 @@
     "client-state/rehydration-narrowing",
     "client-state/status-fsms",
     "client-state/store-slicing",
+    "codegen/post-merge-regeneration",
     "companion-identity/anchored-identity-diffs",
     "companion-identity/brain-adoption-consent",
     "companion-identity/one-mind-many-mouths",
@@ -26144,6 +26627,7 @@
     "credential-vault/encryption-at-rest",
     "credential-vault/versioned-key-window",
     "data-access/layering-rules",
+    "data-access/operator-defined-tables",
     "data-access/query-construction",
     "data-access/read-models-and-projections",
     "data-access/sequence-token-write-ordering",
@@ -26260,6 +26744,10 @@
     "test-harness/platform-quirk-absorption",
     "triage-queues/verdict-writeback",
     "undo-history/undo-scope",
+    "untrusted-extension-host/declared-schema-extension-storage",
+    "untrusted-extension-host/grant-change-consent",
+    "untrusted-extension-host/pluggable-isolation-runner",
+    "untrusted-extension-host/two-tier-extension-format",
     "usage-analytics/privacy-scrubbing",
     "usage-analytics/sink-abstraction",
     "versioning-snapshots/snapshot-scope",
@@ -26496,6 +26984,8 @@
     "triage-queues/focus-mode",
     "triage-queues/queue-lifecycle",
     "undo-history/stack-policy",
+    "untrusted-extension-host/declared-schema-extension-storage",
+    "untrusted-extension-host/per-callback-failure-policy",
     "usage-analytics/batching-and-quota",
     "versioning-snapshots/retention-and-pruning",
     "voice-io/stt-pipeline",
@@ -26534,6 +27024,7 @@
     "agent-memory/owner-and-counterpart-scope",
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
+    "agent-runtime-assembly/operator-tier-code-loading",
     "agent-runtime-assembly/session-scoped-capability",
     "alerting/escalation-routing",
     "analytics-time-windows/calendar-arithmetic",
@@ -26593,11 +27084,14 @@
     "credential-vault/token-refresh-lifecycle",
     "data-access/capability-declared-in-the-type",
     "data-access/cross-driver-invariant-parity",
+    "data-access/operator-defined-tables",
     "data-access/query-construction",
     "data-access/row-mapping",
     "data-retention/per-tenant-retention-policy",
     "data-viz/encoding-vocabulary",
     "data-viz/metric-identity",
+    "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
+    "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
     "declarative-resource-lifecycle/per-field-write-ownership",
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
@@ -26656,6 +27150,7 @@
     "hitl-approval/cosmetic-vs-enforced-threshold-invariant",
     "hitl-approval/human-performed-steps",
     "hitl-approval/severity-sla-ladder",
+    "hitl-approval/truncated-verdict-space",
     "i18n/catalog-architecture",
     "i18n/incomplete-bundle-kill-switch",
     "i18n/script-aware-presentation",
@@ -26693,6 +27188,7 @@
     "metric-forecasting/horizon-caps-and-flat-bands",
     "metric-forecasting/pace-against-a-deadline",
     "metrics-rollups/bundle-endpoints",
+    "migrations/dynamic-table-set-migrations",
     "migrations/schema-drift-detection",
     "modal-stack/layering-and-precedence",
     "model-routing/failover-horizon",
@@ -26806,6 +27302,8 @@
     "transactions-over-a-replicated-log/compose-then-conform",
     "triage-queues/source-normalization",
     "ui-controls/variant-discipline",
+    "untrusted-extension-host/canonicalizable-privilege-declaration",
+    "untrusted-extension-host/isolation-tier-independent-extension-api",
     "usage-analytics/coverage-from-registries",
     "usage-analytics/event-taxonomy",
     "versioning-snapshots/promotion-lifecycle",
@@ -26835,6 +27333,8 @@
     "credential-vault/renew-at-two-thirds-with-grace",
     "credential-vault/token-refresh-lifecycle",
     "data-access/capability-declared-in-the-type",
+    "decentralized-artifact-distribution/signal-that-only-subtracts",
+    "decentralized-artifact-distribution/verdict-bound-to-the-exact-revision",
     "declarative-resource-lifecycle/per-field-write-ownership",
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "deployment-contract/deploy-gate-coupling",
@@ -26866,6 +27366,7 @@
     "structured-output/schema-validation-and-repair",
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
+    "untrusted-extension-host/per-callback-failure-policy",
     "voice-io/decode-time-vocabulary-biasing",
     "voice-io/portable-provider-package",
     "voice-io/speech-ready-text",
@@ -26911,6 +27412,7 @@
     "codegen/commit-vs-derive-policy",
     "codegen/drift-gating",
     "codegen/generated-file-hygiene",
+    "codegen/post-merge-regeneration",
     "codegen/trigger-wiring",
     "companion-identity/capability-exercise-ledger",
     "companion-identity/disk-truth-db-index",
@@ -27062,6 +27564,7 @@
     "triage-queues/queue-lifecycle",
     "ui-controls/control-inventory-and-discovery",
     "undo-history/undo-model-selection",
+    "untrusted-extension-host/canonicalizable-privilege-declaration",
     "voice-io/authored-voice-identity",
     "voice-io/tts-pipeline",
     "watch-cache-and-resync/atomic-swap-at-initial-sync",
@@ -27096,6 +27599,11 @@
     "convergence-loop-and-requeue/told-that-not-why",
     "data-access/capability-declared-in-the-type",
     "data-access/cross-driver-invariant-parity",
+    "data-access/localized-record-identity",
+    "decentralized-artifact-distribution/fail-closed-trust-dependency",
+    "decentralized-artifact-distribution/publisher-declared-verification-floor",
+    "decentralized-artifact-distribution/signal-that-only-subtracts",
+    "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "deployment-contract/direct-push-delivery",
@@ -27104,6 +27612,7 @@
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
     "fleet-orchestration/brief-carries-the-session",
+    "hitl-approval/truncated-verdict-space",
     "import-normalization/durable-intermediate-representation",
     "issuance-policy-ladder/require-one-constraint",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
@@ -27145,6 +27654,9 @@
     "supply-chain/verification-scope",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
+    "untrusted-extension-host/grant-change-consent",
+    "untrusted-extension-host/pluggable-isolation-runner",
+    "untrusted-extension-host/two-tier-extension-format",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
     "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/duplicate-and-replay-dedup"
@@ -27156,6 +27668,7 @@
     "agent-instruction-files/restraint-amplifier-balance",
     "agent-memory/owner-and-counterpart-scope",
     "context-hierarchy/digest-gated-upward-refresh",
+    "decentralized-artifact-distribution/signal-that-only-subtracts",
     "deployment-contract/deployment-config-as-code",
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/worker-trajectory-anatomy",
@@ -27172,19 +27685,23 @@
     "quorum-and-recovery-procedures/single-node-recovery-resize",
     "retrieval/query-decomposition-before-the-lanes",
     "session-continuation/compaction-checkpoint",
-    "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global"
+    "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
+    "test-harness/context-starved-executor"
    ]
   },
   "limits-are-derived": {
    "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
    "techniques": [
+    "concurrency-guards/cache-value-not-handle",
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
+    "decentralized-artifact-distribution/fail-closed-trust-dependency",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate"
    ]
   },
   "record-precedes-effect": {
    "statement": "The record of an action is written before the action, and the action is refused when the record cannot be written. A marker before a privileged bootstrap, a parent index before the record it indexes, a write-ahead entry before a remote mutation, an audit line before the response leaves, a lease persisted before the credential is minted in the remote system — in every case the naive order (act, then record) leaves a window in which the effect exists and nothing accounts for it, and that window is where authority escapes its revocation chain, where a half-created tenant survives a crash, and where a secret was served with no line to prove it. The rule has a second half that is the load-bearing one: when the record cannot land — the store is read-only, the sink set is empty, the ledger is unreachable — the effect does not happen. A system that acts anyway and logs the failure has chosen availability over accountability without saying so. Sibling of creation-names-reaper: that law says a created thing names what will clean it up; this one says the clean-up handle is written first.",
    "techniques": [
+    "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm"
    ]
   }
