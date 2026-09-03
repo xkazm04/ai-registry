@@ -158,3 +158,20 @@ ladder). Filed as a lead, no action taken.
 - **Round verdict:** feasibility PROVEN, quality signal PROMISING, throughput
   BLOCKED on the missing GPU backend. Next action is the CUDA source build;
   the scored 5-frame protocol and judge replay run after it, unchanged.
+
+## Program close-out (2026-09-03, operator decision)
+
+- **GLM-5.3-Flash: KEEP**, conditionally — disk is rent-free post-cleanup
+  (407 GB free), the n=1 quality preview was a class jump, re-acquisition
+  costs ~10 h. Condition: one CUDA-build attempt within a week, else delete
+  the weights and keep the findings.
+- **The unifying finding across BOTH big-model threads:** Wolf's 64 GB host
+  RAM is the binding constraint, not the 4090. H3 ref2va ran at ~12x its
+  reference rate (~60 min vs ~5 min per 3s clip) and GLM-5.3 vision at ~30x,
+  both from expert paging. One 128 GB RAM upgrade moves both verdicts at
+  once; no software work does.
+- **The ref2va bake-off (dojo cycle 2026-09-03-serial-ref2va, truncated at
+  one sequence): H3 2/2 over Wan t2v** — figure present every frame with
+  identity carried from the reference, interior staged with the action
+  performed. Reference conditioning is confirmed as the serial direction;
+  the phrasing lane (3 windows, 10 pairs, coin flip) is closed.
