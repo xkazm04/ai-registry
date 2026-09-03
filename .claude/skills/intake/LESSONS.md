@@ -6155,3 +6155,11 @@ been naming that zero for weeks:
   (regenerate under the lock, commit your own content, leave the index artifacts
   uncommitted if they reference content not in `HEAD`) covers it, and the source note
   should name the folder so the next reader knows why the index was left behind.
+- **Never build a pathspec from `git status`.** The content commit's modified-file list
+  was `git status | grep ' M'` minus a few known exclusions, and by then a sibling had
+  touched three files this run never opened; all three went into `HEAD` under this run's
+  name and had to be restored index-only in a follow-up commit (a pathspec commit could
+  not do it, because a pathspec commits the working tree). The list of files a run may
+  commit is the list of files the run wrote - the design read's checklist plus the
+  director's own writes - and it is assembled from that inventory, never from the tree's
+  current state, which belongs to everyone.
