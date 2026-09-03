@@ -162,7 +162,7 @@ ladder). Filed as a lead, no action taken.
 ## Program close-out (2026-09-03, operator decision)
 
 - **GLM-5.3-Flash: KEEP**, conditionally — disk is rent-free post-cleanup
-  (407 GB free), the n=1 quality preview was a class jump, re-acquisition
+  (245 GB still free with the weights resident), the n=1 quality preview was a class jump, re-acquisition
   costs ~10 h. Condition: one CUDA-build attempt within a week, else delete
   the weights and keep the findings.
 - **The unifying finding across BOTH big-model threads:** Wolf's 64 GB host
