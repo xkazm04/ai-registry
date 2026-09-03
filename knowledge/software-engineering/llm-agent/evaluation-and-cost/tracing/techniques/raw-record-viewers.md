@@ -91,7 +91,7 @@ practically unreadable.
   the record's apparent shape, and never left visible because "it's an
   internal tool". (Better: sensitive values are masked before storage, at
   capture, so the viewer's redaction is a second fence, not the only one —
-  the [credential-vault](../../../../security/credential-vault/credential-vault.md) subject
+  the [credential-vault](../../../../security/identity-and-access/credential-vault/credential-vault.md) subject
   owns that boundary.)
 - **Search within the record**, with match counts and navigation — at
   payload sizes worth a viewer, scrolling is not a search strategy.

@@ -39,7 +39,7 @@ because everything downstream of the mint point belongs to other subjects:
 - **Deciding which automations an admitted event should fire** is trigger
   matching, owned by [scheduling](../../work-execution/scheduling/techniques/trigger-matching.md).
 - **The general model of who may do what inside the system** is
-  [authorization](../../../security/authorization/authorization.md). The ingress owns one
+  [authorization](../../../security/identity-and-access/authorization/authorization.md). The ingress owns one
   sliver of it — proving the *sender* is who it claims — precisely because
   none of the usual authorization machinery exists out here: no session, no
   logged-in principal, no interactive credential exchange. Just bytes and a

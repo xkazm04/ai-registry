@@ -46,6 +46,48 @@ another unbounded quantity, cap the product too, or cap the second factor.**
 Count of entries and bytes per entry. Depth and branching. Number of references
 and the size of what is referenced.
 
+## An estimate is not a cap when the input supplies a term in the estimate
+
+The two-caps rule above assumes the guard can compute the quantity it is
+guarding. There is a nastier shape, and it defeats a cap that is watching
+exactly the right quantity: the guard computes that quantity from a **declared
+field the supplier controls**, so the arithmetic itself is attacker-supplied.
+
+The canonical instance is a declared rate used as a divisor. A container states
+a nominal rate; the guard estimates the materialized duration as units over
+that rate and compares it against a duration ceiling. Inflate the declared rate
+and the estimated duration shrinks to nothing while the actual unit count — and
+therefore the actual buffer — is unchanged. The cap passes, the allocation
+proceeds, and the guard was watching the correct concept the whole time.
+Nothing about "cap the product too" catches this, because the product was
+computed from a lie.
+
+So the rule is about **units, not concepts**: a guard must be expressed in the
+unit the allocator will actually request, and it must derive that unit from
+values the supplier cannot restate. Where a declared field is unavoidable —
+sometimes it genuinely is the only way to interpret a container — it does not
+become trustworthy; it becomes a second thing to bound, and the allocation
+still needs its own ceiling in bytes underneath the estimate. Two guards, one
+on the interpretation and one on the allocation, and the second is the one that
+must hold when the first is fed a fabricated input.
+
+The same reasoning settles **where** the check goes, which is the other half
+attackers exploit. A declared shape can be enormously cheaper to transmit than
+to materialize — a sparse structure carrying its own dimensions is a few
+hundred bytes describing hundreds of gigabytes — so a check placed after the
+materializing call has already lost. The guard belongs **before** the
+allocation, reading the declaration, refusing the request without ever asking
+for the memory. A post-allocation check is not a late guard; on this shape it
+is no guard at all, because the process is gone before it runs.
+
+Two consequences worth stating for a reader sizing a real system. Every
+expansion **stage** gets its own ceiling rather than one ceiling for the
+pipeline, because the stages are defeated independently and a single end-to-end
+number cannot say which one failed. And a ceiling that can be set to a
+disabling value should say so where it is defined, together with the population
+for whom disabling it is defensible — a limit whose off switch is undocumented
+gets turned off by someone who believes it is a tuning parameter.
+
 ## Caps are a system; state the relationships
 
 Caps chosen one at a time do not compose. The property you actually want is

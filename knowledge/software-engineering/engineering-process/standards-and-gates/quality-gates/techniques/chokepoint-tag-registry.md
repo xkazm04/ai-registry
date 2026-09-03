@@ -58,7 +58,7 @@ bijection asks *is every wrapped call accounted for*, the negative space
 asks *is every call wrapped*.
 
 The same construction generalizes to addressing rather than calling — see
-[identity-bearing-keys](../../../../security/authorization/techniques/identity-bearing-keys.md),
+[identity-bearing-keys](../../../../security/identity-and-access/authorization/techniques/identity-bearing-keys.md),
 where the negative-space check is "the key format appears nowhere but the
 composer".
 

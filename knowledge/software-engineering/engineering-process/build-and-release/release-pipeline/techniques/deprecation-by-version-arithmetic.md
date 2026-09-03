@@ -6,7 +6,7 @@ technique: deprecation-by-version-arithmetic
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [marking a public symbol deprecated, a deprecation tag that has outlived several releases with callers still attached, deciding which version removes a replaced API, a warning that names no removal point, reviewing what a release is allowed to delete]
+use_when: [marking a public symbol deprecated, a deprecation tag that has outlived several releases with callers still attached, deciding which version removes a replaced API, a warning that names no removal point, reviewing what a release is allowed to delete, recording a downstream that hard-codes a published name, deciding whether a fast-moving public catalog owes an alias at all]
 ---
 
 # Deprecation by version arithmetic
@@ -169,6 +169,74 @@ trust**: a case-sensitive sweep that deleted every lowercase occurrence of a
 retired mode left the documentation defining the mode hierarchy with holes
 where its name had been, while the capitalised form survived a page away.
 
+## Where the list of known consumers lives
+
+"Zero known critical consumers" is a blocker with no mechanism attached until
+the list lives somewhere that fails a build. A policy document, an ownership
+file, a freeze-list in prose — all decay the same way: they are read by
+whoever remembers they exist, which after two handovers is nobody.
+
+**Pin the named consumer's dependency in an executable test.** A test that
+asserts the specific published names a known downstream hard-codes fails at
+build time, before review, and cannot be forgotten the way a paragraph can.
+The rename that would break that consumer stops being a discovery the
+consumer makes for you.
+
+Two properties decide whether the pin is worth having:
+
+- **It carries its own provenance.** The entry records *who* depends on the
+  name and *where* that dependency was created, so the next person to hit the
+  failure can go and ask whether it still exists. A freeze with no attribution
+  is inherited forever, because nobody can prove it is safe to lift — which
+  turns the pin into the thing it was written to prevent.
+- **It pins names, not the surface.** A golden-file snapshot of the entire
+  published surface fails on every legitimate addition, and a check that fails
+  on every legitimate change teaches reviewers to bless its diff unread. Pin
+  the two or three names that are actually load-bearing and the failure keeps
+  its meaning.
+
+One clause explains why the rename checklist's "grep for the old name" does
+not already cover this: the consumer is in a different repository. A
+repository-wide search cannot see it, and the search's clean result is
+indistinguishable from there being nothing to find.
+
+## When declining the window is correct
+
+The window is owed to callers who hold a cached contract. Where they do not,
+the arithmetic still runs and protects almost nobody, and a project may
+deliberately rename in place with no alias and no deprecation period. That is
+a defensible posture rather than a lapse — but only under all three of its
+conditions:
+
+- **Callers re-read the catalog every session.** A consumer that enumerates
+  the published surface on each connection and selects from what it finds
+  holds no compiled reference to break. The window protects whoever cached;
+  if almost nobody caches, it protects almost nobody.
+- **Catalog size is itself a quality metric.** A deprecation alias is not
+  inert. In a catalog a probabilistic caller selects from, every retained name
+  is a second plausible option sitting in the selection prompt at every
+  listing, and the characteristic failure of such a caller is choosing wrong
+  among near-synonyms. The alias is therefore *active misdirection*, and it
+  reinflates precisely the number a breaking change was just spent to shrink.
+- **Releases ship frequently, on a pre-stable train.** The rename reaches
+  callers in days, and the version series has not yet promised stability.
+
+Three compensating controls keep the decline honest rather than reckless: a
+**mandatory breaking-change entry in the release record**, so the removal is
+loud where the runway would have been; a preference for **batching** the
+rename into a larger breaking release rather than shipping it alone, so
+callers absorb one break instead of five; and **executable pins for the named
+consumers who genuinely do cache**, per the section above — declining the
+window for the population never waives the consumer term.
+
+Then state the bill. The project that ran this posture renamed one capability
+and renamed it again five releases later, and its own checklist concedes what
+the posture costs: a caller holding a cached listing will silently stop
+finding the renamed capability — no warning, no message naming a removal
+version, just a capability that is no longer there. Declining the window buys
+catalog quality and pays in silent breakage for the minority who cache. A
+scope exemption stated without its bill is an excuse.
+
 ## When not to use this
 
 Internal symbols with no callers outside the repository need no window:
@@ -178,4 +246,6 @@ migrations and user-facing notice — is entity-lifecycle territory and runs on
 a different clock; and the mechanics of finding code that is already
 unreferenced belong to dead-code. This technique sits between: the symbol is
 referenced, the reference is external, and the question is on which version
-the reference stops being honoured.
+the reference stops being honoured. The second exemption — a public catalog
+whose callers re-read it every session — is set out above, and is only an
+exemption while all of its conditions hold.

@@ -130,12 +130,12 @@ operator cannot edit ([program-role-returns-the-artifact](./techniques/program-r
 
 ## Boundary with authorization
 
-The [authorization](../../security/authorization/authorization.md) subject
+The [authorization](../../security/identity-and-access/authorization/authorization.md) subject
 owns the question "may this caller perform this operation": the closed tier
 vocabulary, the scope contracts and their intersection rule, and the
 requirement each operation declares as data the gate reads
-([declarative-requirements](../../security/authorization/techniques/declarative-requirements.md),
-[scope-design](../../security/authorization/techniques/scope-design.md)).
+([declarative-requirements](../../security/identity-and-access/authorization/techniques/declarative-requirements.md),
+[scope-design](../../security/identity-and-access/authorization/techniques/scope-design.md)).
 That gate runs before any issuance handler is reached, and it decides whether
 the caller may *ask* - may hit the issue endpoint, may hit the verbatim
 endpoint, may edit a role at all. This subject begins where that decision has
@@ -152,7 +152,7 @@ endpoint whose absence of a role is this subject's design.
 
 ## Boundary with the credential vault
 
-The credential vault's [acquisition](../../security/credential-vault/techniques/acquisition.md)
+The credential vault's [acquisition](../../security/identity-and-access/credential-vault/techniques/acquisition.md)
 technique is the ladder of ways a credential gets *in* - a delegated grant, a
 captured token, a foraged key, a guided paste - and the single validation door
 through which every mode admits it. This subject is the mirror: the ladder of

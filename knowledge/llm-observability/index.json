@@ -3,8 +3,8 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
-  "subjects": 16,
-  "techniques": 105,
+  "subjects": 17,
+  "techniques": 110,
   "applications": 58,
   "laws": 9,
   "categories": [
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "105/105",
+  "use_when_coverage": "110/110",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -671,6 +671,95 @@
     }
    ]
   },
+  "generator-uncertainty-scoring": {
+   "category": "quality-scoring",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
+   "digest": "sha256:07c79704a464fa5d",
+   "techniques": [
+    {
+     "slug": "generator-vs-itself",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the same prompt returns different answers on different runs",
+      "deciding whether generator variance is noise or signal",
+      "choosing how many samples a consistency score should draw",
+      "a gate and a scorer disagree about the same spread"
+     ]
+    },
+    {
+     "slug": "probability-calibration-is-not-agreement",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a threshold or floor is set on a confidence score",
+      "a score is shown to a reader as a percentage",
+      "an agreement or correlation statistic is offered as evidence that a number is trustworthy",
+      "choosing between a rank decision and an absolute-level decision"
+     ]
+    },
+    {
+     "slug": "score-source-ensembling",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "combining a judge score with a judge-free confidence score",
+      "weights for a composite confidence score need to be chosen",
+      "a scorer that worked on one workload is carried to another",
+      "deciding whether a scoring configuration transfers across a model upgrade"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "score-source-kinds",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scoring contract types its dimensions by who decides them",
+      "a quality signal is needed where no rubric and no reference answer exist",
+      "deciding whether a confidence number may be aggregated with judged scores"
+     ]
+    },
+    {
+     "slug": "scorer-cost-class",
+     "status": "forged",
+     "laws": [
+      "quality-apparatus-stays-unbudgeted",
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a scorer for high-volume traffic",
+      "a serving API does not return token probabilities",
+      "deciding whether scoring may run inside the serving path",
+      "judge spend is growing faster than traffic"
+     ],
+     "stage": "team"
+    }
+   ],
+   "applications": []
+  },
   "judge-calibration-and-drift": {
    "category": "quality-scoring",
    "subcategory": null,
@@ -1272,7 +1361,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
-   "digest": "sha256:81ab9181ba71f68f",
+   "digest": "sha256:20d80bd47dbe78cc",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",
@@ -2040,6 +2129,10 @@
     "federated-benchmark-sharing/hub-ingest-plausibility-gates",
     "federated-benchmark-sharing/k-anonymity-cases-and-sources",
     "federated-benchmark-sharing/strict-ingestion-lenient-consumption",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
+    "generator-uncertainty-scoring/score-source-kinds",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-calibration-and-drift/trust-bar-verdict",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
     "judge-contract-design/deterministic-dimension-kinds",
@@ -2077,6 +2170,10 @@
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "federated-benchmark-sharing/bounded-contributor-influence",
     "federated-benchmark-sharing/cost-bucketing-side-channels",
+    "generator-uncertainty-scoring/generator-vs-itself",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
+    "generator-uncertainty-scoring/score-source-kinds",
     "judge-calibration-and-drift/reserved-rubric-persistence",
     "judge-contract-design/mixed-rubric-honesty",
     "judge-contract-design/nonce-fenced-candidate-isolation",
@@ -2106,6 +2203,7 @@
     "analytics-store-design/flat-events-plus-json-linkage",
     "breach-alerting-and-attribution/top-contributor-attribution",
     "federated-benchmark-sharing/strict-ingestion-lenient-consumption",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-contract-design/deterministic-dimension-kinds",
     "llm-call-telemetry-model/nullable-cost-never-zero",
     "llm-call-telemetry-model/token-usage-quadruple",
@@ -2162,6 +2260,9 @@
     "breach-alerting-and-attribution/pre-breach-forecasting",
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
+    "generator-uncertainty-scoring/generator-vs-itself",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
@@ -2179,6 +2280,7 @@
    "techniques": [
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
     "federated-benchmark-sharing/capture-locally-publish-separately",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-calibration-and-drift/judge-selection-by-spread",
     "judge-calibration-and-drift/scheduled-recalibration",
     "margin-and-unit-economics/cogs-by-construction",

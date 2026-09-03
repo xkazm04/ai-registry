@@ -161,9 +161,9 @@ requester collects, under the authority they hold at that moment. That is
 
 ## Boundaries
 
-[authorization](../../security/authorization/authorization.md) owns who
+[authorization](../../security/identity-and-access/authorization/authorization.md) owns who
 may act: the tiers, the scopes, the chokepoint, and - in
-[delegated-authority](../../security/authorization/techniques/delegated-authority.md) -
+[delegated-authority](../../security/identity-and-access/authorization/techniques/delegated-authority.md) -
 how an originating authority is carried across hops and narrowed at each
 one. This subject owns what an authority *costs* and how it is *carried
 as an artifact*: whether it is a row or a ciphertext, which indexes make
@@ -178,7 +178,7 @@ authority's chain is carried through this subject's tokens - a child token
 is a hop, and it is narrowed by the neighbour's rules and persisted by
 this one's.
 
-[token-refresh-lifecycle](../../security/credential-vault/techniques/token-refresh-lifecycle.md)
+[token-refresh-lifecycle](../../security/identity-and-access/credential-vault/techniques/token-refresh-lifecycle.md)
 in the credential vault is the consumer's side of a lease: when to renew,
 how to survive a rotation, how to classify a failed refresh. This subject
 is the issuer's ledger that the consumer is renewing against: what a

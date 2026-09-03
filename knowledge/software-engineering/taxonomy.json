@@ -85,7 +85,8 @@
         "ipc-contract",
         "realtime-events",
         "hash-pinned-translation-pipeline",
-        "demo-data-plane"
+        "demo-data-plane",
+        "native-shell-integration"
       ]
     },
     {
@@ -213,7 +214,18 @@
             "observability-telemetry",
             "metrics-rollups",
             "alerting",
-            "outbound-notifications"
+            "outbound-notifications",
+            "metric-surface-contract"
+          ]
+        },
+        {
+          "id": "inference-serving",
+          "title": "Inference serving",
+          "subjects": [
+            "serving-process-topology",
+            "paged-block-cache",
+            "persistent-batch-mutation",
+            "cross-instance-cache-lease"
           ]
         },
         {
@@ -274,17 +286,42 @@
       "id": "security",
       "title": "Security",
       "order": 6,
-      "subjects": [
-        "authorization",
-        "credential-vault",
-        "device-pairing",
-        "p2p-networking",
-        "signed-artifacts",
-        "supply-chain",
-        "telemetry-pii-redaction",
-        "browser-credential-boundary",
-        "decentralized-artifact-distribution",
-        "untrusted-extension-host"
+      "subcategories": [
+        {
+          "id": "identity-and-access",
+          "title": "Identity and access",
+          "subjects": [
+            "authorization",
+            "credential-vault",
+            "device-pairing"
+          ]
+        },
+        {
+          "id": "code-provenance",
+          "title": "Code provenance",
+          "subjects": [
+            "signed-artifacts",
+            "supply-chain",
+            "decentralized-artifact-distribution"
+          ]
+        },
+        {
+          "id": "extension-trust",
+          "title": "Extension trust",
+          "subjects": [
+            "extension-trust-boundary",
+            "untrusted-extension-host"
+          ]
+        },
+        {
+          "id": "data-and-transport",
+          "title": "Data and transport",
+          "subjects": [
+            "telemetry-pii-redaction",
+            "browser-credential-boundary",
+            "p2p-networking"
+          ]
+        }
       ]
     },
     {
@@ -341,7 +378,8 @@
             "quality-gates",
             "knowledge-registry",
             "repo-manifest-standard",
-            "multi-project"
+            "multi-project",
+            "invariant-placement"
           ]
         },
         {

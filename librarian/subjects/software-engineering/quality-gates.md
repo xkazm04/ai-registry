@@ -546,3 +546,54 @@ open.
 `cpp--enforcement-binding` application only (a catch): an external linter module pinned by
 hash in CI with findings posted as review comments. The review-comment half is the
 reusable part; the fleet already keeps its lint rules in-repo.
+### 2026-09-03 - `/intake`, from a vendor's official MCP server monorepo
+
+`gate-laddering` gained the runtime rung. Source: [[2026-09-03-microsoft-mcp]].
+
+The ladder ran editor -> commit -> push -> merge pipeline, sized by latency, with the
+merge pipeline named as the binding rung. That enumeration is complete for checks running
+in a development pipeline and has no rung for a check that runs when the *shipped artifact
+starts* - which is where an integrity invariant over a hand-maintained mapping has to run,
+because only the composed program can evaluate it.
+
+What makes it a genuinely new rung rather than another column is that its severity splits
+by **audience, not stage**: the same defect is fatal on a developer build (fastest possible
+feedback, costs nothing) and advisory in the shipped artifact (refusing to start would take
+down a service over one bad entry while every other entry is fine). Every other rung splits
+severity by stage.
+
+The cautionary half came from the source's own underpayment, and it is why the rung needs
+`gate-liveness` more than any other: the assertions ran only in developer builds, were
+additionally skipped under two commonly set flags, and the worst case - a group that lost
+every one of its members - was short-circuited silently in all configurations. A rung whose
+green nobody observes has no pipeline log to notice its absence.
+
+**Contended**: a sibling run held this subject, but only a technique file was amended, so
+no shared list was touched.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique: **`deterministic-proxy-gate`**. This closes a hole the subject
+*states and leaves open*. `operation-assertion-gates` says the two-class axis
+offers only two honest configurations for a cost gate, rejects both, offers one
+escape (restate the standard as source text) and admits it "holds the shape; it
+does not hold the number."
+
+The fourth resolution: keep the standard, swap the **apparatus**. A deterministic
+count of work performed is a function of the tree — same revision, same number,
+any machine, any load — so it satisfies `blocking-by-input-determinism` where
+elapsed time fails. Priced: large constant-factor slowdown, blindness to
+everything time measures that work-count does not. Inverts where the standard is
+genuinely wall-clock (I/O-, syscall-, bandwidth- or parallelism-bound).
+
+**Contradiction resolved against the source.** It says block the pull request on a
+wall-clock regression at a guessed 20% threshold; `operation-assertion-gates` and
+`noise-band-and-hysteresis` ("a guessed band is a censorship policy with no
+evidence") rule that dishonest. Our verdict holds on the source's own evidence —
+its mitigation concedes the apparatus is nondeterministic.
+
+Reduces a measured attention point on the #2 worklist subject (52 points).
+
+The subject also **gave up a stage**: invariant placement now lives in the new
+`invariant-placement` subject, which is the rung-zero this golden path's
+vocabulary could not describe.

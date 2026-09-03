@@ -1,7 +1,7 @@
 ---
 subject: concurrency-guards
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -143,3 +143,22 @@ this subject is about single-flight, not mutual exclusion. A subject on
 in-process lock discipline is the home; one changelog entry is thin evidence
 for a subject. Return condition: a second source, or a managed project's
 incident, of the same shape.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique, +1 amendment.
+
+**`critical-section-across-a-suspension`** — the reflexive rule "never hold a lock
+across a yield" is wrong as stated. Splitting a critical section around a
+suspension introduces a check-to-use race; before splitting, establish the halves
+are independent. If the second depends on state the first observed, the split
+converts a throughput problem into a correctness one. The subject owned guard
+keys, release guarantees, single-flight and fencing — nothing spanning a
+suspension, and nothing about the race created by naively shortening one.
+
+Amendment to `release-guarantees`: a sixth path, where **the named reaper cannot
+run in the context it is called from**. Not an exit path but a capability
+mismatch — where release requires waiting, a synchronous destruction hook cannot
+satisfy it, and spawning the release from that hook is unowned work firing exactly
+as the runtime departs. A resource whose only reaper is a hook it cannot satisfy
+has no reaper. Cites `creation-names-reaper`.

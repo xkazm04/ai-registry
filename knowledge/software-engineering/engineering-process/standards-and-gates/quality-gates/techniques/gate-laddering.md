@@ -4,9 +4,9 @@ type: technique
 subject: quality-gates
 technique: gate-laddering
 status: forged
-laws: [gate-sees-target]
+laws: [gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [placing each check on the rung its latency affords, local green but pipeline red on the same content, pipeline red every run while merging continues, a compile-gated branch breaks only in the pipeline, deciding whether the local rung analyzes every build configuration]
+use_when: [placing each check on the rung its latency affords, local green but pipeline red on the same content, pipeline red every run while merging continues, a compile-gated branch breaks only in the pipeline, deciding whether the local rung analyzes every build configuration, a check that can only run once the program is assembled]
 ---
 
 # Gate laddering
@@ -25,6 +25,7 @@ cost, with each rung's scope sized to the latency its stage can afford.
 | Commit | low seconds | files in the commit | yes, bypassable |
 | Push | tens of seconds | affected surface | yes, bypassable |
 | Merge pipeline | minutes | everything | yes — the binding rung |
+| Shipped runtime | every launch | invariants only the composed program can evaluate | yes on a developer build, advisory in the shipped artifact |
 
 **Editor.** Squiggles at authoring time prevent more defects than any other
 rung, and enforce none of them. This rung is where advisory-severity rules
@@ -52,6 +53,13 @@ is still loaded.
 Full lint with no scoping, full test suites, cross-platform builds, every
 inventory and drift check at repository scope. This rung is slow and that
 is acceptable, because its job is not feedback — it is refusal.
+
+**Shipped runtime.** Not a lower rung but a later one — it runs after the
+binding rung, in the artifact itself: a check that cannot run until the
+program is assembled, and is worth re-running every time users start it. It is the one rung whose severity is set by who
+is running the binary rather than by how late the stage is, and the one rung
+that leaves no pipeline log — both of which are why it gets its own section
+further down.
 
 ## The binding rung is the last one
 
@@ -106,6 +114,47 @@ scrutiny a binding rung gets, including the case where it exits clean
 because its scanner is not installed. And the remote counterpart must
 still exist, because it is what catches the clone that never installed the
 hook — it just cannot be credited with preventing anything.
+
+## The rung after merge: checks that run when the artifact starts
+
+The four rungs above are sized by latency and all four live in a development
+pipeline. Some checks cannot live there at all. An integrity invariant over a
+hand-maintained mapping or registry — every mapped name resolves to something
+that exists, every item is claimed by exactly one group, the declared metadata
+agrees with what was actually assembled — can only be evaluated **once the
+program is composed**. There is no editor rung for it and no commit rung,
+because its input does not exist until assembly; and it is worth re-running in
+the shipped artifact, because configuration and plugin loading can invalidate
+it after the merge rung was green.
+
+What makes this a genuinely new rung rather than a fifth column of the same
+table is that **its severity splits by audience, not by stage.** Every other
+rung answers "how late is this?"; this one answers "who is running the
+binary?"
+
+- **Fatal to the author.** On a developer build the defect is a hard startup
+  failure. That is the fastest feedback the check can possibly give, and it
+  costs a developer nothing: the program they just assembled refuses to start
+  and names the entry that is wrong.
+- **Advisory to the operator.** In the shipped artifact the same defect is a
+  warning. Refusing to start would take a service down over one bad entry
+  while every other entry is fine — a large outage bought with a small defect.
+
+**The trap that makes the rung worth writing down: nothing observes its
+green.** A runtime rung produces no pipeline log, so nobody notices when it
+stops firing. Observed in the wild: the assertions had additionally been
+gated on build flags such that two common configurations skipped them
+entirely, and the most interesting case of all — a group that had lost every
+one of its members — was skipped silently in *every* configuration, because
+the loop walking the groups short-circuited above the assertion on the empty
+case. An optional guard is an absent one
+([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)), and this
+absence is invisible by construction. So a runtime rung needs a liveness proof
+more than any rung in the pipeline does
+([gate-liveness](./gate-liveness.md)): seed a violation, start the program in
+each configuration that ships, and watch the failure arrive. The diagnostics
+at the end of this document all read pipeline history; this rung leaves none
+to read.
 
 ## Control placement is a design decision, per control
 

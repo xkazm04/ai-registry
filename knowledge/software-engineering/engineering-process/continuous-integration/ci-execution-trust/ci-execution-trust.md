@@ -45,10 +45,10 @@ Three trust relationships exist whether or not anyone has named them:
   arbitrary code executes on demand.
 
 The subject's boundary: where a credential is *stored* is
-[credential-vault](../../../security/credential-vault/credential-vault.md); what a *dependency*
-brings with it is [supply-chain](../../../security/supply-chain/supply-chain.md); what
+[credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md); what a *dependency*
+brings with it is [supply-chain](../../../security/code-provenance/supply-chain/supply-chain.md); what
 signatures over *published artifacts* prove is
-[signed-artifacts](../../../security/signed-artifacts/signed-artifacts.md). What is here is the
+[signed-artifacts](../../../security/code-provenance/signed-artifacts/signed-artifacts.md). What is here is the
 execution path itself — the trust boundary a job crosses on its way to running.
 
 ## Name the boundary before hardening anything

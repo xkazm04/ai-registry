@@ -6,7 +6,7 @@ technique: gate-scope-is-not-report-scope
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
-use_when: [a coverage gate is green over a scoped include set, deciding which files a quality report is defined over, an untested directory has never appeared in any report]
+use_when: [a coverage gate is green over a scoped include set, deciding which files a quality report is defined over, an untested directory has never appeared in any report, a coverage floor is met by tests that take no decision the code offers]
 ---
 
 # The gate's scope is not the report's scope
@@ -100,6 +100,54 @@ files; those belong to the fixture, not to this suite, and one discovery
 exclusion keeps a fixture's presence on disk from silently changing what this
 project's suite reports.
 
+## The other half of the number: its criterion
+
+Everything above is about the **denominator** — which files the percentage is
+computed over. A coverage figure has a second parameter, independent of the
+first and just as invisible in the output: **what counts as covered**.
+
+The usual criteria, from weakest to strongest: a line was executed; a function
+was entered; every arm of every decision was taken; every sub-expression region
+was evaluated. They are not refinements of one measurement, they are different
+measurements, and the spread between them on the same suite is routinely tens
+of points. "Coverage: 82%" is therefore not a number. It becomes one at "82% of
+executable lines in the whole source tree, measured by compiler
+instrumentation" — the count carries its predicate
+([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate))
+or it is a figure two teams will read as two different claims.
+
+The consequence for a floor is sharper than the consequence for a report. **A
+line-criterion floor is satisfiable by tests that take no decision the code
+offers.** A function with three thresholds and four outcomes reaches full line
+coverage from tests that exercise two of them, because the untaken arms
+contribute no uncovered lines — they are the *absence* of a line, and absence
+is not a measurable region. The one path that was never taken is the sensor
+error case, and it is the one anybody would have written a test for if they had
+known it was missing. A gate defined on the weak criterion is thus green
+precisely over the code whose risk is decision-shaped, which is most code worth
+gating.
+
+The rule that follows is the same two-consumers move as the include sets, on the
+other axis: **the floor may be held on the criterion the tree can currently
+meet; the report shows the stronger criterion beside it.** The gap between the
+two figures is the finding — it is a direct measure of how much of the tested
+code was reached without being interrogated — and its trend is what a review
+should read, not the headline. Both numbers name their criterion wherever they
+render.
+
+**The inversion, and it is not optional.** Do not gate on the strongest
+criterion available. Below the source language, the compiler synthesizes
+decisions the author never wrote: an unwrapping of an optional value, an
+implicit failure path, the arms of a pattern match expanded into a chain, a
+bounds check. Instrumentation counts those as decisions, and no test can take
+the branches that exist only because a lowering created them. A floor set on a
+criterion that measures the compiler's own control flow is unmeetable by
+construction, and it is unmeetable by a margin that varies with the optimizer
+rather than with the suite — which means the gate's verdict moves when nothing
+in the tree moved. Gate on the criterion the source text can actually satisfy;
+report the stricter one as a diagnostic that a human reads, and expect it to be
+structurally lower forever.
+
 ## The diagnostic
 
 One question against the configuration: **could a source file exist in this
@@ -107,3 +155,8 @@ repository, be shipped to production, and never appear in any coverage report
 at any percentage?** If yes, the report is defined over the tested subset and
 its headline is a statement about that subset. The fix is a second include
 set, not a lower floor.
+
+And one against the number: **could a decision the source text offers be
+untaken by every test in the suite, and the figure be unchanged?** If yes, the
+figure is a line-criterion measurement, and it must say so wherever it renders.
+The fix is a second criterion published beside it, not a higher floor.

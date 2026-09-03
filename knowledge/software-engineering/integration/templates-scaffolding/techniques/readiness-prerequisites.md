@@ -41,7 +41,7 @@ payload, the **capability** it must have, and whether it is **required or
 optional** for the instance to function.
 
 The gate then matches declared requirements against the live environment —
-typically the [credential vault](../../../security/credential-vault/credential-vault.md)
+typically the [credential vault](../../../security/identity-and-access/credential-vault/credential-vault.md)
 and the connected-integration registry. Matching rules that earn their
 keep:
 

@@ -1,7 +1,7 @@
 ---
 subject: supply-chain
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -195,3 +195,36 @@ newest) restricted; the tree's only producer writes seven numeric arrays and a s
 Harness: producer-shaped archive loads identically under both arms; hostile-shaped
 archive with one object member is executed under A and refused under B. Three sites
 flipped in one pathspec commit on the project's active branch, not pushed.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++2 techniques.
+
+- **`build-time-dependency-tier`** — the graph holds two populations with different
+  blast radii, split by execution phase. One policy over the resolved graph prices
+  a build-time dependency by its *runtime* exposure (often nil) and misses that its
+  actual exposure is a developer's workstation with a live credential agent plus
+  the runner. The build-time tier gets its own inventory, review tier and reach
+  question, and is usually sparse enough to enumerate by hand. Escalate when a
+  package *newly acquires* build-time execution. The subject had this as a review
+  *signal* (`update-automation-review.md:53-54`) and as a tiering input, never as a
+  structural claim. Inverts under hermetic, network-isolated, credential-free
+  builds — and the isolation must cover the developer's build, not only the
+  runner's.
+- **`review-attestation-ledger`** (`stage: fleet`) — advisory matching answers *is
+  this known bad*, which is silent about everything nobody has looked at. The
+  complementary axis is a committed per-version record of who reviewed what against
+  which criteria, with the burden shared by importing peers' records under a
+  declared trust relationship. Pooling is load-bearing because cost tracks churn.
+  Both inversion halves carried: below readable-graph size with no external
+  obligation it is bookkeeping for a review nobody performs; and **an unread import
+  is worse than no ledger, because it renders as coverage.** Also: unmaintained is
+  not vulnerable, and no advisory database reports abandonment.
+
+**Convergence:** the source's dependency policy independently enforces exactly the
+four dimensions `dependency-policy-gates` names, in the same order, with the same
+deny-by-default posture, and independently reaches allowlist-not-denylist for
+licences. Same clock-vs-diff scanning partition too. **Catches:** vendoring
+(`vendored-fork-ledger` — "forking a dependency does not break its guards, it ends
+them" — the source has nothing on vendoring at all) and lockfile trust, where the
+corpus additionally owns the characteristic failure of the freshness check.

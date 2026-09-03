@@ -7,7 +7,7 @@ status: forged
 stage: solo
 laws: [one-authority-per-vocabulary, gate-sees-target]
 shared_with: []
-use_when: [a hosted build fails while the delivery system is green, a hosted build resolves dependencies differently than local, pinning a runtime version for a deploy target, the platform builds with a command nobody reviewed]
+use_when: [a hosted build fails while the delivery system is green, a hosted build resolves dependencies differently than local, pinning a runtime version for a deploy target, the platform builds with a command nobody reviewed, one artifact is served by two hosts and links work on only one]
 ---
 
 # Platform build parity
@@ -38,6 +38,54 @@ somewhere:
 - **What triggers the build.** The pipeline builds on push and pull request; the platform
   builds on its own integration's events. Two triggers on one commit are two builds — see the
   coupling technique for the race this creates.
+
+## Parity does not end at the artifact
+
+Every input above is a **build-time** input, and that enumeration is incomplete in a way
+that hides from every check built on it. Give two hosts the *byte-identical* artifact and
+they can still serve two different sites, because serving is a resolution step of its own:
+each host decides, by its own rules, what a request path means.
+
+The rules that differ, and each has produced the same incident:
+
+- **Extensionless paths.** One host maps a request with no file extension onto the
+  matching file with one; the other returns not-found. A generator that emits real files
+  with extensions, linked internally without them, works on the first host and is broken
+  on the second — for links nobody hand-wrote.
+- **Directory requests.** Whether a path naming a directory serves that directory's index
+  document, redirects, or fails.
+- **Trailing slashes.** Whether the two forms of the same path are the same resource, one
+  redirects to the other, or only one exists — which also decides whether relative links
+  inside the served document resolve one level too high.
+- **Not-found behaviour.** A not-found that serves an application shell with a success
+  status hides broken links entirely; a not-found that serves an error page reveals them.
+  Two hosts disagreeing here means one of them is lying about the other's bugs.
+- **Case sensitivity and normalization** of the path, which differ with the host's
+  filesystem and are invisible to anyone developing on the permissive one.
+
+The reason this input is worth naming separately is what it does to the parity check
+itself: **the artifact really is identical**, so an artifact comparison passes, a checksum
+matches, and a build-parity check reports agreement while the two sites disagree. Per
+[gate-sees-target](../../../../_laws.md#gate-sees-target), a check comparing the bytes has
+not observed the thing users experience, which is the bytes *plus* the resolution rules of
+the host that served them.
+
+So the rule: **where one artifact is served by two hosts, the difference between their
+resolution rules is part of the contract, and it is tested rather than assumed.** The
+authority-per-input discipline below applies unchanged — the second host's configuration
+is written to reproduce the first's behaviour, with the *reason* recorded at the
+configuration site, because a rule whose only justification is "the other host does this"
+is otherwise deleted by the next reader as redundant.
+
+Testing it is cheap and the shape matters: the assertion must request the path shape that
+**fails** — the extensionless link, the directory without its trailing slash — and require
+a success status. An assertion that fetches the landing page proves the server started;
+it proves nothing about resolution, because the landing page resolves under every rule
+either host implements. One request per divergent rule, run against the actual serving
+configuration, is the whole check.
+
+Where only one host ever serves the artifact, none of this applies and writing resolution
+rules to match an imaginary peer is waste.
 
 ## One authority per input
 
@@ -95,5 +143,10 @@ takes over — and that build-environment cleanliness becomes your responsibilit
 - A lockfile maintained on one operating system gets its cross-platform entries verified by
   the remote builder, and remote-only install failures are fixed in the lockfile, not by
   loosening install strictness.
+- Two hosts serving one artifact get their request-resolution rules compared explicitly —
+  extensionless paths, directory requests, trailing slashes, not-found, case — and the
+  second host's configuration states which behaviour it is reproducing and why.
+- The parity assertion requests the shape that would fail on a mis-configured host and
+  requires success; a landing-page fetch is a liveness check, not a parity check.
 - When the platform's builder diverges twice for the same cause, switch to prebuilt deploys
   and let the platform host only.

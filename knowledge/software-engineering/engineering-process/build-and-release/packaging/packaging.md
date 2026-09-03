@@ -5,6 +5,7 @@ subject: packaging
 status: forged
 techniques:
   - installed-tree-acceptance
+  - adoption-time-packaging-audit
   - os-arch-matrix
   - native-payload-verification
   - installer-authoring
@@ -89,6 +90,22 @@ technique owns the full cycle — install, verify tree, launch, verify the
 process actually came up — and the
 [native-payload-verification](./techniques/native-payload-verification.md)
 technique owns the payload manifest and its scoping rules.
+
+Both of those disciplines act on a tree that already exists, and the
+contract is cheapest to satisfy long before then — at **selection** time. A
+packaging mode that *transforms* the program rather than copying it breaks a
+short, enumerable set of constructs: code that reads its own source at
+runtime, runtime metadata and entry-point lookup, absolute-path resource
+resolution, packages that ship data files nothing imports. The development
+host satisfies every one of them, so a dependency carrying any of them looks
+perfect until the artifact is built. Auditing a candidate's *transitive*
+source for that pattern set before writing integration code — recording the
+mechanism behind each hit rather than its symptom, and pricing the shim it
+would need — turns a run of bundling-fix patch releases into a comparison
+made once, on purpose. **A dependency is a packaging decision before it is an
+integration decision**, and
+[adoption-time-packaging-audit](./techniques/adoption-time-packaging-audit.md)
+owns the audit, the mechanism table, and the shim's rules and cost.
 
 ## The matrix is enumerated, not implied
 
@@ -195,6 +212,10 @@ Two rules fall out of the table:
 - [installed-tree-acceptance](./techniques/installed-tree-acceptance.md) —
   install → verify tree → launch smoke, per matrix cell, in automation; the
   clean-machine requirement; what a launch smoke must actually assert.
+- [adoption-time-packaging-audit](./techniques/adoption-time-packaging-audit.md)
+  — auditing a candidate dependency's transitive source for
+  transform-hostile constructs before adoption; mechanisms not symptoms;
+  the shim pattern and what it costs.
 - [os-arch-matrix](./techniques/os-arch-matrix.md) — the enumerated support
   matrix, per-cell jobs, cross-compilation traps, and reading the machine
   type of every artifact you did not build yourself.

@@ -150,7 +150,7 @@ the daemon's lifetime and no longer; and lets no cookie **value** reach a log
 or a picker interface — domains and counts only. These rules are a first-party
 account of one desktop platform and the cross-platform story is thinner. The
 web application's own credential design is
-[browser-credential-boundary](../../../../security/browser-credential-boundary/browser-credential-boundary.md)'s
+[browser-credential-boundary](../../../../security/data-and-transport/browser-credential-boundary/browser-credential-boundary.md)'s
 concern and stays there.
 
 ## Decision rules

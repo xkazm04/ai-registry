@@ -11,6 +11,8 @@ techniques:
   - shortcut-is-not-the-substrate
   - declaration-cost-floor
   - vendored-copy-loses-composition
+  - attachment-coherence
+  - unsatisfiable-set-empirical-gate
 ---
 
 # Dependency declaration
@@ -104,8 +106,8 @@ a *kind* of address are [logical-name-or-address](./techniques/logical-name-or-a
 
 ## Resolve on demand, or enumerate up front
 
-The scalability invariant has exactly two answers and they are not
-interchangeable.
+The scalability invariant has two answers where a consistent graph exists,
+and they are not interchangeable.
 
 **Enumeration** builds the complete graph before anything runs. It is honest,
 inspectable, and diffable, and it is viable only when the full set is knowable by
@@ -130,6 +132,20 @@ question is whether the graph is closed enough for enumeration to be honest.
 [progressive-resolution](./techniques/progressive-resolution.md) holds the
 decision rule, the hybrid that gets most of both, and the specific dishonesty to
 avoid: enumerating an open graph and treating the result as complete.
+
+There is a third case, and it is not a third strategy — it is what is left
+when both strategies lose their premise. Where the declared constraint set is
+provably **unsatisfiable**, no consistent graph exists to enumerate up front
+or to compose through traversal, and the honest answer is to stop asking a
+resolver a question that has no answer: disable resolution, install the exact
+set, record at every install site which upstream constraint is being
+overridden and why, and replace the resolver's verdict with an end-to-end run
+of the built artifact as the acceptance evidence. The guarantee is materially
+weaker and the whole discipline exists to keep it from also being silent.
+[unsatisfiable-set-empirical-gate](./techniques/unsatisfiable-set-empirical-gate.md)
+holds the four parts, the exception fields each bypass carries, and the
+inverted acceptance statement — the consistency check is expected to fail, and
+a green one means the bypass quietly stopped happening.
 
 ## The shortcut must not be the only door
 
@@ -193,6 +209,25 @@ with no mechanism at all — and the wrong default.
 [vendored-copy-loses-composition](./techniques/vendored-copy-loses-composition.md)
 states when the trade pays.
 
+## Declaring is half of it; attaching is the other half
+
+A declaration says *I need that thing*. Some mechanisms also let a unit say *and
+here is how that thing behaves under this interface* — behaviour attached to a
+type after the type is defined, by somebody who did not define it. It is the
+same composition machinery seen from the other side, and it has a failure the
+declaration side does not: two units can each be correct, each attach the same
+behaviour to the same type, and the conflict comes into existence only in the
+assembly built by whoever needs both — where neither author can fix it.
+
+Composability is therefore not only a property of how declarations merge; it is
+a property of who is *allowed* to make an attachment. The constraint that
+preserves it is that one end of the attachment must be owned by the party making
+it, which is what forces a locally-owned wrapper type and makes the conflict
+unwritable rather than merely rare.
+[attachment-coherence](./techniques/attachment-coherence.md) owns the rule, the
+wrapper's real price, why the widest attachment is the least reversible one, and
+the closed-system case where the whole discipline is ceremony.
+
 ## Boundaries
 
 - **What happens when a dependency is not there** belongs to
@@ -204,7 +239,7 @@ states when the trade pays.
   to invent one, which is this subject's defect producing that subject's problem.
 - **Whether what resolved can be trusted** — provenance, policy gates, licence
   review, update discipline, vendored-fork tracking — belongs to
-  [supply-chain](../../../security/supply-chain/supply-chain.md). Resolution is a
+  [supply-chain](../../../security/code-provenance/supply-chain/supply-chain.md). Resolution is a
   design question; what arrives through it is a trust question, and conflating
   them produces mechanisms that are secure and unusable, or usable and unpinned.
 - **Where module boundaries belong**, and how much a unit should hide behind its
@@ -251,3 +286,11 @@ states when the trade pays.
   the first dependency, and the platform inversion an expensive one causes.
 - [vendored-copy-loses-composition](./techniques/vendored-copy-loses-composition.md)
   — what a self-contained artifact actually buys and sells.
+- [attachment-coherence](./techniques/attachment-coherence.md) — who may attach
+  behaviour to a type they do not own, the ownership rule that makes the
+  conflicting pair unwritable, the wrapper as the visible price, and the
+  irreversibility of an attachment written for every type meeting a bound.
+- [unsatisfiable-set-empirical-gate](./techniques/unsatisfiable-set-empirical-gate.md)
+  — what to do when no version set satisfies every declared constraint:
+  resolution disabled, the override recorded at each install site, and the
+  built artifact's end-to-end run standing in for the resolver's verdict.

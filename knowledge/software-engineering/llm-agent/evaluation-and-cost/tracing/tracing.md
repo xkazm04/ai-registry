@@ -5,6 +5,7 @@ subject: tracing
 status: forged
 techniques:
   - span-model
+  - vocabulary-source-selection
   - trace-capture
   - cross-boundary-propagation
   - waterfall-rendering

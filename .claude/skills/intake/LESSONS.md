@@ -5967,6 +5967,235 @@ been naming that zero for weeks:
 
 - Phase 7.7: every waiting proposal across the fleet shown as one multi-select per project at the end of an attended run; selected = accepted, unselected = declined, no third state; ledger rows and status lines written in the project; accepted proposals executed in the same session, one Opus worker per proposal in an isolated worktree on a `direction/<slug>` branch, gate verdict into `.ai/applied.jsonl`, branches left for the operator to merge. First gate: 11 shown, 9 accepted, 2 declined (a priced credential roster for tracklight; an entity-id grammar door for politicas), 9 workers dispatched. Mid-flight runs: none live at the bump.
 
+## 2.3.0 - 2026-09-03 - rusttraining
+
+- **A new source class: the doctrine corpus.** A repository whose value is prose it wrote
+  *about* engineering rather than a system it built. Discriminating question: *is there a
+  system here at all?* This one was 175 markdown files, ~217,000 words, one source file
+  and a build tool. The v2 method routes a repository by its design decisions, and this
+  tree has almost none — 6, all in the operational periphery. Reading it as a system would
+  have produced nothing; the claim read was the whole run and it yielded a subject. **The
+  routing count worked in the negative for the first time: it correctly said "do not hand
+  this off."** Proposed for `references/source-classes.md`: expected yield is a high
+  candidate count with heavy strip-test mortality, survival concentrated in chapters that
+  state a boundary, and near-total loss in any chapter organised as a translation table.
+- **Mortality is per-chapter, not per-source, and it is predictable from the chapter
+  title.** Four readers independently reported the same pattern: chapters whose titles
+  state a *judgment* ("when X isn't the right fit", "when elegance wins", "X is an
+  optimization, not an architecture", "common pitfalls") survived the strip test; chapters
+  whose titles name a *mechanism* died. Survival ran 26-40% by lane and ~1 sentence across
+  three entire books. A future run over a teaching corpus can rank chapters by title mood
+  before reading a word.
+- **The strongest thing a source can give you is a stated hole in your own corpus.** The
+  run's highest-value single landing (`deterministic-proxy-gate`) exists because
+  `operation-assertion-gates` says, in its own text, that its axis offers two honest
+  configurations, rejects both, and admits its escape hatch "does not hold the number."
+  The source supplied the missing fourth resolution. **Phase 6's enumeration hunt should
+  explicitly include "where does the target technique confess a limit?"** — a confessed
+  limit is a better landing site than a missing opinion, and it is greppable.
+- **A source that is wrong about its own costs is more useful than one that is right.**
+  The book asserts its patterns are free and never states a compile-time, error-message,
+  migration or onboarding cost in ~40,000 words — every "compile time" mention is a boast.
+  The costs the new subject carries were found by reading *what the source does on the
+  page*: a four-parameter type presented as the general case, ~55 lines of declarations to
+  make four fields required, and a fabricated default inside the chapter arguing that
+  defect away. **Reading a source's examples against its claims is a distinct extraction
+  pass and it produced the differentiating half of the subject.** Worth naming as a step.
+- **Two readers converging on one finding, unable to see each other, is the strongest
+  triage signal available inside a single source.** The central finding (that
+  parse-at-the-boundary had no owner) arrived independently from two different books via
+  two workers. Deduped by author it is one observation — but it is the one the subject was
+  built on, and neither reader alone would have argued for a subject.
+- **The apply budget does not scale to a subject-sized landing, and the contradiction is
+  now open.** 38 findings landed, 1 apply row written. The rule ("one project per finding
+  per run") was written for a video yielding two or three findings. Prior 2.x rounds hid
+  this behind small landings. Proposed correction is in the scorecard's round-6 focus: owe
+  one row per *subject or amendment cluster*, not per technique.
+- **Resume beats re-dispatch, and now has five-for-five evidence.** A session rate limit
+  killed all five landing workers mid-flight. Every one resumed from its transcript with
+  its on-disk work intact and finished correctly; the forge worker resumed with its golden
+  path already written and produced only the seven missing techniques. **Zero work was
+  redone.** The director's job on a wave failure is: survey the disk first, tell each
+  worker precisely what is already on disk and what remains, then resume. Re-dispatch
+  would have cost five full re-reads and risked duplicate files.
+- **Tell a resumed worker what changed while it was dead.** Two workers were resumed into
+  a checkout where neighbours had since started editing files adjacent to theirs. Adding
+  "another worker is now editing X, re-read immediately before each edit" to the resume
+  message is cheap and prevented a collision on two shared golden paths.
+- **A worker that regenerates a shared derived artifact is doing the right thing locally
+  and the wrong thing globally.** Three of five correctly refused to regenerate
+  `index.json` and said so; one regenerated it. Neither is a defect — but the director must
+  own the final regeneration *and* the `HEAD` check regardless, because the working index
+  had by then absorbed four sibling runs' unlanded subjects. Both artifacts were left
+  uncommitted. **The check that matters is not "is the index stale" but "does the index
+  describe content that is not in `HEAD`."**
+- **`build-index.mjs --help` is treated as a normal run and writes every index.** Reported
+  by a worker who hit it. Harmless (output is deterministic from disk) but surprising, and
+  it means an exploratory `--help` inside a parallel wave silently regenerates a shared
+  artifact. Worth a guard in the script.
+
+### Redesign proposal — not applied this round
+
+**The scorecard's `Landed` column should separate a subject from its techniques when
+reading the funnel.** This round reads `S1/T23`, and the 23 is not comparable to a round
+that landed 23 techniques across 23 existing subjects: 7 of them are one coherent subject
+forged from one spec by one worker, which is a different unit of work and a different unit
+of risk. The depth cell already carries `S`, but the funnel sentence reads `T`. Proposal:
+report techniques *inside a new subject* separately from techniques *added to existing
+subjects*, because the second number is the one that measures whether the corpus is being
+deepened rather than extended. Not applied — one round is not enough to know whether the
+distinction changes any decision.
+
+## 2.3.0 - 2026-09-03 - vllm (six-system forge wave)
+
+- **Run Phase 7.5 BEFORE 7.6, and let a `not-better` row veto a proposal.** The direction pass ranks candidates by how many design-record entries a project is absent from; that ranking is a hypothesis, and this round three of its top candidates were refuted the moment the trees were opened - one already published counters and declines a scrape endpoint on the record, one already validates the lease invariant the source only states in prose, one already inverts its exposed-surface default. Under the current order those would have been three proposals an owner had to read and reject. Under the reversed order they are three apply rows that cost nothing and made the pass produce ONE proposal. The round-4 complaint that the pass "produces faster than an owner decides" has a mechanical fix and this is it.
+- **A worker correcting the DIRECTOR is a success condition, and the brief should ask for it explicitly - it already does, and it paid twice.** One worker corrected a wrong `_laws.md` link depth in the dispatch; another corrected the design record's account of an eviction mechanism (the queue was already coarse recency, so reverse-order release is the tie-break WITHIN one release, and the intuitive answer for non-cacheable blocks is inverted). The second correction was only possible because the design record was written down BEFORE dispatch and handed over as the brief - a director's reasoning that stays in the director's head cannot be refuted. Amend the record in place when this happens; it is the artifact a later pass diffs against.
+- **Read `taxonomy.json` for the CAP, not just for the category name.** The method already says to verify placement against the authority. This round the authority said something subtler than "wrong category": the bundle sat at exactly ten top-level categories, so the obvious move - a new top-level for a genuinely new domain, which is what the previous repository wave did - would have failed the gate and sent four workers into a rejected folder. The fix was a new SUBCATEGORY under an existing category. Phase 7 should say: count the children before proposing a new parent.
+- **A boundary statement can refute a home faster than a map can find one.** A finding about guarding an untrusted expansion looked like it belonged in the limits subject. That subject's golden path explicitly disclaims it - it bounds work per unit time, "not whether the work is valid (validation's job)" - and the real home turned out to already own the mechanism, making the finding a boundary case rather than a technique. Reading the candidate's own stated scope is cheaper than `research-map --deep` and settled it in one read.
+- **`research-map` is close to useless on a domain the corpus does not carry**, and the failure mode is the dangerous one: it returns confident, high-scoring, semantically unrelated hits driven by slug substrings ("page size", "state", "limit"). Every one of 24 terms returned a top hit from an unrelated subject. What actually established the absence was a concept grep over the whole corpus (three files, all client-side, all one subject). When a routing count is about to be written, the instrument is a grep for the CONCEPT, and the map is only a neighbourhood hint.
+- **A defect found in the source has no outcome slot.** Three were found and verified in code this round - a lease sweep defeated by its own renewal, a deprecation stage plumbed and never read, a document contradicting its own implementation. Each is more valuable than most techniques and each ended as a lead in a source note, because filing upstream is outward-facing and unauthorized. The six outcomes have no row for "we found a real bug in the source". Either add one with an operator gate, or stop describing these as the run's best output while filing them where nobody acts on them.
+- **The parallel rules earned their keep this round; two of three fired.** Siblings went 0 -> 2 mid-run. The index regeneration referenced three sibling slugs absent from HEAD, so index.json and catalog.json were held back; the gate went red on 18 findings, none mine, and was unlocked before investigation rather than after. A third case the method does NOT cover: a fleet project whose main checkout sat on **another session's feature branch** with uncommitted work. Phase 8 says commit a proposal "on the project's active branch" - but the active branch was a sibling's. The right move was to leave the proposal uncommitted and give the executing worker a worktree cut from the default branch. Worth a line in Phase 8: check WHOSE branch is active before committing into a project tree.
+
+## 2.3.0 - 2026-09-03 - awesome-langchain (reference index, 211 refs, 198 of them repositories)
+
+- **The reference-wave lane's per-reference fetch budget assumes a reference is a
+  DOCUMENT. An index of repositories inverts that, and the inversion is detectable
+  before a single lane dispatches.** 198 of 211 references here were code hosts. A
+  ~2-fetch budget against a repository buys its rendered landing page, which is the
+  one file in the tree written to be quoted - so the naive reading of the lane would
+  have mined 211 READMEs and reported it as a bibliography's yield. **Corrective
+  applied this run:** compute the class profile at step 2 (it is free - the URL host
+  decides it), and when repositories dominate, wave workers get **clone briefs
+  carrying the Phase 2b sweep order** instead of fetch briefs, with the clone under
+  `<scratch>/<run-id>/refs/<name>`. Every lane confirmed the README was its least
+  useful surface; one found ~46,000 words of in-tree operating documentation behind a
+  ~2,000-word landing page. Wave size drops accordingly - a clone-and-sweep lane is
+  heavier than a document lane, so 7 was right where the lane's cap is 8.
+
+- **Annotation-based ranking has a false-negative class: the under-annotated
+  primary.** The lane says to rank on the curator's annotation, and that is right, but
+  a five-word annotation on a substantial reference is indistinguishable from a
+  five-word annotation on a toy. This index annotated a paper-backed project with a
+  function-calling benchmark as "An API store for LLMs" - five words - and my
+  signal filter dropped it into band B. **Corrective:** after ranking on annotations,
+  run one free second pass on *repository shape* - an academic or lab org in the
+  path, a benchmark or leaderboard in the name, a `paper`/`citation` file - and
+  promote on that. It costs no fetch and it is exactly the signal the annotation
+  destroyed.
+
+- **`[H]`/`[V]` carried into a downstream brief prevented a corpus inversion. This is
+  the second sighting; a third promotes it to a SKILL.md rule.** Round 4 established
+  the convention after a worker died mid-read. Here it did something stronger than
+  preserve precision: the wave worker's headline comparative (judge-free scorers
+  "consistently outperform" judges, with a figure pair) was marked `[H]` because it
+  came through a fetch summarizer, the forge brief said re-derive or drop, and the
+  re-derivation found the claim **backwards** - a model judge was the best
+  non-ensemble scorer in 11 of 24 scenarios. Unmarked, it would have become the
+  premise of a new subject, with a citation that looked solid. **The proposed rule:**
+  a numeric or comparative claim marked `[H]` may not enter a landing; re-derive it
+  from the primary or cut it, and make that the forge worker's FIRST task rather than
+  its last, because the subject's argument may have to be rebuilt around the answer.
+
+- **A spec that cites "A / B" as one document invites a re-derivation against the
+  wrong artifact.** My own spec wrote a preprint id and a journal id as a single
+  citation; they were two different documents, and the experiments were in neither at
+  the named location. The forge worker found this and spent its budget correctly
+  anyway. **Corrective:** one document per claim in a spec's citation, and say which
+  claim each document carries.
+
+- **A repository clone on this platform can silently check out a fraction of its
+  tree.** One lane's first clone produced 72 of 1,709 files with no error and no
+  non-zero exit; a sweep over that tree would have reported absences from an
+  incomplete checkout, which is the worst kind of wrong because it looks like a
+  finding. **Corrective:** clone with `-c core.longpaths=true`, and have every
+  repository lane report its file count in its return so a truncated tree is visible
+  to the director.
+
+- **A shared checkout breaks "the gate is the review".** Three sibling WIP subjects
+  turned the global gate red mid-run on files this run never touched. The method
+  already says to unlock and report rather than fix; what it does not yet say is what
+  to verify against instead. **Corrective applied:** grep the gate's error list for
+  your own paths and require zero *there*, and never commit a shared artifact
+  (`catalog.json`, another bundle's `taxonomy.json`) whose regeneration would carry a
+  sibling's half-written subject into `HEAD` under your name.
+
+- **A triage gate whose option count is smaller than its cluster count silently
+  untriages the remainder - and that is a method bug, not an operator choice.** I
+  tabled six clusters and asked a question with four options; cluster F never appeared
+  on the ballot and therefore carries no operator judgment at all. It went into the
+  source note's untriaged table with its anchors, which is the correct handling, but
+  the correct *prevention* is: when clusters exceed the options a single question can
+  carry, either split into two questions or make one option explicitly "the rest, as
+  a batch". A cluster that reaches the table and not the ballot is invisible to the
+  operator and looks, six weeks later, exactly like a decline.
+
+- **Three projects testing one technique produced three different `not-better`
+  reasons, and all three were boundaries rather than refutations.** `similarity-keyed-admission`
+  came back not-better from all three trees for three unrelated causes - a reject arm
+  carrying unrelated side effects, a normalization equivalence class, and a
+  projection-scoped memo - and each one sharpened the technique instead of weakening
+  it. The method says two `not-better` rows from different projects demote a technique
+  to a lead. **That rule needs a discriminator:** demote when the rows say the
+  mechanism did not help where it applied; when they say the precondition was absent,
+  the rows are boundary work and the technique gets a scope section. Distinguishing
+  them is the difference between a technique that is wrong and one that is merely
+  narrower than its first draft.
+
+### Redesign proposal - the apply lane should run per technique across projects, not per project across techniques
+
+This run dispatched one lane per project, each carrying every finding. It worked, but
+the value concentrated in a way that suggests the other axis is better: the three
+independent `not-better` returns on ONE technique, from three trees, were worth more
+than any single project's full sweep, because together they mapped the technique's
+boundary from three sides in one round. A per-technique lane would also make the
+method's "two not-better rows demote to a lead" rule checkable inside a single run
+instead of across runs. The cost is that each lane must then open three trees rather
+than one, and loses the per-project context that produced this run's best structural
+facts. Not applying it now; proposing it for a round where a run lands few techniques
+and wants them tested hard rather than many and tested once.
+
+## 2.2.0 - 2026-09-03 - microsoft-mcp
+
+- **The routing count is not a proxy for "needs a forge", and v2.2 already knew it.** Per-system NONE came in at 5/4/6 with a whole-tree 15 - met twice over - and the correct answer was still technique-grain, because nine of the fifteen home into a subject the corpus forged in August. The clause that decides it is "a system at three or more with an *existing* home is a technique triple inside that subject", and it did the work without a mid-run rule. Rounds 1-4 all handed off, so it is worth saying explicitly: **a high count over owned ground is a sign the corpus was right about where the material lives.** No skill edit; the text is already correct.
+- **Phase 7 is where a technique gets tested, not Phase 6.** The four source-tree applications forced five corrections to technique text that four writers had already reported clean, and every one came from opening the tree with a specific hunt rather than from re-reading the corpus. The strongest: a uniqueness gate that greps for a declaration form the codebase had refactored away, so it matches nothing, reports "0 violations", and has been green forever - with a placeholder identifier from a test fixture shipping on a real capability underneath it. That is a `vacuous-by-evaluation` specimen the technique had to absorb as a clause ("enumerate from the constructed surface, not the source text; a gate that finds no identifiers is broken, not passing"). **Candidate rule if round 6 repeats it:** the application is written before the technique is believed, and the run budgets director time to revise technique text after applications land.
+- **A sibling's `git add -A` was observed from the victim side for the first time.** Commit `568118f` swept six of this run's in-flight files into another run's commit: two ledger appends, two subject notes, a golden-path edit and a whole amendment. **Nothing was lost and every gate stayed green**, because the gates check presence and the board checks intent - neither checks authorship. The run only noticed because six expected paths were missing from `git status`. The anti-pattern is already in the method from the perpetrator's side; the cheap defence for the victim is one extra command at Phase 10 - confirm the content is in `HEAD` under *this run's* commit, not merely in `HEAD`.
+- **The directions ledger is not machine-portable, which makes the round-5 focus unanswerable as written.** The focus asked how many proposals are waiting; on this machine the honest count is zero observable, because rounds 2-4 committed their twelve proposals into project checkouts that exist only on the other box. A ledger whose rows live in per-machine checkouts cannot be counted from a second machine, so the cap it feeds ("one per project until an owner decides") is being set from a number nobody can read. The run applied the cap anyway on the conservative reading. **Redesign proposal, not applied here:** the fleet map already aggregates per-subject state centrally; direction *status* belongs beside it in the registry, with the proposal body staying in the project.
+- **A tree refuting an amendment is worth more than a tree confirming it, and this is the second round running.** The `cross-boundary-propagation` amendment said only fields with a grammar may cross a trust boundary. Applied to the fleet's observability service that rule would have deleted a shipped feature - opaque trace ids, pinned with tests the same morning by another session. The correction is that grammar-validation and bounding are **separable**: for an identity field the bound is the whole defence and the grammar is unavailable by design. The director caught this *before* dispatching the apply worker, by reading the target's recent commits; a brief written from the corpus alone would have had the worker implement the wrong half and then argue with a passing test suite. **Reading the target tree's last few commits before writing an apply brief is cheap and it changed the outcome.**
+- **The peer study corrected the corpus upward again.** pumper's cassette layer grades replay fidelity as a three-valued fact about the *app's code* rather than the cassette, carries the grade on the result so a partial replay cannot read as full determinism, and refuses the unreplayable case at the door. The technique had the seam-as-precondition rule and no way to say how much of a green was actually recorded; it now carries the grading rule cited to `count-carries-predicate`. Two of the last three rounds have had a fleet project improve a technique rather than receive it - the `not-better` row is earning its billing as the most valuable one in the ledger.
+- **Worker rate-limit deaths: check, then re-dispatch clean.** Two workers died mid-run on a session limit. Both were checked for partial deliverables (neither had written anything), then re-dispatched with the same brief, and both succeeded. Checking first is what makes the choice between resume and re-dispatch cheap; a resume would have been wrong here and would have carried a poisoned context.
+- **Mid-flight runs on an older version: nothing to do.** No `SKILL.md` edit accompanies this entry, so a run that loaded 2.2.0 earlier today should finish on it.
+
+- **A dispatched worker's scratch discipline is the director's problem, not the
+  worker's.** The brief told the forge worker where to clone and said nothing about
+  where to put anything else, so the papers it downloaded to re-derive a claim landed
+  in the scratch **root** — outside this run's directory, where Phase 9's
+  delete-by-run-id could not reach them and where a sibling sweeping the root would
+  have taken them. Nothing broke here because the director noticed at cleanup, but the
+  rule the method already states for its own files does not currently propagate into
+  briefs. **Corrective:** every dispatch that may write anything names one directory,
+  `<scratch>/<run-id>/`, for *all* of the worker's artifacts — clones, downloads, temp
+  files — not just for the clone.
+
+## 2.3.0 - 2026-09-03 - voicebox
+
+- **The direction pass has been writing to a path no project reads, for three rounds.** Phase 7.6 says `.ai/directions/<date>-<subject>.md`. The fleet's peer project declares only `contextIndex`, `memory`, `evals` and `guardrails` under `paths:` in its manifest, its doctor resolves only those, and its real, populated directions lane is `.perfect/directions/` (14 files with their own frontmatter schema). So the 12 proposals rounds 2-4 counted as output landed where nothing enumerates them — which is the exact and complete explanation for the round-4 scorecard's puzzle of "12 proposals, 0 ledger rows". **A proposal in an unread directory is worse than no proposal, because the scorecard counts it as work.** This run relocated its study to the read lane and rewrote the frontmatter to that lane's schema. The method edit this implies is in the next bullet.
+
+  ### Redesign proposal
+  Phase 7.6 must **resolve** the directions directory rather than hardcode it: read the project's manifest `paths:` block, then look for an existing populated `*/directions/` directory, and only fall back to `.ai/directions/` if the project has neither — recording in the source note which of the three applied. The same resolution belongs in Phase 7.7's gate, which reads "every proposal with `status: proposed` across the fleet" and today would enumerate a directory that is empty in every project. Not applied this run: it changes a phase two other live sessions are executing from, and the round-6 focus can carry it with the evidence attached.
+
+- **A `[V]` anchor mark is a claim about a file, and it is not free to trust.** Two front-half readers returned line ranges marked verified that do not exist — `:164-172` in a 108-line file and `:43-68` in an 82-line file. Both were caught only because a downstream forge worker opened them while drafting. The cheap fix is mechanical: a reader that marks `[V]` should have the range inside `wc -l`, and a brief that says so costs one sentence. The expensive fix — every downstream worker re-opens every anchor — happened by luck here and should not be the plan.
+
+- **Resume beats re-dispatch, and the check is "did it write", not "how far did it get".** Two Opus workers died mid-flight on a session rate limit. Both had read their briefs and every neighbour subject; neither had written a byte. Resuming cost one message each and preserved the whole reading context; re-dispatching would have paid for two full neighbour reads again. The rule that made this cheap was checking the working tree for their deliverables *first* — the answer ("nothing written, context intact") is what selects resume over restart.
+
+- **`run-board.mjs check` under-reports contention and `list` does not.** `check` returned `clear` for `mcp-tools` and for `dependency-declaration` while `list` showed live siblings holding both, twice in one run. The run only avoided writing into a contended golden path because it read `list` as well. Until `check` is fixed, treat its `clear` as "no information" and read `list`. (The contended-subject procedure itself worked exactly as written: the technique file landed, the golden-path edit was handed to the director as a patch, and the director applied it under the `content` lock in four edits.)
+
+- **A commit can carry a crafted blob when a shared file holds a sibling's line.** `taxonomy.json` acquired both this run's subject and a sibling's, and the sibling's directory was still untracked — so committing the file wholesale would have put a reference to a nonexistent subject into `HEAD`. Staging a blob built from `git show HEAD:<path>` plus only this run's insertion, via `git hash-object -w` and `git update-index --cacheinfo`, then committing the index with **no pathspec** (a pathspec commit re-reads the working tree and would have defeated it), landed exactly one line. Worth knowing: the pathspec habit and this technique are mutually exclusive, and the `commit` lock is what makes the no-pathspec form safe.
+
+- **Choosing seams to falsify produced four `not-better` rows out of twelve, and they are the run's best output.** Every one bounded a technique with a precondition that is absent in a real tree: an engine class that has no stop token to miss cannot run away; a view that is not throttled gains nothing from relocating its stream; a bundler that does not strip sources has no exposure to the constructs an adoption audit hunts; a satisfiable constraint set does not need a resolver bypass. Three of the four turned out to be operational restatements of a boundary the technique had already published in prose — which is itself the finding: **a published boundary that has never been measured is a hypothesis, and measuring it is cheap.**
+
+- **A negative application beat every positive one this run.** The source implements exactly one of a technique's four rules and none of the other three, so the defect that technique exists to prevent is still reachable in shipping code at a nameable line. That document is worth more than the three confirmations landed beside it, and the worker's own judgement — that it slightly undersells, deliberately, because no frequency was measured — is the right register. The honest lever on a negative application is a measurement, not a stronger adjective.
+
+- **Reading the source's own agent skills against its code found the run's sharpest untriaged candidate.** The tree ships four machine-executable maintenance skills; the extension skill claims "zero per-engine dispatch points" while four dispatch chains sit in the file it names, and the one machine-enforced registration point is a schema regex listed as one bullet among fifteen. Asking of a repository "what does the procedure demand that the code does not enforce, and what does the code enforce that the procedure never mentions" is a question only a repository can be asked, and it should be a standing ask in the periphery lane rather than a one-off in this run's brief.
 ### 2.3.1 - 2026-09-03 - merge after the gate (operator rule)
 
 - "Once the activity is approved we do not need a second human gate": a direction branch whose gate ran green is merged by the director in the session, `--no-ff`, never pushed; red or un-runnable gates stay branches with the reason. Applied-ledger conflicts between sibling branches resolve by union. First application: all nine 2026-09-03 branches merged (two needed the union rule; one project had a concurrent session's uncommitted ledger rows, committed first as their own change; one had the ledger untracked in the main checkout, unioned after the merge).

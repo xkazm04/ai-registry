@@ -27,6 +27,17 @@ directions are not symmetric:
 When in doubt, err toward fragmentation. A duplicate fetch costs
 milliseconds; a collision costs correctness.
 
+That asymmetry is the usual case, not a universal one, and it is worth naming
+its precondition: it holds while a miss is nearly free. Where the authority
+behind the cache is slow, metered, or both, a miss costs seconds and money
+rather than milliseconds, and the two failures move onto the same scale — at
+which point buying a bounded collision rate can be the correct trade rather
+than a mistake. The rule inverts only when the cost of a miss is deliberately
+priced, and a cache that has made that trade is keyed on resemblance rather
+than identity; see
+[similarity-keyed-admission](./similarity-keyed-admission.md). Everywhere else,
+prefer fragmentation.
+
 ## Keys are derived, never hand-written
 
 The key is a **pure function of every argument that changes the answer** —

@@ -9,10 +9,13 @@ techniques:
   - seams-and-adapters
   - borrowed-surface
   - io-free-core
+  - concurrency-at-the-edge
   - locality-and-leverage
   - structural-improvement-loop
   - structure-is-not-delegable
   - scoreable-designs-are-built-not-argued
+  - declarative-or-sequential
+  - marked-unverifiable-region
 ---
 
 # Module design
@@ -202,6 +205,17 @@ this deletes it. Which one is right is decided by the number of verbs the
 dependency has, and [io-free-core](./techniques/io-free-core.md) owns that
 decision, the shape, and the price the form charges at the edge.
 
+A module's **flow-control** model is the same question asked about a different
+dependency, and it has a cheaper test. Remove the concurrency: if the sequential
+version would have to reintroduce it by hand — workers, queues, manual polling —
+the concurrency is the module's logic and belongs there. If removal costs nothing
+but a keyword, it was plumbing that propagated from a caller, and it belongs at the
+edge. The measurement that catches a boundary already drawn in the wrong place is
+the size of what gets offloaded to another pool: one call is a fix, a whole pipeline
+is a diagnosis. [concurrency-at-the-edge](./techniques/concurrency-at-the-edge.md)
+owns the test, the decay signature, and the heavy-computation case where a large
+offloaded region is correct and permanent.
+
 ## Architecture styles are vocabularies, not answers
 
 Hexagonal, clean, onion, layered and their relatives are different names for a
@@ -279,6 +293,38 @@ expensive of the two, because it does not look like an opinion.
 owns the harness contract, the undelegable residue, and the cases where
 measurement is the wrong instrument.
 
+## The same questions inside one expression
+
+Everything above places boundaries between modules. Two of this subject's
+arguments do not stop at that scale, and pretending they do leaves the
+smallest and most frequently written code ungoverned by the doctrine that
+governs everything around it.
+
+The first is **form**. Whether a piece of work is written as a declarative
+composition or as explicit sequential code is treated as taste, so it is settled
+by whoever cares most. It has a stated boundary instead: composition wins for
+transformations through a pipeline, and explicit sequential code wins when one
+pass produces several outputs, when effects are mixed into the classification,
+or when the branches do genuinely different work — and in the sharpest case, a
+loop over an explicit state, no declarative equivalent is cleaner because the
+state sequence *is* the algorithm. The same discipline that puts I/O at the edge
+of a module puts effectful steps at the *ends* of a call chain, and there it
+comes with a detector a reviewer can apply in seconds.
+[declarative-or-sequential](./techniques/declarative-or-sequential.md) owns the
+boundary, the three conditions, and the fractal rule.
+
+The second is **what a boundary does with an operation nothing can check**.
+Every system has them, abstinence does not work — refusing the hatch drives the
+operation to a lower layer with no rules at all — and the answer is a region
+that is marked so it is findable, enclosed so no caller reaches it without
+passing a checked surface, no larger than the operation requires, and
+accompanied at each use by the written statement of the fact that makes it
+valid. The last of those is what separates an audit from a list of locations.
+[marked-unverifiable-region](./techniques/marked-unverifiable-region.md) owns
+the four properties, the growth signal that indicts the checked surface rather
+than the hatches, and the case where the whole apparatus is debt with good
+manners.
+
 ## Failure modes this standard exists to prevent
 
 - **The structure nobody chose** — a long run of locally correct changes,
@@ -326,6 +372,10 @@ measurement is the wrong instrument.
   testability question: logic over events as a transition function with time
   as a parameter, one driver at the edge doing all the I/O, the verb-count
   rule that separates it from an adapter, and the costs the form charges.
+- [concurrency-at-the-edge](./techniques/concurrency-at-the-edge.md) — the removal
+  test that separates a flow-control model that is the logic from one that is
+  plumbing, the offload-region size as a decay signature mirroring "the driver got
+  clever", and the heavy-computation inversion.
 - [locality-and-leverage](./techniques/locality-and-leverage.md) — the two
   payoffs, measured change scatter as the diagnostic, the pair of criteria
   a structural proposal is argued against, and the discovery cost that neither
@@ -342,3 +392,11 @@ measurement is the wrong instrument.
   candidates, the workload choice that stays with the human, the hazard of
   cheap numbers on unscoreable decisions, and when measurement is the wrong
   instrument.
+- [declarative-or-sequential](./techniques/declarative-or-sequential.md) — the
+  stated boundary between declarative composition and explicit sequential
+  code, the three conditions that invert it, the state machine as the sharpest
+  case, and the adjacent-step detector for effects interleaved in a chain.
+- [marked-unverifiable-region](./techniques/marked-unverifiable-region.md) —
+  designing the region a checker cannot reach: marked, enclosed, minimal, and
+  carrying the invariant at each use; why abstinence fails, and why the
+  marking is what makes the region durable.

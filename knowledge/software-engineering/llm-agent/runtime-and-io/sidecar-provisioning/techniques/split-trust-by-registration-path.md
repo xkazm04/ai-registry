@@ -23,7 +23,7 @@ the execution constraints that follow from it, and the two things that
 must stay on the host's side of the plugin boundary: secrets in errors
 and privilege decisions. The provenance of the binary before it reaches
 the host — where it was built, who signed it, what the download verified
-— is [supply-chain](../../../../security/supply-chain/supply-chain.md)'s
+— is [supply-chain](../../../../security/code-provenance/supply-chain/supply-chain.md)'s
 ground; [source-pinning](./source-pinning.md) owns the digest check at
 download time; this technique owns the trust a loaded plugin is granted
 at run time.

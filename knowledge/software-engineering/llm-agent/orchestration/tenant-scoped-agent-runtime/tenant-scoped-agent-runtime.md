@@ -87,12 +87,12 @@ changes because a second tenant exists, which is exactly why it is not
 here.
 
 Two subjects in other categories own the halves this one deliberately
-refuses. [credential-vault](../../../security/credential-vault/credential-vault.md)
+refuses. [credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md)
 owns where a secret lives, how it is sealed, refreshed and retired; this
 subject owns only how a running process decides **which** tenant's secret
 a given unit of work may read, and it inherits the vault's cardinal rule
 rather than restating it.
-[identity-bearing-keys](../../../security/authorization/techniques/identity-bearing-keys.md)
+[identity-bearing-keys](../../../security/identity-and-access/authorization/techniques/identity-bearing-keys.md)
 is the same instinct applied one layer down — compose the owner into the
 storage address so a cross-owner reference cannot be written — and this
 subject is its in-process twin: compose the owner into the *resolver* so a

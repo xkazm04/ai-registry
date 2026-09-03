@@ -10,6 +10,7 @@ techniques:
   - direct-push-delivery
   - deployment-config-as-code
   - deploy-gate-coupling
+  - cache-immutability-licensing
 ---
 
 # Deployment contract
@@ -52,6 +53,29 @@ declaration, the declaration is mirrored *into* the platform deliberately and th
 recorded. How to enumerate the inputs, where each authority lives, and what to do when the
 platform's builder cannot be fed are
 [platform-build-parity](./techniques/platform-build-parity.md).
+
+That parity does not stop at the artifact. Two hosts handed the *byte-identical* build can
+still serve two different sites, because each resolves a request path by its own rules —
+extensionless paths, directory requests, trailing slashes, not-found behaviour. An artifact
+comparison passes and the links are broken on one host anyway, so the resolution rules are
+part of the contract and are asserted by requesting the shape that fails, not the landing
+page.
+
+## What the host says about the artifact is also the contract
+
+The deployed bytes are only half of what a host publishes; the other half is what it tells
+clients about them. Marking an asset immutable is not a performance dial but a claim that
+its address will never designate different bytes — licensed by content-addressed naming and
+by nothing else. Where a toolchain emits fixed asset names, the same address serves new
+bytes after every rebuild, and the directive stops being an optimization and becomes a
+correctness bug with no recovery path: clients instructed never to revalidate cannot be
+reached, purged, or corrected, and they run a previous deploy's code for as long as their
+caches live. The error is asymmetric — a too-short expiry costs bandwidth adjustable at any
+time — so the unclassified default is a short expiry with its derivation written down, and
+immutability is opted into per population once someone has checked the names. The
+classification procedure, the entry document that must always revalidate, and how to buy the
+licence rather than assert it are
+[cache-immutability-licensing](./techniques/cache-immutability-licensing.md).
 
 ## Environments form a ladder, and production is a promotion
 
@@ -141,7 +165,11 @@ environments are, and how a push becomes production without anyone watching it h
 ## The techniques
 
 - [platform-build-parity](./techniques/platform-build-parity.md) — the host's builder fed the
-  same command, runtime and flags from one declared source.
+  same command, runtime and flags from one declared source, and two hosts' request-resolution
+  rules tested rather than assumed.
+- [cache-immutability-licensing](./techniques/cache-immutability-licensing.md) — immutability
+  licensed by content-addressed naming, a short derived expiry everywhere else, and the entry
+  document that always revalidates.
 - [environment-promotion](./techniques/environment-promotion.md) — a preview per change,
   production as promotion of an existing build, rollback as re-pointing.
 - [direct-push-delivery](./techniques/direct-push-delivery.md) — single-owner direct push with

@@ -44,10 +44,10 @@ below follows from refusing to pretend otherwise.
   user intent against an unknown schema at run time. Conflating them is how
   string-built SQL leaks into the product.
 - **Connection secrets** belong to the
-  [credential-vault](../../security/credential-vault/credential-vault.md). The console
+  [credential-vault](../../security/identity-and-access/credential-vault/credential-vault.md). The console
   names a connection; the execution service resolves the credential behind
   the vault's one outbound door
-  ([brokered-egress](../../security/credential-vault/techniques/brokered-egress.md)). The
+  ([brokered-egress](../../security/identity-and-access/credential-vault/techniques/brokered-egress.md)). The
   console never holds a plaintext credential, so it can never log one.
 - **Result-grid mechanics** — column model, pagination surfaces, body state
   model — are owned by [table](../../ui-surfaces/data-display/table/table.md). The console's obligation

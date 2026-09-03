@@ -9,6 +9,9 @@ techniques:
   - screen-then-confirm-detection
   - extraction-yield-bands
   - recognition-boundary-and-escalation
+  - escalation-adjudication
+  - structure-saturation-guard
+  - band-calibration-by-construction
   - structural-amplification-caps
 ---
 

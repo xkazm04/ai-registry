@@ -8,6 +8,7 @@ techniques:
   - single-flight-primitives
   - cache-value-not-handle
   - release-guarantees
+  - critical-section-across-a-suspension
   - cross-process-exclusion
   - attempt-attribution
   - idempotency-by-design
@@ -81,7 +82,11 @@ From that stance, the spine of the subject:
    acquisition names its release path — including the panic path, the timeout
    path, and the early-return path. A guard held in a plain variable and
    released by a line of code at the end of the happy path is a leak with a
-   delay fuse (see release-guarantees; law: creation-names-reaper).
+   delay fuse (see release-guarantees; law: creation-names-reaper). The
+   guarded *body* has one question the guard machinery cannot answer: whether
+   it may span a point at which the unit suspends. The reflexive "never" is a
+   throughput rule, and obeying it by splitting a transactional section
+   introduces a check-to-use race (see critical-section-across-a-suspension).
 3. **The second caller's experience is a designed outcome.** Refuse loudly,
    join the in-flight result, queue behind it, or coalesce into it — all four
    are legitimate, but the choice is per-operation policy, and a refusal must
