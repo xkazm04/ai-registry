@@ -122,10 +122,10 @@
     },
     {
       "name": "dojo",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "ai-native",
       "path": "skills/dojo/SKILL.md",
-      "contentHash": "sha256-n1:9ea53d0691d97d03",
+      "contentHash": "sha256-n1:a3e168f29053b2fd",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 2,
@@ -664,10 +664,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 16,
-      "techniques": 102,
-      "applications": 54,
-      "files": 177,
-      "contentHash": "sha256:0282cc6871fad4a8"
+      "techniques": 105,
+      "applications": 58,
+      "files": 184,
+      "contentHash": "sha256:b9cb86718933b5df"
     },
     {
       "name": "localization",
@@ -715,11 +715,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 182,
-      "techniques": 1291,
-      "applications": 722,
-      "files": 2200,
-      "contentHash": "sha256:e2a9694066446dd4"
+      "subjects": 183,
+      "techniques": 1310,
+      "applications": 750,
+      "files": 2248,
+      "contentHash": "sha256:cf810130e04133e0"
     }
   ]
 }
