@@ -4,9 +4,9 @@ type: technique
 subject: packaging
 technique: signing-and-trust
 status: forged
-laws: [gate-sees-target]
+laws: [gate-sees-target, failure-not-empty-success]
 shared_with: []
-use_when: [deciding whether a platform cell ships unsigned, artifacts stop validating on credential expiry, outer shell signed but an inner binary missed]
+use_when: [deciding whether a platform cell ships unsigned, artifacts stop validating on credential expiry, outer shell signed but an inner binary missed, the payload is attested but its wrapper is not]
 ---
 
 # Signing and trust
@@ -115,3 +115,64 @@ the target ([gate-sees-target](../../../../_laws.md#gate-sees-target)). Where
 the platform distinguishes attestation from signature, verification
 checks both — and does so on the exact bytes being published, because a
 re-build after verification quietly ships an unverified artifact.
+
+Partial failure also runs the **other direction**, and the enumeration
+above does not name that one. A bundling toolchain can sign and attest the
+payload correctly — the application bundle, every nested executable, the
+whole inner tree — and then wrap it in a distributable container that it
+signs but never submits for attestation, reporting success for the whole
+operation. Nothing in the toolchain's output distinguishes this from a
+finished job, because from its point of view the job it was asked to do is
+finished. The rule that catches it is the one this section already
+states — verify the published bytes with the platform's own checker — and
+it catches it only if the verification runs on the *wrapper* and not just
+on what the wrapper contains. **Attestation coverage is per container. A
+container does not inherit attestation from its contents**, and the
+inverse assumption is the whole defect: an attested payload inside an
+un-attested wrapper is an un-attested download.
+
+The remediation is a **post-bundle re-attestation step**, and its four
+properties are each earned:
+
+- It runs after the bundler, enumerates **every** wrapper the bundler
+  produced, and submits each one — not the first, not the one the release
+  notes mention.
+- It verifies with the platform's own checker, on the exact bytes about to
+  be published, after any ticket is affixed.
+- It **replaces** the asset the bundler already uploaded. A bundler that
+  publishes as a side effect of building has already shipped the
+  un-attested wrapper; a re-attestation that leaves that asset in place has
+  attested a file nobody downloads.
+- It **hard-fails when it finds no wrappers.** The bundler's output path is
+  a private detail that moves between its own versions, and a
+  re-attestation step that globs an empty directory and exits zero is
+  indistinguishable from one that did the work
+  ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+  Zero inputs is an error, and it must say which path it looked in.
+
+One trap sits inside the remediation. The step has to name the release it
+is publishing into, and the obvious source — the trigger's reference — is
+wrong: under a manual trigger that reference is a branch name, not the
+release identity. The identity comes from the declared version source, the
+same one the bundler resolved
+([version-single-truth](../../release-pipeline/techniques/version-single-truth.md)).
+
+## The trust bar moves between platform releases, and someone else finds out first
+
+Treat platform trust checks as a **moving target with no release note you
+will read**. A platform tightens what its checker enforces between its own
+operating-system versions — a previously tolerated omission becomes a hard
+rejection — and the same artifact that passed on the previous version fails
+on the next one with no change on your side.
+
+The currency signal worth designing around is *who discovers it*. In
+practice the discovery comes from a **downstream distribution channel's
+continuous integration** — a package index, a store, a fleet-management
+policy, an enterprise gate — running the platform's checker on newer host
+versions than your own pipeline does, against a broader matrix, and
+rejecting your artifact. That is a slower and more expensive channel than
+your own gate, and it is the default one unless you deliberately close the
+gap: run the verification on the newest platform version you claim to
+support (not the one your runners default to), and treat a downstream
+channel's rejection as a signal to widen your own verification matrix
+rather than as a one-off to patch around.

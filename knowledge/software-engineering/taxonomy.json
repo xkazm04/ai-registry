@@ -85,7 +85,8 @@
         "ipc-contract",
         "realtime-events",
         "hash-pinned-translation-pipeline",
-        "demo-data-plane"
+        "demo-data-plane",
+        "native-shell-integration"
       ]
     },
     {
