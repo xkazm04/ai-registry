@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 177,
-  "techniques": 1261,
-  "applications": 712,
+  "subjects": 182,
+  "techniques": 1291,
+  "applications": 722,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1261/1261",
+  "use_when_coverage": "1291/1291",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5939,6 +5939,117 @@
     }
    ]
   },
+  "correlated-exchange-over-broadcast": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/correlated-exchange-over-broadcast.md",
+   "digest": "sha256:5c8f53203d288847",
+   "techniques": [
+    {
+     "slug": "binding-parity-floor",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "verdict-survives-boundary",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "documenting which languages support an exchange pattern",
+      "a binding cannot read metadata",
+      "a control-plane mutation is recorded as applied without proof"
+     ]
+    },
+    {
+     "slug": "correlation-key-vocabulary",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a new exchange pattern to a broadcast bus",
+      "a scheduler misclassifies correlated traffic as ordinary",
+      "plumbing keys are leaking into application code"
+     ]
+    },
+    {
+     "slug": "orphaned-correlation-on-peer-restart",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a caller hangs after a peer crashes and restarts",
+      "deciding whether to reissue a request",
+      "designing the outcome type of a correlated wait"
+     ]
+    },
+    {
+     "slug": "passthrough-buffered-wait",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a blocking call for one reply is eating unrelated events",
+      "implementing a request helper on a shared event stream",
+      "pipelined requests resolve out of order"
+     ]
+    },
+    {
+     "slug": "reply-fan-out-filtering",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second client is added to a service that worked with one",
+      "a client receives a reply it did not ask for",
+      "sizing the reply edge of a shared service"
+     ]
+    },
+    {
+     "slug": "terminal-status-set",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when a correlated wait may return",
+      "a status string arrives in unexpected spelling",
+      "a long-running goal needs an end condition"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "binding-parity-floor",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--binding-parity-floor.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "orphaned-correlation-on-peer-restart",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--orphaned-correlation-on-peer-restart.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    }
+   ]
+  },
   "cost-metering": {
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
@@ -6583,6 +6694,119 @@
     }
    ]
   },
+  "data-plane-transport-selection": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/data-plane-transport-selection.md",
+   "digest": "sha256:98acf18f6ee6f3b8",
+   "techniques": [
+    {
+     "slug": "control-plane-off-the-data-path",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a supervisor's event loop is on the message hot path",
+      "a control loop deadlocked awaiting a guaranteed send",
+      "deciding what a supervisor is allowed to hold",
+      "metrics collection stalls the scheduler"
+     ]
+    },
+    {
+     "slug": "moved-payload-has-no-fallback",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a zero-copy send takes ownership of the buffer",
+      "writing a fallback from a fast path to a slow one",
+      "the shared pool runs dry under a burst",
+      "a retry silently sends nothing"
+     ]
+    },
+    {
+     "slug": "path-divergence-audit",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second transport was added beside an existing one",
+      "a queue policy stopped being honoured after a fast path shipped",
+      "deciding what a bypass is allowed to lose",
+      "tests all pass and the new path is untested"
+     ]
+    },
+    {
+     "slug": "policy-demotes-transport",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an edge declares a guarantee the fast path cannot observe",
+      "deciding whether a declared deadline forbids a bypass",
+      "a policy in a descriptor stopped taking effect after a transport change"
+     ]
+    },
+    {
+     "slug": "route-probe-then-freeze",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fast path must be proven before traffic is trusted to it",
+      "messages disappear into a peer session nobody joined",
+      "deciding whether a route may change mid-run",
+      "sizing a startup grace window"
+     ]
+    },
+    {
+     "slug": "size-threshold-by-page-cost",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the payload size above which a zero-copy path is used",
+      "a fast path made the median message slower",
+      "a threshold constant has no stated derivation"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "control-plane-off-the-data-path",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/applications/rust--control-plane-off-the-data-path.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "route-probe-then-freeze",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/applications/rust--route-probe-then-freeze.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    }
+   ]
+  },
   "data-retention": {
    "category": "operations",
    "subcategory": "governance-and-records",
@@ -7163,6 +7387,117 @@
      "file": "knowledge/software-engineering/operations/control-plane-operations/declarative-resource-lifecycle/applications/rust--deletion-blocked-until-dependents-confirm.md",
      "verified_on": "2026-09-03",
      "verified_against": "rust@1.89"
+    }
+   ]
+  },
+  "declared-process-graph": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/declared-process-graph.md",
+   "digest": "sha256:d2926b19c6711b3e",
+   "techniques": [
+    {
+     "slug": "additive-live-mutation",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "identity-survives-reuse",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a node to a graph that is already running",
+      "removing an edge without hanging its consumers",
+      "a control-plane mutation reports success and nothing changed",
+      "a late subscriber waits forever on a barrier that already resolved"
+     ]
+    },
+    {
+     "slug": "bounded-expansion",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a document rewrite reads further documents chosen by the author",
+      "a load step hangs or exhausts memory before validation",
+      "deciding where a composite body may be read from"
+     ]
+    },
+    {
+     "slug": "composite-expansion-contract",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "factoring a repeated sub-topology into a reusable body",
+      "wiring an outer graph to a composite's ports",
+      "deciding whether a check belongs in the expander or the validator"
+     ]
+    },
+    {
+     "slug": "panic-proof-numeric-fields",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a declared duration or size reaches a runtime conversion",
+      "a control plane must survive any document an author submits",
+      "a periodic node spins at full rate on a small declared period"
+     ]
+    },
+    {
+     "slug": "per-kind-field-whitelist",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a declared field appears to have no effect on a running node",
+      "adding a node kind to a topology document",
+      "deciding whether an unrecognized key is a refusal or a warning"
+     ]
+    },
+    {
+     "slug": "typed-port-compatibility",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "annotating channel types on a graph that was written untyped",
+      "deciding whether a producer and consumer disagree",
+      "resolving a schema for a channel whose type is parameterized"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "additive-live-mutation",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/applications/rust--additive-live-mutation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "bounded-expansion",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/applications/rust--bounded-expansion.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
     }
    ]
   },
@@ -8908,6 +9243,116 @@
     }
    ]
   },
+  "edge-queue-policy": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/edge-queue-policy.md",
+   "digest": "sha256:05657f1ae54dcfd5",
+   "techniques": [
+    {
+     "slug": "control-channel-headroom",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "lifecycle and data messages share one bounded channel",
+      "a shutdown or close notice was lost during a burst",
+      "sizing the reserve on a mixed channel"
+     ]
+    },
+    {
+     "slug": "drop-accounting",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an edge drops on purpose and nobody can tell",
+      "a consumer sees fewer messages than the producer sent",
+      "one edge policy must hold across two transports"
+     ]
+    },
+    {
+     "slug": "eviction-priority-classes",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "creation-names-reaper",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a bounded channel carries more than one kind of message",
+      "deciding what a full queue sacrifices",
+      "a stalled consumer's queue fills with markers"
+     ]
+    },
+    {
+     "slug": "in-band-flush",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "queued output must be abandoned the moment it is superseded",
+      "interruption is racing the data it cancels",
+      "deciding whether sessions may share one input"
+     ]
+    },
+    {
+     "slug": "least-recently-used-input-fairness",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one consumer reads several typed inputs at different rates",
+      "a slow input is never served under load",
+      "choosing between a fair receive and a chronological stream"
+     ]
+    },
+    {
+     "slug": "per-edge-depth-and-policy",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sizing the queue on a declared edge",
+      "choosing between drop-oldest and backpressure",
+      "a consumer needs losslessness on one input and freshness on another"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "eviction-priority-classes",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/applications/rust--eviction-priority-classes.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "per-edge-depth-and-policy",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/applications/rust--per-edge-depth-and-policy.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    }
+   ]
+  },
   "embedded-db": {
    "category": "backend-platform",
    "subcategory": "data-layer",
@@ -9986,6 +10431,122 @@
      "technique": "bad-news-labelling",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/process--bad-news-labelling.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "fault-signal-propagation": {
+   "category": "backend-platform",
+   "subcategory": "process-graph-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/fault-signal-propagation.md",
+   "digest": "sha256:28425eec0acdbd8b",
+   "techniques": [
+    {
+     "slug": "edge-deadline-arming",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an input that is idle at boot is being declared dead",
+      "deciding which party refreshes a staleness clock",
+      "a fast transport bypasses the component that enforces a declared timeout"
+     ]
+    },
+    {
+     "slug": "last-value-degradation",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "identity-survives-reuse",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a consumer stops entirely because one of several inputs died",
+      "designing what a stage does while an input is stale",
+      "a restarted producer's first values are fused with the old producer's cached ones"
+     ]
+    },
+    {
+     "slug": "no-synthetic-terminal",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a producer restarted with requests in flight against it",
+      "deciding whether a runtime should fabricate an error reply to keep a code path uniform",
+      "a wait needs to distinguish a dead peer from a slow one"
+     ]
+    },
+    {
+     "slug": "recoverable-vs-closed",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a consumer exits during its upstream's restart window",
+      "deciding what counts toward an all-inputs-closed verdict",
+      "a recovery signal fires while the receiver is still saturated"
+     ]
+    },
+    {
+     "slug": "restart-notification-scope",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding who hears that a producer was restarted",
+      "a restart storm floods every consumer with facts about strangers",
+      "a consumer fuses state from two generations of the same producer"
+     ]
+    },
+    {
+     "slug": "typed-edge-events-in-band",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a consumer must learn its upstream failed without inventing a timeout",
+      "designing the event vocabulary a data channel carries beside payloads",
+      "deciding whether supervision facts travel in-band or on a side channel"
+     ],
+     "stage": "multi-service"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "edge-deadline-arming",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/applications/rust--edge-deadline-arming.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "typed-edge-events-in-band",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/applications/rust--typed-edge-events-in-band.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
     }
    ]
   },
@@ -21276,7 +21837,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/streaming-output.md",
-   "digest": "sha256:215901710b2df6e3",
+   "digest": "sha256:7d559ce0c8a4cf1c",
    "techniques": [
     {
      "slug": "buffering-and-backpressure",
@@ -25013,6 +25574,7 @@
     "data-access/cross-driver-invariant-parity",
     "data-access/operator-defined-tables",
     "data-access/repo-testing",
+    "data-plane-transport-selection/path-divergence-audit",
     "data-retention/confirm-by-echo",
     "data-retention/dry-run-preview",
     "dead-code/configuration-union-proof",
@@ -25022,6 +25584,8 @@
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "decentralized-artifact-distribution/verdict-bound-to-the-exact-revision",
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
+    "declared-process-graph/bounded-expansion",
+    "declared-process-graph/panic-proof-numeric-fields",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-analytics/review-coverage-rate",
     "demo-data-plane/runtime-dispatch-not-build-flag",
@@ -25048,6 +25612,8 @@
     "draft-editing/dirty-tracking",
     "draft-editing/navigation-guards",
     "drag-drop/ownership-boundaries",
+    "edge-queue-policy/drop-accounting",
+    "edge-queue-policy/least-recently-used-input-fairness",
     "embedded-db/journal-and-durability-modes",
     "embedded-db/quiet-window-maintenance",
     "embedded-preview/dev-server-registry",
@@ -25068,6 +25634,8 @@
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/expiring-share-links",
     "executive-reporting/grounded-narrative-generation",
+    "fault-signal-propagation/edge-deadline-arming",
+    "fault-signal-propagation/recoverable-vs-closed",
     "file-browsing/listing-and-refresh",
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/coordination-failure-triage",
@@ -25426,6 +25994,8 @@
     "data-access/repo-testing",
     "data-access/row-mapping",
     "data-access/transactions-and-units-of-work",
+    "data-plane-transport-selection/control-plane-off-the-data-path",
+    "data-plane-transport-selection/moved-payload-has-no-fallback",
     "data-retention/destructive-override-floor",
     "data-retention/time-budgeted-batch-purge",
     "data-viz/empty-and-degraded-chart-states",
@@ -25434,6 +26004,7 @@
     "dead-code/suppression-hygiene",
     "decentralized-artifact-distribution/fail-closed-trust-dependency",
     "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
+    "declared-process-graph/per-kind-field-whitelist",
     "delivery-analytics/delivery-metric-denominators",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-guarantees/dead-letter-design",
@@ -25463,6 +26034,8 @@
     "document-text-extraction/unreadable-region-refusal",
     "draft-editing/debounced-save-groups",
     "dynamic-secret-lifecycle/persist-before-provision",
+    "edge-queue-policy/control-channel-headroom",
+    "edge-queue-policy/drop-accounting",
     "embedded-db/connection-pooling",
     "embedded-db/corruption-class-response",
     "embedded-db/extension-lifecycle",
@@ -25490,6 +26063,9 @@
     "executive-reporting/grounded-narrative-generation",
     "executive-reporting/provenance-caveats",
     "executive-reporting/single-ranked-next-move",
+    "fault-signal-propagation/no-synthetic-terminal",
+    "fault-signal-propagation/recoverable-vs-closed",
+    "fault-signal-propagation/typed-edge-events-in-band",
     "feed/feed-retention",
     "feed/live-prepend",
     "file-browsing/listing-and-refresh",
@@ -25956,6 +26532,7 @@
     "credential-vault/encryption-at-rest",
     "data-access/batching-and-n-plus-one",
     "data-access/read-models-and-projections",
+    "data-plane-transport-selection/size-threshold-by-page-cost",
     "data-retention/dry-run-preview",
     "data-retention/time-budgeted-batch-purge",
     "data-viz/scale-and-axis-design",
@@ -25988,6 +26565,7 @@
     "document-text-extraction/unreadable-region-refusal",
     "draft-editing/completeness-derivation",
     "dynamic-secret-lifecycle/lease-vs-native-tracking",
+    "edge-queue-policy/drop-accounting",
     "embedded-db/db-self-instrumentation",
     "embedded-db/derived-capacity-limits",
     "embedded-db/storage-accounting-and-pruning",
@@ -26265,9 +26843,14 @@
     "conversation-orchestration/recall-transparency",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "correlated-exchange-over-broadcast/orphaned-correlation-on-peer-restart",
+    "correlated-exchange-over-broadcast/terminal-status-set",
     "credential-vault/versioned-key-window",
     "data-access/sequence-token-write-ordering",
+    "data-plane-transport-selection/route-probe-then-freeze",
     "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
+    "declared-process-graph/panic-proof-numeric-fields",
+    "declared-process-graph/typed-port-compatibility",
     "delivery-analytics/post-landing-repair-density",
     "dependency-declaration/logical-name-or-address",
     "dependency-declaration/progressive-resolution",
@@ -26276,8 +26859,12 @@
     "document-text-extraction/screen-then-confirm-detection",
     "document-text-extraction/unreadable-region-refusal",
     "dynamic-secret-lifecycle/wal-per-external-side-effect",
+    "edge-queue-policy/per-edge-depth-and-policy",
     "error-handling/cancellation-attribution",
     "eval-harness/measurement-revision",
+    "fault-signal-propagation/edge-deadline-arming",
+    "fault-signal-propagation/last-value-degradation",
+    "fault-signal-propagation/no-synthetic-terminal",
     "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/completion-claim-verification",
     "hitl-approval/oracle-before-gate",
@@ -26396,6 +26983,8 @@
     "connector-catalog/catalog-as-data",
     "connector-catalog/matching-and-ranking",
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
+    "correlated-exchange-over-broadcast/passthrough-buffered-wait",
+    "correlated-exchange-over-broadcast/reply-fan-out-filtering",
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/spend-attribution",
     "credential-vault/revocation-interception-cache",
@@ -26406,6 +26995,8 @@
     "decentralized-artifact-distribution/verdict-bound-to-the-exact-revision",
     "declarative-resource-lifecycle/ownership-edges-that-enqueue-the-parent",
     "declarative-resource-lifecycle/per-field-write-ownership",
+    "declared-process-graph/additive-live-mutation",
+    "declared-process-graph/composite-expansion-contract",
     "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
     "delivery-guarantees/atomic-claiming",
@@ -26433,6 +27024,9 @@
     "eval-harness/discriminating-task-selection",
     "eval-harness/scenario-design",
     "executive-reporting/expiring-share-links",
+    "fault-signal-propagation/last-value-degradation",
+    "fault-signal-propagation/recoverable-vs-closed",
+    "fault-signal-propagation/restart-notification-scope",
     "feed/event-clustering",
     "feed/live-prepend",
     "feed/read-position-and-unseen",
@@ -26621,6 +27215,8 @@
     "concurrency-guards/single-flight-primitives",
     "connector-catalog/shipped-vs-operator-ownership",
     "conversation-orchestration/model-proposed-quick-replies",
+    "correlated-exchange-over-broadcast/correlation-key-vocabulary",
+    "correlated-exchange-over-broadcast/reply-fan-out-filtering",
     "cost-metering/budget-enforcement",
     "credential-vault/acquisition",
     "credential-vault/brokered-egress",
@@ -26631,9 +27227,11 @@
     "data-access/query-construction",
     "data-access/read-models-and-projections",
     "data-access/sequence-token-write-ordering",
+    "data-plane-transport-selection/policy-demotes-transport",
     "data-retention/confirm-by-echo",
     "data-retention/destructive-override-floor",
     "data-retention/erasure-requests",
+    "declared-process-graph/composite-expansion-contract",
     "demo-data-plane/network-faithful-mocks",
     "device-pairing/admission-scoping",
     "device-pairing/pairing-ceremony",
@@ -26819,18 +27417,22 @@
     "conversation-orchestration/layered-avatar-state-machine",
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
+    "correlated-exchange-over-broadcast/passthrough-buffered-wait",
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/usage-ledgers",
     "credential-vault/brokered-egress",
     "credential-vault/renew-at-two-thirds-with-grace",
     "credential-vault/revocation-interception-cache",
     "credential-vault/token-refresh-lifecycle",
+    "data-plane-transport-selection/control-plane-off-the-data-path",
+    "data-plane-transport-selection/moved-payload-has-no-fallback",
     "data-retention/per-tenant-retention-policy",
     "data-retention/time-budgeted-batch-purge",
     "data-viz/chart-loading-economics",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
+    "declared-process-graph/additive-live-mutation",
     "delivery-guarantees/atomic-claiming",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/stuck-reaping",
@@ -26846,6 +27448,7 @@
     "dynamic-secret-lifecycle/lease-vs-native-tracking",
     "dynamic-secret-lifecycle/persist-before-provision",
     "dynamic-secret-lifecycle/wal-per-external-side-effect",
+    "edge-queue-policy/eviction-priority-classes",
     "embedded-db/connection-pooling",
     "embedded-db/single-writer-holder-discipline",
     "embedded-db/storage-accounting-and-pruning",
@@ -27078,6 +27681,9 @@
     "conversation-orchestration/progress-beat-grammar",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "correlated-exchange-over-broadcast/binding-parity-floor",
+    "correlated-exchange-over-broadcast/correlation-key-vocabulary",
+    "correlated-exchange-over-broadcast/terminal-status-set",
     "cost-metering/price-tables",
     "credential-vault/health-probing",
     "credential-vault/rotation-and-remediation",
@@ -27093,6 +27699,7 @@
     "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
     "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
     "declarative-resource-lifecycle/per-field-write-ownership",
+    "declared-process-graph/per-kind-field-whitelist",
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
     "delivery-guarantees/non-delivery-ledgers",
@@ -27123,6 +27730,8 @@
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/cross-surface-handoff",
     "dynamic-secret-lifecycle/ttl-ladder-derivation",
+    "edge-queue-policy/eviction-priority-classes",
+    "edge-queue-policy/in-band-flush",
     "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/extension-lifecycle",
     "embedded-preview/cross-frame-protocol",
@@ -27137,6 +27746,8 @@
     "eval-harness/metric-role-contract",
     "executive-reporting/bad-news-labelling",
     "executive-reporting/single-ranked-next-move",
+    "fault-signal-propagation/restart-notification-scope",
+    "fault-signal-propagation/typed-edge-events-in-band",
     "feed/reverse-chronology-semantics",
     "file-browsing/kind-taxonomy",
     "fleet-orchestration/lifecycle-signals",
@@ -27330,19 +27941,30 @@
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
     "convergence-loop-and-requeue/error-policy-as-a-separate-function",
+    "correlated-exchange-over-broadcast/binding-parity-floor",
+    "correlated-exchange-over-broadcast/orphaned-correlation-on-peer-restart",
+    "correlated-exchange-over-broadcast/terminal-status-set",
     "credential-vault/renew-at-two-thirds-with-grace",
     "credential-vault/token-refresh-lifecycle",
     "data-access/capability-declared-in-the-type",
+    "data-plane-transport-selection/route-probe-then-freeze",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
     "decentralized-artifact-distribution/verdict-bound-to-the-exact-revision",
     "declarative-resource-lifecycle/per-field-write-ownership",
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
+    "declared-process-graph/additive-live-mutation",
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/environment-promotion",
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/recognition-boundary-and-escalation",
+    "edge-queue-policy/control-channel-headroom",
+    "edge-queue-policy/eviction-priority-classes",
+    "edge-queue-policy/in-band-flush",
     "embedded-db/corruption-class-response",
     "error-handling/cancellation-attribution",
+    "fault-signal-propagation/no-synthetic-terminal",
+    "fault-signal-propagation/restart-notification-scope",
+    "fault-signal-propagation/typed-edge-events-in-band",
     "issuance-policy-ladder/bounds-as-modes",
     "issuance-policy-ladder/program-role-returns-the-artifact",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
@@ -27597,20 +28219,28 @@
     "concurrency-guards/fence-inside-write-transaction",
     "conformance-checking/declared-deviation-register",
     "convergence-loop-and-requeue/told-that-not-why",
+    "correlated-exchange-over-broadcast/binding-parity-floor",
     "data-access/capability-declared-in-the-type",
     "data-access/cross-driver-invariant-parity",
     "data-access/localized-record-identity",
+    "data-plane-transport-selection/path-divergence-audit",
+    "data-plane-transport-selection/policy-demotes-transport",
+    "data-plane-transport-selection/size-threshold-by-page-cost",
     "decentralized-artifact-distribution/fail-closed-trust-dependency",
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
     "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
+    "declared-process-graph/bounded-expansion",
+    "declared-process-graph/typed-port-compatibility",
     "deployment-contract/direct-push-delivery",
     "document-text-extraction/recognition-boundary-and-escalation",
     "document-text-extraction/structural-amplification-caps",
+    "edge-queue-policy/per-edge-depth-and-policy",
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
+    "fault-signal-propagation/edge-deadline-arming",
     "fleet-orchestration/brief-carries-the-session",
     "hitl-approval/truncated-verdict-space",
     "import-normalization/durable-intermediate-representation",
@@ -27670,6 +28300,7 @@
     "context-hierarchy/digest-gated-upward-refresh",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
     "deployment-contract/deployment-config-as-code",
+    "fault-signal-propagation/last-value-degradation",
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",

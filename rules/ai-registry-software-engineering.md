@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 177 subjects, 1261 techniques, 712 applications.
+`software-engineering` - 182 subjects, 1291 techniques, 722 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -23,6 +23,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 ### backend-platform
 - **data-layer** - bounded-enumeration, data-access, embedded-db, migrations, read-serving-replicas, sync-replication, transactions-over-a-replicated-log
 - **platform-observability** - alerting, metrics-rollups, observability-telemetry, outbound-notifications
+- **process-graph-runtime** - correlated-exchange-over-broadcast, data-plane-transport-selection, declared-process-graph, edge-queue-policy, fault-signal-propagation
 - **resilience** - error-handling, multi-provider-gateway-plane, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
 - **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, job-coordination, pipeline-dag, scheduling
 
