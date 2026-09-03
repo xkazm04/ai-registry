@@ -175,3 +175,22 @@ ladder). Filed as a lead, no action taken.
   identity carried from the reference, interior staged with the action
   performed. Reference conditioning is confirmed as the serial direction;
   the phrasing lane (3 windows, 10 pairs, coin flip) is closed.
+
+## Epilogue (2026-09-03): the gap was the question, not the parameters
+
+Operator challenge: could prompt adjustments on the small eyes reach the
+321B's depth? Measured same-day: YES. The original comparison was
+confounded - the small eyes answered a closed-enum schema (which flattens by
+design) while GLM answered free prose. A "taught" prompt built from what the
+big eye demonstrated (palette as roles, black as shape, light as layers,
+medium mixing, edge story) pulled equivalent-depth readbacks from LOCAL
+qwen3.8:27b: 25 s and $0 per frame vs 23 min - same roles, same
+silhouette reading, same layered light, on the same frame. Prompt preserved
+as gravitone's pipeline/foundry/DEEP-READ-PROMPT.md.
+
+**Final verdict, revised: the 321B eye is NOT needed here.** Its one real
+contribution was showing what a better question looks like; the question is
+now an asset and the weights are recommended for deletion (64 GB RAM is a
+declared-permanent constraint on this box). The engine evaluation stands as
+knowledge: Colibri's tiering works as documented, and on RAM-capped consumer
+hardware the elicitation lever should be exhausted before the parameter one.
