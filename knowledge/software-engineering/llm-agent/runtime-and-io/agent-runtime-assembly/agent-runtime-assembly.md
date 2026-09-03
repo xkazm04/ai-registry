@@ -16,6 +16,8 @@ techniques:
   - honest-hook-registry
   - session-scoped-capability
   - guard-input-custody
+  - additive-input-at-the-call-boundary
+  - indeterminate-closure-on-interruption
 ---
 
 # Agent runtime assembly
@@ -246,6 +248,40 @@ linearly, rather than reimplementing the store's ancestry walk and getting the
 sibling's writes wrong. [checkpoint-mode-custody](./techniques/checkpoint-mode-custody.md)
 owns the freeze, the accessor, the asymmetry, and the linearized resume.
 
+## The loop has exactly two doors, and both are disciplined
+
+A unit of work looks closed from the outside: one input starts it, and it
+runs until the model stops asking for tools. Two things nonetheless have to
+get in and out of it mid-flight, and each is a place where a runtime that
+improvises acquires a defect it will not find for months.
+
+**Something arrives while it is running.** A person types a follow-up. The
+tempting design cancels the unit and restarts with the new message, and it
+is wrong for reasons that live in other parts of the runtime entirely: it
+resets the context transform so the model forgets the batch it just read, it
+marks the preceding work unclean so the sealed continuation metadata is
+voided on every steer, and it cannot be applied at all to a unit suspended on
+a human decision. The alternative accepts the message *into* the running unit
+at the model-call boundary, purely additively.
+[additive-input-at-the-call-boundary](./techniques/additive-input-at-the-call-boundary.md)
+owns the boundary's exact position, the drain that keeps the loop ignorant of
+the queue, the record-before-request reference that makes recovery correct,
+and the budget reset that stops a steered agent being given less room than a
+fresh one.
+
+**Something ends while nothing is watching.** A process dies with a call
+outstanding, and recovery has to write a result it does not have. Writing
+failure looks conservative and is a definite verdict the runtime has not
+earned; the honest closure is a third status saying the outcome is unknown
+and nothing was retried.
+[indeterminate-closure-on-interruption](./techniques/indeterminate-closure-on-interruption.md)
+owns that status, the rule that it is a first-class value and never a
+distinguishing string inside a failure message, and the ordering obligation
+that makes the whole record safe to read: every unresolved call is closed
+before the terminal event is written, so a terminated unit's record is
+complete for every later consumer rather than for the ones that remembered to
+special-case it.
+
 ## Failure modes this standard exists to prevent
 
 - **The index placement** — a contribution inserted at position three of a
@@ -302,6 +338,17 @@ owns the freeze, the accessor, the asymmetry, and the linearized resume.
   mode frozen per process; one accessor gates every read; compatibility
   fails closed toward the silent partial read and stays open the other way;
   a fork of non-self-contained state is rewritten as a linear head write.
+- [additive-input-at-the-call-boundary](./techniques/additive-input-at-the-call-boundary.md)
+  — mid-unit input injected additively at the model-call boundary rather than
+  by cancel-and-restart; the three properties supersede destroys; a
+  caller-supplied drain the loop cannot see past; the record written before
+  the request that must reference it; the budget reset per accepted input;
+  delivery as earliest-safe-point, stated.
+- [indeterminate-closure-on-interruption](./techniques/indeterminate-closure-on-interruption.md)
+  — outstanding work closed as unknown rather than failed; the status
+  first-class instead of a string a downstream classifier re-parses; every
+  unresolved call closed before the terminal event; the sort between
+  indeterminate, re-issuable, unstarted and unreadable.
 - [observer-and-mutator-surfaces](./techniques/observer-and-mutator-surfaces.md)
   — two registration surfaces with opposite return contracts: an observer
   surface whose returns the emitter discards, and a closed vocabulary of

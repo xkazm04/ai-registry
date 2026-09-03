@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 191,
-  "techniques": 1379,
-  "applications": 786,
+  "techniques": 1383,
+  "applications": 791,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1379/1379",
+  "use_when_coverage": "1383/1383",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1717,8 +1717,24 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:0103ee2e96007888",
+   "digest": "sha256:5bf1c2288bad204c",
    "techniques": [
+    {
+     "slug": "additive-input-at-the-call-boundary",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a user types a follow-up while the agent loop is still working",
+      "deciding whether new input restarts a unit of work or joins it",
+      "a steering message silently disappears when the run finishes first",
+      "choosing where a running loop is allowed to accept anything from outside"
+     ]
+    },
     {
      "slug": "assembly-identity",
      "status": "forged",
@@ -1816,6 +1832,22 @@
      "stage": "team"
     },
     {
+     "slug": "indeterminate-closure-on-interruption",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a restart finds work that was running and nothing knows how it ended",
+      "deciding what status a killed run is given",
+      "a downstream classifier recovers a cause by matching an error message",
+      "recovery must produce a transcript a later reader can rely on"
+     ]
+    },
+    {
      "slug": "observer-and-mutator-surfaces",
      "status": "forged",
      "laws": [
@@ -1901,6 +1933,20 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "additive-input-at-the-call-boundary",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/next--additive-input-at-the-call-boundary.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "next@15"
+    },
+    {
+     "stack": "node",
+     "technique": "additive-input-at-the-call-boundary",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--additive-input-at-the-call-boundary.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@24.15.0"
+    },
+    {
      "stack": "node",
      "technique": "guard-input-custody",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/node--guard-input-custody.md",
@@ -1955,6 +2001,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--bounded-projection-of-external-work.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "indeterminate-closure-on-interruption",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--indeterminate-closure-on-interruption.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.80.0"
     },
     {
      "stack": "rust",
@@ -18504,7 +18557,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:5ab83d2a88851f44",
+   "digest": "sha256:14a38e2a6a839fdc",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -18604,6 +18657,37 @@
       "an operator command changes capabilities or policy inside a live session",
       "deciding when a configuration change takes effect",
       "a cheap-looking command multiplied a long session's bill"
+     ]
+    },
+    {
+     "slug": "elision-to-a-refetch-pointer",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "historic tool results dominate a context window that summarizing would not fix",
+      "deciding what to do with images and captured frames from earlier turns",
+      "a compaction step is proposed for material that is still addressable at its source",
+      "keeping a composed prefix byte-stable while shrinking it"
+     ]
+    },
+    {
+     "slug": "endpoint-sealed-continuation-metadata",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a conversation may change model or provider partway through",
+      "replaying a stored assistant turn is rejected by the provider that did not produce it",
+      "deciding what part of a transcript is portable and what is sealed",
+      "a reasoning-capable model loses its chain when the history is reused"
      ]
     },
     {
@@ -18712,6 +18796,13 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "endpoint-sealed-continuation-metadata",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--endpoint-sealed-continuation-metadata.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@24.15.0"
+    },
+    {
+     "stack": "node",
      "technique": "tiered-history-projection",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--tiered-history-projection.md",
      "verified_on": "2026-08-30",
@@ -18729,6 +18820,13 @@
      "technique": "context-budgeting",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--context-budgeting.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "elision-to-a-refetch-pointer",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--elision-to-a-refetch-pointer.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -25663,7 +25761,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/transactions-over-a-replicated-log/transactions-over-a-replicated-log.md",
-   "digest": "sha256:bb9e584191d0048c",
+   "digest": "sha256:2b7b74064ebf75ef",
    "techniques": [
     {
      "slug": "capture-index-before-snapshot",
@@ -27834,6 +27932,7 @@
     "agent-memory/rollup-compaction",
     "agent-runtime-assembly/bounded-projection-of-external-work",
     "agent-runtime-assembly/honest-hook-registry",
+    "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/operator-tier-code-loading",
     "agent-runtime-assembly/rewrite-before-the-gate",
     "alerting/evaluation-loop",
@@ -28130,6 +28229,7 @@
     "proactive-nudges/trigger-evaluators",
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/context-reachability",
+    "prompt-assembly/endpoint-sealed-continuation-metadata",
     "prompt-assembly/history-compaction",
     "prompt-assembly/tiered-history-projection",
     "prompt-assembly/variable-interpolation",
@@ -28791,8 +28891,10 @@
     "agent-memory/decay-and-forgetting",
     "agent-memory/lane-reconciliation",
     "agent-memory/probe-without-write-back",
+    "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/checkpoint-mode-custody",
     "agent-runtime-assembly/host-routes-win",
+    "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/session-scoped-capability",
     "audit-logging/two-clock-records",
     "authorization/delegated-authority",
@@ -28871,6 +28973,8 @@
     "p2p-networking/peer-state-honesty",
     "plan-review/informational-fold-in",
     "priced-authority/write-ahead-revocation-marker",
+    "prompt-assembly/elision-to-a-refetch-pointer",
+    "prompt-assembly/endpoint-sealed-continuation-metadata",
     "quality-gates/advancement-evidence-fields",
     "quality-gates/enforcement-binding",
     "quality-gates/fabrication-economics",
@@ -28925,6 +29029,7 @@
     "agent-memory/procedure-promotion",
     "agent-memory/read-set-bounded-links",
     "agent-memory/working-memory",
+    "agent-runtime-assembly/additive-input-at-the-call-boundary",
     "agent-runtime-assembly/bounded-projection-of-external-work",
     "agent-runtime-assembly/semantic-hook-placement",
     "alerting/alert-lifecycle",
@@ -29079,6 +29184,7 @@
     "priced-authority/single-use-cubbyhole-wrap",
     "proactive-nudges/nudge-identity-dedup",
     "prompt-assembly/continuation-prompts",
+    "prompt-assembly/endpoint-sealed-continuation-metadata",
     "prompt-assembly/history-compaction",
     "prompt-assembly/house-vocabulary-layer",
     "prompt-assembly/tiered-history-projection",
@@ -29969,6 +30075,7 @@
     "agent-browser-control/agent-actionable-errors",
     "agent-browser-control/socket-scoped-surface",
     "agent-cli-transport/output-normalization",
+    "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
     "agent-runtime-assembly/operator-tier-code-loading",
     "agent-runtime-assembly/rewrite-before-the-gate",
@@ -30182,6 +30289,7 @@
     "proactive-nudges/attention-budgets",
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/cache-breakpoint-allocation",
+    "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-assembly/tiered-history-projection",
     "public-claim-provenance/build-time-derivation-off-the-client-bundle",
@@ -30401,6 +30509,17 @@
     "test-harness/context-starved-executor"
    ]
   },
+  "record-precedes-effect": {
+   "statement": "The record of an action is written before the action, and the action is refused when the record cannot be written. A marker before a privileged bootstrap, a parent index before the record it indexes, a write-ahead entry before a remote mutation, an audit line before the response leaves, a lease persisted before the credential is minted in the remote system — in every case the naive order (act, then record) leaves a window in which the effect exists and nothing accounts for it, and that window is where authority escapes its revocation chain, where a half-created tenant survives a crash, and where a secret was served with no line to prove it. The rule has a second half that is the load-bearing one: when the record cannot land — the store is read-only, the sink set is empty, the ledger is unreachable — the effect does not happen. A system that acts anyway and logs the failure has chosen availability over accountability without saying so. Sibling of creation-names-reaper: that law says a created thing names what will clean it up; this one says the clean-up handle is written first.",
+   "techniques": [
+    "agent-runtime-assembly/additive-input-at-the-call-boundary",
+    "cross-instance-cache-lease/renew-from-arrival-not-from-work",
+    "decentralized-artifact-distribution/publisher-declared-verification-floor",
+    "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
+    "job-coordination/no-unrestorable-state-at-a-suspension-point",
+    "voice-io/unattended-caller-attribution"
+   ]
+  },
   "limits-are-derived": {
    "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
    "techniques": [
@@ -30419,16 +30538,6 @@
     "scale-investment-timing/execution-model-concurrency-threshold",
     "serving-process-topology/process-count-as-a-formula",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate"
-   ]
-  },
-  "record-precedes-effect": {
-   "statement": "The record of an action is written before the action, and the action is refused when the record cannot be written. A marker before a privileged bootstrap, a parent index before the record it indexes, a write-ahead entry before a remote mutation, an audit line before the response leaves, a lease persisted before the credential is minted in the remote system — in every case the naive order (act, then record) leaves a window in which the effect exists and nothing accounts for it, and that window is where authority escapes its revocation chain, where a half-created tenant survives a crash, and where a secret was served with no line to prove it. The rule has a second half that is the load-bearing one: when the record cannot land — the store is read-only, the sink set is empty, the ledger is unreachable — the effect does not happen. A system that acts anyway and logs the failure has chosen availability over accountability without saying so. Sibling of creation-names-reaper: that law says a created thing names what will clean it up; this one says the clean-up handle is written first.",
-   "techniques": [
-    "cross-instance-cache-lease/renew-from-arrival-not-from-work",
-    "decentralized-artifact-distribution/publisher-declared-verification-floor",
-    "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
-    "job-coordination/no-unrestorable-state-at-a-suspension-point",
-    "voice-io/unattended-caller-attribution"
    ]
   }
  }

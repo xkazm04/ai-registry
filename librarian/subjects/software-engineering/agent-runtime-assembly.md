@@ -1,7 +1,7 @@
 ---
 subject: agent-runtime-assembly
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -107,3 +107,37 @@ placement is impossible - with the normalisation condition and the limit stated:
 detects rather than prevents, and a deterministic escape that does not vary with the probe
 passes it. `not-better` as a verdict, confirmation as a fact, and the corpus is the thing
 that improved.
+
+## 2026-09-03 - intake, rowboat (run intake-rowboat-0903)
+
+Two techniques, both about the loop's two doors, from the same vendor
+repository read as a system.
+
+- **additive-input-at-the-call-boundary** - mid-unit input injected at the
+  model-call boundary rather than by cancel-and-restart, with the three
+  reasons supersede loses (each a property owned by a *different* subsystem:
+  elision, continuation stripping, and suspended-work destruction). The
+  neighbouring UI subject `chat-transcript/composer-turn-queue` models the
+  surface half; this is the runtime half, and the boundary between them is
+  now stated on this side.
+- **indeterminate-closure-on-interruption** - outstanding work closed as
+  unknown rather than failed, the status first-class rather than a string a
+  downstream classifier re-parses, and every unresolved call closed before
+  the terminal event so the record is complete for every reader.
+
+**The second one was corrected by a connected tree, and this is the run's
+best result.** The tree was picked as a seam because it looked like it had
+the anti-pattern; it had already replaced it with a three-class boot
+classification and refuted the technique on a case the technique missed - a
+run that kills the process on every resume always looks fresh, so honest
+closure plus re-admission is a boot loop. Four mechanisms were read out of
+that tree into the technique (classify rather than declare; reuse the
+existing liveness threshold rather than picking a fresh number; count
+involuntary interruption on its own key; clear the mark on completion, not
+on the attempt). Verdict `not-better`, recorded as such.
+
+A second application against a game-production harness came back
+`unmeasurable` with the instrument named: the harness has pause and resume
+and no verb that carries a message, and the only working mid-run steering
+path (pause, hand-edit the config the resume rehydrates from, resume) is
+undesigned and unrecorded.

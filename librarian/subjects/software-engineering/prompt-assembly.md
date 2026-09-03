@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -216,3 +216,31 @@ One amendment. The other eleven techniques were not swept.
 ## 2026-09-02 - `/intake` hermes-agent (run `intake-hermes-0902`, intake 2.1.1, Opus workers)
 
 Two techniques: `amortized-compaction-cadence` (the schedule compaction runs on rather than the threshold it fires at - one unit of history folded per turn to hold occupancy flat, priced against the cached prefix; the cursor never absorbs what the operator wrote; A1 and A2 folded into one because the exemption is only statable in terms of the absorbable unit) and `deferred-interface-invalidation` (a command that mutates a standing layer takes effect next session by default, immediate as an opt-in; the one exempt rewrite is compression). `history-compaction`, `cache-breakpoint-allocation` and `fingerprinting-and-cache-keys` were read whole and none stated cadence or avoidance. Source-tree application `python--amortized-compaction-cadence` with the measured 22%-and-held occupancy. Deviations: no reclaim-size gate; a half-committed pass reports as committed; the report script measures occupancy but not the cache-hit side of the trade.
+
+## 2026-09-03 - intake, rowboat (run intake-rowboat-0903)
+
+Two techniques from a vendor repository read as a system (810-word landing
+page, 56,285 words of in-tree design documents).
+
+- **endpoint-sealed-continuation-metadata** - the half of a transcript that
+  belongs to *where it happened*. Provider continuation blobs are sealed to
+  the endpoint that minted them, so replay is gated per segment on strict
+  provider-instance plus model-id equality AND a clean close; everything
+  else, including the inline base whose provenance is unrecorded, is
+  stripped. This is the reason composition needs the target model as an
+  input, which the subject did not previously say anywhere.
+- **elision-to-a-refetch-pointer** - a third answer beside compaction and
+  tiered projection, for material that is still addressable at its source:
+  elide to a pointer naming the way back, not to a summary. Sited as a
+  decorator so the durable record is untouched, pure per message so prefix
+  caches keep hitting, with the recomputability caveat written down.
+
+**Applied `code`, verdict `better`**, in a connected observability tree: a
+tool-server resource read emitted the whole body pretty-printed beside its
+rendered form, unbounded. Paired on one fixture: 206,644 -> 43,628 bytes
+(4.7x). The negative half is the more useful one and is in the application -
+elision did NOT reach the byte threshold that triggers it, because it bounds
+payload per item and cannot bound an unbounded item count.
+
+Boundary now stated in the golden path under its own heading, between the
+budget sections and the versioned-interface section.
