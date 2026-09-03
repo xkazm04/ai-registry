@@ -759,7 +759,7 @@
     "groups": 8,
     "governingSubjects": 53,
     "weaklyGoverned": 0,
-    "ledgerRows": 3,
+    "ledgerRows": 6,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/tracklight",
@@ -1792,7 +1792,7 @@
     "groups": 8,
     "governingSubjects": 88,
     "weaklyGoverned": 0,
-    "ledgerRows": 1,
+    "ledgerRows": 4,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/pumper",
@@ -4936,7 +4936,7 @@
     "groups": 16,
     "governingSubjects": 146,
     "weaklyGoverned": 1,
-    "ledgerRows": 3,
+    "ledgerRows": 5,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/personas",
@@ -12346,7 +12346,7 @@
     "groups": 17,
     "governingSubjects": 158,
     "weaklyGoverned": 0,
-    "ledgerRows": 0,
+    "ledgerRows": 3,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/kp",
@@ -38642,7 +38642,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "continuous-integration",
-   "techniques": 5,
+   "techniques": 6,
    "present": [
     {
      "project": "personas",
@@ -38988,7 +38988,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "personas",
@@ -39179,7 +39179,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "work-execution",
-   "techniques": 9,
+   "techniques": 10,
    "present": [
     {
      "project": "pumper",
@@ -39225,7 +39225,8 @@
     },
     {
      "project": "personas",
-     "classification": "candidate"
+     "classification": "accepted",
+     "date": "2026-09-03"
     },
     {
      "project": "pof",
@@ -39479,7 +39480,8 @@
     },
     {
      "project": "pumper",
-     "classification": "candidate"
+     "classification": "accepted",
+     "date": "2026-09-03"
     },
     {
      "project": "politicas",
@@ -39722,7 +39724,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "data-layer",
-   "techniques": 10,
+   "techniques": 12,
    "present": [
     {
      "project": "tracklight",
@@ -39942,6 +39944,55 @@
     },
     {
      "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/decentralized-artifact-distribution": {
+   "bundle": "software-engineering",
+   "category": "security",
+   "subcategory": null,
+   "techniques": 6,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
      "classification": "candidate"
     },
     {
@@ -40320,7 +40371,8 @@
     },
     {
      "project": "tracklight",
-     "classification": "candidate"
+     "classification": "accepted",
+     "date": "2026-09-03"
     },
     {
      "project": "pumper",
@@ -40328,7 +40380,8 @@
     },
     {
      "project": "kp",
-     "classification": "candidate"
+     "classification": "accepted",
+     "date": "2026-09-03"
     },
     {
      "project": "pof",
@@ -41164,11 +41217,13 @@
     },
     {
      "project": "tracklight",
-     "classification": "candidate"
+     "classification": "accepted",
+     "date": "2026-09-03"
     },
     {
      "project": "pumper",
-     "classification": "candidate"
+     "classification": "accepted",
+     "date": "2026-09-03"
     },
     {
      "project": "kp",
@@ -41754,7 +41809,8 @@
     },
     {
      "project": "tracklight",
-     "classification": "candidate"
+     "classification": "accepted",
+     "date": "2026-09-03"
     },
     {
      "project": "pumper",
@@ -41782,7 +41838,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "orchestration",
-   "techniques": 12,
+   "techniques": 13,
    "present": [
     {
      "project": "gravity",
@@ -43063,7 +43119,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "data-layer",
-   "techniques": 7,
+   "techniques": 9,
    "present": [
     {
      "project": "pumper",
@@ -44681,7 +44737,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
-   "techniques": 20,
+   "techniques": 21,
    "present": [
     {
      "project": "gravity",
@@ -47099,7 +47155,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 11,
+   "techniques": 12,
    "present": [
     {
      "project": "gravity",
@@ -47654,6 +47710,55 @@
     }
    ]
   },
+  "software-engineering/untrusted-extension-host": {
+   "bundle": "software-engineering",
+   "category": "security",
+   "subcategory": null,
+   "techniques": 7,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    },
+    {
+     "project": "pof",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas-web",
+     "classification": "candidate"
+    },
+    {
+     "project": "systedo-case",
+     "classification": "candidate"
+    },
+    {
+     "project": "ascent",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/usage-analytics": {
    "bundle": "software-engineering",
    "category": "operations",
@@ -48132,7 +48237,7 @@
    "contexts": 18,
    "governingSubjects": 40,
    "scope": "declared",
-   "candidate": 132,
+   "candidate": 134,
    "out-of-scope": 23,
    "declined": 0,
    "deferred": 0,
@@ -48154,11 +48259,11 @@
    "contexts": 34,
    "governingSubjects": 53,
    "scope": "declared",
-   "candidate": 100,
+   "candidate": 99,
    "out-of-scope": 35,
    "declined": 1,
    "deferred": 0,
-   "accepted": 2,
+   "accepted": 5,
    "out-of-domain": 181
   },
   "pumper": {
@@ -48169,14 +48274,14 @@
    "out-of-scope": 41,
    "declined": 0,
    "deferred": 0,
-   "accepted": 1,
+   "accepted": 3,
    "out-of-domain": 181
   },
   "politicas": {
    "contexts": 49,
    "governingSubjects": 72,
    "scope": "declared",
-   "candidate": 106,
+   "candidate": 108,
    "out-of-scope": 27,
    "declined": 0,
    "deferred": 0,
@@ -48187,29 +48292,29 @@
    "contexts": 208,
    "governingSubjects": 146,
    "scope": "declared",
-   "candidate": 50,
+   "candidate": 51,
    "out-of-scope": 7,
    "declined": 0,
    "deferred": 0,
-   "accepted": 2,
+   "accepted": 3,
    "out-of-domain": 167
   },
   "kp": {
    "contexts": 143,
    "governingSubjects": 158,
    "scope": "declared",
-   "candidate": 81,
+   "candidate": 82,
    "out-of-scope": 14,
    "declined": 0,
    "deferred": 0,
-   "accepted": 0,
+   "accepted": 1,
    "out-of-domain": 119
   },
   "pof": {
    "contexts": 38,
    "governingSubjects": 73,
    "scope": "declared",
-   "candidate": 136,
+   "candidate": 138,
    "out-of-scope": 16,
    "declined": 0,
    "deferred": 0,
@@ -48220,7 +48325,7 @@
    "contexts": 56,
    "governingSubjects": 95,
    "scope": "declared",
-   "candidate": 30,
+   "candidate": 32,
    "out-of-scope": 50,
    "declined": 0,
    "deferred": 0,
@@ -48231,7 +48336,7 @@
    "contexts": 117,
    "governingSubjects": 113,
    "scope": "declared",
-   "candidate": 71,
+   "candidate": 73,
    "out-of-scope": 11,
    "declined": 0,
    "deferred": 0,
@@ -48242,7 +48347,7 @@
    "contexts": 54,
    "governingSubjects": 87,
    "scope": "declared",
-   "candidate": 77,
+   "candidate": 79,
    "out-of-scope": 11,
    "declined": 0,
    "deferred": 0,

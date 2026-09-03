@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.3.1
+version: 2.3.2
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1180,7 +1180,13 @@ a declined direction is never re-proposed and an accepted one leaves the candida
 **What executes.** Every accepted proposal is dispatched to its own worker **in the same
 session** - one worker per proposal, in an isolated worktree of the project
 (`git worktree add C:/t/w-<project>-<slug> -b direction/<slug>`, short path, per the
-long-path rule) so nine workers can run against five checkouts without sharing one. The
+long-path rule) so nine workers can run against five checkouts without sharing one.
+**When two accepted proposals in one project name the same files** (the seam line in
+their `stage:`), they go to ONE worker on ONE branch (`direction/<run>-round<n>`),
+executed in order with one commit and one applied row each - parallel branches over
+one file only move the merge conflict to the director (v2.3.2, learned when eleven
+proposals across four projects shared a chart checker, a claim statement and an error
+enum). The
 worker reads the proposal as its spec, the project's own account of itself, and the
 registry subject it implements; builds the proposal's "first context" within the stated
 size; writes the tests the proposal's measurable implies; runs the cheapest gate that

@@ -6088,3 +6088,20 @@ been naming that zero for weeks:
   piped result; this adds that a *contradictory flag combination* fails the same way and
   is harder to see, because it produces confident output rather than empty output. Assert
   the instrument against a known positive first — one file that certainly has the field.
+
+### 2.3.2 - 2026-09-03 - one worker per project when proposals share files
+
+- The second gate accepted eleven of eleven across four projects, and in every project
+  the accepted proposals overlapped on a file (kp: all three touch the chart checker;
+  pumper: the claim statement and the error enum; tracklight: the chart; personas: the
+  execution path). Eleven worktrees would have produced eight merge conflicts for the
+  director to resolve by hand. Four workers, one per project, executed their proposals in
+  order on one branch with one commit and one applied row each; four `--no-ff` merges,
+  zero conflicts. Verdicts: 11 better (one with its replay marked unmeasurable inside the
+  row because the backup it names is not on this machine). Pre-existing red on the
+  project's own main (a stale rustfmt file, keychain tests) does not block the merge; the
+  worker names it and leaves it.
+- Workers corrected proposals against the tree again: personas' trigger id is NULL for
+  scheduler-spawned rows so the key reads the event source; pumper's "186 flattening
+  sites" was workspace-wide, 18 by the guard's rule. A proposal is a spec written from a
+  study, and the worker's first job is to re-open every anchor.
