@@ -63,3 +63,23 @@ rewritten to key on the mutation's name. New application
 the fleet's ratchets already key by identity, and the application says
 what that keying does not provide (no site, no motivation - a ratchet with
 honest keys, not a register).
+
+## 2026-09-03 - intake run `intake-boa-0903` (source: a language engine's conformance tester)
+
+New technique **`edition-stratified-conformance`**, the eighth. `pass-ratio-comparability`
+named the force ("a new standard version moves every score... two different measurements
+sharing an axis") and stopped at refusal; the source showed the mechanism for a
+specification that accumulates editions with an upstream suite that grows monthly: pin the
+suite's revision beside the ignored list (reason classes: unimplemented / pending /
+deliberate), classify each check by the maximum of its features' minimum editions from
+one authoritative map and report cumulatively so older editions hold still, diff finding
+sets by identity (newly passing, newly failing, new crashes, fixed crashes) with the
+crash as its own class at the hard-failure rung, and post the diff beside the change
+against a trunk baseline stored outside the repository, with the gate decision human
+except for a named new crash. Applications: `rust--edition-stratified-conformance` (the
+source tree, every move anchored) and `node--edition-stratified-conformance` (**code,
+better, ab-paired**): the fleet's maturity index keyed its outcomes lane by rubric version
+and its regression-alert lane by nothing - a rubric bump would have paged every org at
+once - and a nine-line guard moved dispatches 1 -> 0 under the file's own suite. Lead
+banked: spec-step comments as a per-line deviation register (`declared-then-proven`'s
+neighbour), return condition a second stepped-specification implementation.

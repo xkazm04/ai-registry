@@ -75,3 +75,25 @@ the source's drift (its published allowlist omits two libraries the runtime open
 globals test; safe mode untested) and one `rust--` application confirms the amendment
 against a fleet runtime whose observers are non-fatal by signature. Placement: `security`
 is at its ten-subject cap; anything further here is a technique, never a sibling subject.
+
+## 2026-09-03 - intake run `intake-boa-0903` (source: an embeddable language engine)
+
+Amendment to **`capability-subtraction-sandbox`** ("Where the runtime counts, the ceiling
+set is not empty") and a one-clause correction to the golden path's sentence "reach
+without ceilings", which had denied too much: the technique's own hedge ("unless the
+runtime offers an instruction-count hook and the host wires it") is the general case for
+an interpreter the host embeds. Whatever the runtime counts it can cap - frames, stack
+slots, loop back-edges, instructions, and bytes where the allocator is its own - and three
+rules make the counted set honest: a counted ceiling raises a failure the guest cannot
+catch; the ceiling set is published as two lists, counted (with defaults) and uncounted
+(wall time inside a host call, host-side allocation, each with its bound elsewhere or the
+word none); and the uncounted list is empty exactly when the guest imports nothing. The
+source engine carries four counted limits with non-catchable errors and a changelog of
+the uncounted list shrinking one built-in at a time. Application
+`rust--capability-subtraction-sandbox` (**simulation, unmeasurable, structural-only**):
+the fleet's WASM plugin host is the rule's third clause instantiated - fuel, memory,
+tables and instances capped and published beside consumption, and no imports, so both
+arms end identically; the instrument named is the linker's import count. The mechanism of
+counting itself is now a sibling subject in `backend-platform/language-runtime`
+(`guest-execution-bounding`), which links this technique from its golden path; this
+subject keeps reach and grants.

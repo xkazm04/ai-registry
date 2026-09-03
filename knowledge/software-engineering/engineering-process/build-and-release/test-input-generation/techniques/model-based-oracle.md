@@ -90,6 +90,29 @@ incidental structure the system was free to change. Where the answer is
 computable independently, a model is stronger, because a recording can only
 tell you the answer changed, never that it was wrong to begin with.
 
+## When the generator over-approximates: normalise once, then round-trip
+
+The round-trip invariant on the second rung - what the system produces,
+re-consumed, must reproduce the original - is asserted, in most suites, on the
+generator's raw output. That conflates two different failures. A structural
+generator (one that builds a tree rather than bytes) routinely emits inputs the
+system is *right* to reject, and a round trip asserted on those either rejects
+most of its own inputs or asserts against garbage. Neither is a finding about
+the system.
+
+The rule is to spend one hop normalising and assert on the next: consume the
+generated input once and discard rejections - those are the generator's
+over-approximation, not defects - then print the accepted result and consume it
+again, and require that the second consumption succeeds and reproduces the
+first. What is asserted is exactly that **the system's own output is a fixed
+point of the system**, which is the idempotency claim a serialiser or a parser
+actually makes; the first hop's rejections are the generator's problem and
+should be *counted*, because a suite that silently discards most of its inputs
+on the first hop has spent its budget on the reject path, and that count is the
+signal [generator-bounds-the-space](./generator-bounds-the-space.md) asks for.
+Report the discard fraction beside the run; a rising fraction after a
+generator change is a generator that got worse while the suite stayed green.
+
 ## Building a model that is worth having
 
 A model earns its cost only if it fails independently of the system. Three

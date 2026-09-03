@@ -250,6 +250,21 @@
             "federated-client-contracts",
             "accumulate-then-aggregate-metrics"
           ]
+        },
+        {
+          "id": "language-runtime",
+          "title": "Language runtime",
+          "subjects": [
+            "object-shape-representation",
+            "engine-string-representation",
+            "embedded-tracing-collector",
+            "register-bytecode-execution",
+            "guest-execution-bounding",
+            "engine-host-contract",
+            "native-guest-interop",
+            "standards-layered-runtime",
+            "guest-language-introspection"
+          ]
         }
       ]
     },

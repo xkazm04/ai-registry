@@ -6365,3 +6365,41 @@ been naming that zero for weeks:
   inside one heartbeat and never sees this; a v2 repository run cannot. **Beat at the
   top of every phase from 7 onward**, not only when the map names a subject — it is one
   command and the alternative is being invisible during the only phase that writes.
+
+## 2.3.2 - 2026-09-03 - boa
+
+- **A cluster with no home returns nothing on every query, and that is the honest
+  shape, not a mapping failure.** Every runtime-phrased query ("bytecode interpreter",
+  "interpreter", "embeddable") returned *no prior art*; the forces-phrased queries
+  ("untrusted code", "guest code", "sandbox") found the one subject that touches an
+  in-process guest runtime, which was the home of the single retained boundary
+  amendment. Round 8's focus item held: say which query found the home. For this source
+  the answer was "the forces query found the amendment's home; no query found the
+  cluster's, because the cluster had none" - and that absence was read as a forge
+  routing signal at Phase 2d rather than re-tested at Phase 4.
+- **The application filename rule is one file per stack and technique per subject
+  (`check-bundles.mjs`, rkb-profile §2), and a repository run collides with itself on
+  it.** A Rust source tree and a Rust fleet project applying the same technique cannot
+  each have a document. This run folded both witnesses into one file (the fleet project
+  as the applied tree, the source as the origin, both anchored) and used the *forge*
+  subjects' own applications for the source tree's runtime facts. The method should say
+  so in Phase 7: when the source and the apply target share a stack, write one
+  application carrying both witnesses, never two files.
+- **A worktree-isolated session refuses shell constructs with computed values (loops
+  over a variable, `$(...)` in an argument, a variable path to `sed`), even when no git
+  is involved.** Four commands were refused this run. The workaround that always passed:
+  node one-liners for anything computed, literal paths for `rg`/`sed`, and the Read tool
+  for a file whose name came from a listing. Worth a memory note rather than a method
+  change.
+- **Scouts corrected the design record three times against the same tree the record was
+  written from, all three in the direction "the design doc is stale, the code moved".**
+  A repository's `docs/` is the first thing the sweep reads and the most likely to
+  describe a previous version of the system. Under v2 the design record is written
+  before the scouts run; the fix is cheap - the handoff document now carries a "What
+  the wave inherits" block that lists every correction, and the workers were told to
+  treat the docs as the naive reading. A future run should write the record's `where:`
+  anchors from code first and docs second.
+- **Unattended, the direction pass proposes and the gate skips - which means a
+  simulation whose next step is a new context lands as a proposal nobody has read.**
+  That is the designed behaviour, and it is worth naming in the scorecard so the next
+  attended run's Phase 7.7 inventory includes it.

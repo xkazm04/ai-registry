@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 195,
-  "techniques": 1382,
-  "applications": 775,
+  "subjects": 204,
+  "techniques": 1436,
+  "applications": 797,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1382/1382",
+  "use_when_coverage": "1436/1436",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5534,7 +5534,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
-   "digest": "sha256:6a7e489b6972dcc3",
+   "digest": "sha256:fd3f5ba0842e4de6",
    "techniques": [
     {
      "slug": "checker-false-positive-discipline",
@@ -5596,6 +5596,23 @@
      ]
     },
     {
+     "slug": "edition-stratified-conformance",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a conformance suite is maintained upstream and grows between your runs",
+      "the specification has numbered editions and one percentage is being quoted for all of them",
+      "deciding whether a change's conformance delta is a regression",
+      "a crash in the checked implementation is being counted as an ordinary failure"
+     ]
+    },
+    {
      "slug": "finding-severity-ladder",
      "status": "forged",
      "laws": [
@@ -5654,6 +5671,13 @@
     },
     {
      "stack": "node",
+     "technique": "edition-stratified-conformance",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--edition-stratified-conformance.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "fixture-repo-testing",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/node--fixture-repo-testing.md",
      "verified_on": "2026-08-20"
@@ -5670,6 +5694,13 @@
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/rust--declared-deviation-register.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.80.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "edition-stratified-conformance",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/applications/rust--edition-stratified-conformance.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
     }
    ]
   },
@@ -10190,6 +10221,304 @@
     }
    ]
   },
+  "embedded-tracing-collector": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/embedded-tracing-collector.md",
+   "digest": "sha256:1cb734c62ba4f1df",
+   "techniques": [
+    {
+     "slug": "allocation-threshold-growth-policy",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when an embedded collector runs",
+      "a collector under a growing live set runs more and more often for less and less",
+      "sizing what the collector keeps between cycles"
+     ]
+    },
+    {
+     "slug": "derived-trace-with-escape-hatches",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a heap-allocated type to an engine with a tracing collector",
+      "a heap type needs cleanup code and the author reaches for a destructor",
+      "reviewing a hand-written trace implementation"
+     ]
+    },
+    {
+     "slug": "ephemeron-fixpoint-marking",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding weak references or weak maps to a traced heap",
+      "a weak-keyed cache leaks because its values refer back to their keys",
+      "deciding how the mark pass treats a weak edge"
+     ]
+    },
+    {
+     "slug": "mark-finalize-remark-sweep",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a traced heap must run user-visible cleanup on unreachable objects",
+      "a finalizer may store a reference to the object it is finalizing",
+      "tracing a deep structure overflows the native stack",
+      "deciding what a handle may do while the sweep is running"
+     ]
+    },
+    {
+     "slug": "root-discovery-by-counting",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tracing collector must find roots in a host that will never register them",
+      "choosing between root registration and root inference for an embedded engine",
+      "sizing the reference counters in a heap cell's header"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "mark-finalize-remark-sweep",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/applications/rust--mark-finalize-remark-sweep.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "root-discovery-by-counting",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/applications/rust--root-discovery-by-counting.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    }
+   ]
+  },
+  "engine-host-contract": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-host-contract/engine-host-contract.md",
+   "digest": "sha256:3a4b7ad0d2fa6da9",
+   "techniques": [
+    {
+     "slug": "contained-async-module-loader",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the import hook an embedded engine exposes to its host",
+      "a guest module imported a path outside the directory the embedding meant to expose",
+      "an engine is embedded in a host with no filesystem and scripts still import",
+      "sources must ship inside the binary and the loader must not read disk",
+      "the same import resolved differently on two calls"
+     ]
+    },
+    {
+     "slug": "idle-aware-job-loop",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the host event loop that drains an embedded engine's job queues",
+      "a runner burns a core while waiting on a timer",
+      "deciding when a script runner is allowed to exit",
+      "finalization cleanup jobs are starving foreground work or being starved by it",
+      "a stop request has to win against queued jobs"
+     ]
+    },
+    {
+     "slug": "monotonic-and-wall-clock-split",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "an embedded engine needs the time and the host has a clock of its own",
+      "timer tests are flaky or slow because they read the system clock",
+      "a timer fired early or late after a daylight-saving or manual clock change",
+      "a context that may suspend its thread is being built beside another context on the same thread"
+     ]
+    },
+    {
+     "slug": "null-and-blocking-executors",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which job executors an engine ships and which one a fresh context gets",
+      "promises never settle in an embedding and nothing reports why",
+      "an embedder wants to evaluate a script synchronously and has no event loop",
+      "a job failed mid-drain and the executor kept going"
+     ]
+    },
+    {
+     "slug": "spec-mirrored-hook-surface",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the override surface an embedder customises an engine through",
+      "an embedder overrode a hook and conformance broke in a way the engine could not have detected",
+      "adding an engine-specific hook the specification does not name",
+      "reviewing whether a default implementation is the specification's or a convenience"
+     ]
+    },
+    {
+     "slug": "untraceable-jobs-as-roots",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a promise reaction ran against a value the collector had already freed",
+      "deciding whether a job type should participate in heap tracing",
+      "a synthetic module or native continuation needs to hold a guest value until the host calls back",
+      "an executor is torn down with jobs still queued"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "null-and-blocking-executors",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-host-contract/applications/rust--null-and-blocking-executors.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "spec-mirrored-hook-surface",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-host-contract/applications/rust--spec-mirrored-hook-surface.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    }
+   ]
+  },
+  "engine-string-representation": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-string-representation/engine-string-representation.md",
+   "digest": "sha256:e71ead993a5f6088",
+   "techniques": [
+    {
+     "slug": "compile-time-static-string-table",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a closed set of names is minted far more often than all other strings combined",
+      "the engine's own code must name a well-known string in a constant context",
+      "deciding what the lookup before allocation may cost on the miss path"
+     ]
+    },
+    {
+     "slug": "dual-encoding-symbol-interner",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a compiler must compare identifiers in constant time from lexing through code generation",
+      "interned text arrives in two encodings and a symbol must be one integer regardless",
+      "reserved words and well-known names must be testable as integer ranges"
+     ]
+    },
+    {
+     "slug": "inline-vtable-thin-handle",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a string handle must fit one machine word inside a tagged value or a stack slot",
+      "several string kinds share one handle type and must dispatch without a fat pointer",
+      "deciding whether string equality may compare addresses"
+     ]
+    },
+    {
+     "slug": "narrowest-encoding-at-construction",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the language's code unit is wider than the text most programs actually contain",
+      "choosing where the encoding of a string is decided and recorded",
+      "an interner and a runtime string type must agree on how a symbol's text is stored"
+     ]
+    },
+    {
+     "slug": "zero-copy-slice-string",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "substring is a hot operation on immutable strings and each copy is an allocation",
+      "a slice may keep a large owner alive longer than the program expects",
+      "deciding between a sharing slice and a deferred-concatenation rope"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "compile-time-static-string-table",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-string-representation/applications/rust--compile-time-static-string-table.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "narrowest-encoding-at-construction",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-string-representation/applications/rust--narrowest-encoding-at-construction.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    }
+   ]
+  },
   "entity-lifecycle": {
    "category": "operations",
    "subcategory": "governance-and-records",
@@ -11897,6 +12226,213 @@
      "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/generated-workflow-candidates/applications/python--template-filling-with-provenance.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.10"
+    }
+   ]
+  },
+  "guest-execution-bounding": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-execution-bounding/guest-execution-bounding.md",
+   "digest": "sha256:cf97ef026ab448ac",
+   "techniques": [
+    {
+     "slug": "back-edge-iteration-counter",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an embedder wants a ceiling on loop iterations and the interpreter has no natural loop counter",
+      "different loop forms disagree about how many iterations a limit of n admits",
+      "a native routine loops on a guest-supplied count and escapes the loop limit",
+      "deciding whether an iteration counter is per frame or per evaluation"
+     ]
+    },
+    {
+     "slug": "bounded-shadow-backtrace",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a limit failure reaches the host with no source position",
+      "an error caught and rethrown by an engine-internal handler has lost where it happened",
+      "a recursion breach allocates a backtrace as deep as the recursion that caused it",
+      "native frames between guest frames vanish from the reported stack"
+     ]
+    },
+    {
+     "slug": "cost-budget-cooperative-yield",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a guest evaluation runs inside a host's single-threaded executor beside timers and other tasks",
+      "one long script must not starve the host's other work and threads are not available",
+      "the blocking evaluation path must stay as fast as it was before yielding existed",
+      "choosing the unit a yield budget is measured in"
+     ]
+    },
+    {
+     "slug": "count-host-reentry-in-recursion-depth",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a recursion limit is set and the process still overflows its stack",
+      "guest code recurses through accessors or callbacks or promise resolution rather than through direct calls",
+      "deciding what the recursion counter actually measures",
+      "a native routine calls back into the interpreter and the depth check does not see it"
+     ]
+    },
+    {
+     "slug": "instruction-budget-for-fuzzing",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fuzzer feeding the interpreter cannot tell a non-terminating input from a slow one",
+      "a generated program must halt deterministically without a wall-clock timeout",
+      "deciding whether a termination counter belongs in the production dispatch loop",
+      "an evaluation that takes far longer than its instruction count predicts"
+     ]
+    },
+    {
+     "slug": "uncatchable-limit-errors",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a runtime limit breach is being caught and retried by the guest's own handler",
+      "deciding what class of failure a recursion or iteration ceiling raises",
+      "unwinding from a limit breach through several nested native re-entries",
+      "the host needs a typed verdict that says the guest was stopped rather than that the guest failed"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "cost-budget-cooperative-yield",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-execution-bounding/applications/rust--cost-budget-cooperative-yield.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "uncatchable-limit-errors",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-execution-bounding/applications/rust--uncatchable-limit-errors.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    }
+   ]
+  },
+  "guest-language-introspection": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/guest-language-introspection.md",
+   "digest": "sha256:a6e450dc9c28bd76",
+   "techniques": [
+    {
+     "slug": "flag-gated-debug-global",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding the first engine-internal member the guest language can call",
+      "a debug member is being reached for from production or from the conformance run",
+      "deciding how the debug object and the conformance host object relate"
+     ]
+    },
+    {
+     "slug": "guest-settable-limits-and-switches",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test for a limit's handling recurses or loops thousands of times to reach it",
+      "an optimizer pass must be switched off to isolate a compiler bug",
+      "a test that changed an engine setting is breaking the tests after it"
+     ]
+    },
+    {
+     "slug": "per-function-trace-flag",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one function's instruction stream must be watched without tracing the whole process",
+      "a traced generator or awaiting function goes silent after it resumes",
+      "choosing between tracing one call and marking a function traced until further notice"
+     ]
+    },
+    {
+     "slug": "realm-factory-for-cross-realm-tests",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a specification rule about brand checks or prototype identity across globals must be tested from a script",
+      "a cross-realm test is passing and nobody has checked that the second realm is real",
+      "deciding what the realm factory returns"
+     ]
+    },
+    {
+     "slug": "representation-probes",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test must assert that two objects share a hidden class or that an array is still dense",
+      "an engine claim about string allocation or encoding needs an executable check",
+      "a probe's answer is suspected of changing the thing it reports on"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "flag-gated-debug-global",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/applications/rust--flag-gated-debug-global.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "per-function-trace-flag",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/applications/rust--per-function-trace-flag.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
     }
    ]
   },
@@ -16318,6 +16854,115 @@
     }
    ]
   },
+  "native-guest-interop": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/native-guest-interop/native-guest-interop.md",
+   "digest": "sha256:9bd184e980f0958b",
+   "techniques": [
+    {
+     "slug": "aligned-native-data-cell",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host type is about to be stored as the payload of a collected guest object",
+      "the collector reads a cell header through a type-erased pointer at a fixed offset",
+      "choosing between a thin cell pointer and a fat pointer to a trait object for host payloads"
+     ]
+    },
+    {
+     "slug": "async-native-as-promise",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "creation-names-reaper",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host function that returns a future must be callable from guest code as a promise-returning function",
+      "deciding where the future's output is converted to a guest value and where a host error becomes a guest rejection",
+      "a promise created for a pending host operation must survive collection until the operation settles"
+     ]
+    },
+    {
+     "slug": "class-from-impl-with-borrow-warning",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host type's methods are being exposed to guest code as a class",
+      "a derived guest method takes a reference to the host payload and might call back into guest code",
+      "host code needs to speak to a guest built-in such as an array or a map through a typed interface rather than as a bag of properties"
+     ]
+    },
+    {
+     "slug": "copy-closure-safe-api",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host closure is being registered as a guest-callable function",
+      "a native function needs to capture a guest object or a guest value across calls",
+      "designing which constructor of a native-function type is safe to call and which is spelled unsafe"
+     ]
+    },
+    {
+     "slug": "explicit-lossy-conversion",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing conversions from a guest value into host numeric and string types",
+      "deciding which host widths get a fallible conversion with a runtime exactness check and which are refused outright",
+      "converting a wide host integer into a guest number that cannot hold it exactly"
+     ]
+    },
+    {
+     "slug": "typed-downcast-access",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "host code needs the concrete host value back out of a guest object whose payload was type-erased",
+      "a native function needs per-context host state such as a connection pool or configuration",
+      "a guest script might pass an object of the wrong host type to a native method"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "aligned-native-data-cell",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/native-guest-interop/applications/rust--aligned-native-data-cell.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "explicit-lossy-conversion",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/native-guest-interop/applications/rust--explicit-lossy-conversion.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    }
+   ]
+  },
   "node-boot-and-declarative-bootstrap": {
    "category": "operations",
    "subcategory": "service-operations",
@@ -16438,6 +17083,103 @@
      "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/go--ordered-boot-dag.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    }
+   ]
+  },
+  "object-shape-representation": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/object-shape-representation/object-shape-representation.md",
+   "digest": "sha256:3054d8b37ef683eb",
+   "techniques": [
+    {
+     "slug": "dictionary-mode-fallback",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an object has taken a transition path no other object will share and the tree is now a per-object linked list",
+      "deciding which mutations of a per-object shape keep its identity and which must mint a new one",
+      "bounding the cost of deletion by rollback-and-replay on a long path"
+     ]
+    },
+    {
+     "slug": "monotonic-typed-element-storage",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how an engine stores integer-keyed properties so that a dense array of small integers does not pay a boxed value per element",
+      "deciding what happens on the first element that does not fit the current storage kind",
+      "deciding whether an array that was widened may ever be narrowed again",
+      "an engine's own tests must assert which storage kind an array is in"
+     ]
+    },
+    {
+     "slug": "polymorphic-inline-cache-with-weak-shapes",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a named-property access instruction should skip the property-table lookup when it sees a shape it has seen before",
+      "deciding how many shapes a site remembers before it gives up caching",
+      "deciding during a prototype-chain walk whether the access that just resolved may be cached at all",
+      "a cache must not keep dead shapes alive"
+     ]
+    },
+    {
+     "slug": "transition-tree-with-shared-table",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two objects built by the same sequence of property additions must end up with the same layout descriptor",
+      "deciding whether a property addition may reuse an existing shape or must mint one",
+      "a lookup on a shape must not read entries that belong to a sibling shape",
+      "implementing property deletion on a shared layout without a per-object table"
+     ]
+    },
+    {
+     "slug": "weak-forward-transitions-with-counted-prune",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a transition tree must not keep every shape a program ever produced alive for the life of the engine",
+      "deciding which direction of a parent-child edge is weak and which is strong",
+      "choosing when dead transition entries are swept without putting a sweep on the insertion path"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "polymorphic-inline-cache-with-weak-shapes",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/object-shape-representation/applications/rust--polymorphic-inline-cache-with-weak-shapes.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "transition-tree-with-shared-table",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/object-shape-representation/applications/rust--transition-tree-with-shared-table.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
     }
    ]
   },
@@ -19929,6 +20671,139 @@
     }
    ]
   },
+  "register-bytecode-execution": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/register-bytecode-execution.md",
+   "digest": "sha256:062fcc8a781d5989",
+   "techniques": [
+    {
+     "slug": "dce-refuses-hoisted-declarations",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing dead-code elimination for a language that hoists declarations out of blocks",
+      "a constant-folded branch was removed and a name the program could see disappeared with it",
+      "deciding what \"dead\" means for a pass that runs before scope analysis"
+     ]
+    },
+    {
+     "slug": "finally-jump-table-with-reserved-fallthrough",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "compiling break",
+      "continue or return through a finally block",
+      "a finally block is being duplicated at every exit and the code is growing with the exit count",
+      "nested protected regions must each run their cleanup in order on one non-local exit"
+     ]
+    },
+    {
+     "slug": "fixpoint-pass-with-iteration-cap",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding an optimisation pass to a compiler that already runs one",
+      "a pass enables itself and nobody knows how many times to run it",
+      "an optimiser's statistics report a number that could mean changes or sweeps"
+     ]
+    },
+    {
+     "slug": "frame-as-two-pointers-into-one-stack",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the call frame of a bytecode interpreter",
+      "a profile shows an allocation on every guest call",
+      "deciding where the receiver",
+      "callee and arguments of a call are found"
+     ]
+    },
+    {
+     "slug": "handler-ranges-with-environment-depth",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing how a bytecode interpreter finds the handler for a thrown exception",
+      "a try block is paying a per-entry cost even when nothing throws",
+      "an exception caught inside a nested scope leaves the lexical environment chain one level too deep"
+     ]
+    },
+    {
+     "slug": "leak-checked-register-allocation",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the register allocator of a bytecode compiler",
+      "a function's register count grows with every contributor and nobody knows which temporaries were never released",
+      "deciding which registers every function reserves at fixed indices"
+     ]
+    },
+    {
+     "slug": "placeholder-patch-jumps",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a single-pass compiler must emit a jump whose target has not been compiled yet",
+      "choosing between a second compiler pass and a patch list",
+      "a jump to a garbage address surfaced in execution rather than in compilation"
+     ]
+    },
+    {
+     "slug": "resume-by-frame-repush",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing generators",
+      "coroutines or asynchronous functions on an interpreter whose frames share one value stack",
+      "a suspension is copying the register file in both directions on every step",
+      "deciding whether to lower suspendable functions to state machines in the compiler"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "fixpoint-pass-with-iteration-cap",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/applications/rust--fixpoint-pass-with-iteration-cap.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "frame-as-two-pointers-into-one-stack",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/applications/rust--frame-as-two-pointers-into-one-stack.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    }
+   ]
+  },
   "release-pipeline": {
    "category": "engineering-process",
    "subcategory": "build-and-release",
@@ -23080,6 +23955,114 @@
     }
    ]
   },
+  "standards-layered-runtime": {
+   "category": "backend-platform",
+   "subcategory": "language-runtime",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/language-runtime/standards-layered-runtime/standards-layered-runtime.md",
+   "digest": "sha256:262cf3e9c9d6e619",
+   "techniques": [
+    {
+     "slug": "backend-parameterised-web-api",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "implementing a standard API whose behaviour touches the host's I/O",
+      "letting an embedder replace where console output goes or how a network request is made",
+      "deciding what a guest program sees when a host backend fails"
+     ]
+    },
+    {
+     "slug": "baseline-plus-extension-tuple",
+     "status": "forged",
+     "laws": [
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the entry point an embedder calls to install the runtime's APIs into a context",
+      "letting an embedder add host-specific APIs without forking the registration code",
+      "registering an extension whose construction needs a running context"
+     ]
+    },
+    {
+     "slug": "cli-as-thin-assembler",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building or reviewing the command-line front end of an embeddable runtime",
+      "diagnosing a program that behaves differently in the shipped binary and when embedded",
+      "deciding whether a requested feature belongs in the executable or the library"
+     ]
+    },
+    {
+     "slug": "crate-per-standards-body",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "splitting a monolithic runtime package by the standards it implements",
+      "deciding whether a new API set should be a package or a feature flag",
+      "reviewing a dependency a standard package wants to add"
+     ]
+    },
+    {
+     "slug": "re-export-preserves-import-path",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "moving an API from the extras layer into a standard package",
+      "retiring a historical import path after a migration",
+      "reviewing a migration commit that changed where a type is defined"
+     ]
+    },
+    {
+     "slug": "status-header-per-api",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding an API module to a standard package that is not yet complete",
+      "answering how much of a standard a runtime version implements",
+      "reviewing a module that lives in the extras layer but belongs to a standard"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "crate-per-standards-body",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/standards-layered-runtime/applications/rust--crate-per-standards-body.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "status-header-per-api",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/standards-layered-runtime/applications/rust--status-header-per-api.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    }
+   ]
+  },
   "status-vocabulary": {
    "category": "ui-surfaces",
    "subcategory": "feedback-and-style",
@@ -24942,7 +25925,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256:c9a635e2f9744d31",
+   "digest": "sha256:251107ec9e2c1a40",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",
@@ -25045,6 +26028,21 @@
      ]
     },
     {
+     "slug": "stage-ordered-fuzz-targets",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fuzzing a pipeline of several stages through one end-to-end target",
+      "a fuzzer's findings are dominated by one shallow stage",
+      "an input that never terminates cannot be told from a slow one",
+      "deciding how many fuzz targets a multi-stage system needs"
+     ]
+    },
+    {
      "slug": "swarm-feature-sampling",
      "status": "forged",
      "laws": [
@@ -25079,6 +26077,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--seed-is-not-a-reproduction.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.80.0"
+    },
+    {
+     "stack": "rust",
+     "technique": "stage-ordered-fuzz-targets",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--stage-ordered-fuzz-targets.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -25856,7 +26861,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/untrusted-extension-host/untrusted-extension-host.md",
-   "digest": "sha256:917740ca7ab14716",
+   "digest": "sha256:b7dced2bda676e25",
    "techniques": [
     {
      "slug": "canonicalizable-privilege-declaration",
@@ -26030,6 +27035,13 @@
      "file": "knowledge/software-engineering/security/untrusted-extension-host/applications/node--pluggable-isolation-runner.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@22.16"
+    },
+    {
+     "stack": "rust",
+     "technique": "capability-subtraction-sandbox",
+     "file": "knowledge/software-engineering/security/untrusted-extension-host/applications/rust--capability-subtraction-sandbox.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -27399,6 +28411,7 @@
     "embedded-db/quiet-window-maintenance",
     "embedded-preview/dev-server-registry",
     "embedded-preview/origin-validation",
+    "engine-host-contract/contained-async-module-loader",
     "entity-lifecycle/blast-radius-computation",
     "entity-lifecycle/bulk-deletion-rails",
     "entity-lifecycle/orphan-reconciliation",
@@ -27430,6 +28443,11 @@
     "fleet-orchestration/worker-trajectory-anatomy",
     "form/validation-timing",
     "generated-workflow-candidates/stage-level-result-caching",
+    "guest-execution-bounding/back-edge-iteration-counter",
+    "guest-execution-bounding/count-host-reentry-in-recursion-depth",
+    "guest-execution-bounding/instruction-budget-for-fuzzing",
+    "guest-language-introspection/realm-factory-for-cross-realm-tests",
+    "guest-language-introspection/representation-probes",
     "guided-tours/action-driven-advancement",
     "guided-tours/anchor-contracts",
     "hash-pinned-translation-pipeline/emitter-detector-hash-parity",
@@ -27501,6 +28519,7 @@
     "module-design/structural-improvement-loop",
     "multi-project/project-identity-and-joins",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
+    "native-guest-interop/aligned-native-data-cell",
     "node-boot-and-declarative-bootstrap/ordered-boot-dag",
     "node-boot-and-declarative-bootstrap/request-chain-not-dsl",
     "observability-telemetry/diagnostic-access",
@@ -27566,6 +28585,7 @@
     "read-serving-replicas/forward-on-storage-error",
     "read-serving-replicas/preemptive-forward-for-known-writes",
     "realtime-events/event-registry",
+    "register-bytecode-execution/dce-refuses-hoisted-declarations",
     "release-pipeline/deprecation-by-version-arithmetic",
     "release-pipeline/pipeline-staging",
     "release-pipeline/release-verification",
@@ -27608,6 +28628,7 @@
     "signed-artifacts/import-verification-flow",
     "sql-console/nl-assist-gating",
     "sql-console/safe-mode-guarding",
+    "standards-layered-runtime/crate-per-standards-body",
     "status-vocabulary/number-formatting",
     "status-vocabulary/timestamp-display",
     "status-vocabulary/vocabulary-chain-integrity",
@@ -27648,6 +28669,7 @@
     "test-input-generation/inside-out-invariants",
     "test-input-generation/liveness-needs-a-quiet-period",
     "test-input-generation/seed-is-not-a-reproduction",
+    "test-input-generation/stage-ordered-fuzz-targets",
     "test-input-generation/swarm-feature-sampling",
     "transactions-over-a-replicated-log/compose-then-conform",
     "transactions-over-a-replicated-log/list-verification-by-present-keys",
@@ -27845,6 +28867,7 @@
     "embedded-preview/dev-server-registry",
     "embedded-preview/injected-instrumentation-with-fallback",
     "embedded-preview/preview-checkpoints",
+    "engine-host-contract/null-and-blocking-executors",
     "entity-lifecycle/blast-radius-computation",
     "entity-lifecycle/orphan-reconciliation",
     "entity-lifecycle/provenance-denormalization",
@@ -27879,6 +28902,7 @@
     "fleet-orchestration/substrate-reconciliation",
     "form/server-error-mapping",
     "generated-workflow-candidates/stage-level-result-caching",
+    "guest-execution-bounding/instruction-budget-for-fuzzing",
     "guided-tours/missing-anchor-degradation",
     "guided-tours/tour-lifecycle",
     "hash-pinned-translation-pipeline/drift-classification",
@@ -28086,6 +29110,7 @@
     "sql-console/dialect-capability-declaration",
     "sql-console/result-fidelity",
     "sql-console/safe-mode-guarding",
+    "standards-layered-runtime/status-header-per-api",
     "status-vocabulary/timestamp-display",
     "status-vocabulary/vocabulary-chain-integrity",
     "stream-proxy-hop/abort-versus-unreachable",
@@ -28134,6 +29159,7 @@
     "test-input-generation/model-based-oracle",
     "test-input-generation/negative-space-generation",
     "test-input-generation/seed-is-not-a-reproduction",
+    "test-input-generation/stage-ordered-fuzz-targets",
     "time-travel-replay/timeline-derivation",
     "toasts-notifications/os-escalation",
     "tracing/raw-record-viewers",
@@ -28253,6 +29279,7 @@
     "schema-driven-ui/spec-validation-and-repair",
     "seal-and-key-hierarchy/append-only-keyring-rotation",
     "signed-artifacts/signature-lifecycle",
+    "standards-layered-runtime/re-export-preserves-import-path",
     "status-vocabulary/vocabulary-evolution-checklist",
     "subprocess-lifecycle/host-resource-protection",
     "supply-chain/dependency-policy-gates",
@@ -28337,6 +29364,7 @@
     "concurrency-guards/attempt-attribution",
     "concurrent-vcs/commit-verification",
     "conformance-checking/declared-deviation-register",
+    "conformance-checking/edition-stratified-conformance",
     "conformance-checking/pass-ratio-comparability",
     "context-hierarchy/seeded-descent-retrieval",
     "context-hierarchy/stable-sampling-for-wide-nodes",
@@ -28387,6 +29415,7 @@
     "embedded-db/db-self-instrumentation",
     "embedded-db/derived-capacity-limits",
     "embedded-db/storage-accounting-and-pruning",
+    "embedded-tracing-collector/allocation-threshold-growth-policy",
     "entity-lifecycle/blast-radius-computation",
     "entity-lifecycle/bulk-deletion-rails",
     "entity-lifecycle/cascade-design",
@@ -28421,6 +29450,9 @@
     "fleet-orchestration/worker-trajectory-anatomy",
     "form/error-aggregation-and-focus",
     "generated-workflow-candidates/score-keyed-candidate-selection",
+    "guest-execution-bounding/back-edge-iteration-counter",
+    "guest-execution-bounding/count-host-reentry-in-recursion-depth",
+    "guest-language-introspection/guest-settable-limits-and-switches",
     "hash-pinned-translation-pipeline/drift-classification",
     "hash-pinned-translation-pipeline/shape-sync-is-not-content-sync",
     "hash-pinned-translation-pipeline/translation-fan-out-sizing",
@@ -28489,6 +29521,7 @@
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
     "multi-provider-gateway-plane/named-members-over-a-uniform-collection",
     "multi-provider-gateway-plane/router-versus-candidate-failure",
+    "object-shape-representation/monotonic-typed-element-storage",
     "observability-telemetry/remote-telemetry-economics",
     "observability-telemetry/rotation-and-retention",
     "optional-dependency-degradation/fallback-retirement-condition",
@@ -28547,6 +29580,7 @@
     "readiness-passports/two-axis-readiness",
     "realtime-events/capacity-packed-subscription-pool",
     "realtime-events/change-data-capture",
+    "register-bytecode-execution/fixpoint-pass-with-iteration-cap",
     "release-pipeline/changelog-generation",
     "release-pipeline/size-budgets",
     "remediation-handoff/batch-shaping-for-one-session",
@@ -28588,6 +29622,7 @@
     "signed-artifacts/canonical-hashing",
     "sql-console/introspection-architecture",
     "sql-console/result-fidelity",
+    "standards-layered-runtime/status-header-per-api",
     "stream-proxy-hop/reconnect-storm-hygiene",
     "streaming-output/buffering-and-backpressure",
     "structured-output/answer-coverage-gating",
@@ -28666,6 +29701,7 @@
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
     "concurrency-guards/cache-value-not-handle",
+    "conformance-checking/edition-stratified-conformance",
     "context-hierarchy/digest-gated-upward-refresh",
     "convergence-loop-and-requeue/told-that-not-why",
     "conversation-orchestration/progress-beat-grammar",
@@ -28692,6 +29728,8 @@
     "document-text-extraction/unreadable-region-refusal",
     "dynamic-secret-lifecycle/wal-per-external-side-effect",
     "edge-queue-policy/per-edge-depth-and-policy",
+    "embedded-tracing-collector/root-discovery-by-counting",
+    "engine-string-representation/dual-encoding-symbol-interner",
     "error-handling/cancellation-attribution",
     "eval-harness/measurement-revision",
     "fault-signal-propagation/edge-deadline-arming",
@@ -28723,6 +29761,8 @@
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
     "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
+    "native-guest-interop/explicit-lossy-conversion",
+    "native-guest-interop/typed-downcast-access",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/fallback-retirement-condition",
     "p2p-networking/peer-state-honesty",
@@ -28733,6 +29773,7 @@
     "quality-gates/fabrication-economics",
     "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
     "read-serving-replicas/evict-not-update-on-commit",
+    "register-bytecode-execution/placeholder-patch-jumps",
     "retrieval/query-decomposition-before-the-lanes",
     "retrieval/structural-centrality-lane",
     "retry-backoff/client-retry-and-redirect-conventions",
@@ -28748,6 +29789,7 @@
     "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
     "settings/typed-accessors",
+    "standards-layered-runtime/status-header-per-api",
     "structured-output/schema-validation-and-repair",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
@@ -28886,6 +29928,7 @@
     "form/submit-lifecycle",
     "generated-workflow-candidates/candidates-as-ordinary-artifacts",
     "generated-workflow-candidates/search-as-candidate-mutation",
+    "guest-language-introspection/per-function-trace-flag",
     "guided-tours/tour-lifecycle",
     "hash-pinned-translation-pipeline/source-hash-provenance",
     "hitl-approval/consent-gates",
@@ -28915,6 +29958,9 @@
     "multi-project/project-identity-and-joins",
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
     "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
+    "object-shape-representation/dictionary-mode-fallback",
+    "object-shape-representation/polymorphic-inline-cache-with-weak-shapes",
+    "object-shape-representation/transition-tree-with-shared-table",
     "outbound-notifications/inbound-counterparts",
     "outbound-notifications/subscription-patterns",
     "p2p-networking/discovery-advertisement",
@@ -28941,6 +29987,7 @@
     "realtime-events/outbound-fan-out",
     "realtime-events/push-vs-refetch-reconciliation",
     "realtime-events/subscription-lifecycle",
+    "register-bytecode-execution/resume-by-frame-repush",
     "release-pipeline/pipeline-staging",
     "remediation-handoff/claim-carry-forward-rules",
     "remediation-handoff/handoff-tenancy-and-idempotence",
@@ -28973,6 +30020,7 @@
     "signed-artifacts/key-custody",
     "signed-artifacts/signature-lifecycle",
     "sql-console/editor-ergonomics",
+    "standards-layered-runtime/re-export-preserves-import-path",
     "status-vocabulary/vocabulary-evolution-checklist",
     "streaming-output/run-attribution",
     "structured-output/artifact-lifecycle",
@@ -29097,6 +30145,7 @@
     "draft-editing/field-defaults-and-bounds",
     "drag-drop/ownership-boundaries",
     "embedded-preview/origin-validation",
+    "engine-host-contract/contained-async-module-loader",
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/cascade-design",
     "executive-reporting/grounded-narrative-generation",
@@ -29109,6 +30158,7 @@
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/session-registry",
     "form/submit-lifecycle",
+    "guest-language-introspection/guest-settable-limits-and-switches",
     "hitl-approval/fail-loud-classification-default",
     "hitl-approval/gate-state-machines",
     "i18n/incomplete-bundle-kill-switch",
@@ -29141,6 +30191,7 @@
     "multi-project/project-identity-and-joins",
     "multi-project/project-onboarding-lifecycle",
     "multi-provider-gateway-plane/adapter-direction-asymmetry",
+    "native-guest-interop/typed-downcast-access",
     "node-boot-and-declarative-bootstrap/request-chain-not-dsl",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "outbound-notifications/channel-adapter-traits",
@@ -29185,6 +30236,7 @@
     "signed-artifacts/import-verification-flow",
     "sql-console/introspection-architecture",
     "sql-console/nl-assist-gating",
+    "standards-layered-runtime/baseline-plus-extension-tuple",
     "status-vocabulary/untrusted-label-rendering",
     "stream-proxy-hop/credential-attachment-at-the-hop",
     "stream-proxy-hop/origin-non-disclosure",
@@ -29317,6 +30369,11 @@
     "embedded-db/storage-accounting-and-pruning",
     "embedded-preview/dev-server-registry",
     "embedded-preview/injected-instrumentation-with-fallback",
+    "embedded-tracing-collector/derived-trace-with-escape-hatches",
+    "embedded-tracing-collector/ephemeron-fixpoint-marking",
+    "embedded-tracing-collector/mark-finalize-remark-sweep",
+    "engine-host-contract/idle-aware-job-loop",
+    "engine-host-contract/untraceable-jobs-as-roots",
     "entity-lifecycle/cascade-design",
     "entity-lifecycle/orphan-reconciliation",
     "error-handling/crash-capture",
@@ -29366,8 +30423,10 @@
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-onboarding-lifecycle",
     "multi-provider-gateway-plane/per-provider-stream-framing",
+    "native-guest-interop/async-native-as-promise",
     "node-boot-and-declarative-bootstrap/once-only-bootstrap-with-marker",
     "node-boot-and-declarative-bootstrap/ordered-boot-dag",
+    "object-shape-representation/weak-forward-transitions-with-counted-prune",
     "observability-telemetry/crash-record-storage",
     "observability-telemetry/rotation-and-retention",
     "optional-dependency-degradation/fallback-retirement-condition",
@@ -29399,6 +30458,9 @@
     "realtime-events/capacity-packed-subscription-pool",
     "realtime-events/outbound-fan-out",
     "realtime-events/subscription-lifecycle",
+    "register-bytecode-execution/frame-as-two-pointers-into-one-stack",
+    "register-bytecode-execution/handler-ranges-with-environment-depth",
+    "register-bytecode-execution/leak-checked-register-allocation",
     "retrieval/chunking-and-indexing",
     "retry-backoff/durable-retries",
     "retry-backoff/storm-control",
@@ -29538,6 +30600,7 @@
     "concurrency-guards/guard-key-design",
     "conformance-checking/declared-deviation-register",
     "conformance-checking/declared-then-proven",
+    "conformance-checking/edition-stratified-conformance",
     "conformance-checking/finding-severity-ladder",
     "connector-catalog/adapter-normalization",
     "connector-catalog/catalog-as-data",
@@ -29606,6 +30669,11 @@
     "embedded-db/analytical-reads-off-the-serving-store",
     "embedded-db/extension-lifecycle",
     "embedded-preview/cross-frame-protocol",
+    "embedded-tracing-collector/derived-trace-with-escape-hatches",
+    "engine-host-contract/spec-mirrored-hook-surface",
+    "engine-string-representation/compile-time-static-string-table",
+    "engine-string-representation/dual-encoding-symbol-interner",
+    "engine-string-representation/narrowest-encoding-at-construction",
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/change-logging",
     "error-handling/cancellation-attribution",
@@ -29627,6 +30695,8 @@
     "form/field-composition",
     "form/server-error-mapping",
     "generated-workflow-candidates/two-tier-data-statistics",
+    "guest-language-introspection/flag-gated-debug-global",
+    "guest-language-introspection/representation-probes",
     "guided-tours/anchor-contracts",
     "hash-pinned-translation-pipeline/drift-classification",
     "hash-pinned-translation-pipeline/emitter-detector-hash-parity",
@@ -29725,6 +30795,7 @@
     "read-serving-replicas/preemptive-forward-for-known-writes",
     "readiness-passports/named-vs-capability-metadata",
     "realtime-events/event-registry",
+    "register-bytecode-execution/finally-jump-table-with-reserved-fallthrough",
     "release-pipeline/version-single-truth",
     "remediation-handoff/resolution-trailers",
     "remediation-handoff/single-artifact-prompt-construction",
@@ -29766,6 +30837,8 @@
     "signed-artifacts/verification-ux",
     "sql-console/dialect-capability-declaration",
     "sql-console/safe-mode-guarding",
+    "standards-layered-runtime/cli-as-thin-assembler",
+    "standards-layered-runtime/crate-per-standards-body",
     "status-vocabulary/status-color-mapping",
     "status-vocabulary/vocabulary-chain-integrity",
     "status-vocabulary/vocabulary-evolution-checklist",
@@ -29857,6 +30930,7 @@
     "companion-identity/disk-truth-db-index",
     "companion-runtime/action-catalog-single-source",
     "conformance-checking/claim-write-back",
+    "conformance-checking/edition-stratified-conformance",
     "conformance-checking/pass-ratio-comparability",
     "context-hierarchy/digest-gated-upward-refresh",
     "context-hierarchy/per-node-summary-tiers",
@@ -29892,6 +30966,8 @@
     "embedded-db/db-self-instrumentation",
     "embedded-db/derived-capacity-limits",
     "embedded-preview/convention-discovery",
+    "embedded-tracing-collector/root-discovery-by-counting",
+    "engine-string-representation/inline-vtable-thin-handle",
     "eval-harness/eval-economics",
     "eval-harness/scenario-design",
     "federated-client-contracts/contract-driven-hosting",
@@ -29940,6 +31016,8 @@
     "multi-project/passive-signal-ingestion",
     "multi-project/portfolio-drill-hierarchy",
     "multi-project/project-onboarding-lifecycle",
+    "object-shape-representation/polymorphic-inline-cache-with-weak-shapes",
+    "object-shape-representation/transition-tree-with-shared-table",
     "outbound-notifications/channel-health-tracking",
     "outbound-notifications/inbound-counterparts",
     "p2p-networking/peer-state-honesty",
@@ -30061,6 +31139,7 @@
     "fault-signal-propagation/typed-edge-events-in-band",
     "federated-client-contracts/delta-or-absolute-exchange",
     "federated-client-contracts/lifecycle-verb-interface",
+    "guest-execution-bounding/uncatchable-limit-errors",
     "issuance-policy-ladder/bounds-as-modes",
     "issuance-policy-ladder/program-role-returns-the-artifact",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
@@ -30071,6 +31150,9 @@
     "modelled-performance-estimates/refuse-rather-than-emit-a-sentinel",
     "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
     "multi-provider-gateway-plane/router-versus-candidate-failure",
+    "native-guest-interop/async-native-as-promise",
+    "native-guest-interop/class-from-impl-with-borrow-warning",
+    "native-guest-interop/explicit-lossy-conversion",
     "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "optional-dependency-degradation/refusal-is-not-failure",
@@ -30085,6 +31167,7 @@
     "reversible-transform-pipelines/refuse-with-recorded-reasons",
     "search/typed-filter-language",
     "sidecar-provisioning/split-trust-by-registration-path",
+    "standards-layered-runtime/backend-parameterised-web-api",
     "structured-output/schema-validation-and-repair",
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
@@ -30148,11 +31231,16 @@
     "document-text-extraction/recognition-boundary-and-escalation",
     "document-text-extraction/structural-amplification-caps",
     "edge-queue-policy/per-edge-depth-and-policy",
+    "embedded-tracing-collector/mark-finalize-remark-sweep",
+    "embedded-tracing-collector/root-discovery-by-counting",
+    "engine-host-contract/null-and-blocking-executors",
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
     "fault-signal-propagation/edge-deadline-arming",
     "federated-client-contracts/graph-neutralization",
     "fleet-orchestration/brief-carries-the-session",
+    "guest-execution-bounding/uncatchable-limit-errors",
+    "guest-language-introspection/flag-gated-debug-global",
     "hitl-approval/truncated-verdict-space",
     "import-normalization/durable-intermediate-representation",
     "issuance-policy-ladder/require-one-constraint",
@@ -30169,6 +31257,9 @@
     "mcp-tools/transport-selection",
     "module-design/borrowed-surface",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
+    "native-guest-interop/async-native-as-promise",
+    "native-guest-interop/class-from-impl-with-borrow-warning",
+    "native-guest-interop/copy-closure-safe-api",
     "node-boot-and-declarative-bootstrap/seal-before-storage-plugins",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
@@ -30186,6 +31277,7 @@
     "quorum-and-recovery-procedures/migration-lock-in-source",
     "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",
     "read-serving-replicas/committed-write-invalidation-hook",
+    "register-bytecode-execution/leak-checked-register-allocation",
     "release-pipeline/deprecation-by-version-arithmetic",
     "repository-landing-document/style-rule-ships-its-detector",
     "reversible-transform-pipelines/identity-check-with-graceful-fallback",
@@ -30194,6 +31286,7 @@
     "seal-and-key-hierarchy/usage-triggered-rotation",
     "self-describing-data-envelopes/global-tracking-kill-switch",
     "self-describing-model-packages/advisory-version-floors",
+    "standards-layered-runtime/backend-parameterised-web-api",
     "structured-output/schema-validation-and-repair",
     "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
@@ -30222,6 +31315,7 @@
     "declarative-object-graph-configs/escape-hatch-expressions",
     "deployment-contract/deployment-config-as-code",
     "deterministic-prefix-caching/enumerate-the-non-working-cases",
+    "engine-host-contract/spec-mirrored-hook-surface",
     "fault-signal-propagation/last-value-degradation",
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/worker-trajectory-anatomy",
@@ -30249,7 +31343,14 @@
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
     "decentralized-artifact-distribution/fail-closed-trust-dependency",
     "deterministic-prefix-caching/running-window-replacement",
+    "embedded-tracing-collector/allocation-threshold-growth-policy",
+    "engine-string-representation/compile-time-static-string-table",
+    "guest-execution-bounding/bounded-shadow-backtrace",
+    "guest-execution-bounding/cost-budget-cooperative-yield",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "native-guest-interop/aligned-native-data-cell",
+    "object-shape-representation/dictionary-mode-fallback",
+    "object-shape-representation/weak-forward-transitions-with-counted-prune",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
     "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
@@ -30259,7 +31360,8 @@
    "statement": "The record of an action is written before the action, and the action is refused when the record cannot be written. A marker before a privileged bootstrap, a parent index before the record it indexes, a write-ahead entry before a remote mutation, an audit line before the response leaves, a lease persisted before the credential is minted in the remote system — in every case the naive order (act, then record) leaves a window in which the effect exists and nothing accounts for it, and that window is where authority escapes its revocation chain, where a half-created tenant survives a crash, and where a secret was served with no line to prove it. The rule has a second half that is the load-bearing one: when the record cannot land — the store is read-only, the sink set is empty, the ledger is unreachable — the effect does not happen. A system that acts anyway and logs the failure has chosen availability over accountability without saying so. Sibling of creation-names-reaper: that law says a created thing names what will clean it up; this one says the clean-up handle is written first.",
    "techniques": [
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
-    "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm"
+    "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
+    "guest-execution-bounding/bounded-shadow-backtrace"
    ]
   }
  }

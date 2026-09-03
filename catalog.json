@@ -715,11 +715,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 195,
-      "techniques": 1382,
-      "applications": 775,
-      "files": 2357,
-      "contentHash": "sha256:2aeb64b4a6efc8fc"
+      "subjects": 204,
+      "techniques": 1436,
+      "applications": 797,
+      "files": 2442,
+      "contentHash": "sha256:88ed9c2d99d61112"
     }
   ]
 }

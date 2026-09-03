@@ -165,7 +165,8 @@ that seam and the asymmetry it creates: two runners implementing one interface
 do not enforce the same ceilings, and the host that advertises one word for
 both has published a guarantee it cannot make on one of them. A host with no
 isolation primitive at all - an embedded scripting runtime in its own process -
-still has one honest containment, reach without ceilings, and
+still has one honest containment, reach - with ceilings only on what the
+runtime itself counts - and
 [capability-subtraction-sandbox](./techniques/capability-subtraction-sandbox.md)
 owns it.
 
