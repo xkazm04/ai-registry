@@ -158,3 +158,39 @@ ladder). Filed as a lead, no action taken.
 - **Round verdict:** feasibility PROVEN, quality signal PROMISING, throughput
   BLOCKED on the missing GPU backend. Next action is the CUDA source build;
   the scored 5-frame protocol and judge replay run after it, unchanged.
+
+## Program close-out (2026-09-03, operator decision)
+
+- **GLM-5.3-Flash: KEEP**, conditionally — disk is rent-free post-cleanup
+  (245 GB still free with the weights resident), the n=1 quality preview was a class jump, re-acquisition
+  costs ~10 h. Condition: one CUDA-build attempt within a week, else delete
+  the weights and keep the findings.
+- **The unifying finding across BOTH big-model threads:** Wolf's 64 GB host
+  RAM is the binding constraint, not the 4090. H3 ref2va ran at ~12x its
+  reference rate (~60 min vs ~5 min per 3s clip) and GLM-5.3 vision at ~30x,
+  both from expert paging. One 128 GB RAM upgrade moves both verdicts at
+  once; no software work does.
+- **The ref2va bake-off (dojo cycle 2026-09-03-serial-ref2va, truncated at
+  one sequence): H3 2/2 over Wan t2v** — figure present every frame with
+  identity carried from the reference, interior staged with the action
+  performed. Reference conditioning is confirmed as the serial direction;
+  the phrasing lane (3 windows, 10 pairs, coin flip) is closed.
+
+## Epilogue (2026-09-03): the gap was the question, not the parameters
+
+Operator challenge: could prompt adjustments on the small eyes reach the
+321B's depth? Measured same-day: YES. The original comparison was
+confounded - the small eyes answered a closed-enum schema (which flattens by
+design) while GLM answered free prose. A "taught" prompt built from what the
+big eye demonstrated (palette as roles, black as shape, light as layers,
+medium mixing, edge story) pulled equivalent-depth readbacks from LOCAL
+qwen3.8:27b: 25 s and $0 per frame vs 23 min - same roles, same
+silhouette reading, same layered light, on the same frame. Prompt preserved
+as gravitone's pipeline/foundry/DEEP-READ-PROMPT.md.
+
+**Final verdict, revised: the 321B eye is NOT needed here.** Its one real
+contribution was showing what a better question looks like; the question is
+now an asset and the weights are recommended for deletion (64 GB RAM is a
+declared-permanent constraint on this box). The engine evaluation stands as
+knowledge: Colibri's tiering works as documented, and on RAM-capped consumer
+hardware the elicitation lever should be exhausted before the parameter one.

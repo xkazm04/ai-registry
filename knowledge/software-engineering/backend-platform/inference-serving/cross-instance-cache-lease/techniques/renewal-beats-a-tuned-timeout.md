@@ -57,7 +57,7 @@ control surface.
    somebody adjusts one. It is also what makes a best-effort renewal send
    acceptable: a dropped renewal is one of four, not the only one.
 4. **Renew while intent persists**, from the point given in
-   [renew-from-arrival-not-from-work](renew-from-arrival-not-from-work.md), and
+   [renew-from-arrival-not-from-work](./renew-from-arrival-not-from-work.md), and
    stop renewing the instant the claimant no longer wants the result —
    completion, cancellation, client disconnect, or the claimant's own failure.
    The stop is what makes the mechanism prompt; a renewal loop nobody ends is a

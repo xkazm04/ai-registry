@@ -8,6 +8,7 @@ techniques:
   - trigger-wiring
   - commit-vs-derive-policy
   - drift-gating
+  - post-merge-regeneration
   - generated-file-hygiene
   - generator-failure-isolation
 ---
@@ -143,6 +144,18 @@ which defers to the boundary-contract treatment where that instance is
 concerned and adds what only the pipeline level can see: gate placement,
 per-class attribution, and manifest-accelerated checks.
 
+A drift gate assumes the change's author can and should carry the fresh
+output. One artifact shape defeats that assumption: output carrying
+positional references into its sources, where any upstream edit shifts
+references for entries the edit had nothing to do with. Then every
+concurrent change regenerates a large diff, and the diffs collide on lines
+neither author wrote — conflicts manufactured by the generator rather than
+by the work. That class is banned from the change and regenerated once,
+after the merge, by a serialized job whose staged paths are allowlisted
+before it commits; the experiment that decides which regime an artifact
+belongs to, and the allowlist that makes any automated commit safe, are
+[post-merge-regeneration](./techniques/post-merge-regeneration.md).
+
 ## A generated file declares itself
 
 Every generated file states, in its opening lines, that it is generated, what
@@ -193,6 +206,11 @@ and stated, never defaulted into silently.
 - [drift-gating](./techniques/drift-gating.md) — which classes get gates and
   what shape; placement, attribution, manifest acceleration; the blind
   spots, deferring to the boundary-contract deep treatment.
+- [post-merge-regeneration](./techniques/post-merge-regeneration.md) — the
+  artifact whose positional references make per-change regeneration
+  manufacture conflicts; forbidding it from the change; the serialized
+  merge job; and the staged-path allowlist that makes an automated commit
+  safe.
 - [generated-file-hygiene](./techniques/generated-file-hygiene.md) — the
   self-declaring header, tool exclusions, determinism, single output roots.
 - [generator-failure-isolation](./techniques/generator-failure-isolation.md) —

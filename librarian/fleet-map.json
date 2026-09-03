@@ -3082,7 +3082,7 @@
     "groups": 8,
     "governingSubjects": 52,
     "weaklyGoverned": 0,
-    "ledgerRows": 0,
+    "ledgerRows": 1,
     "absolutePathsDropped": 0
    },
    "relPath": "dolla/LightTrack",
@@ -15822,7 +15822,7 @@
    ],
    "scope": null,
    "hasMap": true,
-   "mapGeneratedAt": "2026-09-03T10:44:16Z",
+   "mapGeneratedAt": "2026-09-03T13:19:54Z",
    "stats": {
     "contexts": 161,
     "groups": 17,
@@ -15861,15 +15861,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/agent-chaining",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/embedded-preview",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/fleet-orchestration",
         "state": "unknown"
        }
       ]
@@ -15925,15 +15925,15 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/rate-limiting",
+        "subject": "software-engineering/credential-vault",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/cost-metering",
+        "subject": "software-engineering/dynamic-secret-lifecycle",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/llm-era-work-sample-design",
+        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        }
       ]
@@ -15961,24 +15961,20 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/module-design",
+        "state": "conformant"
+       },
+       {
         "subject": "recruiting/llm-era-work-sample-design",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-instruction-files",
+        "subject": "software-engineering/llm-extracted-entity-graph",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/codebase-scanning",
+        "subject": "software-engineering/media-playback",
         "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/web-scraping",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/module-design",
-        "state": "conformant"
        }
       ]
      },
@@ -15987,16 +15983,16 @@
       "paths": [
        "app/api/agents/[id]/refresh/route.ts",
        "app/api/agents/agents-bridge.test.ts",
+       "app/api/agents/bridge/bridge-route.test.ts",
        "app/api/agents/bridge/route.ts",
+       "app/api/agents/catalog/catalog-route.test.ts",
        "app/api/agents/catalog/route.ts",
        "app/api/agents/dispatch/route.ts",
+       "app/api/agents/pair/pair-route.test.ts",
        "app/api/agents/pair/route.ts",
+       "app/api/agents/report/[token]/report-throttle.test.ts",
        "app/api/agents/report/[token]/route.ts",
-       "app/api/agents/route.ts",
-       "app/api/llm/activity/route.ts",
-       "app/api/llm/config/llm-config-race.test.ts",
-       "app/api/llm/config/route.ts",
-       "app/api/llm/keys/llm-admin-auth.test.ts"
+       "app/api/agents/route.ts"
       ],
       "pathsMissing": 0,
       "subjects": [
@@ -16013,11 +16009,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/web-scraping",
+        "subject": "software-engineering/node-boot-and-declarative-bootstrap",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-cli-transport",
+        "subject": "software-engineering/agent-runtime-assembly",
         "state": "unknown"
        }
       ]
@@ -16049,15 +16045,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/data-access",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/eval-harness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/model-routing",
         "state": "unknown"
        }
       ]
@@ -16095,10 +16091,6 @@
        {
         "subject": "software-engineering/release-pipeline",
         "state": "unknown"
-       },
-       {
-        "subject": "recruiting/recruiter-anchored-model-evaluation",
-        "state": "unknown"
        }
       ]
      },
@@ -16133,11 +16125,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/eval-harness",
+        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/cv-parsing-and-career-reading",
+        "subject": "software-engineering/eval-harness",
         "state": "unknown"
        }
       ]
@@ -16165,6 +16157,10 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/agent-cli-transport",
         "state": "conformant"
        },
@@ -16173,11 +16169,7 @@
         "state": "unknown"
        },
        {
-        "subject": "localization/translation-pipeline-topology",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/cv-parsing-and-career-reading",
+        "subject": "software-engineering/llm-extracted-entity-graph",
         "state": "unknown"
        }
       ]
@@ -16211,14 +16203,6 @@
        {
         "subject": "software-engineering/eval-harness",
         "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/hash-pinned-translation-pipeline",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/prompt-safety",
-        "state": "unknown"
        }
       ]
      },
@@ -16243,6 +16227,10 @@
        {
         "subject": "software-engineering/agent-cli-transport",
         "state": "not-applicable"
+       },
+       {
+        "subject": "software-engineering/module-design",
+        "state": "unknown"
        },
        {
         "subject": "localization/translation-pipeline-topology",
@@ -16297,6 +16285,10 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/quality-gates",
         "state": "unknown"
        },
@@ -16309,11 +16301,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/pipeline-authoring",
-        "state": "unknown"
-       },
-       {
-        "subject": "localization/translation-pipeline-topology",
+        "subject": "software-engineering/serving-process-topology",
         "state": "unknown"
        },
        {
@@ -16357,7 +16345,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/companion-runtime",
+        "subject": "software-engineering/test-harness",
         "state": "unknown"
        }
       ]
@@ -16486,11 +16474,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/pipeline-aging-and-attention-triage",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/quality-gates",
+        "subject": "software-engineering/eval-harness",
         "state": "unknown"
        }
       ]
@@ -16682,15 +16674,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/cost-metering",
         "state": "unknown"
        },
        {
         "subject": "recruiting/small-sample-honesty-in-hiring-analytics",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        }
       ]
@@ -16767,6 +16759,10 @@
        },
        {
         "subject": "recruiting/small-sample-honesty-in-hiring-analytics",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/metric-surface-contract",
         "state": "unknown"
        }
       ]
@@ -16860,7 +16856,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/plan-review",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        }
       ]
@@ -16888,22 +16884,6 @@
        {
         "subject": "software-engineering/mcp-tools",
         "state": "unknown"
-       },
-       {
-        "subject": "recruiting/ai-assistance-detection-and-fairness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/search",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/drag-drop",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/quality-gates",
-        "state": "unknown"
        }
       ]
      },
@@ -16930,15 +16910,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/codebase-scanning",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/model-routing",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/mcp-tools",
         "state": "unknown"
        },
        {
@@ -16970,15 +16950,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/candidate-identity-and-staleness",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/eval-harness",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/adverse-impact-and-proxy-neutrality",
         "state": "unknown"
        },
        {
@@ -17006,6 +16986,14 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/supply-chain",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/client-fetch-cache",
         "state": "unknown"
        },
@@ -17015,14 +17003,6 @@
        },
        {
         "subject": "recruiting/candidate-identity-and-staleness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/codebase-scanning",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/measurement-honesty",
         "state": "unknown"
        }
       ]
@@ -17046,23 +17026,23 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/sidecar-provisioning",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/packaging",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/candidate-identity-and-staleness",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/eval-harness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/sidecar-provisioning",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/i18n",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/build-economics",
         "state": "unknown"
        }
       ]
@@ -17086,11 +17066,15 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "recruiting/candidate-archetype-routing",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/candidate-identity-and-staleness",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/candidate-archetype-routing",
+        "subject": "software-engineering/agent-runtime-assembly",
         "state": "unknown"
        },
        {
@@ -17099,10 +17083,6 @@
        },
        {
         "subject": "recruiting/candidate-status-transparency",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        }
       ]
@@ -17126,15 +17106,15 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/candidate-archetype-routing",
         "state": "unknown"
        },
        {
         "subject": "recruiting/candidate-identity-and-staleness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/mcp-tools",
         "state": "unknown"
        },
        {
@@ -17166,11 +17146,11 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "recruiting/candidate-identity-and-staleness",
+        "subject": "software-engineering/mcp-tools",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/mcp-tools",
+        "subject": "recruiting/candidate-identity-and-staleness",
         "state": "unknown"
        },
        {
@@ -17178,11 +17158,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/client-state",
+        "subject": "software-engineering/sql-console",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/people-analytics-ethics",
+        "subject": "software-engineering/client-state",
         "state": "unknown"
        }
       ]
@@ -17204,11 +17184,11 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "software-engineering/codebase-scanning",
+        "subject": "software-engineering/docs-sync",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/docs-sync",
+        "subject": "software-engineering/codebase-scanning",
         "state": "unknown"
        },
        {
@@ -17240,8 +17220,8 @@
        "app/_lib/match-candidate.ts",
        "app/_lib/match-input-tenancy.test.ts",
        "app/_lib/match-input.ts",
-       "app/_lib/match-score-resolve.ts",
-       "app/_lib/match-score.test.ts"
+       "app/_lib/match-score-resolve.test.ts",
+       "app/_lib/match-score-resolve.ts"
       ],
       "pathsMissing": 0,
       "subjects": [
@@ -17250,11 +17230,11 @@
         "state": "unknown"
        },
        {
-        "subject": "recruiting/presenting-a-score-to-a-recruiter",
+        "subject": "software-engineering/prompt-assembly",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/candidate-identity-and-staleness",
+        "subject": "recruiting/presenting-a-score-to-a-recruiter",
         "state": "unknown"
        },
        {
@@ -17262,7 +17242,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/prompt-assembly",
+        "subject": "recruiting/candidate-identity-and-staleness",
         "state": "unknown"
        }
       ]
@@ -17322,15 +17302,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/packaging",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/agent-cli-transport",
         "state": "not-applicable"
        },
        {
         "subject": "localization/translation-pipeline-topology",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/packaging",
         "state": "unknown"
        }
       ]
@@ -17356,6 +17336,10 @@
         "state": "conformant"
        },
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/skill-adjacency-and-normalization",
         "state": "unknown"
        },
@@ -17365,10 +17349,6 @@
        },
        {
         "subject": "localization/translation-pipeline-topology",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/eval-harness",
         "state": "unknown"
        }
       ]
@@ -17439,11 +17419,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/eval-harness",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/rate-limiting",
+        "subject": "software-engineering/agent-runtime-assembly",
         "state": "unknown"
        }
       ]
@@ -17549,15 +17529,11 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/priced-authority",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/demo-data-plane",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/mcp-tools",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/public-work-evidence-bounding",
         "state": "unknown"
        }
       ]
@@ -17585,15 +17561,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/browser-credential-boundary",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/candidate-status-transparency",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/public-claim-provenance",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/browser-credential-boundary",
         "state": "unknown"
        },
        {
@@ -17675,6 +17651,10 @@
        {
         "subject": "software-engineering/triage-queues",
         "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/templates-scaffolding",
+        "state": "unknown"
        }
       ]
      },
@@ -17701,15 +17681,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/packaging",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/triage-queues",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/delivery-analytics",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/packaging",
         "state": "unknown"
        },
        {
@@ -17769,15 +17749,19 @@
         "state": "unknown"
        },
        {
-        "subject": "recruiting/candidate-status-transparency",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/fleet-orchestration",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/automated-screening-fairness-gates",
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
+        "subject": "recruiting/candidate-status-transparency",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
         "state": "unknown"
        }
       ]
@@ -17807,19 +17791,19 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/mcp-tools",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/interview-calendar-integrity",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/voice-io",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/audit-logging",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/node-boot-and-declarative-bootstrap",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-memory",
         "state": "unknown"
        }
       ]
@@ -17843,24 +17827,20 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/node-boot-and-declarative-bootstrap",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/priced-authority",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/agent-cli-transport",
         "state": "not-applicable"
-       },
-       {
-        "subject": "recruiting/pre-boarding-and-first-day-handoff",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/delivery-analytics",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/telemetry-pii-redaction",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/adaptive-fidelity-tiers",
-        "state": "unknown"
        }
       ]
      },
@@ -17899,7 +17879,7 @@
         "state": "unknown"
        },
        {
-        "subject": "recruiting/candidate-communication-integrity",
+        "subject": "software-engineering/agent-memory",
         "state": "unknown"
        }
       ]
@@ -17927,11 +17907,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/delivery-analytics",
+        "subject": "recruiting/portable-hiring-records",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/portable-hiring-records",
+        "subject": "software-engineering/delivery-analytics",
         "state": "unknown"
        },
        {
@@ -17971,15 +17951,15 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/mcp-tools",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/credential-vault",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/delivery-analytics",
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        }
       ]
@@ -18032,6 +18012,10 @@
       "subjects": [
        {
         "subject": "recruiting/candidate-communication-integrity",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/docs-sync",
         "state": "unknown"
        },
        {
@@ -18129,7 +18113,7 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "software-engineering/model-routing",
+        "subject": "software-engineering/sidecar-provisioning",
         "state": "unknown"
        },
        {
@@ -18137,15 +18121,15 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/sidecar-provisioning",
+        "subject": "software-engineering/model-routing",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/eval-harness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/import-normalization",
         "state": "unknown"
        }
       ]
@@ -18217,15 +18201,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/supply-chain",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/concurrency-guards",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/app-shell",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/cv-parsing-and-career-reading",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/i18n",
         "state": "unknown"
        }
       ]
@@ -18249,15 +18233,11 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "software-engineering/data-viz",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/voice-io",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/test-input-generation",
+        "subject": "software-engineering/data-viz",
         "state": "unknown"
        },
        {
@@ -18265,7 +18245,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/design-tokens",
+        "subject": "software-engineering/test-input-generation",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/multi-provider-gateway-plane",
         "state": "unknown"
        }
       ]
@@ -18297,15 +18281,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/design-tokens",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/test-input-generation",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/eval-harness",
         "state": "unknown"
        }
       ]
@@ -18333,15 +18317,15 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/test-input-generation",
-        "state": "unknown"
-       },
-       {
         "subject": "recruiting/selection-score-calibration",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/hitl-approval",
+        "subject": "software-engineering/test-input-generation",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
         "state": "unknown"
        },
        {
@@ -18361,23 +18345,23 @@
        "app/_components/results/ReportActions.tsx",
        "app/_components/results/ResultPanel.tsx",
        "app/_components/results/compare/CompareTab.tsx",
+       "app/_components/results/compare/compareView.test.ts",
+       "app/_components/results/compare/compareView.ts",
        "app/_components/results/extraction/ExtractionTab.tsx",
-       "app/_components/results/interview/InterviewTab.tsx",
-       "app/_components/results/interview/ReadbackEntitiesStrip.tsx",
-       "app/_components/results/interview/SoftSignalsSection.tsx"
+       "app/_components/results/interview/InterviewTab.tsx"
       ],
       "pathsMissing": 0,
       "subjects": [
-       {
-        "subject": "software-engineering/search",
-        "state": "unknown"
-       },
        {
         "subject": "software-engineering/sql-console",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/evidence-provenance-weighting",
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/search",
         "state": "unknown"
        },
        {
@@ -18385,7 +18369,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/eval-harness",
+        "subject": "recruiting/hypothesis-not-verdict-soft-signals",
         "state": "unknown"
        }
       ]
@@ -18425,7 +18409,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/search",
+        "subject": "software-engineering/sql-console",
         "state": "unknown"
        }
       ]
@@ -18459,6 +18443,10 @@
        {
         "subject": "software-engineering/i18n",
         "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/embedded-db",
+        "state": "unknown"
        }
       ]
      },
@@ -18481,6 +18469,10 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/evidence-provenance-weighting",
         "state": "unknown"
        },
@@ -18489,11 +18481,7 @@
         "state": "unknown"
        },
        {
-        "subject": "recruiting/cv-parsing-and-career-reading",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/tracing",
+        "subject": "software-engineering/agent-memory",
         "state": "unknown"
        }
       ]
@@ -18504,6 +18492,7 @@
       "name": "api-devcase-1",
       "paths": [
        "app/api/devcase/comms/route.ts",
+       "app/api/devcase/control/control-authz.test.ts",
        "app/api/devcase/control/route.ts",
        "app/api/devcase/devcase-lifecycle-tenancy.test.ts",
        "app/api/devcase/devcase-owned-lifecycle.ts",
@@ -18513,8 +18502,7 @@
        "app/api/devcase/lifecycle/[id]/approve/route.ts",
        "app/api/devcase/lifecycle/[id]/close/close-tenancy.test.ts",
        "app/api/devcase/lifecycle/[id]/close/route.test.ts",
-       "app/api/devcase/lifecycle/[id]/close/route.ts",
-       "app/api/devcase/lifecycle/[id]/redesign/route.ts"
+       "app/api/devcase/lifecycle/[id]/close/route.ts"
       ],
       "pathsMissing": 0,
       "subjects": [
@@ -18523,19 +18511,19 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/terminal-multiplexing",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/web-scraping",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/agent-instruction-files",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/optional-dependency-degradation",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        }
       ]
@@ -18559,15 +18547,19 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/transactions-over-a-replicated-log",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/eval-harness",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/skill-adjacency-and-normalization",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/public-work-evidence-bounding",
+        "subject": "software-engineering/quorum-and-recovery-procedures",
         "state": "unknown"
        },
        {
@@ -18602,15 +18594,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/data-access",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/requisition-lifecycle-governance",
         "state": "unknown"
        },
        {
-        "subject": "recruiting/offer-lifecycle-and-deadlines",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/wizard-flows",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        }
       ]
@@ -18682,15 +18674,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/sidecar-provisioning",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/eval-harness",
         "state": "unknown"
        },
        {
         "subject": "recruiting/hiring-need-as-structured-brief",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/agent-memory",
         "state": "unknown"
        }
       ]
@@ -18716,22 +18708,6 @@
        {
         "subject": "software-engineering/mcp-tools",
         "state": "unknown"
-       },
-       {
-        "subject": "recruiting/ai-assistance-detection-and-fairness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/lazy-section-addressability",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/client-state",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/eval-harness",
-        "state": "unknown"
        }
       ]
      },
@@ -18740,6 +18716,7 @@
       "paths": [
        "app/_lib/code-review-status.test.ts",
        "app/_lib/code-review-status.ts",
+       "app/_lib/dev-control.test.ts",
        "app/_lib/dev-control.ts",
        "app/_lib/dev-outcomes-tenancy.test.ts",
        "app/_lib/dev-outcomes.test.ts",
@@ -18748,8 +18725,7 @@
        "app/_lib/devcase-authenticity.ts",
        "app/_lib/devcase-cohort.test.ts",
        "app/_lib/devcase-cohort.ts",
-       "app/_lib/devcase-compare.test.ts",
-       "app/_lib/devcase-compare.ts"
+       "app/_lib/devcase-compare.test.ts"
       ],
       "pathsMissing": 0,
       "subjects": [
@@ -18762,15 +18738,15 @@
         "state": "unknown"
        },
        {
+        "subject": "recruiting/assessment-instrument-validation",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/bulk-adverse-action-governance",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/build-economics",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/assessment-instrument-validation",
         "state": "unknown"
        }
       ]
@@ -18794,15 +18770,15 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "recruiting/interview-run-of-show",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-cli-transport",
-        "state": "not-applicable"
+        "subject": "software-engineering/supply-chain",
+        "state": "unknown"
        },
        {
-        "subject": "software-engineering/diff-comparison",
+        "subject": "recruiting/interview-run-of-show",
         "state": "unknown"
        },
        {
@@ -18810,8 +18786,12 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/quality-gates",
+        "subject": "software-engineering/diff-comparison",
         "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-cli-transport",
+        "state": "not-applicable"
        }
       ]
      },
@@ -18870,19 +18850,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/work-sample-timeboxing-and-cost",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/client-state",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/public-work-evidence-bounding",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/quality-gates",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        }
       ]
@@ -18948,12 +18924,12 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "recruiting/combining-signals-into-a-hire-decision",
-        "state": "deviation"
-       },
-       {
         "subject": "recruiting/hiring-policy-defaults-and-tiering",
         "state": "unknown"
+       },
+       {
+        "subject": "recruiting/combining-signals-into-a-hire-decision",
+        "state": "deviation"
        },
        {
         "subject": "recruiting/candidate-ai-disclosure-and-explanation",
@@ -18998,6 +18974,10 @@
        {
         "subject": "recruiting/collective-and-statutory-hiring-governance",
         "state": "unknown"
+       },
+       {
+        "subject": "recruiting/hiring-policy-defaults-and-tiering",
+        "state": "unknown"
        }
       ]
      },
@@ -19024,6 +19004,10 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/credential-vault",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/client-fetch-cache",
         "state": "unknown"
        },
@@ -19033,10 +19017,6 @@
        },
        {
         "subject": "recruiting/hiring-policy-defaults-and-tiering",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/recruiting-cost-and-automation-economics",
         "state": "unknown"
        }
       ]
@@ -19150,6 +19130,14 @@
        {
         "subject": "software-engineering/model-routing",
         "state": "unknown"
+       },
+       {
+        "subject": "recruiting/comparative-shortlist-evaluation",
+        "state": "unknown"
+       },
+       {
+        "subject": "recruiting/collective-and-statutory-hiring-governance",
+        "state": "unknown"
        }
       ]
      },
@@ -19172,12 +19160,12 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "software-engineering/agent-cli-transport",
-        "state": "conformant"
-       },
-       {
         "subject": "software-engineering/supply-chain",
         "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-cli-transport",
+        "state": "conformant"
        },
        {
         "subject": "recruiting/selection-score-calibration",
@@ -19222,15 +19210,15 @@
         "state": "unknown"
        },
        {
-        "subject": "recruiting/pipeline-aging-and-attention-triage",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/hitl-approval",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "recruiting/pipeline-aging-and-attention-triage",
         "state": "unknown"
        }
       ]
@@ -19258,6 +19246,10 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/pipeline-stage-modelling",
         "state": "unknown"
        },
@@ -19266,11 +19258,7 @@
         "state": "unknown"
        },
        {
-        "subject": "localization/translation-pipeline-topology",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/voice-io",
+        "subject": "software-engineering/mcp-tools",
         "state": "unknown"
        }
       ]
@@ -19313,14 +19301,22 @@
        "app/_lib/comms-resend-outcome.test.ts",
        "app/_lib/comms-resend-outcome.ts",
        "app/_lib/decision-config-version.test.ts",
+       "app/_lib/llm-config-probe-env.test.ts",
+       "app/_lib/matrix-cache.test.ts",
+       "app/_lib/matrix-cache.ts",
        "app/_lib/pipeline-axis-server.ts",
-       "app/_lib/pipeline-axis.ts",
-       "app/_lib/pipeline-command.test.ts",
-       "app/_lib/pipeline-command.ts",
-       "app/_lib/pipeline-entry-action.test.ts"
+       "app/_lib/pipeline-axis.ts"
       ],
       "pathsMissing": 0,
       "subjects": [
+       {
+        "subject": "software-engineering/prompt-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/fleet-orchestration",
+        "state": "unknown"
+       },
        {
         "subject": "recruiting/pipeline-stage-modelling",
         "state": "unknown"
@@ -19331,14 +19327,6 @@
        },
        {
         "subject": "recruiting/pipeline-aging-and-attention-triage",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/prompt-assembly",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/fleet-orchestration",
         "state": "unknown"
        }
       ]
@@ -19376,10 +19364,6 @@
        {
         "subject": "recruiting/pipeline-aging-and-attention-triage",
         "state": "unknown"
-       },
-       {
-        "subject": "recruiting/bulk-adverse-action-governance",
-        "state": "unknown"
        }
       ]
      },
@@ -19410,11 +19394,11 @@
         "state": "unknown"
        },
        {
-        "subject": "recruiting/hiring-policy-defaults-and-tiering",
+        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/quality-gates",
+        "subject": "recruiting/hiring-policy-defaults-and-tiering",
         "state": "unknown"
        },
        {
@@ -19518,15 +19502,15 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-instruction-files",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/quality-gates",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/machine-paced-delivery",
+        "subject": "software-engineering/agent-instruction-files",
+        "state": "unknown"
+       },
+       {
+        "subject": "recruiting/bulk-adverse-action-governance",
         "state": "unknown"
        }
       ]
@@ -19592,8 +19576,16 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/priced-authority",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/agent-cli-transport",
         "state": "not-applicable"
+       },
+       {
+        "subject": "software-engineering/node-boot-and-declarative-bootstrap",
+        "state": "unknown"
        }
       ]
      },
@@ -19640,23 +19632,23 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/agent-runtime-assembly",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/mcp-tools",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/bulk-adverse-action-governance",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/status-vocabulary",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/client-fetch-cache",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/embedded-preview",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/blind-screening-and-redaction",
+        "subject": "software-engineering/read-serving-replicas",
         "state": "unknown"
        }
       ]
@@ -19684,11 +19676,19 @@
         "state": "not-applicable"
        },
        {
+        "subject": "software-engineering/priced-authority",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/client-fetch-cache",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-instruction-files",
+        "subject": "software-engineering/node-boot-and-declarative-bootstrap",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        }
       ]
@@ -19716,11 +19716,19 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/embedded-db",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/client-fetch-cache",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/supply-chain",
         "state": "unknown"
        }
       ]
@@ -19782,11 +19790,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/subprocess-lifecycle",
+        "subject": "software-engineering/agent-memory",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-memory",
+        "subject": "software-engineering/subprocess-lifecycle",
         "state": "unknown"
        }
       ]
@@ -19916,15 +19924,7 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "recruiting/requisition-lifecycle-governance",
-        "state": "unknown"
-       },
-       {
         "subject": "recruiting/inclusive-job-advertising",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/web-scraping",
         "state": "unknown"
        },
        {
@@ -19932,7 +19932,15 @@
         "state": "unknown"
        },
        {
+        "subject": "recruiting/requisition-lifecycle-governance",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/supply-chain",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/web-scraping",
         "state": "unknown"
        }
       ]
@@ -19960,19 +19968,19 @@
         "state": "unknown"
        },
        {
-        "subject": "recruiting/requisition-lifecycle-governance",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/job-coordination",
         "state": "unknown"
        },
        {
-        "subject": "localization/translation-pipeline-topology",
+        "subject": "recruiting/requisition-lifecycle-governance",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/background-jobs",
+        "subject": "software-engineering/release-pipeline",
+        "state": "unknown"
+       },
+       {
+        "subject": "localization/translation-pipeline-topology",
         "state": "unknown"
        }
       ]
@@ -20032,11 +20040,11 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "software-engineering/audit-logging",
+        "subject": "software-engineering/supply-chain",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/supply-chain",
+        "subject": "software-engineering/audit-logging",
         "state": "unknown"
        },
        {
@@ -20048,7 +20056,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/browser-credential-boundary",
+        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        }
       ]
@@ -20081,14 +20089,6 @@
        },
        {
         "subject": "software-engineering/markdown-vault",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/audit-logging",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/browser-credential-boundary",
         "state": "unknown"
        }
       ]
@@ -20152,6 +20152,10 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/retry-backoff",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/inclusive-job-advertising",
         "state": "unknown"
        },
@@ -20165,10 +20169,6 @@
        },
        {
         "subject": "software-engineering/background-jobs",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/job-coordination",
         "state": "unknown"
        }
       ]
@@ -20196,11 +20196,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/background-jobs",
+        "subject": "software-engineering/job-coordination",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/job-coordination",
+        "subject": "software-engineering/background-jobs",
         "state": "unknown"
        },
        {
@@ -20208,7 +20208,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-instruction-files",
+        "subject": "software-engineering/retry-backoff",
         "state": "unknown"
        }
       ]
@@ -20344,15 +20344,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/sourcing-campaign-honesty",
         "state": "unknown"
        },
        {
         "subject": "recruiting/application-intake-and-conversion",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/cv-parsing-and-career-reading",
         "state": "unknown"
        }
       ]
@@ -20458,6 +20458,10 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/native-shell-integration",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/repository-landing-document",
         "state": "unknown"
        }
@@ -20522,6 +20526,10 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/agent-instruction-files",
         "state": "unknown"
        },
@@ -20530,15 +20538,11 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/eval-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/fleet-orchestration",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/agent-cli-transport",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/hitl-approval",
         "state": "unknown"
        }
       ]
@@ -20562,6 +20566,10 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/eval-harness",
         "state": "unknown"
        },
@@ -20571,14 +20579,6 @@
        },
        {
         "subject": "software-engineering/test-input-generation",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/test-harness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        }
       ]
@@ -20610,15 +20610,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/packaging",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/i18n",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/agent-addressable-ui",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/multi-jurisdiction-hiring-compliance",
         "state": "unknown"
        }
       ]
@@ -20642,23 +20642,23 @@
       "pathsMissing": 0,
       "subjects": [
        {
-        "subject": "software-engineering/rate-limiting",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/browser-credential-boundary",
+        "subject": "software-engineering/sidecar-provisioning",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/quality-gates",
+        "subject": "software-engineering/agent-runtime-assembly",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/observability-telemetry",
+        "subject": "software-engineering/test-harness",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/companion-runtime",
+        "subject": "software-engineering/supply-chain",
         "state": "unknown"
        }
       ]
@@ -20686,19 +20686,19 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/webhook-ingestion",
-        "state": "unknown"
-       },
-       {
         "subject": "software-engineering/retry-backoff",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/rate-limiting",
+        "subject": "software-engineering/webhook-ingestion",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/docs-sync",
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/test-harness",
         "state": "unknown"
        }
       ]
@@ -20730,15 +20730,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/paged-block-cache",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/eval-harness",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/dependency-declaration",
-        "state": "unknown"
-       },
-       {
-        "subject": "recruiting/sourcing-campaign-honesty",
+        "subject": "software-engineering/seal-and-key-hierarchy",
         "state": "unknown"
        }
       ]
@@ -20762,7 +20762,15 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/node-boot-and-declarative-bootstrap",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/rate-limiting",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        },
        {
@@ -20771,14 +20779,6 @@
        },
        {
         "subject": "software-engineering/browser-credential-boundary",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/stream-proxy-hop",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/agent-instruction-files",
         "state": "unknown"
        }
       ]
@@ -20842,6 +20842,10 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/module-design",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/canvas-graph",
         "state": "unknown"
        },
@@ -20850,11 +20854,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/module-design",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/admission-queue",
+        "subject": "software-engineering/test-harness",
         "state": "unknown"
        }
       ]
@@ -20878,23 +20878,15 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "localization/translation-pipeline-topology",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/credential-vault",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/eval-harness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/test-harness",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/quality-gates",
         "state": "unknown"
        }
       ]
@@ -20923,10 +20915,6 @@
        },
        {
         "subject": "software-engineering/supply-chain",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/machine-paced-delivery",
         "state": "unknown"
        }
       ]
@@ -20990,6 +20978,10 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/deployment-contract",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/agent-instruction-files",
         "state": "unknown"
        },
@@ -20998,15 +20990,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/deployment-contract",
-        "state": "unknown"
-       },
-       {
         "subject": "recruiting/role-intake-conversation",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/agent-cli-transport",
+        "subject": "software-engineering/machine-paced-delivery",
         "state": "unknown"
        }
       ]
@@ -21030,15 +21018,15 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/test-harness",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/quality-gates",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/data-access",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/test-harness",
         "state": "unknown"
        },
        {
@@ -21072,15 +21060,15 @@
       "pathsMissing": 0,
       "subjects": [
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/interview-run-of-show",
         "state": "unknown"
        },
        {
         "subject": "recruiting/voice-interview-fidelity",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/voice-io",
         "state": "unknown"
        },
        {
@@ -21140,15 +21128,15 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
+       },
+       {
         "subject": "recruiting/voice-interview-fidelity",
         "state": "unknown"
        },
        {
         "subject": "recruiting/interview-run-of-show",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/voice-io",
         "state": "unknown"
        }
       ]
@@ -21206,6 +21194,10 @@
        {
         "subject": "software-engineering/voice-io",
         "state": "unknown"
+       },
+       {
+        "subject": "recruiting/interview-calendar-integrity",
+        "state": "unknown"
        }
       ]
      },
@@ -21260,10 +21252,6 @@
        {
         "subject": "recruiting/voice-interview-fidelity",
         "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/model-routing",
-        "state": "unknown"
        }
       ]
      },
@@ -21279,19 +21267,15 @@
        "app/_components/voice/VoiceStatusPill.tsx",
        "app/_components/voice/VoiceTranscript.tsx",
        "app/_components/voice/availability-gate.ts",
+       "app/_components/voice/mic-test-state.test.ts",
        "app/_components/voice/micErrorText.ts",
-       "app/_components/voice/timer-registry.ts",
-       "app/_components/voice/transport/elevenlabs.ts"
+       "app/_components/voice/timer-registry.ts"
       ],
       "pathsMissing": 0,
       "subjects": [
        {
         "subject": "software-engineering/voice-io",
         "state": "conformant"
-       },
-       {
-        "subject": "recruiting/voice-interview-fidelity",
-        "state": "unknown"
        }
       ]
      },
@@ -21350,16 +21334,16 @@
       "paths": [
        "app/_lib/sim-store.test.ts",
        "app/_lib/sim-store.ts",
+       "app/api/demo/demo-door.test.ts",
        "app/api/demo/route.ts",
+       "app/api/sim/apply-cv/apply-cv-codes.test.ts",
        "app/api/sim/apply-cv/route.ts",
        "app/api/sim/inbound/route.ts",
        "app/api/sim/inbound/sim-inbound-scope.test.ts",
        "app/api/sim/offer-draft/offer-draft-salary.test.ts",
        "app/api/sim/offer-draft/route.ts",
        "app/api/sim/offer-link/offer-link-scope.test.ts",
-       "app/api/sim/offer-link/route.ts",
-       "app/api/sim/reset/route.ts",
-       "app/api/sim/screen-draft/route.ts"
+       "app/api/sim/offer-link/route.ts"
       ],
       "pathsMissing": 0,
       "subjects": [
@@ -21368,7 +21352,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/markdown-vault",
+        "subject": "software-engineering/demo-data-plane",
         "state": "unknown"
        },
        {
@@ -21376,11 +21360,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/guided-tours",
+        "subject": "software-engineering/draft-editing",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/demo-data-plane",
+        "subject": "software-engineering/wizard-flows",
         "state": "unknown"
        }
       ]
@@ -21397,9 +21381,9 @@
        "app/api/feedback/feedback-read-gate.test.ts",
        "app/api/feedback/route.ts",
        "app/api/health/route.ts",
+       "app/api/me/capabilities/route.ts",
        "app/api/me/getting-started/getting-started-route.test.ts",
-       "app/api/me/getting-started/route.ts",
-       "app/api/me/onboarding/route.ts"
+       "app/api/me/getting-started/route.ts"
       ],
       "pathsMissing": 0,
       "subjects": [
@@ -21408,11 +21392,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/companion-identity",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/agent-memory",
+        "subject": "software-engineering/concurrency-guards",
         "state": "unknown"
        },
        {
@@ -21420,7 +21400,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/client-state",
+        "subject": "software-engineering/agent-memory",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/companion-identity",
         "state": "unknown"
        },
        {
@@ -21456,11 +21440,11 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/app-shell",
+        "subject": "software-engineering/voice-io",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/voice-io",
+        "subject": "software-engineering/fleet-orchestration",
         "state": "unknown"
        },
        {
@@ -21500,7 +21484,7 @@
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/codegen",
+        "subject": "software-engineering/native-shell-integration",
         "state": "unknown"
        },
        {
@@ -21532,11 +21516,19 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/fleet-orchestration",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/eval-harness",
         "state": "unknown"
        },
        {
-        "subject": "software-engineering/guided-tours",
+        "subject": "software-engineering/markdown-vault",
         "state": "unknown"
        }
       ]
@@ -21576,7 +21568,7 @@
         "state": "unknown"
        },
        {
-        "subject": "recruiting/candidate-status-transparency",
+        "subject": "software-engineering/settings",
         "state": "unknown"
        }
       ]
@@ -21604,19 +21596,19 @@
         "state": "unknown"
        },
        {
+        "subject": "software-engineering/fleet-orchestration",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/quality-gates",
+        "state": "unknown"
+       },
+       {
         "subject": "software-engineering/eval-harness",
         "state": "unknown"
        },
        {
         "subject": "software-engineering/optional-dependency-degradation",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/wizard-flows",
-        "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/agent-chaining",
         "state": "unknown"
        }
       ]
@@ -21666,6 +21658,14 @@
        {
         "subject": "software-engineering/app-shell",
         "state": "deviation"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/voice-io",
+        "state": "unknown"
        }
       ]
      },
@@ -21730,10 +21730,6 @@
        {
         "subject": "software-engineering/companion-runtime",
         "state": "unknown"
-       },
-       {
-        "subject": "software-engineering/companion-identity",
-        "state": "unknown"
        }
       ]
      },
@@ -21754,6 +21750,10 @@
       "subjects": [
        {
         "subject": "software-engineering/app-shell",
+        "state": "unknown"
+       },
+       {
+        "subject": "software-engineering/native-shell-integration",
         "state": "unknown"
        }
       ]
@@ -25546,6 +25546,47 @@
     }
    ]
   },
+  "llm-observability/generator-uncertainty-scoring": {
+   "bundle": "llm-observability",
+   "category": "quality-scoring",
+   "subcategory": null,
+   "techniques": 5,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "goat",
+     "classification": "out-of-domain"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "out-of-domain"
+    }
+   ]
+  },
   "llm-observability/judge-calibration-and-drift": {
    "bundle": "llm-observability",
    "category": "quality-scoring",
@@ -26627,9 +26668,9 @@
     },
     {
      "project": "kp",
-     "contexts": 16,
+     "contexts": 13,
      "states": {
-      "unknown": 16
+      "unknown": 13
      }
     }
    ],
@@ -27633,9 +27674,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 4,
      "states": {
-      "unknown": 5
+      "unknown": 4
      }
     }
    ],
@@ -27678,9 +27719,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 1,
      "states": {
-      "unknown": 3
+      "unknown": 1
      }
     }
    ],
@@ -27854,9 +27895,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 4,
      "states": {
-      "unknown": 5
+      "unknown": 4
      }
     }
    ],
@@ -27896,15 +27937,7 @@
    "category": "decision-and-fairness",
    "subcategory": "fairness-and-defensibility",
    "techniques": 6,
-   "present": [
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    }
-   ],
+   "present": [],
    "absent": [
     {
      "project": "gravity",
@@ -27933,6 +27966,10 @@
     {
      "project": "personas",
      "classification": "out-of-domain"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
     }
    ]
   },
@@ -28080,9 +28117,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 4,
+     "contexts": 3,
      "states": {
-      "unknown": 4
+      "unknown": 3
      }
     }
    ],
@@ -28305,9 +28342,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 4,
      "states": {
-      "unknown": 5
+      "unknown": 4
      }
     }
    ],
@@ -28350,9 +28387,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 1,
+     "contexts": 2,
      "states": {
-      "unknown": 1
+      "unknown": 2
      }
     }
    ],
@@ -28441,9 +28478,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 3,
      "states": {
-      "unknown": 2
+      "unknown": 3
      }
     }
    ],
@@ -28617,9 +28654,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 7,
+     "contexts": 2,
      "states": {
-      "unknown": 7
+      "unknown": 2
      }
     }
    ],
@@ -28797,9 +28834,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 1,
      "states": {
-      "unknown": 2
+      "unknown": 1
      }
     }
    ],
@@ -28887,9 +28924,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 12,
+     "contexts": 13,
      "states": {
-      "unknown": 12
+      "unknown": 13
      }
     }
    ],
@@ -28973,9 +29010,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 4,
      "states": {
-      "unknown": 3
+      "unknown": 4
      }
     }
    ],
@@ -29243,9 +29280,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 1,
      "states": {
-      "unknown": 2
+      "unknown": 1
      }
     }
    ],
@@ -29285,15 +29322,7 @@
    "category": "governance",
    "subcategory": null,
    "techniques": 6,
-   "present": [
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    }
-   ],
+   "present": [],
    "absent": [
     {
      "project": "gravity",
@@ -29322,6 +29351,10 @@
     {
      "project": "personas",
      "classification": "out-of-domain"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
     }
    ]
   },
@@ -29333,9 +29366,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 4,
      "states": {
-      "unknown": 5
+      "unknown": 4
      }
     }
    ],
@@ -29592,15 +29625,7 @@
    "category": "candidate-experience",
    "subcategory": null,
    "techniques": 6,
-   "present": [
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    }
-   ],
+   "present": [],
    "absent": [
     {
      "project": "gravity",
@@ -29629,6 +29654,10 @@
     {
      "project": "personas",
      "classification": "out-of-domain"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
     }
    ]
   },
@@ -29730,9 +29759,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 2,
      "states": {
-      "unknown": 5
+      "unknown": 2
      }
     }
    ],
@@ -29775,9 +29804,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 4,
+     "contexts": 3,
      "states": {
-      "unknown": 4
+      "unknown": 3
      }
     }
    ],
@@ -29817,15 +29846,7 @@
    "category": "measurement",
    "subcategory": null,
    "techniques": 6,
-   "present": [
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    }
-   ],
+   "present": [],
    "absent": [
     {
      "project": "gravity",
@@ -29854,6 +29875,10 @@
     {
      "project": "personas",
      "classification": "out-of-domain"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
     }
    ]
   },
@@ -30221,9 +30246,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 9,
+     "contexts": 8,
      "states": {
-      "unknown": 9
+      "unknown": 8
      }
     }
    ],
@@ -30312,9 +30337,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 4,
      "states": {
-      "unknown": 5
+      "unknown": 4
      }
     }
    ],
@@ -30402,9 +30427,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 7,
+     "contexts": 6,
      "states": {
-      "unknown": 7
+      "unknown": 6
      }
     }
    ],
@@ -30568,13 +30593,6 @@
      "states": {
       "unknown": 1
      }
-    },
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
     }
    ],
    "absent": [
@@ -30592,6 +30610,10 @@
     },
     {
      "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -30622,13 +30644,6 @@
      "states": {
       "unknown": 2
      }
-    },
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
     }
    ],
    "absent": [
@@ -30646,6 +30661,10 @@
     },
     {
      "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -30815,9 +30834,9 @@
     },
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 2,
      "states": {
-      "unknown": 3
+      "unknown": 2
      }
     }
    ],
@@ -30883,9 +30902,8 @@
     },
     {
      "project": "kp",
-     "contexts": 17,
+     "contexts": 14,
      "states": {
-      "unknown": 3,
       "conformant": 4,
       "not-applicable": 10
      }
@@ -30959,9 +30977,9 @@
     },
     {
      "project": "kp",
-     "contexts": 14,
+     "contexts": 11,
      "states": {
-      "unknown": 14
+      "unknown": 11
      }
     }
    ],
@@ -31018,9 +31036,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 7,
      "states": {
-      "unknown": 5
+      "unknown": 7
      }
     }
    ],
@@ -31036,7 +31054,15 @@
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
    "techniques": 10,
-   "present": [],
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 11,
+     "states": {
+      "unknown": 11
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -31064,10 +31090,6 @@
     },
     {
      "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -31208,9 +31230,9 @@
     },
     {
      "project": "kp",
-     "contexts": 11,
+     "contexts": 10,
      "states": {
-      "unknown": 9,
+      "unknown": 8,
       "deviation": 2
      }
     }
@@ -31314,9 +31336,9 @@
     },
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 2,
      "states": {
-      "unknown": 3
+      "unknown": 2
      }
     }
    ],
@@ -31387,7 +31409,7 @@
   "software-engineering/authorization": {
    "bundle": "software-engineering",
    "category": "security",
-   "subcategory": null,
+   "subcategory": "identity-and-access",
    "techniques": 9,
    "present": [
     {
@@ -31458,9 +31480,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 4,
      "states": {
-      "unknown": 5
+      "unknown": 4
      }
     }
    ],
@@ -31568,7 +31590,7 @@
   "software-engineering/browser-credential-boundary": {
    "bundle": "software-engineering",
    "category": "security",
-   "subcategory": null,
+   "subcategory": "data-and-transport",
    "techniques": 7,
    "present": [
     {
@@ -31608,9 +31630,9 @@
     },
     {
      "project": "kp",
-     "contexts": 6,
+     "contexts": 3,
      "states": {
-      "unknown": 6
+      "unknown": 3
      }
     }
    ],
@@ -31629,7 +31651,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "pumper",
@@ -31647,9 +31669,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 4,
      "states": {
-      "unknown": 5
+      "unknown": 4
      }
     }
    ],
@@ -31795,7 +31817,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "continuous-integration",
-   "techniques": 5,
+   "techniques": 6,
    "present": [
     {
      "project": "personas",
@@ -31888,7 +31910,7 @@
    "bundle": "software-engineering",
    "category": "client-architecture",
    "subcategory": null,
-   "techniques": 9,
+   "techniques": 10,
    "present": [
     {
      "project": "gravity",
@@ -31927,9 +31949,9 @@
     },
     {
      "project": "kp",
-     "contexts": 6,
+     "contexts": 5,
      "states": {
-      "unknown": 6
+      "unknown": 5
      }
     }
    ],
@@ -32002,9 +32024,9 @@
     },
     {
      "project": "kp",
-     "contexts": 6,
+     "contexts": 3,
      "states": {
-      "unknown": 6
+      "unknown": 3
      }
     }
    ],
@@ -32047,9 +32069,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 3,
      "states": {
-      "unknown": 5
+      "unknown": 3
      }
     }
    ],
@@ -32072,7 +32094,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "personas",
@@ -32084,9 +32106,9 @@
     },
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 2,
      "states": {
-      "unknown": 3
+      "unknown": 2
      }
     }
    ],
@@ -32155,9 +32177,9 @@
     },
     {
      "project": "kp",
-     "contexts": 6,
+     "contexts": 5,
      "states": {
-      "unknown": 6
+      "unknown": 5
      }
     }
    ],
@@ -32199,9 +32221,9 @@
     },
     {
      "project": "kp",
-     "contexts": 7,
+     "contexts": 5,
      "states": {
-      "unknown": 7
+      "unknown": 5
      }
     }
    ],
@@ -32232,7 +32254,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "work-execution",
-   "techniques": 9,
+   "techniques": 11,
    "present": [
     {
      "project": "pumper",
@@ -32243,9 +32265,9 @@
     },
     {
      "project": "kp",
-     "contexts": 1,
+     "contexts": 3,
      "states": {
-      "unknown": 1
+      "unknown": 3
      }
     }
    ],
@@ -32453,6 +32475,47 @@
     }
    ]
   },
+  "software-engineering/convergence-loop-and-requeue": {
+   "bundle": "software-engineering",
+   "category": "operations",
+   "subcategory": "control-plane-operations",
+   "techniques": 5,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/conversation-orchestration": {
    "bundle": "software-engineering",
    "category": "llm-agent",
@@ -32546,9 +32609,9 @@
     },
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 2,
      "states": {
-      "unknown": 3
+      "unknown": 2
      }
     }
    ],
@@ -32570,7 +32633,7 @@
   "software-engineering/credential-vault": {
    "bundle": "software-engineering",
    "category": "security",
-   "subcategory": null,
+   "subcategory": "identity-and-access",
    "techniques": 9,
    "present": [
     {
@@ -32591,9 +32654,9 @@
     },
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 4,
      "states": {
-      "unknown": 2
+      "unknown": 4
      }
     }
    ],
@@ -32620,11 +32683,52 @@
     }
    ]
   },
+  "software-engineering/cross-instance-cache-lease": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "inference-serving",
+   "techniques": 4,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/data-access": {
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "data-layer",
-   "techniques": 10,
+   "techniques": 12,
    "present": [
     {
      "project": "goat",
@@ -32671,9 +32775,9 @@
     },
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 4,
      "states": {
-      "unknown": 3
+      "unknown": 4
      }
     }
    ],
@@ -32825,6 +32929,88 @@
     }
    ]
   },
+  "software-engineering/decentralized-artifact-distribution": {
+   "bundle": "software-engineering",
+   "category": "security",
+   "subcategory": "code-provenance",
+   "techniques": 6,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/declarative-resource-lifecycle": {
+   "bundle": "software-engineering",
+   "category": "operations",
+   "subcategory": "control-plane-operations",
+   "techniques": 4,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/delivery-analytics": {
    "bundle": "software-engineering",
    "category": "engineering-assessment",
@@ -32847,9 +33033,9 @@
     },
     {
      "project": "kp",
-     "contexts": 10,
+     "contexts": 8,
      "states": {
-      "unknown": 10
+      "unknown": 8
      }
     }
    ],
@@ -32976,20 +33162,13 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "codebase-stewardship",
-   "techniques": 6,
+   "techniques": 8,
    "present": [
     {
      "project": "personas",
      "contexts": 3,
      "states": {
       "unknown": 3
-     }
-    },
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
      }
     }
    ],
@@ -33017,6 +33196,10 @@
     {
      "project": "politicas",
      "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
     }
    ]
   },
@@ -33024,7 +33207,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "continuous-integration",
-   "techniques": 5,
+   "techniques": 6,
    "present": [
     {
      "project": "politicas",
@@ -33116,9 +33299,9 @@
     },
     {
      "project": "kp",
-     "contexts": 4,
+     "contexts": 3,
      "states": {
-      "unknown": 4
+      "unknown": 3
      }
     }
    ],
@@ -33136,7 +33319,7 @@
   "software-engineering/device-pairing": {
    "bundle": "software-engineering",
    "category": "security",
-   "subcategory": null,
+   "subcategory": "identity-and-access",
    "techniques": 6,
    "present": [
     {
@@ -33339,8 +33522,8 @@
      "project": "kp",
      "contexts": 4,
      "states": {
-      "deviation": 1,
-      "unknown": 3
+      "unknown": 3,
+      "deviation": 1
      }
     }
    ],
@@ -33359,7 +33542,7 @@
    "bundle": "software-engineering",
    "category": "integration",
    "subcategory": null,
-   "techniques": 5,
+   "techniques": 8,
    "present": [
     {
      "project": "pumper",
@@ -33416,6 +33599,13 @@
       "deviation": 2,
       "unknown": 2
      }
+    },
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
     }
    ],
    "absent": [
@@ -33442,10 +33632,6 @@
     {
      "project": "politicas",
      "classification": "candidate"
-    },
-    {
-     "project": "kp",
-     "classification": "candidate"
     }
    ]
   },
@@ -33471,9 +33657,9 @@
     },
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 1,
      "states": {
-      "unknown": 2
+      "unknown": 1
      }
     }
    ],
@@ -33505,7 +33691,15 @@
    "category": "secret-custody-and-issuance",
    "subcategory": null,
    "techniques": 6,
-   "present": [],
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -33533,10 +33727,6 @@
     },
     {
      "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -33598,9 +33788,9 @@
     },
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 3,
      "states": {
-      "unknown": 2
+      "unknown": 3
      }
     }
    ],
@@ -33657,9 +33847,9 @@
     },
     {
      "project": "kp",
-     "contexts": 6,
+     "contexts": 5,
      "states": {
-      "unknown": 6
+      "unknown": 5
      }
     }
    ],
@@ -33726,7 +33916,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "resilience",
-   "techniques": 8,
+   "techniques": 10,
    "present": [
     {
      "project": "goat",
@@ -33825,9 +34015,9 @@
     },
     {
      "project": "kp",
-     "contexts": 34,
+     "contexts": 30,
      "states": {
-      "unknown": 32,
+      "unknown": 28,
       "not-applicable": 2
      }
     }
@@ -33876,6 +34066,47 @@
     },
     {
      "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/extension-trust-boundary": {
+   "bundle": "software-engineering",
+   "category": "security",
+   "subcategory": "extension-trust",
+   "techniques": 4,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
      "classification": "candidate"
     },
     {
@@ -34038,9 +34269,9 @@
     },
     {
      "project": "kp",
-     "contexts": 10,
+     "contexts": 12,
      "states": {
-      "unknown": 10
+      "unknown": 12
      }
     }
    ],
@@ -34124,13 +34355,6 @@
       "conformant": 1,
       "deviation": 1
      }
-    },
-    {
-     "project": "kp",
-     "contexts": 2,
-     "states": {
-      "unknown": 2
-     }
     }
    ],
    "absent": [
@@ -34153,6 +34377,10 @@
     {
      "project": "politicas",
      "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
     }
    ]
   },
@@ -34171,13 +34399,6 @@
     },
     {
      "project": "politicas",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    },
-    {
-     "project": "kp",
      "contexts": 1,
      "states": {
       "unknown": 1
@@ -34203,6 +34424,10 @@
     },
     {
      "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -34263,7 +34488,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "orchestration",
-   "techniques": 12,
+   "techniques": 13,
    "present": [
     {
      "project": "gravity",
@@ -34317,9 +34542,9 @@
     },
     {
      "project": "kp",
-     "contexts": 6,
+     "contexts": 3,
      "states": {
-      "unknown": 6
+      "unknown": 3
      }
     }
    ],
@@ -34376,9 +34601,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 3,
      "states": {
-      "unknown": 5
+      "unknown": 3
      }
     }
    ],
@@ -34426,9 +34651,9 @@
     },
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 1,
      "states": {
-      "unknown": 2
+      "unknown": 1
      }
     }
    ],
@@ -34443,6 +34668,47 @@
     },
     {
      "project": "politicas",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/invariant-placement": {
+   "bundle": "software-engineering",
+   "category": "engineering-process",
+   "subcategory": "standards-and-gates",
+   "techniques": 7,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -34546,7 +34812,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "work-execution",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "tracklight",
@@ -34564,9 +34830,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 4,
      "states": {
-      "unknown": 5
+      "unknown": 4
      }
     }
    ],
@@ -34710,9 +34976,9 @@
     },
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 2,
      "states": {
-      "unknown": 3
+      "unknown": 2
      }
     }
    ],
@@ -34744,7 +35010,15 @@
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
    "techniques": 4,
-   "present": [],
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 2,
+     "states": {
+      "unknown": 2
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -34772,10 +35046,6 @@
     },
     {
      "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -34911,9 +35181,9 @@
     },
     {
      "project": "kp",
-     "contexts": 4,
+     "contexts": 3,
      "states": {
-      "unknown": 4
+      "unknown": 3
      }
     }
    ],
@@ -35041,7 +35311,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
-   "techniques": 9,
+   "techniques": 12,
    "present": [
     {
      "project": "goat",
@@ -35082,9 +35352,9 @@
     },
     {
      "project": "kp",
-     "contexts": 12,
+     "contexts": 14,
      "states": {
-      "unknown": 12
+      "unknown": 14
      }
     }
    ],
@@ -35103,7 +35373,7 @@
    "bundle": "software-engineering",
    "category": "engineering-assessment",
    "subcategory": "measurement-method",
-   "techniques": 9,
+   "techniques": 10,
    "present": [
     {
      "project": "goat",
@@ -35125,13 +35395,6 @@
      "states": {
       "unknown": 1
      }
-    },
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
     }
    ],
    "absent": [
@@ -35149,6 +35412,10 @@
     },
     {
      "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -35173,6 +35440,13 @@
       "unknown": 2,
       "deviation": 2
      }
+    },
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
     }
    ],
    "absent": [
@@ -35194,10 +35468,6 @@
     },
     {
      "project": "politicas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -35253,6 +35523,51 @@
     }
    ]
   },
+  "software-engineering/metric-surface-contract": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "platform-observability",
+   "techniques": 5,
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/metrics-rollups": {
    "bundle": "software-engineering",
    "category": "backend-platform",
@@ -35302,7 +35617,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "data-layer",
-   "techniques": 7,
+   "techniques": 9,
    "present": [
     {
      "project": "goat",
@@ -35401,7 +35716,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "orchestration",
-   "techniques": 11,
+   "techniques": 12,
    "present": [
     {
      "project": "gravity",
@@ -35435,9 +35750,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 3,
      "states": {
-      "unknown": 5
+      "unknown": 3
      }
     }
    ],
@@ -35460,7 +35775,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "codebase-stewardship",
-   "techniques": 8,
+   "techniques": 11,
    "present": [
     {
      "project": "goat",
@@ -35492,10 +35807,10 @@
     },
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 3,
      "states": {
       "conformant": 1,
-      "unknown": 1
+      "unknown": 2
      }
     }
    ],
@@ -35639,96 +35954,7 @@
    "category": "backend-platform",
    "subcategory": "resilience",
    "techniques": 6,
-   "present": [],
-   "absent": [
-    {
-     "project": "gravity",
-     "classification": "candidate"
-    },
-    {
-     "project": "goat",
-     "classification": "candidate"
-    },
-    {
-     "project": "tracklight",
-     "classification": "candidate"
-    },
-    {
-     "project": "pumper",
-     "classification": "candidate"
-    },
-    {
-     "project": "grant",
-     "classification": "candidate"
-    },
-    {
-     "project": "politicas",
-     "classification": "candidate"
-    },
-    {
-     "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
-     "classification": "candidate"
-    }
-   ]
-  },
-  "software-engineering/node-boot-and-declarative-bootstrap": {
-   "bundle": "software-engineering",
-   "category": "operations",
-   "subcategory": "service-operations",
-   "techniques": 6,
-   "present": [],
-   "absent": [
-    {
-     "project": "gravity",
-     "classification": "candidate"
-    },
-    {
-     "project": "goat",
-     "classification": "candidate"
-    },
-    {
-     "project": "tracklight",
-     "classification": "candidate"
-    },
-    {
-     "project": "pumper",
-     "classification": "candidate"
-    },
-    {
-     "project": "grant",
-     "classification": "candidate"
-    },
-    {
-     "project": "politicas",
-     "classification": "candidate"
-    },
-    {
-     "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
-     "classification": "candidate"
-    }
-   ]
-  },
-  "software-engineering/observability-telemetry": {
-   "bundle": "software-engineering",
-   "category": "backend-platform",
-   "subcategory": "platform-observability",
-   "techniques": 6,
    "present": [
-    {
-     "project": "personas",
-     "contexts": 5,
-     "states": {
-      "unknown": 5
-     }
-    },
     {
      "project": "kp",
      "contexts": 1,
@@ -35760,6 +35986,145 @@
     },
     {
      "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/native-shell-integration": {
+   "bundle": "software-engineering",
+   "category": "client-architecture",
+   "subcategory": null,
+   "techniques": 5,
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 6,
+     "states": {
+      "unknown": 6
+     }
+    }
+   ],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/node-boot-and-declarative-bootstrap": {
+   "bundle": "software-engineering",
+   "category": "operations",
+   "subcategory": "service-operations",
+   "techniques": 6,
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 6,
+     "states": {
+      "unknown": 6
+     }
+    }
+   ],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/observability-telemetry": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "platform-observability",
+   "techniques": 6,
+   "present": [
+    {
+     "project": "personas",
+     "contexts": 5,
+     "states": {
+      "unknown": 5
+     }
+    }
+   ],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -35800,9 +36165,9 @@
     },
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 1,
      "states": {
-      "unknown": 2
+      "unknown": 1
      }
     }
    ],
@@ -35884,7 +36249,7 @@
   "software-engineering/p2p-networking": {
    "bundle": "software-engineering",
    "category": "security",
-   "subcategory": null,
+   "subcategory": "data-and-transport",
    "techniques": 6,
    "present": [
     {
@@ -35930,7 +36295,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "goat",
@@ -35941,15 +36306,60 @@
     },
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 4,
      "states": {
-      "unknown": 2
+      "unknown": 4
      }
     }
    ],
    "absent": [
     {
      "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/paged-block-cache": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "inference-serving",
+   "techniques": 5,
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
      "classification": "candidate"
     },
     {
@@ -36051,9 +36461,9 @@
     },
     {
      "project": "kp",
-     "contexts": 4,
+     "contexts": 3,
      "states": {
-      "unknown": 4
+      "unknown": 3
      }
     }
    ],
@@ -36121,20 +36531,12 @@
     }
    ]
   },
-  "software-engineering/pipeline-authoring": {
+  "software-engineering/persistent-batch-mutation": {
    "bundle": "software-engineering",
-   "category": "engineering-process",
-   "subcategory": "continuous-integration",
-   "techniques": 5,
-   "present": [
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    }
-   ],
+   "category": "backend-platform",
+   "subcategory": "inference-serving",
+   "techniques": 3,
+   "present": [],
    "absent": [
     {
      "project": "gravity",
@@ -36162,6 +36564,51 @@
     },
     {
      "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/pipeline-authoring": {
+   "bundle": "software-engineering",
+   "category": "engineering-process",
+   "subcategory": "continuous-integration",
+   "techniques": 5,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -36271,51 +36718,6 @@
    "category": "llm-agent",
    "subcategory": "orchestration",
    "techniques": 5,
-   "present": [
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
-    }
-   ],
-   "absent": [
-    {
-     "project": "gravity",
-     "classification": "candidate"
-    },
-    {
-     "project": "goat",
-     "classification": "candidate"
-    },
-    {
-     "project": "tracklight",
-     "classification": "candidate"
-    },
-    {
-     "project": "pumper",
-     "classification": "candidate"
-    },
-    {
-     "project": "grant",
-     "classification": "candidate"
-    },
-    {
-     "project": "politicas",
-     "classification": "candidate"
-    },
-    {
-     "project": "personas",
-     "classification": "candidate"
-    }
-   ]
-  },
-  "software-engineering/priced-authority": {
-   "bundle": "software-engineering",
-   "category": "secret-custody-and-issuance",
-   "subcategory": null,
-   "techniques": 6,
    "present": [],
    "absent": [
     {
@@ -36348,6 +36750,51 @@
     },
     {
      "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/priced-authority": {
+   "bundle": "software-engineering",
+   "category": "secret-custody-and-issuance",
+   "subcategory": null,
+   "techniques": 6,
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 4,
+     "states": {
+      "unknown": 4
+     }
+    }
+   ],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
      "classification": "candidate"
     }
    ]
@@ -36489,13 +36936,6 @@
      "states": {
       "unknown": 2
      }
-    },
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
     }
    ],
    "absent": [
@@ -36513,6 +36953,10 @@
     },
     {
      "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -36632,7 +37076,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
-   "techniques": 20,
+   "techniques": 22,
    "present": [
     {
      "project": "gravity",
@@ -36686,9 +37130,9 @@
     },
     {
      "project": "kp",
-     "contexts": 30,
+     "contexts": 28,
      "states": {
-      "unknown": 30
+      "unknown": 28
      }
     }
    ],
@@ -36699,7 +37143,15 @@
    "category": "operations",
    "subcategory": "service-operations",
    "techniques": 6,
-   "present": [],
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -36727,10 +37179,6 @@
     },
     {
      "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -36785,9 +37233,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 1,
      "states": {
-      "unknown": 5
+      "unknown": 1
      }
     }
    ],
@@ -36803,7 +37251,15 @@
    "category": "backend-platform",
    "subcategory": "data-layer",
    "techniques": 6,
-   "present": [],
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -36831,10 +37287,6 @@
     },
     {
      "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -36944,9 +37396,9 @@
    "present": [
     {
      "project": "kp",
-     "contexts": 4,
+     "contexts": 5,
      "states": {
-      "unknown": 4
+      "unknown": 5
      }
     }
    ],
@@ -37254,9 +37706,9 @@
     },
     {
      "project": "kp",
-     "contexts": 1,
+     "contexts": 3,
      "states": {
-      "unknown": 1
+      "unknown": 3
      }
     }
    ],
@@ -37341,7 +37793,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "resilience",
-   "techniques": 5,
+   "techniques": 6,
    "present": [
     {
      "project": "grant",
@@ -37550,7 +38002,15 @@
    "category": "secret-custody-and-issuance",
    "subcategory": null,
    "techniques": 6,
-   "present": [],
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -37578,10 +38038,6 @@
     },
     {
      "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -37616,9 +38072,9 @@
     },
     {
      "project": "kp",
-     "contexts": 4,
+     "contexts": 2,
      "states": {
-      "unknown": 4
+      "unknown": 2
      }
     }
    ],
@@ -37686,6 +38142,51 @@
     },
     {
      "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/serving-process-topology": {
+   "bundle": "software-engineering",
+   "category": "backend-platform",
+   "subcategory": "inference-serving",
+   "techniques": 4,
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
      "classification": "candidate"
     }
    ]
@@ -37783,7 +38284,7 @@
    "bundle": "software-engineering",
    "category": "operations",
    "subcategory": "governance-and-records",
-   "techniques": 7,
+   "techniques": 8,
    "present": [
     {
      "project": "pumper",
@@ -37802,9 +38303,9 @@
     },
     {
      "project": "kp",
-     "contexts": 6,
+     "contexts": 7,
      "states": {
-      "unknown": 6
+      "unknown": 7
      }
     }
    ],
@@ -37835,7 +38336,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
-   "techniques": 9,
+   "techniques": 10,
    "present": [
     {
      "project": "grant",
@@ -37853,9 +38354,9 @@
     },
     {
      "project": "kp",
-     "contexts": 2,
+     "contexts": 4,
      "states": {
-      "unknown": 2
+      "unknown": 4
      }
     }
    ],
@@ -37885,7 +38386,7 @@
   "software-engineering/signed-artifacts": {
    "bundle": "software-engineering",
    "category": "security",
-   "subcategory": null,
+   "subcategory": "code-provenance",
    "techniques": 6,
    "present": [
     {
@@ -37960,9 +38461,9 @@
     },
     {
      "project": "kp",
-     "contexts": 1,
+     "contexts": 3,
      "states": {
-      "unknown": 1
+      "unknown": 3
      }
     }
    ],
@@ -38004,13 +38505,6 @@
      "states": {
       "unknown": 2
      }
-    },
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
     }
    ],
    "absent": [
@@ -38032,6 +38526,10 @@
     },
     {
      "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -38055,13 +38553,6 @@
      "states": {
       "unknown": 2
      }
-    },
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
-     }
     }
    ],
    "absent": [
@@ -38083,6 +38574,10 @@
     },
     {
      "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -38234,8 +38729,8 @@
   "software-engineering/supply-chain": {
    "bundle": "software-engineering",
    "category": "security",
-   "subcategory": null,
-   "techniques": 11,
+   "subcategory": "code-provenance",
+   "techniques": 13,
    "present": [
     {
      "project": "goat",
@@ -38274,9 +38769,9 @@
     },
     {
      "project": "kp",
-     "contexts": 6,
+     "contexts": 11,
      "states": {
-      "unknown": 6
+      "unknown": 11
      }
     }
    ],
@@ -38391,7 +38886,7 @@
   "software-engineering/telemetry-pii-redaction": {
    "bundle": "software-engineering",
    "category": "security",
-   "subcategory": null,
+   "subcategory": "data-and-transport",
    "techniques": 7,
    "present": [
     {
@@ -38410,9 +38905,9 @@
     },
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 2,
      "states": {
-      "unknown": 3
+      "unknown": 2
      }
     }
    ],
@@ -38460,6 +38955,13 @@
       "deviation": 7,
       "conformant": 1
      }
+    },
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
     }
    ],
    "absent": [
@@ -38481,10 +38983,6 @@
     },
     {
      "project": "politicas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -38589,7 +39087,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 11,
+   "techniques": 15,
    "present": [
     {
      "project": "gravity",
@@ -38636,9 +39134,9 @@
     },
     {
      "project": "kp",
-     "contexts": 10,
+     "contexts": 20,
      "states": {
-      "unknown": 10
+      "unknown": 20
      }
     }
    ],
@@ -38806,7 +39304,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "tracklight",
@@ -38820,13 +39318,6 @@
      "contexts": 2,
      "states": {
       "unknown": 2
-     }
-    },
-    {
-     "project": "kp",
-     "contexts": 1,
-     "states": {
-      "unknown": 1
      }
     }
    ],
@@ -38850,6 +39341,10 @@
     {
      "project": "politicas",
      "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
     }
    ]
   },
@@ -38858,7 +39353,15 @@
    "category": "backend-platform",
    "subcategory": "data-layer",
    "techniques": 7,
-   "present": [],
+   "present": [
+    {
+     "project": "kp",
+     "contexts": 1,
+     "states": {
+      "unknown": 1
+     }
+    }
+   ],
    "absent": [
     {
      "project": "gravity",
@@ -38886,10 +39389,6 @@
     },
     {
      "project": "personas",
-     "classification": "candidate"
-    },
-    {
-     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -39051,6 +39550,47 @@
     }
    ]
   },
+  "software-engineering/untrusted-extension-host": {
+   "bundle": "software-engineering",
+   "category": "security",
+   "subcategory": "extension-trust",
+   "techniques": 7,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
+     "classification": "candidate"
+    }
+   ]
+  },
   "software-engineering/usage-analytics": {
    "bundle": "software-engineering",
    "category": "operations",
@@ -39153,7 +39693,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
-   "techniques": 13,
+   "techniques": 16,
    "present": [
     {
      "project": "gravity",
@@ -39201,9 +39741,9 @@
     },
     {
      "project": "kp",
-     "contexts": 19,
+     "contexts": 38,
      "states": {
-      "unknown": 16,
+      "unknown": 35,
       "conformant": 3
      }
     }
@@ -39211,6 +39751,47 @@
    "absent": [
     {
      "project": "politicas",
+     "classification": "candidate"
+    }
+   ]
+  },
+  "software-engineering/watch-cache-and-resync": {
+   "bundle": "software-engineering",
+   "category": "operations",
+   "subcategory": "control-plane-operations",
+   "techniques": 5,
+   "present": [],
+   "absent": [
+    {
+     "project": "gravity",
+     "classification": "candidate"
+    },
+    {
+     "project": "goat",
+     "classification": "candidate"
+    },
+    {
+     "project": "tracklight",
+     "classification": "candidate"
+    },
+    {
+     "project": "pumper",
+     "classification": "candidate"
+    },
+    {
+     "project": "grant",
+     "classification": "candidate"
+    },
+    {
+     "project": "politicas",
+     "classification": "candidate"
+    },
+    {
+     "project": "personas",
+     "classification": "candidate"
+    },
+    {
+     "project": "kp",
      "classification": "candidate"
     }
    ]
@@ -39259,9 +39840,9 @@
     },
     {
      "project": "kp",
-     "contexts": 5,
+     "contexts": 2,
      "states": {
-      "unknown": 5
+      "unknown": 2
      }
     }
    ],
@@ -39364,9 +39945,9 @@
     },
     {
      "project": "kp",
-     "contexts": 3,
+     "contexts": 2,
      "states": {
-      "unknown": 3
+      "unknown": 2
      }
     }
    ],
@@ -39391,29 +39972,29 @@
    "contexts": 18,
    "governingSubjects": 38,
    "scope": "missing",
-   "candidate": 154,
+   "candidate": 167,
    "out-of-scope": 0,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
-   "out-of-domain": 177
+   "out-of-domain": 178
   },
   "goat": {
    "contexts": 64,
    "governingSubjects": 90,
    "scope": "missing",
-   "candidate": 102,
+   "candidate": 115,
    "out-of-scope": 0,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
-   "out-of-domain": 177
+   "out-of-domain": 178
   },
   "tracklight": {
    "contexts": 34,
    "governingSubjects": 52,
    "scope": "missing",
-   "candidate": 136,
+   "candidate": 150,
    "out-of-scope": 0,
    "declined": 0,
    "deferred": 0,
@@ -39424,7 +40005,7 @@
    "contexts": 46,
    "governingSubjects": 88,
    "scope": "missing",
-   "candidate": 100,
+   "candidate": 114,
    "out-of-scope": 0,
    "declined": 0,
    "deferred": 0,
@@ -39435,7 +40016,7 @@
    "contexts": 40,
    "governingSubjects": 63,
    "scope": "missing",
-   "candidate": 142,
+   "candidate": 156,
    "out-of-scope": 0,
    "declined": 0,
    "deferred": 0,
@@ -39446,7 +40027,7 @@
    "contexts": 49,
    "governingSubjects": 73,
    "scope": "missing",
-   "candidate": 130,
+   "candidate": 144,
    "out-of-scope": 0,
    "declined": 0,
    "deferred": 0,
@@ -39457,7 +40038,7 @@
    "contexts": 208,
    "governingSubjects": 145,
    "scope": "missing",
-   "candidate": 57,
+   "candidate": 71,
    "out-of-scope": 0,
    "declined": 0,
    "deferred": 0,
@@ -39468,12 +40049,12 @@
    "contexts": 161,
    "governingSubjects": 161,
    "scope": "missing",
-   "candidate": 89,
+   "candidate": 102,
    "out-of-scope": 0,
    "declined": 0,
    "deferred": 0,
    "accepted": 0,
-   "out-of-domain": 119
+   "out-of-domain": 120
   }
  }
 }

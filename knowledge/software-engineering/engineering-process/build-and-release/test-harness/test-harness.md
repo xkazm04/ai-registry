@@ -18,6 +18,7 @@ techniques:
   - dynamic-verifier-classes
   - verification-inherits-driver-reach
   - recorded-interaction-fixtures
+  - context-starved-executor
 ---
 
 # Test harness architecture
@@ -126,6 +127,20 @@ clean result is a statement about the region the driving suite reached and
 renders identically to a statement about all of the code. The verdict travels
 with the driver's measured reach or it overstates
 ([verification-inherits-driver-reach](./techniques/verification-inherits-driver-reach.md)).
+There is one proxy the top rung does not remove, because every rung on the
+ladder shares it: a deterministic test *encodes the intended path*, so it fails
+when a known path breaks and cannot fail because the path became
+**undiscoverable**. Rename the action, bury the entry point, delete the only
+affordance suggesting the feature exists — the recorded selector still resolves
+and the lane is green over a product nobody can operate. Closing that gap needs
+a differently-shaped lane: prose user journeys executed by an agent
+deliberately denied the repository, the routes, and the checks, so that finding
+the way is the thing under test and a failure to find is a product defect. It
+is slow, serial, scheduled rather than gating, and it lives or dies on three
+rules — the oracle stays outside the executor, the outcome vocabulary separates
+product failure from harness failure, and a case whose preconditions are unmet
+refuses to run rather than improvising
+([context-starved-executor](./techniques/context-starved-executor.md)).
 
 ## Fixtures are an economic asset
 
@@ -294,6 +309,10 @@ a soak run misunderstands both; the design of these lanes is
   sanitizer/matcher pair that sets how much the suite still asserts, the
   freshness debt a recording carries because it names no service version, and
   warehousing recordings behind a committed tag.
+- [context-starved-executor](./techniques/context-starved-executor.md) — prose
+  journeys run by an agent denied the repository, the routes and the checks:
+  the external oracle, the five-member outcome vocabulary, and the
+  machine-readable precondition refusal that stops it improvising a pass.
 - [out-of-graph-artifacts](./techniques/out-of-graph-artifacts.md) — the gate's
   population is the declared build graph, not the repository: taking the ship
   inventory, gating a detached root, loading rather than compiling a plugin, and

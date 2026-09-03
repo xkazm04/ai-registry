@@ -6,7 +6,7 @@ technique: ratchet-design
 status: forged
 laws: [count-carries-predicate, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
-use_when: [gating a metric that cannot be zeroed today, a below-baseline reading passes silently, upward re-baselines are becoming routine]
+use_when: [gating a metric that cannot be zeroed today, a below-baseline reading passes silently, upward re-baselines are becoming routine, the metric can only be produced by a build the change's author cannot run]
 ---
 
 # Ratchet design
@@ -96,6 +96,74 @@ three explanations at once, including the broken instrument.
 - **Never auto-update.** A pipeline that rewrites the baseline to whatever
   it measured has converted the gate into a recorder. The whole mechanism
   rests on the baseline changing only by human intent.
+
+## The one honest auto-update, and what it costs
+
+The rule above has a boundary. It is worth stating precisely, rather than
+leaving it to be found by somebody who needs the exception and takes it
+quietly.
+
+The absolute assumes the author of the change can produce the number. For
+most ratchet metrics that holds: they are counts over the tree — findings,
+files, weight — and anyone with a checkout recomputes them, so "update the
+baseline in your change" is a fair instruction. A different class of metric
+is produced by **building the artifact and exercising it**: round trips a
+request makes, bytes a rendered page ships, allocations a hot path
+performs. Those need a working build, frequently a platform-specific one,
+sometimes a seeded store. An outside contributor who cannot run it cannot
+regenerate the baseline, and a gate that fails on drift therefore makes
+every change touching that dimension unmergeable by anyone outside the
+team — not because the change is wrong, but because the instrument is
+unavailable to its author. Told to regenerate a baseline they have no way
+to compute, contributors do the only thing left: they hand-edit the number
+until the pipeline stops complaining, which is worse than any of the
+options below.
+
+The honest answer moves the enforcement point rather than deleting it. The
+pipeline regenerates the baseline itself, commits the new values back onto
+the change under review, marks the change so the update is not mistaken for
+the author's work, and posts a per-bucket before/after/delta table beside
+it. Nothing is refused. What the mechanism now produces is a **mandatory
+review artifact**: the change cannot reach a reviewer without carrying an
+explicit, itemised statement of what it did to the metric — which is
+strictly more than an unmeasured change carries, and strictly less than a
+gate.
+
+Be exact about what was given up, because this is the part that gets
+glossed. The pipeline is never red on this metric again. Mechanical
+enforcement is not weakened; it is gone, and the whole gate now rests on a
+human reading a number in a generated diff. That demotion is survivable
+under three conditions, and only three:
+
+- **The diff is per bucket, never a single total.** A total says the sum
+  moved; a per-bucket table says *which* route, package or rule moved and
+  by how much, which is the only form a reviewer can judge. Without buckets
+  there is nothing to read, and a reviewer with nothing to read approves.
+- **The buckets that matter carry a stated presumption.** A standing
+  document says, of the buckets the team actually cares about, that an
+  increase there is *presumed wrong* and needs an argument. A bare number
+  is a fact, and facts do not oblige anybody; a presumption moves the
+  burden of proof onto the author, which is the only thing left that can
+  hold the line once refusal is gone.
+- **The regenerated artifact is small and legible enough to be read.** A
+  reviewer who has learned to collapse the generated diff is not reading
+  it, and the mechanism is then producing nothing at all — the same
+  decorative green the rest of this subject is about, wearing an
+  auto-generated table.
+
+Where any of the three fails, the original absolute stands. An
+auto-updating baseline with no bucketing, no presumption, or an unreadable
+artifact is a recorder with a gate's name, and it is worse than having no
+baseline at all, because it consumes the attention a real gate would have
+earned.
+
+The sentence to keep next to the table is the one that stops the mechanism
+being misread as permission: **the diff makes the increase visible, it does
+not make it acceptable.** Visibility is the mechanism's entire
+contribution. Nothing about regenerating a baseline converts a regression
+into an accepted one; the acceptance is still somebody's decision, said out
+loud, in review — and a team that stops saying it out loud has an
+auto-updating number and no ratchet.
 
 ## The endgame: graduation
 

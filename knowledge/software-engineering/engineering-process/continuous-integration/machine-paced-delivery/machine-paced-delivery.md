@@ -94,7 +94,7 @@ The useful thing an agent does with a delivery system is *read* it: which run fa
 step, what the error was, what changed since the last green. That is a genuine capability and
 it is worth wiring properly, through a declared tool surface —
 [mcp-tools](../../../llm-agent/runtime-and-io/mcp-tools/mcp-tools.md) owns the shape of such a
-surface, and [credential-vault](../../../security/credential-vault/credential-vault.md) owns
+surface, and [credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md) owns
 where the credential lives.
 
 What this subject owns is the boundary. Read scopes and write scopes are different grants and

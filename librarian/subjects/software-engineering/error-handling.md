@@ -253,3 +253,6 @@ have one consumer and a closed set earns nothing.
 swallowing because matching forces handling. This subject demolishes that —
 "Handled is not routed… The test is not 'does the code respond' but 'does a human
 ever learn'." Not landed.
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+New technique `parse-failure-keeps-identity` (laws `identity-survives-reuse`, `failure-not-empty-success`, `one-authority-per-vocabulary`): when one malformed item would stop a reader over a collection the reader does not own, the decode failure is scoped to the item and the item's identity is still recovered through a projection that is a subset of the same schema, never a parallel one. Boundaries against `structured-propagation` (sideways in data, not upward) and against gated foreign-format import. Application `rust--parse-failure-keeps-identity` against a control-plane client library@1.89 (its typed deserialize guard).

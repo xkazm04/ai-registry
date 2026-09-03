@@ -130,7 +130,7 @@
       "invokes30d": 0,
       "lessons": 2,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:c39263099974c6c0",
+      "lessonsHash": "sha256-n1:87aaf12b26a00211",
       "usageContributors": []
     },
     {
@@ -494,6 +494,24 @@
       ]
     },
     {
+      "id": "justified-lint-exemptions",
+      "dimension": "D6",
+      "path": "practices/justified-lint-exemptions/PRACTICE.md",
+      "contentHash": "sha256-n1:be6f97a15f606254",
+      "starter": [
+        "practices/justified-lint-exemptions/starter/LINT-EXEMPTIONS.md"
+      ]
+    },
+    {
+      "id": "least-powerful-test-first",
+      "dimension": "D6",
+      "path": "practices/least-powerful-test-first/PRACTICE.md",
+      "contentHash": "sha256-n1:5735689ed6206ec1",
+      "starter": [
+        "practices/least-powerful-test-first/starter/TEST-GUIDELINES.md"
+      ]
+    },
+    {
       "id": "local-first-readme",
       "dimension": "D5",
       "path": "practices/local-first-readme/PRACTICE.md",
@@ -594,7 +612,7 @@
   ],
   "counts": {
     "skills": 29,
-    "practices": 5,
+    "practices": 7,
     "memory": 6,
     "lessons": 123
   },
@@ -697,11 +715,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 180,
-      "techniques": 1291,
-      "applications": 729,
-      "files": 2205,
-      "contentHash": "sha256:16ff0d1214917959"
+      "subjects": 185,
+      "techniques": 1330,
+      "applications": 748,
+      "files": 2268,
+      "contentHash": "sha256:200204013337949a"
     }
   ]
 }

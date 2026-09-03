@@ -92,7 +92,7 @@ duplicate-and-replay-dedup technique).
 
 The shared secret is a credential and lives where credentials live — in the
 encrypted store with an owner and an audit trail
-([credential-vault](../../../../security/credential-vault/credential-vault.md)) — never
+([credential-vault](../../../../security/identity-and-access/credential-vault/credential-vault.md)) — never
 inline in subscription rows, never in logs, never echoed back through any
 management surface after initial capture.
 

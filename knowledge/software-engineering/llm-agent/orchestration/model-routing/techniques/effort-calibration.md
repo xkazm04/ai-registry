@@ -8,7 +8,7 @@ laws:
   - count-carries-predicate
   - gate-sees-target
 shared_with: []
-use_when: [raising effort because bigger feels safer, output capped but effort set high, all tiers fail the same requirement]
+use_when: [raising effort because bigger feels safer, output capped but effort set high, all tiers fail the same requirement, a point release replaced the model an entry was calibrated against, the bill moved but the rate table did not]
 ---
 
 # Effort calibration
@@ -89,6 +89,56 @@ entry whose measurement predates the models it now routes to is an opinion
 again — the table should make that visible rather than letting green age into
 gospel.
 
+## The successor moves the dial without touching it
+
+The cadence above triggers on a roster change "affecting the entry's tier", which
+reads as: a tier gained or lost a model. It misses the substitution that is now the
+most frequent one in practice — **a point release replacing its predecessor in the
+same tier, at the same published price, under an unchanged dial setting.** Nothing
+in the routing table changes, so nothing in the table asks to be re-measured; and
+the entry keeps citing a measurement taken against a different model.
+
+That would be a bookkeeping nuisance if effort were only a dial. It is not. **How
+hard a model reasons is a property of the model as much as of the setting**, and
+vendors move it deliberately between versions — shipping a successor that takes more
+reasoning steps and calls tools more times for the same request, and saying so in
+the release note as a feature. The dial reads the same on both sides; the token
+count does not.
+
+Three consequences, and the third is the one that surprises people:
+
+- **Same price per token is not same price per task.** The unit a per-token rate
+  prices is not the unit anyone budgets in. When the successor spends more tokens
+  reaching the same answer, an unchanged rate table reports an unchanged cost basis
+  while the bill rises, and every dashboard built on the table agrees with itself
+  and with nothing else. Cost per completed task is the comparison; cost per token
+  is an input to it.
+- **Reasoning tokens are where this lands, and they are usually billed as output.**
+  The reasoning is not in the visible answer and is easy to leave out of an
+  estimate; measured, it routinely dominates. A tree that metered them found the
+  hidden reasoning running an order of magnitude past the visible answer on a
+  mid-tier model and twice that on a larger one — so a successor that reasons more
+  moves the term that was already the largest.
+- **The predecessor is not necessarily deprecated, and the vendor may say so.** A
+  release that positions its successor as the more diligent model often keeps the
+  prior version on the roster as the efficiency-first option, in the same
+  announcement. Where that is true the version ladder is **not** an upgrade path
+  but a second tier axis, and taking the newest by default silently opts every
+  cost-sensitive class into the dearer engine. The routing table already knows how
+  to hold two tiers; a version successor may be one.
+
+So: **a version successor is a re-measure trigger in its own right**, on the same
+footing as a tier change, even when tier, price and dial are all unchanged. What it
+triggers is cheap — the same calibration the entry already carries, re-run against
+the new id, with tokens-per-task recorded beside quality. Until that runs, the entry
+is an opinion about a model nobody measured, which is the state this technique
+exists to make visible.
+
+And the dial's **default** deserves reading once per version, not once. Where the
+effort parameter defaults to its top setting, an adopter who never sets it inherits
+the most expensive configuration of a model that was already described as spending
+more — two compounding steps, neither of them a decision anybody made.
+
 ## Decision rules
 
 - **Calibrate per class, not globally.** The inversions are task-shape
@@ -101,6 +151,10 @@ gospel.
 - **When quality signals tie, cost decides — and the record says so.** "Chosen
   on cost, quality signal did not separate" is a legitimate, auditable reason;
   an unrecorded tie-break is indistinguishable from vibes.
+- **Treat a version successor as a re-measure trigger, and record tokens per task
+  beside quality.** Same tier, same price and same dial do not make it the same
+  model, and the term that moves is usually the reasoning that never appears in
+  the answer.
 - **Escalation advice to humans is one sentence, once.** When the system (or an
   operator playbook) suggests raising tier or effort, it names the observable
   property that triggered the suggestion, offers it once, and drops it if

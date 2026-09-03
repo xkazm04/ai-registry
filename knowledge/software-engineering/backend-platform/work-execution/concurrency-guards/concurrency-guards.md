@@ -6,6 +6,7 @@ status: forged
 techniques:
   - guard-key-design
   - single-flight-primitives
+  - cache-value-not-handle
   - release-guarantees
   - critical-section-across-a-suspension
   - cross-process-exclusion
@@ -90,7 +91,13 @@ From that stance, the spine of the subject:
    join the in-flight result, queue behind it, or coalesce into it — all four
    are legitimate, but the choice is per-operation policy, and a refusal must
    be distinguishable from a failure of the operation itself (law:
-   failure-not-empty-success).
+   failure-not-empty-success). Joining carries a precondition the other
+   policies do not: it hands every caller a reference to one completion
+   handle, so it is only safe on a host whose abandoned callers still run
+   their continuations. Where a cancelled caller's continuation is torn down
+   while the process lives, that handle can settle neither way and every
+   joiner waits for the execution context to be recycled — there the value,
+   not the handle, is what gets published (see cache-value-not-handle).
 4. **Cross-process exclusion is different machinery, not a bigger memory set.**
    An in-process set stops nothing running in another process. Crossing the
    boundary requires shared substrate — a lock with staleness handling, a

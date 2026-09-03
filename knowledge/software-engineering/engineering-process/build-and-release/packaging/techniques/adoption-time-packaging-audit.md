@@ -153,7 +153,7 @@ a candidate that forces whole-package collection of a large tree is a
 budget decision before it is a code decision.
 
 One boundary must stay sharp.
-[supply-chain](../../../../security/supply-chain/supply-chain.md) is
+[supply-chain](../../../../security/code-provenance/supply-chain/supply-chain.md) is
 deliberately **not** the home for this. That subject gates whether a
 dependency can be *trusted* — provenance, advisories, licence, pinning.
 This one asks whether a dependency is *fit* for the artifact you ship. A

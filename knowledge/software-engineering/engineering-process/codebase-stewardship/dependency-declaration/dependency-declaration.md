@@ -239,7 +239,7 @@ the closed-system case where the whole discipline is ceremony.
   to invent one, which is this subject's defect producing that subject's problem.
 - **Whether what resolved can be trusted** — provenance, policy gates, licence
   review, update discipline, vendored-fork tracking — belongs to
-  [supply-chain](../../../security/supply-chain/supply-chain.md). Resolution is a
+  [supply-chain](../../../security/code-provenance/supply-chain/supply-chain.md). Resolution is a
   design question; what arrives through it is a trust question, and conflating
   them produces mechanisms that are secure and unusable, or usable and unpinned.
 - **Where module boundaries belong**, and how much a unit should hide behind its

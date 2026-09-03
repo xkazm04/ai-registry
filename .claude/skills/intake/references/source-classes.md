@@ -303,6 +303,14 @@ restated README bullets, because that is what they were. **A repository note who
 count is 2,000 is a note about an advertisement.** Record the commit and both word
 counts - landing page and in-tree documents - so the tell stays visible.
 
+One shape of repository breaks the sweep order the rule above assumes: a library whose
+operating documents are its **doc comments**. Count both before choosing the tier order -
+the words in `///` and `//!` (or the language's equivalent) against the words in `*.md`
+minus the changelog - and when the former dominates, treat crate and module docs as the
+docs tier and read `*.md` last. The run that produced this rule (2026-09-03, a
+control-plane client library) found 49,580 doc-comment words against ~3,500 words of
+non-changelog markdown; a `*.md` sweep would have read 7% of the first-party prose.
+
 The failure has a second, quieter half. Even a run that reads the tree tends to read it
 *for claims*, because that is what every other source class trains. A repository is the
 only source that carries executable knowledge, and mining it for quotable assertions

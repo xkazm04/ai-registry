@@ -68,7 +68,7 @@ an absent guard, and it degrades to unguarded by default the first time
 somebody simplifies the command
 ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).
 
-[verification-scope](../../../../security/supply-chain/techniques/verification-scope.md)
+[verification-scope](../../../../security/code-provenance/supply-chain/techniques/verification-scope.md)
 already owns two things this technique needs and does not restate: the
 real scope of a skip-resolution flag — *what the flag actually turns off,
 per stage of the command that runs* — and the rule that the honest comment
@@ -91,7 +91,7 @@ notices.
 
 An overridden constraint is not a nameless state of the world. It is a
 recorded exception, and
-[dependency-policy-gates](../../../../security/supply-chain/techniques/dependency-policy-gates.md)
+[dependency-policy-gates](../../../../security/code-provenance/supply-chain/techniques/dependency-policy-gates.md)
 already specifies the shape: an identifier, a rationale, and a review-by
 date the gate itself enforces. Apply that shape here. Each bypass also
 needs a **falsifiable removal condition** in the sense of

@@ -200,3 +200,6 @@ of this technique's informal-interface argument and `taxonomy-design`'s closed-s
 argument, which had never met); `borrowed-surface` (forwarding a *mutator* is
 categorically worse than forwarding a *reader* — the technique's first
 second-source corroboration, it having been forged from one repo).
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+Application `rust--seams-and-adapters` against a control-plane client library@1.89: the store and dispatcher seams in its reflector module (implementation at `reflector/mod.rs:112-131`).

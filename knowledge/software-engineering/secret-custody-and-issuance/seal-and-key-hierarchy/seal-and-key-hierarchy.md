@@ -159,7 +159,7 @@ gives the tenant a lock but leaves the operator holding a key to it.
 
 ## Boundary with the credential vault
 
-The [credential vault](../../security/credential-vault/credential-vault.md)
+The [credential vault](../../security/identity-and-access/credential-vault/credential-vault.md)
 holds **other people's secrets**: credentials issued by external authorities,
 on loan, walked through acquisition, brokered use, refresh, rotation and
 retirement. Its encryption-at-rest technique models the envelope over those

@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: realtime-events
-last_touched: 2026-08-27
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -66,3 +66,7 @@ tests the thing.
 ## Declines
 
 None.
+
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+Golden path gains "The discriminator: when replication is the right answer" beside the sentence "invalidation, not replication" (line 79): replication is correct only under four stated source properties (totally ordered, resumable, compacting change log with an explicit desync signal). The other side of the same discriminator is the new subject `watch-cache-and-resync` under `operations/control-plane-operations`, born the same run.

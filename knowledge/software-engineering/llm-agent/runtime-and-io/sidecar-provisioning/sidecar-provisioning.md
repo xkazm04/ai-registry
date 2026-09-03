@@ -209,7 +209,7 @@ and run from one directory; errors leaving the plugin pass a sanitizer that
 strips the host's secrets and keeps the verdict, and a privilege decision
 the plugin must never see stays on the host's side of the boundary. That is
 [split-trust-by-registration-path](./techniques/split-trust-by-registration-path.md).
-The line against [supply-chain](../../../security/supply-chain/supply-chain.md)
+The line against [supply-chain](../../../security/code-provenance/supply-chain/supply-chain.md)
 is the moment of loading: provenance of what the host is about to run —
 where it was built, who signed it, what the download verified — is that
 subject's; how a plugin, once loaded, is isolated and trusted at run time is

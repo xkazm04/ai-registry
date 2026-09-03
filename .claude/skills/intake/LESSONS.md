@@ -6196,3 +6196,148 @@ and wants them tested hard rather than many and tested once.
 - **A negative application beat every positive one this run.** The source implements exactly one of a technique's four rules and none of the other three, so the defect that technique exists to prevent is still reachable in shipping code at a nameable line. That document is worth more than the three confirmations landed beside it, and the worker's own judgement — that it slightly undersells, deliberately, because no frequency was measured — is the right register. The honest lever on a negative application is a measurement, not a stronger adjective.
 
 - **Reading the source's own agent skills against its code found the run's sharpest untriaged candidate.** The tree ships four machine-executable maintenance skills; the extension skill claims "zero per-engine dispatch points" while four dispatch chains sit in the file it names, and the one machine-enforced registration point is a schema regex listed as one bullet among fifteen. Asking of a repository "what does the procedure demand that the code does not enforce, and what does the code enforce that the procedure never mentions" is a question only a repository can be asked, and it should be a standing ask in the periphery lane rather than a one-off in this run's brief.
+### 2.3.1 - 2026-09-03 - merge after the gate (operator rule)
+
+- "Once the activity is approved we do not need a second human gate": a direction branch whose gate ran green is merged by the director in the session, `--no-ff`, never pushed; red or un-runnable gates stay branches with the reason. Applied-ledger conflicts between sibling branches resolve by union. First application: all nine 2026-09-03 branches merged (two needed the union rule; one project had a concurrent session's uncommitted ledger rows, committed first as their own change; one had the ledger untracked in the main checkout, unioned after the merge).
+
+## 2.3.1 - 2026-09-03 - kube-rs (round 5 of the 2.x series; Opus workers; two operator-named dimensions)
+
+- **When the docs are doc comments, the sweep order inverts.** The front half counted 49,580 words of `///` and `//!` against 19,885 words of markdown (16,411 of it changelog) and treated module docs as the docs tier. A `*.md` sweep would have read 7% of the first-party prose. The class table now needs a row-level rule for this shape: count both before choosing the tier order.
+- **The HOME-IF-NEW clause can fire alone, and the director can widen it.** No system reached three NONEs (max 2), but four entries across three systems shared one home-if-new; the front half proposed one subject, and the director, reading the taxonomy (operations at two subcategories, service-operations at eight of ten), created a subcategory and declared three subjects, then dispatched one worker per subject. Two of the three were promoted from PARTIAL technique candidates (A2, B1) whose forces did not fit their nominal homes. The gate stayed red on "assigns X, which has no folder" until the last worker landed, which is the right signal for a mid-run authority change.
+- **Convergence corroboration from two peer studies is a landing, not a lead.** Two independent trees (kp's chart probing the root page beside an honest serving endpoint; the source's one-shot readiness gate) showed the same absence in `health-checks` - no readiness/liveness asymmetry. The method's convergence rule (two independent sightings, no fetch) authorized the director to land it in-session. One sighting (the craft worker's two candidates) stays a lead.
+- **List the directory before writing to a slot.** The craft worker wrote an application to a slug that already existed and overwrote it, then restored it byte-identically from a sibling worktree. The brief said the slot; it did not say to list. Rule for the forge brief: an application slot is claimed by `ls applications/` first.
+- **Seeded points are hypotheses; the studies corrected fifteen of them.** Four studies over 119 points corrected 15 seeds against the trees, including two that inverted (tracklight does use the ignore attribute; pumper's dedup is server-synthesised). The seed list is worth keeping because the corrections are the study's highest-value lines.
+- **The fleet config can hide the best peer.** gravitone carries the most advanced cluster surface in the fleet and is absent from `projects.json`; the fleet map therefore never listed it. A direction pass keyed on the map cannot see what the map does not hold; the lead is filed as a registry-hygiene item, not an intake one.
+
+## 2.2.0 - 2026-09-02 - gemini-3-8-flash
+
+- **A release note does not carry an API identifier, so for this class the
+  first fetch is the extraction and not corroboration.** The post named the
+  model in prose only; the id, the absence of a Lite variant, and three
+  SHUT-DOWN ids all came from the model list. The shut-down list was worth more
+  than anything in the announcement - two fleet projects were calling retired
+  ids and returning 404s in production, which no amount of reading the post
+  would have surfaced. For a vendor release announcement, budget the docs fetch
+  before triage, not after.
+- **A model can be callable before it is documented.** On release day the model
+  list carried the id while the spec table carrying input modalities did not
+  exist. "The id is live" and "I know what it accepts" are different facts with
+  different dates, and on a vision seam the gap between them is the difference
+  between an upgrade and an outage. This is why the run went one fetch over
+  budget, and it would again: a capability check before shipping into someone's
+  tree outranks budget purity. Either the budget carves that out or it stays a
+  soft limit runs are expected to break with a recorded reason.
+- **A fleet-wide sweep is a run shape this method does not describe.** The
+  operator's ask was "find every project holding this fact and update it",
+  which has no Phase. What worked, and is worth writing up as a lane: enumerate
+  the seam with one grep per project; classify every hit as active-default /
+  historical-data / measured-baseline / normalization-rule, because only the
+  first is upgradable and the other three are corrupted by a blanket rename;
+  then let each tree's own record veto. Three of nine projects declined on
+  evidence they had already written down, and every one of those refusals was
+  worth more than the edit would have been.
+- **The best corroboration was two fleet projects disagreeing in prose.** Both
+  had booked a promotional rate, in opposite directions, each with an argued
+  comment. Neither was wrong; they were answering different questions with one
+  field, and the disagreement handed over the discriminator the technique
+  needed. A contradiction between two trees is as good as a contradiction
+  between a source and a primary, and it costs no fetch. Look for it: the
+  fleet is a corpus of realizations, not just a place to apply findings.
+- **The strongest finding was a guard that stayed green.** A rate table keyed
+  by the constant naming the current model passed its own completeness test
+  through a tenfold mispricing, because the key followed the rename and the
+  number did not. Phase 6's hunt for what a subject "mentions in one place and
+  measures in another" has a sibling worth adding: **ask what a passing
+  assertion would still permit.** The A arm is where that is visible, and only
+  as a silence - so read what A did NOT fail, not only what it did.
+- **Write bytes, not text, on Windows.** Python text-mode writes flipped LF to
+  CRLF and turned one-line edits into whole-file diffs in two projects. Caught
+  only because `git diff --stat` looked wrong; `--ignore-cr-at-eol` confirmed
+  it. Read the file's own ending, write with `'wb'`, and check the stat before
+  every cross-repo commit.
+- **Verify a number before writing it into the scorecard.** The directions-
+  ledger count went in from memory of the previous row's worry (9 waiting, 0
+  decided) and was wrong: 30 proposals across six projects, 11 ledger rows.
+  Corrected in place, and it reverses the conclusion - owners are deciding, the
+  pass is not outrunning them, and the cap does not return. A focus item that
+  says "count X" is not answered by recalling what X was last round.
+
+## 2.2.0 - 2026-09-03 - emdash
+
+- **A repository can fire the routing clause twice, and the per-system count is what
+  makes that safe.** Whole-tree NONE was 14; per system it was A2/B5/C6/D0/E1. Read
+  whole-tree, this would have been a repository-wide scout wave over 347k words. Read
+  per system, it was two scoped forges with a stated boundary between them, each with
+  its own spec, each executed in-session. Two handoffs from one source is not a budget
+  overrun when the systems are genuinely separate — but the boundary sentence between
+  the siblings has to be written into BOTH specs before dispatch, or the two workers
+  will each absorb the other's half. Both specs carried it and neither drifted.
+
+- **Walk the neighbour technique's own table before deciding it is prior art.** The
+  finding that decided the larger subject was not a slug miss: `operator-tier-code-loading`
+  *does* cover extension loading, and a slug-level read would have called it a catch.
+  What made it a subject was reading its two-row table and noticing that the second
+  row's absolute ("may name code: never") is justified by a stated precondition, and
+  that the source falsifies the precondition on purpose. **A rule with its reason
+  written down is a rule you can find the boundary of.** This is the enumeration hunt
+  applied to a table rather than to prose, and it is the third consecutive run where
+  the hunt carried the yield.
+
+- **The most valuable apply row was the rejection, and it inverted the technique rather
+  than qualifying it.** A fleet project had independently solved the same problem at the
+  *opposite polarity* — truncating the adverse verdict where the source truncates the
+  admitting one — so applying the technique as written would have produced the exact
+  inversion it exists to prevent. The generalisable move: when a seam already implements
+  the mechanism, do not score it as "already covered"; ask which *end* it implements and
+  whether the technique's prose committed to one. Ours had, in its title sentence.
+
+### Method note, not yet a rule
+
+- **The ship-scope question does not cover Phase 7.6.** It is asked at Phase 5 as "which
+  trees may I touch if an apply row comes back `better`", which is a 7.5 question. A
+  direction proposal is also a write into a project tree, and this run found a real
+  latent defect in a project the answer had not named (a module-scope memoised promise
+  on a runtime that tears down request contexts) and could not deliver it. Recorded as
+  round 6's first focus item rather than edited into Phase 5 now, because one sighting
+  is a lesson and three is a rule — but this one has a cheap fix (widen the wording) and
+  a real cost (a defect sat undelivered), so it should not wait for three.
+
+### On the director's own errors, which were the run's only real failures
+
+- Three, all mine, all caught by an instrument rather than by rereading: an arm-B draft
+  that was **worse than arm A** for a live run holding a short lock (the fifth control
+  caught it — a control set that only confirms the change is not a control set); a
+  **fabricated version witness** in two applications, citing a `package.json` engines
+  floor for a repository that has no `package.json` (the gate caught the format, not the
+  fabrication — I caught that by grepping for the field I had just cited); and a
+  `use_when` completeness check written as `grep -L` with `-q`, which is contradictory
+  and reported every file missing. The third is the one worth generalising: **I used a
+  broken instrument to contradict five workers' reports and briefly believed the
+  instrument.** The method already says never establish an absence from a truncated or
+  piped result; this adds that a *contradictory flag combination* fails the same way and
+  is harder to see, because it produces confident output rather than empty output. Assert
+  the instrument against a known positive first — one file that certainly has the field.
+
+### 2.3.2 - 2026-09-03 - one worker per project when proposals share files
+
+- The second gate accepted eleven of eleven across four projects, and in every project
+  the accepted proposals overlapped on a file (kp: all three touch the chart checker;
+  pumper: the claim statement and the error enum; tracklight: the chart; personas: the
+  execution path). Eleven worktrees would have produced eight merge conflicts for the
+  director to resolve by hand. Four workers, one per project, executed their proposals in
+  order on one branch with one commit and one applied row each; four `--no-ff` merges,
+  zero conflicts. Verdicts: 11 better (one with its replay marked unmeasurable inside the
+  row because the backup it names is not on this machine). Pre-existing red on the
+  project's own main (a stale rustfmt file, keychain tests) does not block the merge; the
+  worker names it and leaves it.
+- Workers corrected proposals against the tree again: personas' trigger id is NULL for
+  scheduler-spawned rows so the key reads the event source; pumper's "186 flattening
+  sites" was workspace-wide, 18 by the guard's rule. A proposal is a spec written from a
+  study, and the worker's first job is to re-open every anchor.
+
+### 2026-09-03 - gravitone onboarding and the third gate (kube-rs round, closing)
+
+- **A fleet slug can name the wrong repository.** `gravity` resolved to gravitone-gcloud (the content studio) and `librarian/projects.md` called that same row `gravitone`; the TTS service at kiro/gravitone had no slug at all. The fix was an onboarding, not a rename: a new slug, a manifest with a scope block, the owner's own context map read by the registry-map builder (nested groups shape; 78 contexts), and a first direction pass. Check the remote of a checkout before trusting its slug.
+- **Onboard from the remote's HEAD, not the local clone.** The local gravitone was 190 commits behind and the remote had moved the app under `gravitone/`; a context map and three proposals written against the old tree had to be re-pathed after the merge, and the first execution worktree was thrown away. Fetch before the first read of any project that is new to the fleet.
+- **When the worker lane is overloaded, the director executes.** Five consecutive worker launches died on server overload (both models). The gravitone directions were executed in-session by the director with the same discipline (one branch, one commit and one applied row per proposal, the measurable run, the gate run); the tracklight upstream merge (14 conflicted files, 385 remote commits) was resolved the same way. Nothing in the method requires a subagent; the subagent is the parallelism, not the correctness.
+- **Shipping is a gate per project, and three of them were red for reasons that were not ours.** politicas' pre-push typecheck failed on a missing local dependency (`npm install` fixed it); personas' golden-path census rose on five rules across the merged directions and stays unpushed until fixed or deliberately ratcheted; systedo-case's gate fails on another session's incomplete model-rename. A push is reported per repository with the reason, never forced past a hook.

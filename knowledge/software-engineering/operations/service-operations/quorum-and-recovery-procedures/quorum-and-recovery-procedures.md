@@ -119,7 +119,7 @@ operation against a cluster that must survive it is ours. The forward-only rule
 transplants intact - a restore here never rewrites the log's history, it installs a
 state and the log continues from it.
 
-[Rotation and remediation](../../../security/credential-vault/techniques/rotation-and-remediation.md)
+[Rotation and remediation](../../../security/identity-and-access/credential-vault/techniques/rotation-and-remediation.md)
 owns rotating a credential the vault holds *on behalf of a consumer* - mint the
 successor, validate it live, cut consumers over, retire the incumbent. This subject
 owns rotating the vault's *own* root material, which differs in the one respect that

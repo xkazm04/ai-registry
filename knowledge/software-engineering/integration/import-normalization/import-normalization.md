@@ -168,7 +168,7 @@ therefore enforces, before anything persists:
   [structured-output](../../llm-agent/prompt-and-context/structured-output/structured-output.md);
 - **secrets quarantine** — credential material discovered inside the file is
   never persisted with the entities; it is routed into the
-  [credential-vault](../../security/credential-vault/credential-vault.md) flow as a
+  [credential-vault](../../security/identity-and-access/credential-vault/credential-vault.md) flow as a
   *credential requirement* the user fulfills, not a value the import smuggles.
 
 Owned by [import-validation](./techniques/import-validation.md).

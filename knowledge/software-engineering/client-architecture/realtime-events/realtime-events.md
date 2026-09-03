@@ -94,6 +94,53 @@ system where push is the truth degrades to a wrong one. The
 technique owns the invalidation grammar and the races between events and
 in-flight reads.
 
+### The discriminator: when replication is the right answer
+
+*Invalidation, not replication* is the rule for an event bus, and the reason
+is not taste — it is that the bus does not give the three guarantees
+replication needs. Where a source **does** give them, the rule inverts, and it
+is worth being able to name the inversion on sight rather than arguing it each
+time.
+
+Replication is correct when the source publishes all four of these, and only
+then:
+
+- **A totally ordered change log** — every change carries a position in one
+  sequence, so "apply in arrival order" and "apply in occurrence order" are the
+  same statement.
+- **Resumability from a position** — a consumer that was away hands back its
+  last position and receives exactly what it missed, rather than reconnecting
+  into the present and guessing.
+- **Compaction to current state** — a new consumer can obtain the whole
+  current world as a bounded initial read, so the replica is founded on a
+  known state rather than assembled from whatever history is still around.
+- **An explicit desync signal** — when a consumer's position has fallen outside
+  the retained window, the source says *so*, distinguishably, instead of
+  quietly serving from a stale cursor. This is the load-bearing one: without
+  it, a replica that fell behind is wrong rather than late, and nothing in the
+  system can tell.
+
+Add one demand-side condition — reads are **whole-object and frequent**, so
+per-read fetches against the authority would flood it — and the local replica
+stops being a second synchronization protocol and becomes the read model. The
+consumer keys a map by object identity, applies the log to it, and swaps a
+freshly built map in atomically at the end of each initial load so no reader
+ever observes a half-populated world.
+
+Note what the discriminator is not. It is not "the payload is complete
+enough", and it is not "the connection is usually reliable". A bus whose
+delivery is at-most-once and whose ordering holds per hop rather than
+globally fails the first two clauses outright, and the third and fourth do not
+even apply — which is why the default in this subject stays where it is.
+Sources that meet all four exist and are recognizable: the change streams
+published by cluster control planes, where the log, the resumable position,
+the bounded initial read and the desync signal are all part of the published
+contract. The replicating side of that boundary — the log-shaped source, the
+resynchronization state machine, the completeness gate a consumer waits on
+before doing work — is owned by the control-plane subjects, not by this one.
+This subject owns the side where the guarantees are absent, and there the
+answer remains invalidation.
+
 ## Anatomy: three legs, one spine
 
 A grown application's event plumbing has three distinct legs, and conflating

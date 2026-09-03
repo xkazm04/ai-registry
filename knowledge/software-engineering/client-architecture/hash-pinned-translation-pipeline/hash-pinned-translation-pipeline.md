@@ -232,7 +232,7 @@ kind in two languages, which is what makes the exact comparison possible at
 all. Use that subject for prose that *describes* a system; use this one for
 prose that *is another prose's translation*.
 
-[Artifact signing](../../security/signed-artifacts/techniques/canonical-hashing.md)
+[Artifact signing](../../security/code-provenance/signed-artifacts/techniques/canonical-hashing.md)
 hashes content too, and the difference is the threat model rather than the
 arithmetic. There the hash is adversarial — it proves nobody tampered, so it
 needs collision resistance, a canonical byte form robust against a hostile

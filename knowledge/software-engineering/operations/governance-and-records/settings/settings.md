@@ -11,6 +11,7 @@ techniques:
   - inherited-default-override
   - settings-audit-and-history
   - save-experience
+  - cross-source-precedence-chain
 ---
 
 # Settings & preferences
@@ -162,6 +163,29 @@ divergence discipline, the evaluate-only-at-user-interaction constraint, and the
 three cases where a visible third state is genuinely earned are
 [inherited-default-override](./techniques/inherited-default-override.md).
 
+## And some values arrive from one of several sources
+
+An inherited default is one key following one source. A different shape
+appears wherever a single build must run in more than one environment without
+being told which: the *whole* configuration can arrive from any of several
+independent sources — an explicitly named file, a path supplied by the
+environment, an ambient identity the execution environment injects, a constant
+compiled into the binary — and the process must resolve them in a **declared
+precedence order** at boot. Each source may be partial, or present and
+unreadable, and the order is the contract.
+
+Two rules make the difference between a chain and a coincidence. A source that
+is *absent* is skipped and the chain continues; a source that is *present and
+malformed* stops it, because falling past a broken source is how a mistyped
+line in the operator's own file becomes a process running happily against a
+different target with nothing logged. And the resolution records **which
+source answered** — the provenance is the only thing that makes "this value is
+wrong on that host" a question with an answer rather than an excavation. The
+ordering discipline, the composition choice (whole-object versus per-key
+layering), the keep-every-failure rule when the whole chain comes up empty,
+and the boundary against inherited defaults are
+[cross-source-precedence-chain](./techniques/cross-source-precedence-chain.md).
+
 ## Stale keys are reaped
 
 Every registered key names its lifecycle
@@ -205,7 +229,7 @@ surface that has outgrown scrolling. These are
 - **Ledger discipline** — append-only writes, retention, querying — belongs
   to [audit-logging](../audit-logging/audit-logging.md).
 - **Secrets are not settings.** Credentials, tokens, and anything deserving
-  encryption live in the [credential-vault](../../../security/credential-vault/credential-vault.md);
+  encryption live in the [credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md);
   a settings store is plaintext by design and must refuse the temptation to
   hold "just one API key". If a value would be redacted in a log, it does not
   belong here.
@@ -230,3 +254,7 @@ surface that has outgrown scrolling. These are
   category-tagged change records, history surfaces, recent-change visibility.
 - [save-experience](./techniques/save-experience.md) — debounced honest saves,
   unsaved guards, settings search.
+- [cross-source-precedence-chain](./techniques/cross-source-precedence-chain.md)
+  — configuration resolved across several partial sources in a declared order:
+  absent skips and malformed stops, provenance per resolved value, every
+  failure kept when the chain comes up empty.

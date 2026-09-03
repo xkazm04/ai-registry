@@ -54,7 +54,7 @@ actually undergo
    the extension the message asks for, rather than trusting a timestamp the
    sender computed. If the message must carry an absolute deadline instead, see
    [a deadline is not portable between
-   clocks](a-deadline-is-not-portable-between-clocks.md) before comparing it.
+   clocks](./a-deadline-is-not-portable-between-clocks.md) before comparing it.
 2. **Apply with a maximum, under whatever protects the entry**, so that
    concurrent renewals for the same item cannot interleave a read and a write.
    A read-modify-write without that protection loses one of two simultaneous

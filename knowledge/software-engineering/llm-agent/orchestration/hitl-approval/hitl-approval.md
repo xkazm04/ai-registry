@@ -16,6 +16,7 @@ techniques:
   - fail-loud-classification-default
   - fixed-policy-amendable-plan
   - oracle-before-gate
+  - truncated-verdict-space
 ---
 
 # Human-in-the-loop approval
@@ -44,6 +45,21 @@ They share everything that matters — the pending state, the decision surface,
 the durable record, the continuation — which is why they are one subject and
 not two. A system that builds them separately builds the same machinery twice
 and then lets the two copies disagree about what a decision means.
+
+Both flows assume the machine holds an opinion worth acting on. There is a
+**placement** that is neither of them — not a further flow, because it adds no
+machinery — in which it does not: the automated assessor is given no positive
+verdict to produce at all. Every branch of its policy resolves to error or to review,
+including the clean one, and the admitting outcome is minted only by a human
+decision naming an exact revision. That is not a strict consent gate, and the
+difference is the payload rather than the strictness: a consent gate stands in
+front of a positive outcome that exists and can therefore be talked past,
+misconfigured, or click-throughed, while here the outcome does not exist and
+the machine has no expression for yes. Truncate the verdict space when a false
+positive is an *admission* to a trust boundary rather than a recoverable
+mistake, and accept that throughput is thereafter bounded by human decisions —
+no volume of clean assessments can relieve it
+([truncated-verdict-space](./techniques/truncated-verdict-space.md)).
 
 ## A third flow: the human does the work
 
@@ -331,3 +347,11 @@ the machine with nobody ever having seen it.
 - [fixed-policy-amendable-plan](./techniques/fixed-policy-amendable-plan.md) —
   the fourth flow: the executor's scope split by write authority, so a route
   change records itself and only a boundary change reaches a human.
+- [oracle-before-gate](./techniques/oracle-before-gate.md) — verifiability as
+  the second axis beside consequence: name what the reviewer compares the
+  output against before arming the gate, and the repairs when nothing can be
+  named.
+- [truncated-verdict-space](./techniques/truncated-verdict-space.md) — the
+  assessor with no positive arm: when to delete the machine's yes rather than
+  defend it, the throughput cost that never goes away, and the obligation to
+  mark the unreachable branch.

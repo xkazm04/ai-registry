@@ -179,3 +179,6 @@ the same rewrite; the composed failure reads as a product defect) and
 honesty and lacked the *criterion* half; the mandatory inversion is that gating on
 the strictest criterion measures compiler-synthesized decisions the source never
 wrote).
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+Application `rust--suite-partitioning` against a control-plane client library@1.89: unit / integration-behind-a-feature / e2e-behind-a-live-cluster, the ladder in its contributing guide (heading at line 86, MUST rules 98-103, least-powerful rule 105). The same ladder became the practice `least-powerful-test-first`.

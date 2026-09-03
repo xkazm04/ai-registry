@@ -9,6 +9,7 @@ techniques:
   - vacuous-by-evaluation
   - blocking-by-input-determinism
   - ratchet-design
+  - counted-set-snapshot
   - gate-liveness
   - hook-hygiene
   - false-positive-economics
@@ -340,8 +341,21 @@ violations; celebrating that number buries the instrument failure inside
 good news ([failure-not-empty-success](../../../_laws.md#failure-not-empty-success)).
 Improvements are welcomed by re-baselining as a deliberate, reviewed diff —
 the baseline file is the metric's audit log. Baseline mechanics, bucketing,
-and the endgame (a ratchet that reaches zero graduates into a hard ban) are
+the endgame (a ratchet that reaches zero graduates into a hard ban), and the
+one boundary on "never auto-update" — a metric only a build can produce,
+where the pipeline regenerates the baseline and the diff becomes a mandatory
+review artifact instead of a gate — are
 [ratchet-design](./techniques/ratchet-design.md).
+
+Both halves of that structure assume the baseline says enough to be
+compared against. A baseline of *totals* is silent about substitution: swap
+one counted item for another, or change an item's content without changing
+how many there are, and every reading stays green while the committed
+artifact quietly stops describing the system. What the baseline must
+additionally hold — a normalised, per-bucket map from each counted item's
+identity to its multiplicity, folded hard enough that incidental churn does
+not diff and loosely enough that a real substitution does — is
+[counted-set-snapshot](./techniques/counted-set-snapshot.md).
 
 ## A gate that cannot prove it ran has not run
 
@@ -526,8 +540,13 @@ is asked to refuse something.
   debt-shaped vs input-shaped advisory, splitting a bundled invocation, and
   the written promotion trigger.
 - [ratchet-design](./techniques/ratchet-design.md) — committed baselines,
-  fail-on-rise and fail-on-silent-drop, reviewed re-baselining, and
+  fail-on-rise and fail-on-silent-drop, reviewed re-baselining, the one
+  auto-updating baseline that stays honest and its three preconditions, and
   graduating to a ban.
+- [counted-set-snapshot](./techniques/counted-set-snapshot.md) — what a
+  total cannot see, the normalised per-bucket identity map committed beside
+  the count, the normalisation rule that folds churn without folding
+  substitutions, and the two artifacts' complementary blind spots.
 - [gate-liveness](./techniques/gate-liveness.md) — instrument assertion,
   portability, chain-abort ordering, and proving a gate red before
   trusting it green.

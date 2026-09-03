@@ -46,7 +46,7 @@ The asymmetry from the golden path becomes policy here:
   direction of the pipeline.
 
 Cloud engines mean credentials, and credentials mean the
-[credential-vault](../../../../security/credential-vault/credential-vault.md) discipline:
+[credential-vault](../../../../security/identity-and-access/credential-vault/credential-vault.md) discipline:
 keys held in the vault, attached at the engine adapter's egress, never
 present in surface code or logs.
 

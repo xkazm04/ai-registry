@@ -5,9 +5,9 @@ subject: agent-runtime-assembly
 technique: operator-tier-code-loading
 status: forged
 stage: team
-laws: [one-validation-door, failure-not-empty-success, verdict-survives-boundary]
+laws: [one-validation-door, failure-not-empty-success, verdict-survives-boundary, one-authority-per-vocabulary]
 shared_with: []
-use_when: [deciding which configuration file may name code to load, a broken extension takes the host down, a contributed hook's timeout ends the run as cancelled, choosing whether a load failure is fatal]
+use_when: [deciding which configuration file may name code to load, a broken extension takes the host down, a contributed hook's timeout ends the run as cancelled, choosing whether a load failure is fatal, deciding whether a sandbox lets administrators install code through the product]
 ---
 
 # Operator-tier code loading
@@ -35,6 +35,7 @@ repositories. They are about **who can write the configuration**:
 | --- | --- | --- |
 | **startup configuration** | the operator, with access to the process's host | yes |
 | **service-writable configuration** | any authenticated administrator, through the service's own interface | never |
+| **service-writable, isolated** | any authenticated administrator, through the service's own interface | only when all four conditions below hold |
 
 The second tier exists in every runtime with a settings interface: an
 administrator enables a tool server, adjusts a threshold, installs a skill.
@@ -51,6 +52,76 @@ that names code has exactly one writer, and that writer is not the service.
 The test is mechanical: write a code-naming key through the service's
 interface and confirm the runtime does not load it. A runtime that passes
 this test can be administered remotely; one that fails it cannot.
+
+## The third row: the second row's justification is a precondition
+
+Read the second row's justification again — *there is no protocol boundary
+here and no process boundary; the isolation story the tool protocol offers
+across a wire is unavailable in the host's own address space*. That is not a
+universal truth about administrators; it is a statement about a particular
+host, and it can be false. A host that has acquired an isolation primitive —
+a runtime that executes contributed code in a container of its own with the
+host's memory, time and syscall ceilings applied to it — has the boundary the
+second row says is missing. Where the precondition fails, the rule inverts:
+an administrator MAY install code through the product's own interface, and a
+runtime that still refuses is paying the second row's cost without owning the
+second row's problem.
+
+The inversion is conditional on four things, and their value is that they are
+**joint**. Each one, alone, is a control that the other three's absence
+defeats; a host that implements three of them has not implemented
+three-quarters of this rule, it has implemented none of it. State them as one
+gate:
+
+1. **An isolation primitive exists and the contributed code actually runs
+   inside it**, with the host's resource ceilings applied to that instance
+   rather than to the host as a whole. Without this the other three are
+   paperwork: a declaration, a consent screen and an upgrade gate describe
+   what code intends to do while the code runs with the host's own
+   privileges and can do anything.
+2. **The privileges are declared in a manifest that is the same artifact the
+   runtime enforces against.** One declaration, read by both the install
+   surface and the sandbox — never a document describing the intent beside a
+   separately maintained switch that grants it
+   ([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)).
+   Without this the two copies drift the day someone adds a privilege, and
+   they drift in the direction that grants more than the screen showed: the
+   consent an administrator gave stops describing what the code can do, and
+   nothing reports the divergence.
+3. **The administrator sees those privileges and consents at install time.**
+   Enforcement without disclosure produces a correctly sandboxed extension
+   nobody chose to trust; the sandbox then bounds the blast radius without
+   ever having asked whether the blast was wanted. Consent is what converts
+   a technical ceiling into an accountable decision, and it is the step that
+   makes a later incident attributable to a person rather than to a default.
+4. **A privilege *increase* on update is a separate, explicit gate**, not a
+   line item inside the update. Without it the whole chain is a one-time
+   formality: an extension is installed at a modest privilege set, consented
+   to, and then raises itself on the next version through a path the
+   administrator experiences as routine maintenance. The gate fires on the
+   *delta*, and only upward — an update that narrows its privileges needs no
+   ceremony, and requiring it teaches administrators to click through the
+   one that matters.
+
+State the residual honestly, because it is the part a product page will
+leave out. **The isolation primitive's guarantees are the ceiling on all
+four.** Everything above is a claim about what the contributed code cannot
+reach, and that claim is exactly as strong as the container enforcing it. A
+host whose runner bounds wall time and nothing else is making a materially
+weaker promise than one whose runner bounds CPU and memory: the first can be
+saturated by a contribution that spends the whole budget computing rather
+than waiting, and it cannot say otherwise. The difference is not an
+implementation detail to be discovered by an operator under load — it is part
+of the tier rule, so the host publishes which ceilings its runner actually
+enforces, in the same place it tells an administrator that installing code is
+permitted here.
+
+What this section states is the *tier rule* and nothing more: when the second
+row's prohibition lifts, and what must hold together for it to lift. The
+mechanisms behind each condition — how the sandbox is built, how a manifest is
+verified, how privileges are represented and revoked — belong to the subject
+that owns hosting third-party extensions, and a runtime adopting the third row
+takes them from there rather than reinventing them at the assembly layer.
 
 ## Load order is deterministic and load failure is attributed
 
@@ -192,6 +263,12 @@ technique.
 - Load code only from the startup configuration tier; ignore, with a
   diagnostic, any code-naming key arriving through the service-writable
   tier. Test it by writing one.
+- Lift that prohibition only when all four third-row conditions hold
+  together — real isolation with the host's ceilings, one manifest that is
+  both the disclosure and the enforcement input, consent at install, and a
+  separate gate on any upward privilege change — and publish which resource
+  ceilings the runner actually enforces, because they are the ceiling on the
+  whole arrangement.
 - Load in declared order, never enumerated order.
 - Default a load failure to skip-with-attribution; make it fatal only for an
   extension the operator marked required, and make required opt-in.

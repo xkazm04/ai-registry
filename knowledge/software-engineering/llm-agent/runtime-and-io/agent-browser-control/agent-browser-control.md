@@ -166,7 +166,7 @@ rate-capped so the log itself is not a denial-of-service target. That is
 [socket-scoped-surface](./techniques/socket-scoped-surface.md).
 
 Two boundaries sit close to this one and stay outside it.
-[browser-credential-boundary](../../../security/browser-credential-boundary/browser-credential-boundary.md)
+[browser-credential-boundary](../../../security/data-and-transport/browser-credential-boundary/browser-credential-boundary.md)
 is about a web application's shipped bundle holding credentials — a different
 force. This subject touches credentials in one place only: importing a person's
 cookies into the agent's browser, which must read a copy of the store rather

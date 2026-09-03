@@ -1138,3 +1138,80 @@ The stage that actually moved is **Phase 7, the source-tree applications**. Four
 **The 2.x series, in one cell, for the publish decision:** subjects 5, techniques 47, amendments 11, studies 5, source-tree applications 25, proposals 12 (**all written to an unread path — see this row**), rules supplied mid-run 1 (round 2), director redos 0, worker deaths 3 (all resumed, none re-dispatched).
 
 **Next run's declared focus (round 6):** (1) **Fix the directions lane before writing another proposal.** Phase 7.6 must resolve the target directory from the project's own manifest/convention, not from a hardcoded `.ai/directions/`; a proposal written where the project cannot see it is worse than none, because the scorecard counts it. Check: does the run's proposal land in a directory the project's own tooling enumerates? (2) **A `[V]` anchor mark is a claim, not a verification.** Front-half readers marked two nonexistent line ranges `[V]`. Either the mark means the reader opened the file *and* the range is within EOF (cheap to check with `wc -l`), or downstream workers must re-open every anchor they use — round 5 got the second for free and should not rely on it. Check: how many `[V]` anchors did a downstream worker have to correct. (3) Keep resume-not-re-dispatch, the per-system routing count, and the seam-chosen-to-falsify rule, which produced all four `not-better` rows.
+| 2.3.1 | 2026-09-03 | `kube-rs` (**vendor repository, foundation-hosted**; 1,431 landing / 19.9k in-tree md of which 16.4k changelog / **49.6k words of doc comment swept as the docs tier**; **round 5, every worker Opus, two operator-named dimensions**) | 1 | 26 (12 design + 14 craft) | 22 (per system A2/B1/C0/D1/E2, no system at three; HOME-IF-NEW 4 on A3+A4+D1+E1, reached twice independently; the director created `operations/control-plane-operations` and widened to three subjects) | **3 subjects** (14 techniques, 3 applications) + **2 techniques** in existing subjects + **4 amendments** (one by convergence of two peer-study sightings, landed by the director) + **3 craft applications** + **2 practices** | **2 rows: 0c/0e/0s/1t + 1 unapplied group of 15** (task better) | **1** - branch of the clone (`b839c0a`, `cargo test` 4 passed, clippy clean), patch exported, clone deleted | **Focus applied:** (1) waiting at Phase 1 = **0 / 11 rows** after the first gate, so the cap did not bind; this run raises 11 new proposals across four projects for the gate. (2) No worker failure this round; one worker overwrote an existing application and restored it byte-identically (director verified an empty diff) - a rule for the forge brief: never write to a slot without listing the directory first. (3) Series cell for the publish decision below. Seven parallel Opus workers plus one task worker; director redos 0; rules supplied mid-run 0 | **S3/T16/A2(+1 convergence)/Asrc7/practices 2/task-lines 1 file · routing=HOME-IF-NEW 4 · handoff=yes (3 scoped, same session) · directions=11 proposals + 4 studies (119 points, 15 seeds corrected) · waiting=0/11** |
+
+**The 2.x series in one cell, for the publish decision after round 5:** rounds 1-5 over five repositories (gstack, hermes-agent, portkey-gateway, lightrag, kube-rs): **subjects 7** (one new subcategory), **techniques 52**, **amendments 16**, **source-tree tasks 4** (all better, all exported as patches, all clones deleted), **peer studies 8** over five projects (**~285 points**, ~30 seeded points corrected against the trees), **proposals 23** (11 gated: 9 accepted, executed and merged; 2 declined; 11 waiting), **rules supplied mid-run 1** (round 2), **director redos 0**, **worker failures 1** (resumed, not re-run). Every worker Opus from round 2 on; the director reviewed by gate, purity grep, `use_when`, link depth and one opened citation per deliverable.
+
+**Next run's declared focus (round 6, if the operator continues past the publish decision):** (1) The forge brief gains the list-before-write rule (an application slot is claimed by listing the directory, never by slug alone). (2) The class rule for repositories whose docs are doc comments: the Phase 2b sweep counts `///` words against `*.md` words and swaps the tier order when the former dominates - written into `references/source-classes.md` this Phase 11. (3) The fleet finding: gravitone must enter `projects.json` with a manifest before the next direction pass, or the strongest cluster-side peer stays invisible.
+
+| 2.2.0 | 2026-09-02 | `gemini-3-8-flash` (**vendor release announcement**, 1,287 words; mined as a news run AND a fleet-wide currency sweep because the operator's ask had a second half) | 1 | 11 | 2 verified (both promoted from `partial` by executing the promoting question against real fleet code, which is where both corroborations came from) | **0 subjects / 0 techniques / 2 amendments / 2 applications** - correct for the class; the corpus already owned both mechanisms and the findings were boundary cases | **2 rows: 1c/0e/0s/1t** (code better ab-paired; task unmeasurable, instrument named) | **7** - seven projects, seven commits, none pushed | **Focus applied:** ran on 2.2.0, no rule had to be supplied mid-run. Directions ledger check (focus item 2, counted not assumed): **30 proposals across six projects, 11 ledger rows** - personas 7/3, tracklight 8/3, pumper 6/1, kp 4/0, politicas 4/3, pof 1/1. **This refutes round 3's worry**: owners have decided on roughly a third, so the pass is not outrunning them and the cap does not return. kp is the one project with proposals and no ledger at all. The one thing the director did that a worker could not: refuse three bumps on the projects' own recorded evidence, which needed reading four trees against one release note | **S0/T0/A2/Asrc0/task-lines 2 files · routing=n/a (not a repository) · handoff=no · directions=n/a** |
+
+**The funnel over the last ten rows, read after this one.** This row is the first
+2.x round on a **non-repository** source, and it is the control the depth column
+needed: S0/T0/A2 is the *correct* shape for a 1,287-word vendor announcement, not a
+routing miss, and reading it beside the repository rounds (S1/T6, S1/T13, S1/T7)
+shows the depth column measuring the source rather than the run. Ship is 7 - the
+highest in the series - and it did not come from the post. It came from the second
+half of the operator's ask, a fleet-wide grep that turned one release note into nine
+projects' worth of dated facts. **The stage that moved is ship, and the mechanism was
+a sweep, not a landing.** Both corroborations came from fleet code rather than from
+the web, which is the third consecutive round where the corpus and the trees
+corroborated each other and the fetch budget was nearly idle - except here it was not
+idle, it was *the extraction*, because a release note does not carry an API
+identifier. Directions is answered and healthy (30/11); it leaves the watch list.
+
+**Next run's declared focus (round 5):** (1) **A sweep is a first-class run shape and
+the method does not describe it.** This run had no Phase for "the operator named a
+fact and asked which trees hold it", so it improvised: enumerate the seam, classify
+each hit as active-default / historical-data / measured-baseline / normalization-rule,
+and refuse the ones the tree's own record refuses. Three of nine projects declined on
+their own evidence and those refusals outranked every edit. Write it up as a lane, or
+confirm over one more sweep that Phase 7.5 plus Phase 8 already cover it. (2) **A
+capability check before shipping outranks the fetch budget** - this run went to 4 of 3
+to avoid swapping a vision seam against undocumented modalities, and would do it
+again. Either the budget carves out pre-ship capability checks or it stays a soft
+limit that runs are expected to break with a recorded reason. (3) Keep the per-system
+count and the source-tree task rule; keep Opus for every worker phase.
+| 2.2.0 | 2026-09-03 | `emdash` (**vendor repository, design-deep**; 1,334 landing / 346,746 in-tree md / 57,514 lines TS; 20 packages, 5 apps, 9 agent skills; operator framing "architecture, not product") | 1 | 58 (32 design + 26 claim) | 16 (per-system routing A2/**B5**/**C6**/D0/E1 — two systems fired independently; nothing declined, all 16 operator-picked at the gate) | **2 subjects** (`untrusted-extension-host` 7t, `decentralized-artifact-distribution` 6t) + **10 techniques** in 8 existing subjects + **5 amendments** + **6 source-tree applications** + 3 fleet/registry applications | **5 rows: 1c/0e/2s + 2 unapplied groups** (code better; simulation better; simulation **not-better**) | **1** — `scripts/run-board.mjs` on this registry, committed `ce2256ae` | **Focus applied.** Directions waiting at Phase 1 = **10 / 10 ledger rows**: the 2026-09-03 multi-select gate had cleared the whole backlog (7 accepted, 3 declined), so the round-5 cap condition did not fire and the pass ran uncapped — it simply had nothing admissible. No worker failed, so the `[H]`/`[V]` resume rule was exercised only as a convention (every design-read worker marked anchors and one marked an entry `unresolved` rather than deciding it). **The director's one job a worker could not do: catch two of its own errors.** An arm-B draft that was *worse* than arm A for a live run holding a short lock (the fifth control caught it), and a fabricated version witness — both my applications cited a `package.json` engines floor for a repository that **has no `package.json` at all**; corrected to the CI pin with a note that it attests what the gates run on, not what the scripts require. A third: my `use_when` completeness check used `grep -L` with `-q` and reported every file missing; the workers were right and the instrument was broken. | **S2/T23/A5/Asrc6/task-lines 0 · routing=B:5, C:6 per-system (whole-tree 14, not read) · handoff=yes (2, both scoped, both executed in-session) · directions=0/1 (1 real candidate found, tree not authorized)** |
+
+**The funnel over the last ten rows, read after this one.** Five 2.x rounds now sit
+beside the 1.x rows: S1/T6, S1/T13, S1/T7, S1/T10, and this one at **S2/T23** — the first
+run to forge two subjects, and the first where two systems fired the routing clause
+*independently* inside one repository. That is the per-system count doing exactly the work
+round 2 added it for: a whole-tree count would have read 14 NONE and dispatched a
+repository-wide scout wave; per system it read B:5 and C:6 and produced two scoped
+handoffs with a stated boundary between them. Extract→Test at 16/58 is not looser triage,
+it is three clusters routed to three homes.
+
+**Apply is the stage that moved, and the interesting row is the rejection.** Five rows,
+1 code / 2 simulation / 2 unapplied groups, and for the first time in the 2.x series the
+code row landed on a real defect in the registry's own instrument rather than on a source
+clone: a lock whose reclaim read the clock instead of the owner, wrong in both directions,
+caught because the technique's derived rule named the failure precisely enough to test.
+The `not-better` row against kp is the most valuable artifact of the run — the technique
+had been polarised too narrowly, and a fleet project that had independently solved the
+same problem *at the other end* supplied both the correction and a second mechanism
+(re-derive the truncation at the apply boundary). Four rows in six runs have now been
+rejections, and every one produced an amendment the source could not have.
+
+**The stage still not moving is directions: 0 proposed, and honestly so.** The forged
+subjects' forces — hosting code you did not write, distributing to strangers — are absent
+from all eleven managed projects, which is a fact about the fleet and not a miss. But the
+pass did find one real latent defect (`politicas`, a module-scope memoised promise on a
+runtime that tears down request contexts) and could not write it, because the operator's
+ship scope named two other trees. That is a new failure mode for this lane: the direction
+pass and the ship-scope question are asked at different times and answered independently,
+so a candidate found at 7.6 can be unreachable because of an answer given at Phase 5.
+
+**Next run's declared focus (round 6):** (1) **Ask the ship-scope question to cover Phase
+7.6, not only Phase 7.5.** The triage prompt asks which trees may be touched "if an apply
+row comes back better"; a direction proposal is also a tree write, and this run found a
+real one it could not deliver. Widen the question's wording, or ask a second time at 7.6
+when a candidate is found — and record which. (2) **Three consecutive rounds have now
+blocked technique-grain directions on subject-grain map resolution** (3 this run). Round 1
+said a second sighting would earn a `techniques_absent` list in the fleet map; there have
+now been three. Build it, or write down why not. (3) Keep the per-system count, the
+source-tree application rule, and Opus for every worker phase. **The check the next row
+should make:** did a direction candidate go unwritten for a reason other than its own
+merits, and did the run measure one corpus-suggested instrument against a real tree — this
+run did (the A/B on its own lock) and it changed the technique.
