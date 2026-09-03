@@ -226,6 +226,30 @@
             "data-plane-transport-selection",
             "correlated-exchange-over-broadcast"
           ]
+        },
+        {
+          "id": "data-pipeline-semantics",
+          "title": "Data-pipeline semantics",
+          "subjects": [
+            "self-describing-data-envelopes",
+            "reversible-transform-pipelines",
+            "deferred-operation-fusion",
+            "keyed-sample-transforms",
+            "deterministic-prefix-caching"
+          ]
+        },
+        {
+          "id": "model-workflow-contracts",
+          "title": "Model workflow contracts",
+          "subjects": [
+            "self-describing-model-packages",
+            "declarative-object-graph-configs",
+            "workflow-property-contracts",
+            "windowed-inference-over-oversized-inputs",
+            "generated-workflow-candidates",
+            "federated-client-contracts",
+            "accumulate-then-aggregate-metrics"
+          ]
         }
       ]
     },

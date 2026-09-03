@@ -19,7 +19,7 @@ The helper takes a module name and returns a pair: the module and a boolean. Whe
 
 Two rules keep the mechanism honest, and both are stated as contributor obligations:
 
-- **The minimal install is proven, not declared.** A minimal-requirements test runner carries an explicit exclusion list of every test module that needs an extra (190 entries at this commit). A new test that needs a third-party package must either skip itself on the boolean or be added to that list, and the minimal lane runs in CI. That lane is the instrument that would catch an optional import promoted to a hard one.
+- **The minimal install is proven, not declared.** A minimal-requirements test runner carries an explicit exclusion list of every test module that needs an extra (189 entries at this commit). A new test that needs a third-party package must either skip itself on the boolean or be added to that list, and the minimal lane runs in CI. That lane is the instrument that would catch an optional import promoted to a hard one.
 - **The stand-in must not retain the failure's traceback.** The 1.6.0 changelog records a memory leak in exactly that path: keeping the exception object alive kept its frame chain alive. The fix says something about the design — a deferred failure is a long-lived object, and what it holds is held for the process's lifetime.
 
 ## What the tree says about the technique

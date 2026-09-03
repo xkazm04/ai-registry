@@ -1,7 +1,7 @@
 ---
 subject: optional-dependency-degradation
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -154,3 +154,17 @@ record - the one of eleven whose forces this golden path already states (catch).
 obligation the technique does not state and the tree does: a lane that runs with the
 dependency absent. Candidate amendment, not written this run - the handoff's forge wave
 reconciles against this application.
+
+
+## 2026-09-03 - forge wave forge-monai-0903 (EXTENDS, +1 technique)
+
+`minimal-install-test-lane` added, taking the subject to nine techniques: the minimal
+install is proven by a lane that runs with every optional dependency absent, over an
+exclusion list that polices its own staleness (no duplicates; every entry must match a
+real test file); the deferred-failure proxy is shaped for the missing symbol's syntactic
+role, and a long-lived deferred failure must not retain the live traceback. Upward
+lessons: the lane imports every submodule before collecting tests; the proxy intercepts
+item access and iteration too; hardware extras need an executing probe; a base-class
+role needs a stand-in class whose constructor raises. Deviation: the stale-entry check
+indexes a list before asserting, so a no-match entry raises unnamed. The reconciliation
+target `python--guarded-singleton-accessor` gained one count correction (189 entries).

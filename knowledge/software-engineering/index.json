@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 183,
-  "techniques": 1310,
-  "applications": 750,
+  "subjects": 195,
+  "techniques": 1382,
+  "applications": 775,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1310/1310",
+  "use_when_coverage": "1382/1382",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -150,6 +150,98 @@
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/applications/react--preference-respect.md",
      "verified_on": "2026-08-29",
      "verified_against": "react@19"
+    }
+   ]
+  },
+  "accumulate-then-aggregate-metrics": {
+   "category": "backend-platform",
+   "subcategory": "model-workflow-contracts",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/accumulate-then-aggregate-metrics.md",
+   "digest": "sha256:ecf3a75e02158b70",
+   "techniques": [
+    {
+     "slug": "detached-buffer-reads",
+     "status": "forged",
+     "laws": [
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "accelerator memory rises linearly across a validation pass",
+      "two readers of one metric disagree",
+      "a downstream step modifies what a metric handed it"
+     ]
+    },
+    {
+     "slug": "lazy-rank-synchronization",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an evaluation runs on several processes and reports one figure",
+      "a distributed run hangs at the end of validation",
+      "per-process figures are being averaged"
+     ]
+    },
+    {
+     "slug": "nan-as-undefined-not-zero",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a per-class score falls as a class becomes rarer",
+      "a reference mask is empty for some classes in some samples",
+      "a best-so-far comparator sees a not-a-number"
+     ]
+    },
+    {
+     "slug": "per-iteration-buffering",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a metric is computed inside a batch loop and reported once",
+      "two handlers read the same metric and see different numbers",
+      "a set-level metric is being averaged from per-batch versions of itself"
+     ]
+    },
+    {
+     "slug": "reduction-axis-vocabulary",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a metric takes a boolean mean flag",
+      "a caller wanted per-class figures and got a scalar",
+      "a configuration file names a reduction as a string"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "lazy-rank-synchronization",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/applications/python--lazy-rank-synchronization.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "nan-as-undefined-not-zero",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/applications/python--nan-as-undefined-not-zero.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -7387,6 +7479,115 @@
     }
    ]
   },
+  "declarative-object-graph-configs": {
+   "category": "backend-platform",
+   "subcategory": "model-workflow-contracts",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/declarative-object-graph-configs/declarative-object-graph-configs.md",
+   "digest": "sha256:614255c047c3631e",
+   "techniques": [
+    {
+     "slug": "directive-key-namespace",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a config node mixes constructor arguments with instructions to the loader",
+      "a node must be switched off by an override without deleting it",
+      "a node depends on another that no argument carries",
+      "a constructor has a parameter whose name collides with a loader keyword"
+     ]
+    },
+    {
+     "slug": "escape-hatch-expressions",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a config value must be computed from other config values",
+      "deciding whether a config format may contain evaluated code",
+      "a config file will be loaded from a source the operator does not control",
+      "the reference-in-expression mechanism is implemented as string replacement"
+     ]
+    },
+    {
+     "slug": "merge-vs-override-marking",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "layering a second config file or a set of command-line assignments over a base config",
+      "an override file has to restate a whole list to add one element",
+      "two override files both need to extend the same mapping",
+      "deciding what happens when an override's type differs from the base's"
+     ]
+    },
+    {
+     "slug": "reference-resolution-with-cycle-detection",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the resolver that turns config ids into instances",
+      "a config load hangs or overflows the stack with no useful message",
+      "deciding what happens when a config references an id that does not exist",
+      "an inspection tool needs to read a config it does not intend to run"
+     ]
+    },
+    {
+     "slug": "sigil-grammar-over-schema",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a config format needs a way to say \"this value is a reference\" without a schema per key",
+      "a string value that starts with a special character is ambiguous between literal and reference",
+      "adding a second non-literal semantic (expression",
+      "macro) to a format that already has one"
+     ]
+    },
+    {
+     "slug": "textual-macro-prepass",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a config file needs to include a fragment of another file",
+      "a reference must point at a sibling or parent node without spelling its absolute path",
+      "the resolver is receiving ids in more than one form"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "escape-hatch-expressions",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/declarative-object-graph-configs/applications/python--escape-hatch-expressions.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "reference-resolution-with-cycle-detection",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/declarative-object-graph-configs/applications/python--reference-resolution-with-cycle-detection.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    }
+   ]
+  },
   "declarative-resource-lifecycle": {
    "category": "operations",
    "subcategory": "control-plane-operations",
@@ -7581,6 +7782,107 @@
      "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/applications/rust--bounded-expansion.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.95"
+    }
+   ]
+  },
+  "deferred-operation-fusion": {
+   "category": "backend-platform",
+   "subcategory": "data-pipeline-semantics",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deferred-operation-fusion/deferred-operation-fusion.md",
+   "digest": "sha256:45b3ca5d4cdb8209",
+   "techniques": [
+    {
+     "slug": "algebraic-op-representation",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a new operation may be deferred",
+      "two pending entries need to be combined into one",
+      "an operation's effect cannot be written as a matrix or a field"
+     ]
+    },
+    {
+     "slug": "compatibility-break-resample",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two pending entries disagree on interpolation or padding or value type",
+      "a fused output differs from the eager one at edges or in label images",
+      "choosing which entry's parameters a fused resample uses"
+     ]
+    },
+    {
+     "slug": "data-dependent-opt-out-flag",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "an operation computes its parameters from the values it is given",
+      "a crop or mask centred on content lands in the wrong place under lazy execution",
+      "deciding whether an operation is eager or merely value-reading"
+     ]
+    },
+    {
+     "slug": "equivalence-oracle-testing",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operation is being declared deferrable",
+      "a lazy pipeline's output is suspected to differ from the eager one",
+      "deciding what tolerance a deferred-equals-eager assertion should use"
+     ]
+    },
+    {
+     "slug": "explicit-barrier-operation",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "an author needs materialization at a specific position in a chain",
+      "choosing between force-lazy and force-eager and honour-each for a pipeline",
+      "an operation's lazy flag is being edited to control where a flush happens"
+     ]
+    },
+    {
+     "slug": "single-flush-decision-point",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where the materialize-now check lives",
+      "an operation saw stale values and nothing raised",
+      "adding a new operation class to a pipeline that defers"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "equivalence-oracle-testing",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deferred-operation-fusion/applications/python--equivalence-oracle-testing.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "single-flush-decision-point",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deferred-operation-fusion/applications/python--single-flush-decision-point.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -8303,6 +8605,115 @@
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/applications/react--token-enforcement.md",
      "verified_on": "2026-08-29",
      "verified_against": "react@19"
+    }
+   ]
+  },
+  "deterministic-prefix-caching": {
+   "category": "backend-platform",
+   "subcategory": "data-pipeline-semantics",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deterministic-prefix-caching/deterministic-prefix-caching.md",
+   "digest": "sha256:6e88046426323f7a",
+   "techniques": [
+    {
+     "slug": "atomic-write-then-move",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "many loader workers may compute the same disk-cache entry at once",
+      "a half-written cache file crashed a later run",
+      "choosing between a lock and a rename for a shared cache directory"
+     ]
+    },
+    {
+     "slug": "capability-marker-boundary-scan",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which stages of a transform chain a cache may memoise",
+      "a stage must opt out of caching without owning a random generator",
+      "a cache that froze augmentation for one user's pipeline"
+     ]
+    },
+    {
+     "slug": "enumerate-the-non-working-cases",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the reference documentation for a caching dataset",
+      "a cache that works in a notebook and does nothing under the production loader",
+      "deciding what a mechanism should say about configurations it cannot detect"
+     ]
+    },
+    {
+     "slug": "hash-inputs-and-pipeline",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "naming the on-disk entry for a cached head output",
+      "a transform parameter changed and the cache kept serving the old output",
+      "writing the docstring for a persistent cache"
+     ]
+    },
+    {
+     "slug": "running-window-replacement",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the cached head output does not fit in memory and the epoch is long",
+      "choosing the replacement fraction for a windowed cache",
+      "a windowed cache whose background thread falls behind"
+     ]
+    },
+    {
+     "slug": "unknown-callable-is-nondeterministic",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a transform chain accepts bare functions or third-party callables",
+      "deciding whether a lambda in the chain may sit inside the cached prefix",
+      "a cache that is wrong for exactly one pipeline"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "atomic-write-then-move",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deterministic-prefix-caching/applications/python--atomic-write-then-move.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "capability-marker-boundary-scan",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deterministic-prefix-caching/applications/python--capability-marker-boundary-scan.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -10694,6 +11105,113 @@
     }
    ]
   },
+  "federated-client-contracts": {
+   "category": "backend-platform",
+   "subcategory": "model-workflow-contracts",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/federated-client-contracts/federated-client-contracts.md",
+   "digest": "sha256:8c52ace21ddcc8ff",
+   "techniques": [
+    {
+     "slug": "contract-driven-hosting",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the initialize and train verbs of a federated client over a workflow contract",
+      "a client's round report disagrees with the trainer's counters",
+      "a client re-creates its workflow every round"
+     ]
+    },
+    {
+     "slug": "delta-or-absolute-exchange",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing whether a site returns full weights or a difference",
+      "a server aggregates weight payloads of mixed kinds",
+      "a divergent site has poisoned a round"
+     ]
+    },
+    {
+     "slug": "graph-neutralization",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provisioned training workflow keeps restoring a local checkpoint over the global weights",
+      "deciding which components of an authored workflow a federated host must switch off",
+      "stating what a site accepts by running an application directory the server sent"
+     ]
+    },
+    {
+     "slug": "lifecycle-verb-interface",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the class a federated platform will host at each site",
+      "porting a site participant from one federated platform to another",
+      "a platform integration is reaching into the participant's internals"
+     ]
+    },
+    {
+     "slug": "payload-filter-chain",
+     "status": "forged",
+     "laws": [
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding differential privacy or compression or encryption to a federated client",
+      "a payload leaves the client by a path the privacy transform does not see",
+      "deciding the order of two outbound transforms"
+     ]
+    },
+    {
+     "slug": "summary-only-egress",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a site may return from a statistics or evaluation call",
+      "sites' histograms cannot be added together",
+      "reviewing an outbound payload for per-record content"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "contract-driven-hosting",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/federated-client-contracts/applications/python--contract-driven-hosting.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "summary-only-egress",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/federated-client-contracts/applications/python--summary-only-egress.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    }
+   ]
+  },
   "feed": {
    "category": "ui-surfaces",
    "subcategory": "data-display",
@@ -11273,6 +11791,112 @@
      "technique": "validation-timing",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/form/applications/react--validation-timing.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "generated-workflow-candidates": {
+   "category": "backend-platform",
+   "subcategory": "model-workflow-contracts",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/generated-workflow-candidates/generated-workflow-candidates.md",
+   "digest": "sha256:1acbb7ef2ada5903",
+   "techniques": [
+    {
+     "slug": "candidates-as-ordinary-artifacts",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a generator returns and what it writes",
+      "designing how a generator persists its own bookkeeping between stages",
+      "reviewing a system whose candidates exist only as objects in one process"
+     ]
+    },
+    {
+     "slug": "score-keyed-candidate-selection",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which trained candidates to keep or ensemble",
+      "choosing between global top-N and per-partition-best",
+      "handling a candidate that finished training without a score"
+     ]
+    },
+    {
+     "slug": "search-as-candidate-mutation",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding hyperparameter search to a candidate generator",
+      "deciding whether a search backend should own candidates or only choose values",
+      "writing the statement of which search strategies a system supports"
+     ]
+    },
+    {
+     "slug": "stage-level-result-caching",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the runner that drives analyze-generate-train-select",
+      "deciding how a crashed run resumes",
+      "exposing a way to force one stage to run again"
+     ]
+    },
+    {
+     "slug": "template-filling-with-provenance",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the step that turns a template and a statistics file into a candidate",
+      "deciding what a generated configuration should record about its own origin",
+      "adding a template that does not fit every dataset"
+     ]
+    },
+    {
+     "slug": "two-tier-data-statistics",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the analysis stage a generator reads before it decides anything",
+      "choosing the keys a statistics file exposes to templates",
+      "adding a new measurement to an existing analyzer"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "stage-level-result-caching",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/generated-workflow-candidates/applications/python--stage-level-result-caching.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "template-filling-with-provenance",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/generated-workflow-candidates/applications/python--template-filling-with-provenance.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -12715,6 +13339,104 @@
      "technique": "narrate-dont-rescore",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/applications/process--narrate-dont-rescore.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "keyed-sample-transforms": {
+   "category": "backend-platform",
+   "subcategory": "data-pipeline-semantics",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/keyed-sample-transforms/keyed-sample-transforms.md",
+   "digest": "sha256:7084a80ffcb15e23",
+   "techniques": [
+    {
+     "slug": "array-and-keyed-dual-forms",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a transform to a library that has both single-value and dictionary callers",
+      "a keyed transform whose behaviour has drifted from its single-value twin",
+      "deciding where a new transform parameter belongs"
+     ]
+    },
+    {
+     "slug": "missing-key-policy",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a keyed transform meeting a sample without one of its keys",
+      "running a training chain on inference samples that have no label",
+      "inverting a keyed chain over a dictionary with fewer keys than the forward pass"
+     ]
+    },
+    {
+     "slug": "multi-sample-fan-out",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a patch sampler that returns several samples from one",
+      "a transform downstream of a sampler receiving a list instead of a dictionary",
+      "inlining a nested chain into its parent",
+      "a transform that consumes a list of samples and returns one"
+     ]
+    },
+    {
+     "slug": "pass-through-of-unlisted-keys",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a field present at the head of a chain is missing at its tail",
+      "writing a keyed transform's output construction",
+      "a transform that emits a new dictionary rather than editing the one it received"
+     ]
+    },
+    {
+     "slug": "single-draw-per-sample",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a random augmentation over a dictionary with an input and a label",
+      "a label that no longer aligns with its image after augmentation",
+      "designing the randomisation interface of a single-value transform"
+     ]
+    },
+    {
+     "slug": "thread-unsafe-marking",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "running a transform chain under a threaded executor",
+      "a random transform producing samples with mixed parameters under concurrency",
+      "deciding whether a transform may be shared between workers",
+      "seeding a chain and its children"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "multi-sample-fan-out",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/keyed-sample-transforms/applications/python--multi-sample-fan-out.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "single-draw-per-sample",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/keyed-sample-transforms/applications/python--single-draw-per-sample.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -15831,7 +16553,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/optional-dependency-degradation.md",
-   "digest": "sha256:a245270e5e9e7ae8",
+   "digest": "sha256:60c44686828a4b77",
    "techniques": [
     {
      "slug": "absent-degrades-malformed-fails-fast",
@@ -15916,6 +16638,21 @@
      ]
     },
     {
+     "slug": "minimal-install-test-lane",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a library declares extras and nobody has installed it without them lately",
+      "a lazily-imported dependency was quietly promoted to a hard one",
+      "deciding how a deferred import failure should be shaped",
+      "a proxy for a missing symbol lives as long as the process"
+     ]
+    },
+    {
      "slug": "per-variable-blast-radius",
      "status": "forged",
      "laws": [
@@ -15987,6 +16724,13 @@
      "technique": "guarded-singleton-accessor",
      "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/python--guarded-singleton-accessor.md",
      "verified_on": "2026-09-02",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "minimal-install-test-lane",
+     "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/python--minimal-install-test-lane.md",
+     "verified_on": "2026-09-03",
      "verified_against": "python@3.10"
     },
     {
@@ -20194,6 +20938,112 @@
     }
    ]
   },
+  "reversible-transform-pipelines": {
+   "category": "backend-platform",
+   "subcategory": "data-pipeline-semantics",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/reversible-transform-pipelines.md",
+   "digest": "sha256:a024109be806d8b1",
+   "techniques": [
+    {
+     "slug": "decollate-before-invert",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "inverting model outputs that arrive as a batch",
+      "instances in a batch had different original shapes",
+      "a post-processing chain must run per instance after a batched model"
+     ]
+    },
+    {
+     "slug": "deliberate-lossy-inverse",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "inverting a categorical output through a smooth resample",
+      "an inverse cannot be numerically exact and the caller must know",
+      "choosing interpolation for the reverse pass"
+     ]
+    },
+    {
+     "slug": "identity-check-with-graceful-fallback",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an inverse fails only under spawned worker processes",
+      "cached data must be inverted by transforms that did not produce it",
+      "an inverse pops a record that belongs to another operation"
+     ]
+    },
+    {
+     "slug": "journal-entry-shape-invariance",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a journal breaks when instances are collated into a batch",
+      "a random transform that declined to fire corrupts the inverse",
+      "choosing what a journal record may contain"
+     ]
+    },
+    {
+     "slug": "operation-journal-on-the-payload",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a transform that must be undoable on a different datum",
+      "an inverse pass needs parameters the pipeline has forgotten",
+      "inverting in a process that did not run the forward pass"
+     ]
+    },
+    {
+     "slug": "refuse-with-recorded-reasons",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an inverse silently restores the wrong frame",
+      "deciding whether a forward pass should raise on a non-invertible condition",
+      "deferred and eager operations mixed in one chain"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "operation-journal-on-the-payload",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/applications/python--operation-journal-on-the-payload.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "refuse-with-recorded-reasons",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/applications/python--refuse-with-recorded-reasons.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    }
+   ]
+  },
   "runner-fleet": {
    "category": "engineering-process",
    "subcategory": "continuous-integration",
@@ -21000,6 +21850,213 @@
      "technique": "full-text-indexing",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/rust--full-text-indexing.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "self-describing-data-envelopes": {
+   "category": "backend-platform",
+   "subcategory": "data-pipeline-semantics",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/self-describing-data-envelopes/self-describing-data-envelopes.md",
+   "digest": "sha256:1e203a3facadd103",
+   "techniques": [
+    {
+     "slug": "batch-vs-instance-copy-policy",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a mutation of one datum's metadata appearing in another",
+      "a batch path that deep-copies metadata on every operation",
+      "writing the copy rule for an envelope's slots"
+     ]
+    },
+    {
+     "slug": "first-input-wins-propagation",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding what metadata the result of a binary operation on two envelopes carries",
+      "an operation between an envelope and a bare primitive",
+      "a propagation rule that raises on frame mismatch"
+     ]
+    },
+    {
+     "slug": "global-tracking-kill-switch",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a caller that wants bare primitives from an envelope-carrying pipeline",
+      "deciding the default for metadata tracking",
+      "a per-transform tracking flag that has started to drift"
+     ]
+    },
+    {
+     "slug": "intersect-then-collate",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "stacking envelopes whose metadata keys differ into one batch",
+      "a collate step that fails on the first heterogeneous key",
+      "splitting a batch back into per-item envelopes with their histories"
+     ]
+    },
+    {
+     "slug": "sidecar-as-export-format",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "migrating a pipeline from beside-the-data metadata to envelopes",
+      "a downstream consumer that still reads the sibling-key convention",
+      "a transform that reads the sidecar as a fallback"
+     ]
+    },
+    {
+     "slug": "subclass-the-primitive-not-wrap-it",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing the type of the value that flows through a third-party numeric pipeline",
+      "a wrapper object that every consumer unwraps at the boundary",
+      "metadata lost at the first engine call"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "batch-vs-instance-copy-policy",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/self-describing-data-envelopes/applications/python--batch-vs-instance-copy-policy.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "intersect-then-collate",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/self-describing-data-envelopes/applications/python--intersect-then-collate.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    }
+   ]
+  },
+  "self-describing-model-packages": {
+   "category": "backend-platform",
+   "subcategory": "model-workflow-contracts",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/self-describing-model-packages/self-describing-model-packages.md",
+   "digest": "sha256:a09134049a282b91",
+   "techniques": [
+    {
+     "slug": "advisory-version-floors",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording which framework and engine versions a model package was built on",
+      "deciding what a consumer should do when its installed versions differ",
+      "reviewing a package loader that refuses on version inequality"
+     ]
+    },
+    {
+     "slug": "config-frozen-artifact",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "exporting a model to a compiled or serialized form for a runtime that does not evaluate the training code",
+      "deciding what a compiled model file must carry beside the graph",
+      "auditing whether an exported artifact can be rebuilt from itself"
+     ]
+    },
+    {
+     "slug": "declared-vs-derived-outputs",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the output section of a model's metadata when a post-processing step follows the network",
+      "deciding whether a consumer receives logits or labels",
+      "reviewing a package whose declared output does not match what its pipeline returns"
+     ]
+    },
+    {
+     "slug": "normative-layout-contract",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which files a model package must contain and what they are called",
+      "writing the specification a package consumer will locate files from",
+      "reviewing a package format that lets each author choose their own layout"
+     ]
+    },
+    {
+     "slug": "self-locating-validation-schema",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how a package's metadata is validated by a consumer that has never seen the package's ecosystem",
+      "deciding whether to pin a schema by address or by hash",
+      "supporting several schema versions in one population of packages"
+     ]
+    },
+    {
+     "slug": "symbolic-shape-constraints",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "describing an input a model accepts in more than one size",
+      "building the check that proves a package's metadata against its network",
+      "reviewing metadata that ships one example shape"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "config-frozen-artifact",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/self-describing-model-packages/applications/python--config-frozen-artifact.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "symbolic-shape-constraints",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/self-describing-model-packages/applications/python--symbolic-shape-constraints.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -25859,6 +26916,111 @@
     }
    ]
   },
+  "windowed-inference-over-oversized-inputs": {
+   "category": "backend-platform",
+   "subcategory": "model-workflow-contracts",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/windowed-inference-over-oversized-inputs.md",
+   "digest": "sha256:7735ad09a1b45f37",
+   "techniques": [
+    {
+     "slug": "axis-buffered-writeback",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "stitching on the host is dominated by per-window transfers from the accelerator",
+      "deciding whether a device-to-host copy may be non-blocking",
+      "deciding whether the output canvas may be allocated uninitialised"
+     ]
+    },
+    {
+     "slug": "failure-driven-memory-degradation",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the same inference code must run on machines with very different accelerator memory",
+      "an inference call fails with out-of-memory on some inputs and not others",
+      "deciding what a stitcher should do when its canvases do not fit"
+     ]
+    },
+    {
+     "slug": "overlap-weighted-stitching",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "blending overlapping window predictions into one canvas",
+      "a stitched result is right in the interior and wrong at the far edge of each axis",
+      "deciding whether constant and tapered blending need separate code"
+     ]
+    },
+    {
+     "slug": "resolution-decoupled-window-mapping",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model returns a window prediction at a different spatial size than the window it consumed",
+      "a model has several heads at several resolutions",
+      "a stitched result is misaligned by a voxel along one axis"
+     ]
+    },
+    {
+     "slug": "split-device-inference-and-stitching",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the stitched canvases do not fit on the accelerator beside the model",
+      "designing the device parameters of an inference entry point",
+      "an inference call fails on allocation of the output rather than on the model"
+     ]
+    },
+    {
+     "slug": "strictly-positive-blend-weights",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tapered blend produces not-a-number along the input border",
+      "choosing the width of a bell-shaped window weight",
+      "running the stitch in reduced precision"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "failure-driven-memory-degradation",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/applications/python--failure-driven-memory-degradation.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "overlap-weighted-stitching",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/applications/python--overlap-weighted-stitching.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    }
+   ]
+  },
   "wizard-flows": {
    "category": "ui-surfaces",
    "subcategory": "input-and-editing",
@@ -25984,6 +27146,113 @@
      "verified_on": "2026-08-18"
     }
    ]
+  },
+  "workflow-property-contracts": {
+   "category": "backend-platform",
+   "subcategory": "model-workflow-contracts",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/workflow-property-contracts.md",
+   "digest": "sha256:d7648cd83ff1f485",
+   "techniques": [
+    {
+     "slug": "attribute-protocol-over-accessors",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host reads and sets workflow components by name",
+      "two implementations of one contract must look identical to callers",
+      "deciding between a getter-and-setter API and attribute access"
+     ]
+    },
+    {
+     "slug": "contract-driven-adapters",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a federated client or a candidate generator or an annotation host over workflows it did not author",
+      "reviewing an integration that reads config keys directly",
+      "a host must alter a workflow it was handed"
+     ]
+    },
+    {
+     "slug": "dual-implementation-parity",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an author wants code rather than a config document but the hosts must not notice",
+      "defining what a property read returns when several sources could supply it",
+      "a required property has no source at all"
+     ]
+    },
+    {
+     "slug": "mid-iteration-event-seams",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host needs to observe or react inside a training step it does not own",
+      "deciding whether new behaviour goes in the loop or in a handler",
+      "wiring validation or checkpointing onto a trainer"
+     ]
+    },
+    {
+     "slug": "required-and-optional-property-sets",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which names a workflow must provide versus may provide",
+      "writing the check a host runs before driving an unseen workflow",
+      "generating the contract's documentation from its definition"
+     ]
+    },
+    {
+     "slug": "wiring-location-checks",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an optional component exists but the host cannot tell whether the workflow uses it",
+      "deciding what the contract check verifies beyond existence",
+      "a component's position in the graph is not fixed"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "mid-iteration-event-seams",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/applications/python--mid-iteration-event-seams.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "wiring-location-checks",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/applications/python--wiring-location-checks.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "python@3.10"
+    }
+   ]
   }
  },
  "laws": {
@@ -26095,6 +27364,7 @@
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "declared-process-graph/bounded-expansion",
     "declared-process-graph/panic-proof-numeric-fields",
+    "deferred-operation-fusion/equivalence-oracle-testing",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-analytics/review-coverage-rate",
     "demo-data-plane/runtime-dispatch-not-build-flag",
@@ -26104,6 +27374,8 @@
     "design-tokens/cross-language-token-parity",
     "design-tokens/density-and-scale-axes",
     "design-tokens/token-enforcement",
+    "deterministic-prefix-caching/capability-marker-boundary-scan",
+    "deterministic-prefix-caching/hash-inputs-and-pipeline",
     "device-pairing/admission-scoping",
     "device-pairing/revocation-and-expiry",
     "diff-comparison/drift-against-declared",
@@ -26147,6 +27419,8 @@
     "executive-reporting/grounded-narrative-generation",
     "fault-signal-propagation/edge-deadline-arming",
     "fault-signal-propagation/recoverable-vs-closed",
+    "federated-client-contracts/contract-driven-hosting",
+    "federated-client-contracts/graph-neutralization",
     "file-browsing/listing-and-refresh",
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/coordination-failure-triage",
@@ -26155,6 +27429,7 @@
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/worker-trajectory-anatomy",
     "form/validation-timing",
+    "generated-workflow-candidates/stage-level-result-caching",
     "guided-tours/action-driven-advancement",
     "guided-tours/anchor-contracts",
     "hash-pinned-translation-pipeline/emitter-detector-hash-parity",
@@ -26231,6 +27506,7 @@
     "observability-telemetry/diagnostic-access",
     "optional-dependency-degradation/degradation-coupled-to-hardening",
     "optional-dependency-degradation/fallback-retirement-condition",
+    "optional-dependency-degradation/minimal-install-test-lane",
     "optional-dependency-degradation/probe-the-grant-not-the-config",
     "outbound-notifications/compose-at-the-locale-layer",
     "outbound-notifications/destination-guard-integrity",
@@ -26316,6 +27592,9 @@
     "scoring-rubrics/weight-lenses",
     "seal-and-key-hierarchy/recovery-key-is-not-unseal-key",
     "search/full-text-indexing",
+    "self-describing-model-packages/advisory-version-floors",
+    "self-describing-model-packages/self-locating-validation-schema",
+    "self-describing-model-packages/symbolic-shape-constraints",
     "self-healing/auto-rollback",
     "session-continuation/continuation-as-state",
     "session-continuation/sealed-stage-advance",
@@ -26390,8 +27669,10 @@
     "webhook-ingestion/ingress-topology",
     "webhook-ingestion/payload-bounds",
     "webhook-ingestion/sender-authentication",
+    "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
     "wizard-flows/ai-driven-elicitation",
-    "wizard-flows/commit-boundary"
+    "wizard-flows/commit-boundary",
+    "workflow-property-contracts/wiring-location-checks"
    ]
   },
   "failure-not-empty-success": {
@@ -26519,7 +27800,9 @@
     "dead-code/suppression-hygiene",
     "decentralized-artifact-distribution/fail-closed-trust-dependency",
     "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
+    "declarative-object-graph-configs/reference-resolution-with-cycle-detection",
     "declared-process-graph/per-kind-field-whitelist",
+    "deferred-operation-fusion/equivalence-oracle-testing",
     "delivery-analytics/delivery-metric-denominators",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-guarantees/dead-letter-design",
@@ -26534,6 +27817,7 @@
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/direct-push-delivery",
     "design-tokens/token-enforcement",
+    "deterministic-prefix-caching/atomic-write-then-move",
     "device-pairing/timing-defenses",
     "diff-comparison/computation-offload",
     "diff-comparison/diff-honesty",
@@ -26594,6 +27878,7 @@
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/substrate-reconciliation",
     "form/server-error-mapping",
+    "generated-workflow-candidates/stage-level-result-caching",
     "guided-tours/missing-anchor-degradation",
     "guided-tours/tour-lifecycle",
     "hash-pinned-translation-pipeline/drift-classification",
@@ -26760,6 +28045,8 @@
     "retry-backoff/jittered-revocation-with-irrevocable-terminal",
     "retry-backoff/retry-observability",
     "retry-backoff/suspension-is-not-failure",
+    "reversible-transform-pipelines/journal-entry-shape-invariance",
+    "reversible-transform-pipelines/refuse-with-recorded-reasons",
     "runner-fleet/capability-typed-queues",
     "scheduling/missed-run-semantics",
     "scheduling/schedule-observability",
@@ -26773,6 +28060,7 @@
     "search/query-parsing",
     "search/saved-views",
     "search/typed-filter-language",
+    "self-describing-model-packages/symbolic-shape-constraints",
     "self-healing/auto-rollback",
     "self-healing/effectiveness-accounting",
     "self-healing/failure-diagnosis",
@@ -26884,10 +28172,14 @@
     "webhook-ingestion/ingress-topology",
     "webhook-ingestion/listener-lifecycle",
     "webhook-ingestion/sender-authentication",
+    "windowed-inference-over-oversized-inputs/failure-driven-memory-degradation",
     "wizard-flows/ai-driven-elicitation",
     "wizard-flows/commit-boundary",
     "wizard-flows/frontier-batched-elicitation",
-    "wizard-flows/snapshot-and-resume"
+    "wizard-flows/snapshot-and-resume",
+    "workflow-property-contracts/dual-implementation-parity",
+    "workflow-property-contracts/mid-iteration-event-seams",
+    "workflow-property-contracts/required-and-optional-property-sets"
    ]
   },
   "deletion-is-not-repair": {
@@ -26982,6 +28274,8 @@
    "techniques": [
     "accessibility/a11y-verification",
     "accessibility/assistive-tech-divergence",
+    "accumulate-then-aggregate-metrics/lazy-rank-synchronization",
+    "accumulate-then-aggregate-metrics/nan-as-undefined-not-zero",
     "adaptive-fidelity-tiers/measured-not-declared-capability",
     "admission-queue/depth-bounds-and-shed",
     "admission-queue/priority-and-fairness",
@@ -27114,6 +28408,7 @@
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/denominator-naming",
     "executive-reporting/provenance-caveats",
+    "federated-client-contracts/summary-only-egress",
     "feed/event-clustering",
     "feed/read-position-and-unseen",
     "feed/reverse-chronology-semantics",
@@ -27125,6 +28420,7 @@
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/worker-trajectory-anatomy",
     "form/error-aggregation-and-focus",
+    "generated-workflow-candidates/score-keyed-candidate-selection",
     "hash-pinned-translation-pipeline/drift-classification",
     "hash-pinned-translation-pipeline/shape-sync-is-not-content-sync",
     "hash-pinned-translation-pipeline/translation-fan-out-sizing",
@@ -27270,6 +28566,7 @@
     "retrieval/structural-centrality-lane",
     "retry-backoff/jittered-revocation-with-irrevocable-terminal",
     "retry-backoff/retry-observability",
+    "reversible-transform-pipelines/deliberate-lossy-inverse",
     "runner-fleet/queue-depth-elasticity",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "scale-investment-timing/migration-reason-audit",
@@ -27346,6 +28643,7 @@
    "statement": "Unknown must never render as a definite value. A nil zero-filled into \"offline\", an absent ledger read as \"never migrated\", an unset sentinel that collides with the strictest legitimate setting, a lost outcome published as a synthetic exit code — each converts \"we do not know\" into a confident claim exactly where confidence misleads most, and the laundering point is always a boundary where an optional type meets a non-optional one. Sibling of failure-not-empty-success, and distinct: that law separates failure from empty success; this one separates unknown from every definite value, including zero.",
    "techniques": [
     "accessibility/assistive-tech-divergence",
+    "accumulate-then-aggregate-metrics/nan-as-undefined-not-zero",
     "agent-cli-transport/availability-probe",
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/dated-capability-matrix",
@@ -27380,11 +28678,14 @@
     "data-access/sequence-token-write-ordering",
     "data-plane-transport-selection/route-probe-then-freeze",
     "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
+    "declarative-object-graph-configs/merge-vs-override-marking",
+    "declarative-object-graph-configs/reference-resolution-with-cycle-detection",
     "declared-process-graph/panic-proof-numeric-fields",
     "declared-process-graph/typed-port-compatibility",
     "delivery-analytics/post-landing-repair-density",
     "dependency-declaration/logical-name-or-address",
     "dependency-declaration/progressive-resolution",
+    "deterministic-prefix-caching/unknown-callable-is-nondeterministic",
     "docs-sync/earned-verification-state",
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/screen-then-confirm-detection",
@@ -27396,8 +28697,11 @@
     "fault-signal-propagation/edge-deadline-arming",
     "fault-signal-propagation/last-value-degradation",
     "fault-signal-propagation/no-synthetic-terminal",
+    "federated-client-contracts/delta-or-absolute-exchange",
     "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/completion-claim-verification",
+    "generated-workflow-candidates/score-keyed-candidate-selection",
+    "generated-workflow-candidates/two-tier-data-statistics",
     "hitl-approval/oracle-before-gate",
     "issuance-policy-ladder/float-references-resolve-at-use",
     "issuance-policy-ladder/require-one-constraint",
@@ -27435,6 +28739,9 @@
     "retry-backoff/suspension-is-not-failure",
     "seal-and-key-hierarchy/per-tenant-seal-chain",
     "seal-and-key-hierarchy/usage-triggered-rotation",
+    "self-describing-data-envelopes/intersect-then-collate",
+    "self-describing-model-packages/declared-vs-derived-outputs",
+    "self-describing-model-packages/normative-layout-contract",
     "session-continuation/compaction-checkpoint",
     "session-continuation/single-loop-authority",
     "settings/applied-defaults-ledger",
@@ -27454,7 +28761,9 @@
     "watch-cache-and-resync/desync-is-a-state",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "web-scraping/negotiated-representation-probe",
-    "web-scraping/soak-mode-and-verdict-replay"
+    "web-scraping/soak-mode-and-verdict-replay",
+    "windowed-inference-over-oversized-inputs/axis-buffered-writeback",
+    "workflow-property-contracts/wiring-location-checks"
    ]
   },
   "identity-survives-reuse": {
@@ -27575,6 +28884,8 @@
     "fleet-orchestration/hibernation-and-resume",
     "fleet-orchestration/session-registry",
     "form/submit-lifecycle",
+    "generated-workflow-candidates/candidates-as-ordinary-artifacts",
+    "generated-workflow-candidates/search-as-candidate-mutation",
     "guided-tours/tour-lifecycle",
     "hash-pinned-translation-pipeline/source-hash-provenance",
     "hitl-approval/consent-gates",
@@ -27641,6 +28952,8 @@
     "retrieval/hybrid-lane-fusion",
     "retrieval/relationship-proximity-lane",
     "retry-backoff/durable-retries",
+    "reversible-transform-pipelines/decollate-before-invert",
+    "reversible-transform-pipelines/identity-check-with-graceful-fallback",
     "runner-fleet/shared-resource-serialization",
     "scheduling/overlap-and-reentrancy",
     "schema-driven-ui/emitter-registry-sync",
@@ -27709,6 +29022,7 @@
    "techniques": [
     "accessibility/live-region-architecture",
     "accessibility/primitive-level-a11y",
+    "accumulate-then-aggregate-metrics/detached-buffer-reads",
     "agent-browser-control/agent-actionable-errors",
     "agent-chaining/handoff-payload-contracts",
     "agent-chaining/run-conditions",
@@ -27774,6 +29088,7 @@
     "data-retention/destructive-override-floor",
     "data-retention/erasure-requests",
     "declared-process-graph/composite-expansion-contract",
+    "deferred-operation-fusion/single-flush-decision-point",
     "demo-data-plane/network-faithful-mocks",
     "device-pairing/admission-scoping",
     "device-pairing/pairing-ceremony",
@@ -27785,6 +29100,7 @@
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/cascade-design",
     "executive-reporting/grounded-narrative-generation",
+    "federated-client-contracts/payload-filter-chain",
     "file-browsing/file-mutations",
     "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/hibernation-and-resume",
@@ -27805,6 +29121,7 @@
     "job-coordination/job-state-machines",
     "judgment-guardbands/score-guardband",
     "judgment-guardbands/self-audit-budget",
+    "keyed-sample-transforms/missing-key-policy",
     "knowledge-registry/propose-then-adopt",
     "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
     "machine-paced-delivery/scoped-delivery-access-for-agents",
@@ -27907,6 +29224,7 @@
    "statement": "Everything created names its reaper. Temp files, background tasks, listeners, worktrees, caches: the code that creates a resource states what destroys it and when. Unowned cleanup is deferred leakage — the question \"who deletes this?\" must have an answer at creation time, because nobody re-asks it later.",
    "techniques": [
     "accessibility/live-region-architecture",
+    "accumulate-then-aggregate-metrics/per-iteration-buffering",
     "adaptive-fidelity-tiers/measurement-settle-budget",
     "adaptive-fidelity-tiers/probe-deferral-to-idle",
     "admission-queue/depth-bounds-and-shed",
@@ -27981,6 +29299,8 @@
     "delivery-guarantees/stuck-reaping",
     "dependency-declaration/declaration-invariants",
     "dependency-declaration/progressive-resolution",
+    "deterministic-prefix-caching/atomic-write-then-move",
+    "deterministic-prefix-caching/running-window-replacement",
     "device-pairing/pairing-ceremony",
     "device-pairing/revocation-and-expiry",
     "device-pairing/token-binding-and-transport",
@@ -28153,6 +29473,7 @@
    "techniques": [
     "accessibility/name-and-description-wiring",
     "accessibility/preference-respect",
+    "accumulate-then-aggregate-metrics/reduction-axis-vocabulary",
     "adaptive-fidelity-tiers/per-tier-budget-tables",
     "admission-queue/admission-vocabulary",
     "adoption-measurement/adoption-distribution-bands",
@@ -28243,8 +29564,12 @@
     "data-viz/metric-identity",
     "decentralized-artifact-distribution/origin-signed-record-with-index-as-cache",
     "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
+    "declarative-object-graph-configs/directive-key-namespace",
+    "declarative-object-graph-configs/sigil-grammar-over-schema",
     "declarative-resource-lifecycle/per-field-write-ownership",
     "declared-process-graph/per-kind-field-whitelist",
+    "deferred-operation-fusion/algebraic-op-representation",
+    "deferred-operation-fusion/compatibility-break-resample",
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
     "delivery-guarantees/non-delivery-ledgers",
@@ -28262,6 +29587,7 @@
     "design-tokens/motion-tokens",
     "design-tokens/theme-architecture",
     "design-tokens/token-taxonomy",
+    "deterministic-prefix-caching/capability-marker-boundary-scan",
     "device-pairing/verb-allowlists",
     "diff-comparison/invisible-differences",
     "diff-comparison/presentation-modes",
@@ -28293,12 +29619,14 @@
     "executive-reporting/single-ranked-next-move",
     "fault-signal-propagation/restart-notification-scope",
     "fault-signal-propagation/typed-edge-events-in-band",
+    "federated-client-contracts/lifecycle-verb-interface",
     "feed/reverse-chronology-semantics",
     "file-browsing/kind-taxonomy",
     "fleet-orchestration/lifecycle-signals",
     "fleet-orchestration/session-registry",
     "form/field-composition",
     "form/server-error-mapping",
+    "generated-workflow-candidates/two-tier-data-statistics",
     "guided-tours/anchor-contracts",
     "hash-pinned-translation-pipeline/drift-classification",
     "hash-pinned-translation-pipeline/emitter-detector-hash-parity",
@@ -28322,6 +29650,7 @@
     "job-coordination/job-state-machines",
     "judgment-guardbands/narrate-dont-rescore",
     "judgment-guardbands/score-guardband",
+    "keyed-sample-transforms/array-and-keyed-dual-forms",
     "knowledge-registry/consumer-overlays",
     "knowledge-registry/lane-contracts",
     "knowledge-registry/per-contributor-aggregation",
@@ -28407,6 +29736,7 @@
     "retrieval/query-decomposition-before-the-lanes",
     "retrieval/retrieval-triggering",
     "retry-backoff/error-classification-for-retry",
+    "reversible-transform-pipelines/journal-entry-shape-invariance",
     "runner-fleet/capability-typed-queues",
     "scheduling/trigger-matching",
     "schema-driven-ui/action-consent-wiring",
@@ -28420,6 +29750,11 @@
     "search/command-surface",
     "search/faceting-and-filters",
     "search/saved-views",
+    "self-describing-data-envelopes/global-tracking-kill-switch",
+    "self-describing-data-envelopes/sidecar-as-export-format",
+    "self-describing-model-packages/config-frozen-artifact",
+    "self-describing-model-packages/normative-layout-contract",
+    "self-describing-model-packages/self-locating-validation-schema",
     "self-healing/failure-diagnosis",
     "self-healing/strategy-selection",
     "session-continuation/single-loop-authority",
@@ -28470,85 +29805,17 @@
     "voice-io/portable-provider-package",
     "web-scraping/extraction-rule-dsl",
     "wizard-flows/branching-and-skipping",
-    "wizard-flows/step-state-model"
-   ]
-  },
-  "verdict-survives-boundary": {
-   "statement": "A classified outcome reaches every boundary that acts on it as a typed value. A refusal enum erased into a generic error, a server-side failure taxonomy re-derived by matching message text, a policy denial re-thrown as the last underlying failure — in each, the classification exists where it was computed and dies where it mattered. The test is what the outermost consumer can branch on; a verdict that survives only as prose has not survived.",
-   "techniques": [
-    "admission-queue/admission-vocabulary",
-    "agent-browser-control/agent-actionable-errors",
-    "agent-browser-control/socket-scoped-surface",
-    "agent-cli-transport/output-normalization",
-    "agent-runtime-assembly/observer-and-mutator-surfaces",
-    "agent-runtime-assembly/operator-tier-code-loading",
-    "agent-runtime-assembly/rewrite-before-the-gate",
-    "authorization/delegated-authority",
-    "companion-runtime/headless-turn-stream",
-    "companion-runtime/signal-economy-contract",
-    "convergence-loop-and-requeue/error-policy-as-a-separate-function",
-    "correlated-exchange-over-broadcast/binding-parity-floor",
-    "correlated-exchange-over-broadcast/orphaned-correlation-on-peer-restart",
-    "correlated-exchange-over-broadcast/terminal-status-set",
-    "credential-vault/renew-at-two-thirds-with-grace",
-    "credential-vault/token-refresh-lifecycle",
-    "data-access/capability-declared-in-the-type",
-    "data-plane-transport-selection/route-probe-then-freeze",
-    "decentralized-artifact-distribution/signal-that-only-subtracts",
-    "decentralized-artifact-distribution/verdict-bound-to-the-exact-revision",
-    "declarative-resource-lifecycle/per-field-write-ownership",
-    "declarative-resource-lifecycle/synchronous-gate-before-persistence",
-    "declared-process-graph/additive-live-mutation",
-    "deployment-contract/deploy-gate-coupling",
-    "deployment-contract/environment-promotion",
-    "document-text-extraction/extraction-yield-bands",
-    "document-text-extraction/recognition-boundary-and-escalation",
-    "edge-queue-policy/control-channel-headroom",
-    "edge-queue-policy/eviction-priority-classes",
-    "edge-queue-policy/in-band-flush",
-    "embedded-db/corruption-class-response",
-    "error-handling/cancellation-attribution",
-    "fault-signal-propagation/no-synthetic-terminal",
-    "fault-signal-propagation/restart-notification-scope",
-    "fault-signal-propagation/typed-edge-events-in-band",
-    "issuance-policy-ladder/bounds-as-modes",
-    "issuance-policy-ladder/program-role-returns-the-artifact",
-    "issuance-policy-ladder/verbatim-is-a-separate-privilege",
-    "knowledge-registry/verification-is-contributed",
-    "machine-authored-documentation/declared-truth-boundary",
-    "machine-authored-documentation/three-gate-acceptance",
-    "modelled-performance-estimates/provenance-travels-with-the-value",
-    "modelled-performance-estimates/refuse-rather-than-emit-a-sentinel",
-    "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
-    "multi-provider-gateway-plane/router-versus-candidate-failure",
-    "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
-    "optional-dependency-degradation/guarded-singleton-accessor",
-    "optional-dependency-degradation/refusal-is-not-failure",
-    "priced-authority/approver-not-requester",
-    "prompt-assembly/deferred-interface-invalidation",
-    "read-serving-replicas/client-carried-index",
-    "read-serving-replicas/forward-on-storage-error",
-    "repository-landing-document/input-channel-distinction",
-    "repository-landing-document/multi-surface-degradation",
-    "retry-backoff/client-retry-and-redirect-conventions",
-    "retry-backoff/storm-control",
-    "search/typed-filter-language",
-    "sidecar-provisioning/split-trust-by-registration-path",
-    "structured-output/schema-validation-and-repair",
-    "transactions-over-a-replicated-log/same-value-still-conflicts",
-    "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
-    "untrusted-extension-host/per-callback-failure-policy",
-    "voice-io/decode-time-vocabulary-biasing",
-    "voice-io/portable-provider-package",
-    "voice-io/speech-ready-text",
-    "voice-io/stt-pipeline",
-    "voice-io/transcript-normalization",
-    "web-scraping/soak-mode-and-verdict-replay"
+    "wizard-flows/step-state-model",
+    "workflow-property-contracts/attribute-protocol-over-accessors",
+    "workflow-property-contracts/dual-implementation-parity",
+    "workflow-property-contracts/mid-iteration-event-seams",
+    "workflow-property-contracts/required-and-optional-property-sets"
    ]
   },
   "derivation-names-recomputation": {
    "statement": "Any stored derived value names how it is recomputed. A cached count, a denormalized rollup, or a materialized summary without a documented, invokable recomputation path is a future discrepancy with no arbiter.",
    "techniques": [
+    "accumulate-then-aggregate-metrics/per-iteration-buffering",
     "admission-queue/resource-denominated-bounds",
     "agent-addressable-ui/build-time-source-stamping",
     "agent-chaining/chain-identity-and-rollup",
@@ -28608,6 +29875,7 @@
     "demo-data-plane/seeded-determinism",
     "deployment-contract/environment-promotion",
     "design-tokens/theme-architecture",
+    "deterministic-prefix-caching/hash-inputs-and-pipeline",
     "diff-comparison/computation-offload",
     "docs-content-model/derived-navigation-projection",
     "docs-sync/cross-repo-drift-detection",
@@ -28626,10 +29894,12 @@
     "embedded-preview/convention-discovery",
     "eval-harness/eval-economics",
     "eval-harness/scenario-design",
+    "federated-client-contracts/contract-driven-hosting",
     "feed/event-clustering",
     "feed/feed-retention",
     "feed/read-position-and-unseen",
     "file-browsing/thumbnails-and-previews",
+    "generated-workflow-candidates/template-filling-with-provenance",
     "hash-pinned-translation-pipeline/hash-scope-choice",
     "hash-pinned-translation-pipeline/source-hash-provenance",
     "health-checks/health-rollup",
@@ -28705,6 +29975,7 @@
     "retrieval/embedding-lifecycle",
     "retrieval/retrieval-triggering",
     "retrieval/structural-centrality-lane",
+    "reversible-transform-pipelines/operation-journal-on-the-payload",
     "runner-fleet/shared-cache-integrity",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "scale-investment-timing/next-order-of-magnitude-only",
@@ -28712,6 +29983,8 @@
     "scheduling/next-run-computation",
     "scoring-rubrics/weight-design",
     "search/full-text-indexing",
+    "self-describing-model-packages/config-frozen-artifact",
+    "self-describing-model-packages/declared-vs-derived-outputs",
     "self-healing/effectiveness-accounting",
     "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
@@ -28744,7 +30017,86 @@
     "watch-cache-and-resync/atomic-swap-at-initial-sync",
     "watch-cache-and-resync/desync-is-a-state",
     "web-scraping/negotiated-representation-probe",
+    "windowed-inference-over-oversized-inputs/overlap-weighted-stitching",
     "wizard-flows/progress-communication"
+   ]
+  },
+  "verdict-survives-boundary": {
+   "statement": "A classified outcome reaches every boundary that acts on it as a typed value. A refusal enum erased into a generic error, a server-side failure taxonomy re-derived by matching message text, a policy denial re-thrown as the last underlying failure — in each, the classification exists where it was computed and dies where it mattered. The test is what the outermost consumer can branch on; a verdict that survives only as prose has not survived.",
+   "techniques": [
+    "admission-queue/admission-vocabulary",
+    "agent-browser-control/agent-actionable-errors",
+    "agent-browser-control/socket-scoped-surface",
+    "agent-cli-transport/output-normalization",
+    "agent-runtime-assembly/observer-and-mutator-surfaces",
+    "agent-runtime-assembly/operator-tier-code-loading",
+    "agent-runtime-assembly/rewrite-before-the-gate",
+    "authorization/delegated-authority",
+    "companion-runtime/headless-turn-stream",
+    "companion-runtime/signal-economy-contract",
+    "convergence-loop-and-requeue/error-policy-as-a-separate-function",
+    "correlated-exchange-over-broadcast/binding-parity-floor",
+    "correlated-exchange-over-broadcast/orphaned-correlation-on-peer-restart",
+    "correlated-exchange-over-broadcast/terminal-status-set",
+    "credential-vault/renew-at-two-thirds-with-grace",
+    "credential-vault/token-refresh-lifecycle",
+    "data-access/capability-declared-in-the-type",
+    "data-plane-transport-selection/route-probe-then-freeze",
+    "decentralized-artifact-distribution/signal-that-only-subtracts",
+    "decentralized-artifact-distribution/verdict-bound-to-the-exact-revision",
+    "declarative-resource-lifecycle/per-field-write-ownership",
+    "declarative-resource-lifecycle/synchronous-gate-before-persistence",
+    "declared-process-graph/additive-live-mutation",
+    "deployment-contract/deploy-gate-coupling",
+    "deployment-contract/environment-promotion",
+    "document-text-extraction/extraction-yield-bands",
+    "document-text-extraction/recognition-boundary-and-escalation",
+    "edge-queue-policy/control-channel-headroom",
+    "edge-queue-policy/eviction-priority-classes",
+    "edge-queue-policy/in-band-flush",
+    "embedded-db/corruption-class-response",
+    "error-handling/cancellation-attribution",
+    "fault-signal-propagation/no-synthetic-terminal",
+    "fault-signal-propagation/restart-notification-scope",
+    "fault-signal-propagation/typed-edge-events-in-band",
+    "federated-client-contracts/delta-or-absolute-exchange",
+    "federated-client-contracts/lifecycle-verb-interface",
+    "issuance-policy-ladder/bounds-as-modes",
+    "issuance-policy-ladder/program-role-returns-the-artifact",
+    "issuance-policy-ladder/verbatim-is-a-separate-privilege",
+    "knowledge-registry/verification-is-contributed",
+    "machine-authored-documentation/declared-truth-boundary",
+    "machine-authored-documentation/three-gate-acceptance",
+    "modelled-performance-estimates/provenance-travels-with-the-value",
+    "modelled-performance-estimates/refuse-rather-than-emit-a-sentinel",
+    "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
+    "multi-provider-gateway-plane/router-versus-candidate-failure",
+    "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
+    "optional-dependency-degradation/guarded-singleton-accessor",
+    "optional-dependency-degradation/refusal-is-not-failure",
+    "priced-authority/approver-not-requester",
+    "prompt-assembly/deferred-interface-invalidation",
+    "read-serving-replicas/client-carried-index",
+    "read-serving-replicas/forward-on-storage-error",
+    "repository-landing-document/input-channel-distinction",
+    "repository-landing-document/multi-surface-degradation",
+    "retry-backoff/client-retry-and-redirect-conventions",
+    "retry-backoff/storm-control",
+    "reversible-transform-pipelines/refuse-with-recorded-reasons",
+    "search/typed-filter-language",
+    "sidecar-provisioning/split-trust-by-registration-path",
+    "structured-output/schema-validation-and-repair",
+    "transactions-over-a-replicated-log/same-value-still-conflicts",
+    "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
+    "untrusted-extension-host/per-callback-failure-policy",
+    "voice-io/decode-time-vocabulary-biasing",
+    "voice-io/portable-provider-package",
+    "voice-io/speech-ready-text",
+    "voice-io/stt-pipeline",
+    "voice-io/transcript-normalization",
+    "web-scraping/soak-mode-and-verdict-replay",
+    "windowed-inference-over-oversized-inputs/failure-driven-memory-degradation",
+    "workflow-property-contracts/contract-driven-adapters"
    ]
   },
   "absent-guard-is-loud": {
@@ -28783,22 +30135,29 @@
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
     "decentralized-artifact-distribution/split-admit-state-and-redact-authority",
+    "declarative-object-graph-configs/escape-hatch-expressions",
+    "declarative-object-graph-configs/reference-resolution-with-cycle-detection",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "declared-process-graph/bounded-expansion",
     "declared-process-graph/typed-port-compatibility",
+    "deferred-operation-fusion/single-flush-decision-point",
     "deployment-contract/direct-push-delivery",
+    "deterministic-prefix-caching/enumerate-the-non-working-cases",
+    "deterministic-prefix-caching/unknown-callable-is-nondeterministic",
     "document-text-extraction/recognition-boundary-and-escalation",
     "document-text-extraction/structural-amplification-caps",
     "edge-queue-policy/per-edge-depth-and-policy",
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
     "fault-signal-propagation/edge-deadline-arming",
+    "federated-client-contracts/graph-neutralization",
     "fleet-orchestration/brief-carries-the-session",
     "hitl-approval/truncated-verdict-space",
     "import-normalization/durable-intermediate-representation",
     "issuance-policy-ladder/require-one-constraint",
     "issuance-policy-ladder/verbatim-is-a-separate-privilege",
+    "keyed-sample-transforms/missing-key-policy",
     "knowledge-registry/verification-is-contributed",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/evidence-without-verdict",
@@ -28813,6 +30172,7 @@
     "node-boot-and-declarative-bootstrap/seal-before-storage-plugins",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
+    "optional-dependency-degradation/minimal-install-test-lane",
     "optional-dependency-degradation/refusal-is-not-failure",
     "plan-review/informational-fold-in",
     "priced-authority/approver-not-requester",
@@ -28828,9 +30188,12 @@
     "read-serving-replicas/committed-write-invalidation-hook",
     "release-pipeline/deprecation-by-version-arithmetic",
     "repository-landing-document/style-rule-ships-its-detector",
+    "reversible-transform-pipelines/identity-check-with-graceful-fallback",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",
     "seal-and-key-hierarchy/any-one-seal-unseals",
     "seal-and-key-hierarchy/usage-triggered-rotation",
+    "self-describing-data-envelopes/global-tracking-kill-switch",
+    "self-describing-model-packages/advisory-version-floors",
     "structured-output/schema-validation-and-repair",
     "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
@@ -28845,7 +30208,8 @@
     "untrusted-extension-host/two-tier-extension-format",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
     "web-scraping/soak-mode-and-verdict-replay",
-    "webhook-ingestion/duplicate-and-replay-dedup"
+    "webhook-ingestion/duplicate-and-replay-dedup",
+    "windowed-inference-over-oversized-inputs/strictly-positive-blend-weights"
    ]
   },
   "silent-state-is-ungoverned": {
@@ -28855,7 +30219,9 @@
     "agent-memory/owner-and-counterpart-scope",
     "context-hierarchy/digest-gated-upward-refresh",
     "decentralized-artifact-distribution/signal-that-only-subtracts",
+    "declarative-object-graph-configs/escape-hatch-expressions",
     "deployment-contract/deployment-config-as-code",
+    "deterministic-prefix-caching/enumerate-the-non-working-cases",
     "fault-signal-propagation/last-value-degradation",
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/worker-trajectory-anatomy",
@@ -28882,8 +30248,11 @@
     "concurrency-guards/cache-value-not-handle",
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
     "decentralized-artifact-distribution/fail-closed-trust-dependency",
+    "deterministic-prefix-caching/running-window-replacement",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
-    "watch-cache-and-resync/initial-read-strategy-behind-a-gate"
+    "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
+    "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
+    "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
    ]
   },
   "record-precedes-effect": {
