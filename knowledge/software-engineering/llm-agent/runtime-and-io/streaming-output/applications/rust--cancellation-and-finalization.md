@@ -14,8 +14,11 @@ A dataflow runtime for robotics and AI pipelines streams between *processes*
 rather than to a renderer, and its interruption design is the technique's
 "stop applying" step moved one hop upstream: the producer of the next
 segment sends a message whose metadata carries `flush: true`, and the
-receiving node's input queue discards every older queued message before
-delivering it (`docs/patterns.md` §4 "Queue flush behavior"). The stream
+receiving node's input queue discards every older queued *ordinary* message
+before delivering it - correlated exchanges and the shutdown signal are
+flush-immune (`apis/rust/node/src/event_stream/scheduler.rs:266-295`; the
+page `docs/patterns.md` §4 still states the older "discards all" rule, a
+doc/code deviation the edge-queue-policy subject records). The stream
 envelope is `session_id` / `segment_id` / `seq` / `fin`, and an interrupted
 segment is one that never receives `fin` - the next segment's flush is the
 only signal that the old one ended.

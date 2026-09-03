@@ -215,6 +215,17 @@
             "alerting",
             "outbound-notifications"
           ]
+        },
+        {
+          "id": "process-graph-runtime",
+          "title": "Process-graph runtime",
+          "subjects": [
+            "declared-process-graph",
+            "edge-queue-policy",
+            "fault-signal-propagation",
+            "data-plane-transport-selection",
+            "correlated-exchange-over-broadcast"
+          ]
         }
       ]
     },
