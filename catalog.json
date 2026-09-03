@@ -43,9 +43,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 10,
+      "lessons": 12,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:4a927bc1a667833b",
+      "lessonsHash": "sha256-n1:d0c9d6c93939e506",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -144,9 +144,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 10,
+      "lessons": 15,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:a89a40c8dfbb7eae",
+      "lessonsHash": "sha256-n1:42585780b098dea1",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -301,9 +301,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 9,
+      "lessons": 10,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:3b7c1f90362dac04",
+      "lessonsHash": "sha256-n1:41573371985153c5",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -372,9 +372,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 28,
+      "lessons": 33,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:88c6a8e4ce4239dd",
+      "lessonsHash": "sha256-n1:198445734e002c01",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -596,7 +596,7 @@
     "skills": 29,
     "practices": 5,
     "memory": 6,
-    "lessons": 110
+    "lessons": 123
   },
   "bundles": [
     {
@@ -645,11 +645,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 16,
-      "techniques": 102,
+      "subjects": 17,
+      "techniques": 107,
       "applications": 54,
-      "files": 177,
-      "contentHash": "sha256:0282cc6871fad4a8"
+      "files": 183,
+      "contentHash": "sha256:4a617f3490159083"
     },
     {
       "name": "localization",
@@ -697,11 +697,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 172,
-      "techniques": 1222,
-      "applications": 693,
-      "files": 2092,
-      "contentHash": "sha256:790421d61e88dfed"
+      "subjects": 180,
+      "techniques": 1291,
+      "applications": 729,
+      "files": 2205,
+      "contentHash": "sha256:16ff0d1214917959"
     }
   ]
 }

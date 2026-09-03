@@ -121,6 +121,21 @@ number that fell to zero — are both instructions rather than trivia. The first
 says the check is wrong or the frontier stopped moving. The second says delete
 the code.
 
+**Both readings assume the fallback's trigger is ambient**, and that assumption
+is what makes the traffic share evidence at all. It holds throughout this
+subject, where the substitute runs whenever a caller needs something the real
+capability cannot supply: every eligible call is a trial, so the share is a
+measurement and a share of zero means the gap closed.
+
+It inverts for a fallback whose trigger is an **incident** rather than a
+capability gap — a path that executes only while something else is broken.
+There, zero is the healthy steady state and carries no information about the
+path at all, so retiring on it deletes a safety net on the grounds that there
+has not yet been an emergency. Such a path is retired when the failure it
+answers becomes impossible, not when it goes unused, and it needs a positive
+liveness instrument instead of a usage number. Classify the trigger before
+reading the share.
+
 ## When the gap is in something you pin: the release is the reaper
 
 The two lanes above assume the code can either test its premise or stamp it. A

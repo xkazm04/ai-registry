@@ -1,6 +1,6 @@
 ---
-domain: software-engineering
 subject: tracing
+domain: software-engineering
 last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
@@ -8,32 +8,44 @@ dry_streak: 0
 
 # tracing
 
-Subject note. Part of [[index]]; graded against [[standard]].
+Touched by [[2026-09-03-awesome-langchain]]. Gained `vocabulary-source-selection`.
 
-## Touch log
+## What the gap actually was
 
-### 2026-09-03 - `/intake`, from a vendor's official MCP server monorepo
+A **missing stage sitting between two bundles**, which is why no slug map could find it
+and why the instrument reported a near-empty that read like a hole.
 
-`cross-boundary-propagation` gained "When the sender is not yours". Source: [[2026-09-03-microsoft-mcp]].
+Three observability subjects each explicitly defer builder-side emission to this one.
+This one requires the span schema live in "one authority" — which is right — and never
+entertains that the authority could be an **external published convention** rather than
+a house schema. So the decision was made by default because nobody asked, and the forces
+were absent from the corpus entirely: portability of dashboards and backends, bought
+against the churn of a pre-stable vocabulary whose attribute names move on someone
+else's release schedule.
 
-The technique's whole contract was trust-by-default - the receiver *adopts* the trace id
-and must not mint a new one - and every boundary in its catalog sat between tiers of one
-system. It had no validation step, no size bound, and no notion of a sender outside the
-trust boundary. A public tool server adopts trace identity from whoever calls it, so
-recorded verbatim any caller can write attacker-chosen strings into the record operators
-read during an incident: the corruption is timed to maximum damage.
+The discriminator is not builder-versus-receiver, which is the proxy the neighbouring
+observability technique used. It is **who controls both ends of the version skew** —
+which is why an emitter shipped as a *library* pins neither the clients it wraps nor the
+backends it feeds, and needs a receiver's multi-generation machinery despite sitting on
+the emitting side.
 
-The amendment is careful not to reverse the central rule - the receiver still adopts, it
-adopts *what parses*. Identity fields are grammar-checked with a rejection recorded rather
-than swallowed, free-form vendor-extension state is length-capped, and the unbounded
-schema-less carrier is refused outright, since no cap makes it safe. This was a seam
-neither subject owned: `untrusted-result-handling` models untrusted data arriving as
-*results*, and nobody modelled untrusted data arriving as *propagation metadata*.
+## What a project then added
 
-**The amendment was then corrected by the tree it was tested against**, which is the more
-valuable half. Applied to the fleet's observability service, "only fields with a grammar
-can cross" would have broken a legitimate, tested feature: opaque trace ids are passed
-through verbatim on purpose, pinned that same morning. The right reading is that
-grammar-validation and bounding are separable - for an *identity* field the bound is
-load-bearing and the grammar is not; for free-form state the grammar or a refusal is. The
-apply row and its measured numbers are in `librarian/applied.md`.
+A civic tree returned `better` and supplied the case the discriminator cannot reach.
+Where an unmatched attribute **leaks a value** rather than breaking a query, name-based
+matching is fail-open by construction — an attribute spelled differently this version is
+one the matcher has never heard of and passes through untouched — so the right answer is
+to depend on neither vocabulary and match on value shape instead. That is now its own
+section, and the failure directions are explicitly not comparable: an over-redacted
+field costs a debugging session, an under-redacted one is disclosed and cannot be
+recalled.
+
+The same tree supplied the second decision rule: assert against the package the
+application actually loads. Its one borrowed-spelling instrument is calibrated against a
+transitive dependency it does not declare, under a caret range on a different package,
+so the version can move without a deliberate act while the assertion still passes.
+
+## Open
+
+Nothing owns the emitter-side redaction surface itself — banked as a lead, with a
+well-enumerated instance available when that ground is opened.
