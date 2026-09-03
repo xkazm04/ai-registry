@@ -58,6 +58,9 @@ proof) is carried as the measured trap without the reporting project.
 - The JSON deserializer's recursion-limit figure into the rust application — no
   tree read this run, no honest `verified_on` move.
 
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: personas (1). Apply row: see `librarian/applied.md`.
 ## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
 
 New technique `durable-intermediate-representation`: the parsed IR persisted beside the source as a sidecar carrying parser identity and version, so re-chunking, re-extraction and parser unavailability never re-pay the parse. `intermediate-representation` says of itself that it is a staging shape, not the persistence model; this is the durable sibling, and the slug keeps the noun and changes the discriminating adjective. Golden path narrow-waist paragraph amended.

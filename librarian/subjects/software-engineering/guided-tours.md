@@ -51,3 +51,7 @@ run: two framework-agnostic tour engines read at pinned commits.
 - modal-stack: third-party overlays mint their own z-index and cannot register
   into a product layering authority; popover placement/collision belongs to
   anchored-positioning, not here. Recorded on [[modal-stack]].
+
+### Impact (2026-09-02)
+
+Stale verdicts after this landing: personas (2), personas-web (1). Apply row: see `librarian/applied.md`.

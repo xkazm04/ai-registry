@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 191,
   "techniques": 1379,
-  "applications": 786,
+  "applications": 791,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -3299,7 +3299,7 @@
    "subcategory": "data-and-transport",
    "status": "forged",
    "file": "knowledge/software-engineering/security/data-and-transport/browser-credential-boundary/browser-credential-boundary.md",
-   "digest": "sha256:1f9a365a2241398d",
+   "digest": "sha256:d785c7cd94590b5e",
    "techniques": [
     {
      "slug": "aggregate-view-not-base-table",
@@ -3406,7 +3406,8 @@
      "stack": "next",
      "technique": "public-vs-server-env-split",
      "file": "knowledge/software-engineering/security/data-and-transport/browser-credential-boundary/applications/next--public-vs-server-env-split.md",
-     "verified_on": "2026-09-02"
+     "verified_on": "2026-09-02",
+     "verified_against": "next@16"
     },
     {
      "stack": "node",
@@ -8009,7 +8010,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/demo-data-plane/demo-data-plane.md",
-   "digest": "sha256:c98b63c050ca805c",
+   "digest": "sha256:1d54d97538ca77bd",
    "techniques": [
     {
      "slug": "fake-surface-honesty-contract",
@@ -8107,6 +8108,13 @@
      "file": "knowledge/software-engineering/client-architecture/demo-data-plane/applications/go--one-interface-many-planes.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1"
+    },
+    {
+     "stack": "next",
+     "technique": "one-interface-many-planes",
+     "file": "knowledge/software-engineering/client-architecture/demo-data-plane/applications/next--one-interface-many-planes.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "next@16"
     },
     {
      "stack": "react",
@@ -11646,7 +11654,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/guided-tours.md",
-   "digest": "sha256:384bd7e4421496c6",
+   "digest": "sha256:6e62aed28e4419e5",
    "techniques": [
     {
      "slug": "action-driven-advancement",
@@ -11750,6 +11758,13 @@
      "technique": "anchor-contracts",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/applications/react--anchor-contracts.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "react",
+     "technique": "missing-anchor-degradation",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/applications/react--missing-anchor-degradation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -12439,7 +12454,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/import-normalization/import-normalization.md",
-   "digest": "sha256:66771d181e69af6c",
+   "digest": "sha256:a692d9fd7e64b32b",
    "techniques": [
     {
      "slug": "adapter-capability-tables",
@@ -12548,6 +12563,13 @@
      "technique": "format-detection",
      "file": "knowledge/software-engineering/integration/import-normalization/applications/node--format-detection.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "node",
+     "technique": "import-validation",
+     "file": "knowledge/software-engineering/integration/import-normalization/applications/node--import-validation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@22"
     },
     {
      "stack": "rust",
@@ -18037,7 +18059,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
-   "digest": "sha256:664afab770374d95",
+   "digest": "sha256:5f5964288e73197b",
    "techniques": [
     {
      "slug": "capability-gate-predicates",
@@ -18147,6 +18169,13 @@
      "technique": "deployment-mode-short-circuit",
      "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/node--deployment-mode-short-circuit.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "entitlement-lifecycle-revocation",
+     "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/applications/node--entitlement-lifecycle-revocation.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -23122,7 +23151,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/sql-console/sql-console.md",
-   "digest": "sha256:7113f95495c16e9e",
+   "digest": "sha256:20d61fad5e15e7cd",
    "techniques": [
     {
      "slug": "dialect-capability-declaration",
@@ -23222,7 +23251,8 @@
      "stack": "react",
      "technique": "safe-mode-guarding",
      "file": "knowledge/software-engineering/integration/sql-console/applications/react--safe-mode-guarding.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-02",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -24714,7 +24744,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/terminal-multiplexing.md",
-   "digest": "sha256:886543064d591056",
+   "digest": "sha256:cf81865f1e3384c8",
    "techniques": [
     {
      "slug": "attach-detach-lifecycle",
@@ -24851,6 +24881,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/react--keystroke-injection.md",
      "verified_on": "2026-08-29",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "multi-client-fan-out",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/applications/rust--multi-client-fan-out.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "rust@1"
     },
     {
      "stack": "rust",
