@@ -68,7 +68,7 @@ none implied by the others:
 - **Entitlement** — this run, with this authority, may perform this verb on
   this record — the acting layer's own authorization check, at act time,
   regardless of what the prompt believed
-  ([authorization](../../../../security/authorization/authorization.md) owns the entitlement
+  ([authorization](../../../../security/identity-and-access/authorization/authorization.md) owns the entitlement
   model; this door is one of its enforcement points).
 
 Validation reads the **current** store, not a snapshot from prompt-assembly
@@ -94,7 +94,7 @@ all the classical rules apply, with the twist that this producer can be
 The final containment is not textual at all: the process or module that
 executes validated operations holds only the capabilities those operations
 need. It acts through brokered credentials it never sees
-([credential-vault](../../../../security/credential-vault/credential-vault.md)), writes
+([credential-vault](../../../../security/identity-and-access/credential-vault/credential-vault.md)), writes
 through the same repositories every other caller uses (no private side door
 that skips their checks), and for operations that are irreversible or
 high-blast-radius, it stops and asks

@@ -36,7 +36,8 @@
         "judge-calibration-and-drift",
         "judge-contract-design",
         "production-trace-scoring",
-        "quality-regression-gating"
+        "quality-regression-gating",
+        "generator-uncertainty-scoring"
       ]
     },
     {

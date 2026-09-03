@@ -28,7 +28,7 @@ Health checking is the general discipline — environment readiness, subsystem
 liveness, external-tool availability, configuration sanity. One of its
 domains has a discipline of its own: probing whether a *stored credential*
 will be accepted by its provider is owned by the vault subject's
-[health-probing](../../../security/credential-vault/techniques/health-probing.md) technique,
+[health-probing](../../../security/identity-and-access/credential-vault/techniques/health-probing.md) technique,
 which applies everything below to the special case where the thing being
 verified is a secret and the prober is a guest on someone else's rate limit.
 This subject holds the general form; that one holds the credential

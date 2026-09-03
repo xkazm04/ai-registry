@@ -40,10 +40,10 @@ what happened be missing?*
 What is also *not* this subject, though it borders it closely: the
 recording of authorization **decisions** — every allow and deny at a
 permission gate — which is owned by the
-[authorization](../../../security/authorization/authorization.md) subject's
-[authorization-audit](../../../security/authorization/techniques/authorization-audit.md)
+[authorization](../../../security/identity-and-access/authorization/authorization.md) subject's
+[authorization-audit](../../../security/identity-and-access/authorization/techniques/authorization-audit.md)
 technique, and the recording of credential **use**, owned by the
-[credential-vault](../../../security/credential-vault/credential-vault.md)'s brokered
+[credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md)'s brokered
 door. Both are audit ledgers in exactly this subject's sense, and both
 apply the disciplines below; what they own is the domain-specific content
 of their records. This subject owns the disciplines themselves: what makes

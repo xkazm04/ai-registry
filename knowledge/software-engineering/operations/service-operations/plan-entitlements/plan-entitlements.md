@@ -46,7 +46,7 @@ the intersection of four neighbours and inherits confusion from all of them.
   meet at exactly one point: a charge decision reads the tier from here and
   the balance from there. Nothing in this subject re-derives a unit price or
   re-implements a ledger.
-- [authorization](../../../security/authorization/authorization.md) owns who may act — the
+- [authorization](../../../security/identity-and-access/authorization/authorization.md) owns who may act — the
   identity-to-permitted-action mapping and its enforcement. **Entitlement is
   orthogonal to permission**, and conflating them is a defect with a
   characteristic shape: an administrator on a free plan gets a paid feature

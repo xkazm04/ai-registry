@@ -88,7 +88,7 @@ Two further neighbours are cited rather than absorbed.
 owns one producer's incremental output rendered on one surface, and prescribes a
 parser that is stateless per frame — correct there, and structurally unavailable
 here, for the reason given below.
-[Credential-vault](../../../security/credential-vault/credential-vault.md) owns
+[Credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md) owns
 custody: the sealed value, the brokered outbound door, the lifecycle. This plane
 holds an opaque handle to a credential and inherits it down a tree; it never owns
 the secret. And

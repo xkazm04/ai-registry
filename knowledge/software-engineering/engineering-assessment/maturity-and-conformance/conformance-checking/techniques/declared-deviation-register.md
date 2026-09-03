@@ -153,7 +153,7 @@ tuning file: the first is repaired by narrowing a detector, the second must
 never narrow anything, because the day the deviation is reverted the check has
 to fire again.
 
-[vendored-fork-ledger](../../../../security/supply-chain/techniques/vendored-fork-ledger.md)
+[vendored-fork-ledger](../../../../security/code-provenance/supply-chain/techniques/vendored-fork-ledger.md)
 records that you copied and patched somebody's code; this records that you did
 not, and still do not behave as their document says. The two are neighbours
 because both name a state where a mechanical test reports nothing and the

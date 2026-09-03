@@ -25,6 +25,7 @@ techniques:
   - item-liveness
   - excess-indicts-the-instrument
   - self-reported-gate-inputs
+  - deterministic-proxy-gate
 ---
 
 # Quality gates & ratchets
@@ -591,6 +592,10 @@ is asked to refuse something.
   denylists with their replacements attached, normalising comments and
   literals out before matching, testing the scanner itself, and the timing
   lane's demotion to scheduled evidence.
+- [deterministic-proxy-gate](./techniques/deterministic-proxy-gate.md) — the
+  fourth resolution for a cost gate: keep the standard, swap the apparatus for
+  a deterministic count of work performed, and the workload classes where that
+  count is uncorrelated with the cost it stands in for.
 - [advancement-evidence-fields](./techniques/advancement-evidence-fields.md)
   — the field minted at the stage its obligation binds, the closed
   vocabulary its non-satisfied side needs, advancing an item with the hole

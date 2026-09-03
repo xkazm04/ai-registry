@@ -169,7 +169,7 @@ fields are secret-bearing, and the rule for all of them is the same:
 discarded with disclosure ("this export contained an embedded token; we did
 not import it") or offered into the host's credential flow, where it lands
 encrypted, scoped, and owned — the
-[credential-vault](../../../security/credential-vault/credential-vault.md) door, not a
+[credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md) door, not a
 string column. What persists with the entity is a credential *requirement*:
 a typed, valueless slot the user fulfills. The failure this kills is quiet
 and durable: plaintext secrets riding an import into a store whose whole

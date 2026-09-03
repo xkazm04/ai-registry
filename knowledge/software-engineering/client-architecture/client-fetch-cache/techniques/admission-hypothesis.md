@@ -40,6 +40,18 @@ whole technique:
 A cache that admits everything has made all four bets at once, which is the
 same as having no reason to expect reuse from any of them.
 
+All four are bets about *time or adjacency*, and all four assume the key is an
+identity — so a hit is a proof that the entry belongs to the request. Where the
+key is a **resemblance** rather than an identity, a fifth bet becomes available
+and that assumption goes with it: the entry will be read again by a different
+utterance of the same request. It is the only bet under which a hit can be
+wrong rather than merely old, and it changes eviction, measurement and the
+collision audit together. It has its own technique —
+[similarity-keyed-admission](./similarity-keyed-admission.md) — and the rule
+below about free-text populations is scoped to identity keys, where an
+unretyped question really is unreusable. Under a resemblance key, that
+population is the bet.
+
 ## Why the bet has to be written down
 
 Stating it is not bookkeeping; it is what makes the other three policies
@@ -92,7 +104,8 @@ population.
 - `none` implies a zero eviction time. Do not let unreusable entries occupy a
   store that reuses.
 - Do not key a cached entry on an unbounded free-text population unless the bet
-  is stated and the eviction time is short.
+  is stated and the eviction time is short — or unless the key is a resemblance
+  and the bet is paraphrase recurrence, which is a different technique.
 - Check that eviction's axis matches admission's. LRU under a
   creation-recency bet is a mismatch to argue, not a default to inherit.
 - Where volatility decays with age, derive the lifetime from the entry's

@@ -156,7 +156,7 @@ wrapped-response requests), each discovered as a standby answering a
 client with a read-only error. The stable posture is the inverse: the
 replica's routing table names the operations it may serve locally, and the
 unlisted operation goes to the authority. That is
-[failure-direction](../../../../security/authorization/techniques/failure-direction.md)'s
+[failure-direction](../../../../security/identity-and-access/authorization/techniques/failure-direction.md)'s
 unlisted-case rule with "forward" in place of "refuse".
 
 ## Promotion is a redesign, not a flag flip

@@ -100,41 +100,6 @@ The neighbours' machinery is not portable here — a predecessor map and a roste
 both the centralized run state this subject gives up on purpose — but the *question*
 they answer is owed by any chain that forks and rejoins.
 
-## Many-into-one has no owner here, and the architecture is why
-
-The distribution costs enumerated above are the ones this subject states. There is
-one more, and it is the case distribution makes hardest: **the join.** When two edges
-converge on one link, something has to decide whether the target fires on the first
-arrival or waits for both — and in an event-wired chain there is nowhere for that
-decision to live, because no component holds the set of contributors.
-
-The two neighbouring subjects that model convergence both do it with such a
-component. A pipeline holds a predecessor map, so it can offer any-fire and all-fire
-as a declared choice at the join, decide what a join over a not-taken branch means,
-and refuse to let an unevaluable condition impersonate a verdict. A fleet holds a
-dispatch roster, so it can close a wave at N-of-M and make its accounts sum to that
-roster. **A chain holds neither.** The topology exists only as standing
-subscriptions, so a target with two inbound edges fires twice by default and
-all-fire semantics require inventing a barrier — a component that knows how many
-arrivals to expect, which is the very thing the architecture declines to have.
-
-So state it at the wiring pass, where the intent is still visible:
-
-- **Declare the arity of every inbound edge set.** A link with one predecessor needs
-  nothing. A link with more needs a stated rule — fire per arrival, or wait for a
-  named set — and "we never thought about it" resolves to fire-per-arrival, which is
-  the answer nobody would choose deliberately for a step that costs money.
-- **A barrier is a participant, not a wrapper.** If the rule is wait-for-all, the
-  thing that counts arrivals is itself a link with an identity, a depth, and a stop
-  reason — it can hang, and a hang there is indistinguishable from an upstream link
-  that never fired unless the barrier reports what it is still waiting on.
-- **The waited-for set is bounded at declaration, never at runtime.** A barrier that
-  learns how many inputs to expect by watching them arrive cannot terminate, which
-  is the fork-bomb failure one section down wearing a different shape.
-
-The neighbours' machinery is not portable here — a predecessor map and a roster are
-both the centralized run state this subject gives up on purpose — but the *question*
-they answer is owed by any chain that forks and rejoins.
 
 ## The drawn graph and the runtime wiring are two representations of one intent
 

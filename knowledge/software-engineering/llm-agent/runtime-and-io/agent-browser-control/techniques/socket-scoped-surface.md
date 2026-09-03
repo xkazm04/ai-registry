@@ -137,7 +137,7 @@ the general decision between a child process and a network listener and names
 the local-port trap this technique falls into on purpose. This technique
 begins after that decision is made against you — the daemon *is* a listener,
 and now part of it must be public — and owns the mechanism that keeps the
-public part small. [browser-credential-boundary](../../../../security/browser-credential-boundary/browser-credential-boundary.md)
+public part small. [browser-credential-boundary](../../../../security/data-and-transport/browser-credential-boundary/browser-credential-boundary.md)
 is not this: it concerns credentials a web application ships to visitors, and
 the only credential here is the daemon's own.
 

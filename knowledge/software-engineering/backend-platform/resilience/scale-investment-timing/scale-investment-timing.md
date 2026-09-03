@@ -10,6 +10,7 @@ techniques:
   - vertical-headroom-before-distribution
   - size-the-system-to-its-maintainers
   - migration-reason-audit
+  - execution-model-concurrency-threshold
 ---
 
 # Scale investment timing
@@ -166,6 +167,26 @@ what this subject contributes is the count, and the discipline of revisiting it.
 owns the input, the recomputation trigger, and the diagnostic that separates an
 over-built system from an under-staffed one.
 
+## The axis inside the process: concurrent in-flight operations
+
+Node count is not the only axis this discipline has to arbitrate. A system also
+chooses an **execution model** — one worker per unit of work drawn from a pool, or a
+cooperative model where many units share few workers by yielding at explicit
+suspension points — and that choice is made overwhelmingly by default, taste or
+fashion rather than against a figure. It belongs here because it has every property
+the subject was built for: a threshold on a named axis, a per-unit cost model that
+sets it, and the asymmetry that the wrong answer generates no incident.
+
+The threshold is not exotic. Cooperative multiplexing earns its complexity at roughly
+a thousand to ten thousand concurrent, mostly idle operations; most services are
+below that, and below about ten concurrent input/output operations the simple model
+should be assumed faster until profiled. What makes the decision go wrong is that the
+cost usually quoted for a dedicated worker is its *reserved address space* rather
+than its resident memory — an overstatement of two orders of magnitude — and that
+teams measure throughput when the binding axis is occupancy.
+[execution-model-concurrency-threshold](./techniques/execution-model-concurrency-threshold.md)
+owns the axis, the cost model, and the three inversions that override it outright.
+
 ## A migration's stated reasons are evidence
 
 When a platform migration is proposed on growth grounds, the cheapest available check
@@ -256,6 +277,10 @@ maintaining headcount as an *input* it reads, never as a recommendation it makes
 - [size-the-system-to-its-maintainers](./techniques/size-the-system-to-its-maintainers.md)
   — maintaining headcount as a written design input, the fall in it as a design
   event, and the diagnostic separating over-built from under-staffed.
+- [execution-model-concurrency-threshold](./techniques/execution-model-concurrency-threshold.md)
+  — concurrent in-flight operations as a sized axis, the per-worker cost model that
+  derives the threshold, occupancy versus throughput as the instrument, and the
+  platforms and ecosystems where the trade does not exist.
 - [migration-reason-audit](./techniques/migration-reason-audit.md) — the enumeration,
   the two-list sort, the cost figure that is reliably underestimated, and the
   legitimate non-technical reasons that can carry a migration alone.

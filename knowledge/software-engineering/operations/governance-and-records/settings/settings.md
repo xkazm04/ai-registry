@@ -231,7 +231,7 @@ surface that has outgrown scrolling. These are
 - **Ledger discipline** — append-only writes, retention, querying — belongs
   to [audit-logging](../audit-logging/audit-logging.md).
 - **Secrets are not settings.** Credentials, tokens, and anything deserving
-  encryption live in the [credential-vault](../../../security/credential-vault/credential-vault.md);
+  encryption live in the [credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md);
   a settings store is plaintext by design and must refuse the temptation to
   hold "just one API key". If a value would be redacted in a log, it does not
   belong here.
