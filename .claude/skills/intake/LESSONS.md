@@ -5966,3 +5966,7 @@ been naming that zero for weeks:
 ### 2.3.0 - 2026-09-03 - the decision gate (operator request)
 
 - Phase 7.7: every waiting proposal across the fleet shown as one multi-select per project at the end of an attended run; selected = accepted, unselected = declined, no third state; ledger rows and status lines written in the project; accepted proposals executed in the same session, one Opus worker per proposal in an isolated worktree on a `direction/<slug>` branch, gate verdict into `.ai/applied.jsonl`, branches left for the operator to merge. First gate: 11 shown, 9 accepted, 2 declined (a priced credential roster for tracklight; an entity-id grammar door for politicas), 9 workers dispatched. Mid-flight runs: none live at the bump.
+
+### 2.3.1 - 2026-09-03 - merge after the gate (operator rule)
+
+- "Once the activity is approved we do not need a second human gate": a direction branch whose gate ran green is merged by the director in the session, `--no-ff`, never pushed; red or un-runnable gates stay branches with the reason. Applied-ledger conflicts between sibling branches resolve by union. First application: all nine 2026-09-03 branches merged (two needed the union rule; one project had a concurrent session's uncommitted ledger rows, committed first as their own change; one had the ledger untracked in the main checkout, unioned after the merge).

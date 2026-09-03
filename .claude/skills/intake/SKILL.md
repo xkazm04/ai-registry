@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.3.0
+version: 2.3.1
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1189,9 +1189,24 @@ verdict read from the gate; commits on the worktree branch with a pathspec and t
 project's own commit convention, never bypassing a hook, never pushing. The director
 reviews each report against the diff (the gate ran, the row's verdict matches what the
 gate said, the size did not creep), records the branches in `librarian/applied.md`, and
-removes the worktrees - **the branches stay**; merging is the operator's click, as it
-always was. Workers are the default model for this phase, as for every phase but the
-director's review.
+removes the worktrees. **Then the director merges (v2.3.1).** The operator's acceptance
+at the gate was the human decision; a second one at merge time is a gate nobody asked
+for, and the branches it produced sat unmerged until the operator said so. The rule:
+
+- a branch whose gate ran **green** is merged into the project's active branch with
+  `--no-ff` and a message naming the gate date, in the session, right after the review;
+- a branch whose gate is **red, or could not run** (a missing toolchain, a test binary
+  that will not launch) stays a branch, with the reason in its applied row and in the
+  report - the operator merges that one by hand or asks for a second pass;
+- `.ai/applied.jsonl` conflicts between sibling branches are append-only ledgers and are
+  resolved by **union** (ours, then every line of theirs not already present), never by
+  choosing a side; a concurrent session's uncommitted rows in the main checkout are
+  committed first as their own change, never stashed or overwritten;
+- **never push.** The operator pushes after reading the log, as for every other commit
+  this method makes.
+
+Workers are the default model for this phase, as for every phase but the director's
+review.
 
 **Budget.** The gate costs one screen. The execution costs one worker per accepted
 proposal, and the operator chose the count. A run that lands in the registry and then

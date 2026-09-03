@@ -110,9 +110,12 @@ there is no third state - a direction the operator wants to think about is decli
 and can be re-raised by a later run. The rows land in each project's ledger and the
 proposal's `status:` line flips; accepted proposals are then executed in the same session,
 one worker per proposal in an isolated worktree on a `direction/<slug>` branch, with the
-gate's verdict written to the project's `.ai/applied.jsonl` and the branch left for the
-operator to merge. The first gate ran on 2026-09-03: eleven shown, nine accepted, two
-declined, nine workers dispatched.
+gate's verdict written to the project's `.ai/applied.jsonl`. A branch whose gate ran
+green is merged by the director in the same session (`--no-ff`, never pushed); a branch
+whose gate is red or could not run stays a branch with the reason recorded - the
+operator's acceptance at the gate was the human decision, and there is no second one at
+merge time (intake 2.3.1). The first gate ran on 2026-09-03: eleven shown, nine
+accepted, two declined, nine executed, nine merged.
 
 ## How intake uses it
 
