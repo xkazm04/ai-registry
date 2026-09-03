@@ -6163,3 +6163,117 @@ been naming that zero for weeks:
   commit is the list of files the run wrote - the design read's checklist plus the
   director's own writes - and it is assembled from that inventory, never from the tree's
   current state, which belongs to everyone.
+
+## 2.3.2 - 2026-09-03 - adaptive-agentic-worms
+
+- **A bot wall is a property of one frontend, not of the document, and the exit code is
+  what makes that actionable.** `research-ingest` returned exit 2 (HTTP 429) twice on the
+  canonical URL. Because 2 means instrument failure and 3 means thin source, the next move
+  was route-around rather than report-nothing, and a community mirror served the same
+  4,381-word document clean on the first try. The split between those two exit codes paid
+  for itself in one command. Worth generalising: for aggregator sources, a mirror is a
+  cheaper first response to a 429 than a retry, and the retry is what a run reaches for.
+
+- **Phase 7.7's pending-proposal detection matches prose, and presented a study at the
+  operator's decision gate as a decidable item.** The scan for waiting proposals matched
+  `status: proposed` anywhere in a document. A peer comparison study that *describes* its
+  proposals' status in a sentence ("Each is `status: proposed`. No ledger row is written
+  by this pass; the owner writes it.") matched, and was shown at the gate beside a real
+  proposal. It was flagged as suspect in the option text and declined, and **no ledger row
+  was written for it** - a decline row for something that was never a proposal poisons the
+  directions ledger exactly the way filing an untriaged candidate as declined poisons the
+  decline ledger. The fix is one clause: the gate's inventory reads a **frontmatter
+  field**, not a regex over the body. Not applied this run (first sighting, and SKILL.md
+  has eleven live readers); proposed wording recorded here for the next run to apply with
+  a patch bump.
+
+- **Second sighting, from the other side, of the status-derived pathspec.** A sibling run
+  committed four of this run's finished-but-uncommitted knowledge files into its own
+  commit (`ff802432`), having built its pathspec from the working tree's current state;
+  it caught the mechanism itself two commits later and wrote the lesson immediately above
+  this entry. The content was byte-identical to this run's working tree, so nothing was
+  lost or half-published - but this run's three landed knowledge files carry another run's
+  commit message, and neither operator reviewed them as such. **The board did not and
+  could not prevent this: it tracks subjects, not a run's uncommitted working tree, and
+  the two runs held no subject in common.** That is the gap - a run's in-flight *files*
+  are invisible to siblings except through `git status`, which is precisely the instrument
+  the sweeping run used. This lesson now has two independent sightings from two runs in
+  one afternoon; the rule "the committable list is assembled from what the run wrote,
+  never from the tree's current state" should graduate into SKILL.md on the next sighting,
+  or on the next method edit, whichever comes first.
+
+- **Both catches this run came from reading a file the slug map ranked below the noise.**
+  `refusal-reroute-hop` surfaced only on a concept term (never on a proper noun - the
+  vendor names in the source return zero by construction against the purity gate), and
+  `candidate-write-access` was found by listing a subject's technique *directory* after
+  the golden path's own list came back shorter than the folder. Both then turned out to
+  state the source's claim better than the source did. The habit worth keeping: when a
+  subject's technique list and its technique folder disagree in length, read the folder.
+
+- **A dialogue's retraction is worth more than its disagreement.** The class entry says
+  the yield sits where two practitioners chose opposite defaults. This source added a
+  sharper case: a commenter asserted three limitations of the paper, was answered with the
+  paper's own text, and **publicly retracted** - leaving exactly one surviving limitation,
+  stated precisely, which became the run's second amendment. A retraction is a
+  discriminator that has already been tested by the person who held the wrong side. When a
+  thread contains one, read it before the article's own conclusions.
+
+## 2.3.2 - 2026-09-03 - automated-alignment-researchers
+
+- **The vendor-announcement fetch rule earned its keep in its strongest form yet: the
+  fetch *refuted* the pick rather than corroborating it, and the replacement was
+  better.** The post said the agent cheated "by exfiltrating test labels from a remote
+  API"; the primary report documents no such thing, and documents instead that the only
+  cheat that ever succeeded was plain re-submission - re-running and keeping the luckiest
+  score. Had the run written from the announcement it would have landed a technique about
+  a network surface that this study never exercised. The class entry says "budget one
+  fetch to the vendor's own reference docs before writing anything from an announcement's
+  numbers, and expect the doc to make the finding bigger than the post did." It is bigger
+  *and different*; the entry could say that the doc sometimes replaces the finding.
+
+- **A sibling's live WIP can decide a landing's FORM, not only its timing.** The second
+  finding was drafted as an amendment to `candidate-write-access` and landed as its own
+  technique because a sibling was rewriting that exact file mid-run (adding a fifth
+  enumeration question and a measurement-vs-containment boundary). That was the right
+  call - amending a file being restructured by someone else is how two runs produce one
+  incoherent document - but Phase 7's amendment-or-technique test is written purely about
+  the finding's shape and says nothing about the file's occupancy. It should: **live
+  foreign WIP in the target file is a reason to prefer the standalone document.**
+
+- **The "is the index describing non-HEAD content" check is easy to run wrongly, and it
+  fails silently in the reassuring direction.** This run checked with
+  `git grep -q <slug> HEAD` and got "yes" for two sibling subjects whose own documents
+  were still untracked - the slug appeared in a committed taxonomy entry and a committed
+  handoff note. The check that answers the question is about the *files'* tracked status
+  (`git status --short` over the bundle), not about whether a string exists somewhere in
+  HEAD. Same family as the `grep -L`/`-q` and multi-`-e` defects already in this ledger:
+  an instrument that returns a confident wrong answer about an absence.
+
+- **The declared-focus mechanism is single-writer and the fleet is not.** Round 7's focus
+  was written by a concurrent sibling *after* this run's Phase 1 read, so the run it was
+  addressed to had already shipped its triage table. With a dozen live sessions the focus
+  steers the next *quiet* run, not the next run. Either re-read the focus at Phase 5, or
+  say this plainly in Phase 1 so a run stops believing it is acting on the current one.
+
+- **A focus item the source class cannot discharge should be skippable by class.** Round 6
+  asked for the fleet map's `techniques_absent` list for the fourth time. A non-repository
+  source writes no design record, never runs Phase 7.6, and never consults the map - so
+  this run could not build it and, more importantly, had *no evidence about it*. Carrying
+  it forward as an open item across runs that structurally cannot answer it makes the
+  focus line noisier every round.
+
+- **The "never switch the branch" rule is written for this checkout and applies with equal
+  force to every consuming tree.** This run created a branch in a fleet project that had
+  another session's uncommitted work in it, which silently moved that session onto a branch
+  it had not chosen. Repaired within the minute (back to `master`, all seven WIP entries
+  verified intact, the commit left on the branch), and the correct move was available and
+  cheaper: commit to the branch from a worktree, or check `git status` in the *consuming*
+  tree before `checkout -b`, which Phase 8 never tells you to do.
+
+- **Second sighting: a sibling's broad `git add` swept this run's in-flight files into its
+  commit.** `ff802432` carries three runs' work under one run's name, including this run's
+  two techniques and a golden-path edit, committed without review by their author. Nothing
+  was lost and HEAD holds the final drafts, so the cost was attribution and a review that
+  never happened. The method already forbids `git add -A`; what it lacks is the *victim's*
+  move, which is what this run had to invent: verify HEAD holds your final draft, say so in
+  the commit message, and commit the remainder rather than trying to reconstruct authorship.

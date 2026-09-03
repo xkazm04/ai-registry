@@ -1110,7 +1110,63 @@ merits, and did the run measure one corpus-suggested instrument against a real t
 run did (the A/B on its own lock) and it changed the technique.
 
 | 2.3.2 | 2026-09-03 | `chatterino2` (**vendor repository, community-held, no-rules-page branch**; 499 landing / 32,550 in-tree md / 31,327 doc-comment words; ~140k lines C++; **round 6, every worker Fable** - Opus returned 529 three times before writing a byte; two session rate limits killed eight worker attempts and lost nothing because workers wrote as they drafted) | 1 | 27 (19 design + 8 claim/craft) | 14 (unattended rule: 9 real-gap + 5 promoted partials of 9 executed; 2 partials not promoted, both filed as lead or untriaged; 0 declined) | **0 subjects** (correct: neither v2.2 clause fired; the triple had an existing home) + **9 techniques** in 6 subjects + **6 amendments** (5 from the source, 1 from a not-better apply row) + **11 source-tree applications** (`cpp`, a new stack) + **6 fleet applications** | **6 rows: 1c/1e/4s** (code better ab-paired; experiment unmeasurable with the instrument named; simulation 3 better + 1 **not-better** that wrote a technique boundary) + **8 unapplied** rows with return conditions | **6** commits in 2 projects (personas 5 incl. a `--no-ff` merge of the late-tick guard after a green gate; pof 1), nothing pushed | **Focus (1) applied by construction:** unattended, so no ship-scope question was asked; the standing fleet authorization covered 7.5 and 7.6 alike and the note names both trees written. **(2)** directions waiting at Phase 1 = 1 with 5 ledger rows that day; cap did not engage. **(3) not applied:** Opus was unavailable; the depth column below is the check on whether Fable workers cost anything - they did not visibly, and the director caught two worker gaps (a missing `stack:` line in two applications, an unwritten `cpp` stack) plus one front-half error the landing worker refuted (the "silent failed load" that was in fact stated). The gate was red at commit time on a **sibling's untracked subject** (a missing technique link), so `index.json`/`catalog.json` were regenerated and left uncommitted per the 2026-08-31 rule. | **S0/T9/A6/Asrc11/task-lines 0 · routing=A2/B2/C0/D2/E1/F1 per system (whole tree 8 of 20), HOME-IF-NEW max 2, existing-home triple C=3 · handoff=none · directions=1/2 (personas restore surface proposed; safe mode's falsifier fired; late tick applied as code) · gate=skipped (unattended)** |
+| 2.3.2 | 2026-09-03 | `automated-alignment-researchers` (**vendor release announcement**, 1,306 landing words + the primary report; the fetch refuted the announcement's own headline mechanism) | 1 | 10 | 3 (operator-picked; rows 5-7 were predicted catches and were **not** picked, so they are untriaged with anchors rather than declined) | **0 subjects / 2 techniques / 0 amendments / 2 applications** - both techniques in `eval-harness`, neither an amendment because the neighbour's central rule does not survive either finding | **2 rows: 1c/1e/0s/0t** (code better ab-paired; experiment better ab-paired) | **2** - this registry's own `dojo` skill, and personas on a branch; neither pushed | **Focus (round 6) applied and mostly n/a by class.** (1) The ship-scope question **was** widened to cover any tree write, not only an apply row - and it could not bind, because a non-repository source writes no design record and Phase 7.6 never runs. The widening is still the right wording and should stay. (2) The fleet map's `techniques_absent` list was **not** built, and the reason is the same: no direction pass ran, so this run never consulted the map and has no evidence about it. That item is owed by a repository run and should stop being carried by news runs that structurally cannot discharge it. (3) Kept. **Two race facts worth the row:** round 7's focus was written by a concurrent sibling *after* this run's Phase 1 read, so it could not steer this run - the focus mechanism is single-writer and the fleet is not; and a sibling's mid-run rewrite of `candidate-write-access.md` changed a landing's shape from amendment to technique, which is the first time the board's WIP signal has decided a document's *form* rather than its timing. | **S0/T2/A0/Asrc0/task-lines 0 · routing=n/a (not a repository) · handoff=no · directions=n/a · gate=n/a (no proposals; source produced no design record) · fetches=1/3** |
+| 2.3.2 | 2026-09-03 | `adaptive-agentic-worms` (**second-hand walkthrough of one paper + practitioner dialogue**; the canonical URL returned **exit 2 - HTTP 429 - twice**, and a mirror served the same 4,381-word document clean on the first try) | 1 | 12 | 4 (all four operator-picked at the gate; 0 declined; the two catches were identified at prior-art mapping and never reached the pick list) | **0 subjects** (correct - a news-class source with no design record; the XL trigger cannot fire) + **1 technique** `guard-input-custody` + **2 amendments** in `eval-harness` + **1 self-amendment** to the new technique written from an apply row + **3 applications** | **3 rows: 1c/0e/2s** - code `better` `ab-paired` on this repo's own purity gate; two simulation `not-better`, both **confirmations rather than refutations**, one of which amended the technique that tested it | **1** shipped code change (this registry's purity gate, committed here, not pushed) + 1 accepted direction dispatched to an Opus worker in an isolated personas worktree, in flight at row time | **Focus (1) applied:** the ship-scope question was widened to name Phase 7.6 direction proposals alongside 7.5 apply rows, and the operator granted both registry tooling and any project a finding maps to - but it **did not bind**, because 7.6 is `n/a` for a non-repository source. Applied, untested; the next repository run is the real test. **(2) not applied, fourth deferral:** `techniques_absent` needs a design record to resolve at technique grain and this source has none. It should now be built or explicitly closed rather than deferred a fifth time. **(3) applied:** the direction worker ran on Opus. **Two failures worth the row:** four of this run's finished knowledge files were swept into a sibling's commit (`ff802432`) by a status-derived pathspec - content byte-identical, nothing lost, but three landed techniques carry another run's message; and Phase 7.7's pending-proposal scan matched `status: proposed` **in prose**, presenting a comparison study at the operator's gate as a decidable item (flagged in the option text, declined, and deliberately given **no ledger row**). | **S0/T1/A3/Asrc0/task-lines 0 · routing=n/a (not a repository - no design read, no per-system count) · handoff=n/a · directions=0/0 (`n/a`, no design record) · gate=run: 2 shown, 1 accepted and dispatched, 1 a false item correctly left unwritten** |
 
 **Funnel, last ten rows.** Research 1 each; extract 11-58; test 2-22; apply now carries a row per landed technique in every round since 2.2 and the unapplied count is the honest remainder (8 of 14 here, all with return conditions - the fleet has no chat client, no in-process scripting sandbox and no capped push multiplexer, and the count says so rather than manufacturing simulations). **The stage losing most is still ship**, and this run's shape names why precisely: one code row shipped, four simulations did not, and the four are the rows whose seam is a desktop app the fleet has only one of. Depth matched the source: a system-shaped repository that the corpus already surrounds yielded techniques and boundaries inside existing subjects, not a subject - the routing counts were written before the decision and both said so.
 
 **Next run's declared focus (round 7):** (1) **Write-as-you-draft is the default in every worker brief**, not a re-dispatch instruction; this round's landings survived eight kills only because the second brief said so. (2) **A `not-better` simulation must write its boundary into the technique in the same session** - it did here, and it was the sharpest edit of the run; make the rule explicit in Phase 7.5 step 3. (3) When the source is a desktop client, **read the fleet's one desktop app's event stream before Phase 7.5** (personas' cloud worker stream was never opened, and two amendments went unapplied for want of a seam that may exist there). (4) Keep Opus for workers when it answers; when it does not, record the substitution in the scorecard and let the depth column judge it, as this row does.
+
+**Next run's declared focus (round 8):** (1) **Stop carrying a focus item that the
+source class cannot discharge.** Round 6 asked for the fleet map's `techniques_absent`
+list for the fourth time; this run could not build it and had no evidence about it,
+because a non-repository source writes no design record and never consults the map.
+Tag each focus item with the source class that can answer it, and let a run skip an
+item by class without that reading as a miss. (2) **The focus mechanism is
+single-writer and the fleet is not.** Round 7's focus was written by a concurrent
+sibling *after* this run's Phase 1 read, so the run that was supposed to act on it had
+already passed its own gate. Either read the focus again at Phase 5, or accept that with
+a dozen live sessions the focus steers the *next quiet* run and say so. (3) **A sibling's
+WIP can change a landing's FORM, not just its timing** - this run's second finding became
+a technique instead of an amendment because the file it would have amended was being
+rewritten mid-run. That is the right call and it is not in the method; Phase 7's
+amendment-or-technique test should name live foreign WIP as a reason to prefer the
+standalone document. (4) **The class rule for a vendor announcement earned its keep
+again, in the strongest form yet**: the fetch did not corroborate the pick, it *refuted*
+it, and the replacement was better. Keep spending that fetch before writing anything.
+
+**Round 7 (`adaptive-agentic-worms`) — the apply ratio finally held, and the depth column
+stopped measuring anything.** Three landings owed three apply rows and got three, which is
+the first time that ratio has been met without a repository's task budget behind it; two
+of the three came back `not-better`, both as confirmations, and one of those amended the
+technique that tested it. That is the shape the method says to want: a rejection that
+writes a section the source could not have.
+
+**The stage the funnel is losing most at is no longer a stage — it is a source class.**
+Six of the last seven rows are repositories, and every mechanism v2.x added is
+repository-shaped: the design read, the per-system routing count, the XL trigger, the
+source-tree application, the direction pass. A news-class source runs none of them and
+correctly reports `n/a` five times in its depth cell, which means the depth column — the
+thing introduced so that five amendments and one subject would stop scoring the same —
+says nothing at all about this run. It cannot be read as "shallow"; it can only be read as
+"not applicable", and a column that reports `n/a` for a whole class is not measuring that
+class. Either non-repository runs get a depth measure of their own (candidate: prior-art
+depth — how many neighbours were opened before a home was chosen, and how many picks
+resolved to catches on verification, which is where this run's real work went: two of
+twelve candidates died against files that said it better), or the column should say
+explicitly that it grades repository runs only.
+
+**Next run's declared focus (round 7):** (1) **Fix Phase 7.7's proposal inventory to read
+a frontmatter field, not a regex over the body** — this run put a comparison study in
+front of the operator as a decidable item and only avoided a poisoned ledger by declining
+to write a row for it. One clause, patch bump; deliberately not applied mid-flight with
+eleven sessions holding this file. (2) **Graduate the pathspec rule into `SKILL.md`.** It
+now has two independent sightings in one afternoon from two runs — the sibling that swept
+this run's four finished files into its commit wrote the lesson from its side, this run
+wrote it from the other — and the board cannot prevent it, because the board tracks
+subjects and the collision was over files no subject named. (3) **Decide the depth
+column's scope** per the paragraph above rather than deferring it again, and while
+deciding, note that `techniques_absent` has now been deferred four rounds for a reason
+that is always legitimate and never resolved. **The check the next row should make:** did
+a non-repository run produce a depth cell a reader can compare against anything, and did
+the widened ship-scope question bind on a run where 7.6 was actually reachable?

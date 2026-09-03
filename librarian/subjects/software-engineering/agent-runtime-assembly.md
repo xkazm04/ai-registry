@@ -95,3 +95,15 @@ selected its denylist from a key in the governed bundle's own index file and deg
 a weaker profile with a note when the key was absent. One deleted line took a planted
 violation from red to green. Custody moved into the checker. Application
 `node--guard-input-custody`.
+
+Second application the same day, `python--guard-input-custody`, against a fleet project's
+memory evaluation harness - and it amended the technique. The harness's confinement is an
+injected clock that **cannot** be placed out of reach, because backends load into its own
+process; the tree answered the custody question honestly with "no", declined to call the
+convention a guard, and built a differential check instead (replay one scenario at two
+base dates, require identical rendered recall, normalising generated ids and absolute
+instants first). The technique gained a section from that seam - detect the escape when
+placement is impossible - with the normalisation condition and the limit stated: it
+detects rather than prevents, and a deterministic escape that does not vary with the probe
+passes it. `not-better` as a verdict, confirmation as a fact, and the corpus is the thing
+that improved.
