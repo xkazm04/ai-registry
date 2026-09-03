@@ -6112,3 +6112,46 @@ been naming that zero for weeks:
 - **Onboard from the remote's HEAD, not the local clone.** The local gravitone was 190 commits behind and the remote had moved the app under `gravitone/`; a context map and three proposals written against the old tree had to be re-pathed after the merge, and the first execution worktree was thrown away. Fetch before the first read of any project that is new to the fleet.
 - **When the worker lane is overloaded, the director executes.** Five consecutive worker launches died on server overload (both models). The gravitone directions were executed in-session by the director with the same discipline (one branch, one commit and one applied row per proposal, the measurable run, the gate run); the tracklight upstream merge (14 conflicted files, 385 remote commits) was resolved the same way. Nothing in the method requires a subagent; the subagent is the parallelism, not the correctness.
 - **Shipping is a gate per project, and three of them were red for reasons that were not ours.** politicas' pre-push typecheck failed on a missing local dependency (`npm install` fixed it); personas' golden-path census rose on five rules across the merged directions and stays unpushed until fixed or deliberately ratcheted; systedo-case's gate fails on another session's incomplete model-rename. A push is reported per repository with the reason, never forced past a hook.
+
+## 2.3.2 - 2026-09-03 - chatterino2
+
+- **Workers must write each file the moment it is drafted.** Two session rate limits
+  killed eight landing-worker attempts mid-flight in one run. The first batch, briefed
+  the usual way, left nothing on disk; the re-dispatched batch, told to write as it
+  drafted, left every technique, application and amendment in place and the director
+  finished the last three items with one small worker and a few `sed` lines. Draft-in-
+  head-then-write-at-the-end is the shape that loses a whole worker to one 429; the
+  brief should say so by default (proposed for the next version's landing brief).
+- **Model substitution is a scorecard fact, not a failure.** Three Opus dispatches
+  returned 529 before writing anything; the run continued on Fable for every worker and
+  the front half as a fork. Record the substitution in the row and let the depth column
+  judge it - here the landings were as deep as the previous round's and the director
+  caught the same class of worker gaps (a missing frontmatter line, an unregistered
+  stack) it would have caught either way.
+- **A not-better simulation is the apply lane's best output, and it must edit the
+  technique in-session.** `applied-defaults-ledger` came back not-better on a tree whose
+  migrations are idempotent replays over structure; the boundary that resulted ("the
+  ledger is for shipped sets of user-editable values; for structure, keep the replay")
+  is sharper than anything the source could have authorized. Phase 7.5 step 3 already
+  says the technique gains an amendment; the lesson is that it happens now, while the
+  three cases are open, not as a banked row.
+- **The landing worker refutes the front half, and that is the review working.** The
+  design read said a failed catch-up was silent in the source; the worker re-opened the
+  anchor, found the failure stated by a shared error handler, and found the real omission
+  (a catch-up returning exactly its cap says nothing about truncation). The amendment is
+  right because two readers disagreed and the second one opened the file.
+- **A direction's falsifier can fire on the first read.** The safe-mode candidate for the
+  fleet desktop app looked admitted by scope until the extension surface's own header was
+  read: in-tree compiled code registered at startup, nothing dynamic. The forces the
+  source answered (operator-supplied code that can break boot) do not exist there. Ten
+  minutes of reading saved a proposal nobody could accept; record it under "not
+  proposed" with the line that killed it.
+- **`verified_against` for a C++ tree is `cpp@<standard>`**, witnessed by the build
+  file's language-standard line, because the gate's regex wants `<stack>@<version>` and
+  the stack must equal the filename prefix; the product version and toolkit requirement
+  go in the first paragraph. `cpp` is now in the software-engineering stack list.
+- **The gate can be red on a sibling's untracked folder at commit time.** A live run's
+  half-written subject fails the link check for everyone; the rule from 2026-08-31
+  (regenerate under the lock, commit your own content, leave the index artifacts
+  uncommitted if they reference content not in `HEAD`) covers it, and the source note
+  should name the folder so the next reader knows why the index was left behind.
