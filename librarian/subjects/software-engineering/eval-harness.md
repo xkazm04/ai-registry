@@ -460,3 +460,35 @@ this application tested.
 Worth generalising if a second tree shows it: **when a distribution is reduced at more
 than one stage, the reductions have to agree, and a boolean is where they stop being
 able to.** Not yet a technique - one tree, one pipeline.
+
+## 2026-09-03 - `/intake` adaptive-agentic-worms (run `worms`, intake 2.3.2)
+
+Two amendments, both from a community walkthrough of a security preprint and its comment
+thread. No new techniques - the subject already owned the rules; what the source supplied
+was one missing question and one missing scope line.
+
+`candidate-write-access` gains a fifth enumeration question and a boundary section. Its
+four questions covered what the candidate can read, what it can write, who built the
+holdout, and whether the environment is reconstructed - and none of them reached **the
+run's own confinement**: the host allowlist, the budget ceiling, the timeout, the paths
+declared out of bounds. Those are inputs too, and they sit beside the harness rather than
+beside the fixtures, which is why question 2 misses them. The fifth question is answered
+properly in `agent-runtime-assembly/guard-input-custody`, and the boundary is now written
+on both sides. It is worth holding: **measurement integrity is bought with incentives,
+containment is bought with placement.** A declared holdout works precisely because it does
+not need the candidate's cooperation; nothing equivalent exists for a boundary, which has
+to hold rather than be believed in, and the environment-per-condition fix reinstates a
+subverted guard fresh each time.
+
+`scenario-design` gains "a seeded environment moves the number one stage down the
+pipeline", plus a `use_when` entry. For an agent that acts, the scenario is the
+environment, and environments are routinely built so the precondition of the interesting
+behaviour always holds - every record matches, every host is reachable, every document
+contains the answer. That is often necessary and it is not the defect. The defect is that
+the number then describes *act given a qualified target* while the claim describes the
+whole pipeline. **The failure is not concealment** - the source protocol here disclosed
+its seeding plainly; the predicate stayed in the methods while the figure travelled
+without it (`count-carries-predicate`). The tell is cheap and new: when two careful
+readers of one honest protocol disagree in opposite directions about what a headline
+figure covers, that disagreement is evidence about the claim, not about the readers. Both
+readings were observed in the source's own comment thread, including a public retraction.
