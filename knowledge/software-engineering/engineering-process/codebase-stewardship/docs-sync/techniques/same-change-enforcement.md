@@ -4,9 +4,9 @@ type: technique
 subject: docs-sync
 technique: same-change-enforcement
 status: forged
-laws: [gate-sees-target, failure-not-empty-success, count-carries-predicate]
+laws: [gate-sees-target, failure-not-empty-success, count-carries-predicate, derivation-names-recomputation]
 shared_with: []
-use_when: [deciding what record of change a doc gate should read, a gate that exits zero yet has never fired, seeding a violation to see whether the nag arrives]
+use_when: [deciding what record of change a doc gate should read, a gate that exits zero yet has never fired, seeding a violation to see whether the nag arrives, a coupled document that could be generated from its source of truth]
 ---
 
 # Same-change enforcement
@@ -74,6 +74,36 @@ Four lessons, each independently transplantable:
    scheduled decision, not a drive-by. The wrong fix is silent repair; the
    wrong non-fix is silent decay. The right move is what happened: register
    the defect, with its measurements, where the operator will schedule it.
+
+## First ask whether the document can be derived
+
+Everything else in this technique designs a gate over *prose* — a document a
+human writes, coupled to source by a mapping. Before building one, ask whether
+this particular document has to be prose at all, because there is a strictly
+better shape and it should be tried first.
+
+**Make the document a derived artifact, and assert that regenerating it is a
+no-op.** A test regenerates the file from its source of truth and asserts
+byte-equality with the copy that is committed. Where they differ the gate
+fails, with the repair command in its own failure message: the author runs one
+command and commits the result.
+
+This shape dominates every mapping-based gate below, for one reason —
+**there is no satisfaction ambiguity at all.** The target is the file itself
+and the predicate is equality, so satisfaction-by-prefix cannot happen, the
+wrong-document failure cannot happen, and there is no empty success to swallow
+anything: regeneration either matches or it does not. The autopsy above is the
+story of a gate that could not see its target; this shape's target is
+unmissable. The generator is the named recomputation the derived value owes
+([derivation-names-recomputation](../../../../_laws.md#derivation-names-recomputation)).
+
+The precondition is why it is not always available: the document must be
+**derivable** — its content a function of something machine-readable. Most
+explanatory prose is not, and for all of that the rest of this technique
+applies unchanged. Where only part of a file is generated, scope the generator
+to a delimited region and gate only that region; the delimiter is also what
+answers the standing warning that hand edits to generated output are lost, by
+stating exactly where hand editing is still safe.
 
 ## Read the change from the change record
 

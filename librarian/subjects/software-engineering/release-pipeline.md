@@ -1,7 +1,7 @@
 ---
 subject: release-pipeline
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -40,3 +40,28 @@ this technique is what the paragraph has to contain.
 
 Prior art before this run: none owned deprecation as a lifecycle (68 files mention the
 word; none models the window). Verified uncapped.
+
+### 2026-09-03 - `/intake`, from a vendor's official MCP server monorepo
+
+`deprecation-by-version-arithmetic` gained two sections. Source: [[2026-09-03-microsoft-mcp]].
+
+The source has **no deprecation mechanism at all** - verified by exhaustive grep across
+fifteen contract documents, zero hits. That is not neglect; it is a posture, and it comes
+with conditions that make it defensible: callers re-read the catalog every session so a
+window protects almost nobody, releases ship frequently on a pre-stable train, and -
+the load-bearing one - catalog size is itself a quality metric, so an alias is not inert.
+It is a second plausible name sitting in the model's selection prompt at every listing,
+which is active misdirection at exactly the step this publisher spent a breaking change
+to improve. The technique's "When not to use this" exempted only internal symbols; it now
+carries this second exemption with its conditions and its bill (the source renamed one
+capability and renamed it again five releases later, and concedes cached listings break
+silently).
+
+The second section answers a question the technique already raised and never resolved. It
+says a named downstream consumer is a blocker of a different kind and that a major version
+waives time but never a known consumer - the law with no mechanism. The source's mechanism
+is a unit test that asserts the specific published names a known downstream hard-codes,
+carrying the downstream reference that created the dependency so the next person can ask
+whether it still exists. It pins names, not the surface: a golden-file snapshot of
+everything would make every legitimate addition a failure and train reviewers to bless
+diffs.
