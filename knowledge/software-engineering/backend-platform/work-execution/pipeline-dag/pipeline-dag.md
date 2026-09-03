@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: pipeline-dag
-status: forged
+status: reconciled
 techniques:
   - graph-validation
   - node-execution-model

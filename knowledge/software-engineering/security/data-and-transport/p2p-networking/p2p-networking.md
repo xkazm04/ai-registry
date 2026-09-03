@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: p2p-networking
-status: forged
+status: reconciled
 techniques:
   - discovery-advertisement
   - peer-state-honesty

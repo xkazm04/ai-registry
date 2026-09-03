@@ -65,6 +65,19 @@ breaks if this is gone at next launch, and what breaks if it is stale?*
   outlive its inputs; recompute instead, and if recomputation is costly the
   stored form names its recomputation path
   ([derivation-names-recomputation](../../../_laws.md#derivation-names-recomputation)).
+- **Does not earn it — a latch standing in for a comparison.** "The user
+  has configured this" is a fact about the current values, not about the
+  history of interactions: derived as *inequality with the default state*
+  it becomes false again the moment the user clears their choice. A
+  boolean set on first interaction cannot fall — nothing is watching for
+  the return to defaults — so a cleared selection keeps reporting itself
+  as configured, and whatever consumes the flag keeps re-injecting a
+  choice the user has already withdrawn, which reads to them as the
+  product refusing to forget. Persisting the latch makes it permanent.
+  Where the comparison is genuinely too costly at read time, the stored
+  form names its recomputation path and every writer of the underlying
+  values runs it
+  ([derivation-names-recomputation](../../../_laws.md#derivation-names-recomputation)).
 - **Never:** secrets in general-purpose storage. Credentials, tokens, and
   keys go through the platform's protected storage or an encrypting layer
   with its own custody rules — general state persistence is readable at

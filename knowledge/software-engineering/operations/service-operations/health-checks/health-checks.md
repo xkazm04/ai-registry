@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: health-checks
-status: forged
+status: reconciled
 techniques:
   - three-state-outcomes
   - probe-design

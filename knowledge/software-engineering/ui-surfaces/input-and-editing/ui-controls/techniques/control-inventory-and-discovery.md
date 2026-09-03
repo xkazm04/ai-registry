@@ -55,6 +55,18 @@ primitive whose honest entry is "renders nothing; compatibility shim" must
 say so in the catalog, because the catalog is where the next confused
 adopter will look first.
 
+But the warning is the weaker half, and the field lesson is that it is not
+enough: when a shared primitive has been disabled across the whole product,
+**delete the export instead of leaving a null-rendering shim behind it**.
+A catalog entry does not stop the call from compiling — callers keep
+writing the branch that reaches for the primitive, it type-checks, and it
+ships an empty slot at every one of those sites, because a symbol that
+still resolves emits no signal to anyone who does not go looking. A removed
+export fails the build exactly at the sites that need revisiting, which is
+the only mechanism that reliably enumerates them. Keep a shim entry only
+for a shim you have deliberately chosen not to delete yet, and give that
+entry a removal date.
+
 ## Route by temptation, not by name
 
 The alphabetical component list answers "what is CopyButton?" — a question

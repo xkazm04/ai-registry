@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: versioning-snapshots
-status: forged
+status: reconciled
 techniques:
   - snapshot-scope
   - version-identity

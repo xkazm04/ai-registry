@@ -639,9 +639,9 @@
       "purity": "game",
       "subjects": 51,
       "techniques": 319,
-      "applications": 135,
-      "files": 509,
-      "contentHash": "sha256:5daae729615a775a"
+      "applications": 136,
+      "files": 510,
+      "contentHash": "sha256:7dffb52b05d68e2e"
     },
     {
       "name": "grant-funding",
@@ -665,9 +665,9 @@
       "purity": "software",
       "subjects": 17,
       "techniques": 110,
-      "applications": 58,
-      "files": 190,
-      "contentHash": "sha256:3d1f6493dc21a3bd"
+      "applications": 59,
+      "files": 191,
+      "contentHash": "sha256:646b160ad13f99c5"
     },
     {
       "name": "localization",
@@ -680,7 +680,7 @@
       "techniques": 85,
       "applications": 45,
       "files": 148,
-      "contentHash": "sha256:e0a998f4c94dd41b"
+      "contentHash": "sha256:cf1fad6b2b713e06"
     },
     {
       "name": "media-generation",
@@ -691,9 +691,9 @@
       "purity": "media",
       "subjects": 20,
       "techniques": 132,
-      "applications": 58,
-      "files": 215,
-      "contentHash": "sha256:9cfd5f784f9f98bf"
+      "applications": 61,
+      "files": 218,
+      "contentHash": "sha256:7af8e54015d63df4"
     },
     {
       "name": "recruiting",
@@ -716,10 +716,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 191,
-      "techniques": 1379,
-      "applications": 791,
-      "files": 2366,
-      "contentHash": "sha256:b999ea8b93c1af1e"
+      "techniques": 1386,
+      "applications": 810,
+      "files": 2392,
+      "contentHash": "sha256:9a1139ad023fbc33"
     }
   ]
 }

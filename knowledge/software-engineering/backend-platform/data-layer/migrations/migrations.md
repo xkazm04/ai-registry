@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: migrations
-status: forged
+status: reconciled
 techniques:
   - idempotent-steps
   - pre-migration-snapshots

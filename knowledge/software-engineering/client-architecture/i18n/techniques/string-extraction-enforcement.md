@@ -102,3 +102,16 @@ running the product in a pseudo-locale (see
 an extraction gap, whatever the detector said. Green static analysis plus
 a pseudo-locale sweep is the pair that approximates the real claim —
 "every string the user sees came through the catalog".
+
+One blind spot has a cheap detector of its own, and it is not shape-based:
+**join the catalog's source-language values against the string literals in
+source.** A value that sits on an *unreferenced* key and also appears
+verbatim as a literal is a half-finished extraction — the string was
+catalogued, then rendered from the literal anyway — and neither side can
+see it alone: the coverage gate sees a valid unused key
+([completeness-gates](./completeness-gates.md)), the literal detector sees
+a literal in a shape it does not enumerate. Every hit is an extraction
+task, never a duplicate to delete; removing the catalog entry to clear the
+report ratifies the hardcoded string and destroys the only evidence that
+somebody already wrote the key
+([deletion-is-not-repair](../../../_laws.md#deletion-is-not-repair)).

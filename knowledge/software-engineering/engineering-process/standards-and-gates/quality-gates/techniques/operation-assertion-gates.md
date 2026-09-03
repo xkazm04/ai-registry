@@ -106,7 +106,14 @@ Two consequences follow, and both are usually skipped:
   matches nothing reports zero violations and exits clean, which is
   [failure-not-empty-success](../../../../_laws.md#failure-not-empty-success) in
   its cheapest form — a directory rename retires the gate silently. The check
-  refuses an empty scope as a fatal error, never as a pass.
+  refuses an empty scope as a fatal error, never as a pass. And note what the
+  hand-enumeration in step 2 is and is not licensing:
+  [self-reported-gate-inputs](./self-reported-gate-inputs.md) requires a
+  gate's *population* to be derived rather than typed, which stands — these
+  scopes are the narrower thing, a policy statement about where the rule is
+  stricter than the default, so they may be written by hand, must be resolved
+  against the tree on every run, and are never the answer to "what did the
+  gate look at."
 
 ## Where the scanner is a parser you did not write
 

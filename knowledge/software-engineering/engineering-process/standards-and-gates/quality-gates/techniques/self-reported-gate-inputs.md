@@ -85,6 +85,26 @@ a check must trust an input the subject writes, make the not-writing loud.**
   actor to ignore the layer that *is* load-bearing
   ([false-positive-economics](./false-positive-economics.md)).
 
+Shape-over-enumeration is stated above about a *classifier*, and it governs
+any gate's **population** just as strictly. A gate whose walked set is a
+hand-written list of modules, directories or subjects describes the codebase
+on the day somebody typed it: what is added afterwards is not judged and
+nothing says so, which is the same fail-open, invisible-to-the-instrument
+failure one level up from the classifier. So the population is *derived* from
+whatever already knows the answer — the workspace manifest, the tree walk,
+the build's own module graph — and the gate then asserts that the derivation
+found something, because a derived-and-empty population is exactly as silent
+as a stale list and much easier to produce
+([gate-liveness](./gate-liveness.md)). The reconciliation with
+[operation-assertion-gates](./operation-assertion-gates.md), which prescribes
+hand-enumerated scopes, is that its lists are *denylist scopes* — a
+deliberately narrow region where a rule is stricter than elsewhere, and a
+region that quietly loses a member weakens the rule locally without
+mis-describing the codebase. A list that answers "where is this rule
+stricter" is a policy statement and may be written by hand; a list that
+answers "what did the gate look at" is an instrument reading and must be
+derived.
+
 ## The override is an input too
 
 [enforcement-binding](./enforcement-binding.md) establishes that a binding

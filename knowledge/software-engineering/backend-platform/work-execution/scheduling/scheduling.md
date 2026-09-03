@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: scheduling
-status: forged
+status: reconciled
 techniques:
   - next-run-computation
   - missed-run-semantics

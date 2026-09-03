@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
   "techniques": 132,
-  "applications": 58,
+  "applications": 61,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -114,7 +114,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
-   "digest": "sha256:6de616a11f72e6c8",
+   "digest": "sha256:bf0c4a753b67d598",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -218,6 +218,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "camera-position-semantics",
+     "file": "knowledge/media-generation/visual-generation/cinematic-language/applications/process--camera-position-semantics.md",
+     "verified_on": "2026-09-01",
+     "refresh_by": "2027-03-01"
+    },
     {
      "stack": "process",
      "technique": "genre-visual-contracts",
@@ -1603,7 +1610,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
-   "digest": "sha256:6952d266da689862",
+   "digest": "sha256:a8f14e6aef02a9b4",
    "techniques": [
     {
      "slug": "asset-vs-disposable-render",
@@ -1646,7 +1653,8 @@
      "use_when": [
       "running minutes-long generation or research from an interactive product",
       "deciding which jobs may run concurrently",
-      "handling reloads and duplicate launches during long runs"
+      "handling reloads and duplicate launches during long runs",
+      "a job record and the result it produced live in different stores with different lifetimes"
      ]
     },
     {
@@ -1698,6 +1706,13 @@
      "technique": "delivery-promise-lock",
      "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/node--delivery-promise-lock.md",
      "verified_on": "2026-08-31",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "long-run-as-background-job",
+     "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/applications/node--long-run-as-background-job.md",
+     "verified_on": "2026-09-01",
      "verified_against": "node@24"
     },
     {
@@ -2086,7 +2101,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/trailer-structure/trailer-structure.md",
-   "digest": "sha256:319570f809893bc6",
+   "digest": "sha256:bfabaa7ceaf32dc6",
    "techniques": [
     {
      "slug": "concealment-and-its-tells",
@@ -2172,7 +2187,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "cue-first-assembly",
+     "file": "knowledge/media-generation/narrative-craft/trailer-structure/applications/node--cue-first-assembly.md",
+     "verified_on": "2026-09-01",
+     "verified_against": "node@24"
+    }
+   ]
   },
   "video-assembly": {
    "category": "production-ops",

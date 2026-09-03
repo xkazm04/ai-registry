@@ -1351,9 +1351,9 @@
   "translation-pipeline-topology": {
    "category": "craft",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
-   "digest": "sha256:43b2a0f01089d7b0",
+   "digest": "sha256:c81d3f4df17e0824",
    "techniques": [
     {
      "slug": "canonical-and-derived-split",

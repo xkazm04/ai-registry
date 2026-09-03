@@ -38,7 +38,12 @@ controlled pair on the target model proves otherwise.
 3. **Long-lens compression** — voyeurism, futility, isolation:
    "background compressed flat behind her, streets stacked into one
    plane"; "she runs hard but barely advances"; "observed from far away,
-   pedestrians drifting through the frame out of focus."
+   pedestrians drifting through the frame out of focus." *Measured
+   limit, 2026-08-30, one diffusion model family:* compression is the
+   one intent on this list that did not land from words — in a
+   seed-matched pair neither arm produced a background-compression cue,
+   and both readbacks reported an indeterminate lens. Treat it as
+   unproven-by-prose on any model not yet shown to honor it.
 4. **Depth of field as attention.** Shallow focus is directive and
    subjective: "only her eyes sharp, the crowd behind her reduced to
    smears of color." Deep focus is democratic and lets staging narrate:

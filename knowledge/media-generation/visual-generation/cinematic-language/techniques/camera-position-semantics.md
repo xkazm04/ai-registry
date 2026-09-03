@@ -53,7 +53,19 @@ per beat, not sprinkled.
    reads as order, artifice, or dread — a designed world. Off-third
    framing reads as natural. "Perfectly symmetrical composition, subject
    centered at the vanishing point" is a strong flavor; use it when the
-   world should feel curated or oppressive.
+   world should feel curated or oppressive. A placement vocabulary
+   holding only those two values — centred/symmetric and off-thirds —
+   is missing its third member: the **diagonal**, the line of action
+   running corner to corner with the subject standing on it and the
+   negative space split by that line. It is the dominant extreme-wide
+   action composition in annotated A-tier film frames (10 of 31
+   extreme-wide frames in one 159-frame study), and it reads as
+   movement and instability exactly where symmetry reads as order. A
+   vocabulary that cannot say it never produces it: on seed-matched
+   pairs a machine composition readback found the diagonal in 0 of 3
+   frames under thirds phrasing and in 2 of 3 once the clause existed.
+   Write it as "composition built on one strong diagonal, the line of
+   action running corner to corner with the subject on it."
 5. **Relationship frames.** Over-the-shoulder holds two people in
    relationship; a "dirty" single keeps a blurred sliver of the partner
    (connected but focused); a clean single isolates entirely. Scenes
@@ -79,6 +91,10 @@ per beat, not sprinkled.
   shock cut — spend it deliberately.
 - If a character's state is the subject, move down the subjectivity dial;
   if the situation is the subject, stay objective and stage in depth.
+- On a wide or extreme-wide action beat, choose placement from three
+  values, not two — centred/symmetric, off-thirds, diagonal — and name
+  the diagonal outright when the beat is movement; thirds phrasing on
+  an action wide returns a static silhouette.
 - Write the stance in film vocabulary the model knows: "low-angle medium
   close-up", "overhead god's-eye view", "over-the-shoulder favoring her".
 

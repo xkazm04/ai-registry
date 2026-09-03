@@ -63,6 +63,17 @@ make the value scan honest rather than noisy:
   itself a measurement: if the reference scanner cannot run, the gate must
   fail safe by checking *everything*, not skip what it cannot classify.
 
+One class of unreferenced key is not dead weight and must never be swept
+with it: a key whose source-language **value appears verbatim as a string
+literal in the code**. That pair is a *wiring bug* — the string was
+catalogued and then rendered from the literal anyway, so the entry sits
+unreferenced while the screen it was made for is unlocalized — and no
+coverage gate can see it, because the catalog entry is a valid key and the
+literal is a valid literal and each is only wrong in the presence of the
+other. The detector is a **join**: catalog values against source literals,
+in the source language. Route every hit to extraction, never to the purge
+list ([string-extraction-enforcement](./string-extraction-enforcement.md)).
+
 ## The third check: domain coverage
 
 Both parities compare **catalogs to catalogs** — and a symmetry limit

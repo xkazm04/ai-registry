@@ -496,6 +496,20 @@ writer is mid-edit" and "nobody is here" — and whose failure the method's own
 prose already names as an anti-pattern without mechanising it
 (`prose-rule-drift`, with the reason now supplied).
 
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+Five leads (ascent, kp, personas). New technique `instrument-answers-only-its-own-question`:
+a fast rung's green is no evidence for the slow rung's question, the disabling config is
+invisible at the call site, and an automated author verifies with the instrument that owns
+the question its edit raises. Amendments: `chokepoint-tag-registry` (location tables resolve
+against the tree; never re-declare the prefixes in the suite; every door into a chokepoint is
+an enumerated table whose names must resolve, failing as a broken instrument);
+`self-reported-gate-inputs` (derive any gate's walked population; assert it found something)
+with the reconciling sentence in `operation-assertion-gates`; `ratchet-design` (refusing
+silence on a drop is not refusing the build - where editors are fewer than fixers the drop
+is a loud counted note, and unattended downward recording is the one sanctioned exception).
+Applications: `node--instrument-answers-only-its-own-question` (ascent), `node--ratchet-design`
+(kp). Sibling intake touched this subject the same day; both diffs coexist.
 ## 2026-09-01 - prose-rule-drift gains its converse: the artifact rule enforced at the edit
 
 Amendment landed by [[2026-09-01-awesome-game-security]] (run `intake-game-security`,

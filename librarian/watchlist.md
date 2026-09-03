@@ -47,6 +47,8 @@ Stack in parentheses; `zig`/`c`/`go` beyond the declared set would need
 
 | repo | subjects it could serve | grade |
 | --- | --- | --- |
+| AccessKit/accesskit (rust) | CONSUMED by [[2026-09-01-1]] (accessibility / name-and-description-wiring); assistive-tech-divergence and live-region-architecture seams banked | measured: 206/206 consumer tests green at 00b517c; two grep-scoped negatives (described_by unresolved everywhere, no description channel on one mobile adapter) |
+| cucumber/cucumber-js (node) | CONSUMED by [[2026-09-01-1]] (judgeable-spec-authoring / execute-the-rules-against-the-worked-example); conformance kit under compatibility/ banked | measured: verdict matrix executed at c887bc5 (strict flips exactly one row; dry-run exits 0 on undefined+ambiguous) |
 | tailscale/tailscale (go) | CONSUMED by [[2026-08-22-9]] (peer-state-honesty); resilience-and-reconnection seam banked | measured: L3/49, rigor 66, adoption 16 |
 | caddyserver/caddy (go) | ingress-topology, listener-lifecycle, entity-lifecycle (config reload) | reputed |
 | nats-io/nats-server (go) | delivery-guarantees, outbound-fan-out, subscription-lifecycle | reputed |

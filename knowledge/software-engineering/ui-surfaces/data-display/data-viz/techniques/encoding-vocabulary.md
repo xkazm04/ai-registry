@@ -6,7 +6,7 @@ technique: encoding-vocabulary
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
-use_when: [deciding whether color carries identity or status, same entity changes color after a re-sort, chart green disagrees with badge green]
+use_when: [deciding whether color carries identity or status, same entity changes color after a re-sort, chart green disagrees with badge green, two textures look alike once the marks rotate]
 ---
 
 # Encoding vocabulary
@@ -100,6 +100,42 @@ the common color-vision deficiencies and grayscale reproduction. The quick
 audit: would the chart still be readable printed in gray? Status conveyed by
 color alone (a red vs green dot with no other difference) fails users the
 product claims to support.
+
+The second channel is itself an encoding, and it can be corrupted by things
+that never touch hue. A texture or pattern fill is painted in the
+**referencing mark's own coordinate space**: the tile is resolved where the
+mark sits, in the space the mark currently occupies, so every transform the
+mark carries — a rotation per slice, a scale per row, a mirrored axis —
+transforms the paint along with the geometry. Two textures chosen precisely
+because they were discriminable at rest (one hatch leaning left, one leaning
+right) rotate into each other; at the wrong angle the vocabulary collapses to
+one symbol and the chart claims a distinction it no longer draws. Nothing
+errors, and the legend keeps both swatches — drawn unrotated, in their
+original orientation — so the legend is now wrong about the picture. A dashed
+line style stretched by a non-uniform scale is the same defect in a different
+channel.
+
+The repair has the shape of the repair for series color: **pin the encoding to
+something the mark's transform cannot reach.** The vector format's pattern
+element carries its own transform, applied to the tile independently of the
+referencing mark, so a counter-transform can live once with the pattern
+definition rather than at every use site; the alternative is to resolve the
+fill in a fixed space the mark's rotation does not participate in. Either way
+the texture stops being a function of where the mark landed. The same family
+of surprise reaches gradient fills, whose units resolve against the mark's
+bounding box and shear the ramp whenever that box is not square — a paint
+server's coordinate system is part of the encoding, not a rendering detail.
+
+The audit therefore generalizes past hue: **a redundant channel must be
+verified to remain distinguishable under every transform the marks undergo**,
+not only at rest. The grayscale test catches a palette that carries meaning
+only in color; it does not catch a texture vocabulary that survives grayscale
+and dies under rotation. Render the encoding at every angle, scale, and
+mirroring the surface actually produces — the widest slice and the narrowest,
+the flipped axis, the export at a different pixel density — and check that
+each pair still reads as two things. Radial layouts, transposed charts, and
+mirrored comparison panels are where this bites, because they are exactly the
+layouts that transform marks per element.
 
 ## One tooltip, one legend, one number format
 

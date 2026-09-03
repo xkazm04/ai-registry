@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 51,
   "techniques": 319,
-  "applications": 135,
+  "applications": 136,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -3072,7 +3072,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/judgeable-spec-authoring.md",
-   "digest": "sha256:89eb8f8cef6d1161",
+   "digest": "sha256:519408b2a5048b8a",
    "techniques": [
     {
      "slug": "enumeration-closure-as-arithmetic",
@@ -3180,7 +3180,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "execute-the-rules-against-the-worked-example",
+     "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/applications/node--execute-the-rules-against-the-worked-example.md",
+     "verified_on": "2026-09-01",
+     "refresh_by": "2027-03-01"
+    }
+   ]
   },
   "learning-curve-and-teaching-design": {
    "category": "balance-validation",

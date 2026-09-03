@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: data-viz
-status: forged
+status: reconciled
 techniques:
   - metric-identity
   - scale-and-axis-design
@@ -213,7 +213,10 @@ one rendering of the data, not the data's only body.
   reader and useless in every pipeline that consumes text.
 - **Hue is never the only channel.** Series are distinguishable by more than
   color — direct labeling, ordering, markers, or pattern — and the palette
-  holds up under the common color-vision deficiencies.
+  holds up under the common color-vision deficiencies. The redundant channel
+  is itself checked under every transform the marks undergo: a texture that
+  rotates with its mark can collapse into its neighbour while the legend
+  keeps showing two.
 - **The data is reachable in non-visual form** — a table view, an export, or a
   structured summary — for any chart whose content the user might act on.
 - Interactive affordances (tooltips, series toggles) are reachable by
