@@ -85,3 +85,41 @@ contention, and `git status` is the finer instrument.
 ## 2026-09-02 - `/intake` portkey-gateway (run `intake-portkey-0902`, intake 2.1.1, Opus workers)
 
 `failover-horizon` gained one paragraph on check cadence: input checks are idempotent per request and run once, output checks run per attempt, both on one shared budget (the budget half is storm-control`s). No fleet project admits the force - every project excludes `llm-agent/orchestration` by scope list - so this landing is corpus-only and was sequenced last.
+
+## 2026-09-02 - intake ([[2026-09-02-gemini-3-8-flash]])
+
+`effort-calibration` gained the substitution its re-measure cadence could not
+see. The cadence triggers on a roster change "affecting the entry's tier"; a
+point release replacing its predecessor **in the same tier, at the same price,
+under an unchanged dial** trips none of it, and the entry goes on citing a
+measurement taken against a different model.
+
+That matters because **how hard a model reasons is a property of the model as
+much as of the setting**, and vendors move it between versions deliberately -
+this release note advertises extra reasoning steps and iterative tool calls as
+a feature. Three consequences landed: same price per token is not same price
+per task (the unit a rate prices is not the unit anyone budgets in); the term
+that moves is reasoning tokens, usually billed as output and already dominant -
+a fleet tree had measured hidden reasoning at 12.8x the visible answer on a
+mid-tier model and 25.1x on a larger one; and the predecessor was explicitly
+retained as the efficiency-first option, which makes the version ladder **a
+second tier axis rather than an upgrade path**. Taking the newest by default
+silently opts every cost-sensitive class into the dearer engine. Added
+separately: where the effort parameter defaults to its top setting, an adopter
+who sets nothing inherits the most expensive configuration of a model already
+described as spending more - two compounding steps, neither a decision anybody
+made.
+
+The application is `node--effort-calibration` and it is a refusal, not an
+adoption. The tree declined this bump in writing before the run arrived: a
+dated live-roster measurement, the newest model excluded on a 503-under-load
+property, a floating alias excluded citing this subject's own `model-identity`
+rule, and the promotion rule "not by assuming it settled" in the header. It had
+also already instrumented the exact term the release note describes, for its
+own reasons. `applied: task`, `ab_verdict: unmeasurable`, instrument named -
+one live roster pass with the repo's key, which is third-party spend this run
+had no standing to authorize.
+
+The subject's open edge: that table has no re-measure *cadence*, only an honest
+date. A vendor shipping three releases of one tier in six weeks outruns an
+unscheduled manual pass, and nothing in the tree will ask again.

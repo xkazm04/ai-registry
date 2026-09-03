@@ -3,10 +3,10 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 172,
-  "techniques": 1222,
-  "applications": 693,
-  "laws": 13,
+  "subjects": 175,
+  "techniques": 1238,
+  "applications": 703,
+  "laws": 15,
   "categories": [
    "ui-surfaces",
    "client-architecture",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1222/1222",
+  "use_when_coverage": "1238/1238",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5627,6 +5627,94 @@
     }
    ]
   },
+  "convergence-loop-and-requeue": {
+   "category": "operations",
+   "subcategory": "control-plane-operations",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/control-plane-operations/convergence-loop-and-requeue/convergence-loop-and-requeue.md",
+   "digest": "sha256:2a985712347bd10a",
+   "techniques": [
+    {
+     "slug": "drain-a-derived-queue",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "shutting down a loop whose queue holds no promises",
+      "deciding whether queued work needs parking at shutdown",
+      "a deploy interrupts convergence passes mid-effect"
+     ]
+    },
+    {
+     "slug": "error-policy-as-a-separate-function",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a convergence pass is growing its own retry delays inside every branch",
+      "deciding what happens after a failed pass",
+      "retry cadence cannot be tested without running the side effects"
+     ]
+    },
+    {
+     "slug": "keyed-queue-with-earliest-wins",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a burst of triggers for one key is doing N passes for one outcome",
+      "an urgent trigger arrives for a key already scheduled far out",
+      "a churning key should be converged once after the churn",
+      "a scheduled time from a caller crashed the timer"
+     ]
+    },
+    {
+     "slug": "per-key-exclusion-under-a-global-cap",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a concurrency setting is being used to prevent a key racing itself",
+      "choosing how many convergence passes may run at once",
+      "the queue depth graph does not explain the loop's behaviour"
+     ]
+    },
+    {
+     "slug": "told-that-not-why",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a trigger hands the loop",
+      "a convergence pass wants to branch on which watcher woke it",
+      "deciding whether a key may opt out of periodic re-checking"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "keyed-queue-with-earliest-wins",
+     "file": "knowledge/software-engineering/operations/control-plane-operations/convergence-loop-and-requeue/applications/rust--keyed-queue-with-earliest-wins.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.89"
+    }
+   ]
+  },
   "conversation-orchestration": {
    "category": "llm-agent",
    "subcategory": "companion",
@@ -5790,7 +5878,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256:c701b1133c188f8a",
+   "digest": "sha256:a955a638340d3719",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -5846,7 +5934,9 @@
      "use_when": [
       "deciding what an unpriced model should cost",
       "estimate and actual diverge for one model",
-      "retroactively repricing already-written rows"
+      "retroactively repricing already-written rows",
+      "a vendor published the date its introductory rate ends",
+      "a rate row is keyed by the constant that names the current model"
      ]
     },
     {
@@ -5927,6 +6017,13 @@
      "technique": "engagement-paced-cadence",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--engagement-paced-cadence.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "price-tables",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--price-tables.md",
+     "verified_on": "2026-09-02",
      "verified_against": "node@24"
     },
     {
@@ -6753,6 +6850,92 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/applications/rust--suppression-hygiene.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.96.1"
+    }
+   ]
+  },
+  "declarative-resource-lifecycle": {
+   "category": "operations",
+   "subcategory": "control-plane-operations",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/control-plane-operations/declarative-resource-lifecycle/declarative-resource-lifecycle.md",
+   "digest": "sha256:d9f60e71a9ca7e32",
+   "techniques": [
+    {
+     "slug": "deletion-blocked-until-dependents-confirm",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "creation-names-reaper",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a record's removal must wait until something outside its store is cleaned up",
+      "a delete event is being used to trigger cleanup",
+      "several independent owners hold cleanup obligations on one record",
+      "the store has no native hold mechanism and a soft-delete column is the nearest thing available",
+      "a record will not die and nobody can say who is holding it"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "ownership-edges-that-enqueue-the-parent",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "changes arrive on dependents but the desired state lives on a parent record",
+      "deciding between a declared edge on the child and a mapping function computed at change time",
+      "a dependent was deleted out from under the process responsible for it",
+      "a responsible process keeps an in-memory map of what it created"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "per-field-write-ownership",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two or more independent processes write parts of the same record",
+      "a value keeps reverting and nobody can say which writer restored it",
+      "deciding whether a writer may overwrite a field somebody else set",
+      "a writer's name is derived from its process or its version"
+     ],
+     "stage": "multi-service"
+    },
+    {
+     "slug": "synchronous-gate-before-persistence",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rule must bind writers that predate it or that nobody controls",
+      "deciding whether a policy check fails open or fails closed when the checker itself is down",
+      "a gate that both validates and rewrites the thing it judges",
+      "client-side validation is being treated as enforcement"
+     ],
+     "stage": "fleet"
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "deletion-blocked-until-dependents-confirm",
+     "file": "knowledge/software-engineering/operations/control-plane-operations/declarative-resource-lifecycle/applications/rust--deletion-blocked-until-dependents-confirm.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.89"
     }
    ]
   },
@@ -9005,7 +9188,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256:c32b13c5c6047c8a",
+   "digest": "sha256:c65d715dcdff3bef",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -9052,6 +9235,21 @@
       "deciding whether a caught failure reaches the user",
       "one incident showing up as three telemetry events",
       "the same failure reporting fresh on every poll cycle"
+     ]
+    },
+    {
+     "slug": "parse-failure-keeps-identity",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one malformed item stops a reader over a collection you do not own",
+      "deciding whether a decode failure fails the batch or the item",
+      "a log says an item failed to parse but not which one"
      ]
     },
     {
@@ -9136,6 +9334,13 @@
      "technique": "error-doors",
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/react--error-doors.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "parse-failure-keeps-identity",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--parse-failure-keeps-identity.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.89"
     },
     {
      "stack": "rust",
@@ -10369,7 +10574,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/health-checks/health-checks.md",
-   "digest": "sha256:7ceea0ea6ad32c99",
+   "digest": "sha256:80a0305670335df4",
    "techniques": [
     {
      "slug": "check-scheduling",
@@ -10474,6 +10679,13 @@
      "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/react--three-state-outcomes.md",
      "verified_on": "2026-08-29",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "check-scheduling",
+     "file": "knowledge/software-engineering/operations/service-operations/health-checks/applications/rust--check-scheduling.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.89"
     },
     {
      "stack": "rust",
@@ -13466,7 +13678,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:ab6e4c216d70f822",
+   "digest": "sha256:38615dac2cee3792",
    "techniques": [
     {
      "slug": "cache-continuity",
@@ -13535,7 +13747,9 @@
      "use_when": [
       "raising effort because bigger feels safer",
       "output capped but effort set high",
-      "all tiers fail the same requirement"
+      "all tiers fail the same requirement",
+      "a point release replaced the model an entry was calibrated against",
+      "the bill moved but the rate table did not"
      ]
     },
     {
@@ -13631,6 +13845,13 @@
      "verified_on": "2026-08-31"
     },
     {
+     "stack": "node",
+     "technique": "effort-calibration",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/node--effort-calibration.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@20"
+    },
+    {
      "stack": "process",
      "technique": "candidate-ranking",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/process--candidate-ranking.md",
@@ -13670,7 +13891,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256:613bd6f071b52434",
+   "digest": "sha256:333020e7f0361d21",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -13837,6 +14058,13 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--module-depth.md",
      "verified_on": "2026-08-29",
      "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "seams-and-adapters",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--seams-and-adapters.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.89"
     }
    ]
   },
@@ -17654,7 +17882,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/realtime-events/realtime-events.md",
-   "digest": "sha256:2ef9a5cde8f150f1",
+   "digest": "sha256:ce3a2022e599ee97",
    "techniques": [
     {
      "slug": "change-data-capture",
@@ -18583,7 +18811,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
-   "digest": "sha256:cae39eff38db172c",
+   "digest": "sha256:2659f160cca2300c",
    "techniques": [
     {
      "slug": "backoff-design",
@@ -18594,7 +18822,8 @@
       "tuning base factor and cap for a retry ladder",
       "recovery collapses under synchronized retries",
       "backoff resets on every accepted handshake",
-      "a stated retry-after is longer than the remaining budget"
+      "a stated retry-after is longer than the remaining budget",
+      "a long-lived connection fails on a slow cycle and never advances past its first rung"
      ]
     },
     {
@@ -19912,8 +20141,24 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
-   "digest": "sha256:960ff1a42b860ec6",
+   "digest": "sha256:12c38b3cdd0e728a",
    "techniques": [
+    {
+     "slug": "cross-source-precedence-chain",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "failure-not-empty-success",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one binary must boot against an operator file locally and an injected identity in a cluster",
+      "a value is right on one machine and wrong on another with no code difference",
+      "an operator typo'd a config file and the process kept running against something else",
+      "deciding whether a second configuration source layers per key or replaces the first wholesale"
+     ]
+    },
     {
      "slug": "inherited-default-override",
      "status": "forged",
@@ -20031,6 +20276,13 @@
      "technique": "read-batching",
      "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/react--read-batching.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "cross-source-precedence-chain",
+     "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--cross-source-precedence-chain.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.89"
     },
     {
      "stack": "rust",
@@ -22079,7 +22331,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:b420327dc5250ffd",
+   "digest": "sha256:895fcd3ed09f5149",
    "techniques": [
     {
      "slug": "fixture-economics",
@@ -22283,6 +22535,13 @@
      "technique": "platform-quirk-absorption",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--platform-quirk-absorption.md",
      "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "rust",
+     "technique": "suite-partitioning",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--suite-partitioning.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.89"
     }
    ]
   },
@@ -23328,7 +23587,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/versioning-snapshots.md",
-   "digest": "sha256:cdd1d7edf30ac33d",
+   "digest": "sha256:04d3fc6908811881",
    "techniques": [
     {
      "slug": "lineage-and-variants",
@@ -23712,6 +23971,95 @@
      "technique": "tts-pipeline",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--tts-pipeline.md",
      "verified_on": "2026-08-31"
+    }
+   ]
+  },
+  "watch-cache-and-resync": {
+   "category": "operations",
+   "subcategory": "control-plane-operations",
+   "status": "forged",
+   "file": "knowledge/software-engineering/operations/control-plane-operations/watch-cache-and-resync/watch-cache-and-resync.md",
+   "digest": "sha256:18ec2a7b7d7ace25",
+   "techniques": [
+    {
+     "slug": "atomic-swap-at-initial-sync",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a resynchronisation makes readers see a half-filled replica",
+      "deciding what a reader sees during a re-read",
+      "entries deleted while disconnected refuse to disappear"
+     ]
+    },
+    {
+     "slug": "completeness-barrier-with-a-warm-queue",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "work starts against a replica that has not finished filling",
+      "an empty cache is indistinguishable from an empty slice",
+      "deciding whether a later resynchronisation should block dependents"
+     ]
+    },
+    {
+     "slug": "desync-is-a-state",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a reconnect resumes from a cursor that may have expired",
+      "a replica quietly disagrees with its source",
+      "the repair path has never been exercised"
+     ]
+    },
+    {
+     "slug": "initial-read-strategy-behind-a-gate",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the source offers a newer initial-read protocol some deployments lack",
+      "choosing between a consistent read and a cheap one",
+      "a rarely-changing slice desyncs more often than a busy one"
+     ]
+    },
+    {
+     "slug": "one-stream-fanned-out",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "several components in one process want the same slice",
+      "deciding whether a slow consumer should be shed or should slow the source",
+      "two views of one replica disagree after a resynchronisation"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "desync-is-a-state",
+     "file": "knowledge/software-engineering/operations/control-plane-operations/watch-cache-and-resync/applications/rust--desync-is-a-state.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.89"
     }
    ]
   },
@@ -24214,6 +24562,7 @@
     "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
+    "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "delivery-analytics/off-platform-signal-detection",
     "delivery-analytics/review-coverage-rate",
     "demo-data-plane/runtime-dispatch-not-build-flag",
@@ -24597,6 +24946,8 @@
     "connector-catalog/adapter-normalization",
     "connector-catalog/matching-and-ranking",
     "context-hierarchy/seeded-descent-retrieval",
+    "convergence-loop-and-requeue/drain-a-derived-queue",
+    "convergence-loop-and-requeue/error-policy-as-a-separate-function",
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
     "conversation-orchestration/structured-visual-replies",
@@ -24660,6 +25011,7 @@
     "entity-lifecycle/provenance-denormalization",
     "error-handling/cancellation-attribution",
     "error-handling/error-doors",
+    "error-handling/parse-failure-keeps-identity",
     "error-handling/reclassification-is-not-repair",
     "eval-harness/assertion-vs-judgment",
     "eval-harness/candidate-write-access",
@@ -24867,6 +25219,7 @@
     "session-resume/content-freshness-states",
     "session-resume/delta-briefings",
     "session-resume/first-run-and-quiet-silence",
+    "settings/cross-source-precedence-chain",
     "settings/save-experience",
     "settings/typed-accessors",
     "sidecar-provisioning/atomic-downloads",
@@ -24950,6 +25303,8 @@
     "voice-io/stt-pipeline",
     "voice-io/transcript-handoff-receipts",
     "voice-io/voice-ux-integration",
+    "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
+    "watch-cache-and-resync/desync-is-a-state",
     "web-scraping/dry-run-preview",
     "web-scraping/extraction-rule-dsl",
     "web-scraping/negotiated-representation-probe",
@@ -25119,6 +25474,7 @@
     "conformance-checking/pass-ratio-comparability",
     "context-hierarchy/seeded-descent-retrieval",
     "context-hierarchy/stable-sampling-for-wide-nodes",
+    "convergence-loop-and-requeue/per-key-exclusion-under-a-global-cap",
     "conversation-orchestration/recall-transparency",
     "cost-metering/engagement-paced-cadence",
     "cost-metering/preflight-estimation",
@@ -25430,6 +25786,7 @@
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
     "context-hierarchy/digest-gated-upward-refresh",
+    "convergence-loop-and-requeue/told-that-not-why",
     "conversation-orchestration/progress-beat-grammar",
     "conversation-orchestration/recall-transparency",
     "conversation-orchestration/structured-visual-replies",
@@ -25483,6 +25840,7 @@
     "seal-and-key-hierarchy/usage-triggered-rotation",
     "session-continuation/compaction-checkpoint",
     "session-continuation/single-loop-authority",
+    "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
     "settings/typed-accessors",
     "structured-output/schema-validation-and-repair",
@@ -25492,6 +25850,8 @@
     "terminal-multiplexing/occupant-state-detection",
     "transactions-over-a-replicated-log/capture-index-before-snapshot",
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
+    "watch-cache-and-resync/desync-is-a-state",
+    "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "web-scraping/negotiated-representation-probe",
     "web-scraping/soak-mode-and-verdict-replay"
    ]
@@ -25556,12 +25916,15 @@
     "conformance-checking/declared-deviation-register",
     "connector-catalog/catalog-as-data",
     "connector-catalog/matching-and-ranking",
+    "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/spend-attribution",
     "credential-vault/revocation-interception-cache",
     "data-access/sequence-token-write-ordering",
     "data-retention/erasure-requests",
     "data-viz/encoding-vocabulary",
+    "declarative-resource-lifecycle/ownership-edges-that-enqueue-the-parent",
+    "declarative-resource-lifecycle/per-field-write-ownership",
     "delivery-analytics/post-landing-repair-density",
     "delivery-analytics/revert-linkage",
     "delivery-guarantees/atomic-claiming",
@@ -25584,6 +25947,7 @@
     "embedded-preview/preview-checkpoints",
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/provenance-denormalization",
+    "error-handling/parse-failure-keeps-identity",
     "eval-harness/comparison-modes",
     "eval-harness/discriminating-task-selection",
     "eval-harness/scenario-design",
@@ -25715,6 +26079,8 @@
     "versioning-snapshots/version-identity",
     "voice-io/authored-voice-identity",
     "voice-io/tts-pipeline",
+    "watch-cache-and-resync/atomic-swap-at-initial-sync",
+    "watch-cache-and-resync/one-stream-fanned-out",
     "web-scraping/dedup-and-datasets",
     "webhook-ingestion/duplicate-and-replay-dedup",
     "wizard-flows/branching-and-skipping",
@@ -25961,6 +26327,7 @@
     "conformance-checking/fixture-repo-testing",
     "connector-catalog/catalog-lifecycle",
     "connector-catalog/schema-driven-forms",
+    "convergence-loop-and-requeue/drain-a-derived-queue",
     "conversation-orchestration/layered-avatar-state-machine",
     "conversation-orchestration/narration-promote-on-finish",
     "conversation-orchestration/show-dont-tell-walkthrough",
@@ -25975,6 +26342,7 @@
     "data-viz/chart-loading-economics",
     "dead-code/quarantine-vs-delete",
     "dead-code/suppression-hygiene",
+    "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "delivery-guarantees/atomic-claiming",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/stuck-reaping",
@@ -26134,6 +26502,7 @@
     "voice-io/transcript-handoff-receipts",
     "voice-io/tts-pipeline",
     "voice-io/voice-ux-integration",
+    "watch-cache-and-resync/one-stream-fanned-out",
     "web-scraping/scrape-scheduling",
     "webhook-ingestion/delivery-logging-and-replay",
     "webhook-ingestion/listener-lifecycle",
@@ -26229,6 +26598,7 @@
     "data-retention/per-tenant-retention-policy",
     "data-viz/encoding-vocabulary",
     "data-viz/metric-identity",
+    "declarative-resource-lifecycle/per-field-write-ownership",
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
     "delivery-guarantees/non-delivery-ledgers",
@@ -26265,6 +26635,7 @@
     "entity-lifecycle/archive-restore-semantics",
     "entity-lifecycle/change-logging",
     "error-handling/cancellation-attribution",
+    "error-handling/parse-failure-keeps-identity",
     "error-handling/reclassification-is-not-repair",
     "error-handling/taxonomy-design",
     "error-handling/user-facing-mapping",
@@ -26460,9 +26831,12 @@
     "authorization/delegated-authority",
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
+    "convergence-loop-and-requeue/error-policy-as-a-separate-function",
     "credential-vault/renew-at-two-thirds-with-grace",
     "credential-vault/token-refresh-lifecycle",
     "data-access/capability-declared-in-the-type",
+    "declarative-resource-lifecycle/per-field-write-ownership",
+    "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/environment-promotion",
     "document-text-extraction/extraction-yield-bands",
@@ -26554,6 +26928,7 @@
     "data-access/read-models-and-projections",
     "data-viz/metric-identity",
     "dead-code/carrying-cost-economics",
+    "declarative-resource-lifecycle/ownership-edges-that-enqueue-the-parent",
     "delivery-analytics/delivery-metric-denominators",
     "demo-data-plane/fixture-self-consistency",
     "demo-data-plane/seeded-determinism",
@@ -26662,6 +27037,7 @@
     "scoring-rubrics/weight-design",
     "search/full-text-indexing",
     "self-healing/effectiveness-accounting",
+    "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
     "settings/read-batching",
     "sidecar-provisioning/grade-selection",
@@ -26688,6 +27064,8 @@
     "undo-history/undo-model-selection",
     "voice-io/authored-voice-identity",
     "voice-io/tts-pipeline",
+    "watch-cache-and-resync/atomic-swap-at-initial-sync",
+    "watch-cache-and-resync/desync-is-a-state",
     "web-scraping/negotiated-representation-probe",
     "wizard-flows/progress-communication"
    ]
@@ -26715,8 +27093,11 @@
     "companion-runtime/autonomous-cycle-hosting",
     "concurrency-guards/fence-inside-write-transaction",
     "conformance-checking/declared-deviation-register",
+    "convergence-loop-and-requeue/told-that-not-why",
     "data-access/capability-declared-in-the-type",
     "data-access/cross-driver-invariant-parity",
+    "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
+    "declarative-resource-lifecycle/synchronous-gate-before-persistence",
     "deployment-contract/direct-push-delivery",
     "document-text-extraction/recognition-boundary-and-escalation",
     "document-text-extraction/structural-amplification-caps",
@@ -26764,6 +27145,7 @@
     "supply-chain/verification-scope",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
+    "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
     "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/duplicate-and-replay-dedup"
    ]
@@ -26791,6 +27173,19 @@
     "retrieval/query-decomposition-before-the-lanes",
     "session-continuation/compaction-checkpoint",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global"
+   ]
+  },
+  "limits-are-derived": {
+   "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
+   "techniques": [
+    "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
+    "watch-cache-and-resync/initial-read-strategy-behind-a-gate"
+   ]
+  },
+  "record-precedes-effect": {
+   "statement": "The record of an action is written before the action, and the action is refused when the record cannot be written. A marker before a privileged bootstrap, a parent index before the record it indexes, a write-ahead entry before a remote mutation, an audit line before the response leaves, a lease persisted before the credential is minted in the remote system — in every case the naive order (act, then record) leaves a window in which the effect exists and nothing accounts for it, and that window is where authority escapes its revocation chain, where a half-created tenant survives a crash, and where a secret was served with no line to prove it. The rule has a second half that is the load-bearing one: when the record cannot land — the store is read-only, the sink set is empty, the ledger is unreachable — the effect does not happen. A system that acts anyway and logs the failure has chosen availability over accountability without saying so. Sibling of creation-names-reaper: that law says a created thing names what will clean it up; this one says the clean-up handle is written first.",
+   "techniques": [
+    "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm"
    ]
   }
  }
