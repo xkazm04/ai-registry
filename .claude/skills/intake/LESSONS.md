@@ -6277,3 +6277,91 @@ been naming that zero for weeks:
   never happened. The method already forbids `git add -A`; what it lacks is the *victim's*
   move, which is what this run had to invent: verify HEAD holds your final draft, say so in
   the commit message, and commit the remainder rather than trying to reconstruct authorship.
+
+## 2.3.2 - 2026-09-03 - llmfit
+
+- **Prior-art mapping can miss a landing's real home when the term list is built from
+  the source's vocabulary, and the failure is silent.** System C (a crowd-sourced
+  measurement contribution loop) was mapped with "crowd-sourced contribution
+  ingestion", "benchmark result submission" and "submission schema validation". Those
+  returned plausible neighbours in four bundles and **not** `federated-benchmark-sharing`,
+  which is the home and which holds six techniques directly on the concern. It surfaced
+  by accident, on an unrelated later query ("workspace crate boundaries"), because the
+  word *boundary* appears in its `use_when`. Had that query not been run, this run would
+  have minted three techniques as a new subject beside an existing one and called the
+  count a forge trigger. **The corrective is to map the forces as well as the concern:**
+  a source's own words name what it *does* ("submission", "contribution"), while a
+  mature subject's slug often names what it *protects* ("federated", "sharing"). Run at
+  least one query phrased from the decision's forces, not from the tree's vocabulary.
+  This is the same family as the standing rule against letting a proper noun decide an
+  absence, one level up: a *concern*-shaped query can be as blind as a product-shaped one.
+
+- **The v2.2 "existing home" clause worked, and the discriminator that made it work was
+  the missing-stage read.** System A had three NONE entries and an obvious neighbour
+  (`multi-provider-gateway-plane`, forged the previous day, six techniques, thorough).
+  The clause says three-or-more with an existing home is a technique triple inside that
+  subject. What made that call confident rather than arbitrary was asking the Phase 6
+  question at Phase 2d: *where in the subject's own pipeline does this decision happen,
+  and does anything own that point?* The subject's every section begins from a
+  configured tree of candidates; nothing owns endpoint discovery or identification. A
+  missing **stage** in a thorough subject is a technique triple; a missing **opinion**
+  would have been an amendment; a different **unit of work** would have been a sibling
+  subject. Recording the three-way distinction because the routing count alone does not
+  make it.
+
+- **Phase 7.7's pending-proposal scan has a second defect, and it is worse than the
+  first.** A sibling logged today that the scan matches `status: proposed` in prose. It
+  also matches a proposal that has **already been executed** — the personas
+  backup/restore direction read `proposed` on `master` because the branch that built it
+  (and updated the status, and wrote its own ledger row) was never merged. The gate
+  therefore presented finished work as a decidable item, the operator accepted it, and
+  a duplicate acceptance row was written before the branch was discovered. **Before
+  presenting a proposal, check for a branch matching `direction/<slug>` and for an
+  existing row in the project's directions ledger.** Both are one command. The recovery
+  (a correction row appended to the ledger rather than a rewrite) is the right shape but
+  should not have been needed.
+
+- **Second sighting: a status-derived pathspec sweeps siblings' finished files.** Four
+  of this run's completed knowledge files — three techniques and a golden path — landed
+  in commit `ff802432` under another run's message. Content byte-identical, nothing
+  lost. A sibling logged the same failure from the same commit earlier the same day.
+  Two independent sightings in one afternoon: **the pathspec must be built from the
+  list of files this run wrote, carried in the run's own notes, and never from `git
+  status` output.** That is the rule the anti-pattern list should carry; "commit with a
+  pathspec" is now demonstrably not sufficient guidance, because the natural way to
+  build one is to read the status.
+
+- **A repository whose comments carry issue numbers and measurement dates is a
+  different source class in practice, even though the taxonomy has no row for it.** The
+  yield here came almost entirely from doc comments that record *the refuted
+  alternative* — "adding the bare family stem made 238 of 9,250 look installed (#861)",
+  "a zero would read as immeasurably slow rather than not estimated", and a removed
+  heuristic with both directions of its error written out. That is a first-party
+  practitioner account distributed through a codebase, and it corroborates
+  corpus-internally: **0 of 3 fetches spent, everything landed.** The class rule that
+  a practitioner codebase needs no web budget held completely. What is worth adding to
+  the sweep order: after the operating documents, grep the source for issue references
+  in comments — they mark the exact lines where somebody paid for a boundary.
+
+- **Confirmations from an independent tree deserve a row and the vocabulary has no
+  clean word for them.** Four techniques this run were found already implemented in an
+  authorized project, each reached by a *different argument* than the corpus uses (the
+  clearest: a conservative identity posture argued from unwindability rather than from
+  cost direction). These are not `better` (nothing changed), not `not-better` (nothing
+  was refuted), and calling them `unmeasurable` is a stretch that hides their value —
+  two independent routes to one rule is the strongest corroboration available. They
+  were filed as `unmeasurable` with the confirmation stated in the row and an explicit
+  "do NOT count toward the two-rows-demote rule". **A fourth verdict — `confirmed` —
+  would carry this honestly.** Proposing it rather than applying it; one run's
+  observation.
+
+- **A long repository run outlives its own board claim, and the protection expires
+  exactly when the run is writing.** The board reaps a record whose heartbeat is more
+  than 45 minutes old. This run beat at Phase 4 and Phase 7 and then spent well over an
+  hour in landing, applying, the direction pass and the gate — by Phase 10 the board
+  reported **no live runs** while this session was still committing to three
+  repositories. Every collision rule in the method degrades to hope in that window, and
+  it is the *worst* window to lose, because early phases only read. A news run finishes
+  inside one heartbeat and never sees this; a v2 repository run cannot. **Beat at the
+  top of every phase from 7 onward**, not only when the map names a subject — it is one
+  command and the alternative is being invisible during the only phase that writes.
