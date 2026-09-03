@@ -1,7 +1,7 @@
 ---
 subject: audit-logging
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -45,3 +45,13 @@ observed in the wild and the reason a later backfill is still possible.
 `sql--two-clock-records` is `structural-only`. The instrument that would
 promote it: `count(*) where valid_from is not null` against a populated
 database, which this run did not open.
+
+## 2026-09-02 - `/intake` gstack (run `intake-gstack-0902`, intake 2.1.0)
+
+Source-tree application `node--best-effort-with-accounting` written against a
+hash-chained egress-receipt ledger: claim-before-send with the polarity per sink class
+pinned as test data (fail-closed for state leaving the machine, fail-open for user-facing
+sinks), a new-sink scanner with no unwired bucket, and the threat model stated verbatim
+(forensic, not a control; tail truncation undetected). Where it falls short of the
+technique: no durable miss counter for fail-open sends, and rotation is a comment. A
+catch, not an amendment - the technique already says both halves.

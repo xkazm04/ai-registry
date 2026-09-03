@@ -66,7 +66,7 @@ not a tolerance test.
 
 Finally, the report's distribution is ours only where it concerns
 capabilities: link expiry, scope, revocation. Signing a *build output* so its
-origin can be verified is [signed-artifacts](../../../security/signed-artifacts/signed-artifacts.md);
+origin can be verified is [signed-artifacts](../../../security/code-provenance/signed-artifacts/signed-artifacts.md);
 a share link for a rendered document is not a supply-chain artifact and should
 not borrow that machinery's guarantees or its vocabulary.
 

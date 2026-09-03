@@ -1,52 +1,55 @@
 ---
 subject: document-text-extraction
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
 
 # document-text-extraction
 
-First touch, and a birth: [[2026-08-31-anydoc]], intake of a vendor's Rust
-document-conversion crate, operator-directed at OCR. Forged in-session from a spec
-(`docs/plans/document-text-extraction-spec-2026-08-31.md`) by one dispatched worker under
-this session's review. Golden path plus five techniques and one application.
+Touched by [[2026-09-03-awesome-langchain]]. Gained `structure-saturation-guard`,
+`escalation-adjudication` and `band-calibration-by-construction`;
+`extraction-yield-bands` gained an aggregation section. The subject was four days old
+and single-stack (rust) when this landed; the reference was an independent python tree.
 
-## Why the hole existed
+## What the gap actually was
 
-`research-map` returned **no prior art for "ocr", "decompression bomb" or "amplification"**
-across 340 subjects in 8 bundles. Three neighbours each stopped at a stated boundary:
-`import-normalization` grades loss per *format pair* at mapping-authoring time and
-structurally cannot express "page seven of this upload"; `error-handling` assumes the
-failure already exists and decides what happens to it; and the recruiting bundle's CV
-subject says "never let loss masquerade as absence" about persuasive documents written by
-people, with fairness as its failure model.
+Three shapes, and the first is the interesting one. The subject was forged entirely
+around text that is **missing**, and every instrument it owns ratios what was recovered
+against what was there. A reader can also **invent** structure — a heading detector
+calibrated from a per-region census, run on a page with no body text to be modal about,
+promotes the whole page and scores at the top of the band set, because the characters
+are all present and only their shape is wrong. The general rule, and the reason no
+existing instrument could have caught it: **an over-production failure is invisible to
+any measure whose denominator is the source.**
 
-So the missing thing was not an opinion - it was the **verdict layer** for a converter
-whose loss is per-region-of-one-instance and discovered at extraction time.
+Second, escalation named a second reader and never said who adjudicates its result;
+adjudicating on output volume selects *for* the failure mode of a reconstructive reader,
+which wins on volume whether it is right or wrong. Third, nothing said how the numbers
+separating the bands are chosen.
 
-## The spec was wrong once, and that is the note's point
+The aggregation amendment came from the same read: "a document's band is the worst of
+its regions" serves the re-acquisition consumer and breaks a **document admission
+gate** — a third consumer the technique never names, under which one bad page condemns
+a four-hundred-page file.
 
-The spec claimed `structural-amplification-caps` had no prior art.
-`import-normalization/import-validation` already owns bounded parsing: byte caps, depth
-caps, entity caps, refusals naming the limit, and "write the rationale beside the number".
-The worker caught it and drew the line in prose on this side - **that technique bounds the
-input, this one bounds the amplification factor** - which is the half that survives. Two
-of the spec's three proposed rules for that technique were already covered.
+## What a project then said about it
 
-The lesson for the next run over this ground: a `research-map` empty for a *phrase*
-("decompression bomb") is not an empty for the *concern*. The concern was covered under
-another name one subject away, in the same category. Read the neighbour's techniques, not
-just its golden path, before asserting a gap.
+`escalation-adjudication` came back `better` against a real 141-bill corpus: 111
+documents take the first tier and 59 of those *also* carry the second tier's markers, so
+a majority reach the adjudicator with two candidate structures and the adjudicator has
+no adjudication in it.
 
-## Still open
+`structure-saturation-guard` came back `not-better` on the same corpus. The cut-point
+never plateaus — 13% of the corpus demoted at 0.90, 50% at 0.80 — because the extracted
+text is the whole document including a large non-operative tail, so the metric is
+dominated by a document-boundary artefact rather than by saturation. The guard is not
+wrong; it is downstream of a boundary decision that tree has not made. One bill flips
+under every cut-point tried, and it is a real shipped defect that tree had closed with a
+bespoke special case — so the idea holds where the instrument does not.
 
-- **Escalation is not yet region-scoped anywhere observed.** The technique holds the
-  stricter standard (scope the expensive path to the refused regions when the refusal
-  carries their identities); the source carries the region list and still sends the whole
-  document, and so does the applied project. One deviation is a deviation; a second would
-  be evidence the standard is wrong.
-- **`extraction-yield-bands` is the thinnest of the five** and says so. Its `corrupt`
-  band - text that came back present, plentiful and wrong through an unverified character
-  mapping - rests on a single observed instance.
+## Open
+
+The saturation guard has no validated cut-point anywhere yet. Return when a tree
+separates operative from non-operative text and the sweep can be re-run.

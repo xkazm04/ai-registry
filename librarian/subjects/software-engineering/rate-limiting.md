@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: rate-limiting
-last_touched: 2026-08-22
+last_touched: 2026-09-03
 touched_by: harvest
 dry_streak: 0
 ---
@@ -71,3 +71,13 @@ motivated to make it diverge.
 ## Declines
 
 None.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+`cpp--algorithm-selection` application only (a catch): a desktop chat client's egress
+token bucket sized below the provider's published per-connection ceiling on both axes,
+with a per-spend refill that makes it the technique's degenerate sliding-window case.
+Negative finding: the bucket can never say no - the queue is unbounded and the provider
+sends no refusal for the operation, so conservative provisioning is the whole defence.
+The tree calls it a leaky bucket; by this subject's vocabulary it is a token bucket with
+a queue.

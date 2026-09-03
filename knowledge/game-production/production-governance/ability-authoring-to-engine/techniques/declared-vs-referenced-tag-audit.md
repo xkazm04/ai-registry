@@ -4,7 +4,7 @@ type: technique
 subject: ability-authoring-to-engine
 technique: declared-vs-referenced-tag-audit
 status: forged
-laws: [unmeasured-is-not-a-pass, compiling-is-not-wiring]
+laws: [unmeasured-is-not-a-pass, compiling-is-not-wiring, declaring-an-input-is-not-consuming-it]
 shared_with: []
 use_when: [scoring vocabulary hygiene across a content set, finding references to names nobody declared, finding declared names nobody uses]
 ---

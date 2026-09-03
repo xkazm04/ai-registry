@@ -6,7 +6,7 @@ technique: installer-authoring
 status: forged
 laws: [creation-names-reaper, identity-survives-reuse]
 shared_with: []
-use_when: [choosing per-user versus per-machine scope, upgrades land as side-by-side duplicates, deciding what uninstall may remove]
+use_when: [choosing per-user versus per-machine scope, upgrades land as side-by-side duplicates, deciding what uninstall may remove, an upgrade needs a value changed in a config file the operator edits]
 ---
 
 # Installer authoring
@@ -121,3 +121,48 @@ enterprise deployment both install without a human present. An installer
 whose silent mode diverges from its interactive mode has two installers,
 one of them untested; the acceptance ladder exercising silent mode on
 every change is what keeps them one.
+
+## Configuration the user owns, that the upgrade must change
+
+The data rule above keeps the installer's hands off user data. One class of
+user data cannot always be left alone: the **configuration file the
+installer generated on first install and the operator has been editing ever
+since**, when a new version needs one of its values to change — a service
+moved behind a pooler, a backend the new version can no longer run safely, a
+default that became a hazard. The file is user-owned and the change is the
+installer's. Four rules make that edit legitimate:
+
+- **Generate once, never regenerate.** The file is created from a shipped
+  example only when it is absent; every later run leaves it alone, and the
+  test for that is a file containing garbage surviving a re-run untouched.
+  Anything the upgrade needs changed is a *migration* of the file, not a
+  regeneration of it.
+- **Edit only what is provably still the shipped default.** The migration
+  recognises three states and treats them differently: the block still
+  reads exactly as the example shipped it (migrate); the block already
+  carries the new value (pass, and say so); anything else — the operator
+  changed it — leave it, print what the new version needs and where to read
+  why. The third state is what distinguishes this from a data migration:
+  for system-owned state an unrecognised shape halts, because skipping forks
+  the fleet ([idempotent-steps](../../../../backend-platform/data-layer/migrations/techniques/idempotent-steps.md));
+  for operator-owned configuration it reports, because the operator is the
+  authority on their own file. The test enumerates all three states, and
+  the custom-config case asserts the file is byte-identical afterwards.
+- **Ask, and give the answer a flag.** An interactive run asks before
+  rewriting and prints the flag that pre-answers it, so the unattended
+  interface has the same decision available. A prompt that cannot read an
+  answer — no terminal, a closed input — exits naming the flag rather than
+  looping or assuming.
+- **The refusal is graded by what the change prevents.** Declining a
+  migration that removes a correctness hazard — a cache backend that
+  deadlocks under the new version's concurrency — stops the install, with
+  the reference; declining one that adds an optimisation continues with a
+  warning. The grade is decided by the migration's author, at the moment
+  they know what the old value does under the new code, never by the
+  prompt's default.
+
+A marked region the installer declares as its own inside a user file is a
+different object — machine-owned, regenerated wholesale, and the operator
+is told not to edit inside the markers. The three-state rule is for the
+values *outside* such regions, where the operator's edits are legitimate
+and the installer is the guest.

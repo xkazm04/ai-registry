@@ -12,6 +12,10 @@ techniques:
   - client-integration
   - untrusted-result-handling
   - egress-argument-gating
+  - write-freshness-gate
+  - catalog-projection-modes
+  - tool-identity-vs-tool-name
+  - sanctioned-session-state
 ---
 
 # Tool protocols (MCP)
@@ -38,7 +42,10 @@ incidents are a consequence of not.
 What is *not* this subject: the model's own function-calling format (a private
 contract between one application and one model vendor), plugin systems that
 load code into the host's address space (no process boundary, so no protocol —
-a different and weaker isolation story), and generic RPC between services that
+a different and weaker isolation story; in-process plugin loading and the
+host's custody of long-running tool work belong to
+[agent-runtime-assembly](../agent-runtime-assembly/agent-runtime-assembly.md)),
+and generic RPC between services that
 no model ever reads (ordinary distributed-systems discipline applies, without
 the injection surface).
 
@@ -63,7 +70,10 @@ dead weight. The load-bearing facts:
   and passed back as an ordinary argument. The corollary is a law of this
   subject: *possession of a handle is not authentication.* A server binds
   every handle to the principal it verified, or the handle is a bearer token
-  it never meant to issue.
+  it never meant to issue. A deployment that genuinely must route a caller
+  back to the instance holding its state is not excused from that rule, but
+  it is a real case with a disciplined form —
+  [sanctioned-session-state](./techniques/sanctioned-session-state.md).
 - **Change notifications are opt-in subscriptions, delivered best-effort.** A
   client that cares about a changing tool list opens a long-lived listen
   stream naming the notification types it wants, and still polls, because
@@ -192,6 +202,20 @@ that exists. Curation pressure belongs on both sides of the wire:
 [server-composition](./techniques/server-composition.md) for the publisher,
 [client-integration](./techniques/client-integration.md) for the host.
 
+Progressive discovery is the host's answer, and a publisher whose host does
+not implement it has no access to that answer. Some hosts instead impose a
+hard ceiling on the number of tools a single request may carry — counted
+across *every* connected server, so the budget is shared with servers the
+publisher has never heard of and cannot see. At that point catalog size stops
+being a quality gradient and becomes an admission criterion: over the line,
+nothing works. The response is to publish the same capabilities at an
+operator-chosen altitude rather than to delete them, which is
+[catalog-projection-modes](./techniques/catalog-projection-modes.md) — and
+the reason it does not simply repeal the one-tool-one-operation rule in
+[tool-schema-design](./techniques/tool-schema-design.md) is that folding
+operations behind a router costs selection quality and is worth paying only
+when the alternative is refusal.
+
 ## Custody of the connection
 
 A host owns the lifecycle of every connection it creates, and each end owns
@@ -230,6 +254,24 @@ same obligations as the wire itself:
   the inbound defense: results as attacker-controlled input, injection
   fencing, provenance, and the application-level gates the model cannot
   provide for itself.
+- [catalog-projection-modes](./techniques/catalog-projection-modes.md) — one
+  capability set published at several altitudes when the host's tool budget is
+  hard, external and shared: the projections, the annotation-equality rule that
+  keeps compression honest, re-checking policy at the resolved operation, and
+  the price of a hand-maintained second authority.
+- [tool-identity-vs-tool-name](./techniques/tool-identity-vs-tool-name.md) —
+  the address a model calls is not the identity an operator correlates: a
+  rename-stable identifier on the wire, what may change it, and why possession
+  of one authorizes nothing.
+- [sanctioned-session-state](./techniques/sanctioned-session-state.md) — when
+  affinity is genuinely required: opt-in twice, degrade to nothing at one
+  replica, and an owner identity regenerated per process so a restart is
+  detectable rather than silently wrong.
 - [egress-argument-gating](./techniques/egress-argument-gating.md) — the
   outbound defense: deciding from a call's arguments whether it hands a
   resource outside the sanctioned set, over a schema the host does not own.
+- [write-freshness-gate](./techniques/write-freshness-gate.md) — the
+  host-side precondition on write tools: a write to an existing artifact
+  needs proof the model saw its current version, the proof is a hash on
+  the read result so context loss is proof loss, writes never refresh it,
+  and check-plus-write is one critical section per path.

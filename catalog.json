@@ -43,9 +43,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 10,
+      "lessons": 12,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:4a927bc1a667833b",
+      "lessonsHash": "sha256-n1:d0c9d6c93939e506",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -122,15 +122,15 @@
     },
     {
       "name": "dojo",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "ai-native",
       "path": "skills/dojo/SKILL.md",
-      "contentHash": "sha256-n1:9ea53d0691d97d03",
+      "contentHash": "sha256-n1:a3e168f29053b2fd",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 2,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:c39263099974c6c0",
+      "lessonsHash": "sha256-n1:87aaf12b26a00211",
       "usageContributors": []
     },
     {
@@ -144,9 +144,9 @@
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 10,
+      "lessons": 15,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:a89a40c8dfbb7eae",
+      "lessonsHash": "sha256-n1:42585780b098dea1",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -301,9 +301,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 9,
+      "lessons": 10,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:3b7c1f90362dac04",
+      "lessonsHash": "sha256-n1:41573371985153c5",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -372,9 +372,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 28,
+      "lessons": 33,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:88c6a8e4ce4239dd",
+      "lessonsHash": "sha256-n1:198445734e002c01",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -494,6 +494,24 @@
       ]
     },
     {
+      "id": "justified-lint-exemptions",
+      "dimension": "D6",
+      "path": "practices/justified-lint-exemptions/PRACTICE.md",
+      "contentHash": "sha256-n1:be6f97a15f606254",
+      "starter": [
+        "practices/justified-lint-exemptions/starter/LINT-EXEMPTIONS.md"
+      ]
+    },
+    {
+      "id": "least-powerful-test-first",
+      "dimension": "D6",
+      "path": "practices/least-powerful-test-first/PRACTICE.md",
+      "contentHash": "sha256-n1:5735689ed6206ec1",
+      "starter": [
+        "practices/least-powerful-test-first/starter/TEST-GUIDELINES.md"
+      ]
+    },
+    {
       "id": "local-first-readme",
       "dimension": "D5",
       "path": "practices/local-first-readme/PRACTICE.md",
@@ -594,9 +612,9 @@
   ],
   "counts": {
     "skills": 29,
-    "practices": 5,
+    "practices": 7,
     "memory": 6,
-    "lessons": 110
+    "lessons": 123
   },
   "bundles": [
     {
@@ -619,11 +637,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 43,
-      "techniques": 259,
-      "applications": 115,
-      "files": 421,
-      "contentHash": "sha256:c509adde6eced4eb"
+      "subjects": 51,
+      "techniques": 319,
+      "applications": 135,
+      "files": 509,
+      "contentHash": "sha256:5daae729615a775a"
     },
     {
       "name": "grant-funding",
@@ -645,11 +663,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 16,
-      "techniques": 102,
-      "applications": 53,
-      "files": 176,
-      "contentHash": "sha256:3a760fa1d9546fa5"
+      "subjects": 17,
+      "techniques": 110,
+      "applications": 58,
+      "files": 190,
+      "contentHash": "sha256:3d1f6493dc21a3bd"
     },
     {
       "name": "localization",
@@ -697,11 +715,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 156,
-      "techniques": 1094,
-      "applications": 594,
-      "files": 1849,
-      "contentHash": "sha256:8768eeb3490953a6"
+      "subjects": 191,
+      "techniques": 1379,
+      "applications": 791,
+      "files": 2366,
+      "contentHash": "sha256:b999ea8b93c1af1e"
     }
   ]
 }

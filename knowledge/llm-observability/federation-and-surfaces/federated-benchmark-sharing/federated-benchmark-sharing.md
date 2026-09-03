@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: federated-benchmark-sharing
 status: forged
-use_when: [publishing evaluation results outside the organization that produced them, building or operating a shared model leaderboard fed by many installations, designing what an opt-in telemetry digest may contain, deciding which fields of a benchmark result are safe to share]
+use_when: [publishing evaluation results outside the organization that produced them, building or operating a shared model leaderboard fed by many installations, designing what an opt-in telemetry digest may contain, deciding which fields of a benchmark result are safe to share, a contribution is published as a proposed change and a retry duplicated it, deciding what happens to a measurement when the operator declines to share it]
 techniques:
   - aggregate-only-digests
   - k-anonymity-cases-and-sources
@@ -11,6 +11,9 @@ techniques:
   - cost-bucketing-side-channels
   - bounded-contributor-influence
   - hub-ingest-plausibility-gates
+  - content-addressed-contribution
+  - capture-locally-publish-separately
+  - strict-ingestion-lenient-consumption
 ---
 
 # Federated benchmark sharing
@@ -137,6 +140,54 @@ a global opt-in ships it by accident. The digest disclosed to the operator
 before sending states its own scope — how many projects were included and how
 many were excluded — so consent is auditable, not assumed. Silence excludes;
 only an explicit flag includes.
+
+## The mechanics of contributing, which decide whether any of this runs
+
+Everything above governs *what* may leave a contributor and *what* the hub may
+believe. A federation also has to survive the plain mechanics of the
+contribution act, and three of them are load-bearing enough that getting them
+wrong empties the network before any privacy or capture question is reached.
+
+The mechanics differ by transport. Where contributions arrive as **proposed
+changes to a shared store** rather than as posts to an endpoint, publishing is
+several steps against a system the contributor does not own, with no transaction
+around them — so a partial failure followed by the contributor's natural retry
+duplicates the result, and one honest contributor's bad network day inflates
+their weight through the door the ingest gates are not watching. Deriving each
+contribution's path from its own content removes the whole class: a retry
+recomputes the same path, concurrent contributors cannot collide, and a
+contributor's second submission extends their first rather than opening a rival
+one. The same section settles a governance question that arrives with it —
+**the checks are the contract and the generated naming convention is only a
+convention**, so a hand-assembled contribution that passes the gates is as good
+as a tool-generated one, and a bug in the tool never becomes the specification.
+[content-addressed-contribution](./techniques/content-addressed-contribution.md)
+owns both.
+
+Consent's *timing* is the second, and the obvious implementation of an opt-in
+destroys what it gates: if the run asks before writing anything, a decline
+discards a measurement the contributor paid for, a network failure loses one
+that had already succeeded, and saying no costs the operator their own data —
+the precise pressure an opt-in exists not to apply. Capture must therefore land
+in a local store unconditionally, with publication a separate operation reading
+it, so declining discards nothing, a backlog can be sent later in one piece, and
+the payload disclosure this subject demands is constructible at all.
+[capture-locally-publish-separately](./techniques/capture-locally-publish-separately.md)
+owns the split, and the ordering rule that keeps the contributor-side
+treatments on the way *out* rather than on the way into the store.
+
+The third is a posture, and it is the one place where this subject's "both ends
+re-apply everything" symmetry does not hold. Admission has two ends; a
+federation whose pooled data is later compiled into an artifact has a **third**
+stage, and there the strictness must invert — not because the data deserves more
+trust, but because the party who pays for a refusal has changed. At ingestion the
+contributor is standing there and can fix it; at consumption they are long gone
+and a hard failure breaks the artifact for every downstream user who submitted
+nothing. Refuse where the author is standing; skip, warn and continue where only
+bystanders are — and read any entry that passed the first and failed the second
+as a gate defect rather than as bad luck.
+[strict-ingestion-lenient-consumption](./techniques/strict-ingestion-lenient-consumption.md)
+owns that asymmetry and the validation-scope decision that sits beside it.
 
 ## The boundary with cost metering
 

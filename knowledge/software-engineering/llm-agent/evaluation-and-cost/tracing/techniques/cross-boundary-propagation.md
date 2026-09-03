@@ -4,9 +4,9 @@ type: technique
 subject: tracing
 technique: cross-boundary-propagation
 status: forged
-laws: [identity-survives-reuse]
+laws: [identity-survives-reuse, gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [deciding whether a successor run continues or links, trace fragments that no viewer can rejoin, child spans starting before their parent]
+use_when: [deciding whether a successor run continues or links, trace fragments that no viewer can rejoin, child spans starting before their parent, adopting trace identity at a boundary whose caller you do not control]
 ---
 
 # Cross-boundary propagation
@@ -70,6 +70,92 @@ not follow the work; the envelope does.
   every future investigation.
 - **Chained and successor runs**: see below — continuation is a decision,
   not a default.
+
+## When the sender is not yours
+
+Every boundary in the catalog above sits between tiers of one system, where
+the sending side is code the same team wrote. A public ingress is not that. A
+service that accepts calls from anyone adopts trace identity from whoever
+calls it, and **adopted propagation metadata is an unvalidated write into the
+record operators read during an incident.** Recorded verbatim, any caller
+chooses the strings an investigator will be staring at — and the corruption
+lands in exactly the surface people reach for when something is already
+wrong, which is the worst possible timing and not a coincidence.
+
+The discriminator is one question, asked per boundary: **is the sender inside
+your trust boundary?** Internal tier to tier, adopt exactly as above. Public
+or partner-facing ingress, **adopt after validating** — and the emphasis
+belongs on *adopt*. Distrust does not reverse the contract: the receiver
+still must not mint a fresh id when handed one, because double-minting
+fractures the trace just as thoroughly at a public edge as at a private one.
+What is added is a parse, not a refusal. The receiver adopts what parses.
+
+Three rules make that concrete.
+
+- **Bound every identity field, always.** This is the rule that generalises,
+  and it is the one most often missing, because an identifier is short in
+  every example anyone writes and is therefore the field nobody thinks to cap.
+  One audited ingest service bounded every *other* caller-supplied identifier
+  it accepted — a project id at 64 characters, a prompt identifier at 128,
+  both validated with the limit named in the error and both tested at the
+  boundary — while its three trace identifiers had no cap at all, so a single
+  event could carry the entire request body limit as one identifier straight
+  into the store. The discipline was present and had simply never been pointed
+  at the trace fields. **Reject over the cap; never truncate.** Truncating an
+  identifier is silently lossy in the one way that matters: two distinct
+  traces sharing a prefix collapse into one, and the corruption is invisible
+  in exactly the view built to explain an incident. For free-form state a
+  truncation is defensible; for an identity it destroys the identity.
+- **Validate an identity field against a grammar only where the boundary
+  committed the caller to one.** Where the surface promises a format — a
+  standard propagation header, whose grammar *is* its contract and which is
+  meaningless if it does not conform — non-conformance is decidable and a
+  failing value is rejected: mint a fresh root, and **record that an inbound
+  value was rejected**, naming the boundary that received it. But a grammar is
+  not always available, and its absence is often deliberate rather than
+  sloppy: an ingest surface that accepts caller-chosen correlation ids by
+  design has no alphabet to check against, and one such service pins opaque
+  identifiers as a tested feature precisely because its callers never adopted
+  the standard format. **Applying a grammar rule there deletes a shipped
+  capability.** So bounding is the defence that always applies and grammar is
+  the defence that applies where a format was promised — and where the grammar
+  is unavailable, the bound is the whole of it. Say which case a boundary is
+  in, rather than assuming the strict one. Propagation formats specify their identifiers exactly —
+  fixed length, fixed alphabet, a forbidden all-zero value — so conformance
+  is decidable, cheaply, at ingress where a format was promised. Dropping a
+  rejected value silently leaves a fractured trace with no explanation of the
+  fracture
+  ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)). The
+  validator must read the inbound field itself, not the envelope that looks
+  trustworthy around it
+  ([gate-sees-target](../../../../_laws.md#gate-sees-target)) — a request
+  that arrived over an authenticated channel still carries propagation
+  fields the caller wrote by hand.
+- **Bound anything free-form.** Where the format allows a vendor-extension
+  field carrying arbitrary key-value state, it gets a length cap at ingress,
+  enforced before the value reaches the store.
+- **Refuse the unbounded carrier entirely.** The propagation standards also
+  define a general-purpose bag for arbitrary caller-supplied key-value state,
+  unbounded by design. No cap makes it *safe* to record: a cap bounds volume,
+  not content, and there is no grammar left to check the content against. A
+  public boundary records none of it. Generalised: **a propagation field with
+  no schema and no bound cannot be recorded at a trust boundary.** Note the
+  limit this leaves standing, and state it rather than implying the boundary
+  is now closed: a bound caps volume, not content. Whatever fits under the cap
+  still lands verbatim in the store, the list view, the id in a path, and every
+  log line read during an incident — control characters, escape sequences,
+  homoglyphs, a string shaped like some other trace's id. Where no grammar is
+  available to exclude them, the residue is an output-side obligation on the
+  viewer and the log formatter, in a different layer, and the propagation
+  boundary should say so instead of appearing to have solved it.
+
+The seam is worth stating because neither neighbour covered it. This
+technique owns propagation and, until this section, assumed a sender you
+control;
+[untrusted-result-handling](../../../runtime-and-io/mcp-tools/techniques/untrusted-result-handling.md)
+owns untrusted data arriving as *results*. Untrusted data arriving as
+*propagation metadata* is neither, and it is the one that writes straight
+into the incident record.
 
 ## Chained runs: continue, or link — decide, don't drift
 

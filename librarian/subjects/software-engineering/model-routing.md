@@ -1,28 +1,50 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
+touched_by: intake
 dry_streak: 0
 ---
 
 # model-routing
 
-First touch by the librarian's notes: [[2026-08-25-19-claude-code-mistakes]] - /intake run 10. The subject predates the notes (forged 2026-08-18, reconciled against a public gateway as `process--candidate-ranking`).
+Touched by [[2026-09-03-awesome-langchain]]. Gained `failover-path-liveness`. The
+paired amendment landed next door in `optional-dependency-degradation`.
 
-## State
+## What the gap actually was
 
-10 techniques, 4 applications (process, rust). Golden path carries the routing stance in ten numbered consequences.
+An **asymmetry**, not an absence, and the reference that produced it was a thin
+abandoned demo whose own failure taxonomy is poorer than the corpus's. Reading it forced
+the question: the subject decides *when* to fail over — the horizon that detects, the
+floors a substitute must clear, the policy that governs — and every bit of that
+describes a mechanism nobody has watched run, because a failover path executes only when
+something else is broken.
 
-## 2026-08-25 - /intake run 10
+The corpus already owns fault injection twice: in the test-input subject as a recovery
+instrument, and as a *retirement* instrument via withholding. It has never owned it as a
+**production liveness** instrument. Exploration is the de facto substitute and fails in
+two specific ways — it is defined to suspend when the healthy candidate pool is thin, so
+it withdraws exactly during the incident it would have prepared for; and it exercises a
+*destination* rather than the transition, entering the detect-attribute-exclude-redraw
+chain only at the last step.
 
-- New technique `cache-continuity`: the incumbent model's cached prefix as a routing term; break-even derived from the vendor's published multipliers (write 1.25x, read 0.1x). Registered as consequence 10 in the golden path.
-- `process--candidate-ranking` amended: the sticky-session pin now has a sourced *cost* rationale beside the note that its quality rationale is unsourced.
-- New application `rust--cache-continuity`: a companion tree that is cache-safe by construction (one prompt family per tier, conversation pinned on resume) for a quality reason its authors recorded - convergence noted.
+## What three projects said
 
-## Open leads (banked, with return conditions)
+`better` in all three. One declares 90 named fallback sites, lint-enforced so a silent
+catch is impossible, all 90 exceptional, against 5 liveness assertions — 5.6%, and its
+one env flag touching a safety net *disables* the gate rather than exercising it. One
+has three of its last fifteen engine commits fixing substitute paths with no counter
+added, so a fourth is invisible today. One had already written the technique's core
+claim into a doc comment — both counters stay zero when the fabric is off, because
+nothing is being substituted — a two-sighting corroboration; and its failover ladder
+turned out to have **zero production callers**, hardened by five commits including a
+silent data-corruption fix, on a branch no shipped configuration can take.
 
-- **Turn warmth as a routing input.** No tree in the fleet reads time-since-last-turn before routing. Return when a consumer's ledger shows write-cost spikes on idle-resumed conversations.
+## Open
 
+No tree examined can inject a fault: provider endpoints are hard-coded literals with no
+base-URL override. That one override is the cheapest instrument in the fleet and would
+unblock this technique in two projects at once.
 ## 2026-08-31 - /intake omniroute
 
 New technique `quality-axis-separation`, registered as consequence 10 in the golden path
@@ -81,3 +103,45 @@ golden path plus adding a new technique. `failover-horizon.md` was untouched by 
 (`git status`), so the amendment landed with zero collision and the golden path's
 `techniques:` list was never opened. Subject-level contention is not file-level
 contention, and `git status` is the finer instrument.
+
+## 2026-09-02 - `/intake` portkey-gateway (run `intake-portkey-0902`, intake 2.1.1, Opus workers)
+
+`failover-horizon` gained one paragraph on check cadence: input checks are idempotent per request and run once, output checks run per attempt, both on one shared budget (the budget half is storm-control`s). No fleet project admits the force - every project excludes `llm-agent/orchestration` by scope list - so this landing is corpus-only and was sequenced last.
+
+## 2026-09-02 - intake ([[2026-09-02-gemini-3-8-flash]])
+
+`effort-calibration` gained the substitution its re-measure cadence could not
+see. The cadence triggers on a roster change "affecting the entry's tier"; a
+point release replacing its predecessor **in the same tier, at the same price,
+under an unchanged dial** trips none of it, and the entry goes on citing a
+measurement taken against a different model.
+
+That matters because **how hard a model reasons is a property of the model as
+much as of the setting**, and vendors move it between versions deliberately -
+this release note advertises extra reasoning steps and iterative tool calls as
+a feature. Three consequences landed: same price per token is not same price
+per task (the unit a rate prices is not the unit anyone budgets in); the term
+that moves is reasoning tokens, usually billed as output and already dominant -
+a fleet tree had measured hidden reasoning at 12.8x the visible answer on a
+mid-tier model and 25.1x on a larger one; and the predecessor was explicitly
+retained as the efficiency-first option, which makes the version ladder **a
+second tier axis rather than an upgrade path**. Taking the newest by default
+silently opts every cost-sensitive class into the dearer engine. Added
+separately: where the effort parameter defaults to its top setting, an adopter
+who sets nothing inherits the most expensive configuration of a model already
+described as spending more - two compounding steps, neither a decision anybody
+made.
+
+The application is `node--effort-calibration` and it is a refusal, not an
+adoption. The tree declined this bump in writing before the run arrived: a
+dated live-roster measurement, the newest model excluded on a 503-under-load
+property, a floating alias excluded citing this subject's own `model-identity`
+rule, and the promotion rule "not by assuming it settled" in the header. It had
+also already instrumented the exact term the release note describes, for its
+own reasons. `applied: task`, `ab_verdict: unmeasurable`, instrument named -
+one live roster pass with the repo's key, which is third-party spend this run
+had no standing to authorize.
+
+The subject's open edge: that table has no re-measure *cadence*, only an honest
+date. A vendor shipping three releases of one tier in six weeks outruns an
+unscheduled manual pass, and nothing in the tree will ask again.

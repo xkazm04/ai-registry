@@ -17,6 +17,7 @@ techniques:
   - coordination-failure-triage
   - worker-trajectory-anatomy
   - absent-status-passthrough
+  - completion-claim-verification
 ---
 
 # Agent fleet orchestration
@@ -207,6 +208,14 @@ nobody was accountable for noticing the missing third of it. Stragglers get a
 policy, not an infinite wait; partial failure is a first-class outcome with
 its own shape, distinct from success and from total failure.
 
+Accounting for a member's declared result is not the same as believing it.
+A session's "done" is the session's own paperwork, and a measurable share
+of failing workers end by claiming completion; the harvest reads what
+landed, never the report, and the mechanism for that reading — execution
+receipts the runtime stamps, decidable criteria checked parent-side, and a
+three-valued verdict in which anything undecidable is unverified rather
+than passed — is completion-claim-verification.
+
 One fleet shape inverts the usual fan-out: **N sessions, one question, N
 different models** — a panel convened so that independently trained members
 answer the same decision-shaped question and the run's product is the
@@ -308,3 +317,9 @@ mode is absent.
   fabricated success — so recovery budgets are set at dispatch, completion
   claims are verified against the artifact, and the supervisor gets the
   brief, not just the transcript.
+- [completion-claim-verification](./techniques/completion-claim-verification.md)
+  — how a parent decides whether one member's "done" is true: receipts the
+  runtime stamps and the report must cite, decidable acceptance leaves
+  checked in code on the parent's own instrument, evidence provenance (a
+  run in the worker's own session proves nothing), and a verdict in which
+  undecidable is UNVERIFIED, never passed.

@@ -104,7 +104,7 @@
       "name": "dojo",
       "source": "./skills/dojo",
       "description": "Autonomous infinite training loop for media-generation craft: each cycle reflects prior human verdicts into the consuming repo's prompt surfaces, scans the registry for the weakest knowledge dimension, researches one candidate technique, generates seed-matched A/B pairs with the LOCAL image/video stack, machine-judges them pairwise, and parks the cycle for human gating in the app's Foundry -> Dojo",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "ai-native",
       "tags": [
         "training",

@@ -132,3 +132,55 @@ which briefs they loaded has an uncontrolled input, and an empty expected
 list is the cheapest assertion in the suite. A layout that is correct today
 and unasserted is a layout that will be reorganized by someone who does not
 know the walk exists.
+
+## The author's chair: terms for agents you did not invite
+
+Everything above defends the reader: a session must not obey a brief
+written by whoever published the tree it happened to clone. The mirror
+image belongs to the author of a *public* repository, and it is the one
+case in this subject where the always-loaded file is addressed to an agent
+the author did not run and cannot configure. Every clone of a public tree
+will be opened by somebody's agent; the file will load by the walk above;
+the agent will weigh it as context. That is a channel, and a repository
+with a contribution policy has something to say on it.
+
+Write that file as **terms, not steering**. The reader-side rule means a
+well-built agent will not act on the file's instructions, so lines that try
+to steer it — style, workflow, tool choice — are wasted twice over. What
+the file can carry, and what nothing else carries to an uninvited agent at
+the moment it matters, is the policy: whether machine-generated
+contributions are accepted, what an acceptable use of an agent against this
+tree looks like (analysis, translation, a reproducer for a security
+report), and what a submission must contain. One secrets server's
+repository does exactly this — it refuses generated contributions, permits
+conversational use, and gives four rules for machine-assisted security
+reports (a functional reproducer over a source snippet; line numbers only
+beside a commit hash; the threat model read first; the supported-versions
+policy respected) — and every one of those lines is more useful to the
+visiting agent's operator than a style rule would be.
+
+The same file can carry a **disclosure canary**: an instruction, addressed
+to agents, to mark generated output in a way a maintainer can recognize (a
+fixed token in a pull-request title). Its purpose is not to be obeyed by
+the agents the policy welcomes; it is to make an *undisclosed* generated
+contribution distinguishable from a disclosed one, at the one moment the
+maintainer can act. Two constraints keep it honest:
+
+- **It must be inert for the invited.** The author's own agents load the
+  same file; a canary that alters every session's output for the team is a
+  tax with no signal. Phrase it as a condition on *submitting to this
+  project*, not on producing output, and keep it out of any file the
+  team's own harness treats as enforced.
+- **It is, mechanically, an injection — and that is the discriminator,
+  not a problem.** This technique treats an instruction arriving from a
+  cloned tree as content to ignore; the prompt-safety subject treats an
+  instruction that changes an agent's output as an attack. The same
+  sentence is a canary or an injection depending on one fact: **who owns
+  the tree the agent is working in.** In your own tree, the file is the
+  brief. In somebody else's, it is data — and an agent that let it change
+  its behavior has told the maintainer exactly what they wanted to know.
+
+For a private tree with one owner the section is empty by construction —
+there are no uninvited agents — and adding a canary there only taxes the
+owner's own sessions. The precondition is a repository that accepts outside
+contributions; check it before writing a line.

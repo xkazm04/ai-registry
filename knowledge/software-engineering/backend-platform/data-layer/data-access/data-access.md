@@ -12,6 +12,10 @@ techniques:
   - repo-testing
   - cross-driver-invariant-parity
   - read-models-and-projections
+  - capability-declared-in-the-type
+  - sequence-token-write-ordering
+  - operator-defined-tables
+  - localized-record-identity
 ---
 
 # Repository & data-access layering
@@ -243,6 +247,59 @@ identity where a constraint cannot exist, and refusing to let the two
 engines' opposite failure shapes reach callers — is
 [cross-driver-invariant-parity](./techniques/cross-driver-invariant-parity.md).
 
+## When there are more than two, and they disagree about durability
+
+Past a handful of implementations, two of that section's assumptions quietly
+expire. The first is that every implementation can do everything the surface
+names: at scale some cannot, several arrive from people who do not own the
+interface, and the parity list — prose, above the drivers — is enforced by
+whoever remembers to read it. The claim has to move somewhere a machine
+checks it, which means declaring each capability where it can be known: as a
+required member when a missing operation should make the implementation
+unconstructable, and as declared data read before dispatch when absence is
+legal and has a degraded path
+([capability-declared-in-the-type](./techniques/capability-declared-in-the-type.md)).
+
+The second assumption is that the implementations agree about durability.
+When one side of the family is a transactional engine and another is a file
+on a disk, an ordering guarantee expressed as a transaction exists in some
+deployments and not others — which makes it not a guarantee. Order then has
+to be carried above the stores, as a monotonic token stamped on every write
+by the one door that writes, so that "which of these is newer" is answered
+identically in every topology
+([sequence-token-write-ordering](./techniques/sequence-token-write-ordering.md)).
+
+## When the schema is not a constant
+
+Everything above assumes the shape of the store is decided by the people who
+write the code and changes when they ship. Two families of product break that
+assumption, and both push work back into this layer rather than into the one
+above it.
+
+The first is a product whose **data model is an operator's runtime input** —
+someone without a deploy pipeline decides there is now a record type with
+these fields, and expects it live immediately. The two reflexes both fail:
+schema in code cannot be changed without a release, and a universal
+key-value or single-document store buys the flexibility by permanently
+surrendering indexes, foreign keys and the engine's own inspection tooling.
+The third substrate keeps the definitions as ordinary rows and materializes
+each record type as a real table with typed columns, created and altered by
+the host at runtime — which works only under a strict two-tier field rule
+that says out loud which fields are queryable and which are opaque, and only
+if every operator-typed identifier passes one validation door before it
+reaches a schema statement
+([operator-defined-tables](./techniques/operator-defined-tables.md)).
+
+The second is a product whose **records exist in several languages**.
+Translating the interface is a catalog problem and belongs elsewhere; a
+translated record is not a value of a key but another record with its own
+address, lifecycle and revision history. The identity model that survives —
+one row per language, linked by a shared group identifier, uniqueness scoped
+to address-and-language — is chosen by two requirements that eliminate the
+alternatives, and it leaves behind a question every later feature must answer
+about whether a new field belongs to one translation or to all of them
+([localized-record-identity](./techniques/localized-record-identity.md)).
+
 ## When the full pattern is the wrong tool
 
 The doctrine above is calibrated for an application's operational store —
@@ -290,3 +347,19 @@ in incident reports.
   — the aggregate surface and the projection surface, the projection that
   is never written back, and stored read models with a named recomputation
   and a declared propagation contract.
+- [capability-declared-in-the-type](./techniques/capability-declared-in-the-type.md)
+  — the three tiers of declaring what an implementation can do, the
+  conservative default, admission at construction, and the typed refusal.
+- [sequence-token-write-ordering](./techniques/sequence-token-write-ordering.md)
+  — order carried as data when no transaction spans the stores: allocation,
+  the stamping door, ties as answers, and what the token does not buy.
+- [operator-defined-tables](./techniques/operator-defined-tables.md) — the
+  model as runtime data: definitions as rows and record types as real tables,
+  the two-tier field rule that keeps the queryable set honest, identifier
+  validation as the only defence at a schema statement, and discovery of
+  tables no query can see.
+- [localized-record-identity](./techniques/localized-record-identity.md) —
+  one row per language linked by a group identifier: what the three candidate
+  models each cost, the per-language-or-per-group question every later field
+  must answer, why fallback belongs to lookup and never to enumeration, and
+  the language predicate nothing enforces.

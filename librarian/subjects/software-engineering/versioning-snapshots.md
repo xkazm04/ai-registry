@@ -1,7 +1,7 @@
 ---
 subject: versioning-snapshots
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -69,3 +69,7 @@ Zero of six readers in that tree carry a lifetime bound; fleet-wide it is one in
 about fifteen. The collision is latent with a computed trigger - a walk
 exceeding the janitor interval, ~10s mean page latency at the observed creation
 rate of 5,843 revisions/day.
+
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+`snapshot-scope` gains "When a downgrade is a conversion rather than a refusal" plus prohibition 7: a lossless conversion between versions of one record is admissible where "downgrade is refusal" (which lives in `migrations.md:51`, outside this subject) would otherwise apply, and the lossy case stays a refusal. Landed here because the migrations rule was outside the worker's write scope; the migrations subject is named in prose.

@@ -94,6 +94,71 @@ or the sync pass detects local drift (the replica's content differs from
 what the cursor history says was delivered) and reports it as an
 incident instead of silently repaving.
 
+## The mirror's derived state
+
+A one-way mirror's promise is stated for its *records* — the replica never
+writes back — and a replica that serves reads keeps a second kind of state
+the promise says nothing about: caches, indexes, in-memory tables,
+counters, anything **derived** from the mirrored records so that a read
+does not touch the store. Derived state is where the read-only promise
+breaks from the inside. The replica writes nothing, and still answers with
+something the authority no longer says, because the write that changed the
+record reached the replica's copy of the record and never reached the
+replica's derivation of it.
+
+The failure has a signature worth recognizing: it arrives as a *series* of
+unrelated bugs, one per derived cache, each found by a user and fixed by
+hand. A secrets server that added read-serving standby nodes paid for it
+that way over a year — leases cached on standbys after the active node had
+revoked them, a salt cache that outlived a rotation, login-MFA state,
+rate-limit quotas, per-tenant policies missing after a failover, a mount
+table upgraded by a node that had no business writing — every one a
+derived cache with no invalidation path, and none of them visible from the
+topology table, which correctly said the standbys never wrote.
+
+Three obligations, and the third is the one that ends the series:
+
+- **Enumerate the derivations, and give each an invalidation keyed by the
+  stream that feeds it.** The replica's consumer of the write stream is a
+  dispatcher: for every key prefix that can arrive, the derivation it feeds
+  is named and dropped or refreshed. A derivation not in the table is not
+  "uncached"; it is cached forever.
+- **Where bounded staleness is acceptable, declare the bound instead of
+  the invalidation — sized against the most sensitive fact the cache can
+  hold.** A time-to-live is a legitimate answer for reference data. It is
+  not an answer for a revocation: a cache that can hold "this credential
+  is valid" past the moment the authority revoked it has turned the mirror
+  into a grace period nobody granted. Size the bound to that fact, not to
+  the average one, and where the bound is unacceptable for one derivation,
+  that derivation needs the first obligation even if its neighbours keep
+  the TTL. A per-process cache with an in-process invalidation and a
+  time-to-live for every *other* process is the common half-built form:
+  the writer's own copy is exact and each sibling's copy is stale up to
+  the bound.
+- **An invalidation the dispatcher cannot route fails loud, not quiet.**
+  An unknown key at the replica means a derivation exists that the table
+  does not know about — the next bug in the series, arriving early. The
+  honest responses are to drop *all* derived state, or to restart the
+  replica, and to log the key either way; the dishonest one is to ignore
+  it, which is what every dispatcher does by default because the default
+  branch is empty. The same server's dispatcher, after the series, treats an
+  unroutable system-level key as fatal and restarts the node.
+
+There is a matching obligation on the request side. A replica that serves
+reads must **forward, by default, everything it cannot serve** — the write,
+the operation whose effect the authority must order, the request that must
+observe the authority's state at this instant — rather than attempt it
+locally and fail on a read-only store. The default matters because
+operations are added faster than routing tables are audited: the same
+server enumerated its forwardable operations one at a time (cluster join,
+root-credential generation, key rotation, step-down, lease renewal,
+wrapped-response requests), each discovered as a standby answering a
+client with a read-only error. The stable posture is the inverse: the
+replica's routing table names the operations it may serve locally, and the
+unlisted operation goes to the authority. That is
+[failure-direction](../../../../security/identity-and-access/authorization/techniques/failure-direction.md)'s
+unlisted-case rule with "forward" in place of "refuse".
+
 ## Promotion is a redesign, not a flag flip
 
 Topologies get promoted — the mirror everyone reads eventually breeds a

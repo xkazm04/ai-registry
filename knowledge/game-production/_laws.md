@@ -136,3 +136,37 @@ spends what it is given. State budgets per class as the intended size of the thi
 budget for a part from the budget for the whole rather than repeating the whole's allowance, and
 grade what was delivered against what was requested — not only against the class ceiling. The
 same holds for runtime budgets: a declared headroom that nothing checks is a wish.
+
+---
+
+<a id="an-instrument-proves-it-had-input"></a>
+## L12 — An instrument proves it had input before it reports a verdict
+
+A check that examined nothing and a check that examined everything and found nothing return the
+same clean result, and from the outside the two are indistinguishable. So a gate, a walk, a scan
+or a rubric states the size and identity of what it examined beside what it concluded, and an
+empty scope is a loud failure rather than a quiet pass: no nodes, no declared entries, no files
+in the scanned directory, no criterion covering the dimension. The corollary binds the guard as
+well as the result — a structural check written to prove an exclusion carries a second assertion
+that its own scope is non-empty, because the cheapest way to satisfy any check is to hand it
+nothing. This is not the absence of a measurement, which is already forbidden; it is a
+measurement taken over an empty set and reported as though it had been taken over the subject.
+
+---
+
+<a id="declaring-an-input-is-not-consuming-it"></a>
+## L13 — Declaring an input is not consuming it
+
+A field a producer fills and no consumer ever reads is, from the producing side, indistinguishable
+from one that governs everything downstream: it validates, it round-trips, it appears in the schema,
+and the artifact carrying it looks configured. From the consuming side it does not exist. So the
+question a pipeline must be able to answer about every declared input is not whether something wrote
+it but whether something *reads* it — a census of readers, never of writers — and an input with no
+reader is reported as ignored at the moment it is declared, not discovered later by whoever trusted
+it. A generator states which of its declared parameters the selected algorithm actually consumes; an
+authored vocabulary is audited in both directions, for names referenced but never declared and for
+names declared but never referenced; and a constraint stored as prose in a field no checker parses
+is worse than an absent one, because absence is visible and prose reads as authored. This is the
+mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can
+reach, this one governs a declared input nothing consults, and they are the same disease at opposite
+ends of the pipe.

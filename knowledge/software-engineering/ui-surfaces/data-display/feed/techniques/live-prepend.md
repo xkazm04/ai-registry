@@ -120,3 +120,35 @@ when the buffer flushes, the feed reads as chronology, not as network
 weather. (Late arrivals that belong far below the head are the
 [reverse-chronology-semantics](./reverse-chronology-semantics.md) late-arrival
 case, not a prepend case.)
+
+## When the transport carries no cursor
+
+The cursor walk above assumes the transport can be asked "everything newer
+than this tuple". Some live transports cannot: a plain push channel with no
+replay, where the only catch-up is a third-party archive queried by time.
+The seam is then sized, not walked, and the rule inverts from "fetch exactly
+the gap" to **"bound the fetch by what the gap could hold"**:
+
+- **The window is a time range, not a tuple.** Query the archive for
+  occurrences received after the moment the connection was last known good
+  and before now. The last-good stamp is the transport's own; the archive's
+  clock is the merge key on arrival.
+- **The count cap is derived from elapsed time times an assumed maximum
+  rate, then capped by the archive's own horizon.** A ten-second outage in
+  a source that cannot exceed ten events a second needs at most a hundred
+  rows; a day-long outage is capped by what the archive keeps at all. Write
+  the assumed rate beside the number; it is the predicate the cap carries.
+- **Merge by identity first, then by the archive's receive time.** Rows
+  with an id already present are dropped; the rest are inserted before the
+  first existing row with a later receive time, or after a moving tail
+  pointer, because the live stream keeps appending while the fetch is in
+  flight. Rows with no id (system notices) are skipped when building the
+  dedupe set and when comparing, never matched by timestamp.
+
+The two honesty rules of this file do not relax. A failed archive query is
+still a stated failure. And a **catch-up that returns exactly its cap is a
+signal the window was too small**, not a clean seam: a full page means the
+assumed rate or the horizon was exceeded, and the surface owes the reader the
+"history may be incomplete" statement that a cursor walk would have given as
+a horizon-exceeded reset. Realizations that size by elapsed time commonly
+state the failure and forget the truncation, because the fetch succeeded.

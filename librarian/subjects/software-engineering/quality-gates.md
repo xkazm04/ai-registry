@@ -1,7 +1,7 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -516,3 +516,84 @@ of the per-CLI gate. Application `next--prose-rule-drift`. Left open: the per-CL
 is a per-edit quantifier by construction, which is exactly where the amendment predicts
 the artifact rule has no home; the check sits at its end as the fail-closed fallback,
 not in an appender that could refuse.
+
+
+## 2026-09-02 - intake (dora, run intake-dora-0902)
+
+`gate-liveness` gained "Assert the oracle, not only the instrument": a
+score-shaped gate has two populations, the targets and the oracle that
+judges them, and the oracle's default scope is silently narrower than the
+tests that actually protect a target whenever those live in another
+package, another runner or a spawned process. Two rules: declare the
+oracle's population in the baseline's predicate; test a surprising number
+against the smallest controlled experiment before believing it. This is
+the deficient-direction twin of `excess-indicts-the-instrument`. Source:
+a QA report's measured case (5.8% mutation score under package scope, 21
+of 21 escaped mutants caught under workspace scope). New application
+`next--gate-liveness` (experiment, better) against a coverage gate that
+repaired its target population the day before and left the oracle at the
+default, with eight spawn-driven scripts invisible to the instrument.
+
+Catches recorded in the source note: the unwrap-ratchet founding baseline
+that counted test code (second sighting of the trap
+`excess-indicts-the-instrument` names); "what would fail if this job were
+removed" (time since last red). Lead banked: verification tiers organised
+by latency budget - check `gate-laddering` for the axis next time it is
+open.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+`cpp--enforcement-binding` application only (a catch): an external linter module pinned by
+hash in CI with findings posted as review comments. The review-comment half is the
+reusable part; the fleet already keeps its lint rules in-repo.
+### 2026-09-03 - `/intake`, from a vendor's official MCP server monorepo
+
+`gate-laddering` gained the runtime rung. Source: [[2026-09-03-microsoft-mcp]].
+
+The ladder ran editor -> commit -> push -> merge pipeline, sized by latency, with the
+merge pipeline named as the binding rung. That enumeration is complete for checks running
+in a development pipeline and has no rung for a check that runs when the *shipped artifact
+starts* - which is where an integrity invariant over a hand-maintained mapping has to run,
+because only the composed program can evaluate it.
+
+What makes it a genuinely new rung rather than another column is that its severity splits
+by **audience, not stage**: the same defect is fatal on a developer build (fastest possible
+feedback, costs nothing) and advisory in the shipped artifact (refusing to start would take
+down a service over one bad entry while every other entry is fine). Every other rung splits
+severity by stage.
+
+The cautionary half came from the source's own underpayment, and it is why the rung needs
+`gate-liveness` more than any other: the assertions ran only in developer builds, were
+additionally skipped under two commonly set flags, and the worst case - a group that lost
+every one of its members - was short-circuited silently in all configurations. A rung whose
+green nobody observes has no pipeline log to notice its absence.
+
+**Contended**: a sibling run held this subject, but only a technique file was amended, so
+no shared list was touched.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique: **`deterministic-proxy-gate`**. This closes a hole the subject
+*states and leaves open*. `operation-assertion-gates` says the two-class axis
+offers only two honest configurations for a cost gate, rejects both, offers one
+escape (restate the standard as source text) and admits it "holds the shape; it
+does not hold the number."
+
+The fourth resolution: keep the standard, swap the **apparatus**. A deterministic
+count of work performed is a function of the tree — same revision, same number,
+any machine, any load — so it satisfies `blocking-by-input-determinism` where
+elapsed time fails. Priced: large constant-factor slowdown, blindness to
+everything time measures that work-count does not. Inverts where the standard is
+genuinely wall-clock (I/O-, syscall-, bandwidth- or parallelism-bound).
+
+**Contradiction resolved against the source.** It says block the pull request on a
+wall-clock regression at a guessed 20% threshold; `operation-assertion-gates` and
+`noise-band-and-hysteresis` ("a guessed band is a censorship policy with no
+evidence") rule that dishonest. Our verdict holds on the source's own evidence —
+its mitigation concedes the apparatus is nondeterministic.
+
+Reduces a measured attention point on the #2 worklist subject (52 points).
+
+The subject also **gave up a stage**: invariant placement now lives in the new
+`invariant-placement` subject, which is the rung-zero this golden path's
+vocabulary could not describe.

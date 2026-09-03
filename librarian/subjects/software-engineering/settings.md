@@ -1,7 +1,7 @@
 ---
 subject: settings
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -111,3 +111,37 @@ paragraph predicts: enforcement is **per key with nothing counting it**. 58 of 9
 constants reachable inside the validator; within the store's own "limits" category, 3 of 4,
 the fourth a spend ceiling whose sibling is enforced *and* carries six negative test cases.
 Nobody decided that - the key was added after the validator's shape was set.
+
+## 2026-09-02 - `/intake` create-better-t-stack (run `intake-cbts-0902`)
+
+`inherited-default-override` gained two sections: "The third column: a default derived
+from sibling keys" and "Provenance travels with the value, or validation blames the user
+for a default". The source was a scaffolding CLI whose validator threads the set of
+explicitly provided flags beside the assembled configuration, fires a cross-key rule only
+when every key it names was provided, and re-derives the defaulted side otherwise; its
+agent-facing surface removes every default and rejects a partial payload. The technique's
+table had constant and environment sources for a default; a sibling key is the third and
+commonest. Nearest prior art was a seam, not a hole - the technique already said presence
+carries meaning independent of content for inherited defaults.
+
+Phase 7.5 (`personas` + `pumper` structural, simulation, `better` on 1 of 3, 2 equal):
+every cross-key rule in the server's validator is guarded by a boolean whose default is
+off, so no derived value can ever be the trigger - the trees practise the rule where it
+costs nothing. The one live case is a resume path that replays a constant where the
+first run derived a value. Not shipped: crosses a provider-trait signature.
+
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+New technique `cross-source-precedence-chain` (slug kept over `config-resolution-chain`: cross-source is the discriminator against `inherited-default-override`, which is one key and one live source, and against `key-registry`, which is vocabulary not resolution): several partial, independently unreadable sources resolve one key space at boot, and an unreadable named source is a failure, never a fall-through to the next. Golden path gains the section "And some values arrive from one of several sources". Application `rust--cross-source-precedence-chain` against a control-plane client library@1.89, witnessed at `kube-client/src/config/mod.rs:212`.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+Technique pair from the source's settings periphery: `applied-defaults-ledger` (record
+which named default sets were applied, never the values, so a user's edit is never
+overwritten and no version chain is needed) and `config-backup-and-restore` (rotating
+backups before each save plus a restore surface the product exposes). Applied against the
+fleet's local-first desktop app: the ledger came back **not-better** on every structural
+case because that tree's migrations are idempotent replays, and the technique gained a
+boundary section saying so; backup-and-restore came back better by simulation and produced
+the run's one direction proposal (the tree rotates three sets and admits in a comment that
+it has no restore path). Two `cpp--` and two `rust--` applications.

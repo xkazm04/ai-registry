@@ -3,10 +3,10 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 43,
-  "techniques": 259,
-  "applications": 115,
-  "laws": 11,
+  "subjects": 51,
+  "techniques": 319,
+  "applications": 135,
+  "laws": 13,
   "categories": [
    "systems-canon",
    "balance-validation",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "259/259",
+  "use_when_coverage": "319/319",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -26,7 +26,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
-   "digest": "sha256:efab67acec9b8749",
+   "digest": "sha256:0908de004e8247c3",
    "techniques": [
     {
      "slug": "capped-disqualifiers",
@@ -73,6 +73,21 @@
      ]
     },
     {
+     "slug": "criterion-set-coverage-audit",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defects keep escaping a rubric that reports clean",
+      "auditing a criterion set before publishing a version",
+      "a grade is being read as a statement about the whole artifact"
+     ]
+    },
+    {
      "slug": "criterion-with-a-cited-source",
      "status": "forged",
      "laws": [
@@ -84,6 +99,21 @@
       "writing the criteria of a craft rubric",
       "a criterion is being argued about as taste",
       "importing a quality standard from another discipline"
+     ]
+    },
+    {
+     "slug": "deliberately-overlapping-criteria",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "grade-against-what-ships-not-on-a-curve",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "criteria are being pruned for redundancy",
+      "a defect keeps escaping a complete-looking rubric",
+      "composing a weighted total from overlapping findings"
      ]
     },
     {
@@ -114,9 +144,30 @@
       "scores cluster in the middle band",
       "two reviewers disagree about what excellent means"
      ]
+    },
+    {
+     "slug": "question-form-criteria-for-open-judgment",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a quality matters and no threshold captures it",
+      "a rubric keeps passing correct but lifeless work",
+      "drafting criteria for readability or legibility of intent"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "deliberately-overlapping-criteria",
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/node--deliberately-overlapping-criteria.md",
+     "verified_on": "2026-09-02"
+    },
     {
      "stack": "process",
      "technique": "ceiling-as-a-market-assumption",
@@ -142,14 +193,15 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
-   "digest": "sha256:8ccc0b5501e25a82",
+   "digest": "sha256:480d7a388660fd86",
    "techniques": [
     {
      "slug": "declared-vs-referenced-tag-audit",
      "status": "forged",
      "laws": [
       "unmeasured-is-not-a-pass",
-      "compiling-is-not-wiring"
+      "compiling-is-not-wiring",
+      "declaring-an-input-is-not-consuming-it"
      ],
      "shared_with": [],
      "use_when": [
@@ -368,6 +420,230 @@
     }
    ]
   },
+  "adaptive-music-authoring": {
+   "category": "asset-production",
+   "subcategory": "motion-and-audio",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
+   "digest": "sha256:b6ee87680b6dad44",
+   "techniques": [
+    {
+     "slug": "intensity-mapping-from-declared-game-state",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the score flips tier every few seconds",
+      "deciding what drives musical intensity",
+      "a composer cannot see or test what drives their own score"
+     ]
+    },
+    {
+     "slug": "loop-boundary-and-tail-contract",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a loop clicks or lurches at its seam",
+      "declaring loop points for delivered music",
+      "a re-encode or a trim step broke a loop that used to work"
+     ]
+    },
+    {
+     "slug": "music-acceptance-beyond-decode-checks",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a music pipeline reports green because every file opened",
+      "building a gate for generated or delivered music",
+      "deciding which rungs a one-shot cue may defer"
+     ]
+    },
+    {
+     "slug": "stem-and-voice-budget-derivation",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how many layers a score may use",
+      "music and world sound compete for the same playback pool",
+      "an overrun appears in a fight and nobody can say whose it is"
+     ]
+    },
+    {
+     "slug": "transition-quantization-and-perceived-latency",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the music ignores the player or lurches",
+      "choosing a quantization boundary for a music transition",
+      "a transition that sounds right in a quiet test lurches under load"
+     ]
+    },
+    {
+     "slug": "vertical-layering-versus-horizontal-resequencing",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how a piece of content should adapt",
+      "a layered score cannot change key or cadence",
+      "a segmented score costs more transitions than anyone can compose"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "music-acceptance-beyond-decode-checks",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/node--music-acceptance-beyond-decode-checks.md",
+     "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "process",
+     "technique": "intensity-mapping-from-declared-game-state",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/process--intensity-mapping-from-declared-game-state.md",
+     "verified_on": "2026-09-02"
+    }
+   ]
+  },
+  "agent-behaviour-authoring": {
+   "category": "systems-canon",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/agent-behaviour-authoring.md",
+   "digest": "sha256:8c0f9f7d1b52fbae",
+   "techniques": [
+    {
+     "slug": "behaviour-model-selection",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting a new agent class and reaching for the structure the last one used",
+      "an agent's decision logic has outgrown its structure",
+      "deciding what an automated line is allowed to emit"
+     ]
+    },
+    {
+     "slug": "blackboard-as-declared-shared-state",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the interface between perception and decision",
+      "shared agent state has grown into an untyped grab bag",
+      "two behaviours disagree about what a key means",
+      "a generator must emit behaviour against a fixed vocabulary"
+     ]
+    },
+    {
+     "slug": "commitment-and-recovery-windows",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent stutters between two actions",
+      "an agent cannot be punished for a mistake",
+      "deciding how often an agent may change its mind",
+      "an agent cancels out of the recovery its own attack declared"
+     ]
+    },
+    {
+     "slug": "decision-trace-as-evidence",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "compiling-is-not-wiring",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving an agent actually decided something rather than existing",
+      "an agent validates but does nothing",
+      "grading generated behaviour without a human watching it",
+      "answering why did the agent do that"
+     ]
+    },
+    {
+     "slug": "group-coordination-without-a-hive-mind",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "several agents make the same decision at the same instant",
+      "designing squad or pack behaviour",
+      "an encounter feels like one enemy repeated",
+      "a commander component has become a single point of failure"
+     ]
+    },
+    {
+     "slug": "perception-before-decision",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring what an agent is allowed to know",
+      "an agent reacts to something it could not have seen",
+      "an agent never reacts at all",
+      "search and loss-of-contact behaviour is being faked with scripting"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "group-coordination-without-a-hive-mind",
+     "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/applications/node--group-coordination-without-a-hive-mind.md",
+     "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "process",
+     "technique": "perception-before-decision",
+     "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/applications/process--perception-before-decision.md",
+     "verified_on": "2026-09-02"
+    }
+   ]
+  },
   "arpg-systems-canon": {
    "category": "systems-canon",
    "subcategory": null,
@@ -479,10 +755,10 @@
   },
   "asset-class-poly-budgeting": {
    "category": "asset-production",
-   "subcategory": null,
+   "subcategory": "geometry",
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
-   "digest": "sha256:0eb3eb6cfc215aa5",
+   "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
+   "digest": "sha256:ad3f9ae671cfd7c6",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -575,15 +851,125 @@
     {
      "stack": "node",
      "technique": "provider-face-limit-conversion",
-     "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/applications/node--provider-face-limit-conversion.md",
+     "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/applications/node--provider-face-limit-conversion.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "class-ceiling-vs-requested-budget",
-     "file": "knowledge/game-production/asset-production/asset-class-poly-budgeting/applications/process--class-ceiling-vs-requested-budget.md",
+     "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/applications/process--class-ceiling-vs-requested-budget.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "branching-narrative-graph-validation": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/branching-narrative-graph-validation/branching-narrative-graph-validation.md",
+   "digest": "sha256:eda41d48194249c4",
+   "techniques": [
+    {
+     "slug": "dead-end-versus-authored-ending",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a terminal node is an ending or a bug",
+      "hunting a softlock in a conversation",
+      "declaring the ending set of a branching scene"
+     ]
+    },
+    {
+     "slug": "false-choice-and-convergence-audit",
+     "status": "forged",
+     "laws": [
+      "grade-against-what-ships-not-on-a-curve",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether two options are actually different",
+      "auditing a generated conversation for decorative branches",
+      "distinguishing designed convergence from a fake decision"
+     ]
+    },
+    {
+     "slug": "graph-revision-diffing",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a conversation graph was edited and something downstream must be re-done",
+      "deciding what a narrative edit invalidated",
+      "re-validating a regenerated scene without redoing everything"
+     ]
+    },
+    {
+     "slug": "node-text-budget-and-localization-surface",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing a generator to write conversation nodes",
+      "estimating what a branching scene will cost to translate or voice",
+      "a dialogue tree that reads fine and will not fit the interface"
+     ]
+    },
+    {
+     "slug": "reachability-and-orphan-detection",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving every node of a conversation can be reached",
+      "checking that every declared ending is attainable",
+      "auditing a graph after a restructuring pass"
+     ]
+    },
+    {
+     "slug": "state-variable-declaration-contract",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a condition reads a flag that is sometimes unset",
+      "declaring the state a conversation may touch",
+      "catching misspelled narrative variables before they ship"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "reachability-and-orphan-detection",
+     "file": "knowledge/game-production/content-pipeline/branching-narrative-graph-validation/applications/node--reachability-and-orphan-detection.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "state-variable-declaration-contract",
+     "file": "knowledge/game-production/content-pipeline/branching-narrative-graph-validation/applications/process--state-variable-declaration-contract.md",
+     "verified_on": "2026-09-02"
     }
    ]
   },
@@ -712,7 +1098,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/combat-pacing-and-dramatic-arc.md",
-   "digest": "sha256:6132dd3b66db5ba4",
+   "digest": "sha256:74791ba6f05fb35e",
    "techniques": [
     {
      "slug": "beat-taxonomy-climax-comeback-deadzone",
@@ -1816,7 +2202,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/game-economy-tuning/game-economy-tuning.md",
-   "digest": "sha256:121de0b64d154fed",
+   "digest": "sha256:cbea1e79760b8811",
    "techniques": [
     {
      "slug": "cost-curve-object-audit",
@@ -1862,6 +2248,20 @@
      ]
     },
     {
+     "slug": "feedback-loop-topology-and-polarity",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an economy or match runs away from the leader or never resolves",
+      "deciding whether a system needs a balancing or a reinforcing mechanism",
+      "characterising the loops in a node map before tuning any of them"
+     ]
+    },
+    {
      "slug": "intransitive-equilibrium-solving",
      "status": "forged",
      "laws": [
@@ -1904,6 +2304,36 @@
      ]
     },
     {
+     "slug": "source-drain-converter-trader-vocabulary",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the node map of an economy before tuning it",
+      "an economy inflates and no faucet accounts for it",
+      "giving a generator or a checker a vocabulary it can reason about"
+     ]
+    },
+    {
+     "slug": "structural-economy-simulation-before-numbers",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "before the first tuning pass on an economy with loops or conversions",
+      "a tuned economy keeps breaking in a new place after every fix",
+      "deciding whether a problem is a coefficient or a shape"
+     ]
+    },
+    {
      "slug": "tornado-sensitivity-sweeps",
      "status": "forged",
      "laws": [
@@ -1935,6 +2365,13 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "source-drain-converter-trader-vocabulary",
+     "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/node--source-drain-converter-trader-vocabulary.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "tornado-sensitivity-sweeps",
      "file": "knowledge/game-production/systems-canon/game-economy-tuning/applications/node--tornado-sensitivity-sweeps.md",
      "verified_on": "2026-08-30",
@@ -1955,12 +2392,124 @@
     }
    ]
   },
-  "generated-asset-world-scale": {
-   "category": "asset-production",
+  "gameplay-runtime-patterns": {
+   "category": "engine-integration",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/generated-asset-world-scale/generated-asset-world-scale.md",
-   "digest": "sha256:fc07dcb44f62596a",
+   "file": "knowledge/game-production/engine-integration/gameplay-runtime-patterns/gameplay-runtime-patterns.md",
+   "digest": "sha256:82a03a59ee64e6bd",
+   "techniques": [
+    {
+     "slug": "allocation-discipline-in-the-hot-path",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated system allocates inside a per-step loop",
+      "deciding whether a pool has earned itself",
+      "diagnosing an intermittent frame spike",
+      "setting the runtime budget an author is briefed with"
+     ]
+    },
+    {
+     "slug": "data-driven-type-objects-over-subclass-growth",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a content request arrives as \"we need a new kind of X\"",
+      "reviewing a class tree that grows with the content",
+      "deciding whether a variation belongs in a table or in code",
+      "a data table has acquired a field that means run a special case"
+     ]
+    },
+    {
+     "slug": "event-dispatch-versus-direct-call",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how one gameplay system tells another that something happened",
+      "reviewing generated code that routes a single consequence through a message bus",
+      "diagnosing a handler that exists and never runs"
+     ]
+    },
+    {
+     "slug": "pattern-selection-by-force-present",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "briefing an automated author on which runtime shapes it may use",
+      "reviewing generated code that is correct but structurally heavy",
+      "deciding whether a proposed abstraction has earned itself"
+     ]
+    },
+    {
+     "slug": "spatial-partitioning-threshold",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gameplay system compares every participant against every other",
+      "deciding whether a broad-phase structure has earned itself",
+      "choosing a cell size or a tree depth",
+      "an acceleration structure made things slower"
+     ]
+    },
+    {
+     "slug": "update-order-and-frame-coherence",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated system reads state another system writes in the same step",
+      "a defect reproduces only sometimes and only after an unrelated change",
+      "deciding whether a behaviour needs a read copy and a write copy",
+      "making a simulation reproducible for replay or regression"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "allocation-discipline-in-the-hot-path",
+     "file": "knowledge/game-production/engine-integration/gameplay-runtime-patterns/applications/node--allocation-discipline-in-the-hot-path.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "pattern-selection-by-force-present",
+     "file": "knowledge/game-production/engine-integration/gameplay-runtime-patterns/applications/process--pattern-selection-by-force-present.md",
+     "verified_on": "2026-09-02"
+    }
+   ]
+  },
+  "generated-asset-world-scale": {
+   "category": "asset-production",
+   "subcategory": "geometry",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/geometry/generated-asset-world-scale/generated-asset-world-scale.md",
+   "digest": "sha256:84524565171fd9df",
    "techniques": [
     {
      "slug": "generator-normalization-band",
@@ -2039,23 +2588,23 @@
     {
      "stack": "node",
      "technique": "import-scale-derivation",
-     "file": "knowledge/game-production/asset-production/generated-asset-world-scale/applications/node--import-scale-derivation.md",
+     "file": "knowledge/game-production/asset-production/geometry/generated-asset-world-scale/applications/node--import-scale-derivation.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "generator-normalization-band",
-     "file": "knowledge/game-production/asset-production/generated-asset-world-scale/applications/process--generator-normalization-band.md",
+     "file": "knowledge/game-production/asset-production/geometry/generated-asset-world-scale/applications/process--generator-normalization-band.md",
      "verified_on": "2026-08-20"
     }
    ]
   },
   "generated-mesh-acceptance": {
    "category": "asset-production",
-   "subcategory": null,
+   "subcategory": "geometry",
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/generated-mesh-acceptance.md",
+   "file": "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/generated-mesh-acceptance.md",
    "digest": "sha256:4e19f6fc7b7115d9",
    "techniques": [
     {
@@ -2149,14 +2698,14 @@
     {
      "stack": "node",
      "technique": "structural-scorecard",
-     "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/applications/node--structural-scorecard.md",
+     "file": "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/applications/node--structural-scorecard.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "stage-declared-grading",
-     "file": "knowledge/game-production/asset-production/generated-mesh-acceptance/applications/process--stage-declared-grading.md",
+     "file": "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/applications/process--stage-declared-grading.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -2406,9 +2955,9 @@
   },
   "image-to-3d-input-gating": {
    "category": "asset-production",
-   "subcategory": null,
+   "subcategory": "sourcing-economics",
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/image-to-3d-input-gating.md",
+   "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/image-to-3d-input-gating.md",
    "digest": "sha256:a2a699d4950daad8",
    "techniques": [
     {
@@ -2499,21 +3048,21 @@
     {
      "stack": "node",
      "technique": "reference-role-tagging",
-     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--reference-role-tagging.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "single-subject-plain-background",
-     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "score-defect-verdict-protocol",
-     "file": "knowledge/game-production/asset-production/image-to-3d-input-gating/applications/process--score-defect-verdict-protocol.md",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/process--score-defect-verdict-protocol.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -2633,11 +3182,118 @@
    ],
    "applications": []
   },
-  "mesh-finishing-for-engine-readiness": {
-   "category": "asset-production",
+  "learning-curve-and-teaching-design": {
+   "category": "balance-validation",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
+   "file": "knowledge/game-production/balance-validation/learning-curve-and-teaching-design/learning-curve-and-teaching-design.md",
+   "digest": "sha256:4a03fa93db7acb58",
+   "techniques": [
+    {
+     "slug": "flow-corridor-as-two-sided-envelope",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking whether a section demands more than the game has taught",
+      "players leave without complaining",
+      "encoding boredom as a failure a machine can report"
+     ]
+    },
+    {
+     "slug": "introduce-practise-test-spacing",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing where a mechanic is first shown and where it is required",
+      "a mechanic is shown once and never again",
+      "players fail a section they were never given a chance to rehearse"
+     ]
+    },
+    {
+     "slug": "skill-atom-inventory",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the list of what a game teaches",
+      "a feature list is being used as a teaching plan",
+      "checking whether generated content assumes an untaught competence"
+     ]
+    },
+    {
+     "slug": "teaching-escalation-ladder",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how a mechanic is taught",
+      "a tutorial is turning into a wall of text",
+      "deciding whether to add another prompt or redesign the situation"
+     ]
+    },
+    {
+     "slug": "time-to-competence-measurement",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving onboarding works rather than asserting it",
+      "tutorial completion is being reported as success",
+      "comparing two teaching approaches for the same mechanic"
+     ]
+    },
+    {
+     "slug": "unused-mechanic-detection",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a shipped mechanic has almost no users",
+      "deciding whether to buff something or teach it",
+      "auditing generated content for demands and abilities nobody taught"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "unused-mechanic-detection",
+     "file": "knowledge/game-production/balance-validation/learning-curve-and-teaching-design/applications/node--unused-mechanic-detection.md",
+     "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "process",
+     "technique": "skill-atom-inventory",
+     "file": "knowledge/game-production/balance-validation/learning-curve-and-teaching-design/applications/process--skill-atom-inventory.md",
+     "verified_on": "2026-09-02"
+    }
+   ]
+  },
+  "mesh-finishing-for-engine-readiness": {
+   "category": "asset-production",
+   "subcategory": "geometry",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
    "digest": "sha256:a8939bf0bf242d90",
    "techniques": [
     {
@@ -2732,30 +3388,30 @@
     {
      "stack": "node",
      "technique": "high-to-low-bake-coverage",
-     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/node--high-to-low-bake-coverage.md",
+     "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--high-to-low-bake-coverage.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "unwrap-only-the-low-poly",
-     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/node--unwrap-only-the-low-poly.md",
+     "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--unwrap-only-the-low-poly.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "headless-dcc-capability-limits",
-     "file": "knowledge/game-production/asset-production/mesh-finishing-for-engine-readiness/applications/process--headless-dcc-capability-limits.md",
+     "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/process--headless-dcc-capability-limits.md",
      "verified_on": "2026-08-20"
     }
    ]
   },
   "motion-quality-gating": {
    "category": "asset-production",
-   "subcategory": null,
+   "subcategory": "motion-and-audio",
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/motion-quality-gating/motion-quality-gating.md",
+   "file": "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/motion-quality-gating.md",
    "digest": "sha256:6e0250d10f5ebac1",
    "techniques": [
     {
@@ -2852,22 +3508,133 @@
     {
      "stack": "node",
      "technique": "asset-reality-ledger",
-     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/node--asset-reality-ledger.md",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/applications/node--asset-reality-ledger.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "filmstrip-sampling-discipline",
-     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/node--filmstrip-sampling-discipline.md",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/applications/node--filmstrip-sampling-discipline.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "six-dimension-motion-rubric",
-     "file": "knowledge/game-production/asset-production/motion-quality-gating/applications/process--six-dimension-motion-rubric.md",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/motion-quality-gating/applications/process--six-dimension-motion-rubric.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "playtest-signal-to-defect": {
+   "category": "craft-judgment",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/craft-judgment/playtest-signal-to-defect/playtest-signal-to-defect.md",
+   "digest": "sha256:b9e1aa724c895b57",
+   "techniques": [
+    {
+     "slug": "complaint-to-owning-subject-routing",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a complaint queue is almost entirely balance tickets",
+      "deciding who owns a playtest finding",
+      "building the triage table for a session pipeline"
+     ]
+    },
+    {
+     "slug": "frequency-and-severity-as-separate-axes",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "prioritising a playtest finding queue",
+      "a triage board sorts by a single priority score",
+      "reporting how bad a build's session results were"
+     ]
+    },
+    {
+     "slug": "observation-before-interpretation",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing a session report schema",
+      "a tester report arrived as a list of proposed fixes",
+      "prompting an automated agent to report on its own play"
+     ]
+    },
+    {
+     "slug": "repro-minimization-protocol",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a session observation into a reproducible trigger",
+      "a bug report is a paragraph of context",
+      "deciding whether a finding is ready to hand to an owner"
+     ]
+    },
+    {
+     "slug": "session-instrumentation-contract",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "a-number-carries-its-unit-and-basis",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "standing up playtesting for the first time",
+      "findings cannot be reproduced or aged",
+      "an automated agent is about to start filing session reports"
+     ]
+    },
+    {
+     "slug": "unreproducible-is-a-state-not-a-dismissal",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a report could not be reproduced",
+      "designing the state vocabulary of a finding queue",
+      "the same rumour keeps arriving as a new ticket"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "unreproducible-is-a-state-not-a-dismissal",
+     "file": "knowledge/game-production/craft-judgment/playtest-signal-to-defect/applications/node--unreproducible-is-a-state-not-a-dismissal.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "observation-before-interpretation",
+     "file": "knowledge/game-production/craft-judgment/playtest-signal-to-defect/applications/process--observation-before-interpretation.md",
+     "verified_on": "2026-09-02"
     }
    ]
   },
@@ -2876,7 +3643,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/procedural-level-planning/procedural-level-planning.md",
-   "digest": "sha256:df19ce15d196311c",
+   "digest": "sha256:f519280ac89d6719",
    "techniques": [
     {
      "slug": "algorithm-parameter-support-matrix",
@@ -2893,17 +3660,64 @@
      ]
     },
     {
+     "slug": "critical-path-to-optional-branch-ratio",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated space reads as a corridor or as a maze and nobody can say which knob did it",
+      "declaring the intended shape of a space before generating it",
+      "grading a generated layout against the brief it was generated from"
+     ]
+    },
+    {
      "slug": "declare-what-each-engine-ignores",
      "status": "forged",
      "laws": [
       "unmeasured-is-not-a-pass",
-      "no-gate-self-certifies"
+      "no-gate-self-certifies",
+      "declaring-an-input-is-not-consuming-it"
      ],
      "shared_with": [],
      "use_when": [
       "several generators accept the same request type",
       "a designer cannot tell which inputs mattered",
       "comparing two backends on one brief"
+     ]
+    },
+    {
+     "slug": "gate-and-key-solvability-proof",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated space contains locks",
+      "gates or prerequisites of any kind",
+      "proving a generated progression can be completed before anything is built from it",
+      "a generated space is reported as impossible and nobody can say which lock is at fault"
+     ]
+    },
+    {
+     "slug": "landmark-and-sightline-legibility",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated space is navigable on paper but confusing to walk",
+      "placing landmarks or points of interest into a generated plan",
+      "deciding what a geometric checker may claim about a space nobody has looked at"
      ]
     },
     {
@@ -2970,6 +3784,13 @@
      "technique": "declare-what-each-engine-ignores",
      "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--declare-what-each-engine-ignores.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "gate-and-key-solvability-proof",
+     "file": "knowledge/game-production/balance-validation/procedural-level-planning/applications/node--gate-and-key-solvability-proof.md",
+     "verified_on": "2026-09-02",
      "verified_against": "node@24"
     },
     {
@@ -3219,7 +4040,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-work-prioritization/production-work-prioritization.md",
-   "digest": "sha256:30ee75c074fc21f9",
+   "digest": "sha256:7fe8a0d9a34ea372",
    "techniques": [
     {
      "slug": "blocked-if-any-produced-feature-is-blocked",
@@ -3245,6 +4066,21 @@
      "use_when": [
       "deciding which areas of a project are even eligible to be worked next",
       "auditing an ordering constraint someone asserted in a meeting"
+     ]
+    },
+    {
+     "slug": "declared-scope-as-a-shaping-budget",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "handing a scope figure to a producer human or automated",
+      "deriving a part's allowance from a whole's",
+      "a delivered part came in far under or far over what was requested"
      ]
     },
     {
@@ -3277,6 +4113,20 @@
      ]
     },
     {
+     "slug": "fixed-deadline-scope-triage",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a delivery date is genuinely immovable and the plan does not fit it",
+      "authoring a cut list before a milestone rather than during it",
+      "an unattended planner will hit a checkpoint short of capacity"
+     ]
+    },
+    {
      "slug": "null-success-odds-with-sample-provenance",
      "status": "forged",
      "laws": [
@@ -3303,6 +4153,20 @@
       "two surfaces of the same tool give contradictory next-step advice",
       "a project is too young to support a scored ranking"
      ]
+    },
+    {
+     "slug": "vertical-slice-as-the-first-milestone",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the first milestone on a project that has systems but no playable path",
+      "a completion metric reports healthy progress and nothing is playable end to end",
+      "an unattended planner keeps recommending new systems over finishing one path"
+     ]
     }
    ],
    "applications": [
@@ -3318,6 +4182,13 @@
      "technique": "null-success-odds-with-sample-provenance",
      "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/node--null-success-odds-with-sample-provenance.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "vertical-slice-as-the-first-milestone",
+     "file": "knowledge/game-production/production-governance/production-work-prioritization/applications/node--vertical-slice-as-the-first-milestone.md",
+     "verified_on": "2026-09-02",
      "verified_against": "node@24"
     },
     {
@@ -3795,9 +4666,9 @@
   },
   "regeneration-vs-repair-economics": {
    "category": "asset-production",
-   "subcategory": null,
+   "subcategory": "sourcing-economics",
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
+   "file": "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/regeneration-vs-repair-economics.md",
    "digest": "sha256:60a55e5315340266",
    "techniques": [
     {
@@ -3890,14 +4761,14 @@
     {
      "stack": "node",
      "technique": "defect-class-to-remedy-map",
-     "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/applications/node--defect-class-to-remedy-map.md",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/applications/node--defect-class-to-remedy-map.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "bounded-refine-iteration",
-     "file": "knowledge/game-production/asset-production/regeneration-vs-repair-economics/applications/process--bounded-refine-iteration.md",
+     "file": "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/applications/process--bounded-refine-iteration.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -4023,10 +4894,10 @@
   },
   "shader-budget-authoring": {
    "category": "asset-production",
-   "subcategory": null,
+   "subcategory": "surface-and-imagery",
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/shader-budget-authoring/shader-budget-authoring.md",
-   "digest": "sha256:ab765d3f91d3a320",
+   "file": "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/shader-budget-authoring.md",
+   "digest": "sha256:814526a142dd175e",
    "techniques": [
     {
      "slug": "channel-packing",
@@ -4118,20 +4989,20 @@
     {
      "stack": "node",
      "technique": "feature-cost-with-a-cheaper-swap",
-     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/node--feature-cost-with-a-cheaper-swap.md",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/applications/node--feature-cost-with-a-cheaper-swap.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "hardware-tier-lighting-presets",
-     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/process--hardware-tier-lighting-presets.md",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/applications/process--hardware-tier-lighting-presets.md",
      "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "surface-to-shading-model-map",
-     "file": "knowledge/game-production/asset-production/shader-budget-authoring/applications/process--surface-to-shading-model-map.md",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/shader-budget-authoring/applications/process--surface-to-shading-model-map.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -4257,10 +5128,10 @@
   },
   "spatial-audio-scene-authoring": {
    "category": "asset-production",
-   "subcategory": null,
+   "subcategory": "motion-and-audio",
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/spatial-audio-scene-authoring.md",
-   "digest": "sha256:81f90d228d0baf73",
+   "file": "knowledge/game-production/asset-production/motion-and-audio/spatial-audio-scene-authoring/spatial-audio-scene-authoring.md",
+   "digest": "sha256:15c3a806b016eed9",
    "techniques": [
     {
      "slug": "attenuation-falloff-and-distance-filtering",
@@ -4352,15 +5223,135 @@
     {
      "stack": "node",
      "technique": "room-type-to-acoustic-profile",
-     "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/applications/node--room-type-to-acoustic-profile.md",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/spatial-audio-scene-authoring/applications/node--room-type-to-acoustic-profile.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "event-priority-concurrency-cooldown",
-     "file": "knowledge/game-production/asset-production/spatial-audio-scene-authoring/applications/process--event-priority-concurrency-cooldown.md",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/spatial-audio-scene-authoring/applications/process--event-priority-concurrency-cooldown.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "sprite-and-atlas-production": {
+   "category": "asset-production",
+   "subcategory": "surface-and-imagery",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production/sprite-and-atlas-production.md",
+   "digest": "sha256:e77e8a24eccf56b7",
+   "techniques": [
+    {
+     "slug": "atlas-packing-and-bleed-margins",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "packing authored frames onto shared pages",
+      "a thin bright or dark fringe crawls along a sprite silhouette",
+      "sizing the gutter between packed regions",
+      "deciding how many atlas pages an art class may have"
+     ]
+    },
+    {
+     "slug": "autotile-rule-set-completeness",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "law-and-check-share-one-source",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring or accepting a tile set that resolves neighbourhoods automatically",
+      "a hole or a wrong tile appears where two terrains meet",
+      "deciding how many tiles a terrain actually requires",
+      "commissioning a transition set from a generator"
+     ]
+    },
+    {
+     "slug": "lossy-compression-acceptance-for-flat-art",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the compression path for a two-dimensional art class",
+      "coloured halos appear along outlines after a build",
+      "deciding whether an asset class may take a lossy path",
+      "defending the memory cost of a lossless path"
+     ]
+    },
+    {
+     "slug": "palette-discipline-across-frames",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generating the frames of one sprite set independently",
+      "colours drift between frames of the same animation",
+      "constraining generated art to a project palette",
+      "checking that a delivered frame was authored to the colour contract"
+     ]
+    },
+    {
+     "slug": "pixel-grid-and-resolution-contract",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the resolution a two-dimensional art class is authored at",
+      "sprite edges shimmer or crawl while the camera moves",
+      "deciding between a whole-number and a fractional presentation scale",
+      "a generated frame arrives at a size nobody specified"
+     ]
+    },
+    {
+     "slug": "sprite-sequence-timing-and-pivot-stability",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assembling generated frames into an animation",
+      "a character bobs or jitters while playing a cycle",
+      "declaring per-frame durations and loop points",
+      "a held object detaches from the hand during a swing"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "atlas-packing-and-bleed-margins",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production/applications/node--atlas-packing-and-bleed-margins.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "pixel-grid-and-resolution-contract",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/sprite-and-atlas-production/applications/process--pixel-grid-and-resolution-contract.md",
+     "verified_on": "2026-09-02"
     }
    ]
   },
@@ -4479,12 +5470,129 @@
     }
    ]
   },
-  "tiling-texture-acceptance": {
-   "category": "asset-production",
+  "terrain-synthesis-acceptance": {
+   "category": "balance-validation",
    "subcategory": null,
    "status": "forged",
-   "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/tiling-texture-acceptance.md",
-   "digest": "sha256:dfeba0bd94fb8e35",
+   "file": "knowledge/game-production/balance-validation/terrain-synthesis-acceptance/terrain-synthesis-acceptance.md",
+   "digest": "sha256:172b6c4cc91ee150",
+   "techniques": [
+    {
+     "slug": "biome-mask-cross-consistency",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking generated biome material and vegetation masks against the height and slope they sit on",
+      "a scatter pass planted a forest on a cliff",
+      "two mask layers disagree about the same region",
+      "a mask consistency check reports no conflicts"
+     ]
+    },
+    {
+     "slug": "drainage-coherence-as-plausibility-gate",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated landscape has rivers that run uphill or water perched on a slope",
+      "checking a heightfield for internal consistency before anyone dresses it",
+      "ordering the passes of a terrain generation pipeline",
+      "deciding what a cheap terrain check may and may not conclude"
+     ]
+    },
+    {
+     "slug": "heightfield-resolution-and-vertical-basis",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "receiving a generated heightfield with no stated units",
+      "deciding the sample spacing and vertical range for a map class",
+      "a generated world feels uniformly too dramatic or too flat",
+      "reconciling an exporter's vertical scale with an importer's"
+     ]
+    },
+    {
+     "slug": "playable-area-versus-backdrop-ratio",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "declaring how much of a generated map is meant to be playable",
+      "a vast generated world turns out to have a few percent of usable ground",
+      "comparing two generated maps that advertise the same size",
+      "budgeting a map class before generation"
+     ]
+    },
+    {
+     "slug": "slope-traversability-envelope",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether generated ground can be walked on",
+      "setting a walkable limit per locomotion class",
+      "a generated map is beautiful and nothing on it is traversable",
+      "reporting how much of a map a player can actually stand on"
+     ]
+    },
+    {
+     "slug": "terrain-to-room-graph-handoff",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a level planner must place rooms on generated ground",
+      "deciding which system owns walkability",
+      "a generated plan puts a room on a cliff",
+      "defining the payload terrain publishes to downstream planning"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "heightfield-resolution-and-vertical-basis",
+     "file": "knowledge/game-production/balance-validation/terrain-synthesis-acceptance/applications/node--heightfield-resolution-and-vertical-basis.md",
+     "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "process",
+     "technique": "terrain-to-room-graph-handoff",
+     "file": "knowledge/game-production/balance-validation/terrain-synthesis-acceptance/applications/process--terrain-to-room-graph-handoff.md",
+     "verified_on": "2026-09-02"
+    }
+   ]
+  },
+  "tiling-texture-acceptance": {
+   "category": "asset-production",
+   "subcategory": "surface-and-imagery",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/surface-and-imagery/tiling-texture-acceptance/tiling-texture-acceptance.md",
+   "digest": "sha256:9784bddd6401f00f",
    "techniques": [
     {
      "slug": "biome-themed-tile-prompting",
@@ -4584,21 +5692,21 @@
     {
      "stack": "node",
      "technique": "derive-only-what-the-source-encodes",
-     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/node--derive-only-what-the-source-encodes.md",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/tiling-texture-acceptance/applications/node--derive-only-what-the-source-encodes.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "wrap-around-edge-diff",
-     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/node--wrap-around-edge-diff.md",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/tiling-texture-acceptance/applications/node--wrap-around-edge-diff.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "biome-themed-tile-prompting",
-     "file": "knowledge/game-production/asset-production/tiling-texture-acceptance/applications/process--biome-themed-tile-prompting.md",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/tiling-texture-acceptance/applications/process--biome-themed-tile-prompting.md",
      "verified_on": "2026-08-20"
     }
    ]
@@ -4963,9 +6071,11 @@
     "aaa-craft-rubric-authoring/ceiling-as-a-market-assumption",
     "aaa-craft-rubric-authoring/checkable-against-the-stored-artifact",
     "aaa-craft-rubric-authoring/criterion-with-a-cited-source",
+    "aaa-craft-rubric-authoring/deliberately-overlapping-criteria",
     "aaa-craft-rubric-authoring/named-benchmark-anchors-per-level",
     "asset-class-poly-budgeting/budget-shapes-output-not-just-caps",
     "asset-class-poly-budgeting/class-ceiling-vs-requested-budget",
+    "branching-narrative-graph-validation/false-choice-and-convergence-audit",
     "design-canon-as-executable-law/archetype-aware-envelopes",
     "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
     "generated-mesh-acceptance/stage-declared-grading",
@@ -4975,10 +6085,13 @@
     "judgeable-spec-authoring/register-discipline-in-a-spec",
     "motion-quality-gating/absolute-not-curved-judgment",
     "motion-quality-gating/six-dimension-motion-rubric",
+    "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
     "production-coverage-measurement/craft-ladder-and-medium-ceilings",
+    "production-work-prioritization/declared-scope-as-a-shaping-budget",
     "prompt-fitness-and-evolution/exclude-synthetic-fixtures-from-fitness",
     "quality-verdict-integrity/sibling-context-projection",
     "reference-parity-gating/no-average-hides-a-failure",
+    "sprite-and-atlas-production/palette-discipline-across-frames",
     "subsystem-review-doctrine/severity-by-consequence"
    ]
   },
@@ -4987,7 +6100,9 @@
    "techniques": [
     "aaa-craft-rubric-authoring/capped-disqualifiers",
     "aaa-craft-rubric-authoring/checkable-against-the-stored-artifact",
+    "aaa-craft-rubric-authoring/criterion-set-coverage-audit",
     "aaa-craft-rubric-authoring/lens-versioning-as-invalidation",
+    "aaa-craft-rubric-authoring/question-form-criteria-for-open-judgment",
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
     "ability-authoring-to-engine/server-derived-codegen-report",
     "acceptance-verdict-spine/first-non-pass-reporting-in-all-of",
@@ -4995,9 +6110,17 @@
     "acceptance-verdict-spine/hardcoded-pass-antipattern",
     "acceptance-verdict-spine/three-layer-merge-order",
     "acceptance-verdict-spine/ungraded-marker-doctrine",
+    "adaptive-music-authoring/intensity-mapping-from-declared-game-state",
+    "adaptive-music-authoring/music-acceptance-beyond-decode-checks",
+    "adaptive-music-authoring/transition-quantization-and-perceived-latency",
+    "agent-behaviour-authoring/blackboard-as-declared-shared-state",
+    "agent-behaviour-authoring/commitment-and-recovery-windows",
+    "agent-behaviour-authoring/perception-before-decision",
     "arpg-systems-canon/layered-defenses-and-the-ehp-floor",
     "asset-class-poly-budgeting/class-ceiling-vs-requested-budget",
     "asset-class-poly-budgeting/quad-trap-detection",
+    "branching-narrative-graph-validation/dead-end-versus-authored-ending",
+    "branching-narrative-graph-validation/graph-revision-diffing",
     "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
     "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
@@ -5035,10 +6158,15 @@
     "engine-pitfall-corpus/domain-scoped-injection-with-a-safe-superset",
     "engine-pitfall-corpus/introspect-before-you-call",
     "game-economy-tuning/faucet-sink-balance-band",
+    "game-economy-tuning/feedback-loop-topology-and-polarity",
     "game-economy-tuning/intransitive-equilibrium-solving",
     "game-economy-tuning/rarity-inflation-and-affix-saturation-alerts",
+    "game-economy-tuning/source-drain-converter-trader-vocabulary",
+    "game-economy-tuning/structural-economy-simulation-before-numbers",
     "game-economy-tuning/tornado-sensitivity-sweeps",
     "game-economy-tuning/wealth-concentration-and-price-imbalance-alerts",
+    "gameplay-runtime-patterns/allocation-discipline-in-the-hot-path",
+    "gameplay-runtime-patterns/spatial-partitioning-threshold",
     "generated-asset-world-scale/generator-normalization-band",
     "generated-asset-world-scale/import-scale-derivation",
     "generated-asset-world-scale/nominal-extent-only-where-honest",
@@ -5058,6 +6186,10 @@
     "image-to-3d-input-gating/score-defect-verdict-protocol",
     "image-to-3d-input-gating/single-subject-plain-background",
     "judgeable-spec-authoring/register-discipline-in-a-spec",
+    "learning-curve-and-teaching-design/flow-corridor-as-two-sided-envelope",
+    "learning-curve-and-teaching-design/skill-atom-inventory",
+    "learning-curve-and-teaching-design/time-to-competence-measurement",
+    "learning-curve-and-teaching-design/unused-mechanic-detection",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/high-to-low-bake-coverage",
@@ -5065,8 +6197,15 @@
     "motion-quality-gating/asset-reality-ledger",
     "motion-quality-gating/genre-response-latency-norms",
     "motion-quality-gating/six-dimension-motion-rubric",
+    "playtest-signal-to-defect/complaint-to-owning-subject-routing",
+    "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
+    "playtest-signal-to-defect/observation-before-interpretation",
+    "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
     "procedural-level-planning/algorithm-parameter-support-matrix",
+    "procedural-level-planning/critical-path-to-optional-branch-ratio",
     "procedural-level-planning/declare-what-each-engine-ignores",
+    "procedural-level-planning/gate-and-key-solvability-proof",
+    "procedural-level-planning/landmark-and-sightline-legibility",
     "procedural-level-planning/pacing-linter-rules",
     "procedural-level-planning/zone-progression-linting",
     "production-coverage-measurement/audited-fact-drift-detection",
@@ -5104,7 +6243,17 @@
     "ship-pipeline-gating/validator-log-classification",
     "spatial-audio-scene-authoring/event-priority-concurrency-cooldown",
     "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
+    "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
+    "sprite-and-atlas-production/autotile-rule-set-completeness",
+    "sprite-and-atlas-production/lossy-compression-acceptance-for-flat-art",
+    "sprite-and-atlas-production/palette-discipline-across-frames",
+    "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
     "subsystem-review-doctrine/regression-diff-new-persisting-resolved",
+    "terrain-synthesis-acceptance/biome-mask-cross-consistency",
+    "terrain-synthesis-acceptance/drainage-coherence-as-plausibility-gate",
+    "terrain-synthesis-acceptance/playable-area-versus-backdrop-ratio",
+    "terrain-synthesis-acceptance/slope-traversability-envelope",
+    "terrain-synthesis-acceptance/terrain-to-room-graph-handoff",
     "tiling-texture-acceptance/biome-themed-tile-prompting",
     "tiling-texture-acceptance/derive-only-what-the-source-encodes",
     "tiling-texture-acceptance/seam-threshold-calibration",
@@ -5126,17 +6275,23 @@
    "statement": "Two systems answering the same question with two models is worse than having one model, and worse than having none: the disagreement is invisible until it is load-bearing. Each quantity has exactly one owning implementation; everything else adapts into it. A simpler legacy model may be retained for compatibility but must be barred from producing a verdict. The same rule governs content: a value that appears in sibling artifacts is single-sourced, and a contradiction between siblings is a defect in its own right.",
    "techniques": [
     "aaa-craft-rubric-authoring/capped-disqualifiers",
+    "aaa-craft-rubric-authoring/deliberately-overlapping-criteria",
     "ability-authoring-to-engine/strict-output-schema-with-derived-dependents",
     "ability-authoring-to-engine/tag-dialect-normalization",
     "acceptance-verdict-spine/explain-why-this-verdict",
     "acceptance-verdict-spine/gate-check-dependency-map",
     "acceptance-verdict-spine/three-layer-merge-order",
+    "adaptive-music-authoring/loop-boundary-and-tail-contract",
+    "adaptive-music-authoring/stem-and-voice-budget-derivation",
+    "agent-behaviour-authoring/blackboard-as-declared-shared-state",
+    "agent-behaviour-authoring/group-coordination-without-a-hive-mind",
     "arpg-systems-canon/added-increased-more-stacking",
     "arpg-systems-canon/ailments-scale-off-the-hit",
     "arpg-systems-canon/mitigation-order-and-soft-caps",
     "asset-class-poly-budgeting/part-split-budget-division",
     "asset-class-poly-budgeting/provider-face-limit-conversion",
     "asset-class-poly-budgeting/triangles-as-the-authored-unit",
+    "branching-narrative-graph-validation/state-variable-declaration-contract",
     "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
     "catalog-pipeline-authoring/step-archetype-taxonomy",
     "catalog-pipeline-authoring/view-produce-accept-triad",
@@ -5158,6 +6313,9 @@
     "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
     "game-economy-tuning/cost-curve-object-audit",
     "game-economy-tuning/economy-philosophy-multipliers",
+    "game-economy-tuning/source-drain-converter-trader-vocabulary",
+    "gameplay-runtime-patterns/data-driven-type-objects-over-subclass-growth",
+    "gameplay-runtime-patterns/update-order-and-frame-coherence",
     "generated-asset-world-scale/import-scale-derivation",
     "generated-asset-world-scale/nominal-extent-only-where-honest",
     "generated-asset-world-scale/reference-skeleton-size-check",
@@ -5174,9 +6332,11 @@
     "judgeable-spec-authoring/interpolated-counts-over-typed-counts",
     "judgeable-spec-authoring/one-field-one-question",
     "judgeable-spec-authoring/quantity-ownership-and-the-bindable-row",
+    "learning-curve-and-teaching-design/skill-atom-inventory",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/genre-response-latency-norms",
+    "playtest-signal-to-defect/complaint-to-owning-subject-routing",
     "procedural-level-planning/seed-determinism-contract",
     "procedural-level-planning/zone-progression-linting",
     "production-prompt-architecture/scanned-project-state-do-not-recreate",
@@ -5207,7 +6367,12 @@
     "spatial-audio-scene-authoring/reverb-parameter-tables",
     "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
     "spatial-audio-scene-authoring/two-d-vs-three-d-spatialization-choice",
+    "sprite-and-atlas-production/palette-discipline-across-frames",
+    "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
     "subsystem-review-doctrine/trace-one-interaction-end-to-end",
+    "terrain-synthesis-acceptance/biome-mask-cross-consistency",
+    "terrain-synthesis-acceptance/heightfield-resolution-and-vertical-basis",
+    "terrain-synthesis-acceptance/terrain-to-room-graph-handoff",
     "tiling-texture-acceptance/biome-themed-tile-prompting",
     "tiling-texture-acceptance/texel-density-and-uv-tiling",
     "unattended-build-loop/rollback-to-last-green",
@@ -5219,8 +6384,17 @@
    "statement": "A quantity handed across a boundary without its unit and the assumption it was computed under is not information. A budget is meaningless unless it says which primitive it counts. A damage figure is meaningless without its type and its stacking bucket. A mitigation percentage does not exist for a defence that is soft-capped against the size of the incoming hit — only for a stated reference hit. A score is meaningless without the basis it was scored on. Where a producer and a consumer of a number disagree about its unit, the failure is silent, arrives late, and is expensive.",
    "techniques": [
     "aaa-craft-rubric-authoring/ceiling-as-a-market-assumption",
+    "aaa-craft-rubric-authoring/criterion-set-coverage-audit",
     "aaa-craft-rubric-authoring/named-benchmark-anchors-per-level",
     "ability-authoring-to-engine/strict-output-schema-with-derived-dependents",
+    "adaptive-music-authoring/intensity-mapping-from-declared-game-state",
+    "adaptive-music-authoring/loop-boundary-and-tail-contract",
+    "adaptive-music-authoring/stem-and-voice-budget-derivation",
+    "adaptive-music-authoring/transition-quantization-and-perceived-latency",
+    "adaptive-music-authoring/vertical-layering-versus-horizontal-resequencing",
+    "agent-behaviour-authoring/blackboard-as-declared-shared-state",
+    "agent-behaviour-authoring/commitment-and-recovery-windows",
+    "agent-behaviour-authoring/perception-before-decision",
     "arpg-systems-canon/added-increased-more-stacking",
     "arpg-systems-canon/ailments-scale-off-the-hit",
     "arpg-systems-canon/ilvl-gated-affix-tiers",
@@ -5230,6 +6404,8 @@
     "asset-class-poly-budgeting/provider-face-limit-conversion",
     "asset-class-poly-budgeting/quad-trap-detection",
     "asset-class-poly-budgeting/triangles-as-the-authored-unit",
+    "branching-narrative-graph-validation/node-text-budget-and-localization-surface",
+    "branching-narrative-graph-validation/state-variable-declaration-contract",
     "combat-pacing-and-dramatic-arc/beat-taxonomy-climax-comeback-deadzone",
     "combat-pacing-and-dramatic-arc/difficulty-band-classification",
     "combat-pacing-and-dramatic-arc/encounter-duration-envelopes",
@@ -5259,8 +6435,13 @@
     "game-economy-tuning/faucet-sink-balance-band",
     "game-economy-tuning/intransitive-equilibrium-solving",
     "game-economy-tuning/rarity-inflation-and-affix-saturation-alerts",
+    "game-economy-tuning/source-drain-converter-trader-vocabulary",
+    "game-economy-tuning/structural-economy-simulation-before-numbers",
     "game-economy-tuning/tornado-sensitivity-sweeps",
     "game-economy-tuning/wealth-concentration-and-price-imbalance-alerts",
+    "gameplay-runtime-patterns/data-driven-type-objects-over-subclass-growth",
+    "gameplay-runtime-patterns/spatial-partitioning-threshold",
+    "gameplay-runtime-patterns/update-order-and-frame-coherence",
     "generated-asset-world-scale/generator-normalization-band",
     "generated-asset-world-scale/import-scale-derivation",
     "generated-asset-world-scale/unit-convention-at-the-engine-edge",
@@ -5274,6 +6455,8 @@
     "judgeable-spec-authoring/interpolated-counts-over-typed-counts",
     "judgeable-spec-authoring/one-field-one-question",
     "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
+    "learning-curve-and-teaching-design/flow-corridor-as-two-sided-envelope",
+    "learning-curve-and-teaching-design/time-to-competence-measurement",
     "mesh-finishing-for-engine-readiness/high-to-low-bake-coverage",
     "mesh-finishing-for-engine-readiness/unwrap-only-the-low-poly",
     "motion-quality-gating/absolute-not-curved-judgment",
@@ -5281,11 +6464,17 @@
     "motion-quality-gating/genre-response-latency-norms",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
     "motion-quality-gating/six-dimension-motion-rubric",
+    "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
+    "playtest-signal-to-defect/repro-minimization-protocol",
+    "playtest-signal-to-defect/session-instrumentation-contract",
+    "procedural-level-planning/critical-path-to-optional-branch-ratio",
+    "procedural-level-planning/landmark-and-sightline-legibility",
     "procedural-level-planning/safe-room-and-boss-placement",
     "procedural-level-planning/seed-determinism-contract",
     "procedural-level-planning/zone-progression-linting",
     "production-coverage-measurement/craft-ladder-and-medium-ceilings",
     "production-coverage-measurement/source-provenance-marks",
+    "production-work-prioritization/declared-scope-as-a-shaping-budget",
     "production-work-prioritization/fan-out-max-not-sum",
     "production-work-prioritization/five-factor-weighted-scoring",
     "production-work-prioritization/null-success-odds-with-sample-provenance",
@@ -5312,7 +6501,14 @@
     "spatial-audio-scene-authoring/occlusion-to-volume-and-filter",
     "spatial-audio-scene-authoring/reverb-parameter-tables",
     "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
+    "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
+    "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
+    "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
     "subsystem-review-doctrine/severity-by-consequence",
+    "terrain-synthesis-acceptance/heightfield-resolution-and-vertical-basis",
+    "terrain-synthesis-acceptance/playable-area-versus-backdrop-ratio",
+    "terrain-synthesis-acceptance/slope-traversability-envelope",
+    "terrain-synthesis-acceptance/terrain-to-room-graph-handoff",
     "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
     "tiling-texture-acceptance/seam-threshold-calibration",
     "tiling-texture-acceptance/texel-density-and-uv-tiling",
@@ -5325,10 +6521,13 @@
    "statement": "The party that produced an artifact may not be the authority that passes it. A producer's own claim of success is an input to a verdict, never the verdict; a generator that reports its output as valid gets that claim recorded and labelled as self-reported. The authority is a separate observer reading real state. Under automation this hardens further: an unattended process reports what it verified and what it merely asserted as two different numbers, and the one that counts is the verified one.",
    "techniques": [
     "aaa-craft-rubric-authoring/checkable-against-the-stored-artifact",
+    "aaa-craft-rubric-authoring/question-form-criteria-for-open-judgment",
     "ability-authoring-to-engine/server-derived-codegen-report",
     "acceptance-verdict-spine/gate-check-dependency-map",
     "acceptance-verdict-spine/hardcoded-pass-antipattern",
     "acceptance-verdict-spine/ungraded-marker-doctrine",
+    "adaptive-music-authoring/music-acceptance-beyond-decode-checks",
+    "agent-behaviour-authoring/decision-trace-as-evidence",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
     "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
@@ -5341,7 +6540,10 @@
     "generative-provider-auditing/arena-benchmark-protocol",
     "generative-provider-auditing/capability-is-not-registry-membership",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
+    "learning-curve-and-teaching-design/teaching-escalation-ladder",
+    "playtest-signal-to-defect/observation-before-interpretation",
     "procedural-level-planning/declare-what-each-engine-ignores",
+    "procedural-level-planning/gate-and-key-solvability-proof",
     "production-coverage-measurement/engine-credibility-classes",
     "production-coverage-measurement/headless-operability-gate",
     "production-coverage-measurement/source-provenance-marks",
@@ -5359,6 +6561,7 @@
     "runtime-observation-evidence/unverifiable-is-not-fail",
     "ship-pipeline-gating/fail-closed-on-corrupt-gate-config",
     "ship-pipeline-gating/validator-log-classification",
+    "sprite-and-atlas-production/lossy-compression-acceptance-for-flat-art",
     "subsystem-review-doctrine/four-pass-ordering",
     "subsystem-review-doctrine/ground-truth-pass-before-proposals",
     "tiling-texture-acceptance/derive-only-what-the-source-encodes",
@@ -5368,6 +6571,85 @@
     "wiring-contract-doctrine/no-gray-box-rule"
    ]
   },
+  "structural-proof-is-never-sufficient": {
+   "statement": "That an artifact exists, parses, compiles and has its properties set says nothing about whether it behaves correctly or looks right. Every ladder of evidence therefore has rungs above the structural ones, and a claim of completion names the rung it was proven at. The canonical failure is a subject that passed every existence, compile and wiring check and was motionless on screen. Behavioural and perceptual evidence are separate rungs precisely because nothing below them implies them.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/criterion-set-coverage-audit",
+    "aaa-craft-rubric-authoring/question-form-criteria-for-open-judgment",
+    "acceptance-verdict-spine/first-non-pass-reporting-in-all-of",
+    "acceptance-verdict-spine/three-layer-merge-order",
+    "adaptive-music-authoring/music-acceptance-beyond-decode-checks",
+    "agent-behaviour-authoring/decision-trace-as-evidence",
+    "arpg-systems-canon/layered-defenses-and-the-ehp-floor",
+    "branching-narrative-graph-validation/dead-end-versus-authored-ending",
+    "branching-narrative-graph-validation/false-choice-and-convergence-audit",
+    "branching-narrative-graph-validation/reachability-and-orphan-detection",
+    "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
+    "content-acceptance-tiering/config-complete-vs-runtime-verified",
+    "content-acceptance-tiering/deferred-as-honest-progress",
+    "content-acceptance-tiering/tier-ladder-design",
+    "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "design-canon-as-executable-law/shape-check-vs-content-invariant",
+    "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
+    "encounter-balance-simulation/tier-band-peer-outlier-linting",
+    "engine-integration-safety/judge-by-log-markers-not-exit-code",
+    "engine-pitfall-corpus/incident-entry-shape",
+    "engine-pitfall-corpus/introspect-before-you-call",
+    "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
+    "game-economy-tuning/feedback-loop-topology-and-polarity",
+    "game-economy-tuning/progression-curve-shape-tests",
+    "game-economy-tuning/structural-economy-simulation-before-numbers",
+    "gameplay-runtime-patterns/event-dispatch-versus-direct-call",
+    "gameplay-runtime-patterns/pattern-selection-by-force-present",
+    "generated-asset-world-scale/reference-skeleton-size-check",
+    "generated-mesh-acceptance/structural-scorecard",
+    "generative-artifact-gating/gate-before-every-credit-spend",
+    "generative-artifact-gating/placeholder-is-not-an-asset",
+    "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
+    "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
+    "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
+    "learning-curve-and-teaching-design/introduce-practise-test-spacing",
+    "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
+    "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
+    "motion-quality-gating/asset-reality-ledger",
+    "motion-quality-gating/filmstrip-sampling-discipline",
+    "motion-quality-gating/montage-budget-and-root-motion-lint",
+    "procedural-level-planning/gate-and-key-solvability-proof",
+    "procedural-level-planning/landmark-and-sightline-legibility",
+    "procedural-level-planning/safe-room-and-boss-placement",
+    "production-coverage-measurement/engine-credibility-classes",
+    "production-coverage-measurement/readiness-ladder",
+    "production-prompt-architecture/wiring-requirements-section",
+    "production-work-prioritization/vertical-slice-as-the-first-milestone",
+    "realtime-combat-semantics/active-defense-two-axis-split",
+    "realtime-combat-semantics/hit-dedup-per-swing",
+    "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
+    "realtime-combat-semantics/single-source-of-health-truth",
+    "realtime-combat-semantics/telegraph-or-homing-for-area-effects",
+    "reference-parity-gating/instrument-blindness-register",
+    "runtime-observation-evidence/tiers-of-truth",
+    "ship-pipeline-gating/editor-only-api-audit-for-shipping",
+    "ship-pipeline-gating/post-cook-process-liveness-smoke",
+    "ship-pipeline-gating/preflight-before-an-expensive-cook",
+    "sprite-and-atlas-production/lossy-compression-acceptance-for-flat-art",
+    "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
+    "subsystem-review-doctrine/four-pass-ordering",
+    "subsystem-review-doctrine/per-subsystem-check-sets",
+    "subsystem-review-doctrine/trace-one-interaction-end-to-end",
+    "terrain-synthesis-acceptance/drainage-coherence-as-plausibility-gate",
+    "terrain-synthesis-acceptance/slope-traversability-envelope",
+    "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
+    "tiling-texture-acceptance/wrap-around-edge-diff",
+    "unattended-build-loop/no-gate-self-certifies",
+    "unattended-build-loop/verifier-coverage-review-agenda",
+    "visual-script-to-code-transpilation/event-override-signature-resolution",
+    "visual-script-to-code-transpilation/graph-type-to-code-type-mapping",
+    "wiring-contract-doctrine/four-field-wiring-contract",
+    "wiring-contract-doctrine/no-gray-box-rule",
+    "wiring-contract-doctrine/verification-must-name-a-tier"
+   ]
+  },
   "law-and-check-share-one-source": {
    "statement": "A rule written in prose for humans and a threshold typed into a linter will drift apart, and the drift is undetectable from either side. The check reads its numbers from the canonical statement of the law; a change to the prose propagates, and a failure to parse the prose is a loud error, never a silent fallback to a hardcoded default. The corollary at authoring time: the rule an artifact will be graded against is visible to whoever — or whatever — authors the number.",
    "techniques": [
@@ -5375,6 +6657,7 @@
     "aaa-craft-rubric-authoring/lens-versioning-as-invalidation",
     "ability-authoring-to-engine/few-shot-reference-plus-tag-registry",
     "arpg-systems-canon/ilvl-gated-affix-tiers",
+    "branching-narrative-graph-validation/state-variable-declaration-contract",
     "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
     "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
     "catalog-pipeline-authoring/view-produce-accept-triad",
@@ -5395,13 +6678,28 @@
     "production-prompt-architecture/acceptance-criteria-appended-not-replaced",
     "production-prompt-architecture/fixed-section-order",
     "production-prompt-architecture/version-keyed-engine-facts",
+    "production-work-prioritization/fixed-deadline-scope-triage",
     "quality-verdict-integrity/rubric-version-supersession",
     "shader-budget-authoring/surface-to-shading-model-map",
     "ship-pipeline-gating/fail-closed-on-corrupt-gate-config",
+    "sprite-and-atlas-production/autotile-rule-set-completeness",
     "subsystem-review-doctrine/per-subsystem-check-sets",
     "tiling-texture-acceptance/seam-threshold-calibration",
     "visual-script-to-code-transpilation/declaration-definition-parity",
     "wiring-contract-doctrine/contract-injection-into-prompts"
+   ]
+  },
+  "an-instrument-proves-it-had-input": {
+   "statement": "A check that examined nothing and a check that examined everything and found nothing return the same clean result, and from the outside the two are indistinguishable. So a gate, a walk, a scan or a rubric states the size and identity of what it examined beside what it concluded, and an empty scope is a loud failure rather than a quiet pass: no nodes, no declared entries, no files in the scanned directory, no criterion covering the dimension. The corollary binds the guard as well as the result — a structural check written to prove an exclusion carries a second assertion that its own scope is non-empty, because the cheapest way to satisfy any check is to hand it nothing. This is not the absence of a measurement, which is already forbidden; it is a measurement taken over an empty set and reported as though it had been taken over the subject.",
+   "techniques": [
+    "aaa-craft-rubric-authoring/deliberately-overlapping-criteria",
+    "adaptive-music-authoring/intensity-mapping-from-declared-game-state",
+    "branching-narrative-graph-validation/reachability-and-orphan-detection",
+    "playtest-signal-to-defect/repro-minimization-protocol",
+    "playtest-signal-to-defect/session-instrumentation-contract",
+    "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
+    "sprite-and-atlas-production/autotile-rule-set-completeness",
+    "terrain-synthesis-acceptance/biome-mask-cross-consistency"
    ]
   },
   "a-verdict-is-bound-to-its-content": {
@@ -5409,6 +6707,7 @@
    "techniques": [
     "aaa-craft-rubric-authoring/lens-versioning-as-invalidation",
     "acceptance-verdict-spine/explain-why-this-verdict",
+    "branching-narrative-graph-validation/graph-revision-diffing",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
     "content-drift-and-revision/content-hash-vs-status-drift",
     "content-drift-and-revision/produce-direction-stamping",
@@ -5422,7 +6721,10 @@
     "generative-artifact-gating/generation-history-as-artifact",
     "generative-artifact-gating/grade-the-selected-candidate",
     "image-to-3d-input-gating/multi-view-master-reference",
+    "learning-curve-and-teaching-design/time-to-competence-measurement",
     "motion-quality-gating/filmstrip-sampling-discipline",
+    "playtest-signal-to-defect/session-instrumentation-contract",
+    "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
     "production-coverage-measurement/audited-fact-drift-detection",
     "production-coverage-measurement/craft-ladder-and-medium-ceilings",
     "prompt-fitness-and-evolution/join-judge-verdicts-to-prompt-version",
@@ -5444,17 +6746,22 @@
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
     "ability-authoring-to-engine/server-derived-codegen-report",
     "acceptance-verdict-spine/hardcoded-pass-antipattern",
+    "agent-behaviour-authoring/decision-trace-as-evidence",
     "arpg-systems-canon/rarity-is-an-affix-budget",
+    "branching-narrative-graph-validation/reachability-and-orphan-detection",
     "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
     "content-acceptance-tiering/config-complete-vs-runtime-verified",
     "design-doc-compliance-scoring/bidirectional-gap-detection",
     "engine-pitfall-corpus/binary-content-wall",
+    "gameplay-runtime-patterns/event-dispatch-versus-direct-call",
     "generated-mesh-acceptance/face-rig-shell-readiness",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
+    "learning-curve-and-teaching-design/unused-mechanic-detection",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",
     "production-coverage-measurement/headless-operability-gate",
     "production-prompt-architecture/wiring-requirements-section",
+    "production-work-prioritization/vertical-slice-as-the-first-milestone",
     "realtime-combat-semantics/death-via-state-tag-not-input-disable",
     "runtime-observation-evidence/observation-spine-contract",
     "subsystem-review-doctrine/trace-one-interaction-end-to-end",
@@ -5466,10 +6773,18 @@
     "wiring-contract-doctrine/placeholder-rejection"
    ]
   },
+  "declaring-an-input-is-not-consuming-it": {
+   "statement": "A field a producer fills and no consumer ever reads is, from the producing side, indistinguishable from one that governs everything downstream: it validates, it round-trips, it appears in the schema, and the artifact carrying it looks configured. From the consuming side it does not exist. So the question a pipeline must be able to answer about every declared input is not whether something wrote it but whether something *reads* it — a census of readers, never of writers — and an input with no reader is reported as ignored at the moment it is declared, not discovered later by whoever trusted it. A generator states which of its declared parameters the selected algorithm actually consumes; an authored vocabulary is audited in both directions, for names referenced but never declared and for names declared but never referenced; and a constraint stored as prose in a field no checker parses is worse than an absent one, because absence is visible and prose reads as authored. This is the mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can reach, this one governs a declared input nothing consults, and they are the same disease at opposite ends of the pipe.",
+   "techniques": [
+    "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
+    "procedural-level-planning/declare-what-each-engine-ignores"
+   ]
+  },
   "refuse-rather-than-destroy": {
    "statement": "A tool that drives someone's live workspace refuses and reports rather than clearing the way. It never terminates a process it did not itself spawn, never kills by name what it can only identify by name, and takes an exclusive lease on a non-reentrant resource rather than racing for it. When it cannot proceed, the honest outcome is a stated precondition failure — a refusal is a result, and it is a better one than a destroyed session. The same instinct governs teardown: drain what is in flight and count it, rather than cancelling and hiding the cost.",
    "techniques": [
     "ability-authoring-to-engine/refinement-mode-minimal-diff",
+    "agent-behaviour-authoring/group-coordination-without-a-hive-mind",
     "content-drift-and-revision/add-only-hydration",
     "content-drift-and-revision/batch-lease-on-a-non-reentrant-resource",
     "content-drift-and-revision/bounded-revision-history",
@@ -5496,81 +6811,32 @@
     "visual-script-to-code-transpilation/graph-type-to-code-type-mapping"
    ]
   },
-  "structural-proof-is-never-sufficient": {
-   "statement": "That an artifact exists, parses, compiles and has its properties set says nothing about whether it behaves correctly or looks right. Every ladder of evidence therefore has rungs above the structural ones, and a claim of completion names the rung it was proven at. The canonical failure is a subject that passed every existence, compile and wiring check and was motionless on screen. Behavioural and perceptual evidence are separate rungs precisely because nothing below them implies them.",
-   "techniques": [
-    "acceptance-verdict-spine/first-non-pass-reporting-in-all-of",
-    "acceptance-verdict-spine/three-layer-merge-order",
-    "arpg-systems-canon/layered-defenses-and-the-ehp-floor",
-    "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
-    "content-acceptance-tiering/config-complete-vs-runtime-verified",
-    "content-acceptance-tiering/deferred-as-honest-progress",
-    "content-acceptance-tiering/tier-ladder-design",
-    "crash-forensics-attribution/root-cause-to-fix-prompt",
-    "design-canon-as-executable-law/shape-check-vs-content-invariant",
-    "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
-    "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
-    "encounter-balance-simulation/tier-band-peer-outlier-linting",
-    "engine-integration-safety/judge-by-log-markers-not-exit-code",
-    "engine-pitfall-corpus/incident-entry-shape",
-    "engine-pitfall-corpus/introspect-before-you-call",
-    "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
-    "game-economy-tuning/progression-curve-shape-tests",
-    "generated-asset-world-scale/reference-skeleton-size-check",
-    "generated-mesh-acceptance/structural-scorecard",
-    "generative-artifact-gating/gate-before-every-credit-spend",
-    "generative-artifact-gating/placeholder-is-not-an-asset",
-    "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
-    "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
-    "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
-    "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
-    "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
-    "motion-quality-gating/asset-reality-ledger",
-    "motion-quality-gating/filmstrip-sampling-discipline",
-    "motion-quality-gating/montage-budget-and-root-motion-lint",
-    "procedural-level-planning/safe-room-and-boss-placement",
-    "production-coverage-measurement/engine-credibility-classes",
-    "production-coverage-measurement/readiness-ladder",
-    "production-prompt-architecture/wiring-requirements-section",
-    "realtime-combat-semantics/active-defense-two-axis-split",
-    "realtime-combat-semantics/hit-dedup-per-swing",
-    "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
-    "realtime-combat-semantics/single-source-of-health-truth",
-    "realtime-combat-semantics/telegraph-or-homing-for-area-effects",
-    "reference-parity-gating/instrument-blindness-register",
-    "runtime-observation-evidence/tiers-of-truth",
-    "ship-pipeline-gating/editor-only-api-audit-for-shipping",
-    "ship-pipeline-gating/post-cook-process-liveness-smoke",
-    "ship-pipeline-gating/preflight-before-an-expensive-cook",
-    "subsystem-review-doctrine/four-pass-ordering",
-    "subsystem-review-doctrine/per-subsystem-check-sets",
-    "subsystem-review-doctrine/trace-one-interaction-end-to-end",
-    "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
-    "tiling-texture-acceptance/wrap-around-edge-diff",
-    "unattended-build-loop/no-gate-self-certifies",
-    "unattended-build-loop/verifier-coverage-review-agenda",
-    "visual-script-to-code-transpilation/event-override-signature-resolution",
-    "visual-script-to-code-transpilation/graph-type-to-code-type-mapping",
-    "wiring-contract-doctrine/four-field-wiring-contract",
-    "wiring-contract-doctrine/no-gray-box-rule",
-    "wiring-contract-doctrine/verification-must-name-a-tier"
-   ]
-  },
   "a-budget-shapes-the-output": {
    "statement": "A limit handed to a generative process is an instruction about the target, not merely a ceiling it must stay under. An over-generous budget measurably degrades the result, because the process spends what it is given. State budgets per class as the intended size of the thing, derive the budget for a part from the budget for the whole rather than repeating the whole's allowance, and grade what was delivered against what was requested — not only against the class ceiling. The same holds for runtime budgets: a declared headroom that nothing checks is a wish.",
    "techniques": [
+    "adaptive-music-authoring/stem-and-voice-budget-derivation",
+    "adaptive-music-authoring/transition-quantization-and-perceived-latency",
+    "adaptive-music-authoring/vertical-layering-versus-horizontal-resequencing",
+    "agent-behaviour-authoring/behaviour-model-selection",
     "arpg-systems-canon/rarity-is-an-affix-budget",
     "asset-class-poly-budgeting/budget-shapes-output-not-just-caps",
     "asset-class-poly-budgeting/part-split-budget-division",
+    "branching-narrative-graph-validation/node-text-budget-and-localization-surface",
     "content-drift-and-revision/batch-lease-on-a-non-reentrant-resource",
     "design-canon-as-executable-law/self-declared-budget-enforcement",
     "engine-integration-safety/editor-thread-timeout-budgeting",
+    "gameplay-runtime-patterns/allocation-discipline-in-the-hot-path",
+    "gameplay-runtime-patterns/pattern-selection-by-force-present",
     "generative-provider-auditing/arena-benchmark-protocol",
     "generative-provider-auditing/pin-a-model-per-asset-class",
     "image-to-3d-input-gating/text-is-never-geometry",
+    "learning-curve-and-teaching-design/teaching-escalation-ladder",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
+    "procedural-level-planning/critical-path-to-optional-branch-ratio",
     "production-prompt-architecture/acceptance-criteria-appended-not-replaced",
     "production-prompt-architecture/domain-scoped-knowledge-injection",
+    "production-work-prioritization/declared-scope-as-a-shaping-budget",
+    "production-work-prioritization/fixed-deadline-scope-triage",
     "regeneration-vs-repair-economics/best-of-n-parameter-sweep",
     "regeneration-vs-repair-economics/bounded-refine-iteration",
     "runtime-observation-evidence/bounded-evidence-with-provenance",
@@ -5579,6 +6845,9 @@
     "shader-budget-authoring/sampler-hard-and-soft-caps",
     "ship-pipeline-gating/size-budget-and-growth-baseline",
     "spatial-audio-scene-authoring/event-priority-concurrency-cooldown",
+    "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
+    "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
+    "terrain-synthesis-acceptance/playable-area-versus-backdrop-ratio",
     "unattended-build-loop/budget-reservation-and-drain-not-kill",
     "unattended-build-loop/unreachable-success-preflight",
     "wiring-contract-doctrine/contract-injection-into-prompts"

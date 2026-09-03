@@ -134,6 +134,28 @@ function norm(s) {
   return String(s).trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/\/+$/, '').toLowerCase();
 }
 
+/**
+ * One identity for one SOURCE, however it was spelled. `norm` folds case and
+ * trailing slashes, which is right for subjects and paths and wrong for URLs:
+ * measured 2026-09-02, the SAME SOURCE check missed three of four spellings
+ * of one repository (`.git` suffix, `www.` prefix, a query string), so two
+ * terminals could mine one repo at once. A URL folds to host + path with the
+ * scheme, `www.`, `.git`, query and fragment removed; anything that is not a
+ * URL falls back to `norm`. The fold is deliberately narrow — a different
+ * path is a different source (`openbao/openbao` vs `openbao/openbao-plugins`).
+ */
+function normSource(s) {
+  const raw = String(s).trim().replace(/\\/g, '/');
+  try {
+    const u = new URL(raw);
+    const host = u.hostname.toLowerCase().replace(/^www\./, '');
+    const p = u.pathname.replace(/\/+$/, '').replace(/\.git$/i, '').toLowerCase();
+    return host + p;
+  } catch {
+    return norm(raw);
+  }
+}
+
 /** Do two claim tokens touch? Prefix containment in either direction counts. */
 function touches(a, b) {
   const x = norm(a);
@@ -200,7 +222,7 @@ function cmdClaim() {
   const conflicts = [];
 
   for (const s of siblings) {
-    if (norm(s.source) === norm(source)) {
+    if (normSource(s.source) === normSource(source)) {
       conflicts.push('SAME SOURCE   ' + s.runId + ' is already mining ' + s.source + ' (phase ' + (s.phase || '?') + ', ' + s._staleMin + 'm since heartbeat)');
     }
   }
@@ -264,6 +286,30 @@ function cmdBeat() {
   writeJSON(runFile(runId), rec);
   console.log('beat ' + runId + ' phase=' + rec.phase + ' status=' + rec.status);
   return 0;
+}
+
+
+/** Reclaim is a judgement about the OWNER, not about elapsed time. A deadline that fires
+ *  on age alone supersedes a slow-but-live owner before it can publish, and under steady
+ *  arrivals that becomes a self-sustaining stampede; the same deadline also makes the
+ *  fleet serve out a ttl that a DEAD owner will never use. The board already collects the
+ *  evidence for both directions - a heartbeat - so the decision reads it. */
+function holderRunLive(held) {
+  if (!held || !held.runId) return false;
+  const rec = readJSON(runFile(held.runId));
+  if (!rec || rec.status === 'done') return false;
+  return ageMin(rec.heartbeatAt || rec.startedAt) < STALE_MIN;
+}
+
+/** Has the holder beaten at or since the moment it took this lock? A beat that predates
+ *  the acquire proves the run was alive once, not that it is still moving inside the
+ *  guarded section - which is what keeps a live-but-wedged holder from holding forever. */
+function holderBeatSinceAcquire(held) {
+  const rec = readJSON(runFile(held.runId || ''));
+  if (!rec) return false;
+  const beat = Date.parse(rec.heartbeatAt || rec.startedAt || 0);
+  const took = Date.parse(held.acquiredAt || 0);
+  return Number.isFinite(beat) && Number.isFinite(took) && beat >= took;
 }
 
 function lockFile(name) { return path.join(LOCKS, name.replace(/[^a-z0-9._-]/gi, '_') + '.lock'); }
@@ -348,9 +394,14 @@ function cmdLock() {
       const held = readJSON(file) || {};
       if (held.runId === runId) { console.log("lock '" + name + "' already held by " + runId + ' (reentrant, no-op)'); return 0; }
       const ageS = (Date.now() - Date.parse(held.acquiredAt || 0)) / 1000;
-      const breakable = ageS > (held.ttl || LOCK_TTL_S);
+      // Two independent reasons to reclaim, and neither is "the clock ran out" alone:
+      // the owner is gone, or the owner is past its ttl with no beat since it acquired.
+      // A demonstrably-working owner is never superseded on age.
+      const ownerGone = !holderRunLive(held);
+      const pastTtlAndQuiet = ageS > (held.ttl || LOCK_TTL_S) && !holderBeatSinceAcquire(held);
+      const breakable = ownerGone || pastTtlAndQuiet;
       if (breakable) {
-        console.error("warn: breaking stale lock '" + name + "' held by " + held.runId + ' (' + Math.round(ageS) + 's old, past its ' + (held.ttl || LOCK_TTL_S) + 's ttl).');
+        console.error("warn: breaking lock '" + name + "' held by " + held.runId + ' (' + Math.round(ageS) + 's old; ' + (ownerGone ? 'holder has no recent heartbeat' : 'past ttl with no beat since it acquired') + ').');
         try { fs.unlinkSync(file); } catch { /* a racing breaker won; loop and retry */ }
         continue;
       }

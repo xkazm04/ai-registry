@@ -6,7 +6,7 @@ technique: single-source-topology
 status: forged
 laws: [one-authority-per-vocabulary, identity-survives-reuse]
 shared_with: []
-use_when: [a repo serves more than one coding harness, deciding where the canonical instruction file lives, per-tool instruction files have drifted apart, structuring instruction files in a monorepo, the always-loaded floor has outgrown its budget and needs scoped overflow]
+use_when: [a repo serves more than one coding harness, deciding where the canonical instruction file lives, per-tool instruction files have drifted apart, structuring instruction files in a monorepo, the always-loaded floor has outgrown its budget and needs scoped overflow, instruction content is copied out into templates or a published package]
 ---
 
 # Single-source topology
@@ -46,6 +46,55 @@ is acceptable only as a *derived artifact* — stamped by a script from the
 canonical file, marked as generated, and regenerated in CI — which is
 [machine-owned-regions](./machine-owned-regions.md) applied to a whole
 file.
+
+## The topology changes at a distribution edge
+
+Which bridge is available is not a free choice, and the constraint is not
+the harness — it is **distance**. There are two regimes, and the boundary
+between them is the edge of a single checkout.
+
+**Inside one checkout, the bridge can be a filesystem link.** A
+differently-named file is a link to the canonical one, a per-tool skills
+directory is a link to the shared directory, and drift is not
+*representable*: there is one inode and no second copy to diverge. Nothing
+needs checking, because nothing can differ. This is the strongest form of
+the single-source rule and the one to reach for by default — a repo that
+copies where it could link has invented a consistency problem it did not
+have.
+
+**The moment the same content is shipped outside that checkout, the link
+has no target.** A scaffolded project, a starter template, a published
+package, a downstream repository the content is mirrored into — each is a
+tree that will exist on a machine where the canonical file is absent, so
+the bridge necessarily becomes a **copy**. The usual shape is assembly
+rather than duplication: a shared base plus a per-target body,
+concatenated into the destination's instruction file, so the common
+guidance still has one author and only the target-specific paragraph is
+local. That is the right construction, and it does not change the
+regime — the shipped file is still a second copy of the base, sitting in
+a tree where the base is not.
+
+The rule follows directly: **the copy regime needs the drift check the
+link regime makes unnecessary.** The generator runs in CI, the destination
+files are regenerated, and any difference from what is committed fails the
+build. Without it, "generated" is a claim in a comment header rather than
+a property of the tree, and the copies drift the first time someone edits a
+shipped file in place — which is the normal way to fix a template, because
+the shipped file is what the person is looking at.
+
+The discipline is easy to hold inside the boundary and easy to lose at it,
+and the failure is legible in trees that otherwise do this well: a
+repository can run three separate copy-out generators — skills into
+templates, templates into a variant set, the whole assembly into a
+downstream repository — with **no drift check on any of them**, while the
+same pipeline runs exactly that check, regenerate-and-compare with a
+non-zero exit on any difference, over an unrelated build artifact a few
+lines away. The mechanism is present, understood, and applied to compiled
+output; it simply stops at the point where content leaves the checkout,
+because that is the point where the link stopped working and nobody
+noticed that the obligation had changed hands. When auditing a topology,
+enumerate the distribution edges first and ask of each one what fails the
+build when its copy goes stale.
 
 ## The combination-semantics trap
 

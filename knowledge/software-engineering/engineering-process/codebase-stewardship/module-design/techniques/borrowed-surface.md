@@ -82,6 +82,44 @@ operations callers actually need, each one enforcing the invariant, and let the
 compiler reject the bypass. A wrapper that needs eleven forwarded methods to be
 usable is reporting that the invariant belongs somewhere else.
 
+## Forwarding a mutator is a different failure from forwarding a reader
+
+The treatment above prices forwarded surface as uniform. It is not, and the
+ranking is worth carrying into review because the two halves fail on different
+schedules.
+
+**Forwarding a reader leaks the distinction; forwarding a mutator deletes the
+guarantee.** When a wrapper exposes the wrapped value's read operations, a
+caller can obtain the inner contents, hold them, and later reconstruct
+something that looks like the wrapper without ever passing the constructor that
+established the invariant. That is a real defect and it is a *deferred* one:
+nothing is wrong at the moment of the read, and the failure arrives at whatever
+distance separates the read from the reconstruction. When a wrapper exposes the
+wrapped value's mutators, there is no deferral — the caller reaches straight
+past the constructor and changes the value in place, so the invariant the
+wrapper exists to hold is false immediately, with no path through any checked
+code.
+
+The practical rule: **if forwarding is right at all, forward the reads and
+never the writes.** A wrapper that adds a capability while keeping the inner
+surface — the orthogonal case above — can usually justify read forwarding; the
+same wrapper forwarding writes has to explain why every mutator it inherited
+preserves an invariant it has never heard of. The tell in review is which
+direction the forwarded operations point: letting callers observe the inside is
+a design decision, letting them change it is usually an accident of reaching
+for the convenient declaration.
+
+This section is also the first place this technique carries a **second
+independent source**. The rest of it was forged from one repository's
+experience, so its claims travelled with a single-sighting caveat. The
+read/write ranking, the constructor-bypass mechanism, and the rule that a
+wrapper existing to add type safety or to restrict a surface should not forward
+at all were found again, independently, in an unrelated corpus on an unrelated
+stack — including the same judgment that the mutable form is categorically
+worse than the readable one. Two sightings of a mechanism argued from different
+systems is the strongest corroboration this layer offers, and it is recorded
+here rather than assumed.
+
 ## Form two: a disjointness premise taken from a contract you do not own
 
 The second form has no wrapper in it. You extend a contract defined upstream —

@@ -77,11 +77,49 @@ merge in shared data cannot be detected or unwound by any single
 contributor. Same input, two normalizers, opposite defaults — by design.
 Do not "unify" them.
 
+## A third posture, where the join asserts presence
+
+The two appetites above are both set by *who can unwind a bad merge*. There is a
+third setting, chosen on a different axis entirely, and it is worth stating here
+because the eager default is exactly wrong for it and the mistake travels: teams
+reuse a family matcher across the boundary without noticing that its output has
+changed job.
+
+Ask what the matched identity is **used to claim**. Everything above assumes the
+answer is a *total* — spend, volume, a priced aggregate — and that assumption is
+what makes eagerness correct, because in a total a miss is invisible: the
+unmatched row does not become visibly wrong, it becomes absent, and absent
+quantity silently understates a number somebody acts on. Broadening the match is
+how the total stays honest.
+
+Invert the use, and the calculus inverts with it. Where the same style of
+join decides whether some artifact is **present** — installed, available,
+already held — a false positive is the expensive error, because the claim is
+specific, user-visible, and checkable. Breadth there does not blur a total by a
+few percent; a single family-stem match can mark hundreds of catalog entries as
+present, including ones nothing like the artifact actually there, and the user is
+told they already have something they do not.
+
+The rule for that case, stated so it does not get imported back here: a broad
+family key is reserved for entries whose *specific* identity is genuinely
+unavailable, and an entry that already names the exact artifact contributes only
+itself. It belongs to the craft of building inventories rather than books, and
+this corpus holds it under that craft; the reason to name it here is that the two
+rules look like contradictions of each other and are not. Same technique,
+opposite settings, one question between them.
+
+> **Does a miss delete something real, or does a false positive assert something
+> false?** A priced total lives in the first world. A presence claim lives in the
+> second.
+
 ## Decision rules
 
 - **When a new hosted variant appears, extend the family's substrings**, and
   record the raw string that motivated the entry — the matcher's table
   should read as an evidence log.
+- **Before reusing this matcher, check what its output claims.** Eagerness is
+  correct for a total and wrong for a presence claim; the substring table is
+  portable, its risk appetite is not.
 - **When two families could match one string, the match order is a
   documented decision**, not an artifact of code layout.
 - **When a host serves many families, its name identifies the host, not a

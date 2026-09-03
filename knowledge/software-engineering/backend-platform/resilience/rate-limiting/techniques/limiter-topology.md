@@ -68,6 +68,53 @@ backstop from key-design). Two composition rules keep stacks honest:
   behavior and different operator escalation, so a stack that reports only a
   generic refusal has thrown away the diagnosis (see refusal-contract).
 
+## Scoped declarations: precedence, not stacking
+
+Layering is one way several limits meet on one request; scoping is the other,
+and a stack and a ladder compose by opposite rules. In a stack every limit
+applies and every layer is checked. In a ladder the same *kind* of limit is
+declared at nested scopes — the whole system, a tenant, a mounted component, a
+path beneath it, a role used to enter it — and exactly one declaration governs
+the request: **the most specific applicable one, never the sum and never the
+minimum.** The rule: when one quota kind can be declared at several scopes,
+resolve through one ordered ladder, stated once in the documentation and once
+in the resolution function, and apply only the rung that binds, because each
+declaration is an operator's statement about that scope, and a tenant's
+deliberately tighter number that a coarser global number could override — or be
+added to, or be minimised against — is a declaration nobody can rely on. Two
+clauses keep the ladder honest. Two declarations at the same rung for the same
+scope are a configuration error refused at resolution, not a tie broken by
+iteration order. And whether a coarse declaration *descends* into scopes that
+declare nothing is itself declared — an inheritable flag on the coarse rung —
+because a global number that silently governs every tenant is as surprising as
+one that silently governs none. The naive reading fails in two ways, both
+discovered in production: precedence learned by experiment, where an operator
+sets a tenant quota, watches it not fire and reconstructs the order from an
+incident; or the additive reading, where a global number installed for the
+fleet quietly tightens or loosens every tenant's derived one.
+
+The same ladder governs every quota-shaped policy the system carries, including
+credential lockout — threshold, duration and counter reset resolve per
+authentication mount, then per method, then for all methods, then to defaults —
+and a kill switch that disables the policy sits *above* the ladder rather than
+inside it, so "off" cannot be out-ranked by a scope. A system with one ladder
+for quotas and a different one for lockouts has two vocabularies for one concept
+(see key-design's rule that the derivation is singular).
+
+Three clauses complete a scoped quota's declaration. An **exempt set**: the
+paths the quota never counts — liveness probes, the endpoints that unseal or
+recover the system — declared as data beside the ladder and overridable,
+because a quota that can refuse the endpoint used to recover from the quota has
+locked the operator out of their own door. An optional **block interval**: a
+breach becomes a ban on that key for a stated period rather than a per-request
+refusal, which is the right shape against a persistent flooder (one refusal per
+interval instead of one per attempt), and the refusal's retry-after is then the
+ban's end, not the bucket's refill. And the **unit of counting**, stated rather
+than assumed: a quota is per node and per client address unless it says
+otherwise, so a three-node cluster enforces three times the number and every
+caller behind one egress address shares one — the distribution posture from
+"One process, or several", restated where the number is declared.
+
 ## Direction: shields and citizens
 
 Ingress and egress limiters share machinery but not epistemology:
@@ -159,3 +206,6 @@ choice, and the choice is **closed**:
 - **Choose the distribution posture explicitly.** "Exact and centralized" or
   "approximate by a stated factor" — either, written down. A distributed
   limiter without a stated consistency stance enforces an unknown number.
+- **A ladder resolves to one rung; a stack applies every layer.** Say which a
+  policy is. Scoped declarations of one kind pick the most specific, refuse
+  duplicates at a rung, and say on the coarse rung whether it descends.

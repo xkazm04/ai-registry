@@ -159,6 +159,47 @@ composition — hold the dependency, call it, and substitute it at the seam that
 already exists — and no contract is created for anyone to honour.
 
 
+## Who may call it and who may implement it are two permissions
+
+A published interface hands out two things at once, and most designs grant them
+together without noticing there were two: **the permission to call it**, and
+**the permission to implement it**. They have different consequences and they
+should be decided separately.
+
+The asymmetry is in what each one costs you later. Callers depend on the
+methods that exist; adding one breaks nobody. Implementors depend on the method
+*set* — every method the interface will ever have is a method they must supply
+— so **where implementation stays open, every method later added is a breaking
+change for a population you cannot enumerate.** The interface stops being
+something you own and becomes something you negotiate with strangers, and the
+negotiation is conducted through release notes.
+
+So the default for an interface published outside its own unit is: **open to
+callers, closed to implementors** — the ability to implement it withheld
+deliberately, by a mechanism rather than by a request in the documentation.
+That preserves what an interface is for (callers program against it, you
+substitute behind it) while keeping the freedom to extend it, and it costs
+nothing in the common case, because the common case has exactly the
+implementations you ship.
+
+The same reasoning covers the interface's *data* shape: a published enumeration
+or record that consumers may exhaustively match or construct positionally has
+granted a second implicit permission, and every new member is then a breaking
+change for the same unenumerable population. Declaring it extensible from the
+start — so consumers must write a default branch and use named construction —
+buys back the ability to add members without a major version.
+
+**The inversion is not a corner case: it is when third-party implementations
+are the product.** A plugin surface, a driver interface, an adapter contract
+other teams are invited to satisfy — closing implementation there forecloses
+the thing being sold. The correct move is the opposite one: treat the interface
+as **frozen and versioned**. Additions go into a new version of the interface
+rather than into the existing one, the old version keeps working, and the cost
+of the extension is paid by you in maintaining two rather than by every
+implementor in an unplanned break. An interface that is open to implementors
+*and* freely extended is the one combination that is never right, and it is the
+one that happens by default.
+
 ## A seam nobody substitutes at probably does not hold
 
 An interface with exactly one implementation, forever, has never been made to be

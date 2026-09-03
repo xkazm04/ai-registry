@@ -20,18 +20,19 @@ node_modules/
 # along with the machine-specific one tenth, and a second machine could not read any of
 # it. Redesigned 2026-08-28:
 #
-#   projects.json          COMMITTED. Per project, a `checkouts` map: machine -> the
-#                          path it sits at on THAT machine, relative to that machine's
-#                          root. One project can be on several machines at a different
-#                          path on each. No user names, no drive letters, nothing
-#                          machine-specific. Reviewed like any other registry file.
-#   .machine.local.json    IGNORED, below, and the only file that cannot be shared:
-#                          which machine this is (Fox, Wolf, ...), the root the
-#                          relative paths resolve against, the contributor id, and an
-#                          optional `overrides` map for a checkout that lives off-root.
+#   projects.json          COMMITTED. `machines`: every device and its ROOT (absolute,
+#                          per device - since 2026-09-02 the root lives here, so this
+#                          file alone resolves a full path on every machine). Per
+#                          project, a `checkouts` map: machine -> the path it sits at
+#                          on THAT machine, relative to that machine's root. Reviewed
+#                          like any other registry file.
+#   .machine.local.json    IGNORED, below: which machine this is (Fox, Wolf, ...), the
+#                          contributor id, an optional `overrides` map for a checkout
+#                          that lives off-root, and an optional `root` that overrides
+#                          the declared one.
 #
-# `registry.yaml`'s guarantee is unchanged - nothing published here points into a private
-# tree, because a relative path names no tree until a machine root is supplied.
+# Every path the registry PUBLISHES about a project (the fleet map's context paths, an
+# application's seam) is relative to the project root, never to a device.
 #
 # Resolved through scripts/lib/projects.mjs; see librarian/projects.md.
 **/.*.local.json

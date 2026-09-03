@@ -82,6 +82,53 @@ not just the extreme ends. Feature unification means a tier's actual content
 can differ from the sum of its parts as the graph evolves; only building it
 proves what it contains.
 
+## The second motive: buying a verification budget
+
+The switch-cost argument prices a gate in *compile* time. There is a second
+motive with the same shape and a different currency, and it is the one that
+turns an unaffordable safety practice into an affordable one.
+
+Some verification instruments cost one to two orders of magnitude in execution
+time — a checker that re-executes the program's own semantic representation, a
+runtime memory verifier, an exhaustive explorer of concurrent orderings. Over a
+whole codebase that is not a lane anyone keeps; it is deleted after the first
+week it makes the pipeline late. The way to afford it is not to make the
+instrument cheaper, which nobody can do. It is to **shrink its target**:
+concentrate the code that actually needs it — the manual memory management, the
+hand-written synchronisation, the calls across a foreign boundary — behind one
+build-time gate, so the expensive lane builds and runs only that variant and
+sees a fraction of the tree.
+
+The economics restate cleanly: without the gate, the expensive instrument's
+cost is (whole tree × its multiplier), which exceeds the budget, so the
+instrument is not run at all and the risky code is unverified. With the gate it
+is (gated fraction × the same multiplier), which fits, and the risky code is the
+part that gets verified. The comparison is not slow-lane versus fast-lane; it
+is a lane versus no lane.
+
+Three obligations come with this motive specifically:
+
+- **The gate must be the verification boundary, not merely a compile boundary.**
+  If the risky construct also appears outside the gated units, the expensive
+  lane's clean result says nothing about those occurrences while looking like it
+  covers them. Assert that the construct occurs only inside the gated units —
+  that assertion is what makes the reduced target honest.
+- **The default variant is the safe one.** The gated capability is the one with
+  the sharp edges, so its absence must leave a working, conservative
+  implementation behind — a slower path through a supervised interface rather
+  than a missing symbol.
+- **The rot-watch above is not optional here.** Everywhere else, an unbuilt
+  gated side is a broken build discovered late. Here the gated side is the
+  dangerous code, so a routine process compiles *and verifies* every tier, or
+  the arrangement has quietly moved the risk somewhere nothing looks.
+
+The same inversion applies to this motive as to the first, and it is already
+stated at the end of this document: the gate is a ratchet on a self-inflicted
+axis. If the risky code is not already isolable — if the boundary is tangled
+through the codebase — the gate follows the tangle, the expensive lane's target
+is the whole tree again, and the flag has bought nothing but a tier to maintain.
+The compilation-unit split comes first, and it does most of the work.
+
 ## When not to gate
 
 Gating has overhead — conditional compilation branches, a tier matrix, the

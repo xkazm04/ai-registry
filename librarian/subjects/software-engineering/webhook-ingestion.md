@@ -1,7 +1,7 @@
 ---
 subject: webhook-ingestion
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -47,3 +47,7 @@ single-stack debt cleared. Hint held.
   ten seconds) before redirecting; an unacknowledged invoice-created event
   delays finalization by days. Delivery-side facts, not entitlement facts.
   Return when this subject is next opened; check prior art first.
+
+## 2026-09-02 - `/intake` hermes-agent (run `intake-hermes-0902`, intake 2.1.1, Opus workers)
+
+Boundary correction on the relay clause of the topology menu: "verification at the final hop, never delegated to the middle" assumes the final hop can hold its own copy of the secret. Where the relay is the SOLE holder of a shared multi-tenant signing secret and each final hop is a customer-managed, internet-exposed process, obeying the clause means distributing the secret to every tenant - the cross-tenant compromise verification exists to prevent - and where a bearer credential lives inside the signed body, preserving the bytes and stripping the credential are the same operation. Discriminator written beside the rule: who can hold the secret, and what distributing it would cost. The default stands. Enforced in the source by a test asserting the relay package imports no platform crypto.

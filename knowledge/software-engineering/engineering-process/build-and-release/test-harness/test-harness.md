@@ -15,6 +15,11 @@ techniques:
   - negative-control-tests
   - out-of-graph-artifacts
   - gate-scope-is-not-report-scope
+  - dynamic-verifier-classes
+  - verification-inherits-driver-reach
+  - recorded-interaction-fixtures
+  - context-starved-executor
+  - approval-snapshots-with-guarded-update
 ---
 
 # Test harness architecture
@@ -98,6 +103,46 @@ harness with no lane pointed at the real running product has a permanent blind
 spot exactly where integration risk concentrates. The
 [live-app-harness](./techniques/live-app-harness.md) technique owns that lane.
 
+## Reaching the code is not the same as watching it run
+
+The ladder above arranges suites by *fidelity of the thing under test*. A
+second, independent axis arranges them by *what observes the run*. A suite's
+own assertions check the facts somebody thought to state; a dynamic verifier
+attached to the same run checks a class of facts nobody states in a test at
+all — invalid memory access, unsynchronised concurrent access, values that are
+not legal inhabitants of their type, resources never released. These are
+harness lanes, not test categories: the tests do not change, the instrument
+watching them does.
+
+Two properties decide how those lanes are configured, and both are routinely
+got wrong. First, **verifiers partition by how they observe, not by what they
+find** — one family re-executes the program's own semantic representation and
+knows every rule the source language declares but stops dead where the program
+leaves that representation; the other observes emitted machine code, crosses
+every boundary, and knows none of those rules. The seam that halts the first is
+where the second's findings concentrate, so a project with foreign code and one
+verifier is unverified exactly where its risk is
+([dynamic-verifier-classes](./techniques/dynamic-verifier-classes.md)). Second,
+**a verifier certifies only what drove it**: it is a lens on an execution, so a
+clean result is a statement about the region the driving suite reached and
+renders identically to a statement about all of the code. The verdict travels
+with the driver's measured reach or it overstates
+([verification-inherits-driver-reach](./techniques/verification-inherits-driver-reach.md)).
+There is one proxy the top rung does not remove, because every rung on the
+ladder shares it: a deterministic test *encodes the intended path*, so it fails
+when a known path breaks and cannot fail because the path became
+**undiscoverable**. Rename the action, bury the entry point, delete the only
+affordance suggesting the feature exists — the recorded selector still resolves
+and the lane is green over a product nobody can operate. Closing that gap needs
+a differently-shaped lane: prose user journeys executed by an agent
+deliberately denied the repository, the routes, and the checks, so that finding
+the way is the thing under test and a failure to find is a product defect. It
+is slow, serial, scheduled rather than gating, and it lives or dies on three
+rules — the oracle stays outside the executor, the outcome vocabulary separates
+product failure from harness failure, and a case whose preconditions are unmet
+refuses to run rather than improvising
+([context-starved-executor](./techniques/context-starved-executor.md)).
+
 ## Fixtures are an economic asset
 
 The single largest lever on suite speed is rarely the assertions — it is setup.
@@ -113,6 +158,15 @@ The build-once asset introduces two obligations: the template must name what
 rebuilds it and when (a stale fixture validates yesterday's world with today's
 green checkmark), and seeded data must be honest about which invariants it
 carries. Both live in [fixture-economics](./techniques/fixture-economics.md).
+
+One fixture class inherits that staleness problem and cannot answer it the same
+way: a **recorded interaction** with a service somebody else operates. Its
+rebuild is not a script this repository can run — it is a live call to a system
+that changes without telling anyone, so the fixture ages against a world no
+local check can see. It also arrives with two dials no other fixture has, one
+protecting secrets and one buying stability, both of which weaken the assertion
+as they are turned. That is
+[recorded-interaction-fixtures](./techniques/recorded-interaction-fixtures.md).
 
 ## Isolation is a property of the lane, not the test
 
@@ -243,6 +297,23 @@ a soak run misunderstands both; the design of these lanes is
   can fail before trusting it: choosing a mutation the system cannot absorb, and
   why a process-global crash handler installed for quiet makes a whole suite
   unfalsifiable.
+- [dynamic-verifier-classes](./techniques/dynamic-verifier-classes.md) — the two
+  families of runtime verifier separated by where they observe from, why the
+  boundary that halts one is where the other's findings concentrate, and the
+  cost tier each belongs on.
+- [verification-inherits-driver-reach](./techniques/verification-inherits-driver-reach.md)
+  — a runtime verdict is a claim about the region the driver executed: the two
+  numbers that must be published together, and the exhaustive-checker case where
+  pairing them understates.
+- [recorded-interaction-fixtures](./techniques/recorded-interaction-fixtures.md)
+  — captured traffic as the fixture: the seam in the production transport, the
+  sanitizer/matcher pair that sets how much the suite still asserts, the
+  freshness debt a recording carries because it names no service version, and
+  warehousing recordings behind a committed tag.
+- [context-starved-executor](./techniques/context-starved-executor.md) — prose
+  journeys run by an agent denied the repository, the routes and the checks:
+  the external oracle, the five-member outcome vocabulary, and the
+  machine-readable precondition refusal that stops it improvising a pass.
 - [out-of-graph-artifacts](./techniques/out-of-graph-artifacts.md) — the gate's
   population is the declared build graph, not the repository: taking the ship
   inventory, gating a detached root, loading rather than compiling a plugin, and

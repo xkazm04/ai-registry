@@ -88,3 +88,56 @@ having two variants is no longer buying anything).
 Retire variants that lose their constituency. A variant kept "because it
 might be useful" but unbuilt and unrouted is not an option — it is a latent
 support incident with a name.
+
+## When the variants form a ladder, three rules change
+
+Everything above assumes a *set* of variants distinguished by which subsystems
+they contain, routed by the kind of work in hand. A different shape appears
+when the variants are ordered along one axis — most often startup or build
+cost traded against steady-state performance — and are named by position
+rather than by content: rung zero, rung one, rung two, rung three. A ladder is
+not a routing-table problem, because there is nothing to look up: a consumer
+picks a rung by how much they are willing to wait. Three of the rules above
+change shape, and one of them inverts.
+
+**The default rung is chosen by constituency, and when the constituency is
+operators the frequency argument points the other way.** The "default to lite"
+conclusion is not a preference for cheapness; it is arithmetic over who runs
+the build and how often. Where the variants ship to *developers*, the
+overwhelming majority of invocations are iterations and the cheap rung wins.
+Where the same ladder ships to *operators*, the overwhelming majority of
+invocations are long-lived production processes that pay the expensive rung's
+cost once at startup and recover it on every request afterwards — so the
+default is the expensive rung, and the cheap rungs are the ones a reader must
+opt into for debugging. Same reasoning, opposite answer, because the
+denominator changed. State the constituency next to the default; a ladder
+whose default was inherited from someone else's constituency is the failure
+this rule exists to prevent.
+
+**A rung sets defaults; an explicit setting always wins.** In the set shape a
+variant is a command and the question does not arise. In a ladder it arises
+constantly, because a rung is a *bundle of underlying settings* that remain
+individually addressable, and a reader will inevitably pick a rung and then
+override one thing inside it. Write the precedence down where the ladder is
+defined — explicit beats rung, always, with no exceptions and no warning —
+because the alternative is a reader who cannot tell whether their override
+took effect, and the debugging session that follows costs more than the
+feature saved. The corollary is worth stating too: every rung's effect must be
+reachable by setting the underlying knobs by hand, or the rung is not a preset,
+it is a hidden code path.
+
+**A rung may be deliberately empty, and that is a design act rather than an
+oversight.** The top rung of a ladder can be documented as currently identical
+to the one below it, reserved for optimizations that are too slow or too
+experimental to enable yet. This looks like clutter and is the opposite: it
+gives future expensive work a name that consumers are *already* targeting, so
+the work lands without a migration and without anyone having to re-choose a
+rung. The condition that makes it honest is disclosure — the document must say
+the rung is currently equivalent, or a reader will measure the two, find no
+difference, and conclude the ladder is decorative. An undisclosed empty rung is
+a broken promise; a disclosed one is an option with a published strike price.
+
+What does not change is the blind-spot duty. A cheap rung disables checks,
+instrumentation or whole compilation stages, and a conclusion drawn on it —
+especially a performance conclusion — is provisional in exactly the way this
+technique already says it is.

@@ -85,7 +85,8 @@
         "ipc-contract",
         "realtime-events",
         "hash-pinned-translation-pipeline",
-        "demo-data-plane"
+        "demo-data-plane",
+        "native-shell-integration"
       ]
     },
     {
@@ -102,7 +103,9 @@
             "retrieval",
             "agent-memory",
             "structured-output",
-            "agent-instruction-files"
+            "agent-instruction-files",
+            "context-hierarchy",
+            "llm-extracted-entity-graph"
           ]
         },
         {
@@ -115,7 +118,9 @@
             "hitl-approval",
             "remediation-handoff",
             "proactive-nudges",
-            "plan-review"
+            "plan-review",
+            "session-continuation",
+            "tenant-scoped-agent-runtime"
           ]
         },
         {
@@ -129,7 +134,9 @@
             "terminal-multiplexing",
             "sidecar-provisioning",
             "voice-io",
-            "agent-addressable-ui"
+            "agent-addressable-ui",
+            "agent-runtime-assembly",
+            "agent-browser-control"
           ]
         },
         {
@@ -166,7 +173,10 @@
             "data-access",
             "embedded-db",
             "migrations",
-            "sync-replication"
+            "sync-replication",
+            "transactions-over-a-replicated-log",
+            "bounded-enumeration",
+            "read-serving-replicas"
           ]
         },
         {
@@ -193,7 +203,8 @@
             "webhook-ingestion",
             "stream-proxy-hop",
             "optional-dependency-degradation",
-            "scale-investment-timing"
+            "scale-investment-timing",
+            "multi-provider-gateway-plane"
           ]
         },
         {
@@ -203,7 +214,29 @@
             "observability-telemetry",
             "metrics-rollups",
             "alerting",
-            "outbound-notifications"
+            "outbound-notifications",
+            "metric-surface-contract"
+          ]
+        },
+        {
+          "id": "inference-serving",
+          "title": "Inference serving",
+          "subjects": [
+            "serving-process-topology",
+            "paged-block-cache",
+            "persistent-batch-mutation",
+            "cross-instance-cache-lease"
+          ]
+        },
+        {
+          "id": "process-graph-runtime",
+          "title": "Process-graph runtime",
+          "subjects": [
+            "declared-process-graph",
+            "edge-queue-policy",
+            "fault-signal-propagation",
+            "data-plane-transport-selection",
+            "correlated-exchange-over-broadcast"
           ]
         }
       ]
@@ -233,7 +266,18 @@
             "triage-queues",
             "usage-analytics",
             "plan-entitlements",
-            "scoring-rubrics"
+            "scoring-rubrics",
+            "node-boot-and-declarative-bootstrap",
+            "quorum-and-recovery-procedures"
+          ]
+        },
+        {
+          "id": "control-plane-operations",
+          "title": "Control-plane operations",
+          "subjects": [
+            "declarative-resource-lifecycle",
+            "convergence-loop-and-requeue",
+            "watch-cache-and-resync"
           ]
         }
       ]
@@ -242,15 +286,42 @@
       "id": "security",
       "title": "Security",
       "order": 6,
-      "subjects": [
-        "authorization",
-        "credential-vault",
-        "device-pairing",
-        "p2p-networking",
-        "signed-artifacts",
-        "supply-chain",
-        "telemetry-pii-redaction",
-        "browser-credential-boundary"
+      "subcategories": [
+        {
+          "id": "identity-and-access",
+          "title": "Identity and access",
+          "subjects": [
+            "authorization",
+            "credential-vault",
+            "device-pairing"
+          ]
+        },
+        {
+          "id": "code-provenance",
+          "title": "Code provenance",
+          "subjects": [
+            "signed-artifacts",
+            "supply-chain",
+            "decentralized-artifact-distribution"
+          ]
+        },
+        {
+          "id": "extension-trust",
+          "title": "Extension trust",
+          "subjects": [
+            "extension-trust-boundary",
+            "untrusted-extension-host"
+          ]
+        },
+        {
+          "id": "data-and-transport",
+          "title": "Data and transport",
+          "subjects": [
+            "telemetry-pii-redaction",
+            "browser-credential-boundary",
+            "p2p-networking"
+          ]
+        }
       ]
     },
     {
@@ -307,7 +378,8 @@
             "quality-gates",
             "knowledge-registry",
             "repo-manifest-standard",
-            "multi-project"
+            "multi-project",
+            "invariant-placement"
           ]
         },
         {
@@ -336,7 +408,8 @@
             "analytics-time-windows",
             "metric-forecasting",
             "people-analytics-ethics",
-            "peer-benchmarking"
+            "peer-benchmarking",
+            "modelled-performance-estimates"
           ]
         },
         {
@@ -359,6 +432,17 @@
             "remediation-roadmaps"
           ]
         }
+      ]
+    },
+    {
+      "id": "secret-custody-and-issuance",
+      "title": "Secret custody and issuance",
+      "order": 10,
+      "subjects": [
+        "seal-and-key-hierarchy",
+        "priced-authority",
+        "dynamic-secret-lifecycle",
+        "issuance-policy-ladder"
       ]
     }
   ]

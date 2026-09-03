@@ -107,6 +107,56 @@ The indefensible posture is the default one: snapshots as opaque blobs
 that no migration touches and no test restores, discovered unreadable at
 the exact moment someone needs the past back.
 
+### When a downgrade is a conversion rather than a refusal
+
+Both postures above assume the corpus-wide default, stated flatly by the
+migrations subject: **downgrade is refusal, not tolerance** — code that meets
+a store written under a newer shape stops, because forward-only is the only
+one-way door that can be reasoned about. That default is correct here and
+stays. It is correct *because of a condition that usually holds and sometimes
+does not*, and naming the condition is worth more than restating the rule.
+
+The condition is **you own every reader**. Refusal is available only to a
+system that can upgrade the thing it just refused. Where the readers are
+independently deployed clients on their own release schedules — a published
+interface, a third-party integration, a fleet of agents an operator upgrades
+when they feel like it — refusal is not a policy, it is an outage, and the
+shape that replaces it is:
+
+**One stored version, several served versions, one conversion in the middle.**
+Exactly one version of the shape is marked as the one actually persisted;
+every other published version is a *projection* of it, produced on read by a
+single conversion step that the serving side runs. A reader pinned to an older
+version is not refused and is not tolerated — it is **served**, from converted
+data, and the conversion is a first-class component with its own tests rather
+than a compatibility branch inside each reader.
+
+Two questions discriminate, and they must be answered in this order:
+
+1. **Does a lossless conversion exist between the stored version and the
+   served one?** If a field added in the new version has no representation in
+   the old, a downgrade projection silently drops it, and a client that reads
+   the old version and writes it back destroys the field for everyone. Where no
+   round-trip exists, refusal is still the answer — but it moves: refuse to
+   *publish* the older version, at registration time, rather than refusing the
+   reader at request time. A version whose projection cannot round-trip is not
+   a servable version.
+2. **Who runs the conversion?** One place, on the serving side, or N places
+   with N drifts. A conversion implemented per reader is not schema
+   compatibility; it is every reader's private guess about what the new shape
+   meant, and the guesses diverge on exactly the fields that changed.
+
+For snapshots specifically the default holds in almost every case, because a
+snapshot's only reader is the restore path in the same system that wrote it —
+you own every reader, so migrate the stored snapshots or version the format
+and keep old readers alive. Reach for served conversion only when a snapshot
+format has genuinely become an interface someone else reads on their own
+schedule; at that moment it stops being an internal storage detail and
+acquires all of the obligations above, including the one that catches teams
+out — that the newest version and the *preferred* version are then two
+different questions over the same set, and the set needs both orderings
+written down.
+
 ## Prohibitions
 
 1. No snapshot that captures the entity's record but not its owned
@@ -118,3 +168,6 @@ the exact moment someone needs the past back.
 5. No second capture path — every version-producing event uses the one
    snapshot routine.
 6. No snapshot format without a stated plan for surviving schema change.
+7. No older shape served by conversion without a demonstrated round-trip and
+   one conversion point — a lossy downgrade projection is a data-loss bug that
+   only the reader who wrote back will ever trigger.

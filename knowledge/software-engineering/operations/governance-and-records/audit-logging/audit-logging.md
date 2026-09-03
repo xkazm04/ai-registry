@@ -40,10 +40,10 @@ what happened be missing?*
 What is also *not* this subject, though it borders it closely: the
 recording of authorization **decisions** — every allow and deny at a
 permission gate — which is owned by the
-[authorization](../../../security/authorization/authorization.md) subject's
-[authorization-audit](../../../security/authorization/techniques/authorization-audit.md)
+[authorization](../../../security/identity-and-access/authorization/authorization.md) subject's
+[authorization-audit](../../../security/identity-and-access/authorization/techniques/authorization-audit.md)
 technique, and the recording of credential **use**, owned by the
-[credential-vault](../../../security/credential-vault/credential-vault.md)'s brokered
+[credential-vault](../../../security/identity-and-access/credential-vault/credential-vault.md)'s brokered
 door. Both are audit ledgers in exactly this subject's sense, and both
 apply the disciplines below; what they own is the domain-specific content
 of their records. This subject owns the disciplines themselves: what makes
@@ -177,6 +177,19 @@ best-effort inverts: a claim that fails must fail the action, because
 acting without a durable claim is exactly the duplicate the claim
 existed to prevent. Such a record is a control record wearing an audit
 record's clothes, and the technique states what that costs.
+
+The inversion has a second, more common home: the ledger whose
+**responses are the secret material** — a credential broker, a key
+service. There the unrecorded success is the loss the trail exists to
+prevent, so the request is recorded before it executes and the response
+before it is sent, each failing the request when no configured sink
+took it. That rule, the sink-set invariant that keeps it from being a
+single point of failure, and the hashing discipline such a ledger needs
+because it records whole requests it did not shape, are amendments
+inside [best-effort-with-accounting](./techniques/best-effort-with-accounting.md),
+[write-path-sanitization](./techniques/write-path-sanitization.md) and
+[write-chokepoint](./techniques/write-chokepoint.md) rather than a
+technique of their own.
 
 ## Retention is policy, enforced where records enter
 

@@ -1,7 +1,7 @@
 ---
 subject: admission-queue
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -193,3 +193,7 @@ and this run did not answer it. Return when a second tree carries a global
 bounded queue with mixed classes across origins - that is the shape where
 `priority-and-fairness` and `depth-bounds-and-shed` genuinely have to be read
 together rather than in sequence.
+
+## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
+
+`resource-denominated-bounds` gained "The door sits below the body reader": a content-length bound enforced after the body was read has already paid the transfer it exists to avoid; the position in the transport stack the technique treated as given.

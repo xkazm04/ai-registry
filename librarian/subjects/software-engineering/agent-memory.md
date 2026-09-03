@@ -277,3 +277,73 @@ flags that correct deferral as an omission.
 
 Second technique amended this run in another bundle - see [[entity-lifecycle]], which
 holds the opposite side of the same source's memory-deletion story.
+
+
+## 2026-09-02 - intake `deer-flow` ([[2026-09-02-deer-flow]], run intake-deer-flow-0902)
+
+**`decay-and-forgetting` amended: "A review window is not an expiry."** A
+contradicted pick kept on purpose. The technique's expiry section forbids
+inventing a boundary; a harness's memory backend assigns every fact an
+expected-valid window at write. Both hold, for different fields: an expiry
+is a property of the claim and only the claim supplies it; a review deadline
+is a property of the store's confidence, and its consequence is a
+re-judgment (keep / remove / extend), so guessing it wrong costs a review,
+not a fact. Five rules landed: clamp at write; extend under an absolute
+ceiling rather than the creation multiplier; the reviewer touches only what
+the deterministic selector surfaced, protected kinds never enter; a merged
+item inherits the earliest source deadline relative to the newest source's
+creation; the clock is the source's, not the synthesis's. The inheritance
+rule is the half `consolidation` did not have - noted here, placed in the
+decay technique so the window's rules stay in one file.
+
+**Applied better** (simulation) against a fleet tree's persona memory store
+(its second belief store - the companion brain already carries the expiry
+exit from 2026-08-26): candidates are rank-selected, verdicts are
+delete/keep/update-importance, and the reflection pass's synthesize restarts
+the clock at merge and preserves no source clock. Filed as the tree's next
+change with the keep-rate comparison as the return condition.
+
+Untriaged with anchor: a subagent sharing the parent's thread id must skip
+the parent's memory flush or its internal turns pollute the parent's durable
+memory.
+
+## 2026-09-02 - intake run `intake-openviking-0902` (vendor repository, design read under 2.0.0)
+
+Two techniques and two amendments, five source-tree applications, and a sibling subject.
+
+- `owner-and-counterpart-scope` (new): the two identity axes a memory answers to;
+  the runtime that wrote it is neither. From a store that retired its agent-id
+  namespace for an owner/peer split and refused to migrate ownerless sessions.
+- `read-set-bounded-links` (new): request-local integer ids so a model-authored
+  link can only name what was read in or is being written; links beside the body.
+- `lane-reconciliation` gained "the invariant chooses the write order, per
+  operation" - delete lane-first where the lane is the consumer's door; with the
+  scope condition (a join that drops missing rows makes the order moot) found on
+  the personas seam.
+- `baseline-ladder` gained "the judge and the per-arm budget travel with the rung".
+- Applications: `python--lane-reconciliation`, `python--baseline-ladder`,
+  `python--owner-and-counterpart-scope`, `python--read-set-bounded-links`,
+  `python--probe-without-write-back` - the first applications written against a
+  mined source's own tree in this subject.
+- The golden path's shape hedge (lines 77-89) now has a subject on its far side:
+  `context-hierarchy`, beside this one. The hedge text is unchanged; a later pass
+  should add one sentence pointing across.
+
+Apply rows: three simulations on personas, all `not-better`, each chosen to falsify
+and each landing its condition. The technique pair is unapplied in the fleet's
+current shape (one human, no model-authored links between existing memories); return
+conditions in `librarian/applied.md`.
+
+## 2026-09-02 - intake `claudeception` (run `claudeception`)
+
+- Amendment to `procedure-promotion`: § "When the promoted store is the only durable
+  store" - the four conditions assume an episodic layer to count in; a coding harness
+  that persists only skills forces promote-first, and the count moves to the write
+  door (search by trigger, then the six-row update/create/variant table). Measured
+  on a 24-item first-sight store with one true duplicate: trigger search found the
+  pair exactly; the technique's suggested pairwise vocabulary lint ranked it 3rd of 5.
+- Application `claude-code--procedure-promotion`: the source tree (a skill that writes
+  skills, PR #13's dedupe table) and the applied arm (the registry harness's memory
+  store, two files on one trigger merged; `code`, `better`).
+- Apply row in `librarian/applied.md`. Return condition: the store passing ~50 entries,
+  when scoping joins the door.

@@ -1,13 +1,17 @@
 # Cross-cutting laws
 
-Thirteen convergences, nine measured ≥3 independent times during the 2026 composition
+Fifteen convergences, nine measured ≥3 independent times during the 2026 composition
 campaign and reclassified by `knowledge-hierarchy-plan.md` (`docs/concepts/knowledge-hierarchy-plan.md`)
 §2 from Golden-Path candidates to **laws that Techniques cite**; the tenth through
 twelfth each earned their place from four sightings in the external-reconcile lane
 (librarian runs 2026-08-22); the thirteenth from five independent sightings across
 the 2026-08 intake series (two measured trajectory corpora, a system-failure
 taxonomy, a skills field study, and first-party practitioner judgment, none derived
-from another — librarian source notes 2026-08-25). They are not subjects —
+from another — librarian source notes 2026-08-25); the fourteenth and fifteenth
+from the 2026-09-02 forge wave over a secrets-management server's design record,
+where five and three subject-workers respectively, dispatched to disjoint
+territories, each proposed the same rule with its own sites (handoff
+`librarian/handoffs/2026-09-02-openbao.md`). They are not subjects —
 no folder, no techniques of their own. Cite them from a Technique's `laws:` frontmatter
 by anchor id. The doctrine's transferable sections migrate here in the closing pass;
 until then each law carries its one-paragraph statement.
@@ -118,3 +122,36 @@ bind only surfaced state; whatever remains internal is outside their reach by
 construction. Sibling of unknown-is-not-a-value, one level up: that law forbids
 rendering unknown as definite in *data*; this one demands the conversion of private
 epistemic state into inspectable output before anything downstream relies on it.
+
+## <a id="record-precedes-effect"></a> record-precedes-effect
+
+The record of an action is written before the action, and the action is refused when
+the record cannot be written. A marker before a privileged bootstrap, a parent index
+before the record it indexes, a write-ahead entry before a remote mutation, an audit
+line before the response leaves, a lease persisted before the credential is minted in
+the remote system — in every case the naive order (act, then record) leaves a window
+in which the effect exists and nothing accounts for it, and that window is where
+authority escapes its revocation chain, where a half-created tenant survives a crash,
+and where a secret was served with no line to prove it. The rule has a second half
+that is the load-bearing one: when the record cannot land — the store is read-only,
+the sink set is empty, the ledger is unreachable — the effect does not happen. A
+system that acts anyway and logs the failure has chosen availability over
+accountability without saying so. Sibling of creation-names-reaper: that law says a
+created thing names what will clean it up; this one says the clean-up handle is
+written first.
+
+## <a id="limits-are-derived"></a> limits-are-derived
+
+A capacity limit is derived from a measured property or from another limit, and the
+derivation is written beside the number — a maximum entry as a multiple of the
+transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache
+as the shared cache over the parallelism permit, a default page as a memory budget over
+a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts
+lost in flight. A limit chosen by feel is raised by feel, and when it is raised its
+consequences are not: the structure that fit under the old limit outgrows the entry it
+was stored in, the migration meant to escape the limit is capped by the limit it
+escapes, and nobody can say which. The derivation must be *computed*, not merely
+written — a formula in a comment beside a constant that no longer tracks its input is
+the failure in its most convincing disguise. Cousin of count-carries-predicate: that
+law binds a number to what it counts; this one binds a bound to what it is derived
+from.

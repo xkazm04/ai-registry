@@ -89,6 +89,39 @@ treat every amendment as a verdict and the human is buried in decisions that
 were never theirs; treat a verdict as an amendment and the executor has
 approved itself.
 
+## When the fixed tier has to move: the record that lets a criterion stop governing
+
+The discriminator sends one case upward that the split does not yet handle:
+a **success condition that measurement has refuted**. The brief asserted
+sixteen files set a flag; enumeration found twelve; two of the four the
+count had misclassified were the only affected files, and the wrong number
+was hiding the answer. An executor that cannot touch the criterion now
+either satisfies a false one — completion theatre — or deletes it and loses
+the finding. Both are the silent-repair failure wearing different clothes.
+
+The resolution is that a criterion leaves the active set **only through an
+evidence-preserving amendment**, and the amendment has a required shape:
+the original, verbatim; a kind from a closed set (replaced by a corrected
+criterion, or superseded with none); the reason; the **bounded measurement**
+that refuted it; the authority that accepted the change; a timestamp. Four
+rules make the record load-bearing rather than decorative:
+
+- **An amendment missing any field invalidates the whole spec on read.**
+  Fail closed; do not repair. "Auto-repair on read is silent deletion by
+  another name" was one team's stated reason for rejecting it, and a
+  `superseded: true` flag was rejected on the same ground: it records
+  neither the proof nor the replacement.
+- **An original that is still active cannot be amended**, and an original
+  can be amended once. The ledger is append-only, and the active set is
+  derived from it, never edited beside it.
+- **The executor proposes; the authority field is filled by something
+  else.** This is the "propose, never adopt" rule above with a place to
+  write the adoption down.
+- **This is not a goal-weakening tool.** It exists so that "the measurement
+  disagrees with the plan" resolves toward the measurement without the loop
+  losing its grip on the plan. An amendment whose evidence is the executor's
+  preference is the one review rejects, exactly as with route amendments.
+
 The same two-tier shape governs a different record elsewhere in this domain —
 a companion's constitution is fixed while its self-model accretes, and the
 amendment procedure is deliberately the slow path

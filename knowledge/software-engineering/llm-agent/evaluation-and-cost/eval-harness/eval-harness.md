@@ -19,6 +19,8 @@ techniques:
   - reliability-aggregation
   - candidate-write-access
   - resolution-precondition
+  - selection-over-noise
+  - monitor-inside-the-loop
 ---
 
 # Evaluation & benchmarking
@@ -243,6 +245,20 @@ ranking is a fact about run order that per-case attribution cannot see.
 Probe it by permuting condition order
 ([candidate-write-access](./techniques/candidate-write-access.md)).
 
+Both of those surfaces are things the candidate *writes*, and the enumeration
+is built around that verb. One surface is not: a candidate allowed to be
+scored twice and keep the better result is optimizing the instrument's own
+variance while leaving every artifact untouched. In one measured population
+it was both the most common gaming behaviour and the only one that ever
+worked, which makes the attempt count a property of the number rather than a
+detail of the run — and makes a headline drawn as the best of many attempts
+incomparable to one drawn from a single try
+([selection-over-noise](./techniques/selection-over-noise.md)). Putting a
+model on the transcripts to catch any of this adds a component that gates a
+score, and therefore a component the candidate has reason to model; what a
+clean report from it does and does not license is
+[monitor-inside-the-loop](./techniques/monitor-inside-the-loop.md).
+
 This is the third member of the screening family and it composes in a fixed
 order: screen the scenarios, enumerate the write surfaces, then push against
 the suite. Pushing against a gate the candidate can edit finds a bound it
@@ -392,6 +408,14 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [candidate-write-access](./techniques/candidate-write-access.md) — what
   the candidate may read and write, declaring a holdout instead of
   forbidding overfitting, and the condition that scores its successors.
+- [selection-over-noise](./techniques/selection-over-noise.md) — the surface
+  that needs no write at all: repetition, best-of-N as an upward-biased
+  estimator, and why two arms with different attempt counts are not a
+  comparison.
+- [monitor-inside-the-loop](./techniques/monitor-inside-the-loop.md) — what
+  happens to a reviewer that gates a scored result: artifact over account,
+  the second reviewer that diffs the two, and the legibility a clean rate
+  quietly assumes.
 - [certification-levels](./techniques/certification-levels.md) — theoretical
   passes gating empirical ones, promotion criteria, what only the live level
   can see.

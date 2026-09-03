@@ -53,3 +53,51 @@ unrestorable sample paths, none needed.
   public spec rather than to magnitude heuristics.
 - submission_checker_old.py ships beside the new package - a vocabulary-drift
   risk worth one grep in a future pass.
+
+## 2026-09-03 — [[2026-09-03-llmfit]] (intake `llmfit-0903`)
+
+**The mechanics half.** The subject owned *what may leave* a contributor and *what the
+hub may believe*, and had nothing on the plain mechanics of the contribution act — the
+half that decides whether a federation has any contributions to reason about. A local
+hardware-fit tool that pools user benchmarks as proposed changes to its own repository
+supplied three: `content-addressed-contribution`, `capture-locally-publish-separately`,
+`strict-ingestion-lenient-consumption`, plus a golden-path section before "The boundary
+with cost metering".
+
+Two of the three carry a boundary worth remembering:
+
+- **Transport decides whether the first one applies.** Content-derived paths solve a
+  problem that exists only when contributions are *proposed changes to a shared store*
+  with no transaction around the several steps. A hub endpoint has no path to derive.
+  tracklight is the endpoint case and already gates repeat pushes on a digest hash, so
+  it confirms the idempotency property without needing the naming half.
+- **The third one dissents from this subject's own symmetry.** The golden path says
+  both ends re-apply every treatment. That covers the two ends of *admission*; a
+  federation that later compiles pooled data into an artifact has a **third** stage,
+  and there strictness must invert — not because the data deserves more trust, but
+  because the party who pays for a refusal has changed from the contributor (present,
+  able to fix) to every downstream consumer (absent, submitted nothing).
+
+`hub-ingest-plausibility-gates` gained one amendment: a bound whose authority is the
+**generator's own history** — no genuine payload predates the feature that produces
+payloads — which is a different class from the arithmetic-internal rules it already
+holds, and which pairs with rather than replaces the hub's receipt stamp.
+
+**Applied, and it found a real gap.** `k-anonymity-cases-and-sources` states the case
+floor and its disclosure in one paragraph; a consumer implemented the enforcement and
+not the disclosure, and the two were three months apart. An enforcement clause is
+executable and a disclosure clause is not — the half with a natural test wins. Fixed
+in tracklight, `code`/`better`, `cargo test --workspace` green.
+
+## Open leads
+
+- **The peer-comparison lane was not run**, and tracklight is a genuine peer (it
+  operates a federated benchmark network). The front-half check already found real
+  convergence: its `aliases.rs` reaches the same conservative identity posture by a
+  *different* argument — unwindability of a false merge in shared data, rather than
+  the cost direction of a wrong match. Two independent routes to one rule is the
+  strongest triage signal available and it is sitting unspent. Return: the next run
+  touching this subject with fewer than two dispatches in flight.
+- Where a technique pairs a **suppression** with an obligation to **count what it
+  suppressed**, consider whether the count deserves naming as its own deliverable
+  rather than as a clause beside the rule. One sighting; two more make it a rule.

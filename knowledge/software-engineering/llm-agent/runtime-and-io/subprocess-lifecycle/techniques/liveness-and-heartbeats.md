@@ -107,6 +107,61 @@ Principles:
   the same minute of every run — the fastest way to teach operators to
   ignore it.
 
+## The clock arms at first contact, not at spawn
+
+Everything above assumes the activity record exists and asks how to read
+it. The prior question — *when does the clock start* — is where a
+supervisor that is right about thresholds still kills the wrong child, and
+the answer is the same for every liveness clock in this subject: **it arms
+on the first genuine signal from the run, never on the spawn.** A record
+seeded with the spawn timestamp cannot tell a slow-but-legitimate cold
+start (interpreter imports, model weights loading, workspace indexing)
+from a child that hung before it ever spoke; both are silence measured from
+the same instant, and a threshold short enough to catch the second kills
+the first — under a restart policy, forever, since every respawn repeats
+the cold start and the kill.
+
+Three rules follow, and a supervisor that has only one timer cannot honour
+any of them:
+
+- **Startup gets its own deadline.** Before first contact the stall clock
+  is unarmed, so the pre-contact hang is invisible to it by construction —
+  a child deadlocked in its own initialisation holds the slot and the
+  dataflow waits on it indefinitely. Bound that phase with a *separate*
+  time-to-first-contact deadline, sized from the class profile's declared
+  cold start, and record which deadline fired: "never connected" and
+  "went silent" route to different repairs.
+- **Respawn resets the record.** A restarted child that inherits the
+  previous incarnation's activity timestamp is born already past the
+  threshold and is killed before it can register — the restart loop's
+  quietest form. The record belongs to the run identity, and a respawn is
+  a new run.
+- **A staleness clock attaches only to a channel that promised
+  continuity.** The same arming rule governs the input side: a deadline on
+  an upstream stream arms on the first message, so an input that is idle at
+  startup is not "timed out" before anything was owed. And it belongs only
+  on channels whose contract is periodic. On a request-shaped channel —
+  responses, results, anything populated on demand — a natural idle
+  interval is byte-identical to a dead upstream, and the detector becomes
+  a false-alarm generator; per-request bounds carry that case, one deadline
+  per outstanding request, never a channel-wide timer.
+
+The single-ceiling design that most hosts start with is the reason these
+rules are worth the extra clock. With one timer that is both the startup
+bound and the stall detector, the ceiling must be tight enough to notice a
+hang and is then tight enough to kill a working child; loosen it and a hang
+is noticed only at the ceiling. Measured on three child shapes (hang before
+first byte, slow cold start then work, work then hang): the tight ceiling
+detected both hangs at the ceiling and killed the working child; the
+generous ceiling spared the working child and detected both hangs only at
+the ceiling; the armed clocks under the generous ceiling spared the working
+child and detected the two hangs at 42% and 31% of it (the harness ended
+each run at detection to read the time; in a real host the stall detection
+degrades the claim per the rules above and the ceiling still does the
+killing, while the startup deadline may terminate outright, because a
+child that never made contact holds no work to destroy). Arming is what
+lets the ceiling be generous.
+
 ## The stall ledger
 
 Every stall episode — run identity, silence duration, which instrument
@@ -126,3 +181,37 @@ because a dead stall detector over a fleet of silent children reads
 exactly like a healthy quiet system. The recurring-loop machinery is
 [background-jobs](../../../../backend-platform/work-execution/background-jobs/background-jobs.md)'s subject; the
 liveness loop is simply one of its registered customers.
+
+## A socket peer on a host that sleeps
+
+The ladder above assumes the run is a child and the host is awake. Aim the
+same watcher at a **peer across a socket** - a chat server, a push
+channel - and two of its rules need a boundary each.
+
+**The probe is sent only when the line has been quiet.** Inbound frames
+are rung one of the ladder already; the corollary is that a probe on a
+busy line is pure overhead, and its reply is noise. So the watcher's tick
+first asks whether anything arrived since the last tick. If so, that
+traffic *is* the pulse: the pending-reply flag clears, no probe goes out,
+and the "alive" signal is emitted. Only a tick that finds the whole
+interval silent sends a probe and arms the flag; only a tick that finds
+the flag still armed declares the peer gone. For a socket, that
+declaration is the ceiling - there is no other executioner - so the
+unanswered probe closes the connection and hands off to the reconnect
+ladder, and the ladder's single-pending-timer rule does the rest.
+
+**A tick that fires late is not a pulse.** A watcher whose tick arrives at
+several multiples of its interval was not running: the host slept, the
+process was stopped, a virtual machine was paused. Nothing measured across
+that gap is evidence about the peer - "traffic since last tick" may be
+hours old, "silence since last tick" was mostly the host's silence. So a
+tick whose elapsed time exceeds a small multiple of the interval
+(three is conventional) **withholds the healthy signal it would have
+emitted** and lets the next on-time tick decide; if that next tick finds
+the line quiet, it sends one probe and waits the ordinary grace, rather
+than treating the suspend as an unanswered probe. Measure the lateness on
+the monotonic clock. This is the socket-side twin of the scheduler's
+clock-jump rule in
+[missed-run-semantics](../../../../backend-platform/work-execution/scheduling/techniques/missed-run-semantics.md):
+a jump is an anomaly to record, never a schedule input, and never a death
+certificate.

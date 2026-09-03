@@ -9,6 +9,7 @@
       "title": "Systems canon",
       "order": 1,
       "subjects": [
+        "agent-behaviour-authoring",
         "arpg-systems-canon",
         "design-canon-as-executable-law",
         "game-economy-tuning",
@@ -23,7 +24,9 @@
         "combat-pacing-and-dramatic-arc",
         "difficulty-design-and-adaptation",
         "encounter-balance-simulation",
-        "procedural-level-planning"
+        "learning-curve-and-teaching-design",
+        "procedural-level-planning",
+        "terrain-synthesis-acceptance"
       ]
     },
     {
@@ -32,6 +35,7 @@
       "order": 3,
       "subjects": [
         "acceptance-verdict-spine",
+        "branching-narrative-graph-validation",
         "catalog-pipeline-authoring",
         "content-acceptance-tiering",
         "content-drift-and-revision",
@@ -45,17 +49,43 @@
       "id": "asset-production",
       "title": "Generative asset production",
       "order": 4,
-      "subjects": [
-        "asset-class-poly-budgeting",
-        "generated-asset-world-scale",
-        "generated-mesh-acceptance",
-        "image-to-3d-input-gating",
-        "mesh-finishing-for-engine-readiness",
-        "motion-quality-gating",
-        "regeneration-vs-repair-economics",
-        "shader-budget-authoring",
-        "spatial-audio-scene-authoring",
-        "tiling-texture-acceptance"
+      "subcategories": [
+        {
+          "id": "geometry",
+          "title": "Geometry",
+          "subjects": [
+            "asset-class-poly-budgeting",
+            "generated-asset-world-scale",
+            "generated-mesh-acceptance",
+            "mesh-finishing-for-engine-readiness"
+          ]
+        },
+        {
+          "id": "surface-and-imagery",
+          "title": "Surface and imagery",
+          "subjects": [
+            "shader-budget-authoring",
+            "sprite-and-atlas-production",
+            "tiling-texture-acceptance"
+          ]
+        },
+        {
+          "id": "motion-and-audio",
+          "title": "Motion and audio",
+          "subjects": [
+            "adaptive-music-authoring",
+            "motion-quality-gating",
+            "spatial-audio-scene-authoring"
+          ]
+        },
+        {
+          "id": "sourcing-economics",
+          "title": "Sourcing economics",
+          "subjects": [
+            "image-to-3d-input-gating",
+            "regeneration-vs-repair-economics"
+          ]
+        }
       ]
     },
     {
@@ -66,6 +96,7 @@
         "crash-forensics-attribution",
         "engine-integration-safety",
         "engine-pitfall-corpus",
+        "gameplay-runtime-patterns",
         "runtime-observation-evidence",
         "ship-pipeline-gating",
         "visual-script-to-code-transpilation"
@@ -78,6 +109,7 @@
       "subjects": [
         "aaa-craft-rubric-authoring",
         "design-doc-compliance-scoring",
+        "playtest-signal-to-defect",
         "quality-verdict-integrity",
         "subsystem-review-doctrine",
         "unattended-build-loop"

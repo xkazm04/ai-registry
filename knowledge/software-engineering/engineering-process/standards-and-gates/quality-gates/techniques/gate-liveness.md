@@ -42,6 +42,51 @@ The vocabulary matters: three outcomes (pass / fail / could-not-run), three
 distinguishable outputs, ideally three exit codes. Any check that folds
 could-not-run into pass has pre-committed to the worst failure mode.
 
+## Assert the oracle, not only the instrument
+
+The list above audits one population — the targets the checker walked. A
+**score-shaped** gate has two: the targets, and the *oracle* that judges
+them — the test set a mutation run executes, the suite a coverage report
+collects from, the fixtures a conformance check replays. The second
+population has a default scope of its own, and it is silently narrower than
+the set of tests that actually protect the target whenever those tests live
+somewhere the default does not look: in another package of the same
+workspace, in an end-to-end suite under a different runner, or in a process
+the instrumented one spawned. Every instrument assertion passes — files
+walked, rules loaded, tool present, code as expected — and the number is
+wrong in the *deficient* direction: a component whose real protection is a
+workspace-level integration suite reports a single-digit mutation score
+under package-scoped execution, and every mutant that suite would have
+caught is filed as an escape. Nothing the checker printed was false. Its
+oracle was.
+
+Two rules, both cheap:
+
+- **Declare the oracle's population beside the target's**, in the baseline's
+  predicate ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)):
+  which tests, from which units, under which runner. A score whose predicate
+  names only what was judged and not what judged it is not comparable to the
+  same score next week, and it cannot be reasoned about when it surprises.
+  What a spawned process executes is *exercised but unmeasured*, and a
+  report that can say so is worth more than one that reads it as zero.
+- **A surprising number is tested against the smallest controlled
+  experiment before it is believed.** The first hypothesis for a score that
+  is implausibly low over a target known to be exercised is "the oracle was
+  scoped," not "the target is untested" — the deficiency-direction twin of
+  [excess-indicts-the-instrument](./excess-indicts-the-instrument.md). The
+  experiment is one target under both scopes: the same component, its tests
+  run package-scoped and then workspace-scoped, and the delta read directly.
+  Twenty-one of twenty-one escaped mutants caught under the wider scope, in
+  fourteen minutes, is the reading that turned a "6% tested" verdict into a
+  configuration line — and the line then belongs in the committed config,
+  with the experiment cited beside it, so the next reader does not pay for
+  the same doubt.
+
+The founding measurement is again where this costs the most, for the same
+reason the excess case does: a score frozen as a baseline under a narrow
+oracle enforces a floor made of a scoping error, and the ratchet's contract
+is to never question it again.
+
 ## Portability: a gate must run where it claims to run
 
 A gate that works only on its author's machine gates only its author. The

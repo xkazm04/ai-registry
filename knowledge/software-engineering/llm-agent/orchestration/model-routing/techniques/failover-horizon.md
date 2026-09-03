@@ -57,6 +57,30 @@ routing parameter, not an accident:
   approves a call against a window and a quota that its own repair then
   overruns.
 
+Those checks also have a **cadence**, and it is not the same on both sides of
+the call. A check on the *request* — a policy scan, a safety classifier, a
+validation of what the caller sent — is a property of the request, so it returns
+the identical verdict against every candidate; running it per attempt multiplies
+its cost by the fan-out of the substitution chain and learns nothing new, which
+is decisive when the check is a paid call to somebody else's scanner. So input
+checks run once, before the first candidate is drawn, and their verdict rides
+the call across every substitution: spend tracks requests admitted, not attempts
+made. A check on the *answer* is a property of this attempt and must re-run per
+attempt — a new candidate is a new answer, and a verdict carried forward would
+be a verdict about a response nobody received. That asymmetry then forces one
+consequence: when an output check's verdict sends the call back for another
+attempt, it **is** a retry and draws on the same budget a transport failure
+would, per
+[storm-control](../../../../backend-platform/resilience/retry-backoff/techniques/storm-control.md)
+— an outer layer that legitimately re-attempts does not get a second ladder
+hidden underneath it. A separate quality-retry allowance beside the transport
+one reads as modest in each document and multiplies in production, and the worst
+case is then the sum nobody wrote down. Note which cost argument decides which
+half: the *scanner-spend* argument decides the cadence, and the *amplification*
+argument decides the budget. They are different arguments, and using the first
+on the second is how a team concludes that a cheap check deserves its own
+allowance.
+
 ## The unusable success
 
 A transport-shaped taxonomy classifies what the protocol reports. It therefore

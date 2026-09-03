@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
-  "subjects": 16,
-  "techniques": 102,
-  "applications": 53,
+  "subjects": 17,
+  "techniques": 110,
+  "applications": 58,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "102/102",
+  "use_when_coverage": "110/110",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -487,7 +487,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
-   "digest": "sha256:617c29b88c910a81",
+   "digest": "sha256:8ababf4b62390be2",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -515,6 +515,36 @@
       "merging self-reported evidence weights from multiple parties",
       "defending a shared ranking against weight inflation",
       "choosing between capping and rejecting an outsized contribution"
+     ]
+    },
+    {
+     "slug": "capture-locally-publish-separately",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "quality-apparatus-stays-unbudgeted"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a measurement run also asks the operator whether to share it",
+      "deciding what happens to a result when consent is declined",
+      "a contributor changed their mind about sharing after the run finished",
+      "sharing is failing and the runs are being lost with it"
+     ]
+    },
+    {
+     "slug": "content-addressed-contribution",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "aggregates-leave-identity-behind"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a contribution is published as a proposed change rather than posted to an endpoint",
+      "a retry after a partial upload duplicated results",
+      "deciding what a contributor's second submission should do to their first",
+      "hand-assembled contributions are arriving alongside generated ones"
      ]
     },
     {
@@ -572,6 +602,21 @@
       "ordering filters against an anonymity floor",
       "deciding whether a thin bucket is dropped or flagged"
      ]
+    },
+    {
+     "slug": "strict-ingestion-lenient-consumption",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one bad contributed record can break a build or a release for everyone",
+      "deciding whether to validate the changed entries or the whole store",
+      "a validation rule was added and existing accepted data no longer passes it",
+      "choosing where in the pipeline a refusal punishes the right party"
+     ]
     }
    ],
    "applications": [
@@ -591,12 +636,129 @@
     },
     {
      "stack": "rust",
+     "technique": "capture-locally-publish-separately",
+     "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--capture-locally-publish-separately.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "content-addressed-contribution",
+     "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--content-addressed-contribution.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
      "technique": "hub-ingest-plausibility-gates",
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--hub-ingest-plausibility-gates.md",
      "verified_on": "2026-08-30",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "k-anonymity-cases-and-sources",
+     "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--k-anonymity-cases-and-sources.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "strict-ingestion-lenient-consumption",
+     "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--strict-ingestion-lenient-consumption.md",
+     "verified_on": "2026-09-03",
+     "verified_against": "rust@1.85"
     }
    ]
+  },
+  "generator-uncertainty-scoring": {
+   "category": "quality-scoring",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
+   "digest": "sha256:07c79704a464fa5d",
+   "techniques": [
+    {
+     "slug": "generator-vs-itself",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the same prompt returns different answers on different runs",
+      "deciding whether generator variance is noise or signal",
+      "choosing how many samples a consistency score should draw",
+      "a gate and a scorer disagree about the same spread"
+     ]
+    },
+    {
+     "slug": "probability-calibration-is-not-agreement",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a threshold or floor is set on a confidence score",
+      "a score is shown to a reader as a percentage",
+      "an agreement or correlation statistic is offered as evidence that a number is trustworthy",
+      "choosing between a rank decision and an absolute-level decision"
+     ]
+    },
+    {
+     "slug": "score-source-ensembling",
+     "status": "forged",
+     "laws": [
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict",
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "combining a judge score with a judge-free confidence score",
+      "weights for a composite confidence score need to be chosen",
+      "a scorer that worked on one workload is carried to another",
+      "deciding whether a scoring configuration transfers across a model upgrade"
+     ],
+     "stage": "team"
+    },
+    {
+     "slug": "score-source-kinds",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scoring contract types its dimensions by who decides them",
+      "a quality signal is needed where no rubric and no reference answer exist",
+      "deciding whether a confidence number may be aggregated with judged scores"
+     ]
+    },
+    {
+     "slug": "scorer-cost-class",
+     "status": "forged",
+     "laws": [
+      "quality-apparatus-stays-unbudgeted",
+      "never-present-absence-as-an-answer",
+      "nullable-never-zero"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a scorer for high-volume traffic",
+      "a serving API does not return token probabilities",
+      "deciding whether scoring may run inside the serving path",
+      "judge spend is growing faster than traffic"
+     ],
+     "stage": "team"
+    }
+   ],
+   "applications": []
   },
   "judge-calibration-and-drift": {
    "category": "quality-scoring",
@@ -861,7 +1023,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
-   "digest": "sha256:2c0f991f46ed5eab",
+   "digest": "sha256:9d0b71ce4b115284",
    "techniques": [
     {
      "slug": "dual-clock-event-time",
@@ -966,6 +1128,13 @@
      "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/process--token-usage-quadruple.md",
      "verified_on": "2026-08-20",
      "refresh_by": "2026-11-20"
+    },
+    {
+     "stack": "python",
+     "technique": "server-owned-fields",
+     "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/python--server-owned-fields.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "rust",
@@ -1192,7 +1361,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
-   "digest": "sha256:96ae32eb5ae856e5",
+   "digest": "sha256:20d80bd47dbe78cc",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",
@@ -1955,8 +2124,15 @@
     "cross-provider-benchmark-operations/determinism-stamping",
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "federated-benchmark-sharing/aggregate-only-digests",
+    "federated-benchmark-sharing/capture-locally-publish-separately",
+    "federated-benchmark-sharing/content-addressed-contribution",
     "federated-benchmark-sharing/hub-ingest-plausibility-gates",
     "federated-benchmark-sharing/k-anonymity-cases-and-sources",
+    "federated-benchmark-sharing/strict-ingestion-lenient-consumption",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
+    "generator-uncertainty-scoring/score-source-kinds",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-calibration-and-drift/trust-bar-verdict",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
     "judge-contract-design/deterministic-dimension-kinds",
@@ -1994,6 +2170,10 @@
     "cross-provider-benchmark-operations/failure-clustering-recommendations",
     "federated-benchmark-sharing/bounded-contributor-influence",
     "federated-benchmark-sharing/cost-bucketing-side-channels",
+    "generator-uncertainty-scoring/generator-vs-itself",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
+    "generator-uncertainty-scoring/score-source-kinds",
     "judge-calibration-and-drift/reserved-rubric-persistence",
     "judge-contract-design/mixed-rubric-honesty",
     "judge-contract-design/nonce-fenced-candidate-isolation",
@@ -2022,6 +2202,8 @@
    "techniques": [
     "analytics-store-design/flat-events-plus-json-linkage",
     "breach-alerting-and-attribution/top-contributor-attribution",
+    "federated-benchmark-sharing/strict-ingestion-lenient-consumption",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-contract-design/deterministic-dimension-kinds",
     "llm-call-telemetry-model/nullable-cost-never-zero",
     "llm-call-telemetry-model/token-usage-quadruple",
@@ -2065,6 +2247,7 @@
     "breach-alerting-and-attribution/identity-scope-attribution-refusal",
     "federated-benchmark-sharing/aggregate-only-digests",
     "federated-benchmark-sharing/bounded-contributor-influence",
+    "federated-benchmark-sharing/content-addressed-contribution",
     "federated-benchmark-sharing/cost-bucketing-side-channels",
     "federated-benchmark-sharing/fixed-task-vocabulary",
     "federated-benchmark-sharing/hub-ingest-plausibility-gates",
@@ -2077,6 +2260,9 @@
     "breach-alerting-and-attribution/pre-breach-forecasting",
     "cross-provider-benchmark-operations/async-run-queue-with-cancel",
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
+    "generator-uncertainty-scoring/generator-vs-itself",
+    "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
+    "generator-uncertainty-scoring/score-source-ensembling",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
@@ -2093,6 +2279,8 @@
    "statement": "Judge and benchmark spend is segregated from product cost by construction — it never enters COGS, and no usage cap ever throttles the scoring path. An observability product that meters its own measuring instrument alongside the traffic it measures can silently blind itself exactly when traffic spikes.",
    "techniques": [
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
+    "federated-benchmark-sharing/capture-locally-publish-separately",
+    "generator-uncertainty-scoring/scorer-cost-class",
     "judge-calibration-and-drift/judge-selection-by-spread",
     "judge-calibration-and-drift/scheduled-recalibration",
     "margin-and-unit-economics/cogs-by-construction",

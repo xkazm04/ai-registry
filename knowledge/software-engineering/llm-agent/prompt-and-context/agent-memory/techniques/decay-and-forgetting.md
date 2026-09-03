@@ -270,3 +270,52 @@ The honest bound: a claim that states no boundary does not get one invented.
 Most facts have no expiry, guessing at one manufactures a deletion date out of
 nothing, and an absent boundary is [unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value),
 not a default. This clause only ever fires on what the source actually said.
+
+## A review window is not an expiry
+
+The bound above forbids inventing one field. A different field not only
+may be estimated but must be: **when to ask again.** An expiry is a
+property of the claim — the world stops matching it on a date — and only
+the claim can supply it. A review deadline is a property of the store's
+confidence in the claim, and its consequence is a *re-judgment*, not a
+removal. Guessing it wrong costs one review; guessing an expiry wrong
+costs a fact. So the same judgment that writes an item assigns it an
+expected-valid window, and the sweep that reaches aged items asks a
+question rather than pulling a lever.
+
+Five rules keep the estimate from becoming a trapdoor:
+
+- **Clamp at write.** The assigned window is capped at the category's age
+  floor times a multiplier, so the writer cannot defer first review
+  indefinitely by being confident. A generous cap is fine — several years
+  for the stable tier — as long as it is a cap.
+- **The review's verdicts are keep, remove, or extend.** Remove inherits
+  every discipline above (demote, tombstone, re-judge dependents). Extend
+  sets a new window bounded by an **absolute ceiling**, not the creation
+  multiplier: a deliberate review may push past the creation cap, and the
+  ceiling exists so a malformed extension cannot defer forever or overflow
+  the clock.
+- **The reviewer touches only what the selector surfaced.** The candidate
+  set is computed deterministically — older than its own window, not in a
+  protected category — and both the removal and the extension sets are
+  intersected with it before the per-cycle cap applies. Protected kinds
+  (an operator's correction, above all) never enter, whatever the reviewer
+  proposes. An item proposed for removal is excluded from extension even
+  when the cap spared it this cycle.
+- **A merged item inherits the earliest deadline.** When consolidation
+  synthesises one item from several, the merged item's window is the
+  earliest source review deadline, expressed relative to the newest
+  source's creation, clamped to a minimal positive window if a source is
+  already overdue and capped at the creation cap. A volatile detail must
+  not inherit a stable sibling's long window and escape review for years;
+  a merge of uniformly stable sources should not re-enter review early. A
+  legacy source with no window contributes the category default, so its
+  short default is not swallowed by a long-lived sibling.
+- **The clock is the source's, not the synthesis's.** The merged item
+  carries the newest source's creation time, so staleness measures the
+  age of the information rather than the age of the merge.
+
+The discriminator to carry: a date the claim stated is an exit and runs on
+its own clause; a date the store estimated is a question and runs through
+the review. A store that treats the second as the first has reinvented the
+trapdoor with a confidence score attached.

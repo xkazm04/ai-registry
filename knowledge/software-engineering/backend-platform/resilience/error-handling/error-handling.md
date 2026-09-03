@@ -9,9 +9,11 @@ techniques:
   - error-doors
   - user-facing-mapping
   - structured-propagation
+  - parse-failure-keeps-identity
   - swallowed-error-prevention
   - crash-capture
   - cancellation-attribution
+  - consumer-decides-error-shape
 ---
 
 # Error taxonomy & handling
@@ -203,6 +205,45 @@ decision, a failure crosses layers, and each crossing must obey two rules:
 The typed-error shapes, the boundary conversions, and the enrichment
 discipline are [structured-propagation](./techniques/structured-propagation.md).
 
+## And a second axis: who consumes it, not where it was raised
+
+Everything above is vertical — one tree, one release, layers a single set of
+authors can change together. Cutting across it is an **ownership** question
+that decides the failure's representation before any of the vertical rules get
+a vote: is the code that will branch on this failure shipped on your schedule,
+or on somebody else's? Across a boundary whose two sides release
+independently, the category is part of the published interface and must be a
+value the far side can branch on — a unit that hands out an opaque failure has
+forced every consumer into prose matching, which is the one thing this subject
+forbids outright. Inside a unit that terminates in a door, the opposite is
+true: nothing branches, and one aggregate carrying the accumulated context
+trail is cheaper and more informative than an enumeration nobody consumes.
+Most systems are both, and the line between the two regions is where the
+conversion belongs.
+[consumer-decides-error-shape](./techniques/consumer-decides-error-shape.md)
+owns the two shapes, the direction the conversion may run, and the
+compatibility obligations a published enumeration takes on.
+## Some failures never rise, and those need an address
+
+Propagation assumes the failure is going somewhere — up, to a layer that
+decides. One class does not: a failure that belongs to *one item of a
+collection somebody else writes*. A reader over such a collection meets a
+malformed item eventually, and the three reflexes all cost more than they
+look: failing the batch lets one writer's mistake take away every well-formed
+item too, dropping the item spells failure exactly like empty success, and
+keeping an anonymous error produces an honest count nobody can act on —
+because telling the owner, quarantining the item and fixing the item all
+need a name.
+
+The correction is to isolate the failure to the item and **re-read only the
+identity fields**, so the failed item still answers "which one?" and still
+satisfies the interface every consumer that only needs a key already uses
+([identity-survives-reuse](../../../_laws.md#identity-survives-reuse)). One
+malformed member then costs exactly itself. The procedure, the stability rule
+that governs which fields the identity projection may contain, and the
+boundary against a reviewed foreign-artifact import are
+[parse-failure-keeps-identity](./techniques/parse-failure-keeps-identity.md).
+
 ## The outermost door: crash capture
 
 Everything above assumes the failure was caught by code that expected it.
@@ -240,6 +281,10 @@ swallowed-catch population larger than anyone predicted.
 - [structured-propagation](./techniques/structured-propagation.md) — typed
   errors across layers, cause preservation, enrichment, and surviving
   representation boundaries.
+- [parse-failure-keeps-identity](./techniques/parse-failure-keeps-identity.md)
+  — isolating a decode failure to one item of an externally owned collection,
+  the identity projection and the stability rule that governs it, and the
+  boundary against both propagation and reviewed import.
 - [swallowed-error-prevention](./techniques/swallowed-error-prevention.md) —
   why enforcement misses catch bodies, measuring door coverage, and making
   the routed path the cheap path.
@@ -249,3 +294,7 @@ swallowed-catch population larger than anyone predicted.
   that keep benign cancels out of the error door.
 - [crash-capture](./techniques/crash-capture.md) — last-resort handlers,
   breadcrumbs, sanitization before persistence, and crash-loop protection.
+- [consumer-decides-error-shape](./techniques/consumer-decides-error-shape.md)
+  — the ownership axis: a closed enumeration where two sides ship
+  independently, an opaque aggregate where the consumer is a door in the same
+  release, and why the conversion only runs one way.

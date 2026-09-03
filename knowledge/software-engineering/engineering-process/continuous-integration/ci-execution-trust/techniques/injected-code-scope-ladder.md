@@ -15,7 +15,9 @@ use_when: [adding lifecycle code to a build, auditing what runs before your comm
 Every delivery system lets code run around your commands — before checkout, after checkout,
 before the command, on exit — and lets it come from more than one place. The places have very
 different reach, and ordering them is the cheapest high-value audit in this subject. Most teams
-have never listed theirs.
+have never listed theirs. The same ladder recurs inside an agent runtime, where the tiers are
+startup-only configuration versus a file a service can write; that instance, with its own
+fail-open rules, is agent-runtime-assembly's operator-tier-code-loading.
 
 ## The ladder
 

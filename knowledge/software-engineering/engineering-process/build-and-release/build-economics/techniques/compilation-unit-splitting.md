@@ -95,7 +95,34 @@ writing that the split bought build economics only, not architecture.
 - **Duplicated generic expansion.** Generic-heavy code instantiated in many
   units is compiled in many units. If the same expansions dominate several
   units' compile time, the fix is a dedicated unit that pre-instantiates the
-  common cases.
+  common cases. That fix is unit-level, and it is the expensive
+  one: it presupposes the split, adds a unit to the graph, and only pays where
+  the same expansions dominate *several* units.
+
+  There is a **function-level** fix available long before any of that is
+  justified, and it is the one to reach for first. A routine parameterised over
+  a type is compiled once per type it is used with, and the whole body is
+  duplicated each time — including the part that does not depend on the type at
+  all. Split it: leave a small parameterised shim that does only the
+  type-dependent work (convert the argument into a common representation, then
+  hand off), and put everything after that into an ordinary non-parameterised
+  routine compiled exactly once. The duplicated volume drops to the shim, and
+  the shared body stops multiplying by the number of instantiations. The same
+  move shrinks the artifact, which is why it usually shows up twice in the
+  measurements.
+
+  The signal that it is worth doing is not "this routine is parameterised" but
+  **a parameterised routine with a large body used with many types** — one
+  innocuous helper used across dozens of types is a compile-time cost
+  proportional to the product, and nothing in a build report attributes it to
+  the helper. The cost is real and measurable before any structural work is
+  contemplated, which is exactly why it belongs above the split in the order of
+  attempts.
+
+  It inverts on hot paths, where the per-type specialisation is the entire
+  point: outlining the body puts an indirection between the caller and the work
+  and forfeits the specialised code generation that motivated the parameter in
+  the first place. Measure the path before outlining anything on it.
 - **The bottom layer gates everyone's verification.** Toolchains typically
   build and test units in dependency order and stop at the first failure — so
   after a split, a defect in the foundation unit leaves every unit above it

@@ -1,7 +1,7 @@
 ---
 subject: job-coordination
 domain: software-engineering
-last_touched: 2026-08-28
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -120,3 +120,93 @@ module of named phase functions, and the engine's execution methods moved out
 of the module root). The file survived the move and its contents did not, so
 the old line numbers now resolve to unrelated registration entries - the
 failure mode a line citation has when only the contents move.
+
+
+## 2026-09-02 - intake `deer-flow` ([[2026-09-02-deer-flow]], run intake-deer-flow-0902)
+
+**`lease-renewal` amended: "Absent is not lost, and a teardown is a held
+state."** The two-way-channel section said a renewal reporting zero rows
+means the lease is no longer ours; a harness's sandbox-ownership store paid
+twice for that being one fact short. Lapsed (key absent, nobody holds) versus
+lost (a peer holds): collapse them and a store flush evicts every live holder
+at once. Renewal re-establishes on lapsed, stops on lost, and treats an
+unanswerable store as unknown - the one deliberately fail-open path, while
+adoption and reaping stay fail-closed; a reaper waits a full TTL of observed
+unownership before adopting after a flush. For a lease over a *resource*:
+take (unconditional, acquire path) versus claim (conditional, adopt/reap
+path); an owned-versus-destroying state; and the destroying marker held on
+the renewal cadence for the stop's duration with the release as the
+heartbeat's last act.
+
+**Applied not-better, and the condition landed.** A fleet job runner keeps
+its lease as a column on the job row with attempt-fenced writes; zero rows
+has one meaning there and the split protects nothing. The amendment's
+closing paragraph now says when it applies. Separately, that tree discards
+its heartbeat's boolean - the base technique's own two-way-channel rule,
+unbuilt - recorded in the project's ledger as the few-line change owed.
+
+
+## 2026-09-02 - /intake openbao (run intake-openbao-0902)
+
+One amendment, one application, and the run's most useful `not-better`.
+
+- `lease-renewal` gained "Renewal must not queue behind the work": the
+  renewal is a write and needs a slot; if it shares a bounded pool with
+  the work, a saturated pool reaps a live executor. The source's fix
+  (transaction limit one below the connection limit) is the multi-writer
+  half. **The single-writer half inverts it**, measured with a fleet
+  project's own parameters (busy-timeout 5 s, TTL 120 s, renew at 40 s):
+  a dedicated renewal connection failed at 5.5 s where the shared writer
+  waited 6 s and succeeded. The bound on that engine is "longest write <
+  TTL - renewal cadence", a property of the work.
+- Applied to the job runner's store (`sql--lease-renewal`, `experiment`,
+  `ab-paired`, `not-better`) - the condition is written into the
+  technique. The server-store half (pool of 5, no reserved slot) is a
+  prediction the store's own write-lock-wait meter could measure.
+
+## 2026-09-02 - intake `deer-flow` v2 back half ([[2026-09-02-deer-flow-v2]], run intake-deer-flow-0902-v2)
+
+Source-tree application added (python, against the source's own clone at
+`08b27aef`), from the v2 design record's catch: the tree realises this
+subject's forces one layer up from where the corpus wrote them. The design
+record and its routing count live in [[2026-09-02-deer-flow-v2-replication]];
+the catch, the anchors verified against the fresh clone, and what the tree
+adds to the technique are in the application document itself.
+
+## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
+
+New technique `liveness-proof-reclaim`: when legitimate job duration is unbounded no lease TTL is pickable, so a stale holder is reclaimed only on proof the holder is dead (an identity probe), never on a timer. Argued as a technique rather than a lease-renewal amendment: every rule there is parameterised on a renewable TTL and never reaches the holder that cannot renew. Spine item 2 gained the clause. Source-tree application. Deviations: the source keeps an alive-but-hung holder busy forever by design; reclaim no-ops off one platform with no runtime warning (the run`s task row).
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique, +1 application. **`no-unrestorable-state-at-a-suspension-point`**
+(`shared_with: [background-jobs, concurrency-guards]`) — a missing **stage**, and
+the run's highest-confidence finding.
+
+The subject owned the recovery and the request protocol thoroughly:
+`step-position-and-resumability`, `job-progress-and-cancellation`,
+`cancellation-attribution`, `drain-and-shutdown`. **Every one presumes the
+interrupted party survives to participate** — it polls a token, writes a
+checkpoint, runs a cleanup path, is later found and reaped.
+
+The missing regime is the other one: work destroyed between two operations, with
+no notification, no cleanup path and no reaper on its side. "Checked at safe
+points" is the code *choosing* when to be interruptible; the inverse rule is that
+the code does not choose, so every suspension point must already be a safe point —
+a design act performed before any recovery machinery is reachable.
+
+Note that `step-position-and-resumability` guarantees at-least-once per *step* and
+says nothing about state held *within* a step across a suspension. That is the gap.
+The corpus already applied the rule correctly twice without stating it
+(`in-flight-dedup.md:30`; a metered-work gate in the recruiting bundle, cited in
+prose only — no cross-bundle links).
+
+**Application (`rust`, fleet project, `applied: experiment`, `ab_verdict:
+not-better`).** The tree satisfies the rule across all twelve applications that
+checkpoint, by a shape convention — progress marker and accumulators in one
+atomically-saved blob. Arm A (contract as prose) 12/12 compliant; arm B (declared
+and checked) found the same 12, zero additional. The enforcement proposal is not
+an improvement on a fully compliant population. **Return when the checkpointing
+population outgrows one reviewer, or when an application first checkpoints an
+accumulator its own marker does not gate.** The structural fact: safety is real,
+compliance is total, and the mechanism is convention the runtime cannot inspect.

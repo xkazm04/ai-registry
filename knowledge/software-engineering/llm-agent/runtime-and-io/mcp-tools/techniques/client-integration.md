@@ -4,9 +4,9 @@ type: technique
 subject: mcp-tools
 technique: client-integration
 status: forged
-laws: [creation-names-reaper, gate-sees-target]
+laws: [creation-names-reaper, gate-sees-target, absent-guard-is-loud]
 shared_with: []
-use_when: [reviewing an install flow that writes a spawn command, deciding which tool calls stop for a human, two servers exporting the same tool name]
+use_when: [reviewing an install flow that writes a spawn command, deciding which tool calls stop for a human, two servers exporting the same tool name, a server reading an elicitation response as approval]
 ---
 
 # Client integration
@@ -109,6 +109,43 @@ response to the declared structure, and let the user decline without the
 transcript treating decline as an error. With sampling deprecated, elicitation
 is the one channel by which a server reaches the human; guard its authenticity
 accordingly.
+
+## The server's half of the elicitation contract
+
+Those obligations are the host's. The server that *asks* has its own, and
+that is where the defect usually lives, because the answer arrives in two
+places at once and only one of them is the decision.
+
+- **The envelope is not the decision.** The transport-level response carries
+  an action; the structured payload carries the user's actual selection. A
+  client that submits the form returns action *accept* even when the user
+  chose the reject option — their choice lives in the payload field the
+  elicitation's own schema declared required. A server that reads only the
+  envelope therefore converts every rejection into an approval. Require
+  **both** the envelope action and the declared decision field to say accept;
+  anything else is not approval. The gate must read the field the schema
+  declared, not the wrapper the transport supplied
+  ([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+- **Absent capability is a denial, not a default.** A client that does not
+  support elicitation at all has the call rejected — never waved through on
+  the grounds that consent could not be collected
+  ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)). Fail
+  closed, because that client is precisely the one least able to show a
+  consent prompt.
+- **An elicitation that throws is a denial too.** Any exception in the consent
+  round trip resolves to not-approved.
+- **All of these return a result, not a protocol error.** The call was valid;
+  the user declined. That is an outcome addressed to the model, which can
+  explain it and choose differently — the two-channel rule of
+  [tool-schema-design](./tool-schema-design.md), applied to consent. A consent
+  failure routed through the protocol channel kills a conversation that could
+  have recovered.
+
+The general shape is worth naming: a consent mechanism has **four distinct
+not-approved outcomes** — capability absent, envelope-accept with
+payload-reject, explicit decline, and mechanism error. A server that collapses
+them into a single boolean will get at least one of them wrong, silently, and
+in the permissive direction.
 
 ## Failure at the seam
 

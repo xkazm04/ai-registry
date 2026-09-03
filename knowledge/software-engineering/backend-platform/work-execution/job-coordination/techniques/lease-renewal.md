@@ -73,6 +73,69 @@ generator. The completion write is fenced like every other — "set completed
 where still running and generation matches" — so a slow executor that was
 lawfully replaced loses the finish-line race politely.
 
+## Absent is not lost, and a teardown is a held state
+
+The two-way channel above says a renewal reporting zero rows means the
+lease is no longer this executor's. That sentence hides two different
+facts, and a store that keeps leases *separately* from the work they
+govern forces them apart:
+
+- **Lapsed** — the lease key is simply absent. Nobody holds it. The store
+  restarted without persistence, evicted the key under memory pressure,
+  or the holder's own renewal fell behind the TTL.
+- **Lost** — a peer holds it. A reaper expired it and a successor took
+  over; an operator requeued; a takeover happened.
+
+Collapsing the two is how a store flush becomes a fleet-wide eviction:
+every live holder renews, every renewal finds no key, every holder reads
+that as *lost* and drops its work at once — while nothing was wrong with
+any of them. So renewal **re-establishes** on lapsed and **stops** on
+lost, and an unanswerable store on the renewal path is *unknown* rather
+than lost: the holder keeps working and retries, because failing closed
+there evicts every live executor the moment the store blinks. That is the
+one deliberately fail-open path. Adoption and reaping stay fail-closed —
+a store that cannot answer is read as "peer-owned", so an outage never
+turns live peers' work into orphans.
+
+The flush has a second face, on the reaper's side: an absent lease looks
+exactly like an orphan, and a reaper that adopts on first sight adopts
+every live holder's work one renewal tick before each holder republishes.
+Require an untracked item to be seen unowned across a **full TTL** before
+adoption, with any republish resetting the clock; a live owner republishes
+within one renewal interval, which is shorter than the TTL by construction,
+and a genuinely dead owner never does. Skip the grace where the store
+cannot see peers at all — there it can only delay.
+
+Two more distinctions follow once a lease governs a *resource* rather than
+a job. **A lease answers "who reaps this", not "who may use it."** Split
+the operation in two: an unconditional *take* on the acquire path, because
+a resource keyed deterministically by its owner legitimately lands on a
+different instance next turn and a conditional claim would strand it until
+the old lease expired; and a conditional *claim* — unowned or already mine
+— that gates every adopt and reap path. And give the lease a state: *owned*
+versus *being destroyed*. A take is refused against a destroying lease, so
+the resource cannot be re-acquired between a destroy path's claim and its
+actual stop.
+
+**The destroying state is held, not written.** Written once, it carries the
+ordinary TTL and nothing refreshes it — a stop that outlives the TTL lets a
+peer take the resource mid-stop, which reopens the window the state exists
+to close. Refresh the marker on the renewal cadence for the stop's whole
+duration, and make the **final release the heartbeat's own last act**, after
+its loop has stopped: a refresh still in flight when the caller releases
+would otherwise land after the release and re-mark a resource whose stop
+already completed. Keep the TTL finite on purpose — the heartbeat dies with
+its process, so a destroyer that crashes mid-stop still frees the resource
+one TTL later instead of marking it undestroyable forever.
+
+The condition, from a tree where none of this applied: where the lease is a
+column on the same durable row as the work, and every write is
+attempt-fenced, a renewal that updates zero rows has one meaning — the
+attempt is over — and absent and lost are one fact with nothing to
+distinguish. The distinctions above are for a lease store that lives apart
+from the resource it governs and can lose or serve state independently of
+it.
+
 ## Renewal can carry truth, but truth must not gate renewal
 
 The renewal write is a natural bus for cheap liveness metadata — current
@@ -89,6 +152,53 @@ explicitly** rather than letting it lapse, so a successor takes over
 immediately instead of waiting out the stale window. The stale window is
 the price of *crash* detection; paying it on every orderly restart is
 pure waste.
+
+## Renewal must not queue behind the work
+
+The stall the previous section guards against — renewal waiting on progress
+computation — has a quieter twin: renewal waiting on the *resources* the
+work holds. The renewal is a write, and a write needs a connection, a
+transaction slot, a writer lock. If it takes those from the same bounded
+pool the work draws on, then under exactly the load the lease exists to
+survive, the renewal queues behind the work: the pool is full of long
+transactions, the renewal's acquire times out, the executor logs "renewal
+failed, will retry", and after a few retries a live executor that was
+merely busy is reaped as dead. A storage backend for a secrets server
+shipped precisely this — its transaction pool was sized to the connection
+pool, so a burst of transactions starved the high-availability lock's own
+renewal — and the fix was one line: the transaction limit is the connection
+limit minus one, so the lock's heartbeat and non-transactional operations
+always have a slot.
+
+The rule is a reservation, and it has an engine-shaped condition:
+
+- **On a pooled multi-writer engine, reserve capacity for the control
+  path.** The renewal — and the lock acquisition, and whatever else proves
+  liveness — draws from a slot the work cannot take: a dedicated connection,
+  or a cap on the work's transactions set one below the pool's size. The
+  measurable is the renewal's wait under a saturated pool: with the
+  reservation it is bounded by the renewal itself; without it, by the
+  longest transaction ahead of it.
+- **On a single-writer engine the reservation does not exist, and
+  pretending it does makes things worse.** An embedded store with one
+  serialized writer queues every write, on every connection, behind the
+  write in progress; a dedicated renewal connection gains nothing and
+  *loses* something, because it carries a busy-timeout that converts
+  "waited behind a long write" into "failed", where the shared writer's
+  queue would have waited and succeeded. Measured with a managed project's
+  own parameters (busy-timeout 5 s, TTL 120 s, renewal every 40 s): a 6 s
+  write held the shared-writer renewal for 6 s and it succeeded; the
+  dedicated connection failed at 5.5 s with the engine's lock error. Here
+  the bound to state is different — **the longest write transaction in the
+  system must be shorter than the TTL minus the renewal cadence** — and it
+  is a property of the work, enforced by chunking large writes, not by a
+  slot the engine cannot give.
+
+Which engine you are on decides which rule applies, and the tell is whether
+two connections can hold write transactions at once. Either way the check
+is the same: name the resource the renewal write needs, find who else holds
+it under load, and put a number on how long the renewal can wait before the
+lease is lost.
 
 ## Expiry has an owner and a policy
 

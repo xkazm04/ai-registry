@@ -1,7 +1,7 @@
 ---
 subject: embedded-db
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -85,3 +85,7 @@ test opens a store named without the extension and asserts the sidecar. Applied
 at `code`, `ab-paired` 2/6 vs 6/6 over store names, **shipped** to the rust
 consumer with the test (rust application). Third application for the subject's
 journal technique, first on the rust stack.
+
+## 2026-09-02 - `/intake` hermes-agent (run `intake-hermes-0902`, intake 2.1.1, Opus workers)
+
+New technique `corruption-class-response`: the corruption CLASS decides the response - a corrupt derived index detaches (drop triggers, mark stale, serve the slow path) and keeps writing; bare structural corruption quarantines the handle and stops writing, because a handle that kept writing ~50 minutes after the first structural error checkpointed pages under wrong numbers and turned a readable file into one that would not open. None of the eight existing techniques stated the split (extension-lifecycle applies the derived/canonical distinction to what to store, not to what a damaged handle may do). Source-tree application `python--corruption-class-response`. Fleet seams by scope: pumper and tracklight both admit the force; the fleet map lists both as present for the subject, so the next step is a registry-map state on the pair, not a proposal.
