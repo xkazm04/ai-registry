@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: retrieval
-last_touched: 2026-08-27
+last_touched: 2026-09-03
 touched_by: research, external-reconcile, intake
 dry_streak: 0
 ---
@@ -130,3 +130,7 @@ section of the technique rather than a footnote of the application.
 ## Declines
 
 None.
+
+## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
+
+New technique `query-decomposition-before-the-lanes` - a MISSING STAGE in a mature subject: the golden path ran query → per-lane execution with nothing between; the source decomposes the query into abstraction tiers (specifics to the entity index, themes to the relation and summary index) so lane choice is a property of the decomposed query rather than of a caller mode flag. The pipeline sentence gained one arrow and one sentence. Source-tree application. Deviations: the caller flag still outranks the decomposition at each tier; the keyword cache hashes the mode the prompt never sees; an all-empty fallback refuses queries over fifty characters and labels it only in a log. Boundary in prose to the sibling subject forged the same run that writes the graph the lanes read.

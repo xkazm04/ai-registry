@@ -1,7 +1,7 @@
 ---
 subject: job-coordination
 domain: software-engineering
-last_touched: 2026-08-28
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -144,3 +144,35 @@ has one meaning there and the split protects nothing. The amendment's
 closing paragraph now says when it applies. Separately, that tree discards
 its heartbeat's boolean - the base technique's own two-way-channel rule,
 unbuilt - recorded in the project's ledger as the few-line change owed.
+
+
+## 2026-09-02 - /intake openbao (run intake-openbao-0902)
+
+One amendment, one application, and the run's most useful `not-better`.
+
+- `lease-renewal` gained "Renewal must not queue behind the work": the
+  renewal is a write and needs a slot; if it shares a bounded pool with
+  the work, a saturated pool reaps a live executor. The source's fix
+  (transaction limit one below the connection limit) is the multi-writer
+  half. **The single-writer half inverts it**, measured with a fleet
+  project's own parameters (busy-timeout 5 s, TTL 120 s, renew at 40 s):
+  a dedicated renewal connection failed at 5.5 s where the shared writer
+  waited 6 s and succeeded. The bound on that engine is "longest write <
+  TTL - renewal cadence", a property of the work.
+- Applied to the job runner's store (`sql--lease-renewal`, `experiment`,
+  `ab-paired`, `not-better`) - the condition is written into the
+  technique. The server-store half (pool of 5, no reserved slot) is a
+  prediction the store's own write-lock-wait meter could measure.
+
+## 2026-09-02 - intake `deer-flow` v2 back half ([[2026-09-02-deer-flow-v2]], run intake-deer-flow-0902-v2)
+
+Source-tree application added (python, against the source's own clone at
+`08b27aef`), from the v2 design record's catch: the tree realises this
+subject's forces one layer up from where the corpus wrote them. The design
+record and its routing count live in [[2026-09-02-deer-flow-v2-replication]];
+the catch, the anchors verified against the fresh clone, and what the tree
+adds to the technique are in the application document itself.
+
+## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
+
+New technique `liveness-proof-reclaim`: when legitimate job duration is unbounded no lease TTL is pickable, so a stale holder is reclaimed only on proof the holder is dead (an identity probe), never on a timer. Argued as a technique rather than a lease-renewal amendment: every rule there is parameterised on a renewable TTL and never reaches the holder that cannot renew. Spine item 2 gained the clause. Source-tree application. Deviations: the source keeps an alive-but-hung holder busy forever by design; reclaim no-ops off one platform with no runtime warning (the run`s task row).

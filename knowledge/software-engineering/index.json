@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 161,
-  "techniques": 1138,
-  "applications": 644,
+  "subjects": 163,
+  "techniques": 1155,
+  "applications": 651,
   "laws": 13,
   "categories": [
    "ui-surfaces",
@@ -19,7 +19,7 @@
    "engineering-assessment"
   ],
   "layout": "nested",
-  "use_when_coverage": "1138/1138",
+  "use_when_coverage": "1155/1155",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -259,7 +259,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
-   "digest": "sha256:4264b4ab224eab61",
+   "digest": "sha256:07af5cf0bc47cf19",
    "techniques": [
     {
      "slug": "admission-vocabulary",
@@ -3099,7 +3099,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/browser-credential-boundary/browser-credential-boundary.md",
-   "digest": "sha256:3815403fe774a0a5",
+   "digest": "sha256:95eefa55abb98343",
    "techniques": [
     {
      "slug": "aggregate-view-not-base-table",
@@ -3113,6 +3113,21 @@
       "a public client needs counts computed from identifying rows",
       "revoking a browser grant that a feature still depends on",
       "a view is about to be published to an anonymous role"
+     ]
+    },
+    {
+     "slug": "allowlisted-operator-stream",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a debug or log surface renders requests that carried a credential",
+      "deciding whether redaction fails open or closed when a field is added",
+      "an operator surface is protected only when a token happens to be configured"
      ]
     },
     {
@@ -3192,6 +3207,13 @@
      "technique": "public-vs-server-env-split",
      "file": "knowledge/software-engineering/security/browser-credential-boundary/applications/next--public-vs-server-env-split.md",
      "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "node",
+     "technique": "allowlisted-operator-stream",
+     "file": "knowledge/software-engineering/security/browser-credential-boundary/applications/node--allowlisted-operator-stream.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@20"
     },
     {
      "stack": "sql",
@@ -5704,7 +5726,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/security/credential-vault/credential-vault.md",
-   "digest": "sha256:3c1654d29c9db3d0",
+   "digest": "sha256:b39f2df1038cbd17",
    "techniques": [
     {
      "slug": "acquisition",
@@ -5847,7 +5869,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256:3d1c8c00a1a08c9a",
+   "digest": "sha256:8b3b90769da6100c",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -5862,6 +5884,22 @@
       "deciding join versus fetch-and-stitch",
       "batch works in tests dies at four thousand ids",
       "a per-field resolver cannot take a list"
+     ]
+    },
+    {
+     "slug": "capability-declared-in-the-type",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "absent-guard-is-loud",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "more implementations sit behind one store interface than a reader can hold in their head",
+      "deciding whether a missing operation is a construction error or a runtime refusal",
+      "an optional store operation fails with an attribute lookup deep inside a query",
+      "a contributed backend claims a capability it does not have"
      ]
     },
     {
@@ -5953,6 +5991,22 @@
      ]
     },
     {
+     "slug": "sequence-token-write-ordering",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-validation-door",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one logical stream spans stores with different durability guarantees",
+      "two writes in the same clock tick have to be ordered",
+      "a replay or repair pass must decide which of two records is newer",
+      "deciding whether a tie between writers may be broken arbitrarily"
+     ]
+    },
+    {
      "slug": "transactions-and-units-of-work",
      "status": "forged",
      "laws": [
@@ -5993,6 +6047,13 @@
      "technique": "transactions-and-units-of-work",
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/node--transactions-and-units-of-work.md",
      "verified_on": "2026-08-30"
+    },
+    {
+     "stack": "python",
+     "technique": "capability-declared-in-the-type",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/python--capability-declared-in-the-type.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "python",
@@ -10399,7 +10460,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/import-normalization/import-normalization.md",
-   "digest": "sha256:af7ebd51ebd15b69",
+   "digest": "sha256:5dc68d3c213d1a94",
    "techniques": [
     {
      "slug": "adapter-capability-tables",
@@ -10413,6 +10474,21 @@
       "deciding whether adding a foreign type means a row or code",
       "a specific row never matches because a generic row wins",
       "unmapped types quietly resolving into plausible host names"
+     ]
+    },
+    {
+     "slug": "durable-intermediate-representation",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "creation-names-reaper",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "parsing is the expensive stage and downstream knobs will be retuned",
+      "the parser is a third party that may not still be installed",
+      "a re-process would otherwise re-read the original artifact through a non-deterministic converter"
      ]
     },
     {
@@ -10645,7 +10721,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256:86615db02b7604b2",
+   "digest": "sha256:f6ebcb692899574a",
    "techniques": [
     {
      "slug": "job-observability",
@@ -10692,6 +10768,22 @@
      ]
     },
     {
+     "slug": "liveness-proof-reclaim",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "identity-survives-reuse",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "no timeout is defensible because legitimate job duration is unbounded",
+      "the holder cannot run a renewal loop",
+      "deciding between an expiry timer and a death probe as the reclaim trigger"
+     ],
+     "stage": "team"
+    },
+    {
      "slug": "step-position-and-resumability",
      "status": "forged",
      "laws": [
@@ -10732,6 +10824,13 @@
      "stack": "python",
      "technique": "lease-renewal",
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/python--lease-renewal.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "liveness-proof-reclaim",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/python--liveness-proof-reclaim.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.12"
     },
@@ -11127,6 +11226,87 @@
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/applications/react--scroll-to-hydrate-then-retry.md",
      "verified_on": "2026-08-22",
      "verified_against": "react@19"
+    }
+   ]
+  },
+  "llm-extracted-entity-graph": {
+   "category": "llm-agent",
+   "subcategory": "prompt-and-context",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/llm-extracted-entity-graph.md",
+   "digest": "sha256:f0fba0e9fe834732",
+   "techniques": [
+    {
+     "slug": "accumulate-then-threshold-merge",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a second passage describes an entity the graph already holds",
+      "a node's description grows without limit",
+      "re-ingest in a different order produces a different graph",
+      "deciding when to collapse a node's accumulated evidence"
+     ]
+    },
+    {
+     "slug": "recall-passes-with-a-declared-cap",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a single extraction pass returns a plausible handful",
+      "deciding how many further passes a passage gets",
+      "a re-prompt loop that started inventing entities",
+      "extraction that was skipped for budget and reported as complete"
+     ]
+    },
+    {
+     "slug": "recoverable-fan-out-write",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one fact written to a graph store and a vector index with no transaction",
+      "a node present in the store and unreachable through the lane",
+      "deciding what a crashed ingest left behind",
+      "removing one source from a node many sources wrote"
+     ]
+    },
+    {
+     "slug": "surface-form-identity-and-its-risk",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "unknown-is-not-a-value",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a node key when the only candidate is a name",
+      "deciding whether a normalisation rule may collapse two spellings",
+      "a popular entity that retrieval never reaches",
+      "deciding whether this corpus should have a graph at all"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "surface-form-identity-and-its-risk",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/applications/python--surface-form-identity-and-its-risk.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -12478,7 +12658,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
-   "digest": "sha256:76539942230744aa",
+   "digest": "sha256:dbecc623c853ebb5",
    "techniques": [
     {
      "slug": "data-migrations",
@@ -12522,6 +12702,22 @@
       "deciding what a guard may conclude",
       "add and drop steps undo each other on replay",
       "pricing a guard against the converged store"
+     ]
+    },
+    {
+     "slug": "migrate-from-data-shape",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the store has nowhere to write a version marker atomically with the data it describes",
+      "a store can be opened between runs by another release or by hand",
+      "deciding what an unrecognised store shape means",
+      "a crash left half the records converted and half not"
      ]
     },
     {
@@ -12702,7 +12898,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:17b52cb9b6ed1f7b",
+   "digest": "sha256:ab6e4c216d70f822",
    "techniques": [
     {
      "slug": "cache-continuity",
@@ -13356,6 +13552,116 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/applications/rust--project-identity-and-joins.md",
      "verified_on": "2026-08-29",
      "verified_against": "rust@1.96"
+    }
+   ]
+  },
+  "multi-provider-gateway-plane": {
+   "category": "backend-platform",
+   "subcategory": "resilience",
+   "status": "forged",
+   "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/multi-provider-gateway-plane.md",
+   "digest": "sha256:4b90a2506025fcd2",
+   "techniques": [
+    {
+     "slug": "adapter-direction-asymmetry",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the adapter interface for many upstreams at once",
+      "a mapping table has grown conditionals and now needs a debugger",
+      "an upstream with a wholly different auth scheme is distorting the shared pipeline",
+      "nobody can answer which parameters an upstream actually supports without reading code"
+     ]
+    },
+    {
+     "slug": "caller-scoped-normalization-strictness",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a stock client library throws on a termination reason your gateway passed through",
+      "an application chose this gateway for a capability normalization erases",
+      "deciding whether strict compatibility is the default or the opt-in",
+      "a normalized response quietly reported a truncated answer as complete"
+     ]
+    },
+    {
+     "slug": "per-provider-stream-framing",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one upstream's stream stalls while the others work",
+      "an upstream frames one of its endpoints differently from the rest",
+      "an upstream that is not an event stream at all must ride the same interface",
+      "a chunk transform needs a value no single chunk contains"
+     ]
+    },
+    {
+     "slug": "policy-verdict-in-the-status-space",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operator must write a failover rule on \"policy refused\" without a body parser",
+      "a content check's denial is being retried against every candidate",
+      "deciding whether to mint a status outside the registered space",
+      "a refusal is arriving at the caller as a provider outage"
+     ]
+    },
+    {
+     "slug": "router-versus-candidate-failure",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one config error burned every candidate in the fallback list",
+      "a dashboard blames a provider for a failure the gateway generated",
+      "deciding what breaks a failover loop early",
+      "a predicate the router could not evaluate was retried against three upstreams"
+     ]
+    },
+    {
+     "slug": "strategy-tree-with-inherited-policy",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a flat routing rule list cannot express fallback over a load-balanced pair",
+      "a child config silently erased a policy field its parent set",
+      "deciding whether an absent policy key means inherit or off",
+      "a breaker keyed to a provider name cannot tell two placements of that provider apart"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "strategy-tree-with-inherited-policy",
+     "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/applications/node--strategy-tree-with-inherited-policy.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@22"
     }
    ]
   },
@@ -16992,7 +17298,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256:a39954aa3e6d0fcf",
+   "digest": "sha256:50e62f0f2ccdfa53",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -17037,6 +17343,22 @@
       "adding raw scores from incomparable scales",
       "nearest-neighbor hits leaking across scopes",
       "fusing a lane whose input is another lane's output"
+     ]
+    },
+    {
+     "slug": "query-decomposition-before-the-lanes",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a thematic question keeps returning specific items and a specific question keeps returning themes",
+      "the caller picks the lane with a mode flag",
+      "indexes that answer at different levels of abstraction",
+      "wiring a no-retrieval-machinery baseline that someone will actually run"
      ]
     },
     {
@@ -17143,6 +17465,13 @@
      "verified_on": "2026-08-22"
     },
     {
+     "stack": "python",
+     "technique": "query-decomposition-before-the-lanes",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/python--query-decomposition-before-the-lanes.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "python@3.12"
+    },
+    {
      "stack": "rust",
      "technique": "embedding-lifecycle",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--embedding-lifecycle.md",
@@ -17182,7 +17511,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
-   "digest": "sha256:89b3995f37420227",
+   "digest": "sha256:9afa5f8e11707625",
    "techniques": [
     {
      "slug": "backoff-design",
@@ -17192,7 +17521,8 @@
      "use_when": [
       "tuning base factor and cap for a retry ladder",
       "recovery collapses under synchronized retries",
-      "backoff resets on every accepted handshake"
+      "backoff resets on every accepted handshake",
+      "a stated retry-after is longer than the remaining budget"
      ]
     },
     {
@@ -17206,7 +17536,8 @@
      "use_when": [
       "deciding whether a dependency is down for everyone",
       "recovery jobs keep lifting cooldowns they should not",
-      "denied calls look like failed calls"
+      "denied calls look like failed calls",
+      "every candidate in a pool is open at once"
      ]
     },
     {
@@ -17261,7 +17592,8 @@
      "use_when": [
       "deciding how much worse resilience can make an outage",
       "one restart wakes every queued caller at once",
-      "an outage flooding the log with duplicate errors"
+      "an outage flooding the log with duplicate errors",
+      "choosing the default retry policy for a component every caller passes through"
      ]
     },
     {
@@ -17287,6 +17619,13 @@
      "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/next--suspension-is-not-failure.md",
      "verified_on": "2026-08-31",
      "verified_against": "next@16"
+    },
+    {
+     "stack": "node",
+     "technique": "circuit-breakers",
+     "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/applications/node--circuit-breakers.md",
+     "verified_on": "2026-09-02",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
@@ -22384,6 +22723,7 @@
     "background-jobs/startup-sweeps",
     "batch-undo-commit-window/freeze-refresh-during-window",
     "browser-credential-boundary/aggregate-view-not-base-table",
+    "browser-credential-boundary/allowlisted-operator-stream",
     "browser-credential-boundary/broker-proxy-attaches-secret",
     "browser-credential-boundary/default-deny-plus-defaulted-owner",
     "browser-credential-boundary/public-vs-server-env-split",
@@ -22539,6 +22879,7 @@
     "metric-forecasting/projection-presentability-gates",
     "migrations/error-propagation",
     "migrations/idempotent-steps",
+    "migrations/migrate-from-data-shape",
     "migrations/pre-migration-snapshots",
     "migrations/schema-drift-detection",
     "migrations/transactional-ddl",
@@ -22904,6 +23245,8 @@
     "judgment-guardbands/deterministic-backbone",
     "knowledge-registry/deterministic-seeding",
     "lazy-section-addressability/scroll-to-hydrate-then-retry",
+    "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
+    "llm-extracted-entity-graph/recoverable-fan-out-write",
     "long-form-reading-surface/scroll-spy-reading-band",
     "machine-authored-documentation/evidence-without-verdict",
     "machine-authored-documentation/stale-artifact-on-failed-write",
@@ -22933,6 +23276,7 @@
     "metrics-rollups/stored-rollups",
     "migrations/error-propagation",
     "migrations/idempotent-steps",
+    "migrations/migrate-from-data-shape",
     "migrations/transactional-ddl",
     "model-routing/capability-floors",
     "model-routing/failover-horizon",
@@ -22941,6 +23285,9 @@
     "module-design/structural-improvement-loop",
     "motion/content-bearing-degradation",
     "multi-project/passive-signal-ingestion",
+    "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
+    "multi-provider-gateway-plane/per-provider-stream-framing",
+    "multi-provider-gateway-plane/router-versus-candidate-failure",
     "observability-telemetry/remote-telemetry-economics",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
@@ -23381,6 +23728,7 @@
     "knowledge-registry/catalog-as-sync-key",
     "knowledge-registry/per-contributor-aggregation",
     "knowledge-registry/standard-versus-consumer-split",
+    "llm-extracted-entity-graph/accumulate-then-threshold-merge",
     "long-form-reading-surface/scroll-spy-reading-band",
     "long-form-reading-surface/server-parsed-once-reused",
     "machine-authored-documentation/declared-truth-boundary",
@@ -23423,6 +23771,7 @@
     "module-design/scoreable-designs-are-built-not-argued",
     "multi-project/cross-project-comparison",
     "multi-project/portfolio-drill-hierarchy",
+    "multi-provider-gateway-plane/router-versus-candidate-failure",
     "observability-telemetry/remote-telemetry-economics",
     "observability-telemetry/rotation-and-retention",
     "optional-dependency-degradation/fallback-retirement-condition",
@@ -23591,6 +23940,7 @@
     "conversation-orchestration/recall-transparency",
     "conversation-orchestration/structured-visual-replies",
     "conversation-orchestration/two-surface-doctrine",
+    "data-access/sequence-token-write-ordering",
     "delivery-analytics/post-landing-repair-density",
     "dependency-declaration/logical-name-or-address",
     "dependency-declaration/progressive-resolution",
@@ -23603,7 +23953,9 @@
     "fleet-orchestration/absent-status-passthrough",
     "fleet-orchestration/completion-claim-verification",
     "hitl-approval/oracle-before-gate",
+    "job-coordination/liveness-proof-reclaim",
     "knowledge-registry/verification-is-contributed",
+    "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
     "machine-authored-documentation/declared-truth-boundary",
     "machine-authored-documentation/evidence-without-verdict",
     "machine-authored-documentation/three-gate-acceptance",
@@ -23611,7 +23963,10 @@
     "mcp-tools/egress-argument-gating",
     "measurement-honesty/instrument-exposure-control",
     "migrations/error-propagation",
+    "migrations/migrate-from-data-shape",
     "model-routing/quality-axis-separation",
+    "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
+    "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/fallback-retirement-condition",
     "p2p-networking/peer-state-honesty",
@@ -23619,6 +23974,7 @@
     "quality-gates/advancement-evidence-fields",
     "quality-gates/enforcement-binding",
     "quality-gates/fabrication-economics",
+    "retrieval/query-decomposition-before-the-lanes",
     "retrieval/structural-centrality-lane",
     "retry-backoff/suspension-is-not-failure",
     "session-continuation/compaction-checkpoint",
@@ -23695,6 +24051,7 @@
     "connector-catalog/matching-and-ranking",
     "cost-metering/reversible-debit-and-settle",
     "cost-metering/spend-attribution",
+    "data-access/sequence-token-write-ordering",
     "data-retention/erasure-requests",
     "data-viz/encoding-vocabulary",
     "delivery-analytics/post-landing-repair-density",
@@ -23741,10 +24098,12 @@
     "import-normalization/intermediate-representation",
     "ipc-contract/call-wrapping",
     "job-coordination/lease-renewal",
+    "job-coordination/liveness-proof-reclaim",
     "job-coordination/step-position-and-resumability",
     "judgment-guardbands/judgment-integrity-record",
     "knowledge-registry/verification-is-contributed",
     "lazy-section-addressability/always-present-anchor-wrappers",
+    "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
     "markdown-vault/vault-as-database",
@@ -23757,6 +24116,7 @@
     "multi-project/cross-project-comparison",
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-identity-and-joins",
+    "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
     "outbound-notifications/inbound-counterparts",
     "outbound-notifications/subscription-patterns",
     "p2p-networking/discovery-advertisement",
@@ -23903,6 +24263,7 @@
     "data-access/layering-rules",
     "data-access/query-construction",
     "data-access/read-models-and-projections",
+    "data-access/sequence-token-write-ordering",
     "data-retention/confirm-by-echo",
     "data-retention/destructive-override-floor",
     "data-retention/erasure-requests",
@@ -23938,6 +24299,7 @@
     "judgment-guardbands/score-guardband",
     "judgment-guardbands/self-audit-budget",
     "knowledge-registry/propose-then-adopt",
+    "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
     "machine-paced-delivery/scoped-delivery-access-for-agents",
     "markdown-vault/vault-as-database",
     "maturity-ladders/migrate-on-read",
@@ -23954,6 +24316,7 @@
     "module-design/structure-is-not-delegable",
     "multi-project/project-identity-and-joins",
     "multi-project/project-onboarding-lifecycle",
+    "multi-provider-gateway-plane/adapter-direction-asymmetry",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "outbound-notifications/channel-adapter-traits",
     "outbound-notifications/compose-at-the-locale-layer",
@@ -24051,6 +24414,7 @@
     "batch-undo-commit-window/deferred-write-window",
     "batch-undo-commit-window/flush-on-teardown",
     "batch-undo-commit-window/freeze-refresh-during-window",
+    "browser-credential-boundary/allowlisted-operator-stream",
     "build-economics/cache-budgeting",
     "build-economics/debug-artifact-economics",
     "ci-execution-trust/secret-materialization-discipline",
@@ -24127,10 +24491,13 @@
     "hitl-approval/severity-sla-ladder",
     "hitl-approval/unattended-mode",
     "i18n/locale-runtime",
+    "import-normalization/durable-intermediate-representation",
     "import-normalization/review-before-commit",
     "ipc-contract/drift-gates",
     "job-coordination/lease-renewal",
+    "job-coordination/liveness-proof-reclaim",
     "lazy-section-addressability/scroll-to-hydrate-then-retry",
+    "llm-extracted-entity-graph/recoverable-fan-out-write",
     "machine-authored-documentation/stale-artifact-on-failed-write",
     "machine-paced-delivery/scoped-delivery-access-for-agents",
     "markdown-vault/editor-interop",
@@ -24148,6 +24515,7 @@
     "multi-project/passive-signal-ingestion",
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-onboarding-lifecycle",
+    "multi-provider-gateway-plane/per-provider-stream-framing",
     "observability-telemetry/crash-record-storage",
     "observability-telemetry/rotation-and-retention",
     "optional-dependency-degradation/fallback-retirement-condition",
@@ -24313,6 +24681,7 @@
     "credential-vault/health-probing",
     "credential-vault/rotation-and-remediation",
     "credential-vault/token-refresh-lifecycle",
+    "data-access/capability-declared-in-the-type",
     "data-access/cross-driver-invariant-parity",
     "data-access/query-construction",
     "data-access/row-mapping",
@@ -24421,6 +24790,8 @@
     "multi-project/passive-signal-ingestion",
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-onboarding-lifecycle",
+    "multi-provider-gateway-plane/adapter-direction-asymmetry",
+    "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
     "observability-telemetry/log-architecture",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/per-variable-blast-radius",
@@ -24461,6 +24832,7 @@
     "repo-manifest-standard/pointers-not-embeds",
     "repo-manifest-standard/semver-additive-evolution",
     "repo-manifest-standard/spec-ships-with-artifact",
+    "retrieval/query-decomposition-before-the-lanes",
     "retrieval/retrieval-triggering",
     "retry-backoff/error-classification-for-retry",
     "runner-fleet/capability-typed-queues",
@@ -24539,6 +24911,7 @@
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
     "credential-vault/token-refresh-lifecycle",
+    "data-access/capability-declared-in-the-type",
     "deployment-contract/deploy-gate-coupling",
     "deployment-contract/environment-promotion",
     "document-text-extraction/extraction-yield-bands",
@@ -24548,6 +24921,8 @@
     "knowledge-registry/verification-is-contributed",
     "machine-authored-documentation/declared-truth-boundary",
     "machine-authored-documentation/three-gate-acceptance",
+    "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
+    "multi-provider-gateway-plane/router-versus-candidate-failure",
     "optional-dependency-degradation/guarded-singleton-accessor",
     "optional-dependency-degradation/refusal-is-not-failure",
     "prompt-assembly/deferred-interface-invalidation",
@@ -24646,12 +25021,15 @@
     "health-checks/probe-caching",
     "hitl-approval/severity-sla-ladder",
     "i18n/catalog-architecture",
+    "import-normalization/durable-intermediate-representation",
     "ipc-contract/generated-type-contracts",
     "judgment-guardbands/confidence-weighted-blend",
     "judgment-guardbands/judgment-integrity-record",
     "knowledge-registry/catalog-as-sync-key",
     "knowledge-registry/deterministic-seeding",
     "knowledge-registry/per-contributor-aggregation",
+    "llm-extracted-entity-graph/accumulate-then-threshold-merge",
+    "llm-extracted-entity-graph/recoverable-fan-out-write",
     "long-form-reading-surface/fixed-chrome-offset-budget",
     "long-form-reading-surface/server-parsed-once-reused",
     "markdown-vault/link-graph-extraction",
@@ -24761,11 +25139,13 @@
     "agent-memory/probe-without-write-back",
     "agent-runtime-assembly/honest-hook-registry",
     "agent-runtime-assembly/observer-and-mutator-surfaces",
+    "browser-credential-boundary/allowlisted-operator-stream",
     "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
     "conformance-checking/declared-deviation-register",
+    "data-access/capability-declared-in-the-type",
     "data-access/cross-driver-invariant-parity",
     "deployment-contract/direct-push-delivery",
     "document-text-extraction/recognition-boundary-and-escalation",
@@ -24773,7 +25153,9 @@
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
     "fleet-orchestration/brief-carries-the-session",
+    "import-normalization/durable-intermediate-representation",
     "knowledge-registry/verification-is-contributed",
+    "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/evidence-without-verdict",
     "machine-authored-documentation/three-gate-acceptance",
     "machine-paced-delivery/human-gate-capacity",
@@ -24782,6 +25164,7 @@
     "markdown-vault/knowledge-integrity-lint",
     "mcp-tools/transport-selection",
     "module-design/borrowed-surface",
+    "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
     "optional-dependency-degradation/absent-degrades-malformed-fails-fast",
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/refusal-is-not-failure",
@@ -24816,6 +25199,7 @@
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
+    "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/preregistered-kill-criterion",
     "plan-review/decision-sized-slicing",
     "plan-review/fresh-posture-self-challenge",
@@ -24824,6 +25208,7 @@
     "prompt-assembly/deferred-interface-invalidation",
     "prompt-assembly/task-envelope",
     "quality-gates/prose-rule-drift",
+    "retrieval/query-decomposition-before-the-lanes",
     "session-continuation/compaction-checkpoint",
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global"
    ]

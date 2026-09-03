@@ -5930,3 +5930,35 @@ been naming that zero for weeks:
 ### 2.2.0 - 2026-09-02 - applied at round 3 Phase 11
 
 - Phase 7.6 gains the peer shape (comparison study, closed verdicts, cap on the ranked features); Phase 2d counts NONE per system AND the HOME-IF-NEW clause across systems; Phase 7 states the witnessed `verified_against`. Mid-flight runs: none live at the bump (board held only this run). A run that loaded 2.1.x finishes on it.
+
+## 2.2.0 - 2026-09-03 - lightrag (round 4 of the 2.x series; first run on 2.2.0; Opus workers)
+
+- **A worker that loses its network mid-run is resumed, not re-run.** The front-half
+  worker and a nested reader both died on a DNS outage at the peer-check step, with the
+  deliverable unwritten. One message to the same worker id ("the outage is over, resume
+  from the peer check, write the file, do not re-read the tree") recovered fifty minutes of
+  reading. The worker did the honest thing on its own: every anchor marked `[V]` (verified
+  this run) or `[H]` (substance reported before the reader died, line number not
+  re-verified), and the forge worker's brief then said "re-derive every `[H]` line
+  number by opening the file" - it did, and found the line numbers had shifted. Rule for
+  the director: on a worker failure, check for the deliverable first, resume second,
+  re-dispatch last; and carry the `[H]`/`[V]` convention into every downstream brief.
+- **Both routing clauses fired on the same cluster, and the record stated both counts
+  first.** Whole tree nine or ten NONE, per system only one at three, HOME-IF-NEW three on
+  that same system - the cleanest signal the v2.2 text describes, and the worker refused
+  the repo-wide reading in the record's own words. No rule was needed mid-run. First round
+  where that is true.
+- **The peer shape held for a fourth project, on the opposite identity regime.** The
+  peer's value here is the discriminator itself: the fleet project builds the same object
+  registry-joined and gated, the source keys on the model's surface form, and the
+  corpus's civic subject had already drawn the line in its own words. A peer that is the
+  *other side* of a discriminator is worth more than a peer that is the same design.
+- **Directions waiting: 8 proposals, 0 ledger rows** at Phase 1 (personas 3, pof 1,
+  tracklight 3, pumper 1), all from the last twenty-four hours. Expected today; the
+  round-4 focus counts it, round 5 counts it again, and a third unchanged count returns
+  the cap.
+- **The one thing the director did that a worker could not:** resume the failed worker,
+  decide D1 out of the subject before the forge dispatch so two workers would not write
+  the same stage, and choose the task deviation. Everything else was review.
+- **Session crossed midnight.** `verified_on: 2026-09-02` on the subject's application
+  was the dispatch's date; the forge finished on 09-03. Harmless, recorded.

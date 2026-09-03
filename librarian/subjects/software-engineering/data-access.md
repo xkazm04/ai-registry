@@ -1,7 +1,7 @@
 ---
 subject: data-access
 domain: software-engineering
-last_touched: 2026-08-29
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -62,3 +62,7 @@ subject's forces one layer up from where the corpus wrote them. The design
 record and its routing count live in [[2026-09-02-deer-flow-v2-replication]];
 the catch, the anchors verified against the fresh clone, and what the tree
 adds to the technique are in the application document itself.
+
+## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
+
+Two techniques from a storage abstraction with 18 backends behind 4 interfaces: `capability-declared-in-the-type` (a capability is declared in the type when knowable at construction and checked at runtime only when not; a three-tier ladder - required member / declared data / refusing default; boundary to `cross-driver-invariant-parity`, whose prose list above two drivers does not scale past what one reader holds) and `sequence-token-write-ordering` (heterogeneous durability across stores means ordering rides a sequence token on every write, not a transaction that cannot span them; the token is policy input, not policy). Source-tree application `python--capability-declared-in-the-type` (witness: the CI matrix). Deviations: a declared `required_methods` key nothing evaluates; the capability read reflectively as a string at eight gates so a misspelling reads false forever; the token scoped to two of fifteen backends.

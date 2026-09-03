@@ -7,6 +7,7 @@ techniques:
   - format-detection
   - adapter-capability-tables
   - intermediate-representation
+  - durable-intermediate-representation
   - import-validation
   - review-before-commit
   - lossy-conversion-disclosure
@@ -131,6 +132,14 @@ minted at IR construction and survives everything downstream, including the
 user deselecting half the entities at review. Owned by
 [intermediate-representation](./techniques/intermediate-representation.md).
 
+The waist is transient by default, and there is one class of pipeline where
+that default inverts: when the *parse* is the expensive, non-deterministic,
+externally-dependent stage, the parsed form is persisted beside the source
+and every later reprocessing reads it instead of re-parsing — a waist between
+time periods rather than between formats, with the reaper, schema version and
+backfill path that persistence brings. Owned by
+[durable-intermediate-representation](./techniques/durable-intermediate-representation.md).
+
 ## An imported definition is untrusted input
 
 A foreign file is attacker-grade input wearing a colleague's name. It can be
@@ -231,6 +240,10 @@ metric that converts directly into a roadmap.
 - [intermediate-representation](./techniques/intermediate-representation.md) —
   the narrow waist: normalized entities, minted identity, provenance, and the
   loss ledger as IR citizens.
+- [durable-intermediate-representation](./techniques/durable-intermediate-representation.md)
+  — when the parsed form is persisted beside the source instead: parser
+  identity and version in the artifact, deferred-content placeholders, the
+  reuse guard that must not be optional, and the backfill obligation.
 - [import-validation](./techniques/import-validation.md) — bounded parsing, the
   single validation door, sink-aware sanitization, and secrets quarantine.
 - [review-before-commit](./techniques/review-before-commit.md) — the selection

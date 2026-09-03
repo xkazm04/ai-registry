@@ -76,6 +76,48 @@ belongs in the waiting line. This is the admission-time expression of the same
 rule [admission-vocabulary](./admission-vocabulary.md) applies to `invalid` —
 a request that could never run does not get a promise.
 
+## The door sits below the body reader
+
+"At the door" is a position, not a figure of speech, and the previous section
+leaves it unstated. When the charged resource is the payload itself, the
+transfer *is* the cost — so a ceiling evaluated after the framework has read
+the body has already paid what it exists to avoid, and the refusal is a
+receipt rather than a defence
+([gate-sees-target](../../../../_laws.md#gate-sees-target): a gate that runs
+downstream of the expense is measuring a fiction). Put the check on the raw
+transport read, outside every layer that would consume the stream, and give it
+two halves:
+
+- **Refuse on the declared figure without touching the stream at all.** A
+  well-behaved caller announces its size in the request metadata; refusing
+  there means the payload never leaves the sender and the protocol's
+  continue-handshake is never issued. This is the fast path and it is free.
+- **Enforce with a counting wrapper on the stream itself.** The declared figure
+  is a *hint*, not a measurement — a caller may omit it or understate it — so
+  the wrapper tallies the bytes as they arrive and aborts the moment the
+  running total crosses the ceiling. It buffers nothing, so the check costs
+  constant memory and a streaming ingest keeps streaming.
+
+Two ordering constraints follow, and both are load-bearing. The door goes
+**outside the capacity gate**, so an oversized arrival cannot occupy a slot on
+its way to being refused — and the gate's release path must still run as the
+refusal unwinds through it, or a mid-stream abort strands the reservation it
+took. It goes **inside** whatever layer supplies the headers a caller needs in
+order to read a refusal at all, or the correct answer arrives as an opaque
+transport failure and the caller retries the same oversized request forever.
+
+The rejected alternative is to validate in the handler, once the payload is a
+parsed object. It fails twice over: by then the bytes are resident, usually in
+several representations at once — the multiplier the previous section divides
+out of the budget — and a per-handler check is an optional guard, so every
+route added later is unprotected by default, including the ones that were never
+meant to accept a payload at all. A single door applied to *every* method, not
+only the ones expected to carry a body, is what makes the bound a property of
+the deployment rather than of the routes someone remembered. Where legitimate
+sizes genuinely differ by orders of magnitude, the door reads the route and
+selects among a few declared tiers — which is a table at one place, not a check
+scattered across handlers.
+
 ## Derive the ceiling from the host, do not ship a number
 
 A hardcoded budget is a guess about a deployment, and it is wrong on every

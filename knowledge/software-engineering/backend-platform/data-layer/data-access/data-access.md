@@ -12,6 +12,8 @@ techniques:
   - repo-testing
   - cross-driver-invariant-parity
   - read-models-and-projections
+  - capability-declared-in-the-type
+  - sequence-token-write-ordering
 ---
 
 # Repository & data-access layering
@@ -243,6 +245,28 @@ identity where a constraint cannot exist, and refusing to let the two
 engines' opposite failure shapes reach callers — is
 [cross-driver-invariant-parity](./techniques/cross-driver-invariant-parity.md).
 
+## When there are more than two, and they disagree about durability
+
+Past a handful of implementations, two of that section's assumptions quietly
+expire. The first is that every implementation can do everything the surface
+names: at scale some cannot, several arrive from people who do not own the
+interface, and the parity list — prose, above the drivers — is enforced by
+whoever remembers to read it. The claim has to move somewhere a machine
+checks it, which means declaring each capability where it can be known: as a
+required member when a missing operation should make the implementation
+unconstructable, and as declared data read before dispatch when absence is
+legal and has a degraded path
+([capability-declared-in-the-type](./techniques/capability-declared-in-the-type.md)).
+
+The second assumption is that the implementations agree about durability.
+When one side of the family is a transactional engine and another is a file
+on a disk, an ordering guarantee expressed as a transaction exists in some
+deployments and not others — which makes it not a guarantee. Order then has
+to be carried above the stores, as a monotonic token stamped on every write
+by the one door that writes, so that "which of these is newer" is answered
+identically in every topology
+([sequence-token-write-ordering](./techniques/sequence-token-write-ordering.md)).
+
 ## When the full pattern is the wrong tool
 
 The doctrine above is calibrated for an application's operational store —
@@ -290,3 +314,9 @@ in incident reports.
   — the aggregate surface and the projection surface, the projection that
   is never written back, and stored read models with a named recomputation
   and a declared propagation contract.
+- [capability-declared-in-the-type](./techniques/capability-declared-in-the-type.md)
+  — the three tiers of declaring what an implementation can do, the
+  conservative default, admission at construction, and the typed refusal.
+- [sequence-token-write-ordering](./techniques/sequence-token-write-ordering.md)
+  — order carried as data when no transaction spans the stores: allocation,
+  the stamping door, ties as answers, and what the token does not buy.

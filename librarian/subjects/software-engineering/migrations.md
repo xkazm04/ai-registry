@@ -1,7 +1,7 @@
 ---
 subject: migrations
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -33,3 +33,7 @@ single-stack debt is cleared.
 
 - 2026-08-22-3: **persist the verdict** applied to `error-propagation` ([[2026-08-22-3]]).
 - 2026-08-22-10: `error-propagation` now cites the promoted `unknown-is-not-a-value` law ([[2026-08-22-10]]).
+
+## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
+
+New technique `migrate-from-data-shape`: when half the backends have no atomic home for a version marker, the migration decides from the shape of the data it finds; `schema-drift-detection` is the two-authority problem and presumes a replayable step chain with a recorded version - this is the zero-marker answer, where the convergence test and the boot assertion transpose and the integrity sweeps carry over.

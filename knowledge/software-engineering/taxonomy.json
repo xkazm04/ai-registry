@@ -103,7 +103,8 @@
             "agent-memory",
             "structured-output",
             "agent-instruction-files",
-            "context-hierarchy"
+            "context-hierarchy",
+            "llm-extracted-entity-graph"
           ]
         },
         {

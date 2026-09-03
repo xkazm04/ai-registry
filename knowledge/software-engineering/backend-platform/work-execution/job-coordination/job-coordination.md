@@ -6,6 +6,7 @@ status: forged
 techniques:
   - job-state-machines
   - lease-renewal
+  - liveness-proof-reclaim
   - step-position-and-resumability
   - terminal-state-recovery
   - job-observability
@@ -67,7 +68,11 @@ The consequences of the stance form the spine:
    and on hours-long work the claim's timestamp is strengthened into a
    **renewed lease**, so that an expired lease is affirmative evidence of a
    dead executor, never a guess about a slow one (see
-   [lease-renewal](./techniques/lease-renewal.md)).
+   [lease-renewal](./techniques/lease-renewal.md)). Where the executor cannot
+   renew at all — a blocking runtime with no spare slot, a holder you do not
+   own — no expiry interval is defensible, and the reclaim trigger becomes a
+   *proof* that the recorded holder is gone rather than a timer (see
+   [liveness-proof-reclaim](./techniques/liveness-proof-reclaim.md)).
 3. **Position is a persisted fact.** A multi-step job records which step
    completed, at the step boundary, with each step declaring how a re-run of
    itself is made safe — so recovery *resumes* instead of restarting, and a

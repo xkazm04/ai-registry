@@ -10,6 +10,7 @@ techniques:
   - data-migrations
   - error-propagation
   - schema-drift-detection
+  - migrate-from-data-shape
 ---
 
 # Schema migrations
@@ -106,6 +107,19 @@ ever grows; and the system loses the "is work pending?" signal, which
 forces the snapshot gate to fire on every boot instead of only at real
 boundaries. Choose it deliberately or not at all.
 
+**When the marker has no atomic home.** Both variants above assume the store
+*can* record something about itself — a version, or at least a chain that
+replays. Some stores cannot: the marker and the data it describes are two
+separate writes, so a crash between them leaves the marker wrong in a
+direction the marker cannot reveal, and any older release or support tool
+that touched the store between runs makes the recorded number a claim rather
+than a fact. There the migration derives the current state from the shape of
+the data it finds, classifying and transforming per record, with the rows as
+the only authority there is. That design, its discriminator rules and the
+outcome it must never collapse, is
+[migrate-from-data-shape](./techniques/migrate-from-data-shape.md) — an
+answer to a missing capability, never an upgrade over a ledger that works.
+
 ## Two roads must arrive at one schema
 
 Almost every system grows two ways to reach the current schema: a **fresh
@@ -199,3 +213,6 @@ In-place evolution is the default, not the law:
 - [schema-drift-detection](./techniques/schema-drift-detection.md) — the
   convergence test, query-against-schema compilation, boot-time fingerprint
   assertion, and integrity sweeps.
+- [migrate-from-data-shape](./techniques/migrate-from-data-shape.md) — when
+  no marker can be atomic with its data: positive discriminators, the three
+  classification outcomes, per-record conversion, and the sampling trap.
