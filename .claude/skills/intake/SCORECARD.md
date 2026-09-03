@@ -1036,3 +1036,32 @@ never does, the note is not carrying what this focus assumes it carries.
 **The 2.x series in one cell, for the publish decision after round 5:** rounds 1-5 over five repositories (gstack, hermes-agent, portkey-gateway, lightrag, kube-rs): **subjects 7** (one new subcategory), **techniques 52**, **amendments 16**, **source-tree tasks 4** (all better, all exported as patches, all clones deleted), **peer studies 8** over five projects (**~285 points**, ~30 seeded points corrected against the trees), **proposals 23** (11 gated: 9 accepted, executed and merged; 2 declined; 11 waiting), **rules supplied mid-run 1** (round 2), **director redos 0**, **worker failures 1** (resumed, not re-run). Every worker Opus from round 2 on; the director reviewed by gate, purity grep, `use_when`, link depth and one opened citation per deliverable.
 
 **Next run's declared focus (round 6, if the operator continues past the publish decision):** (1) The forge brief gains the list-before-write rule (an application slot is claimed by listing the directory, never by slug alone). (2) The class rule for repositories whose docs are doc comments: the Phase 2b sweep counts `///` words against `*.md` words and swaps the tier order when the former dominates - written into `references/source-classes.md` this Phase 11. (3) The fleet finding: gravitone must enter `projects.json` with a manifest before the next direction pass, or the strongest cluster-side peer stays invisible.
+
+| 2.2.0 | 2026-09-02 | `gemini-3-8-flash` (**vendor release announcement**, 1,287 words; mined as a news run AND a fleet-wide currency sweep because the operator's ask had a second half) | 1 | 11 | 2 verified (both promoted from `partial` by executing the promoting question against real fleet code, which is where both corroborations came from) | **0 subjects / 0 techniques / 2 amendments / 2 applications** - correct for the class; the corpus already owned both mechanisms and the findings were boundary cases | **2 rows: 1c/0e/0s/1t** (code better ab-paired; task unmeasurable, instrument named) | **7** - seven projects, seven commits, none pushed | **Focus applied:** ran on 2.2.0, no rule had to be supplied mid-run. Directions ledger check (focus item 2, counted not assumed): **30 proposals across six projects, 11 ledger rows** - personas 7/3, tracklight 8/3, pumper 6/1, kp 4/0, politicas 4/3, pof 1/1. **This refutes round 3's worry**: owners have decided on roughly a third, so the pass is not outrunning them and the cap does not return. kp is the one project with proposals and no ledger at all. The one thing the director did that a worker could not: refuse three bumps on the projects' own recorded evidence, which needed reading four trees against one release note | **S0/T0/A2/Asrc0/task-lines 2 files · routing=n/a (not a repository) · handoff=no · directions=n/a** |
+
+**The funnel over the last ten rows, read after this one.** This row is the first
+2.x round on a **non-repository** source, and it is the control the depth column
+needed: S0/T0/A2 is the *correct* shape for a 1,287-word vendor announcement, not a
+routing miss, and reading it beside the repository rounds (S1/T6, S1/T13, S1/T7)
+shows the depth column measuring the source rather than the run. Ship is 7 - the
+highest in the series - and it did not come from the post. It came from the second
+half of the operator's ask, a fleet-wide grep that turned one release note into nine
+projects' worth of dated facts. **The stage that moved is ship, and the mechanism was
+a sweep, not a landing.** Both corroborations came from fleet code rather than from
+the web, which is the third consecutive round where the corpus and the trees
+corroborated each other and the fetch budget was nearly idle - except here it was not
+idle, it was *the extraction*, because a release note does not carry an API
+identifier. Directions is answered and healthy (30/11); it leaves the watch list.
+
+**Next run's declared focus (round 5):** (1) **A sweep is a first-class run shape and
+the method does not describe it.** This run had no Phase for "the operator named a
+fact and asked which trees hold it", so it improvised: enumerate the seam, classify
+each hit as active-default / historical-data / measured-baseline / normalization-rule,
+and refuse the ones the tree's own record refuses. Three of nine projects declined on
+their own evidence and those refusals outranked every edit. Write it up as a lane, or
+confirm over one more sweep that Phase 7.5 plus Phase 8 already cover it. (2) **A
+capability check before shipping outranks the fetch budget** - this run went to 4 of 3
+to avoid swapping a vision seam against undocumented modalities, and would do it
+again. Either the budget carves out pre-ship capability checks or it stays a soft
+limit that runs are expected to break with a recorded reason. (3) Keep the per-system
+count and the source-tree task rule; keep Opus for every worker phase.

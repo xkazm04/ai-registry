@@ -5979,3 +5979,56 @@ been naming that zero for weeks:
 - **List the directory before writing to a slot.** The craft worker wrote an application to a slug that already existed and overwrote it, then restored it byte-identically from a sibling worktree. The brief said the slot; it did not say to list. Rule for the forge brief: an application slot is claimed by `ls applications/` first.
 - **Seeded points are hypotheses; the studies corrected fifteen of them.** Four studies over 119 points corrected 15 seeds against the trees, including two that inverted (tracklight does use the ignore attribute; pumper's dedup is server-synthesised). The seed list is worth keeping because the corrections are the study's highest-value lines.
 - **The fleet config can hide the best peer.** gravitone carries the most advanced cluster surface in the fleet and is absent from `projects.json`; the fleet map therefore never listed it. A direction pass keyed on the map cannot see what the map does not hold; the lead is filed as a registry-hygiene item, not an intake one.
+
+## 2.2.0 - 2026-09-02 - gemini-3-8-flash
+
+- **A release note does not carry an API identifier, so for this class the
+  first fetch is the extraction and not corroboration.** The post named the
+  model in prose only; the id, the absence of a Lite variant, and three
+  SHUT-DOWN ids all came from the model list. The shut-down list was worth more
+  than anything in the announcement - two fleet projects were calling retired
+  ids and returning 404s in production, which no amount of reading the post
+  would have surfaced. For a vendor release announcement, budget the docs fetch
+  before triage, not after.
+- **A model can be callable before it is documented.** On release day the model
+  list carried the id while the spec table carrying input modalities did not
+  exist. "The id is live" and "I know what it accepts" are different facts with
+  different dates, and on a vision seam the gap between them is the difference
+  between an upgrade and an outage. This is why the run went one fetch over
+  budget, and it would again: a capability check before shipping into someone's
+  tree outranks budget purity. Either the budget carves that out or it stays a
+  soft limit runs are expected to break with a recorded reason.
+- **A fleet-wide sweep is a run shape this method does not describe.** The
+  operator's ask was "find every project holding this fact and update it",
+  which has no Phase. What worked, and is worth writing up as a lane: enumerate
+  the seam with one grep per project; classify every hit as active-default /
+  historical-data / measured-baseline / normalization-rule, because only the
+  first is upgradable and the other three are corrupted by a blanket rename;
+  then let each tree's own record veto. Three of nine projects declined on
+  evidence they had already written down, and every one of those refusals was
+  worth more than the edit would have been.
+- **The best corroboration was two fleet projects disagreeing in prose.** Both
+  had booked a promotional rate, in opposite directions, each with an argued
+  comment. Neither was wrong; they were answering different questions with one
+  field, and the disagreement handed over the discriminator the technique
+  needed. A contradiction between two trees is as good as a contradiction
+  between a source and a primary, and it costs no fetch. Look for it: the
+  fleet is a corpus of realizations, not just a place to apply findings.
+- **The strongest finding was a guard that stayed green.** A rate table keyed
+  by the constant naming the current model passed its own completeness test
+  through a tenfold mispricing, because the key followed the rename and the
+  number did not. Phase 6's hunt for what a subject "mentions in one place and
+  measures in another" has a sibling worth adding: **ask what a passing
+  assertion would still permit.** The A arm is where that is visible, and only
+  as a silence - so read what A did NOT fail, not only what it did.
+- **Write bytes, not text, on Windows.** Python text-mode writes flipped LF to
+  CRLF and turned one-line edits into whole-file diffs in two projects. Caught
+  only because `git diff --stat` looked wrong; `--ignore-cr-at-eol` confirmed
+  it. Read the file's own ending, write with `'wb'`, and check the stat before
+  every cross-repo commit.
+- **Verify a number before writing it into the scorecard.** The directions-
+  ledger count went in from memory of the previous row's worry (9 waiting, 0
+  decided) and was wrong: 30 proposals across six projects, 11 ledger rows.
+  Corrected in place, and it reverses the conclusion - owners are deciding, the
+  pass is not outrunning them, and the cap does not return. A focus item that
+  says "count X" is not answered by recalling what X was last round.
