@@ -155,10 +155,41 @@ provider-routing concern and is owned there, not here.
   its own limits), that is a separate grant from writing it. Read-only is
   usually free and is almost always the right split.
 - When custody cannot be arranged — the process is the only thing on the
-  machine, and everything is writable — say so explicitly and rename the
-  control. An advisory constraint honestly labelled is worth more than an
+  machine, and everything is writable — there are two honest moves and they
+  are not equivalent. The weaker one is to say so explicitly and rename the
+  control: an advisory constraint honestly labelled is worth more than an
   enforcement claim that fails silently, because the label is what tells the
-  next reader not to build on it.
+  next reader not to build on it. The stronger one is **to make the escape
+  observable instead of impossible** — see below.
+
+## When placement is impossible, detect the escape differentially
+
+Some confinements cannot be placed out of reach at all. A component loaded
+into the harness's own process can always call the real clock, read the real
+filesystem, open a real socket; there is no namespace to put the guard in that
+the component cannot also address. The custody rule still applies, and it
+simply returns the answer *no*.
+
+What remains is a differential probe, and it is cheap: **run the same input
+twice under two values of the injected quantity, and require the output to be
+identical.** A component that honours the injection cannot tell the two runs
+apart, so its results match; a component that reached around the injection to
+the real source sees two different worlds and produces two different answers.
+The escape is then a failing test rather than an invisible property, and it is
+detected by its *signature* rather than prevented by its placement.
+
+Two conditions make the probe trustworthy. The comparison must normalise the
+things that legitimately differ between two runs — freshly minted identifiers,
+the injected quantity's own rendered values — or the check fails for everyone
+and gets disabled. And the two values must be far enough apart that a reach
+around the injection cannot coincidentally agree.
+
+This is strictly weaker than custody: it detects rather than prevents, it runs
+only where a test runs, and a component that escapes deterministically in a way
+the probe does not vary will pass it. Prefer placement. Where placement is not
+available, a differential probe converts "we assume nothing reads the real one"
+into a claim with a test behind it, which is the difference between a
+convention and a guard.
 - When two files could each carry the policy, that is two doors
   ([one-validation-door](../../../../_laws.md#one-validation-door)); the door
   with the narrower writer set is the one to keep, and the other is deleted
