@@ -6,11 +6,16 @@ status: reconciled
 techniques:
   - guard-key-design
   - single-flight-primitives
+  - cache-value-not-handle
   - release-guarantees
+  - critical-section-across-a-suspension
   - cross-process-exclusion
   - attempt-attribution
   - idempotency-by-design
   - atomic-file-publish
+  - leadership-is-the-lock
+  - fence-inside-write-transaction
+  - renewal-deadline-two-thirds-ttl
 ---
 
 # Idempotency & in-flight guards
@@ -78,12 +83,22 @@ From that stance, the spine of the subject:
    acquisition names its release path — including the panic path, the timeout
    path, and the early-return path. A guard held in a plain variable and
    released by a line of code at the end of the happy path is a leak with a
-   delay fuse (see release-guarantees; law: creation-names-reaper).
+   delay fuse (see release-guarantees; law: creation-names-reaper). The
+   guarded *body* has one question the guard machinery cannot answer: whether
+   it may span a point at which the unit suspends. The reflexive "never" is a
+   throughput rule, and obeying it by splitting a transactional section
+   introduces a check-to-use race (see critical-section-across-a-suspension).
 3. **The second caller's experience is a designed outcome.** Refuse loudly,
    join the in-flight result, queue behind it, or coalesce into it — all four
    are legitimate, but the choice is per-operation policy, and a refusal must
    be distinguishable from a failure of the operation itself (law:
-   failure-not-empty-success).
+   failure-not-empty-success). Joining carries a precondition the other
+   policies do not: it hands every caller a reference to one completion
+   handle, so it is only safe on a host whose abandoned callers still run
+   their continuations. Where a cancelled caller's continuation is torn down
+   while the process lives, that handle can settle neither way and every
+   joiner waits for the execution context to be recycled — there the value,
+   not the handle, is what gets published (see cache-value-not-handle).
 4. **Cross-process exclusion is different machinery, not a bigger memory set.**
    An in-process set stops nothing running in another process. Crossing the
    boundary requires shared substrate — a lock with staleness handling, a
@@ -114,6 +129,32 @@ From that stance, the spine of the subject:
    a torn read is converted into a failed write. That conversion is an
    improvement only if the writer treats the refusal as transient and retries
    under a bound (see atomic-file-publish).
+
+## The cluster lock: where cross-process exclusion becomes high availability
+
+One instance of cross-process exclusion is large enough to carry its own
+techniques: the lock that elects which node of a cluster is *active* and
+allowed to write the shared store at all. Its holder is a whole process
+serving every request, its loss is a failover, and its zombie writes corrupt
+the one store everything else trusts. Three techniques fix the rules that
+lock lives by, and they are chosen by one property of the store beneath it.
+Where the store is a replicated log that refuses writes from any node but its
+leader, leadership *is* the lock and no fencing token is needed (see
+leadership-is-the-lock). Where the store accepts writes from anyone, the
+fencing token is checked inside every write and at every commit, never only
+at acquire, and unfenced writes pass only through an explicit, marked
+allowlist (see fence-inside-write-transaction). Either way a lease-based
+holder must lose itself before another party can win: renewal is given up at
+two thirds of the TTL, expiry is evaluated in the store's clock, and one
+connection is reserved so the work cannot starve the heartbeat (see
+renewal-deadline-two-thirds-ttl). The boundary with
+[job coordination](../job-coordination/job-coordination.md)'s
+[lease-renewal](../job-coordination/techniques/lease-renewal.md) is the scope
+of the lease: that path owns a lease over one *job*, held by an executor
+among many and reaped per job; this path owns the lease over the *cluster's
+right to write*, held by exactly one node, and the fencing that makes its
+loss safe. The rule for a reader: if losing the lease costs one unit of work,
+read there; if losing it changes which process may write the store, read here.
 
 ## Belt and suspenders: guards and idempotency compose
 

@@ -14,6 +14,7 @@ techniques:
   - co-published-numbers-must-reconcile
   - instrument-exposure-control
   - tuning-corpus-disjointness
+  - unelidable-measurement
 ---
 
 # Measurement honesty
@@ -147,6 +148,21 @@ the trustworthy one.
 covers what a second instrument has to satisfy to be one, why the *gap*
 between paired populations is the reading rather than either level, and the
 drift signature that separates a subject improving from an instrument decaying.
+
+One mechanism sits outside the seven states entirely, because it corrupts the
+value before any of them applies. Every state above treats the instrument as a
+*reader* of a subject that exists independently of it. A harness that measures
+the **cost of performing work** does not read its subject — it hosts it, inside
+a system entitled to remove work whose result nobody observes. The harness
+requests the work, discards the result because only the cost was wanted, and
+the optimizer deletes the work on exactly that evidence; the reported figure is
+then the cost of *not doing the work*. It renders as an implausibly fast,
+perfectly well-formed number with no error and no warning, and it passes every
+technique in this subject because none of them asks whether the work happened.
+The repair is to make the subject's result observable to the optimizer, and to
+give the measurement a floor below which it reports an instrument fault rather
+than a record:
+[unelidable-measurement](./techniques/unelidable-measurement.md).
 
 ## The denominator decides how many digits you own
 
@@ -330,6 +346,11 @@ that they do. Two rules follow:
   the compromised state of a datum whose subject had already met the instrument,
   the deprived-input control that probes for it, and why every probe here
   convicts but none acquits.
+- [unelidable-measurement](./techniques/unelidable-measurement.md) — the
+  instrument that hosts its own subject: work elided because its result is
+  unobserved, the implausibly-fast well-formed number it produces, the opaque
+  sink and the liveness floor that close it, and the inverse case where the
+  elision is the behaviour under test.
 - [tuning-corpus-disjointness](./techniques/tuning-corpus-disjointness.md) — the
   inverse case, where the exposure is one you caused at build time and can
   therefore prove absent: the canonical-form check over the workload an artifact

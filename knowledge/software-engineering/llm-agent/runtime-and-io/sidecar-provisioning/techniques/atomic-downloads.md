@@ -125,6 +125,66 @@ recorded distinctly from "never attempted"
 Retry cadence and backoff for the re-attempt belong to
 [retry-backoff](../../../../backend-platform/resilience/retry-backoff/retry-backoff.md).
 
+### The resume contract, check by check
+
+"Validated as belonging to the same remote artifact" is one sentence and
+five checks, and a resume path that has not enumerated them has built the
+happy path only. Each check is named by the corruption it prevents, and
+each is a property of the transfer protocol rather than of any source, so
+the list is closed:
+
+1. **A partial already at the expected size is verified and accepted
+   without a request.** Asking the source for `bytes=<end>-` earns a
+   range-not-satisfiable answer on every attempt, and a loop that treats
+   that answer as a retryable error never finishes. A partial *larger* than
+   the expected size is deleted, not trimmed — nothing about it is known to
+   be right.
+2. **A full-content answer to a range request means the source ignored the
+   range** — the protocol permits exactly that (RFC 9110 §14.2) — and the
+   body is the whole artifact from byte zero. Appending it to the partial
+   corrupts the file silently; the partial is discarded and the transfer
+   restarts from zero.
+3. **A partial-content answer must begin exactly at the partial's end.**
+   The source must state the enclosed range (§15.3.7); the stated start is
+   compared to the partial's length before the first byte is written, and
+   any other start discards the partial. Trusting the status without reading
+   the range is how a resumed file becomes a chimera.
+4. **Range-not-satisfiable is never a completion signal.** It says the
+   requested start is at or past the object's current length (§14.4). With a
+   catalog size in hand and a partial that is not full-size, that can only
+   mean the remote object is *smaller* than the catalog says; only a digest
+   that matches can bless the partial as complete, and without one the
+   partial is cleared. The one exception is the full-size partial, which
+   check 1 already accepted without asking.
+5. **The expected total is pinned before the first byte, and enforced
+   during the stream.** A source advertising a total that differs from the
+   catalog's is rejected before anything is written; a source that keeps
+   sending past the total is cut at the first excess byte and everything it
+   sent is cleared, because an untrusted mirror must not be able to fill the
+   disk and a provably misbehaving source taints what it already delivered.
+   The specification itself says a client cannot learn the representation's
+   effective length from the advertised one (§14.4) — which is why the
+   catalog, not the header, holds the number.
+
+Two timeouts sit under the contract, and conflating them breaks it. A
+*connect* timeout bounds setup. A *stall* timeout bounds the gap between
+bytes — no headers or body for that long means the transfer is wedged, not
+slow — and on expiry it keeps the partial for resume rather than deleting it,
+because a stall proves nothing about the bytes already on disk.
+Cancellation keeps the partial on the same reasoning.
+
+The contract is enforced by tests, one per check, against a local socket
+server that replays that check's failure — a short body, a range ignored, a
+partial-content answer at the wrong offset, a body that exceeds the total, a
+total that contradicts the catalog. That test list is the contract's most
+legible form: a resume path whose tests cover only "download completes"
+has tested none of the checks above. One measured caution for the first of
+them: some transport libraries enforce the advertised length themselves and
+fail a short body before the application sees it, so a check-1 test may pass
+for a reason the application did not build — and the hole those libraries
+cannot close is check 5, a source that advertises *and delivers* a smaller
+total than the catalog states, which only the catalog comparison catches.
+
 ## Cancellation is a first-class exit
 
 The user who started a two-gigabyte download must be able to change their

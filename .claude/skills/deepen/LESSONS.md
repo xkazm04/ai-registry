@@ -174,3 +174,21 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   systedo workers claimed contiguous migration versions in flight (v30–34) and
   waited for each other's commits instead of editing dirty files; the brief's
   "skip dirty files" clause plus watchers made that safe with zero conflicts.
+
+## 1.2.0 - 2026-09-02 - software-engineering (propagation step added after run 2026-09-02-1)
+
+- **The skill measured its own blind spot.** Seven subjects landed, seven vault notes
+  written, and the fleet's registry maps had not been regenerated since 2026-08-31.
+  `build-registry-map --check` then reported every recorded verdict in the fleet (287)
+  as stale, because staleness was the bundle digest - any landing anywhere aged every
+  verdict everywhere, which is indistinguishable from no signal. The operator's words:
+  "we enrich wiki and contexts of our projects keep outdated."
+- **Fix at the instrument, then at the method.** `build-index` now writes a per-subject
+  `digest`; the map stamps it on every pair and marks a judged pair `stale` only when its
+  own subject moved; legacy verdicts are re-dated from git rather than discarded. Step 4
+  "Propagate" is the method half: regenerate the join, read the impact table into the
+  ledger, and owe an `applied.md` row per new technique - intake had Phase 7.5 for this
+  since 2026-08-31 and this skill had nothing.
+- **`build-knowledge-rules` belongs in this skill's gate list.** Found stale on trunk
+  three times in a week, always after a non-librarian landing; the sequence in this
+  file was the reason.

@@ -16,6 +16,7 @@ techniques:
   - context-reset-redelivery
   - sibling-floor-ownership
   - capability-coverage-contract
+  - host-contract-compilation
 ---
 
 # Agent instruction files
@@ -214,6 +215,11 @@ two separate decisions only one of which anybody ever makes.
 - [single-source-topology](./techniques/single-source-topology.md) — one
   authoritative file, harness bridges as imports, nested files under
   divergent combination semantics, scoped loading for overflow.
+- [host-contract-compilation](./techniques/host-contract-compilation.md) —
+  the case topology cannot solve: hosts that differ in accepted fields, tool
+  vocabulary or capabilities; a declarative contract per host, suppression by
+  capability, goldens and prose validation per render, the cross-model
+  boundary instruction as a host-pair property.
 - [machine-owned-regions](./techniques/machine-owned-regions.md) — marker
   fences, generator-named blocks, and the regeneration-only edit rule.
 - [instruction-freshness](./techniques/instruction-freshness.md) — dated

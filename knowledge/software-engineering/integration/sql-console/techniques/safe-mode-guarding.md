@@ -6,7 +6,7 @@ technique: safe-mode-guarding
 status: forged
 laws: [gate-sees-target, failure-not-empty-success, one-authority-per-vocabulary]
 shared_with: []
-use_when: [deciding where the authoritative guard stands, mutations hiding in literals or comments, an unclassified string reaching the executor]
+use_when: [deciding where the authoritative guard stands, mutations hiding in literals or comments, an unclassified string reaching the executor, a confirmed mutation's result appeared under a different message or tab, relying on a read-only transaction instead of a read-only credential]
 ---
 
 # Safe-mode guarding
@@ -85,7 +85,16 @@ The discipline, in order:
    statements as their own class.** The mutation set is a named, closed
    list — data mutations, schema changes, permission changes,
    transaction-control statements that could commit prior work — not an
-   ad-hoc regex per call site. The vocabulary has one home and both guard
+   ad-hoc regex per call site. Seed it from the engine's own definition of
+   a read-only transaction rather than from intuition: the SQL standard's
+   `READ ONLY` access mode, as engines implement it, refuses more than the
+   obvious verbs — statements that *read* into a new table, cursor and
+   prepared-statement executions of a refused command, copy-in, and
+   sequence advancement — and a vocabulary that lists only the verbs
+   people type by hand misses every one of those. Read-shaped writes
+   (`SELECT ... INTO`, `SELECT ... FOR UPDATE`, a select that calls a
+   sequence or a file-writing function) belong in the mutation class even
+   though their first token is `SELECT`. The vocabulary has one home and both guard
    sides derive from it. And note the trap in the *read* list: engines have
    statements that mutate nothing in the user's tables yet change
    connection or engine state (pragma-style settings, session variables,
@@ -107,6 +116,23 @@ under-blocks — the correct trade for a guard. The engine's own permission
 system remains the last line; a console offered a read-only credential
 should prefer it, and safe mode then becomes defense in depth rather than
 the sole barrier.
+
+One substitute is not the last line, though it is often mistaken for it:
+**a read-only transaction envelope is session state, not a credential.**
+Wrapping the user's string in `BEGIN ... READ ONLY` / `ROLLBACK` and
+trusting the engine to refuse writes fails exactly where rule 2 says a
+batch fails — a `COMMIT;` inside the payload ends the envelope and the
+tail runs with the connection's full rights. A published 2025 post-mortem
+of a protocol-facing database server shipped precisely this: the envelope
+was correct, the driver accepted stacked statements, and `COMMIT; DROP
+SCHEMA ...` walked through. The envelope also does not cover what the
+engine's read-only mode leaves out by its own documentation ("a high-level
+notion of read-only that does not prevent all writes"). So the layering,
+in order of authority: a least-privilege role on the credential, then the
+single-statement rule enforced by the driver call (a prepared or
+parameterized execution that cannot carry a second statement), then the
+classifier, then the envelope as the cheapest extra. A console whose only
+guard is the envelope has a safe mode one semicolon wide.
 
 ## The executor demands a classified statement
 

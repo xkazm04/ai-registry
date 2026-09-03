@@ -118,9 +118,12 @@ export function loadFleet(root = process.cwd()) {
   }
 
   const machine = machineCfg.machine ?? null;
-  const base = machineCfg.root ?? null;
+  // The root lives in the COMMITTED file, per machine, so projects.json alone resolves
+  // a full path on every device (2026-09-02). The local file may still override it -
+  // that is the escape hatch for a box whose root differs from the declared one.
+  const base = machineCfg.root ?? fleetCfg.machines?.[machine]?.root ?? null;
   if (!machine) problems.push(`${MACHINE_FILE} declares no "machine" name`);
-  if (!base) problems.push(`${MACHINE_FILE} declares no "root"`);
+  if (!base) problems.push(`no root for machine "${machine}": declare machines.${machine}.root in ${FLEET_FILE} (or "root" in ${MACHINE_FILE})`);
 
   const overrides = machineCfg.overrides ?? {};
   const projects = {};

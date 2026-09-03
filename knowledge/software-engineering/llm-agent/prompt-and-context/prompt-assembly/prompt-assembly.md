@@ -16,6 +16,8 @@ techniques:
   - cache-breakpoint-allocation
   - continuation-prompts
   - task-envelope
+  - amortized-compaction-cadence
+  - deferred-interface-invalidation
 ---
 
 # Prompt assembly & context budgeting
@@ -303,3 +305,12 @@ a span enters; safety decides *how it is wrapped*.
 - [task-envelope](./techniques/task-envelope.md) — what the task layer's
   opening lines buy: a locate pointer, a done criterion and a self-check in
   place of role priming, which the measured record shows buys nothing.
+- [amortized-compaction-cadence](./techniques/amortized-compaction-cadence.md)
+  — the schedule compaction runs on rather than the threshold it fires at:
+  folding one unit of history per turn to hold occupancy flat, the cached
+  prefix that pays for it, the two dials only one of which is usually shipped,
+  and the cursor rule that never absorbs what the operator wrote.
+- [deferred-interface-invalidation](./techniques/deferred-interface-invalidation.md)
+  — when a command that mutates a standing layer takes effect: deferral to the
+  next session as the default, immediate effect as an opt-in, the one rewrite
+  that is exempt, and making a queued change visible.

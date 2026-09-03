@@ -35,3 +35,11 @@ run over this subject should read with the classification in hand.
 
 Untouched otherwise. No count of this subject's attention points was taken
 this run.
+
+## 2026-09-02 - lead placed by [[2026-09-02-1]]
+
+- **The stale-success/error pair.** A body that can re-fetch in place must
+  replace its outcome whole: a failed or empty run clears the prior rows
+  before the verdict renders, because "set rows when rows arrive" never fires
+  on failure. Landed as the console's contract in sql-console/result-fidelity
+  (two public trackers); the table's body state model owes the same clause.

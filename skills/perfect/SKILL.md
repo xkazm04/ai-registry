@@ -3,7 +3,7 @@ name: perfect
 description: "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Fable 5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Opus-class builder subagents on ONE shared branch - grouped so their write sets cannot collide - while making every review/merge decision itself. All state lives in a linked Obsidian vault (or <repo>/.perfect/) so any future session resumes the loop exactly where the last one stopped; per-repo specifics (vault path, gates, Class B/C files, repo law, taste) come from .claude/perfect/config.md. Invoke with /perfect [init|propose|build|status|smoke|reflect] [context-name]."
 category: workflow
 memory: vault
-version: 2.4.0
+version: 2.5.0
 tags: loop, director, builders, shared-branch, vault, product-quality
 argument-hint: "[init|propose|build|status|smoke|reflect] [context]"
 contexts: tracked
@@ -313,3 +313,7 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
+
+## Model choice (bake-off 2026-09-01, kp / round 24)
+
+The Director role already names Fable with Opus as fallback; the head-to-head confirmed the ordering and sharpened it. Fable shipped six directions across two contexts (including the same dead design-law lint gate the architect run found) and built a refused lot inline; Opus shipped three standard-anchored directions across three disjoint contexts, rejected four candidates with reasons, and reconciled the stale vault claim by claim. Both refuted the same carried lead. The operator merged both. Rule kept: Fable directs; when a slate must be thin and every direction must cite a standard, an Opus director is not a downgrade.

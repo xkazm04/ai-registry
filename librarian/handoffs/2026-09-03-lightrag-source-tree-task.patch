@@ -1,0 +1,57 @@
+From 5ecc99a0b0cf7e31efedd3aef7a56d9cc2586b22 Mon Sep 17 00:00:00 2001
+From: xkazm04 <kazdan@seznam.cz>
+Date: Thu, 3 Sep 2026 00:12:06 +0200
+Subject: [PATCH] shared_storage: say once when dead-process reclaim is
+ disabled on this platform
+
+_reservation_recovery_enabled() returned False silently off Linux even in multi-worker
+mode, where an orphaned reservation can exist and nothing will reclaim it. The gap is
+now stated once at warning level with the platform, so an operator finds out before a
+stuck pipeline does. Behaviour otherwise unchanged.
+
+Written by an ai-registry intake run (intake-lightrag-0902) as a task row against the
+source tree; not a PR.
+---
+ lightrag/kg/shared_storage.py | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/lightrag/kg/shared_storage.py b/lightrag/kg/shared_storage.py
+index 25d1090..4a067af 100644
+--- a/lightrag/kg/shared_storage.py
++++ b/lightrag/kg/shared_storage.py
+@@ -2183,14 +2183,31 @@ _INTERNAL_PIPELINE_STATUS_FIELDS = (
+ _RERUNNABLE_RESERVATION_KINDS = frozenset({"processing", "scan"})
+ 
+ 
++_reservation_recovery_disabled_warned = False
++
++
+ def _reservation_recovery_enabled() -> bool:
+     """Dead-process reservation reclaim is Linux-multiworker only.
+ 
+     Single-process Uvicorn dies with its pipeline_status (no cross-process
+     orphan); Windows has no Gunicorn multi-worker. Exposed as a function so tests
+     can force it on to exercise the reclaim logic off-Linux.
++
++    When the process IS multi-worker but the platform is not Linux, an orphaned
++    reservation can exist and nothing will reclaim it. That is a real gap, so it
++    is said once at warning level instead of silently returning False.
+     """
+-    return bool(_is_multiprocess) and sys.platform.startswith("linux")
++    global _reservation_recovery_disabled_warned
++    enabled = bool(_is_multiprocess) and sys.platform.startswith("linux")
++    if _is_multiprocess and not enabled and not _reservation_recovery_disabled_warned:
++        _reservation_recovery_disabled_warned = True
++        logging.getLogger(__name__).warning(
++            "Dead-process reservation reclaim is disabled on this platform (%s); "
++            "an orphaned pipeline reservation will not be reclaimed automatically "
++            "and needs a manual reset",
++            sys.platform,
++        )
++    return enabled
+ 
+ 
+ def pipeline_recovery_blocked_message(pipeline_status: Dict[str, Any]) -> str:
+-- 
+2.43.0.windows.1
+

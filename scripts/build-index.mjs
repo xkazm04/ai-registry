@@ -32,7 +32,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadTaxonomy, walkSubjects } from './lib/taxonomy.mjs';
-import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
+import { sameIgnoringNewlines, hashBundle } from './lib/bundle-hash.mjs';
 import { extractLawStatements } from './lib/laws.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -175,6 +175,12 @@ function buildBundle(domain) {
       subcategory: placed?.subcategory ?? null,
       status: gp.status || 'unknown',
       file: `knowledge/${domain}/${at}/${slug}.md`,
+      // Per-SUBJECT content digest (same normalisation as the bundle digest). This is
+      // what lets a consumer's verdict go stale only when the subject it judged moved,
+      // instead of whenever anything in the bundle did: measured 2026-09-02, the
+      // bundle-level check reported all 287 fleet verdicts stale at once, which is the
+      // same as reporting none. `build-registry-map` stamps it on every pair.
+      digest: hashBundle(path.join(fileURLToPath(new URL('../knowledge/', import.meta.url)), domain, at)).hash,
       techniques,
       applications,
     };

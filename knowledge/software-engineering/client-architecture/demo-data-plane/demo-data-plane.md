@@ -133,7 +133,10 @@ complete implementation of it. Not a subset — a complete implementation. A
 consumer holds the interface and cannot tell which implementation it received.
 
 The payoff is that parity stops being a review comment and becomes a compile
-error. Add a capability to the real client and every other plane fails to
+error. The interface carries no method saying which plane is active — with one
+condition, stated in the technique: when fabricated values can arrive in the
+same result as real ones, provenance moves onto the value as a required field,
+because there is no longer a session to carry it. Add a capability to the real client and every other plane fails to
 satisfy the interface until it too can answer. Without that, the fake plane
 decays by omission: the real client grows three methods, the fake one grows
 none, and the demo breaks on exactly the screens that were added most recently

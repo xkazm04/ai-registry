@@ -303,6 +303,14 @@ restated README bullets, because that is what they were. **A repository note who
 count is 2,000 is a note about an advertisement.** Record the commit and both word
 counts - landing page and in-tree documents - so the tell stays visible.
 
+One shape of repository breaks the sweep order the rule above assumes: a library whose
+operating documents are its **doc comments**. Count both before choosing the tier order -
+the words in `///` and `//!` (or the language's equivalent) against the words in `*.md`
+minus the changelog - and when the former dominates, treat crate and module docs as the
+docs tier and read `*.md` last. The run that produced this rule (2026-09-03, a
+control-plane client library) found 49,580 doc-comment words against ~3,500 words of
+non-changelog markdown; a `*.md` sweep would have read 7% of the first-party prose.
+
 The failure has a second, quieter half. Even a run that reads the tree tends to read it
 *for claims*, because that is what every other source class trains. A repository is the
 only source that carries executable knowledge, and mining it for quotable assertions
@@ -333,6 +341,17 @@ complete, in a canvas renderer's `api-types.ts`; both of the run's findings came
 that file and the rules page, and none from the README. Check the client's types before
 concluding an engine is unreadable, and expect the benchmark claims to be the least
 useful thing present.
+
+**The branch with no rules page (2026-09-02).** Some vendor repositories carry no
+"things we learned running this" document at all - a cookbook of deployment recipes and
+nothing operational. Phase 2b's first sweep step then returns empty, and the temptation
+is to read the cookbook as the operating half. Do not: the density has moved wholesale
+into the pipeline code, and the ratio to expect is roughly nine findings from code for
+every one from prose. Sweep the request pipeline, the config schema and the adapter
+interface as the operating documents, treat the test suite with a mocked provider
+boundary as the measurement, and expect the design record to be as full as it is for a
+documented tree - six design decisions the corpus did not model came from ~5,500 lines of
+code and zero from 22,000 words of markdown.
 
 ## Research-model release
 

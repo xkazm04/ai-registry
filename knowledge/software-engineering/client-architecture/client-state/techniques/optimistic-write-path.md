@@ -92,6 +92,24 @@ than being detected after the fact.
   rejections downstream turns one failed write into a run of failures
   on unrelated intents, and the user sees a cascade where one thing
   went wrong.
+
+  That rule holds because the lane is keyed by an *entity* and its items
+  are independent intents. It **inverts** when the lane is a *stream* —
+  messages in one conversation, operations on one document, an upload
+  and the event that describes it — where item N was written on the
+  assumption that N−1 landed. There, draining past a failed predecessor
+  delivers the sequence out of order to everyone but the sender, and the
+  failed head must *block* the lane until the user retries or removes
+  it. The discriminating question is whether item N would still mean
+  what its author meant if N−1 vanished; the blocking discipline, its two
+  release verbs, and the rule that a local echo shows the head's failure
+  rather than "still sending" are
+  [ordered-lane-blocking](../../../backend-platform/work-execution/delivery-guarantees/techniques/ordered-lane-blocking.md).
+  One consequence reaches back into this technique: a local item has no
+  authority-minted identity yet, and a comparison that treats two id-less
+  items as equal makes the head's move from *sending* to *cannot be sent*
+  invisible to every subscriber. Local items compare by their local state
+  stamp, never by the absence of an id.
 - **Release the slot only if you still own it.** The slot holds the
   identity of its current holder, and a settling attempt clears it only
   when the holder is still itself. Without that check an abandoned or

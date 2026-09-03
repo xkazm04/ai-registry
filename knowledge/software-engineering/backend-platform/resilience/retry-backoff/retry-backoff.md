@@ -11,6 +11,8 @@ techniques:
   - storm-control
   - retry-observability
   - suspension-is-not-failure
+  - jittered-revocation-with-irrevocable-terminal
+  - client-retry-and-redirect-conventions
 ---
 
 # Retry, backoff & circuit breaking
@@ -87,7 +89,7 @@ other caller for one bad payload.
 
 ## Stopping is a first-class outcome
 
-Retry machinery is judged by how it stops. There are exactly four legitimate
+Retry machinery is judged by how it stops. There are exactly five legitimate
 terminal states, and each must be spelled differently (law:
 failure-not-empty-success):
 
@@ -96,15 +98,20 @@ failure-not-empty-success):
   every call eventually lands;
 - **exhausted** — the budget ran out; the work moves to whatever holds failed work
   (a dead-letter lane, an operator queue), never silently vanishing;
+- **over-budget wait** — the dependency stated a delay longer than the budget
+  could hold, so the ladder ended rather than the wait being shortened; distinct
+  from *exhausted*, because the budget was not spent but found insufficient in
+  advance, and the stated delay that did not fit is the number an operator needs
+  (see backoff-design);
 - **reclassified** — a retry attempt returned evidence of permanence; stop
   immediately, mid-ladder;
 - **denied** — a breaker refused to even attempt; this is not a failure of the
   dependency but a policy decision, attributed to the breaker that made it.
 
-An operator reading the record must be able to tell which of the four happened
+An operator reading the record must be able to tell which of the five happened
 without reading source. "It stopped" is not a state (see retry-observability).
 
-All four are *terminal*, and a ladder has one more state that is not: it can be
+All five are *terminal*, and a ladder has one more state that is not: it can be
 **suspended** — halted on an unmet precondition, spending no budget, still owed a
 result. A client with no network has not failed three times; it has not attempted
 once, and a design that cannot say so exhausts its budget against a dependency it
@@ -113,6 +120,25 @@ attributed oppositely — a breaker judges the dependency, a suspension reports 
 caller — and the predicate that *resumes* work is deliberately stricter than the
 one that *starts* it. That state, its record, and the two predicates are
 [suspension-is-not-failure](./techniques/suspension-is-not-failure.md).
+
+Two techniques carry the stance to the two ends of a replicated server. On the
+server's side, revocation of a credential it issued is a retry the server owes
+itself against a remote it does not control; the ladder is exponential and
+jittered, and when it runs out the lease enters a named **irrevocable** state —
+counted, listed, resolvable by hand, neither deleted nor retried forever — and
+a leadership change mid-ladder is the ordinary event that restarts the loop on
+the new leader rather than an error
+([jittered-revocation-with-irrevocable-terminal](./techniques/jittered-revocation-with-irrevocable-terminal.md)).
+On the client's side, the library that speaks to that server states its retry
+set, its one-redirect rule, its reading of a not-found that carries content,
+and its schedule-owned stop value once, so no application re-derives them
+([client-retry-and-redirect-conventions](./techniques/client-retry-and-redirect-conventions.md)).
+The seam with [delivery-guarantees](../../work-execution/delivery-guarantees/delivery-guarantees.md)
+runs through the first: that subject owns the dead-letter *destination* — the
+triage surface, the per-item and bulk verbs, the retention reaper — and this
+path owns the backoff that leads there and the *name* of the terminal state
+the item arrives in, so a reader designing the lane reads there and a reader
+deciding when an item enters it, and what to call it, reads here.
 
 ## Where this path meets scheduling
 
@@ -139,5 +165,5 @@ operator can see, and recovery is probed deliberately rather than discovered by
 stampede; retry state that must survive restart does, and the restart itself does
 not read as a recovery; total retry volume is bounded by budget so the layer cannot
 amplify an outage more than a stated factor; every stopped retry names which of
-the four terminal states it reached; and work halted on an unmet precondition is
+the five terminal states it reached; and work halted on an unmet precondition is
 recorded as suspended rather than spending the budget it never used.

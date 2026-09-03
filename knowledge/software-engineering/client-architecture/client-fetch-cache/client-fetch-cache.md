@@ -5,6 +5,7 @@ subject: client-fetch-cache
 status: reconciled
 techniques:
   - admission-hypothesis
+  - similarity-keyed-admission
   - swr-design
   - in-flight-dedup
   - cache-key-discipline

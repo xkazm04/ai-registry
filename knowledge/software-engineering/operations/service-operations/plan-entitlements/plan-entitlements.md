@@ -46,7 +46,7 @@ the intersection of four neighbours and inherits confusion from all of them.
   meet at exactly one point: a charge decision reads the tier from here and
   the balance from there. Nothing in this subject re-derives a unit price or
   re-implements a ledger.
-- [authorization](../../../security/authorization/authorization.md) owns who may act — the
+- [authorization](../../../security/identity-and-access/authorization/authorization.md) owns who may act — the
   identity-to-permitted-action mapping and its enforcement. **Entitlement is
   orthogonal to permission**, and conflating them is a defect with a
   characteristic shape: an administrator on a free plan gets a paid feature
@@ -66,6 +66,11 @@ the intersection of four neighbours and inherits confusion from all of them.
   operator chose. A plan is not a preference. Nobody may set their own tier,
   which is why entitlement state must never live in the same mutable
   key-value substrate that preferences do.
+- **Release flags** — owned wherever rollout lives — answer whether a feature
+  is *ready*, not whether it is *paid for*. A flag rule that lists the paying
+  customers is a second tier model with no lifecycle behind it; the sorting
+  test is whether the answer would change on upgrade, and the composition is
+  in [capability-gate-predicates](./techniques/capability-gate-predicates.md).
 
 ## The model is declared once and read by everyone
 
@@ -148,7 +153,10 @@ subscription in its paid-through grace window after a failed charge, and one
 that has been cancelled but not yet reached the end of the period the
 customer already paid for. A product that entitles on "active" alone revokes
 access from customers who are, contractually, still paid up. A product that
-entitles on "has a subscription row" never revokes at all.
+entitles on "has a subscription row" never revokes at all. And a product that
+entitles on "not cancelled" keeps serving the state providers reserve for
+retries exhausted — the subscription still standing, nobody being charged —
+which is the state their own guidance says to revoke on.
 
 What does a downgrade remove? Only what *this* subscription conferred. A
 tenant may hold entitlements from more than one source — a purchased balance,

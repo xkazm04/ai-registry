@@ -201,3 +201,53 @@ whether it succeeded — and unused or persistently failing capabilities are
 surfaced for retirement rather than left to be discovered by the run that
 depended on one. Retirement returns the procedure to its honest state: a
 memory of how something used to be done.
+
+## When the promoted store is the only durable store
+
+The four conditions assume a place to count in: an episodic layer that
+holds observations until recurrence is established, and a consolidation
+pass that produces the procedure-as-belief before anything promotes it.
+Some hosts have neither. A coding harness that persists nothing between
+sessions except its instruction file and its installed skills gives the
+agent exactly one durable store, and it is the capability store. There,
+"stay a memory until counted" has nowhere to stay: the observation is
+promoted on first sight or it leaves with the session.
+
+Promote-first is then forced, and it is less a breach of the bar than a
+relocation of it — the recurrence count is taken at the **write door on
+the second sighting** rather than at the capture door on the first. Four
+things make that survivable instead of the accretion failure it resembles:
+
+- **The record says n=1.** A first-sight artifact carries its own count
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate))
+  so a reader can tell it from a confirmed one. A library where every item
+  reads as established is the failure; one where most read *observed once,
+  one session* is honest about what it is.
+- **The dedupe door is the count.** Before any write, the writer searches
+  the store by *trigger* — the error message, the symptom, the context
+  markers — and by domain, and the outcome table is the promotion decision:
+  same trigger and same fix is the second sighting (update, bump the
+  version, the count moves); same trigger and a different root cause is two
+  items that must name each other; a partial overlap is a variant inside
+  the existing one. Search by trigger, not by resemblance: on a 24-item
+  store holding one true duplicate pair, a pairwise vocabulary lint ranked
+  the pair third of five candidates behind four unrelated ones, while a
+  two-term trigger search returned exactly the pair. A first-sight store
+  without this door grows confusable siblings at the rate the selection
+  section predicts, because a near-duplicate is what a second sighting looks
+  like when nothing checks.
+- **The pool is scoped harder, not softer.** Every n=1 item taxes selection;
+  the live set a session sees is its domain's, never the library's.
+- **The reaper is invocation accounting, because nothing else can be.**
+  Recurrence cannot be counted forward here, so it is read backward: an
+  item never invoked since it was written is the *observed once* that
+  stayed once.
+
+Two instances from one fleet, 2026-09-02: a project that keeps its per-skill
+lessons file as an ignored overlay — an episodic layer that exists on one
+machine and travels with no clone, so promotion from lesson to skill happens
+by hand and the layer's absence elsewhere is the same force — and a harness
+memory directory written first-sight by design, whose entries included two
+written six minutes apart by different sessions about the same failure,
+neither aware of the other, because nothing searched by trigger before
+writing.

@@ -1,7 +1,7 @@
 ---
 subject: error-handling
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -227,3 +227,41 @@ prerequisite is built; the sweep is the whole instrument.
 from `deletion-is-not-repair`. Two independent sightings of *a signal relabelled instead
 of repaired*, in different subjects, from different sources. One more and the root is
 worth proposing at law altitude rather than as two techniques citing one law.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique: **`consumer-decides-error-shape`** — a missing stage.
+
+The subject modelled one taxonomy with many consumers, and `structured-propagation`
+modelled the *vertical* journey (born deep, decided high, "loss is one-way").
+Neither modelled the **horizontal, ownership** asymmetry: two artifacts on
+independent release schedules.
+
+Failure shape is decided by *who consumes it*, not by where it is raised. Across a
+boundary whose two sides ship independently, the category must be a value the far
+side can branch on; inside a unit terminating in a door, an opaque aggregate with
+an accumulated context trail is the cheaper correct shape. The conversion belongs
+at the boundary between them.
+
+The subject's own rule made the published-unit obligation mandatory and it had
+never said so: `error-handling.md:77` "Classify on structure, never on prose" — a
+published unit returning an opaque error forces every consumer to do exactly what
+that forbids. Inverts at the top of a terminating binary, where the categories
+have one consumer and a closed set earns nothing.
+
+**Catch worth recording:** the source claims structured error enums prevent silent
+swallowing because matching forces handling. This subject demolishes that —
+"Handled is not routed… The test is not 'does the code respond' but 'does a human
+ever learn'." Not landed.
+## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
+
+New technique `parse-failure-keeps-identity` (laws `identity-survives-reuse`, `failure-not-empty-success`, `one-authority-per-vocabulary`): when one malformed item would stop a reader over a collection the reader does not own, the decode failure is scoped to the item and the item's identity is still recovered through a projection that is a subset of the same schema, never a parallel one. Boundaries against `structured-propagation` (sideways in data, not upward) and against gated foreign-format import. Application `rust--parse-failure-keeps-identity` against a control-plane client library@1.89 (its typed deserialize guard).
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+Amendment in `crash-capture`: the restart decision after a crash lives outside the store
+the crash may have corrupted (a flag file or a launcher argument), or a store-caused crash
+loops on its own policy. Confirmed structurally against the fleet desktop app, whose crash
+discriminator is already a marker file beside the store; no restart policy exists there
+yet, so the row is a simulation with the seam named for when one does.
+`rust--crash-capture` application.

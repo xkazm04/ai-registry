@@ -1,8 +1,8 @@
 ---
 subject: subprocess-lifecycle
 domain: software-engineering
-last_touched: 2026-08-22
-touched_by: external-reconcile
+last_touched: 2026-09-03
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -42,3 +42,36 @@ round-trip at daemon load, not heartbeats - no periodic pulse exists.
 ## Applied to the technique layer
 
 - 2026-08-22-10: this subject's synthetic-exit-status sighting was the fourth that triggered `unknown-is-not-a-value`; `termination-and-reaping` was deliberately NOT wired (no anchoring prose) ([[2026-08-22-10]]).
+
+
+## 2026-09-02 - intake (dora, run intake-dora-0902)
+
+`liveness-and-heartbeats` gained the section "The clock arms at first
+contact, not at spawn": arming on the first genuine signal, a separate
+startup deadline (pre-contact hangs are invisible to an unarmed stall
+clock by construction), reset on respawn, and the input-side clause that a
+staleness clock attaches only to a channel that promised continuity. The
+technique had thresholds and signals and no arming rule; the source
+documents both of its clocks' arming points and the restart-loop each
+prevents. Measured in-run with a three-arm harness (tight ceiling,
+generous ceiling, armed clocks). New application
+`node--liveness-and-heartbeats` (experiment, better) against a fleet
+runner whose one ceiling timer is startup bound, stall detector and
+executioner at once.
+
+Untriaged from the same source, for a later run: the child-side orphan
+guard (child watches the parent pid, kills its own process group; three
+named gaps) as the complement to the host-side startup sweep in
+`termination-and-reaping`; and "disable restart before sending stop" as a
+shutdown-ordering clause.
+
+## 2026-09-03 - intake `intake-chatterino2` (2.3.2)
+
+Amendment in `liveness-and-heartbeats`: inbound traffic is the pulse so a probe is sent
+only after a silent tick, and a watcher tick that fires far past its schedule (the host
+slept) withholds a verdict - one probe plus the ordinary grace, never a death declaration.
+This was the run's code A/B: the fleet desktop app's cloud health monitor entered its
+reconnect loop on the first post-resume failure; with the guard it re-probes once. Two of
+three assertions fail on the original, three of three pass on the change, control intact,
+merged after a green gate. The `react--liveness-and-heartbeats` application carries the
+table.

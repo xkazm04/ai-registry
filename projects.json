@@ -1,12 +1,13 @@
 {
   "schema": 2,
-  "_note": "The fleet declaration. Each project maps MACHINE -> the path that project sits at on that machine, relative to that machine's root (declared in its own gitignored .machine.local.json). One project can be checked out on several machines at once with a DIFFERENT path on each - that is what `checkouts` is: the keys are the machines it exists on, and a machine absent from the map simply does not have it. Committed, because a relative path names no tree until a machine root is supplied. Domains are NOT here: every project declares its own in its .ai/manifest.yaml (knowledge.domains), and a second copy is how the first one goes stale. A checkout that cannot be expressed relative to the machine root (another drive, say) goes in that machine's local `overrides`, never here.",
+  "_note": "The fleet declaration. `machines` names every device and its ROOT - the absolute directory that project checkouts resolve against on that device. Each project maps MACHINE -> the path it sits at on that machine, RELATIVE to that machine's root. One project can be checked out on several machines at once with a different path on each - that is what `checkouts` is: the keys are the machines it exists on, and a machine absent from the map simply does not have it. Committed: this file alone resolves a full path per device, and the gitignored .machine.local.json only says WHICH machine this is (plus the contributor id and an optional `overrides` map for a checkout that cannot be expressed relative to the root - another drive, say; a `root` there overrides the one declared here). Every path the registry publishes about a project - the fleet map's context paths, an application's seam - is relative to the project root, so parallel development on several devices reads the same file. Domains are NOT here: every project declares its own in its .ai/manifest.yaml.",
   "machines": {
     "Fox": {
-      "note": "secondary dev box"
+      "note": "secondary dev box - root not declared yet; its .machine.local.json still supplies one"
     },
     "Wolf": {
-      "note": "primary dev box"
+      "note": "primary dev box",
+      "root": "C:/Users/kazda"
     }
   },
   "projects": {
@@ -53,7 +54,8 @@
     },
     "kp": {
       "checkouts": {
-        "Wolf": "kiro/kp"
+        "Wolf": "kiro/kp",
+        "Fox": "dolla/kp"
       }
     },
     "pof": {
@@ -74,6 +76,11 @@
     "ascent": {
       "checkouts": {
         "Wolf": "kiro/ascent"
+      }
+    },
+    "gravitone": {
+      "checkouts": {
+        "Wolf": "kiro/gravitone"
       }
     }
   }

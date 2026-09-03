@@ -6,7 +6,7 @@ technique: write-chokepoint
 status: forged
 laws: [one-validation-door]
 shared_with: []
-use_when: [deciding where audit writes should live, proving every destructive action gets recorded, audit calls sprinkled across call sites]
+use_when: [deciding where audit writes should live, proving every destructive action gets recorded, audit calls sprinkled across call sites, adding a second audit sink, an API can create a sink that writes to the host]
 ---
 
 # Write chokepoint
@@ -62,6 +62,47 @@ auditor asking "are all destructive operations recorded?" gets a
 finite proof obligation: here are the destructive operations, here are the
 writers, here is the mapping. Without enumerability the honest answer is
 "we believe so," which is not an answer an audit accepts.
+
+## Behind the door: uniform sinks, and a host path is a host privilege
+
+The door has one input contract; it may have several outputs. A ledger
+that fans one record out to a set of sinks — a file, a socket, a remote
+collector — gains the availability argument in
+[best-effort-with-accounting](./best-effort-with-accounting.md) and
+loses something unless it is careful: the property that every sink
+writes the *same* record. The rule is that **every sink takes one small,
+shared set of options — whether lists are elided, which hash form is
+used, a line prefix, whether values are left raw — and specialises only
+where its medium forces it.** A socket needs a write deadline and a
+reconnect policy because a peer can hang; a file sink strips executable
+bits from the mode it is given and refuses to write to anything but a
+regular file because a ledger that can be pointed at a device node or
+a pipe is a ledger that can be pointed at anything. Those are properties
+of the medium. What a sink must never own is a property of the *record*
+— a sink that hashes differently, or leaves a field raw that another
+sink hashes, has become a second door with a weaker sanitizer, and the
+weakest sink sets the ledger's exposure.
+
+The second half of the rule is about who may add a sink. **A sink that
+writes to a path on the host is created from the host's own
+configuration, reconciled when the process starts and when it reloads,
+and cannot be created or altered through the product's administrative
+interface.** The reason is a privilege boundary that is easy to miss
+because both actors are called administrators: choosing a host path is a
+system-operator act, and the product's API administrator is not, in
+general, that person. The naive reading lets an API call enable a file
+sink at an operator-supplied path with an operator-supplied mode, and its
+failure is that an API credential has just become a host file write —
+any path the process can reach, with content the caller partly controls
+through the very requests the ledger records. Two disclosures were paid
+for that lesson in one product line. The consequence for the door is a
+distinction in kind: a configuration-defined sink and an API-defined one
+are different types with different lifecycles, a mismatch between what
+the configuration declares and what the running set holds fails startup
+rather than being reconciled quietly, and the administrative interface
+may list the configuration-defined sink but may not remove or change it.
+The writer list stays enumerable; so does the sink list, and the host
+operator holds the pen on the half of it that touches the host.
 
 ## Placement: attach to what the action cannot bypass
 

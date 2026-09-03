@@ -1,7 +1,7 @@
 ---
 subject: dependency-declaration
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -72,3 +72,28 @@ on budget rather than reachability.
   Recorded as a lead rather than a finding because the bidirectional link is a
   deliberate integrity choice with its own gate, and calling it a defect needs an
   argument this run did not make.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++1 technique: **`attachment-coherence`**, on which the corpus previously owned
+nothing.
+
+Where behaviour can be attached to a type from outside, unrestricted attachment
+makes two independently-correct packages undeployable together: both attach the
+same behaviour to the same type, and the conflict surfaces at assembly, in the
+hands of a third party who authored neither side and cannot fix either. The
+constraint that prevents it — one end must be owned by the party making the
+attachment — is what forces a wrapper type, and the wrapper is the visible price
+of a rule many ecosystems lack and pay for elsewhere (last-writer-wins patching,
+resolution-order surprises).
+
+Landed here rather than in `module-design`, argued: the failure is a
+**composability** failure, this subject's second invariant ("declarations combine
+without somebody who knows about all of them"), and it materialises at assembly.
+`borrowed-surface` form two is explicitly distinguished in the body — that is a
+forecast about an upstream taxonomy staying stable; this is a permission question
+the mechanism decides. Carries the irreversibility rule: attach narrowly first, a
+blanket attachment cannot later be narrowed.
+
+Inverts in a closed system with a single assembler — no third party, no possible
+conflict, and the mandatory wrapper is ceremony.

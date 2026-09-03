@@ -85,3 +85,41 @@ an enforcement claim enters the file only with evidence the gate fires
 [instruction-freshness](./instruction-freshness.md) re-verifies it — a
 dead gate is either revived or the file says, in so many words, that the
 rule currently stands unenforced.
+
+## A hook that prints prose is not a demotion
+
+The sort has two outputs, and a third shape turns up in the field that
+belongs to neither: a lifecycle hook whose entire effect is to print text
+for the model to read. It fires on every prompt, or every stop, and what it
+emits is not a verdict about an artifact but a reminder — *before you
+finish, evaluate whether this task taught you something worth keeping.* It
+is registered beside the gates, so it reads as demoted. Nothing about it
+is. No program decided compliance; there is no target for the gate to see;
+the text arrives as context and is weighed like any other line. What the
+hook changed is the cadence and the audit: the line is redelivered on every
+turn instead of once at session start, and it lives in a script rather
+than in the file, so the per-line admission review — line-earning, the
+sibling-floor enumeration — never sees it. It is an always-loaded floor
+line with a per-turn multiplier and no reviewer.
+
+Sort the **trigger**, not the channel. A hook earns its place when a
+program decides *when* it speaks: it observes the artifact — the set of
+files this turn edited, an exit code, a diff — and stays silent otherwise.
+Its prose is then the "name the gate" line above, paid only on the turns
+where the condition held. When the condition is a judgment call — *did
+this session discover something non-obvious?* — no program can decide it,
+the rule is on the prose branch, and its honest home is the file, once per
+session, with [context-reset-redelivery](./context-reset-redelivery.md)
+deciding whether it needs to be said again after a compaction. Per-prompt
+redelivery of a judgment call buys the floor's cost N times over, and its
+compliance gain is, at the time of writing, asserted by the tools that
+ship it and measured by none of them.
+
+The cost side has been measured. Across two coding-harness projects in one
+fleet, a documentation-sync reminder in its condition-observed form fired on
+122 of 1,631 recorded human turns (7.5%; 50 of 487 and 72 of 1,144). The
+same reminder delivered unconditionally on every prompt would have injected
+fifteen to twenty-five times the words (85,700 against 5,500; 201,300
+against 7,900), and 86% of the turns it spoke on would have contained no
+edit at all. Replayed with the hook's own decision function over the
+recorded transcripts, 2026-09-02.

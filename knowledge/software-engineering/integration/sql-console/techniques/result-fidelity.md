@@ -6,7 +6,7 @@ technique: result-fidelity
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
-use_when: [deciding how null empty string and literal null render distinctly, verifying an empty grid says zero rows not error, scrubbing credentials from engine errors before display]
+use_when: [deciding how null empty string and literal null render distinctly, verifying an empty grid says zero rows not error, scrubbing credentials from engine errors before display, an error banner rendered above the previous run's rows, an id column losing its last digits after transport]
 ---
 
 # Result fidelity
@@ -28,10 +28,13 @@ falsification.
   three identically has destroyed exactly the distinction the user opened a
   SQL tool to see.
 - **Numbers survive transport.** Result values typically cross a boundary
-  whose native number type has bounded integer precision. 64-bit integers,
-  arbitrary-precision decimals, and monetary types must arrive either as
-  tagged strings or via a wide-integer representation — never silently
-  rounded. A console that corrupts the tail digits of an id column will have
+  whose native number type has bounded integer precision. The interchange
+  format itself says so: RFC 8259 §6 guarantees exact agreement only for
+  integers within ±(2^53 − 1) and warns that anything wider "may indicate
+  potential interoperability problems" — a 64-bit id column is outside
+  that range by design. 64-bit integers, arbitrary-precision decimals, and
+  monetary types must arrive either as tagged strings or via a
+  wide-integer representation — never silently rounded. A console that corrupts the tail digits of an id column will have
   that id pasted into a WHERE clause, and the user will mutate the wrong
   row with a tool that told them it was the right one.
 - **Types render as themselves.** Numbers right-aligned in tabular figures,
@@ -63,16 +66,19 @@ rule that keeps them apart: an empty grid with no verdict could be either,
 and the user's next action differs completely (refine the question vs fix
 the query). Settled-empty must say it settled.
 
-There is a third confusion the table does not show, because it is a
-transition rather than a state: the surface is re-run **in place**, so the
-outcome of run N is still on screen when run N+1 arrives. A failed run must
-therefore **clear the previous result**, not merely add an error beside it —
-an error rendered above rows the earlier run produced reads as that error's
-own output, and the user attributes stale data to the statement that
-failed. Stale-success-plus-error is a fourth shape the truth table never
-declared, so the executor must not be able to produce it: entering a run
-clears the outcome slot, and the run's terminal state — rows, zero rows,
-count, refusal, or error — is the only thing that refills it.
+The same law has a second pair, and it only exists once a statement can be
+**re-run in place**: the *stale-success/error* pair. A result surface that
+replaces its content on each run must treat the outcome as one value that
+is replaced whole — when the new run fails (or settles empty), the previous
+run's rows are cleared *before* the verdict renders, not left underneath
+it. An error banner above last run's grid reads as that error's output; a
+"query executed successfully" status above last run's grid reads as this
+run's rows. Both are the earlier shape-blur wearing a timestamp, and both
+recur in public issue trackers of shipped consoles because the pane's
+natural implementation is "set rows when rows arrive" — which never fires
+on failure. The rule: the outcome slot is written on every run, with the
+run's own shape, and a run that produced no rows writes *no rows*, never
+*nothing*.
 
 ## Bounds carry their predicate
 

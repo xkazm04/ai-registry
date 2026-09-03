@@ -1,10 +1,10 @@
 ---
 name: intake
-description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, maps every claim against existing bundles for prior art, triages candidates with the operator, and lands only what survives corroboration. News sources mostly yield currency signals and leads, not knowledge; that is a successful run. Use when someone shares a link and asks what it means for us."
+description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 1.6.0
-tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index
+version: 2.3.2
+tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
 # Intake
@@ -39,8 +39,25 @@ ORIGINATES a finding. It never AUTHORIZES one.**
 /intake <url> --no-apply      # land without applying; the reason goes in the scorecard row
 /intake <url> --run <id>      # join the run board under a chosen id (default: derived)
 /intake <url> --wave          # reference-index source: mine its references in waves, not its top 3
+/intake <url> --no-handoff    # keep a design-deep repository in this skill instead of routing it to /forge
+/intake <url> --design-only   # stop after the design read: write the design record and the source-tree applications, land no techniques
 /intake board                 # read the run board - who else is live, and what they hold
 ```
+
+**Version 2.0.0 changed what a repository run is.** Twelve consecutive runs over large
+systems (a secrets manager, a dataflow runtime, an agent harness, a medical-imaging
+toolkit) produced eleven amendments, six techniques, and zero subjects, specs or
+forge dispatches, because every rule below was written for a news video and a
+repository was bolted on at Phase 2b. The unit of extraction was a sentence, so
+architecture never reached the triage table; prior-art mapping against a thousand
+techniques always found a neighbour, so the impact column read `amendment`; the
+unattended rule dropped every `partial` row, which is where mechanisms sit; and the
+scorecard counted landings without weighing them. Six changes follow, marked **(v2)**
+where they appear: route design-deep repositories to `/forge`; read a repository's
+*design decisions* as candidates beside its claims; write applications against the
+source tree itself; trigger an XL spec mechanically when three design candidates share
+one home; execute the promoting question on every `partial` row instead of banking it;
+and weigh the scorecard by depth. The old economics still hold for a video.
 
 The pipeline this skill is trying to master, and the five stages every run is scored
 on, is **research -> extract -> test -> apply -> ship**. The first two are Phases 2-6.
@@ -256,6 +273,42 @@ economics. The lane is written up in
 [`references/source-classes.md`](references/source-classes.md) § "The batch lane";
 read it before ingesting more than one source.
 
+## Route by depth: the forge handoff (v2)
+
+This skill was designed for a source that *reports*. A repository that *is* a system
+- a runtime, a harness, a control plane, a toolkit with a dozen subsystems - carries
+its knowledge as design, and design does not survive being read as a list of claims.
+The registry already has the engine for that shape: `/forge` scouts every context of a
+repository, designs subjects from what it finds, and forges them in waves. Last week's
+runs never invoked it once, and mined six forge-shaped repositories with the news
+method instead.
+
+So the design read (Phase 2d) ends with a routing decision, made against one written
+count:
+
+> **How many load-bearing design decisions does this tree carry that no subject in the
+> corpus models?** A decision is load-bearing when removing it would change the shape
+> of the system, not one feature. "Models" means a subject whose golden path states the
+> decision's forces, not one whose technique mentions the word.
+
+- **Three or more** -> the source is a forge job. Write the design record, write the
+  source-tree applications (Phase 7, v2), claim the implicated bundle on the board, and
+  hand off: dispatch `/forge`'s Phase 0 scouts over the clone with the design record as
+  their brief, or bank the handoff under `librarian/handoffs/<date>-<slug>.md` if the
+  operator asked for `--design-only`. Intake resumes only for the *claims* the design
+  read did not absorb - currency, leads, and the one-paragraph corrections a forge wave
+  would not bother with.
+- **One or two** -> stay here. Each becomes a `design` candidate (Phase 3) and is
+  mapped, triaged and landed as a technique or a subject - not an amendment, unless the
+  decision is a boundary case of a mechanism the corpus already owns.
+- **Zero** -> the news method applies unchanged; the repository is a practitioner
+  account in repository form and its yield is claims.
+
+`--no-handoff` overrides the first branch for a run the operator wants kept small; say
+in the source note that the count was met and the handoff declined. A run that reaches
+Phase 5 on a forge-shaped repository without having written the count has reproduced
+the failure this section exists to end, and the scorecard's depth column will show it.
+
 ## The strip test
 
 An upper-layer document carries no product, model, company or tool name - enforced by
@@ -455,7 +508,11 @@ counts on both sides - the landing page and the in-tree documents. A note whose
 `words:` is a single small number over a repository source is a run that read the ad.
 
 The tree is deleted with the rest of this run's scratch files at Phase 9, not before -
-Phase 6 verification reads it, and Phase 7.5 may need it again.
+Phase 6 verification reads it, and Phase 7.5 may need it again. **It is always deleted
+(v2.1.1).** A `task` row whose first step landed on a branch of the clone does not keep
+the clone alive: export the branch with `git format-patch` into `librarian/handoffs/`
+beside the task's plan, point the plan at the patch, and delete the clone. A clone left
+behind for "later" is dead space nobody reclaims, and the operator said so on 2026-09-02.
 
 **Read for reusable engineering, not only for claims.** A repository is the one source
 class that carries *executable* knowledge, and the intake habit of hunting quotable
@@ -552,6 +609,54 @@ field's boundary. When it converges with ours, that is corroboration for a bound
 drew; when it does not, the gap is a lead worth more than most of the references. Record
 it, once, and do not mistake it for the source's yield.
 
+#### Phase 2d - The design read: decisions, not claims (v2)
+
+A sweep for claims and a sweep for excellence both leave the largest thing in a
+repository on the floor: **why it is shaped the way it is.** A system's architecture is
+a set of decisions, each made against forces, each buying something and rejecting
+something, and the sources that record them - ADRs, design documents, the CHANGELOG's
+"why" paragraphs, the module guides, the git history of a rejected approach - are the
+densest first-party material a tree holds. A claim can be quoted; a decision has to be
+*reconstructed*, and the reconstruction is the artifact.
+
+After the sweep and before extraction, write the **design record** - three to seven
+entries, each in this shape, into the source note under its own heading:
+
+```
+decision:   one sentence, in the tree's own terms (product names allowed here)
+forces:     what made the obvious alternative wrong - scale, trust boundary, latency,
+            a platform limit, an operator constraint
+buys:       the property the decision secures, stated so a team elsewhere could test for it
+rejects:    the alternative the tree did not take, and where it says so
+where:      file:line anchors - the ADR, the module guide, the type that encodes it
+stage:      the point in the system's own pipeline where the decision is made
+corpus:     the subject whose golden path models this decision's forces - or NONE, with
+            the nearest neighbour named and why it does not model them
+```
+
+Three rules make the record worth having:
+
+- **A decision without forces is a feature.** If you cannot say what would have made
+  the alternative right, you have described what the tree does, not why, and the entry
+  goes back to the claim lane.
+- **Stage, not slug, decides the home.** Ask where in the corpus subject's own pipeline
+  this decision is made, and whether any technique sits at that point. That is the same
+  hunt Phase 6 runs on claims, moved to the front where it changes what gets extracted.
+- **The `corpus:` line is the routing count, and it is counted twice (v2.2).** Group the
+  entries by the SYSTEM they belong to - a repository holds several - and count NONE per
+  system; a system at three or more with no home is a scoped forge, a system at three or
+  more with an existing home is a technique triple inside that subject, one or two stay
+  in intake. Then count the `HOME IF NEW` clause across systems: three or more entries
+  sharing one home-if-new fire the XL trigger even when no single system clears alone
+  (round 3: whole tree six, per system at most two, four sharing one home). Either
+  clause can fire; hand off the system or the cluster, never the repository. Write both
+  counts before deciding, and write the decision under the record.
+
+The design record is also the brief a forge scout receives if the run hands off, and
+it is the body of the source-tree application (Phase 7, v2) if it does not. Either way
+it is written once and it outlives the run: a later pass over the same repository
+diffs against it instead of re-deriving it.
+
 #### Then read, then clean up
 
 Read the transcript (and, for a repository, the swept tree). This run's scratch files -
@@ -578,6 +683,20 @@ Per candidate record:
 Extract 5-15. Drop only what has no plausible attachment anywhere in the registry.
 Do **not** open bundle files yet - that budget belongs to what the operator picks.
 
+**A `design` candidate is a second kind of row (v2).** Every entry in the design record
+whose `corpus:` line is not a clean catch becomes a candidate with `shape: design`,
+carrying the record's `decision`, `forces` and `stage` in place of `claim` and `anchor`.
+Two differences from a claim row govern everything downstream:
+
+- **The strip test is deferred, not skipped.** A design candidate keeps its product
+  names through triage, because the decision is only legible in the tree's terms. It is
+  stripped at Phase 7, when it is written as a technique - and if nothing survives the
+  strip *then*, it lands as a source-tree application instead, where names are allowed.
+- **Its default landing shape is a technique or a subject, never an amendment.** A
+  decision is a mechanism. An amendment is for the boundary case of a mechanism the
+  corpus already models; if the design record says the corpus models it, the candidate
+  is a catch, and if it says NONE, the corpus needs the mechanism, not a paragraph.
+
 ### Phase 4 - Map for prior art (one instrument call)
 
 ```sh
@@ -601,6 +720,14 @@ reference is relevant at all. Recover the full title at step 0 and rank on that.
 
 `none` is honest and common. It is also the value that should make you ask whether the
 candidate belongs in `skills/` or `memory/` rather than in a bundle.
+
+**The XL trigger is mechanical (v2).** When three or more `design` candidates carry the
+same `HOME IF NEW` - or the same `corpus: NONE` neighbour - a subject exists by
+construction, and the run writes the XL spec and dispatches the forge worker on it
+(Phase 7) without a judgment call. Under v1 the spec was proposed only when a run
+*noticed* that fragments belonged together, and in twelve runs no run noticed. The
+count replaces the noticing. Two design candidates sharing a home are a technique pair
+in an existing subject, or a lead for the third.
 
 **The instrument sees one branch.** It reads the working tree, so bundles that exist on
 other branches are invisible to it and it will report "no prior art" over a domain a
@@ -702,12 +829,18 @@ Say the expected yield for the source class out loud before the table, so a smal
 number reads as calibration rather than as failure. Flag any candidate that matches a
 prior run's decline or a banked lead as `reconsider?` with the earlier reason.
 
-Only picked candidates go deep. If the run is unattended, **only rows whose own read
-is `real gap` advance**; pick among them with the registry impact as the tie-breaker
-and say which you picked and why. `partial` and `likely catch` rows are recorded
-untriaged with their anchors - unverified, never declined - because an unattended run
-should spend its verification budget where the corpus can change and leave the
-judgment calls to a person (operator rule, 2026-08-28).
+Only picked candidates go deep. If the run is unattended, **rows whose own read is
+`real gap` advance**, and **every `partial` row gets its promoting question executed
+before it is filed (v2)**: write the one question whose answer would promote the row
+to `real gap`, answer it with one file read - the technique or golden path the row's
+prior art names - and advance the row if the answer promotes it. Under v1 `partial`
+rows were banked with their anchors, and the mechanisms sat there: a design decision
+always overlaps some subject, so it always reads `partial`, and the rule that protected
+the verification budget spent it on the cheapest rows instead. `likely catch` rows are
+still recorded untriaged with their anchors - unverified, never declined - and a
+`design` row is never `likely catch`, because the design record already checked.
+Pick among the advancing rows with the registry impact as the tie-breaker and say which
+you picked and why (operator rule, 2026-08-28; amended 2026-09-02).
 
 ### Phase 6 - Verify the picks
 
@@ -768,13 +901,13 @@ Route by shape. Every content change is gate-clean before it is committed.
 | --- | --- | --- |
 | `technique` | `<subject>/techniques/<slug>.md` + the owning golden path's `techniques:` list | Bidirectional or it does not exist. Cite `laws:` that already have anchors; do not invent one. |
 | `golden-path` correction | the subject document | Keep the file's prior voice. The corpus reads as one author. |
-| `application` | `<subject>/applications/<stack>--<technique>.md` | `verified_on` is today only if you resolved its citations today. `verified_against` only if you opened the tree. |
+| `application` | `<subject>/applications/<stack>--<technique>.md` | `verified_on` is today only if you resolved its citations today. `verified_against` only if you opened the tree. **The source's own clone is an opened tree (v2):** a repository run writes applications against the source itself, one per design-record entry whose `corpus:` names a subject, with `stack:` the source's stack and the design record's `decision`/`forces`/`buys` as the body. This is where a system's architecture is recorded in the registry; under v1 applications existed only for fleet projects, so the architecture of every mined repository went nowhere. `verified_against` names the document's stack at the version the tree **witnesses** (an engines field, a CI pin, a lockfile), never the version a dispatch guessed, and the first paragraph says which witness (v2.2). |
 | `currency` | the affected application's frontmatter, or a `/deepen` dispatch | A re-checked citation MUST move `verified_on`, or the corpus ages while the work says it did not. |
 | `skill` | `skills/<name>/` | Bump `version` in the same change; append to `LESSONS.md` after the run. |
 | `practice` / `memory` | `practices/<slug>/`, `memory/<kind>/<slug>.md` | ASCII only in these lanes. One idea per file. |
 | `script` / `docs` | `scripts/`, `docs/` | Zero dependencies. Assert the instrument before the result. |
 | `law` | `_laws.md` | Only on convergence across runs. Record the lead; do not write the law. |
-| `amendment` | inside an existing technique | The case a well-forged technique does not cover. In a mature corpus this is often the higher-yield move and it is always the cheaper one - add the section, keep the file's voice, do not mint a competing technique beside it. |
+| `amendment` | inside an existing technique | The case a well-forged technique does not cover. **Boundary or mechanism decides the shape (v2):** an amendment is right when the finding is a boundary case - a condition under which the technique's rule inverts, a lane it did not reach - and wrong when the finding is a mechanism the technique never had. A mechanism gets a technique, and three mechanisms with one home get a subject. The v1 sentence "in a mature corpus the amendment is the higher-yield move" was a bias that produced eleven amendments to six techniques over twelve runs; add the section only when the file's own rule survives the finding, keep the file's voice, do not mint a competing technique beside it. |
 | `lead` | the source note | With a return condition, or it is not a lead, it is a shrug. |
 
 **When a rule inverts across bundles, name the discriminator - do not link.** Cross-bundle
@@ -913,6 +1046,7 @@ and the row says so with the return condition "when a project grows the seam".
 | `code` | the seam as it is (A) vs the seam with the technique applied (B), behind a flag, a branch, or a worktree | the project's own gate, a metric the project already emits, or a before/after run of the same inputs | the change is a few readable lines, the project has a gate or a metric that can see the difference, and the tree has no foreign WIP in the files touched |
 | `experiment` | the same inputs run twice through a harness that does not change product code - a script, an eval slice, a replayed session, a dry-run of the hook against recorded actions | the harness's output, counted with its predicate | the technique's effect is observable without shipping it: hooks, gates, prompts, thresholds, routing rules |
 | `simulation` | three concrete cases pulled from the tree or its history - a real incident, a real PR, a real failing run - walked under policy A and policy B, one paragraph each, with the predicted outcome and **what would falsify the prediction** | your own reasoning, labelled as such | nothing above is reachable in this run: no gate can see the effect, the seam is in a tree you may not edit, or the cost of the experiment exceeds the run |
+| `task` **(v2)** | the seam as it is (A) vs a **scoped work item** the project would execute to adopt the mechanism (B): a plan in the project's own `.ai/` with the files it touches, the size in files and lines, the measurable it moves, the gate that will see it, and the first step already taken on a branch | the plan's measurable, read from the project's gate once the branch runs; until then the size estimate and the first step's own result | the finding is a design decision or a subject-level mechanism whose adoption is larger than a few readable lines - the case the three modes above cannot express, and the case every design candidate produces |
 
 A simulation with three cases from a real tree beats a code A/B against a toy. A
 simulation with invented cases is an opinion and does not count as applied.
@@ -944,11 +1078,158 @@ apply` reads to find techniques that have never been applied, oldest first, whic
 the backlog the wiki has been quietly accumulating.
 
 **Budget.** One project per finding per run; the highest mode reachable; at most the
-effort of the landing itself. A finding whose apply step would cost more than its
-landing is still owed a `simulation` row - three real cases take twenty minutes and
-that is the floor, not an excuse.
+effort of the landing itself **for a claim**. A finding whose apply step would cost
+more than its landing is still owed a `simulation` row - three real cases take twenty
+minutes and that is the floor, not an excuse. **A design candidate is budgeted the
+other way round (v2):** its apply step is a `task`, sized against the project and not
+against the landing, and a repository run carries three times a video run's budget for
+this phase. The v1 budget was written for a source that reports; applied to a source
+that is a system, it guaranteed that no project ever changed by more than a few lines,
+and eight of twelve apply rows were simulations or structural-only reads.
+
+### Phase 7.6 - The direction pass (v2.1: new capabilities, human-gated)
+
+Phase 7.5 asks whether a project would be better off doing what the corpus now says at a
+seam it already has. This phase asks the question 7.5 cannot: **which project has no
+seam at all for a capability this source shows matters** - and proposes one, never
+builds one. It runs once per design-record entry (Phase 2d) whose `corpus:` line names a
+subject, and it reads one instrument:
+
+```sh
+node scripts/build-fleet-map.mjs --check || node scripts/build-fleet-map.mjs
+```
+
+`librarian/fleet-map.json` is the map of context maps and its inverse
+([`docs/fleet-map.md`](../../../docs/fleet-map.md)): for every subject, the projects
+that have a context it governs and the projects that do not, each absence classified
+against the project's manifest `scope:` block and its directions ledger. Only an absence
+classified `candidate` is eligible. For each one, the judgment step - and it is a
+judgment, stated so it can be reviewed - is:
+
+> Does this project's `scope.does` admit the decision's **forces**? Not its feature: the
+> forces. A project that never faces the trust boundary, the scale, or the operator
+> constraint the decision answered has no direction here, whatever its domain says.
+
+Where the answer is yes, write a **direction proposal** into the project's own tree,
+`.ai/directions/<date>-<subject>.md`, in the fixed shape the doc gives: why the scope
+implies it, what the first context would contain and must not absorb, the measurable,
+the falsifier, a size. Commit it with a pathspec on the project's active branch. **Do not
+build it, do not open a task row for it, do not add it to the registry map.** The owner's
+decision arrives as a row in `.ai/directions/ledger.jsonl`, and the next fleet-map run
+reads it: `accepted` becomes a `task` row for the next intake, `declined` is never
+re-proposed, `deferred` carries its return condition.
+
+Three rules keep this lane from becoming a feature-request generator:
+
+- **At most three proposals per run**, ranked by how many of the design record's
+  entries the same project is a candidate for - a project absent from four decisions of
+  one system is the one with the direction, not four projects absent from one each.
+- **A proposal cites the source's forces, never its features.** "The source has a plugin
+  system" is not a reason; "this project loads operator-supplied code at the same trust
+  boundary and isolates nothing" is.
+- **Record the ones you did not write.** Candidates that read as admitted but were
+  cut by the cap go in the source note under "Directions not proposed", with the project
+  and the reason, so the fleet map's next sweep can pick them up without re-deriving.
+
+A run over a source with no design record (a video, a listicle) skips this phase and
+says so in the scorecard's depth cell (`directions=n/a`).
+
+**The peer shape (v2.2).** When a fleet project's `scope.does` names the same class of
+system the source *is* - an agent runtime and an agent runtime, a provider gateway and an
+observability service that ingests what the gateway emits, an engine multiplexer and an
+engine multiplexer - three proposals is the wrong cap, and the operator will say so
+mid-run if the method does not. For a peer, the pass writes a **comparison study** in
+the project's own `.ai/directions/` (`<date>-<source>-comparison.md`): 25-45 points
+grouped by area, each with file:line on both sides and a verdict from the closed set
+`adopt` / `adapt` / `keep ours` / `different forces` - with the reason on every verdict,
+because `keep ours` is expected to be the largest class and is worthless without it. The
+study closes with the tests to initiate (paired, instrument named, the number that would
+move), the features ranked with why the scope admits each, and the inverse list of what
+the project does better. The three-proposal cap then applies to the study's ranked
+features, not to the pass. The front-half worker runs the peer check and seeds 8-12
+points; the study worker expands them against the project's own tree and is expected to
+correct seeded points against it. Three rounds established this shape (2026-09-02:
+personas, tracklight, pumper); a study is dispatched, never written by the director.
+
+### Phase 7.7 - The decision gate (v2.3: the operator decides in one screen, execution follows in the session)
+
+A proposal nobody reads is a wiki page with a schema. Under 2.1 and 2.2 the direction
+pass wrote twelve proposals across five projects in twenty-four hours and zero ledger
+rows were written, because the decision lived in a file the operator had to go and
+find. The gate moves the decision into the run.
+
+**When.** After Phase 7.6 has written this run's proposals, and before Phase 9. If the
+run is unattended, skip the gate and say so in the depth cell (`gate=skipped`); never
+decide on the operator's behalf.
+
+**What is shown.** Every proposal with `status: proposed` across the fleet - this run's
+and every earlier run's still waiting - grouped by project, as a **multi-select**: one
+question per project (up to four projects per screen; a fifth waits for the next run),
+each option one proposal with its slug as the label and one line of description carrying
+the registry subject, the mechanism, and the size from the proposal's frontmatter.
+Selected means **accepted**; unselected means **declined**. There is no third state on
+the screen - a proposal the operator wants to think about is declined now and may be
+re-raised by a later run, because "deferred" is how the twelve accumulated.
+
+**What is written.** One ledger row per proposal in the project's
+`.ai/directions/ledger.jsonl` (`accepted` or `declined`, reason
+`operator multi-select review <date>`), the proposal's `status:` line updated, committed
+in the project with a pathspec. The fleet map reads the rows on its next regeneration, so
+a declined direction is never re-proposed and an accepted one leaves the candidate list.
+
+**What executes.** Every accepted proposal is dispatched to its own worker **in the same
+session** - one worker per proposal, in an isolated worktree of the project
+(`git worktree add C:/t/w-<project>-<slug> -b direction/<slug>`, short path, per the
+long-path rule) so nine workers can run against five checkouts without sharing one.
+**When two accepted proposals in one project name the same files** (the seam line in
+their `stage:`), they go to ONE worker on ONE branch (`direction/<run>-round<n>`),
+executed in order with one commit and one applied row each - parallel branches over
+one file only move the merge conflict to the director (v2.3.2, learned when eleven
+proposals across four projects shared a chart checker, a claim statement and an error
+enum). The
+worker reads the proposal as its spec, the project's own account of itself, and the
+registry subject it implements; builds the proposal's "first context" within the stated
+size; writes the tests the proposal's measurable implies; runs the cheapest gate that
+sees the change; appends one `task` row to the project's `.ai/applied.jsonl` with the
+verdict read from the gate; commits on the worktree branch with a pathspec and the
+project's own commit convention, never bypassing a hook, never pushing. The director
+reviews each report against the diff (the gate ran, the row's verdict matches what the
+gate said, the size did not creep), records the branches in `librarian/applied.md`, and
+removes the worktrees. **Then the director merges (v2.3.1).** The operator's acceptance
+at the gate was the human decision; a second one at merge time is a gate nobody asked
+for, and the branches it produced sat unmerged until the operator said so. The rule:
+
+- a branch whose gate ran **green** is merged into the project's active branch with
+  `--no-ff` and a message naming the gate date, in the session, right after the review;
+- a branch whose gate is **red, or could not run** (a missing toolchain, a test binary
+  that will not launch) stays a branch, with the reason in its applied row and in the
+  report - the operator merges that one by hand or asks for a second pass;
+- `.ai/applied.jsonl` conflicts between sibling branches are append-only ledgers and are
+  resolved by **union** (ours, then every line of theirs not already present), never by
+  choosing a side; a concurrent session's uncommitted rows in the main checkout are
+  committed first as their own change, never stashed or overwritten;
+- **never push.** The operator pushes after reading the log, as for every other commit
+  this method makes.
+
+Workers are the default model for this phase, as for every phase but the director's
+review.
+
+**Budget.** The gate costs one screen. The execution costs one worker per accepted
+proposal, and the operator chose the count. A run that lands in the registry and then
+executes the fleet's accepted directions has closed the loop this whole method exists
+for: research → extract → test → apply → ship, with the ship decided by the person who
+owns the tree.
 
 ### Phase 8 - The cross-repo lane (default for `code` and `better`; confirm before editing)
+
+**Two lanes (v2.1).** A *coverage* change - a `code`, `experiment` or `task` row against
+a seam the project already has - ships on the recommendation under the rules below; the
+project's own gate is the review. A *direction* - a new context, a new capability - never
+ships from a run: it is proposed in Phase 7.6 and waits for the owner's ledger row. The
+two are not a matter of size. A one-line change that creates a capability the scope
+does not name is a direction; a two-hundred-line refactor inside a governed context is
+coverage. When a `task` row's plan would create a context the registry map does not
+have, split it: the proposal goes to `.ai/directions/`, the rest stays a task.
 
 A finding can land in the registry AND in a project that consumes it. That second half
 is a different repository with its own review, so it is gated separately and never
@@ -993,8 +1274,12 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
    has one owner and one machine, so a branch-and-PR round trip protects nobody (see
    the single-owner doctrine in memory). The two exceptions: the tree has another
    session's uncommitted work in files you touch, or the change is larger than a few
-   lines a reviewer can read in the diff - then a branch, and say why. **Never push**
-   from a run; the operator pushes when they have read the diff.
+   lines a reviewer can read in the diff - then a branch, and say why. **A `task` row
+   always takes the second exception (v2):** its first step lands on a branch named
+   for the run, the plan is committed beside it in the project's `.ai/`, and the row
+   in `librarian/applied.md` names the branch so the next run - or `/intake apply` -
+   can continue it. **Never push** from a run; the operator pushes when they have read
+   the diff.
 5. The registry-side artifact of a project change is an **application document**: you
    opened a real tree, so you are one of the few things allowed to write `verified_on`
    and `verified_against` truthfully. Write them, and write the `proof:` status from
@@ -1060,8 +1345,10 @@ directory **by its run id**, never by sweeping the scratch root.
   technique in the index with no row here.
 - **Scorecard** `.claude/skills/intake/SCORECARD.md`: one row per run with the five
   stage counts - research (sources), extract (candidates), test (picks verified),
-  apply (rows, by mode), ship (project commits) - and the reason for any zero in the
-  last two.
+  apply (rows, by mode), ship (project commits) - the reason for any zero in the
+  last two, **and the depth cell (v2)**: `subjects/techniques/amendments/apps-vs-source/
+  task-lines`, plus the routing count from Phase 2d and whether the run handed off.
+  Five one-paragraph amendments and one subject no longer score the same.
 - **Subject notes** `librarian/subjects/<domain>/<subject>.md` for every subject
   touched, same shape `librarian` writes.
 - **Leads** carry a return condition. "When the model is actually released", "when a
@@ -1134,10 +1421,14 @@ row is worse than no row - it makes the weakest-stage reading wrong rather than 
 **Lane 0 - the scorecard, every run, no exceptions.** Append one row to
 `SCORECARD.md`: version used, date, source slug, and the five stage counts -
 `research` (sources ingested), `extract` (candidates), `test` (picks verified),
-`apply` (rows by mode, e.g. `1c/0e/2s`), `ship` (project commits). A zero in `apply`
-or `ship` carries its reason in the row. Then read the last ten rows and name, in one
-line under the table, **the stage the funnel is losing most at** - that stage is the
-next run's declared focus, and the next run's row says whether it moved. This is the
+`apply` (rows by mode, e.g. `1c/0e/2s/1t`), `ship` (project commits), and `depth`
+(v2: `S/T/A/Asrc/task-lines` with the Phase 2d routing count and the handoff
+decision; v2.1 adds `directions=<proposed>/<not-proposed>` or `n/a`). A zero in `apply` or `ship` carries its reason in the row. Then read the
+last ten rows and name, in one line under the table, **the stage the funnel is losing
+most at** - that stage is the next run's declared focus, and the next run's row says
+whether it moved. Read the depth column across the same ten rows and say whether the
+run's shape matched its source's: a system that yielded only amendments is a routing
+miss, and it is named as one. This is the
 mechanism by which the pipeline is mastered rather than merely repeated: the funnel
 is measured, the weakest stage is named, and the method edits (lane 2) are aimed at
 it instead of at whatever the last run happened to notice.
@@ -1181,6 +1472,14 @@ corroboration behind it.
 
 - **Letting a video author an upper layer.** The one failure that damages the corpus
   rather than just wasting a run.
+- **Mining a system with the news method.** Twelve runs, six systems, zero subjects.
+  A repository whose routing count is three or more is a forge job; read its design,
+  write the record and the source-tree applications, and hand off.
+- **Reading a repository for sentences.** A design decision is reconstructed from
+  forces and alternatives, not quoted; if the design record is empty over a tree with
+  an ADR directory, the sweep read the ad.
+- **Landing a mechanism as a paragraph.** An amendment is for a boundary case. A
+  mechanism the corpus lacks gets a technique, and three with one home get a subject.
 - **Mining a repository at its README.** The ingest returns the landing page; the
   landing page is the one file in the tree written to be quoted. Clone it (Phase 2b),
   sweep the operating documents, the instrument, the measurement and the types, and

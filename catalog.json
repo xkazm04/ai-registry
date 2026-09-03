@@ -34,18 +34,18 @@
     },
     {
       "name": "architect",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
-      "contentHash": "sha256-n1:afc02b040c8d9a1e",
+      "contentHash": "sha256-n1:5175a68630d88a55",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 7,
+      "lessons": 12,
       "lessonsPath": "skills/architect/LESSONS.md",
-      "lessonsHash": "sha256-n1:ed5eb122c59e587b",
+      "lessonsHash": "sha256-n1:d0c9d6c93939e506",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -91,10 +91,10 @@
     },
     {
       "name": "conform",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:439395027bf43372",
+      "contentHash": "sha256-n1:4b179a60c24c6197",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 2,
@@ -122,31 +122,31 @@
     },
     {
       "name": "dojo",
-      "version": "1.0.0",
+      "version": "1.2.0",
       "category": "ai-native",
       "path": "skills/dojo/SKILL.md",
-      "contentHash": "sha256-n1:cad4732da495ca6a",
+      "contentHash": "sha256-n1:a3e168f29053b2fd",
       "adopters": [],
       "invokes30d": 0,
-      "lessons": 1,
+      "lessons": 2,
       "lessonsPath": "skills/dojo/LESSONS.md",
-      "lessonsHash": "sha256-n1:0d13c682f2a0ce5c",
+      "lessonsHash": "sha256-n1:87aaf12b26a00211",
       "usageContributors": []
     },
     {
       "name": "explorer",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:af549060e893442e",
+      "contentHash": "sha256-n1:436a1a1eff4c627f",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 8,
+      "lessons": 15,
       "lessonsPath": "skills/explorer/LESSONS.md",
-      "lessonsHash": "sha256-n1:cab2e61354d896a7",
+      "lessonsHash": "sha256-n1:42585780b098dea1",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -164,16 +164,18 @@
     },
     {
       "name": "friend",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow",
       "path": "skills/friend/SKILL.md",
-      "contentHash": "sha256-n1:31f64fc66c14d157",
+      "contentHash": "sha256-n1:f8354ba40b53d85c",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/friend/LESSONS.md",
+      "lessonsHash": "sha256-n1:33029dc5e09c0705",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -286,10 +288,10 @@
     },
     {
       "name": "perfect",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "category": "workflow",
       "path": "skills/perfect/SKILL.md",
-      "contentHash": "sha256-n1:e47720fb5722aa31",
+      "contentHash": "sha256-n1:3401f4a40b75fd96",
       "adopters": [
         "ascent@plugin:2.3.0",
         "kp@plugin:2.3.0",
@@ -299,9 +301,9 @@
         "systedo-case@plugin:2.3.0"
       ],
       "invokes30d": 46,
-      "lessons": 8,
+      "lessons": 10,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:cb69978737b6e09e",
+      "lessonsHash": "sha256-n1:41573371985153c5",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -341,28 +343,28 @@
     },
     {
       "name": "research",
-      "version": "1.8.0",
+      "version": "1.9.0",
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
-      "contentHash": "sha256-n1:a3a7e718f859191a",
+      "contentHash": "sha256-n1:a40418b584af8147",
       "adopters": [
         "personas@plugin:1.5.0",
         "pof@1.7"
       ],
       "invokes30d": 20,
-      "lessons": 9,
+      "lessons": 11,
       "lessonsPath": "skills/research/LESSONS.md",
-      "lessonsHash": "sha256-n1:59562315213e444c",
+      "lessonsHash": "sha256-n1:a04d2c176aa12b79",
       "usageContributors": [
         "kazda-dev-box"
       ]
     },
     {
       "name": "scan-sweep",
-      "version": "2.8.0",
+      "version": "2.9.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:0fbf5a1b6c3b4c3d",
+      "contentHash": "sha256-n1:babd893415cfbf04",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -370,9 +372,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 26,
+      "lessons": 33,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:3c0402b93191d3dd",
+      "lessonsHash": "sha256-n1:198445734e002c01",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -397,17 +399,17 @@
     },
     {
       "name": "spark",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:57222f5b8abb0223",
+      "contentHash": "sha256-n1:5aca6d2fa537b8eb",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
-      "lessons": 11,
+      "lessons": 13,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:40bff42322d3b45b",
+      "lessonsHash": "sha256-n1:1af501ee645edb95",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -492,6 +494,24 @@
       ]
     },
     {
+      "id": "justified-lint-exemptions",
+      "dimension": "D6",
+      "path": "practices/justified-lint-exemptions/PRACTICE.md",
+      "contentHash": "sha256-n1:be6f97a15f606254",
+      "starter": [
+        "practices/justified-lint-exemptions/starter/LINT-EXEMPTIONS.md"
+      ]
+    },
+    {
+      "id": "least-powerful-test-first",
+      "dimension": "D6",
+      "path": "practices/least-powerful-test-first/PRACTICE.md",
+      "contentHash": "sha256-n1:5735689ed6206ec1",
+      "starter": [
+        "practices/least-powerful-test-first/starter/TEST-GUIDELINES.md"
+      ]
+    },
+    {
       "id": "local-first-readme",
       "dimension": "D5",
       "path": "practices/local-first-readme/PRACTICE.md",
@@ -545,6 +565,15 @@
       "source": "decision-record"
     },
     {
+      "kind": "episodic",
+      "slug": "2026-09-01-fable-vs-opus-skill-bakeoff",
+      "path": "memory/episodic/2026-09-01-fable-vs-opus-skill-bakeoff.md",
+      "contentHash": "sha256-n1:08071e6c4628d20e",
+      "confidence": 1,
+      "namespace": "engineering",
+      "source": "skill-bakeoff-2026-09-01"
+    },
+    {
       "kind": "procedural",
       "slug": "rolling-back-a-bad-release",
       "path": "memory/procedural/rolling-back-a-bad-release.md",
@@ -552,6 +581,15 @@
       "confidence": 1,
       "namespace": "platform",
       "source": "incident-retro"
+    },
+    {
+      "kind": "semantic",
+      "slug": "model-choice-fable-vs-opus",
+      "path": "memory/semantic/model-choice-fable-vs-opus.md",
+      "contentHash": "sha256-n1:9a594ca377c2be58",
+      "confidence": 0.6,
+      "namespace": "engineering",
+      "source": "skill-bakeoff-2026-09-01"
     },
     {
       "kind": "semantic",
@@ -574,9 +612,9 @@
   ],
   "counts": {
     "skills": 29,
-    "practices": 5,
-    "memory": 4,
-    "lessons": 96
+    "practices": 7,
+    "memory": 6,
+    "lessons": 123
   },
   "bundles": [
     {
@@ -590,7 +628,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:a8a9498d7d020547"
+      "contentHash": "sha256:a22f8368414f8116"
     },
     {
       "name": "game-production",
@@ -599,11 +637,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 43,
-      "techniques": 259,
-      "applications": 116,
-      "files": 422,
-      "contentHash": "sha256:e54e3e9f837756a3"
+      "subjects": 51,
+      "techniques": 319,
+      "applications": 136,
+      "files": 510,
+      "contentHash": "sha256:7dffb52b05d68e2e"
     },
     {
       "name": "grant-funding",
@@ -616,7 +654,7 @@
       "techniques": 105,
       "applications": 38,
       "files": 165,
-      "contentHash": "sha256:31e94c240ca9cf05"
+      "contentHash": "sha256:df80ca4e2ca6bf66"
     },
     {
       "name": "llm-observability",
@@ -625,11 +663,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 16,
-      "techniques": 102,
-      "applications": 54,
-      "files": 177,
-      "contentHash": "sha256:4e596ce03b8974ef"
+      "subjects": 17,
+      "techniques": 110,
+      "applications": 59,
+      "files": 191,
+      "contentHash": "sha256:646b160ad13f99c5"
     },
     {
       "name": "localization",
@@ -642,7 +680,7 @@
       "techniques": 85,
       "applications": 45,
       "files": 148,
-      "contentHash": "sha256:b4e7374e8aca6599"
+      "contentHash": "sha256:cf1fad6b2b713e06"
     },
     {
       "name": "media-generation",
@@ -655,7 +693,7 @@
       "techniques": 132,
       "applications": 61,
       "files": 218,
-      "contentHash": "sha256:7663658101cfe49a"
+      "contentHash": "sha256:7af8e54015d63df4"
     },
     {
       "name": "recruiting",
@@ -668,7 +706,7 @@
       "techniques": 384,
       "applications": 194,
       "files": 646,
-      "contentHash": "sha256:8192916880c39fef"
+      "contentHash": "sha256:1cb82da820fa3090"
     },
     {
       "name": "software-engineering",
@@ -677,11 +715,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 156,
-      "techniques": 1099,
-      "applications": 597,
-      "files": 1857,
-      "contentHash": "sha256:8510ba3e40c0ced0"
+      "subjects": 191,
+      "techniques": 1386,
+      "applications": 810,
+      "files": 2392,
+      "contentHash": "sha256:9a1139ad023fbc33"
     }
   ]
 }

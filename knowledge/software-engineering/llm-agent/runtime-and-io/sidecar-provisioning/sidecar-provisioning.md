@@ -6,11 +6,14 @@ status: forged
 techniques:
   - resolution-ladders
   - grade-selection
+  - change-rate-partitioning
   - atomic-downloads
   - source-pinning
   - process-isolation
   - capability-detection
   - model-storage-lifecycle
+  - plugin-lazy-load-and-reload
+  - split-trust-by-registration-path
 ---
 
 # Sidecar binaries & model provisioning
@@ -106,6 +109,33 @@ a grade change is otherwise undiagnosable. The
 [grade-selection](./techniques/grade-selection.md) technique owns the axis,
 the derived ceiling, and the honest verdict.
 
+## Cut the payload where its parts change at different rates
+
+Before asking *how* a payload arrives, ask whether it should arrive as one
+thing. A provisioned dependency is usually a single archive because that is
+how the build emitted it, and inside it sit parts on wildly different
+clocks: a core rebuilt with every application release, and an accelerator
+or runtime-library set — frequently the larger half — that moves only when
+an upstream toolchain generation does. Shipped as one unit, every routine
+patch release recharges gigabytes to deliver megabytes of change.
+
+The decision precedes the arrival mechanism, and it is a decision about
+change frequency, not about size or directory structure. Each partition
+carries **its own version identity and its own staleness predicate**,
+computed independently, so the acquisition flow fetches only what actually
+moved; readiness is the conjunction across parts, never "the last download
+succeeded". Two version numbers here are two facts about two vocabularies,
+not two replicas of one — the distinction is what keeps the partition on
+the right side of
+[one-authority-per-vocabulary](../../../_laws.md#one-authority-per-vocabulary).
+The classifier that assigns files to partitions carries an enumerated
+hold-back list, because what is deliberately kept out of a partition is as
+much a declared fact as what goes in. The
+[change-rate-partitioning](./techniques/change-rate-partitioning.md)
+technique owns the cut rule, the two-predicate discipline, and the boundary
+against grades — the halves of a partition do not substitute for one
+another, so a half-provisioned dependency is *absent*, not degraded.
+
 ## Arrival is atomic or it did not happen
 
 A download in progress must be invisible to every reader, and a download
@@ -154,6 +184,36 @@ door, termination ladder, orphan sweeps — is
 (see [spawn-contract](../subprocess-lifecycle/techniques/spawn-contract.md)
 and
 [termination-and-reaping](../subprocess-lifecycle/techniques/termination-and-reaping.md)).
+
+## When the sidecar is a plugin, the seam gets a lifecycle and a trust rule
+
+One sidecar shape stretches the seam further than an engine does: the
+**plugin** — an executable the host did not build, dispensed from a catalog
+and mounted many times over, each mount a slightly different configuration,
+registered by whoever had the authority to register it. The handshake is
+still the seam, but two more questions have answers only here. *When* does
+a process exist behind a mount, and when may two mounts share one: dispense
+in metadata mode so routing questions are answered without running the
+plugin, load fully on the first real request, restart on the process's
+shutdown error and re-verify its declared shape before serving again, and
+share a process only between mounts whose whole runner configuration is
+identical — the
+[plugin-lazy-load-and-reload](./techniques/plugin-lazy-load-and-reload.md)
+technique owns all three, while the spawn and restart mechanics stay with
+[subprocess-lifecycle](../subprocess-lifecycle/subprocess-lifecycle.md).
+And *what the host trusts* about a loaded plugin, which is decided by the
+door it came through, not by the binary: a plugin the host's configuration
+file declares carries its operator's own authority, as the ladder's override
+rung already does, while one registered through the API must carry a digest
+and run from one directory; errors leaving the plugin pass a sanitizer that
+strips the host's secrets and keeps the verdict, and a privilege decision
+the plugin must never see stays on the host's side of the boundary. That is
+[split-trust-by-registration-path](./techniques/split-trust-by-registration-path.md).
+The line against [supply-chain](../../../security/code-provenance/supply-chain/supply-chain.md)
+is the moment of loading: provenance of what the host is about to run —
+where it was built, who signed it, what the download verified — is that
+subject's; how a plugin, once loaded, is isolated and trusted at run time is
+this one's.
 
 ## Absence is a designed state, not an error path
 
@@ -224,6 +284,10 @@ Two rules fall out of the table:
   interchangeable, unequal variants of one dependency: the host-derived
   ceiling, measurement over label, per-capability floors, no silent
   downgrade.
+- [change-rate-partitioning](./techniques/change-rate-partitioning.md) —
+  cutting a distributable payload along its change-frequency seam; a version
+  identity and a staleness predicate per part; the hold-back list; why two
+  facts are not two replicas.
 - [atomic-downloads](./techniques/atomic-downloads.md) — partial-file staging
   and atomic rename, in-flight guards, throttled progress, resume-or-restart
   policy.
@@ -236,3 +300,11 @@ Two rules fall out of the table:
   version probes, status affordances, feature gating on absence.
 - [model-storage-lifecycle](./techniques/model-storage-lifecycle.md) — managed
   directories, storage accounting, sharing across features, eviction.
+- [plugin-lazy-load-and-reload](./techniques/plugin-lazy-load-and-reload.md)
+  — metadata mode at mount and full load on first request, restart on the
+  shutdown error with the shape re-verified, the full runner configuration as
+  the multiplexing key, the handshake as a user-experience feature.
+- [split-trust-by-registration-path](./techniques/split-trust-by-registration-path.md)
+  — the config author as host-level, the API caller's mandatory digest and
+  single execution directory, the error sanitizer at the boundary, privilege
+  decisions kept on the host's side.

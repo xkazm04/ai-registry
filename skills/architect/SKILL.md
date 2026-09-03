@@ -5,7 +5,8 @@ argument-hint: "[area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.5.0
+version: 1.6.0
+model: opus
 ---
 # Architect
 
@@ -1146,3 +1147,7 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
+
+## Model choice (bake-off 2026-09-01, kp / error-handling)
+
+`model: opus`. Run head-to-head with identical inputs, Opus found the finding no defect-shaped search can find (four design-token lint selectors shadowed by later flat-config blocks and dead for their whole life) and shipped a config-resolution guard, an all-routes envelope ratchet, two recorded refutations and a corrected overlay subject row, in half the wall time. Fable executed more code fixes (no-empty at error, structured UNIQUE check, a lockstep test) and a repo ADR; those three commits were cherry-picked onto Opus's branch. Rule that follows: when the theme is a repo whose laws are gates, add an **enforcement-coverage** angle, which inventories the gates and proves each can still fire, by probe. See LESSONS.md.

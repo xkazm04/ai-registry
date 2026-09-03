@@ -4,7 +4,7 @@ type: technique
 subject: procedural-level-planning
 technique: declare-what-each-engine-ignores
 status: forged
-laws: [unmeasured-is-not-a-pass, no-gate-self-certifies]
+laws: [unmeasured-is-not-a-pass, no-gate-self-certifies, declaring-an-input-is-not-consuming-it]
 shared_with: []
 use_when: [several generators accept the same request type, a designer cannot tell which inputs mattered, comparing two backends on one brief]
 ---

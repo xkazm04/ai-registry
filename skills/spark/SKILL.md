@@ -5,7 +5,8 @@ memory: vault
 category: workflow
 description: Turn a vague product idea (a "sparkle") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director review. Runs live in a memory vault (a linked Obsidian folder, or <repo>/.spark/ with the same schema); every run ends with a self-improvement retro that sharpens the skill itself. Per-repo specifics - vault path, gates, context map, host rituals, repo law - come from the overlay at .claude/spark/config.md, and the loop runs on defaults without it. Invoke with `/spark <idea...>` or `/spark resume <slug> | status | reflect`.
 argument-hint: "<idea...> | resume <slug> | status | reflect"
-version: 1.2.0
+version: 1.3.0
+model: fable
 ---
 
 # Spark — sparkle in, fire out
@@ -102,7 +103,9 @@ waves_used: <n>   questions_asked: <n>
 3. If targeting is genuinely ambiguous (two plausible homes with different architectures), that is **wave-1 question #1** — never guess silently, never ask more than one targeting question.
 
 ### Phase 2 — Scout before asking
-Launch one Explore scout per primary context (parallel, "very thorough"): what exists, what the idea overlaps/duplicates, reusable primitives (check the repo's shared-component catalog when the overlay's `## Repo law` names one), data model touchpoints, perf-relevant volumes, `file:line` evidence. Digest into `## Scout digest` (`status: scouted`).
+Launch one Explore scout per primary context (parallel, "very thorough"): what exists, what the idea overlaps/duplicates, reusable primitives (check the repo's shared-component catalog when the overlay's `## Repo law` names one), data model touchpoints, perf-relevant volumes, `file:line` evidence. Digest into `## Scout digest` (`status: scouted`). **If scouts cannot be launched** (pool exhausted, tool unavailable), the Director scouts directly under the same evidence rules and says so in `## Scout digest` — never skip scouting, never retry a refused launch.
+
+**Read the governing registry subject BEFORE the waves, not after.** Resolve the target contexts' subjects through `.ai/registry-map.json` and read the golden path plus the techniques whose `use_when` matches the idea. A standard read here becomes a wave-1 constraint or a named deviation; read afterwards it is only a review comment. (The weekly-digest spark found that a documented whole-fleet period delta inverts at a 7-day window only because the time-windows subject was open before Q1.)
 
 **Grounding rule: no question reaches the operator that the code could have answered.** "Should this be a new tab or extend X?" is only a valid question if the scout confirmed X exists, renders, and could host it.
 
@@ -110,6 +113,7 @@ Launch one Explore scout per primary context (parallel, "very thorough"): what e
 1. A surface only "exists" if it RENDERS — trace every surface to an actual mount point.
 2. A FIELD only "exists" if some query the consumer actually calls POPULATES it. For every field the design depends on, the scout names the query that fills it and confirms the consumer calls that query, not a leaner projection of it.
 3. For any DERIVED store the design moves or rebuilds, name the function that regenerates it — or state that none exists.
+4. A TIMESTAMP only means what its name says if the row it sits on is APPENDED, not REWRITTEN. For any field the design reads as an event time, the scout states whether the table is append-only or re-created per snapshot, and names the writer. A `createdAt` on a snapshot-rewritten table answers "when did we last look", never "when did this start".
 
 Also required of every scout that maps shared render helpers or models: enumerate OTHER CONSUMERS of them, and **show the grep or command that produced the list** rather than asserting it — extension-site checklists are otherwise silently incomplete.
 
@@ -136,7 +140,9 @@ Write `## Design brief` in the idea note:
 ```markdown
 ### Summary        (three sentences a PM would sign)
 ### Work packages  (1-4, each ONE builder session: files touched, what changes,
-                    acceptance criteria 3-6 checkable bullets)
+                    acceptance criteria 3-6 checkable bullets, and the DOC SURFACE it owns -
+                    where two packages document one feature, exactly one owns the file and
+                    the others emit sections to scratch for the Director to merge)
 ### Data & API     (schema/migrations, new commands/endpoints, generated types to regen)
 ### UX/UI spec     (per-surface: states, components from the catalog, tokens, loading pattern)
 ### Strings        (sections touched; the overlay's translation ritual, if any, runs before commit)
@@ -150,7 +156,7 @@ Gate with one AskUserQuestion: **Build now / Adjust (say what) / Park it** (`sta
 
 ### Phase 5 — Fire (execution)
 1. `git worktree add .claude/worktrees/spark-<slug> -b worktree-spark-<slug>` from `base_branch` — all multi-file work isolates. The repo's own parallel-safety law (overlay `## Repo law`) applies in full: stage per file, verify the staged set against your intent before every commit, never stash, never `git add -A`.
-2. One builder per work package, sequential when packages share files, else parallel. Brief = the work package + the overlay's `## Repo law` digest + the `## Gates > builder` commands + "state the constraint and the evidence, and counter-propose rather than guess". **Assign a cross-cutting property (encryption, auth, audit) to the FIRST package that creates data subject to it**, never to a later one — otherwise the branch has a real intermediate state that violates it.
+2. One builder per work package, sequential when packages share files, else parallel. **When a consumer package depends on a producer package's exports, the Director commits the wire types AND compilable stubs with the final signatures before the fan-out**, so the packages share no file and both typecheck alone (turned sequential into parallel on gravitone-gcloud 2026-08-30 and on both ascent 2026-09-01 runs). Brief = the work package + the overlay's `## Repo law` digest + the `## Gates > builder` commands + "state the constraint and the evidence, and counter-propose rather than guess". **Assign a cross-cutting property (encryption, auth, audit) to the FIRST package that creates data subject to it**, never to a later one — otherwise the branch has a real intermediate state that violates it.
 3. Director reviews every diff against acceptance criteria (not vibes), runs the overlay's `## Gates`, fixes-or-bounces, commits atomically per package. Builder refusals backed by evidence are signal, not disobedience. Any Phase-5 ritual the overlay declares (a translation pipeline, a codegen regen) runs before the commit it belongs to, not at the end.
 4. Doc-sync: update the doc surfaces the overlay maps for the touched areas, in the same session. If the repo has an automated doc-sync check, ask the scout in Phase 2 whether the target paths are covered by it at all — a check that never fires reads exactly like a check with nothing to say.
 5. Merge to `base_branch` only when all gates are green; then remove the worktree + branch. `status: shipped`, record SHA. **Live verification is an optional follow-up note, never a blocking phase** — record the surface and the selectors to drive in the idea note and in `Spark.md`, and ship.
@@ -207,3 +213,7 @@ After the run's real work is done, reflect - autonomously, without asking the us
 
 **Lane 3 - DOMAIN knowledge** is a different artifact from a lesson: a lesson improves this METHOD, a lead proposes knowledge for a bundle. Skills that carry a `## Knowledge sync` section file leads there; a skill without one files none.
 <!-- /clause: skill-reflection -->
+
+## Model choice (bake-off 2026-09-01, ascent / weekly-digest)
+
+`model: fable`. Both models produced a near-identical architecture (a new Bought tab, server panel, no route or table, wire-contract pre-commit, two parallel builders). The operator merged Fable's output (it also retargeted the Slack push and registered a follow-up idea) and asked that Opus's method be kept: the registry subject read before the waves, the snapshot-rewritten-timestamp liveness rule, the doc-ownership field on work packages, and the scout fallback. Those four edits are in Phases 2, 4 and 5 above.

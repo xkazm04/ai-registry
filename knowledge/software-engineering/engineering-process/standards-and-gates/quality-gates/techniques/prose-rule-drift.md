@@ -6,7 +6,7 @@ technique: prose-rule-drift
 status: forged
 laws: [absent-guard-is-loud, gate-sees-target, silent-state-is-ungoverned]
 shared_with: []
-use_when: [a rule everyone agrees on has never had a check written for it, auditing which standards are actually mechanised, a documented invariant turns out to have been violated for months, deciding where to put enforcement for a rule about an action rather than an artifact, a convention that governs setup or provisioning rather than code]
+use_when: [a rule everyone agrees on has never had a check written for it, auditing which standards are actually mechanised, a documented invariant turns out to have been violated for months, deciding where to put enforcement for a rule about an action rather than an artifact, a convention that governs setup or provisioning rather than code, a file or page has a stated size cap and every edit to it obeys a per-edit cap, an accreting artifact is over its bound and no commit broke a rule, a rule is about intent and no parser can express it]
 ---
 
 # Prose-rule drift
@@ -163,3 +163,148 @@ checker, existing and invoked by nothing, was holding a rule that had
 accumulated violations across the majority of the repositories it governed,
 none of them reported anywhere, and running it by hand produced the entire
 backlog in one command.
+
+## An artifact rule enforced at the edit reads as compliance
+
+The section above says action-shaped rules go unbacked because the gate
+has nowhere to read. The converse trap is quieter, because it produces a
+compliance signal — a true one — for the wrong rule. A standing document
+states a bound on an **artifact** (a file stays under N lines; a page is
+split past N; a ledger holds at most N entries) and, beside it, a bound on
+each **edit** (append at most two lines; touch at most eight files; patch
+with a short cite). The edit rule is the one that gets checked, because an
+edit is what a reviewer, a hook or a commit diff can see. Every edit passes.
+The artifact drifts past its bound anyway, because a bound on the step is
+not a bound on the sum, and nothing ever reads the sum.
+
+The failure has a signature that distinguishes it from an ordinary unbacked
+rule: **the violation is composed entirely of compliant actions.** There is
+no edit to point at, no author who broke a rule, and no commit whose diff
+would have been refused. A per-edit check is the wrong quantifier for a
+growth invariant — it answers "was this step small?" when the rule asked
+"is the whole thing still bounded?" — and its steady green is what retires
+the artifact rule from everyone's attention. The prior from the section
+above applies with one refinement: the violation began at the commit where
+the sum first crossed the bound, and every compliant edit since has extended
+it by exactly its own permitted size.
+
+Two measured instances, from opposite ends of the scale. A machine-maintained
+knowledge wiki whose schema capped each ingest at eight touched files and a
+"short cite", and each page at roughly two hundred lines, ran some four
+thousand compliant ingests and carried its largest page at over thirteen
+times the page cap, while the lint pass that alone could have read the sum
+never ran. A shared session-memory file in a connected project capped each
+append at two lines and the file at two hundred: twenty-six consecutive
+commits after the file crossed the line all obeyed the append cap, none
+read the length, and the file sat over its bound for thirteen days.
+
+The remedy is the one this technique already prescribes, applied to the
+right quantifier: **the check reads the artifact, not the edit**, and it
+runs where the artifact is produced — at the end of the tool that appends,
+or as the fail-closed consistency check when appends are made by hand. It
+carries the rule's own stated remedy adjacent to the red, because the
+document that stated the bound usually stated what to do at it (prune the
+oldest entries of one kind, split the page) and that sentence was as
+unmechanised as the bound. Keep the per-edit check if it earns its place,
+but never let it stand in for the artifact check: the audit question for a
+rule about size is not "what refuses a large edit?" but **"what reads the
+file's length, and on what event?"**
+
+## The tier no checker can reach: a reader holding the rulebook
+
+Everything above works with two states — a rule is mechanised, or it was
+written down and never mechanised — and the audit's three answers sort
+every rule into one of them. Applied to a codebase where most changes are
+machine-authored, the sorting turns up a rule that belongs in neither
+column: one that **no checker could express**, enforced instead by a
+reviewing model that has been handed the rulebook and told that rulebook
+violations are first-class findings, at the same severity as a logic bug.
+
+This is a real enforcement tier and it deserves its own row, because
+grading it as unbacked understates it and grading it as backed overstates
+it by more.
+
+### The discriminator is artifact versus intent
+
+The tier is legitimate for exactly one population and is an excuse
+everywhere else, and the line is sharp:
+
+- **Rules about artifacts a parser can see** are mechanised, full stop.
+  Import forms, file placement, a required field in a manifest, a forbidden
+  call, a naming shape. If a rule can be written as a pattern over the
+  tree, routing it to a reviewer instead is a choice to have an unmeasured
+  sampling rate where a deterministic one was available. "The model checks
+  it" is the modern form of "a person would notice in review," and the
+  audit puts both in the same column.
+- **Rules about intent** cannot be mechanised, and pretending otherwise
+  produces a checker that is wrong in both directions. What a comment is
+  *addressed to* — a future reader of the code, or the person reviewing
+  this change — is not a property of its text; the same sentence is
+  compliant in one file and a violation in another. Whether a test *can
+  fail on a real regression* is a claim about the relationship between an
+  assertion and the behaviour it purports to cover, which no pattern
+  reaches: a test that asserts a constant back at itself, or that mocks the
+  unit it is testing, is syntactically indistinguishable from a good one.
+  Whether a change is *in scope* for what it claims to do requires reading
+  the claim. For rules of this shape the honest enforcement point is a
+  reader with the rulebook, and saying so is more accurate than leaving
+  them in the unbacked column with a shrug.
+
+### The cost, stated precisely
+
+The tier buys coverage of rules that would otherwise have none. It pays
+for it in the property every other tier in this subject depends on:
+
+- **The compliance signal becomes probabilistic.** The same change reviewed
+  twice can produce two different finding sets. There is no input that
+  reliably makes it fire, which is this subject's own definition of a gate
+  failing to be one.
+- **It is not bisectable.** A checker's verdict is a function of the tree,
+  so a violation can be walked back to the commit that introduced it. This
+  tier's verdict is a function of the tree *and* the reviewer's context, so
+  there is no history to bisect and no way to answer "when did we start
+  violating this" — the question the unbacked column exists to raise.
+- **It cannot be audited the way a checker can.** Seeding the violation and
+  watching it go red, which
+  [gate-liveness](./gate-liveness.md) prescribes for every backed rule,
+  gives one sample here rather than a proof. Repeated sampling estimates a
+  rate; it never establishes the guarantee a deterministic check gives for
+  free.
+
+So the row in the audit reads *enforced probabilistically, not auditable* —
+not *backed*. A team that writes it as backed has quietly upgraded a
+sampling process into a guarantee, which is the same error as counting a
+review-only rule as enforced.
+
+### The rulebook and the brief drift apart, silently
+
+The tier's load-bearing precondition is that the rulebook is **a single
+file the reviewer is actually given**, cited rather than restated. The
+failure mode is the restatement, and it is easy to miss because both
+documents stay individually true.
+
+The measured instance: a project's rulebook enumerates four kinds of
+invalid test — a test that pins a constant back at itself, one that asserts
+the implementation detail just written, one that mocks the unit under test,
+and one that exercises only third-party code — while the reviewer's brief,
+written separately and listing examples for emphasis, names two of them.
+Nothing in either document is wrong. But the emphasis is what the reviewer
+weights, and the two unnamed kinds are enforced at whatever rate the model
+happens to apply a rule it was given and not reminded of. Nobody edited a
+rule; the two files simply moved at different times, and the tier degraded
+by two rules out of four with no diff to point at.
+
+The remedy is structural, not disciplinary: the reviewer's brief **names
+the rulebook and does not paraphrase it**. Where the brief must give an
+example for calibration, the example is marked as illustrative and the
+enumeration lives in one place
+([one-authority-per-vocabulary](../../../../_laws.md#one-authority-per-vocabulary)
+applied to a rule set rather than a status enum). A brief that lists a
+subset of a rulebook has forked it, and the fork is invisible from either
+side.
+
+The audit question for this tier is therefore not "does a reviewer check
+it?" but:
+
+> **What document is the reviewer given, and is the rule in that document
+> or in a summary of it?**

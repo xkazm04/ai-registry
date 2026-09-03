@@ -4,9 +4,9 @@ type: technique
 subject: audit-logging
 technique: best-effort-with-accounting
 status: forged
-laws: [failure-not-empty-success, count-carries-predicate]
+laws: [failure-not-empty-success, count-carries-predicate, absent-guard-is-loud]
 shared_with: []
-use_when: [deciding whether an audit write may fail its action, a ledger row doubles as the duplicate guard, the audit-failure counter keeps climbing]
+use_when: [deciding whether an audit write may fail its action, a ledger row doubles as the duplicate guard, the audit-failure counter keeps climbing, the response itself is secret material]
 ---
 
 # Best-effort with accounting
@@ -77,6 +77,63 @@ The counter still applies — a claim that could not be written is a gap in
 the trail as well as a deferred action — but the ranking of harms is
 inverted for exactly these records, and the ledger's documentation must
 say which of its actions are claims.
+
+## The fail-closed ledger: audit before serve, at least one sink per record
+
+The first exception above — the record that must precede the action —
+has a common enough shape to be stated as its own rule, because a whole
+class of systems lives in it and builds best-effort by reflex anyway. A
+server whose responses *are* secret material (a credential broker, a
+key service, a signing oracle) has inverted the ranking of harms that
+justifies best-effort: losing one record is no longer a bounded loss,
+because the record was the only evidence that a secret left the
+building and who took it. For that ledger the rule is: **when the
+response carries material the trail exists to attest, the request is
+logged after authorization and before execution, the response is
+logged before it is sent, and each of those writes fails the request if
+it cannot be recorded.** An unrecorded refusal is a lost fact; an
+unrecorded success is a lost secret, and the second is the one the
+ledger was built for.
+
+Fail-closed does not mean one store decides availability. The ledger
+writes to a **set of sinks**, and the invariant is *at least one
+configured sink succeeded* — evaluated once for the request record and
+again, separately, for the response record, because the two are
+different facts about different moments and the sink that was healthy
+at entry may be gone by exit. The naive reading takes "fail closed" as
+"every sink must succeed," which lets the least reliable sink veto every
+operation; the other naive reading takes "best effort" as written above
+and produces, on the day the one sink is down, a stream of unaudited
+secret material with a counter climbing somewhere nobody is watching.
+The set invariant sits between them: one sink is a single point of
+failure for the whole product, so an operator who wants availability
+adds a second sink rather than weakening the rule, and a deployment with
+no sink configured at all is a deployment that has decided to serve
+nothing — the absence of a sink is loud, not a silent bypass
+([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).
+
+The invariant is only evaluable if every sink *returns*. A sink that
+fails is counted and passed over; a sink that hangs — a network peer that
+accepts the connection and never drains it — is not a failed sink, it is
+a request that never completes, and one such sink stalls every operation
+behind it regardless of how healthy the others are. So a sink over any
+medium that can block carries a **write deadline**, after which the write
+is a failure the set invariant can weigh; the deadline is what turns a
+blocking failure into a non-blocking one, and a sink set without it is
+fail-closed in name and hung in practice.
+
+Two consequences complete the rule. First, the record is written at the
+point where the request has been authenticated and authorized but not yet
+executed, so a request the ledger could not record is refused before it
+has any effect — there is no window in which the action ran and the
+evidence did not land. Second, **rejections are audited too**: a request
+refused by a quota, a rate limit, or a lockout is an event about an
+actor, and a trail that records only what it served hands an attacker a
+free, invisible probe. The counter from the next section still runs on
+this ledger — a sink that failed while another succeeded is a degraded
+sink set, and the operator should learn that before the second sink
+follows the first — but the counter is the health signal here, not the
+substitute for the record.
 
 ## Half two: every miss is counted, and the count is surfaced
 

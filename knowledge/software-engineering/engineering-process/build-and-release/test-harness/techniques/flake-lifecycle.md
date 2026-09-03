@@ -7,7 +7,7 @@ status: forged
 stage: team
 laws: [deletion-is-not-repair, count-carries-predicate, creation-names-reaper]
 shared_with: []
-use_when: [a test fails intermittently, quarantine has grown and nobody reviews it, deciding whether to retry or to quarantine]
+use_when: [a test fails intermittently, quarantine has grown and nobody reviews it, deciding whether to retry or to quarantine, a scheduled lane over floating inputs keeps entering the flake register]
 ---
 
 # Flake lifecycle
@@ -34,6 +34,23 @@ consecutive runs *on the same code*, over a window. It is preferable to a raw fa
 because a consistently failing test is broken rather than flaky, and the two need opposite
 responses. Same-code is the load-bearing qualifier: outcomes compared across different trees
 measure the product's churn, not the test's stability.
+
+**Same code means same inputs.** A suite whose inputs are pinned — toolchain, base images,
+dependency lockfile — has a well-defined "same code", and the transition count measures the
+test. A suite whose inputs float *by design* — a packaging or integration repository that
+deliberately tracks its components' moving tags, a lane pointed at a live upstream — does not:
+two runs of one commit are two experiments over different worlds, and an outcome transition
+there is evidence that **the world moved**, which is the finding such a suite exists to
+produce. Route it accordingly. The lane runs on a clock and not only on push, because nothing
+in the repository's own history re-triggers it when the input changes; its scheduled
+transitions land in a currency ledger (what moved upstream, when, which pin absorbs it) rather
+than in the flake register; and failures on the protected branch are recorded where failures
+are *not* expected, so that a pull-request red — the expected place — does not drown the
+signal. A detector fed both populations labels every upstream break a flake and every flake an
+upstream break. The discriminator is one question, asked when the lane is declared: *if this
+commit ran twice, could the inputs differ?* If yes, pin them or declare the lane a watch, and
+never let it feed the register. Trees that pin do it for the stated reason that a
+certification judged under a floating input attributes the input's change to the product.
 
 Per [count-carries-predicate](../../../../_laws.md#count-carries-predicate), a flakiness figure
 travels with its window, its branch filter, and its run count. "12% flaky" is not a finding;

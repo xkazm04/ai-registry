@@ -6,7 +6,7 @@ technique: inherited-default-override
 status: forged
 laws: [unknown-is-not-a-value, derivation-names-recomputation, one-validation-door]
 shared_with: []
-use_when: [a preference whose default comes from the operating environment rather than from code, a user's stored choice stopped tracking a platform setting they expected it to follow, deciding whether a two-state control needs a third automatic option, a toggle that can never be returned to its inherited value once pressed]
+use_when: [a preference whose default comes from the operating environment rather than from code, a user's stored choice stopped tracking a platform setting they expected it to follow, deciding whether a two-state control needs a third automatic option, a toggle that can never be returned to its inherited value once pressed, a key's sensible default depends on what was chosen for a sibling key, a validation error blames a value the user never set, deciding whether an agent-facing surface should offer defaults at all]
 ---
 
 # Inherited-default override
@@ -192,6 +192,80 @@ control state outright:
   detachment-by-adjustment is right for taste and wrong for governance — and the
   audit record for such a key logs the *transition*, attach or detach, not merely
   the new value.
+
+## The third column: a default derived from sibling keys
+
+The table at the top has two columns because the source of a default was
+either a constant or the environment. There is a third source, and it is the
+commonest one in any configuration assembled from several keys: **another key
+in the same store**. The sensible default for a data-access layer depends on
+which database was chosen; the default deployment target depends on the
+runtime; whether a provisioning step is offered at all depends on whether
+there is anything to provision. The default is a *function of the siblings*,
+and it behaves like the inherited column with the source moved inside the
+store:
+
+| | Derived default |
+| --- | --- |
+| **Absent** | derive from the decided siblings, and re-derive whenever one of them changes |
+| **A write** | detach this key from the derivation |
+| **A delete** | re-attach |
+
+Two differences from the inherited column follow from the source being inside
+the store rather than outside it. The derivation is never a subscription to
+the world, so "re-evaluate only at user interaction" holds without exception:
+a sibling changes only because the user changed it, and re-deriving then is
+the user's own act. And the derivation must be *recomputed*, never stored as
+its result — the rule [setting-kinds](./setting-kinds.md) already states for
+derived limits — because a stored result is indistinguishable from a decision
+the moment a sibling moves. A resume path that replays a constant where the
+first run derived a value has made exactly that substitution, and it changes
+the user's decision on every continuation where the derivation and the
+constant differ.
+
+## Provenance travels with the value, or validation blames the user for a default
+
+The consequence that earns the third column is what happens at the validation
+door. A store with several keys has rules that name two of them — this access
+layer does not work with that database, this deployment target needs that
+runtime — and a rule that reads only the values cannot tell a decision from a
+derivation. It then produces the error every user of such a tool has seen:
+*your access layer is incompatible with your database*, when the user chose
+the database and said nothing about the access layer at all. The tool derived
+a value the user never saw and then blamed them for it. Under
+[unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value) that is
+a laundering: "not decided" reached the check wearing the shape of a decision.
+
+Provenance cannot be recovered from the value. A decided value that happens
+to equal the derived one collapses into "not decided" under any equality
+test, and a store that infers "untouched" by comparing against defaults has
+this defect built in. So the set of keys the user actually decided **travels
+beside the values** through the one validation door
+([one-validation-door](../../../../_laws.md#one-validation-door)), and the
+rules read both:
+
+> A rule fires only when every key it names was decided. When one of them was
+> derived, the conflict is the derivation's error, not the user's: re-derive
+> that key from the decided ones and say nothing.
+
+A conflict between two decisions is reported against both, naming both. A
+conflict between a decision and a derivation is repaired silently — the
+derivation was wrong, and the user had no way to know. The one case that
+still errors with a derived operand is the one where nothing can be derived: a
+feature the user enabled that needs a secret nobody can invent. There the
+message names the decided key as the cause and the derived one as the
+consequence, in that order.
+
+Two boundaries. A machine caller — an agent, a script, a remote surface —
+should get **no derivation at all**: require every key explicit, and reject a
+partial payload. A person at a prompt sees the derived value before committing
+and can override it; a machine commits the payload it sent, and a derivation
+it cannot see is a decision it did not make. The source that prompted this
+section exposes one configuration through both a prompt and an agent-facing
+surface, and the second removes every default on purpose. And a derived
+default is not a *recommendation*: a recommendation is a constant the user is
+shown and may take, and it belongs in the first column. The third column
+exists only where the right value genuinely changes with the siblings.
 
 ## Boundary
 

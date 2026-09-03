@@ -211,6 +211,56 @@ the step out entirely, so the module receives input the step has already
 processed and the flag has nothing left to switch.
 
 
+## A parameter's accepted values are interface, and the set can be closed
+
+The argument above says the expensive half of an interface is the informal half
+— the invariants, the ordering, the limits a caller must design around, all of
+it learned from documentation or from an outage. There is a large, mechanical
+slice of that half which does not have to stay informal, and moving it is one
+of the cheapest depth improvements available.
+
+**A parameter's set of accepted values is part of the interface.** A routine
+taking free text and branching on it, or a flag whose two states mean two
+different jobs, has published a vocabulary — and published it in prose, where a
+caller learns the membership by reading the implementation, by copying another
+call site, or by passing a value that is silently ignored. The signature says
+the parameter is text; the interface says it is one of five things, and only
+one of those two statements is checked.
+
+Closing the set — replacing the open-valued parameter with an enumerated type
+whose members are the accepted values — moves that slice of the interface from
+the informal half into the checked half. The caller can no longer construct an
+unaccepted value, the accepted ones are discoverable from the type rather than
+from the body, and adding a member becomes a change the compiler walks every
+caller through. The detection signal is mechanical and worth stating in review:
+**a routine that matches on the content of a text parameter, or takes a flag
+whose meaning is not obvious at the call site, is holding a closed set in an
+open type.**
+
+This is the meeting point of two arguments the corpus makes separately and
+never together. The first is this technique's: the interface is everything a
+caller must know, and the informal half is where the incidents come from. The
+second belongs to failure taxonomies —
+[taxonomy-design](../../../../backend-platform/resilience/error-handling/techniques/taxonomy-design.md)
+argues that a closed, small, consumer-driven vocabulary is what lets every
+consumer branch reliably, and that open vocabularies grow one ad-hoc value per
+contributor until nobody can branch on them. It is the same claim about the
+same object: a category set consumers branch on *is* a parameter's
+accepted-value set, seen from the failure side. That technique's discipline —
+a member earns its place only if some consumer treats it differently, the set
+stays small, membership is deliberate, a spelling is never repurposed —
+transfers to this decision unchanged.
+
+**The inversion is ownership.** Where the value set is genuinely open and owned
+elsewhere — a locale tag, a media type, an external identifier, a
+standards-body vocabulary — closing it makes you a false authority over
+somebody else's set. The enumeration is complete on the day it is written and
+wrong on the day the owner extends it, and it fails in the worst available
+shape: a legitimate value rejected by your code because your copy of somebody
+else's vocabulary is stale. Take the open type there, validate against the
+owner's rule where one exists, and keep a closed set behind it only for the
+distinctions you yourself branch on.
+
 ## When not to use it
 
 Depth is not a licence to accumulate. A module hiding many unrelated decisions

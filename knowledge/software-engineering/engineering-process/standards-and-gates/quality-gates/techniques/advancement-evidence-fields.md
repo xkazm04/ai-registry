@@ -122,6 +122,38 @@ advances the item**, not added afterward by whoever notices. If advancing
 an item does not require filling its evidence field, the field decays to
 blanks and the mechanism is gone.
 
+## The satisfied pointer names the exact version it was measured on
+
+A pointer to "the CI run" is a pointer to whichever run the reader finds.
+For an item that lives for months the field must bind its evidence to the
+**exact artifact version** the check ran against — the commit head, not the
+branch — and evidence produced against any other version is not evidence
+for this row. Three consequences follow, and a team that closed a ten-child
+programme against exactly this record paid for each:
+
+- **A red result at that version stays red after the item advances.** The
+  work merged; the check at its head had failed; the record keeps both
+  facts in two fields, because "terminal" and "green" are different claims
+  and a schema that can only say one of them will say the flattering one.
+- **A closure verdict has a third state.** Pass, fail, and *pending*: no
+  failures, but a prerequisite that has not arrived — a deprecation window
+  that has not elapsed, a release that has not shipped. Give it its own
+  exit code so automation cannot round it up, and treat it as honest
+  non-closure evidence, never a silent pass. It is the durable-record
+  analogue of the *unknown* cell above.
+- **The obligation on the row is the parent's metric, not the children's
+  terminality.** Every child of that programme merged; the surface it
+  existed to reduce moved by zero, and the verifier reported the failure
+  honestly. Ten of ten terminal children is a count of a different
+  predicate ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
+
+And the hand-written summary of the record drifts, in the flattering
+direction: the same programme's summary page said the non-green heads were
+retained as truth, while the machine-readable record beside it had excluded
+them and its risk register said so. Generate the summary from the fields,
+or diff it against them in the gate. The honesty survived in the register
+nobody reads first and died in the page everybody does.
+
 ## What the field buys, and what it does not
 
 What it buys is a sentence nobody could otherwise say: *n of m items at or

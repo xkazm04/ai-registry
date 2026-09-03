@@ -68,6 +68,14 @@ performance duration:
   ones. The tour's information survives with motion settled instantly and
   sound absent, because the text-and-geometry layer was the complete medium
   all along.
+- **Auto-starting motion owes a pause control.** The accessibility
+  standard's pause-stop-hide criterion (SC 2.2.2, level A) binds narration
+  directly: animated typing, a pulsing beacon, or choreographed motion that
+  starts on its own, runs longer than five seconds, and sits beside the
+  content it decorates must be pausable, stoppable, or hideable — and
+  auto-updating content owes the control regardless of duration. The
+  persistent silence preference above is that control for sound; motion
+  needs its own, and reduced-motion preference is the honest default for it.
 
 ## Skippability of sound and motion
 

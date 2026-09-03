@@ -15,6 +15,11 @@ techniques:
   - speech-ready-text
   - transcript-normalization
   - authored-voice-identity
+  - decode-time-vocabulary-biasing
+  - transcript-handoff-receipts
+  - unattended-caller-attribution
+  - caller-scoped-voice-binding
+  - render-acceptance
 ---
 
 # Voice input and output
@@ -301,6 +306,65 @@ absent, or out of language coverage without any consumer changing.
 [transcript-normalization](./techniques/transcript-normalization.md) owns the
 decision, the transform contract, the typed outcome, and the cut.
 
+## The transcript leaves through a channel the product does not own
+
+The last stage of the input pipeline is the one the stage table names and
+nothing built: the transcript, disposed as *accepted*, has to arrive
+somewhere — and in a dictation product that somewhere is whichever
+application holds the cursor, reached through a channel the product neither
+owns nor observes: synthesized keystrokes, or the system clipboard plus a
+paste chord. The clipboard route is fast and layout-proof and it clobbers
+the one thing the user was holding, so it has to restore what it displaced —
+and *when* to restore is a race, because the paste chord is only enqueued and
+the target reads whenever its event loop gets there. A fixed delay loses that
+race some fraction of the time, and the failure is the user's old clipboard
+pasted into their document. The correction is to wait for the operating
+system's own evidence that a consumer read the channel, count only the reads
+that came after the product's own chord, restore only while the product
+still owns the channel, and bound the wait with a timeout whose failure mode
+is "the transcript lingers", never "stale content lands".
+[transcript-handoff-receipts](./techniques/transcript-handoff-receipts.md)
+owns the route decision, the receipt rules, and the restore's obligations.
+
+## A third caller population reaches the channel from outside
+
+Everything above models callers the product *hosts*: a button, a tour, an
+assistant reply, a dictation field. There is a third population, and a product
+acquires it the day it decides its speech channel is worth offering to other
+software on the same machine — automated clients it does not host, reaching it
+through a second door. (Opening that door is the case
+[ipc-contract](../../../client-architecture/ipc-contract/ipc-contract.md)
+explicitly hands off as a different subject; what follows is what the door does
+to *this* one.)
+
+The population inverts three of this subject's assumptions at once, which is
+why it is a boundary rather than another kind of surface:
+
+- **Consent.** Playback starting from a gesture or a standing preference
+  assumed the requester was the user. Now the requester is a process, the user
+  may be in another room, and the mute and the arbiter must be shown to
+  outrank the caller rather than merely outranking surfaces.
+- **Identity.** A hosted surface attributes itself by being on screen. An
+  unhosted caller attributes nothing, so audio arrives in a shared room with no
+  artifact anywhere naming who caused it or whose voice it used — and where the
+  voice is a clone, the output asserts a person.
+- **Acceptance.** Both pipelines assumed someone was present to hear a bad
+  render and press stop. Unattended, nobody is; a render that returns
+  successfully and is degenerate ships to whoever is listening, with every
+  status in the pipeline reading green.
+
+[unattended-caller-attribution](./techniques/unattended-caller-attribution.md)
+owns the first two: the hosted/unhosted discriminator, the surface the producer
+must raise at the moment of output, and the refusal of a headless mode.
+[caller-scoped-voice-binding](./techniques/caller-scoped-voice-binding.md) owns
+which voice an unhosted request speaks in — a per-caller resolution chain whose
+last arm is an error, keyed by an identifier that disambiguates callers and
+authenticates nothing.
+[render-acceptance](./techniques/render-acceptance.md) owns the third: whether
+a rendered artifact is accepted at all — the known degenerate shape, the
+bounded retry, and the honest refusal — because success that is actually
+failure is the one outcome the terminal state set cannot express.
+
 ## The techniques
 
 - [stt-pipeline](./techniques/stt-pipeline.md) — capture, metering, endpointing,
@@ -342,3 +406,30 @@ decision, the transform contract, the typed outcome, and the cut.
   contract and its input-derived output ceiling, the destination as a typed
   parameter, why per-segment cleanup cannot resolve self-corrections, and the
   five-arm outcome where empty-by-design is a success.
+- [decode-time-vocabulary-biasing](./techniques/decode-time-vocabulary-biasing.md)
+  — handing the known vocabulary to the engine before it decodes: score-boost
+  versus prompt biasing and their opposite failure physics, the level gate
+  that must run before a prompted decoder sees silence, the engine's
+  no-speech verdict arriving as a token in the text channel, bias only where
+  a confusion is measured, and turn-scoped bias from the parser's own source.
+- [transcript-handoff-receipts](./techniques/transcript-handoff-receipts.md)
+  — delivering the accepted transcript into a foreign application: typing
+  versus pasting through the shared clipboard, why a timed restore is a race,
+  restore on the consumer's read receipt (post-chord receipts only, ownership
+  unchanged, a quiet period, a bounded wait with a benign failure mode), what
+  the restore must preserve, and changing one variable when introducing it.
+- [unattended-caller-attribution](./techniques/unattended-caller-attribution.md)
+  — speech requested by clients the product does not host: the hosted/unhosted
+  discriminator, the producer-raised attribution surface and why there is no
+  headless mode, mute and arbiter precedence over an automated caller,
+  per-caller rate bounds, and the impersonation axis a cloned voice adds.
+- [caller-scoped-voice-binding](./techniques/caller-scoped-voice-binding.md) —
+  one voice per caller instead of one voice per machine: the explicit → binding
+  → default → error precedence, why an explicit-but-unmatched argument errors
+  rather than degrading, a row minted on first sighting as the inventory of the
+  door, and the identifier as disambiguation rather than authentication.
+- [render-acceptance](./techniques/render-acceptance.md) — the render that
+  returned successfully and is wrong: the inverted form of
+  honest failure, the bounded-internal-silence signature and why leading and
+  trailing silence do not count, tuning the threshold against the legitimate
+  signal, and bounded seed-derived retry that keeps a request reproducible.

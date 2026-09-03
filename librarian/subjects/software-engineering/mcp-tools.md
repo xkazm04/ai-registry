@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -223,3 +223,94 @@ host half was checked anyway and is clean — 6 spawn sites, stdout and stderr p
 separately at all of them, never merged, confirming `output-normalization`'s
 existing rule. A simulation over invented server code was declined. Return
 condition: the first managed project shipping a stdio protocol server.
+
+
+## 2026-09-02 - intake `deer-flow` ([[2026-09-02-deer-flow]], run intake-deer-flow-0902)
+
+**New technique `write-freshness-gate`** - the second host-side gate over tool
+calls beside `egress-argument-gating`. A write to an existing artifact is
+admitted only with proof the model saw its current version: a full-content
+hash stamped on the read result, compared against the file now. The four
+properties that make it an agent technique rather than a restatement of
+optimistic concurrency: the proof lives on the read message so context loss
+is proof loss, structurally; writes never refresh it, so consecutive edits
+force a re-read; check-and-write is one critical section per (writer, path)
+so a same-turn parallel duplicate is refused deterministically; and the gate
+fails open with a log on its own breakage and closed only on a stale mark
+(the in-path split from quality-gates' unmeasurable-criteria).
+
+**Home contested and decided.** The concept grep found no subject owning an
+agent's edit tools. The general stale-writer discipline lives in
+concurrency-guards (attempt-attribution) and client-state
+(optimistic-write-path), and the technique says so; this subject holds the
+model-facing gate because the tool boundary is the trust boundary and the
+gate stands on it.
+
+**Unapplied.** No managed project exposes its own write tool to a model; the
+one tool server in the fleet publishes feature-matrix and harness tools only.
+Return: a managed project that grows a write tool over shared artifacts.
+
+Untriaged with anchors in the source note: command-substitution audit by
+*position* rather than pattern (value position captures, command position
+executes, an interpreter's code-string flag is an execution context anywhere,
+heredoc bodies are data) - no subject owns command auditing and this is the
+nearest gate shape.
+
+
+## 2026-09-02 - boundary sentence from intake `deer-flow` v2 ([[2026-09-02-deer-flow-v2]], run intake-deer-flow-0902-v2)
+
+The scope paragraph's "plugin systems that load code into the host's address
+space" now says where that ground lives: `agent-runtime-assembly` owns
+in-process plugin loading (operator-tier-code-loading, host-routes-win) and
+the host's custody of long-running tool work (bounded-projection-of-external-work).
+This subject keeps the wire half - "long-running work gets a durable handle,
+not a held connection" - and stops at the host's door, as its golden path
+already said. Edited under the content lock; one paragraph, no other change.
+
+### 2026-09-03 - `/intake`, from a vendor's official MCP server monorepo
+
+Gained three techniques (9 -> 12) and two amendments. Source: [[2026-09-03-microsoft-mcp]].
+
+**`catalog-projection-modes`** is the one that mattered. The subject already framed
+sprawl correctly - "Sprawl is a quality defect, not a cosmetic one" - but framed it
+entirely as *selection quality*, a soft statistical cost, and assigned the remedy
+(progressive discovery) to the host. The source is a publisher whose host does neither:
+one widely deployed editor host refuses any request carrying more than 128 tools summed
+across every installed server, so the catalog budget is hard, external, and shared with
+servers the publisher cannot see. Over the line nothing works. It answers with four
+projections of one command tree, and flipped its own default from ~128 tools to 25 as a
+documented breaking change - a publisher spending a breaking change to shrink its own
+catalog is the strongest available evidence that catalog size is a quality property.
+
+The technique had to be written *against* `tool-schema-design`, which says one tool one
+operation and calls an `action` argument a way of hiding operations from selection. That
+rule is right, and it was reached in a world with no ceiling. The discriminator now sits
+in the golden path's sprawl section: is the budget yours? Two sub-rules carry the weight -
+operations may be merged only when their safety annotations are equal on every axis (or
+the merged tool's consent tier is a lie), and policy must be re-checked at the *resolved*
+operation, because under compression the listing no longer names what is invoked and a
+listing-only filter gates nothing.
+
+**`tool-identity-vs-tool-name`** was the thinnest of the three and was kept separate
+deliberately. `tool-schema-design` addresses the two readers of a *call*; identity has
+neither reader - it addresses a third party the schema document never contemplates, the
+operator correlating a tool across time. Filed as a bullet there it would not be found by
+anyone whose symptom is "my rename split the telemetry".
+
+**`sanctioned-session-state`** is the case the golden path asserts away. The path is
+correct that the protocol removed sessions and that a handle is not authentication; it
+left no room for the deployment that genuinely must route a caller back to its state. The
+source ships that capability arguing against itself in its own documentation, opt-in
+twice so no transitive dependency can acquire it, and regenerates the owner identity per
+process - a deliberate inversion of `identity-survives-reuse`, argued rather than hidden,
+because an owner identity that survives restart is exactly what makes a stale record
+indistinguishable from a live one.
+
+Amendments: `tool-schema-design` gained the third authority (schema vs *handler use* - an
+argument the handler never reads is a contract lie no schema/validator unification can
+detect, and the source paid ~50 breaking-change PRs to retire them) and a carve for
+conditional requiredness; `client-integration` gained the server's half of the elicitation
+contract, where the real defect lives - a client returns accept even when the user picked
+reject, because the choice is in the declared payload field and not the envelope.
+
+Four leads and eleven untriaged rows with anchors are in the source note.

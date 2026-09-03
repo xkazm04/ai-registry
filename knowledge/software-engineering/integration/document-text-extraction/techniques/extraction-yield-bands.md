@@ -25,6 +25,24 @@ action. The band is a property of a region, not of a document; a document's
 band is the worst of its regions, with the identities of those regions retained
 rather than summarized.
 
+Worst-of-regions is the right aggregation for the consumer this table was built
+for — the one deciding **what to re-acquire** — because that consumer needs the
+region list and a single bad region is real work to be done. It is the wrong
+aggregation for a third consumer that appears once documents get long: one
+deciding **whether to admit the document at all**. Under worst-of-regions a
+single unrecoverable page condemns a four-hundred-page file that is otherwise
+perfect, which is not a useful verdict, and the pressure to make it useful is
+what produces an unprincipled weighted average bolted on beside the band.
+
+State which consumer is asking. The **refusal** aggregates worst-of, and keeps
+the identities. The **admission gate** aggregates over the document with the
+regions weighted by how much of it they carry, and it is a distinct number with
+a distinct threshold, fitted per
+[band-calibration-by-construction](./band-calibration-by-construction.md). The
+rule below against two numbers from two code paths still binds, and binds harder
+here: both aggregations derive from the same per-region measurement, and only
+the combining step differs.
+
 ## The bands, and what each one licenses
 
 | band | what it means | what the caller does |

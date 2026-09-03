@@ -13,6 +13,9 @@ techniques:
   - tornado-sensitivity-sweeps
   - cost-curve-object-audit
   - intransitive-equilibrium-solving
+  - source-drain-converter-trader-vocabulary
+  - feedback-loop-topology-and-polarity
+  - structural-economy-simulation-before-numbers
 ---
 
 # Game economy tuning
@@ -56,6 +59,32 @@ there is no price signal to push back.
 
 So: single-player games have economies, they have the same failure modes, and they
 have them with the alarms disconnected. Specify them the same way.
+
+## Structure before numbers
+
+Everything above is about rates, and rates are the second half of the work. The first
+half is the shape the rates flow through, and it has its own failure signature: a team
+tunes coefficients for weeks against an economy whose structure guarantees runaway, and
+every band passes the whole time. A band is a statement about a window; divergence is a
+statement about a trajectory, and a structure that doubles a pool every ten hours sits
+comfortably inside a band measured over one.
+
+Three structural questions come before the first number. **What is each node?** — every
+place a resource changes hands is a source that creates, a drain that destroys, a
+converter that transforms one resource into another at a rate, a trader that exchanges
+between holders without changing the total, or a pool that merely holds; a node that
+cannot be named as one of the five has not been audited, and no automated check can
+reason about it. **Where are the loops?** — the closed paths are the only structures that
+can amplify, and each needs a sign, a strength and a delay before anyone argues about
+its coefficients; positive means reinforcing and negative means balancing, and reading
+those words as praise and blame is how a design ends up with a match that is decided in
+its first minute or one that never resolves at all. **What does the shape do on its
+own?** — walked at unit rates with the randomness removed, a divergent economy announces
+itself in the trajectory, where no band would have caught it.
+
+None of this replaces the numeric work; it makes the numeric work interpretable. A
+structural pass returns "structurally stable at unit rates", which is a strictly weaker
+claim than balanced and must stay weaker everywhere downstream.
 
 ## The specification shape
 
@@ -217,6 +246,11 @@ Two cautions keep it honest: one-at-a-time sweeps miss interactions by construct
 a ranking computed at one progression point does not transfer to another.
 
 ## The golden path, in order
+
+Where the economy has loops or conversions in it, a structural pass precedes all of
+this: name every node by its function, enumerate and sign the loops, and walk the shape
+at unit rates. What follows assumes that pass has been done, or that the economy is
+simple enough — one currency, no closed paths — not to need it.
 
 1. **Enumerate.** Every currency, every source, every drain, each with base amount,
    scaling term and per-hour frequency. Mark every unestimated frequency as unestimated.

@@ -10,6 +10,9 @@ techniques:
   - data-migrations
   - error-propagation
   - schema-drift-detection
+  - migrate-from-data-shape
+  - expand-deploy-contract
+  - dynamic-table-set-migrations
 ---
 
 # Schema migrations
@@ -106,6 +109,19 @@ ever grows; and the system loses the "is work pending?" signal, which
 forces the snapshot gate to fire on every boot instead of only at real
 boundaries. Choose it deliberately or not at all.
 
+**When the marker has no atomic home.** Both variants above assume the store
+*can* record something about itself — a version, or at least a chain that
+replays. Some stores cannot: the marker and the data it describes are two
+separate writes, so a crash between them leaves the marker wrong in a
+direction the marker cannot reveal, and any older release or support tool
+that touched the store between runs makes the recorded number a claim rather
+than a fact. There the migration derives the current state from the shape of
+the data it finds, classifying and transforming per record, with the rows as
+the only authority there is. That design, its discriminator rules and the
+outcome it must never collapse, is
+[migrate-from-data-shape](./techniques/migrate-from-data-shape.md) — an
+answer to a missing capability, never an upgrade over a ledger that works.
+
 ## Two roads must arrive at one schema
 
 Almost every system grows two ways to reach the current schema: a **fresh
@@ -147,6 +163,45 @@ the new one is verified — in
 at review time is a "migration" that is really both animals fused: split the
 shape change and the rewrite into separate steps so each can be atomic,
 reasoned about, and retried on its own terms.
+
+## The server case has one problem the harder case does not
+
+The opening said the doctrine is written for the unattended single-copy
+machine, and that the server case is the same doctrine with the stakes
+lowered. There is exactly one respect in which it is not: on a server, a
+rolling replacement means **two versions of the code run at once against one
+store**, and for the length of the rollout — and for as long afterwards as a
+rollback remains possible — the schema must satisfy both. No single-copy
+machine ever faces that; there, one process opens one store after the chain
+has finished.
+
+The answer is to split every destructive change into three releases:
+**expand** ships only additive, optional shape, so the previous release keeps
+working unmodified; **deploy** ships the code that uses the new shape and
+must tolerate a backfill that has not finished; **contract**, later, drops the
+old shape and deletes the compatibility code. There is no rename in this
+model — a rename is all three. The load-bearing part is the rule that decides
+when contract may run, and it is a rule about what has been *observed*: not
+only what is running, but what the fleet could still be rolled back to, and
+how old the oldest queued job is that will still read the row
+([expand-deploy-contract](./techniques/expand-deploy-contract.md)). Below a
+rolling replacement the whole discipline is ceremony and a maintenance window
+is the honest answer.
+
+## When the set of tables is itself data
+
+A product that lets its operator define record types at runtime has a content
+schema that no migration can name in advance: the targets must be discovered
+when the step runs, from the defining rows or from a table-name pattern, and
+the step's work becomes a loop. Three properties change with that. The
+enumeration can be empty for two very different reasons, and only one of them
+is success. The loop needs its own restartability, because the ledger's
+granularity is the step and a crash lands in the middle of table thirty. And
+the change is a **two-place update** — the migration fixes the tables that
+exist, and the creation path must change in the same release so that tables
+created later get the same shape, a divergence that will not reproduce on any
+tree that migrated through history
+([dynamic-table-set-migrations](./techniques/dynamic-table-set-migrations.md)).
 
 ## The drift class nobody's compiler catches
 
@@ -199,3 +254,14 @@ In-place evolution is the default, not the law:
 - [schema-drift-detection](./techniques/schema-drift-detection.md) — the
   convergence test, query-against-schema compilation, boot-time fingerprint
   assertion, and integrity sweeps.
+- [migrate-from-data-shape](./techniques/migrate-from-data-shape.md) — when
+  no marker can be atomic with its data: positive discriminators, the three
+  classification outcomes, per-record conversion, and the sampling trap.
+- [expand-deploy-contract](./techniques/expand-deploy-contract.md) — the
+  server discipline for changing a schema under two concurrent code versions:
+  what may appear in each phase, the incomplete-backfill obligation, and the
+  three observations that make contract safe to run.
+- [dynamic-table-set-migrations](./techniques/dynamic-table-set-migrations.md)
+  — migrating a table set the operator defined: enumerating from the
+  definitions or from the store, why zero targets is not success, the
+  two-place update, and a loop that must restart inside itself.

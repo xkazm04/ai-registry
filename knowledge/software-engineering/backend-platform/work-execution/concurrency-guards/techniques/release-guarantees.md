@@ -77,6 +77,60 @@ wedged by a holder that died badly, every future acquisition fails and the
 guard has sealed itself. The primitive must recover its internals from a
 holder's crash, not inherit it.
 
+## The sixth path: a reaper that cannot run where it is called from
+
+The enemy list above is a list of *paths*. There is one more failure and it is not a
+path at all — it is a **capability** mismatch, and it defeats the structural release
+that the previous section presents as the reliable answer.
+
+An automatic destruction hook — the scope-exit mechanism that runs when an object
+goes away — runs **synchronously, in whatever context the destruction happens**. If
+releasing the guarded resource requires *waiting* — a message sent and acknowledged,
+a lease surrendered to a remote holder, a connection closed politely — the hook
+cannot do it. It has no way to suspend and nothing to suspend into. So the release
+that looked structurally guaranteed is, at that site, structurally impossible.
+
+> **A resource whose only reaper is a hook that cannot satisfy it has no reaper**
+> ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)). Naming one
+> that cannot run is not a weaker guarantee than naming none; it is the same
+> guarantee with the review already passed.
+
+The tempting repair is worse than the problem: **spawn the release from inside the
+destruction hook** and let it complete on its own. That converts the release into
+unowned concurrent work — with no group, no roster and nobody awaiting it — fired at
+the one moment it is least likely to run, because destruction hooks fire in bulk
+exactly as a process tears down and the machinery the spawned work needs is going
+away underneath it. In the common case it is a release that is scheduled and never
+executed, and it fails silently, which is the property the whole technique exists to
+eliminate.
+
+The correct shape has two parts, and both are required:
+
+- **Release is an explicit operation on the primary path.** A named close, invoked
+  by the code that finishes with the resource, in a context that can wait. The
+  run-with-guard wrapper form still applies here — the wrapper's own exit path
+  performs the waiting release, so call sites still cannot forget — and it is the
+  reason to prefer that form even harder where the release is not instantaneous.
+- **The automatic hook stays, as a loud best-effort backstop.** It performs whatever
+  non-waiting part of the release it can, and it **records that the explicit path was
+  not taken**, because a hook firing on a resource the code should have closed is a
+  defect report about that code, not routine hygiene — the same rule reclamation
+  follows below.
+
+The design test is one question asked at acquisition: *can the release, as written,
+run in the context the automatic hook provides?* If the answer is no, the resource
+needs an explicit closer, and the enemy list's third and fifth entries —
+cancellation and process death — become the ones that decide its design, because
+they are the paths on which the explicit closer is the thing that does not get
+called.
+
+**This does not generalise past the resources that need waiting.** The overwhelming
+majority of releases are a memory write or a map deletion: synchronous, cheap, and
+perfectly served by the scope-bound hook. That is why the habit forms, why it is a
+good habit, and why the failure is so hard to see when it arrives — the mechanism
+that has been correct everywhere else is used once on a resource whose release is a
+conversation, and it silently does nothing.
+
 ## Timeout reclamation: the release of last resort, with evidence
 
 Structure cannot release a guard whose holder is alive but stuck. The last

@@ -104,6 +104,57 @@ Two disciplines keep quarantine honest:
   rebooting dependency and succeeds all day should oscillate in backoff, not
   ratchet into quarantine.
 
+## The failure the envelope does not catch: a tick that never yields
+
+Every layer above assumes the tick eventually **returns control**. Under a scheduler
+that advances work only when work yields — a cooperative model, where many units
+share few workers and progress happens at explicit suspension points — that
+assumption is itself a design decision, and violating it produces a failure mode the
+four layers cannot see.
+
+A unit that occupies its worker without yielding blocks **everything queued behind
+it on that worker**. Not itself: the other loops, the handlers, the jobs. This is
+per-worker starvation, and it is the most common serious defect in cooperatively
+scheduled runtimes precisely because nothing about the offending code looks wrong —
+it is an ordinary computation, or an ordinary call into something that waits without
+yielding, sitting where the model expects a yield.
+
+Three properties make it hard to find, and they are worth stating because each
+defeats a layer of the envelope:
+
+- **The deadline may not fire.** Timers are themselves advanced by the scheduler, so
+  a per-tick deadline enforced from within the same scheduler cannot expire while
+  nothing yields. The layer-3 guarantee holds only if the deadline is armed
+  somewhere the stalled worker does not control.
+- **The victim is not the culprit.** Health telemetry indicts whichever loop happened
+  to be queued behind the offender — it looks slow, it looks like it is skipping —
+  while the loop that caused it reports clean, fast ticks. Diagnosis walks the wrong
+  loop first, every time.
+- **It scales with contention, not with the tick.** A non-yielding span that is
+  harmless on an idle runtime becomes an outage under load, because the queue behind
+  the worker is what turns the span into latency for everybody.
+
+The rule: **work that does not yield runs on a separate pool, and the boundary
+between the pools is stated** — which calls go across it, who decides, and what the
+cost of crossing is. A stated boundary is what makes the failure reviewable; an
+unstated one means every future addition to a tick body is a fresh chance to stall
+the runtime, decided by whoever writes it.
+
+**The inversion, and it matters because the ceremony is real:** where the
+non-yielding span is measured in **microseconds** — ordinary business logic, a small
+transformation, a computation that runs in the time a scheduler would take to hand
+the work off anyway — a direct call is simpler and correct, and the offload is pure
+ceremony that costs a boundary crossing and buys nothing. The distinction is not the
+kind of work but its duration against the runtime's contention: spans that could
+plausibly starve the queue behind them cross the boundary, spans that could not stay
+where they are. And a large *region* being offloaded is a different signal
+altogether — not a hazard being handled but a boundary drawn in the wrong place,
+which is a structural finding rather than an isolation one.
+
+None of this is the crash barrier's problem, and that is why it is stated
+separately: layer 1 protects the runtime from a tick that **dies**, and nothing in
+it protects the runtime from a tick that **works**, indefinitely, without letting go.
+
 ## The composed envelope
 
 Order matters, and the correct nesting is: deadline outside, crash barrier

@@ -103,3 +103,22 @@ its own. Step 7's "reflect" now has an artifact to land in.
 - **The maturity definition needs a class-B/C clause.** 18 subjects meet the brief's
   evidence standard and fail the standard's literal "and commit". The two documents were
   written by the same lane a week apart and disagree; the flip pass surfaced it.
+## 1.3.0 - 2026-09-02 - propagation step, after run 2026-09-02-1
+
+- **The loop ended one step early.** Seven steps took a landing from scan to vault and
+  none of them touched a consumer. Measured the same day: 287 of 287 recorded verdicts
+  across the fleet were stale against the corpus, and the maps had last been built
+  2026-08-31. The registry was getting better and the projects were not finding out.
+- **Staleness has to be per subject or it is nothing.** The map's bundle-level check
+  flagged every verdict after every landing; a signal that is always on is off.
+  `build-index` now carries a per-subject digest and the map marks exactly the pairs a
+  landing touched, with an impact table (subject → projects) the run note records.
+- **Step 8 "Propagate" and two new dispatch rows.** Regenerate the join and commit the
+  maps in the projects; owe an `applied.md` row per new technique or flipped rule
+  (intake's Phase 7.5, dispatched as apply workers under the same cap and review);
+  hand stale-verdict lists to each project's `/conform --stale` rather than judging
+  from here. The ranking gained "verdict debt is demand": a subject with stale verdicts
+  in three projects is in use, which beats a structural gap nobody joins to.
+- **Gate list corrected.** `build-knowledge-rules` and `build-registry-map --check`
+  are now in step 1; the first had been missing since the skill was written and was
+  the cause of three red-trunk findings.

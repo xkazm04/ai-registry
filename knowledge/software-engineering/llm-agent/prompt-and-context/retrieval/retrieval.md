@@ -5,6 +5,7 @@ subject: retrieval
 status: reconciled
 techniques:
   - retrieval-triggering
+  - query-decomposition-before-the-lanes
   - chunking-and-indexing
   - embedding-lifecycle
   - hybrid-lane-fusion
@@ -184,10 +185,19 @@ vector index) → maintenance obligations (deletions reach every index; drift
 between source and index is detectable and has a named rebuild). This plane is
 [chunking-and-indexing](./techniques/chunking-and-indexing.md).
 
-**Query time** — query → per-lane execution with overfetch → per-lane floors →
+**Query time** — query → decomposition into abstraction tiers → per-lane
+execution with overfetch → per-lane floors →
 fusion into one order with cross-lane dedup → budget cut in consumer units →
 the slice, each item carrying provenance (which source, which lanes matched,
-what standing). Provenance is not decoration: it is what lets the consumer of
+what standing). The first arrow is the stage most pipelines omit: where the
+corpus is indexed at more than one level of abstraction, the query must be
+split into the keys each level answers — specifics to the index of individual
+entries, themes to the index of relations and summaries — so that lane choice
+is a property of the decomposed query rather than of a mode flag the caller
+supplied, and
+[query-decomposition-before-the-lanes](./techniques/query-decomposition-before-the-lanes.md)
+owns it, including the undecomposed baseline that must remain a first-class
+mode. Provenance is not decoration: it is what lets the consumer of
 the slice justify, verify, or discount each item — the same discipline the
 memory subject demands when it labels recalled beliefs before injection.
 
@@ -195,6 +205,10 @@ memory subject demands when it labels recalled beliefs before injection.
 
 - [retrieval-triggering](./techniques/retrieval-triggering.md) — whether to consult
   the corpus at all, the four triggers, skip-versus-empty, late retrieval.
+- [query-decomposition-before-the-lanes](./techniques/query-decomposition-before-the-lanes.md)
+  — abstraction tiers, tier-to-lane policy instead of a caller's mode flag,
+  the empty-versus-absent decomposition, caching, and the undecomposed
+  baseline as a first-class mode.
 - [chunking-and-indexing](./techniques/chunking-and-indexing.md) — boundaries by
   structure, content-hash identity, idempotent re-ingest, index maintenance
   and drift repair.

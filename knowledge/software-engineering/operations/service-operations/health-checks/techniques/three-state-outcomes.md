@@ -153,5 +153,5 @@ behalf.
 The credential specialization of this exact split — where "cannot probe
 ever" means a provider that offers no side-effect-free way to exercise a
 secret — is developed in the vault subject's
-[health-probing](../../../../security/credential-vault/techniques/health-probing.md), whose
+[health-probing](../../../../security/identity-and-access/credential-vault/techniques/health-probing.md), whose
 three-state table is this technique applied to one domain.

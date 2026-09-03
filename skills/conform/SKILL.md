@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.3.0
+version: 1.4.0
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -44,9 +44,15 @@ already judged, how many are `weak`, and the digest each bundle was matched at.
 Choose the pairs to evaluate, in this order:
 
 1. **Named** - an argument naming a context, a path, or `--subject <slug>` wins outright.
-2. **`--stale`** - pairs whose `evaluatedAgainst` differs from the bundle's current digest
-   in the map header. The standard moved under a verdict; that verdict is now a claim
-   about a document that no longer exists in that form.
+2. **`--stale`** - pairs the generator marked `stale: true`: their `evaluatedAgainst`
+   differs from the pair's own `digest`, the digest of that one subject as it is now. The
+   standard moved under a verdict; that verdict is now a claim about a document that no
+   longer exists in that form. The header's `stats.staleVerdicts` and `staleSubjects` say
+   how many and which - read them first, because they are the registry's landings arriving
+   in this repo, and a stale `deviation` may already be fixed by the corrected standard or
+   a stale `conformant` may now be a deviation. (Before 2026-09-02 staleness was the whole
+   bundle's digest, so every verdict read stale after any landing anywhere; if the map
+   predates that, regenerate it - legacy verdicts are re-dated from git, not discarded.)
 3. **Otherwise**: `state: "unknown"` pairs with `confidence: "strong"`, preferring contexts
    with many governing subjects (a dense context pays back the read) and contexts whose
    paths were touched recently in git.
@@ -120,8 +126,9 @@ Update each evaluated pair in `.ai/registry-map.json`, in place, changing nothin
   "evaluatedAt": "2026-08-23", "evaluatedAgainst": "sha256:5c2ad4a129529e33" }
 ```
 
-- `evaluatedAgainst` is the bundle digest from the map header at the time you judged. It is
-  what makes `--stale` work later.
+- `evaluatedAgainst` is the pair's `digest` at the time you judged - the subject's own
+  content digest, not the bundle's. Copy it verbatim; it is what makes `--stale` work later,
+  and it goes stale only when THAT subject changes. Remove a `stale: true` you have re-judged.
 - `evidence` is one line: the anchor plus the consequence. Not a paragraph, not a plan.
 - **Never rewrite the matching fields** (`score`, `why`, `confidence`) - those belong to the
   generator, and hand-edited derived values drift silently.

@@ -3,7 +3,7 @@ name: forge
 description: "Extract a repository's domain knowledge into a four-layer RKB bundle in this registry: scout every context, design subjects with the operator's split doctrine, then forge each subject two-phase (expert draft + web hardening before repo reconciliation) with a bounded agent pool. Use when a new domain repo should populate the knowledge lane."
 category: ai-native
 memory: project
-version: 1.3.0
+version: 1.4.0
 tags: knowledge, rkb, extraction, orchestration, bundles
 ---
 
@@ -18,6 +18,19 @@ from three repositories in one session; this skill is that process, made repeata
 format spec (`docs/rkb-profile.md`) and the per-wave contract (`docs/forge-brief.md`)
 present. An agent pool cap agreed with the operator (the calibrated default is **10
 concurrent**). Work on a branch - merging is adopting, and that click is the owner's.
+
+**The intake handoff (since intake 2.0.0).** `/intake` routes a repository here when its
+design read counts three or more load-bearing design decisions that no subject in the
+corpus models. The handoff arrives as a **design record** in the source note
+(`librarian/sources/<date>-<slug>.md`, heading "Design record") or banked under
+`librarian/handoffs/`: per decision, its forces, what it buys, what it rejected, the
+file:line anchors, the pipeline stage, and the corpus subject it maps to or `NONE`. Treat
+the record as Phase 0's brief: scouts start from its anchors instead of from the top-level
+structure, the `NONE` entries are the first candidate subjects in Phase 1, and the
+source-tree applications intake already wrote are the reconciliation targets in Phase 3.
+A handoff over a software-engineering repository is the one case where the scout brief's
+"NOT software engineering review" line is replaced: the engineering *is* the domain, and
+the design record says which decisions are the craft.
 
 ## Phase 0 - Scout every context (parallel, read-only)
 

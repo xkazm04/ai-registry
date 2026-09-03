@@ -54,7 +54,7 @@ correct, and it is now leaving your product with your name attached and none
 of your context. Nothing here relitigates the score; everything here concerns
 what may be *asserted* about it in fourteen characters.
 
-[Signed artifacts & provenance](../../../security/signed-artifacts/signed-artifacts.md) own
+[Signed artifacts & provenance](../../../security/code-provenance/signed-artifacts/signed-artifacts.md) own
 provenance of build outputs — integrity of carried bytes, named signing
 identity, admissibility on import. A badge is a *rendered claim about a
 subject*, not a carried build output, and signing does not make it

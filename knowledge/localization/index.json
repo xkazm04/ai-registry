@@ -24,6 +24,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/right-to-left/arabic/arabic.md",
+   "digest": "sha256:0e23cd9477709d99",
    "techniques": [
     {
      "slug": "bidirectional-text-and-interpolation",
@@ -142,6 +143,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
+   "digest": "sha256:67761819d7497ace",
    "techniques": [
     {
      "slug": "bengali-script-and-numerals",
@@ -251,6 +253,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/chinese/chinese.md",
+   "digest": "sha256:0c68d2977bb25063",
    "techniques": [
     {
      "slug": "character-width-and-typography",
@@ -362,6 +365,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/czech/czech.md",
+   "digest": "sha256:70bd206e21f2b90a",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -477,6 +481,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/french/french.md",
+   "digest": "sha256:37de266c4bda40ea",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -587,6 +592,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/german/german.md",
+   "digest": "sha256:900b0980558b6c24",
    "techniques": [
     {
      "slug": "capitalization-and-compounds",
@@ -693,6 +699,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/hindi/hindi.md",
+   "digest": "sha256:918aa4a77fa87e5b",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -802,6 +809,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/indonesian/indonesian.md",
+   "digest": "sha256:2e67410d0dfee334",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -898,6 +906,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/japanese/japanese.md",
+   "digest": "sha256:25fed1d7e31269bf",
    "techniques": [
     {
      "slug": "character-width-and-typography",
@@ -1006,6 +1015,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/korean/korean.md",
+   "digest": "sha256:d5b9041a7deb5c77",
    "techniques": [
     {
      "slug": "counting-and-quantity",
@@ -1122,6 +1132,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/russian/russian.md",
+   "digest": "sha256:9ec11ad6bb8dd8cb",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1232,6 +1243,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/spanish/spanish.md",
+   "digest": "sha256:bdddc1bff1c2f77e",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -1341,6 +1353,7 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
+   "digest": "sha256:c81d3f4df17e0824",
    "techniques": [
     {
      "slug": "canonical-and-derived-split",
@@ -1483,6 +1496,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/vietnamese/vietnamese.md",
+   "digest": "sha256:5c32dd26e0cbac09",
    "techniques": [
     {
      "slug": "classifiers-and-quantity",

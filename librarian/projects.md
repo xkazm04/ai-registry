@@ -22,7 +22,8 @@ contributor id. See [`.claude/skills/intake/SKILL.md`](../.claude/skills/intake/
 | `personas-web` | `software-engineering`, `localization` | The public web companion to `personas`: a multi-locale marketing site, a product guide, a public roadmap, and a mock-driven demo of the agent-operations dashboard. Not forged from; it carries a thirteen-locale catalog matching the `localization` bundle's thirteen language subjects, and is the tree `source-identical-value-audit` was measured against (2026-08-28). |
 | `pof` | `game-production`, `software-engineering` | An AI companion for building UE5 C++ games. The `game-production` bundle was forged from it (merged 2026-08-22). Runs its own research lineage. |
 | `systedo-case` | `media-generation`, `software-engineering` | An AI workspace for advertising: measures account performance and generates the content that follows from it. A `software-engineering` technique wave forged from it sits on `forge/adamant-2026-08`, unmerged. |
-| `gravitone` | `media-generation`, `software-engineering` | A content-creation studio for trailer-shaped pieces: research, script, frames, score, cut over a captioned asset library. The first consumer of the `audio-generation` category — its Score phase renders spotting cues through a server-side music seam (2026-08-26), and the fixture cut already spoke the spotting doctrine before the engine existed. |
+| `gravity` | `media-generation`, `software-engineering` | A content-creation studio for trailer-shaped pieces: research, script, frames, score, cut over a captioned asset library. The first consumer of the `audio-generation` category — its Score phase renders spotting cues through a server-side music seam (2026-08-26), and the fixture cut already spoke the spotting doctrine before the engine existed. |
+| `gravitone` | `software-engineering` | A CPU-only, Arm-native text-to-speech and speech-to-text service with voice cloning, shaped like a hosted TTS API: a bounded pool of model instances behind an admission queue with 429 backpressure, a sealed air-gapped appliance image, and a Helm chart whose autoscaling reads queue depth through an external scaler. The fleet's most advanced cluster surface; onboarded 2026-09-03 after the kube-rs round found it missing (the `gravity` row above is the content studio at `gravitone-gcloud`, which this slug was previously confused with). |
 
 ## What this map is for, and what it is not
 
@@ -57,15 +58,23 @@ once, **at a different path on each**. `projects.json` gives every project a
 
 The keys ARE the machines it exists on; a machine absent from the map does not have
 it, and resolving there yields nothing rather than an error. Adding a machine is
-adding one key. `.machine.local.json` says which machine this is, the root those
-paths resolve against, and — for a checkout that cannot be expressed relative to
-that root at all (another drive) — an optional `overrides` map, which is where an
-absolute path is allowed to live because that file is never published.
+adding one key. The machine's **root** — the absolute directory those relative paths
+resolve against — is declared in `projects.json` too, under `machines.<name>.root`
+(since 2026-09-02), so the committed file alone yields a full path per device.
+`.machine.local.json` then says only which machine this is and who the contributor is,
+plus — for a checkout that cannot be expressed relative to the root at all (another
+drive) — an optional `overrides` map, and an optional `root` that overrides the
+declared one.
 
-| Machine | Role |
-| --- | --- |
-| `Fox` | secondary dev box |
-| `Wolf` | primary dev box |
+**Every path the registry publishes about a project is relative to the project root**,
+never to a device: the fleet map's context paths, an application's seam, a direction
+proposal's anchors. Parallel development on several devices reads the same file and
+resolves it against its own root.
+
+| Machine | Role | Root |
+| --- | --- | --- |
+| `Fox` | secondary dev box | not declared yet (its local file supplies one) |
+| `Wolf` | primary dev box | `C:/Users/kazda` |
 
 Domains are deliberately NOT in `projects.json`. Every project declares its own in its
 `.ai/manifest.yaml` (`knowledge.domains`), which is committed in that project and is the

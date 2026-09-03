@@ -1,7 +1,7 @@
 ---
 subject: embedded-db
 domain: software-engineering
-last_touched: 2026-08-27
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -76,3 +76,19 @@ side. Neither absorbs the other; cross-bundle links are forbidden.
 ## 2026-09-01 - fate recorded for the maturity ladder
 
 Hint fate (from [[2026-08-22-2]] and the application's own close): **confirmed** - both journaling families realized, sidecar set named and exposed as API; the worker's citation re-check caught 7+ drift errors including two wrong test-file counts. Counterpart sqlite/sqlite @ 45f4f1c (3.54.0). Recorded by [[2026-09-01-1]] so the subject meets the `reconciled` definition in [[standard]]; nothing else changed.
+## 2026-09-01 - intake [[2026-09-01-matrix-rust-sdk]]
+
+`journal-and-durability-modes` gained "name the set from the engine": the
+file-set clause said delete/reset removes the whole sidecar set, and a source
+showed it honored in intent and missed in fact (`.wal` where the engine writes
+`-wal`; the rebuilt store opened beside the stale journal and failed with a
+bare I/O error). Sidecar names are derived by appending to the FULL file name;
+the path library's extension swap is right only for the conventional name; one
+test opens a store named without the extension and asserts the sidecar. Applied
+at `code`, `ab-paired` 2/6 vs 6/6 over store names, **shipped** to the rust
+consumer with the test (rust application). Third application for the subject's
+journal technique, first on the rust stack.
+
+## 2026-09-02 - `/intake` hermes-agent (run `intake-hermes-0902`, intake 2.1.1, Opus workers)
+
+New technique `corruption-class-response`: the corruption CLASS decides the response - a corrupt derived index detaches (drop triggers, mark stale, serve the slow path) and keeps writing; bare structural corruption quarantines the handle and stops writing, because a handle that kept writing ~50 minutes after the first structural error checkpointed pages under wrong numbers and turned a readable file into one that would not open. None of the eight existing techniques stated the split (extension-lifecycle applies the derived/canonical distinction to what to store, not to what a damaged handle may do). Source-tree application `python--corruption-class-response`. Fleet seams by scope: pumper and tracklight both admit the force; the fleet map lists both as present for the subject, so the next step is a registry-map state on the pair, not a proposal.

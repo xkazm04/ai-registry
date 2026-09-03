@@ -1,7 +1,7 @@
 ---
 subject: supply-chain
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 touched_by: intake
 dry_streak: 0
 ---
@@ -160,3 +160,71 @@ Phase 7.5 ran both against `personas`:
   tool, which is the source's own situation and the reason it needed a hand-built
   check. Without the A/B this technique would have prescribed duplicated logic to
   every ecosystem whose installer already enforces it.
+
+## 2026-09-02 - intake [[2026-09-02-sentry-self-hosted]]
+
+Class: EXTENDS. `update-automation-review` gained "Release age is a tier input" - a minimum
+release age (security exempt), the operated-major ceiling for a distribution's stateful
+components, and event-expiry as an acceptable exception form (pointing at
+`dependency-policy-gates`). `process--update-automation-review`: experiment over 67 bot
+proposals in four fleet repos; 8 superseded, 4 within 3 days, **1 real** after calibration
+removed grouped-proposal rebuilds. Verdict unmeasurable for the supply-chain half, instrument
+named. A fleet tree (politicas) already carried the event-expiring ignore before this source
+was read. 10 -> 10 techniques, 5 -> 6 applications.
+
+
+## 2026-09-02 — intake, [[2026-09-02-monai]] (second run on this subject today; a sibling held the subject at the time — technique file written, golden-path line edited under the content lock)
+
+**Landed** `unsafe-deserialization-off-by-default` beside `archive-extraction-safety`:
+the container rule owns paths and sizes; this one owns what a member instantiates once
+opened. Rule in three parts — restricted loader is the default, permissive is a per-call
+opt-in named for the hazard (with an env override read once and logged, carrying its own
+removal version), and the storage format migrates to data-only so the opt-in retires.
+Prove the guard with two archives built from the project's own member set (producer-shaped
+must load identically restricted; hostile-shaped must be refused restricted and accepted
+permissive). Source: a framework's 1.5.1–1.6.0 release notes, which flipped three load
+paths after four advisories (weights-only checkpoint loading, an array loader gaining a
+default-off pickle flag, serialization moved from native pickling to structured text with
+an env escape hatch). Corroboration: training-data convergence — the same default flip in
+three ecosystems between 2019 and 2025. Zero fetches. Prior art before this run: none
+(uncapped grep for deserialization/pickle across all bundles: 0 owning files).
+
+**Applied and shipped** on a game project's motion-research scripts at mode `code`,
+verdict `better`, proof `ab-paired`: four archive readers, three permissive, one (the
+newest) restricted; the tree's only producer writes seven numeric arrays and a scalar.
+Harness: producer-shaped archive loads identically under both arms; hostile-shaped
+archive with one object member is executed under A and refused under B. Three sites
+flipped in one pathspec commit on the project's active branch, not pushed.
+
+## 2026-09-03 — `/intake` over a doctrine corpus ([[2026-09-03-rusttraining]])
+
++2 techniques.
+
+- **`build-time-dependency-tier`** — the graph holds two populations with different
+  blast radii, split by execution phase. One policy over the resolved graph prices
+  a build-time dependency by its *runtime* exposure (often nil) and misses that its
+  actual exposure is a developer's workstation with a live credential agent plus
+  the runner. The build-time tier gets its own inventory, review tier and reach
+  question, and is usually sparse enough to enumerate by hand. Escalate when a
+  package *newly acquires* build-time execution. The subject had this as a review
+  *signal* (`update-automation-review.md:53-54`) and as a tiering input, never as a
+  structural claim. Inverts under hermetic, network-isolated, credential-free
+  builds — and the isolation must cover the developer's build, not only the
+  runner's.
+- **`review-attestation-ledger`** (`stage: fleet`) — advisory matching answers *is
+  this known bad*, which is silent about everything nobody has looked at. The
+  complementary axis is a committed per-version record of who reviewed what against
+  which criteria, with the burden shared by importing peers' records under a
+  declared trust relationship. Pooling is load-bearing because cost tracks churn.
+  Both inversion halves carried: below readable-graph size with no external
+  obligation it is bookkeeping for a review nobody performs; and **an unread import
+  is worse than no ledger, because it renders as coverage.** Also: unmaintained is
+  not vulnerable, and no advisory database reports abandonment.
+
+**Convergence:** the source's dependency policy independently enforces exactly the
+four dimensions `dependency-policy-gates` names, in the same order, with the same
+deny-by-default posture, and independently reaches allowlist-not-denylist for
+licences. Same clock-vs-diff scanning partition too. **Catches:** vendoring
+(`vendored-fork-ledger` — "forking a dependency does not break its guards, it ends
+them" — the source has nothing on vendoring at all) and lockfile trust, where the
+corpus additionally owns the characteristic failure of the freshness check.

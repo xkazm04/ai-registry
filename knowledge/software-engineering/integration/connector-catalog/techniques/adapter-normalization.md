@@ -99,7 +99,7 @@ limiting, aggregation — all of it belongs to shared machinery around the
 adapters; an adapter that implements its own retries diverges from fleet
 behavior precisely where uniformity was the point. Credential application
 in particular: the adapter names the credential and the path, and the
-vault's [brokered door](../../../security/credential-vault/techniques/brokered-egress.md)
+vault's [brokered door](../../../security/identity-and-access/credential-vault/techniques/brokered-egress.md)
 resolves the base address and applies the auth — the adapter never holds
 the secret, which keeps N provider modules from becoming N involuntary
 vaults. Pagination dialects (cursor, offset, page number) collapse behind

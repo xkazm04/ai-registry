@@ -46,3 +46,20 @@ the avoided problem) and different required fields. The discriminator is stated
 in both files.
 
 Uncontended on the board for the whole run.
+
+
+## 2026-09-02 - intake (dora, run intake-dora-0902)
+
+`declared-deviation-register` gained "Key the entry by the finding's
+identity, never by its position" and cites `identity-survives-reuse`: a
+waiver keyed by file:line:column is an index-based key that un-matches on
+any unrelated edit above the site, and the accepted finding then
+resurfaces as a regression with no visible cause. Key by rule plus symbol
+or mutation name; where a position cannot be avoided, a non-matching entry
+is reported loudly, never dropped. Source: a mutation-testing waiver
+written as a line-pinned regex, caught by an adversarial review and
+rewritten to key on the mutation's name. New application
+`node--declared-deviation-register` (simulation, better, structural-only):
+the fleet's ratchets already key by identity, and the application says
+what that keying does not provide (no site, no motivation - a ratchet with
+honest keys, not a register).

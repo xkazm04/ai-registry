@@ -84,6 +84,18 @@ Two mechanisms meet it; both are load-bearing enough to name:
   generation counter on the attach cancels a stale snapshot when the user
   flips away and back faster than the round trip resolves.
 
+The position-keyed form generalizes to many readers without changing: each
+subscriber carries its own offset, and the backend frees the ring only up
+to the **slowest un-paused reader's** position. That makes the ring's bound
+conditional on a policy the single-reader case never needs — a subscriber
+that has stopped consuming and has not been paused pins the whole tail, so
+a runtime with several byte-faithful subscribers per session must pause or
+disconnect the laggard, with the gap disclosed, rather than let the ring
+grow on its behalf. The
+[multi-client-fan-out](./multi-client-fan-out.md) technique owns that
+policy and the reason viewers, unlike byte subscribers, can simply be
+redrawn.
+
 What both mechanisms refuse is the two dishonest splices. Keying by time
 ("ignore anything older than the snapshot's timestamp") double-delivers or
 drops at the boundary whenever producer and consumer clocks disagree —

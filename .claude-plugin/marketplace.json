@@ -27,7 +27,7 @@
       "name": "architect",
       "source": "./skills/architect",
       "description": "Heavy structural codebase scan - surfaces weak patterns to upgrade and strong patterns to codify, producing ADR-style decisions with a durable cross-session backlog. The highest-risk / highest-payoff scan in the suite; walks the context map area by area.",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "category": "workflow"
     },
     {
@@ -76,7 +76,7 @@
       "name": "conform",
       "source": "./skills/conform",
       "description": "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / no",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "ai-native",
       "tags": [
         "conformance",
@@ -104,7 +104,7 @@
       "name": "dojo",
       "source": "./skills/dojo",
       "description": "Autonomous infinite training loop for media-generation craft: each cycle reflects prior human verdicts into the consuming repo's prompt surfaces, scans the registry for the weakest knowledge dimension, researches one candidate technique, generates seed-matched A/B pairs with the LOCAL image/video stack, machine-judges them pairwise, and parks the cycle for human gating in the app's Foundry -> Dojo",
-      "version": "1.0.0",
+      "version": "1.2.0",
       "category": "ai-native",
       "tags": [
         "training",
@@ -120,7 +120,7 @@
       "name": "explorer",
       "source": "./skills/explorer",
       "description": "Wander one logical area of a codebase, surface 10 items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "category": "workflow"
     },
     {
@@ -141,7 +141,7 @@
       "name": "friend",
       "source": "./skills/friend",
       "description": "Endless single-area companion loop: scan -> propose 5 development directions -> user picks a number -> execute with repo conventions -> repeat. Momentum-first, parallel-session UX/product building, scoped to one context.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "workflow"
     },
     {
@@ -206,7 +206,7 @@
       "name": "perfect",
       "source": "./skills/perfect",
       "description": "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Fable 5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Opus-class builder subagents on ON",
-      "version": "2.4.0",
+      "version": "2.5.0",
       "category": "workflow",
       "tags": [
         "loop",
@@ -235,14 +235,14 @@
       "name": "research",
       "source": "./skills/research",
       "description": "Extract actionable improvements for a project from external sources (video, blog, article, raw text). Scores ideas against the codebase, buckets into Code / Template / Credential, and persists findings to an Obsidian memory vault.",
-      "version": "1.8.0",
+      "version": "1.9.0",
       "category": "ai-native"
     },
     {
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
       "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands the safe fixes itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly",
-      "version": "2.8.0",
+      "version": "2.9.0",
       "category": "workflow",
       "tags": [
         "sweep",
@@ -275,7 +275,7 @@
       "name": "spark",
       "source": "./skills/spark",
       "description": "Turn a vague product idea (a \"sparkle\") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director r",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "category": "workflow"
     },
     {

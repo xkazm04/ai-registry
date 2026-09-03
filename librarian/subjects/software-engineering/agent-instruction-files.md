@@ -1,7 +1,7 @@
 ---
 subject: agent-instruction-files
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-09-02
 dry_streak: 0
 ---
 
@@ -232,3 +232,57 @@ Fleet note worth carrying: **no managed project ships a session-start injector
 at all**, so none holds the defect — and every project's floor therefore rides
 on native re-injection whose per-event behaviour nobody has verified. The
 exposure moved rather than vanished.
+
+
+## 2026-09-02 - /intake openbao (run intake-openbao-0902)
+
+One amendment, one application.
+
+- `workspace-ancestry-isolation` gained "The author's chair: terms for
+  agents you did not invite". The source's repository carries the first
+  instruction file this skill has met that is addressed to agents the
+  author did not run: it refuses generated contributions, permits
+  analysis and translation, gives four rules for machine-assisted security
+  reports, and hides a disclosure canary in a comment. The technique owned
+  the reader's chair only. The amendment says: write terms, not steering;
+  the canary must be inert for the invited; it is mechanically an
+  injection and the discriminator is who owns the tree; the precondition
+  is a repository that accepts outside contributions.
+- Applied to the registry itself (`node--workspace-ancestry-isolation`,
+  `simulation`, `not-better`): no root instruction file, one owner, no
+  outside contributions - the precondition is absent, and a canary would
+  tax the owner's own sessions. The reader-side layout (flat sibling
+  scratch clone) was confirmed working on this very run, which read the
+  source's file as material and obeyed none of it.
+
+## 2026-09-02 - intake `claudeception` (run `claudeception`)
+
+- Amendment to `enforcement-demotion`: § "A hook that prints prose is not a demotion" -
+  a lifecycle hook whose only effect is text for the model is on the prose branch of
+  the sort with a per-turn multiplier and no reviewer; sort the trigger, not the
+  channel. Fleet measurement inside: two projects, 1,631 human turns replayed with
+  their doc-sync hook's own predicate, 122 fires (7.5%); every-prompt delivery would
+  inject 15-25x the words.
+- Applications: `claude-code--enforcement-demotion` (the source's every-prompt banner
+  hook, read against the tree and its commit log) and `node--enforcement-demotion`
+  (the replay; `experiment`, `better` for the condition-observed form, cost only -
+  the compliance falsifier is named and has no fleet instrument).
+- Structural fact carried into the node application: three copies of the fleet hook
+  at 185/204/320 lines; the longest records a lifetime silent-green before a
+  turn-boundary fix and a third exit code for could-not-check.
+
+## 2026-09-02 - `/intake` gstack (run `intake-gstack-0902`, intake 2.1.0)
+
+New technique `host-contract-compilation`, the first `design` candidate landed under
+2.0.0's rule that a mechanism gets a technique. `single-source-topology` covered hosts
+that differ in file name; the source (a fifty-skill suite compiled for ten harnesses)
+showed the case topology cannot solve - hosts differ in accepted frontmatter, tool
+vocabulary and capability - and the mechanism: a declarative contract per host read by
+every tool, suppression by capability validated against a section registry, goldens and
+prose validation per render into a temp dir, and the cross-model boundary instruction as
+a host-pair property. Source-tree application `node--host-contract-compilation` written
+against the pinned clone (verified_against carries the runtime; the commit is in the body).
+
+Phase 7.5 (registry skills lane, simulation, `better` on 2 of 3): six links to one host
+need nothing; the desktop-surface zip delivery and the trigger-collision check are the
+two cases a host contract would give a field to. Boundary stated to agent-cli-transport.

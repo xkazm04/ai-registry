@@ -11,6 +11,8 @@ techniques:
   - turn-metadata
   - markdown-and-code-rendering
   - composer-turn-queue
+  - immutable-model-cached-layout
+  - virtual-filtered-channel
 ---
 
 # Chat transcript rendering
@@ -165,6 +167,13 @@ rules keep that viable:
 - **History is windowed, not eagerly total.** Older turns load on demand at
   the top, with position held stable; the initial paint is the recent window,
   which is also what the ready gate measures.
+
+Both rest on a model/layout split and a derivation discipline the subject
+names: rows are frozen at the transcript's door and every view keeps its own
+keyed layout cache
+([immutable-model-cached-layout](./techniques/immutable-model-cached-layout.md)),
+and a filtered or merged view is itself a channel the surface renders like
+any other ([virtual-filtered-channel](./techniques/virtual-filtered-channel.md)).
 
 ## The composer never says no
 

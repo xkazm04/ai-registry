@@ -116,3 +116,81 @@ DIFFERENT niche — fast local TEXT MoE serving in the 30-120B class on
 24 GB-VRAM/64 GB-RAM boxes (e.g. gpt-oss-120b-class local reasoning behind
 an OpenAI-compatible endpoint, a candidate local rung for a text fallback
 ladder). Filed as a lead, no action taken.
+
+## Measured on Wolf (2026-09-02, protocol step 1 + the vision wall)
+
+- **Acquisition beat the reference 2.6x:** 62 shards, 194.7 GB, **9.6 h**
+  (their 25 h) — download dominated (~8 min/shard dl, ~1 min convert).
+- **Text decode: the NVMe projection held.** Cold first answer 44 s total;
+  warm decode **~2.3 s/token** (100 tokens / 232 s) vs the reference's
+  20-44 s/token. The disk-bandwidth arithmetic in the docs is honest and
+  transfers.
+- **Vision on the CPU-only release build: impractical.** One 1280px craft
+  readback burned 93 CPU-minutes without completing (server-side timeout at
+  ~90 min). Cause is compute, not disk: ~1.5k vision-prefill tokens x 40B
+  active params on 6 CPU cores, with the RTX 4090 idle — the prebuilt
+  Windows binary carries no CUDA/Vulkan backend. A 672px retry is the last
+  cheap probe; the real gate for the eye role is a **CUDA-backend source
+  build** (docs/cuda.md, BUILD-cuda-glibc241.md), unattempted this round.
+- Protocol steps 2-4 (field agreement vs qwen/gemini, judge replay) are
+  therefore POSTPONED behind the CUDA build, not abandoned — the decision
+  rule stands unchanged.
+
+## The one completed vision readback (2026-09-02, 672px, clean engine)
+
+- **It works, and slowly: 1372 s (~23 min)** for 376 prompt tokens (image
+  included) + 217 out — both prefill and decode near ~2.3 s/token on CPU;
+  the batched-prefill benefit does not show on this path, so vision cost
+  scales with resolution. 1280px frames did not complete inside 90 min.
+- **Quality preview (n=1, NOT the scored protocol):** on arcane-fights-005,
+  where qwen3.8:27b and gemini-3.6-flash both read "graphic posterization,
+  duotone, crushed blacks", GLM-5.3-Flash wrote "painterly mixed-media with
+  watercolor and ink-wash textures... warm desaturated sepia-and-cream base
+  punctuated by a single intensely saturated neon pink accent (the glowing
+  orb)... black handled not as flat fill but as a dominant opaque silhouette"
+  — it volunteered PALETTE ROLES and black-as-shape, the exact vocabulary the
+  colour-roles and what-stays-dark rules are written in. The bigger eye reads
+  craft the smaller eyes flatten.
+- **Ops lessons:** the serve engine is single-slot — killing a client leaves
+  the request cooking and later calls 429; killing the engine leaves the
+  Python launcher squatting the port answering 500s ("dispatcher stopped").
+  Tear down launcher AND engine together, then restart.
+- **Round verdict:** feasibility PROVEN, quality signal PROMISING, throughput
+  BLOCKED on the missing GPU backend. Next action is the CUDA source build;
+  the scored 5-frame protocol and judge replay run after it, unchanged.
+
+## Program close-out (2026-09-03, operator decision)
+
+- **GLM-5.3-Flash: KEEP**, conditionally — disk is rent-free post-cleanup
+  (245 GB still free with the weights resident), the n=1 quality preview was a class jump, re-acquisition
+  costs ~10 h. Condition: one CUDA-build attempt within a week, else delete
+  the weights and keep the findings.
+- **The unifying finding across BOTH big-model threads:** Wolf's 64 GB host
+  RAM is the binding constraint, not the 4090. H3 ref2va ran at ~12x its
+  reference rate (~60 min vs ~5 min per 3s clip) and GLM-5.3 vision at ~30x,
+  both from expert paging. One 128 GB RAM upgrade moves both verdicts at
+  once; no software work does.
+- **The ref2va bake-off (dojo cycle 2026-09-03-serial-ref2va, truncated at
+  one sequence): H3 2/2 over Wan t2v** — figure present every frame with
+  identity carried from the reference, interior staged with the action
+  performed. Reference conditioning is confirmed as the serial direction;
+  the phrasing lane (3 windows, 10 pairs, coin flip) is closed.
+
+## Epilogue (2026-09-03): the gap was the question, not the parameters
+
+Operator challenge: could prompt adjustments on the small eyes reach the
+321B's depth? Measured same-day: YES. The original comparison was
+confounded - the small eyes answered a closed-enum schema (which flattens by
+design) while GLM answered free prose. A "taught" prompt built from what the
+big eye demonstrated (palette as roles, black as shape, light as layers,
+medium mixing, edge story) pulled equivalent-depth readbacks from LOCAL
+qwen3.8:27b: 25 s and $0 per frame vs 23 min - same roles, same
+silhouette reading, same layered light, on the same frame. Prompt preserved
+as gravitone's pipeline/foundry/DEEP-READ-PROMPT.md.
+
+**Final verdict, revised: the 321B eye is NOT needed here.** Its one real
+contribution was showing what a better question looks like; the question is
+now an asset and the weights are recommended for deletion (64 GB RAM is a
+declared-permanent constraint on this box). The engine evaluation stands as
+knowledge: Colibri's tiering works as documented, and on RAM-capped consumer
+hardware the elicitation lever should be exhausted before the parameter one.

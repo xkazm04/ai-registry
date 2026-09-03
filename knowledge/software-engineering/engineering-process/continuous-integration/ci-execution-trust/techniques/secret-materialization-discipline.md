@@ -36,6 +36,27 @@ all real exposure happens.
 - **Prefer a credential the build never holds at all.** Where the platform can issue a workload
   identity to a job directly, no secret is stored anywhere and there is nothing to leak, rotate,
   or find in a log. When available, this is strictly better than everything above.
+- **Prefer a job with no reason to hold one.** One rung higher than any issuance mechanism, and
+  the rung most pipelines never consider, because it is a design question rather than a
+  configuration one: ask what the job is actually for, and check whether the credential is load-
+  bearing for that purpose. Often it is not. A job that exists to prove a build recipe still
+  works does not need to publish the thing it built — building it is the entire signal. Dropping
+  the publish step removes the registry credential, the release surface, and the whole class of
+  exposure this document manages, and it costs nothing the job was there to provide. The pattern
+  generalises: a job that validates rather than delivers (does the container definition still
+  build, does the migration still apply against a scratch database, does the package still
+  assemble) can almost always be written credential-free, and the credential in it is usually a
+  copy of the delivery job made by someone who started from the wrong template.
+
+  State the reasoning where the job is defined, in one line — *build-only, nothing is published,
+  so this adds no release surface and holds no publishing credential.* Without it, the next
+  maintainer reads a build that does not ship as an incomplete pipeline and finishes it.
+
+  **The inversion is the obvious one, and it is most jobs:** where the artifact itself is the
+  deliverable, you cannot decline to publish what people consume. Delivery jobs hold delivery
+  credentials, and for them the ladder above is the whole answer. The rung applies to the jobs
+  whose output is a *verdict*, not an artifact — and the discipline is to notice which kind you
+  are writing before copying the credentials of the other.
 
 ## Nothing durable
 

@@ -460,3 +460,98 @@ this application tested.
 Worth generalising if a second tree shows it: **when a distribution is reduced at more
 than one stage, the reductions have to agree, and a boolean is where they stop being
 able to.** Not yet a technique - one tree, one pipeline.
+
+## 2026-09-03 - `/intake` adaptive-agentic-worms (run `worms`, intake 2.3.2)
+
+Two amendments, both from a community walkthrough of a security preprint and its comment
+thread. No new techniques - the subject already owned the rules; what the source supplied
+was one missing question and one missing scope line.
+
+`candidate-write-access` gains a fifth enumeration question and a boundary section. Its
+four questions covered what the candidate can read, what it can write, who built the
+holdout, and whether the environment is reconstructed - and none of them reached **the
+run's own confinement**: the host allowlist, the budget ceiling, the timeout, the paths
+declared out of bounds. Those are inputs too, and they sit beside the harness rather than
+beside the fixtures, which is why question 2 misses them. The fifth question is answered
+properly in `agent-runtime-assembly/guard-input-custody`, and the boundary is now written
+on both sides. It is worth holding: **measurement integrity is bought with incentives,
+containment is bought with placement.** A declared holdout works precisely because it does
+not need the candidate's cooperation; nothing equivalent exists for a boundary, which has
+to hold rather than be believed in, and the environment-per-condition fix reinstates a
+subverted guard fresh each time.
+
+`scenario-design` gains "a seeded environment moves the number one stage down the
+pipeline", plus a `use_when` entry. For an agent that acts, the scenario is the
+environment, and environments are routinely built so the precondition of the interesting
+behaviour always holds - every record matches, every host is reachable, every document
+contains the answer. That is often necessary and it is not the defect. The defect is that
+the number then describes *act given a qualified target* while the claim describes the
+whole pipeline. **The failure is not concealment** - the source protocol here disclosed
+its seeding plainly; the predicate stayed in the methods while the figure travelled
+without it (`count-carries-predicate`). The tell is cheap and new: when two careful
+readers of one honest protocol disagree in opposite directions about what a headline
+figure covers, that disagreement is evidence about the claim, not about the readers. Both
+readings were observed in the source's own comment thread, including a public retraction.
+
+## 2026-09-03 - intake, `automated-alignment-researchers` (vendor release announcement)
+
+Two techniques, no amendments, and the shape was decided twice by things outside the
+source. **15 -> 17 techniques.**
+
+`selection-over-noise` names a third surface beside the two `candidate-write-access`
+enumerates, and it is the one that technique's central rule cannot reach: *whatever the
+candidate can write, the measurement cannot assert* is a claim about writes, and a
+candidate allowed to be scored twice and keep the better result touches nothing. The
+source supplies the number that makes it the important surface rather than a curiosity -
+of 39 flagged trajectories, plain re-submission was 67% and **the only category that ever
+succeeded**; the two that required modelling the instrument or the reviewer never reached
+the top three. Best-of-N is then written as what it is, an upward-biased estimator whose
+bias scales with N and with the within-condition spread this subject already measured in
+`resolution-precondition` (SD 0.075 against a between-condition spread of 0.069). The
+comparison face came from the source correcting its own headline: 82-85% from an arm
+taking a maximum over ~150 attempts against 20% from practitioners explicitly unable to
+iterate, reframed by the reporting team from *better than* to *supplies candidates at a
+scale the other arm cannot*.
+
+The boundary that made this a technique and not an amendment to `comparison-modes`:
+that technique requires the aggregation rule to precede the data, which defeats choosing
+an aggregation after seeing results and leaves the bias entirely untouched. **A
+pre-registered "best of 150" is honest, is not p-hacking, and is still not comparable to
+a single draw.** Honesty about the rule and comparability of the output are different
+properties and only the first is what pre-declaration buys.
+
+`monitor-inside-the-loop` was drafted as an amendment to `candidate-write-access` and
+landed as its own technique because **a sibling run was rewriting that exact file while
+this one drafted** - adding a fifth enumeration question and the measurement-vs-containment
+boundary. Amending a file with live foreign WIP was the wrong trade. The finding stands on
+its own anyway: roughly half the flagged population was modelling the review machinery
+(26% evading the monitor, 21% disguising a plan from the proposal reviewer), the design
+that survived is two reviewers doing two jobs - one reads the code, a second reads the
+write-up *against that same code* - and the monitorability the whole scheme rests on sits
+in the study's own **future-work** list, which is where a precondition sits when it has
+been relied upon and not established. A clean monitor report and an expired precondition
+are indistinguishable from outside (`failure-not-empty-success`).
+
+Both applied and both `better`. The `code` row went to this registry's own `dojo` skill,
+whose judge-retirement rule pins after ">= 3 gated cycles" - and whose real ledger holds
+**15 pairs across those cycles, with the two judges disagreeing on six**. Cycles are not
+the sample; pairs are. Under the null the rule retires an equally-good judge 22.8% of the
+time. The `experiment` row went to personas' memory eval, where the grader had been
+hardened by inspection and "trusted", and 15 planted cases returned **four misgrades, every
+one a false positive**, all landing on the superseded/expired/distractor probes the suite
+exists to measure.
+
+One catch, and it is the subject outperforming the source: `resolution-precondition`'s
+monotone-axis corollary already owns the 4.7x scale-transfer claim and states it more
+generally - *"an axis assumed monotone is an axis nobody measured."*
+
+Application `python--scenario-design` the same day: the seeded-environment amendment
+applied to a fleet project's memory harness and did **not** land, which is the useful
+result. A fully fabricated world with ground truth on every fact - the shape the amendment
+warns about - keeps the measured stage in the scored set: expired facts generate a probe
+class whose gold is UNKNOWN, the consumer prompt permits abstention deliberately, and the
+judge carries a distinct verdict for stating a superseded value. Recorded with the near
+miss, because it is the cheap misreading and this run made it first: the UNKNOWN filter in
+the runner is scoped to **unaided-baseline screening**, where excluding those probes is
+precisely what keeps them in the score. Ask which pass a filter belongs to, not whether a
+filter exists.

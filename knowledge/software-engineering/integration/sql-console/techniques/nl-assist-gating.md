@@ -6,7 +6,7 @@ technique: nl-assist-gating
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
-use_when: [deciding if generated sql may skip the guard, a generated mutation wants to auto-run, failed extraction shows up as empty results]
+use_when: [deciding if generated sql may skip the guard, a generated mutation wants to auto-run, failed extraction shows up as empty results, a confirmed statement's rows landed on the wrong message, an agent lane with no human to confirm]
 ---
 
 # NL-assist gating
@@ -48,6 +48,18 @@ reputation. The corollary rules:
 - **Safe mode applies at its current state.** The lane does not get a
   side-channel toggle; if the session is read-only, generated mutations are
   refused exactly like typed ones, with the same first-class refusal.
+- **An author with no human behind it has no consent gate.** When the
+  lane is an autonomous agent reaching the executor over a tool protocol —
+  no transcript, nobody to show the statement to — the consent gate
+  described below cannot exist, and the guard must be complete without it:
+  a least-privilege credential first, single-statement execution at the
+  driver call second, the classifier third. The current practice that
+  emerged after a 2025 post-mortem of exactly this lane (a read-only
+  transaction envelope escaped by a stacked `COMMIT;`) names the role grant
+  as the load-bearing layer and everything above it as defense in depth;
+  the safe-mode technique carries the ordering. A lane that offers an
+  agent write mode has no user who "formed intent" — it is default-off
+  safe mode with a faster author.
 - **Injection through the question.** The user's natural-language text and
   any schema comments fed to the model are untrusted prompt input; the lane
   assumes the generated SQL may serve someone else's instructions. This is

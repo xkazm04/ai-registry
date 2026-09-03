@@ -6,7 +6,9 @@ status: reconciled
 techniques:
   - job-state-machines
   - lease-renewal
+  - liveness-proof-reclaim
   - step-position-and-resumability
+  - no-unrestorable-state-at-a-suspension-point
   - terminal-state-recovery
   - job-observability
   - atomic-claiming@delivery-guarantees
@@ -67,12 +69,21 @@ The consequences of the stance form the spine:
    and on hours-long work the claim's timestamp is strengthened into a
    **renewed lease**, so that an expired lease is affirmative evidence of a
    dead executor, never a guess about a slow one (see
-   [lease-renewal](./techniques/lease-renewal.md)).
+   [lease-renewal](./techniques/lease-renewal.md)). Where the executor cannot
+   renew at all — a blocking runtime with no spare slot, a holder you do not
+   own — no expiry interval is defensible, and the reclaim trigger becomes a
+   *proof* that the recorded holder is gone rather than a timer (see
+   [liveness-proof-reclaim](./techniques/liveness-proof-reclaim.md)).
 3. **Position is a persisted fact.** A multi-step job records which step
    completed, at the step boundary, with each step declaring how a re-run of
    itself is made safe — so recovery *resumes* instead of restarting, and a
    re-run of the boundary step is a defined event rather than a gamble (see
    [step-position-and-resumability](./techniques/step-position-and-resumability.md)).
+   That guarantee is per *step*, and it says nothing about what a step holds
+   between two points at which the executor may simply cease — so the design
+   stage before it is to ensure no such point straddles state that is neither
+   durable, reconstructible nor compensable (see
+   [no-unrestorable-state-at-a-suspension-point](./techniques/no-unrestorable-state-at-a-suspension-point.md)).
 4. **Every job ends in exactly one of a declared terminal set, and every
    non-terminal state names the mechanism that can move it there** even when
    the executor is gone. Recovery at boot walks the survivors and issues a

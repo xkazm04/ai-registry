@@ -1,7 +1,7 @@
 ---
 subject: docs-sync
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -243,3 +243,21 @@ thought about and lost where it was not.
   binding omission to retain would promote this toward a law candidate**; on one
   sighting it stays a technique.
 
+
+### 2026-09-03 - `/intake`, from a vendor's official MCP server monorepo
+
+`same-change-enforcement` gained a zeroth design. Source: [[2026-09-03-microsoft-mcp]].
+
+The technique is a deep treatment of the hard case - prose coupled to source by a mapping,
+with its measured 54.3% wrong-document rate, satisfaction-by-prefix, and a dismissal
+protocol - and it never named the strictly better case that should be tried first. If the
+document can be *derived*, regenerate it and assert byte-equality with what is committed,
+with the repair command in the failure message.
+
+It dominates every mapping-based gate the file describes for a structural reason worth
+stating: there is no satisfaction ambiguity at all. The target is the file itself and the
+predicate is equality, so satisfaction-by-prefix cannot happen, the wrong-document failure
+cannot happen, and there is no empty success. The file's entire autopsy is about a gate
+that could not see its target; this shape's target is unmissable. The precondition -
+derivability - is why it is not always available, and the rest of the technique stands
+unchanged for everything that is not.

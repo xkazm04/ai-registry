@@ -1,0 +1,93 @@
+From cc20ac2268baa22c8afdf4347097433dbd4d5b37 Mon Sep 17 00:00:00 2001
+From: xkazm04 <kazdan@seznam.cz>
+Date: Wed, 2 Sep 2026 20:35:15 +0200
+Subject: [PATCH] retry: carry the over-budget stated wait instead of
+ collapsing it into exhaustion
+
+When a provider's retry-after exceeded the remaining retry budget, the handler set the
+same lastAttempt = -1 sentinel as genuine exhaustion and dropped the stated delay. The
+two are different terminal states and the operator needs the number. retryRequest now
+returns skippedRetryAfterMs; the handler logs it and names the state. The sentinel is
+unchanged for consumers.
+
+Written by an ai-registry intake run (intake-portkey-0902) as a task row against the
+source tree; not a PR.
+---
+ src/handlers/handlerUtils.ts | 11 ++++++++++-
+ src/handlers/retryHandler.ts |  6 ++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/src/handlers/handlerUtils.ts b/src/handlers/handlerUtils.ts
+index 9df6c98..4d4a7cc 100644
+--- a/src/handlers/handlerUtils.ts
++++ b/src/handlers/handlerUtils.ts
+@@ -1204,7 +1204,7 @@ export async function recursiveAfterRequestHookHandler(
+     retryConfig: retry,
+   } = requestContext;
+ 
+-  let response, retryCount, createdAt, retrySkipped;
++  let response, retryCount, createdAt, retrySkipped, skippedRetryAfterMs;
+ 
+   const requestHandler = providerContext.getRequestHandler(requestContext);
+   const url = requestContext.requestURL;
+@@ -1214,6 +1214,7 @@ export async function recursiveAfterRequestHookHandler(
+     attempt: retryCount,
+     createdAt,
+     skip: retrySkipped,
++    skippedRetryAfterMs,
+   } = await retryRequest(
+     url,
+     options,
+@@ -1287,6 +1288,14 @@ export async function recursiveAfterRequestHookHandler(
+     retrySkipped
+   ) {
+     lastAttempt = -1; // All retry attempts exhausted without success.
++    if (retrySkipped && skippedRetryAfterMs !== undefined) {
++      // Not exhaustion: the provider asked for a wait the retry budget could not
++      // hold, so the ladder ended early. Same sentinel for consumers, but the
++      // number an operator needs is the wait that did not fit.
++      console.warn(
++        `retry: provider-stated retry-after of ${skippedRetryAfterMs}ms exceeded the remaining retry budget; ended the ladder without spending it (over-budget wait, not exhaustion)`
++      );
++    }
+   }
+ 
+   return {
+diff --git a/src/handlers/retryHandler.ts b/src/handlers/retryHandler.ts
+index f6af173..69773c9 100644
+--- a/src/handlers/retryHandler.ts
++++ b/src/handlers/retryHandler.ts
+@@ -75,11 +75,15 @@ export const retryRequest = async (
+   attempt: number | undefined;
+   createdAt: Date;
+   skip: boolean;
++  /** Set when a provider-stated retry-after exceeded the remaining retry budget: the
++   *  ladder ended without spending the budget. Distinct from exhaustion. */
++  skippedRetryAfterMs?: number;
+ }> => {
+   let lastResponse: Response | undefined;
+   let lastAttempt: number | undefined;
+   const start = new Date();
+   let retrySkipped = false;
++  let skippedRetryAfterMs: number | undefined;
+ 
+   let remainingRetryTimeout = MAX_RETRY_LIMIT_MS;
+ 
+@@ -132,6 +136,7 @@ export const retryRequest = async (
+                   retryAfter > remainingRetryTimeout
+                 ) {
+                   retrySkipped = true;
++                  skippedRetryAfterMs = retryAfter;
+                   rateLimiter._timeouts = [];
+                   throw errorObj;
+                 }
+@@ -216,5 +221,6 @@ export const retryRequest = async (
+     attempt: lastAttempt,
+     createdAt: start,
+     skip: retrySkipped,
++    skippedRetryAfterMs,
+   };
+ };
+-- 
+2.43.0.windows.1
+

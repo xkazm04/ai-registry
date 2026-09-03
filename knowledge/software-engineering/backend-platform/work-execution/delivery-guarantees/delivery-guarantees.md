@@ -10,6 +10,7 @@ techniques:
   - retry-escalation
   - dead-letter-design
   - non-delivery-ledgers
+  - ordered-lane-blocking
 ---
 
 # Delivery guarantees & dead-letter
@@ -104,6 +105,16 @@ minutes after it happens. Third, **terminal is terminal only with a verdict**:
 an event may leave the system as *done*, as *skipped with a reason*, or as
 *discarded by an operator who saw it* — never by quietly aging out of
 attention.
+
+The table answers what becomes of one event. It is silent on the events
+queued *behind* a dead-lettered one, and the silent default — keep draining
+— is right for a lane of independent intents and wrong for a lane whose
+order is meaning: messages in a conversation, operations on a document, an
+upload and the event that describes it. In that second shape the exhausted
+head **wedges** the lane rather than leaving it, the items behind it are
+*blocked* rather than *pending*, and only a deliberate retry or removal of
+the head releases them. Which shape a class is, and the two verbs that
+release a wedged lane, are [ordered-lane-blocking](./techniques/ordered-lane-blocking.md).
 
 ## Duplicates arrive from above; own your half
 

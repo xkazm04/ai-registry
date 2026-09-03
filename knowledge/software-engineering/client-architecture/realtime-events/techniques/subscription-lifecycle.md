@@ -162,3 +162,39 @@ how many buffered early arrivals are waiting*. That census is a debugging
 tool on day one and a leak detector forever — a native listener with zero
 consumers outside its grace period is a reaper that failed, found by
 counting rather than by profiling a heap dump six months later.
+
+## When dispatch must stay synchronous: budget the re-entry
+
+The second sharp edge's remedy — detach the hand-off, let the subscriber run
+on its own thread of control — assumes the subscriber only *observes*. There
+is a surface where that assumption is the wrong one: a subscriber that must
+**transform the item before it is rendered** — replace a message, rewrite a
+field, veto a paint — has to run inside the producer's call, before the
+producer proceeds, or the transformation lands after the first frame and the
+surface flickers through the untransformed state. Synchrony is the feature,
+not the defect, and the same subscriber may itself publish back into the
+source it is listening to: it appends a reply, clears a set, replaces the
+item it was handed. Re-entry is then by construction, not by accident, and
+no hand-off rule reaches it.
+
+The rule that does reach it is a **re-entry budget** at every mutation door.
+Each door — append, replace, clear, backfill — increments a depth counter on
+entry and decrements on exit; a call arriving above the budget returns
+without acting, and the refusal is counted rather than silent. The budget is
+small and stated (a few dozen frames is generous; two is often right) and it
+is a guard against the *trivial* cycle — a subscriber that unconditionally
+re-publishes on every delivery — not a proof against every cycle; the
+document that installs it says so. Alongside it, the host hands each
+subscriber a mute for its own registration, so a subscriber that knowingly
+publishes can silence its own echo for the duration rather than relying on
+the budget to stop it.
+
+The snapshot rule stands unchanged under this: the dispatcher still iterates
+a snapshot of the set, and the store still returns copies so a re-entrant
+mutation cannot invalidate the iteration in progress. What changes is only
+which of the two remedies the second edge gets. Detach the hand-off when the
+subscriber is a consumer; budget the depth when the subscriber is a stage in
+the producer's own pipeline. A surface that does both — detaches for
+observers, stays synchronous for transformers — declares which registration
+is which, because a transformer handed a detached hand-off silently becomes
+an observer of a frame that has already been painted.

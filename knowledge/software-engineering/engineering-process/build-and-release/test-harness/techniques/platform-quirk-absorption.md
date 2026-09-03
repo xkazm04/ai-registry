@@ -87,3 +87,43 @@ special cases (a wrapper accumulating test-specific conditionals is a test
 suite hiding inside a launcher). The test for the boundary: if the quirk
 would bite an empty suite of zero tests, it belongs to the runner; if it
 bites only certain tests, it belongs to those tests or the product.
+
+## The quirk that survives main: a numerics mode with an override outside the code
+
+Not every environmental quirk kills the process. A second class lets every
+test run and changes the *answers* by a few digits: a reduced-precision
+matrix mode that an accelerator driver enables by default on newer hardware,
+a container base image whose environment layer flips a runtime's precision
+flag, a default that changed between two runtime versions. Suites meet this
+as a scatter of tolerance failures that reproduce on one machine and not
+another, and the first instinct — read the runtime's precision flag and
+branch on it — gates on a proxy. The flag is not the mode: an environment
+variable overrides it at library load, a driver setting overrides that, and
+the flag reports what the code asked for rather than what the arithmetic
+does ([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+
+Absorb it the same way, in the runner, once. **Probe the effective mode by
+computing**: run a small fixed operation in the reduced type and in a
+higher-precision reference, measure the deviation, and compare it to a
+threshold that separates the two modes by orders of magnitude. Publish the
+result as a tolerance every numeric assertion reads, and print it in the
+run header, so a loosened tolerance is a visible fact of the run rather
+than a silent widening in one test. The probe is idempotent and cheap — one
+matrix product — and it self-heals exactly as the pre-main repairs do: a
+machine whose driver default moves gets the right tolerance on the next run
+without anyone editing a test.
+
+The boundary test above needs one refinement for this class. Such a quirk
+would not bite an empty suite, yet it belongs to the runner, because it is
+environmental and universal to every test *of a kind* and no test caused it.
+So: pre-main quirks are the runner's if they would bite zero tests; post-main
+quirks are the runner's if no test caused them and every test of their kind
+pays them. A tolerance loosened in one test to pass on one machine is the
+per-test special case this section forbids, wearing a number.
+
+And the condition under which the probe is worthless: a substrate with no
+such mode. Pure double-precision arithmetic on a general-purpose processor,
+with no contraction flags and no accelerator, gives the same digits on every
+machine, and there the probe measures nothing and a constant tolerance is
+correct. The probe earns its place the day a lane runs on a substrate that
+can change its arithmetic without changing the code.

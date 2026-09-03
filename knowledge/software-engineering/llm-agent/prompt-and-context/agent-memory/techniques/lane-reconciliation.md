@@ -183,6 +183,39 @@ it is consistent as of a date nobody recorded. Say what a read gets during a
 recompile, too; "the old structure" and "an error" are both defensible and
 "whichever finishes first" is not.
 
+## The invariant chooses the write order, per operation
+
+The opening paragraph names the usual order — record first, then the lanes —
+and the quiet failure it produces. The order is not a constant of the store;
+it is a consequence of *which half-state the consumer can survive*, and that
+differs by operation. For a create, a record with no lane entry is an
+unfindable item: bad, but bounded, and the reconciler above finds it. For a
+delete, the mirror half-state — a lane entry whose record is gone — is a
+result the consumer *follows*: recall returns an address, the read fails, and
+the caller cannot distinguish a deleted memory from an engine fault. One
+first-party store states the invariant it chose and orders every destructive
+write from it: **better to miss a result than to return one that does not
+exist.** So delete runs lane-first and record-last, the reverse of create,
+because a crash between the two leaves "record present, lane missing" — the
+half-state the reconciler already handles — and never the reverse. A move is
+a copy, a re-key of every lane entry to the new identity, and only then a
+delete of the source, so that at no instant does a lane point at an address
+that has ceased to exist.
+
+The rule generalises: name the half-state each operation may leave behind,
+choose the order that makes the survivable one the only one reachable, and
+say so in the same place the invariant is written. A store whose write order
+is the same for every operation has not chosen an invariant; it has inherited
+whichever order the first writer typed.
+
+This has a scope condition, and it is the one that decides whether the rule
+costs anything. Where the consumer reaches the record *through* the lane and
+the join drops rows the record no longer holds, a dangling lane entry is
+filtered before anyone sees it, and the delete order is a matter of taste.
+The rule binds where the lane's result is served without that join — a
+directory listing, a search that returns addresses, a recall that trusts the
+index — which is exactly where a served-but-missing item does the most harm.
+
 ## When not to use it
 
 A store with exactly one backend has nothing to reconcile, and adding the

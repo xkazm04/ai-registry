@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: procedural-level-planning
 status: forged
-use_when: [turning a designer's world description into a generated placement plan, offering one parameter surface over several generation algorithms, promising reproducibility from a seed, checking a generated room graph before anyone builds it]
+use_when: [turning a designer's world description into a generated placement plan, offering one parameter surface over several generation algorithms, promising reproducibility from a seed, checking a generated room graph before anyone builds it, proving a generated space is legible and can be finished]
 techniques:
   - algorithm-parameter-support-matrix
   - declare-what-each-engine-ignores
@@ -11,6 +11,9 @@ techniques:
   - pacing-linter-rules
   - safe-room-and-boss-placement
   - zone-progression-linting
+  - landmark-and-sightline-legibility
+  - critical-path-to-optional-branch-ratio
+  - gate-and-key-solvability-proof
 ---
 
 # Procedural level planning
@@ -123,6 +126,52 @@ before the ending fight, so it can be used in it (safe-room-and-boss-placement).
 these has a reason a designer can argue with, which is the point — a rule with a stated
 reason can be overridden deliberately, while a random placement can only be re-rolled.
 
+## A space that paces well can still be unreadable and unfinishable
+
+Pacing, placement and progression all read the same room graph and all assume the player
+can act on it. Three properties sit underneath that assumption, none of them visible to a
+rhythm rule, and a generated space that passes every check above can fail any of them
+completely.
+
+The first is **legibility**: whether the space can be navigated by looking at it. A
+generator optimising connectivity produces a topologically excellent graph in which every
+junction looks like every other junction, and the player walks a loop, arrives somewhere
+they have already been, and does not recognise it. Landmarks are the instrument, and they
+are placed by rule like every other structural role — visible from beyond the room that
+holds them, distinguishable from each other on more than one channel, and positioned so
+they are seen *from the decision point*, not sitting at the destination
+(landmark-and-sightline-legibility). Legibility splits into a geometric half a checker
+settles exactly — is this anchor in view, from standing eye height, within the field of
+view — and a perceptual half no checker settles at all, because whether two silhouettes
+read as different is a question about a rendered frame and a person. They are separate
+rungs of evidence and the weaker one governs what may be claimed.
+
+The second is **shape**, and it is the property nobody can name when it is wrong. The ratio
+between the critical path to the objective and the optional space around it is what makes a
+space a corridor or a maze, and a generator given no ratio produces one or the other by
+accident (critical-path-to-optional-branch-ratio). Declare it per space class as the
+intended shape rather than as a ceiling, carry branch depth beside it because the same
+ratio built from alcoves and from wings plays nothing alike, and count a branch as content
+only when its terminus holds something the critical path does not give.
+
+The third is not a property of the space but of its locks. **A generated gate whose key
+sits behind it is unwinnable**, and it is the most common hard failure in generated
+progression. The proof is a reachability closure — order the gates by the number of keys
+needed to stand in front of them, resolve each key against the reachable set at that
+moment, and fail on any key outside it (gate-and-key-solvability-proof). The case that
+reaches production is not the single inversion but the cycle, where two gates hold each
+other's keys and no key is behind its own lock, so every per-gate check passes a space
+nobody can finish. Because the closure is exact and cheap, an agent turned loose on the
+level is not a substitute: a bot that finishes proves the space solvable on one run, and a
+bot that fails proves nothing.
+
+The seam with the pacing rules is worth stating plainly. The pacing linter asks whether the
+sequence of rooms has a rhythm; these three ask whether the player can read the space,
+whether it has the shape it declared, and whether it can be finished at all. A space may
+pass any one and fail the others, so under unattended generation the plan carries all four
+verdicts separately — an unproven space reports which rung it reached, and never reports
+"playable".
+
 ## Progression is a property of the zone, not of the room
 
 Above the single level sits the zone graph: regions with level bands, connections between
@@ -177,3 +226,11 @@ no pacing verdict at all.
 **"A designer can just re-roll."** Re-rolling is what iteration degrades into when the
 levers are invisible. The measure of this subject's success is that a designer changes one
 number, sees a directed change, and stops re-rolling.
+
+**"Every room is connected, so the player cannot get lost."** Connectivity is not
+navigability. Getting lost in a fully connected space is the normal outcome when its
+junctions are indistinguishable, and adding edges makes it worse by adding junctions.
+
+**"The keys are somewhere else in the level, so it is solvable."** Not if two gates hold
+each other's keys. The per-gate question — is this key behind this lock? — answers no for
+every gate in a cycle, and the cycle is the failure that actually ships.

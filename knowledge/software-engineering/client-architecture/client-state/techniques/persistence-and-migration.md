@@ -136,6 +136,33 @@ composed until the payload is current. Rules that keep the chain sound:
   per-field versioning is a combinatorial trap. If two persisted domains
   evolve at different speeds, give them separate payloads with separate
   versions and separate chains.
+- **What counts as a shape change depends on the encoding, and the
+  encoding decides it, not the author's sense of "additive".** Under a
+  self-describing encoding — keyed fields, the kind a default-on-missing
+  rule can backfill — adding an optional field is not a new shape, and a
+  policy of "absent means the founding version, with every field optional"
+  is honest. Under a *positional* encoding — fields written in declaration
+  order with no names on the wire — there is no such thing as an additive
+  change: a field inserted anywhere but the tail shifts every field after
+  it, the reader decodes a structurally valid, wrong record, and no default
+  can backfill what it cannot locate. There, every field change is a bump,
+  and a wire that carries a positional payload negotiates the version in
+  *both* directions — a peer that omits the field is treated as old and
+  refused — because a positional misparse is silent where a keyed one at
+  least fails.
+- **A version that has covered two shapes is retired, not reinterpreted.**
+  When a shape change ships without a bump, the number is ambiguous from
+  that day on: records stamped with it exist in both shapes, and no
+  migration step can be total over an input version that names two
+  populations. The recovery is not to write a cleverer reader that guesses
+  — it is to bump *past* the poisoned number and refuse it wholesale, even
+  the rows that happen to decode correctly, because "decodes correctly"
+  was the failure's disguise: a record that reads as valid while
+  mis-assigning every field after the insertion point is worse than one
+  that fails, and a reader that swallows that failure as a warning makes
+  terminal records silently vanish from listings. Name the refused version
+  and the path in the error; the cost is a store the operator rebuilds
+  once, against a store that lies until someone notices.
 
 ## Rehydration is an untrusted read
 

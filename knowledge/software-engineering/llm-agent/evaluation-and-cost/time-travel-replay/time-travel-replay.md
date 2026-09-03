@@ -67,8 +67,11 @@ or refuse — and each boundary, blurred, produces a recognizable defect.
   the product wants "resume from here" or "restore to this point", that is a
   checkpoint restore — undo-history's
   [checkpoint-restore](../../../ui-surfaces/input-and-editing/undo-history/techniques/checkpoint-restore.md)
-  owns it — and the crossing must be an explicit, separately-confirmed act,
-  never a side effect of where the scrubber happens to rest.
+  owns it for a user's edit history, and
+  [checkpoint-mode-custody](../../runtime-and-io/agent-runtime-assembly/techniques/checkpoint-mode-custody.md)
+  owns it for a runtime's durable conversation state — and the crossing
+  must be an explicit, separately-confirmed act, never a side effect of
+  where the scrubber happens to rest.
 
 ## One surface, two feeds
 

@@ -7,6 +7,7 @@ techniques:
   - format-detection
   - adapter-capability-tables
   - intermediate-representation
+  - durable-intermediate-representation
   - import-validation
   - review-before-commit
   - overlay-merge-absence-semantics
@@ -141,6 +142,14 @@ an override either runs before the waist, or it re-applies every guarantee
 explicitly, by name. Owned by
 [intermediate-representation](./techniques/intermediate-representation.md).
 
+The waist is transient by default, and there is one class of pipeline where
+that default inverts: when the *parse* is the expensive, non-deterministic,
+externally-dependent stage, the parsed form is persisted beside the source
+and every later reprocessing reads it instead of re-parsing — a waist between
+time periods rather than between formats, with the reaper, schema version and
+backfill path that persistence brings. Owned by
+[durable-intermediate-representation](./techniques/durable-intermediate-representation.md).
+
 ## An imported definition is untrusted input
 
 A foreign file is attacker-grade input wearing a colleague's name. It can be
@@ -150,8 +159,15 @@ rendered into prompts, expressions that look executable, URLs that will be
 fetched, credential values that must not land in plaintext. The pipeline
 therefore enforces, before anything persists:
 
-- **bounded parsing** — size and depth caps *before* deserialization, so a
-  hostile file exhausts a limit, not the process;
+- **bounded parsing** — size, depth *and* reference-expansion caps *before*
+  deserialization, so a hostile file exhausts a limit, not the process
+  (size and depth alone are not a bound: a small, shallow document with
+  aliases to collections of aliases expands exponentially at resolution);
+- **presence before content** — when the document is partial (a
+  re-import, an overlay), absent, null and empty are three different
+  words, the format declares which one means *untouched*, and a replace
+  branch is guarded by *is the field supplied*, never by an all-of test
+  that is vacuously true over an empty collection;
 - **one validation door** — every entity the import proposes passes the same
   schema validation as entities created by hand; import is a writer like any
   other, not a trusted bulk side-channel around the model's invariants;
@@ -162,7 +178,7 @@ therefore enforces, before anything persists:
   [structured-output](../../llm-agent/prompt-and-context/structured-output/structured-output.md);
 - **secrets quarantine** — credential material discovered inside the file is
   never persisted with the entities; it is routed into the
-  [credential-vault](../../security/credential-vault/credential-vault.md) flow as a
+  [credential-vault](../../security/identity-and-access/credential-vault/credential-vault.md) flow as a
   *credential requirement* the user fulfills, not a value the import smuggles.
 
 Owned by [import-validation](./techniques/import-validation.md).
@@ -256,6 +272,10 @@ metric that converts directly into a roadmap.
 - [intermediate-representation](./techniques/intermediate-representation.md) —
   the narrow waist: normalized entities, minted identity, provenance, and the
   loss ledger as IR citizens.
+- [durable-intermediate-representation](./techniques/durable-intermediate-representation.md)
+  — when the parsed form is persisted beside the source instead: parser
+  identity and version in the artifact, deferred-content placeholders, the
+  reuse guard that must not be optional, and the backfill obligation.
 - [import-validation](./techniques/import-validation.md) — bounded parsing, the
   single validation door, sink-aware sanitization, and secrets quarantine.
 - [review-before-commit](./techniques/review-before-commit.md) — the selection

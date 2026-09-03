@@ -1,7 +1,7 @@
 ---
 subject: migrations
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -37,3 +37,6 @@ single-stack debt is cleared.
 ## 2026-09-01 - fate recorded for the maturity ladder
 
 Hint fate (from [[2026-08-22-2]] and the application's own close): **confirmed** - unconditional halt with leniency structurally inexpressible, failed-state verdict persisted in the ledger, refusal a distinct typed verdict at every entry point. Counterpart golang-migrate/migrate @ 18966c7. Recorded by [[2026-09-01-1]] so the subject meets the `reconciled` definition in [[standard]]; nothing else changed.
+## 2026-09-03 - `/intake` lightrag (run `intake-lightrag-0902`, intake 2.2.0, Opus workers)
+
+New technique `migrate-from-data-shape`: when half the backends have no atomic home for a version marker, the migration decides from the shape of the data it finds; `schema-drift-detection` is the two-authority problem and presumes a replayable step chain with a recorded version - this is the zero-marker answer, where the convergence test and the boot assertion transpose and the integrity sweeps carry over.

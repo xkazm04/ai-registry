@@ -6,7 +6,7 @@ technique: price-tables
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation]
 shared_with: []
-use_when: [deciding what an unpriced model should cost, estimate and actual diverge for one model, retroactively repricing already-written rows]
+use_when: [deciding what an unpriced model should cost, estimate and actual diverge for one model, retroactively repricing already-written rows, a vendor published the date its introductory rate ends, a rate row is keyed by the constant that names the current model]
 ---
 
 # Price tables
@@ -130,6 +130,77 @@ already written. The clean contract:
 - **The effective date lives in the table**, so a backfill or a late-arriving
   row prices by *when the call happened*, not by when the row was written.
 
+## A rate with a published end date
+
+The dated bullet above answers "has this rate gone stale". It does not answer the
+case where **the vendor has already told you the rate changes, and when** — an
+introductory or promotional rate with a published expiry, commonly a step of 2x on
+a named date. That is not staleness. Staleness is a rate that may have moved
+without anyone noticing; this is a rate that is *certain* to move, on a date you
+already have, and the two need opposite handling: staleness wants a re-check
+cadence, a scheduled change wants an alarm.
+
+The first question is not how to store it but **what the number is for**, because
+that decides which rate is correct, and two defensible answers exist:
+
+- **If the figure is shown as what is being spent now, or is persisted onto a
+  record**, carry the rate actually in force. Booking the future standard rate
+  overstates every current cost, and an overstated figure filed beside a user's
+  work is as wrong as an understated one.
+- **If the figure feeds a comparison across models — a routing decision, a
+  bake-off, an ROI argument —** carry the standard rate. A promotional rate makes
+  one candidate look cheaper for exactly as long as the promotion lasts, and the
+  ranking silently flips back when it lapses. Nothing in the comparison records
+  that its winner was chosen on a temporary price.
+
+Both are right for their purpose and they conflict, so a table serving both jobs
+has to say which one it is doing. **Whichever is chosen, the choice is written
+down next to the number**, because a bare rate cannot be audited against the
+vendor's published sheet by anyone who does not know which of the two it is.
+
+Then the date needs somewhere to live that is not a comment. A comment is read
+once, by the person who wrote it. The mechanism that works is to **let the
+schedule fail something on the day it changes** — a test that asserts the current
+date is still inside the promotional window and throws with the new rate in its
+message when it is not. This deliberately puts a clock in the suite rather than a
+date dimension in the lookup, and that is the trade: a table with no date
+dimension stays a pure lookup, and the one temporary exception becomes a build
+failure somebody must act on instead of a line nobody re-reads. It costs one test
+and it converts a known future defect into a scheduled interrupt.
+
+Two details decide whether it works. The failure message carries **the replacement
+rate**, so acting on it is an edit rather than an investigation. And when a later
+model ships onto the *same* promotion, it usually inherits the original expiry
+rather than opening a fresh window — so the guard covers the set of rows on that
+schedule, and adding a row to the table means adding it to the guard.
+
+## A key that follows the model while its value does not
+
+Family resolution above is about a lookup finding the right row. There is a
+quieter failure on the other side of the same join, and it survives every check
+this technique has so far described.
+
+When a rate row is keyed by **the same constant that names the current model**
+rather than by a literal identifier, a version bump edits one place and changes
+two things. The key follows the constant automatically, so any test asserting
+"every model the router can select has a rate row" stays green — the row exists,
+it is reachable, it is correctly named. The *value* underneath it does not follow,
+because a number cannot know what it was the price of. The table now confidently
+prices the new model at the old model's rate, and the discrepancy can be an order
+of magnitude when the versions sit in different pricing tiers.
+
+This is worth stating as a general shape because the guard reads as sufficient and
+is not: **an existence check over a computed key proves a row exists for the
+current model, never that the row is that model's.** The two claims look identical
+in the assertion and diverge the moment the constant moves.
+
+The cheap corrective is to make the join literal where it is checkable — key rows
+by the identifier, so a renamed model produces a *missing* row, which the unknown
+model policy above already handles loudly and conservatively. A missing rate is a
+defect the system is built to survive; a wrong rate wearing the right key is not.
+Where a computed key is kept for other reasons, the rate change becomes a second,
+explicit edit that no test will ask for, and the file says so at the key.
+
 ## Smells
 
 - A currency constant in more than one source file.
@@ -143,6 +214,11 @@ already written. The clean contract:
   defaults to a mid-tier price, one to zero — so callers cannot even say
   which failure mode they got.
 - A blended per-call rate applied to a direction-split workload.
+- A promotional rate with a known expiry recorded only in a comment — or booked
+  without saying whether the table prices what is spent now or what models cost
+  when compared.
+- A rate row keyed by the constant that names the current model, so a version
+  bump carries the key across and leaves the number behind.
 - A headline per-token rate applied to a workload that routinely crosses
   the provider's long-context threshold.
 - A units-times-rate "audit" of meter-reported spend treated as the truth

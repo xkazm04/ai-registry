@@ -10,6 +10,7 @@ techniques:
   - updater-chain
   - size-budgets
   - release-verification
+  - deprecation-by-version-arithmetic
 ---
 
 # Release pipeline

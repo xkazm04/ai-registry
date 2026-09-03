@@ -81,7 +81,11 @@ Three properties keep the policy honest:
   a special-cased fast path that skips steps under the pressure that most
   needs them.
 - **The focused session is unevictable.** The budget must therefore be at
-  least two, or focus changes deadlock the policy.
+  least two, or focus changes deadlock the policy. (Both the budget and the
+  focus are per client: where several clients attach to one session, an
+  eviction detaches one client's attachment, never the session, and each
+  client's focused session is unevictable for that client alone — see
+  [multi-client-fan-out](./multi-client-fan-out.md).)
 - **Eviction is observable.** A counter or log of budget evictions is the
   early-warning instrument for a budget set too low — the symptom users
   report ("my terminals keep going blank and replaying") is otherwise
