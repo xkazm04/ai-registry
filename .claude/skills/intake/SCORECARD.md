@@ -1065,3 +1065,46 @@ to avoid swapping a vision seam against undocumented modalities, and would do it
 again. Either the budget carves out pre-ship capability checks or it stays a soft
 limit that runs are expected to break with a recorded reason. (3) Keep the per-system
 count and the source-tree task rule; keep Opus for every worker phase.
+| 2.2.0 | 2026-09-03 | `emdash` (**vendor repository, design-deep**; 1,334 landing / 346,746 in-tree md / 57,514 lines TS; 20 packages, 5 apps, 9 agent skills; operator framing "architecture, not product") | 1 | 58 (32 design + 26 claim) | 16 (per-system routing A2/**B5**/**C6**/D0/E1 — two systems fired independently; nothing declined, all 16 operator-picked at the gate) | **2 subjects** (`untrusted-extension-host` 7t, `decentralized-artifact-distribution` 6t) + **10 techniques** in 8 existing subjects + **5 amendments** + **6 source-tree applications** + 3 fleet/registry applications | **5 rows: 1c/0e/2s + 2 unapplied groups** (code better; simulation better; simulation **not-better**) | **1** — `scripts/run-board.mjs` on this registry, committed `ce2256ae` | **Focus applied.** Directions waiting at Phase 1 = **10 / 10 ledger rows**: the 2026-09-03 multi-select gate had cleared the whole backlog (7 accepted, 3 declined), so the round-5 cap condition did not fire and the pass ran uncapped — it simply had nothing admissible. No worker failed, so the `[H]`/`[V]` resume rule was exercised only as a convention (every design-read worker marked anchors and one marked an entry `unresolved` rather than deciding it). **The director's one job a worker could not do: catch two of its own errors.** An arm-B draft that was *worse* than arm A for a live run holding a short lock (the fifth control caught it), and a fabricated version witness — both my applications cited a `package.json` engines floor for a repository that **has no `package.json` at all**; corrected to the CI pin with a note that it attests what the gates run on, not what the scripts require. A third: my `use_when` completeness check used `grep -L` with `-q` and reported every file missing; the workers were right and the instrument was broken. | **S2/T23/A5/Asrc6/task-lines 0 · routing=B:5, C:6 per-system (whole-tree 14, not read) · handoff=yes (2, both scoped, both executed in-session) · directions=0/1 (1 real candidate found, tree not authorized)** |
+
+**The funnel over the last ten rows, read after this one.** Five 2.x rounds now sit
+beside the 1.x rows: S1/T6, S1/T13, S1/T7, S1/T10, and this one at **S2/T23** — the first
+run to forge two subjects, and the first where two systems fired the routing clause
+*independently* inside one repository. That is the per-system count doing exactly the work
+round 2 added it for: a whole-tree count would have read 14 NONE and dispatched a
+repository-wide scout wave; per system it read B:5 and C:6 and produced two scoped
+handoffs with a stated boundary between them. Extract→Test at 16/58 is not looser triage,
+it is three clusters routed to three homes.
+
+**Apply is the stage that moved, and the interesting row is the rejection.** Five rows,
+1 code / 2 simulation / 2 unapplied groups, and for the first time in the 2.x series the
+code row landed on a real defect in the registry's own instrument rather than on a source
+clone: a lock whose reclaim read the clock instead of the owner, wrong in both directions,
+caught because the technique's derived rule named the failure precisely enough to test.
+The `not-better` row against kp is the most valuable artifact of the run — the technique
+had been polarised too narrowly, and a fleet project that had independently solved the
+same problem *at the other end* supplied both the correction and a second mechanism
+(re-derive the truncation at the apply boundary). Four rows in six runs have now been
+rejections, and every one produced an amendment the source could not have.
+
+**The stage still not moving is directions: 0 proposed, and honestly so.** The forged
+subjects' forces — hosting code you did not write, distributing to strangers — are absent
+from all eleven managed projects, which is a fact about the fleet and not a miss. But the
+pass did find one real latent defect (`politicas`, a module-scope memoised promise on a
+runtime that tears down request contexts) and could not write it, because the operator's
+ship scope named two other trees. That is a new failure mode for this lane: the direction
+pass and the ship-scope question are asked at different times and answered independently,
+so a candidate found at 7.6 can be unreachable because of an answer given at Phase 5.
+
+**Next run's declared focus (round 6):** (1) **Ask the ship-scope question to cover Phase
+7.6, not only Phase 7.5.** The triage prompt asks which trees may be touched "if an apply
+row comes back better"; a direction proposal is also a tree write, and this run found a
+real one it could not deliver. Widen the question's wording, or ask a second time at 7.6
+when a candidate is found — and record which. (2) **Three consecutive rounds have now
+blocked technique-grain directions on subject-grain map resolution** (3 this run). Round 1
+said a second sighting would earn a `techniques_absent` list in the fleet map; there have
+now been three. Build it, or write down why not. (3) Keep the per-system count, the
+source-tree application rule, and Opus for every worker phase. **The check the next row
+should make:** did a direction candidate go unwritten for a reason other than its own
+merits, and did the run measure one corpus-suggested instrument against a real tree — this
+run did (the A/B on its own lock) and it changed the technique.

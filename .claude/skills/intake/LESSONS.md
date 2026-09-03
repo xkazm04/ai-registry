@@ -6032,3 +6032,59 @@ been naming that zero for weeks:
   Corrected in place, and it reverses the conclusion - owners are deciding, the
   pass is not outrunning them, and the cap does not return. A focus item that
   says "count X" is not answered by recalling what X was last round.
+
+## 2.2.0 - 2026-09-03 - emdash
+
+- **A repository can fire the routing clause twice, and the per-system count is what
+  makes that safe.** Whole-tree NONE was 14; per system it was A2/B5/C6/D0/E1. Read
+  whole-tree, this would have been a repository-wide scout wave over 347k words. Read
+  per system, it was two scoped forges with a stated boundary between them, each with
+  its own spec, each executed in-session. Two handoffs from one source is not a budget
+  overrun when the systems are genuinely separate — but the boundary sentence between
+  the siblings has to be written into BOTH specs before dispatch, or the two workers
+  will each absorb the other's half. Both specs carried it and neither drifted.
+
+- **Walk the neighbour technique's own table before deciding it is prior art.** The
+  finding that decided the larger subject was not a slug miss: `operator-tier-code-loading`
+  *does* cover extension loading, and a slug-level read would have called it a catch.
+  What made it a subject was reading its two-row table and noticing that the second
+  row's absolute ("may name code: never") is justified by a stated precondition, and
+  that the source falsifies the precondition on purpose. **A rule with its reason
+  written down is a rule you can find the boundary of.** This is the enumeration hunt
+  applied to a table rather than to prose, and it is the third consecutive run where
+  the hunt carried the yield.
+
+- **The most valuable apply row was the rejection, and it inverted the technique rather
+  than qualifying it.** A fleet project had independently solved the same problem at the
+  *opposite polarity* — truncating the adverse verdict where the source truncates the
+  admitting one — so applying the technique as written would have produced the exact
+  inversion it exists to prevent. The generalisable move: when a seam already implements
+  the mechanism, do not score it as "already covered"; ask which *end* it implements and
+  whether the technique's prose committed to one. Ours had, in its title sentence.
+
+### Method note, not yet a rule
+
+- **The ship-scope question does not cover Phase 7.6.** It is asked at Phase 5 as "which
+  trees may I touch if an apply row comes back `better`", which is a 7.5 question. A
+  direction proposal is also a write into a project tree, and this run found a real
+  latent defect in a project the answer had not named (a module-scope memoised promise
+  on a runtime that tears down request contexts) and could not deliver it. Recorded as
+  round 6's first focus item rather than edited into Phase 5 now, because one sighting
+  is a lesson and three is a rule — but this one has a cheap fix (widen the wording) and
+  a real cost (a defect sat undelivered), so it should not wait for three.
+
+### On the director's own errors, which were the run's only real failures
+
+- Three, all mine, all caught by an instrument rather than by rereading: an arm-B draft
+  that was **worse than arm A** for a live run holding a short lock (the fifth control
+  caught it — a control set that only confirms the change is not a control set); a
+  **fabricated version witness** in two applications, citing a `package.json` engines
+  floor for a repository that has no `package.json` (the gate caught the format, not the
+  fabrication — I caught that by grepping for the field I had just cited); and a
+  `use_when` completeness check written as `grep -L` with `-q`, which is contradictory
+  and reported every file missing. The third is the one worth generalising: **I used a
+  broken instrument to contradict five workers' reports and briefly believed the
+  instrument.** The method already says never establish an absence from a truncated or
+  piped result; this adds that a *contradictory flag combination* fails the same way and
+  is harder to see, because it produces confident output rather than empty output. Assert
+  the instrument against a known positive first — one file that certainly has the field.
