@@ -6594,3 +6594,50 @@ and wants them tested hard rather than many and tested once.
   inside one heartbeat and never sees this; a v2 repository run cannot. **Beat at the
   top of every phase from 7 onward**, not only when the map names a subject — it is one
   command and the alternative is being invisible during the only phase that writes.
+
+## 2.3.2 - 2026-09-03 - rowboat
+
+- **A `not-better` apply row is a source, and this method does not say so.**
+  The run's best result came from picking a connected tree as a seam, being
+  wrong about it, and finding the tree was ahead of the technique. Four
+  mechanisms went from the project into the registry. The method's
+  `not-better` clause currently says the technique "gains an amendment stating
+  the condition under which it did not hold" - which frames the tree as a
+  counterexample. It is often a better *implementation*, and the right move is
+  to read it as a first-party practitioner source. Proposed step, not yet
+  applied: on `not-better`, ask what the tree knows that the technique does
+  not, before writing the row.
+- **The concern-phrased query and the forces-phrased query disagreeing is the
+  signal.** Round 7's focus asked runs to add a forces-phrased query and say
+  which one found the home. Here the concern-phrased query found a home on the
+  first try and it was *wrong* - a UI subject that shares the concern
+  (`chat-transcript/composer-turn-queue`, "delivered at the machine's next
+  safe point") and not the layer. Slug and use_when overlap cannot tell a
+  surface subject from a runtime one, because both legitimately talk about
+  turns and messages. The forces query ("a caller-supplied drain the loop
+  cannot see past") separated them. The focus item should be strengthened from
+  "say which query found the home" to "say whether the two agreed".
+- **An apply step can be unreachable rather than skipped, and the scorecard
+  cannot currently tell the difference.** Five findings, five owed rows, five
+  written - and two were `unapplied` because no authorized tree meets the
+  technique's preconditions at all. That reads as a zero in the Apply column
+  and it is not one; it is the corpus outrunning the fleet. Proposed: count
+  landed findings whose preconditions no authorized tree meets, as its own
+  number.
+- **Measure the halves of a change separately when a change has halves.** The
+  applied elision was two mechanisms - elide payloads, and serialize compact -
+  and only the first was in the plan. The intermediate measurement (63,844
+  bytes eliding-but-pretty against 43,628 eliding-and-compact) showed the
+  serializer was worth a third of the win. It was nearly not taken, because
+  the A/B I had designed was one arm against one arm.
+- **A negative that the change itself proves belongs in a test, not only in
+  prose.** Elision did not reach the byte threshold that triggers it, because
+  it bounds payload per item and cannot bound an unbounded item count. That
+  residual is pinned by an assertion that fails if a later change fixes it, so
+  the next author has to tighten it deliberately rather than discover it.
+- **The board claim survived to Phase 10** by beating at the top of every
+  phase from 7 - round 7's fix, and it worked. Worth keeping as a rule rather
+  than a focus item.
+- Mid-flight runs on an earlier version: nothing to do. No `SKILL.md` change
+  was made this round; the three proposals above are lessons awaiting a third
+  sighting, per the skill's own promotion rule.
