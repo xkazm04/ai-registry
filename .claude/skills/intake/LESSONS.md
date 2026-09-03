@@ -5966,3 +5966,82 @@ been naming that zero for weeks:
 ### 2.3.0 - 2026-09-03 - the decision gate (operator request)
 
 - Phase 7.7: every waiting proposal across the fleet shown as one multi-select per project at the end of an attended run; selected = accepted, unselected = declined, no third state; ledger rows and status lines written in the project; accepted proposals executed in the same session, one Opus worker per proposal in an isolated worktree on a `direction/<slug>` branch, gate verdict into `.ai/applied.jsonl`, branches left for the operator to merge. First gate: 11 shown, 9 accepted, 2 declined (a priced credential roster for tracklight; an entity-id grammar door for politicas), 9 workers dispatched. Mid-flight runs: none live at the bump.
+
+## 2.3.0 - 2026-09-03 - rusttraining
+
+- **A new source class: the doctrine corpus.** A repository whose value is prose it wrote
+  *about* engineering rather than a system it built. Discriminating question: *is there a
+  system here at all?* This one was 175 markdown files, ~217,000 words, one source file
+  and a build tool. The v2 method routes a repository by its design decisions, and this
+  tree has almost none — 6, all in the operational periphery. Reading it as a system would
+  have produced nothing; the claim read was the whole run and it yielded a subject. **The
+  routing count worked in the negative for the first time: it correctly said "do not hand
+  this off."** Proposed for `references/source-classes.md`: expected yield is a high
+  candidate count with heavy strip-test mortality, survival concentrated in chapters that
+  state a boundary, and near-total loss in any chapter organised as a translation table.
+- **Mortality is per-chapter, not per-source, and it is predictable from the chapter
+  title.** Four readers independently reported the same pattern: chapters whose titles
+  state a *judgment* ("when X isn't the right fit", "when elegance wins", "X is an
+  optimization, not an architecture", "common pitfalls") survived the strip test; chapters
+  whose titles name a *mechanism* died. Survival ran 26-40% by lane and ~1 sentence across
+  three entire books. A future run over a teaching corpus can rank chapters by title mood
+  before reading a word.
+- **The strongest thing a source can give you is a stated hole in your own corpus.** The
+  run's highest-value single landing (`deterministic-proxy-gate`) exists because
+  `operation-assertion-gates` says, in its own text, that its axis offers two honest
+  configurations, rejects both, and admits its escape hatch "does not hold the number."
+  The source supplied the missing fourth resolution. **Phase 6's enumeration hunt should
+  explicitly include "where does the target technique confess a limit?"** — a confessed
+  limit is a better landing site than a missing opinion, and it is greppable.
+- **A source that is wrong about its own costs is more useful than one that is right.**
+  The book asserts its patterns are free and never states a compile-time, error-message,
+  migration or onboarding cost in ~40,000 words — every "compile time" mention is a boast.
+  The costs the new subject carries were found by reading *what the source does on the
+  page*: a four-parameter type presented as the general case, ~55 lines of declarations to
+  make four fields required, and a fabricated default inside the chapter arguing that
+  defect away. **Reading a source's examples against its claims is a distinct extraction
+  pass and it produced the differentiating half of the subject.** Worth naming as a step.
+- **Two readers converging on one finding, unable to see each other, is the strongest
+  triage signal available inside a single source.** The central finding (that
+  parse-at-the-boundary had no owner) arrived independently from two different books via
+  two workers. Deduped by author it is one observation — but it is the one the subject was
+  built on, and neither reader alone would have argued for a subject.
+- **The apply budget does not scale to a subject-sized landing, and the contradiction is
+  now open.** 38 findings landed, 1 apply row written. The rule ("one project per finding
+  per run") was written for a video yielding two or three findings. Prior 2.x rounds hid
+  this behind small landings. Proposed correction is in the scorecard's round-6 focus: owe
+  one row per *subject or amendment cluster*, not per technique.
+- **Resume beats re-dispatch, and now has five-for-five evidence.** A session rate limit
+  killed all five landing workers mid-flight. Every one resumed from its transcript with
+  its on-disk work intact and finished correctly; the forge worker resumed with its golden
+  path already written and produced only the seven missing techniques. **Zero work was
+  redone.** The director's job on a wave failure is: survey the disk first, tell each
+  worker precisely what is already on disk and what remains, then resume. Re-dispatch
+  would have cost five full re-reads and risked duplicate files.
+- **Tell a resumed worker what changed while it was dead.** Two workers were resumed into
+  a checkout where neighbours had since started editing files adjacent to theirs. Adding
+  "another worker is now editing X, re-read immediately before each edit" to the resume
+  message is cheap and prevented a collision on two shared golden paths.
+- **A worker that regenerates a shared derived artifact is doing the right thing locally
+  and the wrong thing globally.** Three of five correctly refused to regenerate
+  `index.json` and said so; one regenerated it. Neither is a defect — but the director must
+  own the final regeneration *and* the `HEAD` check regardless, because the working index
+  had by then absorbed four sibling runs' unlanded subjects. Both artifacts were left
+  uncommitted. **The check that matters is not "is the index stale" but "does the index
+  describe content that is not in `HEAD`."**
+- **`build-index.mjs --help` is treated as a normal run and writes every index.** Reported
+  by a worker who hit it. Harmless (output is deterministic from disk) but surprising, and
+  it means an exploratory `--help` inside a parallel wave silently regenerates a shared
+  artifact. Worth a guard in the script.
+
+### Redesign proposal — not applied this round
+
+**The scorecard's `Landed` column should separate a subject from its techniques when
+reading the funnel.** This round reads `S1/T23`, and the 23 is not comparable to a round
+that landed 23 techniques across 23 existing subjects: 7 of them are one coherent subject
+forged from one spec by one worker, which is a different unit of work and a different unit
+of risk. The depth cell already carries `S`, but the funnel sentence reads `T`. Proposal:
+report techniques *inside a new subject* separately from techniques *added to existing
+subjects*, because the second number is the one that measures whether the corpus is being
+deepened rather than extended. Not applied — one round is not enough to know whether the
+distinction changes any decision.

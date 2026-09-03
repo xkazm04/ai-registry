@@ -1025,9 +1025,55 @@ never does, the note is not carrying what this focus assumes it carries.
 **Next run's declared focus (round 4):** (1) The 2.2.0 bump is applied this Phase 11 - peer shape in Phase 7.6, both routing clauses in Phase 2d, the witnessed `verified_against` rule - and round 4 runs on it; the check is whether any rule had to be supplied mid-run. (2) At Phase 1, read the fleet's `.ai/directions/ledger.jsonl` files (or their absence) and say how many proposals are waiting; if the count only grows for three rounds, the pass is producing faster than the owner can decide and the cap returns. (3) Keep Opus as the worker for every phase but the director's review, and record the one thing per round the director had to do that a worker could not.
 
 | 2.2.0 | 2026-09-03 | `lightrag` (**research-model release + product half**; 5,819 landing / 114k in-tree md / 97k lines; **round 4, first on 2.2.0, every worker Opus; front-half worker resumed after a DNS outage with `[H]`/`[V]` anchors**) | 1 | 22 (9 design + 13 claim) | 11 (per system A1/B2/C3/D0/E1/F0 and HOME-IF-NEW 3, both on C; seven promoting questions, five promoted) | **1 subject** (`llm-extracted-entity-graph`, 4 techniques) + **6 techniques** in five subjects (one a missing stage in retrieval's pipeline) + **1 amendment** + **4 source-tree applications** | **6 rows: 0c/0e/0s/1t + 5 unapplied groups** (task better) | **1** - branch of the clone (`5ecc99a`, compile-verified, suite not collectable on this host), patch exported, clone deleted | **Focus applied:** no rule needed mid-run (first round where that is true); directions waiting at Phase 1 = **8 / 0 ledger rows**; the director's one thing: resume the failed worker, decide the decomposition stage out of the subject before dispatch, pick the task deviation. Peer study 39 unique points with 7 seeded points corrected, two against the front half's own counts. The study worker stalled on an optional trim after writing everything | **S1/T10/A1/Asrc4/task-lines 1 file · routing=C:3 per-system + HOME-IF-NEW 3 · handoff=yes (scoped) · directions=3/0 + 1 study (39) · waiting=8/0** |
+| 2.3.0 | 2026-09-03 | rusttraining | 1 | 66 | 23 | **1 S / 23 T / 15 A / 5 apps** | 1e | 0 | **Ship 0:** the one fleet apply row came back `not-better` (a compliant population — nothing to ship). Focus moved: **yes on (1) and (2).** Directions waiting recounted at Phase 1 and the count is **0 proposals / 0 ledger rows anywhere in the fleet** — the 12 the round-4 row reported are not locatable on this machine (only `personas/.perfect/directions`, a different lane), so the cap rule could not bind on a count that does not exist. Worker failure hit all five landing workers at once (session rate limit) and **resume worked on all five, zero work redone** — the round-5 rule is now evidence-backed rather than provisional. | **S1/T23/A15/Asrc4/task-lines 0 · routing=6 periphery decisions, 0 clustering → handoff=no (correctly) · XL trigger fired at 7 shared homes vs threshold 3 · directions=0/0 (fleet map shows no proposals to gate) · gate=n/a** |
 
 **The funnel over the last ten rows, read after this one.** Four 2.x rounds: S1/T6, S1/T13, S1/T7, S1/T10 against the 1.x rows' S0/T2-3. Apply holds at one task row plus unapplied groups, and the direction pass has produced 12 proposals plus four studies across five projects in twenty-four hours with zero ledger rows read. That is now the funnel's widest open stage: the pass produces faster than an owner decides, which the round-3 focus predicted and the round-4 count confirms (8 waiting at Phase 1, 12 after). **The method itself needed no mid-run rule this round for the first time, and the one thing the director did that a worker could not was operational (resume, sequence, choose), not methodical.** Extract → test is decided by counts; the handoff shape is stable at "scoped, one worker, same session".
 
 **Next run's declared focus (round 5):** (1) Directions waiting are counted again at Phase 1; if the count is still growing with zero ledger rows, the pass caps at ONE proposal per project per run until an owner writes a row - the study still runs, the proposals wait in the study's ranked list. (2) Worker failures: check for the deliverable, resume, re-dispatch last; carry `[H]`/`[V]` into every downstream brief - written into Phase 2b as a rule if round 5 hits a failure again, otherwise it stays a lesson. (3) The publish decision is the operator's after round 5; the scorecard should carry, in one cell, what a reader would need to judge the 2.x series: subjects 4, techniques 36, studies 4, proposals 12, rules supplied mid-run 1 (round 2), director redos 0.
 
 **Depth cell closed for the 2.0.0 openbao row, same session (forge harvest wave, branch `forge/openbao-secrets-infrastructure`).** The handoff that row banked was forged before the session ended, per the operator's standing rule of 2026-09-02 (execute handoffs in session, never as backlog): 9 NEW subjects across a new top-level category `secret-custody-and-issuance` (4), data-layer (3) and service-operations (2); 8 EXTENDS rows landed as 13 techniques and 7 amendment sections; 2 laws minted from cross-worker convergence (`record-precedes-effect`, five workers; `limits-are-derived`, three); one EXTENDS refused by its worker on doctrine grounds and re-routed. Read as `9 S / 68 T / 7 A / 41 Asrc / 0 task-lines` against the row's `0/0/0/1/0`. Gate green at 168 subjects, 10 categories. Not merged - merging is the owner's click. The depth cell's missing value ("handed off, pending") lasted one session, which is the right duration.
+
+**The funnel over the last ten rows, read after this one.** Extract → test is healthy and
+is decided by counts, as the 2.x series intended: five 2.x rounds now read S1/T6, S1/T13,
+S1/T7, S1/T10, **S1/T23**, against the 1.x rows' S0/T2-3. The routing decision was also
+correct in the negative for the first time — a 217,000-word repository with no system in
+it was NOT handed off, because the count said 6 periphery decisions with no cluster. That
+is the first round where *declining* the handoff was the right call rather than a miss,
+and it is evidence the routing count measures the tree rather than its size.
+
+**Apply is now the weakest stage by a wide margin, and this round exposes why it is
+structural rather than a matter of diligence.** The run landed 23 techniques and 15
+amendments — 38 findings — and wrote **one** apply row. The method's budget ("one project
+per finding per run; at most the effort of the landing itself") was written for a run that
+lands two or three findings from a video. Applied to a run that lands a subject, it
+generates an obligation of 30+ A/B tests, which is not one session's work and was never
+going to be. Every prior 2.x round hid this behind a small landing count; this one could
+not. **The rule and the landing volume are now in open contradiction, and the scorecard
+should stop reading a 1-row apply against a 38-finding landing as a diligence failure.**
+
+**Ship 0 is honest this round, and for a good reason.** The operator granted branch-commit
+authority to any fleet project at triage — the standing critique from three prior rounds
+was addressed and the authorization was in hand — and the single apply row came back
+`not-better` against a fully compliant population. There was nothing to ship. That is the
+authorization working, not the gate blocking, and it is the first round that can say so.
+
+**Next run's declared focus (round 6):**
+
+1. **Fix the apply budget for subject-sized landings.** Proposed rule to test next round:
+   when a run lands a subject, the apply obligation is **the subject or amendment cluster,
+   not the technique count** — one apply row per cluster touched, chosen by the seam with
+   the highest attention points, with the remainder recorded as an explicit unapplied
+   backlog carrying its return condition. A run that lands 23 techniques should owe ~5
+   rows, not 23. If round 6 lands another subject and the one-row-per-technique reading is
+   still applied, write the rule into Phase 7.5.
+2. **The directions ledger is unverifiable from this machine.** Round 4 reported 12
+   proposals waiting; round 5 found **0 proposals and 0 ledger rows across all eight fleet
+   projects** — only `personas/.perfect/directions`, a different lane. Either they were
+   written on another machine's checkouts or they were never committed. Round 6 resolves
+   which **before** running the direction pass again: a pass that writes proposals nobody
+   can find is worse than one that writes none, and the round-5 cap rule could not bind on
+   a count that does not exist.
+3. **Resume is now the default for a failed worker, not the first thing to try.** Five of
+   five resumed cleanly with transcripts and on-disk work intact, after a session rate
+   limit killed the whole wave mid-flight. Promote from lesson to a Phase 2b/7 rule if
+   round 6 sees another failure and resume works again.
