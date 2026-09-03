@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 156 subjects, 1094 techniques, 589 applications.
+`software-engineering` - 163 subjects, 1155 techniques, 651 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -16,14 +16,14 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 ### llm-agent
 - **companion** - companion-identity, companion-runtime, conversation-orchestration
 - **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, time-travel-replay, tracing
-- **orchestration** - agent-chaining, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff
-- **prompt-and-context** - agent-instruction-files, agent-memory, prompt-assembly, prompt-safety, retrieval, structured-output
-- **runtime-and-io** - agent-addressable-ui, agent-cli-transport, mcp-tools, sidecar-provisioning, streaming-output, subprocess-lifecycle, terminal-multiplexing, voice-io
+- **orchestration** - agent-chaining, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff, session-continuation, tenant-scoped-agent-runtime
+- **prompt-and-context** - agent-instruction-files, agent-memory, context-hierarchy, llm-extracted-entity-graph, prompt-assembly, prompt-safety, retrieval, structured-output
+- **runtime-and-io** - agent-addressable-ui, agent-browser-control, agent-cli-transport, agent-runtime-assembly, mcp-tools, sidecar-provisioning, streaming-output, subprocess-lifecycle, terminal-multiplexing, voice-io
 
 ### backend-platform
 - **data-layer** - data-access, embedded-db, migrations, sync-replication
 - **platform-observability** - alerting, metrics-rollups, observability-telemetry, outbound-notifications
-- **resilience** - error-handling, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
+- **resilience** - error-handling, multi-provider-gateway-plane, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion
 - **work-execution** - admission-queue, background-jobs, concurrency-guards, delivery-guarantees, job-coordination, pipeline-dag, scheduling
 
 ### operations
