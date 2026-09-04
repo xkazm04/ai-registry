@@ -21,6 +21,7 @@ techniques:
   - deferred-interface-invalidation
   - endpoint-sealed-continuation-metadata
   - elision-to-a-refetch-pointer
+  - recovery-path-as-loss-signal
 ---
 
 # Prompt assembly & context budgeting
@@ -220,6 +221,31 @@ cache-stable, and the one honest caveat it introduces: a transmitted prefix
 that is a function of the record plus the policy in force when it was
 composed.
 
+## Every lossy transform's error rate is its recovery rate
+
+Three of the moves above remove material the model will later read: walking an
+elastic section down its ladder, summarizing turns, trading a payload for the
+address it came from. Each of them is designed to leave a way back, and the way
+back is always argued for as a safety valve. It is more than that. **How often
+the model takes the way back is how often the transform removed something that
+mattered** — the only measurement of a lossy transform's aggressiveness
+available from outside it. A compression ratio reports how much was removed and
+is silent on how much of it was needed.
+
+Two consequences change how these transforms are evaluated. The first is that a
+saving measured at the transform's own output is not a saving: the model spends
+turns re-deriving what was taken, carrying more context forward on each, so the
+cost does not vanish, it moves downstream of the measurement point. The
+boundary that can see it is the complete unit of work, request to result.
+The second is that the rate reads in two directions and only one of them is
+unambiguous — a high rate means too aggressive, and a rate at zero means either
+perfectly targeted or too timid, which no amount of further observation
+separates.
+[recovery-path-as-loss-signal](./techniques/recovery-path-as-loss-signal.md)
+owns the instrument: the family of behaviours that count as recovery (most of
+which do not look like recovery), where the measurement boundary has to be
+drawn, and what a zero reading does and does not license.
+
 ## The prompt is a versioned interface
 
 A prompt change is an API change wearing prose. It can alter the model's
@@ -308,6 +334,10 @@ disappearing.
   "did it see the new instruction?" question becomes unanswerable the
   moment the call returns. Record at minimum the digest and size of every
   prompt sent, at the send site.
+- **The unmeasured shrink** — a compression or elision step scored on the
+  bytes it removed, shipped without counting how often the model went back
+  for what it took; the saving is real at the transform and unknown at the
+  task, and nobody can say which.
 - **The self-granted entry** — an installed document that named the tools it
   wanted and got them, turning an install into a roster change nobody
   reviewed; and its quieter sibling, the malformed entry dropped in silence,
@@ -361,7 +391,15 @@ disappearing.
   — eliding recoverable material to a pointer instead of a summary: the three
   material classes, counts by kind for dropped binary parts, the decorator
   siting that leaves the record whole, per-message purity for cache
-  stability, and the recomputability caveat written down.
+  stability, the recomputability caveat written down, and where a size
+  threshold stops being the right axis because the material has classes that
+  differ in how likely they are to be read again.
+- [recovery-path-as-loss-signal](./techniques/recovery-path-as-loss-signal.md)
+  — the recovery path as the transform's error rate: the family of behaviours
+  that count as recovery, why a per-unit saving is measured at the wrong
+  boundary, the two-sided reading in which zero is a question rather than an
+  answer, and the discriminator between a fallback that is broader than the
+  normal path and one that repairs what a transform discarded.
 - [cache-breakpoint-allocation](./techniques/cache-breakpoint-allocation.md)
   — cutting the ordered stack into cached blocks: cut points as a scarce
   request-wide budget, merging by cadence, matching lifetimes, and the
