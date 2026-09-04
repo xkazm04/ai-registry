@@ -137,3 +137,10 @@ Without the stamp the file cannot distinguish a rule re-earned last month
 from one never questioned since the day it was written, and it presents
 both at identical confidence — decayed knowledge rendered as current fact
 ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+
+The same rot runs on the assembled side of the subject boundary, where the
+reader is a program rather than the model and the audit is therefore a code
+read rather than a withheld-line trial:
+[consumer-coupled-decoration](../../prompt-assembly/techniques/consumer-coupled-decoration.md)
+owns the per-item markup a producer keeps attaching to a payload after the peer
+that consumed it changed method.

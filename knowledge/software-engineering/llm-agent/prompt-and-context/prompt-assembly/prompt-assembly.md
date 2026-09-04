@@ -22,6 +22,7 @@ techniques:
   - endpoint-sealed-continuation-metadata
   - elision-to-a-refetch-pointer
   - recovery-path-as-loss-signal
+  - consumer-coupled-decoration
 ---
 
 # Prompt assembly & context budgeting
@@ -246,6 +247,30 @@ owns the instrument: the family of behaviours that count as recovery (most of
 which do not look like recovery), where the measurement boundary has to be
 drawn, and what a zero reading does and does not license.
 
+## Some of the payload is markup nobody reads
+
+Every transform above removes material somebody needed *some* of, which is why
+each one costs a recovery path and an argument about aggressiveness. There is a
+prior and much cheaper question, and it is not about the material at all.
+Inside a payload the assembler already decided to include, the producer makes
+per-item formatting choices — a marker on each line, a header on each record, a
+wrapper around each field — and each of those was attached for a consumer that
+reads it. Consumers change method independently of producers. When one does, the
+decoration keeps being produced and keeps being correct, and simply stops being
+read: no error, no failing test, and a bill of items times payloads times
+sessions that no section cap will ever trip.
+
+So the two questions are different questions, and reaching for the wrong one is
+expensive. *How much of what a transform removed was needed* is
+`recovery-path-as-loss-signal`'s; *whether anyone reads this field at all* is
+answered by naming its consumer in the code that consumes the payload, and a
+field whose consumer cannot be named is residue that comes out whole — no
+recovery path, no policy, nothing to tune. Audit that before commissioning a
+compressor for the same bytes.
+[consumer-coupled-decoration](./techniques/consumer-coupled-decoration.md) owns
+the audit, the multiplier that made it worth running, and the rule that a
+decoration failing it is usually at the wrong granularity rather than wrong.
+
 ## The prompt is a versioned interface
 
 A prompt change is an API change wearing prose. It can alter the model's
@@ -338,6 +363,10 @@ disappearing.
   bytes it removed, shipped without counting how often the model went back
   for what it took; the saving is real at the transform and unknown at the
   task, and nobody can say which.
+- **The orphaned decoration** — a per-item marker admitted once because it
+  looked trivially small at the unit of one item, still emitted correctly long
+  after the consumer it was built for changed method, and paid on a multiplier
+  nobody computed: items, times payloads, times every session.
 - **The self-granted entry** — an installed document that named the tools it
   wanted and got them, turning an install into a roster change nobody
   reviewed; and its quieter sibling, the malformed entry dropped in silence,
@@ -400,6 +429,13 @@ disappearing.
   boundary, the two-sided reading in which zero is a question rather than an
   answer, and the discriminator between a fallback that is broader than the
   normal path and one that repairs what a transform discarded.
+- [consumer-coupled-decoration](./techniques/consumer-coupled-decoration.md) —
+  the per-item markup a producer attaches to a payload: the items-times-payloads
+  multiplier no section cap trips, the three-question audit that names a
+  decoration's current consumer, why the expiry is silent and needs a scheduled
+  trigger rather than a signal, pure removals sorted ahead of any compression
+  scheme for the same bytes, and re-siting to the narrowest surface with a named
+  consumer instead of deleting the idea.
 - [cache-breakpoint-allocation](./techniques/cache-breakpoint-allocation.md)
   — cutting the ordered stack into cached blocks: cut points as a scarce
   request-wide budget, merging by cadence, matching lifetimes, and the
