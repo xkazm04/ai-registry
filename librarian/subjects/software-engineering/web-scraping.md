@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: web-scraping
-last_touched: 2026-08-28
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -78,3 +78,22 @@ had been sent. So the acquire stage must read the response's declared type and
 never its own request — `unknown-is-not-a-value` applies to a fetch that assumes
 it got what it asked for. This is the same rule the proposed sibling subject will
 carry from the serving side; when it lands, check the two statements agree.
+
+## 2026-09-04 — "blocks are loud" was true of one half of an undrawn boundary
+
+Touched by `/intake` from [[../../sources/2026-09-04-wigolo]]: a golden-path
+correction in two places (the Acquire row of the pipeline table, and a new
+section after it), no new techniques.
+
+The acquire row said blocks are *loud* failures. They are loud when they arrive
+as a denial status; they are not when the counterparty closes the connection, or
+answers with enough chrome to clear an emptiness check while the substance never
+arrives. Rather than soften the row, the run drew the boundary the corpus was
+missing and stated the question that separates the two sides: a repeated harvest
+of a target you must still be welcome at tomorrow, versus a single-shot
+retrieval of one document a caller is waiting for.
+
+**`scrape-scheduling` was not corrected and must not be.** Its `blocked` run
+outcome — pause, page a human, never retry — is right for what this subject
+governs, and the new section says so explicitly. The other side is
+[[contested-acquisition]], forged the same day from the same source.

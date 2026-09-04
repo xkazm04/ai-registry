@@ -122,3 +122,23 @@ listing. Status surfaces show name, creation time, last-seen time, expiry,
 scopes — never the credential, and ideally not even the fingerprint, which
 is useless to the operator and one more string that looks secret in a
 screenshot.
+
+## The other side of the binding
+
+Everything above is written from the **granting** side, where you chose the
+binding and can therefore check it. There is a mirror problem this technique
+does not govern and should not absorb: holding a credential that *someone else*
+minted, bound to a fingerprint they observed and never told you.
+
+The organizing rule inverts. A bound credential you issued is safe to hold
+loosely, because the verifier enforces the binding for you and a stolen copy is
+inert. A bound credential you merely *received* is the opposite: nothing on your
+side knows what it was bound to, so presenting it from the wrong place is not
+refused, it is **noticed** — and the refusal you get back is indistinguishable
+from the credential having expired. The holder's obligation is to reconstruct
+the binding from whatever it can observe at the moment of harvest and to refuse
+its own reuse on a mismatch, rather than discovering the mismatch from the far
+side. That is
+[holder-reconstructed-binding](../../../../integration/contested-acquisition/techniques/holder-reconstructed-binding.md),
+and it belongs to acquisition rather than to the pairing ceremony because it
+only arises where no ceremony happened.

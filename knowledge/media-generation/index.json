@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 20,
-  "techniques": 132,
-  "applications": 61,
+  "techniques": 134,
+  "applications": 62,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "132/132",
+  "use_when_coverage": "134/134",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -489,8 +489,24 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/evidence-bound-visuals.md",
-   "digest": "sha256:3b362457132ee869",
+   "digest": "sha256:50341b454060ae16",
    "techniques": [
+    {
+     "slug": "anchor-removal-ablation",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generator fills unobserved regions from world knowledge",
+      "an output cannot be separated into a generated plate and a drawn layer",
+      "deciding which parts of a reconstruction are evidence and which are invention",
+      "a single surface mixes sourced and imagined content at the pixel"
+     ]
+    },
     {
      "slug": "causal-arrow-discipline",
      "status": "forged",
@@ -836,7 +852,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/generated-output-grading/generated-output-grading.md",
-   "digest": "sha256:11592fb0cb041a7b",
+   "digest": "sha256:a19617f45fd37ef6",
    "techniques": [
     {
      "slug": "cross-provider-flip-analysis",
@@ -850,6 +866,22 @@
       "deciding whether a failed render indicts the prompt or the model",
       "choosing between two image generators",
       "a generator keeps failing one kind of brief"
+     ]
+    },
+    {
+     "slug": "input-channel-parity",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing generators that do not accept the same input types",
+      "one candidate takes a control dimension as structured input and the others take only prose",
+      "reading a vendor's published comparison against its competitors",
+      "a matrix's identical-brief rule cannot be satisfied"
      ]
     },
     {
@@ -939,6 +971,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "input-channel-parity",
+     "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/node--input-channel-parity.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
     {
      "stack": "node",
      "technique": "trial-matrix-design",
@@ -2490,12 +2529,14 @@
     "creator-voice-and-tone/dial-vs-subject-property",
     "creator-voice-and-tone/spoken-delivery-direction",
     "creator-voice-and-tone/voice-profile-from-accepted-work",
+    "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/figure-must-cite-a-fact",
     "frame-direction/per-beat-rejection",
     "generated-music-acceptance/brief-conformance-listen",
     "generated-music-acceptance/loudness-and-peak-acceptance",
     "generated-music-acceptance/structure-verification-against-plan",
     "generated-output-grading/cross-provider-flip-analysis",
+    "generated-output-grading/input-channel-parity",
     "generated-output-grading/replication-as-comprehension-test",
     "generated-output-grading/trial-matrix-design",
     "generated-output-grading/two-grader-disagreement-rule",
@@ -2589,6 +2630,7 @@
     "character-identity-continuity/reference-shows-only-invariants",
     "cinematic-language/movement-motivation",
     "cinematic-language/performance-direction",
+    "generated-output-grading/input-channel-parity",
     "sound-effect-generation/picture-as-timing-brief"
    ]
   },
@@ -2632,6 +2674,7 @@
     "content-research-grounding/unknowns-as-constraints",
     "creator-voice-and-tone/delivery-rate-budgeting",
     "creator-voice-and-tone/dial-vs-subject-property",
+    "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/causal-arrow-discipline",
     "evidence-bound-visuals/epistemic-draw-routing",
     "evidence-bound-visuals/figure-must-cite-a-fact",
@@ -2681,6 +2724,7 @@
   "checkability-routes-the-pixel": {
    "statement": "If a viewer could check an element against a fact, deterministic code must draw it. If it only has to feel right, a model may. Charts, exact values, and labels are drawn and composited; atmosphere and illustrative scenes are generated. A generated glyph is not a nicer glyph — it is an unusable one.",
    "techniques": [
+    "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/epistemic-draw-routing",
     "frame-direction/motion-intent-authoring",
     "frame-direction/plate-elements-text-split",
@@ -2701,6 +2745,7 @@
     "generated-music-acceptance/brief-conformance-listen",
     "generated-music-acceptance/generated-audio-defect-taxonomy",
     "generated-output-grading/cross-provider-flip-analysis",
+    "generated-output-grading/input-channel-parity",
     "generated-output-grading/regrade-without-regenerate",
     "generative-provider-routing/capability-to-vendor-plan",
     "generative-provider-routing/cost-per-usable-economics",

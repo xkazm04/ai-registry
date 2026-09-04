@@ -79,7 +79,7 @@ matter because each stage has a different failure story:
 
 | Stage | Job | Fails how |
 | --- | --- | --- |
-| **Acquire** | fetch the page — after asking what representations exist (plain fetch, or a rendering engine when content is script-assembled) | network errors, blocks, rate limits — *loud* failures; an unhonoured type preference fails *silently* |
+| **Acquire** | fetch the page — after asking what representations exist (plain fetch, or a rendering engine when content is script-assembled) | network errors and rate limits — *loud*; an unhonoured type preference fails *silently*; a refusal is loud only when it arrives as a status (see below) |
 | **Parse** | markup → traversable tree | almost never; parsers are forgiving by design, which pushes failure downstream |
 | **Extract** | run the authored rules over the tree | *silently* — rules miss and produce nothing |
 | **Normalize & validate** | coerce types, trim, canonicalize; reject records missing required fields | validation is the tripwire that converts silent misses into visible failures |
@@ -101,6 +101,40 @@ retrying a *block* as if it were an outage is how scrapers get banned).
 The extract stage owns this subject's center of gravity: rules as authored,
 validated, previewed artifacts — the
 [extraction-rule-dsl](./techniques/extraction-rule-dsl.md) technique.
+
+### A refusal is loud only when it arrives as a status
+
+The acquire row above is written for the failure a scheduled harvest actually
+meets, and it holds for that. It is worth being precise about its limit, because
+the word *loud* is doing more work than it can carry. A refusal is loud when it
+comes back as a denial status or a recognisable interstitial. It is not loud
+when the counterparty closes the connection instead of answering, or answers
+with enough chrome to clear an emptiness check while the substance never
+arrives. Those spend the whole fetch budget and then look like a thin page —
+which is [the honesty law](#the-honesty-law)'s problem arriving one stage
+earlier than this subject models it.
+
+What follows from that limit is a *different subject*, not a correction of this
+one, and the question that separates them is:
+
+> **Is this a repeated harvest of a target you must still be welcome at
+> tomorrow, or a single-shot retrieval of one document a caller is waiting for
+> right now?**
+
+For the harvest — this subject — the cheapest correct move on a refusal is to
+**stop**: pause the schedule, page a human, never retry, because you have an
+ongoing relationship with a source that just declined and hammering it is how a
+pause becomes a ban ([scrape-scheduling](./techniques/scrape-scheduling.md)
+owns that vocabulary and this subject does not soften it). For the single-shot
+retrieval, stopping is not restraint — it is a silent empty answer to somebody
+who asked a question. What that side owes instead is a bounded, classified,
+honestly-reported response, and the mechanics of it — classifying a refusal
+before choosing any reply, under-claiming what you can handle when the evidence
+is ambiguous, and reporting a first-class honest negative rather than an absence
+of success — live in
+[contested-acquisition](../contested-acquisition/contested-acquisition.md).
+Neither posture is a correction of the other; a pipeline that mixes them without
+naming which one it is running has chosen by accident.
 
 ## Rules are data, not code
 

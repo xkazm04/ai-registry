@@ -1,7 +1,7 @@
 ---
 subject: document-text-extraction
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -53,3 +53,28 @@ bespoke special case — so the idea holds where the instrument does not.
 
 The saturation guard has no validated cut-point anywhere yet. Return when a tree
 separates operative from non-operative text and the sweep can be re-run.
+
+## 2026-09-04 — the escalation rule met a case with no verdict to route on
+
+Touched by `/intake` from [[../../sources/2026-09-04-wigolo]]: one amendment to
+`recognition-boundary-and-escalation` plus a source-tree application
+(`node--recognition-boundary-and-escalation`, `proof: structural-only`).
+
+The technique's rule is *"escalate the refusals, never the format,"* and its
+argument is entirely about **which** verdict to route on. Its precondition —
+that a verdict exists at all — was never stated, and a retrieval engine found
+two populations where it does not: a counterparty that closes the connection
+before answering (no status to classify), and one that answers successfully with
+enough furniture to clear the emptiness guard while the substance is assembled
+later (a verdict of *success*, which is worse).
+
+The amendment adds a **named pre-route** for exactly that set and spends most of
+its length distinguishing it from the category routing the technique rejects —
+membership enumerated from observation rather than predicted from a property,
+operator-extensible at run time because the set is discovered, and a bypass
+rather than a policy. Without those three obligations it decays back into the
+thing the technique correctly refuses.
+
+Worth noting for a later pass: the technique's `When not to use this` section
+enumerated one exception, and the finding came from asking whether it enumerated
+too few. That hunt is cheap and it worked here.

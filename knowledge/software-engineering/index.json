@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 212,
-  "techniques": 1516,
-  "applications": 862,
+  "subjects": 214,
+  "techniques": 1531,
+  "applications": 871,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1516/1516",
+  "use_when_coverage": "1531/1531",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6057,6 +6057,95 @@
     }
    ]
   },
+  "contested-acquisition": {
+   "category": "integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/integration/contested-acquisition/contested-acquisition.md",
+   "digest": "sha256:6514a74cf2dffc01",
+   "techniques": [
+    {
+     "slug": "classify-before-you-respond",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring a ladder of responses to a refused retrieval",
+      "a caller cannot tell \"we tried\" from \"nothing applied\"",
+      "budget disappears against refusals nothing could have cleared"
+     ]
+    },
+    {
+     "slug": "holder-reconstructed-binding",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "storing a credential a gate handed you for reuse on the next request",
+      "reuse works for direct traffic and silently never works through an intermediary",
+      "deciding whether a stored pass may be replayed by a different transport"
+     ]
+    },
+    {
+     "slug": "no-surface-no-rung",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a response requires a person to act",
+      "deploying an interactive fallback to a headless or hosted environment",
+      "refused requests take the full budget before answering"
+     ]
+    },
+    {
+     "slug": "rung-trust-does-not-promote",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring a response that delegates the retrieval to another party",
+      "deciding what a delegated step's output may be stored as",
+      "a step sends the target address off-machine"
+     ]
+    },
+    {
+     "slug": "under-claim-the-solvable-class",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the precedence rules of a refusal classifier",
+      "two refusal markers are present at once",
+      "an expensive response keeps running against refusals it never clears"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "classify-before-you-respond",
+     "file": "knowledge/software-engineering/integration/contested-acquisition/applications/node--classify-before-you-respond.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@20"
+    }
+   ]
+  },
   "context-hierarchy": {
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
@@ -6499,7 +6588,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256:ac361bee21554c72",
+   "digest": "sha256:277c277d0e17e1ab",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -6604,6 +6693,20 @@
      ]
     },
     {
+     "slug": "unit-classes-are-open",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provider ships a mode that reports token counters you do not read",
+      "an efficiency change whose unit saving exceeds its cost saving",
+      "spend dashboards falling faster than the invoice"
+     ]
+    },
+    {
      "slug": "usage-ledgers",
      "status": "forged",
      "laws": [
@@ -6659,6 +6762,13 @@
      "technique": "budget-enforcement",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/rust--budget-enforcement.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "unit-classes-are-open",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/rust--unit-classes-are-open.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@2021"
     },
     {
      "stack": "rust",
@@ -9161,7 +9271,7 @@
    "subcategory": "identity-and-access",
    "status": "forged",
    "file": "knowledge/software-engineering/security/identity-and-access/device-pairing/device-pairing.md",
-   "digest": "sha256:7aaa99c96613f5c0",
+   "digest": "sha256:6ee7456c9aa17c7c",
    "techniques": [
     {
      "slug": "admission-scoping",
@@ -9759,7 +9869,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/document-text-extraction/document-text-extraction.md",
-   "digest": "sha256:76427dadf2daf7c4",
+   "digest": "sha256:3f2ed11585cffaa0",
    "techniques": [
     {
      "slug": "band-calibration-by-construction",
@@ -9879,6 +9989,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "recognition-boundary-and-escalation",
+     "file": "knowledge/software-engineering/integration/document-text-extraction/applications/node--recognition-boundary-and-escalation.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@20"
+    },
     {
      "stack": "rust",
      "technique": "unreadable-region-refusal",
@@ -11334,7 +11451,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:5d1448373cf114b0",
+   "digest": "sha256:8380c0b496b5908a",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -11514,6 +11631,21 @@
      ]
     },
     {
+     "slug": "outcome-conditioned-cost",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing tokens time or tool calls between arms that can fail",
+      "an efficiency delta computed over trials that never reached an answer",
+      "a cheaper arm turns out to have given up earlier",
+      "deciding which trials a resource comparison may include"
+     ]
+    },
+    {
      "slug": "overshoot-and-restore",
      "status": "forged",
      "laws": [
@@ -11590,6 +11722,21 @@
      ]
     },
     {
+     "slug": "treatment-election-rate",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the treatment in a paired run is a capability the candidate may decline",
+      "an aided arm shows no gain and nobody checked whether the aid was used",
+      "reporting a delta for a tool the model chooses on its own",
+      "a suite discards a scenario because both arms behaved identically"
+     ]
+    },
+    {
      "slug": "unaided-baseline-screening",
      "status": "forged",
      "laws": [
@@ -11620,6 +11767,13 @@
     },
     {
      "stack": "node",
+     "technique": "outcome-conditioned-cost",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--outcome-conditioned-cost.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
      "technique": "reliability-aggregation",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--reliability-aggregation.md",
      "verified_on": "2026-08-31",
@@ -11631,6 +11785,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--resolution-precondition.md",
      "verified_on": "2026-08-31",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "treatment-election-rate",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--treatment-election-rate.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
     },
     {
      "stack": "process",
@@ -15738,7 +15899,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:cfad72f5fdb87bd5",
+   "digest": "sha256:f324c2e2ba5a3794",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -15753,6 +15914,22 @@
       "minting per-consumer tokens for a tool server",
       "deciding whether listing tools needs a token",
       "a caller's inbound token reaching downstream"
+     ]
+    },
+    {
+     "slug": "caller-differentiated-capability",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "gate-sees-target",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one engine serves both a human command line and an agent tool",
+      "deciding which options an agent surface may not have",
+      "an invariant held by review rather than by construction",
+      "a passthrough tool inherits every flag of the thing it wraps"
      ]
     },
     {
@@ -15799,6 +15976,22 @@
       "gating outbound tool calls over a third-party argument schema",
       "an allow-list passed a share nobody on it can read",
       "deciding whether to allow-list argument keys or scan every value"
+     ]
+    },
+    {
+     "slug": "fluent-syntax-bounded-grammar",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "absent-guard-is-loud",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a tool input accepts a syntax the model already writes fluently",
+      "choosing between a structured schema and a familiar command string",
+      "a passthrough surface must not inherit the wrapped thing's authority",
+      "an argument string is about to be handed to a shell"
      ]
     },
     {
@@ -15949,6 +16142,13 @@
     },
     {
      "stack": "node",
+     "technique": "fluent-syntax-bounded-grammar",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--fluent-syntax-bounded-grammar.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
      "technique": "transport-selection",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--transport-selection.md",
      "verified_on": "2026-08-22"
@@ -15964,6 +16164,13 @@
      "technique": "authentication-and-scoping",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--authentication-and-scoping.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "caller-differentiated-capability",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--caller-differentiated-capability.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -20246,7 +20453,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:14a38e2a6a839fdc",
+   "digest": "sha256:8c2bbb21dfdb4dc2",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -20289,6 +20496,22 @@
       "dispatcher rejects a call the prompt explicitly taught",
       "deciding how much detail each operation entry earns",
       "hiding a registered operation to discourage its use"
+     ]
+    },
+    {
+     "slug": "compression-hardens-deferred-decisions",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a standing layer is about to be rewritten smaller",
+      "an automated loop is proposing a shorter version of a prompt",
+      "a shortened prompt shipped and behaviour changed in a way nobody predicted",
+      "deciding what a test over prompt text should assert",
+      "a rewrite made the instruction shorter and the agent more cautious"
      ]
     },
     {
@@ -20503,6 +20726,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--amortized-compaction-cadence.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "rust",
+     "technique": "compression-hardens-deferred-decisions",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--compression-hardens-deferred-decisions.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.80"
     },
     {
      "stack": "rust",
@@ -27971,6 +28201,84 @@
     }
    ]
   },
+  "tool-result-economy": {
+   "category": "llm-agent",
+   "subcategory": "prompt-and-context",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/tool-result-economy.md",
+   "digest": "sha256:c4ba4407e28ba9eb",
+   "techniques": [
+    {
+     "slug": "compressibility-follows-the-producer",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which tool outputs a filter is allowed to touch",
+      "a compressor is proposed with a size threshold and no classification",
+      "agents keep reopening material the harness already gave them",
+      "writing the policy that says what may be summarized before it reaches the model"
+     ]
+    },
+    {
+     "slug": "end-to-end-unit-of-optimization",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a change shortened every response and the bill did not fall",
+      "choosing the boundary an efficiency experiment is measured inside",
+      "quoting a saving measured on one workload for another",
+      "a promising optimization measured worse end to end"
+     ]
+    },
+    {
+     "slug": "escape-hatch-usage-as-the-safety-metric",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a lossy transform is about to ship with a recovery path and no instrumentation",
+      "a compression filter shows no quality regression and nobody trusts it",
+      "deciding how to regression-test a transform on a small sample",
+      "a recovery rate looks reassuringly close to zero"
+     ]
+    },
+    {
+     "slug": "formatting-before-information",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a summarizer is proposed before anyone has looked at the packaging",
+      "auditing the prefixes and banners a harness adds to every tool result",
+      "a per-item affordance is emitted for a consumer nobody can name",
+      "ordering a list of proposed context reductions"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "escape-hatch-usage-as-the-safety-metric",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/applications/rust--escape-hatch-usage-as-the-safety-metric.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.80"
+    }
+   ]
+  },
   "tracing": {
    "category": "llm-agent",
    "subcategory": "evaluation-and-cost",
@@ -29431,7 +29739,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/integration/web-scraping/web-scraping.md",
-   "digest": "sha256:1acbad2af86dd292",
+   "digest": "sha256:d8db4c3e5e8fdddc",
    "techniques": [
     {
      "slug": "dedup-and-datasets",
@@ -30131,6 +30439,7 @@
     "connector-catalog/shipped-vs-operator-ownership",
     "cost-metering/budget-enforcement",
     "cost-metering/preflight-estimation",
+    "cost-metering/unit-classes-are-open",
     "credential-vault/brokered-egress",
     "credential-vault/revocation-interception-cache",
     "credential-vault/token-refresh-lifecycle",
@@ -30204,6 +30513,7 @@
     "eval-harness/monitor-inside-the-loop",
     "eval-harness/reliability-aggregation",
     "eval-harness/selection-over-noise",
+    "eval-harness/treatment-election-rate",
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/expiring-share-links",
     "executive-reporting/grounded-narrative-generation",
@@ -30273,6 +30583,7 @@
     "maturity-ladders/ladder-versioning",
     "maturity-ladders/present-vs-enforced",
     "mcp-tools/authentication-and-scoping",
+    "mcp-tools/caller-differentiated-capability",
     "mcp-tools/catalog-projection-modes",
     "mcp-tools/client-integration",
     "mcp-tools/egress-argument-gating",
@@ -30336,6 +30647,7 @@
     "priced-authority/single-use-cubbyhole-wrap",
     "priced-authority/write-ahead-revocation-marker",
     "proactive-nudges/quiet-windows",
+    "prompt-assembly/compression-hardens-deferred-decisions",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-assembly/task-envelope",
     "prompt-safety/canary-tripwires",
@@ -30464,6 +30776,8 @@
     "test-input-generation/seed-is-not-a-reproduction",
     "test-input-generation/stage-ordered-fuzz-targets",
     "test-input-generation/swarm-feature-sampling",
+    "tool-result-economy/compressibility-follows-the-producer",
+    "tool-result-economy/end-to-end-unit-of-optimization",
     "tracing/cross-boundary-propagation",
     "transactions-over-a-replicated-log/compose-then-conform",
     "transactions-over-a-replicated-log/list-verification-by-present-keys",
@@ -30592,6 +30906,8 @@
     "conformance-checking/fixture-repo-testing",
     "connector-catalog/adapter-normalization",
     "connector-catalog/matching-and-ranking",
+    "contested-acquisition/classify-before-you-respond",
+    "contested-acquisition/no-surface-no-rung",
     "context-hierarchy/seeded-descent-retrieval",
     "convergence-loop-and-requeue/drain-a-derived-queue",
     "convergence-loop-and-requeue/error-policy-as-a-separate-function",
@@ -30680,6 +30996,7 @@
     "eval-harness/eval-economics",
     "eval-harness/failure-attribution",
     "eval-harness/monitor-inside-the-loop",
+    "eval-harness/outcome-conditioned-cost",
     "eval-harness/overshoot-and-restore",
     "eval-harness/resolution-precondition",
     "eval-harness/selection-over-noise",
@@ -30750,6 +31067,7 @@
     "maturity-ladders/migrate-on-read",
     "maturity-ladders/present-vs-enforced",
     "maturity-ladders/rung-criteria",
+    "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/server-composition",
     "mcp-tools/tool-schema-design",
     "mcp-tools/write-freshness-gate",
@@ -30972,6 +31290,7 @@
     "test-input-generation/stage-ordered-fuzz-targets",
     "time-travel-replay/timeline-derivation",
     "toasts-notifications/os-escalation",
+    "tool-result-economy/escape-hatch-usage-as-the-safety-metric",
     "tracing/raw-record-viewers",
     "tracing/trace-capture",
     "tracing/waterfall-rendering",
@@ -31188,6 +31507,7 @@
     "cost-metering/preflight-estimation",
     "cost-metering/spend-attribution",
     "cost-metering/spend-observability",
+    "cost-metering/unit-classes-are-open",
     "cost-metering/usage-ledgers",
     "credential-vault/encryption-at-rest",
     "cross-instance-cache-lease/a-deadline-is-not-portable-between-clocks",
@@ -31245,11 +31565,13 @@
     "eval-harness/measurement-revision",
     "eval-harness/metric-role-contract",
     "eval-harness/monitor-inside-the-loop",
+    "eval-harness/outcome-conditioned-cost",
     "eval-harness/overshoot-and-restore",
     "eval-harness/reliability-aggregation",
     "eval-harness/resolution-precondition",
     "eval-harness/scenario-design",
     "eval-harness/selection-over-noise",
+    "eval-harness/treatment-election-rate",
     "eval-harness/unaided-baseline-screening",
     "executive-reporting/denominator-naming",
     "executive-reporting/provenance-caveats",
@@ -31477,6 +31799,9 @@
     "time-travel-replay/estimate-labeling",
     "time-travel-replay/transport-and-time-mapping",
     "toasts-notifications/durable-notification-ledger",
+    "tool-result-economy/end-to-end-unit-of-optimization",
+    "tool-result-economy/escape-hatch-usage-as-the-safety-metric",
+    "tool-result-economy/formatting-before-information",
     "tracing/raw-record-viewers",
     "tracing/synthetic-and-estimated-traces",
     "tracing/trace-capture",
@@ -31532,6 +31857,9 @@
     "companion-runtime/operative-working-set",
     "concurrency-guards/cache-value-not-handle",
     "conformance-checking/edition-stratified-conformance",
+    "contested-acquisition/holder-reconstructed-binding",
+    "contested-acquisition/rung-trust-does-not-promote",
+    "contested-acquisition/under-claim-the-solvable-class",
     "context-hierarchy/digest-gated-upward-refresh",
     "convergence-loop-and-requeue/told-that-not-why",
     "conversation-orchestration/progress-beat-grammar",
@@ -31775,7 +32103,9 @@
     "markdown-vault/vault-as-database",
     "maturity-ladders/migrate-on-read",
     "mcp-tools/authentication-and-scoping",
+    "mcp-tools/caller-differentiated-capability",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/server-composition",
     "mcp-tools/write-freshness-gate",
     "metric-forecasting/projection-presentability-gates",
@@ -31940,6 +32270,7 @@
     "conformance-checking/declared-deviation-register",
     "connector-catalog/catalog-as-data",
     "connector-catalog/matching-and-ranking",
+    "contested-acquisition/holder-reconstructed-binding",
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
     "correlated-exchange-over-broadcast/passthrough-buffered-wait",
     "correlated-exchange-over-broadcast/reply-fan-out-filtering",
@@ -32389,6 +32720,7 @@
     "time-travel-replay/scrub-performance",
     "toasts-notifications/durable-notification-ledger",
     "toasts-notifications/queue-discipline",
+    "tool-result-economy/formatting-before-information",
     "tracing/trace-capture",
     "transactions-over-a-replicated-log/compose-then-conform",
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
@@ -32487,6 +32819,8 @@
     "connector-catalog/adapter-normalization",
     "connector-catalog/catalog-as-data",
     "connector-catalog/schema-driven-forms",
+    "contested-acquisition/holder-reconstructed-binding",
+    "contested-acquisition/under-claim-the-solvable-class",
     "context-hierarchy/per-node-summary-tiers",
     "conversation-orchestration/layered-avatar-state-machine",
     "conversation-orchestration/progress-beat-grammar",
@@ -33018,6 +33352,8 @@
     "authorization/delegated-authority",
     "companion-runtime/headless-turn-stream",
     "companion-runtime/signal-economy-contract",
+    "contested-acquisition/classify-before-you-respond",
+    "contested-acquisition/rung-trust-does-not-promote",
     "convergence-loop-and-requeue/error-policy-as-a-separate-function",
     "correlated-exchange-over-broadcast/binding-parity-floor",
     "correlated-exchange-over-broadcast/orphaned-correlation-on-peer-restart",
@@ -33118,6 +33454,7 @@
     "companion-runtime/autonomous-cycle-hosting",
     "concurrency-guards/fence-inside-write-transaction",
     "conformance-checking/declared-deviation-register",
+    "contested-acquisition/no-surface-no-rung",
     "convergence-loop-and-requeue/told-that-not-why",
     "correlated-exchange-over-broadcast/binding-parity-floor",
     "data-access/capability-declared-in-the-type",
@@ -33174,7 +33511,9 @@
     "machine-paced-delivery/mutating-local-gates",
     "machine-paced-delivery/stake-before-merit",
     "markdown-vault/knowledge-integrity-lint",
+    "mcp-tools/caller-differentiated-capability",
     "mcp-tools/client-integration",
+    "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/tool-identity-vs-tool-name",
     "mcp-tools/transport-selection",
     "model-routing/failover-path-liveness",
@@ -33223,6 +33562,7 @@
     "tenant-scoped-agent-runtime/written-inventory-of-what-stays-global",
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/recorded-interaction-fixtures",
+    "tool-result-economy/escape-hatch-usage-as-the-safety-metric",
     "tracing/cross-boundary-propagation",
     "untrusted-extension-host/capability-subtraction-sandbox",
     "untrusted-extension-host/grant-change-consent",
@@ -33260,6 +33600,7 @@
     "plan-review/fresh-posture-self-challenge",
     "plan-review/objection-before-artifacts",
     "plan-review/silent-decision-surfacing",
+    "prompt-assembly/compression-hardens-deferred-decisions",
     "prompt-assembly/deferred-interface-invalidation",
     "prompt-assembly/task-envelope",
     "quality-gates/prose-rule-drift",
