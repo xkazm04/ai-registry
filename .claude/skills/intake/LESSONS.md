@@ -7637,3 +7637,68 @@ cheap (one file already open), it fires on the modal intake outcome rather than 
 rare one, and it aims verification at the one place a mature corpus reliably
 leaves unbuilt: the escape clause in its own denial. Confirm on two more runs
 before it goes in the file.
+
+## 2.5.0 - 2026-09-04 - vibevoice (microsoft/VibeVoice @ 1541f59)
+
+- **The refutation hunt has its third sighting and is now a rule, with an aiming
+  tell the first two sightings did not have.** The prior entry proposed it as a
+  fifth Phase 6 hunt pending two more confirmations; this is the second of those
+  and it produced the run's best landing. What it adds: **a denial repeated
+  across two subjects is where the yield is.** `streaming-output` states that a
+  non-monotone producer should not be streamed live, and `voice-io` cites that
+  same denial when routing partial transcripts to display-only. The second site
+  is what proved the denial load-bearing rather than incidental — a rule two
+  mature subjects both lean on has been *relied* upon, so the escape clause
+  underneath it has never been examined by anyone. It is also mechanically
+  searchable: grep for a golden path's own claim appearing in another subject's
+  prose. That is a cheaper aim than "read every refutation", which is what the
+  hunt currently says.
+
+- **The `+2` rewrite penalty turns on whether an enumeration CLAIMS
+  completeness, and this needs saying in the file because it decided half this
+  run.** Two rows added an arm to a mature enumeration — a third remedy to
+  "either render checkpoints or wait", a fourth row to a table introduced as
+  "three specification kinds". Scored as rewrites both land at `+1` and are
+  banked untriaged; scored as appends both clear at `+3`. The method's own
+  mechanical test settles it and gives the example nearly verbatim — *"A new row
+  beside three true rows is an append"* — but the test is stated as "do the
+  file's existing sentences stay true?", and a reader can talk themselves into
+  either answer, because a count word does become wrong. The discriminator that
+  actually works: **does the enumeration assert its own closure?** "Either X or
+  Y" and "there are three kinds" do not; the 2026-09-04 pgmq run's *"There is no
+  fourth row"* does. An open list gains an arm for free. A closed one costs `+2`
+  and should, because overturning a stated closure is a real claim about the
+  author having been wrong rather than incomplete.
+
+- **Scoring the seam at triage (round 21 item 1) works, and immediately exposes a
+  dependency the focus did not name: the fleet map can be stale.**
+  `build-fleet-map.mjs --check` reported stale, and the run read the map anyway
+  and then re-derived its two load-bearing zeros from all eleven projects' own
+  `.ai/registry-map.json` files. Both held. But a run that had trusted the map
+  would have recorded a verified-sounding "no seam exists" from an artifact that
+  had announced it was out of date. **The seam score is only as good as the map's
+  freshness, and the map is a generated file any session can leave stale**, so
+  the check belongs beside the read: if `--check` says stale, either regenerate
+  or verify per project, and say in the note which was done.
+
+- **Instrument: `cmd --check 2>&1 | tail || cmd` never runs the fallback.** A
+  pipeline's exit status is the *last* command's, so `tail` returning 0 masks the
+  checker's non-zero and the `||` branch is dead. Used here to "regenerate the
+  fleet map if stale", it silently did nothing while printing the staleness
+  warning — the failure looked like success and the warning looked like output.
+  Same family as the `grep -L`/`grep -e` entries in operator memory: an
+  instrument reporting success for a reason unrelated to what was asked. Capture
+  the status before piping, or use `PIPESTATUS`.
+
+### Redesign proposal - the ship column needs two zeros
+
+Not applied, because one sighting. `Ship` has read `0` in seven of the last ten
+rows and the scorecard cannot distinguish the two causes. This run's zero is a
+*result*: two seams were found, both were tested with real arms, both returned
+`not-better`, and committing anything would have been dishonest. Earlier rounds'
+zeros were *blockers*: no seam reached, or a confirmation nobody gave. Those are
+opposite diagnoses and the funnel reading at the bottom of the scorecard — "the
+stage now losing most" — is computed from a column that merges them, which means
+the weakest-stage call can be wrong in exactly the round where the pipeline is
+working. Proposal: report `ship=0/tested` versus `ship=0/untested`, and treat
+only the second as a loss. Confirm on two more runs before editing the file.

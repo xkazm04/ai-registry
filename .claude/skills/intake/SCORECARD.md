@@ -1901,6 +1901,7 @@ rounds running is not yet a habit. **The check the next row should make:** did a
 `not-better` row change the technique it tested, and does the scorecard say which
 of the two kinds of `not-better` it was?
 | 2.5.0 | 2026-09-04 | `yt:KZw8et-e6vk` "Forget SQS, RabbitMQ and Kafka. Just use Postgres." (**second-hand practitioner review, thin** — 590 words, a vendor dev-content channel demoing a third party's queue extension; **round 20**) | 1 | 7 | 2 accepted of 7 scored, `auto=2/0/0`, `fp=0`, 2 promoting questions executed and **both resolved against their rows** | **1 technique + 1 golden-path correction + 1 rewrite of a standing denial + 1 application** | 1 row: `0c/1e/0s/0t` | 1 (tracklight, fmt+clippy green, not pushed) | **Focus read at Phase 1 was round 19's; a concurrent sibling landed round 20's focus mid-run, and this run independently confirms its item (2).** Round 19 applied on 1 of 3 counts and that one carried the run: item (2) — *mine the standard, not only its implementations* — generalises past what the focus stated, because this subject's material is **not** a standard yet failed the same way, its prose written in the **vendor's** frame ("systems that advertise exactly-once") rather than the literature's, so it never drew the delivery-vs-effect split. Drawing it is what made a fourth posture expressible. Round 19 item (1), the superseded-claim carve-out, was **not** needed: the landing's `+2` rewrite penalty was earned honestly and cleared the threshold at exactly `+2`. Item (3) discharged with a **new** cause — see the depth cell. **Round 20's item (2), the deliberate asymmetry hunt, is confirmed from a second entry point**: the sibling reached it by looking for a technique that models one case in full and gives its sibling a sentence; this run reached the same shape by reading what a *refutation* is made of. Two concurrent runs, no contact, same hunt paying out | **S/T/A/Asrc/task = 0/1/0/1/0**; routing count **n/a** (a 590-word video is not a system — no design record, no handoff possible); `directions=n/a`. **Untriaged cause is a third kind neither round 19 label covers**: both rows had their promoting question executed and both **resolved against the row** — not `unverified`, not `verified-but-unwritten`, but finished work with a negative answer. **Depth note: the smallest source of rounds 15–20 produced the round's only inverted denial**, and the mechanism is new to this scorecard — the yield came from the source being confidently **wrong** about a claim the corpus refutes, which routed attention to the refutation's own construction |
+| 2.5.0 | 2026-09-04 | `github:microsoft/VibeVoice` @ `1541f59` — "Open-Source Frontier Voice AI" (**research-model release, four systems in one tree**; round 21) | 1 | 15 (10 design + 5 claim) | 4 verified of 4 scored, `auto=4/0/0`, `fp=0` | **2 techniques + 2 amendments + 2 source-tree applications** | 2 rows: `0c/1e/1s/0t` — **both `not-better`**, plus 2 `unapplied by construction` | 0 — both tested seams returned `not-better`, so there was nothing honest to commit: one arm was a measured 3,700x regression on a latency-critical path, the other would have replaced a working mechanism whose precondition the project does not meet | **Round 21's focus applied on all three counts and item (1) changed the run.** Scoring the seam before drafting made two of four rows *knowingly* `unapplied by construction` instead of discovering it at Phase 7.5 — and it exposed a second-order problem the focus did not anticipate: **the fleet map was stale**, so the answer had to be re-derived from all eleven projects' own registry maps. Item (2), the refutation hunt, produced the run's best landing and now has its **third sighting** — it is a rule. Item (3)'s three-way untriaged cause worked and split 1 `unverified` / 2 `verified-but-unwritten`, with no `resolved-against` this round | **S/T/A/Asrc/task = 0/2/2/2/0**; routing count **10 decisions / 3 systems / 2 unhomed — neither v2.2 clause fires, no handoff**, and the shape matched the source: a system yielded mechanisms, not paragraphs. `directions=0/0` — **owed, not n/a**: gravitone is a *peer* of this source under v2.2 (both voice AI systems) and a comparison study was not dispatched. The run's budget went to two A/Bs in that same tree instead, both of which rewrote the corpus, so the trade was reasonable and the debt is real |
 
 **Two runs converged on one hunt this afternoon, from opposite ends, without
 contact.** The preceding row's focus asks the next run to hunt asymmetry
@@ -1952,3 +1953,57 @@ the third kind and neither of round 19's labels describes them, so a run that
 files them under either misreports itself. **The check the next row should make:**
 did the run know its apply seam before it drafted, and did it say which of the
 three causes each untriaged row is?
+
+**Two runs in a row now say the same thing about `not-better`, and this one
+says it louder: the fleet being ahead of the corpus is the modal outcome of a
+serious apply step, and it is the outcome that pays.** Both apply rows here came
+back `not-better`, and both rewrote the technique they were testing — one by
+producing a measurement that inverted the obvious fix (a content hash is the
+right identity and the wrong *place* for it, at 18.369 ms against 0.005 ms on
+the cache-hit path), the other by revealing that the technique had conflated two
+questions the project had already separated. Neither landing would have survived
+contact with a reader without those corrections. A run that lands four rows and
+applies none has enriched a wiki; a run that lands four and gets two refuted has
+enriched the corpus.
+
+**Round 21's item (2) is now confirmed three runs running, and it can be stated
+more sharply than the last two rounds stated it.** The refutation hunt says: read
+the construction of any refutation the corpus makes and ask whether anything owns
+the condition it concedes. This run adds the tell that makes it cheap to aim.
+**A denial repeated across two subjects is where the yield is.** `streaming-output`
+states that a non-monotone producer should not be streamed; `voice-io` cites that
+same denial for partial transcripts and routes them to display-only. The second
+site is what proved the denial load-bearing rather than incidental — a rule two
+mature subjects both lean on has been *relied* on, and the escape clause under it
+has therefore never been examined. A denial stated once might be a passing remark;
+a denial cited across a bundle boundary is a load-bearing assumption with nobody
+guarding it. That is a mechanical search: grep for a golden path's own claim
+appearing in another subject's prose.
+
+**The stage now losing most is `ship`, and for the first time in six rounds the
+zero is not a process failure.** The last ten rows show `ship` at 0 in seven of
+them. Earlier rounds' zeros were blockers — a confirmation nobody gave, a seam
+nobody looked for. This round's zero is a *result*: two seams were found, both
+were tested with real arms, and both said no. That is the system working. But the
+scorecard cannot currently tell those two zeros apart, and a reader scanning the
+`Ship` column sees the same `0` for "we never tried" and "we tried and the answer
+was no". **The column needs the distinction the `apply` column already has.**
+
+**The other honest gap is the direction pass.** It reads `0/0` here and the reason
+is that it was not run, not that it did not apply — gravitone is a peer of this
+source under v2.2 and was owed a comparison study. Two prior rounds recorded
+`directions=n/a` for video sources, which is correct; this is the first round to
+record a `0/0` that is a debt. Left as one because the run had already spent its
+budget on two A/Bs in that same tree, both of which paid.
+
+**Next run's declared focus (round 22).** (1) **Split the ship zero.** Report
+`ship=0/tested` when every apply row was tested and returned `not-better`, and
+`ship=0/untested` when no seam was reached — these are opposite diagnoses and the
+column currently merges them. (2) **Run the repeated-denial search** as a first-
+class hunt: before triage, grep the candidate's home subject for a claim that
+another subject *cites*, and check the escape clause under it. This round reached
+it by accident from the refutation hunt; make it deliberate and report whether
+aiming beats stumbling. (3) **Discharge the owed peer study for gravitone**, or
+say in one line why the peer shape no longer applies. **The check the next row
+should make:** did the run verify its fleet-map reading rather than trusting it,
+and did it say which kind of zero its ship cell is?
