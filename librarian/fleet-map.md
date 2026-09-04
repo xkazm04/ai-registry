@@ -742,7 +742,7 @@ Excluded by list: `software-engineering/llm-agent/companion`, `software-engineer
 - `software-engineering/judgment-guardbands` (6t) -> `gravity`, `tracklight`, `pumper`, `politicas`, `personas`, `kp`, `pof`, `systedo-case`, `ascent`, `gravitone`
 - `software-engineering/keyed-sample-transforms` (6t) -> `gravity`, `tracklight`, `pumper`, `politicas`, `personas`, `kp`, `pof`, `systedo-case`, `ascent`, `gravitone`
 - `software-engineering/maturity-ladders` (6t) -> `ascent`
-- `software-engineering/metric-surface-contract` (5t) -> `gravity`, `tracklight`, `pumper`, `politicas`, `personas`, `kp`, `pof`, `systedo-case`, `ascent`, `gravitone`
+- `software-engineering/metric-surface-contract` (6t) -> `gravity`, `tracklight`, `pumper`, `politicas`, `personas`, `kp`, `pof`, `systedo-case`, `ascent`, `gravitone`
 - `software-engineering/modelled-performance-estimates` (4t) -> `ascent`
 - `software-engineering/native-guest-interop` (6t) -> `gravity`, `tracklight`, `pumper`, `politicas`, `personas`, `kp`, `pof`, `systedo-case`, `ascent`, `gravitone`
 - `software-engineering/native-shell-integration` (5t) -> `gravity`, `tracklight`, `politicas`, `personas`, `kp`, `pof`, `personas-web`, `systedo-case`, `ascent`, `gravitone`

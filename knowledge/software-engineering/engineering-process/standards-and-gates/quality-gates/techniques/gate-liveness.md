@@ -42,6 +42,62 @@ The vocabulary matters: three outcomes (pass / fail / could-not-run), three
 distinguishable outputs, ideally three exit codes. Any check that folds
 could-not-run into pass has pre-committed to the worst failure mode.
 
+### Reporting could-not-run and routing it are separate decisions
+
+The sentence above fuses two things that come apart, and the seam is worth
+opening because a checker that respects the three-outcome vocabulary can still
+route could-not-run to the *pass* side and be right to.
+
+What decides it is **what this gate's green authorizes.** A green that
+authorizes shipping — merging, releasing, promoting, accepting a claim — is a
+statement that a class of defect is absent, and a could-not-run routed to pass
+is that statement made with no evidence. That is the case the rule above is
+written for and it is the common one.
+
+A different population exists: predicates whose green authorizes **skipping
+optional work** rather than asserting correctness. *Is the installed helper
+already new enough, so we can skip installing it.* *Is the cached artifact still
+valid, so we can skip rebuilding it.* *Has this been checked recently enough, so
+we can skip re-checking.* The cost matrix is inverted for these. A false green
+means the work was skipped when it need not have been — the system continues
+with the state it already had, which is the state it would have had if the
+optimization did not exist. A false red means the expensive work runs
+unconditionally, on every invocation, forever, which is not a safe default but a
+permanent tax that the team removes by deleting the check.
+
+For that population, could-not-run routes to pass, and three obligations come
+with the routing:
+
+- **It is still reported.** The three outputs remain three. A checker that
+  cannot read the installed version says so, names which lookup failed, and then
+  proceeds — the operator can see it, and
+  [absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud) is satisfied by
+  the saying, not by the refusing.
+- **The blast radius is written down.** State what a false green actually costs
+  here, in the checker or beside it. If the answer is anything other than
+  "redundant work was skipped", the predicate is not in this population and the
+  ordinary rule applies.
+- **It is not on the ladder.** A skip-authorizing predicate is not a gate in
+  this subject's sense and does not appear in gate inventories, coverage counts
+  or the ladder ([gate-laddering](./gate-laddering.md)). Counting it there is
+  how a fleet reports N gates and holds N−3.
+
+The two shapes coexist in one codebase and can look identical. The discriminating
+question is one sentence, and it is about consequences rather than mechanism:
+
+> **If this check is wrong in the green direction, does a defect escape, or does
+> some work get skipped?**
+
+Defect escapes: could-not-run is a fail. Work gets skipped: could-not-run is a
+pass, reported, with its cost written down.
+
+A useful corroboration is that mature tools apply *both* rules, in opposite
+directions, within one process — refusing outright when a document declares it
+needs a newer reader (a defect would escape: the tool would misinterpret a
+document it does not understand), and proceeding when it cannot determine an
+installed dependency's version (only redundant work is at stake). The asymmetry
+is deliberate and it is the discriminator above, made twice.
+
 ## Assert the oracle, not only the instrument
 
 The list above audits one population — the targets the checker walked. A

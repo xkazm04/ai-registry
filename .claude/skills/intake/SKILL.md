@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.3.2
+version: 2.4.0
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -793,20 +793,27 @@ and prefer writing the boundary over writing a duplicate.
 3  X     applicat.  M    Personas already does this       -                          fills-stack-gap  [17:05]
 ```
 
-Then ask for the picks **and the ship authorization in one question**:
+Then ask for the picks:
 
-> **"Which should I verify and (if real) land? (numbers / all / none / leads-only)
-> And which project trees may I touch if an apply row comes back `better`?
-> (slugs / none / ask-me-again)"**
+> **"Which should I verify and (if real) land? (numbers / all / none / leads-only)"**
 
-The second half is not politeness, it is the stage the scorecard keeps losing.
-Three consecutive runs filed `better` apply rows against `ship 0`, every one of
-them blocked on nothing but Phase 8's confirmation gate, and in two of the three
-the operator lifted it in a single line the moment they were asked - after the
-session that had the seam, the measurable and the arms already loaded had ended.
-A pick that names no tree does not mean the operator declined the tree; it means
-nobody asked, and the difference costs a whole session to recover. `none` is a
-real answer and a cheap one; not asking is not.
+**The ship authorization is standing and does not need to be asked for
+(operator rule, 2026-09-04).** Where a run identifies a real seam in a managed
+project, it may change that project's tree under the Phase 8 rules — the paired
+proof, the pathspec commit on the active branch, and never a push. Do not ask
+which trees may be touched; identify the impact and act on it. The operator's
+reasoning is that the identification *is* the judgment worth having, and a
+session that has the seam, the measurable and both arms loaded is the only cheap
+place to spend it: three consecutive runs filed `better` apply rows against
+`ship 0`, blocked on nothing but a confirmation, and in two of the three the
+operator lifted it in one line after the loaded session had already ended.
+
+Two things the standing authorization does **not** cover, and both keep their
+gates: a **direction** — a new context or capability the project's scope does not
+name — is still proposed and waits for the owner's ledger row (Phase 7.6/7.7),
+and a change too large for a reviewer to read in one diff still takes a branch
+and says why. Everything else ships on the recommendation, with the project's own
+gate as the review.
 
 **Carry an altitude on every row**, and prefer the highest altitude the corroboration
 supports: `law` (a convergence across runs, provider-portable, clock-proof) /
@@ -1237,10 +1244,12 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
 *how* it is made.
 
 1. Resolve the project with `loadFleet()` from `scripts/lib/projects.mjs`. Do not guess a path.
-2. Confirm with the operator before touching a project tree at all.
-   An operator's triage pick that names the project ("with impact on X") *is* the
-   confirmation - do not ask twice. It confirms the lane, not the row: a named project
-   was still declined at the gate on 2026-08-28.
+2. **No confirmation is needed for a coverage change where the run has identified
+   the impact** (standing operator rule, 2026-09-04; see Phase 5). Identify the
+   seam, prove it per step 3, and commit per step 4. The gates that remain are the
+   proof and the project's own test suite, not a question. A *direction* still waits
+   for its ledger row, and a diff too large to read in one sitting still takes a
+   branch - those two are the whole of what is still gated.
 3. **Pair the proof before the commit - at any scale, but never at none.** A registry
    technique is a claim about a standard; a change to a connected project is a claim
    that the technique *improves that project*, and the second claim is not evidence
@@ -1503,7 +1512,10 @@ corroboration behind it.
   value is that it is a fact.
 - **Treating a currency signal as a content gap.** "The world moved" is a clock reset
   or a dispatch, not a new technique.
-- **Editing a connected project without asking, or pushing its branch.**
+- **Pushing a connected project's branch**, or shipping a *direction* into one
+  without its ledger row. Editing a tree where the run identified the impact is
+  authorized standing (Phase 5) and is no longer an anti-pattern; asking again
+  for permission the operator has already given is.
 - **Banking an XL spec and ending the session.** The context that argued the spec is
   the cheapest forge input the registry will ever have for it; dispatch before Phase 9
   unless `--spec-only` was asked for.

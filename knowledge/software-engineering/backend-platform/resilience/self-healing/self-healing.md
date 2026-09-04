@@ -10,6 +10,10 @@ techniques:
   - effectiveness-accounting
   - auto-rollback
   - incident-promotion
+  - healer-death-as-promotion
+  - declared-verdict-over-inferred-wreckage
+  - consume-once-mode-handoff
+  - fork-to-outlive-the-healed
 ---
 
 # Self-healing & automated remediation
@@ -89,6 +93,36 @@ already look, and joined to the work it acted on (the
 actors doubly, because nobody was in the room). Silent healing that works is
 invisible maintenance; silent healing that is wrong is silent corruption, and no
 healer knows in advance which one it is being.
+
+## When the healer cannot outlive the thing it is healing
+
+All five commitments assume a healer that is still running after the attempt
+resolves — to record the outcome, to promote the incident, to watch its own wake.
+That assumption holds whenever the healed component is optional, which is the
+ordinary case and the one the rest of this path is written for. It fails in one
+configuration, and it fails completely: **the component is mandatory, so
+exhausting its recovery allowance terminates the healer with it.** There is no
+dead-letter lane for the reason the process exists, and no live party left to
+promote anything.
+
+Three mechanisms cover that configuration, and they are one design read in order.
+The healer's own terminal exhaustion becomes a promotion trigger, written *before*
+the exit and addressed to the successor rather than to an operator queue
+([healer-death-as-promotion](./techniques/healer-death-as-promotion.md)). What it
+writes is a declared marker the successor matches exactly, never a stack trace the
+successor interprets — forensic attribution answers a different question and
+answers this one wrongly
+([declared-verdict-over-inferred-wreckage](./techniques/declared-verdict-over-inferred-wreckage.md)).
+And because the channel between two incarnations is a file rather than a message,
+it needs the four disciplines that a file lacks — consumed once, authenticated by
+shape, read under a derived bound, with an out-of-band door
+([consume-once-mode-handoff](./techniques/consume-once-mode-handoff.md)).
+
+The boundary is worth stating so the mechanisms are not over-applied: they are
+reached only by the healer's *allowance being spent*, which is a fact about the
+recovery machinery. A component that crashed and was restarted successfully, or
+crashed in a way no strategy ever addressed, produces a diagnostic record and
+nothing else.
 
 ## The epistemic ladder: confidence gates aggression
 

@@ -6758,3 +6758,195 @@ and wants them tested hard rather than many and tested once.
   made this round - the proposals above are first or second sightings and stay
   lessons under the skill's own three-sighting promotion rule.
 
+## 2.3.2 - 2026-09-04 - jetkvm
+
+- **The prior-art maps have a shared blind spot, and running two phrasings does
+  not cover it.** Round 7 taught that a disagreement between the concern-phrased
+  and forces-phrased queries is the signal. This run got a disagreement — and
+  both answers were wrong the same way. `research-map` matches slugs and
+  `use_when` text; it cannot surface a subject whose name shares no token with
+  any term you thought to type. Twenty terms across two passes never mentioned
+  `self-healing`, which is the subject that owned the ground. What found it was
+  four lines of `node -e` printing the subject slugs under each category in
+  `taxonomy.json`. **Read the category listing for every candidate home before
+  writing "no prior art" or accepting a proposed new subject.** The instrument
+  already exists, costs nothing, and is the only one that can see a concept the
+  query vocabulary cannot name.
+
+- **The v2.2 routing count is a trigger, not a verdict, and Phase 6 step 1 is
+  what turns it into one.** The count fired cleanly (3 unhomed decisions in one
+  system) and pointed at a forge handoff. Reading the actual neighbour file
+  converted it to "technique triple in an existing subject" — v2.2's other
+  branch — with no forge worker dispatched. Worth stating in the method: a
+  routing count computed against a map that missed the home is a count of the
+  map's blind spot. The count decides *whether to look harder*, never *where to
+  land*.
+
+- **On a `not-better` reading, keep going before writing the row.** Round 9's
+  focus item said to ask what the tree knows that the technique does not. Doing
+  that inverted the verdict: the tree deliberately survives its own give-up as a
+  witness (contradicting the technique's exit rule, so `not-better`), and the
+  next question — *can anything read the witness?* — found that nothing could.
+  The row shipped as `better`. **A `not-better` that has not yet asked whether
+  the tree's better idea actually works is a premature row**, and the ask is one
+  question deep.
+
+- **A gate can be correct and still prescribe the defect.** The project's chart
+  policy `probes-distinct` diagnosed the right constraint and its remediation
+  string told operators to configure the broken thing. When a finding contradicts
+  a project's own guard, read the guard's *remediation text*, not just its
+  predicate — the predicate is reviewed, the fix-it string usually is not, and it
+  is what people follow.
+
+- **Two rounds of "no seam anywhere" is a method question, not a run result.**
+  Three of four findings this round, two of five last round. Either the triage
+  gate should weight testability by the fleet, or unapplied-with-a-return-condition
+  should be scored as a terminal state rather than as a loss. Deferring the choice
+  a third time makes the funnel measurement wrong rather than absent.
+
+*Mid-flight runs: nothing to do. No `SKILL.md` edit was made this round; these are
+lessons pending the three-run confirmation rule.*
+
+## 2.3.2 - 2026-09-04 - Sylinko/Everywhere
+
+- **The ship authorization is now standing, and the method changed to say so
+  (v2.4.0).** The operator lifted the cross-repo gate permanently: where a run
+  identifies the impact, it may change the project tree without asking. Phase 5's
+  two-part question became one, Phase 8 step 2 became "no confirmation needed", and
+  the anti-pattern inverted - asking again for permission already given is now the
+  anti-pattern. What stayed gated is the pair that was never about permission:
+  a *direction* still waits for its ledger row, and a diff too large to read in one
+  sitting still takes a branch. **A mid-flight run on 2.3.2 should finish on 2.3.2**;
+  the only difference is one question it will ask and need not.
+
+- **`corpus: NONE` over-reports, two rounds running, and the failure is the same
+  both times.** The map ranks by slug and `use_when` overlap, so a design decision
+  whose forces a subject models but whose vocabulary it does not share reads as a
+  hole. Round 9 caught it by reading `taxonomy.json`'s category listing; this round
+  caught it because the neighbour happened to rank first. The instrument is right and
+  its negative is soft: **NONE means "no subject shares this finding's words", never
+  "no subject owns these forces".** Before a routing decision, read the taxonomy
+  listing for the implicated area. This is a candidate rule for the file after one
+  more sighting.
+
+- **A `better` verdict does not mean the technique was complete.** The apply step's
+  focus item was written for `not-better` rows - on a rejection, ask what the tree
+  knows. This round returned `better` and the tree was *still* ahead: it had reached
+  the amendment's discipline independently and applied it more consistently than the
+  mined source, and its refinement (demote the *reason* with the bound, because the
+  reader on that rung reasons) is now the amendment's second paragraph and is better
+  than anything the source offered. **Ask the tree what it knows on every apply row.**
+  The verdict grades the change, not the technique.
+
+- **A repository's routing count can clear the threshold and still correctly refuse a
+  handoff.** Two clusters at 3 and 5 unhomed decisions, both naming an *existing*
+  subject. Under v2.2 that is a technique cluster, not a forge - and the run is worth
+  reporting as a **compliment to the corpus**: the subjects were scoped well enough
+  that a system this dense lands inside them. A run that reads a high count as
+  automatically forge-shaped has skipped the second clause.
+
+- **Two of the five design series were in Chinese, and they were the two largest**
+  (12,162 and 4,539 words). A sweep that reads only the English documents would have
+  reported this tree at roughly half its size and would have missed System B
+  entirely. Add to the repository sweep: check the language of every doc series
+  before deciding the tree is thin.
+
+- **The narrative design series is the highest-yield document shape a repository
+  offers.** ScreenPicker's four chapters are organised as *what we tried and why it
+  failed*, ending on a solution that made the previous two chapters unnecessary. Every
+  `rejects:` line in the design record for that system came free. When a tree has one
+  of these, read it first and read all of it - the forces are already written, which
+  is the expensive half of a design entry.
+## 2.3.2 - 2026-09-04 - opik
+
+- **A routing count above threshold with every home already existing is a
+  distinct result, and the depth cell renders it as a miss.** Six unhomed
+  decisions over four systems, per-system max three - and no forge, because
+  `agent-instruction-files`, `pipeline-authoring`, `untrusted-extension-host` and
+  `metric-surface-contract` were all already there. The cell reads `S0` and looks
+  like a routing failure. Round 10 hit the same shape and had to explain it in
+  prose too. Two rounds is a pattern; the convention (say it in the row) is
+  cheaper than a new column and is this round's declared focus.
+- **The `.agents/` shape is now common enough to expect: a vendor-neutral source
+  directory with per-host targets, some symlinked and some generated.** Sweep it
+  the way the method sweeps operating documents - here it was ~85,000 words
+  across 80 files against a 2,799-word landing page, and it was the densest
+  first-party material in an 11,266-file tree. It is also where an
+  agent-instruction finding will come from, because the tree is *using* the thing
+  the corpus theorises about.
+- **A tool re-implementing another tool's decision function is a recurring
+  source shape, and it reads as ordinary glue until you ask who else implements
+  it.** The tell is a script that parses a config file it does not own. The
+  question that turns it into a finding: what happens when that config uses a
+  feature this parser does not model? A good answer is a loud refusal; the common
+  answer is silence.
+- **The measurement instrument gave a confident wrong answer, and the assertion
+  harness caught it - then the assertion itself was wrong and the instrument was
+  right.** First version grepped workflow files for each hook's script path: 9
+  gaps, 6 false, because CI invokes npm wrappers. The corrected version carried
+  two known positives and one known negative, and the *negative* failed - because
+  I had verified that negative by hand with a grep that also only read workflow
+  files. The hand-check and the instrument shared a blind spot, and only
+  expanding the wrappers resolved it. **A known-good assertion inherits the bias
+  of however you established it.** Establish the positive and the negative by
+  *different* means than the instrument uses, or the harness certifies its own
+  error.
+- **Windows: `subprocess` with `text=True` translates `\n` to `\r\n` on
+  stdin.** Piping file content into `git hash-object -w --stdin` that way stages a
+  byte-different blob, and a one-section append renders as a 288-line whole-file
+  rewrite - which, in the partial-stage flow this method uses on shared subject
+  notes, would have committed a rewrite of a file a sibling was editing. Use
+  binary I/O for anything that becomes a git object. The check that catches it is
+  free: `git diff --cached --stat` should show roughly the number of lines you
+  wrote.
+- **A worktree of a project with a hook-based gate cannot run the gate**, because
+  it has no `node_modules` and the linter's own config fails to resolve. Junction
+  the dependency directory in from the main checkout, run the gate for real, and
+  **remove the junction before removing the worktree** - `git worktree remove`
+  would otherwise delete the real tree through it.
+- **`not-better` twice, both confirmations rather than defects, and both worth
+  the row.** One tree already sat correctly in the regime the new amendment's
+  question routes it to; another satisfied the new technique's own escape clause
+  (zero runtime dependencies, so no substitution needed). Neither changed a
+  project and both are evidence the rule is right. The vocabulary handles this
+  fine; the risk is a future run reading a `not-better` streak as a weak corpus.
+  Say in the row which kind it is.
+
+## 2.4.0 - 2026-09-04 - cargo-make
+
+- **The routing count's two clauses can both read 'three' and still not fire, and
+  the run must say which.** This tree carried three unhomed decisions in one system
+  (the descriptor) - which reads like the v2.2 technique-triple trigger - but the
+  three did not share a home: one wanted `repo-manifest-standard`, two wanted
+  `settings`. The trigger is *three sharing one home*, not *three in one system*, and
+  a run that reports only the per-system number will hand off a repository whose
+  decisions scatter. Write both counts AND the grouping, not just the maxima.
+- **A source with nine unhomed decisions is not automatically a forge job.** Twelve
+  rounds of v2 have optimised against under-routing; this is the first round where
+  the honest answer was 'many decisions, no cluster'. Say the count out loud and
+  then say no - the count is an input to the decision, not the decision.
+- **The apply step refuted the run's own technique twice, and one refutation would
+  have shipped a regression.** Applying `version-gate-precedes-schema-gate` to this
+  registry's taxonomy loader, the obvious early return was *worse* than the shipped
+  behaviour: the loader returns a triple whose callers guard on the parsed object, so
+  a truthy early return leaves them cross-checking against an unpopulated map - 191
+  spurious findings. Only the third arm (return the loader's existing not-usable
+  signal) was correct. **Always build the arm the technique implies AND the arm the
+  caller's guard implies**; the second one is where the regression hides, and a
+  two-arm A/B would have shipped it.
+- **`unapplied` needs a predicate, exactly like every other count in this corpus.**
+  Two of five rows this round were `unapplied` - but established by enumerating 108
+  termination sites across three trees, not by shrugging. That is a different fact
+  from an unattempted row and the ledger cannot currently tell them apart. Proposed
+  as round 13's focus (3).
+- **A profile limit, not a method one: one application slot per (stack, technique).**
+  `check-bundles` requires the filename `<stack>--<technique>.md` exactly, so a second
+  tree on the same stack cannot be recorded. This run's shipped `gate-liveness`
+  realization has a ledger row and no application, because `node--gate-liveness` is
+  held by an unrelated tree. The workaround used for `rust--fork-to-outlive-the-healed`
+  was to write ONE application covering both trees - the external positive and the
+  fleet rejection - which turned out to be a *better* document than two would have
+  been, because the pair is the finding. Worth considering as the default shape rather
+  than a workaround.
+- **Mid-flight runs: nothing to do.** This version bump is a patch-level method note
+  plus a scorecard row; finish on the version you loaded.

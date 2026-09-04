@@ -145,3 +145,13 @@ case because that tree's migrations are idempotent replays, and the technique ga
 boundary section saying so; backup-and-restore came back better by simulation and produced
 the run's one direction proposal (the tree rotates three sets and admits in a comment that
 it has no restore path). Two `cpp--` and two `rust--` applications.
+
+## 2026-09-04 - [[2026-09-04-cargo-make]] (intake, run cargomake-0904)
+
+Gained `author-declared-include-graph` + `rust--author-declared-include-graph` (external tree; **unapplied** in the fleet).
+
+**The seam this fills:** `cross-source-precedence-chain` resolves across sources *the platform declared* - finite, named in the resolver, known before boot. A configuration file allowed to name what it inherits from breaks all three assumptions at once: the resolver cannot enumerate the sources, the graph can cycle, and the sources sit in directories the resolver did not choose. The two techniques compose in one direction only - the platform's chain selects the entry document, the author's graph expands from it - and a design letting the author's graph reorder the platform's chain has given a config file authority over which config file is authoritative.
+
+**Strongest evidence in the new technique is negative.** The external tree carries entry-origin provenance *inside* the entry's own key-value payload, which is the free channel, and now maintains a literal length-2-and-contains-exactly-these-two-keys sentinel test at two independent inheritance sites to undo it. `inherited-default-override` already said provenance travels *beside* the values, for a different provenance question; this is what the inside-the-values shortcut costs, measured in a competent tree.
+
+**Return condition for the fleet:** when a managed project grows an extends-shaped configuration format. None has one today.

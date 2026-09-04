@@ -11,6 +11,7 @@ techniques:
   - semver-additive-evolution
   - spec-ships-with-artifact
   - generated-from-provenance
+  - version-gate-precedes-schema-gate
 ---
 
 # A repository manifest standard

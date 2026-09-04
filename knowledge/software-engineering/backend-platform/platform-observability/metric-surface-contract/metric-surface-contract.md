@@ -10,6 +10,7 @@ techniques:
   - export-terms-not-ratios
   - metric-removal-is-a-staged-pipeline
   - sampled-metrics-declare-their-rate
+  - fault-localizing-metric-set
 ---
 
 # The exported metric surface as a contract
@@ -227,6 +228,19 @@ the decision it changes and the reader who will make it. "It might be useful"
 justifies a log line or an in-process instrument, both of which are cheap to
 delete. It does not justify a published interface.
 
+## The set answers a question no single metric does
+
+Every rule above prices one quantity. The reader's actual question in an
+incident is *which stage broke*, and that is answered by the shape of the whole
+surface rather than by any member of it — which means a quantity can be worth
+publishing because it disambiguates a neighbour's number, an argument the
+per-metric bar cannot hear. The clearest case is a count that is redundant in
+the healthy case and decisive in the broken one: without the emitting side's
+count, a consumer reading zero cannot distinguish an idle system from a lost
+hand-off. [fault-localizing-metric-set](./techniques/fault-localizing-metric-set.md)
+owns the set-level argument, what it does and does not license, and the
+validation that replays a past incident against the surface.
+
 ## What healthy looks like
 
 A healthy metric surface can answer, without reading the emitter's source:
@@ -254,6 +268,10 @@ will not hear about it until after the change lands.
 - [metric-removal-is-a-staged-pipeline](./techniques/metric-removal-is-a-staged-pipeline.md)
   — the three-stage deprecation tied to the release cadence, why the middle
   stage must error, and renames as removals.
+- [fault-localizing-metric-set](./techniques/fault-localizing-metric-set.md) —
+  diagnosability as a property of the set: producer counts that pay only when
+  they read zero, splitting a duration whose halves page different people, and
+  covering stages in flow order.
 - [sampled-metrics-declare-their-rate](./techniques/sampled-metrics-declare-their-rate.md)
   — affording an expensive observation with an operator-set sample rate that
   travels with the number, and designing sampled distributions as a family.

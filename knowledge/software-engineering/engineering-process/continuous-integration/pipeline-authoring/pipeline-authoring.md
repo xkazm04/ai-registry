@@ -8,6 +8,7 @@ techniques:
   - runtime-pipeline-generation
   - step-identity-stability
   - change-scoped-work-selection
+  - foreign-config-replay
   - human-checkpoints-in-a-pipeline
   - pipeline-plan-auditability
 ---
@@ -172,6 +173,10 @@ rules, the local mode, and the "one code path, two modes" pattern are
 - [change-scoped-work-selection](./techniques/change-scoped-work-selection.md) —
   dependency closure over path matching, three distinguishable outcomes, and the unscoped
   backstop run.
+- [foreign-config-replay](./techniques/foreign-config-replay.md) — planning from a
+  config file another tool interprets: replay its matcher rather than approximate it,
+  declare the modeled subset and refuse configuration outside it, and address a unit by
+  the tuple that isolates one entry.
 - [human-checkpoints-in-a-pipeline](./techniques/human-checkpoints-in-a-pipeline.md) — the
   approval as a graph node, capacity while waiting, and the never-answered rule.
 - [pipeline-plan-auditability](./techniques/pipeline-plan-auditability.md) — the resolved

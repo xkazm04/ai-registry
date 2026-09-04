@@ -1,7 +1,7 @@
 ---
 subject: self-healing
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -47,3 +47,46 @@ the drift the ladder section already warned about arriving through a different d
 `failure-diagnosis` gained a decision rule: diagnose from the measured, not the
 configured (first-party lessons-log entry, n=1, restates "a diagnosis names its
 evidence" one stage earlier).
+
+## 2026-09-04 — `/intake` over an appliance firmware (jetkvm)
+
++3 techniques, +2 applications (`go`, `python`). The subject gained the
+configuration all five of its commitments quietly assumed away: **the healer that
+cannot outlive the thing it is healing.** Every promotion trigger in
+`incident-promotion` — recurrence, futility, rollback, severity, budget trips —
+is evaluated by a live healer, and when the healed component is mandatory the
+exhaustion of its allowance terminates the healer with it. `retry-backoff`'s
+stated destination for an exhausted ladder (dead-letter, operator queue) has
+nothing to route into, and the receiver that is guaranteed to exist is the next
+incarnation of the process.
+
+`healer-death-as-promotion` (write the promotion before the exit; the audience is
+the successor, not an operator), `declared-verdict-over-inferred-wreckage` (match
+a declared marker, never reconstruct from the stack trace — the source's
+classifier test asserts that a crash naming the component *without* the marker is
+diagnostic only), `consume-once-mode-handoff` (a file is not a message: unlink on
+read, authenticate by shape, bound the read, keep an out-of-band door).
+
+**Neither prior-art map found this subject.** Twenty mapped terms across a
+concern-phrased and a forces-phrased pass; `self-healing` shares a slug with none
+of them. It was found by reading the `resilience` category listing in
+`taxonomy.json`. That is what moved the run from "new subject" to "technique
+triple in an existing subject" and is the run's most reusable lesson.
+
+Applied `code` on a fleet speech service and shipped: its worker-pool give-up was
+computed correctly and spelled distinctly in the health body, and the deployment's
+liveness probe was a TCP connect that could not observe it — so an exhausted
+replica was never replaced. 0/1 → 1/1 correct replacements, 0 false. The gap the
+fix does *not* close is banked in the application: the verdict still does not
+survive the pod restart, so a deterministically broken model re-spends the full
+budget in every new pod.
+
+## 2026-09-04 - [[2026-09-04-cargo-make]] (intake, run cargomake-0904)
+
+Gained `fork-to-outlive-the-healed` + `rust--fork-to-outlive-the-healed`.
+
+**The finding is an interrogation of this subject's own premise.** `healer-death-as-promotion` takes as given that a mandatory component's healer cannot outlive it, and prescribes writing the verdict before the exit. For a large class of system that premise is a *consequence of executing the work in the healer's process*, not a property of the problem: re-express the work as a child process and the shared fate dissolves. The two techniques are now a pair and reference each other - fork when the work is expressible as an invocation, obey the older rule when it is not.
+
+**Tested and rejected at the fleet seam it looked designed for** (see the applied ledger). The disqualifier is sharper than the first draft's "state larger than its invocation": it is *live shared accounting the work mutates as it runs*. A spend counter decremented in one address space satisfies record-precedes-effect for free; across a process boundary it must be re-earned with a write-ahead ledger, and until that exists the fork makes the accounting less trustworthy while making the classification more trustworthy.
+
+**Open lead (return condition, not banked as a technique):** the external tree classifies by exit code alone after forking - the fork bought a surviving handler and no knowledge. A second sighting of a forking supervisor that *does* carry a declared verdict across the boundary would make that pairing a rule rather than an observation.

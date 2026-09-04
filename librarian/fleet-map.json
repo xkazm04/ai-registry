@@ -4967,7 +4967,7 @@
     "groups": 16,
     "governingSubjects": 155,
     "weaklyGoverned": 1,
-    "ledgerRows": 7,
+    "ledgerRows": 8,
     "absolutePathsDropped": 0
    },
    "relPath": "kiro/personas",
@@ -40897,7 +40897,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "work-execution",
-   "techniques": 10,
+   "techniques": 13,
    "present": [
     {
      "project": "ascent",
@@ -48395,7 +48395,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "platform-observability",
-   "techniques": 5,
+   "techniques": 6,
    "present": [],
    "absent": [
     {
@@ -49961,7 +49961,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "continuous-integration",
-   "techniques": 5,
+   "techniques": 6,
    "present": [
     {
      "project": "gravity",
@@ -51308,7 +51308,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "standards-and-gates",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "personas-web",
@@ -52229,7 +52229,7 @@
    "bundle": "software-engineering",
    "category": "backend-platform",
    "subcategory": "resilience",
-   "techniques": 6,
+   "techniques": 10,
    "present": [
     {
      "project": "tracklight",
@@ -52481,7 +52481,7 @@
    "bundle": "software-engineering",
    "category": "operations",
    "subcategory": "governance-and-records",
-   "techniques": 10,
+   "techniques": 11,
    "present": [
     {
      "project": "pumper",
@@ -52637,7 +52637,7 @@
    "bundle": "software-engineering",
    "category": "security",
    "subcategory": "code-provenance",
-   "techniques": 6,
+   "techniques": 7,
    "present": [
     {
      "project": "personas",
@@ -53639,7 +53639,7 @@
    "bundle": "software-engineering",
    "category": "engineering-process",
    "subcategory": "build-and-release",
-   "techniques": 16,
+   "techniques": 17,
    "present": [
     {
      "project": "gravity",
@@ -54261,7 +54261,7 @@
    "bundle": "software-engineering",
    "category": "security",
    "subcategory": "extension-trust",
-   "techniques": 9,
+   "techniques": 10,
    "present": [
     {
      "project": "pumper",

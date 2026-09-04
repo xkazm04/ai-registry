@@ -145,6 +145,12 @@ if (mismatches.length) {
 // count, so it is skipped and named rather than thrown on.
 const usage = new Map(); // skill -> { invokes, contributors:Set }
 let usageFiles = 0;
+// Skipping an unparseable contributor is correct here — this builder's green authorizes
+// no claim of correctness, and one bad file must not erase every other installation's
+// report. What the skip owes is its predicate: `invokes30d` is DERIVED, so a dropped
+// contributor lowers it silently, and a count that does not say how many files were
+// attempted is a number with no predicate (_laws.md#count-carries-predicate).
+let usageSkipped = 0;
 if (fs.existsSync(USAGE)) {
   for (const f of fs.readdirSync(USAGE).filter((x) => x.endsWith('.json')).sort()) {
     let doc;
@@ -152,6 +158,7 @@ if (fs.existsSync(USAGE)) {
       doc = JSON.parse(fs.readFileSync(path.join(USAGE, f), 'utf8'));
     } catch {
       console.warn(`  note: usage/${f} is not valid JSON — skipped (run check-usage.mjs)`);
+      usageSkipped += 1;
       continue;
     }
     usageFiles += 1;
@@ -265,10 +272,10 @@ if (checkOnly) {
     else console.error('  bundles match; the difference is elsewhere in the file (formatting or another key).');
     process.exit(1);
   }
-  console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed, ${usageFiles} usage contributor(s)`);
+  console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed, usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable` : ''}`);
 } else {
   fs.writeFileSync(CATALOG, serialized);
-  console.log(`catalog.json updated — ${bundles.length} bundle(s), usage from ${usageFiles} contributor(s):`);
+  console.log(`catalog.json updated — ${bundles.length} bundle(s), usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable; invokes30d is derived from the ${usageFiles} that parsed` : ''}:`);
   for (const b of bundles) {
     console.log(`  ${b.name}: ${b.subjects} subjects / ${b.techniques} techniques / ${b.applications} applications (${b.contentHash})`);
   }

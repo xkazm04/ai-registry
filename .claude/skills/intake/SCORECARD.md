@@ -1223,6 +1223,10 @@ run did (the A/B on its own lock) and it changed the technique.
 | 2.3.2 | 2026-09-03 | `boa` (**first-party practitioner codebase in repository form - a system**: an embeddable language engine; 1,123 landing / 37,518 in-tree md / 246,581 lines of Rust; **unattended**, one QUIET sibling) | 1 | 20 (18 design + 2 craft) | 5 (4 intake-retained rows: 1 real gap + 3 partials promoted by their question; 13 design decisions routed to the forge at Phase 2d, not re-tested) | **1 new subcategory `backend-platform/language-runtime`, 9 subjects, 52 techniques, 18 source-tree applications** (forge wave in-session; 9 workers, 9 green gates, 8 spec overrides all right) **+ 2 techniques** (`edition-stratified-conformance`, `stage-ordered-fuzz-targets`) **+ 2 amendments** (`model-based-oracle`, `capability-subtraction-sandbox`) **+ 1 golden-path clause + 4 applications** in three existing subjects | **5 rows: 1c/0e/2s + 2 unapplied** (code `better` ab-paired in ascent: alert dispatches 1 -> 0 under a rubric change; simulations in pumper: `better` with a falsifier, `unmeasurable` structural-only with the instrument named; the round-trip amendment and the nine runtime subjects unapplied - no fleet seam, return conditions stated) | **3** commits in 2 projects (ascent: guard + test + ledger row on its active branch; pumper: two ledger rows, one direction proposal) - never pushed | Round-8 focus: (1) **held** - the forces-phrased query found the amendment's home, no query found the cluster's, and the note says so; (4) **held** - beat at every phase from 7, claim alive at Phase 10; (2) and (3) not exercised (unattended, no gate; `techniques_absent` untouched - sixth deferral). Gate skipped: unattended. | S=9 (+1 subcat) / T=54 / A=2 (+1 clause) / Asrc=19 / task-lines=0; routing 13 NONE (per system: A3 B2 C5 F1 H1 I1) all one home-if-new; **handed off and executed in-session**; directions=1/3-not-proposed; gate=skipped |
 | 2.3.2 | 2026-09-03 | `rowboat` (**vendor repository read as a system**; 810 landing words against **56,285** of in-tree design documents, ~70:1; **round 8**, all four declared-focus items answered) | 1 | 10 (7 design + 3 claim) | 5 (operator picked rows 3-7 and declined the handoff) | 4 techniques + 1 amendment | 5 rows: **1c/0e/2s/0t**, 2 unapplied | 1 (tracklight, `code`/`better`/`ab-paired`) | Ship 1 of 5 is honest and each zero carries a reason: rows 3 and 6 have **no seam in any authorized tree** (row 3's absence asserted against a known positive first; row 6 needs a mergeable multi-writer document plane, which the fleet does not have), row 4 is `unmeasurable` with the instrument named, row 7 is `not-better` because the tree was ahead of the technique. **Focus moved on all four:** the forces-phrased query relocated row 4 off a wrong (UI) home; the absence was asserted; **Phase 7.7's inventory defect is FIXED and the twelve-proposal backlog is closed** (rebuilt on frontmatter + branch + ledger: 0 waiting across 36 files); board claim beaten from phase 7 and still live at Phase 10. `techniques_absent` **still not built - sixth deferral**, and this run did not need it (the map's subject-grain answer was enough), which is itself the argument for closing it in writing. | S0/T4/A1/Asrc2/task0 - routing count **A=4, B=1, C=8**, both clauses fired, **handoff offered and declined by the operator**; directions=0 proposed/2 not-proposed |
 | 2.3.2 | 2026-09-04 | `fluxer` (**first-party practitioner codebase read as a SYSTEM**; a polyglot real-time chat platform, 335 landing words / ~21,000 in-tree md / **1,352,689 lines over 14,093 files** - about one word of prose per 64 lines of code; five Opus design readers plus the director) | 1 | 14 (all design; 47 decisions in the record across 6 systems) | 4 (operator picked rows 1-4; 0 declined; 4 catches identified at mapping and never reached the pick list; 9 recorded untriaged with anchors) | **0 subjects / 3 techniques / 1 amendment / 5 applications** - all in `admission-queue`; the technique triple v2.2 predicts when the count is met but every NONE homes into an existing subject | **4 rows: 0c/2e/2s** (zero-depth `not-better` ab-paired; vocabulary amendment `not-better` against the source tree; remediation-derived `unmeasurable` with the instrument named; refusal-without-release `not-better` as the technique's own stated exclusion) | **0** - and the zero is the correct outcome, not a miss: the one change this run was about to ship to a fleet project was derived from **its own incorrect reasoning**, caught before writing (see below) | **Focus (round 9) applied on all four items.** (1) The consumer question was answered *before* the handoff decision, not at 7.5, and it is what made the landing testable - the authorized peer had chosen the opposite bound. (2) The concern-phrased and forces-phrased queries **disagreed**, and the disagreement was the finding (a policy candidate that is a capacity defence, not a provenance regime); the same lesson repeated on SSRF, where the governing technique lives under a subject slug that hides it and only an untruncated prose grep found it. (3) Fleet reach reported: 0 findings had no seam anywhere - the opposite of recent rounds. (4) `techniques_absent` **not built, seventh deferral** - and this run is the clearest argument yet for closing it in writing: no direction pass ran (see below), so the map was never consulted at technique grain. **Three self-corrections worth the row:** the headline technique's selector was refuted by its own apply step and rewritten *before* landing rather than shipped-and-amended; a reachability claim in a second technique was false for an iterating controller and was caught by evaluating the peer's generator; and two of five design readers refuted the director's brief, both correctly. | **S0/T3/A1/Asrc3/task-lines 0** - routing **47 decisions / 6 systems, per-system NONE 3/2/3/3/1/2, whole-tree cluster refuted by the corpus** (`quality-gates` owns forked-policy drift precisely), so **handoff=no, correctly**; directions=**0 proposed / 0 not-proposed - the direction pass did NOT run** and that is a method gap, not a judgment (see the focus below); gate=n/a (no proposals); fetches=**0/3** |
+| 2.3.2 | 2026-09-04 | `jetkvm/kvm` (**vendor repository read as a system**; 730 landing / ~5,600 in-tree md / ~27,000 lines Go + React UI; **round 9**) | 1 | 12 (8 design + 4 craft) | 4 (operator picked rows 1-4, the four `real gap`s; 0 declined; 1 catch at mapping; 8 recorded untriaged with anchors) | **5 techniques** (a triple in `self-healing` — `healer-death-as-promotion`, `declared-verdict-over-inferred-wreckage`, `consume-once-mode-handoff`; `far-side-oracle` in `test-harness`; `bypass-is-a-versioned-policy` in `signed-artifacts`, that subject's first `go` stack) + **1 amendment** (`updater-chain`, two baselines) + **4 applications** (2 source-tree `go@1.24.4` / `node@22.21.1`, 1 fleet `python@3.12`, 1 `go`) | **5 rows: 1c/0e/0s/0t + 4 unapplied** — one `code`/`better`, shipped; **3 of 4 findings have no seam anywhere in the twelve authorized trees**, checked per project with the instrument asserted against a known positive first | **1** (gravity: 2 commits — the fix and its applied row; not pushed) | **Focus 1 (close `techniques_absent`): NOT moved, seventh deferral** — but with new evidence for the closure: the run never wanted it, because the question it would have answered was answered by reading `taxonomy.json`'s category listing, which is cheaper and already exists. **Focus 2 (on `not-better`, read the tree back into the corpus): fired, and in an unexpected direction** — the row opened as `not-better` (the tree deliberately survives its own give-up as a witness, contradicting the technique's exit rule) and inverted to `better` when the deployment turned out unable to read that witness. The habit the focus asked for is what found the defect. **Focus 3 (report the fleet's reach): done — 3 of 4**, reported as its own state rather than as a zero. | **S0/T5/A1/Asrc2/task0**; routing count 13 decisions / 6 systems / 8 unhomed; per-system clause fired at 3, cross-system clause did not; **handoff NOT taken, and correctly — the count was misread**: both prior-art maps missed the existing home and Phase 6 step 1 caught it, converting a proposed new subject into a technique triple; directions=0/0 (no peer in the fleet for an appliance firmware; the shipped finding was coverage inside a governed context, not a direction) |
+| 2.3.2 | 2026-09-04 | `Sylinko/Everywhere` (**first-party practitioner account, repository form - design-deep**; 1,279 landing words against **39,237** of in-tree design docs, ~31:1; five numbered series, one of them a 4-chapter narrative with every rejected approach recorded; **round 10**) | 1 | 13 (6 systems) | 1 verified of 1 picked | **1 amendment / 2 applications** | 1c/0e/0s/0t | **1** (`tracklight` `ad6234a`) | Focus (1) `techniques_absent` **not addressed** - the run never needed it: the subject-grain question was answered by reading two golden paths and one technique by hand, which is the sixth consecutive round where the map sufficed. It is now on its seventh deferral and the honest move is to close it in writing, which round 11 should do rather than defer again. Focus (2) **hit, and it produced the run's best paragraph** - see Depth. Focus (3) **reported**: 12 untriaged design candidates, of which the two clusters (8 entries) have homes but were not picked, so "corpus outran the fleet" was not this run's state; this run's limiter was the operator's single pick, which is a different and healthier constraint. | S0/T0/A1/Asrc1/task0; routing count 13 unhomed over 6 systems, per-system max 5, **both clusters (3 and 5) above threshold but both naming an EXISTING subject as home** -> XL trigger did not fire, **no handoff** (correctly, and the count is a statement about how well `native-shell-integration` and `terminal-multiplexing` were scoped); directions=0/0 (no direction pass - the operator's pick was a single amendment with a coverage seam, not a capability); gate=n/a |
+| 2.3.2 | 2026-09-04 | `comet-ml/opik` (**vendor repository read as a system**; 2,799 landing words against ~85,000 of in-tree `.agents/` operating documents across 80 files, ~30:1; 11,266 files; **round 11**) | 1 | 8 (7 design + 1 currency, over 4 systems) | 4 verified of 4 picked (operator took the four `real gap` rows; 0 declined; 5 catches; 4 recorded untriaged with anchors) | **3 techniques + 1 amendment + 1 application** — `pipeline-authoring/foreign-config-replay`, `untrusted-extension-host/host-api-import-budget`, `metric-surface-contract/fault-localizing-metric-set`, and an amendment to `agent-instruction-files/single-source-topology` that **inverts its stated default** | 4 rows: **0c/2e/1s/1t**, 0 unapplied — 1 `better`, 2 `not-better` (both confirmations, not defects), 1 `unmeasurable` with the instrument named | **1** (`personas`, branch `intake/foreign-config-replay`, `cad975c58`+`9fcd024b0`, not pushed) | Focus (1) **hit, and the answer was negative in the useful way**: the category listing was read from the directory tree for all four candidate homes before any absence was believed, and it agreed with both maps every time. Round 9 established that a listing can overturn a map; this round establishes what it costs when it does not — one command per home, and the confidence to write "no prior art" without hedging. The check is cheap enough that its negative result is not an argument against it. Focus (2) `techniques_absent` **not addressed, eighth deferral** — again the run never needed it, and again for the reason round 10 named. It should be closed in writing by whoever next has the lock, not deferred a ninth time. Focus (3) **answered, and the answer is the opposite of rounds 9-10**: all four findings had seams and all four got rows, so "the corpus outran the fleet" was not this run's state. What limited this run was the *source*: a system this mature produced no new subject because every home already existed. That is a different constraint and a healthier one. | S0/T3/A1/Asrc0/task1; **routing count 6 unhomed over 4 systems, per-system max 3, and the second clause found no three sharing one NEW home because every home already exists** -> no handoff, correctly; directions=0/0 (no direction pass — the four picks were coverage findings at seams the fleet already has, not capabilities); gate=n/a (no proposals written this run) |
+| 2.4.0 | 2026-09-04 | `sagiegurari/cargo-make` (**practitioner build-tool repository, single maintainer, 8 years**; **211** landing words against 21,395 in the README-that-is-the-manual and 13,145 lines of non-test source, ~100:1 on the landing page alone; **round 12**) | 1 | 10 (over 5 systems) | 6 verified of 6 picked (operator took rows 1-6; 0 declined; **0 catches**; 4 recorded untriaged with anchors) | **3 techniques + 2 amendments + 3 applications** - `self-healing/fork-to-outlive-the-healed`, `repo-manifest-standard/version-gate-precedes-schema-gate`, `settings/author-declared-include-graph`, plus boundary sections in `quality-gates/gate-liveness` and `observability-telemetry/log-architecture` | 5 rows: **2c/0e/1s/0t + 2 unapplied** - 2 `better` (both shipped), 1 `not-better` with a written falsifier, 2 `unapplied` with return conditions | **2** (`ai-registry` itself: `scripts/lib/taxonomy.mjs`, `scripts/build-catalog.mjs`) | Focus (1) **hit, and it changed the run's shape**: the category listing was read out of `taxonomy.json` for the whole bundle before any home was believed, and it did overturn the maps - `research-map` proposed `security/code-provenance` and `backend-platform/work-execution` as HOME IF NEW for two candidates, and the listing showed the real homes (`repo-manifest-standard`, `settings`) already existed under categories no query term named. Round 9 said a listing can overturn a map; round 11 said it often agrees; this round is the first where reading it **prevented two new subjects from being minted beside existing owners**. Focus (2) `techniques_absent` **not addressed, ninth deferral** - and this run has no excuse either, so it is now the oldest open item in the file and should be closed in writing before it is deferred again. Focus (3) **answered concretely and the answer is 'both'**: 3 of 5 findings had fleet seams (2 shipped, 1 rejected), 2 had none. The 2 with none were established **by search, not by assumption** - 108 print-then-exit sites enumerated across three trees to show no logging facade owns termination anywhere - and `unapplied` is the right terminal state for them. Recommendation, in writing as asked: **the scorecard should stop reading `unapplied` as a funnel loss when the absence was searched for and the return condition is falsifiable.** The loss is an unsearched absence. | S0/T3/A2/Asrc2/task0; **routing count written before the decision, both clauses: per-system NONE = 1/3/2/0/2, largest = 3 (the descriptor); cross-system HOME IF NEW cluster max = 2** -> the descriptor's three do NOT share one home (1 to `repo-manifest-standard`, 2 to `settings`), so neither v2.2 clause fired and **no handoff, correctly**. Nine load-bearing decisions in one tree is not a forge job; a forge job is three that want one home nobody owns. directions=0/0 (no direction pass - all six picks were mechanisms for seams the fleet already has or does not have, none a capability); gate=n/a (no proposals written this run). **The apply step refuted the run's own document twice, third consecutive run**: (a) the obvious early return for the version gate was *worse* than the shipped behaviour - a truthy return object would have fired the bundle checker's per-subject cross-check 191 times - and the technique gained the paragraph that says the refusal must return the loader's own not-usable signal; (b) the fork technique was rejected at the one fleet seam whose source comment enumerates exactly the failure classes it addresses, on a disqualifier the draft under-stated (live shared accounting, not merely large state), and gained both the condition and a placement section. **0 of 3 fetches**, fourteenth consecutive zero-fetch run on a source carrying its own primary material. **One structural limit found in the profile, not the method**: an application filename is `<stack>--<technique>.md` and the slot is unique, so a second tree on the same stack cannot be recorded for a technique - `node--gate-liveness` is held by an unrelated tree, so this run's shipped `gate-liveness` realization has a ledger row and no application document. Filed as a lesson. |
 
 **Funnel, last ten rows.** Research 1 each; extract 11-58; test 2-22; apply now carries a row per landed technique in every round since 2.2 and the unapplied count is the honest remainder (8 of 14 here, all with return conditions - the fleet has no chat client, no in-process scripting sandbox and no capped push multiplexer, and the count says so rather than manufacturing simulations). **The stage losing most is still ship**, and this run's shape names why precisely: one code row shipped, four simulations did not, and the four are the rows whose seam is a desktop app the fleet has only one of. Depth matched the source: a system-shaped repository that the corpus already surrounds yielded techniques and boundaries inside existing subjects, not a subject - the routing counts were written before the decision and both said so.
 
@@ -1440,3 +1444,138 @@ is the stronger reason to take one. **The check the next row should make:** did 
 direction pass report its own outcome in words, and did any apply row distinguish a
 refutation from a confirmation from a plain miss?
 
+**Round 9 (`jetkvm`), the funnel over the last ten rows.** Research is fed.
+Extract and Test are healthy. **Apply is still where the funnel loses, and this
+run says the same thing round 8 did, louder: the loss is reach, not effort.**
+Five findings owed five rows and got five; exactly one had a seam in the
+authorized fleet. The other three were checked per project, with the instrument
+asserted against a known positive first, and came back with no seam **anywhere** —
+no fleet project verifies signatures on artifacts it installs, none ships a
+self-updating client, and the one project that drives a system it does not own
+already has two of the three properties the technique names. Two consecutive
+rounds now report the same distribution, which stops being an observation and
+becomes a fact about the corpus: **it is landing techniques whose preconditions
+this fleet does not meet.**
+
+The one row that did land is the argument against treating that as failure. It
+was worth more than the other four put together — a real defect, in production
+config, that had been made durable by the project's own gate recommending it.
+
+**Depth check.** The run's shape matched its source's: a system was read as a
+system, the design record was written before extraction, the routing count was
+computed twice and reported. But this is the first row where **the count fired
+and the routing decision it implied was wrong**, and the mechanism that caught it
+is worth naming precisely, because it is not the one the method advertises.
+
+**The prior-art instrument cannot find a subject under a different name, and both
+phrasings fail together.** Round 7 established "say whether the concern-phrased
+and forces-phrased queries agree, because a disagreement is the signal." They
+disagreed here — concern-phrased returned `PRIOR ART: none` for the central term,
+forces-phrased ranked two neighbours first — and **both were wrong in the same
+direction.** The actual home, `backend-platform/resilience/self-healing`, shares
+a slug with none of the twenty terms queried across both passes. It was found by
+reading the nine subject slugs under `resilience` in `taxonomy.json`: a listing,
+free, already in the tree, and not consulted by any phase of this method. A run
+that had trusted the maps would have minted a subject beside `self-healing` for
+"what happens when the healer dies" and misfiled a mechanism that subject
+half-owns.
+
+**Next run's declared focus (round 10).** (1) **Read the category listing before
+believing any map result, empty or full.** One `taxonomy.json` read per candidate
+home, printing every sibling subject under the category the map points at — it
+costs one command and it is the only instrument that can see a subject the query
+vocabulary cannot name. This is a stronger claim than round 7's: a *disagreement*
+between phrasings is a signal, but *agreement* is not evidence, because both
+phrasings share the same blind spot. (2) **Close `techniques_absent` in writing —
+seventh deferral, and this run supplies the closure's argument.** The run wanted
+subject-level "what does this category already own", not technique-level absence,
+and got it from a file that already exists. Write that down and close the item, or
+build the thing and say what it does that the listing does not. (3) **When three
+of four findings have no seam anywhere, ask whether the source should have been
+routed to a different fleet.** Two rounds of "the corpus outran the fleet" is
+enough to stop reporting it and start acting on it: either the triage gate should
+weight a candidate by whether *any* authorized tree could test it, or the answer
+is that unapplied-with-a-return-condition is a legitimate terminal state and the
+scorecard should stop reading it as loss. Pick one in writing.
+**The check the next row should make:** did a run consult the category listing
+before writing "no prior art", and did it report whether the listing changed the
+home the maps proposed?
+
+---
+
+**Round 10 (`Everywhere`), the funnel over the last ten rows.** Research is fed.
+Extract is healthy and, on repository rounds, now routinely produces more than the
+operator picks — this run extracted 13 and shipped 1, and that is the first row where
+**the limiter was the triage gate rather than reach**. That is a healthier constraint
+than the last two rounds' (findings whose preconditions no tree met), and it is worth
+distinguishing in the column rather than reading both as "apply is weak". Apply and
+Ship are both 1/1 on the picked row, with the cross-repo gate lifted mid-run and made
+standing.
+
+**Depth check across the last ten rows.** The shape matched the source: a system was
+read as a system, the design record was written before extraction, and the routing
+count was computed twice. This is the **second consecutive round where the count was
+met and no handoff fired** — but for a new reason. Round 9's clusters cleared the
+threshold and their home turned out to exist once the taxonomy was read by hand;
+this round's two clusters (3 and 5) named existing subjects *from the first map*.
+Two rounds running, the honest reading is that **`corpus: NONE` is over-reporting**:
+it answers "no subject models these forces" when the operator needs "no subject
+*should* model these forces", and the gap between those is a subject the map ranks
+low because the finding shares no slug with it. The count is still the right
+instrument; its NONE needs one more read before it is believed.
+
+**Round 9's checks, answered.** (1) Did a run report the count of landed findings
+whose preconditions no authorized tree meets? Yes — zero this round, and the row says
+why: the limiter was the pick, not the fleet. (2) Did a `not-better` row carry
+something read out of the tree into the corpus? **Better than asked.** The row came
+back `better`, and the tree was *still* ahead of the registry — tracklight had
+independently reached the amendment's discipline and applied it more consistently
+than the mined source, so the corpus took *its* refinement (demote the reason with
+the bound, not just the bound) rather than the source's. The focus item was written
+for `not-better` rows; it should be widened: **on any apply row against a mature
+tree, ask what the tree knows that the technique does not, whatever the verdict.**
+A `better` verdict means the technique helped, not that the technique was complete.
+
+**Next run's declared focus (round 11).** (1) **Close `techniques_absent` in
+writing.** Seventh deferral, six consecutive rounds where the map sufficed; the
+evidence for closing it is now stronger than the case for building it. Write the
+closure and stop carrying it. (2) **Give `corpus: NONE` a second read before
+believing it.** Two rounds running the count was right and its NONE was soft; before
+a routing decision, read the taxonomy category listing for the implicated area — not
+just the map's ranked hits — because the subject that refutes a NONE shares forces
+and no slug. (3) **Ask the tree what it knows on every apply row, not only on
+`not-better`.** This round's best paragraph came from a tree that was ahead while
+returning `better`. **The check the next row should make:** did a run's apply step
+send something from the project back into the corpus, and did any run's `corpus:
+NONE` survive a deliberate taxonomy read?
+**Round 11 (`opik`).** Across the last ten rows the funnel's weakest stage is no
+longer `apply` or `ship` — this run went 4/4 on apply and shipped one, and rounds
+9 and 10 both reported that their limiter was seam availability rather than
+method. The stage now losing the most is **`extract`, and specifically what a
+mature corpus does to it.** Eight candidates from an 11,266-file system with
+85,000 words of first-party operating documents is not a thin read; it is what
+remains after `agent-instruction-files` (13 techniques), `change-scoped-work-selection`,
+`untrusted-extension-host` and `metric-surface-contract` have already taken their
+share. The routing count says it plainly: six unhomed decisions, four systems, and
+**not one new home**. That is the corpus winning, and the scorecard has no column
+that can say so — the depth cell reads `S0` and looks like a miss.
+
+**Round 12 (`cargo-make`).** Reading the last ten rows, the stage losing most is
+still `ship`, and this round is the one that shows the number is being read wrong.
+Five landings produced two ships, and the raw ratio looks like a 60% loss - but
+three of the five were tested at a real seam (2 shipped, 1 rejected on a written
+falsifier) and the other two were **searched for** across three trees and found to
+have no seam anywhere. A `not-better` is a result and an evidenced `unapplied` is a
+result; only an unattempted row is a loss. On that reading the run lost nothing at
+`ship`, and the column cannot currently express it.
+
+The stage genuinely worth watching is one no column names: **whether the run's own
+landings survive their apply step.** Three consecutive rounds have had a technique
+corrected by the tree before the commit, and this round it happened twice - once
+where the naive fix would have shipped a 191-finding regression into a shared gate.
+That is the pipeline working exactly as designed (`research -> extract -> test ->
+apply -> ship`, with `apply` feeding back into `extract`), and it is invisible in
+every column. Round 13's focus asks for it as a number.
+
+**Next run's declared focus (round 13).** (1) **Close `techniques_absent` in writing - ninth deferral, and three consecutive rounds have now said the same thing.** Either build it or write the argument that the category listing plus one golden-path read already answers the question it was proposed for, and delete the item. A tenth deferral is the file admitting it does not govern itself. (2) **Report the apply step's refutation rate as a first-class number.** Three consecutive runs have had the tree correct the run's own technique *before* the commit, and in this round one of the two corrections would have shipped a regression. That is the single strongest argument in this file for why Phase 7.5 is not optional, and it is currently buried in prose. Add it to the row: how many landings were changed by their own apply step. (3) **Stop counting a searched absence as a funnel loss.** This round searched three trees to establish that two findings had no seam, and the `ship` column reads 2 as if 5 were owed. Split the column, or carry the predicate: `ship 2 of 3 seams found`. A number whose predicate is missing is the thing this corpus has a law about.
+**The check the next row should make:** did the run report how many of its landings were changed by their own apply step, and did it distinguish a searched absence from an unattempted one?

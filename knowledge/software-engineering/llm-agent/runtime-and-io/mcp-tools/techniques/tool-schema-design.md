@@ -6,7 +6,7 @@ technique: tool-schema-design
 status: forged
 laws: [failure-not-empty-success, gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
-use_when: [naming tools so the model picks the right one, deciding whether a constraint lives in the schema, failed calls reading as successes downstream, an argument the handler never reads, requiredness that depends on the operation]
+use_when: [naming tools so the model picks the right one, deciding whether a constraint lives in the schema, failed calls reading as successes downstream, an argument the handler never reads, requiredness that depends on the operation, a schema crossing an endpoint that accepts a narrower subset than the one authored, a rejection the model cannot diagnose from the schema it was given]
 ---
 
 # Tool schema design
@@ -136,6 +136,73 @@ mechanism: the publisher that learned this replaced its own first
 implementation, and the specific helper it originally prescribed did not
 survive; the principle — requiredness as a runtime rule with one uniform
 in-band error — did.
+
+## A constraint the transport cannot carry changes channel, it does not vanish
+
+Conditional requiredness is the one constraint that leaves the schema *for a
+reason inside the contract*. There is a second exit, and it is forced from
+outside: everything above assumes the published schema is the schema the model
+receives. A host that forwards tools to an endpoint accepting a **narrower
+schema subset** than the one authored strips whatever that subset does not
+name — formats, numeric and length ranges, item counts, multiple-of,
+uniqueness, negated and conditional sub-schemas — before the request leaves.
+Against a pass-through host, "formats and ranges stay in the schema" is
+right. Against a narrowing one it resolves to the worst of the available
+outcomes: the constraint is enforced by nobody **and** invisible to the model,
+which is strictly weaker than the prose the rule was steering away from. The
+publisher's validator reads the authored schema; the model was handed the
+narrowed one, and nothing between them reports the difference
+([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+
+So the rule generalizes: **place each constraint on the highest rung the
+transport actually carries**, decided per transport rather than per
+constraint.
+
+1. **A portable machine-enforced equivalent, where the lowering is exact.** A
+   single permitted value re-expressed as a one-member enumeration survives a
+   subset that drops the singleton keyword and stays validator-checked; a
+   constraint that restates what the type already guarantees is dropped as
+   redundant rather than lowered. This rung keeps enforcement, so it is
+   preferred wherever it is honest.
+2. **The description, where no equivalent exists.** Demoted, never deleted.
+   The description is the model's map of the tool, so a bound it can read is
+   worth more than a bound nobody holds — and the demotion is a *downgrade
+   that must read as one*, not a paraphrase that looks like documentation.
+3. **Silence** — which is what happens by default, and is the outcome to make
+   impossible rather than to choose. An unrecognized keyword dropped by a
+   transformer nobody logged is the same defect one layer up.
+
+Two disciplines keep the demoted rung honest, and both are cheap:
+
+- **Demote the reason with the bound.** "Four to ninety days" tells the model
+  what to retry; "four to ninety days — below that the evidence floor makes a
+  trend unpresentable" tells it whether to retry at all, and which argument to
+  move instead. The reader on this rung reasons, which is the entire
+  justification for the rung existing; a bare numeral wastes it. One audited
+  publisher demoted bounds as a bare `Constraints: …` line while another
+  carried the reason inline, and only the second lets a caller recover without
+  a round trip.
+- **Give the prose rung a drift guard, because it almost certainly has none.**
+  Contract pins, generated-surface tests and schema diffs cover names, types
+  and required sets — the machine-readable half. A constraint that has just
+  been moved into a description has been moved into the one part of the
+  published surface nothing is watching, so it can rot against the server rule
+  it mirrors with every gate still green. Whatever holds the schema to its pin
+  must be extended to the sentences now carrying contract, or the demotion has
+  traded silent non-enforcement for silent drift.
+
+The audit that finds this is mechanical and worth running once per surface,
+as the sibling to the per-argument handler question above: **for each
+server-enforced value constraint, name the channel the caller receives it
+on.** A constraint reaching neither the schema nor the description produces a
+rejection the model cannot diagnose from anything it was given — the failure
+the requiredness check already prevents for one constraint kind, generalized
+to the rest. An audited catalog of sixty-four tools and two hundred and three
+parameters, whose published surface used six schema keywords in total, had
+exactly one such parameter: a normalized score bounded to zero-to-one and
+described only as "the value a run must not fall below", which invites a
+caller thinking in percentages to send a number two orders of magnitude out
+and read an opaque rejection.
 
 ## Results for a reader that reasons
 

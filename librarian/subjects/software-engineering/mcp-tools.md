@@ -314,3 +314,38 @@ contract, where the real defect lives - a client returns accept even when the us
 reject, because the choice is in the declared payload field and not the envelope.
 
 Four leads and eleven untriaged rows with anchors are in the source note.
+
+## 2026-09-04 - the transport rung (from `Sylinko/Everywhere`, applied on `tracklight`)
+
+`tool-schema-design` gained a second exit from the schema, and the shape is the one the
+subject keeps producing: **an enumeration that denied too much.** The file named
+conditional requiredness as "the one constraint that leaves the schema" and carved the
+boundary tightly - "formats, ranges, enums and unconditional requiredness stay". A
+consumer that forwards tools to an endpoint accepting a *narrower subset* than the
+schema was authored in must strip exactly formats and ranges, and there the rule
+resolves to the worst outcome available: enforced by nobody and invisible to the model,
+strictly weaker than the prose it was steering away from. The amendment replaces
+"schema over prose" with **place each constraint on the highest rung the transport
+carries** - exact lowering that keeps enforcement, demotion into the description where
+no equivalent exists, and silence as the outcome to make impossible rather than choose.
+
+Two things came from the *applied* tree rather than the mined one, and they are the
+better half. A generated catalog of 64 tools and 203 parameters, published with six
+schema keywords and no bounds at all, demotes constraints to prose as house style and
+carries **the reason with the bound** - "clamped to 4..=90, below the evidence floor a
+trend cannot be presented" - which the mined source does not; it emits a bare
+`Constraints: minimum=1, maxItems=10.` The reader on the prose rung reasons, so a bare
+numeral wastes the rung. And the structural fact nobody built that tree to prove: its
+pinned tool contract covers names, types and required sets and **not descriptions**, so
+a surface that demotes as policy has routed its load-bearing constraints into the one
+part of the published surface with no drift guard. Demotion trades silent
+non-enforcement for silent drift, and the amendment now says so.
+
+Applications: `rust--tool-schema-design` (the publisher side, A=1 -> B=0, shipped) and
+`dotnet--tool-schema-design` (the consumer side - the allowlist, the reference-integrity
+gate that must run *after* pruning because pruning is what orphans a definition, and the
+alternation merge whose lost exclusivity is recorded nowhere).
+
+Twelve untriaged design candidates from the same tree - two clusters with existing homes
+in `native-shell-integration` and `terminal-multiplexing` - are in the source note with
+their forces and anchors.

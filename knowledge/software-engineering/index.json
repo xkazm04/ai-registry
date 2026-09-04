@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 212,
-  "techniques": 1519,
-  "applications": 867,
+  "techniques": 1530,
+  "applications": 877,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1519/1519",
+  "use_when_coverage": "1530/1530",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1301,7 +1301,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:0086395c0a25097e",
+   "digest": "sha256:279abf471ace6ad7",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1469,7 +1469,9 @@
       "per-tool instruction files have drifted apart",
       "structuring instruction files in a monorepo",
       "the always-loaded floor has outgrown its budget and needs scoped overflow",
-      "instruction content is copied out into templates or a published package"
+      "instruction content is copied out into templates or a published package",
+      "two harnesses want the same rule in different file formats",
+      "a generated instruction directory also holds hand-written local files"
      ]
     },
     {
@@ -1576,7 +1578,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:85ae70a141654636",
+   "digest": "sha256:f32486e1d128852f",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -15822,7 +15824,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:cfad72f5fdb87bd5",
+   "digest": "sha256:ecd8acfba7d64217",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -15959,7 +15961,9 @@
       "deciding whether a constraint lives in the schema",
       "failed calls reading as successes downstream",
       "an argument the handler never reads",
-      "requiredness that depends on the operation"
+      "requiredness that depends on the operation",
+      "a schema crossing an endpoint that accepts a narrower subset than the one authored",
+      "a rejection the model cannot diagnose from the schema it was given"
      ]
     },
     {
@@ -16032,6 +16036,13 @@
      "verified_against": "dotnet@10.0.400"
     },
     {
+     "stack": "dotnet",
+     "technique": "tool-schema-design",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--tool-schema-design.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "dotnet@10.0.202"
+    },
+    {
      "stack": "node",
      "technique": "transport-selection",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--transport-selection.md",
@@ -16054,6 +16065,13 @@
      "technique": "server-composition",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--server-composition.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "tool-schema-design",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--tool-schema-design.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -16471,7 +16489,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metric-surface-contract/metric-surface-contract.md",
-   "digest": "sha256:e840ba06e4b1d747",
+   "digest": "sha256:c99c042111aeef9f",
    "techniques": [
     {
      "slug": "derive-outside-the-hot-loop",
@@ -16499,6 +16517,23 @@
       "publishing a hit rate or a success rate",
       "choosing between a counter and a gauge",
       "a consumer without a time-series store needs the same quantity"
+     ]
+    },
+    {
+     "slug": "fault-localizing-metric-set",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "instrumenting a multi-stage pipeline",
+      "a metric proposal cannot name the decision it changes",
+      "an incident resolved to \"somewhere in the pipeline\"",
+      "deciding whether a stage that emits work needs its own counter",
+      "a dashboard shows a healthy consumer and an unhappy customer"
      ]
     },
     {
@@ -18395,7 +18430,7 @@
    "subcategory": "platform-observability",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/observability-telemetry.md",
-   "digest": "sha256:288e3d8197702a65",
+   "digest": "sha256:a8d8676da144fd28",
    "techniques": [
     {
      "slug": "crash-record-storage",
@@ -19610,7 +19645,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/pipeline-authoring.md",
-   "digest": "sha256:013f395f996b2f29",
+   "digest": "sha256:32582731720cffc5",
    "techniques": [
     {
      "slug": "change-scoped-work-selection",
@@ -19626,6 +19661,24 @@
       "a check has not run in months and nobody noticed"
      ],
      "stage": "multi-service"
+    },
+    {
+     "slug": "foreign-config-replay",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success",
+      "identity-survives-reuse",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a plan generator reads a config file that another tool interprets",
+      "deciding which checks to fan out from a linter or test-runner configuration",
+      "a check ran locally and was never scheduled in the pipeline",
+      "planning around a tool that has no \"what would you do\" mode",
+      "mirroring another tool's defaults into your own selection code"
+     ]
     },
     {
      "slug": "human-checkpoints-in-a-pipeline",
@@ -19689,6 +19742,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "foreign-config-replay",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/applications/node--foreign-config-replay.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
     {
      "stack": "node",
      "technique": "pipeline-plan-auditability",
@@ -21000,7 +21060,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:c1f0e544152d4761",
+   "digest": "sha256:629eb95d6d5f245f",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -22314,7 +22374,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256:00b051aafcd93494",
+   "digest": "sha256:d5f2406a48fccb0f",
    "techniques": [
     {
      "slug": "changelog-generation",
@@ -22685,7 +22745,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
-   "digest": "sha256:19c23b7e917c5c14",
+   "digest": "sha256:f0eda4469b1b6f24",
    "techniques": [
     {
      "slug": "capability-not-tool-vocabulary",
@@ -22771,6 +22831,22 @@
       "making a repository self-describing offline",
       "keeping a vendored copy of a specification honest"
      ]
+    },
+    {
+     "slug": "version-gate-precedes-schema-gate",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "one-validation-door",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a config file written for a newer tool version fails with a confusing parse error",
+      "deciding whether a reader rejects or ignores unrecognized fields",
+      "an artifact has exactly one reader rather than many",
+      "a version declaration sits inside the document the version governs"
+     ]
     }
    ],
    "applications": [
@@ -22793,6 +22869,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--spec-ships-with-artifact.md",
      "verified_on": "2026-09-01",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "version-gate-precedes-schema-gate",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/applications/node--version-gate-precedes-schema-gate.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@20"
     },
     {
      "stack": "process",
@@ -24470,7 +24553,7 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/self-healing.md",
-   "digest": "sha256:abfb9f2f56376968",
+   "digest": "sha256:74124d6030b01c7f",
    "techniques": [
     {
      "slug": "auto-rollback",
@@ -24500,6 +24583,36 @@
      ]
     },
     {
+     "slug": "consume-once-mode-handoff",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "record-precedes-effect",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a mode flag on disk survives the boot it was meant for",
+      "reading an unbounded log to find a one-line verdict",
+      "deciding whether a file at a well-known path may be trusted as a message"
+     ]
+    },
+    {
+     "slug": "declared-verdict-over-inferred-wreckage",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a successor process must decide what killed its predecessor",
+      "a crash log is the only channel between two incarnations",
+      "pattern-matching a stack trace to choose a startup mode"
+     ]
+    },
+    {
      "slug": "effectiveness-accounting",
      "status": "forged",
      "laws": [
@@ -24526,6 +24639,38 @@
       "one defect fragments into thousands of signatures",
       "counting unknown signatures as taxonomy gaps",
       "diagnosing from state that changed since failing"
+     ]
+    },
+    {
+     "slug": "fork-to-outlive-the-healed",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "verdict-survives-boundary",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the healer and the healed share a process and a fate",
+      "an error handler must run after the work it was configured for has already died",
+      "deciding whether a recovery routine belongs inside or outside the thing it recovers",
+      "a supervisor's own failure path has never been exercised",
+      "output from nested self-invocations has become unreadable"
+     ]
+    },
+    {
+     "slug": "healer-death-as-promotion",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the component being healed is mandatory and its healer dies with it",
+      "promotion has no operator queue to promote into",
+      "a restart ladder exhausts and nothing is left running to report it"
      ]
     },
     {
@@ -24565,6 +24710,20 @@
      "verified_on": "2026-08-22"
     },
     {
+     "stack": "go",
+     "technique": "declared-verdict-over-inferred-wreckage",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/go--declared-verdict-over-inferred-wreckage.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "go@1.24.4"
+    },
+    {
+     "stack": "python",
+     "technique": "healer-death-as-promotion",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/python--healer-death-as-promotion.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.12"
+    },
+    {
      "stack": "react",
      "technique": "incident-promotion",
      "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/react--incident-promotion.md",
@@ -24576,6 +24735,12 @@
      "technique": "effectiveness-accounting",
      "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--effectiveness-accounting.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "fork-to-outlive-the-healed",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/rust--fork-to-outlive-the-healed.md",
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "rust",
@@ -24918,7 +25083,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
-   "digest": "sha256:c1dfed3c9da2ad38",
+   "digest": "sha256:9c624669c34878a7",
    "techniques": [
     {
      "slug": "applied-defaults-ledger",
@@ -24934,6 +25099,24 @@
       "deciding between a settings schema version and something simpler",
       "a stored collection cannot say whether an entry is missing because the user removed it or because their build never offered it",
       "renaming a shipped default and discovering it breaks every installation"
+     ]
+    },
+    {
+     "slug": "author-declared-include-graph",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "derivation-names-recomputation",
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a configuration file names the files it inherits from",
+      "a shared config fragment resolves a relative path against the wrong directory",
+      "deciding where an included file's own relative paths are rooted",
+      "an entry's origin cannot be recovered after the merge",
+      "a config include chain can loop"
      ]
     },
     {
@@ -25106,6 +25289,12 @@
      "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--applied-defaults-ledger.md",
      "verified_on": "2026-09-03",
      "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
+     "technique": "author-declared-include-graph",
+     "file": "knowledge/software-engineering/operations/governance-and-records/settings/applications/rust--author-declared-include-graph.md",
+     "verified_on": "2026-09-04"
     },
     {
      "stack": "rust",
@@ -25347,8 +25536,23 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/signed-artifacts/signed-artifacts.md",
-   "digest": "sha256:1eff9f4588adf49b",
+   "digest": "sha256:302cf6b0885fc1ac",
    "techniques": [
+    {
+     "slug": "bypass-is-a-versioned-policy",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-validation-door",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an unsigned build must be installable for testing",
+      "a debug flag has become the verification path",
+      "deciding what makes a prerelease exempt from the signature check"
+     ]
+    },
     {
      "slug": "canonical-hashing",
      "status": "forged",
@@ -25440,6 +25644,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "bypass-is-a-versioned-policy",
+     "file": "knowledge/software-engineering/security/code-provenance/signed-artifacts/applications/go--bypass-is-a-versioned-policy.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "go@1.24.4"
+    },
     {
      "stack": "react",
      "technique": "signature-lifecycle",
@@ -27364,7 +27575,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:ab56f3c3eb8f80a2",
+   "digest": "sha256:0fa3aa64f246f286",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -27411,6 +27622,21 @@
       "deciding which dynamic verifier a lane should run",
       "a memory or concurrency defect escaped a suite that runs a verifier",
       "a project links foreign code into a checked runtime"
+     ]
+    },
+    {
+     "slug": "far-side-oracle",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product's whole claim is an effect on a system it does not own",
+      "in-product readback can only confirm the product tried",
+      "a lane needs an observer the build does not produce"
      ]
     },
     {
@@ -27630,6 +27856,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--approval-snapshots-with-guarded-update.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "far-side-oracle",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--far-side-oracle.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.21.1"
     },
     {
      "stack": "node",
@@ -28645,7 +28878,7 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/untrusted-extension-host.md",
-   "digest": "sha256:e0f371b6bdd0c107",
+   "digest": "sha256:e588dd6ce1c761f0",
    "techniques": [
     {
      "slug": "canonicalizable-privilege-declaration",
@@ -28706,6 +28939,23 @@
       "an installed extension ships an update with a changed privilege declaration",
       "deciding whether a grant change needs a human to re-consent",
       "an escalation check exists in the codebase but the update path does not call it"
+     ]
+    },
+    {
+     "slug": "host-api-import-budget",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an isolated extension runs under a wall-clock execution limit",
+      "extensions time out under load but not in isolation",
+      "setting the timeout for sandboxed foreign code",
+      "the host publishes a client library that extensions are expected to import",
+      "an extension API has grown heavy initialization"
      ]
     },
     {
@@ -30536,6 +30786,7 @@
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/context-starved-executor",
     "test-harness/dynamic-verifier-classes",
+    "test-harness/far-side-oracle",
     "test-harness/isolation-lanes",
     "test-harness/live-app-harness",
     "test-harness/negative-control-tests",
@@ -30897,6 +31148,7 @@
     "perf-instrumentation/continuous-monitors",
     "perf-instrumentation/startup-phasing",
     "pipeline-authoring/change-scoped-work-selection",
+    "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/runtime-pipeline-generation",
     "pipeline-dag/conditional-edges",
     "pipeline-dag/deterministic-vs-model-nodes",
@@ -30955,6 +31207,7 @@
     "remediation-roadmaps/coverage-guarantee",
     "repo-manifest-standard/must-ignore-unknown",
     "repo-manifest-standard/pointers-not-embeds",
+    "repo-manifest-standard/version-gate-precedes-schema-gate",
     "retrieval/embedding-lifecycle",
     "retrieval/relationship-proximity-lane",
     "retrieval/relevance-floors",
@@ -30984,6 +31237,7 @@
     "self-healing/auto-rollback",
     "self-healing/effectiveness-accounting",
     "self-healing/failure-diagnosis",
+    "self-healing/healer-death-as-promotion",
     "self-healing/incident-promotion",
     "self-healing/strategy-selection",
     "serving-process-topology/probe-the-runtime-not-the-config",
@@ -30991,6 +31245,7 @@
     "session-resume/content-freshness-states",
     "session-resume/delta-briefings",
     "session-resume/first-run-and-quiet-silence",
+    "settings/author-declared-include-graph",
     "settings/config-backup-and-restore",
     "settings/cross-source-precedence-chain",
     "settings/save-experience",
@@ -31044,6 +31299,7 @@
     "terminal-multiplexing/pty-management",
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/context-starved-executor",
+    "test-harness/far-side-oracle",
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/live-app-harness",
     "test-harness/long-lane-certification",
@@ -31405,6 +31661,7 @@
     "metric-forecasting/trend-fitting-and-anchoring",
     "metric-surface-contract/derive-outside-the-hot-loop",
     "metric-surface-contract/export-terms-not-ratios",
+    "metric-surface-contract/fault-localizing-metric-set",
     "metric-surface-contract/sampled-metrics-declare-their-rate",
     "metrics-rollups/aggregate-honesty",
     "metrics-rollups/bucketing-strategy",
@@ -31551,6 +31808,7 @@
     "templates-scaffolding/catalog-curation",
     "templates-scaffolding/integrity-and-provenance",
     "terminal-multiplexing/bounded-replay-buffers",
+    "test-harness/far-side-oracle",
     "test-harness/flake-lifecycle",
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/history-driven-partitioning",
@@ -31573,6 +31831,7 @@
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "triage-queues/bulk-triage",
     "ui-controls/adoption-enforcement",
+    "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/safe-mode-registration",
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/batching-and-quota",
@@ -31676,6 +31935,7 @@
     "markdown-vault/replicated-substrate",
     "mcp-tools/egress-argument-gating",
     "measurement-honesty/instrument-exposure-control",
+    "metric-surface-contract/fault-localizing-metric-set",
     "metric-surface-contract/metric-removal-is-a-staged-pipeline",
     "metric-surface-contract/same-process-monotonic-intervals",
     "metric-surface-contract/sampled-metrics-declare-their-rate",
@@ -31706,6 +31966,7 @@
     "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
     "read-serving-replicas/evict-not-update-on-commit",
     "register-bytecode-execution/placeholder-patch-jumps",
+    "repo-manifest-standard/version-gate-precedes-schema-gate",
     "retrieval/query-decomposition-before-the-lanes",
     "retrieval/structural-centrality-lane",
     "retry-backoff/client-retry-and-redirect-conventions",
@@ -31715,14 +31976,17 @@
     "self-describing-data-envelopes/intersect-then-collate",
     "self-describing-model-packages/declared-vs-derived-outputs",
     "self-describing-model-packages/normative-layout-contract",
+    "self-healing/declared-verdict-over-inferred-wreckage",
     "serving-process-topology/one-config-object-as-engine-state",
     "serving-process-topology/probe-the-runtime-not-the-config",
     "session-continuation/compaction-checkpoint",
     "session-continuation/single-loop-authority",
     "settings/applied-defaults-ledger",
+    "settings/author-declared-include-graph",
     "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
     "settings/typed-accessors",
+    "signed-artifacts/bypass-is-a-versioned-policy",
     "standards-layered-runtime/status-header-per-api",
     "structured-output/schema-validation-and-repair",
     "supply-chain/review-attestation-ledger",
@@ -31911,6 +32175,7 @@
     "remediation-handoff/handoff-tenancy-and-idempotence",
     "remediation-roadmaps/sandbox-to-tracker-commit",
     "repo-manifest-standard/must-ignore-unknown",
+    "repo-manifest-standard/version-gate-precedes-schema-gate",
     "runner-fleet/fleet-isolation-boundaries",
     "schema-driven-ui/spec-validation-and-repair",
     "search/query-parsing",
@@ -31922,6 +32187,7 @@
     "settings/key-registry",
     "settings/typed-accessors",
     "sidecar-provisioning/split-trust-by-registration-path",
+    "signed-artifacts/bypass-is-a-versioned-policy",
     "signed-artifacts/import-verification-flow",
     "sql-console/introspection-architecture",
     "sql-console/nl-assist-gating",
@@ -32131,6 +32397,7 @@
     "paged-block-cache/chained-block-identity",
     "paged-block-cache/salt-as-a-cache-partition",
     "persistent-batch-mutation/typed-ordered-mutation-protocol",
+    "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/human-checkpoints-in-a-pipeline",
     "pipeline-authoring/runtime-pipeline-generation",
     "pipeline-authoring/step-identity-stability",
@@ -32441,6 +32708,7 @@
     "seal-and-key-hierarchy/any-one-seal-unseals",
     "seal-and-key-hierarchy/transient-upgrade-entry",
     "search/full-text-indexing",
+    "self-healing/consume-once-mode-handoff",
     "serving-process-topology/hot-loop-isolation",
     "session-continuation/continuation-as-state",
     "session-continuation/ordered-teardown",
@@ -32755,6 +33023,7 @@
     "persistent-batch-mutation/compaction-in-the-protocols-own-operations",
     "persistent-batch-mutation/declared-skippability-at-batch-granularity",
     "persistent-batch-mutation/typed-ordered-mutation-protocol",
+    "pipeline-authoring/foreign-config-replay",
     "pipeline-dag/node-execution-model",
     "plan-entitlements/deployment-mode-short-circuit",
     "plan-entitlements/id-vs-label-split",
@@ -32807,10 +33076,13 @@
     "self-describing-model-packages/config-frozen-artifact",
     "self-describing-model-packages/normative-layout-contract",
     "self-describing-model-packages/self-locating-validation-schema",
+    "self-healing/declared-verdict-over-inferred-wreckage",
     "self-healing/failure-diagnosis",
+    "self-healing/fork-to-outlive-the-healed",
     "self-healing/strategy-selection",
     "serving-process-topology/one-config-object-as-engine-state",
     "session-continuation/single-loop-authority",
+    "settings/author-declared-include-graph",
     "settings/key-registry",
     "settings/setting-kinds",
     "sidecar-provisioning/change-rate-partitioning",
@@ -32852,6 +33124,7 @@
     "triage-queues/source-normalization",
     "ui-controls/variant-discipline",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
+    "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/isolation-tier-independent-extension-api",
     "usage-analytics/coverage-from-registries",
     "usage-analytics/event-taxonomy",
@@ -33056,6 +33329,7 @@
     "self-describing-model-packages/config-frozen-artifact",
     "self-describing-model-packages/declared-vs-derived-outputs",
     "self-healing/effectiveness-accounting",
+    "settings/author-declared-include-graph",
     "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
     "settings/read-batching",
@@ -33167,6 +33441,9 @@
     "retry-backoff/storm-control",
     "reversible-transform-pipelines/refuse-with-recorded-reasons",
     "search/typed-filter-language",
+    "self-healing/declared-verdict-over-inferred-wreckage",
+    "self-healing/fork-to-outlive-the-healed",
+    "self-healing/healer-death-as-promotion",
     "serving-process-topology/hot-loop-isolation",
     "sidecar-provisioning/split-trust-by-registration-path",
     "standards-layered-runtime/backend-parameterised-web-api",
@@ -33210,7 +33487,9 @@
     "paged-block-cache/release-order-is-the-eviction-policy",
     "quality-gates/deterministic-proxy-gate",
     "scale-investment-timing/execution-model-concurrency-threshold",
+    "self-healing/consume-once-mode-handoff",
     "serving-process-topology/process-count-as-a-formula",
+    "untrusted-extension-host/host-api-import-budget",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
     "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
@@ -33300,6 +33579,7 @@
     "mcp-tools/client-integration",
     "mcp-tools/tool-identity-vs-tool-name",
     "mcp-tools/transport-selection",
+    "metric-surface-contract/fault-localizing-metric-set",
     "model-routing/failover-path-liveness",
     "module-design/borrowed-surface",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
@@ -33314,6 +33594,7 @@
     "optional-dependency-degradation/minimal-install-test-lane",
     "optional-dependency-degradation/refusal-is-not-failure",
     "paged-block-cache/salt-as-a-cache-partition",
+    "pipeline-authoring/foreign-config-replay",
     "plan-review/informational-fold-in",
     "priced-authority/approver-not-requester",
     "public-claim-provenance/provenance-as-a-build-gate",
@@ -33337,6 +33618,7 @@
     "self-describing-data-envelopes/global-tracking-kill-switch",
     "self-describing-model-packages/advisory-version-floors",
     "serving-process-topology/probe-the-runtime-not-the-config",
+    "signed-artifacts/bypass-is-a-versioned-policy",
     "standards-layered-runtime/backend-parameterised-web-api",
     "structured-output/schema-validation-and-repair",
     "supply-chain/unsafe-deserialization-off-by-default",
@@ -33402,6 +33684,9 @@
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
+    "self-healing/consume-once-mode-handoff",
+    "self-healing/fork-to-outlive-the-healed",
+    "self-healing/healer-death-as-promotion",
     "voice-io/unattended-caller-attribution"
    ]
   }
