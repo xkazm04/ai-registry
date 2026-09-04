@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize] [--one <context>] [--depth N]
 category: workflow
 contexts: tracked
 memory: project
-version: 2.9.0
+version: 2.10.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -41,11 +41,23 @@ reads as one runaway session.
 ## Strategies - pick at most one
 
 - **`--stabilize` (DEFAULT)** - make what exists *solid*. Deep tier: bounty-hunter,
-  error-handler, risk-assessor, code-optimizer, ux-reviewer,
+  parity-auditor, error-handler, observability-auditor, risk-assessor,
+  code-optimizer, ux-reviewer, visual-craft, state-coverage, copy-auditor,
   accessibility-checker, test-strategist, security-auditor. Aim ~80% of the
   finding budget at defects, broken or unpolished UI states, and measured
   performance problems. Feature ideas and architecture proposals are recorded as
   findings only - never built under this strategy.
+
+  **Five of those thirteen were added because the eight before them kept missing
+  whole classes** (measured over two full rounds on one repo, 2026-09-04):
+  `parity-auditor` because one rule with two implementations, only one fixed, was
+  five of the ten defects found and no other lens is looking for it;
+  `observability-auditor` because a swallowed error and a missing audit row are
+  invisible to every lens that reads for correctness; and `visual-craft`,
+  `state-coverage`, `copy-auditor` because this strategy's own blurb promises
+  "broken or unpolished UI states" while `ux-reviewer` alone owns flow, leaving
+  how a surface LOOKS, which states it can enter, and what it SAYS unassigned -
+  and copy that asserts a removed behaviour ships to a human who then acts on it.
 - **`--develop`** - NEW capability. Deep tier: feature-scout, innovation-catalyst,
   ux-reviewer, onboarding-designer, integration-planner, business-strategist,
   growth-hacker, monetization-advisor. ~70% of the budget at forward-building
@@ -53,7 +65,8 @@ reads as one runaway session.
   ignored, but marginal cleanups are dropped.
 - **`--optimize`** - QUALITY of what exists, deeper than stabilize goes: adds
   tech-debt-tracker, dependency-auditor, devops-optimizer, documentation-auditor,
-  mobile-specialist. ~70% of the budget at hardening, debt and coverage.
+  mobile-specialist, observability-auditor. ~70% of the budget at hardening, debt
+  and coverage.
 
 Name the strategy in the report header and record it in the snapshot's `strategy`
 field.
@@ -132,11 +145,16 @@ field.
    disciplined; it has been incurious, and it has left the operator a backlog
    that under-describes their own repository.
 
-   **Budget: 12 findings per context per round.** `--depth N` overrides; `--one`
-   raises it to 20, because a named context is a deliberate deep dive.
+   **Budget: 16 findings per context per round.** `--depth N` overrides; `--one`
+   raises it to 24, because a named context is a deliberate deep dive.
    **Lifetime cap per context: 40.** Subtract what prior snapshots already
    reported, and never re-emit a finding already reported or present in the
    backlog digest.
+
+   It was 12 while the stabilize deep tier was 8 lenses. The tier is 13 now, and
+   this clause's own rule - the budget must absorb the package you ran - applies
+   to the package this skill ships by default, not only to one an operator
+   narrows by hand.
 
    **THE BUDGET MUST BE ABLE TO ABSORB THE PACKAGE YOU RAN.** A 22-lens package
    against a 5-item budget is exhausted by lens three, and the other nineteen
@@ -173,10 +191,10 @@ field.
    highest-impact findings a sweep can find.
 
 8. **BEFORE you declare the round, check the yield.** A full package over a
-   context of ten files or more should produce roughly **8-12** findings. Fewer
-   than **6 is a signal about YOUR PASS, not about the codebase** - the usual
+   context of ten files or more should produce roughly **10-16** findings. Fewer
+   than **8 is a signal about YOUR PASS, not about the codebase** - the usual
    cause is that you read the deep tier and let the tail report "nothing real"
-   without ever pointing it at anything. Under 6, do one more pass before
+   without ever pointing it at anything. Under 8, do one more pass before
    declaring: open the two largest files you only skimmed, and drive the three
    never-applied lenses at something specific rather than at the context in
    general.
