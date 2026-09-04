@@ -6641,3 +6641,52 @@ and wants them tested hard rather than many and tested once.
 - Mid-flight runs on an earlier version: nothing to do. No `SKILL.md` change
   was made this round; the three proposals above are lessons awaiting a third
   sighting, per the skill's own promotion rule.
+
+## 2.3.2 - 2026-09-04 - jetkvm
+
+- **The prior-art maps have a shared blind spot, and running two phrasings does
+  not cover it.** Round 7 taught that a disagreement between the concern-phrased
+  and forces-phrased queries is the signal. This run got a disagreement — and
+  both answers were wrong the same way. `research-map` matches slugs and
+  `use_when` text; it cannot surface a subject whose name shares no token with
+  any term you thought to type. Twenty terms across two passes never mentioned
+  `self-healing`, which is the subject that owned the ground. What found it was
+  four lines of `node -e` printing the subject slugs under each category in
+  `taxonomy.json`. **Read the category listing for every candidate home before
+  writing "no prior art" or accepting a proposed new subject.** The instrument
+  already exists, costs nothing, and is the only one that can see a concept the
+  query vocabulary cannot name.
+
+- **The v2.2 routing count is a trigger, not a verdict, and Phase 6 step 1 is
+  what turns it into one.** The count fired cleanly (3 unhomed decisions in one
+  system) and pointed at a forge handoff. Reading the actual neighbour file
+  converted it to "technique triple in an existing subject" — v2.2's other
+  branch — with no forge worker dispatched. Worth stating in the method: a
+  routing count computed against a map that missed the home is a count of the
+  map's blind spot. The count decides *whether to look harder*, never *where to
+  land*.
+
+- **On a `not-better` reading, keep going before writing the row.** Round 9's
+  focus item said to ask what the tree knows that the technique does not. Doing
+  that inverted the verdict: the tree deliberately survives its own give-up as a
+  witness (contradicting the technique's exit rule, so `not-better`), and the
+  next question — *can anything read the witness?* — found that nothing could.
+  The row shipped as `better`. **A `not-better` that has not yet asked whether
+  the tree's better idea actually works is a premature row**, and the ask is one
+  question deep.
+
+- **A gate can be correct and still prescribe the defect.** The project's chart
+  policy `probes-distinct` diagnosed the right constraint and its remediation
+  string told operators to configure the broken thing. When a finding contradicts
+  a project's own guard, read the guard's *remediation text*, not just its
+  predicate — the predicate is reviewed, the fix-it string usually is not, and it
+  is what people follow.
+
+- **Two rounds of "no seam anywhere" is a method question, not a run result.**
+  Three of four findings this round, two of five last round. Either the triage
+  gate should weight testability by the fleet, or unapplied-with-a-return-condition
+  should be scored as a terminal state rather than as a loss. Deferring the choice
+  a third time makes the funnel measurement wrong rather than absent.
+
+*Mid-flight runs: nothing to do. No `SKILL.md` edit was made this round; these are
+lessons pending the three-run confirmation rule.*
