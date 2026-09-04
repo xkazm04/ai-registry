@@ -22,12 +22,22 @@ name: knowledge
 # Pinning to a digest also freezes the deprecation clock, so the pin moved to the current
 # major rather than freezing v4 - which was three majors behind and already emitting a
 # Node 20 deprecation on every run. Bump deliberately, by resolving the tag again.
+#
+# THE PATH FILTER IS WIDER THAN THIS FILE'S NAME. The catalog job's subject is not the
+# knowledge lane - `build-catalog.mjs` hashes FIVE lanes (knowledge, skills, practices,
+# memory, usage), and a stale catalog is stale whichever of them moved. The filter listed
+# three of the five, so a skills-only, practices-only or memory-only change could reach
+# main with a catalog nobody had re-derived: skills.yml runs no catalog step, and this
+# workflow never woke up. CONTRIBUTING.md asks a contributor to run build-catalog for
+# exactly those lanes, which is the tell - an obligation a human is asked to remember is
+# one the gate cannot see. A trigger list and the inputs of the thing it triggers are a
+# pair; when the generator learns to read a new lane, this list is the other half.
 on:
   push:
     branches: [main]
-    paths: ['knowledge/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   pull_request:
-    paths: ['knowledge/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
+    paths: ['knowledge/**', 'skills/**', 'practices/**', 'memory/**', 'usage/**', 'signals/**', 'scripts/**', 'catalog.json', '.github/workflows/knowledge.yml']
   workflow_dispatch:
   # The citation sweep below is the only check here whose subject is OUTSIDE this
   # repository, so it is the only one whose result can change with no commit. A
