@@ -2009,6 +2009,8 @@ say in one line why the peer shape no longer applies. **The check the next row
 should make:** did the run verify its fleet-map reading rather than trusting it,
 and did it say which kind of zero its ship cell is?
 
+| 2.5.0 | 2026-09-04 | `youtube:CmmLZeuK4lg` - "Infinite AI Streaming Will Change Content Forever" (**practitioner build-walkthrough, hybrid**; ran on round 22's focus, which was current when it loaded) | 1 | 9 | 2 verified of 2 scored, `auto=2/4/0`, `fp=0` | **2 techniques + 1 golden-path section + 1 self-amendment from the fleet** | 2 rows: `1c/0e/1s/0t` - **1 `better` (shipped), 1 `not-better`** | **1/tested** - one commit; the second row's seam was reached, tested and returned `not-better`, so there was nothing honest to commit | **Round 22's focus carried on all three counts.** (1) The seam was scored at triage from `librarian/fleet-map.json` *and verified against the tree rather than trusted* - which mattered, because the verification is what upgraded a lexical `media-playback` hit into the precise finding (the project computes the exact quantity the technique is about). (2) The **repeated-denial search was aimed and it found the whole run**: `buffering-and-backpressure` opens "The producer being faster is not an edge case - it is the operating condition" and enumerates "exactly two honest responses"; an honestly self-scoped enumeration is a signpost to the regime it excludes. Fourth sighting - it is a rule. (3) The owed gravitone peer study **was discharged by a parallel sibling mid-run** (`f932ca0` in that tree), not by this run. Round 23's focus was appended by a sibling *after* this run loaded round 22's; its check is nevertheless satisfiable - the expected yield was stated before extraction as "the operating half only, 1-2 techniques plus a dated fact" and the actual was exactly that. | **S/T/A/Asrc/task = 0/2/2/0/0**; routing count **n/a** (not a repository); `directions=n/a` (no design record). `priced=1-2 techniques + a dated fact / 2 techniques + a dated fact` - **calibrated.** Fetch **0 of 3**, as the class predicts for a first-party account: corroboration came from training-data convergence plus real code in a connected tree. Expected-yield band stated before the triage table and hit exactly; 1 catch, 4 untriaged, 1 lead |
+
 ---
 
 **Round 22 (agentic-testing, 2026-09-04).** All three focus items were carried.
@@ -2044,3 +2046,29 @@ grown yet. (3) **Discharge the owed peer study** against a peer-shaped source,
 or retire the debt explicitly. **The check the next row should make:** did the
 run state, before extraction, what it expected the source to be worth — and did
 the actual yield fall inside that band?
+
+---
+
+**Evidence for round 23's open question, from a run that predates it.** This
+run loaded round 22's focus and landed after round 23's was written, so it did
+not execute round 23 — but its apply cell speaks directly to the diagnosis, and
+it **splits where round 23 says the fleet is uniformly ahead**. Two rows, same
+project, opposite verdicts: one `not-better` because the tree's scheduler had
+independently reached a stronger rule than the technique (round 23's pattern,
+fifth sighting), and one `better` **that shipped** because the tree had the
+*instrument* and not the *rule* — it computed the exact statistic the technique
+is about, used it correctly one layer down for single-request promises, and
+never applied it to the durable capacity claim.
+
+That distinction is not in round 23's framing and it changes what "prefer a
+source the fleet is behind" should mean. The fleet being ahead on a *mechanism*
+predicts `not-better`. The fleet holding a *measurement it does not fully act
+on* predicts `better`, and it is cheap to detect before mining: a project that
+already emits the number a source's claim is about, with no gate reading it, is
+a seam and not a catch. `librarian/applied.md`'s return conditions name seams
+the fleet has not grown; the inverse — instruments the fleet has and does not
+consume — is not currently recorded anywhere and would be the sharper signal.
+
+**Round 23's focus stands unconsumed and is not superseded here.** A run that
+executes it should carry this refinement into item (2) rather than treating the
+`not-better` streak as one phenomenon.
