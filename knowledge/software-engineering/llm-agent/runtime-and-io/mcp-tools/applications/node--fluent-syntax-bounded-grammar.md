@@ -52,11 +52,22 @@ one parse.
 
 ## No arm B in this fleet
 
-No managed project accepts a command string from a model. A search across
-every checked-out tree for a shell invocation reachable from an agent-supplied
-argument returned nothing, so there is no seam at which to run a comparison,
-and this document records the source's own realization rather than an
-adoption of it. The technique is not unapplied because it failed a test; it is
+No managed project accepts a command string, query language or glob from a
+model and parses it, so there is no seam at which to run a comparison, and
+this document records the source's own realization rather than an adoption of
+it. That was established across all eight checkouts at the directory layouts
+they actually have - three of them have no `src/` at all, and a first search
+that assumed one searched nothing in those three.
+
+What the trees do contain is the technique's **inverse**, and it is worth
+naming so a later reader does not mistake it for this seam: several projects
+pass a payload *out* through a process boundary. Two of them do it in opposite
+ways. One writes the prompt to the child's stdin and documents at length why
+argv under a shell is unsafe - a shell concatenates argv into one command line,
+silently dropping an empty-string argument and taking its neighbour with it.
+Another puts the prompt in argv and enables the shell. Passing a payload out is
+governed by ordinary argument-construction discipline, not by this technique,
+which is about what a tool *accepts*. The technique is not unapplied because it failed a test; it is
 unapplied because its precondition — a tool whose input is a notation rather
 than a schema — does not currently exist in the fleet.
 

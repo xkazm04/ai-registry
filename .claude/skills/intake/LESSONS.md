@@ -6953,3 +6953,40 @@ result that would most justify the whole apply phase to a sceptic. A fifth colum
 or a `seam-defect: <one line>` field would make it countable. Proposing rather
 than applying, because one week is two sightings and this file's own rule is that
 a lesson becomes a rule at three.
+
+## 2.3.2 - 2026-09-04 - zvec-grep (addendum: an absence established from an unrun search)
+
+- **A fleet-wide absence may not be established from a path glob without confirming
+  the glob exists in each tree.** This run wrote "no seam in any authorized tree" for a
+  landed technique, and put the resulting count in the scorecard as the fleet's reach.
+  The search behind it globbed `src/ crates/ src-tauri/` across eight projects.
+  politicas, kp and gravity have **none** of those directories, so those three greps
+  matched zero files and exited quietly; pumper and LightTrack keep their client code in
+  `clients/`, goat in `app/` and `lib/`. Three of eight trees were never looked at and
+  three more were half looked at, and the empty output read exactly like a clean
+  negative. The verdict happened to survive the re-run - which is luck, not method.
+  **This is `failure-not-empty-success` at the fleet layer**, and the corpus already
+  owns the rule: assert the instrument before reporting the result. The method's Phase 4
+  warnings cover truncated output and banned vocabulary; neither covers *a glob that
+  addresses nothing*, which is the fleet-shaped version of the same defect.
+  **Proposed for Phase 7.5 step 1: before reporting "no seam in any managed project",
+  run the search once against a pattern that must hit (a control), per project, and say
+  how many files each tree contributed.** A tree contributing zero files to a control is
+  a tree that was not searched. First sighting, but it produced a false published
+  sentence, so it is proposed rather than banked.
+
+- **What caught it was a background task's exit code, not a review.** The search was
+  backgrounded, its empty output was read and believed mid-run, and the non-zero exit
+  arrived after the run had committed. Nothing in the method says to reconcile a
+  backgrounded instrument's exit status before using its output, and here the output was
+  used four phases before the status arrived. **Proposed: when an instrument is
+  backgrounded, its result is provisional until its exit status is read** - the same
+  discipline as not trusting a green gate whose command never ran.
+
+- **The re-run found something real that was out of scope, and it is filed as a lead
+  rather than acted on.** Two fleet projects spawn the same coding CLI and disagree
+  about the shell: one routes the prompt through stdin and documents the argv
+  concatenation hazard in detail; the other puts the prompt in argv with `shell: true`.
+  That is the inverse of the technique under test and a security-shaped question about a
+  project tree, so it went in the source note with a return condition instead of into a
+  landing this run was not asked for.
