@@ -430,4 +430,71 @@ model-backed hooks, so the amendment is preventive here. Its live content is the
 destination sort applied to the doc-sync hook those three share, whose trigger is
 program-decidable (a path-coupling map) while its verdict is a judgment - exactly the
 case the amendment's step 2 newly routes. No instruction file over-claims it; all
+
+## 2026-09-04 - a production reverse proxy (`/intake`, round 23)
+
+Two amendments, and the first is the strongest kind this subject can receive: a
+claim it states without qualification, falsified in the run's own checkout.
+
+**`single-source-topology` gained the link regime's platform precondition.** The
+technique names the filesystem link as "the strongest form of the single-source
+rule and the one to reach for by default", on the ground that "drift is not
+*representable*: there is one inode and no second copy to diverge. Nothing needs
+checking, because nothing can differ." The source does exactly that — one
+instruction file, the second vendor's filename a symlink, explained in its own
+second paragraph. In this run's clone the second filename is a **nine-byte
+regular file containing the text `CLAUDE.md`**: the index records mode `120000`,
+the platform did not grant link creation, and the checkout materialised a text
+pointer. An agent opening it by name receives nine bytes where 2,399 words were
+intended.
+
+The failure is worse than the drift the regime was avoiding, and that is the
+argument the amendment makes: a drifted copy is wrong in places and is caught by
+the obligations the copy regime forces on you, while a materialised link is
+wrong *entirely* and carries none, because the regime was chosen precisely to
+retire them. Every cheap check passes — the file exists, is readable, is
+non-empty, and its content is a plausible path. The amendment states the
+precondition, routes to the reader-resolved import directive where the platform
+is not guaranteed, and ends with the one-line assertion no regime should skip:
+the bridge resolves to the canonical document.
+
+The counter-arm is the fleet, and it is why this landed as a refutation rather
+than a caution: six fleet repositories ship both filenames, every one uses an
+import directive rather than a link, and all seven directives resolve. They
+converged on the platform-correct form with no rule telling them to. One of them
+carries the failure mode as prose — "if your reader did not resolve the import
+on the line above, open the other file now" — a hand-written apology for a
+bridge nobody was checking. Application: `rust--single-source-topology`.
+
+**`instruction-freshness` gained a sixth audit check: the file agrees with
+itself.** The source's instruction file states one minimum toolchain version in
+its header and a different one in its Code style section. That file passes all
+five existing checks — both values resolve to nothing lookup-able, both
+re-measure to themselves, neither is a path, neither is an enforcement claim —
+which is the enumeration hunt paying out: the audit "walks every line" and finds
+every line individually fine. What makes it this subject's problem rather than
+ordinary doc rot is that there is no arbiter **inside the trusted layer**;
+everywhere else the tree settles a disagreement, and here the reader has been
+told to follow the file over its own investigation, so it believes both halves
+and resolves silently, possibly differently each session. The check is
+mechanical and therefore a gate rather than a reading.
+
+Catches: the symlink *as a default* is covered and correct (the technique names
+it, and `host-contract-compilation` routes link-vs-compile properly — two
+vendors differing only in filename route to link); and `line-earning` already
+owns the non-derivable-half principle, with the source's four "what reading code
+won't tell you" facts mapping one-for-one onto its catalogue. Banked untriaged:
+citing the commits that exist only because a rule was skipped, proposed against
+`substrate-coupled-expiry:130-135`, which stamps a rule with its origin but
+treats the origin as prose recollection rather than a retrievable, re-measurable
+artifact.
+
+Apply: `not-better` fleet-wide on both. Six projects already use import bridges;
+kp goes furthest, declaring canonical and projections in its manifest and
+enforcing "each projection must name the canonical path" in a 539-line checker
+that runs in CI — the amendment's prescription, implemented before the
+amendment, more completely than the source that prompted it. The self-agreement
+scan across eight projects found no restated version floor and so no
+contradiction; the honest limit is that it scanned version floors only, not the
+path names and command names the amendment also names.
 three name the gate without calling it enforcement.
