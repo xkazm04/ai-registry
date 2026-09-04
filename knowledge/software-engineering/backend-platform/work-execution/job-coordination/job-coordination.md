@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: job-coordination
-status: forged
+status: reconciled
 techniques:
   - job-state-machines
   - lease-renewal

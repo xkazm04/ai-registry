@@ -3,10 +3,11 @@ layer: golden-path
 type: golden-path
 subject: browser-credential-boundary
 status: forged
-use_when: [wiring a browser client directly to a hosted data store, deciding whether a key may ship in the bundle, hardening a data store whose grants are already public, adding a privileged upstream a browser must not reach directly]
+use_when: [wiring a browser client directly to a hosted data store, deciding whether a key may ship in the bundle, hardening a data store whose grants are already public, adding a privileged upstream a browser must not reach directly, a destination address arrives inside data your server will fetch]
 techniques:
   - public-vs-server-env-split
   - broker-proxy-attaches-secret
+  - outbound-fetch-destination-validation
   - opaque-upstream-errors
   - aggregate-view-not-base-table
   - omit-the-column-not-the-value
@@ -106,6 +107,22 @@ vocabulary** that never names the upstream — not its hostname, not its status
 text, not its error body — because a broker that faithfully relays upstream
 failures has published a map of your topology to anyone willing to send a
 malformed request.
+
+Moving the call to the server buys the secrecy and hands back a liability, and
+it is the one most brokers miss: **the server's reach is larger than the
+browser's.** Loopback, the private network the deployment sits in, sibling
+services that never authenticate because only siblings could call them, the
+link-local address a hosting fabric answers identity questions on — the browser
+could reach none of those, and the process now making the call reaches all of
+them. Network position is a credential too, an unnamed one attached to every
+outbound request by virtue of where the process runs. It is spent whenever
+something other than your configuration chooses the address: a link inside a
+dependency's response, a callback target a tenant registered, an address a
+generated answer names as the next thing to read. Those are data, not
+addresses, and the validation they need is not the string check anyone would
+write — it is the resolved address, bound to the actual connection, re-judged
+on every redirect hop. That is
+[outbound-fetch-destination-validation](./techniques/outbound-fetch-destination-validation.md).
 
 The two regimes coexist in one application, and this is the normal case, not a
 transitional state. A store with row-level policies runs in regime one, a
@@ -232,6 +249,10 @@ this.
 - [broker-proxy-attaches-secret](./techniques/broker-proxy-attaches-secret.md)
   — one same-origin route that attaches the credential server-side, allowlists
   what it forwards, and authenticates its own callers.
+- [outbound-fetch-destination-validation](./techniques/outbound-fetch-destination-validation.md)
+  — treating an address that arrived as data as attacker-controlled: scheme
+  allowlist, judgement on the resolved address rather than the string, the
+  verdict bound to the connection, and every redirect hop re-judged.
 - [opaque-upstream-errors](./techniques/opaque-upstream-errors.md) — a closed
   error vocabulary mapped onto status codes, so callers can branch without
   learning your topology and no upstream detail crosses the boundary.

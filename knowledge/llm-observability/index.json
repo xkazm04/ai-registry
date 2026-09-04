@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 17,
   "techniques": 110,
-  "applications": 58,
+  "applications": 59,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -367,9 +367,9 @@
   "cross-provider-benchmark-operations": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256:3c1147d95adcc480",
+   "digest": "sha256:096041c00e39a184",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -485,9 +485,9 @@
   "federated-benchmark-sharing": {
    "category": "federation-and-surfaces",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
-   "digest": "sha256:8ababf4b62390be2",
+   "digest": "sha256:754460ecae5e056c",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -1250,9 +1250,9 @@
   "margin-and-unit-economics": {
    "category": "economics-and-governance",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/margin-and-unit-economics.md",
-   "digest": "sha256:28a5b67e40e197ff",
+   "digest": "sha256:855a43399693409e",
    "techniques": [
     {
      "slug": "below-filter-honesty",
@@ -1570,9 +1570,9 @@
   "production-trace-scoring": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/production-trace-scoring.md",
-   "digest": "sha256:e689501da78d13ac",
+   "digest": "sha256:42c8e8ea9199995d",
    "techniques": [
     {
      "slug": "drift-classified-rescoring",
@@ -1702,9 +1702,9 @@
   "quality-regression-gating": {
    "category": "quality-scoring",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
-   "digest": "sha256:ba2d6a5236fe483d",
+   "digest": "sha256:625763675c86f196",
    "techniques": [
     {
      "slug": "baseline-carries-its-conditions",
@@ -1841,9 +1841,9 @@
   "trace-rollup-and-attribution": {
    "category": "telemetry-and-data",
    "subcategory": null,
-   "status": "forged",
+   "status": "reconciled",
    "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
-   "digest": "sha256:f14126914563fd4a",
+   "digest": "sha256:fa3bcbaca1840db4",
    "techniques": [
     {
      "slug": "derived-trace-rollup",
@@ -1879,7 +1879,8 @@
      "use_when": [
       "list and detail views report the same derived number",
       "defining trace duration or status",
-      "two computation paths must agree to the integer"
+      "two computation paths must agree to the integer",
+      "a summary tile sits above the itemized list of the same things"
      ]
     },
     {
@@ -1937,6 +1938,13 @@
      "technique": "derived-trace-rollup",
      "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/react--derived-trace-rollup.md",
      "verified_on": "2026-08-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "single-shape-rule",
+     "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/react--single-shape-rule.md",
+     "verified_on": "2026-09-01",
      "verified_against": "react@19"
     },
     {

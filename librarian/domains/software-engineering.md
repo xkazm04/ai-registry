@@ -286,6 +286,23 @@ should be made before anything is forged:
    that exist; a category that does not exist accrues none. Every hole this bundle has
    of this shape is invisible to the worklist by construction.
 
+## 2026-09-01 - librarian sweep ([[2026-09-01-1]])
+
+Swept: 156 subjects, 0 structural defects, 46 single-stack, 60 never swept. The demand head
+was suppressed (all touched within four days, no new clock). The work went to three
+systemic passes instead: the maturity flip (29 golden paths here now say `reconciled`),
+an inbox drain (85 consumer leads triaged, 62 of them pointing here), and the reconcile
+lane at `accessibility`, whose single-stack debt is closed against a non-web tree.
+Landed from the inbox in this bundle: 7 new techniques (`effect-identity-and-latched-
+callbacks`, `instrument-answers-only-its-own-question`, `read-write-predicate-symmetry`,
+`outbound-fetch-destination-validation`, `atomic-file-publish`, `overlay-merge-absence-
+semantics`, `hidden-but-mounted-inertness`), amendments in 13 subjects, 20 applications.
+Four subjects were claimed by a live sibling intake run and their leads are banked, not
+landed: error-handling, test-harness, agent-memory, docs-sync. Owed: writers for 30 banked
+EXTENDS/NOVEL leads (each carries its amendment text in the inbox row); a project change
+in personas for the un-retried publish paths `atomic-file-publish` found; `unknown-is-not-
+a-value` added to `vocabulary-chain-integrity`'s laws; the `spec`/`data`-class definition
+of `reconciled` (see the run note) before 18 more subjects can flip.
 ## Run [[2026-09-02-1]] - seven fresh targets, six inbox rows ruled
 
 Shape at close (record, not input): 156 subjects, 1094 techniques, 589

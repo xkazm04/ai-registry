@@ -88,6 +88,9 @@ codes refused, 0 false positives in either arm, both arms extracted from their
 own revision and executed. Still open: nothing counts retries by class, so
 `suspended` and `exhausted` remain indistinguishable to an operator.
 
+## 2026-09-01 - fate recorded for the maturity ladder
+
+Hint fate (from [[2026-08-22-1]] and the application's own close): **confirmed** - cross-item budget scoped to the failure domain, refill as a function of successes, jitter everywhere with server hints clamped; one deviation recorded (refusal classification erased at the caller boundary). Counterpart smithy-lang/smithy-typescript @ 6815d3e, @smithy/core 3.33.3. Recorded by [[2026-09-01-1]] so the subject meets the `reconciled` definition in [[standard]]; nothing else changed.
 ## 2026-09-02 - `/intake` portkey-gateway (run `intake-portkey-0902`, intake 2.1.1, Opus workers)
 
 Four amendments from a multi-provider gateway (a vendor repository with no rules page - the yield came from the pipeline code). `circuit-breakers` § "One breaker per candidate: the verdict as a selection input" bounds the existing "Deny wins" rule (N breakers → 1 call) with the 1-breaker-per-candidate case, where all-open degrades to trying, not refusing. `backoff-design` § "When the stated schedule does not fit the budget" reconciles two rules the technique already stated and never collided, and the golden path gains the fifth terminal state (over-budget wait); the stated-schedule rule gains the ordered accept-list for the three spellings of retry-after with two unit systems; the jitter passage gains a counterexample (a fleet-correlating hop shipped with randomization off). `storm-control` gains the fan-in default rule: a component every caller passes through ships with retries off. Source-tree application `node--circuit-breakers`. Peer: pumper independently reached the over-budget rule (`capped_retry_sleep`) and is now the reference the tracklight proposal cites.

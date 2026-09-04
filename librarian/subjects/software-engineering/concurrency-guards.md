@@ -113,6 +113,23 @@ it in three unrelated subsystems.
   enumeration does not contain the case where the entity axis cannot be determined. Return
   if a second source draws the same boundary.
 
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+One lead (personas), NOVEL. New technique `atomic-file-publish`: the reader's half of
+write-temp-then-rename is unconditional; the writer's half is refusable on a platform whose
+open handles carry sharing modes the replace call must satisfy, and the refusal lands on
+exactly the polled-file case the pattern is reached for. Spine: replace from the same
+directory, flushed; classify errors transient vs terminal; bounded backoff on the transient
+set only; exhaustion spelled as a distinct failure; reap the temp on every exit; one publish
+door. Corroborated by the vendor reference's silence on atomicity and open handles, a
+language-runtime issue on rename-over-open-file, and retry layers in two package ecosystems
+and a compiler toolchain. Application `rust--atomic-file-publish` at personas `b6dcf28aa`
+(129 lines): roughly a dozen publish sites, none retrying; the discipline already exists in
+the repo on a different call (a locale-split script's remove loop, six attempts, explicit
+transient set); the worst instance is the daemon lock heartbeat, where a contender's own
+read can make the sitting leader stand down. Nothing was written to personas - a project
+change is owed. Proposals: `embedded-db/single-writer-holder-discipline` treats the failed
+rename as general truth (platform-conditional); retry-backoff has no local-handle case.
 ## 2026-09-01 - intake [[2026-09-01-matrix-rust-sdk]]
 
 `cross-process-exclusion` gained a section on the lease generation's second

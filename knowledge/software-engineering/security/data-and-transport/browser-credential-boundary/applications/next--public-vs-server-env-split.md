@@ -6,6 +6,10 @@ technique: public-vs-server-env-split
 stack: next
 status: forged
 verified_on: 2026-09-02
+verified_against: next@16
+applied: experiment
+ab_verdict: better
+proof: ab-paired
 ---
 
 # A starter where both tiers hold only the public key
@@ -134,3 +138,107 @@ publish is still one to write down, and this tree does not.
 - **Confirmation, not deviation:** the prefix is the single authority
   (step 1) — no second list of public values exists anywhere, and the
   toolchain enforces the split in the build rather than in review.
+
+---
+
+*Two trees, one technique, one stack. The first section reads a public starter at a pinned commit (no runtime major readable); the second is the applied experiment against a working application at `next@16`, which is where the frontmatter clocks come from.*
+
+## Second tree: A barrel marker beside a module-enumerating type guard, in one tree
+
+A Next 16 application (App Router, Prisma over a Postgres-family store, 1529
+source modules of which 385 carry `"use client"`, read at its head on
+2026-09-02) has already met the technique's step 5 — its contributor
+instructions state that a client component never reaches the database layer
+for a value — and enforces it with the toolchain's own marker: `import
+"server-only"` at the top of the database **barrel**, with an architecture
+decision recorded for it. The decision's stated benefit is that a client
+value import of the barrel "fails the build here, naming this module, instead
+of failing downstream with a message about `next/headers`". That is the
+entry-point placement the technique's *Mark the module, not the entry point*
+section warns about, and this tree is a clean test of whether the warning
+buys anything, because the same tree also contains a guard placed by the
+opposite rule.
+
+### The two guards, and their two doctrines
+
+Beside the barrel sits a compile-time wire-safety guard for **types**: a
+`satisfies` table asserting that no row type a client imports carries a
+`Date`. Its own header records the audit history — the first pass enumerated
+the client's imports *from the barrel*, a re-audit found eight more types
+reached through *deep paths* that bypass it, and the file now states the rule
+in the technique's exact words: *enumerate by what a client imports, never by
+which module path it came through*. That guard has been rebuilt to
+module-scope. The `server-only` marker for **values**, landed the same week
+under the same decision series, was placed at the entry point. One tree, two
+guards, opposite doctrines — and nobody designed the disagreement.
+
+### The experiment: enumerate both ways, count the difference
+
+No product code was changed. A harness walked the source tree twice from the
+same 385 client roots.
+
+- **A — entry-point enumeration**, what the barrel marker can see: client
+  modules that import a *value* from the barrel. **Result: 0.** The tree is
+  clean by its own guard, and the build agrees.
+- **B — module enumeration**, following value imports transitively (type-only
+  imports erased, exactly as the compiler erases them) and stopping wherever a
+  module carries its own marker: database-layer modules reached from a client
+  root with **no marker anywhere on the path. Result: 2 of 118**, reached from
+  15 client roots between them.
+
+Of the 118 modules in the database layer, **117 carry no marker**, and 108 of
+those touch the Prisma client — the path that holds the connection string.
+The marker guards one file; the type guard's own audit had already shown
+that clients reach this layer by deep path.
+
+The two reached modules differ in what they hold, and that difference is the
+technique's point:
+
+- One is pure parsers and constants for a run ledger — twelve client roots
+  reach it by value, and it reads nothing from the environment. Harmless, and
+  the marker's absence costs nothing.
+- The other is the backend-mode reporter: a `getDbMode()` that reads two
+  **unprefixed** server values (the managed-database endpoint, then the static
+  connection URL) to decide which persistence backend is live, plus a pure
+  `dbModeLabel()` for display. Three client roots import the label by value.
+  The module's own doc comment says it is "server-only in practice" and that a
+  client "must not re-derive the mode client-side, where the env/global
+  signals are absent" — a rule stated in a comment beside the module, which
+  is the *list maintained beside it* the technique says does not enumerate.
+  In the client chunk both `process.env` reads inline to the empty string, so
+  a client that did call `getDbMode()` would get `"disabled"` — the honest
+  indicator reporting no database, on a deployment with one. Silent fallback,
+  the shape of step 4, uncatchable by any check on names, and invisible to a
+  marker placed on a barrel this module is not behind.
+
+Nothing is broken today: the three clients call only the pure label. The
+finding is that the guard cannot tell the difference between today and the
+day a contributor calls the other export, and the sibling type guard in the
+same tree already learned that lesson once.
+
+### Verdict, and the next change
+
+`better`, at experiment mode. The instrument was an import-graph walk with the
+compiler's own erasure rule; the paired number is 0 (entry-point) against 2
+modules / 15 roots (module-scope), on the same 385 inputs. What the marker
+would need to move is not the count — it is where the failure surfaces: a
+value import of a deep module today fails at Prisma or `next/headers` in the
+client bundle, the "downstream" failure the decision record wanted to avoid
+and only avoided for the barrel.
+
+The change this files for the project: put the marker in the module that
+reads the environment, and move the pure label out to a module a client may
+import — a three-line split, verified by `next build` failing on the marker
+and then passing after the split. The strongest form the technique names is
+also reachable here: the toolchain can make the environment reads themselves
+un-importable from client code, with no per-module marker to forget.
+
+### What this realization cannot do
+
+The harness reads source, not the built artifact; it is a proxy for the
+bundle in exactly the way the technique's *gate reads the bundle* section
+says a source scan is. It proves which modules a client graph *reaches*; it
+does not prove what the bundler *kept* after tree-shaking. The project's own
+gate — `tsc --noEmit` — cannot see a `server-only` marker at all; only the
+production build can, which is why this ran as an experiment and not as a
+code arm.

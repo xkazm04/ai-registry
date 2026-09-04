@@ -1,7 +1,7 @@
 ---
 subject: test-input-generation
 domain: software-engineering
-last_touched: 2026-08-31
+last_touched: 2026-09-03
 dry_streak: 0
 ---
 
@@ -132,3 +132,23 @@ already fixed the defect privately. **Negative structural fact**: that tree has 
 designated reference at all - its authority is a written suite, the configuration
 this technique calls correct - so the amendment's ledger clause has nothing to
 attach to. The mechanism transferred; the vocabulary did not.
+
+## 2026-09-03 - intake run `intake-boa-0903` (source: a language engine's fuzz targets)
+
+New technique **`stage-ordered-fuzz-targets`**, the ninth: one target per pipeline stage
+whose input type differs from its predecessor's, each with the strongest oracle that
+stage admits, triaged in pipeline order because a crash at stage k masks every defect
+behind it on that input (masking by stage - the cousin of `swarm-feature-sampling`'s
+masking by feature), the upstream stages doubling as the deep target's normaliser, and a
+deterministic budget on the deepest stage so non-termination is a finding and
+time-over-budget a diagnostic rather than a flake. Amendment to **`model-based-oracle`**
+("normalise once, then round-trip"): when a structural generator over-approximates,
+consume once and discard rejections, then assert the round trip on the second hop - the
+system's own output is its fixed point - and report the discard fraction as the
+generator-health number. Applications: `rust--stage-ordered-fuzz-targets` (the fleet's
+scraping service as the applied tree - **simulation, better**, three real e2e cases, a
+falsifier, and the tree's own prior encounter with stage masking at a never-loaded
+predicate that read as a pass; the source engine as the origin with its three targets
+anchored). The amendment is **unapplied**: no fleet project feeds a structural generator
+into a rejecting consumer; return when one grows one. Direction proposed in the scraping
+service's own tree (a per-stage harness, S), gate skipped - unattended run.

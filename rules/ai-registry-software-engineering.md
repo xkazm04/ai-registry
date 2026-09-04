@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 191 subjects, 1391 techniques, 798 applications.
+`software-engineering` - 212 subjects, 1527 techniques, 872 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -22,7 +22,10 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 
 ### backend-platform
 - **data-layer** - bounded-enumeration, data-access, embedded-db, migrations, read-serving-replicas, sync-replication, transactions-over-a-replicated-log
+- **data-pipeline-semantics** - deferred-operation-fusion, deterministic-prefix-caching, keyed-sample-transforms, reversible-transform-pipelines, self-describing-data-envelopes
 - **inference-serving** - cross-instance-cache-lease, paged-block-cache, persistent-batch-mutation, serving-process-topology
+- **language-runtime** - embedded-tracing-collector, engine-host-contract, engine-string-representation, guest-execution-bounding, guest-language-introspection, native-guest-interop, object-shape-representation, register-bytecode-execution, standards-layered-runtime
+- **model-workflow-contracts** - accumulate-then-aggregate-metrics, declarative-object-graph-configs, federated-client-contracts, generated-workflow-candidates, self-describing-model-packages, windowed-inference-over-oversized-inputs, workflow-property-contracts
 - **platform-observability** - alerting, metric-surface-contract, metrics-rollups, observability-telemetry, outbound-notifications
 - **process-graph-runtime** - correlated-exchange-over-broadcast, data-plane-transport-selection, declared-process-graph, edge-queue-policy, fault-signal-propagation
 - **resilience** - error-handling, multi-provider-gateway-plane, optional-dependency-degradation, rate-limiting, retry-backoff, scale-investment-timing, self-healing, stream-proxy-hop, webhook-ingestion

@@ -113,6 +113,18 @@ Two boundaries to hold:
 - The merge happens at the resolution layer, once — not by shipping
   pre-merged locale files, which would make every gap invisible to runtime
   telemetry and every source copy edit a full re-ship of all locales.
+- **Totality is a property of the label path, not of every key.** Answering
+  every lookup with *some* text is the right guarantee where the key names
+  chrome — a button, a heading, a column — because the surrounding layout
+  explains what the string is for even when it arrives in the source
+  language. Where a section carries the *content* of a record rather than a
+  label on one, a miss that resolves to source text (or worse, to the key)
+  renders a card, row or step that is not actually there. Mark
+  content-bearing sections at the point the section is designed: their
+  resolver is allowed to answer *absent*, the consumer omits the record and
+  renders its empty state, and the miss is reported like any other. The
+  merge cannot infer which kind a key is — see
+  [token-label-separation](./token-label-separation.md).
 
 ## Module-scope capture is the architecture's known trap
 

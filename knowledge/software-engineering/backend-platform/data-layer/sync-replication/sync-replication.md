@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: sync-replication
-status: forged
+status: reconciled
 techniques:
   - topology-declaration
   - change-tracking-and-cursors

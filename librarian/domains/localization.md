@@ -307,3 +307,13 @@ resolved system.
 
 **Last unconsumed surface:** CLDR's per-locale minimal pairs. The Arabic worker touched one
 incidentally and found it live and usable.
+
+## 2026-09-01 — sweep correction to "What is owed"
+
+The first bullet under "What is owed" is stale and stays as written because this note
+appends. The scan on 2026-09-01 reads **13 of 14 subjects on two stacks**
+(`process` + `spec`); only `translation-pipeline-topology` is single-stack, and the
+bundle's whole attention score is 2 points. The second-tree debt is retired. What is
+still owed here is the maturity flip (the reconcile lane's definition of `reconciled` may
+be met by the spec-bound applications; the mechanical pass verifies each subject against
+the definition before flipping anything) and the unwitnessed demand. Run: [[2026-09-01-1]].

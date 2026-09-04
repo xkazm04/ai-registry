@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: concurrency-guards
-status: forged
+status: reconciled
 techniques:
   - guard-key-design
   - single-flight-primitives
@@ -12,6 +12,7 @@ techniques:
   - cross-process-exclusion
   - attempt-attribution
   - idempotency-by-design
+  - atomic-file-publish
   - leadership-is-the-lock
   - fence-inside-write-transaction
   - renewal-deadline-two-thirds-ttl
@@ -116,6 +117,18 @@ From that stance, the spine of the subject:
    effect — the duplicate becomes harmless instead of prevented, which is
    strictly more robust: it also covers the duplicates no guard can see, like
    the retry of a request whose response was lost (see idempotency-by-design).
+7. **Where the shared thing is a file, the substrate pushes back.** A file one
+   process writes and another reads is a shared cell with no admission control,
+   and what keeps a reader from seeing half a document is to publish by
+   replacement rather than to write in place. That works because of the
+   *reader's* half: a name resolves to complete content or to the previous
+   complete content, never to a fragment. The writer's half is where the
+   substrate has an opinion — on a platform whose open handles block
+   replacement, the replace step is refused while any other process holds the
+   destination open, so on exactly the polled file the pattern was reached for,
+   a torn read is converted into a failed write. That conversion is an
+   improvement only if the writer treats the refusal as transient and retries
+   under a bound (see atomic-file-publish).
 
 ## The cluster lock: where cross-process exclusion becomes high availability
 
@@ -171,4 +184,8 @@ stale-holder story, and its failure direction (open or closed) is documented;
 results carry the identity of the attempt that produced them, and the write
 site discards stale writers instead of trusting arrival order; and the
 operations where duplication is cheapest to survive are simply idempotent, so
-the guard is an optimization rather than the only wall.
+the guard is an optimization rather than the only wall; and every file a second
+process reads is published by replacement through one door that flushes,
+classifies the substrate's transient refusals, retries them under a stated
+bound, and reports exhaustion as a failure rather than as a silent skipped
+write.

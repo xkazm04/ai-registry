@@ -53,6 +53,9 @@ corroboration from a tree unconnected to the source, not a failed application.
 - Deviation lead: interval-driven checks never back off - only the on-event
   runner does; the trade is defensible and silent.
 
+## 2026-09-01 - fate recorded for the maturity ladder
+
+Hint fate (from [[2026-08-22-7]] and the application's own close): **confirmed** - probe-on-render designed out, per-target cadence with a single scheduler, expiry as a distinct verdict rather than a frozen last result. Draft orphaned mid-trim; the director ran the ~20-probe citation re-check and every cite landed. Counterpart hashicorp/consul @ 6c576af (2.1.0-dev). Recorded by [[2026-09-01-1]] so the subject meets the `reconciled` definition in [[standard]]; nothing else changed.
 ## 2026-09-02 - intake [[2026-09-02-sentry-self-hosted]]
 
 Class: EXTENDS. `probe-design` gained "The consuming probe" - the target mints a token, the

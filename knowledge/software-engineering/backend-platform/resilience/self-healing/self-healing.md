@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: self-healing
-status: forged
+status: reconciled
 techniques:
   - failure-diagnosis
   - strategy-selection

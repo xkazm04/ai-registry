@@ -1,7 +1,7 @@
 ---
 subject: accessibility
 domain: software-engineering
-last_touched: 2026-08-28
+last_touched: 2026-09-01
 dry_streak: 0
 ---
 
@@ -114,3 +114,32 @@ volume estimates how much cheap remediation is on the table).
   product names, but the corpus has zero of them in upper layers today and the
   denylist is documented as a floor rather than the whole rule. Written
   structurally instead; the concrete pairings live in this note.
+
+## 2026-09-01 - external reconcile, single-stack debt CLOSED ([[2026-09-01-1]])
+
+The open lead's return condition arrived: a non-web accessible-UI tree, pinned.
+Counterpart `AccessKit/accesskit` @ `00b517c`, crate 0.25.0 (class A, rust), the
+cross-platform accessibility infrastructure with a schema, a consumer tree and five
+platform adapters. Landed `applications/rust--name-and-description-wiring.md` (130
+lines) on the technique that had zero applications. Fate **confirmed** for the contract,
+with the hint's specifics split: schema and adapters as predicted; the consumer's name
+computation runs the top two precedence tiers *backwards* from the browser algorithm
+(direct label wins, relation only when absent; content-as-name is a per-role opt-in for
+eight roles); and `described_by` is declared as the describing relation and resolved by
+nobody - grep over consumer and all adapters is empty, and one mobile adapter has no
+description channel at all. Executed: 206/206 consumer tests; a scratch harness proving
+direct-label-beats-relation and description-relation-never-resolved.
+
+Technique-edit candidates, banked at one sighting: the precedence paragraph is the
+*browser's* algorithm, not the domain's; the "classic defect" direction is
+platform-dependent (name the failure - two sources, one silently wins - without fixing
+which); the description chain is a web mechanism, the invariant is what travels.
+
+Proposals placed in the run note: `assistive-tech-divergence` (zero applications) has a
+source-measured candidate on this same pin - five adapters diverging on the description
+channel and on live-region delivery; `live-region-architecture` gains "a nameless live
+region is silent" (every announcing adapter refuses without a computed name; `live()`
+inherits from the parent).
+
+Leads: `role_description`/`state_description` (return: a wave binding
+`primitive-level-a11y` here); the text-run model has no home in this subject.

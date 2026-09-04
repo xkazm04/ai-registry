@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: agent-chaining
-status: forged
+status: reconciled
 techniques:
   - graph-to-wiring-translation
   - handoff-payload-contracts

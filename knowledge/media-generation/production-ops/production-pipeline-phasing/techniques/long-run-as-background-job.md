@@ -6,7 +6,7 @@ technique: long-run-as-background-job
 status: forged
 laws: [refusal-is-a-state, unmeasured-is-not-pass]
 shared_with: []
-use_when: [running minutes-long generation or research from an interactive product, deciding which jobs may run concurrently, handling reloads and duplicate launches during long runs]
+use_when: [running minutes-long generation or research from an interactive product, deciding which jobs may run concurrently, handling reloads and duplicate launches during long runs, a job record and the result it produced live in different stores with different lifetimes]
 ---
 
 # Long run as a background job
@@ -35,6 +35,29 @@ no longer receive the result". Per
 interruption is surfaced with its reason, never blurred into an empty
 success; and a settle call on a job that is no longer running is a no-op, so
 a late result cannot resurrect a cancelled run.
+
+Persisting the job is only half the record. A job's **result** — the
+notebook it wrote, the picked frame, the saved draft — normally lives in
+another store, under another retention rule, and the moment the two
+lifetimes differ the surviving half lies. A job record that still says
+*done*, and still offers the link, after its result was deleted, expired, or
+was never written at all, is a settled claim about something that no longer
+exists; and nothing later corrects it, because the reload rule below only
+reaches jobs still *running*. There are two honest designs and no third:
+**give the result at least the job's lifetime** — expire and delete them
+together, at one seam, so the claim cannot outlive its evidence — or **make
+the read reconcile the two and say the mismatch out loud**: the job keeps its
+history, loses its claim, and the surface tells the creator that what was
+promised is gone. Reconciliation is a real design, not a fallback, because
+the result store often has an owner the job layer cannot bind (a creator who
+deletes their own asset); what it may never do is revert silently. Per
+[refusal-is-a-state](../../../_laws.md#refusal-is-a-state), *the thing this
+finished is gone* is a state with a reason, and quietly downgrading the job
+to "not started" destroys the news along with the claim. Reconcile at the
+cheapest seam that still catches it — at the delete, where the survivors are
+known, in preference to a scan on every render — and keep the fallback that
+a followed dead pointer discloses itself rather than resolving to something
+plausible.
 
 ## Concurrency policy is per kind of work
 
@@ -94,6 +117,11 @@ the job. Where multiple product surfaces share the record, the surface that
 *owns* a run may correct others' beliefs about it and must never be
 corrected by them; a copy that still says running beats a copy that says
 interrupted, because somebody can still see it.
+
+Note the reach of this correction: it fires on jobs found *running*, and
+only those. A job that already ended carries whatever it last claimed,
+untouched, forever — which is why a result that can disappear needs the
+lifetime rule above rather than a better reload.
 
 ## When not to use this
 

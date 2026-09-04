@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: margin-and-unit-economics
-status: forged
+status: reconciled
 use_when:
   - deciding which customers or products are unprofitable
   - building a per-customer P&L over LLM traffic

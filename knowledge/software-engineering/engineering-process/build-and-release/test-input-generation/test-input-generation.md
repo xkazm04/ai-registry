@@ -13,6 +13,7 @@ techniques:
   - inside-out-invariants
   - liveness-needs-a-quiet-period
   - seed-is-not-a-reproduction
+  - stage-ordered-fuzz-targets
 ---
 
 # Test input generation
@@ -159,6 +160,15 @@ the only rung that catches the well-formed wrong answer, and it is the one that
 found the defect in the opening section after twenty generators had missed it.
 When that cost is justified, and how to keep the model from inheriting the
 system's bugs, is [model-based-oracle](./techniques/model-based-oracle.md).
+
+The oracle question has a shape of its own when the system is a pipeline of
+stages. One end-to-end target finds the least, because a crash in an early
+stage masks every defect in the stages behind it on that input - masking by
+stage, the cousin of the feature masking above. The remedy is one target per
+stage, each with the strongest oracle that stage admits, triaged in pipeline
+order, with a deterministic budget on the deepest stage so that
+non-termination is a finding and not a hang -
+[stage-ordered-fuzz-targets](./techniques/stage-ordered-fuzz-targets.md).
 
 Finally, an oracle placed outside the system can only assert what the system
 exposes. Invariants that hold *between* internal components — a relationship

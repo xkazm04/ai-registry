@@ -78,6 +78,16 @@ practice and which **no linter can flag**. The technique gained the section
 is NOT repaired — converting it to lazy getters is a public-interface change
 and was outside this run’s authorization.
 
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+Four leads (personas, ascent). New technique `effect-identity-and-latched-callbacks`: the
+dependency list is the identity of the session an effect starts; caller-supplied callbacks
+are latched in a cell, never listed, or a poll that writes state restarts itself and resets
+backoff and counters. Application `react--effect-identity-and-latched-callbacks` at ascent
+`7ed00bb9`. Amendments: `identity-scoped-eviction` ("every trigger names its edge" - key a
+reset on the return to empty); `persistence-and-migration` (a latch standing in for a
+comparison does not earn persistence); `async-race-guards` (the append path of a paged list
+shares the slot's token sequence). Weakest corroboration: the edge rule, by analogy only.
 ## 2026-09-01 - intake [[2026-09-01-matrix-rust-sdk]]
 
 `optimistic-write-path` gained the stream-lane inversion: its "waiting on a

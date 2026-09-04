@@ -75,6 +75,34 @@ its own. Step 7's "reflect" now has an artifact to land in.
   the substance of `reconciled` twenty-nine times could not claim it. The standard now
   defines both. Promotion stays a reviewer's act.
 
+## 2026-09-01 - run 2026-09-01-1 (sweep + maturity flip + inbox drain + reconcile wave)
+
+- **A saturated head is a signal to look sideways.** Every subject in the top seven had
+  been touched within four days. The productive work was three systemic passes that had
+  been "owed" in run notes for days - the maturity flip, the inbox, the application-less
+  subjects. Check the owed list before ranking, not after.
+- **The inbox is a dispatch input and the loop was not reading it.** 41 leads sat in
+  project ledgers uncollected and 44 sat collected and untriaged. Triage as read-only
+  passes (five, in parallel) then scoped writers is cheap: 85 leads graded in one sitting,
+  and the grading itself is durable even where no writer runs, because the ruling with
+  its amendment text goes into the struck row.
+- **Read-only triage before any writer.** Grading COVERED/EXTENDS/NOVEL with a cited
+  prior-art sentence prevented 17 duplicate landings and caught 7 misfiled leads. A
+  writer given an EXTENDS verdict with the target technique named produced a one-
+  paragraph amendment in the file's voice; a writer given a raw lead would have written
+  a technique.
+- **Require a second source in the report, and applications only at HEAD with re-opened
+  citations.** Every writer named one; one writer found the pattern absent from the tree
+  and wrote no application. That refusal is the contract working.
+- **Do not switch branches on a shared checkout.** The run-board's own header records
+  "a sibling's branch switched mid-run" as an observed failure, and this run repeated
+  it for twenty minutes before reading the board. Claim on the board first; commit by
+  pathspec; build the pull request in a worktree.
+- **A help flag is not a dry run.** `leads-collect.mjs --help` ran the collector. Read
+  the usage block before invoking any script whose default action writes.
+- **The maturity definition needs a class-B/C clause.** 18 subjects meet the brief's
+  evidence standard and fail the standard's literal "and commit". The two documents were
+  written by the same lane a week apart and disagree; the flip pass surfaced it.
 ## 1.3.0 - 2026-09-02 - propagation step, after run 2026-09-02-1
 
 - **The loop ended one step early.** Seven steps took a landing from scan to vault and

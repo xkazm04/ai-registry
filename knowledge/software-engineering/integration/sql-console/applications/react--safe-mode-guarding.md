@@ -4,7 +4,11 @@ type: application
 subject: sql-console
 technique: safe-mode-guarding
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-09-02
+verified_against: react@19
+applied: code
+ab_verdict: better
+proof: ab-paired
 ---
 
 # The client mirror and the consent gate
@@ -32,16 +36,65 @@ code's own words.
   dollar-quoted, single-quoted, double-quoted) runs before
   `MUTATION_VERBS_RE` scans the body (`:62-65`).
 
-**Deviation, measured by the legacy corpus:** the client's CTE verb regex
-(`:24`: DELETE|UPDATE|INSERT|MERGE|REPLACE|TRUNCATE|UPSERT) omits `DROP` and
-`ALTER`, which the Rust list carries — so the two mirrors disagree on 2 of
-47 fixture statements. The disagreement fails closed (the server refuses
-what the client would have let through to a confirm dialog), so the cost is
-UX, exactly the failure direction the technique says a mirror may have. The
-structural fix the technique prescribes — one shared vocabulary — is
-available and unused: `classify_db_query` (`src-tauri/src/commands/credentials/db_schema.rs:164`)
+**Deviation, measured by the legacy corpus (closed since):** on 2026-08-18
+the client's CTE verb regex omitted `DROP` and `ALTER`, which the Rust list
+carried — the two mirrors disagreed on 2 of 47 fixture statements, failing
+closed (the server refused what the client would have let through to a
+confirm dialog). As of 2026-09-02 `MUTATION_VERBS_RE` (`:41`) carries both,
+with a comment naming the backend constant it mirrors. The structural fix
+the technique prescribes — one shared vocabulary — is still available and
+unused: `classify_db_query` (`src-tauri/src/commands/credentials/db_schema.rs:165`)
 exposes the authoritative classifier over IPC with a typed wrapper at
-`src/api/vault/database/dbSchema.ts:64` and has zero callers.
+`src/api/vault/database/dbSchema.ts:64` and has zero callers. The two
+sides are kept in step by paired comments and paired tests, not by one home.
+
+## Read-shaped writes: an A/B on the vocabulary (2026-09-02)
+
+The technique's rule 4 says to seed the mutation class from the engine's
+definition of a read-only transaction, because a list of hand-typed verbs
+misses the statements whose first token is `SELECT`. Measured here before
+the change: **both** guards scanned a statement body only when it led with
+`WITH` (the client also for `EXPLAIN`); anything `SELECT`- or `VALUES`-led
+was granted read-only status on its first keyword alone
+(`is_mutation`, `src-tauri/src/engine/db_query.rs:540`; `isMutationQuery`,
+`safeModeUtils.ts:165`).
+
+- **A** (tree as found), nine read-shaped writes through the client mirror
+  via a scratch harness: `SELECT * INTO`, `INTO OUTFILE`, `FOR UPDATE`,
+  `FOR SHARE`, `nextval`, `setval`, `VALUES (nextval(...))`,
+  `pg_terminate_backend`, and `COMMIT; DROP` — **8 of 9 passed as
+  read-only** with no confirm banner. The one refusal was the batch rule,
+  not the vocabulary. Eight near-miss reads (`updated_at`, `deleted`,
+  `shares`, verbs inside literals and comments): 0 of 8 over-blocked.
+- **B**: a `READ_SHAPED_WRITES` vocabulary (`INTO`, `SHARE`, `NEXTVAL`,
+  `SETVAL`, `LO_IMPORT`, `LO_EXPORT`, `PG_TERMINATE_BACKEND`,
+  `PG_CANCEL_BACKEND`; `UPDATE` already in the verb list covers
+  `FOR UPDATE`) held once per side and scanned, token-exact over stripped
+  text, for `SELECT`/`VALUES`/`EXPLAIN`-led bodies as well as `WITH`. Same
+  nine: **0 of 9 pass**; same eight near misses: 0 of 8 over-blocked. The
+  project's own gates read the same verdict — vitest 27/27 on the classifier
+  and consent-flow suites, `db_query::tests` 81/81 including two new cases.
+  The Rust arm also closed `EXPLAIN ANALYZE <mutation>`, which the client
+  had held alone since 2026-08 while the authority did not.
+
+Two things the tree showed that the A/B did not need:
+
+- **The envelope half of the finding has no seam here.** Nothing in the
+  tree wraps a statement in `BEGIN ... READ ONLY`; the layering is
+  credential (the user's own), then the batch rule, then the classifier.
+  So the `COMMIT;` case was already refused, by a rule that never looked at
+  the word `COMMIT` — the single-statement guard is doing the envelope's
+  job before an envelope exists.
+- **A read-shaped write now reaches the row-limit injector only in write
+  mode**, and the injector (`db_query.rs`, `inject_row_limit`) appends
+  `LIMIT n+1` to any `SELECT`-led single statement — after `FOR UPDATE`,
+  which Postgres rejects. Pre-existing, and now the confirmed path's
+  failure rather than safe mode's; left for the injector to learn lock
+  clauses.
+
+What this realization cannot do: it is still token scanning, so a column
+literally named `share` or `into` (unquoted) raises one extra confirm. That
+is the over-block direction the technique accepts for a guard.
 
 ## The consent gate
 

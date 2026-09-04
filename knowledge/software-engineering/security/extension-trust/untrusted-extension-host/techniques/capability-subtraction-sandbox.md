@@ -95,6 +95,33 @@ which here is empty, rather than letting a documented sandbox read as a
 guarantee it does not make
 ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
 
+### Where the runtime counts, the ceiling set is not empty
+
+The exception in the paragraph above - an instruction-count hook the host
+wires - is not an aside for an interpreter the host embeds; it is the general
+case, and it deserves a rule. Whatever the runtime *counts*, it can cap:
+frames (a recursion limit), value-stack slots, loop back-edges (an iteration
+limit), instructions (a fuel budget), and, where the allocator is the
+runtime's own, bytes. An engine built to be embedded exposes those as a limits
+object the host sets at construction, with defaults, and checks them at call
+boundaries and loop edges. Three rules make the counted set honest:
+
+- **A counted ceiling raises a failure the guest cannot catch.** A limit the
+  guest's own error handling can intercept is a retry loop inside a handler;
+  the failure must bypass every guest handler and unwind to the host, which
+  is the only party entitled to decide what happens next.
+- **Publish the ceiling set as two lists, not one word.** *Counted*: each
+  ceiling with its default. *Uncounted*: wall time spent inside a call the
+  host provided, and memory a host call allocates on the guest's behalf -
+  each with the bound that covers it elsewhere (a wait-bound at the call
+  boundary, an allocation limiter on the host side) or the word *none*. The
+  earlier sentence - publish the empty set - is the degenerate case of this
+  rule for a runtime that counts nothing.
+- **The uncounted list is empty exactly when the guest imports nothing.** A
+  guest with no host-provided calls has nowhere to spend uncounted time or
+  memory, and only then is the ceiling set complete; every import added later
+  re-opens the second list, and the publication must move with it.
+
 This is also why the single-tier host is not a two-tier host with a missing
 tier. [two-tier-extension-format](./two-tier-extension-format.md) owns the
 split by execution location and the rule that a capability crosses into the

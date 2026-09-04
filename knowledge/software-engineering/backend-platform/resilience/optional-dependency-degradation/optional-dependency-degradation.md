@@ -13,6 +13,7 @@ techniques:
   - capability-honest-refusal
   - degradation-coupled-to-hardening
   - fallback-retirement-condition
+  - minimal-install-test-lane
 ---
 
 # Optional dependency degradation
@@ -215,6 +216,13 @@ Shape, memoisation, the companion predicate that must answer from the same
 source, and the discipline of the catch site are
 [guarded-singleton-accessor](./techniques/guarded-singleton-accessor.md).
 
+For a library, the same question is asked one level down — at the import —
+and "every dependency is optional" is a claim only an install with none of
+them can test. The lane that runs the suite in that install, the exclusion
+list that must police its own staleness, and the shape a deferred import
+failure has to take to survive until first use are
+[minimal-install-test-lane](./techniques/minimal-install-test-lane.md).
+
 ## Configuration is not permission
 
 The single most expensive mistake in this subject is a capability check that
@@ -414,3 +422,8 @@ pretends to be storage.
   why removing it makes a temporary cost permanent, why suppressing the fallback
   disperses the need rather than removing it, and the branch metric that says
   when the path can be deleted.
+- [minimal-install-test-lane](./techniques/minimal-install-test-lane.md) — the
+  minimal install proven by a lane that runs with every extra absent, the
+  self-validating exclusion list, the proxy shaped for the missing symbol's
+  syntactic role, and why a long-lived deferred failure carries a string
+  rather than a traceback.

@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: null
-last_swept: 2026-08-28
+last_swept: 2026-09-01
 layout: nested
 demand_known: unknown  # was witnessed-silent on 2026-08-27; see below
 ---
@@ -155,3 +155,14 @@ proposal rule guards. See [[2026-08-27-1]] for the full text.
 - **Capability-absence-with-remedy** - cross-bundle, likely
   `software-engineering/deployment-contract`. Out of scope for a
   media-generation run.
+
+## 2026-09-01 - librarian sweep ([[2026-09-01-1]])
+
+`trailer-structure`, the bundle's one application-less subject, is bound to the connected
+trailer studio tree (`node--cue-first-assembly`, fate confirmed, the director's expected
+negative on the ledger and the budget refuted). Inbox: `cinematic-language` gained the
+diagonal placement value and the wide-shot light-layer rule with a dojo application;
+`production-pipeline-phasing` gained the result-lifetime rule. Banked with amendment text:
+character-identity-continuity, frame-direction (jump quota), generative-provider-routing
+(pending the local-tier experiment), visual-style-locking (three), image-prompt-composition.
+The bundle does not declare `next` as a stack, so a tree on that framework binds as `node`.

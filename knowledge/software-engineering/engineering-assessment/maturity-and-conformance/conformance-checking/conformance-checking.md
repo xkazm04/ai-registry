@@ -12,6 +12,7 @@ techniques:
   - checker-false-positive-discipline
   - fixture-repo-testing
   - declared-deviation-register
+  - edition-stratified-conformance
 ---
 
 # Conformance checking
@@ -120,7 +121,12 @@ reliably produces projects that improve the score without improving the
 thing. Design the number expecting to be gamed; the defence is not
 secrecy but a breakdown that makes the gaming visible.
 [pass-ratio-comparability](./techniques/pass-ratio-comparability.md) carries
-the arithmetic, the denominator rules, and what to refuse to render.
+the arithmetic, the denominator rules, and what to refuse to render. Where the
+standard accumulates editions and its suite grows without you, the number can
+be made comparable again rather than refused: pin the suite's revision, score
+each edition over only the checks it first required, and diff finding sets
+with a crash as its own class -
+[edition-stratified-conformance](./techniques/edition-stratified-conformance.md).
 
 ## Proving a claim must retire the claim it disproves
 

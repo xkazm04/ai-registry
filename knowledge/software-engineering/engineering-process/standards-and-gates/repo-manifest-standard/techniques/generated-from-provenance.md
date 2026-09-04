@@ -60,6 +60,19 @@ another synthesis is green forever. And its output must distinguish *drift* from
 *could not synthesize*; a generator that crashed and a generator that found
 nothing to change must not both print nothing.
 
+There is a second axis of drift, and it is the one a producer is structurally
+unable to notice. The check above compares a description against its own
+repository; but a synthesizer also emits artifacts that *execute somewhere
+else* — an automation definition, a hook, a scaffolded gate — and about those
+the producer's own green suite says nothing, because none of it ever runs in the
+consumer's environment. Where such an artifact encodes a decision the producing
+repository has already made for itself — the runtime major it pins, the
+invocation it uses, the version of a shared convention — the value must be
+**derived from the producer's own declaration of that decision and pinned by a
+test comparing the two**, never re-typed into the generator. A re-typed value is
+a second copy of one decision whose only reader is a stranger's environment, so
+it goes stale in silence and the staleness is discovered by the adopter.
+
 ## Reserve space for what a human must own
 
 Not everything is derivable. Intent, exceptions, deliberate deviations and their
@@ -100,6 +113,10 @@ notice will discount every other field too.
 - **When a field can be derived, derive it** — even if the derivation is
   imperfect, because an imperfect derivation is checkable and a perfect
   hand-entry is not.
+- **When a generated artifact will run in someone else's environment, derive
+  every value the producer has already decided for itself from that
+  declaration** — and assert the pair in a test. Your suite is not evidence
+  about a file your suite never executes.
 - **When a field cannot be derived and is not stable, do not add it.** An
   undecidable field becomes a stale field.
 - **When the drift check fires often for legitimate reasons**, the synthesizer is

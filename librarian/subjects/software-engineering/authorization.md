@@ -125,6 +125,18 @@ runs' generated outputs were restored to HEAD and this commit is path-scoped to
 `security/authorization`, the software-engineering index and its rule file.
 `catalog.json` still deliberately stale — see [[error-handling]].
 
+## 2026-09-01 - inbox leads landed under the librarian sweep ([[2026-09-01-1]])
+
+One lead (kp, landed fix), NOVEL. New technique `read-write-predicate-symmetry`: a visibility
+rule enforced on reads is enforced on writes in the same terms (not necessarily the same
+set), the write refusal borrows the read's refusal so writes disclose no existence, the
+three-outcome ownership fact is the primitive and routing helpers derive from it, the gate
+precedes the spend, and the by-identifier write paths are an enumerable set. Corroborated by
+the API-security top-ten's object-level-authorization category, the not-found-over-forbidden
+convention, and row-level-security designs where read filter and write check are separate
+clauses. Application `node--read-write-predicate-symmetry` at kp `c6a63199` (commit
+`aa92946b`). Proposals: data-access `query-construction` cross-link; error-handling
+`user-facing-mapping` needs the deliberate-collapse case.
 
 ## 2026-09-02 - /intake openbao (run intake-openbao-0902)
 

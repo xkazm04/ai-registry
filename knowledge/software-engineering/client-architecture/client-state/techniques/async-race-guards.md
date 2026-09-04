@@ -59,6 +59,20 @@ hand-rolled ninth copy is where it gets inverted
 ([one-authority-per-vocabulary](../../../_laws.md#one-authority-per-vocabulary),
 applied to a guard instead of an enum).
 
+A paged list has **two** write paths into one slot, and the guard is
+routinely installed on only one of them. Replace — a fresh first page from
+a refresh, a filter change, a re-sort — is the obvious one. Append — the
+load-more that adds to what is already there — is the one that gets
+forgotten, because it reads as additive rather than as an overwrite. It is
+not additive: it computed its offset, cursor or page number *against the
+state a concurrent refresh has since replaced*, so its rows land on top of
+a list they were never enumerated against, duplicating some entries and
+skipping others, and the result is stable enough to look like a server
+bug. The append path therefore mints and checks its token from the **same
+slot sequence** as the replace path — one sequence per list, whichever
+path dispatches — so a refresh landing mid-load-more makes the append
+inert, and the next load-more starts from the list that now exists.
+
 Cancellation is the complement, not the alternative: aborting the
 superseded request on dispatch of its successor saves bandwidth and server
 work, but abort is advisory — the response may already be in flight, and an

@@ -171,7 +171,15 @@ what turns "every door is guarded" from a review discipline into a property.
     connection, a different tab — the pending consent is voided, not
     carried over. Confirming a destructive statement against a database
     that silently changed underneath is the gate seeing the wrong target
-    ([gate-sees-target](../../../_laws.md#gate-sees-target)).
+    ([gate-sees-target](../../../_laws.md#gate-sees-target)). The target
+    includes **where the result lands**, not only where the statement runs.
+    When one confirm-then-execute gate serves several statements authored on
+    the same surface, the pinned identity must carry the result's
+    destination — the pane, tab, or slot the output will be written into —
+    because a destination re-pointed while the consent is held is a swap a
+    connection-keyed identity cannot see: same engine, same credential,
+    different place the rows appear. Capture the whole target when the gate
+    opens, not when it resolves.
 - **Confirmation friction scales with irreversibility.** Schema-destroying
   statements warrant a harder confirm than a row update; the class the
   guard computed is the input to that decision.

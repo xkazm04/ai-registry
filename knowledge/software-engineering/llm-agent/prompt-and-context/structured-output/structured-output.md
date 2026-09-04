@@ -2,7 +2,7 @@
 layer: golden-path
 type: golden-path
 subject: structured-output
-status: forged
+status: reconciled
 techniques:
   - extraction-strategies
   - schema-validation-and-repair
