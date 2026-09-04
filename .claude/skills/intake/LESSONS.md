@@ -7159,3 +7159,105 @@ third consecutive run cannot run the direction pass for this reason, take it.
 
 **For any run mid-flight on 2.3.2: nothing to do.** No `SKILL.md` change is made
 here; finish on the version you loaded.
+
+## 2.3.2 - 2026-09-04 - `pi`
+
+- **A repository that ships a document calling itself NORMATIVE is a third sweep
+  shape, and the sweep order should name it.** Phase 2b ranks `docs/` and `ADR/`
+  first; round 10 added "the operating documents may be inside the source files".
+  This tree has neither an `ADR/` directory nor inverted comment ratios - it has
+  `docs/harness.md`, 27,820 words, whose first section says it is the normative
+  specification and marks in a numbered subsection which parts are specified but
+  not implemented. Ten numbered work packages beside it carry the forces and the
+  rejected alternatives. The tell is cheap and mechanical: **grep the docs tree
+  for a document that claims normativity over the code**, and when one exists,
+  the README is not a summary of it and the source files are not where the
+  decisions are. Not yet a method edit - one sighting.
+
+- **A `benchmarks/` directory ranks first only when it publishes RESULTS.**
+  Round 10's declared focus said to read a vendor repository's `benchmarks/`
+  before its `docs/` when a published protocol exists. Followed here, and it
+  produced **nothing**. The protocol is genuinely good - deterministic synthetic
+  data, fixtures prepared outside the measured callback, a fresh process with
+  forced GC per pair, an explicit "not CI performance gates" clause - but it
+  publishes a *method* and no numbers, and its target list registers exactly one
+  backend. The round-10 rule holds with a qualification that costs one `ls`:
+  **rank a benchmark directory first when a results table or a populated target
+  list exists; otherwise it ranks with the other operating documents.** That is
+  the second run to refine this rule and it should go in the class table on the
+  third.
+
+- **The routing count changed what was EXTRACTED, and this run can prove it
+  because the count was written first.** Round 10's check, answered directly.
+  The tree's most prominent system - a 30-provider unified LLM API, the largest
+  README in the repo and the thing the landing page sells - counted **0 NONE**
+  against two existing subjects. It was classified and closed. The extraction
+  pass then went entirely to `harness.md` and the work packages, which the
+  landing page does not link at all, and **both landings came from there**. A
+  claims-first pass would have spent itself on the provider roster and produced a
+  currency signal. The count is doing the work the depth column was added to make
+  visible.
+
+- **A cap can move a subject, and the placement note must say so.** The
+  merits-correct category for the new subject holds exactly 10 subjects against
+  `MAX_CHILD_DIRS = 10`; an 11th fails the gate. Verified against `taxonomy.json`
+  as the authority rather than a folder count, per 2026-08-22 - but the newer
+  point is that the *subject* now carries a sentence in its own boundary section
+  saying where it belongs and why it is not there. A reader who cannot find a
+  subject where it belongs is owed the reason, and the alternative (subdividing a
+  sibling category as a side effect of an unrelated run) is a corpus-wide link
+  break nobody asked for.
+
+- **Run the apply step's falsifier IN the run; do not write it down as a return
+  condition.** The task plan for this run's shipped row was written with a
+  falsifier - "if every consumer already branches on the detail string before
+  summing, this is cosmetic" - and it was one grep. Running it turned a plausible
+  finding into a confirmed one (**one** production consumer, and it does not),
+  shrank the size estimate from "3-5 files" to three, and would have cost the
+  next run a session to rediscover. A falsifier a run can execute and defers is
+  not a falsifier; it is a hedge. **Candidate for the method:** Phase 7.5 should
+  say that a stated falsifier cheap enough to run in-session is run in-session,
+  and the row records the answer rather than the question.
+
+- **Two unapplied rows behind ONE precondition is a different fact from two
+  behind two, and this run has both shapes at once.** Round 9's focus asked for
+  unapplied landings to be grouped by precondition. This run has three rows the
+  fleet cannot meet: two share *a closed durable-state vocabulary the runtime
+  owns*, and one needs *parallel effects into a single ordered record*. Reporting
+  "3 unapplied" hides that the first two have one return condition that would
+  unblock both, and that the third would not be touched by it. The grouping was
+  written into the rows themselves, and the row that shares a precondition names
+  its partner.
+
+- **A `not-better` verdict produced this run's strongest corroboration, and the
+  trigger for reading a tree as a source is still written too narrowly.** Round
+  10 widened it from `not-better` to "the tree contradicted the reading". Both
+  fire here, but the valuable case is a third one: the tree **agreed** and had
+  reached the rule independently, from a different problem domain (a job runner,
+  not an agent harness), with the incident that taught it recorded in its own
+  test module. That is a second independent sighting - the convergence bar the
+  corroboration table sets - and it arrived through a verdict column that says
+  `not-better`, which reads like a miss. **Candidate for the method:** the apply
+  row's vocabulary needs a way to say *the tree already does this, independently*,
+  because that is corroboration and the ledger currently files it as a rejection.
+
+### Redesign proposal - not applied now
+
+- **A technique landed by a run can be amended by the same run's apply step, and
+  the method has no lane for it.** `total-restart-point-by-reference` was forged
+  in-session and its apply row came back `not-better` against a plugin host that
+  cannot satisfy its precondition, because the durable content is opaque to the
+  runtime by design. That condition belongs in the technique, and Phase 7.5's
+  `not-better` clause says exactly that ("it gains an amendment stating the
+  condition under which it did not hold"). It was **deferred** here on the
+  judgment that a condition established from one tree is a lead and a second
+  sighting should decide whether the boundary is "plugin hosts" or the narrower
+  "any host whose durable content is opaque to it". But the method does not
+  distinguish those two cases, and a run that forges and applies in one session
+  will hit this every time. The proposal: say explicitly whether a same-run
+  amendment is written immediately or banked, and on what test - otherwise the
+  answer is whatever the director felt like, which is what happened here.
+
+- **Nothing a mid-flight sibling should do about this entry.** No `SKILL.md`
+  edit was made and the version is unchanged; every bullet above is a lesson or a
+  proposal. Finish on the version you loaded.

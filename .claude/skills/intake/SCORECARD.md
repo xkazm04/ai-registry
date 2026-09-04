@@ -16,6 +16,7 @@ consecutive 1.x runs over large systems scored the same as twelve runs over vide
 
 | Version | Date | Source | Research | Extract | Test | Landed | Apply | Ship | Zero reason / focus moved? | Depth |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2.3.2 | 2026-09-04 | `pi` | 1 (990 landing / 324,241 in-tree) | 12 | 6 | 2 (1 subject with 6 techniques + 1 amendment) | 7 rows: 0c/0e/4s/1t, **2 unapplied behind 2 preconditions** | 1 commit (`pumper`, task plan; not pushed) | **No zero to explain in either column, and the Ship is a seam-defect find.** Focus item 3 asked whether a run reports a seam defect as its own outcome and states fleet reach even when zero: **both done** - reach is 8/8 on the domain gate and **1/8 on the binding precondition** (a tree that meters a generation it can lose mid-flight), and the defect is reported as the row's headline rather than buried in a `better`. Focus item 2 asked whether the routing count changed what was EXTRACTED: **yes, and it is answerable because the count was written first** - the tree's most prominent system counted 0 and was closed, sending the pass to unlinked documents that produced both landings. Focus item 1 (`techniques_absent`): **ninth deferral, and this run has no standing to close it** - it landed a subject rather than answering at subject grain, which is a different shape from the eight runs the item was raised about. | **S1/T7/A2/Asrc1/task-1** - routing count 4 (System A) of 6 whole-tree across 4 systems; handoff **declined in favour of a scoped in-session forge**, because the count was concentrated in one system with one home-if-new, which is the Phase 4 trigger rather than a `/forge` wave; directions=0/0 (no direction pass - `pumper` has no `scope` block, the standing fleet condition). |
 | 1.5.0 | 2026-08-31 | `pgrust` | 1 (2,480 landing / ~7,500 in-tree operating docs + a 1,241-row unit catalog) | 13 | 6 | 3 (1 technique + 2 amendments) | 3 rows: 0c/2e/1s — **1:1 with landings** | 0 (declined: no change warranted for 1 of 3; blocked: confirmation for 2 of 3 — the changes are argued and the measurables named, but the triage answer named no project and Phase 8 step 2 gates the tree write) | **Ship written with its predicate, as the focus asked, and the split matters: 1 of the 3 zeros is not a funnel loss.** The oracle row's tree already implements the remedy, so no change was warranted; the other two are the modal `confirmation` blocker again. **Focus's other half could not fire** — parallelising Phase 6's mechanical lane needs a wave, and one repository is one document; agent dispatch is also off in this session by standing operator instruction. Said so rather than manufacturing it. Extract→Test was 13→6 (46%) serially, above the window. **All three landings came from one hunt — an enumeration that claims completeness and misses a case the same file describes**: two rot axes named with a third in the prose; "no self-check exists" true for only one direction of an undrawn distinction; "compare against that one rather than writing a third" silent on what that oracle cannot see. Third consecutive run where the denial hunt carried the yield. **The apply refuted the run's own document before commit** (second consecutive run): the new technique covered the fitted *corpus* and not the fitted *predicate*, and the arm that found it scored **11/11 while 9 of 11 payloads passed through unmodified** — a section was added. **A first hypothesis was wrong and one command settled it** (fourth consecutive run of this): I expected a project's non-default test arms to be env-gated out of CI; the workflow runs all three. 0 of 3 fetches, thirteenth consecutive zero-fetch run on a source carrying its own primary material. |
 | 1.5.0 | 2026-08-31 | `semantica` | 1 | 18 | 6 | 5 techniques + 1 amendment | 6 rows: 2c/3e/0s + 1 unapplied | 0 (declined: confirmation — 2 `better` rows had the change argued and the measurable named, but the triage answer named no project, and Phase 8 step 2 gates on it) | Focus **did not apply** — it was scoped to the reference-index wave lane and this was a single-source repository run; said so rather than manufacturing parallelism. Extract→Test landed at 18→6 (a third) anyway, via the enumeration hunt rather than via parallelism |
 | 0.15.0 | 2026-08-29 | ai-native-sdlc-and-ci-on-call | 2 | 15 | 8 | 5 | 0c/0e/0s | 0 | Phase 7.5 did not exist; run landed five and applied none. Backfill owed: `oracle-frozen-during-repair`, and the four amendments. |
@@ -1595,3 +1596,33 @@ first and has no sentence about the inverted comment-to-code ratio. (3) **Carry
 round 11's Phase 7.6 verdict forward:** if a third consecutive run cannot run the
 direction pass because of shared-artifact contention, stop treating it as
 bad luck and take the redesign proposal.
+
+**Round 11's reading - the funnel's weakest stage moved, and it moved to Apply.**
+Across the last ten rows Research/Extract/Test are stable and Landed is healthy;
+what varies is what happens after a landing. This run produced 7 apply rows for
+7 landed items - 1:1, the ratio the board has been asking for - and still only
+**one** reached a project commit, because 3 of the 7 could not reach a tree at
+all and 2 more came back `not-better` against trees that had already built the
+mechanism. That is not a funnel loss and should stop being read as one: **the
+corpus is now ahead of the fleet on agent-runtime ground**, and the honest
+number is not "1 of 7 shipped" but "2 preconditions no managed tree meets".
+Depth held: `S1/T7/A2` from a source whose routing count was written before
+extraction, against four prior repository rows at `S0/T1/A5` - the count keeps
+separating the two shapes.
+
+**Next run's declared focus (round 11).** (1) **Run every falsifier the run can
+afford, in the run.** This run's shipped row turned plausible into confirmed with
+one grep, and shrank its own size estimate doing it; a falsifier written as a
+return condition is a hedge. *The check the next row should make: did any apply
+row state a falsifier it could have run and did not?* (2) **Give the apply
+vocabulary a way to say "the tree already does this, independently."** Two rows
+this run carried the strongest corroboration available - a second independent
+sighting from a different problem domain - through a column that says
+`not-better`, which reads as a rejection in every summary. *The check: did a run
+report an independent-convergence row as convergence rather than as a miss?*
+(3) **Close `techniques_absent`, or say who can.** Ninth deferral. This run has no
+standing to close it - it landed a subject rather than answering at subject grain,
+which is a different shape from the eight runs the item was raised about, and
+saying so is the first honest thing any run has said about it in nine tries. The
+next run that answers at subject grain owes the closure.
+
