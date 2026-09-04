@@ -6795,3 +6795,42 @@ lessons pending the three-run confirmation rule.*
   project and both are evidence the rule is right. The vocabulary handles this
   fine; the risk is a future run reading a `not-better` streak as a weak corpus.
   Say in the row which kind it is.
+
+## 2.4.0 - 2026-09-04 - cargo-make
+
+- **The routing count's two clauses can both read 'three' and still not fire, and
+  the run must say which.** This tree carried three unhomed decisions in one system
+  (the descriptor) - which reads like the v2.2 technique-triple trigger - but the
+  three did not share a home: one wanted `repo-manifest-standard`, two wanted
+  `settings`. The trigger is *three sharing one home*, not *three in one system*, and
+  a run that reports only the per-system number will hand off a repository whose
+  decisions scatter. Write both counts AND the grouping, not just the maxima.
+- **A source with nine unhomed decisions is not automatically a forge job.** Twelve
+  rounds of v2 have optimised against under-routing; this is the first round where
+  the honest answer was 'many decisions, no cluster'. Say the count out loud and
+  then say no - the count is an input to the decision, not the decision.
+- **The apply step refuted the run's own technique twice, and one refutation would
+  have shipped a regression.** Applying `version-gate-precedes-schema-gate` to this
+  registry's taxonomy loader, the obvious early return was *worse* than the shipped
+  behaviour: the loader returns a triple whose callers guard on the parsed object, so
+  a truthy early return leaves them cross-checking against an unpopulated map - 191
+  spurious findings. Only the third arm (return the loader's existing not-usable
+  signal) was correct. **Always build the arm the technique implies AND the arm the
+  caller's guard implies**; the second one is where the regression hides, and a
+  two-arm A/B would have shipped it.
+- **`unapplied` needs a predicate, exactly like every other count in this corpus.**
+  Two of five rows this round were `unapplied` - but established by enumerating 108
+  termination sites across three trees, not by shrugging. That is a different fact
+  from an unattempted row and the ledger cannot currently tell them apart. Proposed
+  as round 13's focus (3).
+- **A profile limit, not a method one: one application slot per (stack, technique).**
+  `check-bundles` requires the filename `<stack>--<technique>.md` exactly, so a second
+  tree on the same stack cannot be recorded. This run's shipped `gate-liveness`
+  realization has a ledger row and no application, because `node--gate-liveness` is
+  held by an unrelated tree. The workaround used for `rust--fork-to-outlive-the-healed`
+  was to write ONE application covering both trees - the external positive and the
+  fleet rejection - which turned out to be a *better* document than two would have
+  been, because the pair is the finding. Worth considering as the default shape rather
+  than a workaround.
+- **Mid-flight runs: nothing to do.** This version bump is a patch-level method note
+  plus a scorecard row; finish on the version you loaded.
