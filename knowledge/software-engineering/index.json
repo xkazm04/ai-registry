@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 191,
-  "techniques": 1383,
-  "applications": 791,
+  "techniques": 1388,
+  "applications": 795,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1383/1383",
+  "use_when_coverage": "1388/1388",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1371,7 +1371,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:85ae70a141654636",
+   "digest": "sha256:f32486e1d128852f",
    "techniques": [
     {
      "slug": "baseline-ladder",
@@ -20378,7 +20378,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256:00b051aafcd93494",
+   "digest": "sha256:d5f2406a48fccb0f",
    "techniques": [
     {
      "slug": "changelog-generation",
@@ -22213,7 +22213,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/self-healing.md",
-   "digest": "sha256:073ba0779b723f2d",
+   "digest": "sha256:8aa02d58966b87eb",
    "techniques": [
     {
      "slug": "auto-rollback",
@@ -22243,6 +22243,36 @@
      ]
     },
     {
+     "slug": "consume-once-mode-handoff",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "record-precedes-effect",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a mode flag on disk survives the boot it was meant for",
+      "reading an unbounded log to find a one-line verdict",
+      "deciding whether a file at a well-known path may be trusted as a message"
+     ]
+    },
+    {
+     "slug": "declared-verdict-over-inferred-wreckage",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary",
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a successor process must decide what killed its predecessor",
+      "a crash log is the only channel between two incarnations",
+      "pattern-matching a stack trace to choose a startup mode"
+     ]
+    },
+    {
      "slug": "effectiveness-accounting",
      "status": "forged",
      "laws": [
@@ -22269,6 +22299,21 @@
       "one defect fragments into thousands of signatures",
       "counting unknown signatures as taxonomy gaps",
       "diagnosing from state that changed since failing"
+     ]
+    },
+    {
+     "slug": "healer-death-as-promotion",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "failure-not-empty-success",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the component being healed is mandatory and its healer dies with it",
+      "promotion has no operator queue to promote into",
+      "a restart ladder exhausts and nothing is left running to report it"
      ]
     },
     {
@@ -22306,6 +22351,20 @@
      "technique": "auto-rollback",
      "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/go--auto-rollback.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "go",
+     "technique": "declared-verdict-over-inferred-wreckage",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/go--declared-verdict-over-inferred-wreckage.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "go@1.24.4"
+    },
+    {
+     "stack": "python",
+     "technique": "healer-death-as-promotion",
+     "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/applications/python--healer-death-as-promotion.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "react",
@@ -23090,8 +23149,23 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/signed-artifacts/signed-artifacts.md",
-   "digest": "sha256:1eff9f4588adf49b",
+   "digest": "sha256:302cf6b0885fc1ac",
    "techniques": [
+    {
+     "slug": "bypass-is-a-versioned-policy",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "one-validation-door",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an unsigned build must be installable for testing",
+      "a debug flag has become the verification path",
+      "deciding what makes a prerelease exempt from the signature check"
+     ]
+    },
     {
      "slug": "canonical-hashing",
      "status": "forged",
@@ -23183,6 +23257,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "bypass-is-a-versioned-policy",
+     "file": "knowledge/software-engineering/security/code-provenance/signed-artifacts/applications/go--bypass-is-a-versioned-policy.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "go@1.24.4"
+    },
     {
      "stack": "react",
      "technique": "signature-lifecycle",
@@ -24963,7 +25044,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:ab56f3c3eb8f80a2",
+   "digest": "sha256:0fa3aa64f246f286",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -25010,6 +25091,21 @@
       "deciding which dynamic verifier a lane should run",
       "a memory or concurrency defect escaped a suite that runs a verifier",
       "a project links foreign code into a checked runtime"
+     ]
+    },
+    {
+     "slug": "far-side-oracle",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product's whole claim is an effect on a system it does not own",
+      "in-product readback can only confirm the product tried",
+      "a lane needs an observer the build does not produce"
      ]
     },
     {
@@ -25229,6 +25325,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--approval-snapshots-with-guarded-update.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "far-side-oracle",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/node--far-side-oracle.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.21.1"
     },
     {
      "stack": "node",
@@ -27862,6 +27965,7 @@
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/context-starved-executor",
     "test-harness/dynamic-verifier-classes",
+    "test-harness/far-side-oracle",
     "test-harness/isolation-lanes",
     "test-harness/live-app-harness",
     "test-harness/negative-control-tests",
@@ -28295,6 +28399,7 @@
     "self-healing/auto-rollback",
     "self-healing/effectiveness-accounting",
     "self-healing/failure-diagnosis",
+    "self-healing/healer-death-as-promotion",
     "self-healing/incident-promotion",
     "self-healing/strategy-selection",
     "serving-process-topology/probe-the-runtime-not-the-config",
@@ -28354,6 +28459,7 @@
     "terminal-multiplexing/pty-management",
     "test-harness/approval-snapshots-with-guarded-update",
     "test-harness/context-starved-executor",
+    "test-harness/far-side-oracle",
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/live-app-harness",
     "test-harness/long-lane-certification",
@@ -28840,6 +28946,7 @@
     "templates-scaffolding/catalog-curation",
     "templates-scaffolding/integrity-and-provenance",
     "terminal-multiplexing/bounded-replay-buffers",
+    "test-harness/far-side-oracle",
     "test-harness/flake-lifecycle",
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/history-driven-partitioning",
@@ -28986,6 +29093,7 @@
     "retry-backoff/suspension-is-not-failure",
     "seal-and-key-hierarchy/per-tenant-seal-chain",
     "seal-and-key-hierarchy/usage-triggered-rotation",
+    "self-healing/declared-verdict-over-inferred-wreckage",
     "serving-process-topology/one-config-object-as-engine-state",
     "serving-process-topology/probe-the-runtime-not-the-config",
     "session-continuation/compaction-checkpoint",
@@ -28994,6 +29102,7 @@
     "settings/cross-source-precedence-chain",
     "settings/inherited-default-override",
     "settings/typed-accessors",
+    "signed-artifacts/bypass-is-a-versioned-policy",
     "structured-output/schema-validation-and-repair",
     "supply-chain/review-attestation-ledger",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
@@ -29437,6 +29546,7 @@
     "settings/key-registry",
     "settings/typed-accessors",
     "sidecar-provisioning/split-trust-by-registration-path",
+    "signed-artifacts/bypass-is-a-versioned-policy",
     "signed-artifacts/import-verification-flow",
     "sql-console/introspection-architecture",
     "sql-console/nl-assist-gating",
@@ -29671,6 +29781,7 @@
     "seal-and-key-hierarchy/any-one-seal-unseals",
     "seal-and-key-hierarchy/transient-upgrade-entry",
     "search/full-text-indexing",
+    "self-healing/consume-once-mode-handoff",
     "serving-process-topology/hot-loop-isolation",
     "session-continuation/continuation-as-state",
     "session-continuation/ordered-teardown",
@@ -30012,6 +30123,7 @@
     "search/command-surface",
     "search/faceting-and-filters",
     "search/saved-views",
+    "self-healing/declared-verdict-over-inferred-wreckage",
     "self-healing/failure-diagnosis",
     "self-healing/strategy-selection",
     "serving-process-topology/one-config-object-as-engine-state",
@@ -30133,6 +30245,8 @@
     "retry-backoff/client-retry-and-redirect-conventions",
     "retry-backoff/storm-control",
     "search/typed-filter-language",
+    "self-healing/declared-verdict-over-inferred-wreckage",
+    "self-healing/healer-death-as-promotion",
     "serving-process-topology/hot-loop-isolation",
     "sidecar-provisioning/split-trust-by-registration-path",
     "structured-output/schema-validation-and-repair",
@@ -30458,6 +30572,7 @@
     "seal-and-key-hierarchy/any-one-seal-unseals",
     "seal-and-key-hierarchy/usage-triggered-rotation",
     "serving-process-topology/probe-the-runtime-not-the-config",
+    "signed-artifacts/bypass-is-a-versioned-policy",
     "structured-output/schema-validation-and-repair",
     "supply-chain/unsafe-deserialization-off-by-default",
     "supply-chain/update-automation-review",
@@ -30517,6 +30632,8 @@
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
+    "self-healing/consume-once-mode-handoff",
+    "self-healing/healer-death-as-promotion",
     "voice-io/unattended-caller-attribution"
    ]
   },
@@ -30536,6 +30653,7 @@
     "paged-block-cache/release-order-is-the-eviction-policy",
     "quality-gates/deterministic-proxy-gate",
     "scale-investment-timing/execution-model-concurrency-threshold",
+    "self-healing/consume-once-mode-handoff",
     "serving-process-topology/process-count-as-a-formula",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate"
    ]

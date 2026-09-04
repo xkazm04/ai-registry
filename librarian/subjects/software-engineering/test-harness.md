@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -192,3 +192,27 @@ project with snapshot tests and no gate: 17 of 17 snapshot commits also changed 
 verdict unmeasurable with the instrument named (a pre-commit or CI check for marker-less
 re-approvals). The `cpp--` application records the source's compile-time switch and the
 integrity test that asserts it off; a `node--` application carries the measurement.
+
+## 2026-09-04 — `/intake` over an appliance firmware (jetkvm)
+
++1 technique, +1 application (`node`). `far-side-oracle`: when the product's
+entire claim is an effect on a system it does not own — a remote-control
+appliance, a provisioner, a driver presenting a virtual peripheral, a browser
+automation library — `live-app-harness`'s readback loop is a tautology. It can
+confirm the product *emitted* something; whether anything *arrived* is a fact that
+exists only on the far side.
+
+The source deploys a dependency-free daemon onto the controlled host, built for
+that host's architecture in its own module, pushed and health-checked by the lane
+itself, reporting kernel substrate (raw input events, USB enumeration, the mount
+table) rather than the product's vocabulary — an oracle that speaks the product's
+language agrees with its bugs. Absence skips rather than fails, because whether a
+second machine exists is an environment property.
+
+The lane is also where the resource claims live: its leak test asserts a
+**derived** budget (per-rebind cost × permitted rebinds + steady-state allowance,
+three named constants) rather than zero growth, which is `count-carries-predicate`
+arriving through a door this subject had not used. Unapplied — no authorized
+fleet tree has the seam; the one project that drives a system it does not own
+already reads far-side filesystem state and skips-not-fails, and lacks only the
+deployed runtime agent.

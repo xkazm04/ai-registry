@@ -49,6 +49,45 @@ This one asymmetry generates the technique's whole posture:
   latest release, trending after each ship) is the only instrument that
   sees a severed channel from the outside.
 
+### Two baselines, and they answer different questions
+
+The rehearsal above names the *previous shipped release* as the starting point,
+and that is the right default. But a project that runs only that lane is
+conflating two variables, and a project that runs only its cheap substitute is
+not testing the chain at all. Both baselines belong in the pipeline, and each
+proves something the other cannot.
+
+**The shipped baseline** — fetch the actual latest release from the actual feed
+and upgrade it — is the one that proves the self-sealing property, because the
+reader doing the work is the reader that is out in the field. It is also the only
+lane that can catch a break in *the old code*, which is the whole point. Its
+weakness is diagnostic: when it fails, the failure indicts two programs at once,
+and telling "the candidate's apply logic is wrong" from "the shipped release's
+updater was already broken" costs an investigation.
+
+**The synthetic baseline** — build the candidate's own source a second time,
+stamped with a version guaranteed to sort below everything, and upgrade *that* to
+the candidate — holds the reader constant and varies only the version. When it
+fails, exactly one thing is wrong, and it is the thing you just changed. It also
+costs one extra build rather than a network fetch of an artifact that may not
+exist yet for this target, which is what makes it cheap enough to gate every
+candidate rather than every release.
+
+The trap is treating the second as a replacement for the first. A synthetic
+baseline is built from the candidate's tree, so it shares the candidate's feed
+parser, its verifier, and its applier. It can never observe a defect that the
+candidate introduced *into the reader*, which is precisely the defect class this
+technique exists for. Running only the synthetic lane produces a green board and
+a severed fleet.
+
+So: gate every candidate on the synthetic lane, gate every *release* on the
+shipped lane, and when the shipped lane fails, re-run the synthetic one to
+localise the fault. One further consequence is easy to miss — the synthetic
+baseline is unsigned, because it is built outside the signing ceremony, so the
+rehearsal depends on the signature-exemption policy being a real, tested
+production path rather than a test-only shortcut. If that policy does not exist,
+adding this lane will invent one badly.
+
 ## The feed is generated from the artifacts, not from intent
 
 The feed manifest states facts about payloads: their location, their size,

@@ -10,6 +10,7 @@ techniques:
   - key-custody
   - import-verification-flow
   - signature-lifecycle
+  - bypass-is-a-versioned-policy
 ---
 
 # Signed artifacts & provenance
@@ -140,6 +141,13 @@ technique:
 - **Key loss is identity loss.** Rotation and regeneration void every trust
   relationship the old key had earned; they are destructive, explicit
   operations, never side effects ([key-custody](./techniques/key-custody.md)).
+- **The exemptions are part of the policy, not holes in it.** Every project that
+  signs eventually has to install something unsigned — a local build, a release
+  candidate the ceremony has not reached yet, a one-off for support. Left
+  unplanned, that need is met by an environment variable at the call site and the
+  verification story quietly ends there. The exemption belongs in one pure
+  predicate over declared inputs, with a deny default and its own refusal table
+  ([bypass-is-a-versioned-policy](./techniques/bypass-is-a-versioned-policy.md)).
 
 ## Identity of the artifact itself
 

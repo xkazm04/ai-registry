@@ -1,7 +1,7 @@
 ---
 subject: release-pipeline
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -70,3 +70,21 @@ carrying the downstream reference that created the dependency so the next person
 whether it still exists. It pins names, not the surface: a golden-file snapshot of
 everything would make every legitimate addition a failure and train reviewers to bless
 diffs.
+
+## 2026-09-04 — `/intake` over an appliance firmware (jetkvm)
+
+Amendment to `updater-chain`, "Two baselines, and they answer different
+questions." The technique told the reader to rehearse from the *previous shipped
+release*; the source runs that lane **and** a second one from a **synthetic
+baseline** — the candidate's own source rebuilt with a version stamped below
+everything. The two are not substitutes: the synthetic lane holds the reader
+constant so a failure indicts exactly one program, and is cheap enough to gate
+every candidate; but because it shares the candidate's own parser, verifier and
+applier, it structurally *cannot* observe a defect introduced into the reader,
+which is the self-sealing class the technique exists for. Running only the
+synthetic lane produces a green board and a severed fleet.
+
+One coupling worth keeping: the synthetic baseline is unsigned, so the rehearsal
+depends on the signature exemption being a real tested production path — see
+`signed-artifacts/bypass-is-a-versioned-policy`, landed the same run. Unapplied:
+no authorized fleet project ships a self-updating client.

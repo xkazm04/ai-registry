@@ -20,6 +20,7 @@ techniques:
   - recorded-interaction-fixtures
   - context-starved-executor
   - approval-snapshots-with-guarded-update
+  - far-side-oracle
 ---
 
 # Test harness architecture
@@ -102,6 +103,15 @@ live-app rung ([_laws: gate-sees-target_](../../../_laws.md#gate-sees-target)). 
 harness with no lane pointed at the real running product has a permanent blind
 spot exactly where integration risk concentrates. The
 [live-app-harness](./techniques/live-app-harness.md) technique owns that lane.
+
+That lane closes its loop inside the product: the harness drives the real build
+and reads the result back out of it. One class of product breaks the loop — the
+kind whose entire claim is an effect on a system it does not own, where near-side
+readback can only confirm that something was *sent*. There the observer has to be
+planted on the far side of the boundary, deployed by the lane itself, reporting
+substrate facts rather than the product's own vocabulary; that is a rung above
+live-app rather than a variant of it, and
+[far-side-oracle](./techniques/far-side-oracle.md) owns it.
 
 ## Reaching the code is not the same as watching it run
 
