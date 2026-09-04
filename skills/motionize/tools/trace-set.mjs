@@ -81,8 +81,14 @@ async function main() {
       surfaceTolerance: args["surface-tolerance"] ? Number(args["surface-tolerance"]) : undefined,
       slabMinArea: args["slab-min-area"] ? Number(args["slab-min-area"]) : null,
     });
-    const viewBox = /_TMP_VIEWBOX = "([^"]+)"/.exec(ts)[1];
-    const data = /_TMP: [^=]+= (\[.*\]);/s.exec(ts)[1];
+    // These two regexes ARE the contract with emit-glyph.mjs's writer, and they went
+    // stale when it stopped emitting a bare array plus a separate `_VIEWBOX` const and
+    // started emitting one `TracedGlyph` object: `.exec(ts)` returned null and this
+    // line threw a TypeError on every set trace. tests/test_emit-glyph.mjs now reads
+    // these literals back out of this file and runs them against the real output, so
+    // the two writers cannot drift apart again in silence.
+    const viewBox = /_TMP: TracedGlyph = \{ viewBox: "([^"]+)"/.exec(ts)[1];
+    const data = /_TMP: TracedGlyph = \{ viewBox: "[^"]*", data: (\[.*\]) \};/s.exec(ts)[1];
     entries.push({ key, viewBox, data, elements });
     process.stderr.write(`  ${key}: ${elements} paths\n`);
   }

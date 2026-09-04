@@ -77,6 +77,24 @@ const DESCRIPTION_SOFT_MAX = 1200;
 // A note, not a failure — a long method is a smell, not a contract breach.
 const BODY_SOFT_MAX_LINES = 500;
 
+// Two more notes on the same ladder, and notes for the same reason: each names a
+// convention the lane has adopted but cannot make retroactive without failing skills
+// that predate it. A note is visible on every run and blocks nothing.
+//
+//  - A skill that ships executable instruments and no tests/ directory. The lane spec
+//    called deterministic script tests "not yet standing" while thirteen shipped
+//    script files carried none; the tier stands now, and the note is how a skill that
+//    has not adopted it stays countable.
+//  - A skill whose `memory:` is `project` or `vault` and whose body never names its
+//    `## Project overlay`. That scope is a promise to read something out of the
+//    consuming repo, and the spec requires the section that says WHERE and with what
+//    defaults. Without it the skill either invents the location per consumer or the
+//    project-specific bytes end up inlined in a shared body - the exact drift the
+//    overlay rule exists to stop.
+const INSTRUMENT_DIRS = ['scripts', 'tools'];
+const OVERLAY_MEMORY_SCOPES = new Set(['project', 'vault']);
+const OVERLAY_HEADING_RE = /^##+\s+Project overlay\s*$/mi;
+
 const failures = [];
 const notes = [];
 const fail = (msg) => failures.push(msg);
@@ -209,6 +227,20 @@ for (const s of skills) {
 
   if (s.lines > BODY_SOFT_MAX_LINES) {
     notes.push(`${rel}/SKILL.md is ${s.lines} lines — the harness recommends under ${BODY_SOFT_MAX_LINES}; move reference material into references/ and link it`);
+  }
+
+  // A skill that ships instruments should ship the tests that pin them. Cheapest
+  // honest signal: a `tests/` directory runnable with `node --test`, no install.
+  const topDirs = new Set(s.files.filter((f) => f.dir && !f.rel.includes('/')).map((f) => f.rel));
+  const instruments = INSTRUMENT_DIRS.filter((d) => topDirs.has(d));
+  if (instruments.length && !topDirs.has('tests')) {
+    notes.push(`${rel} ships ${instruments.map((d) => `${d}/`).join(' and ')} but has no tests/ — a deterministic \`node --test\` case beside a shipped script is the cheapest thing that catches a pure-function regression; see docs/skills-lane.md, "Checks beyond structure"`);
+  }
+
+  // `memory: project|vault` is a promise to read something out of the consuming repo.
+  // The section that says WHERE, and with what defaults, is what makes it keepable.
+  if (OVERLAY_MEMORY_SCOPES.has(String(fm.memory)) && !OVERLAY_HEADING_RE.test(doc.body)) {
+    notes.push(`${rel}/SKILL.md declares \`memory: ${fm.memory}\` but its body has no \`## Project overlay\` heading — that scope reads per-repo state, and without the section naming the overlay location and its defaults each consumer invents one, or the project-specific bytes end up inlined in a shared body`);
   }
 
   // Sub-resources: what the directory publishes besides SKILL.md.

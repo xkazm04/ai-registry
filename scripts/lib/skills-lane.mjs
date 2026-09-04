@@ -14,7 +14,9 @@ import crypto from 'node:crypto';
 // Files and directories a published skill may carry (docs/skills-lane.md, "The shape").
 export const SKILL_FILE = 'SKILL.md';
 export const LESSONS_FILE = 'LESSONS.md';
-export const ALLOWED_DIRS = new Set(['references', 'scripts', 'tools', 'assets']);
+// `tests` joined the declared set when the lane's minimum test tier started standing:
+// a skill that ships instruments carries `node --test`-shaped tests beside them.
+export const ALLOWED_DIRS = new Set(['references', 'scripts', 'tools', 'assets', 'tests']);
 // Never published: run artifacts, installed dependencies and mutable state. State lives
 // in the CONSUMING repository's declared overlay (or the plugin data directory), never in
 // the lane — otherwise every copy diverges on first use.
