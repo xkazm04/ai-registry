@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1569,
-  "applications": 904,
+  "techniques": 1571,
+  "applications": 906,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1569/1569",
+  "use_when_coverage": "1571/1571",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -8345,7 +8345,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deferred-operation-fusion/deferred-operation-fusion.md",
-   "digest": "sha256:45b3ca5d4cdb8209",
+   "digest": "sha256:fc0b36fe0c95d66d",
    "techniques": [
     {
      "slug": "algebraic-op-representation",
@@ -8389,13 +8389,16 @@
      "status": "forged",
      "laws": [
       "gate-sees-target",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "count-carries-predicate"
      ],
      "shared_with": [],
      "use_when": [
       "an operation is being declared deferrable",
       "a lazy pipeline's output is suspected to differ from the eager one",
-      "deciding what tolerance a deferred-equals-eager assertion should use"
+      "deciding what tolerance a deferred-equals-eager assertion should use",
+      "an argmax or a threshold consumes the pipeline's output",
+      "swapping one implementation of a transform for another"
      ]
     },
     {
@@ -25365,8 +25368,24 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/serving-process-topology/serving-process-topology.md",
-   "digest": "sha256:bbd91a5c90eaa4be",
+   "digest": "sha256:74ceec5ae581ab21",
    "techniques": [
+    {
+     "slug": "cache-residency-sets-the-balancing-unit",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding replicas in front of a service that reuses state between related requests",
+      "a request's cost depends on which replica served the one before it",
+      "deciding whether a general-purpose load balancer can front a stateful serving path",
+      "one deployment mode supports a scaling flag and its sibling does not",
+      "sizing concurrency for a service whose per-client state lives in a cache"
+     ]
+    },
     {
      "slug": "hot-loop-isolation",
      "status": "forged",
@@ -25431,6 +25450,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "python",
+     "technique": "cache-residency-sets-the-balancing-unit",
+     "file": "knowledge/software-engineering/backend-platform/inference-serving/serving-process-topology/applications/python--cache-residency-sets-the-balancing-unit.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.10"
+    },
     {
      "stack": "python",
      "technique": "hot-loop-isolation",
@@ -26815,7 +26841,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/streaming-output.md",
-   "digest": "sha256:7d559ce0c8a4cf1c",
+   "digest": "sha256:8b74d7773082a8bc",
    "techniques": [
     {
      "slug": "buffering-and-backpressure",
@@ -26843,6 +26869,23 @@
       "converging every exit on one finalization",
       "outcome flickers between cancelled and failed",
       "a stopped stream still shows as completed"
+     ]
+    },
+    {
+     "slug": "emit-behind-the-revision-window",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a producer revises output it has already emitted",
+      "deciding whether a non-monotone stream can be shown live at all",
+      "a live transcript visibly rewrites itself",
+      "a detector retroactively invalidates recent output",
+      "choosing how far behind the producer a live surface should render",
+      "a downstream consumer wants to start work before the output is final"
      ]
     },
     {
@@ -26913,6 +26956,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "python",
+     "technique": "emit-behind-the-revision-window",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/applications/python--emit-behind-the-revision-window.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "python@3.10"
+    },
     {
      "stack": "react",
      "technique": "buffering-and-backpressure",
@@ -27105,7 +27155,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256:d7a9020e4119d816",
+   "digest": "sha256:d9717b151d3057be",
    "techniques": [
     {
      "slug": "cancellation-needs-a-terminable-unit",
@@ -30164,7 +30214,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256:030d4617e30547fa",
+   "digest": "sha256:3492915962b7057e",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -30179,7 +30229,9 @@
       "an engine offers to build a voice from a description or a sample instead of a catalog",
       "storing a user's custom voice so it survives an engine upgrade",
       "deciding whether a voice control needs a consent record",
-      "a custom voice sounds different every time it is regenerated"
+      "a custom voice sounds different every time it is regenerated",
+      "a voice ships as an opaque precomputed artifact rather than as audio or prose",
+      "a product must not be able to clone a voice at all"
      ]
     },
     {
@@ -32094,6 +32146,7 @@
     "self-healing/healer-death-as-promotion",
     "self-healing/incident-promotion",
     "self-healing/strategy-selection",
+    "serving-process-topology/cache-residency-sets-the-balancing-unit",
     "serving-process-topology/probe-the-runtime-not-the-config",
     "session-continuation/advisory-guard-fail-mode",
     "session-resume/content-freshness-states",
@@ -32405,6 +32458,7 @@
     "dead-code/configuration-union-proof",
     "dead-code/deletion-protocols",
     "dead-code/instrument-per-orphan-class",
+    "deferred-operation-fusion/equivalence-oracle-testing",
     "delivery-analytics/attribution-channels",
     "delivery-analytics/batch-size-thresholds",
     "delivery-analytics/delivery-metric-denominators",
@@ -34392,7 +34446,9 @@
     "quality-gates/deterministic-proxy-gate",
     "scale-investment-timing/execution-model-concurrency-threshold",
     "self-healing/consume-once-mode-handoff",
+    "serving-process-topology/cache-residency-sets-the-balancing-unit",
     "serving-process-topology/process-count-as-a-formula",
+    "streaming-output/emit-behind-the-revision-window",
     "structured-output/constrained-decoding-is-a-shared-budget",
     "untrusted-extension-host/host-api-import-budget",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
@@ -34606,6 +34662,7 @@
     "self-healing/consume-once-mode-handoff",
     "self-healing/fork-to-outlive-the-healed",
     "self-healing/healer-death-as-promotion",
+    "streaming-output/emit-behind-the-revision-window",
     "voice-io/unattended-caller-attribution"
    ]
   }
