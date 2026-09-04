@@ -23,7 +23,7 @@ imported from another project's overlay.
 
 ## Gates
 
-- always: `node scripts/check-skills.mjs && node scripts/apply-skill-clauses.mjs --check && node scripts/build-marketplace.mjs --check && node scripts/check-bundles.mjs && node scripts/build-index.mjs --check && node scripts/build-knowledge-rules.mjs --check && node scripts/check-usage.mjs && node scripts/check-signals.mjs && node scripts/build-catalog.mjs --check`
+- always: `node scripts/gate.mjs --all` (the mirror of the two workflows, added in round 1; the spelled-out chain: `node scripts/check-skills.mjs && node scripts/apply-skill-clauses.mjs --check && node scripts/build-marketplace.mjs --check && node scripts/check-bundles.mjs && node scripts/build-index.mjs --check && node scripts/build-knowledge-rules.mjs --check && node scripts/check-usage.mjs && node scripts/check-signals.mjs && node scripts/build-catalog.mjs --check`
 - when skills/ changed: `node scripts/check-skills.mjs --since <base sha>` (version-bump discipline) and `node scripts/check-skill-triggers.mjs` (advisory)
 - when knowledge/ changed: regenerate in ORDER `build-index.mjs` -> `build-knowledge-rules.mjs` -> `build-catalog.mjs`, then the `--check` forms
 - slow: none - every gate runs in seconds, no install step
@@ -82,3 +82,4 @@ imported from another project's overlay.
 ## Skill improvement log
 
 - 2026-09-04: overlay scaffolded by init; defaults in force except `round_shape: round`, `commit_format`, `context_map`.
+- 2026-09-04 (round 1, init): scripts + skills-lane, 10/10 accepted, 9 shipped in one wave of 3 lots on main with `--only` (no wave branch: two live sibling sessions). What dragged: a whole-lane re-stamp had to be pulled out of its lot and run by the Director at quiescence; a sibling shipped one direction between gate and dispatch. Next round: cursor registry-skills, then knowledge-lane; consider `frontmatter-lib` (deferred, sibling sweep) once scripts/ is quiet.
