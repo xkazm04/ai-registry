@@ -644,3 +644,11 @@ Saturation self-forecast: the four un-attacked claims are now attacked and the
 fresh landings confirmed with qualifiers; the next pass should find the harness's
 year run and the `write-verdict` arm, and little else until a second human
 reaches a connected store. One more productive pass, then dry.
+
+## Impact (step 4, run 2026-09-04-1)
+
+Fleet maps regenerated after the landing. Verdicts now judged against a subject that
+moved: personas (2), ascent (2). The personas count the scan reports as "14 deviations"
+is the map's *unknown* count for this subject on that project (14 unknown + 2
+deviations, both UI groups with no seam text) - a demand number to read as unjudged,
+not as fourteen shortfalls.

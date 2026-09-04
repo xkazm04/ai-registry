@@ -609,3 +609,10 @@ miss, because it is the cheap misreading and this run made it first: the UNKNOWN
 the runner is scoped to **unaided-baseline screening**, where excluding those probes is
 precisely what keeps them in the score. Ask which pass a filter belongs to, not whether a
 filter exists.
+
+## 2026-09-04 - lead from the `/deepen` batch ([[2026-09-04-1]])
+
+- **`judge-stability` sighting.** The agent-memory worker found a connected harness whose
+  terse-consumer judge marks a conversational, correctly dated reply as stale; a re-judge
+  moved the cell by +37 points. One harness, one judge; recorded as a sighting, not a
+  measurement. Return condition: the harness's year run, which will re-judge every cell.

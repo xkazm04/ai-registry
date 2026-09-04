@@ -80,3 +80,12 @@ subject by construction.
 - Corroboration is **training-data convergence, not the source** - an ordered interceptor chain with single consumption is long-established practice - which matters because the source's own Director stack is designed and not fully shipped.
 - The technique imports two obligations the subject already owns: a declared risk class per frame with a derived fail direction (a frame that throws must re-offer the yield it held, not swallow it), and leases on a restored stack so a crashed session does not resume into an armed force.
 - **Unapplied.** One fleet project has 18 restated checks of two mode flags across 8+ files - the right shape - but those modes gate permission rather than a candidate yield. Return condition: a project grows two behaviours that each want to hold a session open.
+
+## 2026-09-04 - lead from the `/deepen` batch ([[2026-09-04-1]])
+
+- **`advisory-guard-fail-mode`: one event, two documented fail directions by handler
+  family.** The agent-runtime-assembly worker found a harness whose timed-out command
+  hook does not block while its SDK-callback hook for the same event does - primary
+  evidence for "the handler class fixes the direction", which this technique argues
+  from one side. Return condition: the next deliberate edit of the technique, or a
+  second harness documenting per-family fail direction.

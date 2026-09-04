@@ -111,3 +111,11 @@ the technique text before landing.
 **Apply: unapplied**, and the absence was searched rather than assumed. No fleet
 project has a cooperative stop with an acknowledgement; children are spawned with
 a deadline and killed when it fires, so there is no rung 1 to split.
+
+## 2026-09-04 - lead from the `/deepen` batch ([[2026-09-04-1]])
+
+- **Grace-deadline cancellation for a hook that ignores the host signal**
+  (cooperative-then-forced). Reached by the agent-runtime-assembly worker from the
+  origin-of-cancellation rule; home contested between this subject and
+  agent-runtime-assembly/operator-tier-code-loading, so not landed. Return condition: a
+  fleet tree that kills a contributed hook after a grace period, or a second sighting.

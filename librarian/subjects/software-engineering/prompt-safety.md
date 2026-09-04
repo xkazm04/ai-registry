@@ -33,3 +33,11 @@ across the whole subject returns zero hits.
 
 Not landed, deliberately: the recall-side rule (what a store may recall against a given
 request). Its home is `agent-memory`, which a sibling session held for the whole run.
+
+## 2026-09-04 - lead from the `/deepen` batch ([[2026-09-04-1]])
+
+- Landed (Director, one sentence): the third-party-span inventory now points at
+  agent-memory/memory-governance for what a store does with a tainted author at its
+  write door - the receiving end of this subject's rule. The measured poisoning
+  channels (compaction, trace-to-procedure; weak-signal facts evading every input
+  detector by >40 points) live there, not here.

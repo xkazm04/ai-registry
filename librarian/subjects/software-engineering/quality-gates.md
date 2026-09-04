@@ -972,3 +972,10 @@ attacked; the techniques with no prior counter-evidence were swept this pass
 and most confirmed. The next pass should be dry on corrections and find only
 currency signals and the merge-queue gap - forecast: one landing at most, a
 split decision pending, and a rising cost per finding.
+
+## Impact (step 4, run 2026-09-04-1)
+
+Fleet maps regenerated after the landing. Verdicts now judged against a subject that
+moved: gravity (1), personas (1). That is the `/conform --stale` queue for this subject.
+Fleet-wide 247 of 287 recorded verdicts were already stale before this run began - the
+maps had not been regenerated since 2026-08-31 - and remain so after it.

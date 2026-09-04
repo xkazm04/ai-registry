@@ -468,3 +468,14 @@ computable there and simply is not published.
 
 Board: 2 siblings live by Phase 7, neither holding these two technique files;
 `check` was clear immediately before the first write.
+
+## 2026-09-04 - lead from the `/deepen` batch ([[2026-09-04-1]])
+
+- **The task extension as wire facts.** The protocol's task extension (2025-11,
+  experimental) carries `execution.taskSupport` required/optional/forbidden, a
+  receiver-overridable TTL that deletes a task *and its result* regardless of status,
+  and a model-immediate-response path. `spec--enumeration-without-a-scope` mentions
+  tasks; the lifecycle contract is not modelled here. The consuming side (a purged
+  result read as *expired unread*) landed in agent-runtime-assembly/
+  bounded-projection-of-external-work today. Return condition: an intake of the
+  extension's specification text, or a fleet server that advertises taskSupport.

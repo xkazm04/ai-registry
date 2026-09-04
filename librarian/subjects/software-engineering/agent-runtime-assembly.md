@@ -407,3 +407,10 @@ two fail directions by handler family, documented), `subprocess-lifecycle`
 two-source; this pass refuted two absolutes and one internal contradiction on the
 first attempt, which is the signature of a subject that has not been attacked
 before. Expect one more pass of this yield, then diminishing.
+
+## Impact (step 4, run 2026-09-04-1)
+
+Fleet maps regenerated after the landing. No project carries a judged verdict against
+this subject (every pair `unknown`), so the stale queue is empty and demand stays
+unknown. The seams personas and pof recorded in their `.ai/applied.jsonl` are the only
+fleet evidence; two of today's corrections came from them.
