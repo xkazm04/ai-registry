@@ -2252,3 +2252,85 @@ auditing yourself against someone who made different choices, and its adopt list
 is the least of what it returns.** The `keep ours` class being largest is not a
 disappointing result — it is where the reasons get written down, and a reason
 written down is what makes the next defect findable.
+
+---
+
+**Round 25 (`wan2gp`).** v2.5.0 · 2026-09-04 · `github:deepbeepmeep/Wan2GP` @ `cdab3128`
+
+| stage | count |
+| --- | --- |
+| research | 1 source (vendor repository, cloned; 8,158 landing / 76,498 in-tree docs + ~89.5k LoC) |
+| extract | 22 candidates (18 design + 4 claim) |
+| test | 3 picks verified against the host file AND the source's code, 3 catches |
+| apply | `0c/1e/0s/0t` + 2 `unapplied` **with the seam search stated**: 6 fleet trees, 0 agent-facing write tools, 0 compressed catalogs |
+| ship | 1 (gravity, `eb2f272`, gates green, not pushed) |
+| admission | `auto=3/0/0`, `fp=0` |
+| depth | `0S/0T/3A/2Asrc/0 task-lines` · routing count 9 unhomed / 4 systems · **count met, cluster collapses** · handoff **not** fired · `directions=0/0` · `absolutes=3 read/3 landed` · fetches `0/3` |
+
+**Where the landings were FOUND, not where they landed (round 24, second focus).**
+Two of three came out of Phase 6 — specifically out of *hunting the host file's
+absolutes*, which this round did on purpose rather than by accident. The third, and
+the only one that shipped, came out of **Phase 7.5**: the amendment was written first
+and the live defect was found while looking for its seam. That is now four consecutive
+rounds in which the apply step produced or changed a landing, and the third in which
+it **corrected** one — here the correction was to my own amendment, which had
+conflated origin retention with master stability until the number said otherwise.
+
+**The absolutes hunt is the highest-yield instrument this method currently has, and
+it should be promoted.** Three host files were opened and each was read for its
+unqualified sentences before anything was drafted: *"writes never refresh marks…
+this is the whole cure for drift"*, *"progressive discovery is unavailable to a
+publisher whose hosts do not perform it"*, *"state 3 derived from state 1 disagrees
+with state 2"*. All three are true within a scope none of them states, and all three
+scopes were visible in the source's code within one file read. The yield ratio —
+3 absolutes read, 3 landed — is not repeatable, but the *direction* is: an absolute is
+a claim with a quantifier, and a tree that violates it either refutes the claim or
+reveals the missing quantifier. Both are landings. Round 24's first focus asked for
+this to be done deliberately; done deliberately, it produced the whole run.
+
+**`ship 1 of 3 seams found`, and the predicate matters.** Two rows are `unapplied`
+because the seam does not exist in the fleet, and that was *searched*, not assumed:
+six trees, per-project `git grep`, zero agent-facing write tools and zero compressed
+catalogs. The fleet consumes MCP and does not publish it. Counting those as funnel
+losses would misreport the weakest stage, which is exactly what round 23 warned about
+— so they are carried with their predicate and applied against the source's own tree
+instead, which is what v2's source-tree application lane is for and which produced two
+documents that record where the tree does **not** meet the standard.
+
+**The routing count needs its third word, and this round is the clean case for it.**
+The count was met — one system reached three unhomed decisions — and no forge fired,
+because those three collapse to one idea under this round's own shared-force test. A
+reader seeing "count 9, no handoff" will assume the handoff was declined. It was not
+declined and it was not missed; the cluster dissolved on inspection. **`count met,
+cluster collapses`** is proposed as the standing term, distinct from "count not met"
+(the decisions were homed) and from "handoff declined" (`--no-handoff`, an operator
+choice).
+
+**Reading the last ten rows: the funnel's weakest stage is still `ship`, and the
+reason has now changed.** Earlier rounds shipped little because the corpus's findings
+did not reach fleet code. This round shipped once out of three *because two findings
+have no seam anywhere in the fleet by construction* — mcp-tools is a 15-technique,
+12-application subject whose applications are all external stacks, and that is not an
+accident of this run. **The fleet is an MCP consumer and the subject is written for
+publishers.** A subject whose apply rows can only ever be source-tree applications is
+not failing; it is telling us which half of a wire we sit on. That belongs in the
+subject's note rather than in the funnel's loss column.
+
+**Next run's declared focus (round 26).** (1) **Hunt absolutes on purpose, and record
+`absolutes=<read>/<landed>` in the depth cell** — round 24 proposed it, this round ran
+it and it produced every landing. Two rounds is not three, so it stays a lesson; a
+third confirming round makes it a step in Phase 6. (2) **Ask whether a subject's apply
+rows can only ever be source-tree applications, and say so in its note.** When two
+consecutive runs report `unapplied — no seam in the fleet` for the same subject, that
+is a fact about the subject's audience, not about the runs; record it once so a third
+run does not re-search six trees to rediscover it. (3) **When a landing's cost clause
+names a property, test that the property actually holds before shipping the fix.**
+This round shipped a pin that secures the origin and then discovered, from its own
+second measurable, that the property it claimed to protect (master stability) was
+untouched in both arms. The fix is still right and the row says `better` honestly —
+but the second measurable is what kept the corpus from carrying an overclaim, and it
+existed only because the experiment printed both arms rather than a verdict.
+**The check the next row should make:** did the run open its host file looking for
+unqualified sentences before it drafted anything — and did any measurable in its apply
+step come back *unchanged*, which is the one result that cannot be produced by wanting
+it?

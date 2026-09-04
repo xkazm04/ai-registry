@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -424,3 +424,47 @@ for techniques rather than as candidates to become them.
 Contention: `intake-stencil-harness` claimed this subject at its Phase 6 while
 this run was at Phase 9. This run's writes were complete and are committed first;
 the sibling re-enters behind them on the `techniques:` list.
+
+
+## 2026-09-04 - wan2gp (intake)
+
+Two amendments, both found by reading this subject's files for their **unqualified
+sentences** before drafting anything, and both landing on the scope those sentences
+suppress.
+
+- `write-freshness-gate` said "Writes never refresh marks" and called it "the whole
+  cure for drift". The reason it gives is sound for appends and substring replaces,
+  whose result depends on content the writer did not supply — and does not reach a
+  whole-artifact write, where the writer holds the authoritative copy and a readback
+  returns its own argument. The amendment gives the mechanical discriminator and the
+  two conditions that make a refresh honest (server-verified evidence in the result;
+  source completeness reported separately from write success).
+- `catalog-projection-modes` made a routing tool self-teaching for the *operation
+  name* and stopped there, leaving the model holding a name and inventing its
+  arguments — the failing first call that section exists to prevent, arriving one
+  round trip later. The second rung answers the omitted `arguments` with that
+  operation's schema, which is how the file's own claim that "the original rule
+  stands" inside a compressed server becomes true: the constraint is served as a
+  result because the listing is what the budget took away.
+
+**The subject-level fact worth recording, which is not about either amendment.**
+Both landings are `unapplied` fleet-side, and the search was done rather than
+assumed: six trees, per-project `git grep`, **zero agent-facing write tools and zero
+compressed catalogs**. All twelve of this subject's applications are external stacks.
+That is not an accident of one run — **this fleet consumes MCP and this subject is
+written for publishers**, so its apply rows can only ever be source-tree applications
+until a fleet project starts publishing. A later run should read this paragraph
+instead of re-searching six trees.
+
+**Return condition on that fact** (it is a cached absence and must expire like any
+lead): when a managed project publishes an agent-facing write tool over shared
+artifacts, or runs a tool catalog against a host ceiling it does not control.
+
+Two source-tree applications landed instead, both recording where the source does
+**not** meet the standard: it has no freshness gate at all, and its per-action
+`access` tiers — which correctly classify blast radius — never cross the wire as
+behaviour annotations, so the honest annotation set the technique demands is already
+computable there and simply is not published.
+
+Board: 2 siblings live by Phase 7, neither holding these two technique files;
+`check` was clear immediately before the first write.
