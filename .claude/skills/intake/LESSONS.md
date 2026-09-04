@@ -7512,3 +7512,22 @@ here; finish on the version you loaded.
   rarely satisfies. Ten proposals have accumulated unread across two projects.
   This is not four runs being unlucky — it is a design fault in where the
   gating artifact lives, and the next run should report it as one.
+
+- **A swept append is recovered by VERIFYING, not by re-appending** - and this
+  run was the victim, which the method has never written up. This run appended
+  to `SCORECARD.md` and `LESSONS.md` under the `ledger` lock, released it, and
+  a sibling committed both files sixty seconds later with its own message and
+  a body that denies the very row my append had just added ("no third sighting
+  and stays at two" - my row is the third). The `git commit` that followed
+  exited "no changes added to commit", which is the *only* signal that anything
+  happened, and it reads like a no-op.
+
+  The recovery is one command and no edit: **`git grep <your slug> HEAD -- <the
+  file>` before concluding anything.** Both appends were present and correct;
+  re-appending would have produced duplicate rows in a file two sessions were
+  already fighting over. The lock did its job - the append was not lost - and
+  the lock cannot cover the window between unlock and commit, which is where
+  a sibling's broad `git add` lives. So: after any ledger append, if your own
+  commit reports nothing staged, that is the expected shape of having been
+  swept, and the next move is to verify and stop, not to write again. Attribution
+  is the only thing actually lost, and it is not worth a duplicate row.
