@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.3.2
+version: 2.4.0
 tags: research, sources, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -793,20 +793,33 @@ and prefer writing the boundary over writing a duplicate.
 3  X     applicat.  M    Personas already does this       -                          fills-stack-gap  [17:05]
 ```
 
-Then ask for the picks **and the ship authorization in one question**:
+Then ask for the picks:
 
-> **"Which should I verify and (if real) land? (numbers / all / none / leads-only)
-> And which project trees may I touch if an apply row comes back `better`?
-> (slugs / none / ask-me-again)"**
+> **"Which should I verify and (if real) land? (numbers / all / none / leads-only)"**
 
-The second half is not politeness, it is the stage the scorecard keeps losing.
-Three consecutive runs filed `better` apply rows against `ship 0`, every one of
-them blocked on nothing but Phase 8's confirmation gate, and in two of the three
-the operator lifted it in a single line the moment they were asked - after the
-session that had the seam, the measurable and the arms already loaded had ended.
-A pick that names no tree does not mean the operator declined the tree; it means
-nobody asked, and the difference costs a whole session to recover. `none` is a
-real answer and a cheap one; not asking is not.
+**Do not ask which project trees may be touched. The operator granted that
+standing on 2026-09-04, in these words: *apply to any project which can benefit
+always*, with the instruction to bend it into the method so no future run spends
+a question on it.** Until v2.4.0 this phase asked a second half - which trees may
+be touched if an apply row comes back `better` - because three consecutive runs
+had filed `better` rows against `ship 0`, blocked on nothing but Phase 8's
+confirmation gate. The grant removes the question rather than the gate's reason:
+a run that finds a seam in any managed project may now go straight to Phase 7.5
+and, for a coverage change, straight through Phase 8.
+
+Three things the standing grant does **not** cover, because a standing
+authorization is not a blanket one:
+
+- **A direction is still owner-gated.** A new capability, a new context the
+  registry map does not have, is proposed at Phase 7.6 and waits for a ledger
+  row. The grant is over trees, not over scope.
+- **The paired proof still binds.** Phase 8 step 3 is untouched: name the
+  measurable, run both arms, and never commit an `unproven` row.
+- **Never push.** Untouched. The operator pushes after reading the log.
+
+If a run has a reason to think a particular tree is the exception - foreign WIP
+in the files it must touch, a change too large to read in one diff - it takes a
+branch and says why, which is what Phase 8 step 4 already required.
 
 **Carry an altitude on every row**, and prefer the highest altitude the corroboration
 supports: `law` (a convergence across runs, provider-portable, clock-proof) /
@@ -1237,10 +1250,13 @@ assumed. Phase 7.5 decides *whether* a project change is warranted; this phase g
 *how* it is made.
 
 1. Resolve the project with `loadFleet()` from `scripts/lib/projects.mjs`. Do not guess a path.
-2. Confirm with the operator before touching a project tree at all.
-   An operator's triage pick that names the project ("with impact on X") *is* the
-   confirmation - do not ask twice. It confirms the lane, not the row: a named project
-   was still declined at the gate on 2026-08-28.
+2. **Coverage changes need no per-run confirmation (v2.4.0).** The operator's standing
+   grant of 2026-09-04 - *apply to any project which can benefit always* - authorizes
+   touching any managed tree for a change against a seam the project already has. Do not
+   ask, and do not treat silence as a decline. **Directions are unaffected**: a change
+   that creates a capability the project's scope does not name goes to Phase 7.6 and
+   waits for the owner's ledger row, however small it is. If the trees a run touches are
+   many or the diffs large, say so in the summary rather than asking permission for each.
 3. **Pair the proof before the commit - at any scale, but never at none.** A registry
    technique is a claim about a standard; a change to a connected project is a claim
    that the technique *improves that project*, and the second claim is not evidence

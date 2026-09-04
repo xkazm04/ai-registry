@@ -7352,3 +7352,53 @@ here; finish on the version you loaded.
   unrelated reason (the project carries no `scope` block), so it produced no
   technique-grain evidence in either direction. Recorded so the next run does not
   have to re-derive that either. The item stays closed.
+
+## 2.3.2 - 2026-09-04 - obscura
+
+- **The operator granted a STANDING tree authorization and asked for it to be bent into
+  the method: "apply to any project which can benefit always."** That is the answer to
+  the second half of the Phase 5 question, given once, for every future run. Applied as
+  2.4.0: Phase 5 stops asking which trees may be touched, and Phase 8 stops treating a
+  *coverage* change as needing per-run confirmation. Three things did NOT change and the
+  edit says so explicitly, because a standing grant is not a blanket one: a **direction**
+  (a new capability) still waits for the owner's ledger row, the paired proof before a
+  cross-repo commit is untouched, and **never push** is untouched. The grant removes a
+  question nobody was answering, not a gate that was catching anything.
+
+- **A denial is a better find than a hole, and this run should be the worked example the
+  next reader is pointed at.** `guest-execution-bounding` was forged the previous day and
+  had already *considered* the mechanism this source demonstrates, rejecting it in three
+  clauses. All three were objections to killing a thread; none survives when the host
+  calls a termination handle the engine published instead. The method's Phase 6 hunt 3
+  already says "a denial is an enumeration too: check whether it denied too much" - it
+  worked exactly as written, and the reason it worked is that the denial was *specific*.
+  A vague subject cannot be refuted. Worth saying to future runs: **the subjects most
+  likely to yield are the ones that argued hardest**, because an argument states its
+  premises and a premise can be false.
+
+### Redesign proposal - the apply vocabulary needs a fourth verdict
+
+- Round 11 asked for this and this run is the instance, so it is now two sightings and
+  stays a lesson under the three-run rule rather than becoming a rule.
+  `better` / `not-better` / `unmeasurable` cannot express **"the tree already does this,
+  independently"** - which is not a middle outcome between the three, it is the
+  *strongest corroboration the method can produce without a fetch*: a second independent
+  sighting of a mechanism from a different problem domain.
+  This run's row says `better` only because 8 residual sites happened to change. Had the
+  target project's coverage been complete, the run would have discovered a genuine second
+  sighting of the rule and had **no honest cell to record it in** - `not-better` reads as
+  a rejection in every summary, and `unmeasurable` is false. Proposed value:
+  `already-convergent`, with the same obligation `unmeasurable` carries (name what would
+  distinguish independent convergence from the project having read the corpus - here, the
+  project's comment predates the subject's forge date, which is checkable from git).
+  **The third sighting closes it.**
+
+- **A file-level grep is a hypothesis, not a finding, and this run had it refuted in both
+  directions in one pass.** Pairing "files containing a timeout" against "files containing
+  the guard" produced 15 suspects; reading them produced 8 real ones, because 5 killed the
+  child explicitly on the timeout branch (a different correct pattern the grep cannot see)
+  and 2 more were miscounted. It also **missed** one that the grep could never find: a
+  child spawned *inside* the async block the ceiling drops. The corrective is not a better
+  grep. It is that a structural count is only publishable after every member has been
+  opened - the same rule this method already carries for establishing an absence from a
+  truncated result, applied to a *presence*.
