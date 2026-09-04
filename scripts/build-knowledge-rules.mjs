@@ -38,6 +38,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -136,7 +137,17 @@ const bundles = fs.readdirSync(KNOWLEDGE, { withFileTypes: true })
 const files = new Map([['ai-registry-access.md', ACCESS]]);
 
 for (const b of bundles) {
-  const idx = JSON.parse(fs.readFileSync(path.join(KNOWLEDGE, b, 'index.json'), 'utf8'));
+  // A malformed index is a broken precondition, not a crash site: unguarded, this threw a
+  // raw stack that named a line in this file rather than the bundle that is wrong. Same
+  // report and same code as build-catalog.mjs, which has always caught it.
+  let idx;
+  try {
+    idx = JSON.parse(fs.readFileSync(path.join(KNOWLEDGE, b, 'index.json'), 'utf8'));
+  } catch (err) {
+    console.error(`FATAL: ${b}: index.json does not parse (${err.message})`);
+    console.error('  Run `node scripts/build-index.mjs` and fix the bundle before rebuilding rules.');
+    process.exit(EXIT.FATAL);
+  }
   const title = (() => {
     const im = path.join(KNOWLEDGE, b, 'index.md');
     const m = fs.existsSync(im) ? fs.readFileSync(im, 'utf8').match(/^okf_bundle_title:\s*(.+)$/m) : null;
