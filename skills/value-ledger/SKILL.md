@@ -1,7 +1,7 @@
 ---
 name: value-ledger
 description: Model a product's value per user journey from its UAT Characters - time and money saved against the LLM-less way, risk avoided (mis-hires, wrong decisions, compliance exposure), and segment gates - normalized to a reference journey so the output ranks work by user value instead of by what a code scan found. Sits UPSTREAM of code-derived KPIs - a KPI worth adopting is one derived from a journey's modeled value - and gives an owner (human or agent) a value ledger to move. Scores a backlog item or finding by which journey's reachability, with-app cost or risk it moves. Modeled figures promote to measured when a real tenant walks the journey. Invoke with /value-ledger [init|run|score|promote|status] [args].
-version: 0.1.0
+version: 0.1.1
 category: workflow
 memory: project
 argument-hint: "init|run|score|promote|status [args]"
@@ -188,12 +188,12 @@ default, because those numbers are the operator's claim, not the model's.
 
 ---
 
-<!-- clause: skill-reflection v2 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v3 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the run's real work is done, reflect - autonomously, without asking the user. Be honest about volume: most runs produce NOTHING beyond lane 1. An empty reflection is a valid result; a forced lesson is pollution. Calibration: nothing (common) / one line (sometimes) / a lesson entry (occasionally) / a redesign proposal (rare).
 
-**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in `.claude/value-ledger/config.md`, or in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
+**Lane 1 - PROJECT learnings** (what the next session in THIS repo needs). Repo-specific rules go to this skill's overlay in the consuming repo - a dated one-liner under `## Skill improvement log` in the overlay/vault location this skill's `## Project overlay` section names (create the heading on first use). If this skill carries no `## Project overlay` section, or its overlay section names no location, write that dated one-liner to `.claude/value-ledger/config.md` in the consuming repo under `## Skill improvement log`, creating the file and the heading if they are absent - so the instruction is executable in every skill. When the repo carries a `.personas/` directory, also write via the MEMORY BLOCK contract if this prompt carries one, else append node lines to `.personas/memory-outbox.jsonl` per that contract. Never into this file: a project's bytes in a shared method are exactly what made the fleet's copies diverge.
 
 **Lane 2 - METHOD learnings** (what would improve THIS SKILL for every project):
 1. If nothing generalizes beyond this repo, stop here.
