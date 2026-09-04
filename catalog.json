@@ -14,10 +14,10 @@
   "skills": [
     {
       "name": "agent-guidance-bootstrap",
-      "version": "0.5.0",
+      "version": "0.5.1",
       "category": "ai-native",
       "path": "skills/agent-guidance-bootstrap/SKILL.md",
-      "contentHash": "sha256-n1:011d960e886c3b62",
+      "contentHash": "sha256-n1:196d40cc343f42e3",
       "applicability": {
         "dimensions": [
           "D1",
@@ -34,10 +34,10 @@
     },
     {
       "name": "architect",
-      "version": "1.6.1",
+      "version": "1.6.2",
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
-      "contentHash": "sha256-n1:d2764cdef1650477",
+      "contentHash": "sha256-n1:cea9bccfd20f67be",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -52,10 +52,10 @@
     },
     {
       "name": "ci-bootstrap",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "ci-cd",
       "path": "skills/ci-bootstrap/SKILL.md",
-      "contentHash": "sha256-n1:2214d3a016f6cf3c",
+      "contentHash": "sha256-n1:71735d1bdeb885fe",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 0,
@@ -63,10 +63,10 @@
     },
     {
       "name": "ci-gate-check",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "category": "ci-cd",
       "path": "skills/ci-gate-check/SKILL.md",
-      "contentHash": "sha256-n1:ffd4d497846c505d",
+      "contentHash": "sha256-n1:adc513ce5541dff9",
       "applicability": {
         "dimensions": [
           "D3"
@@ -80,10 +80,10 @@
     },
     {
       "name": "ci-triage",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "ci-cd",
       "path": "skills/ci-triage/SKILL.md",
-      "contentHash": "sha256-n1:cc12dbbfeaed6843",
+      "contentHash": "sha256-n1:6ac00f30f4f011db",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 0,
@@ -91,10 +91,10 @@
     },
     {
       "name": "conform",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:4b179a60c24c6197",
+      "contentHash": "sha256-n1:710dabe45efe5395",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 2,
@@ -104,10 +104,10 @@
     },
     {
       "name": "consult",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "ai-native",
       "path": "skills/consult/SKILL.md",
-      "contentHash": "sha256-n1:f9c2de79a78e7e05",
+      "contentHash": "sha256-n1:2c8806d1f04ff43b",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -122,10 +122,10 @@
     },
     {
       "name": "dojo",
-      "version": "1.2.1",
+      "version": "1.2.2",
       "category": "ai-native",
       "path": "skills/dojo/SKILL.md",
-      "contentHash": "sha256-n1:37a4715f86f6343e",
+      "contentHash": "sha256-n1:c5b1379732e4a513",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 4,
@@ -135,10 +135,10 @@
     },
     {
       "name": "explorer",
-      "version": "2.1.1",
+      "version": "2.1.2",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:f7d903ef612a34a2",
+      "contentHash": "sha256-n1:1a98ec632cb65884",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -153,10 +153,10 @@
     },
     {
       "name": "flake-register",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "category": "testing",
       "path": "skills/flake-register/SKILL.md",
-      "contentHash": "sha256-n1:036f9ce25136c5a4",
+      "contentHash": "sha256-n1:2d482d360ab80755",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 0,
@@ -164,10 +164,10 @@
     },
     {
       "name": "friend",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "category": "workflow",
       "path": "skills/friend/SKILL.md",
-      "contentHash": "sha256-n1:77bad54dce311980",
+      "contentHash": "sha256-n1:b1e77ac2b4f33757",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -182,10 +182,10 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:318f2d799be1fce5",
+      "contentHash": "sha256-n1:0183c3b9cee1e5c9",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
@@ -201,10 +201,10 @@
     },
     {
       "name": "kpi-sim",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "testing",
       "path": "skills/kpi-sim/SKILL.md",
-      "contentHash": "sha256-n1:2471abbe9e98eb5f",
+      "contentHash": "sha256-n1:6660dbd13897c7f9",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
@@ -214,10 +214,10 @@
     },
     {
       "name": "leonardo",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "category": "other",
       "path": "skills/leonardo/SKILL.md",
-      "contentHash": "sha256-n1:5d9e4d26555f03b2",
+      "contentHash": "sha256-n1:8e9c4c6e251675fc",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -230,10 +230,10 @@
     },
     {
       "name": "motionize",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "other",
       "path": "skills/motionize/SKILL.md",
-      "contentHash": "sha256-n1:d705fb22284d2659",
+      "contentHash": "sha256-n1:c1ec2eb7036814b8",
       "adopters": [
         "kp@1.0",
         "personas@plugin:1.0.0"
@@ -248,10 +248,10 @@
     },
     {
       "name": "mvp",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "workflow",
       "path": "skills/mvp/SKILL.md",
-      "contentHash": "sha256-n1:8b3b6dda454e8c37",
+      "contentHash": "sha256-n1:4e21ed4bc5facda1",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
@@ -261,10 +261,10 @@
     },
     {
       "name": "npm-updates",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "workflow",
       "path": "skills/npm-updates/SKILL.md",
-      "contentHash": "sha256-n1:9717e294a304d73c",
+      "contentHash": "sha256-n1:bc46350cdf30ecbb",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "pof@plugin:1.0.0"
@@ -277,10 +277,10 @@
     },
     {
       "name": "onboarding",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "category": "workflow",
       "path": "skills/onboarding/SKILL.md",
-      "contentHash": "sha256-n1:f4df54b6bada1195",
+      "contentHash": "sha256-n1:3f13d08d435df13b",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 1,
@@ -290,10 +290,10 @@
     },
     {
       "name": "perfect",
-      "version": "2.5.1",
+      "version": "2.5.2",
       "category": "workflow",
       "path": "skills/perfect/SKILL.md",
-      "contentHash": "sha256-n1:dbfdf409b6625fb7",
+      "contentHash": "sha256-n1:5290a64de2cc4fa7",
       "adopters": [
         "ascent@plugin:2.3.0",
         "kp@plugin:2.3.0",
@@ -312,10 +312,10 @@
     },
     {
       "name": "project-populate",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "workflow",
       "path": "skills/project-populate/SKILL.md",
-      "contentHash": "sha256-n1:1529891b86f4d66f",
+      "contentHash": "sha256-n1:6e6282e8ba8debdb",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -332,10 +332,10 @@
     },
     {
       "name": "promote",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "ai-native",
       "path": "skills/promote/SKILL.md",
-      "contentHash": "sha256-n1:825298b8a6d1ba25",
+      "contentHash": "sha256-n1:1ff3c3196c5c6856",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
@@ -345,10 +345,10 @@
     },
     {
       "name": "research",
-      "version": "1.9.1",
+      "version": "1.9.2",
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
-      "contentHash": "sha256-n1:f032f157b6b42dcf",
+      "contentHash": "sha256-n1:4659b3e93381aadd",
       "adopters": [
         "personas@plugin:1.5.0",
         "pof@1.7"
@@ -363,10 +363,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:0f2ff55d1c12624c",
+      "contentHash": "sha256-n1:13533eee89227a81",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -383,10 +383,10 @@
     },
     {
       "name": "ship-loop",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "category": "workflow",
       "path": "skills/ship-loop/SKILL.md",
-      "contentHash": "sha256-n1:216f785b0b71a0cd",
+      "contentHash": "sha256-n1:0bc45c953c76dba4",
       "adopters": [
         "ascent@plugin:2.1.0",
         "kp@plugin:2.1.0",
@@ -401,10 +401,10 @@
     },
     {
       "name": "spark",
-      "version": "1.3.1",
+      "version": "1.3.2",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:3eafa807cdd1bbb8",
+      "contentHash": "sha256-n1:c47212561fae07de",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
@@ -418,10 +418,10 @@
     },
     {
       "name": "test-before-commit",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "category": "testing",
       "path": "skills/test-before-commit/SKILL.md",
-      "contentHash": "sha256-n1:f9f0b391e9424037",
+      "contentHash": "sha256-n1:54d256413d3fc3c9",
       "applicability": {
         "dimensions": [
           "D2"
@@ -437,10 +437,10 @@
     },
     {
       "name": "tiger",
-      "version": "2.2.0",
+      "version": "2.2.1",
       "category": "testing",
       "path": "skills/tiger/SKILL.md",
-      "contentHash": "sha256-n1:95e0063871e2c982",
+      "contentHash": "sha256-n1:45997ddf715d0ba1",
       "adopters": [
         "ascent@plugin:2.1.0",
         "kp@plugin:2.1.0",
@@ -455,10 +455,10 @@
     },
     {
       "name": "uat",
-      "version": "1.8.0",
+      "version": "1.8.1",
       "category": "testing",
       "path": "skills/uat/SKILL.md",
-      "contentHash": "sha256-n1:92938b81c63df7e9",
+      "contentHash": "sha256-n1:1b6439e2475647c9",
       "adopters": [
         "ascent@plugin:1.7.0",
         "kp@plugin:1.7.0",
@@ -475,10 +475,10 @@
     },
     {
       "name": "value-ledger",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "workflow",
       "path": "skills/value-ledger/SKILL.md",
-      "contentHash": "sha256-n1:7644ddd94efe1110",
+      "contentHash": "sha256-n1:62b455173f3d7d53",
       "adopters": [],
       "invokes30d": 0,
       "lessons": 0,
