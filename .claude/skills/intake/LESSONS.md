@@ -7951,3 +7951,33 @@ and the scorecard's `ship` zero stops reading as a funnel loss when it is not on
 - **Instrument, minor:** a `cd` inside a compound Bash command persists for later
   calls in this harness, so a subsequent relative `cd` from the assumed repo root
   fails. Cost one cycle. Absolute paths, or `cd` in every command.
+
+- **The peer study corrected the run that dispatched it, and that is the argument
+  for dispatching it.** Four of thirteen seeds came back wrong, and one of them
+  landed on this run's own shipped change: the seeded reading of a fleet project's
+  failover ladder was inverted. The loop breaks on *spawn success*, so the ladder
+  advances only on a process-launch failure that a different model cannot fix —
+  which means the `0 of 6,163` this run had already measured, written up, shipped
+  against and reported was **consistent with the mechanism never firing**, not with
+  substitutions going unrecorded. The apply verdict went from `better` to
+  `unmeasurable`, the application and both ledgers were corrected, and the run is
+  better for it.
+
+  Two things generalize. First: **a number measured on real data is not a finding
+  until the mechanism that produces it has been read.** `was_failover = 0` was a
+  true count with two incompatible explanations, and this run picked the more
+  interesting one without checking which. `count-carries-predicate` is already law
+  here; the predicate this count needed was not "how it was counted" but "what
+  could have made it non-zero". Worth stating as its own habit at Phase 8 step 3:
+  before writing the measurable, name the mechanism that would move it and read
+  that mechanism's trigger condition.
+
+  Second: the correction produced a **better** finding than the error concealed —
+  a constant-`false` audit flag cannot distinguish "the mechanism never fires" from
+  "it fires unrecorded", and those call for opposite responses. That is the landed
+  technique at a sharper angle, and it only exists because a second reader was
+  pointed at the same tree with a written brief. The method already dispatches the
+  peer study for the *fleet's* benefit; this run is the first evidence in the
+  scorecard that it also functions as review of the director's own apply row.
+  Second sighting would make it a rule: **dispatch the peer study before the apply
+  row is final, not after.**
