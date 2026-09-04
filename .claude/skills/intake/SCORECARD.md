@@ -2010,6 +2010,8 @@ should make:** did the run verify its fleet-map reading rather than trusting it,
 and did it say which kind of zero its ship cell is?
 
 | 2.5.0 | 2026-09-04 | `youtube:CmmLZeuK4lg` - "Infinite AI Streaming Will Change Content Forever" (**practitioner build-walkthrough, hybrid**; ran on round 22's focus, which was current when it loaded) | 1 | 9 | 2 verified of 2 scored, `auto=2/4/0`, `fp=0` | **2 techniques + 1 golden-path section + 1 self-amendment from the fleet** | 2 rows: `1c/0e/1s/0t` - **1 `better` (shipped), 1 `not-better`** | **1/tested** - one commit; the second row's seam was reached, tested and returned `not-better`, so there was nothing honest to commit | **Round 22's focus carried on all three counts.** (1) The seam was scored at triage from `librarian/fleet-map.json` *and verified against the tree rather than trusted* - which mattered, because the verification is what upgraded a lexical `media-playback` hit into the precise finding (the project computes the exact quantity the technique is about). (2) The **repeated-denial search was aimed and it found the whole run**: `buffering-and-backpressure` opens "The producer being faster is not an edge case - it is the operating condition" and enumerates "exactly two honest responses"; an honestly self-scoped enumeration is a signpost to the regime it excludes. Fourth sighting - it is a rule. (3) The owed gravitone peer study **was discharged by a parallel sibling mid-run** (`f932ca0` in that tree), not by this run. Round 23's focus was appended by a sibling *after* this run loaded round 22's; its check is nevertheless satisfiable - the expected yield was stated before extraction as "the operating half only, 1-2 techniques plus a dated fact" and the actual was exactly that. | **S/T/A/Asrc/task = 0/2/2/0/0**; routing count **n/a** (not a repository); `directions=n/a` (no design record). `priced=1-2 techniques + a dated fact / 2 techniques + a dated fact` - **calibrated.** Fetch **0 of 3**, as the class predicts for a first-party account: corroboration came from training-data convergence plus real code in a connected tree. Expected-yield band stated before the triage table and hit exactly; 1 catch, 4 untriaged, 1 lead |
+| 2.5.0 | 2026-09-04 | `sozu` | 1 (1,465 landing / 61,681 in-tree design docs over ~175k lines of Rust) | 13 (9 design + 4 claim) | 8 | 5 (0 subjects + 0 techniques + **5 amendments**, each checked against the v2 boundary-vs-mechanism test before being written as one) | 5 rows: 0c/4e/0s/0t + 1 `unapplied by construction` — **1:1 with landings** | 0 — **no change was warranted in any of five**, and each zero was measured rather than assumed: 4 seams already satisfied the landing, 1 has no seam anywhere in the fleet | **All three focus items carried.** Priced before ingesting (item 1): forecast 4–7 landings + a real chance of an XL; actual 5 landings, no XL. Item 2 (prefer a source the fleet is behind) was executed and **came back negative in a new way** — see below. Item 3: peer study **retired explicitly**, no fleet project is a peer of a reverse proxy. | **0/0/5/3/0**; routing count per system A=1 B=1 C=n/a D=0, HOME-IF-NEW clause 0 → **neither clause fired, no forge handoff**; directions=0/0 (n/a — no admitted candidate); `priced=4-7+XL / 5+no-XL` — inside the band on count, wrong on shape |
+| 2.5.0 | 2026-09-04 | `github:earendil-works/pi` @ `92d8e2d1` — "AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI" (**first-party practitioner codebase read as a SYSTEM**; ran on round 23's focus) | 1 (990 landing / **325,302** in-tree markdown, incl. a 27,820-word normative harness spec and 10 ADR-shaped work packages) | 11 (7 design + 4 claim) | 2 verified of 2 scored, `auto=1/6/0`, `fp=0` | **1 technique + 1 amendment + 1 source-tree application** | 1 row: `0c/0e/0s/1t` — **1 `better`**, proof `structural-only` | **1 plan shipped into personas** (`273dab501` + `782db2a37`, not pushed); 0 code commits, and the reason is named rather than assumed — the target path has no test lane that would run a behavioural arm | **Round 23's focus carried on all three counts, and item 3 resolved in an unexpected direction.** (1) **Priced before ingesting**: forecast routing count ≥3 plus a technique triple or a scoped forge; actual routing count 3 and one technique — right about depth, **wrong about shape**, because the three homeless decisions home into three *different* existing subjects rather than clustering, so neither v2.2 clause fired and the handoff was declined on shape rather than size. (2) **Prefer a source the fleet is behind** — executed, and it produced the run's best row via the refinement appended under round 23 rather than its headline: personas is not *behind* on the mechanism, it **has the instrument and not the rule**, having paid a migration to record the in-flight position after measuring 74 of 2,188 blind restart markers and then never teaching the consumer to read it. That is the `better`-predicting shape, and it predicted correctly. (3) **The owed peer study was discharged by discovering it already existed**: personas holds a 43-point comparison against omp/omp², itself *a fork of pi*, so a fresh 43-point study would have re-derived it. The debt is retired and the run produced the delta instead. | **S/T/A/Asrc/task = 0/1/1/1/1**; routing count **3** (whole tree; per system: agent-harness 3, provider layer 0, chord 0), HOME-IF-NEW clause **0 sharing one home** → **neither clause fired, no forge handoff**; `directions=1/0` (one written, none cut); `priced=≥3 + triple-or-forge / 3 + one technique` — **inside the band on count, wrong on shape**. Fetch **0 of 3**. **The run's centre of gravity was Phase 7.5, not Phase 7**: the technique came from an enumeration hunt, and then *the apply step earned the amendment* — pumper cites `terminal-state-recovery` in its own source comment, adopted it faithfully for the `running` class, and thereby built precisely the gap that technique's reachability table invites by declaring terminal states need no mover. Two sweeps confirmed at the query level (`WHERE status = 'running'` in both `recover_stuck_with_reason` and `reap_stale`) that nothing in that tree can see work which starts *after* the terminal write. |
 
 ---
 
@@ -2072,3 +2074,101 @@ consume — is not currently recorded anywhere and would be the sharper signal.
 **Round 23's focus stands unconsumed and is not superseded here.** A run that
 executes it should carry this refinement into item (2) rather than treating the
 `not-better` streak as one phenomenon.
+
+---
+
+**Round 23 (sozu, 2026-09-04).** All three of round 23's focus items were carried,
+and the run that carried them refuted the diagnosis they came from.
+
+**Item 1 worked and the pricing signal it used was invalid.** The forecast — 4–7
+landings and a real chance of an XL — landed inside its band on count and wrong on
+shape: 5 landings, zero subjects, zero techniques, five amendments. The count was
+right by luck. The *reasoning* was that `research-map "rust"` returns no prior art
+while `rust` appears as a stack on dozens of subjects, which read as a seam. It is
+not one. **The upper layers are language-neutral by construction**, so a language
+slug returning nothing measures the purity gate rather than the corpus's coverage —
+the same error as building an absence query out of banned vocabulary, wearing a
+costume the method's existing warning does not recognise. A stack absence is not a
+subject absence, and this is now the second distinct way that class of query has
+produced a confident wrong prior.
+
+**Item 2 was executed against the strongest source class available and inverted.**
+Round 23 said to prefer a source the fleet is behind, with the refinement that a
+project holding an instrument it does not consume is the sharper seam. This source
+was not a newsletter — it is a production system on the network's critical path
+with 61,681 words of design doctrine, a published testing philosophy citing three
+public bodies of work, two deterministic simulators, four fuzz targets, and an
+agent instruction file that documents its own architecture. If any source could put
+the fleet behind, it was this one. **It did not.** Four of five landings tested
+against a real seam came back `not-better` because the tested tree already
+satisfied them, and the instrument-without-the-rule hypothesis was tested directly
+and failed too: the fleet project with the guidance checker had the instrument *and*
+the rule, in 539 lines, running in CI, more completely than the source repository
+that inspired the amendment.
+
+So the funnel reading has to change. Rounds 20–22 concluded the weak stage is
+`research`. This round says the ordering is **corpus ahead of an excellent source,
+fleet ahead of the corpus** — and a better source does not move `ship`, because
+`ship` is not gated on source quality at all. It is gated on the fleet having an
+unsolved problem, and six rounds of evidence now say the fleet mostly does not.
+
+**What actually produced all five landings is a different hunt from the one the
+method describes.** None came from "what does this source know that we do not." All
+five came from the inverse: a strong practitioner does something, and the corpus
+carries a sentence that would have forbidden or mis-advised it. Two of them refuted
+a corpus assertion outright — "drift is not representable... nothing can differ",
+falsified in this run's own checkout by a nine-byte file; and "a gate is the
+all-of-N position by definition", which forbids a merged-campaign coverage gate the
+source runs in CI. A third resolved a contradiction the corpus was already carrying
+between a technique and a landed application. **The yield was in the corpus's
+unqualified sentences, not in the source's novelty**, and a mature corpus
+accumulates those faster than it accumulates gaps, because every confident rule
+written without a precondition is one waiting for a counterexample.
+
+**The stage now losing most is `ship`, and for the first time the reason is not a
+funnel loss.** Five of five apply rows are honest negatives with measurements
+behind them. Calling that a funnel loss would be the mistake the depth column was
+added to prevent.
+
+**Next run's declared focus (round 24).** (1) **Hunt the corpus's absolutes, not the
+source's novelty.** Once a candidate has a home, read the host file for its
+unqualified sentences — "always", "by definition", "nothing can", "cannot be" — and
+ask which the source's practice violates. Record `absolutes=<read>/<landed>` in the
+depth cell. This round did it by accident four times out of five; do it on purpose.
+(2) **Never price a run on a stack or language slug.** Extend the existing
+banned-vocabulary warning to cover it: a query whose terms the upper layers exclude
+by construction cannot measure coverage. Price on the subject's own concepts or do
+not price. (3) **Test whether `ship` is fleet-bound rather than funnel-bound.** Take
+one landing and look for its seam in the *least* mature project rather than the most
+relevant one; if the fleet's mature trees are what is producing six rounds of
+`not-better`, the immature ones are where a technique can still change something.
+**The check the next row should make:** did the run find an absolute in the host
+file before it wrote the amendment — and did the fleet's least mature tree have a
+seam the mature ones did not?
+
+---
+
+**Next run's declared focus (round 24).** (1) **Check whether the fleet has
+already studied the source, before mining it.** This run was asked for a peer
+study and found a 43-point one already in the project's own
+`.ai/directions/`, against a *fork of the same repository* — discovered at
+Phase 7.6, after the whole design read. `librarian/applied.md` and the fleet's
+`.ai/directions/` are searchable in one grep and neither is consulted at Phase
+1. Add the check beside the source-ledger read: the ledger answers "did this
+registry mine it", the board answers "is a sibling mining it now", and nothing
+answers **"has a consumer project already compared itself to it"** — which is
+the question a peer-shaped source makes load-bearing. (2) **Report where in
+the pipeline the run's landings were FOUND, not just where they landed.**
+Both of this run's landings came out of Phase 7.5, one of them from a fleet
+tree correcting a corpus technique's own reachability table — yet the depth
+cell records them as Phase 7 output and the funnel reads as if extraction did
+the work. Three rounds now have had the apply step produce or change the
+landing; if that is the real generator, the scorecard is measuring the wrong
+stage and the "weakest stage" line is drawn from bad data. (3) **State the
+routing count's SHAPE, not only its size.** v2.2 counts NONE per system and
+per home-if-new, and this run met the count (3) while firing neither clause,
+because the decisions scattered. "Count met, no cluster" is a third outcome
+the method currently has no word for and every reader will mistake for a
+declined handoff. **The check the next row should make:** did anything the
+run landed come from a stage other than extraction — and does the depth cell
+say so?

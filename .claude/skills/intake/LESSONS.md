@@ -7781,3 +7781,54 @@ because one round's evidence is not three.
 - **A fleet project holding a source's exact error is worth more than a fleet project lacking the technique, and the tell is an unread column.** The strongest apply row this run was not "the project needs this technique" but "the project computes the technique's own statistic, acts on it correctly one layer down, and throws it away in the gate that matters most." That asymmetry was nobody's decision - two layers written at different times to answer different questions - which makes it better evidence for the technique than the fix itself. **Proposed as a cheap triage signal:** a project that already emits the number a candidate's claim is about, with nothing reading it, is a seam; a project that lacks the number entirely is usually `unapplied by construction`. This is detectable by grepping the tree for the quantity before drafting, and it is a different question from the fleet map's context/absence classification, which only sees subject-level coverage.
 - **Two apply rows on one technique pair split `better`/`not-better`, and the `not-better` one improved the corpus more.** The refused half returned two rules the technique lacked (priority as a deadline with an aging bound; a per-class floor on caller-supplied urgency, because a request-body priority field is an unauthenticated privilege knob). Both were written back in the same session while the seam was still open. This is the method's own claim about `not-better` confirmed again, with the addition that **the amendment must be written in the same session as the refusal** - the reasoning that produced it is the read of the project's code, and it is not recoverable from the ledger row later.
 - **A mid-flight focus change arrived from a sibling and the right move was to finish on the loaded one.** Round 23's focus was appended to `SCORECARD.md` after this run's Phase 1 read and before its Phase 11. The run reported against round 22 (which it executed) and contributed evidence to round 23 without claiming to have run it. Worth stating because the alternative - retrofitting the run's narrative to the newer focus - would have made the scorecard's focus-tracking unfalsifiable, which is the one property that makes it useful.
+
+## 2.5.0 - 2026-09-04 - sozu
+
+- **A stack or language slug cannot price a run.** This run forecast a possible XL
+  partly because `research-map "rust"` returned no prior art while `rust` appears as
+  a stack on dozens of subjects. That is not a seam: the upper layers are
+  language-neutral by construction, so the query measures the purity gate, not
+  coverage. It is the same class of error the method already warns about for banned
+  product vocabulary, arriving in a costume the warning does not name. Extend the
+  Phase 4 warning to cover stack and language names, not just proper nouns.
+- **The productive hunt on a strong source is the corpus's unqualified sentences,
+  not the source's novelty.** All five landings came from a practitioner doing
+  something the corpus carries a sentence against; none came from the source knowing
+  something the corpus lacked. Two refuted a corpus assertion outright, one resolved
+  a standing contradiction between a technique and a landed application. On a mature
+  corpus this is the higher-yield direction and it should be a named hunt in Phase 6
+  beside the missing stage, the enumeration and the asymmetry: **read the host file
+  for "always", "by definition", "nothing can", and ask which one this source
+  violates.**
+- **Source quality does not move `ship`.** Round 23 said to prefer a source the
+  fleet is behind. This run took the strongest source class the method recognises —
+  a production system with 61k words of doctrine, two deterministic simulators and a
+  published testing philosophy — and still filed five honest `not-better`/`unapplied`
+  rows. `ship` is gated on the fleet having an unsolved problem, not on the source
+  having a good idea, and no amount of front-of-funnel improvement reaches it.
+- **A routing count of zero is a result worth reporting loudly.** A 175k-line system
+  with 27 design documents fired neither routing clause, because every load-bearing
+  decision it carries has a home whose golden path already states its forces. The
+  depth column should be read as evidence about the *corpus's* maturity when this
+  happens, not as a routing miss - and the note has to say which, because the two
+  look identical in the cell.
+- **Assert an instrument against a known positive before believing its absence -
+  fourth consecutive run.** The non-test panic counter cut each file at its first
+  `#[cfg(test)]`, which is correct for inline test modules and silently wrong for a
+  crate whose tests live in whole `tests_*.rs` files with no inline marker: it
+  reported 177 non-test panic sites in the top file. The corrected count was 4 for
+  the entire crate. Both numbers were plausible and only one was checked.
+
+### Redesign proposal (not applied now)
+
+The six outcomes table ranks `Applied` above `Content` on the grounds that it "is
+the only outcome that proves the corpus changes what a project does". Six
+consecutive rounds of measured `not-better` suggest a seventh outcome is missing:
+**`Confirmed`** - a landing whose rule the fleet already independently satisfies,
+verified against a tree. That is not a failed apply and filing it as `not-better`
+flattens two different facts: "we tested this and the technique did not help" and
+"we tested this and the fleet had already arrived". The second is the strongest
+possible corroboration a technique can get - independent convergence in real code -
+and the ledger currently spells it the same way as a rejection. If a later round
+agrees, the vocabulary gains `confirmed` beside `better`/`not-better`/`unmeasurable`
+and the scorecard's `ship` zero stops reading as a funnel loss when it is not one.
