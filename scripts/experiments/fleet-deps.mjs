@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// EXPERIMENT — operator-side, reads checkouts this repository cannot see, so it can never run
+// in CI; no caller in CI, CONTRIBUTING, any SKILL.md or any docs/ contract. Last used
+// 2026-08-26 for the next@16.3.3 advisory floor check (librarian/sources/).
 /**
  * fleet-deps — the OPERATOR-SIDE instrument for the dependency lane.
  *
@@ -24,15 +27,15 @@
  * fleet-audit does — only `.machine.local.json` is gitignored, because this registry publishes
  * no consumer paths.
  *
- *   node scripts/fleet-deps.mjs                          # drift across all shared deps
- *   node scripts/fleet-deps.mjs --dep next               # one dependency, every project
- *   node scripts/fleet-deps.mjs --dep next --min 16.3.3  # exit 1 if any project is below
- *   node scripts/fleet-deps.mjs --json
+ *   node scripts/experiments/fleet-deps.mjs                          # drift across all shared deps
+ *   node scripts/experiments/fleet-deps.mjs --dep next               # one dependency, every project
+ *   node scripts/experiments/fleet-deps.mjs --dep next --min 16.3.3  # exit 1 if any project is below
+ *   node scripts/experiments/fleet-deps.mjs --json
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadBridge } from './lib/projects.mjs';
+import { loadBridge } from '../lib/projects.mjs';
 
 const args = process.argv.slice(2);
 const flag = (n) => { const i = args.indexOf(n); return i === -1 ? null : args[i + 1] ?? null; };
@@ -172,7 +175,7 @@ if (ONLY_DEP) {
   }
   console.log();
   console.log(`  ${drifted.length} drifted / ${shared.length} shared / ${Object.keys(byDep).length} total dependencies`);
-  console.log('  Ask a floor question with:  node scripts/fleet-deps.mjs --dep <name> --min <version>');
+  console.log('  Ask a floor question with:  node scripts/experiments/fleet-deps.mjs --dep <name> --min <version>');
 }
 
 if (MIN) {

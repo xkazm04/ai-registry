@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// EXPERIMENT — a one-off systematic pass, not a gate: no caller in CI, CONTRIBUTING, any
+// SKILL.md or any docs/ contract, and it calls a model, so it can never be a gate. Last used
+// in librarian run 2026-08-21-2, the pass that cleared the bundle-wide use_when gap.
 /**
  * fleet-use-when — propose the missing `use_when` lines, then apply the accepted ones.
  *
@@ -35,18 +38,18 @@
  *    corruption, so they are hard rejections, not warnings.
  *
  * Usage:
- *   node scripts/fleet-use-when.mjs --propose [--domain X] [--limit N] [--concurrency N]
- *   node scripts/fleet-use-when.mjs --review   [--in FILE]        # what a reviewer reads
- *   node scripts/fleet-use-when.mjs --apply    [--in FILE] [--only slug,slug]
+ *   node scripts/experiments/fleet-use-when.mjs --propose [--domain X] [--limit N] [--concurrency N]
+ *   node scripts/experiments/fleet-use-when.mjs --review   [--in FILE]        # what a reviewer reads
+ *   node scripts/experiments/fleet-use-when.mjs --apply    [--in FILE] [--only slug,slug]
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { walkSubjects } from './lib/taxonomy.mjs';
-import { dispatch, extractJson } from './lib/fleet.mjs';
+import { walkSubjects } from '../lib/taxonomy.mjs';
+import { dispatch, extractJson } from '../lib/fleet.mjs';
 
-const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..', '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
 
 const argv = process.argv.slice(2);
@@ -381,7 +384,7 @@ async function propose() {
     ` · ${proposals.length}/${all.length} of the bundle covered`);
   console.log(`wrote ${path.relative(ROOT, OUT).replace(/\\/g, '/')}`);
   if (proposals.length < all.length) console.log(`re-run to continue — the checkpoint resumes where this stopped`);
-  console.log(`\nnext: node scripts/fleet-use-when.mjs --review`);
+  console.log(`\nnext: node scripts/experiments/fleet-use-when.mjs --review`);
 }
 
 // ------------------------------------------------------------------ review signals

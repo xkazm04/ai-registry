@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// EXPERIMENT — no caller in CI, CONTRIBUTING, any SKILL.md or any docs/ contract; kept because
+// the parallel-worker merge it implements is the only writer that lane can safely have. Last
+// used in the 2026-08-29 personas gravity backtest wave (librarian/backtests/).
 /**
  * merge-conform-runs — fold parallel /conform worker verdicts into a project's registry map.
  *
@@ -17,7 +20,7 @@
  * Consumed run files are moved to `.ai/conform-runs/merged/` so a re-run is a no-op.
  *
  * Usage:
- *   node scripts/merge-conform-runs.mjs <project-root> [--dry]
+ *   node scripts/experiments/merge-conform-runs.mjs <project-root> [--dry]
  *
  * Exit 2 = instrument failure (bad input); exit 0 = merged (or dry). Prints the funnel:
  * pairs merged, states, technique verdict counts, and the deviation list — the apply backlog.
@@ -28,7 +31,7 @@ import path from 'node:path';
 const args = process.argv.slice(2);
 const root = args.find((a) => !a.startsWith('--'));
 const dry = args.includes('--dry');
-if (!root) { console.error('usage: merge-conform-runs.mjs <project-root> [--dry]'); process.exit(2); }
+if (!root) { console.error('usage: scripts/experiments/merge-conform-runs.mjs <project-root> [--dry]'); process.exit(2); }
 
 const mapPath = path.join(root, '.ai', 'registry-map.json');
 const runsDir = path.join(root, '.ai', 'conform-runs');

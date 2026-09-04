@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// CONTRACT — `docs/subject-proposal-repository-landing-document.md` sources every figure it
+// quotes from this instrument, and `.claude/explorer/config.md` names it as the gate to run
+// when `docs/`, `README.md` or a workflow changes. Run on demand; it has no scheduled tick.
 /**
  * check-readmes — measures every fleet project's landing document against the
  * `repository-landing-document` golden path.
