@@ -143,16 +143,45 @@ function norm(s) {
  * scheme, `www.`, `.git`, query and fragment removed; anything that is not a
  * URL falls back to `norm`. The fold is deliberately narrow — a different
  * path is a different source (`openbao/openbao` vs `openbao/openbao-plugins`).
+ *
+ * Dropping the query was right for the repository the 2026-09-02 fix measured
+ * and catastrophic for the class this skill mines most: measured 2026-09-04,
+ * EVERY `youtube.com/watch?v=...` folded to `youtube.com/watch`, so any two
+ * concurrent video runs collided and no two videos could ever be told apart.
+ * That fails in both directions at once — a false SAME SOURCE on every video
+ * pair, and (because `youtu.be/<id>` keeps its id in the path) a MISSED
+ * collision between the two spellings of one video. A check that cries wolf on
+ * every video teaches the operator to `--force` past it, which disables it for
+ * the whole class. So hosts whose identity lives in the query are folded
+ * explicitly to that identity, and the query stays dropped everywhere else.
  */
+const VIDEO_ID_PARAM = { 'youtube.com': 'v', 'm.youtube.com': 'v', 'music.youtube.com': 'v' };
+
 function normSource(s) {
   const raw = String(s).trim().replace(/\\/g, '/');
-  try {
-    const u = new URL(raw);
+  // Catch ONLY the parse: a source that is not a URL is a path or a dispatch
+  // slug and folds with `norm`. Wrapping the whole body would turn any bug
+  // below into a silent fallback that still returns a plausible-looking token
+  // — which is how a broken fold reports agreement instead of failing.
+  let u;
+  try { u = new URL(raw); } catch { return norm(raw); }
+  {
     const host = u.hostname.toLowerCase().replace(/^www\./, '');
     const p = u.pathname.replace(/\/+$/, '').replace(/\.git$/i, '').toLowerCase();
+
+    // A video's identity is its id, however the URL spells it. Both spellings
+    // fold to one token so `youtu.be/<id>` and `watch?v=<id>` compare equal.
+    const idParam = VIDEO_ID_PARAM[host];
+    if (idParam && p === '/watch') {
+      const id = u.searchParams.get(idParam);
+      if (id) return 'youtube.com/video/' + id.toLowerCase();
+    }
+    if (host === 'youtu.be' && p.length > 1) return 'youtube.com/video/' + p.slice(1);
+    if (idParam && (p.startsWith('/shorts/') || p.startsWith('/embed/') || p.startsWith('/live/'))) {
+      return 'youtube.com/video/' + p.split('/')[2];
+    }
+
     return host + p;
-  } catch {
-    return norm(raw);
   }
 }
 

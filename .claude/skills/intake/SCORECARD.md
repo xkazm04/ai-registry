@@ -1863,3 +1863,55 @@ stated, which took a sentence; do it again so the distinction round 18 asked for
 becomes a habit rather than a one-off. **The check the next row should make:**
 did the run grep an installed artifact before spending a fetch, and did the
 asymmetry hunt produce a landing?
+| 2.5.0 | 2026-09-04 | `yt:KZw8et-e6vk` "Forget SQS, RabbitMQ and Kafka. Just use Postgres." (**second-hand practitioner review, thin** — 590 words, a vendor dev-content channel demoing a third party's queue extension; **round 20**) | 1 | 7 | 2 accepted of 7 scored, `auto=2/0/0`, `fp=0`, 2 promoting questions executed and **both resolved against their rows** | **1 technique + 1 golden-path correction + 1 rewrite of a standing denial + 1 application** | 1 row: `0c/1e/0s/0t` | 1 (tracklight, fmt+clippy green, not pushed) | **Focus read at Phase 1 was round 19's; a concurrent sibling landed round 20's focus mid-run, and this run independently confirms its item (2).** Round 19 applied on 1 of 3 counts and that one carried the run: item (2) — *mine the standard, not only its implementations* — generalises past what the focus stated, because this subject's material is **not** a standard yet failed the same way, its prose written in the **vendor's** frame ("systems that advertise exactly-once") rather than the literature's, so it never drew the delivery-vs-effect split. Drawing it is what made a fourth posture expressible. Round 19 item (1), the superseded-claim carve-out, was **not** needed: the landing's `+2` rewrite penalty was earned honestly and cleared the threshold at exactly `+2`. Item (3) discharged with a **new** cause — see the depth cell. **Round 20's item (2), the deliberate asymmetry hunt, is confirmed from a second entry point**: the sibling reached it by looking for a technique that models one case in full and gives its sibling a sentence; this run reached the same shape by reading what a *refutation* is made of. Two concurrent runs, no contact, same hunt paying out | **S/T/A/Asrc/task = 0/1/0/1/0**; routing count **n/a** (a 590-word video is not a system — no design record, no handoff possible); `directions=n/a`. **Untriaged cause is a third kind neither round 19 label covers**: both rows had their promoting question executed and both **resolved against the row** — not `unverified`, not `verified-but-unwritten`, but finished work with a negative answer. **Depth note: the smallest source of rounds 15–20 produced the round's only inverted denial**, and the mechanism is new to this scorecard — the yield came from the source being confidently **wrong** about a claim the corpus refutes, which routed attention to the refutation's own construction |
+
+**Two runs converged on one hunt this afternoon, from opposite ends, without
+contact.** The preceding row's focus asks the next run to hunt asymmetry
+deliberately: *find where a mature technique models one case in full and gives
+its sibling a single sentence.* This run found exactly that shape and reached it
+by a different route — reading what a **refutation** is made of. The corpus
+refuted the source's headline, and to do so it had to name the condition under
+which the false claim would be true ("which holds only when both live in the same
+transactional store") before closing the door on it ("there is no fourth row").
+That conceded condition was unowned, and its mirror image was already built at
+full strength in another bundle branch and called "the strong version."
+
+The convergence sharpens both. The asymmetry hunt says *look for the sibling that
+got one sentence*. This run says **the escape clause in a denial is where that
+sentence hides**, and it is cheaper to find than a general asymmetry sweep because
+a refutation announces itself: the corpus contradicting the source is the modal
+intake outcome, and the file is already open when it happens. Two sightings is not
+a rule; a third makes it one, and it should be checked against the enumeration
+hunt, which round 19 says the asymmetry hunt already outperformed.
+
+**The stage now losing most is `apply`, and the loss is decided before the apply
+step runs.** Read the last ten rows' apply cells against `librarian/applied.md`:
+three of its last five rows are `unapplied` with a return condition, and every one
+of those conditions is a variant of "when a fleet project grows the seam." Those
+runs did not fail at Phase 7.5. They landed content they already had enough
+information to know they could not test, and found out one phase later. This run
+avoided it by luck of subject rather than by method — the seam surfaced at Phase 4
+while mapping, and only because `delivery-guarantees` happens to sit under half
+the fleet.
+
+The fix is cheap and belongs in the scored gate rather than in Phase 7.5:
+**whether a live fleet seam exists is knowable at triage and is currently not an
+input to the score.** A row whose home subject no fleet project has a context for
+is `unapplied` by construction, and `librarian/fleet-map.json` says so before a
+word is drafted. Surfacing it would not block those rows — some deserve landing
+anyway — but it would make the choice deliberate instead of letting three
+consecutive runs rediscover it at the last phase.
+
+**Next run's declared focus (round 21).** (1) **Score the seam.** Before accepting
+a row, name the fleet project and context it will be applied against, from the
+fleet map; where there is none, mark the row `unapplied by construction` at
+triage rather than discovering it at Phase 7.5. (2) **Run the refutation hunt**
+wherever the corpus contradicts the source — read the refutation's construction
+and ask whether anything owns the condition it concedes — and report whether it
+beat the general asymmetry sweep, since the two are now competing for the same
+slot. (3) **Report the untriaged tail on a three-way cause**: `unverified` /
+`verified-but-unwritten` / `resolved-against`. This run's two untriaged rows were
+the third kind and neither of round 19's labels describes them, so a run that
+files them under either misreports itself. **The check the next row should make:**
+did the run know its apply seam before it drafted, and did it say which of the
+three causes each untriaged row is?

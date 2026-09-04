@@ -29,7 +29,8 @@ actually costs.
 | **At-least-once** | never a lost event | handlers may run twice for one event | acknowledge/complete *after* processing; redelivery on doubt; duplicate effects are the handler's problem |
 | **At-least-once + deduplicated effects** | the *experience* of exactly-once | the full dedup discipline, forever | stable event identity + an idempotency check at every effect boundary |
 
-There is no fourth row. "Exactly-once delivery" across a process or network
+There is no fourth row in *this* table, because this table is about delivery
+across a boundary. "Exactly-once delivery" across a process or network
 boundary is not a posture, it is a claim that the acknowledgment and the
 effect commit atomically — which holds only when both live in the same
 transactional store. The moment an effect escapes that store (a call to an
@@ -39,6 +40,25 @@ two rows. Systems that advertise exactly-once are describing the third row
 and hiding the dedup machinery in the fine print; systems that *believe* they
 have exactly-once without that machinery have at-least-once with
 undiagnosed duplicate-effect bugs.
+
+That condition deserves to be read as a design option and not only as the
+disclaimer attached to a false advertisement. Where it holds — where every
+effect of a handler lands in the store that already holds the queue row — the
+acknowledgment and the effect can be made one commit *on purpose*, and the
+class then gets the exactly-once experience with none of the machinery the
+third row charges for: no stable identity, no dedup horizon, no persisted
+claim, no reaper. It is a fourth posture that this table cannot express,
+because it works by removing the boundary the table's rows are chosen across.
+Its price is a transaction held open for the handler's whole duration, and a
+precondition that one added external effect silently destroys; both, and the
+composition rule that lets a handler keep the property while still reaching
+the outside world, are [co-transactional-consume](./co-transactional-consume.md).
+
+The vocabulary has to carry the distinction the marketing does not:
+**exactly-once *delivery* stays an illusion; exactly-once *effect* is ordinary
+transactional atomicity, and it is bounded by one store.** A team that hears
+the second and repeats the first has told its own consumers they need no
+idempotency at their boundaries.
 
 ## Duplicate-effect analysis — the deciding instrument
 

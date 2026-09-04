@@ -7452,3 +7452,80 @@ in-flight 126-line diff is the one change a parallel fleet cannot absorb quietly
   paths, or `cd` to the repo root in the same call - and the general rule the
   corpus already holds applies to the shell too: never establish an absence from
   an instrument whose frame you have not checked.
+
+## 2.5.0 - 2026-09-04 - pgmq-just-use-postgres
+
+- **When a source states a claim the corpus refutes, read what the refutation is
+  MADE OF.** This is the run's central lesson and it is not in Phase 6's hunt
+  list. A refutation cannot deny a claim without naming the condition under which
+  the claim *would* be true - and that named condition is frequently unbuilt,
+  because it entered the document as a debunking aid rather than as a design.
+  Here: the source said a visibility timeout "guarantees exactly once delivery";
+  `guarantee-selection` refutes it and, to do so, names "which holds only when
+  both live in the same transactional store" - then closes with "There is no
+  fourth row." The condition was load-bearing, unowned, and its mirror image was
+  already built at full strength in another bundle branch. **The catch was the
+  cheap half; the refutation's construction was the run.** Phase 6 currently
+  lists four hunts (missing stage, self-declared enumeration, asymmetry between
+  mention and measurement, read the neighbours). This is a fifth and it fires on
+  the single most common intake outcome - a source the corpus already beats.
+- **A corpus can own one direction of a symmetric property and deny the other.**
+  The generalisable form of the above. The registry modelled the producing side
+  (an effect's intent made durable in the same commit as the data - and called it
+  "the strong version") and denied the consuming side (the effect and the
+  acknowledgment in the same commit) as an illusion. Both rest on one property.
+  The cheap check, once a disclaimer names a property: grep the other bundle
+  branches for whether that same property is built as a mechanism somewhere. It
+  cost one search and it decided the run.
+- **A guard whose false-positive rate is 100% for a common class has disabled
+  itself, not merely misfired.** The board refused this run's claim as a SAME
+  SOURCE collision with an unrelated video, because its URL fold drops the query
+  string and a video's identity lives in `?v=`. Every YouTube pair collides;
+  `youtu.be/<id>` and `watch?v=<id>` do *not* - it fails in both directions at
+  once. The dangerous part is not the bug, it is the operator adaptation: a check
+  that cries wolf on the skill's most common source class trains everyone to
+  `--force` past it, and then it is gone for that class while still appearing
+  green. Fixed with an 8-case assertion that pins the 2026-09-02 repository fold
+  it must not regress.
+- **A `try` around a whole function body converts bugs into plausible answers.**
+  Asserting the above, the harness reported a confident wrong result: the
+  extracted function referenced a lookup table the extraction had not carried, and
+  the resulting `ReferenceError` fell straight through the function's own
+  catch-all into its not-a-URL fallback, which returns a normal-looking token.
+  Nothing failed loudly. The shipped `catch` is now around the parse alone. The
+  general rule for this method's instruments: **catch the anticipated failure, not
+  the function.**
+- **A tree's own account of itself ages faster than the tree.** The apply target's
+  feature scout documented a double-claim bug in its job queue in detail. It is
+  fixed in `HEAD` - the lease is renewed and the completion write is conditioned
+  on still holding it - and it was one step from being reported as a live finding
+  on the strength of a dated document in the tree. Phase 2b already ranks the
+  README last; the same suspicion is owed to any *dated* in-tree document, and the
+  discipline is to read the code the document points at before citing it.
+- **The untriaged tail has a third cause, and it is the good one.** Round 19 asked
+  for `unverified` vs `verified but unwritten`. Both of this run's untriaged rows
+  are neither: their promoting question was executed and the answer **resolved
+  against the row** - the concern is real and the corpus already places it
+  elsewhere, or the source supplies no forces. That is a finished piece of work,
+  not a backlog item, and filing it under either existing cause misreports the
+  run. The three-way split should be `unverified` / `verified-but-unwritten` /
+  `resolved-against`.
+- **Calibration held.** Expected yield for a thin second-hand review was stated
+  before the table as "one content row at most, plus catches", and that is what
+  landed. The class's "for a review the fetch IS the extraction" rule did **not**
+  bind: 0 of 3 fetches, because the finding corroborated corpus-internally, by
+  training-data convergence, and against code in two connected trees - all of
+  which the corroboration table already ranks above commentary. Worth noting that
+  the rule as written pushes toward a fetch the run did not need; the
+  discriminator is not the class alone but whether the claim has a home yet.
+
+### Redesign proposal - add the refutation hunt to Phase 6
+
+Not applied in this run's edit, because one sighting is a lesson and not a rule.
+Phase 6 would gain a fifth hunt: *"Where the corpus refutes the source, read the
+refutation's own construction. Name the condition it concedes in order to deny
+the claim, and ask whether anything owns that condition as a mechanism."* It is
+cheap (one file already open), it fires on the modal intake outcome rather than a
+rare one, and it aims verification at the one place a mature corpus reliably
+leaves unbuilt: the escape clause in its own denial. Confirm on two more runs
+before it goes in the file.
