@@ -338,3 +338,59 @@ negative pointer is not a bridge and is not modelled by the import-or-pointer
 rule. One tree is not enough to say whether it is a pattern. Return: a second
 independent repository declaring an instruction directory out of scope for agents
 other than its owner.
+
+## 2026-09-04 - /intake `copilot-cost-efficiency` (run `intake-ghcost`, intake 2.5.0)
+
+New technique `rewrite-behavior-pinning`, from a first-party account of a coding-agent
+harness. Operator focus was library skills and their design, and the pick was the
+instruction-asset row.
+
+**The gap the subject had already half-drawn.** All three maintenance instruments here -
+`line-earning`, `substrate-coupled-expiry`, `instruction-freshness` - are per line and
+read a diff. `sibling-floor-ownership` states the funnel "is never run per install,
+because an install produces no diff for anyone to read": the case where the diff is
+*absent*. The new technique is the mirror, a diff that is *total*. A bulk
+machine-authored rewrite leaves no line to withhold, no per-line origin story, and a
+review that collapses into a judgement about prose while the property at risk is
+behaviour (`gate-sees-target`). `capability-coverage-contract` stays green through the
+whole failure - the capability is still named; only the guidance about when to reach for
+it changed - which is the sharpest evidence the gap is real rather than a restatement.
+
+**The causal half, folded in rather than banked as a second candidate.** Compression
+deletes hedges before facts. Hedge tokens carry almost nothing about *what* to do and
+almost everything about *how strongly*, so a compressor reads them as filler and the
+residue of an advisory is a bare imperative: the failure signature is not a missing
+behaviour but one that became unconditional. The source's own rollback is the instance,
+and the corrective inverts the instinct - the fix was shorter than the compressed version
+and *less* restrictive than either, an allowlist plus denylist collapsed into one sentence
+handing the choice back to the model. Length and strictness are independent axes. Closing
+symmetry with `substrate-coupled-expiry`: the judgement-shaped lines that go inert when
+the model improves are the same lines a rewrite breaks, because their content is in their
+strength rather than in their facts - which also makes `restraint-amplifier-balance`'s
+amplifiers the highest-value pins, since a permission compresses to nothing while a
+prohibition compresses to itself.
+
+**Applied `experiment`, verdict `not-better`, and the rejection improved the technique.**
+12 always-loaded instruction assets across 7 repositories, 152 revisions, 35 bulk
+rewrites; a modality detector asserted against 3 known positives and 4 known negatives
+flagged 10 and confirmed 0, every candidate a pairing artifact. The technique's own rule
+predicted it - a lexical check re-implements the per-line funnel it exists to escape - so
+the amendment carries the number, because the lexical pin is what everyone builds first.
+Application: `node--rewrite-behavior-pinning`.
+
+**Two structural facts nobody designed.** 24 of the 35 bulk rewrites *grew* the file and
+not one was undertaken to cut per-turn cost, so this technique's trigger has never fired
+in the fleet - the population was missing, not the instrument - and the largest asset is a
+114 KB method file at 30 revisions never once reduced, a live instance of the accretion
+`line-earning` warns about. And the registry's own skill gate asserts shape only and
+nothing about behaviour, so the run that landed the technique found its own tree unpinned.
+
+**Direction pass ran and returned empty mechanically**: `fleet-map.json` reports
+`absent: []` for this subject because all eleven projects already carry a context for it.
+The pass tests *presence*, so a universally present subject has no candidate absences
+ever - a trigger diagnosis rather than a skip, with a coverage-depth eligibility test
+proposed in `LESSONS.md` and not applied.
+
+Untriaged from the same source, with a home already named: a third expiry axis for
+`substrate-coupled-expiry` (a per-item payload decoration whose *peer tool* changed its
+method - neither repo nor model moved), measured at ~5% offline and ~3% online cost.

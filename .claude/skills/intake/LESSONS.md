@@ -7114,3 +7114,53 @@ from a coincidence.
   neighbour closes the same gap more cheaply, and if so test the neighbour first.** The
   answer here cost one generator edit and 8,000 cases, and it saved building a field
   capture lane nothing yet needs.
+
+## 2.5.0 - 2026-09-04 - copilot-cost-efficiency
+
+- **An instrument built to test a technique can violate that technique, and the
+  violation is the finding.** This run landed "pins assert over behaviour, not over
+  text", then built a *lexical* detector to test it: 10 flagged, 0 confirmed over 35
+  real bulk rewrites. The refutation was predicted by the file it was refuting. Worth
+  generalising into the method: **when the apply step builds an instrument, check the
+  instrument against the technique's own rules before running it** - if the technique
+  forbids the shape you just built, the experiment's result is already known and the
+  budget should go to the shape it permits.
+- **A threshold tuned to suppress false positives suppresses the true positives first,
+  when the signal IS severity.** Three separate assertion failures in one run, all the
+  same root: the strongest modality inversions rewrite the most words, so every
+  similarity floor that quieted the detector also blinded it. The general form is worth
+  carrying into any Phase 7.5 harness: **ask whether the thing that makes a hit
+  strong also makes it dissimilar**, and if so, tune on the known positives rather than
+  on the false-positive rate.
+- **A design record is worth writing for a non-repository source when the source states
+  forces and rejected alternatives.** The method's Phase 2d is written for a tree, and a
+  run over an article would normally skip it. This source carried six decisions each
+  with its forces, its rejected alternative and a measurement, and the record is what
+  made the routing count computable and what turned four scattered claims into two
+  homed candidates. Suggested method edit (not applied): let Phase 2d fire on a
+  **first-party account that states forces**, not only on a repository, with quote
+  anchors standing in for `file:line`.
+- **The direction pass (7.6) is inert by construction for this skill's modal landing,
+  and that is now measured rather than argued.** Its eligibility test is *presence*:
+  a project with no context for the subject. `agent-instruction-files` governs a file
+  every repository has, so `absent: []` - and the `llm-agent/*` subjects intake lands in
+  most often are exactly the universal ones. Five rounds of "locally good reasons to
+  skip" were all symptoms of one structural fact. The fix belongs in the fleet map, not
+  in the run: eligibility should be **coverage-depth** based (a project whose context
+  predates N of a subject's techniques is a candidate even though present). Recorded
+  here rather than applied because `SKILL.md` had 126 uncommitted insertions from a
+  live sibling session throughout this run.
+
+### Redesign proposal
+
+**The untriaged tail is write-only and should either get a drain or lose its number.**
+Every round since 2.2 banks 3-5 untriaged candidates with anchors, and no round has ever
+returned to one; this run banked five, two of which are its own unhomed design decisions
+with homes already named. The method has `/intake apply` for techniques with no applied
+row, and nothing for candidates that reached the table and were never picked. The
+asymmetry is not defensible: an untriaged candidate is cheaper to land than a fresh
+source is to mine, and it is already mapped. Proposal is an `/intake untriaged` mode that
+re-ranks banked candidates against the *current* corpus before proposing them - most were
+banked when their home did not exist, which is precisely the condition that changes. Not
+applied in this run for the same reason as above: a method edit against a sibling's
+in-flight 126-line diff is the one change a parallel fleet cannot absorb quietly.
