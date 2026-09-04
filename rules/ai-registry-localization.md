@@ -1,6 +1,6 @@
 # Localization - the subjects this registry carries
 
-`localization` - 14 subjects, 85 techniques, 45 applications.
+`localization` - 15 subjects, 91 techniques, 45 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### european
@@ -16,4 +16,4 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - arabic
 
 ### craft
-- translation-pipeline-topology
+- translation-pipeline-topology, translation-quality-measurement
