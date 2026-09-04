@@ -6871,3 +6871,70 @@ lessons pending the three-run confirmation rule.*
   than a workaround.
 - **Mid-flight runs: nothing to do.** This version bump is a patch-level method note
   plus a scorecard row; finish on the version you loaded.
+
+## 2.4.0 - 2026-09-04 - gamedev-resources
+
+- **A reference index has two sub-classes and the method only describes one.** The
+  Phase 2c ratio test (outbound links over own word count) finds the *lane*
+  correctly and says nothing about whether the lane is worth running. A
+  **bibliography** points at documents that can authorize a finding - papers,
+  vendor docs, specs - and the wave machinery is built for it. A **directory**
+  points at products, and every one of those references strips to nothing by
+  construction, so the correct expected yield from all of them is zero regardless
+  of how many are read. This source: 356 links, 4,245 words, ratio inverted as
+  predicted, and ~90% of the references are engine and tool landing pages. The
+  discriminator is the **class mix of the references**, which Phase 2c step 2
+  already computes and currently uses for nothing. First sighting; not yet a rule.
+- **A class name settles what a source is reliable FOR, not where in it to look,
+  and those come apart.** The lane's instruction here is to enumerate and read the
+  references. Obeying it would have spent a per-reference budget on tool homepages
+  and reported an honest zero. The whole run came from four non-README files under
+  5,000 words and 495 commits of history - a `.travis.yml` and its commit messages
+  produced two amendments to two mature techniques. The run recovered only because
+  Phase 2b's sweep runs regardless of class. Proposal for round 14's focus: say the
+  expected *location* of the yield out loud beside the expected quantity.
+- **Git history is a first-party operating document, and it is the only one a
+  five-file repository has.** The Phase 2b sweep order lists operating documents,
+  the instrument, the measurement, the types, the tests, the README. This tree has
+  none of the first five in file form - but twelve years of commit messages
+  recorded, one at a time, exactly which host had just been wrongly flagged and
+  whether the response was to remove the link or exempt the host. That is a
+  paid-for failure taxonomy with dates. The sweep order should name history
+  explicitly for small trees rather than leaving it to be remembered.
+- **The apply step refuted the run's own INSTRUMENT this time, not its prose.**
+  Fourth consecutive round where the apply step corrected the landing before the
+  commit, and the first where the corrupted artifact was the measuring device: the
+  citation sweep reported 6 dead citations, of which 5 were `${...}` interpolations
+  and regex fragments its URL regex pulled out of fenced code blocks. Narrowing to
+  prose moved it to 1 - a 6x error in the alarming direction. The corpus had
+  already named the cause (`checker-false-positive-discipline`, "never
+  pattern-match a language you have a parser for"), which is an argument for
+  reading the neighbour techniques of the thing you are *building*, not only of the
+  thing you are landing.
+- **`process--<technique>.md` is the escape hatch round 12 was looking for.** Round
+  12 filed the `<stack>--<technique>.md` uniqueness limit as a structural blocker -
+  a second tree on the same stack cannot be recorded, and its `gate-liveness`
+  realization had a ledger row and no application. `node--gate-liveness` is taken;
+  `process--gate-liveness` was free and is arguably the more honest stack for a
+  realization whose subject is a workflow rather than a runtime. Two of this run's
+  three applications used it. Note the gate's rule that comes with it:
+  **`stack: process` forbids `verified_against` entirely** ("a process application
+  has no runtime version"), so the tree's witness commit goes in the prose instead.
+- **Do not regenerate the index when a sibling's WIP is in the tree.** `run-board`
+  showed one live sibling; `check-bundles` was red on 23 problems, every one in
+  their uncommitted files and none in this run's. Regenerating would have read
+  their half-written subjects into `index.json` and `catalog.json` and committed
+  the hash under this run's name. Left stale deliberately, and said so in the
+  source note. The method already carries this rule; recording that it fired.
+
+### Redesign proposal (not applied)
+
+Phase 2c's ranking step ("rank the whole set against the corpus") is written as
+though ranking is always the right next move. For a directory it is not - the
+correct move is to **abandon the reference lane entirely** and spend the run on the
+tree, which is what happened here by luck rather than by instruction. A cheap stop
+rule would be: after step 2 classifies the references, if fewer than ~20% belong to
+classes that can authorize (paper, spec, vendor doc, first-party account), declare
+the reference yield zero, say so in the note, and route the whole run to Phase 2b.
+Proposed rather than applied because one sighting cannot distinguish a threshold
+from a coincidence.
