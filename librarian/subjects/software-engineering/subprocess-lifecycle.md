@@ -14,6 +14,14 @@ First touch: [[2026-08-22-9]], external reconcile against
 cleared. Liveness hint partly refuted: the instrument is one budgeted ttrpc
 round-trip at daemon load, not heartbeats - no periodic pulse exists.
 
+## 2026-09-04 - /intake run (stencil harness playbook)
+
+- New technique `cancellation-needs-a-terminable-unit`, and it is a **discriminator rather than a contradiction**. `guest-execution-bounding` opens by stating its own precondition - the guest runs "on the host's thread, inside the host's process", so the OS remedy is the host's own death - which means the corpus is right that cooperative counting is the answer *where no terminable unit exists*, and a harness postmortem is right that a kill boundary is mandatory *where one does*. Neither had written the question that separates them.
+- The gap it also closes: `streaming-output/cancellation-and-finalization` step 1 concedes the signal is "Best effort: the producer may comply promptly, slowly, or never" and then spends every remaining step on the surface. Honest about the display, silent about the work that keeps burning.
+- The operative rule is ordering: **placement decides cancellability, so decide it in that order.** Running contributions in the host's own isolate and then discovering cancellation must be cooperative *because of that placement* is writing the consequence down as the requirement.
+- Also states the two counts (units signalled, units reaped) and the honesty obligation: publish what a cancel *reclaims* versus what it merely *stops watching*, the way `guest-execution-bounding` publishes counted and uncounted ceilings.
+- **Applied `experiment` to a fleet desktop agent host, verdict `better`, `structural-only`.** Its cancel fires a cooperative token and writes a terminal "cancelled" status unconditionally; a stale sweeper does the same on a timer. **29 guarded-spawn sites, 2 bind the returned handle and both are in a unit test** - so 27 production tasks are un-abortable and reaped is structurally zero, while the abort call is used 15 times elsewhere in the same tree. The mechanism exists and is not wired to the cancel path, and the helper's own doc comment concedes it. Filed as the project's next change with the cheap half separated: stop asserting a reclaim before making the population reclaimable.
+
 ## Open leads (banked, convergence rule applies)
 
 - Deliberate non-parenting as a design position: either the parent owns the

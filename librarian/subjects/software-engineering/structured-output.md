@@ -1,7 +1,7 @@
 ---
 subject: structured-output
 domain: software-engineering
-last_touched: 2026-08-25
+last_touched: 2026-09-04
 touched_by: external-reconcile
 dry_streak: 0
 ---
@@ -13,6 +13,13 @@ First touch: [[2026-08-22-7]], external reconcile against `vercel/ai`
 (uncovered) - second stack; single-stack debt cleared. Hint confirmed; the
 extraction-strategies alternative was tested and found to be one strategy, not
 a ladder.
+
+## 2026-09-04 - /intake run (stencil harness playbook)
+
+- New technique `constrained-decoding-is-a-shared-budget`. The golden path's "When generation can be constrained" bullet is a **per-call quality decision** with the correct standing caution that it guarantees syntax and syntax was never the contract. It has no notion that the capacity is **finite and shared**: providers cap how many strict schemas a request may carry, so enough independently authored contributions push a request past the ceiling and the provider then rejects *every* request - including ones needing no constraint. The request that breaks is not the one that asked for too much, which makes it near-undiagnosable from the symptom.
+- Second half: **the dialect belongs to the route, not the model.** The golden path's third-copy rule assumes one wire schema per contract; the same model routed through a native host, a proxy or a self-hosted server may need different renderings. One definition, one rendering per route, produced by the assembling layer - never a pre-rendered grammar carried by a contribution. Where a route's support is unestablished the answer is *unknown*, not *unsupported*.
+- Shedding must be **visible to the shed party**: a contribution whose constraint was dropped has been moved back onto the tolerant ladder and needs to know, or it parses believing syntax was guaranteed.
+- **Applied `code` to a fleet evaluation engine and shipped, verdict `better`, `ab-paired`.** The dialect half was already built correctly there (one schema rendered into three provider dialects, with an overridable API base making the several-routes force live); the budget half has **no seam** - one claimant only, recorded as the case where the rule is genuinely unnecessary. **The structural fact nobody designed:** the result type already degrades the *sibling* guarantee in-band - a three-state determinism enum read at 66 sites, explicitly weaker when sampling knobs were rejected and retried without them - while schema enforcement rode on a stderr line. Measurable: call sites able to distinguish an enforced schema from a prose fallback from the value they hold, **A=0 -> B=all**. Both blocking gates green, 127 engine tests pass.
 
 ## Open leads (banked, convergence rule applies)
 

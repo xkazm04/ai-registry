@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -26,6 +26,15 @@ taxonomic.
 The non-obvious half, and the part the source did not state: reachable context needs a
 HIGHER freshness bar than unreachable context, because an error there steers the agent
 away from checking something it would otherwise have found.
+
+## 2026-09-04 - /intake run (stencil harness playbook)
+
+- New technique `speculative-compaction-splice`. `amortized-compaction-cadence` opens **"Two schedules, and what each one buys"** and prices batch against amortized as a deployment-decided trade - but both are *triggered*, and both do the work in the turn's path. That shared assumption is not a law.
+- The third schedule forks at a derived margin below the threshold, compacts beside the conversation, and splices the summary in as a prefix. It takes amortized's stall-free property **without** the per-turn prefix break that document treats as the unavoidable price, because it breaks the prefix exactly as often as batch does - in `cache-breakpoint-allocation`'s arithmetic, the cadence term is unchanged from batch.
+- Second half, which the corpus had no view on: the splice keeps the live turns *after* the summary, so the model does not resume looking at a handoff message standing alone as the newest thing in its history.
+- The landing adds the two things the source omits and any implementation needs: the margin is **derived** from measured summarization latency against tokens-per-turn (a round percentage never revisited is a threshold trigger with extra steps), and the losing case - live branch crosses the hard threshold, or the summarization fails - degrades to blocking on the in-flight request, never silently to no compaction.
+- Explicitly does **not** relax `history-compaction`'s selection rules: cheap compaction off the critical path invites running it more often, and each pass is still a lossy rewrite of the record the session reasons from.
+- **Unapplied.** No fleet project runs a conversation-window compaction it owns; the nearest candidate's compaction hits are memory records and review summaries, not transcript spend-down. Return condition: a project compacts a transcript against a context window it must stay inside.
 
 ## Open leads
 

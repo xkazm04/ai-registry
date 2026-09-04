@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: session-continuation
-last_touched: 2026-09-02
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -71,3 +71,12 @@ subject by construction.
 ## 2026-09-02 - `/intake` hermes-agent (run `intake-hermes-0902`, intake 2.1.1, Opus workers)
 
 `stuck-loop-detection` gained "The interruption that leaves no signature": crash-resume marks recently touched sessions resume-pending, auto-continues them, keeps the mark until a turn succeeds, and escalates to suspended after three consecutive restarts; a clean-shutdown marker suppresses the sweep. The technique keyed only on failure identity; involuntary interruption is the second key. Also corrected on the other side of a boundary: `advisory-guard-fail-mode` says "bound every handler", and the peer runtime shows the handlers where abandonment has no safe direction (a last-chance flush, a policy gate) - the correction is recorded as a boundary in agent-runtime-assembly rather than an edit here. Deviation for the task backlog: the restart-count write and the suspend save are swallowed by bare excepts, so the terminal state can silently fail to arm.
+
+## 2026-09-04 - /intake run (stencil harness playbook)
+
+- New technique `ordered-yield-composition`. `single-loop-authority` holds the continuation authority "to one value per session" and resolves a second claimant from a "closed set" of three - refuse / adopt / artifact-only - **all of which work by ensuring the second loop does not exist AS a loop**. A harness postmortem demonstrates a fourth: keep both alive, give them a total order, and let the innermost frame see the candidate yield first with exactly one consumer per yield (pass / continue / yield / push / done / fail, with `pass` the only way outward).
+- Two sharp points. The corpus's stated safe default, `refuse`, is **verbatim the source's postmortem anti-pattern** - an exclusivity check restated by hand at six entry points, telling the user to exit one mode before entering another. And `adopt`'s reconcile-or-refuse fork for irreconcilable yield conditions **does not arise** under a stack, because conditions evaluated at different depths never have to merge.
+- `one-authority-per-vocabulary` survives intact and is why the landing is legitimate: the stack IS the authority. The corpus's error was identifying the authority with a *behaviour* rather than with an *arbiter*. `single-loop-authority` gained one scope paragraph (claimants with no defined order between them) and keeps every existing sentence true.
+- Corroboration is **training-data convergence, not the source** - an ordered interceptor chain with single consumption is long-established practice - which matters because the source's own Director stack is designed and not fully shipped.
+- The technique imports two obligations the subject already owns: a declared risk class per frame with a derived fail direction (a frame that throws must re-offer the yield it held, not swallow it), and leases on a restored stack so a crashed session does not resume into an armed force.
+- **Unapplied.** One fleet project has 18 restated checks of two mode flags across 8+ files - the right shape - but those modes gate permission rather than a candidate yield. Return condition: a project grows two behaviours that each want to hold a session open.

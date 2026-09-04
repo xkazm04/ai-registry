@@ -18,6 +18,7 @@ techniques:
   - continuation-prompts
   - task-envelope
   - amortized-compaction-cadence
+  - speculative-compaction-splice
   - deferred-interface-invalidation
   - endpoint-sealed-continuation-metadata
   - elision-to-a-refetch-pointer
@@ -451,6 +452,12 @@ disappearing.
   folding one unit of history per turn to hold occupancy flat, the cached
   prefix that pays for it, the two dials only one of which is usually shipped,
   and the cursor rule that never absorbs what the operator wrote.
+- [speculative-compaction-splice](./techniques/speculative-compaction-splice.md)
+  — the third schedule, which takes the work off the turn's critical path
+  entirely: fork at a derived margin below the threshold, summarize beside the
+  conversation rather than inside it, splice the summary in as a prefix so the
+  live turns stay newest, and say in advance what happens when the speculation
+  loses.
 - [deferred-interface-invalidation](./techniques/deferred-interface-invalidation.md)
   — when a command that mutates a standing layer takes effect: deferral to the
   next session as the default, immediate effect as an opt-in, the one rewrite
