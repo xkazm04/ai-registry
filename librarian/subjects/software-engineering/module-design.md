@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -203,3 +203,28 @@ second-source corroboration, it having been forged from one repo).
 ## 2026-09-03 - `/intake` kube-rs (run `intake-kube-0903`, intake 2.3.1, Opus workers)
 
 Application `rust--seams-and-adapters` against a control-plane client library@1.89: the store and dispatcher seams in its reflector module (implementation at `reflector/mod.rs:112-131`).
+
+### 2026-09-04 - `/intake`, from a procedural-macro tutorial
+
+One new technique, applied and shipped, from
+[[../../sources/2026-09-04-rust-proc-macros]].
+
+- `mirror-type-at-the-edge` — the case `io-free-core` presupposes away. All four
+  of its properties assume a test can *construct* the input; some types are
+  minted only by the host that supplies them (a request scope's cookie jar, a
+  compiler session's token stream, a device handle) and have no constructor
+  outside it, so "hand it in as a value" leaves the test where it was. The
+  disposal is an ordinary mirror of what the module actually reads, conversion
+  at both edges, and a shim that takes no verdict branch. Cited into the seams
+  section as the third answer to the testability question.
+- The promoting question is why this is a technique and not an amendment:
+  `io-free-core`'s decision rule and its "when not to use it" section were read
+  in full and neither contemplates an unconstructible input. A mechanism the
+  corpus lacks, not a boundary case of one it has.
+- **Applied `code` / `better` / `ab-paired`** against a Next operator-console
+  gate: verdict branches reachable by the project's own unit runner went **1 → 4**
+  (arm A was run — three of four threw `cookies was called outside a request
+  scope`). See `applications/next--mirror-type-at-the-edge.md`.
+- The tree amended the draft: the shim keeps one guard deciding *whether to
+  touch the host*, because reading cookies opts a route out of prerendering.
+  "No branches" was wrong; "no verdict branch" is the rule.

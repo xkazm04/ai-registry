@@ -7291,3 +7291,39 @@ in-flight 126-line diff is the one change a parallel fleet cannot absorb quietly
   a row may not be filed as untriaged until one file read has been spent on it. Test
   this before building `/intake untriaged`; a drain mode would spend a whole run
   re-deriving rows that one read would have closed on the day they were extracted.
+
+## 2.5.0 - 2026-09-04 - rust-proc-macros
+
+- **A row's home should be checked for viability at Phase 4, not discovered at Phase 6.**
+  Three of this run's five surviving rows died for one reason - no home - and the run
+  paid to verify them first. None was a close call: the obvious candidate subject
+  (`codegen`) defines its own scope in its golden path's second paragraph as *committed
+  source derived from other committed source*, which a macro expansion is not, and all
+  seven of its techniques are inapplicable to an artifact that is never a file. One read
+  of the `file` the map already returns would have routed all three to the lead lane
+  before verification. The map's `why` line reports slug and `use_when` overlap; it does
+  not report whether the subject's stated boundary *admits* the row, and those are
+  different questions. Proposed for 2.6: before scoring, open the top hit's golden path
+  and ask whether its stated scope admits the row.
+- **The promoting question changed two outcomes this round, in opposite directions**, and
+  that is the argument for promoting it out of the `partial` clause into the default
+  first move after Phase 4. Positively: reading `io-free-core`'s decision rule and its
+  "when not to use it" in full is the whole reason the accepted row landed as a technique
+  rather than as an amendment to a technique that does not cover its case. Negatively: on
+  the three rejected rows it produced the *evidence* for the rejection, which is what
+  turned three loose rows into one coherent escalation instead of three shrugs. Two
+  rounds running it has been the highest-leverage read in the method.
+- **A landing verified only against the corpus has one reader.** The technique shipped
+  claiming the remaining shim "contains no branches"; the tree it was applied to kept one
+  guard, correctly, because reaching for the host had a side effect on the host. The only
+  reason this surfaced is that Phase 8 demands a behaviour-preserving proof before the
+  commit, which forces "does arm B still do what arm A did?". Phase 7.5 is not only how a
+  technique earns its keep - it is the cheapest available review of the technique's own
+  wording, and a run that lands and stops publishes its overreach.
+- **Name the constraint from the config, not from the framework's reputation.** This run's
+  first framing of the seam blamed a `server-only` import for the untestability. The
+  project's own vitest config already aliases that module to a stub - which is why a
+  sibling server-only file had tests all along - and the real blocker was the ambient
+  request accessor alone. The wrong framing would have aimed a whole technique at the
+  wrong constraint. A stack's documented restriction is a claim about the stack, not
+  about this tree; the tree's test config is the authority on what the tree can reach.

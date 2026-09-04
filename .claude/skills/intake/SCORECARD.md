@@ -1708,71 +1708,62 @@ retire the count, and did its apply cell say whether the verdict changed the lan
 | 2.5.0 | 2026-09-04 | `exoharness/exo` (**vendor repository read as a system**; a self-modifying agent harness over Rust+TS with three sandbox backends; **2,003** landing words against 62,842 in-tree md and 93,945 lines of source, ~31:1; **round 15**) | 1 | 33 (design record, 4 systems, 4 parallel workers) | 9 admitted of 12 scored (10 catches; 14 recorded untriaged with anchors; **0 declined**) | **1 subject (4t + 2 src-apps) + 3 amendments + 1 technique + 4 applications** | 1e/2s/0c/**1t** + 5 unapplied w/ return conditions | **2** (personas `master` pathspec; pumper `master` via a merged direction branch, gate re-run by the director) | Focus 1 RESOLVED: the direction lane was not dead - the scorecard's account of it was stale (30 ledger rows, 26 accepted, 8 studies across 7 projects). Focus 2: **2 assertions overturned by a second reader** - the stale scorecard claim (caught by reading the fleet trees) and a phantom bidirectionality break (caught by the mandatory re-read inside the content lock). Focus 3: mid-state printed in the paired A/B; both arms provably ran. | S=1/T=4+1/A=3/Asrc=2+4/task=0 · routing count **4 of 33 NONE, fired on 1 of 4 systems** · handed off: **yes, the system not the repository** · `auto=9/3/1` `fp=0` · refuted=3/9 · directions=study/1 peer · gate=1 open proposal shown |
 | 2.5.0 | 2026-09-04 | `yt:EaXHfuHRWwg` "Your App Will Break in This Exact Order" (**second-hand survey, tutorial-explainer form**; the canonical single-server-to-sharded ladder relayed with no system of its own; 5,964 words; **round 16**) | 1 | 12 | 1 admitted of 12 scored (10 catches; 1 untriaged with anchors; **0 declined**; 1 escalated XL) | **1 golden-path correction** | 1e/0c/0s/0t, verdict **not-better** and it **killed a landing** | **1** (this registry, pathspec) | Focus 1 (untriaged tail): **partially addressed by execution, not by mechanism** - this run banked only 1 untriaged row and executed its promoting question rather than filing it blind; the row resolved *against* itself. The drain mode still does not exist. Focus 2 RESOLVED: the apply cell now says the verdict **changed the landing** (it prevented a checker rule). Focus 3: **2 assertions overturned by a second reader** - (a) "no subject owns the scaling ladder", asserted from two `research-map` concept queries and refuted by a directory enumeration (**catcher: a different instrument layer**); (b) "no subject note exists for this subject", asserted from an `ls` chained to the write with `;` so the check could not gate it, refuted by `git diff --stat` after 189 lines were clobbered and restored (**catcher: post-write verification**). | S=0/T=0/A=1/Asrc=0/task=0 · routing count **n/a (not a repository)** · handed off: no · `auto=1/1/1` `fp=0` · refuted=1/1 · directions=n/a · gate=n/a |
 | 2.5.0 | 2026-09-04 | `web:github.blog` cost-efficiency - **the untriaged drain** (run `intake-ghcost-2`; same source as round 15, operator approved all four banked rows as a multi-select and asked for worker execution; **round 15b**) | 0 - no new source | 0 - the four candidates were already extracted and banked in round 15 | 4 of 4 verified and landed | **2 techniques + 2 amendments + 1 reciprocal cross-reference** (`recovery-path-as-loss-signal`, `consumer-coupled-decoration`; producer-class elision, completion batching + the payload discriminator) | **8 rows: 0c/3e/0s/0t + 1 code + 4 unapplied** - all four tested rows `better` | **1** (`tracklight` `7c746eb`, plus 4 registry-side applications) | Ship is 1 and the zero-reason does not apply. The four `unapplied` rows are searched absences with the failed precondition named, not skipped work. | S=0 / T=2 / A=2 / Asrc=0 / task-lines=0. Routing n/a - this run mined no source, it drained a banked tail. `directions=n/a`. **Five workers, three overrode the director and all three were right**: the payload-decoration routing (to `prompt-assembly`, on the strength of "this subject governs systems that own their assembler" plus a two-factor cost model and an instrument that assumes the model is the reader); the three decoration sites I named (per-payload truncation markers, not per-item decorations - the multiplier collapses and `context-budgeting` already owns them); and the apply project for the batching amendment. A fourth moderated a claim I overstated, bounding the two-sided recovery rate to what n=1 supports. **Assertions overturned by a second reader: 9, catcher named on each** - 3 by an assertion harness (a similarity floor tuned to suppress false pairs suppresses true ones first, one layer at a time), 2 by a worker's own instrument failing its known positive (serde integral-f64 formatting; Rust byte length vs JS UTF-16), 1 by a known-positive assertion catching an all-empty sweep across six projects as a false negative from an over-specified regex, and 3 by the director opening cited lines (a carrier line number 38 lines out, a constant 2 lines out, and an 8/8 count that did not reconcile against 7 call sites - which on forcing produced a genuine sharpening: **the discriminator applies per fact, not per notification**). **Mid-state printed in every paired test, and it was decisive twice**: the elision arms are byte-identical at BOTH endpoints and diverge only across the middle (a 400-span trace of 4-byte payloads renders 52.6% LARGER than the un-elided compact form it replaces), and the announcement arms read "9 vs 1" at the endpoints while hiding that one completion is silently never voiced. **The corpus measured its own prior landing at the boundary it had just forbidden** - an earlier run's elision reported 4.7x from `arm_a.len()` against `arm_b.len()`, and nothing in that crate counts recovery, so the break-even at a 67.5% recovery rate is unresolvable as built. |
+| 2.5.0 | 2026-09-04 | `yt:VIsKIzFz_zA` "Rust's God Mode" (**first-party practitioner account, tutorial-explainer form**; an educator building three procedural macros live; 3,257 words; **round 17**) | 1 | 7 | 1 admitted of 5 scored (1 catch; 3 untriaged with anchors, **every promoting question executed**; **0 declined**; 1 escalated XL) | **1 technique + 1 application** | 1c/0e/0s/0t, verdict **better** | **1** (politicas `master`, pathspec, doc-sync trailers, not pushed) | Focus 1 (rewrite-penalty carve-out): **not exercised** — the accepted row was a pure append (a 12th technique beside 11 whose sentences all stay true), so the `+2` never applied and the defect stays untested. It is still owed. Focus 2 (no `partial` banked without its promoting question) **RESOLVED and it changed two outcomes**: the question promoted row 2 from `partial` to `real gap` (which is the whole landing), and on rows 1/4/5 it produced the *negative* that matters — their nearest homes were read and rejected on evidence rather than left as "no prior art", which is what turned three loose rows into one coherent escalation. Focus 3 (name the catcher): **2 assertions overturned, catcher named on each** — (a) "`server-only` makes this untestable" refuted by the project's own vitest alias plus an existing sibling test (**catcher: reading the config instead of assuming the framework**), which mattered because the wrong framing would have aimed the technique at the wrong constraint; (b) the technique's own "the shim contains no branches" refuted by the tree (**catcher: the paired proof forcing a behaviour-preservation check before the commit**). | S=0/T=1/A=0/Asrc=0/task=0 · routing count **n/a (not a repository)** · handed off: no · `auto=1/0/1` `fp=0` · refuted=1/1 · directions=n/a · gate=n/a |
 
-**Funnel, round 16 reading of the last ten rows.** Research 1 each; extract 8-58;
+**Funnel, round 17 reading of the last ten rows.** Research 1 each; extract 7-58;
 test 1-22; apply has carried a row per landed finding since 2.2 and ship moved in
-eight of ten. This round is the smallest in the log — 12 extracted, 1 landed — and
-the shape is correct rather than disappointing: a second-hand survey of textbook
-material against a bundle of 214 subjects should yield catches, the class table
-predicts it, and the expected yield was stated before the table so the number would
-read as calibration. **The stage losing most is still `test`**, but this round
-narrows the diagnosis. It banked one untriaged row instead of the usual three to
-five, and only because the promoting question was actually executed on it; the row
-then resolved against itself. Rounds 12-15 banked 3-5 each by filing `partial` rows
-without executing the question the method already requires. **The untriaged tail is
-not primarily a missing drain mode — it is the promoting question being skipped at
-the moment it is cheapest.** A drain mode would re-read rows that a single file read
-would have closed on the day they were extracted.
+nine of ten. This round extracted 7 and landed 1 — the smallest extract in the log —
+and, as in round 16, the shape is right rather than thin: a language-feature tutorial
+is almost entirely proper nouns, the class table predicts a low yield, and the yield
+was stated as 1-2 rows before the table. It returned exactly that.
 
-**The round's real lesson is about the gate, and it is a defect.** The v2.5 score
-nearly rejected the run's only landing. A factual correction to the corpus, verified
-by enumerating the tree, scores GAIN 2 (boundary case + refutes a corpus assertion)
-and takes `+2` for "the landing rewrites rather than appends" — because changing a
-false sentence does change a standing sentence. That lands at 0 against a threshold
-of +2. It was accepted only by reading the rule's own stated test literally: a
-rewrite is a change *that makes a standing sentence false*, and correcting a false
-sentence makes nothing false. **The gate as written cannot cleanly accept
-corpus-verified factual corrections, which are the cheapest and safest landings this
-skill produces.** That is the opposite of the bias it was tuned for.
+**The stage losing most is no longer `test`, and round 16's diagnosis is why.**
+Round 16 argued the untriaged tail is the promoting question being skipped when it
+is cheapest, not a missing drain mode. This round executed the question on every
+`partial` row and the effect was larger than "fewer banked rows": it *changed two
+outcomes*. On the accepted row it flipped `partial` to `real gap` — reading
+`io-free-core`'s decision rule in full is the entire reason the finding landed as a
+technique rather than as an amendment to a technique that does not cover it. On the
+three rejected rows it produced the negative that mattered: their nearest homes were
+read and rejected on evidence, which is what turned three loose rows into one
+coherent escalation instead of three shrugs. **Two rounds running, the promoting
+question has been the highest-leverage read in the method.** It should be promoted
+from a rule about `partial` rows to the default first move after Phase 4.
 
-**Next run's declared focus (round 17).** (1) **Fix the rewrite penalty.** Add an
-explicit carve-out: a correction whose target sentence is *demonstrably false against
-the tree* takes no `+2`, because the penalty exists to price the risk of invalidating
-true content and there is none. Until then, runs will keep talking themselves past
-their own gate, which is the failure the scored gate replaced the rubber stamp to
-prevent. (2) **Move the promoting question earlier and make it the condition for
-filing untriaged at all.** A `partial` row may not be banked until its question has
-been executed; if the run cannot afford the file read, the row is not `partial`, it
-is unread. Test whether that alone collapses the untriaged tail before building a
-drain mode for it. (3) **Keep naming the catcher** — it caught two this round, and
-one of them was a 189-line clobber that only a post-write `git diff` revealed.
-**The check the next row should make:** did the run land a corpus-verified correction
-without having to argue past its own score, and did it bank any untriaged row whose
-promoting question went unexecuted?
+**The stage now losing most is `extract`**, and this round shows the mechanism.
+Seven candidates from 3,257 words is a fine ratio, but three of the five that
+survived the strip test died for the same reason — **no home** — and the run only
+discovered that at Phase 6, after paying to verify them. The homes were not close
+calls: `codegen` defines its subject as committed source derived from committed
+source, which a macro expansion is not, and one read of its golden path says so.
+That read is available at Phase 4, from the `file` the map already returns. A
+home-viability check at mapping time would have routed three rows to the lead lane
+before verification rather than after.
 
-**Round 15b amends round 16's first focus item, with evidence rather than argument.**
-The item asked whether the untriaged tail should get a drain or lose its number. Within
-the same session the operator answered it: shown the five banked candidates as a
-multi-select, they approved four and asked for them to be executed. Those four produced
-two techniques, two amendments, eight applied rows and a shipped fix in a project tree -
-from candidates that had already been extracted, mapped and given homes, at **zero
-research and zero extract cost**. That is the cheapest landing this skill has on record
-per unit of corpus change, and it is the argument for the drain mode rather than the
-archive.
+**The gate's defect from round 16 is still untested.** The accepted row was a pure
+append — a 12th technique beside 11 whose sentences all stay true — so the `+2`
+rewrite penalty never applied and the carve-out that round 16 asked for has still
+had no run to exercise it. It stays owed, and the next factual correction is the
+one that has to try it.
 
-Two design facts the drain surfaced, for whoever builds it. **The tail is not a queue,
-it is a ranked set that goes stale in the useful direction** - two of the four had
-homes named at bank time, and one of those homes turned out to be wrong on re-reading
-the subject boundaries, which only a re-rank against the *current* corpus would catch.
-And **banked candidates are cheap to execute in parallel but must be partitioned by
-file, not by candidate**: three of the four wanted the same golden path, and the two
-that were one coherent pair went to one worker precisely so the merge conflict did not
-land on the director.
+**What this round adds on its own: the corpus can be wrong about a claim it just
+made, and the paired proof is what catches it.** The technique shipped saying the
+remaining shim "contains no branches". The tree it was applied to kept one guard —
+correctly, because reading the host has a side effect on the host — and the only
+reason that surfaced is that Phase 8 demands a behaviour-preserving proof before the
+commit, which forced the question "does arm B still do what arm A did?". A run that
+had written the technique and stopped would have published the overreach.
+**A landing verified only against the corpus is verified against one reader; a
+landing verified against a tree has a second one.**
 
-So round 16's item (1) is narrowed rather than answered: the drain mode is justified;
-what is still unbuilt is the **re-rank**, and the return condition is a session where a
-banked candidate's named home has been superseded and nothing catches it. Items (2) and
-(3) stand and both paid this round - the apply step's effect on the landing was the
-whole result twice over (a `not-better` sub-claim kept because it bounds the rule, and a
-`better` that shipped only because the mid-state existed), and the catcher-naming count
-reached nine across four distinct catchers.
+**Next run's declared focus (round 18).** (1) **Add the home-viability check to
+Phase 4.** Before a row is scored, open the golden path of its top prior-art hit and
+ask whether that subject's *stated* scope admits the row — not whether the slug
+matches. A row whose only candidate home rejects it on its own boundary statement is
+a lead at Phase 4, not a verification cost at Phase 6. (2) **Carry the rewrite
+carve-out forward unchanged** — it is owed for the third round now, and only a
+factual correction can discharge it. (3) **Keep naming the catcher**; it caught two
+again this round, and the more useful of the two was the technique being refuted by
+the tree it was applied to, which no amount of corpus reading would have produced.
+**The check the next row should make:** did any row reach Phase 6 whose home was
+rejectable from a golden path the run could have read at Phase 4?

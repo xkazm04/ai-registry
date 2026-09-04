@@ -16,6 +16,7 @@ techniques:
   - scoreable-designs-are-built-not-argued
   - declarative-or-sequential
   - marked-unverifiable-region
+  - mirror-type-at-the-edge
 ---
 
 # Module design
@@ -204,6 +205,18 @@ ends up under. The adapter keeps the dependency and makes it substitutable;
 this deletes it. Which one is right is decided by the number of verbs the
 dependency has, and [io-free-core](./techniques/io-free-core.md) owns that
 decision, the shape, and the price the form charges at the edge.
+
+Both answers share a premise that is worth naming because it sometimes fails:
+that a test can *construct* the input. Some types are minted only by the host
+that supplies them — a request scope's cookie jar, a compiler session's token
+stream, a device handle, an editor's document model — and have no constructor
+outside it, so "hand it in as a value" leaves the test exactly where it was.
+The disposal is a third one: define an ordinary **mirror** of what this module
+actually reads, convert to it in the host-facing function's first line, and
+write every branch against the mirror, leaving a shim that has no branches to
+reach. [mirror-type-at-the-edge](./techniques/mirror-type-at-the-edge.md) owns
+the shape, the two moves it replaces — mocking the host type, or booting it —
+and the drift cost a second vocabulary charges.
 
 A module's **flow-control** model is the same question asked about a different
 dependency, and it has a cheaper test. Remove the concurrency: if the sequential
@@ -400,3 +413,8 @@ manners.
   designing the region a checker cannot reach: marked, enclosed, minimal, and
   carrying the invariant at each use; why abstinence fails, and why the
   marking is what makes the region durable.
+- [mirror-type-at-the-edge](./techniques/mirror-type-at-the-edge.md) — the case
+  where the input type itself cannot be constructed by a test: the ordinary
+  mirror of what the module actually reads, conversion at both edges, the
+  branchless shim, why mocking the host type is a gate reading its own author,
+  and the three rules that keep a second vocabulary from drifting.
