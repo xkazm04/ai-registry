@@ -21,8 +21,22 @@
 // maintenance skills) — the registry set is included because a consuming
 // session may load both, and a collision across the two sets is still a
 // routing collision.
+//
+// IDENTITY IS THE RESOLVED FILE, NOT THE DIRECTORY NAME. A lane skill the
+// registry also runs on itself is LINKED in, not copied (scripts/link-registry.mjs),
+// so one SKILL.md is reachable from both trees — and the harness loads it once.
+// Keyed on the entry name, that file scanned as two skills with byte-identical
+// descriptions, which is containment 1.00: this gate reported the registry's own
+// distribution mechanism as a routing collision, and --strict failed on it. The
+// same-file case is deduped below; scripts/fleet-audit.mjs carries the idiom.
+//
+// A same NAME backed by two DIFFERENT files is the opposite finding and keeps its
+// own verdict: that is a shadow copy of a lane skill, which the lane forbids
+// (one home per name) and which no amount of description editing fixes. It is
+// reported as SHADOW COPY and does not fail --strict — an install-hygiene defect
+// is not a trigger-surface defect, and this gate only blocks on its own subject.
 
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, realpathSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -73,15 +87,44 @@ function collect(dir, label) {
   for (const entry of readdirSync(dir)) {
     const f = join(dir, entry, 'SKILL.md');
     if (!existsSync(f)) continue;
+    // The resolved path is the identity. A link and its target are one skill.
+    let real;
+    try { real = realpathSync(f); } catch { real = f; }
     const fm = frontmatter(readFileSync(f, 'utf8'));
     const surface = [fm.description || '', fm.tags || '', fm['argument-hint'] || ''].join(' ');
-    skills.push({ name: fm.name || entry, set: label, toks: tokens(surface), size: 0 });
-    skills[skills.length - 1].size = skills[skills.length - 1].toks.size;
+    const toks = tokens(surface);
+    skills.push({ name: fm.name || entry, set: label, real, toks, size: toks.size });
   }
   return skills;
 }
 
-const skills = [...collect(join(ROOT, 'skills'), 'lane'), ...collect(join(ROOT, '.claude', 'skills'), 'registry')];
+/** One entry per resolved file. A second location for the same file records only its label. */
+function dedupe(all) {
+  const byFile = new Map();
+  const linked = [];
+  for (const s of all) {
+    const seen = byFile.get(s.real);
+    if (!seen) { byFile.set(s.real, s); continue; }
+    seen.alsoIn = s.set;
+    linked.push(`${seen.name}: linked, one file in ${seen.set} and ${s.set}`);
+  }
+  return { skills: [...byFile.values()], linked };
+}
+
+/** Same name, different files: a copy shadowing the lane, not a routing collision. */
+function shadows(skills) {
+  const byName = new Map();
+  for (const s of skills) {
+    const prev = byName.get(s.name);
+    if (prev) prev.push(s); else byName.set(s.name, [s]);
+  }
+  return [...byName.values()].filter((g) => g.length > 1);
+}
+
+const scanned = [...collect(join(ROOT, 'skills'), 'lane'), ...collect(join(ROOT, '.claude', 'skills'), 'registry')];
+const { skills, linked } = dedupe(scanned);
+const shadowed = shadows(skills);
+const shadowNames = new Set(shadowed.map((g) => g[0].name));
 if (!skills.length) { console.error('no skills found'); process.exit(2); }
 
 const empty = skills.filter((s) => s.toks.size < 5);
@@ -93,6 +136,9 @@ for (let i = 0; i < skills.length; i++) {
     let inter = 0;
     for (const t of a.toks) if (b.toks.has(t)) inter++;
     const containment = inter / Math.min(a.toks.size, b.toks.size);
+    // A shadow pair is the same skill twice over. Its 1.00 containment says
+    // nothing about trigger surfaces, so it is reported below, not here.
+    if (a.name === b.name) continue;
     if (containment >= REPORT_FLOOR && inter >= MIN_SHARED) {
       pairs.push({ a, b, inter, containment });
     }
@@ -101,6 +147,13 @@ for (let i = 0; i < skills.length; i++) {
 pairs.sort((x, y) => y.containment - x.containment);
 
 console.log(`skill-triggers: ${skills.length} skill(s) scanned (${skills.filter(s => s.set === 'lane').length} lane, ${skills.filter(s => s.set === 'registry').length} registry)`);
+for (const l of linked) {
+  console.log(`  linked      ${l} — one file, counted once`);
+}
+for (const g of shadowed) {
+  const where = g.map((s) => s.set).join(' + ');
+  console.log(`  SHADOW COPY: ${g[0].name} exists as ${g.length} separate files (${where}) — the lane's rule is one home per name; link it (scripts/link-registry.mjs), do not copy it`);
+}
 for (const s of empty) {
   console.log(`  THIN TRIGGER SURFACE: ${s.name} (${s.set}) — ${s.toks.size} content token(s) in description/tags; routing on this is guesswork`);
 }
