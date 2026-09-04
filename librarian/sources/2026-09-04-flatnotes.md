@@ -7,13 +7,13 @@ author: dullage
 words: 523 (landing page) / 4222 (server tree, in-repo)
 commit: 7f5b773c9cb37cc84978079ed4790e7de38d3970
 extracted: 11
-accepted: 1
+accepted: 3
 declined: 0
 leads: 1
 already_covered: 0
-untriaged: 7
-applied: 1
-shipped: 1
+untriaged: 5
+applied: 3
+shipped: 2
 dispatched: 0
 run_id: flatnotes-2026-09-04
 siblings: 2
@@ -38,8 +38,9 @@ the type surface, `main.py` as the routing surface, `Dockerfile`/`entrypoint.sh`
 as the deployment posture, README last.
 
 Expected yield stated before triage: design decisions in code rather than
-claims; 2–3 landings; no forge. Actual: 1 technique, 2 applications, 1 fleet
-commit. Calibrated.
+claims; 2–3 landings; no forge. Actual across both passes: 2 techniques, 1
+amendment, 4 applications, 2 fleet commits. Calibrated on the count; the second
+pass is what carried it past the low end.
 
 ## Phase 2d — the design record and the routing count
 
@@ -110,6 +111,14 @@ Seven entries, grouped by system.
   but not credential transport for requests the browser issues rather than the
   app. HOME IF NEW:
   `software-engineering/security/data-and-transport/browser-credential-boundary`.
+  **Corrected in the second pass:** this NONE was wrong. The home is not
+  `browser-credential-boundary` and the ground is not empty —
+  `stream-proxy-hop/credential-attachment-at-the-hop` opens on the same protocol
+  fact and already ranks the automatically-attached credential first. The design
+  read searched for the *decision* and missed the subject that owns the
+  *constraint behind it*, because a streaming-proxy slug does not look like an
+  attachment question. Routing count unaffected (2 remain, still below both
+  clauses), but the record should not read as if the corpus had nothing.
 - **C2.** The TOTP code is concatenated onto the password rather than being a
   second field, so enabling 2FA changes no client code and no API shape;
   single-use is enforced by remembering the last accepted code in process
@@ -137,9 +146,10 @@ that turned out to be the run's whole yield is not mentioned in it at all.
 
 ## Triage
 
-Table of 11 candidates presented. Operator picked **row 1 only**, with fleet-wide
-ship authority ("any project where upgrade potential possible"). No row was
-declined; the unpicked rows are **untriaged** and recorded below with anchors.
+Table of 11 candidates presented. Operator picked **row 1** first and then, in a
+second pass, **rows 2 and 5** — both with fleet-wide ship authority ("any project
+where upgrade potential possible"). No row was declined; the still-unpicked rows
+are **untriaged** and recorded below with anchors.
 
 ## Accepted
 
@@ -240,15 +250,90 @@ Fleet map regenerated under the `index` lock. `markdown-vault` shows four
   boot-patch-the-artifact shape, or when a fleet project needs subpath hosting
   from a single build.
 
+## Second pass — rows 2 and 5, picked after the first landing
+
+The operator returned and picked rows 2 and 5 from the untriaged table, with the
+same fleet-wide ship authority. Both were verified; **one changed shape on
+verification and one changed the corpus back.**
+
+### Row 5 → new technique `settings/presence-decides-precedence`
+
+Verified as a **mechanism the subject lacks**, not an amendment. The subject's
+own answer to a rename is [key-registry](../subjects/software-engineering/settings.md)'s
+migration — *register the new key, move the stored values once at upgrade, retire
+the old* — and that answer has an unstated precondition: **the application can
+write to the store.** For an environment block, a mounted file or an
+orchestrator manifest it cannot, so the migration step does not exist, both
+names stay live for a grace period the application does not control, and the
+only question left is which wins. `key-registry`'s rule does not survive the
+finding, so per the v2 boundary-or-mechanism rule it is a technique.
+
+The corroborating denial: `cross-source-precedence-chain`'s *When not to use
+this* closes with "order that depends on the value is a policy engine, not a
+chain". Correct — and it assumes value-dependence is a thing an author *chose*.
+The flatnotes line shows the case where nobody chose it: the author intended
+presence and wrote value, because `typed-accessors` had already collapsed unset
+and set-to-the-default into the same bytes. **The chain's rule names the smell;
+the mechanism that prevents it is a read that can say "absent" out loud.**
+
+Second half of the finding, which the source also exhibits: the deprecation
+notice fires only on the branch where the old key wins, so the operator who
+*has* migrated and still carries a stale line is the one population that never
+hears about it.
+
+**Applied: `goat`, mode `code`, verdict `better`, `ab-paired`, shipped
+`323b1bd`** — and the seam contained a defect again. Details in the applied
+ledger; the short version is that a health probe read
+`TMDB_API_KEY || NEXT_PUBLIC_TMDB_API_KEY` while the fetcher it reports on reads
+only the first, so an operator with just the public name set got a green health
+endpoint over an enrichment path that threw on every call — and the probe
+**spent** the bundle-exposed value in the outbound `api_key` parameter. It was
+the only dual-name read among five sibling probes in one file, and the file's own
+doc comment and error string both already named one key.
+
+### Row 2 → amendment to `stream-proxy-hop/credential-attachment-at-the-hop`
+
+**Downgraded from `real gap` on verification, which is the honest result.**
+`credential-attachment-at-the-hop` already opens on the same protocol fact — a
+stream client cannot set request headers — and its "Where the caller's token may
+travel" section already ranks the credential the user agent attaches
+automatically *first*, for the same reasons. Uncapped absence check across the
+corpus (18 files, all read) confirmed nothing else models header-less credential
+transport.
+
+What was genuinely absent is the case where the ranking has no rungs left to
+choose from, so it landed as an amendment: the file's own rule survives, and
+what it lacked was a boundary.
+
+**Applied: mode `simulation`, verdict `not-better`** — and this is the run's most
+useful row, because **the amendment was refuted by the second tree it was walked
+against and had to be corrected.** As first written it said the ranking collapses
+for requests the browser issues on rendered content's behalf. A managed
+media-generation project serves access-checked run artifacts to an `<img>`
+gallery, states this exact protocol fact in the route's own header comment, and
+takes the **query-string** rung — correctly, because the client composes the URL
+per render (nothing outlives the credential) and the value is already a public
+bundle credential, so a URL discloses nothing the bundle did not.
+
+The discriminator was therefore wrong and is corrected in the amendment: not
+*content-issued versus app-issued*, but **who owns the URL string, and whether it
+outlives the credential.** Three real cases now sit on three different answers —
+the managed project on the query string, flatnotes on the cookie (its URLs live
+in saved user markdown), and a recruiting project outside the question entirely,
+because its hand-rolled markdown renderer supports no image syntax at all and so
+cannot generate a content-issued request. That third case earned its own line in
+the amendment: **run the enumeration even when you expect it to be empty**, since
+the answer is usually a property of a decision made for other reasons.
+
 ## Untriaged — extracted, reached the table, nobody picked them
 
-Nobody verified these. They are **not** declines and carry no judgment.
+Rows 2 and 5 were picked in the second pass above and are struck from this
+table. The rest were never verified; they are **not** declines and carry no
+judgment.
 
 | Row | Title | Anchor | My read at triage |
 | --- | --- | --- | --- |
-| 2 | A guarded subresource needs the token in a cookie | `tokenStorage.js:8-19`, `local.py:79-81` | real gap — `browser-credential-boundary` models no transport for browser-issued requests |
 | 3 | A capability the deployment lacks has no route | `main.py:87,227` | partial — promoting question: does `authorization`'s golden path model boot-time capability absence, or only runtime guards? |
-| 5 | A deprecated key read "only if the new one is falsy" conflates unset with explicit-false | `global_config.py:54-66` | real gap, small — a live defect in the source; boundary for `fallback-retirement-condition` |
 | 6 | Single-use TOTP in process memory is an invariant owned by the entrypoint's worker count | `local.py:40,65-70` + `entrypoint.sh:24-31` | partial |
 | 8 | Upload never overwrites: exclusive create, timestamp suffix, return the real name | `attachments/file_system.py:25-54` | partial |
 | 10 | Lock-retry-then-degrade on the single-writer index | `file_system.py:272-286` | likely catch (`retry-backoff` + `absent-degrades-malformed-fails-fast`) |

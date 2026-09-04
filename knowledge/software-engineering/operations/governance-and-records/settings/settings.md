@@ -12,6 +12,7 @@ techniques:
   - settings-audit-and-history
   - save-experience
   - cross-source-precedence-chain
+  - presence-decides-precedence
   - applied-defaults-ledger
   - config-backup-and-restore
 ---
@@ -188,6 +189,18 @@ layering), the keep-every-failure rule when the whole chain comes up empty,
 and the boundary against inherited defaults are
 [cross-source-precedence-chain](./techniques/cross-source-precedence-chain.md).
 
+A source the application can only *read* — an environment block, a mounted file,
+an orchestrator manifest — changes what a rename can be. The migration step
+below is unavailable there, because no upgrade rewrites the operator's
+deployment file, so both spellings stay live for a grace period and the question
+becomes which one wins. Decide that on **presence**, never on value: the typed
+accessor has already collapsed unset and set-to-the-default into the same bytes,
+so a fallback written as "if the new key still reads as the default, consult the
+old one" hands the deprecated name a win over the operator who explicitly set
+the current one. The presence read, the notice attached to the key rather than
+to its victory, and the release-named reaper are
+[presence-decides-precedence](./techniques/presence-decides-precedence.md).
+
 ## Stale keys are reaped
 
 Every registered key names its lifecycle
@@ -260,6 +273,12 @@ surface that has outgrown scrolling. These are
   — configuration resolved across several partial sources in a declared order:
   absent skips and malformed stops, provenance per resolved value, every
   failure kept when the chain comes up empty.
+- [presence-decides-precedence](./techniques/presence-decides-precedence.md) —
+  two names for one setting in a source the application cannot write:
+  precedence tested on presence rather than value, the deprecation notice
+  attached to the key so the operator who already migrated is the one who hears
+  about their stale line, and a grace period retired by a named release because
+  nothing in the process can watch the frontier move.
 - [applied-defaults-ledger](./techniques/applied-defaults-ledger.md) — shipped
   defaults that are rows in a user-editable collection: a ledger of applied
   default names instead of a version chain, deletions durable, renames

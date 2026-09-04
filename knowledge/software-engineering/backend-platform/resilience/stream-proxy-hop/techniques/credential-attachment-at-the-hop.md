@@ -6,7 +6,7 @@ technique: credential-attachment-at-the-hop
 status: forged
 laws: [one-validation-door, one-authority-per-vocabulary]
 shared_with: []
-use_when: [a stream client cannot send an authorization header, deciding where a service key lives in a proxied stream, forwarding request headers to an upstream service]
+use_when: [a stream client cannot send an authorization header, deciding where a service key lives in a proxied stream, forwarding request headers to an upstream service, a guarded route is reached by a request your code does not issue, an image or download in user-authored content sits behind the auth gate]
 ---
 
 # Credential attachment at the hop
@@ -105,6 +105,67 @@ Whichever route is chosen, the hop verifies before it proxies, and a request
 that fails verification is refused **before** any upstream connection is
 opened. An unauthenticated request that reaches the origin has already cost
 what the check existed to save.
+
+### When the ranking has only one rung left
+
+The three routes above are a *choice*, and the choice exists because the
+application decides to open the stream. There is a wider family with the same
+protocol fact and no choice at all: requests the browser issues **on the
+rendered content's behalf** rather than on the application's. An `<img>` or
+`<video>` source, a stylesheet's `url()`, a font, an iframe, a plain download
+link. The application never touches those requests, so it cannot attach a
+header to them — and if any of their targets sit behind its auth gate, the
+ranking collapses:
+
+The discriminator is not *content-issued versus app-issued*. It is **who owns
+the URL string, and whether it outlives the credential**:
+
+- **The application composes the URL at render time** — a gallery building
+  `src` attributes from a run id and a path, a viewer assembling a thumbnail
+  address per paint. Nothing is stored, so a fresh token can be minted into the
+  query string on every render and the ranking above applies unchanged. The
+  query-string rung is fully available here, and where the value in question is
+  already a public bundle credential under regime one of
+  [browser-credential-boundary](../../../../security/data-and-transport/browser-credential-boundary/browser-credential-boundary.md),
+  putting it in a URL discloses nothing the bundle did not — a tree that says so
+  in the route's own comment has made the argument correctly.
+- **The user owns the URL string** — it sits inside a note, a comment, a
+  document body, and is expected to keep resolving next year. A short-lived
+  token cannot be written into a string that outlives it; rewriting stored
+  content at render time to inject one turns every document into a template; and
+  the prior-exchange rung fails identically, because there is nowhere to put the
+  returned identifier that the content's own markup will use.
+
+Only the second case collapses the ranking, and then it leaves the credential
+the user agent attaches automatically — not because it ranked first, but because
+the other two were never applicable. Two costs follow, and both need saying
+because the section above sells the cookie on properties this case may not have:
+
+- **It may not be able to be `HttpOnly`.** The first route's stated advantage —
+  invisible to page script — holds when the *server* sets the cookie at login.
+  An application whose login endpoint returns a bearer token to a script that
+  then writes the cookie itself cannot have that property by construction. The
+  cookie is script-readable, and the honest accounting is that this costs
+  nothing *additional* — the token was already in the script's hands — but the
+  advertised benefit is absent and should not be claimed.
+- **The credential is now held twice, deliberately.** Application-issued calls
+  carry it in a header; content-issued subresources carry it in the cookie. That
+  is one secret with two transports and two invalidation paths, so logout,
+  expiry and rotation must clear **both** — a session ended in storage while the
+  cookie survives leaves a browser that still loads attachments for a user who
+  believes they signed out. Scope the cookie to the application's own base path
+  and mark it same-site; it exists to answer a narrower question than the header
+  does and should not travel further.
+
+The general rule the wider family adds: **enumerate which of your guarded routes
+can be reached by a request your code does not issue, and for each one ask who
+owns the URL.** The first half of that set is decided by what the content is
+allowed to reference, not by the client library. The second half is what picks
+the rung — and it is worth running the enumeration even when you expect it to be
+empty, because the answer is usually a property of a decision made for other
+reasons. A renderer with a closed tag subset that omits images cannot generate a
+content-issued request at all, and has closed this question upstream without
+anyone deciding it on credential grounds.
 
 ## Rotation and absence
 
