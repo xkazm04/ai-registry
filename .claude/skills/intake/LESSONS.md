@@ -8222,3 +8222,60 @@ measurement directory the sweep already reads, so it should cost little and
 should reclassify a minority of entries. If it turns out to reclassify most of
 them, the design lane has been landing accounts rather than mechanisms and that
 is a larger finding than this proposal.
+
+## 2.5.0 - 2026-09-04 - cargo-make (second lens: language craft)
+
+- **A mined repository is not a spent one, and the ledger's "already mined" check
+  cannot see that.** Phase 1 step 3 says to stop if the source is in the ledger.
+  This run was invoked over a tree mined eight hours earlier, at the same commit,
+  and the two runs share **zero candidates**. The reason is structural rather
+  than lucky: a design read (Phase 2d) reconstructs *forces*, and a craft read
+  asks *what a type is being asked to carry*, and those two questions do not
+  compete for the same material. The architecture run recorded `types.rs` as "the
+  real data model" and never opened `error.rs`, which held the best engineering in
+  the tree - not an oversight, just a different question. The ledger check is a
+  guard against paying twice for one transcript; over a repository it also blocks
+  a second pass that costs one clone and returns a full run's yield.
+- **The tell that a second lens is available is already in the prior note.**
+  Phase 2b names two sweeps - one for claims, one for reusable engineering - and
+  the prior note's own triage table had ten rows and none in the second lane. A
+  repository note whose candidates are all `design` shape, or all claims, has
+  read one of the two and says so in a form the next run can check in about
+  fifteen seconds. That is a cheaper signal than re-deriving the tree.
+- **The craft lens has its own predicted yield, and it is not the design lens's.**
+  Stated before the triage table and it held: high on error representation and
+  boundary types, low on abstraction machinery, and concentrated in what the
+  language made easy versus expensive. Three counts framed the whole run - zero
+  trait definitions in 13,145 lines, five generic functions, 347 clones against
+  two `unsafe` blocks - and none of them is a finding on its own. They are the
+  calibration that told the run where the type-level contract work actually was.
+- **An apply row can amend the technique that produced it, in the same run.** The
+  `not-better` verdict against a fleet worker boundary showed
+  `state-carrier-decides-the-lane` over-triggering, and the precondition it
+  gained (an existing shared carrier copied to cross, *not* a payload built for
+  the crossing) was invisible from the originating seam, because there the
+  carrier pre-existed the lane. This is the strongest argument yet for Phase
+  7.5's "budget the apply step against the landing": the apply step is not
+  validation of the technique, it is the second observation that makes the
+  technique's trigger correct. A run that lands and defers applying ships a rule
+  fitted to one seam.
+- **A matched pair is a legitimate A/B when the claim is about discriminating
+  power.** `shape-with-a-not-applicable-member` claims the type declaration tells
+  you nothing and the producer audit tells you everything. The proof was two
+  unions of identical surface shape - one in the source, one in a fleet project -
+  with opposite verdicts and nothing separating them but the audit. That is two
+  arms and one instrument, and it is stronger than a before/after against either
+  one alone. Worth naming as a shape for rules whose whole content is "the
+  obvious signal is not the signal".
+
+### Redesign proposal (not applied)
+
+`/intake <url> --lens <design|craft>` and a `lens:` field in the source-note
+frontmatter, so Phase 1's ledger check can answer "already mined" *per lens*
+rather than per source. As it stands the check is correct for a video and wrong
+for a repository, and the only thing that stopped this run from stopping at
+Phase 1 was the operator naming the lens in the invocation. Two lenses are
+confirmed distinct by exactly one run, so this stays a proposal - but the cheap
+half is free now: **a repository-class source note should record which of Phase
+2b's two sweeps it ran**, which costs one frontmatter line and makes the
+question answerable without re-reading the triage table.
