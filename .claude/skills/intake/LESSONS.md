@@ -7017,3 +7017,100 @@ classes that can authorize (paper, spec, vendor doc, first-party account), decla
 the reference yield zero, say so in the note, and route the whole run to Phase 2b.
 Proposed rather than applied because one sighting cannot distinguish a threshold
 from a coincidence.
+
+## 2.4.0 - 2026-09-04 - kdenlive (round 14)
+
+- **`techniques_absent` is CLOSED, not deferred. The item is deleted.** Round 13's focus
+  said "either build it or write the argument that the category listing plus one
+  golden-path read already answers the question it was proposed for, and delete the
+  item." Here is the argument, and it is stronger than the eleven deferrals suggested,
+  because the deferrals were all reporting the same finding without recognising it.
+
+  The item was proposed in round 2 so Phase 7.6 could distinguish a **technique-grain**
+  absence (this project has a context the subject governs, but nothing at this
+  technique's decision point) from a **subject-grain** one (this project has no context
+  the subject governs at all). The fleet map resolves at subject grain, so the proposal
+  was: cache a per-pair `techniques_absent` list into `fleet-map.json`.
+
+  Seven runs have since consulted the map at technique grain. **None of them wanted the
+  list**, and each independently reported the same workaround: `ls <subject>/techniques/`
+  against the project's `.ai/registry-map.json`. Two O(1) reads of files that already
+  exist and are current by construction. Rounds 6, 7, 8, 9, 10, 12 and 13 each recorded
+  this as an excuse for deferring; seven identical excuses are not an excuse, they are a
+  measurement.
+
+  Three reasons to close rather than build:
+
+  1. **It would be a second authority for a quantity the tree already answers.** The
+     technique set of a subject is the directory listing. A cached per-pair list is a
+     derived copy that goes stale the moment a technique lands and must be regenerated
+     by the same build step - `one-authority-per-quantity`, and the corpus has an
+     opinion about inventing that.
+  2. **The grain problem was never a lookup problem.** Round 7 hit it directly, worked
+     around it by hand in one step, and described the workaround as trivial. What is
+     hard at technique grain is *writing a proposal that argues the forces* - and no
+     cached list helps with that.
+  3. **The cheaper instrument was found by accident and is better.** Round 9 found that
+     reading the category listing out of `taxonomy.json` answers the neighbouring
+     question (does a home already exist) and, in round 12, prevented two new subjects
+     from being minted beside existing owners. That read is now standing practice. The
+     `techniques_absent` list would have answered a narrower question at higher cost.
+
+  **Action taken:** the item is removed from the owed list. No `SKILL.md` change - the
+  method never named it; it lived only in the scorecard's focus line, which is why it
+  survived eleven rounds without anyone being obliged to build it. **That is the
+  transferable lesson: an owed item that lives only in a focus line has no owner and no
+  gate, and will be re-deferred indefinitely by runs that each have a locally good
+  reason.** An owed item belongs in `SKILL.md` with a trigger, or it belongs nowhere.
+
+- **The corpus's incomplete enumerations are now the highest-yield hunt over a
+  design-deep source, and both of this run's intake-retained landings came from it.**
+  `undo-history` opened "There are **two** ways to make an action reversible" and priced
+  exactly two; `seed-is-not-a-reproduction` closed with "**three lanes**, and they are
+  not interchangeable". Both enumerations are correct about what they contain and both
+  are missing a member that a real system runs in production. This is the fourth
+  consecutive round where the enumeration/denial hunt carried the yield, and it is worth
+  stating why it survives corpus maturity: a mature subject states its completeness
+  claims *explicitly and in prose*, which makes them greppable, and the more confident
+  the subject the sharper the claim. A slug map cannot see this and a summary cannot
+  either - only reading the golden path's own opening can.
+
+- **The forge worker corrected the director twice on facts the director had asserted,
+  and both were in the frontmatter rather than the prose.** `verified_against:
+  cpp@qt-6.10.0` named a *framework* where the field wants the document's stack - the
+  tree witnesses `CXX_STANDARD 14` at `src/CMakeLists.txt:310` on every target, which I
+  had not looked for because the CMake file advertises its Qt and framework floors
+  loudly and its language standard not at all. And a cross-subject link was one `../`
+  short in a nested category. Neither would have been caught by review of the prose,
+  because both are the kind of line a reader's eye slides over. **A worker dispatched
+  into the same tree is a second reader of the director's own diff, and asking it to
+  report "gate output that is not yours" is what surfaced them** - that instruction was
+  in the brief for the worker's benefit and paid off in the opposite direction.
+
+- **A repository's own advertisement of its versions is not its witness.** Generalising
+  the above: the version a tree shouts (a dependency floor in the top-level build file,
+  a badge, a release note) is chosen for readers, and the version a document should
+  record is the one something *compiles or runs against*. Look for the property that a
+  build would fail without - a language-standard property on a target, a lockfile pin,
+  an engines field - and prefer it over the number the project put in its headline.
+
+- **An instrument that scores 4/4 on both arms has not measured anything.** The goat A/B
+  returned a perfect tie on the first run, and the tie was the fake store failing
+  validation so that `executePlan` mutated nothing and both arms scored the untouched
+  initial state. It took two more corrections to separate the arms (a dense
+  position-indexed grid, then a missing `isItemUsed` on the fake backlog whose absence
+  threw inside a `try/catch` and returned a plausible failure result). **The general
+  rule, and it is sharper than "assert the instrument against a known positive": print
+  the MID-state.** A paired test has three observation points, not two, and the one
+  between the arms - did the operation under test actually happen - is the one that
+  catches a harness that is measuring nothing. Both of this run's false ties were
+  invisible at the endpoints and obvious in one line of mid-state.
+
+- **`not-better` earned by a cheaper alternative is a distinct and useful result.** The
+  personas row did not fail to find a defect because the technique is wrong; it failed
+  because the seam's real gap (a generator bound) was closable by the *neighbouring*
+  technique - widen the generator - and closing it revealed nothing. That is worth
+  recording as its own shape: **before applying a technique, ask whether an existing
+  neighbour closes the same gap more cheaply, and if so test the neighbour first.** The
+  answer here cost one generator edit and 8,000 cases, and it saved building a field
+  capture lane nothing yet needs.
