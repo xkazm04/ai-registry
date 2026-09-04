@@ -7057,3 +7057,105 @@ a lesson becomes a rule at three.
   decision about cost rather than a default. This is a Phase 5 wording change and
   it should not be made from one run's evidence; it wants the round-11 row to
   confirm the pattern first.
+
+## 2.3.2 - 2026-09-04 - duckdb-wasm
+
+- **`techniques_absent` is CLOSED, not built - the decision, after eight
+  deferrals.** It was proposed in round 2 on a single sighting: a technique-grain
+  direction proposal was blocked because the fleet map resolves at subject grain.
+  Eight rounds later the evidence has inverted. No run has been blocked in a way
+  the subject-grain map could not answer; the one round that hit the limit (round
+  7, `llmfit`) worked around it by reading the subject's techniques by hand,
+  which is a single file read. Meanwhile the artifact it would enlarge -
+  `fleet-map.json`, derived and shared - has now **twice stopped a direction pass
+  outright** because a sibling held it or the index behind it. Building
+  `techniques_absent` would grow the shared artifact whose sharedness is already
+  that pass's dominant failure mode, in order to save a one-file read needed once
+  in eight rounds. **Decision: not built. Reopen condition: two runs blocked at
+  technique grain within one round-window in a way a single file read does not
+  resolve.** Stop carrying it in the focus line.
+
+- **The routing count is worth more when it re-aims extraction than when it
+  routes.** Round 10 asked the next repository row to say which it did. This run
+  computed the per-system count at Phase 2d, saw System A at 3, and *abandoned
+  two packages it had been sweeping* to spend the remaining budget in one
+  subsystem. The whole-tree count was 10 NONE, which would have handed off the
+  repository and never opened the file carrying the run's defect. The count's
+  value is as a **budget allocator during the sweep**, not only as a routing
+  decision after it - and Phase 2d currently reads as though it is the latter.
+
+- **Two subjects denying a case is stronger evidence for a new subject than
+  either subject's silence.** The promoting question for a `partial` design row
+  is usually "does any subject model these forces". Here two did *not*, and both
+  said so **in their own prose** - one excluding expensive probes as "a different
+  discipline", the other narrowing itself to "the grant, not the config". A slug
+  map cannot see either sentence; only opening the files does. **Where a design
+  row's prior art is a mature subject, read that subject's exclusions before its
+  inclusions** - a well-forged subject states what it is not, and the union of
+  two such statements is where the unowned stage is.
+
+- **A repository with no `docs/` is not a repository with no design record - and
+  this is now the third of the last four repository runs to say so.** This tree
+  carries 1,533 words of markdown total and no design folder of any kind, while
+  every load-bearing decision sits in header comments (a 40-line I/O-stack
+  diagram with its forces in prose above the buffer manager) or in the header
+  files themselves. Phase 2b's sweep order lists `docs/`, `design/` and `ADR/`
+  first and would report "no design record" here. **The sweep needs one sentence:
+  the operating documents may be inside the source files, and the tell is a
+  module whose comment-to-code ratio is inverted.** This has now been recorded
+  three times without the file changing; it should become a rule at the next
+  version bump rather than a fourth lesson.
+
+- **The enumeration hunt works on a TEST, and a presence assertion is a weak
+  enumeration.** The source's defect was found by asking what a test that lists
+  the serialized configuration flags *omits*. It asserts two of three by
+  `HasMember` - so it would also pass against a payload carrying the third with
+  the wrong value, and it runs under the empty configuration, which is exactly
+  the case the defect lives in. Both halves fail together. **An enumerating test
+  that asserts presence rather than value is not enforcing the enumeration; it is
+  documenting it.**
+
+- **Report a tree that is already ahead as a distinct outcome, not as
+  `unapplied`.** Fleet reach this run was 1 of 8, but the seven were not alike:
+  one project states the technique's central rule independently in its own
+  comments, one is covered ground, five have no seam. Recording all seven the
+  same way understates the corpus - a project that reached the rule by itself is
+  **corroboration**, and it is the cheapest convergence evidence available.
+
+### Redesign proposal - Phase 7.6 depends on a regeneration, which the parallel rules forbid
+
+Not applying this now; it wants a third sighting or the operator's call.
+
+The direction pass is the only phase in this method whose **precondition is
+regenerating a shared, committed, derived artifact** (`fleet-map.json`, itself
+derived from the bundle indexes). Every other shared write in the method is an
+*append* under a short lock. Regeneration is different in kind: it reads the
+whole working tree, including siblings' uncommitted files, and the method's own
+rule is "do not regenerate to be helpful" over files you do not own.
+
+The consequence is now measured rather than predicted. Round 10 skipped 7.6
+because `fleet-map.json` carried a sibling's uncommitted edits. This round
+skipped it because regenerating it would have derived it from an index that
+carries 13 and 7 references to two siblings' half-written subjects. **In a
+checkout with live siblings, the pass's precondition is almost never safely
+satisfiable**, and the phase degrades to "skipped, with a reason" - which is
+honest but is not a direction pass.
+
+Three candidate fixes, in increasing cost:
+
+1. **Read the map from `HEAD`, not the working tree.** A direction proposal is
+   about a project's *committed* shape; a sibling's uncommitted subject is not
+   yet a fact about the corpus. `git show HEAD:librarian/fleet-map.json` needs no
+   lock, cannot be contaminated, and is stale only by the amount the corpus moved
+   this session - which for this purpose is the correct staleness.
+2. **Scope the regeneration to the subjects the run touched**, so the artifact
+   written is a function of this run's content only, and merge it as an append.
+3. **Make the pass consume the subject list directly** and drop the derived
+   artifact from its critical path entirely, keeping `fleet-map.json` as a
+   reporting convenience rather than a precondition.
+
+Option 1 is nearly free and would have unblocked both of the last two runs. If a
+third consecutive run cannot run the direction pass for this reason, take it.
+
+**For any run mid-flight on 2.3.2: nothing to do.** No `SKILL.md` change is made
+here; finish on the version you loaded.
