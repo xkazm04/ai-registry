@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1574,
-  "applications": 910,
+  "techniques": 1577,
+  "applications": 916,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1574/1574",
+  "use_when_coverage": "1577/1577",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1310,7 +1310,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:f5773d573720748e",
+   "digest": "sha256:77d429762d4c4d61",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1604,6 +1604,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/node--workspace-ancestry-isolation.md",
      "verified_on": "2026-09-02",
      "verified_against": "node@24.14"
+    },
+    {
+     "stack": "rust",
+     "technique": "single-source-topology",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/applications/rust--single-source-topology.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.93.1"
     }
    ]
   },
@@ -14690,8 +14697,24 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256:83fadc81cfa304b8",
+   "digest": "sha256:9140a15c810de004",
    "techniques": [
+    {
+     "slug": "in-flight-is-a-position",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "unknown-is-not-a-value",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recovery cannot tell whether a step ever started",
+      "a non-idempotent step sits at the frontier and the far side honours no idempotency key",
+      "deciding whether the recovery sweep may re-run the last step",
+      "a step's re-run safety must survive the deploy that happens during the crash"
+     ]
+    },
     {
      "slug": "job-observability",
      "status": "forged",
@@ -14805,6 +14828,13 @@
      "technique": "step-position-and-resumability",
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/go--step-position-and-resumability.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "in-flight-is-a-position",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/node--in-flight-is-a-position.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22.19.0"
     },
     {
      "stack": "python",
@@ -18201,7 +18231,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/multi-provider-gateway-plane.md",
-   "digest": "sha256:92e8d35d9a0cc8c0",
+   "digest": "sha256:e50f0d360ad1fbfc",
    "techniques": [
     {
      "slug": "adapter-direction-asymmetry",
@@ -18235,6 +18265,23 @@
      ]
     },
     {
+     "slug": "exclusive-authorship-of-a-measured-decision",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a strategy comparison keeps coming back inconclusive and nobody can say why",
+      "deciding whether a new selection policy should fall back to the old one when it fails",
+      "an outcome record attributes a result to a candidate that did not serve it",
+      "granting a component authority over a decision the plane already has three other ways to change",
+      "a compliance trail reports no substitution on a request that was substituted"
+     ]
+    },
+    {
      "slug": "join-breadth-follows-the-wrong-match-cost",
      "status": "forged",
      "laws": [
@@ -18263,6 +18310,23 @@
       "one slow upstream probe is serializing a startup path",
       "an enrichment source's failure took down the whole aggregate",
       "two upstreams' results need different matching rules downstream"
+     ]
+    },
+    {
+     "slug": "one-typed-carrier-for-echoed-state",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an upstream returns an opaque token the next request must carry back and the plane keeps no history",
+      "a field the plane adds to a response never comes back from the client",
+      "a client echoed a field the plane added and the next upstream rejected the request",
+      "deciding where to put state a typed client SDK will pass through untouched",
+      "a value smuggled into an identifier stopped fitting the identifier"
      ]
     },
     {
@@ -18345,11 +18409,25 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "exclusive-authorship-of-a-measured-decision",
+     "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/applications/go--exclusive-authorship-of-a-measured-decision.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "go@1.25.0"
+    },
+    {
      "stack": "node",
      "technique": "strategy-tree-with-inherited-policy",
      "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/applications/node--strategy-tree-with-inherited-policy.md",
      "verified_on": "2026-09-02",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "rust",
+     "technique": "exclusive-authorship-of-a-measured-decision",
+     "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/applications/rust--exclusive-authorship-of-a-measured-decision.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.80.0"
     },
     {
      "stack": "rust",
@@ -20959,7 +21037,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:d649beb505cfcc3c",
+   "digest": "sha256:11edebaca05f8e15",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -21709,7 +21787,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:210deb37cdc755ce",
+   "digest": "sha256:d0aaae9457a78357",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -28822,7 +28900,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256:d3d766efc609f74f",
+   "digest": "sha256:d64189d33d00ea42",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",
@@ -28993,6 +29071,13 @@
     },
     {
      "stack": "rust",
+     "technique": "inside-out-invariants",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--inside-out-invariants.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.93.1"
+    },
+    {
+     "stack": "rust",
      "technique": "model-based-oracle",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--model-based-oracle.md",
      "verified_on": "2026-08-31",
@@ -29011,6 +29096,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--stage-ordered-fuzz-targets.md",
      "verified_on": "2026-09-03",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "swarm-feature-sampling",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--swarm-feature-sampling.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.93.1"
     }
    ]
   },
@@ -31605,6 +31697,7 @@
     "module-design/seams-and-adapters",
     "module-design/structural-improvement-loop",
     "multi-project/project-identity-and-joins",
+    "multi-provider-gateway-plane/exclusive-authorship-of-a-measured-decision",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
     "native-document-format/ignorable-extensions-must-be-declared",
     "native-document-format/serialization-is-locale-free",
@@ -32099,6 +32192,7 @@
     "motion/content-bearing-degradation",
     "multi-project/passive-signal-ingestion",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
+    "multi-provider-gateway-plane/exclusive-authorship-of-a-measured-decision",
     "multi-provider-gateway-plane/named-members-over-a-uniform-collection",
     "multi-provider-gateway-plane/per-provider-stream-framing",
     "multi-provider-gateway-plane/router-versus-candidate-failure",
@@ -32679,6 +32773,7 @@
     "module-design/scoreable-designs-are-built-not-argued",
     "multi-project/cross-project-comparison",
     "multi-project/portfolio-drill-hierarchy",
+    "multi-provider-gateway-plane/exclusive-authorship-of-a-measured-decision",
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
     "multi-provider-gateway-plane/named-members-over-a-uniform-collection",
     "multi-provider-gateway-plane/router-versus-candidate-failure",
@@ -32930,6 +33025,7 @@
     "invariant-placement/initialization-proof-tokens",
     "issuance-policy-ladder/float-references-resolve-at-use",
     "issuance-policy-ladder/require-one-constraint",
+    "job-coordination/in-flight-is-a-position",
     "job-coordination/liveness-proof-reclaim",
     "knowledge-registry/verification-is-contributed",
     "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
@@ -32951,6 +33047,7 @@
     "modelled-performance-estimates/refuse-rather-than-emit-a-sentinel",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
+    "multi-provider-gateway-plane/one-typed-carrier-for-echoed-state",
     "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
     "native-document-format/format-generations-are-declared",
@@ -33403,6 +33500,7 @@
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-identity-and-joins",
     "multi-provider-gateway-plane/join-breadth-follows-the-wrong-match-cost",
+    "multi-provider-gateway-plane/one-typed-carrier-for-echoed-state",
     "multi-provider-gateway-plane/strategy-tree-with-inherited-policy",
     "native-document-format/reference-or-embed",
     "object-shape-representation/dictionary-mode-fallback",
@@ -34025,6 +34123,7 @@
     "multi-project/per-project-tabs-and-state",
     "multi-project/project-onboarding-lifecycle",
     "multi-provider-gateway-plane/adapter-direction-asymmetry",
+    "multi-provider-gateway-plane/one-typed-carrier-for-echoed-state",
     "multi-provider-gateway-plane/policy-verdict-in-the-status-space",
     "multi-provider-gateway-plane/upstream-identity-before-inventory",
     "native-document-format/format-is-the-engines-input",
@@ -34713,6 +34812,7 @@
     "fleet-orchestration/completion-claim-verification",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
+    "job-coordination/in-flight-is-a-position",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/preregistered-kill-criterion",
     "persistent-batch-mutation/declared-skippability-at-batch-granularity",
@@ -34741,6 +34841,7 @@
     "delivery-guarantees/co-transactional-consume",
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "guest-execution-bounding/bounded-shadow-backtrace",
+    "job-coordination/in-flight-is-a-position",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",
     "mcp-tools/sealed-continuation-state",
     "prompt-assembly/speculative-compaction-splice",

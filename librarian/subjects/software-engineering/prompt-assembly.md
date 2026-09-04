@@ -344,3 +344,33 @@ ordering has no purchase where the trigger already measures the compact form, be
 Applications: `rust--recovery-path-as-loss-signal`, `rust--consumer-coupled-decoration`,
 and `rust--elision-to-a-refetch-pointer` extended with the shipped arm. Four
 `unapplied` rows record searched absences across the rest of the fleet.
+
+## 2026-09-04 (second touch) - the last writer is not always yours (`workweave-router-0904`)
+
+`/intake` 2.5.0 over `weave-os/router` @ `1699cf6`. One amendment to
+`layered-composition`, from the promoting question rather than from the headline.
+
+The subject states its door as *enumerable* — "all prompt text for a family passes
+through one assembler, and the writers are enumerable — they are the assembler's
+callers". A format-translating proxy in the path is a writer that is not a caller,
+in another process, owned by another party, and it rewrites for a reason the
+assembler cannot argue with: the destination rejects a shape the source format
+permits. The faithful fix is the destructive one — hoisting every system message
+into the destination's system field preserves meaning exactly and moves a per-turn
+system reminder to the front of the prompt, re-writing the cached prefix every turn.
+Measured on the source's production traffic: **~890k cache-creation tokens per turn
+against a flat 17.5k of reads.**
+
+What this corrects is a *sufficiency* claim the subject makes in two places — that
+byte-determinism per message gives a stable prefix. It does not, when the last hop
+reorders. The correction is that a required rewrite must be **position-preserving**
+rather than merely meaning-preserving: hoist only the leading run, demote the rest
+in place.
+
+**The apply row came back `not-better` and improved the amendment.** Its prescribed
+guard was run against a fleet composer rather than argued: cached reads against
+cache creations over recorded runs, **15,830,327 : 941,777 = 16.8:1** — the healthy
+pole, two orders of magnitude from the pathological ~0.02:1. The guard had no number
+and was therefore unusable; it now has two poles far enough apart that it needs no
+threshold, only the sign of `ratio - 1`. Nothing shipped to the project, and nothing
+should have.

@@ -14,6 +14,8 @@ techniques:
   - caller-scoped-normalization-strictness
   - adapter-direction-asymmetry
   - per-provider-stream-framing
+  - exclusive-authorship-of-a-measured-decision
+  - one-typed-carrier-for-echoed-state
 ---
 
 # Multi-provider gateway plane
@@ -362,6 +364,11 @@ the lookup, the non-conforming readers, and the state object's contract.
 - **Mis-framing counted per upstream and endpoint.** A framing table is a
   configuration that rots when a vendor changes an endpoint, and the only early
   signal is a rising count of streams that ended without their terminal frame.
+- **The decided candidate beside the served one, on the same record.** A plane
+  accumulates mechanisms that change what serves after selection, so the two are
+  separate facts and the record holds both; a mismatch between them is the only
+  signal that a writer nobody inventoried is still live
+  ([exclusive-authorship-of-a-measured-decision](./techniques/exclusive-authorship-of-a-measured-decision.md)).
 
 ## The techniques
 
@@ -394,3 +401,12 @@ the lookup, the non-conforming readers, and the state object's contract.
 - [per-provider-stream-framing](./techniques/per-provider-stream-framing.md) —
   the delimiter as an upstream-and-endpoint lookup, readers for framings that
   are not the format at all, and the per-stream state a chunk transform owns.
+- [exclusive-authorship-of-a-measured-decision](./techniques/exclusive-authorship-of-a-measured-decision.md)
+  — why a per-request fallback and an evaluation of the thing it protects cannot
+  coexist, the operator lever that can replace it, the enumerated suspension of
+  every other writer, and the decided-versus-served check whose remedy is to drop
+  the sample rather than correct it.
+- [one-typed-carrier-for-echoed-state](./techniques/one-typed-carrier-for-echoed-state.md)
+  — choosing the field a stock client must round-trip, why a redundant second
+  carrier is an outage rather than a safety net, and stripping on provenance
+  instead of on a switch flag that goes missing exactly when it is needed.

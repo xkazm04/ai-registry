@@ -372,9 +372,9 @@
         "systedo-case@plugin:1.0.0"
       ],
       "invokes30d": 15,
-      "lessons": 33,
+      "lessons": 34,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:198445734e002c01",
+      "lessonsHash": "sha256-n1:77e2becbf7e555c6",
       "usageContributors": [
         "kazda-dev-box"
       ]
@@ -614,7 +614,7 @@
     "skills": 29,
     "practices": 7,
     "memory": 6,
-    "lessons": 123
+    "lessons": 124
   },
   "bundles": [
     {
@@ -716,10 +716,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 214,
-      "techniques": 1574,
-      "applications": 910,
-      "files": 2703,
-      "contentHash": "sha256:32e9399e686e44d2"
+      "techniques": 1577,
+      "applications": 916,
+      "files": 2712,
+      "contentHash": "sha256:095277b2455e3c7d"
     }
   ]
 }
