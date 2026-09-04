@@ -2202,7 +2202,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256:0c5707d14671f473",
+   "digest": "sha256:75026bd0270b36f9",
    "techniques": [
     {
      "slug": "cut-compiled-from-source",
@@ -2280,7 +2280,8 @@
       "planning a scene that will be built by chaining extensions",
       "a pipeline's derived durations must survive a model's fixed generation steps",
       "animating a designed graphic whose artwork must stay exact across the shot",
-      "a walk or other cyclic movement comes back stiff from an anchored generation"
+      "a walk or other cyclic movement comes back stiff from an anchored generation",
+      "minting a series of keyframes or end-frame anchors for a multi-shot sequence"
      ]
     },
     {

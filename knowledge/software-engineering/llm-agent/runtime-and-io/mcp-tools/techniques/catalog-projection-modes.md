@@ -6,7 +6,7 @@ technique: catalog-projection-modes
 status: forged
 laws: [limits-are-derived, gate-sees-target, one-authority-per-vocabulary]
 shared_with: []
-use_when: [a host refuses the request because too many tools are listed, one server's catalog crowds out every other installed server, deciding whether to fold operations behind a routing tool]
+use_when: [a host refuses the request because too many tools are listed, one server's catalog crowds out every other installed server, deciding whether to fold operations behind a routing tool, a model knows a compressed operation name but not its arguments]
 ---
 
 # Catalog projection modes
@@ -145,6 +145,54 @@ catalog*. Compression is precisely the condition under which the caller has
 not. Constrain everything the caller could have known; leave the door open on
 the thing you took away from it. Everywhere else in a compressed server —
 including inside the sub-catalog once returned — the original rule stands.
+
+### Self-teaching has two rungs, not one
+
+The sub-catalog answers *which operations exist*. It does not answer *what one
+of them takes*, and under compression nothing else can: the published tool
+definition has been reduced to an intent field and an optional operation name
+precisely so that N operations' argument schemas do not have to fit in it. A
+model that has just read the sub-catalog therefore knows a name and must invent
+its arguments — which is the failing first call this section set out to
+prevent, arriving one round trip later.
+
+So the ignorant call is answered twice, on two different omissions:
+
+| The call omits | The server returns | The model now has |
+| --- | --- | --- |
+| the operation | the sub-catalog | the operation names |
+| the arguments | that operation's argument schema | the shape of the call |
+| nothing | the operation's result | the work |
+
+Both rungs are the same move — an omission is a question, not an error — and
+both cost a round trip rather than a failed turn. The second one is what makes
+the claim above true that "everywhere else in a compressed server the original
+rule stands": constraint really does live in a schema rather than in prose, it
+is simply **served as a result** instead of published in the listing, because
+the listing is the thing the budget took away.
+
+Three details decide whether the rung works:
+
+- **Omission must be distinguishable from emptiness.** The trigger is the
+  argument object being *absent*, not being `{}` — an operation whose arguments
+  are genuinely all optional has to remain callable. A server that treats an
+  empty object as a request for the schema has made its zero-argument
+  operations unreachable.
+- **Every response says what to do next.** The sub-catalog's own reply carries
+  the instruction for the second rung — *call again with one action and omit
+  the arguments for its schema* — so the ladder is discoverable from any point
+  on it rather than from documentation the model may not have been given.
+- **Name the operation identically on the way back down.** The schema is
+  fetched for one operation and the execution must repeat that operation, with
+  the arguments as a structured object rather than as a serialised string.
+  A model that has just been handed a schema is exactly the model most tempted
+  to send it back as text.
+
+The rung is not free and is not always wanted: it is a second round trip on
+every unfamiliar operation, and under an uncompressed catalog it is pure
+overhead, because the argument schema was in the listing all along. It belongs
+wherever the compression did — added by the same condition, and removed with
+it.
 
 ## The second authority, and its price
 
