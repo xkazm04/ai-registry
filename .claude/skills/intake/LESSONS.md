@@ -7894,3 +7894,60 @@ and the scorecard's `ship` zero stops reading as a funnel loss when it is not on
   the index lock was taken - so the gate went red on files this run did not
   own, and the method's rule applied: unlock first, then report, do not fix a
   neighbour's file inside the lock.
+
+## 2.5.0 - 2026-09-04 - weave-router
+
+- **The routing count is time-dependent, and no run has said so.** Phase 2d's
+  count asks whether a system's decisions have a home. This tree's largest system
+  reached three unhomed decisions, which under v2.2 is a forge — except the home
+  had been forged **48 hours earlier**, from a different gateway, by a sibling
+  run. The same tree read a week ago is a forge job; read today it is a technique
+  pair inside an existing subject. Nothing in the method tells a run to look at
+  *when* the home was created, and it changes the decision. It also changes the
+  value: a home forged in the last week is single-sourced, so a second
+  independent system landing into it is corroboration the subject cannot get any
+  other way, and it outranks a technique placed somewhere less contested. One
+  line in the source note — the home's age and how many sources it has — would
+  make this reproducible instead of lucky.
+
+- **The XL trigger counts homes; it should also ask whether two candidates are
+  arms of one rule.** Two design entries here (no fallback may answer for the
+  selector; nothing may override the selector afterwards) mapped to the same home
+  and looked like two techniques. They are two directions of one force — *the
+  decision you measure must be the only thing that determined the outcome you
+  record* — and landing them separately would have produced two files that each
+  argue half a rule and cite each other. The method's anti-padding language is all
+  about *count* ("nine catches and one lead is a result"); it has nothing about
+  two findings that should merge. Ask, before drafting N techniques from N design
+  entries, whether any two share a force rather than a home. Merging is the same
+  discipline as not padding, applied one level up.
+
+- **"Compiles under the project's own gate" is evidence, and the proof vocabulary
+  loses it.** The cross-repo change here compiled clean under the exact invocation
+  the project's CI uses, and then the test binary failed to *launch* on this
+  machine for a pre-existing, binary-wide reason (an untouched neighbouring test
+  fails identically; a sibling workspace crate passes). Three different facts —
+  "the test failed", "the test did not run", "the code does not compile" — all
+  collapse into `structural-only` or `unproven` if a run is not careful, and only
+  one of them is true here. Report which gate was reached and why the next one was
+  not; the distinction is what tells the operator whether to re-run it or fix
+  their toolchain. Not proposing a vocabulary change on one sighting — proposing
+  that runs state it in the row, which this one does.
+
+- **A `not-better` against a *diagnostic* technique returns the missing number.**
+  The amendment landed here prescribes a check (compare cached reads against cache
+  creations) and, as written from the source alone, had no threshold — so it was
+  advice, not an instrument. Applying it to a fleet project returned `not-better`
+  (the project passes, nothing to ship) and with it the healthy pole: 16.8:1
+  against the pathological ~0.02:1. Two orders of magnitude apart, so the check
+  needs no calibration, only the sign of `ratio - 1`. The method already says
+  `not-better` is the most valuable row in the ledger and explains that as a
+  boundary condition on the technique; this is a second, different way it pays —
+  where the technique is a *measurement*, a negative result supplies the reference
+  value, and the landing should be edited to carry it. Second sighting of the
+  general shape (the 2026-09-04 vibevoice run's 3,700x fingerprint result did the
+  same); one short of a rule.
+
+- **Instrument, minor:** a `cd` inside a compound Bash command persists for later
+  calls in this harness, so a subsequent relative `cd` from the assumed repo root
+  fails. Cost one cycle. Absolute paths, or `cd` in every command.
