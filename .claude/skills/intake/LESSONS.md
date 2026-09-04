@@ -7981,3 +7981,41 @@ and the scorecard's `ship` zero stops reading as a funnel loss when it is not on
   scorecard that it also functions as review of the director's own apply row.
   Second sighting would make it a rule: **dispatch the peer study before the apply
   row is final, not after.**
+
+## 2.5.0 - 2026-09-04 - pi (operator triage of the untriaged tail)
+
+- **The routing count is computed before anyone has decided which rows are
+  real, so it can be wrong in both directions.** Run `pi-01` scored routing
+  count 3 with the decisions scattering into three different subjects, so
+  neither v2.2 clause fired and no forge handoff was raised. The operator then
+  accepted four of the six banked rows, and two of the three homeless decisions
+  landed in *the same subject* (`job-coordination`), alongside an amendment to a
+  third technique there. The cluster the count looked for and did not find at
+  Phase 4 was assembled at triage instead. It did not change the outcome here -
+  three techniques in an existing seven-technique subject is not a forge job -
+  but a run whose picks concentrate harder could be a forge job that the count
+  had already ruled out. **Count the homes of the rows that survive the gate,
+  not the rows that enter it**, or say explicitly that the Phase 4 count is
+  provisional.
+
+- **Every row the operator rescued was blocked by RISK, never by evidence.**
+  Four accepts, and all four had cleared corroboration, placement and the strip
+  test - each was held under the +2 bar by the contested-home or
+  single-sighting `+1`. That is a specific, actionable shape: the gate is not
+  filtering weak claims on a single-reader repository run, it is filtering
+  *lonely* ones. A third round showing the same pattern would be a real argument
+  for a repository-class accept threshold of `+1`, since a repository read in
+  depth by one director is the case where "only one source saw it" is least
+  informative. One round is not that argument; two now exist.
+
+- **Two `not-better` rows were worth more than the `better` one, and for the
+  same reason each time - the negative named a precondition.** The deadline rule
+  is satisfied across the fleet not because the projects are careful but because
+  *no fleet project has a separable advance call*, so the anti-pattern cannot be
+  expressed; that turns an empty result into a return condition with a trigger.
+  And personas' boot recovery inverts the total-state amendment deliberately and
+  safely - absence of a clean-shutdown marker *is* the crash signal - which
+  yielded the boundary the amendment does not state: absence-as-signal is sound
+  when a positive write manufactures the presence on the healthy path and the
+  ambiguous reading is the cautious one. **An apply row that says "already
+  satisfied" is only cheap if it also says what would make it unsatisfied.**
