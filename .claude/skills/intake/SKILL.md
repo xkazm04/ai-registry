@@ -41,6 +41,7 @@ ORIGINATES a finding. It never AUTHORIZES one.**
 /intake <url> --wave          # reference-index source: mine its references in waves, not its top 3
 /intake <url> --no-handoff    # keep a design-deep repository in this skill instead of routing it to /forge
 /intake <url> --design-only   # stop after the design read: write the design record and the source-tree applications, land no techniques
+/intake <url> --delta         # re-scan a repository this registry already mined, at a newer commit; read docs/upstream-brief.md first
 /intake board                 # read the run board - who else is live, and what they hold
 ```
 
@@ -1362,6 +1363,15 @@ directory **by its run id**, never by sweeping the scratch root.
   touched, same shape `librarian` writes.
 - **Leads** carry a return condition. "When the model is actually released", "when a
   connected project adopts it", "when a second independent source says it".
+- **`rescan_when:` is MANDATORY on a repository-class source note**, and it is the fuel
+  of the upstream lane rather than a note to yourself. `/librarian` now reads these on a
+  clock (`scripts/upstream-check.mjs`), so a repository mined without one can only ever
+  come back on its tier's floor. Name an upstream event where you can - a PR landing, a
+  flag leaving a debug gate, a changelog section appearing - and add a date fallback in
+  the readable form `; or 8 weeks elapse (YYYY-MM-DD)`. The instrument decides exactly
+  two clauses mechanically, a release landing after the mine and a deadline date passing;
+  every other clause it reports as `undecidable` for a human, and it will never claim
+  your prose fired. A delta re-scan owes the next condition the same way.
 - Public-safe, like every note in that vault: slugs, scores and dates. Never a
   consumer's paths.
 

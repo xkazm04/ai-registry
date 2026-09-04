@@ -3,8 +3,8 @@ name: librarian
 description: "Maintain the registry as a whole: sweep every bundle for structural and quality decay, rank what needs work by measured attention points, and dispatch scoped /deepen or /forge workers at it. Keeps coverage memory in an Obsidian vault under librarian/ so each run knows what the last one touched, what is saturated, and what is owed. Run manually; a scheduler is a later wrapper. Use when nobody has looked at the registry in a while."
 category: ai-native
 memory: project
-version: 1.3.0
-tags: registry, maintenance, coverage, dispatch, quality
+version: 1.4.0
+tags: registry, maintenance, coverage, dispatch, quality, upstream
 ---
 
 # Librarian
@@ -31,6 +31,7 @@ re-implementing deepen's research lanes badly under a new name. **If the answer 
 /librarian run [domain] # the full loop, dispatches workers
 /librarian structure    # the mechanical pass only - cheap enough for every merge
 /librarian status       # read the vault, touch nothing
+/librarian upstream     # the upstream lane alone: which mined trees have moved
 /librarian reflect      # update the standard + this skill from what the last runs taught
 ```
 
@@ -58,6 +59,12 @@ verdicts in the fleet were judged against a subject that has since changed, by s
 Confirm one figure by opening one file. If a gate is red, stop: you are about to rank a
 corpus that does not parse.
 
+Then the **upstream side**: `node scripts/upstream-check.mjs --self-test`, and only if it
+passes, `node scripts/upstream-check.mjs --json`. The self-test asserts the compare call
+against repositories known to have moved; without it, an all-quiet result is
+indistinguishable from a dead API, and this repo has already paid for that lesson once.
+It costs about 130 authenticated API calls against a limit of 5000/hr.
+
 **2. Sweep and score.** Read the scan fresh. **Never carry forward last run's derived
 numbers** - deepen learned this the expensive way, and the vault stores what was DONE,
 never what was computed.
@@ -83,6 +90,14 @@ script cannot:
 - **A due lead is cheaper than a fresh scan.** `librarian/sources/` holds findings a
   research run proved real and could not land, each with a return condition. Read them
   before ranking: a lead whose condition has arrived is work somebody already scoped.
+- **Upstream movement is a third party's news, and it ranks below ours.** A consumer
+  deviation, verdict debt or a due lead all outrank a repository having shipped a
+  release. The one exception is **citation risk**: when `upstream-check` reports
+  `pin-unreachable` or `rewritten`, the corpus cites a commit that moved or vanished and
+  every application resting on it is unverifiable *now*. That is decay, not news, and it
+  ranks with `check-currency`'s expiries. See [the lane's design](../../../docs/plans/upstream-lane-2026-09-04.md)
+  for why eligibility is measured as reach into the fleet's code rather than across the
+  corpus - the obvious instrument was built, run, and rejected on its output.
 - **Verdict debt is demand too.** The map check reports, per subject, which projects
   hold verdicts the registry has since moved under. A subject with stale verdicts in
   three projects is being *used*; that outranks a structural gap in one nobody joins
@@ -109,6 +124,16 @@ Choose the engine by what is missing:
 | cap breach, misplaced subject | `apply-taxonomy.mjs`; no worker |
 | a new technique or flipped rule with no `applied.md` row | apply worker at the project the map joins it to (`/intake` Phase 7.5 method), one per finding |
 | stale verdicts in a project under a subject this run touched | that project's `/conform --stale`; hand it the list, do not judge from here |
+| a mined repository is `due` in `upstream-check` | scoped `/intake <url> --delta` under [`docs/upstream-brief.md`](../../../docs/upstream-brief.md), one worker per repository |
+
+**The upstream lane's caps are the point of it.** At most **3 delta re-scans per run and
+6 per calendar month**, and they spend the same cap 10 and the same review ceiling as
+everything else here - they get no budget of their own. 39 eligible repositories on a
+monthly clock is a feed, and a feed is what this lane must never become. Rank the due
+rows by condition-fired, then tier, then age; dispatch the top three; and **write every
+due row you did not take into the run note with the reason**, or the next run re-derives
+it. A repo whose `handoff:` is not yet EXECUTED is owed work, not a re-scan, and the
+instrument already withholds it.
 
 **6. Review diffs, not reports.** Purity grep over the upper layers, read every new
 technique, check corrections against the file's prior voice. Not delegable, and it is
@@ -117,7 +142,9 @@ what sets the batch ceiling near 8 per sitting.
 **7. Commit, write the vault, reflect.** Atomic commits per subject. Then update
 `librarian/subjects/<domain>/<subject>.md` for everything touched, the domain note,
 and one run note. **Record what you declined and why** - a decline nobody wrote down
-gets re-proposed every run forever.
+gets re-proposed every run forever. Re-run `node scripts/upstream-check.mjs --ledger`:
+a repository checked and found unmoved still gets its date carried forward, because
+without that row "are we overdue?" has no answer.
 
 **8. Propagate.** The run is not over at the registry commit; that is where every run
 before 2026-09-02 stopped, and the measured result was a fleet whose recorded verdicts
@@ -148,6 +175,7 @@ librarian/subjects/<domain>/<subject>.md  last touched, dry streak, open leads, 
 librarian/runs/<YYYY-MM-DD>-<n>.md        what one run swept, dispatched, accepted, declined
 librarian/sources/index.md                the ledger of external sources /research mined
 librarian/sources/<YYYY-MM-DD>-<slug>.md  what one source yielded, and what it did not
+librarian/upstream.md                     every mined repository: when we last looked, what moved
 ```
 
 Obsidian-navigable: wikilinks between notes, one fact per note. It lives in the
@@ -176,7 +204,12 @@ same rule as `usage/` and `signals/`.
 ## Scheduling (not yet built)
 
 The loop is idempotent and its whole state is files, so a cron wrapper is small. What
-that wrapper must preserve: the pull-request rule above, a token budget per run, and
-`check-currency.mjs --fail-on-expired` as the trigger worth waking up for. An
+that wrapper must preserve: the pull-request rule above, a token budget per run, and two
+triggers worth waking up for - `check-currency.mjs --fail-on-expired` for our own decay,
+and `upstream-check.mjs --due --exit-code` (exit 3) for a mined tree that has moved. An
 unattended run that finds nothing should write a one-line run note and exit, not
 invent work.
+
+Until that wrapper exists, say the honest thing: the upstream lane is *due-checkable* at
+any time, not *scheduled*. `librarian/upstream.md` makes "how overdue are we" a fact
+rather than a feeling, and that is the whole of the cadence guarantee today.
