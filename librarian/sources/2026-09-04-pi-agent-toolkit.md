@@ -7,13 +7,13 @@ author: earendil-works
 words: 990 landing / 325,302 in-tree markdown
 commit: 92d8e2d17d4f357788381c49ce2cdb3f4ed1f21c
 extracted: 11
-accepted: 1
-declined: 0
+accepted: 5
+declined: 2
 leads: 1
 already_covered: 3
-untriaged: 6
+untriaged: 0
 dispatched: 0
-applied: 1
+applied: 4
 shipped: 0
 run_id: pi-01
 siblings: 3
@@ -230,3 +230,75 @@ Rows 2, 3, 4, 8, 9, 10 above, each with `where:` anchors in the design record
 or the triage table. Rows 2 and 3 are the two strongest and both are
 single-sighted; a second repository showing either would promote it on
 convergence at no fetch cost.
+
+---
+
+## Operator triage of the untriaged tail (2026-09-04, run `pi-02`)
+
+The six untriaged rows were put to the operator as a multi-select the same day.
+**Four accepted, two declined.** This supersedes the "untriaged: 6" reading in
+the frontmatter above; the table's original `G/R/C` scores are left unedited so
+the gate's arithmetic stays auditable against what a human then chose.
+
+| Row | Title | Score at Phase 5 | Operator | Outcome |
+|---|---|---|---|---|
+| 2 | A deadline is not a correctness boundary | 2/1/2 → untriaged | **accept** | technique `job-coordination/no-wall-clock-in-the-advance-contract` + source-tree application |
+| 3 | Race catalog with two legal histories | 2/1/2 → untriaged | **accept** | technique `concurrency-guards/race-catalog-with-two-histories` + source-tree application |
+| 4 | Total state, never a journal | 2/2/1 → untriaged | **accept** | amendment inside `step-position-and-resumability` |
+| 9 | Spec marks its own unimplemented parts | 1/1/1 → untriaged | **accept** | practice `practices/self-declaring-spec-debt/` (D5) |
+| 8 | Synchronous admission boundary | 1/2/2 → untriaged | **decline** | agreed catch on `concurrency-guards/critical-section-across-a-suspension`, which already requires check-and-use to be one synchronous expression from the check-to-use direction |
+| 10 | Session/Branch/Lane four-concept split | 2/2/3 → untriaged | **decline** | real gap against `fleet-orchestration`, but effort `L` on a single tree's architecture with no second sighting; return when a second harness draws the same split |
+
+**Rows 8 and 10 are now genuine declines with reasons, not untriaged rows.** The
+distinction is the one this method is careful about: an untriaged row carries no
+judgment and re-enters free, a declined row tells the next run somebody looked.
+Row 10's decline is *conditional and the condition is written*, so it is a
+decline of this run's evidence rather than of the finding.
+
+**What the triage says about the gate.** The Phase 5 arithmetic auto-accepted 1
+of 11; the operator accepted 4 more, including one row (9) that scored `1/1/1`.
+Every accepted row's blocker was the contested-home or single-sighting `+1` on
+RISK — none was blocked on corroboration, placement or strip. That is the
+accept threshold behaving as designed for a single-reader run and being
+overridden by the one input the score cannot hold: a human deciding that a
+banked row's re-derivation cost is higher than its landing cost. Recorded
+because three such rounds would be an argument for lowering the bar to `+1` on
+repository-class sources specifically, and one round is not.
+
+**Routing count, revisited.** The count was 3 with the decisions scattering into
+three different subjects, which is why no forge handoff fired. After the
+operator's picks, two of the three landed in **`job-coordination`** (`in-flight-is-a-position`,
+`no-wall-clock-in-the-advance-contract`) plus an amendment to a third technique
+in the same subject. So the cluster the routing count looked for and did not
+find at Phase 4 was assembled at triage instead — by a human, from rows the
+count had already scattered. That is worth saying plainly: **the v2.2 clause
+counts homes at Phase 4, before anyone has decided which rows are real**, and a
+run that lands its accepted rows can end up concentrated in one subject after
+scoring as dispersed. It did not change the outcome here — three techniques in
+an existing 7-technique subject is not a forge job — but the count's timing is
+what made it invisible.
+
+## Applied rows from this triage (Phase 7.5)
+
+Three landings owed three rows; all three were spent and two came back negative.
+
+- **`no-wall-clock-in-the-advance-contract` → pumper + personas, `not-better`.**
+  Every wall-clock site in both trees was enumerated and classified: 3 in pumper
+  (drain deadline, `select!`-raced job timeout, shutdown cancel), 2 in personas
+  (subprocess bounds). **All executor-side, none contract-side.** The structural
+  reason is the useful half — neither project has a *separable* advance call, so
+  the anti-pattern is unexpressible rather than merely absent.
+- **`race-catalog-with-two-histories` → pumper, `better`, `task`.** The tree
+  holds four correct two-history statements as prose in source comments, one
+  race-shaped test module, and one race whose second history was never written
+  down at all (the post-terminal fan-out window this run found earlier). Plan
+  committed to that repo.
+- **`step-position-and-resumability` (total-state amendment) → pumper +
+  personas, `not-better`.** pumper satisfies it outright. personas inverts it
+  deliberately and safely — absence of a clean-shutdown marker *is* the crash
+  signal — which produced a boundary the amendment does not state and that one
+  sighting does not earn: absence-as-signal is sound when a positive write
+  manufactures the presence on the healthy path and the ambiguous reading is the
+  cautious one. Banked in the applied row rather than re-amended.
+
+The practice (row 9) owes no apply row; `practices/` is the judgment lane.

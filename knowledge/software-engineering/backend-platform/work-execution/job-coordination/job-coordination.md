@@ -9,6 +9,7 @@ techniques:
   - liveness-proof-reclaim
   - step-position-and-resumability
   - in-flight-is-a-position
+  - no-wall-clock-in-the-advance-contract
   - no-unrestorable-state-at-a-suspension-point
   - terminal-state-recovery
   - job-observability
