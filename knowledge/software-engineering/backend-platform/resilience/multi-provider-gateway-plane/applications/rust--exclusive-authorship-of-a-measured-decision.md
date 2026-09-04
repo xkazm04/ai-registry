@@ -6,7 +6,7 @@ technique: exclusive-authorship-of-a-measured-decision
 stack: rust
 status: forged
 applied: code
-ab_verdict: better
+ab_verdict: unmeasurable
 proof: structural-only
 verified_on: 2026-09-04
 verified_against: rust@1.80.0
@@ -47,8 +47,9 @@ was_failover: active_engine_kind != primary_engine,
 (`src-tauri/core/src/engine_kind.rs:19`), and the crate asserts that
 exhaustively at compile time via `assert_all_covered`. So the expression is
 `ClaudeCode != ClaudeCode` — **a constant `false` computed at runtime**, on every
-request, forever, while the model ladder underneath it is free to downgrade two
-tiers.
+request, forever, whatever the model ladder underneath it does. (What it actually
+does turns out to be nothing — see the correction below, which is the more
+interesting half.)
 
 Measured over the application's own recorded history — 6,163 rows in
 `provider_audit_log` — arm A returns `was_failover = 0` on **6,163 of 6,163**,
@@ -61,6 +62,32 @@ Arm B is the chain-index predicate: false at rung 0, true at rungs 1 and 2. The
 assertion is committed as a test
 (`failover.rs::test_engine_kind_cannot_detect_a_model_downgrade`) that walks the
 real chain and checks both predicates at every rung.
+
+### The correction that made this `unmeasurable` rather than `better`
+
+A first reading of this seam took the 0-of-6,163 as evidence that substitutions
+were happening and going unflagged. A second pass over the spawn loop shows that
+is not what the number means, and the difference matters enough to state
+plainly.
+
+The loop exits with `break 'failover driver` the moment `CliProcessDriver::spawn`
+**succeeds** (`src-tauri/src/engine/runner/mod.rs:1899-1903`). So the chain only
+advances when the *process launch* fails — a missing binary, an OS-level spawn
+error. Every fault a different model could actually survive (a rate limit, a
+context overflow, a model-side refusal) happens *after* a successful spawn, inside
+the child process, and never reaches the ladder at all. The project's own docs say
+so: the model ladder is reachable only when changing the model cannot help.
+
+So the ladder is a fallback that is unreachable for the faults it was built for
+and useless for the faults that do reach it, and `0 of 6,163` is consistent with
+it simply never having fired. No substitutions are currently being hidden.
+
+That reading strengthens the technique rather than weakening it, and it is the
+better structural fact: **the audit that would have revealed the fallback was
+inert was itself inert.** A constant-`false` flag cannot distinguish "the
+substitution mechanism never fires" from "the substitution mechanism fires and we
+do not record it", and those two states call for opposite responses — delete the
+ladder, or fix the record. Nobody could tell which they were in, for 6,163 runs.
 
 ## Why the proof is `structural-only` rather than `ab-paired`
 
@@ -114,8 +141,21 @@ Shipped (`code`): the runner now tracks which rung of the chain served
 `active_engine_kind != primary_engine || active_candidate_idx > 0`, so a
 within-provider model downgrade is flagged as the substitution it is. Three
 lines plus a comment naming why the engine-kind comparison cannot see it, and a
-paired test over the real chain. Verdict **better**: the record moves from
-structurally incapable of reporting a substitution to capable of it.
+paired test over the real chain.
+
+Verdict **unmeasurable**, and the honesty is the point. The change is correct —
+it removes a `gate-sees-target` violation, and the flag will be right the day the
+ladder becomes reachable — but the number it was supposed to move is zero today,
+because the mechanism it observes is inert. Reporting `better` here would be the
+overclaim this corpus keeps warning about: a fix whose measurable did not move,
+recorded as if it had.
+
+**The instrument that would make it measurable** is a reachable ladder: either a
+second CLI provider re-entering the chain (the extension seam is named at
+`failover.rs:747`, `build_failover_chain_with_policy`), or a post-spawn advance
+condition, so that a fault the child process reports can send the loop to the next
+rung instead of ending the run. Until one of those exists, the flag is a
+correctness fix with no traffic.
 
 Deliberately not changed, and left as the technique's open half in this tree:
 the single-column overwrite. Separating decided from served needs a migration and

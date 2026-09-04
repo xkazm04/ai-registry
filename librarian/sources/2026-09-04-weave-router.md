@@ -8,14 +8,14 @@ author: weave-os
 commit: 1699cf603e0bfd7cd87c027d7e6407155b20b53e
 words: 1834 landing / 72225 in-tree markdown (~39:1)
 extracted: 12 (8 design + 4 claim)
-accepted: 3
+accepted: 4
 declined: 0
 untriaged: 6
 already_covered: 3
 leads: 2
-applied: 1
+applied: 3
 shipped: 1
-dispatched: 1 (peer study, personas)
+dispatched: 1 (peer study, personas — 48 points, 4 seeds corrected)
 run_id: workweave-router-0904
 siblings: 2 at claim (vibevoice-peer-0904 @ 7.7, sozu-rust @ 0); 3 by Phase 7 (pi-01 joined)
 rescan_when: >
@@ -51,8 +51,11 @@ Stated before extraction:
 > ever get, and the only way to find out which of its nine techniques describe
 > *gateways* and which describe *that one gateway*.
 
-**Actual: 3 landings** (2 techniques + 1 amendment), 1 applied, 1 shipped.
-`priced=2-5 weighted to design / 3 weighted to design` — inside the band.
+**Actual: 4 landings** — 2 techniques, 1 amendment, and one golden-path
+correction found while reading the boundary (the gateway subject stated its
+discriminator with `model-routing` inverted, routing every reader to the wrong
+subject). 3 applied rows, 1 shipped.
+`priced=2-5 weighted to design / 4 weighted to design` — inside the band.
 
 The prediction that mattered was the *routing* one, and it held: eight of the
 twelve candidates homed into subjects that already exist, so the count did not
@@ -320,3 +323,70 @@ it. `check` returned clear on both files this run edited; the golden-path
 
 Fetch budget: **0 of 3.** Everything corroborated from the tree, from the corpus,
 or from a connected project's live data.
+
+## Phase 7.6 — the peer study, and the correction it forced
+
+Dispatched against **personas**, the fleet's one universal-wrapper peer (its
+`scope.does` names running personas over *wrapped CLIs* and tuning routing from
+evidence). `.ai/directions/2026-09-04-weave-router-comparison.md`, committed in
+that project as `dc08122bd`. **48 points across 11 areas: 14 `adopt`, 15 `adapt`,
+15 `keep ours`, 4 `different forces`.** Round 23's owed peer study is discharged.
+
+The `adopt` column concentrates almost entirely on *what the project records after
+it decides* — the one axis where a request-path router and a CLI wrapper face the
+same problem — which is a useful result on its own: the peer's routing *mechanics*
+transfer badly (different forces, correctly) and its *record discipline* transfers
+almost wholesale.
+
+**The study corrected four of the thirteen seeds, and one correction lands on this
+run's own shipped change.** That is the study earning its cost, and it is recorded
+here rather than smoothed over.
+
+- **Seed 2 was inverted, and I verified the correction myself.** I seeded the
+  model ladder as personas' fail-soft answer to the router's 503. It is not: the
+  spawn loop breaks on `CliProcessDriver::spawn` **succeeding**
+  (`runner/mod.rs:1899-1903`), so the chain advances only on a process-launch
+  failure — which a different model cannot fix, since it is the same binary. Every
+  fault a model swap could survive (rate limit, context overflow, refusal) happens
+  *after* a successful spawn and never reaches the ladder. The project's own docs
+  already say the ladder is reachable only when changing the model cannot help.
+  **So `was_failover = 0` on 6,163 rows is consistent with the ladder never firing,
+  not with substitutions going unrecorded**, and this run's apply verdict was moved
+  from `better` to `unmeasurable` with the instrument named.
+
+  The correction produces the better finding. A constant-`false` flag cannot
+  distinguish *"the substitution mechanism never fires"* from *"it fires and we do
+  not record it"* — and those two states call for opposite responses, deleting the
+  ladder or fixing the record. **The audit that would have shown the fallback was
+  inert was itself inert.** That is a sharper instance of the landed technique than
+  the one the run started with.
+
+- **Seed 4 undercounted.** I seeded the router's six suspended writers against an
+  assumed comparable set; personas has **twelve** mechanisms that can change model,
+  prompt, persona or session after the decision, and four partial lists each
+  covering a different subset. The technique's "enumerated rather than assumed"
+  rule is confirmed harder than the source stated it.
+- **Seed 6 was half wrong in each direction.** personas *does* carry a
+  prefix-stability instrument — but only in the companion, measuring a reorder that
+  was never built; and the cache columns *are* read, by exactly one stat tile and
+  nothing else. Neither absence nor presence, which is why the seed had to be
+  checked rather than assumed.
+- **Seed 11 was already answered** by a golden path the project had written, so the
+  verdict moved from `adapt` to `keep ours`.
+- **Seed 9 confirmed and sharpened, and I re-verified it.** personas is ahead of
+  the source on model-identity discipline (one door, a census rule ratcheting bare
+  literals down) — and the door has **zero importers anywhere in the desktop
+  crate**, with 156 bare `"claude-…"` literals still live across 70 files including
+  `failover.rs`, the file the door's own docstring names as the casualty that
+  motivated it. A single-source-of-truth nobody imports is the shape worth
+  remembering.
+
+## Lead added by the study
+
+- **A fallback that is unreachable for its own faults.** personas' ladder advances
+  only on spawn failure and ladders across *models*, which are irrelevant to spawn
+  failure. Neither the corpus's `fallback-retirement-condition` (a fallback for a
+  closing capability gap) nor this run's new technique (a fallback that hides a
+  measurement) covers a fallback whose trigger condition and whose remedy are
+  about different things. *Return condition:* a second sighting of a fallback whose
+  advance condition cannot be affected by what the advance changes.
