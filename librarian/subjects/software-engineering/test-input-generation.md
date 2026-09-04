@@ -1,7 +1,7 @@
 ---
 subject: test-input-generation
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -152,3 +152,38 @@ predicate that read as a pass; the source engine as the origin with its three ta
 anchored). The amendment is **unapplied**: no fleet project feeds a structural generator
 into a rejecting consumer; return when one grows one. Direction proposed in the scraping
 service's own tree (a per-stage harness, S), gate skipped - unattended run.
+
+[[2026-09-04-kdenlive]] — **the three-lane enumeration was incomplete, and the
+missing member is the only lane nobody authored.** `seed-is-not-a-reproduction`
+closes with "The suites that get this right run the same code through three
+distinct sources of input" — fresh randomness, the persisted corpus,
+hand-written cases. All three are *authored*: the generator's distribution is
+its author's model of what happens, the corpus is the subset of that model
+which once failed, and the hand-written lane is the imagination the generator
+was meant to replace. So a suite can be green across all three and miss the
+region its users occupy, and none of the three can report that.
+
+Added `field-captured-operation-traces`: the running product instrumented so a
+real session emits its operation sequence **in the generator's own
+vocabulary**. The constraint is the shared vocabulary rather than the logging —
+one reflection table names the model's mutating operations, the generator
+composes from it, the logger records against it with depth suppression, and a
+user's crash and a fuzzer find minimize into the same artifact. A log written
+in the interface's terms cannot be replayed against the model at all.
+
+Two source-tree applications from the same tree (`cpp@14`):
+`cpp--field-captured-operation-traces` (448 of that suite's 775 whole-model
+invariant assertions live in the machine-generated regression file — more than
+all fourteen hand-written suites combined; and the tree implements the whole
+mechanism while *not running the lane*, because the trace macros ship only in
+the fuzzer) and `cpp--inside-out-invariants`, a catch recorded as evidence: a
+194-line checking entry point asserted 775 times, which reproduces that
+technique's own predicted under-investment — the cross-component direction sits
+behind a boolean parameter defaulting to false.
+
+Applied to personas, **`not-better`**: the render-plan compiler accepts any
+`fps > 0` and snaps every boundary to `1/fps` while its generator drew from
+three friendly divisors. Widening the bound found 0 failures in 8,000 cases, so
+the neighbouring technique (`generator-bounds-the-space`) closed the gap more
+cheaply and no field lane is earned there yet. The widened generator was kept.
+

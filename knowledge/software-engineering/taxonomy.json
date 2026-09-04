@@ -376,7 +376,8 @@
         "sql-console",
         "templates-scaffolding",
         "web-scraping",
-        "document-text-extraction"
+        "document-text-extraction",
+        "native-document-format"
       ]
     },
     {
