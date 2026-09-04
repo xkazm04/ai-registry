@@ -69,3 +69,8 @@ duplicating them.
   laggard, with the gap disclosed (failure-not-empty-success). Generic, not
   terminal-shaped; belongs beside buffering-and-backpressure with the terminal
   subject deferring. Return when this subject is next opened.
+
+## 2026-09-04 - /intake run (youtube: infinite AI stream) - boundary note
+
+- A sibling subject now holds the **inverse regime** of this subject's buffering model. `buffering-and-backpressure` states, correctly and as its operating condition, that the producer is faster than the consumer; `media-playback/generated-supply-margin` owns the case where the consumer is a clock that cannot be slowed and the producer is nearly as slow, so the failure is underflow, head-eviction is wrong (every unit is needed in order) and neither backpressure nor shedding is available. **Nothing here needed correcting** - the honest scope statement is what made the neighbouring hole findable, and it is recorded in both notes rather than written twice.
+- `mid-turn-steering`'s contract is cited from `media-playback/committed-buffer-steering` for the two rules that carry over (steering is a declared capability; an accepted steer needs an observable join). What does not carry over is the steer-or-queue binary: on a continuous timeline there is no turn to be inside or outside of, and the question is how far the commitment already extends and what buying it back would cost.
