@@ -6790,3 +6790,51 @@ and wants them tested hard rather than many and tested once.
 
 - **For a mid-flight run on an earlier version: nothing to do.** No `SKILL.md` edit was
   made this run; the three proposals above are lessons awaiting a confirming sighting.
+
+## 2.3.2 - 2026-09-04 - zvec-grep
+
+- **A vendor repository carrying a published `benchmarks/` protocol is two sources, and
+  the benchmark half ranks first.** The class entry predicts "its docs' rules page and
+  its client's types", and that prediction was right about half this tree and blind to
+  the other half: a 300-trial paired A/B with locked selections, an isolated reference
+  set, an independent judge, and its aggregation choices argued in prose. That half
+  produced two of the four landings, and it produced the two whose corpus homes were
+  cleanest, because a report that argues its own method is a first-party practitioner
+  account wearing a vendor's badge. I found it second, by sweeping `docs/` first as the
+  method's yield order says. The order is right in general and wrong for this shape:
+  when a repository has a `benchmarks/` or `evals/` directory containing a *protocol*
+  (not just fixtures), read it before the operating documents. Proposed for the
+  source-classes reference's vendor-repository entry; one sighting.
+
+- **The routing count declining a handoff is the count working, and the scorecard should
+  say so in the positive.** v2 exists because twelve runs mined systems with the news
+  method. This run computed both clauses, got two and two, and correctly stayed in
+  intake - and there is no vocabulary in the method for that outcome except the absence
+  of a handoff. A run that computes the count and declines has run the same discipline
+  as a run that hands off; the depth column currently makes the first look like a run
+  that did nothing structural. Minor wording, no rule change.
+
+- **`not-better` treated as a source has now paid twice running, and the pattern in both
+  cases is the same: the tree carried an ENUMERATION the technique had as a binary.**
+  2026-09-03: a boot classifier had three classes where the technique had two.
+  2026-09-04: a token gate had four refusal verdicts where the technique required only
+  that a refusal name its surface. Both times the extra arms existed because collapsing
+  them would have hidden a specific incident behind something that looks like correct
+  behaviour. That is sharper than the current focus-item wording ("ask what the tree
+  knows that the technique does not"). **Proposed sharpening: on a `not-better` row,
+  first ask whether the tree enumerates more states than the technique does, and why the
+  extra ones were split.** Two sightings; a third makes it a rule this file carries.
+
+- **The direction pass is silently disabled for most of the fleet, and a per-run note
+  cannot say that.** Phase 7.6's eligibility test reads `scope.does`; seven of eight
+  projects report `scope=missing`, so all three of this run's candidate absences were
+  ineligible and the pass produced nothing. Writing "directions=0/3" in a scorecard row
+  makes it look like a judgment about those three projects. It is a standing fleet
+  condition that will produce the same zero every run until scopes are declared.
+  **Proposed: the scorecard's directions cell carries the eligible-project count, not
+  just the proposed count** - `0/3 (0 eligible, 7 of 8 projects scope=missing)` - so the
+  blocker is visible as structural rather than as a run's choice. First sighting; if a
+  second run reports the same shape, it belongs in `SKILL.md` Phase 7.6.
+
+- **For a mid-flight run on an earlier version: nothing to do.** No `SKILL.md` edit was
+  made this run; all four items above are lessons awaiting confirming sightings.
