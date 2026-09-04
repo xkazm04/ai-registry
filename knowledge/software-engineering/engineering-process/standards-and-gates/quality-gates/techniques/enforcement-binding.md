@@ -94,6 +94,18 @@ real target, still runs the cheap part that proves the skip was correct
 platform offers only the two behaviors above, the choice is made
 deliberately and written down beside the check, not discovered.
 
+Which direction a skip resolves to is a platform fact, not a law of the
+shape, and the two dominant hosted platforms currently disagree. On one, a
+job skipped by its own condition satisfies a required check as if it had
+passed, while a workflow filtered out by path or branch hangs the
+requirement — the asymmetry described above. On the other, a skipped
+pipeline under a must-succeed rule blocks the merge by default, and treating
+skipped as successful is an explicit toggle a maintainer switches on. Same
+intent, opposite defaults; so the audit reads the platform's own
+documentation for the version in use rather than reasoning from the shape,
+and a migration between platforms re-runs the seeded refusal below, because
+the skip semantics do not travel with the pipeline definition.
+
 ## The configuration is a guard living outside the thing it guards
 
 The enforcement binding is typically not in the repository. It is not in

@@ -27,10 +27,15 @@ cost, with each rung's scope sized to the latency its stage can afford.
 | Merge pipeline | minutes | everything | yes — the binding rung |
 | Shipped runtime | every launch | invariants only the composed program can evaluate | yes on a developer build, advisory in the shipped artifact |
 
-**Editor.** Squiggles at authoring time prevent more defects than any other
-rung, and enforce none of them. This rung is where advisory-severity rules
-earn their keep — see severity-by-construction — but nothing here counts as
-a gate.
+**Editor.** Squiggles at authoring time are the cheapest fix a defect will
+ever get, and they enforce nothing. Whether this rung prevents *more* defects
+than the others is not established: the one large published measurement of
+a static-analysis programme found fix rates rising the earlier a finding was
+shown, but the tier that could not be ignored was the compiler error, and an
+editor-only integration failed on adoption because editors are heterogeneous
+and nobody's build depends on them. This rung is where advisory-severity
+rules earn their keep — see severity-by-construction — but nothing here
+counts as a gate.
 
 **Commit.** The budget is a handful of seconds; above that, authors start
 reaching for the bypass flag, and a bypass habit at the commit rung bleeds

@@ -154,8 +154,12 @@ hours after the mistake was cheap to fix. The senior structure is a
 **ladder** — the same standards enforced at multiple rungs, with each rung's
 scope sized to its latency budget:
 
-- **Editor** — instant, advisory, per-keystroke. Catches most defects before
-  they are ever committed, enforces nothing.
+- **Editor** — instant, advisory, per-keystroke. The earliest and cheapest
+  place a defect can be fixed, and the one rung that enforces nothing. What
+  share of defects it catches is unmeasured here; the published industrial
+  evidence is that findings are acted on more the earlier they arrive, and
+  that the tier developers could not ignore was the compiler error, not the
+  editor squiggle.
 - **Commit** — seconds. Scoped to the files being committed. Fast static
   checks only.
 - **Push** — tens of seconds to a minute. Type-level and contract-level
@@ -364,8 +368,12 @@ never rise.
 A correct ratchet fails in **both** directions. Fail on rise, obviously.
 But also fail — or at minimum refuse silence — when the measured value drops
 below the baseline without a baseline update, because an unexplained
-improvement has two explanations and the likelier one is that **the
-measurement broke**. A counter that walked zero files reports zero
+improvement has more than one explanation and the one nobody checks is that
+**the measurement broke**. Which explanation is likelier depends on the size
+of the drop — a fix or a deletion accounts for most small drops, and a
+walk-found-nothing instrument failure for most drops to zero — and the
+ratchet's contribution is not to guess but to refuse to let the drop pass
+unexamined. A counter that walked zero files reports zero
 violations; celebrating that number buries the instrument failure inside
 good news ([failure-not-empty-success](../../../_laws.md#failure-not-empty-success)).
 Improvements are welcomed by re-baselining as a deliberate, reviewed diff —

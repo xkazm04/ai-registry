@@ -129,7 +129,16 @@ When a live gate misfires, the responses rank:
 2. **Add a sanctioned, visible escape** — an explicit inline
    acknowledgment with a required justification, greppable and reviewed.
    This drains bypass pressure through a channel that leaves a record,
-   and the acknowledgment inventory becomes an audit list.
+   and the acknowledgment inventory becomes an audit list. Prefer the
+   *assertion* form of the escape where the instrument offers one — a
+   suppression that fails when the finding it suppresses no longer fires —
+   over the *permit* form that stays silent forever; the difference, the
+   reaper each entry names, and the measured share of permit-form
+   suppressions found to be suppressing nothing are
+   [suppression-hygiene](../../../codebase-stewardship/dead-code/techniques/suppression-hygiene.md),
+   which owns the escape hatch's lifecycle. What belongs here is only the
+   severity decision: an escape whose form cannot expire is a ratchet
+   entry with no downward click.
 3. **Demote to advisory** — honest when precision is not yet earned;
    pair with the measurement work to earn it back.
 4. **Delete** — last, and only for the detector-never-matched-the-standard

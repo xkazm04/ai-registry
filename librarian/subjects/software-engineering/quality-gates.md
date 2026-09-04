@@ -2,7 +2,7 @@
 subject: quality-gates
 domain: software-engineering
 last_touched: 2026-09-04
-touched_by: intake
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -787,3 +787,188 @@ shared surface, states the split as comp-character vs value-in-band and adds a
 five-entry not-reasons list, taking the ambiguous set to 0 by construction. Gate
 reached: the project's blocking doc-sync gate, 0 drifted of 83. Behavioural rate
 not measured — no recorded reviewer returns exist in that tree.
+
+## 2026-09-04 - `/deepen` batch ([[2026-09-04-1]])
+
+Second `/deepen` pass, one week after the first; 25 techniques and 24
+applications going in, the same coming out. Demand at dispatch: 13 consumer
+deviations against 7 consults on the secondary machine, #2 in the registry.
+The lane order was read, blind, counter-evidence (18 searches, 2 fetches),
+currency, fleet seams, drift. No new technique: the one blind-lane candidate
+that the web lane reached independently turned out to be owned by a
+neighbour already (below), so it landed as a cross-link and a severity
+sentence rather than a file.
+
+### What landed, file by file
+
+- `quality-gates.md` - two qualifier corrections. The editor rung no longer
+  "catches most defects before they are ever committed" (unmeasured; the
+  one published industrial measurement supports *earlier is acted on more*
+  and *the compiler error is the tier nobody ignores*, not *most*). The
+  ratchet paragraph no longer says an unexplained drop's "likelier"
+  explanation is a broken instrument; it now says the one nobody checks is,
+  that likelihood turns on the size of the drop, and the ratchet's job is
+  the forced look rather than the guess - which is what `ratchet-design`
+  itself already said.
+- `techniques/gate-laddering.md` - the editor rung's "prevent more defects
+  than any other rung" softened to the same evidence.
+- `techniques/deterministic-proxy-gate.md` - refuted absolute: "a function
+  of the tree alone. Same revision, same number; a different machine or a
+  different afternoon does not move it." The reference simulated counter's
+  own manual calls instruction counts *highly* reproducible and only for
+  some programs *perfectly* so, perturbed by address-space randomisation and
+  by the sizes (and file-name lengths) of the executable and every shared
+  library - so a different machine is a different number - and a hardware
+  counter attributes interrupt handling to the process on some counter
+  configurations. Rewritten as "tree plus toolchain, on the machine that
+  gates", with two decision rules: measure the spread rather than assume
+  zero, and pin the machine class and toolchain the count is taken under.
+- `techniques/enforcement-binding.md` - one paragraph: the skip-asymmetry
+  direction is a platform fact. The dominant host resolves a
+  conditionally-skipped job to success and a path-filtered workflow to a
+  hanging requirement; the other major host blocks on a skipped pipeline by
+  default and offers "skipped counts as success" as an explicit toggle. Same
+  intent, opposite defaults; re-run the seeded refusal on any platform
+  migration.
+- `techniques/false-positive-economics.md` - the sanctioned-escape rule now
+  prefers the assertion-form suppression (fails when the suppressed finding
+  stops firing) over the permit form, and links to `dead-code /
+  suppression-hygiene` which owns the lifecycle. Convergence note below.
+- Drift re-verification, five applications (table in the run report):
+  `next--prose-rule-drift` next@15 -> 16 (pof), `node--chokepoint-tag-registry`
+  node@22 -> 24 (systedo-case; one snippet updated, the CLI-provider
+  confinement is now a list), `node--prose-rule-drift` node@22 -> 24 (ascent;
+  both rules re-measured: 0 of 588 over the cap, still unbacked; the link
+  checker still invoked by nothing and now 50 violations across six trees),
+  `node--renameable-detector-keys` kept node@20 (this registry's CI pin),
+  `node--blocking-by-input-determinism` kept node@20 (lowest of three
+  trees). All citations resolved, 5 of 5.
+
+### Counter-evidence that confirmed (no edit)
+
+- "Condition the unit inside the pipeline ... reported as success" - the
+  dominant host's own docs: a job skipped by its condition reports success
+  and satisfies a required check; a workflow skipped by path/branch stays
+  pending and blocks. Confirmed verbatim. The docs' own remedy is the
+  technique's (always-run job, conditional steps inside).
+- "Hooks observe; they never mutate" - attacked again from the other
+  mainstream framework: it lets a hook modify files and then *fails the
+  commit* with "files were modified by this hook", stashing unstaged changes
+  first. That is the corpus's "refuse and explain" with a convenience, and
+  the prior pass's finding about the other framework stands.
+- "Many linters exit clean regardless of advisory count unless invoked with
+  an explicit maximum" - confirmed against the flagship linter's exit-code
+  contract.
+- "The ecosystem's own guidance turns the redundant textual check off and
+  cites the type errors it defers to" - confirmed; the type-aware lint
+  project's FAQ says exactly this and names the rule.
+- "A repository has at most one hook system" - confirmed mechanically: one
+  hooks-path pointer, and the two popular managers document their conflict
+  over it (one overrides, the other refuses to install).
+- The 10% "effective false positive" ceiling behind `false-positive-
+  economics`'s survival band is the published industrial figure; the
+  technique's amendment about author-dismissal is consistent with it.
+
+### Fleet seams (Lane 4), all read-only
+
+- personas `passportModel.ts:16-34` + `app-passport.json`: resolves
+  unchanged (last edit 2026-08-24, 15 dimensions, no `reason` field, every
+  level union starts at `none` with no not-assessed member). The technique
+  is right and the tree has not moved; the row is report-only by design.
+- pof `CLAUDE.md:33-38`, `scripts/scoped-check.mjs:44`,
+  `scripts/fleet-memory-cap.mjs`: resolves; file at exactly 200 lines.
+- politicas `.claude/agents/impeccable-finish-reviewer.md:29`: the
+  partition is in the brief as shipped (`3cf7ed4`), inherited verdict, named
+  surface, not-reasons list. Resolves.
+- ascent `vitest.config.js:9` vs `:51`: resolves; the config now carries the
+  "two include sets, two consumers" comment at `:39`.
+- ai-registry `scripts/build-catalog.mjs:145-161, 275-278`: the three
+  could-not-run obligations are present (reported, blast radius written,
+  count carries "n of m contributor files").
+- No consumer deviation contradicts a technique this pass. The one place a
+  tree and a technique disagreed - counted-set / deterministic counts - was
+  the web lane's, not the fleet's.
+
+### Currency (Lane 3)
+
+- Node 20 reached end of life 2026-04-30; the hosted runner moved JavaScript
+  actions to Node 24 on 2026-06-16 and removes 20 from its images this
+  autumn. Three fleet pipelines (this registry, personas' one job, pumper)
+  still pin 20. Signal for whoever owns the pins; not this subject's edit.
+- The flagship JS linter shipped its v10 major in February 2026 (legacy
+  config removed, Node floor 20.19); its unused-disable-directive report has
+  defaulted to warn since v9. The systems language's assertion-form lint
+  attribute has been stable since late 2024. Both are the mechanism behind
+  the suppression cross-link above.
+- The dominant host is auto-migrating branch protection to rulesets
+  (2026-08) and, from 2026-10-01, retires checks/statuses under the Actions
+  retention window (default 90 days) - a gate's historical verdicts now
+  expire, which touches `gate-liveness`'s "time since last red" metric:
+  after October the metric is only computable inside the retention window
+  unless the repository records it itself. Lead banked, not landed.
+
+### Blind-vs-web convergence
+
+- Blind item A (suppressions that assert their own necessity) - reached
+  independently by the web lane (the attribute's stabilisation post, the
+  linter's default change). Then found already owned by
+  `dead-code/suppression-hygiene` with a measured application (63 of 71
+  permit-form suppressions suppressing nothing). Landed as a cross-link, not
+  a technique; not a decline, a prior-art hit.
+- Blind item B (gate the merge result, not the branch head) - reached by the
+  web lane too (merge queues, "semantic conflict"); no prior art anywhere in
+  the registry (grep for merge queue / merge train / semantic conflict:
+  zero hits). Home-ambiguous - proposal.
+- Blind verdicts 2, 3, 5 (editor "most", ratchet "likelier", work-count
+  "same number") each produced an edit; 1, 4, 6, 7, 8, 9, 10 confirmed.
+
+### Open leads (banked, with return conditions)
+
+- **Gate the merge result, not the branch head.** The four gaps under "the
+  gate must see its target" miss the one between the PR head and the merge
+  commit: two individually green changes composing red. Merge queues exist
+  for it and the pipeline definition needs a separate trigger for the
+  queue's temporary branch or the queue tests nothing. Return: a second
+  independent sighting, or a fleet tree that turns a merge queue on.
+- **Verdict retention shortens "time since last red".** See currency. Return:
+  the next deliberate edit of `gate-liveness`, or the retention change
+  taking effect.
+- **Skip semantics per platform version.** The enforcement-binding paragraph
+  records the two defaults as of today's docs; both platforms have changed
+  this behaviour before. Return: any platform changelog entry on skipped
+  checks.
+- Carried from earlier notes, unchanged: permanent red as a distinct death
+  mode; the registry's own binding inventory never run; the fabricated-
+  criterion-ranks-but-does-not-certify boundary; the third excess shape.
+
+### Declines
+
+- A new technique for assertion-form suppressions: owned by
+  `dead-code/suppression-hygiene`; a second file would be a fork.
+- Adding the merge-queue gap as a fifth bullet under "the gate must see its
+  target" without a technique to link: the golden path's bullets each link
+  out, and a bullet that owns its mechanism inline is how this subject grew
+  to 25; proposal instead.
+- Re-attacking hook-hygiene's absolutism beyond the confirmation above: the
+  prior pass already banked it.
+
+### The standing question - does this hold two subjects?
+
+Proposal, not acted on. The clean seam is **predicate gates versus metric
+gates**, not checker-versus-item (the item side is two techniques and too
+small to stand alone). Five techniques answer the question "a measured
+number against a recorded number" and cite each other far more than the
+rest: `ratchet-design`, `counted-set-snapshot`, `deterministic-proxy-gate`,
+`operation-assertion-gates`, and the founding-baseline half of
+`excess-indicts-the-instrument`; `blocking-by-input-determinism`'s third
+class is the hinge and would stay, pointing across. The remaining twenty
+answer "can this predicate refuse, does it see its target, is it alive, is
+it bound". Full split proposal in the run report.
+
+### Saturation self-forecast
+
+Two passes in, every unpredicated absolute in the golden path has now been
+attacked; the techniques with no prior counter-evidence were swept this pass
+and most confirmed. The next pass should be dry on corrections and find only
+currency signals and the merge-queue gap - forecast: one landing at most, a
+split decision pending, and a rising cost per finding.

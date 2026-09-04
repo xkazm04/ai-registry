@@ -17,7 +17,10 @@ Read and exercised 2026-09-04 against this registry's own bundle checker — the
 Node script that every writing session runs before it commits, and the thing
 that decides whether an upper-layer document is allowed to exist. The CI
 workflow pins the runtime at node@20; the session that ran these arms was on
-24.14.0 and the check is version-independent.
+24.14.0 and the check is version-independent. (Re-read the same day under a
+drift check: the pin is still 20 in every job, and that major reached end of
+life in April 2026, so the drift the currency report flags is the pipeline's
+pin, not this document's — the check itself has no version-dependent line.)
 
 The registry is an honest exhibit for this technique for the same reason it was
 for its sibling: it wrote the technique, and it is the tree the defect is

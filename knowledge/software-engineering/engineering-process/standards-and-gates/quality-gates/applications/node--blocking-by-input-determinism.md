@@ -14,7 +14,11 @@ proof: structural-only
 # Three variant-instrument checks, sorted twice (Node)
 
 Read 2026-09-04 across three Node checks in three separate trees this registry
-is connected to. The technique's amended axis — grade on the input, then ask
+is connected to. The runtime recorded above is the lowest the three pin: two
+of the trees pin node 20 in their pipelines (a major past its end of life
+since April 2026), the third declares 22 in its version file and 20 in one
+pipeline job; none of the three checks reads anything version-dependent, so
+the drift is the pins', not the reading's. The technique's amended axis — grade on the input, then ask
 separately whether the *instrument* is a function of that input — was walked
 against each, alongside the unamended two-way split, to see whether the third
 bucket changes any diagnosis. It changes all three, and in two of them the trees
