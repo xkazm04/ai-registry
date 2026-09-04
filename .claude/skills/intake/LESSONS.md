@@ -7713,3 +7713,63 @@ only the second as a loss. Confirm on two more runs before editing the file.
 - **The workers overrode their briefs four times and were right four times** - the count is worth recording because the method asks for the override and this is the first round where every one of them held. The strongest refused the function the spec named, citing the module's own doc comment against it, and in doing so found that the alternative path had no matching restore at all. **A brief that names a specific function is a brief that can be wrong about it; keep naming them, and keep asking to be overruled.**
 
 - **A second-hand detail I did not verify reached a published document.** I re-verified the load-bearing claim of a worker's report at source and then repeated a small adjacent detail from the same report - that a struct "already carries a slot" - without opening it. It has six fields and no such slot. The executing worker found it and the estimate changed with it. **The verification budget should be spent per *claim that will be written down*, not per *claim that sounds important*** - the load-bearing one gets checked because it is obviously load-bearing, which is exactly why the small one slips through.
+
+## 2.5.0 - 2026-09-04 - agentic-testing
+
+- **A comment thread is a source class the method does not name, and it
+  out-produced the article.** The run's strongest landing originated in a reader
+  comment: a practitioner describing their own shipped tool, which is a
+  first-party account by the class table's own discriminating question ("did
+  they build the thing they are describing?"). The article was a listicle; the
+  comment under it was not. Two of the four comments were first-party, one drew
+  a discriminator against the article's thesis, and neither is reachable by any
+  rule currently in `source-classes.md` — the class is read once, for the source,
+  and applied to the whole document. **A hybrid source's halves have opposite
+  reliability** is already the rule; this is a third half nobody looks at, and it
+  arrives free with the ingest.
+- **Convergence can be found *within* one source when its voices are
+  independent.** The article's thesis (a locator's name is a fragile key, so an
+  innocent rename gives a false red) and the commenter's (a rename dodges the
+  detector, so a deliberate one gives a false green) are one root with opposite
+  signs, reached by two people who were not reading each other. That scored the
+  convergence point and is what promoted the row from an amendment to a
+  mechanism. The corroboration table's convergence clause says "two independent
+  sources, from different runs"; this was two independent voices in one document,
+  and it is worth the same.
+- **The enumeration hunt has a mechanically greppable form and it should be run
+  first, not third.** A section *heading* that counts ("Two advisory-nesses",
+  "Three rules that separate...", "the three cases where...") is a completeness
+  claim in a position a grep can find, unlike the same claim buried in prose.
+  Round 22's amendment came from one such heading in under a minute. Round 21
+  reached its equivalent by accident. Suggest a Phase 6 line: grep the home
+  subject's headings for a cardinal number before reading the bodies.
+- **A promoting question can promote a row and leave it vetoed, and that is a
+  distinct outcome the note must not blur.** Row 10 promoted from `partial` to
+  `real gap` — the corpus genuinely does not own it — and stayed untriaged
+  because V2 was never the blocker the promotion addressed. The banked row is
+  therefore much more valuable than an ordinary untriaged one: the prior-art work
+  is done and only corroboration is owed. The untriaged table should say which
+  of the two it is, because a later run picking it up needs to know whether to
+  re-check the corpus or just spend a fetch.
+- **Verifying a quoted number is not the same as verifying the sentence around
+  it.** The primary carried the 20/40/80 spread and did not carry the causal
+  reading the newsletter put on it. The fetch confirmed the fact and refuted the
+  claim, which is the class's stated failure mode ("every number it quotes is a
+  lossy pointer") operating one level up: the *number* was faithful and the
+  *inference* was the relay's own. Landing the weaker rule the measurement alone
+  authorizes is the corrected-premise move, and it was cheaper than dropping the
+  row.
+
+### Redesign proposal (not applied)
+
+The scorecard has measured `research` as the weakest stage three rounds running
+without the column being able to say so, because every run's cell reports what
+it *got* and never what the source was *worth before it was mined*. The class
+read at Phase 2 already produces an accurate forecast — three consecutive rounds
+predicted their yield band correctly — so the information exists and is
+discarded. A `priced=<forecast>/<actual>` cell would turn the class table from a
+routing index into a **selection** instrument: a queue of sources could be
+ranked by forecast before any of them is ingested, and the run that should not
+have happened becomes visible as a row rather than as a feeling. This is a
+change to Phase 2 and to the scorecard's schema, argued here rather than applied
+because one round's evidence is not three.

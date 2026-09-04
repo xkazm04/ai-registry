@@ -1902,6 +1902,7 @@ rounds running is not yet a habit. **The check the next row should make:** did a
 of the two kinds of `not-better` it was?
 | 2.5.0 | 2026-09-04 | `yt:KZw8et-e6vk` "Forget SQS, RabbitMQ and Kafka. Just use Postgres." (**second-hand practitioner review, thin** — 590 words, a vendor dev-content channel demoing a third party's queue extension; **round 20**) | 1 | 7 | 2 accepted of 7 scored, `auto=2/0/0`, `fp=0`, 2 promoting questions executed and **both resolved against their rows** | **1 technique + 1 golden-path correction + 1 rewrite of a standing denial + 1 application** | 1 row: `0c/1e/0s/0t` | 1 (tracklight, fmt+clippy green, not pushed) | **Focus read at Phase 1 was round 19's; a concurrent sibling landed round 20's focus mid-run, and this run independently confirms its item (2).** Round 19 applied on 1 of 3 counts and that one carried the run: item (2) — *mine the standard, not only its implementations* — generalises past what the focus stated, because this subject's material is **not** a standard yet failed the same way, its prose written in the **vendor's** frame ("systems that advertise exactly-once") rather than the literature's, so it never drew the delivery-vs-effect split. Drawing it is what made a fourth posture expressible. Round 19 item (1), the superseded-claim carve-out, was **not** needed: the landing's `+2` rewrite penalty was earned honestly and cleared the threshold at exactly `+2`. Item (3) discharged with a **new** cause — see the depth cell. **Round 20's item (2), the deliberate asymmetry hunt, is confirmed from a second entry point**: the sibling reached it by looking for a technique that models one case in full and gives its sibling a sentence; this run reached the same shape by reading what a *refutation* is made of. Two concurrent runs, no contact, same hunt paying out | **S/T/A/Asrc/task = 0/1/0/1/0**; routing count **n/a** (a 590-word video is not a system — no design record, no handoff possible); `directions=n/a`. **Untriaged cause is a third kind neither round 19 label covers**: both rows had their promoting question executed and both **resolved against the row** — not `unverified`, not `verified-but-unwritten`, but finished work with a negative answer. **Depth note: the smallest source of rounds 15–20 produced the round's only inverted denial**, and the mechanism is new to this scorecard — the yield came from the source being confidently **wrong** about a claim the corpus refutes, which routed attention to the refutation's own construction |
 | 2.5.0 | 2026-09-04 | `github:microsoft/VibeVoice` @ `1541f59` — "Open-Source Frontier Voice AI" (**research-model release, four systems in one tree**; round 21) | 1 | 15 (10 design + 5 claim) | 4 verified of 4 scored, `auto=4/0/0`, `fp=0` | **2 techniques + 2 amendments + 2 source-tree applications** | 2 rows: `0c/1e/1s/0t` — **both `not-better`**, plus 2 `unapplied by construction` | 0 — both tested seams returned `not-better`, so there was nothing honest to commit: one arm was a measured 3,700x regression on a latency-critical path, the other would have replaced a working mechanism whose precondition the project does not meet | **Round 21's focus applied on all three counts and item (1) changed the run.** Scoring the seam before drafting made two of four rows *knowingly* `unapplied by construction` instead of discovering it at Phase 7.5 — and it exposed a second-order problem the focus did not anticipate: **the fleet map was stale**, so the answer had to be re-derived from all eleven projects' own registry maps. Item (2), the refutation hunt, produced the run's best landing and now has its **third sighting** — it is a rule. Item (3)'s three-way untriaged cause worked and split 1 `unverified` / 2 `verified-but-unwritten`, with no `resolved-against` this round | **S/T/A/Asrc/task = 0/2/2/2/0**; routing count **10 decisions / 3 systems / 2 unhomed — neither v2.2 clause fires, no handoff**, and the shape matched the source: a system yielded mechanisms, not paragraphs. `directions=0/0` — **owed, not n/a**: gravitone is a *peer* of this source under v2.2 (both voice AI systems) and a comparison study was not dispatched. The run's budget went to two A/Bs in that same tree instead, both of which rewrote the corpus, so the trade was reasonable and the debt is real |
+| 2.5.0 | 2026-09-04 | `web` "What is Agentic Testing?" — Paolo Perrone, The AI Engineer (**second-hand practitioner listicle**; round 22) | 1 | 13 | 2 verified of 2 scored, `auto=2/0/0`, `fp=0` | **1 technique + 1 amendment** | 2 rows: `1c/0e/1s/0t` — **both `better`** | **1/tested** — one commit here (the gate's verdict predicate); the two consumer trees examined for row 2 were tested and needed nothing, which is a different zero from "no seam was reached" | **Round 22's focus applied on all three counts.** (1) The ship cell is split as proposed. (2) The **repeated-denial search was aimed rather than stumbled into and it produced the amendment** — grep the home subject for a heading that declares its own completeness, then read the escape clause under it; "Two advisory-nesses, and only one of them expires" is mechanically greppable and aiming beat stumbling. (3) The owed peer study is **not** discharged and the one-line reason is that this source is a 3,000-word newsletter, not a peer system; the debt stays open. | **S/T/A/Asrc/task = 0/1/1/0/0**; routing count **n/a** (not a repository); `directions=n/a` (no design record — a listicle has none). Expected yield stated before the table as 1-2 landings and mostly catches; **8 caught, 2 landed, 3 untriaged, 1 lead — the class's prediction held exactly.** Both landings came from the source's edges: one from a **commenter's** first-party account of their own shipped tool, converging with the article's independent thesis on the same root, and one from the enumeration hunt against a corpus heading. The headline thesis is a catch on `context-starved-executor`, which states it at greater depth. Fetch 1 of 3, spent on the single candidate whose entire value was a number — and it **corrected the premise**: the primary carries the 20/40/80 spread and not the causal gloss the newsletter puts on it, so that row is banked with the weaker rule the measurement alone authorizes rather than landed on a relay. |
 
 **Two runs converged on one hunt this afternoon, from opposite ends, without
 contact.** The preceding row's focus asks the next run to hunt asymmetry
@@ -2007,3 +2008,39 @@ aiming beats stumbling. (3) **Discharge the owed peer study for gravitone**, or
 say in one line why the peer shape no longer applies. **The check the next row
 should make:** did the run verify its fleet-map reading rather than trusting it,
 and did it say which kind of zero its ship cell is?
+
+---
+
+**Round 22 (agentic-testing, 2026-09-04).** All three focus items were carried.
+The ship cell is now split (`1/tested` here). The repeated-denial search was run
+as a first-class hunt rather than reached by accident, and **aiming beat
+stumbling**: greping the home subject for a heading that declares its own
+completeness took under a minute and produced the run's amendment. The peer
+study is undischarged, with the one-line reason the focus allowed — the source
+is a newsletter, not a peer system.
+
+**The stage now losing most is `research`, and this is the third consecutive
+round to say the same thing without the column naming it.** Look at what the
+last three rounds' apply cells have in common: five of seven tested rows came
+back `not-better` or "already implemented", not because the technique was wrong
+but because **the fleet was already ahead of the source**. Round 20's project
+had the invariant, round 21's had the better fingerprint rule and the
+agreed-prefix mechanism, and this round found two trees that had independently
+implemented the amendment before it was written. That is a good problem — the
+corpus and the fleet are mature — and it is a measurement about the *front* of
+the funnel, not the back. A source class whose ceiling is "1-2 landings and
+mostly catches" is being predicted correctly every time and then mined anyway.
+
+**Next run's declared focus (round 23).** (1) **Price the source before
+ingesting it, not after.** The class read at Phase 2 already forecasts the yield
+accurately — say the forecast, then say whether it justifies the run, and record
+`priced=<forecast>/<actual>` in the depth cell. A run that predicts one landing
+and gets one is calibrated; the open question is whether it should have been run.
+(2) **Prefer a source the fleet is behind.** When the queue offers a choice,
+take the one whose claims the connected trees do *not* already implement — the
+`not-better` streak is the cheapest available signal for which those are, and
+`librarian/applied.md`'s return conditions name the seams the fleet has not
+grown yet. (3) **Discharge the owed peer study** against a peer-shaped source,
+or retire the debt explicitly. **The check the next row should make:** did the
+run state, before extraction, what it expected the source to be worth — and did
+the actual yield fall inside that band?
