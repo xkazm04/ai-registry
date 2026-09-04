@@ -6741,3 +6741,57 @@ lessons pending the three-run confirmation rule.*
   `rejects:` line in the design record for that system came free. When a tree has one
   of these, read it first and read all of it - the forces are already written, which
   is the expensive half of a design entry.
+## 2.3.2 - 2026-09-04 - opik
+
+- **A routing count above threshold with every home already existing is a
+  distinct result, and the depth cell renders it as a miss.** Six unhomed
+  decisions over four systems, per-system max three - and no forge, because
+  `agent-instruction-files`, `pipeline-authoring`, `untrusted-extension-host` and
+  `metric-surface-contract` were all already there. The cell reads `S0` and looks
+  like a routing failure. Round 10 hit the same shape and had to explain it in
+  prose too. Two rounds is a pattern; the convention (say it in the row) is
+  cheaper than a new column and is this round's declared focus.
+- **The `.agents/` shape is now common enough to expect: a vendor-neutral source
+  directory with per-host targets, some symlinked and some generated.** Sweep it
+  the way the method sweeps operating documents - here it was ~85,000 words
+  across 80 files against a 2,799-word landing page, and it was the densest
+  first-party material in an 11,266-file tree. It is also where an
+  agent-instruction finding will come from, because the tree is *using* the thing
+  the corpus theorises about.
+- **A tool re-implementing another tool's decision function is a recurring
+  source shape, and it reads as ordinary glue until you ask who else implements
+  it.** The tell is a script that parses a config file it does not own. The
+  question that turns it into a finding: what happens when that config uses a
+  feature this parser does not model? A good answer is a loud refusal; the common
+  answer is silence.
+- **The measurement instrument gave a confident wrong answer, and the assertion
+  harness caught it - then the assertion itself was wrong and the instrument was
+  right.** First version grepped workflow files for each hook's script path: 9
+  gaps, 6 false, because CI invokes npm wrappers. The corrected version carried
+  two known positives and one known negative, and the *negative* failed - because
+  I had verified that negative by hand with a grep that also only read workflow
+  files. The hand-check and the instrument shared a blind spot, and only
+  expanding the wrappers resolved it. **A known-good assertion inherits the bias
+  of however you established it.** Establish the positive and the negative by
+  *different* means than the instrument uses, or the harness certifies its own
+  error.
+- **Windows: `subprocess` with `text=True` translates `\n` to `\r\n` on
+  stdin.** Piping file content into `git hash-object -w --stdin` that way stages a
+  byte-different blob, and a one-section append renders as a 288-line whole-file
+  rewrite - which, in the partial-stage flow this method uses on shared subject
+  notes, would have committed a rewrite of a file a sibling was editing. Use
+  binary I/O for anything that becomes a git object. The check that catches it is
+  free: `git diff --cached --stat` should show roughly the number of lines you
+  wrote.
+- **A worktree of a project with a hook-based gate cannot run the gate**, because
+  it has no `node_modules` and the linter's own config fails to resolve. Junction
+  the dependency directory in from the main checkout, run the gate for real, and
+  **remove the junction before removing the worktree** - `git worktree remove`
+  would otherwise delete the real tree through it.
+- **`not-better` twice, both confirmations rather than defects, and both worth
+  the row.** One tree already sat correctly in the regime the new amendment's
+  question routes it to; another satisfied the new technique's own escape clause
+  (zero runtime dependencies, so no substitution needed). Neither changed a
+  project and both are evidence the rule is right. The vocabulary handles this
+  fine; the risk is a future run reading a `not-better` streak as a weak corpus.
+  Say in the row which kind it is.
