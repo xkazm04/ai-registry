@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1556,
+  "techniques": 1558,
   "applications": 889,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1556/1556",
+  "use_when_coverage": "1558/1558",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1301,7 +1301,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:c118184b9afa5e92",
+   "digest": "sha256:d5ff96bdf770fbc9",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1964,7 +1964,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:ed00487b3c280d5e",
+   "digest": "sha256:fee09781c71358ab",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -2010,7 +2010,9 @@
       "a tool operation runs longer than a turn",
       "the model is polling a remote status",
       "a remote result must reach a conversation after the run that submitted it ended",
-      "deciding what the loop may hold about work a store owns"
+      "deciding what the loop may hold about work a store owns",
+      "several background tasks complete close together",
+      "deciding whether a notification carries its payload"
      ]
     },
     {
@@ -20713,7 +20715,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:c51193fcf82ede9a",
+   "digest": "sha256:9dbe72763e90881c",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -20756,6 +20758,22 @@
       "dispatcher rejects a call the prompt explicitly taught",
       "deciding how much detail each operation entry earns",
       "hiding a registered operation to discourage its use"
+     ]
+    },
+    {
+     "slug": "consumer-coupled-decoration",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "auditing what a returned payload spends per item rather than per call",
+      "a peer tool changed how it addresses or matches content",
+      "a per-item prefix or wrapper looks too small to be worth measuring",
+      "deciding whether to compress a payload or remove something from it",
+      "a formatting choice was added for a consumer nobody can currently name"
      ]
     },
     {
@@ -20837,14 +20855,16 @@
      "status": "forged",
      "laws": [
       "derivation-names-recomputation",
-      "unknown-is-not-a-value"
+      "unknown-is-not-a-value",
+      "limits-are-derived"
      ],
      "shared_with": [],
      "use_when": [
       "historic tool results dominate a context window that summarizing would not fix",
       "deciding what to do with images and captured frames from earlier turns",
       "a compaction step is proposed for material that is still addressable at its source",
-      "keeping a composed prefix byte-stable while shrinking it"
+      "keeping a composed prefix byte-stable while shrinking it",
+      "choosing which kinds of output a size threshold is allowed to touch"
      ]
     },
     {
@@ -20918,6 +20938,22 @@
       "deciding who owns each layer of a prompt",
       "prompt text is being concatenated at call sites",
       "deciding whether a variant needs its own family"
+     ]
+    },
+    {
+     "slug": "recovery-path-as-loss-signal",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a compression or elision step is proposed and nobody has said how its loss will be observed",
+      "a shortening change reports a saving measured at its own output",
+      "choosing how aggressive a history or payload transform should be",
+      "a recovery path exists but nothing counts how often it is taken"
      ]
     },
     {
@@ -31181,8 +31217,10 @@
     "priced-authority/single-use-cubbyhole-wrap",
     "priced-authority/write-ahead-revocation-marker",
     "proactive-nudges/quiet-windows",
+    "prompt-assembly/consumer-coupled-decoration",
     "prompt-assembly/contributed-document-admission",
     "prompt-assembly/fingerprinting-and-cache-keys",
+    "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-assembly/task-envelope",
     "prompt-safety/canary-tripwires",
     "prompt-safety/cross-language-rule-parity",
@@ -32244,9 +32282,11 @@
     "proactive-nudges/efficacy-feedback",
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/cache-breakpoint-allocation",
+    "prompt-assembly/consumer-coupled-decoration",
     "prompt-assembly/context-budgeting",
     "prompt-assembly/context-reachability",
     "prompt-assembly/history-compaction",
+    "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-safety/input-caps-and-clamps",
     "public-claim-provenance/derived-numerator-authored-denominator",
     "public-claim-provenance/no-data-source-labelled-inline",
@@ -32492,6 +32532,7 @@
     "priced-authority/write-ahead-revocation-marker",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
+    "prompt-assembly/recovery-path-as-loss-signal",
     "quality-gates/advancement-evidence-fields",
     "quality-gates/enforcement-binding",
     "quality-gates/fabrication-economics",
@@ -34039,6 +34080,7 @@
     "object-shape-representation/weak-forward-transitions-with-counted-prune",
     "paged-block-cache/one-page-size-bought-with-padding",
     "paged-block-cache/release-order-is-the-eviction-policy",
+    "prompt-assembly/elision-to-a-refetch-pointer",
     "quality-gates/deterministic-proxy-gate",
     "scale-investment-timing/execution-model-concurrency-threshold",
     "self-healing/consume-once-mode-handoff",
