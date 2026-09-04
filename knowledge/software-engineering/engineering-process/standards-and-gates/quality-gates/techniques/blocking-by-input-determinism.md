@@ -74,6 +74,42 @@ the work is inside the repository, the status is debt-shaped and dated. If the
 answer is "nothing we can do here," it is input-shaped and permanent, and
 writing "revisit later" on it is a lie with a deadline.
 
+## A third variance, and it is not on this axis at all
+
+Both advisory-nesses above are about the **input**: one says the tree is dirty,
+the other says the input moves without the tree. A gate can also be
+non-deterministic while its input is perfectly still — the same commit, the same
+feed, the same instant, run twice, answering differently — because the variance
+is in the **instrument**. A check whose verdict comes from a model asked to
+judge is the standard case; a check that samples, that races, or that reads
+wall-clock-ordered state is the same shape.
+
+This matters because the practical test above mis-sorts it. Asked to name the
+work that would make such a gate safe to promote, the answer is not "inside the
+repository" and not "nothing we can do here" — it is **inside the gate**, and
+the two remedies the input axis offers both fail on it:
+
+- *Splitting the invocation* recovers nothing, because there is no deterministic
+  half to separate out. The one command has one instrument and the instrument is
+  the variant party.
+- *Filing it as permanent* writes off a gate that is fixable. A variant
+  instrument can be pinned (a fixed judge version, a fixed seed, a fixed
+  ordering), replaced with an assertion over the part that does not need
+  judgment, or **aggregated until its verdict is stable** — and the aggregation
+  rule is the whole decision, because any-of-N and all-of-N are computable from
+  the same runs and answer opposite questions
+  ([reliability-aggregation](../../../../llm-agent/evaluation-and-cost/eval-harness/techniques/reliability-aggregation.md)).
+  A gate is the all-of-N position by definition: it exists to say *this can be
+  relied upon*, and a single green run of a variant instrument has established
+  only that the check passed once.
+
+So the axis extends rather than bends. **Grade on the input, then ask separately
+whether the instrument is a function of that input.** A gate may block only when
+both answers are yes; when the input is deterministic and the instrument is not,
+the gate is not permanently advisory — it is un-promoted work with the work
+named, and the sentence attached to its definition says which of pin, assert or
+aggregate is the pending trigger.
+
 ## Split the invocation until each half is graded on its own input
 
 Most real tools bundle both kinds of check behind one command. A dependency

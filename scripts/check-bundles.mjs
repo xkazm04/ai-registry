@@ -602,6 +602,12 @@ for (const s of stats) {
 console.log(`${conceptFiles} concept documents · ${linksChecked} links checked · ${filesScanned} files scanned for health`);
 console.log('NOT checked here: evidence resolution (consumer-side, by design — rkb-profile §5)');
 console.log('NOT checkable statically: the live transplant test — only it promotes status to transplant-tested');
+// The purity verdict states its own predicate. The key is a list of LITERAL names, and an
+// author can refer to a product without naming it — a periphrasis, an alias, an
+// abbreviation — which refers identically and matches nothing. Extending the list does not
+// close that; only a differently-keyed check (the agent read above) can. So the pass says
+// what it read, never the property it proxies. See quality-gates/renameable-detector-keys.
+console.log('Purity checked against literal names only — a product referred to without being named passes; the denylist is a floor, not a proof of transplantability');
 for (const n of notes) console.log(`  note: ${n}`);
 
 if (failures.length) {

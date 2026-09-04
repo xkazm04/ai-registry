@@ -25,6 +25,7 @@ techniques:
   - item-liveness
   - excess-indicts-the-instrument
   - self-reported-gate-inputs
+  - renameable-detector-keys
   - instrument-answers-only-its-own-question
   - deterministic-proxy-gate
 ---
@@ -68,6 +69,16 @@ record the gated party writes by cooperating, so the population it judges is
 exactly the population that did not need judging.
 [self-reported-gate-inputs](./techniques/self-reported-gate-inputs.md) owns it,
 and owns why a second check on the same record cannot recover the case.
+
+A sixth is unfireable only against the cases somebody wanted through: the rule
+blocks, the record is honest and complete, and the **key the detector matches
+on** — a name, a path, an identifier — is something the author can change
+without changing what the check is about. Renaming is then the cheapest way to
+satisfy "make this pass", the finding disappears with nothing suppressed and
+nothing deleted, and extending the list buys exactly one round.
+[renameable-detector-keys](./techniques/renameable-detector-keys.md) owns the
+test that separates an accidental gap from a concealable key, and owns what a
+check must say in its own verdict when no invariant key exists.
 
 In each case the severity label says "enforced" and the construction says
 "decorative." The discipline is to reason about severity **by construction,

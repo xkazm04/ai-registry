@@ -652,3 +652,46 @@ once ran.
 Applied here in this registry: `.github/workflows/knowledge.yml` gained a weekly
 `schedule:` (it had none) so every job has a heartbeat, plus an advisory
 `citations` job. Ship row in `librarian/applied.md`.
+
+## 2026-09-04 — `/intake`, agentic-testing (run `agentic-testing-0904`)
+
+Source: a weekly concept explainer on agentic testing (second-hand practitioner
+listicle over four primaries). Expected yield stated as 1–2 landings and mostly
+catches; that held — 13 candidates, 8 caught, 2 landed here, 3 untriaged.
+
+**New technique: `renameable-detector-keys`.** The sibling of
+`self-reported-gate-inputs`, one step earlier in the failure: the record can be
+complete and honest and the gate still misses, because the *key the detector
+matches on* is something the author can change without changing what the check
+is about. The distinction that decides the remedy is accidental gap (extend the
+list) versus concealable key (the list's length was never the constraint). Where
+no invariant key exists — anything turning on reference or meaning — the
+prescription is that the pass states its own predicate rather than the property
+it proxies. Originated by a commenter on the source describing their own tool,
+converging with the article's independent thesis that a name is a fragile key;
+one root, two signs, two voices.
+
+**Amendment: `blocking-by-input-determinism`** gains a third variance. Found by
+the enumeration hunt against its own heading, "Two advisory-nesses, and only one
+of them expires". Both of those are about the *input*; a gate can be
+non-deterministic while its input is perfectly still, because the variance is in
+the instrument. The technique's practical test is temporal and a sampled judge
+does not move, it varies — so it was being sorted as permanently advisory, which
+writes off a fixable gate and, worse, grades a statistically-varying check as
+safe to block on one run. No standing sentence changed: the two advisory-nesses
+remain a complete account of input variance, and the instrument is a second axis.
+
+**Applied, both rows.** `renameable-detector-keys` A/B-paired against this
+registry's own purity denylist (arm A named product → 1 violation; arm B same
+product described and not named → 0 violations, gate green over an equally
+impure document); shipped the one-line verdict predicate to `check-bundles.mjs`,
+which changes no detection and removes an overclaim. The amendment walked as a
+three-case simulation across this registry and two consumer trees, with the
+falsifier stated first — all three sort differently under the third bucket, and
+two of the trees had already implemented its prescription independently, so
+nothing was shipped to them and that zero is a result.
+
+State: 23 → 24 techniques, 21 → 23 applications. Still one of the densest
+subjects in the bundle; both landings sit in the seam between it and the
+`eval-harness` reliability lane, and the amendment now links across to
+`reliability-aggregation` for the aggregation half.

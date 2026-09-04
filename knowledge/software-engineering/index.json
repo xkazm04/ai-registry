@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1571,
-  "applications": 906,
+  "techniques": 1572,
+  "applications": 908,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1571/1571",
+  "use_when_coverage": "1572/1572",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -21664,7 +21664,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:24a0c6dcc70042e3",
+   "digest": "sha256:210deb37cdc755ce",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -21961,6 +21961,23 @@
      ]
     },
     {
+     "slug": "renameable-detector-keys",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "deletion-is-not-repair",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check matches a list of literal names",
+      "the party being gated also authors the artifact the gate reads",
+      "a detector's findings dropped to zero after a refactor nobody reviewed",
+      "deciding whether extending a denylist is a fix",
+      "an agent is asked to make a scanner report clean"
+     ]
+    },
+    {
      "slug": "self-reported-gate-inputs",
      "status": "forged",
      "laws": [
@@ -22063,6 +22080,13 @@
     },
     {
      "stack": "node",
+     "technique": "blocking-by-input-determinism",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--blocking-by-input-determinism.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
      "technique": "chokepoint-tag-registry",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--chokepoint-tag-registry.md",
      "verified_on": "2026-08-22",
@@ -22114,6 +22138,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--ratchet-design.md",
      "verified_on": "2026-09-01",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "renameable-detector-keys",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/node--renameable-detector-keys.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@20"
     },
     {
      "stack": "node",
@@ -31588,6 +31619,7 @@
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/policy-projection",
     "quality-gates/prose-rule-drift",
+    "quality-gates/renameable-detector-keys",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
@@ -32342,6 +32374,7 @@
     "prompt-safety/payoff-removal",
     "quality-gates/fabrication-economics",
     "quality-gates/false-positive-economics",
+    "quality-gates/renameable-detector-keys",
     "release-pipeline/size-budgets",
     "repo-manifest-standard/spec-ships-with-artifact",
     "retry-backoff/jittered-revocation-with-irrevocable-terminal",
@@ -32651,6 +32684,7 @@
     "quality-gates/instrument-answers-only-its-own-question",
     "quality-gates/item-liveness",
     "quality-gates/ratchet-design",
+    "quality-gates/renameable-detector-keys",
     "quality-gates/severity-by-construction",
     "quality-gates/vacuous-by-evaluation",
     "quorum-and-recovery-procedures/pick-highest-applied-index",
