@@ -743,3 +743,47 @@ Apply: `not-better` on personas-web, whose all-zero retained baseline is the
 retention case found in the fleet rather than argued. The population-split half
 is `unmeasurable` there and the row says so: an empty allowlist has no
 population to run an advisory over.
+
+## 2026-09-04 - intake `monty` (run `monty-0904`, intake 2.5.0)
+
+New technique `shared-substrate-check-partition`, a design candidate from
+`github:pydantic/monty` @ `fdd2628`. It is
+`instrument-answers-only-its-own-question` seen from the author's chair: that
+technique covers a partition written in a **configuration** and discovered by a
+reader; this one covers the case where both checks are **one judgment engine
+reading one artifact**, so no configuration can express the split and the whole
+partition lives in what each brief says.
+
+The source runs two LLM checks over one pull request — Correctness (four
+path-scoped briefs) and approvability — and the approvability file is the
+mechanism written down: correctness declared out of scope with its owner named,
+the correctness verdict inherited as a premise ("if the Correctness check passes,
+treat the code as correct and do not re-litigate it here"), six enumerated
+withhold categories, a seven-entry **not-reasons** list, and the construction
+that makes a judgment gate usable at all — *"The question is never 'could a human
+add value here?' (a human always could); it is 'is the non-correctness risk high
+enough that it must not merge without a human deciding?'"* An unbounded judgment
+question escalates everything, correctly, and carries no information.
+
+Also folded in: the **evidence boundary** between two checks that share a concern
+and differ in what they can observe (a diff reader vs one that runs both
+implementations), stated in both briefs so the weaker cannot claim what only the
+stronger can see.
+
+One source-tree application (`process--shared-substrate-check-partition`; a review
+process has no version, so the witness is the pinned commit). Structural fact
+carried into it: the vendor's default ignore block excludes `.agents/skills/**`
+and `.claude/skills/**` while nothing matches `.macroscope/`, so the repo reviews
+the briefs that tune its automated check and not the skills that brief its
+interactive one — a split inherited from a default rather than chosen.
+
+Applied to **politicas**, `experiment`, **better**, shipped (`3cf7ed4`, not
+pushed). Its design-review agent excluded the mechanical detector's whole domain
+in one sentence, naming no rule and inheriting no verdict, while capping its
+output at 8 ordered fixes. Measured: the detector defines **66 rule ids** and
+**39** name a condition the reviewer's own TYPE/MATERIAL/density row also
+classifies, so 39 of 66 were ambiguous; the patch inherits the verdict, names the
+shared surface, states the split as comp-character vs value-in-band and adds a
+five-entry not-reasons list, taking the ambiguous set to 0 by construction. Gate
+reached: the project's blocking doc-sync gate, 0 drifted of 83. Behavioural rate
+not measured — no recorded reviewer returns exist in that tree.

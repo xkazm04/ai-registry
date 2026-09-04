@@ -27,6 +27,7 @@ techniques:
   - self-reported-gate-inputs
   - renameable-detector-keys
   - instrument-answers-only-its-own-question
+  - shared-substrate-check-partition
   - deterministic-proxy-gate
 ---
 
@@ -565,6 +566,12 @@ is asked to refuse something.
   disabled in a configuration the call site never shows, verifying an
   automated edit with the instrument that owns it, and overlap that is
   division of labour rather than redundancy.
+- [shared-substrate-check-partition](./techniques/shared-substrate-check-partition.md)
+  — the same partition where no configuration can express it because both
+  checks are one judgment engine reading one artifact: the inverted bounded
+  question, the stated negative scope naming its owner, the sibling verdict
+  inherited as a premise, the not-reasons list as the tuning surface, and the
+  evidence boundary between a check that reads and one that runs.
 - [severity-by-construction](./techniques/severity-by-construction.md) —
   tracing what a severity level can actually fail; advisory feedback vs
   enforcement; escalation paths for new rules.
