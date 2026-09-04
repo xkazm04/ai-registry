@@ -1619,7 +1619,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:5415388368123133",
+   "digest": "sha256:00ab66c57a876d9d",
    "techniques": [
     {
      "slug": "baseline-ladder",
