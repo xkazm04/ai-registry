@@ -589,3 +589,23 @@ comparison** on the added fixture. `treatment-election-rate` came back
 table (67/0/33 on input tokens against a -37.56% aggregate) is *not* a gap -
 `comparison-modes` owns it as "the collapsed margin". Recorded as a catch so a
 later run does not propose it.
+
+### 2026-09-04 - `/intake`, from a vendor repository (deep research agent)
+
+Gained `probe-the-decision-not-the-artifact` from
+[[../../sources/2026-09-04-open-deep-research]]: when the artifact admits only
+a judge, look upstream for a decision with a small answer space and a gold
+label. The subject already owned the **instrument** choice
+(`assertion-vs-judgment`); this is the **unit** choice, and it sits above it.
+
+**Kept because the source implements it badly**, which is what made the
+boundaries legible. Its decision suite is labelled for the first supervisor
+fan-out and probes the last; it executes the entire pipeline - sub-researchers,
+compression, report generation - to observe a decision made in the first turn,
+throwing away the whole cost argument; and both failures leave the suite green.
+A correct implementation would have shown only that the shape exists.
+
+One application against the source tree
+(`python--probe-the-decision-not-the-artifact`) and a `task` row against a
+managed scraping service whose tier decision is already emitted as a typed
+verdict and probed by nothing.

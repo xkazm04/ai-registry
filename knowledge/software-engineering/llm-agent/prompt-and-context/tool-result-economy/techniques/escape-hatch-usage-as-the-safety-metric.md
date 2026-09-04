@@ -130,6 +130,59 @@ judging the transform — and label which is which.
 - **Zero, with an unadvertised path** is not a result at all. Fix the
   advertisement, then start measuring.
 
+## The hatch the transform takes on the agent's behalf
+
+Everything above counts the model's *elections*. There is a second hatch the
+count cannot see, and it fires in the population where the transform behaved
+worst: the transform's own failure path, which returns the original when it
+cannot produce the compressed form — the summarizer timed out, the output did
+not parse, the call was refused. Nobody elected it. It fires inside the
+transform and puts the uncompressed input downstream as though it were the
+result.
+
+It breaks the measurement in both directions at once.
+
+- **It is invisible to the recovery rate.** The model never went back for
+  anything, because the original arrived unasked. The rate reads zero for
+  exactly the cases where the transform failed hardest — the same dangerous
+  zero § *The advertisement precondition* already names, reached by a second
+  route, and this one survives a correctly advertised hatch.
+- **It inverts the disclosure.** That section requires the compressed result
+  to say it was compressed. An involuntary fallback requires the opposite
+  sentence and almost never carries it: the result must say it is **raw**, or
+  the model reads a full document as if it were a summary and budgets the rest
+  of its window accordingly.
+
+And the reason this is not merely a bookkeeping gap:
+
+> **A bounding stage's failure path is correlated with the input it was
+> bounding.** The pages that time out are the slow, large ones. The outputs
+> that fail to parse are the long, malformed ones. So the fallback emits its
+> largest payload precisely where the transform was most needed, and a stage
+> installed to cap context becomes, on failure, the single largest
+> contributor to it.
+
+The correction is three lines, not a redesign:
+
+- **Cap the fallback separately, and below the trigger.** If the compressed
+  form was budgeted at N, the involuntary fallback returns at most N,
+  truncated and marked as truncated — never the whole original. A transform
+  that cannot summarize can still bound.
+- **Count it as its own rate, beside the elected one and never summed with
+  it.** They measure different things: an elected recovery says the transform
+  removed something valuable; an involuntary one says the transform did not
+  run. Averaging them produces a number that means neither
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
+- **A log level is not instrumentation.** A warning is read by whoever is
+  reading warnings. The involuntary rate belongs wherever the elected rate is
+  published, or it will be discovered during an incident
+  ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).
+
+The question to ask of any lossy transform before it ships, once: **what does
+its failure path return, and how large is that?** If the answer is "the
+input", the stage has a bypass whose trigger condition is correlated with the
+load it was installed to reduce.
+
 ## The generalization, stated once
 
 Nothing about this is specific to agents. **Any lossy transformation with a
@@ -157,3 +210,6 @@ as a signal about how often they do.
 - Read the rate before task-success, and act on it before task-success moves.
 - Never widen a compression policy without re-reading the rate under the wider
   policy, and never read a zero without first checking the advertisement.
+- Ask what the transform's own failure path returns. Cap it below the
+  trigger, mark it, and count involuntary fallbacks separately from elected
+  recoveries.

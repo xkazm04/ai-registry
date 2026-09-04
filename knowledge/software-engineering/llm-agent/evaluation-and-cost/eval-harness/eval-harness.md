@@ -23,6 +23,7 @@ techniques:
   - monitor-inside-the-loop
   - treatment-election-rate
   - outcome-conditioned-cost
+  - probe-the-decision-not-the-artifact
 ---
 
 # Evaluation & benchmarking
@@ -430,3 +431,8 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
   metrics over arms that can fail: the both-succeeded subset as the
   comparable denominator, the unconditioned primary that keeps it honest,
   and the incomplete trial that belongs in neither.
+- [probe-the-decision-not-the-artifact](./techniques/probe-the-decision-not-the-artifact.md)
+  — when the output admits only a judge, look upstream for a decision with a
+  small answer space and a gold label: what makes one probe-able, why the
+  probe must name the occurrence it reads, and why it pays for a prefix and
+  stays a threshold.

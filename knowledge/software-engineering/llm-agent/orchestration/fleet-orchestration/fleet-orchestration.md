@@ -18,6 +18,8 @@ techniques:
   - worker-trajectory-anatomy
   - absent-status-passthrough
   - completion-claim-verification
+  - deliberation-as-an-elected-turn
+  - soft-budget-under-the-hard-cap
 ---
 
 # Agent fleet orchestration
@@ -323,3 +325,11 @@ mode is absent.
   checked in code on the parent's own instrument, evidence provenance (a
   run in the worker's own session proves nothing), and a verdict in which
   undecidable is UNVERIFIED, never passed.
+- [deliberation-as-an-elected-turn](./techniques/deliberation-as-an-elected-turn.md)
+  — the dispatcher's own reasoning as a no-op tool it elects, forbidden from
+  being emitted in parallel with the action it reasons about, and why the
+  election rate is a signal a mandatory step would destroy.
+- [soft-budget-under-the-hard-cap](./techniques/soft-budget-under-the-hard-cap.md)
+  — two limits per model-driven loop: an enforced cap that must never fire and
+  a smaller budget in the brief derived from it, with the cap-fired fraction
+  as the instrument.
