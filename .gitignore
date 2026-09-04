@@ -59,7 +59,12 @@ fleet-*.proposals.json
 # machine state, the target is the lane file. Committing the link would be a dangling
 # path on a checkout whose git does not materialise symlinks (core.symlinks=false here).
 .claude/skills/explorer
+.claude/skills/perfect
 
 # /explorer run memory. Regenerable evidence, not registry content (rkb-profile §5:
 # the FINDING is committed, the evidence it came from is not). Same rule as .bench/.
 .explorer/
+
+# /perfect loop state: an Obsidian-openable vault, regenerable working memory of a
+# skill that runs on this repo. Not content; and the checkout hosts concurrent sessions.
+.perfect/
