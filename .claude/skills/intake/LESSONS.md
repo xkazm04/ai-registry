@@ -6960,11 +6960,14 @@ a lesson becomes a rule at three.
   the glob exists in each tree.** This run wrote "no seam in any authorized tree" for a
   landed technique, and put the resulting count in the scorecard as the fleet's reach.
   The search behind it globbed `src/ crates/ src-tauri/` across eight projects.
-  politicas, kp and gravity have **none** of those directories, so those three greps
-  matched zero files and exited quietly; pumper and LightTrack keep their client code in
-  `clients/`, goat in `app/` and `lib/`. Three of eight trees were never looked at and
-  three more were half looked at, and the empty output read exactly like a clean
-  negative. The verdict happened to survive the re-run - which is luck, not method.
+  and it iterated a hand-typed **six**-project list, so grant and gravity were never in
+  it at all; politicas and kp have none of those directories, so those greps matched zero
+  files and exited quietly; pumper and LightTrack keep their client code in `clients/`,
+  goat in `app/` and `lib/`. **Four of eight trees contributed zero files** and two more
+  were half looked at, and the empty output read exactly like a clean negative. The
+  miscount survived the first correction too - I wrote "three of eight" and it was four,
+  because a hand-typed project list is a second, independent way for a fleet search to
+  miss a tree, and I had only checked the first. The verdict happened to survive the re-run - which is luck, not method.
   **This is `failure-not-empty-success` at the fleet layer**, and the corpus already
   owns the rule: assert the instrument before reporting the result. The method's Phase 4
   warnings cover truncated output and banned vocabulary; neither covers *a glob that
@@ -6972,7 +6975,11 @@ a lesson becomes a rule at three.
   **Proposed for Phase 7.5 step 1: before reporting "no seam in any managed project",
   run the search once against a pattern that must hit (a control), per project, and say
   how many files each tree contributed.** A tree contributing zero files to a control is
-  a tree that was not searched. First sighting, but it produced a false published
+  a tree that was not searched - and the control must be driven from `loadFleet()`, not
+  from a hand-typed list, because that list is how two of the four misses happened. The
+  control run here reported personas, kp, politicas, goat, grant (971), gravity,
+  LightTrack and pumper all non-zero, which is what the absence claim needed and did not
+  have. First sighting, but it produced a false published
   sentence, so it is proposed rather than banked.
 
 - **What caught it was a background task's exit code, not a review.** The search was
@@ -6984,9 +6991,14 @@ a lesson becomes a rule at three.
   discipline as not trusting a green gate whose command never ran.
 
 - **The re-run found something real that was out of scope, and it is filed as a lead
-  rather than acted on.** Two fleet projects spawn the same coding CLI and disagree
-  about the shell: one routes the prompt through stdin and documents the argv
-  concatenation hazard in detail; the other puts the prompt in argv with `shell: true`.
-  That is the inverse of the technique under test and a security-shaped question about a
-  project tree, so it went in the source note with a return condition instead of into a
-  landing this run was not asked for.
+  rather than acted on - and widening the search changed what the lead MEANS.** Three
+  fleet projects spawn the same coding CLI. Two (grant, gravity) route the prompt through
+  stdin, keep argv static, and each wrote down the reasoning independently; one
+  (personas) puts the prompt in argv under `shell: true`. At two projects this read as a
+  disagreement; at three it reads as **one deviation from a fleet norm with two
+  independent rationales behind it**, which is a much stronger thing to hand the next
+  run. Worth generalising: a fleet-wide observation drawn from a partial search can be
+  true and still carry the wrong weight, and the weight is what decides whether anyone
+  acts on it. It is the inverse of the technique under test and security-shaped, so it
+  went in the source note with a return condition rather than into a landing this run
+  was not asked for.
