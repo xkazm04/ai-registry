@@ -18,6 +18,8 @@ techniques:
   - task-envelope
   - amortized-compaction-cadence
   - deferred-interface-invalidation
+  - endpoint-sealed-continuation-metadata
+  - elision-to-a-refetch-pointer
 ---
 
 # Prompt assembly & context budgeting
@@ -189,6 +191,34 @@ must be rebuilt, not continued. Without this, a configuration change
 silently forks reality: new sessions obey the new rules, resumed sessions
 obey rules that no longer exist anywhere in the source.
 
+## Some of the transcript is not portable, and some of it is recoverable
+
+Everything above treats the composed prefix as text the assembler owns. Two
+properties of a real transcript cut across that, and both decide bytes at
+composition time rather than at authoring time.
+
+The first is that part of the history belongs to **where it happened**.
+Providers attach opaque continuation metadata to reasoning turns — signatures,
+encrypted payloads, per-part tokens — and it is sealed to the endpoint that
+minted it, so a prefix replayed to a different model is rejected rather than
+degraded. The unit that carries the property is the segment, not the
+transcript, and the walk that decides per segment whether to replay verbatim
+or strip is
+[endpoint-sealed-continuation-metadata](./techniques/endpoint-sealed-continuation-metadata.md).
+It is the reason composition needs to know the model it is composing *for*.
+
+The second is that a large share of a transcript's bulk is still addressable
+at its source. A tool result can be fetched again by calling the tool; an
+attached file is still on disk. That material does not need summarizing, it
+needs a pointer telling the model the way back — a trade of information for a
+round trip that [history-compaction](./techniques/history-compaction.md)
+cannot make and should not attempt.
+[elision-to-a-refetch-pointer](./techniques/elision-to-a-refetch-pointer.md)
+owns that lane, the per-message purity that keeps the elided prefix
+cache-stable, and the one honest caveat it introduces: a transmitted prefix
+that is a function of the record plus the policy in force when it was
+composed.
+
 ## The prompt is a versioned interface
 
 A prompt change is an API change wearing prose. It can alter the model's
@@ -295,6 +325,16 @@ a span enters; safety decides *how it is wrapped*.
 - [fingerprinting-and-cache-keys](./techniques/fingerprinting-and-cache-keys.md)
   — what goes in the digest, session staleness, per-layer granularity, and
   the fingerprint as the prompt's version stamp.
+- [endpoint-sealed-continuation-metadata](./techniques/endpoint-sealed-continuation-metadata.md)
+  — the transcript's sealed half: segment-level replay decided against the
+  target endpoint, strict provider-instance plus model-id equality, demotion
+  rather than deletion of reasoning parts, unrecorded provenance on the strip
+  side, and the in-flight loop exempt by construction.
+- [elision-to-a-refetch-pointer](./techniques/elision-to-a-refetch-pointer.md)
+  — eliding recoverable material to a pointer instead of a summary: the three
+  material classes, counts by kind for dropped binary parts, the decorator
+  siting that leaves the record whole, per-message purity for cache
+  stability, and the recomputability caveat written down.
 - [cache-breakpoint-allocation](./techniques/cache-breakpoint-allocation.md)
   — cutting the ordered stack into cached blocks: cut points as a scarce
   request-wide budget, merging by cadence, matching lifetimes, and the

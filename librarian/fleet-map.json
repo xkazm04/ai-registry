@@ -41500,7 +41500,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "runtime-and-io",
-   "techniques": 11,
+   "techniques": 13,
    "present": [
     {
      "project": "gravity",
@@ -50358,7 +50358,7 @@
    "bundle": "software-engineering",
    "category": "llm-agent",
    "subcategory": "prompt-and-context",
-   "techniques": 14,
+   "techniques": 16,
    "present": [
     {
      "project": "gravity",

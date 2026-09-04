@@ -128,6 +128,56 @@ one and applied nothing. When stating the transaction size cap, express it
 as a multiple of the entry cap. When a caller asks for a transaction around
 an unconditional write, ask what read it protects.
 
+## The mergeable plane inverts the rule, and still records
+
+There is a second write shape where the rule does not hold, and it is worth
+separating from the accumulator case because it looks much more like a
+transaction than an increment does. Where the unit of contention is a
+**document rather than a key**, and the store owns a content-level merge, a
+stale base is not a refusal at all: it is an input to a merge that usually
+succeeds. Two writers editing different regions of one file both land, and
+telling the second one to re-read and retry would be a worse system, not a
+safer one.
+
+That is a genuine inversion of the rule above, and the reason is that the
+two designs are protecting different things. Key-level verification protects
+a **decision made against a read set** — the identical write is one key of a
+decision, and the decision is what went stale. Content-level merge protects
+a **document's text**, and it can protect it because the merge has something
+the transaction never had: knowledge of the value's internal structure. A
+transaction refuses because it cannot tell whether two changes are
+compatible; a merge engine can look and see.
+
+The inversion is narrow, and stating its preconditions is what keeps it from
+being read as permission to soften the main rule. It holds only where the
+merge is a property of the *store*, so every writer gets the same verdict;
+where merge outcomes are pinned by shared fixtures rather than decided per
+implementation; and where a merge that cannot be resolved is returned as a
+**normal outcome carrying everything needed to retry in one round trip** —
+current content, current version, the colliding regions — rather than as an
+error. A plane that merges but returns a bare failure on conflict has taken
+the risk of merging and kept none of its benefit.
+
+**But the identical-write case survives the inversion, in a different
+currency.** Where a clean merge lands content byte-identical to what is
+already stored, the merge is a no-op and the naive optimization is to write
+nothing. That is the same instinct the main rule refuses, arriving by
+another road, and it should be refused again — for attribution rather than
+for serialization. The second writer of identical content **acted**: they
+read, they decided, they proposed, and a plane that swallows the write
+erases a participant from the record. So the merge produces a new version
+whose bytes equal the old one, and the change-set says who produced it and
+why.
+
+The two halves rhyme, and the shared root is worth naming because it
+survives both regimes: **a write's record is about the decision, not about
+the bytes.** In a verifying transaction that means an identical write still
+conflicts, because the decision behind it was stale. In a merging document
+plane it means an identical write still records, because the decision behind
+it was real. An implementation that reasons from the bytes alone gets the
+first case wrong by losing an update and the second wrong by losing a
+person.
+
 ## When not to reach for this
 
 Where a key is genuinely a commutative accumulator - a counter that only
