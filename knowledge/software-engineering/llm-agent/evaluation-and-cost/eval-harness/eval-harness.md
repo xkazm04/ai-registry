@@ -21,6 +21,7 @@ techniques:
   - resolution-precondition
   - selection-over-noise
   - monitor-inside-the-loop
+  - pairing-schedule
 ---
 
 # Evaluation & benchmarking
@@ -134,6 +135,15 @@ task or not claimed
 This floor has a second contributor with a separate cause — the judge's own
 self-disagreement, below — and the binding constraint is whichever is
 larger.
+
+A ranking built from *pairwise* results carries a second precondition that is
+structural rather than statistical, and it is checked before the spread is worth
+computing: the comparisons have to have been made. Every arena runs a schedule,
+because the full round-robin is unaffordable, and a schedule decides how many
+times each candidate was compared and against whom — quantities that a bracket
+makes a function of arrival order rather than of quality. An order fitted to a
+sparse or disconnected comparison graph is a report on the draw
+([pairing-schedule](./techniques/pairing-schedule.md)).
 
 ## The judge is inside the system under measurement
 
@@ -396,6 +406,10 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
 - [comparison-modes](./techniques/comparison-modes.md) — absolute vs pairwise
   vs matrix, win-rates and their pathologies, declared winners and declared
   aggregation.
+- [pairing-schedule](./techniques/pairing-schedule.md) — which comparisons an
+  arena actually ran: why a bracket finds a winner but cannot rank a field,
+  balancing exposure across sessions, and the connectivity check before a
+  total order.
 - [eval-economics](./techniques/eval-economics.md) — mock modes, cache
   lifetimes, fan-out caps, tiered cadence, the budget as a design input.
 - [discriminating-task-selection](./techniques/discriminating-task-selection.md) —

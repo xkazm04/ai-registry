@@ -6,7 +6,7 @@ technique: scenario-design
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, count-carries-predicate]
 shared_with: []
-use_when: [deciding what belongs in a scenario cache key, improvement shows up but the exam changed underneath, coverage reported without naming which regions, the environment a scenario runs in guarantees the precondition of the behaviour being measured]
+use_when: [deciding what belongs in a scenario cache key, improvement shows up but the exam changed underneath, coverage reported without naming which regions, the environment a scenario runs in guarantees the precondition of the behaviour being measured, deciding how much prompt scaffolding a scenario carries, a ranking changes when the prompt gets better]
 ---
 
 # Scenario design
@@ -214,6 +214,49 @@ never as a bare count — five hundred polite scenarios and zero adversarial
 ones is not "five hundred scenarios of coverage," and any number that
 travels must carry its predicate
 ([_laws: count-carries-predicate_](../../../../_laws.md#count-carries-predicate)).
+
+## How much instruction the scenario carries is a measurement decision
+
+A scenario is an input, the context it arrives in, and the property the answer
+must have. The definition leaves one term unpinned, and it is the term with the
+largest effect on the result: **how much steering the input carries.** The same
+question can be asked bare — a sentence, no role, no format, no exemplars — or
+wrapped in the full production prompt with its instructions, style guide and
+few-shot examples. Both are legitimate scenarios. They measure different things,
+and the suite has to say which.
+
+- **Bare inputs measure default behaviour** — what a candidate does when nobody
+  steers it. That is the right instrument when the claim is about the candidate
+  itself: which model to default to, what a user meets on first contact, what a
+  thin or generic prompt will inherit in production.
+- **Scaffolded inputs measure the ceiling the system can reach** with the harness
+  it actually has. That is the right instrument when the claim is about the
+  product: what ships, on the prompt that ships.
+
+The failure is not choosing wrong; it is not declaring, and then comparing across
+the line. **Prompt sensitivity is unevenly distributed across candidates**, so the
+two settings do not produce the same order: a candidate that responds strongly to
+steering gains more from scaffolding than one whose unsteered output already sits
+near the target, and a ranking taken under heavy scaffolding is partly a ranking
+of how well each candidate follows *this* prompt. Reporting that as a property of
+the candidates transfers a conclusion to every reader whose prompt is different.
+
+Two consequences for the fixture:
+
+- **The scaffolding is part of the scenario's content version.** Improving a
+  scenario's prompt is an instrument change exactly like editing its input, and
+  the version advances; a suite whose prompts drift while its ids hold produces a
+  series that charts the prompt
+  ([_laws: identity-survives-reuse_](../../../../_laws.md#identity-survives-reuse)).
+  Where candidates are permitted their own prompts, that is a different mode
+  again — each arm is a candidate-plus-prompt pair, and the pairing is the unit
+  being ranked.
+- **Elaborating until everything passes is instrument tuning.** The temptation on
+  a scenario that every candidate fails is to add instruction until they stop.
+  Past a point the prompt is supplying the answer, and the scenario has stopped
+  discriminating — the same defect as a saturated task, arrived at deliberately.
+  When a scenario needs that much scaffolding to pass, the finding is the
+  scaffolding, and it belongs in the result rather than in the fixture.
 
 ## A seeded environment moves the number one stage down the pipeline
 

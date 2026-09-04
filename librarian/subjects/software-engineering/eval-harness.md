@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-08-31
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -11,6 +11,60 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-09-04 - `/intake`, from an external source
+
+One technique and one amendment, both found by the enumeration hunt. Source:
+[[2026-09-04-authority-hacker-writing-models]] — a podcast demoing a blind
+preference arena its hosts built. Fetch budget 0 of 3; corroboration was
+training-data convergence plus code read in two fleet trees.
+
+**`pairing-schedule` (new).** `comparison-modes` says "Its pathologies are
+specific and standard:" and lists five — position bias, ties, compressed
+magnitude, intransitivity, no gate and no trend. Every one is a property of a
+*comparison*. The missing sixth is a property of the **set**: which pairs ran,
+and how many times each candidate appeared. A full round-robin is unaffordable,
+so every arena runs a schedule, and the schedule decides the ranking. An
+elimination bracket makes each candidate's comparison count a function of arrival
+order rather than of quality, so sorting the field by wins sorts it largely by
+survival time; a bracket therefore reports its winner and its path, never a
+leaderboard. Exposure is balanced across sessions because a sequential bracket
+cannot be balanced within one, and connectivity is checked before a total order
+is rendered — a disconnected graph yields components, not a ranking.
+
+**A second branch, written from a fleet tree rather than from the source.** The
+technique's connectivity remedy assumes the ranking can be withheld. A managed
+observability product publishes a pooled leaderboard whose contributors each
+measure on their own private cases — disconnected by construction and
+permanently, because the privacy floors that make buckets publishable are exactly
+what stop cases from travelling. There, withholding means shipping nothing. Its
+answer is to keep the order and move the incomparability into the interval, via a
+between-source variance term; its own module records the defect that replaced,
+which is the inverse of what a reader assumes — naive pooling made five
+contributors who *disagreed* produce a narrower interval than five who agreed.
+That branch is now in the technique, discriminated by whether the ranking is an
+internal selection or the deliverable itself. See
+[[../../applied]] — the row is a `not-better` that improved the corpus.
+
+**`scenario-design` amended: elaboration is a measurement decision.** The
+technique defines a scenario as an input, its context, and the property the
+answer must have, and leaves unpinned the term with the largest effect: how much
+steering the input carries. Bare inputs measure default behaviour; scaffolded
+inputs measure the ceiling the system reaches on the prompt that ships. Both are
+legitimate and the failure is comparing across the line, because prompt
+sensitivity is unevenly distributed across candidates — a heavily scaffolded
+ranking is partly a ranking of how well each candidate follows *that* prompt.
+Consequences: the scaffolding advances the scenario's content version like any
+other edit, and elaborating a scenario until every candidate passes is instrument
+tuning, not fixture work.
+
+Two catches worth recording so nobody re-proposes them: task-segmented ranking
+and the cost-against-quality plot are already this subject's **matrix** mode,
+named in those words, including the collapsed-margin lie that is precisely the
+source's headline; order randomization is already the position-bias rule, which
+goes further by requiring mirrored scoring and recording a flipped verdict as a
+tie.
+
 
 ### 2026-08-22 - `/research`, from an external source
 

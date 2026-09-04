@@ -7,7 +7,7 @@ status: forged
 laws:
   - one-authority-per-vocabulary
 shared_with: []
-use_when: [designing a closed vocabulary of call classes, a new class shows up unlabeled on one chart, effort half of a routed pair going missing]
+use_when: [designing a closed vocabulary of call classes, a new class shows up unlabeled on one chart, effort half of a routed pair going missing, one class both plans a deliverable and writes it]
 ---
 
 # Turn classification
@@ -30,6 +30,30 @@ roster. The recurring axes:
   can be quietly wrong; a label whose individual errors wash out at volume.
 - **Expected output shape.** Long-form open-ended; a sentence; a token or two
   under a hard cap.
+- **Which part of the deliverable the call produces.** Whether the call is
+  *deciding* what the artifact should be — the plan, the structure, the
+  audience read, the brief another call will execute — or *rendering* the
+  surface a person will actually receive.
+
+The first three axes describe how the call is *consumed*. The fourth describes
+what it *produces*, and it is the one that gets left out, because a single
+capable model doing both stages hides the seam: one call takes a request and
+returns a finished artifact, so there is nothing to classify. The seam appears
+the moment the plan is written down. A judgment call that emits a brief and a
+rendering call that consumes it are two classes, and they want opposite ends of
+the roster — the judgment call rewards capability and is short, cheap and rare;
+the rendering call is long, frequent, and rewards whatever produces the register
+the audience wants, which measurement does not reliably place at the top tier
+(see [effort-calibration](./effort-calibration.md)). Collapsing them routes the
+expensive stage on the cheap stage's requirements or the reverse, and the table
+cannot express the difference because the vocabulary never named it.
+
+Two cautions before splitting on this axis. It is only real when the intermediate
+artifact is **explicit** — a brief that exists as text and could be handed to a
+different executor; a split asserted over one model's internal phases is a class
+with no call site. And it is a *product* distinction, not a prompt-engineering
+one: if the same call site sometimes plans and sometimes renders, that is one
+class behaving inconsistently, not two classes.
 
 Three to five classes cover almost every system: the *interactive main turn*, the
 *background aside*, the *headless micro-call*, sometimes a *batch analysis* class

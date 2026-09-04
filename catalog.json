@@ -676,11 +676,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "localization",
-      "subjects": 14,
-      "techniques": 85,
+      "subjects": 15,
+      "techniques": 91,
       "applications": 45,
-      "files": 148,
-      "contentHash": "sha256:cf1fad6b2b713e06"
+      "files": 155,
+      "contentHash": "sha256:734df28e974a4d19"
     },
     {
       "name": "media-generation",
@@ -716,10 +716,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 214,
-      "techniques": 1566,
-      "applications": 898,
-      "files": 2683,
-      "contentHash": "sha256:72fd8d6e874d5485"
+      "techniques": 1569,
+      "applications": 904,
+      "files": 2692,
+      "contentHash": "sha256:1ba94a232d476ae3"
     }
   ]
 }

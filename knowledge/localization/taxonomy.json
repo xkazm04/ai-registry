@@ -50,7 +50,8 @@
       "title": "Localization craft",
       "order": 5,
       "subjects": [
-        "translation-pipeline-topology"
+        "translation-pipeline-topology",
+        "translation-quality-measurement"
       ]
     }
   ]

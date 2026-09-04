@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 214,
-  "techniques": 1566,
-  "applications": 898,
+  "techniques": 1569,
+  "applications": 904,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1566/1566",
+  "use_when_coverage": "1569/1569",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1146,7 +1146,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256:0f027c30f5c4b115",
+   "digest": "sha256:cb112b55c7287e15",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1190,7 +1190,9 @@
      "use_when": [
       "encoding what a given agent CLI supports",
       "an adapter hardcodes flags a version bump may break",
-      "deciding whether a feature can rely on schema-constrained output"
+      "deciding whether a feature can rely on schema-constrained output",
+      "a capability works on one machine and not another at the same version",
+      "a feature is gated by a remotely-fetched flag payload"
      ]
     },
     {
@@ -1262,6 +1264,13 @@
     },
     {
      "stack": "claude-code",
+     "technique": "dated-capability-matrix",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--dated-capability-matrix.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "claude-code@2.1.260"
+    },
+    {
+     "stack": "claude-code",
      "technique": "output-normalization",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/claude-code--output-normalization.md",
      "verified_on": "2026-08-30",
@@ -1301,7 +1310,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:d5ff96bdf770fbc9",
+   "digest": "sha256:f5773d573720748e",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1362,7 +1371,9 @@
       "a style or formatting rule keeps being violated despite being in the instruction file",
       "deciding whether a new rule should be prose or a hook",
       "an instruction file reads like a linting config",
-      "the file claims a rule is enforced and the claim has not been verified"
+      "the file claims a rule is enforced and the claim has not been verified",
+      "a hook reaches its verdict by asking a model",
+      "choosing between prose and a verifier hook for a rule that needs judgment"
      ]
     },
     {
@@ -1964,7 +1975,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:b666fe13038d50c1",
+   "digest": "sha256:8397de708cfde96b",
    "techniques": [
     {
      "slug": "additive-input-at-the-call-boundary",
@@ -2177,6 +2188,23 @@
       "a roster gate reads a process environment variable",
       "one backend serves clients that connect in several different ways",
       "deciding where a per-session availability check belongs"
+     ]
+    },
+    {
+     "slug": "substituted-result-attribution",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "record-precedes-effect",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a wrapping frame returns a cached result instead of running the tool",
+      "an extension answers a built-in tool's call from a different provider",
+      "deciding what the transcript should say about a call that did not execute",
+      "a policy gate approved a destination the call never reached",
+      "an agent reasons about freshness from the fact that it just called a tool"
      ]
     }
    ],
@@ -8556,7 +8584,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
-   "digest": "sha256:09aae50d540fc8eb",
+   "digest": "sha256:aed68b8c6d6ae2a0",
    "techniques": [
     {
      "slug": "atomic-claiming",
@@ -8572,6 +8600,24 @@
       "two workers claimed the same event",
       "a finished event still reads as pending",
       "deciding what evidence a claim must carry"
+     ]
+    },
+    {
+     "slug": "co-transactional-consume",
+     "status": "forged",
+     "laws": [
+      "record-precedes-effect",
+      "creation-names-reaper"
+     ],
+     "shared_with": [
+      "job-coordination"
+     ],
+     "use_when": [
+      "deciding whether a queue needs a lease and a reaper at all",
+      "every effect of a handler lands in the store that holds the queue",
+      "auditing a claimed exactly-once guarantee",
+      "adding the first external effect to a handler that had none",
+      "a worker was given an idempotency key it may not need"
      ]
     },
     {
@@ -8680,6 +8726,13 @@
      "technique": "atomic-claiming",
      "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/applications/rust--atomic-claiming.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "co-transactional-consume",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/applications/rust--co-transactional-consume.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -11496,7 +11549,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:5d1448373cf114b0",
+   "digest": "sha256:7e85360e870b4468",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -11690,6 +11743,22 @@
      ]
     },
     {
+     "slug": "pairing-schedule",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a pairwise arena reports a leaderboard rather than a winner",
+      "candidates entered the comparison at different times",
+      "a bracket eliminates a candidate after one comparison",
+      "ranking candidates that were never compared with each other",
+      "deciding how many comparisons an arena owes each candidate"
+     ]
+    },
+    {
      "slug": "reliability-aggregation",
      "status": "forged",
      "laws": [
@@ -11731,7 +11800,9 @@
       "deciding what belongs in a scenario cache key",
       "improvement shows up but the exam changed underneath",
       "coverage reported without naming which regions",
-      "the environment a scenario runs in guarantees the precondition of the behaviour being measured"
+      "the environment a scenario runs in guarantees the precondition of the behaviour being measured",
+      "deciding how much prompt scaffolding a scenario carries",
+      "a ranking changes when the prompt gets better"
      ]
     },
     {
@@ -11796,6 +11867,12 @@
     },
     {
      "stack": "process",
+     "technique": "scenario-design",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/process--scenario-design.md",
+     "verified_on": "2026-09-04"
+    },
+    {
+     "stack": "process",
      "technique": "selection-over-noise",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/process--selection-over-noise.md",
      "verified_on": "2026-09-03"
@@ -11827,6 +11904,13 @@
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--failure-attribution.md",
      "verified_on": "2026-08-31",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "pairing-schedule",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/rust--pairing-schedule.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -17221,7 +17305,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:1d895ec6a60dd22e",
+   "digest": "sha256:9bea1cabc0576eb9",
    "techniques": [
     {
      "slug": "cache-continuity",
@@ -17292,7 +17376,8 @@
       "output capped but effort set high",
       "all tiers fail the same requirement",
       "a point release replaced the model an entry was calibrated against",
-      "the bill moved but the rate table did not"
+      "the bill moved but the rate table did not",
+      "every tier scores the same on a prose or register task"
      ]
     },
     {
@@ -17391,7 +17476,8 @@
      "use_when": [
       "designing a closed vocabulary of call classes",
       "a new class shows up unlabeled on one chart",
-      "effort half of a routed pair going missing"
+      "effort half of a routed pair going missing",
+      "one class both plans a deliverable and writes it"
      ]
     }
    ],
@@ -17401,6 +17487,13 @@
      "technique": "quality-axis-separation",
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/next--quality-axis-separation.md",
      "verified_on": "2026-08-31"
+    },
+    {
+     "stack": "next",
+     "technique": "turn-classification",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/next--turn-classification.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "next@16.3"
     },
     {
      "stack": "node",
@@ -17435,6 +17528,13 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/rust--cache-continuity.md",
      "verified_on": "2026-08-25",
      "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "effort-calibration",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/rust--effort-calibration.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -27005,7 +27105,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256:12968de21f97cdcb",
+   "digest": "sha256:d7a9020e4119d816",
    "techniques": [
     {
      "slug": "cancellation-needs-a-terminable-unit",
@@ -31136,6 +31236,7 @@
     "agent-runtime-assembly/rewrite-before-the-gate",
     "agent-runtime-assembly/semantic-hook-placement",
     "agent-runtime-assembly/session-scoped-capability",
+    "agent-runtime-assembly/substituted-result-attribution",
     "alerting/evaluation-loop",
     "alerting/rule-authoring-validation",
     "app-shell/entitlement-gating",
@@ -32349,6 +32450,7 @@
     "eval-harness/metric-role-contract",
     "eval-harness/monitor-inside-the-loop",
     "eval-harness/overshoot-and-restore",
+    "eval-harness/pairing-schedule",
     "eval-harness/reliability-aggregation",
     "eval-harness/resolution-precondition",
     "eval-harness/scenario-design",
@@ -32630,6 +32732,7 @@
     "agent-runtime-assembly/host-routes-win",
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/session-scoped-capability",
+    "agent-runtime-assembly/substituted-result-attribution",
     "audit-logging/two-clock-records",
     "authorization/delegated-authority",
     "authorization/read-write-predicate-symmetry",
@@ -33112,6 +33215,7 @@
     "error-handling/parse-failure-keeps-identity",
     "eval-harness/comparison-modes",
     "eval-harness/discriminating-task-selection",
+    "eval-harness/pairing-schedule",
     "eval-harness/scenario-design",
     "execution-state-checkpointing/resume-mints-a-duplicate",
     "executive-reporting/expiring-share-links",
@@ -33357,6 +33461,7 @@
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
     "declared-process-graph/additive-live-mutation",
     "delivery-guarantees/atomic-claiming",
+    "delivery-guarantees/co-transactional-consume",
     "delivery-guarantees/dead-letter-design",
     "delivery-guarantees/stuck-reaping",
     "dependency-declaration/declaration-invariants",
@@ -34488,9 +34593,11 @@
    "statement": "The record of an action is written before the action, and the action is refused when the record cannot be written. A marker before a privileged bootstrap, a parent index before the record it indexes, a write-ahead entry before a remote mutation, an audit line before the response leaves, a lease persisted before the credential is minted in the remote system — in every case the naive order (act, then record) leaves a window in which the effect exists and nothing accounts for it, and that window is where authority escapes its revocation chain, where a half-created tenant survives a crash, and where a secret was served with no line to prove it. The rule has a second half that is the load-bearing one: when the record cannot land — the store is read-only, the sink set is empty, the ledger is unreachable — the effect does not happen. A system that acts anyway and logs the failure has chosen availability over accountability without saying so. Sibling of creation-names-reaper: that law says a created thing names what will clean it up; this one says the clean-up handle is written first.",
    "techniques": [
     "agent-runtime-assembly/additive-input-at-the-call-boundary",
+    "agent-runtime-assembly/substituted-result-attribution",
     "cross-instance-cache-lease/renew-from-arrival-not-from-work",
     "decentralized-artifact-distribution/publisher-declared-verification-floor",
     "declarative-resource-lifecycle/deletion-blocked-until-dependents-confirm",
+    "delivery-guarantees/co-transactional-consume",
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "job-coordination/no-unrestorable-state-at-a-suspension-point",

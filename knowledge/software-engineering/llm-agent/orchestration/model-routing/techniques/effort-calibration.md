@@ -8,7 +8,7 @@ laws:
   - count-carries-predicate
   - gate-sees-target
 shared_with: []
-use_when: [raising effort because bigger feels safer, output capped but effort set high, all tiers fail the same requirement, a point release replaced the model an entry was calibrated against, the bill moved but the rate table did not]
+use_when: [raising effort because bigger feels safer, output capped but effort set high, all tiers fail the same requirement, a point release replaced the model an entry was calibrated against, the bill moved but the rate table did not, every tier scores the same on a prose or register task]
 ---
 
 # Effort calibration
@@ -139,6 +139,52 @@ effort parameter defaults to its top setting, an adopter who never sets it inher
 the most expensive configuration of a model that was already described as spending
 more — two compounding steps, neither of them a decision anybody made.
 
+## A tie is a property of the instrument before it is a property of the tiers
+
+"When quality signals tie, cost decides" is the cheapest rule in this technique
+and the one most often reached for, because ties are what a routing calibration
+usually finds. It carries a precondition it does not state: **that the instrument
+which reported the tie was capable of separating these candidates on this axis.**
+
+The second inversion already says judges tend to rank their own family first.
+Family preference is the well-known half; the consequential half is what the
+disagreement does to the *aggregate*. Judges pulling in different directions on a
+stylistic axis do not produce a spread — they cancel, and cancellation is
+reported as parity. So the instrument most likely to be used on prose and
+register work is the one most likely to manufacture the tie that hands the
+decision to cost, and the routing record then reads "quality signal did not
+separate" when what happened is that nobody asked an instrument that could.
+
+A forced-choice comparison between two unlabelled outputs, judged by the people
+the copy is for, separates candidates that a panel of model judges reports as
+tied. It is a different instrument, not a better one — it is expensive, it does
+not scale, it produces a preference rather than a score, and it carries every
+hazard a pairwise arena carries — position bias, and a pairing schedule that
+decides the ranking if it is left to chance. What it does not do is share a
+family with anything it is judging.
+
+**Where that instrument is run, the result is not reliably a tie, and it is not
+reliably ordered by tier.** A cheaper model can win the register axis outright
+against the tier above it — not "acceptably close for the price", but preferred,
+by the audience, on the deliverable. The three inversions cover a dial that
+stops helping and a tier that stops paying; this is the case where the ordering
+the roster implies is simply the wrong way round for one class of work, and the
+smarter model is the wrong choice at any price.
+
+Two things follow for the record, and the second is the one that decays if it is
+skipped:
+
+- **A tie is recorded with the instrument that found it**, not as a bare
+  tie — "did not separate under cross-judge scoring" is a different fact from
+  "did not separate under blind human preference", and only the second one has
+  asked the question the class cares about.
+- **When the cheaper tier wins, the entry's reason is quality, not cost.** They
+  select the same model today, which is exactly why the distinction gets
+  dropped. An entry justified on cost is re-opened by every budget review and
+  loses the moment somebody argues that quality is worth paying for; an entry
+  justified on measured preference survives that argument, because the premise
+  it would be attacked on is false.
+
 ## Decision rules
 
 - **Calibrate per class, not globally.** The inversions are task-shape
@@ -148,9 +194,15 @@ more — two compounding steps, neither of them a decision anybody made.
   of the effort range are the ends that measurement keeps embarrassing.
 - **Never raise effort where output is capped.** Structural rule, enforceable
   at the routing layer: cap below a threshold → effort pinned to minimum.
-- **When quality signals tie, cost decides — and the record says so.** "Chosen
-  on cost, quality signal did not separate" is a legitimate, auditable reason;
-  an unrecorded tie-break is indistinguishable from vibes.
+- **When quality signals tie, cost decides — and the record says so, naming the
+  instrument.** "Chosen on cost, quality signal did not separate" is a
+  legitimate, auditable reason; an unrecorded tie-break is indistinguishable
+  from vibes, and a tie found by judges of the same family as a candidate is not
+  yet evidence of parity.
+- **Where the cheaper tier wins on measurement, file the entry under quality.**
+  Cost and quality selecting the same model is the case where the reason gets
+  written down carelessly, and the careless version is the one that loses the
+  next budget argument.
 - **Treat a version successor as a re-measure trigger, and record tokens per task
   beside quality.** Same tier, same price and same dial do not make it the same
   model, and the term that moves is usually the reasoning that never appears in
