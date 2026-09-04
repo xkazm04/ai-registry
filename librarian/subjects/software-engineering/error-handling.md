@@ -1,7 +1,7 @@
 ---
 subject: error-handling
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -265,3 +265,26 @@ loops on its own policy. Confirmed structurally against the fleet desktop app, w
 discriminator is already a marker file beside the store; no restart policy exists there
 yet, so the row is a simulation with the seam named for when one does.
 `rust--crash-capture` application.
+
+## 2026-09-04 - `/intake`, cargo-make read for language craft
+
+One technique, from [[../../sources/2026-09-04-cargo-make-rust-craft]].
+
+- **`exit-contract-is-a-taxonomy-projection`** (new). The last hop outward for
+  any component whose caller is a shell, a supervisor or a CI step: the exit
+  status is a second closed vocabulary over the same failures
+  `taxonomy-design` governs, and it is the only consumer that cannot read a
+  structured field. The rule is that the code is declared **with** the failure
+  kind, so the external contract is a projection rather than a translation - a
+  table beside the exit drifts because adding a kind and giving it a code are
+  two edits and only the first is required to compile.
+- Folded in rather than landed separately: the coverage boundary. The projection
+  binds only what the type covers, so one peripheral module returning a boxed
+  dynamic error leaves it silently, and the audit is a grep counting fallible
+  exit paths that do not return the taxonomy's type.
+- The source demonstrates both halves at one commit - a well-built projection
+  with a correct narrowing rule at the byte boundary, and one subcommand outside
+  it. **Applied to this registry's own scripts lane and shipped**, where exit
+  code 3 was carrying three incompatible meanings with no declaration anywhere;
+  codes 0/1/2 had held across ~30 scripts and broke at the first code a later
+  script added.

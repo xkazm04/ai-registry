@@ -12,6 +12,28 @@ Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
 
+### 2026-09-04 - `/intake`, cargo-make read for language craft
+
+One technique, from [[../../sources/2026-09-04-cargo-make-rust-craft]]. Second lens on a repository the architecture run
+mined the same morning; the two runs overlap in zero candidates.
+
+- **`state-carrier-decides-the-lane`** (new). Sits in front of
+  `concurrency-at-the-edge` rather than beside it: that technique asks where a
+  flow-control model should live and assumes the question is open, and this one
+  says the container holding shared state usually answered it first. The source
+  threads a single-flow reference cell through its runner, the cell cannot cross
+  a thread boundary, and the parallel lane therefore deep-copies and discards -
+  with a one-line comment at the spawn site as the only record anywhere. The
+  sharp half is that **the copy is written once over one struct and its
+  correctness is per-field**: per-branch state, an accumulator and a latched
+  decision all get identical treatment from one clone.
+- Amended in the same run by its own apply row. A `not-better` verdict against a
+  worker boundary in a fleet project showed the technique was over-triggering: it
+  applies to an existing shared carrier copied in order to cross, **not** to a
+  payload built for the crossing. Added as a precondition section. The seam that
+  produced the technique concealed this, because there the carrier pre-existed
+  the lane.
+
 ### 2026-08-28 - `/intake`, from a practitioner listicle on design canon
 
 Three amendments, no new technique, from

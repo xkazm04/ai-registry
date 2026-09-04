@@ -17,6 +17,7 @@ techniques:
   - declarative-or-sequential
   - marked-unverifiable-region
   - mirror-type-at-the-edge
+  - state-carrier-decides-the-lane
 ---
 
 # Module design

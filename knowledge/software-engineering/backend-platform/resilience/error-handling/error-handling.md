@@ -14,6 +14,7 @@ techniques:
   - crash-capture
   - cancellation-attribution
   - consumer-decides-error-shape
+  - exit-contract-is-a-taxonomy-projection
 ---
 
 # Error taxonomy & handling
