@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 191,
-  "techniques": 1388,
-  "applications": 795,
+  "techniques": 1391,
+  "applications": 798,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1388/1388",
+  "use_when_coverage": "1391/1391",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1096,7 +1096,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:0086395c0a25097e",
+   "digest": "sha256:279abf471ace6ad7",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1264,7 +1264,9 @@
       "per-tool instruction files have drifted apart",
       "structuring instruction files in a monorepo",
       "the always-loaded floor has outgrown its budget and needs scoped overflow",
-      "instruction content is copied out into templates or a published package"
+      "instruction content is copied out into templates or a published package",
+      "two harnesses want the same rule in different file formats",
+      "a generated instruction directory also holds hand-written local files"
      ]
     },
     {
@@ -14284,7 +14286,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:d6ae5a1eee7124b1",
+   "digest": "sha256:be318e967a3004df",
    "techniques": [
     {
      "slug": "authentication-and-scoping",
@@ -14421,7 +14423,9 @@
       "deciding whether a constraint lives in the schema",
       "failed calls reading as successes downstream",
       "an argument the handler never reads",
-      "requiredness that depends on the operation"
+      "requiredness that depends on the operation",
+      "a schema crossing an endpoint that accepts a narrower subset than the one authored",
+      "a rejection the model cannot diagnose from the schema it was given"
      ]
     },
     {
@@ -14494,6 +14498,13 @@
      "verified_against": "dotnet@10.0.400"
     },
     {
+     "stack": "dotnet",
+     "technique": "tool-schema-design",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--tool-schema-design.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "dotnet@10.0.202"
+    },
+    {
      "stack": "node",
      "technique": "transport-selection",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--transport-selection.md",
@@ -14516,6 +14527,13 @@
      "technique": "server-composition",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--server-composition.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "tool-schema-design",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--tool-schema-design.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -14933,7 +14951,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metric-surface-contract/metric-surface-contract.md",
-   "digest": "sha256:e840ba06e4b1d747",
+   "digest": "sha256:c99c042111aeef9f",
    "techniques": [
     {
      "slug": "derive-outside-the-hot-loop",
@@ -14961,6 +14979,23 @@
       "publishing a hit rate or a success rate",
       "choosing between a counter and a gauge",
       "a consumer without a time-series store needs the same quantity"
+     ]
+    },
+    {
+     "slug": "fault-localizing-metric-set",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "instrumenting a multi-stage pipeline",
+      "a metric proposal cannot name the decision it changes",
+      "an incident resolved to \"somewhere in the pipeline\"",
+      "deciding whether a stage that emits work needs its own counter",
+      "a dashboard shows a healthy consumer and an unhappy customer"
      ]
     },
     {
@@ -17844,7 +17879,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/pipeline-authoring.md",
-   "digest": "sha256:013f395f996b2f29",
+   "digest": "sha256:32582731720cffc5",
    "techniques": [
     {
      "slug": "change-scoped-work-selection",
@@ -17860,6 +17895,24 @@
       "a check has not run in months and nobody noticed"
      ],
      "stage": "multi-service"
+    },
+    {
+     "slug": "foreign-config-replay",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success",
+      "identity-survives-reuse",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a plan generator reads a config file that another tool interprets",
+      "deciding which checks to fan out from a linter or test-runner configuration",
+      "a check ran locally and was never scheduled in the pipeline",
+      "planning around a tool that has no \"what would you do\" mode",
+      "mirroring another tool's defaults into your own selection code"
+     ]
     },
     {
      "slug": "human-checkpoints-in-a-pipeline",
@@ -17923,6 +17976,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "foreign-config-replay",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/applications/node--foreign-config-replay.md",
+     "verified_on": "2026-09-04",
+     "verified_against": "node@22"
+    },
     {
      "stack": "node",
      "technique": "pipeline-plan-auditability",
@@ -26318,7 +26378,7 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/untrusted-extension-host.md",
-   "digest": "sha256:91381f69a9c9e37e",
+   "digest": "sha256:d59fc1b3653d4014",
    "techniques": [
     {
      "slug": "canonicalizable-privilege-declaration",
@@ -26379,6 +26439,23 @@
       "an installed extension ships an update with a changed privilege declaration",
       "deciding whether a grant change needs a human to re-consent",
       "an escalation check exists in the codebase but the update path does not call it"
+     ]
+    },
+    {
+     "slug": "host-api-import-budget",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an isolated extension runs under a wall-clock execution limit",
+      "extensions time out under load but not in isolation",
+      "setting the timeout for sandboxed foreign code",
+      "the host publishes a client library that extensions are expected to import",
+      "an extension API has grown heavy initialization"
      ]
     },
     {
@@ -28315,6 +28392,7 @@
     "perf-instrumentation/continuous-monitors",
     "perf-instrumentation/startup-phasing",
     "pipeline-authoring/change-scoped-work-selection",
+    "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/runtime-pipeline-generation",
     "pipeline-dag/conditional-edges",
     "pipeline-dag/deterministic-vs-model-nodes",
@@ -28805,6 +28883,7 @@
     "metric-forecasting/trend-fitting-and-anchoring",
     "metric-surface-contract/derive-outside-the-hot-loop",
     "metric-surface-contract/export-terms-not-ratios",
+    "metric-surface-contract/fault-localizing-metric-set",
     "metric-surface-contract/sampled-metrics-declare-their-rate",
     "metrics-rollups/aggregate-honesty",
     "metrics-rollups/bucketing-strategy",
@@ -28969,6 +29048,7 @@
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "triage-queues/bulk-triage",
     "ui-controls/adoption-enforcement",
+    "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/safe-mode-registration",
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/batching-and-quota",
@@ -29060,6 +29140,7 @@
     "markdown-vault/replicated-substrate",
     "mcp-tools/egress-argument-gating",
     "measurement-honesty/instrument-exposure-control",
+    "metric-surface-contract/fault-localizing-metric-set",
     "metric-surface-contract/metric-removal-is-a-staged-pipeline",
     "metric-surface-contract/same-process-monotonic-intervals",
     "metric-surface-contract/sampled-metrics-declare-their-rate",
@@ -29283,6 +29364,7 @@
     "paged-block-cache/chained-block-identity",
     "paged-block-cache/salt-as-a-cache-partition",
     "persistent-batch-mutation/typed-ordered-mutation-protocol",
+    "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/human-checkpoints-in-a-pipeline",
     "pipeline-authoring/runtime-pipeline-generation",
     "pipeline-authoring/step-identity-stability",
@@ -30078,6 +30160,7 @@
     "persistent-batch-mutation/compaction-in-the-protocols-own-operations",
     "persistent-batch-mutation/declared-skippability-at-batch-granularity",
     "persistent-batch-mutation/typed-ordered-mutation-protocol",
+    "pipeline-authoring/foreign-config-replay",
     "pipeline-dag/node-execution-model",
     "plan-entitlements/deployment-mode-short-circuit",
     "plan-entitlements/id-vs-label-split",
@@ -30167,6 +30250,7 @@
     "triage-queues/source-normalization",
     "ui-controls/variant-discipline",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
+    "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/isolation-tier-independent-extension-api",
     "usage-analytics/coverage-from-registries",
     "usage-analytics/event-taxonomy",
@@ -30543,6 +30627,7 @@
     "mcp-tools/client-integration",
     "mcp-tools/tool-identity-vs-tool-name",
     "mcp-tools/transport-selection",
+    "metric-surface-contract/fault-localizing-metric-set",
     "model-routing/failover-path-liveness",
     "module-design/borrowed-surface",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
@@ -30553,6 +30638,7 @@
     "optional-dependency-degradation/capability-honest-refusal",
     "optional-dependency-degradation/refusal-is-not-failure",
     "paged-block-cache/salt-as-a-cache-partition",
+    "pipeline-authoring/foreign-config-replay",
     "plan-review/informational-fold-in",
     "priced-authority/approver-not-requester",
     "public-claim-provenance/provenance-as-a-build-gate",
@@ -30655,6 +30741,7 @@
     "scale-investment-timing/execution-model-concurrency-threshold",
     "self-healing/consume-once-mode-handoff",
     "serving-process-topology/process-count-as-a-formula",
+    "untrusted-extension-host/host-api-import-budget",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate"
    ]
   }

@@ -1,7 +1,7 @@
 ---
 subject: untrusted-extension-host
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -75,3 +75,30 @@ the source's drift (its published allowlist omits two libraries the runtime open
 globals test; safe mode untested) and one `rust--` application confirms the amendment
 against a fleet runtime whose observers are non-fatal by signature. Placement: `security`
 is at its ten-subject cap; anything further here is a technique, never a sibling subject.
+## 2026-09-04 - /intake `opik` (run `opik-0904`)
+
+New technique `host-api-import-budget`. The subject models the timeout as
+bounding the host's **wait** and the tier boundary as determining the API; what
+nothing modelled is that **reaching** that API is charged to the extension's
+clock. A host requires the extension to import the host's own interface - a base
+class to subclass, a result type to return - and if the published client pulls in
+a settings layer, a transport client and a large class registry, that import can
+consume a quarter of a single-digit-second limit before the extension's first
+line runs. The symptom arrives as *the extension timed out*, pointing every
+diagnosis at the author.
+
+The landed rules: measure import and execution separately, cold, under the pool's
+real contention; state the limit as a total with the host's share named rather
+than as an extension budget it is not; substitute a dependency-free
+implementation of the documented hot subset **under the real import path**; and
+cover both resolution routes with one idempotent loader, because a stub in the
+module table misses dotted submodule imports - which are precisely the imports
+that motivate the fallback. The technique's own escape clause prefers the
+upstream fix: a host whose extension-facing surface has no heavy dependencies
+never needs the second implementation.
+
+Applied `experiment`/`not-better` against a fleet observability client, which is
+the escape clause firing: zero runtime dependencies at the entry point, so the
+substitution is correctly declined and the tree confirms the preference. No fleet
+project hosts foreign code under an execution limit, so the technique reached its
+seam from the library side rather than the host side.

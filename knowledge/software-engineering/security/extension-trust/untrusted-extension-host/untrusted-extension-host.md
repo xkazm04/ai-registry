@@ -14,6 +14,7 @@ techniques:
   - per-callback-failure-policy
   - capability-subtraction-sandbox
   - safe-mode-registration
+  - host-api-import-budget
 ---
 
 # Untrusted extension hosting
@@ -237,6 +238,22 @@ operation returns a structured rejection with a bounded reason, because "this
 code threw" and "this extension deliberately declined this save" are different
 verdicts that must arrive at the caller as different values
 ([verdict-survives-boundary](../../../_laws.md#verdict-survives-boundary)).
+
+## The budget the host spends before the extension starts
+
+The tier boundary determines the API and the API determines what an author can
+write — and there is one more step, easy to miss because it looks like the
+author's problem. The host requires the extension to import the host's own
+interface: a base class to subclass, a result type to return. Resolving that
+import is host code, and under a wall-clock execution limit it is charged to
+the extension. A published client that pulls in a settings layer, a transport
+client and a large class registry can consume a substantial fraction of a
+single-digit-second limit before the extension's first line runs, and the
+symptom — *the extension timed out* — points every diagnosis at the author.
+[host-api-import-budget](./techniques/host-api-import-budget.md) owns the
+measurement, the honest statement of the limit as a total with the host's share
+named, and the dependency-free substitution under the documented import path —
+including the second resolution route a naive stub leaves shut.
 
 ## The admin surface is an old pattern under a new force
 
