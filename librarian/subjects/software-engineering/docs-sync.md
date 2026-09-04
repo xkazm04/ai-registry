@@ -261,3 +261,43 @@ cannot happen, and there is no empty success. The file's entire autopsy is about
 that could not see its target; this shape's target is unmissable. The precondition -
 derivability - is why it is not always available, and the rest of the technique stands
 unchanged for everything that is not.
+
+
+### 2026-09-04 - `/intake`, from a credential-borrowing CLI's policy test suite
+
+Three techniques, 12 -> 15, and three source-tree applications plus two fleet
+applications. Source: [[2026-09-04-agent-reach]].
+
+The family fills a **stage one** the subject had assumed away in all twelve
+walls: every one of them discovers the source a document is *about* and judges
+the prose against it, which presupposes that the claim HAS a source area. A
+promise about what a system does NOT do has as its truth-maker the fact that no
+code exists, so nothing can be coupled to it, and wall 5 correctly returns
+`unverifiable` forever.
+
+**The strongest argument came from the subject's own prior work, not from the
+source.** Wall 12 had already found the permanent-`unverifiable` category for
+figures - "unverifiable permanently rather than occasionally" - and the two
+resolutions are opposites: a figure cannot be *read* and is fixed by digesting
+its inputs; a promise has *no inputs*, so the comparison cannot be inverted and
+the mechanism has to change instead of moving. Pairing them is what kept
+`negative-claims-are-pinned` from reading as a restatement of the rot verdict.
+
+`prose-as-an-execution-surface` is the one with reach beyond this subject's
+usual concerns: it moves a document from something that can be false to
+something that RUNS, which changes the severity class and the gate's population
+- text a reader will act on, including what the program prints, not files with
+a documentation extension.
+
+`translations-drift-against-the-product` states a seam with
+`hash-pinned-translation-pipeline` rather than competing with it. That subject
+pins a translation to its SOURCE; this one pins it to the PRODUCT, and the
+failures are independent - staleness relative to a stale source is zero, and a
+page authored directly in a target language has no source unit to pin at all.
+Both required; neither corrects the other.
+
+**Fleet reach, stated as its own state:** 1 of 3 landed techniques had a seam
+worth a code change (personas, shipped), 1 came back `not-better` for the
+technique's own stated disqualifier, and 1 is **unapplied for want of a seam** -
+no project in the fleet ships prose documentation in a second language. The
+corpus is ahead of the fleet on that third one and the return condition says so.

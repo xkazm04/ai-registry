@@ -16,6 +16,9 @@ techniques:
   - earned-verification-state
   - repair-rides-the-open-page
   - rendered-surface-coupling
+  - negative-claims-are-pinned
+  - prose-as-an-execution-surface
+  - translations-drift-against-the-product
 ---
 
 # Docs-as-code synchronization
@@ -90,7 +93,7 @@ absence is declared to mean; this subject decides what asks it a question,
 what that question costs, and how the answer is reported when it could not be
 asked at all.
 
-## The eleven load-bearing walls
+## The fifteen load-bearing walls
 
 ### 1. The coupling is data, not lore
 
@@ -315,6 +318,75 @@ the author to re-render, which states the coupling correctly and observes
 nothing.
 [rendered-surface-coupling](./techniques/rendered-surface-coupling.md).
 
+### 13. Some claims have no source area, and are pinned rather than coupled
+
+Twelve walls discover the source a document is *about* and judge the prose
+against it. All twelve presuppose a stage that is free in the ordinary case and
+impossible in one class: **the claim must have a source area at all.** A
+document that promises the system does *not* do something — never signs the
+user in, never executes the platform's own status call, never injects an
+imported session into the browser — has as its truth-maker the fact that **no
+code exists**. Nothing can be coupled to it, so wall 5 correctly returns
+`unverifiable` and will return it on every scan forever, which is the second
+member of the permanent-unverifiable category wall 12 found for figures — and
+the resolutions are opposites, because a figure has inputs to digest and a
+promise has none. Such claims rot two ways, neither of them a source change:
+somebody builds the thing, and no map entry could have pointed at a capability
+that did not exist; or somebody deletes the sentence in a rewrite or a
+translation, because a negative claim reads as boilerplate to every editor who
+did not pay for it. So the mechanism inverts — assert the **wording**, in the
+test suite, across the named set of documents where a reader is about to act,
+with a forbidden-substring dual for the phrasings the promise rules out. Three
+things decide whether it holds: the document scope is the finding and belongs
+written down, the forbidden set is a floor extended on every escape, and the
+pin verifies only that the promise is still *stated* — a pinned false promise
+is worse than an unpinned one, so its admission ticket is a dated human review
+whose wording it then preserves.
+[negative-claims-are-pinned](./techniques/negative-claims-are-pinned.md).
+
+### 14. A document is also a thing people run
+
+Every wall so far treats prose as a claim that can be true or false. Prose is
+also **instructions**, and an instruction is not evaluated, it is executed — on
+the reader's machine, with the reader's credentials, once, with no later
+paragraph able to undo it. Two populations are cheap to gate and belong to
+security rather than accuracy: guidance that shows a credential as a positional
+argument, which teaches every reader who follows it to spend that secret into
+the process table and the shell history before the tool's own refusal can fire;
+and an install line naming a public index entry the project does not own, where
+the obvious command — written from muscle memory, in any translated landing
+page — delivers a stranger's code under the project's own words. The scoping
+error is the instructive part, and it is the target-versus-proxy law with an
+unusually tempting proxy: the target is *text a reader will act on*, and what
+gets checked is *files with a documentation extension*. The setup line a
+program prints to standard error when an optional dependency is missing is
+documentation by every property that matters, and it reaches the one user who
+never opened a page at all.
+[prose-as-an-execution-surface](./techniques/prose-as-an-execution-surface.md).
+
+### 15. A translated page drifts against the product, not only against its source
+
+Wall 3 lists the translated page among the surfaces a change owes and hands the
+rest to the localization discipline, whose mature answer pins each translated
+unit to the content hash of the source revision it was derived from. That is
+the right question and it has an independent blind spot this subject must
+state, because a corpus can be perfectly clean under it and wrong anyway.
+**Staleness relative to a stale source is zero:** when a capability is retired
+and nobody updates the primary-language page, every hash still matches and
+every locale is reported current, faithfully derived from a document that is
+now false. And a page authored *directly* in a target language — the
+contribution every long-lived project accumulates — has no source unit, so no
+pin, so it sits outside the measured population entirely while the completeness
+board stays green. The corrective is a second detector with a different anchor:
+assert each localized page against **the shipped capability set read from the
+code**, never against its primary-language sibling. It is coarse on purpose and
+buys exactly one thing — no page advertises a capability that does not exist —
+which must be said next to the signal or the green will be read as the larger
+claim. The tell that a project learned this rather than adopted it is that the
+assertion set **differs per page**, and the asymmetry is the only written record
+of which pages were authored independently.
+[translations-drift-against-the-product](./techniques/translations-drift-against-the-product.md).
+
 ## The economics: why per-change wins, and what it costs
 
 Per-change enforcement buys the cheapest possible repair — the author still
@@ -389,3 +461,14 @@ fifteen months, invisibly.
 - [repair-rides-the-open-page](./techniques/repair-rides-the-open-page.md) —
   the third collector; exhaustive detection with opportunistic resolution; the
   walk before the no-op; the cold tail that only the batch lane reaches.
+- [negative-claims-are-pinned](./techniques/negative-claims-are-pinned.md) —
+  the claim whose truth-maker is that no code exists; the permanent
+  unverifiable and why its resolution inverts; wording pinned across a named
+  document set with a forbidden dual; the pin that proves statement, not truth.
+- [prose-as-an-execution-surface](./techniques/prose-as-an-execution-surface.md)
+  — documents as instructions people run; the positional secret and the
+  unowned index name; the population as text a reader acts on, including what
+  the program prints.
+- [translations-drift-against-the-product](./techniques/translations-drift-against-the-product.md)
+  — the second anchor; staleness relative to a stale source; the page nobody
+  derived; per-page assertion scope as the durable record.
