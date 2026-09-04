@@ -96,6 +96,20 @@ budget was a proxy for. A runtime that keeps counting from the start
 gives a steered agent less room than a fresh request would have — and
 the person, having just intervened, gets punished for it.
 
+The reset is justified by *who* typed, and the loop, by the first
+constraint above, does not know who did. The drain is source-blind on
+purpose, so the source has to travel with the item: each drained input
+carries its **principal class** — a person at the surface, a peer agent, a
+scheduler, a tool that emits follow-ups — and only a person's input resets
+the budget. An automated producer on the drain is exactly the unattended
+case the budget exists for, and a loop that resets on every drained item
+has let the producer buy itself unlimited calls one message at a time. The
+same field settles what the drain contract must say about overflow: the
+queue's bound and its shedding policy belong to the layer above, but the
+loop must be told, per drained item, whether anything was shed before it,
+so a steer that arrived and was dropped is reported as dropped rather than
+absorbed into silence.
+
 ## Delivery is "earliest safe point", never "guaranteed"
 
 If the model's final response has no tool calls, there is no next boundary,
@@ -118,7 +132,9 @@ boundary; do not cancel to make room. When wiring the drain, pass it in as
 a callback and keep the loop ignorant of the queue. When an input is
 accepted, record it before the request that references it, and make the
 reference an enforced invariant rather than a convention. When a budget is
-in play, reset it per input. When no boundary remains, complete and promote
+in play, reset it per input *from a person*, never per drained item, and
+make the drain carry the principal class and any shed count so the loop
+can tell. When no boundary remains, complete and promote
 — and say so in the contract rather than implying a guarantee.
 
 ## When not to reach for this

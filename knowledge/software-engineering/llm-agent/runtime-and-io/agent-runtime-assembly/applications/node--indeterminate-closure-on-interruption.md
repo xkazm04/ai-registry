@@ -14,7 +14,11 @@ proof: structural-only
 
 The version witness is `mise.toml`, which pins `nodejs = "22.15.0"` alongside
 `pnpm = "10.26.2"`; the TypeScript harness runs under that pin. Read at commit
-`7801005`.
+`7801005`, and re-read on 2026-09-04 from a fresh clone at the same commit:
+the pin is unchanged, and the materializer (`flushDanglingToolResults` in the
+harness's `index.ts`), the synthesized sentence, and the test that pins the
+flush-before-later-messages behaviour all resolve. The tree still runs the
+major recorded above; the drift reported against it is the fleet's.
 
 This is the negative case the technique names in advance, found in a system that
 is otherwise careful. The harness keeps an append-only conversation event log and

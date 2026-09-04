@@ -115,7 +115,13 @@ which one answered, or it has re-created the ambiguity it was built to remove.
 ## Decision rules
 
 - Treat a frame that returns without entering the continuation as a producer,
-  not as a skipped step, and require it to identify itself.
+  not as a skipped step, and require it to identify itself. The cheapest
+  enforcement is by construction: make the *wrapped* result type obtainable
+  only from the continuation, so a frame can return a refusal or a marked
+  substitution without entering but cannot return a wrapped-shaped value it
+  never obtained — the dispatcher checks whether the continuation was
+  entered and treats an unentered wrapped return as a fabricated verdict,
+  not as a substitution.
 - Distinguish replay from substitution in the record; they have different
   remedies and only one of them is fixed by re-running the call.
 - Stamp freshness with the time the value was obtained, never the time it was

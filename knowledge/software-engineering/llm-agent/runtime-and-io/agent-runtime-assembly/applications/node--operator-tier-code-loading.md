@@ -5,12 +5,22 @@ subject: agent-runtime-assembly
 technique: operator-tier-code-loading
 stack: node
 status: forged
-verified_on: 2026-09-02
-verified_against: node@22
+verified_on: 2026-09-04
 proof: structural-only
 ---
 
 # A repository file names a command, a hook runs it, and a trust store sits between
+
+Re-read 2026-09-04 from a fresh clone at the pinned commit `0d1bd561`. The
+gate itself is a bash script and every citation below resolves in it. The
+runtime witness was withdrawn rather than bumped: the tree declares
+`engines.bun >= 1.0.0` in its `package.json`, pins bun 1.3.13 in its
+evaluation workflows, runs its own tests with bun, and carries no `.nvmrc`,
+no node `engines` entry and no `setup-node` step anywhere. The `node@22`
+previously recorded here had no witness in the tree, and the registry's
+stack vocabulary has no entry for the runtime the tree actually pins, so
+this document carries no `verified_against` until it does. The stack label
+stays `node` because that is the ecosystem the document classifies under.
 
 gstack's verify gate (`bin/gstack-verify-gate`) is a Stop hook: it blocks the
 agent's turn from ending until the project's declared verification command

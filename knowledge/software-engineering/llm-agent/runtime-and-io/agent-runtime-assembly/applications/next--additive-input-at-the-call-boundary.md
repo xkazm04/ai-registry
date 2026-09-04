@@ -4,13 +4,18 @@ type: application
 subject: agent-runtime-assembly
 technique: additive-input-at-the-call-boundary
 stack: next
-verified_on: 2026-09-03
-verified_against: next@15
+verified_on: 2026-09-04
+verified_against: next@16
 applied: simulation
 ab_verdict: unmeasurable
 ---
 
 # A harness with two control verbs and no way to say anything
+
+Re-read 2026-09-04 at the tree's commit `0152dd0a`: the start-time
+direction option, the two-verb control tool, and the pause-after-iteration
+event and calls all resolve where they were cited; the tree's `package.json`
+pins `next` at 16.3.3, which is the witness for the major above.
 
 A game-production autonomous build harness driven through a tool server:
 plan, execute, verify, checkpoint, looping over a list of areas until a

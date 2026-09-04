@@ -139,6 +139,19 @@ Payload bounds belong to the same family: a status or result body that
 exceeds the runtime's declared size is a **protocol failure** on the row,
 not a truncated success. The runtime does not know what it cut.
 
+So does the remote's own retention. A task-capable server keeps a finished
+result for a lifetime it chooses — the tool protocol's task extension lets
+the server override the requested lifetime and delete a task and its result
+once it elapses, whatever the task's status — and a poll that arrives after
+that answers *not found*, indistinguishable on the wire from a handle that
+never existed. That is a result which existed and was destroyed before it
+was read: not a failure of the work, not an empty result, and not a late
+write. The row records it as its own state — *expired unread* — and the
+lease the background runtime holds is sized from the remote's stated
+retention, renewed and polled well inside it, because a poll cadence chosen
+without reading the retention is a cadence that will one day be longer than
+the result lives.
+
 ## The loop reads a bounded projection
 
 When a run does need to know about outstanding work — to tell the user what
@@ -293,7 +306,9 @@ message *is* that somewhere else, send it.
 - Discard a result that arrives after lease expiry or after a cancel
   request, even from the matching owner; record the discard as its own
   state. Treat an over-bound payload as a protocol failure, not a
-  truncated success.
+  truncated success. Record a result the remote purged before it was read
+  as *expired unread*, and size the poll cadence inside the remote's
+  stated retention.
 - Let a run read only a bounded, current-thread projection of the rows —
   local identities and coarse states — computed at read time, never
   written back.

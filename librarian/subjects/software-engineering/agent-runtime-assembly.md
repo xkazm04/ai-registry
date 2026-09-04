@@ -3,6 +3,7 @@ subject: agent-runtime-assembly
 domain: software-engineering
 last_touched: 2026-09-04
 dry_streak: 0
+touched_by: deepen
 ---
 
 # agent-runtime-assembly
@@ -264,3 +265,145 @@ No application written here; the technique's structural witness lives in the
 `agent-cli-transport` application, where a fleet project already satisfied the
 freshness half of this technique (a probe timestamp stamped at probe time, not serve
 time) without the technique existing.
+
+## 2026-09-04 - `/deepen` batch ([[2026-09-04-1]])
+
+First `/deepen` pass on the subject; blind lane written before any search
+(`agent-runtime-assembly-blind.md` in the run scratch). 14 web calls (10 searches,
+4 primary-source fetches). Seven techniques touched, the golden path, four
+applications; no new technique.
+
+**Landed, file by file.**
+
+- `techniques/host-routes-win.md` - **corrected** the absolute *"Most routers resolve
+  a request by first match in mount order, which makes mount order a security
+  property"*. A whole family of routers resolves by specificity and refuses
+  overlapping patterns at registration; there mount order decides nothing and a
+  contributed pattern *more specific* than a host path wins however late it mounts.
+  The mount-last rule is now conditional on the router's matching discipline, with
+  the register-time check as the other implementation of the same invariant, plus two
+  decision rules. Blind lane reached this independently; web lane confirmed from the
+  language runtime's own routing announcement.
+- `techniques/operator-tier-code-loading.md` - two corrections. (1) *"Optional (the
+  default): the extension is skipped ... the host starts"* contradicted the same
+  technique's run-time rule that an intercepting hook fails closed: a guard that
+  fails to *load* was an absent guard for the process lifetime. The load-time
+  default now derives from the declared kind (observational skips, intercepting is
+  required unless explicitly downgraded, one declaration decides both fail
+  directions). Blind lane found the inconsistency; web lane confirmed the field
+  default from the admission-control API reference (`failurePolicy` defaults to
+  fail). (2) *"But the exception the host raises to cancel is the same exception a
+  contributor's own internal timeout raises"* was true only of runtimes whose
+  timeouts are untranslated cancellations; the async runtime's own docs show a scoped
+  timeout converting its cancellation to a timeout error at its boundary and a
+  cancellation *request count* rather than a class. Premise qualified; origin rule
+  unchanged and strengthened (lean on the scoped primitive; never re-derive origin
+  from exception shape on top of it).
+- `techniques/semantic-hook-placement.md` - **new section** "A hook that calls
+  through the surface it wraps": hook-originated calls (model-backed guards,
+  summarizing observers, delegates) either self-wrap or bypass the chain; the
+  composer adds an *originator* to every call, renders the chain minus the
+  originating hook, validates *H does not wrap calls originated by H*, and the
+  ledger names the originator. Blind lane item A; web lane reached it from two
+  directions - the admission-control self-deadlock guidance (exclude the controller's
+  own scope) and an agent runtime whose hooks "did not fire" for delegate tool calls
+  until delegate identity was stamped on the payload. Golden path gained the
+  failure mode "the self-wrapped hook".
+- `techniques/additive-input-at-the-call-boundary.md` - **qualified** *"A loop with a
+  call budget must reset that budget on each accepted input"*: the technique's own
+  drain is source-blind, so a reset per drained item lets an automated producer buy
+  unlimited calls one message at a time. The drained item now carries a principal
+  class and a shed count; only a person's input resets. Blind-lane internal
+  consistency finding, no web source; recorded as such.
+- `techniques/checkpoint-mode-custody.md` and golden path - **qualified** *"storage
+  grows with the square of the turn count"* / *"The cost is quadratic in the turn
+  count"*: quadratic in message references; in bytes only when content is copied
+  rather than shared. Arithmetic, no source.
+- `techniques/bounded-projection-of-external-work.md` - **amended** with a failure
+  class the tool protocol's task extension (2025-11, experimental) introduces: the
+  receiver may override the requested lifetime and delete a task *and its result*
+  once it elapses regardless of status, and a later poll reads *not found*. A result
+  that existed and was destroyed unread is its own row state (*expired unread*), and
+  the poll cadence is sized inside the remote's stated retention.
+- `techniques/substituted-result-attribution.md` - **tightened** the first decision
+  rule from a fleet tree (personas runner hooks): the wrapped result type is
+  obtainable only from the continuation, the dispatcher records whether it was
+  entered, and an unentered wrapped-shaped return is a fabricated verdict, not a
+  substitution. The tree is stronger than the technique's prose was.
+- Golden path - the five sentences above, plus "the skipped guard" failure mode and
+  the router-discipline qualifier in the routes paragraph.
+
+**Counter-evidence that confirmed (no edit).**
+
+- `indeterminate-closure-on-interruption` - database driver specifications carry
+  exactly this third status as an error *label* ("we don't know if your commit has
+  satisfied the write concern"), applied on network/timeout/server-selection
+  failures, with explicit "the application decides whether to retry". Label, not
+  message text - the technique's rule in a mature field.
+- `substituted-result-attribution` - the standardized cache-status response header
+  carries hit/forwarded/residual-ttl per intermediary: the three channels exist on
+  the wire. Confirmed; personas `cli_capabilities` (`probed_at` at probe time,
+  `served_from_cache`) confirms the freshness half again.
+- `observer-and-mutator-surfaces` - admission control has the two surfaces
+  (mutating patch vs validating typed allow/deny with reason; audit separate) and
+  classifies webhook *errors* by policy rather than conflating them with a deny.
+  personas hooks module implements it (`observe` returns `()` by signature).
+- `session-scoped-capability` - the tool protocol negotiates client capabilities per
+  session at initialize; pof `resolveSessionTopology` reads `clientInfo` from the
+  handshake and is called per request, never memoised. Seam re-read, unchanged.
+- `honest-hook-registry` - the dominant coding-agent harness's hook docs (2026-09)
+  now state that a timed-out command/HTTP/tool hook on the pre-tool event "doesn't
+  block the tool call ... don't count on a stalled hook to act as a gate", while an
+  SDK callback hook that times out blocks it. One event, two fail directions by
+  handler class - the technique's predicate observed in production docs.
+- `bounded-projection` - the task extension's own note says hosts "may wish to return
+  control to the model while the task is executing" with a server-supplied immediate
+  message: only-submit-is-model-visible is now the protocol's guidance. personas
+  `remote_report_block` seam re-read, unchanged.
+- `rewrite-before-the-gate` state 3 - personas dispatcher: a frame that refuses
+  *after* entering the continuation has its refusal downgraded to a diagnostic and
+  the inner outcome stands.
+- `additive-input` boundary - the dominant harness injects queued messages "between
+  tool calls" at the next model pause; the boundary is where the technique put it.
+- `indeterminate-closure` disposition rules - personas `restart_recovery.rs` still
+  checks the restart cap before the freshness window; unchanged since the 09-03 read.
+
+**Drift re-verification.**
+
+| application | tree opened | runtime observed | before -> after | citations |
+| --- | --- | --- | --- | --- |
+| `next--additive-input-at-the-call-boundary` | pof @ `0152dd0a` | `next` 16.3.3 in package.json | next@15 -> next@16 | 3/3 groups |
+| `node--guard-input-custody` | ai-registry (this checkout) | CI pins node 20 (7 jobs); local node 24 | node@20 -> node@20 (fleet drift, not the document's) | 2/2; "four jobs" corrected to seven |
+| `node--indeterminate-closure-on-interruption` | fresh clone of the source at `7801005`, `C:/t/exo-dp` | mise pins nodejs 22.15.0 | node@22.15 -> node@22.15 (unchanged) | 3/3 |
+| `node--operator-tier-code-loading` | fresh clone of the source at `0d1bd561`, `C:/t/gstack-dp` | `engines.bun >= 1.0.0`, CI bun 1.3.13, no node witness anywhere | node@22 -> **withdrawn** (no node witness in the tree; it pins bun, which the stack vocabulary lacks) | 5/5 |
+
+**Open leads, with return conditions.**
+
+- *Hook re-entrancy as its own technique.* Landed as a section; it becomes a
+  technique when a second runtime documents inner-call hook semantics (which hooks
+  a hook-originated call traverses) or a fleet tree adds a model-backed guard to a
+  chain.
+- *Extension contract version negotiation at load* (contribution declares the host
+  contract major; mismatch refused by name). `honest-hook-registry` has the per-event
+  form. Return when a fleet project publishes a hook contract to a second party.
+- *Discriminator applied per fact, not per notification* (banked 09-04 by the
+  ghcost intake) - still owed; no new evidence this pass.
+- *Cooperative-then-forced cancellation with a grace deadline for contributed
+  hooks* - home contested with `subprocess-lifecycle`; proposal only.
+
+**Declines.** Q1 (checkpoint custody as a second subject) - return condition not met;
+no third custody decision landed. No product-named prior art was written into any
+technique (driver labels, cache headers and admission control are described by
+class). No new technique: the one candidate (re-entrancy) has one primary source
+and one incident, which is a section's worth of evidence, not a technique's.
+
+**Proposals for other subjects** are in the run report: `mcp-tools` (the task
+extension's `execution.taskSupport` required/optional/forbidden and TTL purge as
+wire facts), `session-continuation/advisory-guard-fail-mode` (the same event with
+two fail directions by handler family, documented), `subprocess-lifecycle`
+(grace-deadline cancellation of a hook that ignores the host signal).
+
+**Saturation self-forecast.** Not saturated. Every technique is still one- or
+two-source; this pass refuted two absolutes and one internal contradiction on the
+first attempt, which is the signature of a subject that has not been attacked
+before. Expect one more pass of this yield, then diminishing.
