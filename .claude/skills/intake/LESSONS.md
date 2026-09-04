@@ -6901,3 +6901,55 @@ and wants them tested hard rather than many and tested once.
 
 - **For a mid-flight run on an earlier version: nothing to do.** No `SKILL.md` edit
   was made this run; every item above is a lesson awaiting a confirming sighting.
+
+## 2.3.2 - 2026-09-04 - wigolo
+
+- **A tree can carry its ADRs in source header comments, and the sweep order does
+  not say so.** Phase 2b ranks `docs/`, `design/`, `ADR/` first by yield density.
+  This repository had 12,071 words of `docs/` (configuration and tool contracts -
+  useful, not design) and no `ADR/` directory at all, while every load-bearing
+  decision sat in a 20-40 line prose block above a pure module: forces, the
+  rejected alternative, and the incident that motivated it. The tell is a module
+  whose comment-to-code ratio is inverted. A run that reads "no design folder" as
+  "no design record" falls into the README, which is the anti-pattern the phase
+  exists to prevent - reached by following the phase.
+- **The per-system routing count re-aimed extraction, not just routing.** Writing
+  the count at Phase 2d before extracting meant the deep read went into one
+  subsystem of twenty and the other nineteen got one pass each. Under v1 the same
+  tree would have produced an even spread of shallow claim rows. The count's
+  second-order effect is the valuable one and the scorecard cannot currently see
+  it - the depth cell records what was routed, not what was read.
+- **The apply seam contained a defect the corpus predicted.** `classify-before-you-respond`
+  says classify a refusal before choosing a response; the project's ingest layer
+  keyed retry on two literal status codes, and in one of three adapters the
+  non-ok throw fired inside the try so the network-error catch retried it - a 403
+  cost three requests against a host that had just declined. The technique did not
+  merely fit the seam, it named a bug at it. This has now happened twice in three
+  days and both were logged as ordinary `better` rows; the ledger vocabulary has
+  no way to say "the corpus found a defect in a tree nobody was auditing", which
+  is a stronger result than a measured improvement.
+- **A project's own hook is a better reviewer than the method's confirmation
+  gate.** The commit was blocked by a doc-sync hook demanding either a doc update
+  or a recorded dismissal on two coupled documents. Checking them properly found
+  one that genuinely discusses retry behaviour - for a different adapter - and one
+  dated founding-session record with no section for the file I touched. The
+  dismissals are on the commit and reviewable. **Never bypass the hook**; its
+  dismissal channel exists precisely so the reasoning is recorded where a reviewer
+  will see it.
+- **Directions were skipped because a shared artifact was held.** `fleet-map.json`
+  had a sibling's uncommitted edits, and Phase 7.6 begins by regenerating it. The
+  parallel rules forbid regenerating a shared artifact you do not own, and the
+  method does not currently say what Phase 7.6 should do about that. It should say
+  it: skip with a stated reason, exactly as an unattended run skips the gate.
+
+### Redesign proposal - not applied this run
+
+The `librarian/applied.md` verdict vocabulary is `better` / `not-better` /
+`unmeasurable`, all three of which describe *the technique's effect on the tree*.
+Two runs this week produced a fourth thing: the technique's arrival exposed a
+defect that predated it. That is not "better" - the improvement is real but
+incidental to what the technique claims - and recording it as `better` loses the
+result that would most justify the whole apply phase to a sceptic. A fifth column
+or a `seam-defect: <one line>` field would make it countable. Proposing rather
+than applying, because one week is two sightings and this file's own rule is that
+a lesson becomes a rule at three.
