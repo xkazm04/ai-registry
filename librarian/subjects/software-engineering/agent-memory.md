@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-08-31
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -347,3 +347,43 @@ conditions in `librarian/applied.md`.
   store, two files on one trigger merged; `code`, `better`).
 - Apply row in `librarian/applied.md`. Return condition: the store passing ~50 entries,
   when scoping joins the door.
+
+## 2026-09-04 - intake `exo` v2.5.0 ([[2026-09-04-exo]], run intake-exo)
+
+**New technique `durable-store-failure-posture`.** Every other technique here
+assumes the store can be read; this one covers the turn where it parses into
+something that is not the shape it promised. The rule: **the read path degrades
+and says so, the write path refuses.** The two symmetric designs are both wrong -
+fail-open-to-empty on both paths means the next write serialises over recoverable
+bytes (`deletion-is-not-repair`, executed by the component least aware it is
+happening, with the audit trail recording a normal save); fail-hard on both bricks
+a consumer that reads before every model call. And the degraded read must say
+**"unavailable", never "empty"**, because the consumer here is an actor that
+responds to "empty" by writing. Assert the asymmetry in one *paired* test: a test
+on either posture alone passes on a codebase that has quietly aligned them, and
+alignment is what a later refactor does, since two different handlers around one
+store read like an inconsistency to anyone who does not know why.
+
+Boundary written into the technique: this does not cover **concurrent loss**. A
+refusing write path protects against a caller that could not read; it does nothing
+about two callers that both read successfully and both write N+1. The source
+discloses exactly that in its own tree - a `TODO(storage-rework)` noting no
+compare-and-swap on an agent-scoped store whose default topology is concurrent
+conversations - and has not fixed it, which is why the technique names it rather
+than implying durability it does not deliver.
+
+**Also recorded as a catch:** the source rejects embedding retrieval for
+always-inject-the-whole-store, which is `baseline-ladder` rung 2. The corpus says
+it better, with the measurement that rung 2 is the rung most often skipped and the
+one that most often wins. `recall-injection` disagrees with the *sizing* though -
+the source's own caps admit a ~120KB ceiling against a design note justifying the
+choice on "a small set of short facts".
+
+**Apply: `experiment`, `better`, shipped.** Seam in the fleet peer: a
+read-modify-write over one durable JSON column parsed with a tolerant default, so
+a corrupt payload was replaced by a one-element array while the call reported
+success. Measurable: bytes of the unreadable payload surviving the next write -
+A=0 of 35, B=35 of 35, three observation points because a two-point pair ties when
+the corruption never lands. Product fix shipped; the paired test is committed
+beside it but could not run against a pre-existing build-script failure in that
+crate.

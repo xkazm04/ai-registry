@@ -42,6 +42,65 @@ user cancellation, ceiling exceeded, host shutdown, stall escalation. One
 ladder, many callers; the reasons differ in the recorded outcome, never in
 the mechanics.
 
+## When rung 1 is acknowledged, rung 2 splits in two
+
+The single grace period above is written for a polite stop whose *receipt*
+is invisible. Where the stop request is delivered by a mechanism the child
+must actively consume, receipt becomes observable, and one deadline is no
+longer the right shape — because it is now covering two states that fail
+for unrelated reasons and want opposite durations:
+
+- **The request was never taken up.** The child is an older build that does
+  not implement the stop protocol, or it is wedged below the point where it
+  would notice. Waiting helps nothing; no amount of grace produces an
+  acknowledgement that was never coming.
+- **The request was taken up and the child is still working.** It is
+  draining honestly — finishing an accepted unit whose length is a property
+  of the workload, not of the host's patience.
+
+A single constant must be sized for the worse of the two, and both
+directions are wrong. Size it long and a child that never heard the request
+holds its slot for the full window on every shutdown. Size it short and a
+healthy child mid-flush is killed at rung 3 for being slow. The constant
+cannot be right, because it is standing in for two different questions.
+
+So where receipt is observable, **the ladder carries two deadlines**:
+
+1. **Claim deadline** — short, bounded by delivery and one poll interval,
+   never by the workload. It answers *did the child take up the request?*
+2. **Completion deadline** — the honest-flush window of the original rung
+   2, and it starts only once the claim is observed.
+
+A child that misses the claim deadline escalates to rung 3 immediately: it
+has not refused, it has demonstrated it cannot participate, and the ladder
+does not owe a flush window to a process that cannot flush. A child that
+claims and then misses the completion deadline escalates on the original
+terms.
+
+**Make the acknowledgement the same act as the receipt.** The cheapest
+correct form is a token the requester creates and the child consumes with
+an atomic operation whose success is the proof — one claimant by
+construction, no reply channel, no lock, and it works between processes
+that share nothing but a filesystem. A separate "I heard you" message is a
+second thing that can be lost, and it reintroduces the ambiguity the split
+exists to remove.
+
+**Record which deadline was missed, because they are different defect
+reports.** A population missing the *claim* deadline is a version-skew
+report about the fleet — old builds still running, or a stop path that
+never reaches the loop. A population missing the *completion* deadline is a
+report about the workload — units that outgrew the window. Collapsing both
+into "killed at rung 3" is
+[unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value) in the
+ladder's own bookkeeping: an unacknowledged request and an acknowledged
+overrun are being written down as the same outcome, and the fix for one
+does nothing for the other.
+
+Where receipt is *not* observable — a platform stop signal with no
+consumption step — the single deadline stands, and the honest reading is
+that the ladder cannot distinguish these two states rather than that they
+do not exist.
+
 ## Cancellation races completion
 
 The normal awaiting posture is a **race**: the host waits on

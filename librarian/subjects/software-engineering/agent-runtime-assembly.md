@@ -1,7 +1,7 @@
 ---
 subject: agent-runtime-assembly
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 dry_streak: 0
 ---
 
@@ -141,3 +141,45 @@ A second application against a game-production harness came back
 and no verb that carries a message, and the only working mid-run steering
 path (pause, hand-edit the config the resume rehydrates from, resume) is
 undesigned and unrecorded.
+
+## 2026-09-04 - intake `exo` v2.5.0 ([[2026-09-04-exo]], run intake-exo)
+
+**Amendment to `operator-tier-code-loading`: a fourth row for an agent-written
+configuration.** The tier table orders writers by who can write the configuration,
+and every writer in it is a person. A runtime that lets the agent it runs extend
+its own tool roster adds a writer that is not a person who happens to be
+automated, and the difference lands on exactly one of the third row's four
+conditions: install-time consent. There is no administrator at install time, and
+that is not an oversight to patch with a dialog - it is the tier's entire purpose.
+The condition is **structurally unavailable**, and because the four are joint,
+that settles it: the third row's inversion cannot be taken here. Two honest
+resolutions and no third - deny code entry and extend through data, with new
+*code* going down the ladder to the startup tier; or move consent to review-time
+and say what it costs, which requires an append-only record someone reads,
+privileges named in it, and no irreversible action before the window closes. Plus
+the specific self-deception this surface invites: **the isolation that counts
+wraps the contributed code, not the agent.** A sandboxed shell and a tool module
+imported into the host process are two boundaries wearing one word.
+
+**Application `rust--operator-tier-code-loading`** - the source states its trust
+root three incompatible ways and enforces none: the landing page says the event
+log is the only unmodifiable part, the design essay says the harness is, and its
+own footnote concedes it is a config default. The read-only mount mode exists in
+the API; the canonical start mounts the whole tree, harness crate included,
+read-write. The structural lesson: a trust root stated in prose and unbound to a
+mechanism drifts to the permissive reading while every document still asserts the
+strict one.
+
+**Application `node--indeterminate-closure-on-interruption`** (negative) - a
+careful team inverted **both** halves of that technique: the synthetic result for
+a dangling tool call is a failure carrying a distinguishing prose sentence, which
+the technique names as "what teams actually build", and it is written lazily at
+read time, which its second half explicitly forbids. They arrived there *through*
+care - preferring an honest append-only log to a convenient one - which is the
+strongest available argument that the third status is non-obvious and worth
+stating.
+
+**Apply: `unmeasurable`** against the one fleet peer. It has no dynamic
+code-loading surface at all, so it is already on the rule's correct side by
+construction and no arm exists; the instrument that would measure it is a project
+that loads external runner code at runtime.

@@ -189,7 +189,8 @@
             "pipeline-dag",
             "admission-queue",
             "concurrency-guards",
-            "delivery-guarantees"
+            "delivery-guarantees",
+            "execution-state-checkpointing"
           ]
         },
         {

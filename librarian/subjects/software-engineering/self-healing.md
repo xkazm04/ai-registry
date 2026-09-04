@@ -90,3 +90,33 @@ Gained `fork-to-outlive-the-healed` + `rust--fork-to-outlive-the-healed`.
 **Tested and rejected at the fleet seam it looked designed for** (see the applied ledger). The disqualifier is sharper than the first draft's "state larger than its invocation": it is *live shared accounting the work mutates as it runs*. A spend counter decremented in one address space satisfies record-precedes-effect for free; across a process boundary it must be re-earned with a write-ahead ledger, and until that exists the fork makes the accounting less trustworthy while making the classification more trustworthy.
 
 **Open lead (return condition, not banked as a technique):** the external tree classifies by exit code alone after forking - the fork bought a surviving handler and no knowledge. A second sighting of a forking supervisor that *does* carry a declared verdict across the boundary would make that pairing a rule rather than an observation.
+
+## 2026-09-04 - intake `exo` v2.5.0 ([[2026-09-04-exo]], run intake-exo)
+
+**Amendment to `declared-verdict-over-inferred-wreckage`: inferring from an
+absence is the same defect with the polarity flipped.** The variant that looks
+like it obeys the rule instruments the *planned* path - a clean shutdown writes a
+marker, every start writes a start record, and a start with no marker above it is
+read as an unplanned death. Nothing is parsed and a constant is imported, so it
+has the shape of a declared verdict. It is still inference, and the flip is worse
+in one specific way: **a declared marker has exactly one author and an absence has
+none.** The verdict is carried by every path that did not write - a marker
+discarded by a staleness rule, consumed by another reader, written after the step
+that failed, absent from an older build, or an operator restarting by hand. The
+tell is a disjunction in the system's own description ("a crash *or* a manual
+restart"), which is the unknown lane wearing a verdict's clothes. The correction
+keeps the goal: **instrument the start, not the shutdown** - the starting process
+records *why* it is starting, and a start with no reason is written down as
+unknown.
+
+**Apply: `simulation`, `better`, against a real seam.** The fleet peer states the
+pattern outright in a comment - "absence of the marker IS the crash signal" -
+citing a registry technique, and gates one recovery sweep on it. Three real cases:
+a first-ever launch is classified as a crash; an OS-initiated termination writes
+no marker and is classified as a crash though it is not one; and the tree's own
+comment records that **four sibling sweeps still "declare blind"** because
+widening an absence-signal "would only make their wrong verdicts rarer, not
+righter" - the amendment's prediction in the author's own words. Falsifier stated:
+if those four stay blind under the corrected policy the blocker is row
+classification, not the signal - and the tree says it is, so the win is precision
+on the gated sweep rather than the unblock.

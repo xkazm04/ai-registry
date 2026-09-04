@@ -19,6 +19,7 @@ techniques:
   - probe-without-write-back
   - owner-and-counterpart-scope
   - read-set-bounded-links
+  - durable-store-failure-posture
 ---
 
 # Agent memory

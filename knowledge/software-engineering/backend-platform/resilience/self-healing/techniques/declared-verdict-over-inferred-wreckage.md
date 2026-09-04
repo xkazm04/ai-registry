@@ -85,6 +85,49 @@ the classifier by adding a substring match on the component's name, and the
 improvement is always proposed as a bug fix for a device that crashed and did not
 enter the mode somebody expected.
 
+## Inferring from an absence is the same defect with the polarity flipped
+
+There is a variant that looks like it obeys this rule and does not. Instead of
+parsing wreckage, the system instruments the **planned** path: a clean shutdown
+writes a marker before it goes, every start writes a start record, and the
+successor reads *a start with no shutdown marker above it* as an unplanned
+death. Nothing is parsed, a constant is imported, and the reader is a total
+function — it has the shape of a declared verdict.
+
+It is still inference, and the flip makes it worse in one specific way: **a
+declared marker has exactly one author, and an absence has none.** The verdict
+is now carried by every code path that did not write, and most of those paths
+know nothing about crashes:
+
+- the marker was written and then discarded by a staleness rule before the
+  successor looked;
+- the marker was consumed by a different reader that got there first;
+- the shutdown path wrote it *after* the step that failed;
+- the writer is an older build that does not emit it at all;
+- an operator restarted the service by hand, which is not a crash and not a
+  planned shutdown either.
+
+Each of those produces the identical signal, so the verdict is a union of one
+real state and several bookkeeping accidents — and the union grows every time
+someone adds a path, with nothing in the type system to notice.
+
+**The tell is a disjunction in the system's own description of the verdict.**
+When the documentation reads "a start with no shutdown marker implies a crash
+*or* a manual restart", the "or" is the unknown lane wearing a verdict's
+clothes ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+A verdict that cannot be stated without an "or" has not been declared by
+anyone; it has been derived by the reader, which is the thing this technique
+exists to stop.
+
+The correction does not require abandoning the goal. If unplanned starts must
+be distinguishable, **instrument the start, not the shutdown**: the starting
+process records *why* it is starting, carried forward from whatever initiated
+it — a supervisor's restart request, an operator's command, a boot. A start
+that carries no reason is then genuinely unknown, and it is written down as
+unknown rather than promoted to a crash. The obligation moves to the party that
+actually knows, which is the same move the rule makes everywhere else in this
+technique.
+
 ## The bidirectional obligation
 
 Because the reader is deliberately strict, the writer's obligation is absolute: a

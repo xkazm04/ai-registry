@@ -1,7 +1,7 @@
 ---
 subject: subprocess-lifecycle
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -75,3 +75,31 @@ reconnect loop on the first post-resume failure; with the guard it re-probes onc
 three assertions fail on the original, three of three pass on the change, control intact,
 merged after a green gate. The `react--liveness-and-heartbeats` application carries the
 table.
+
+## 2026-09-04 - intake `exo` v2.5.0 ([[2026-09-04-exo]], run intake-exo)
+
+**Amendment to `termination-and-reaping`: rung 2 splits when rung 1 is
+acknowledged.** The ladder's single grace period is written for a polite stop
+whose receipt is invisible. Where the stop request is delivered by a mechanism
+the child must actively *consume*, receipt becomes observable and one constant is
+standing in for two questions - "did you hear me?" and "are you done yet?" -
+which fail for unrelated reasons and want opposite durations. Size it long and a
+child that never heard holds its slot on every shutdown; size it short and a
+healthy child mid-flush is killed. So: a short claim deadline bounded by delivery,
+then the original completion window starting only once the claim is observed, and
+a child that misses the claim escalates straight to forcible kill because it has
+demonstrated it cannot participate. Make the acknowledgement the same act as the
+receipt - a token the requester creates and the child consumes atomically - since
+a separate "I heard you" message is a second thing that can be lost. Record which
+deadline was missed: version skew and workload overrun are different defect
+reports, and collapsing them is `unknown-is-not-a-value` in the ladder's own books.
+
+**This is the run's convergent finding.** Two design-read workers, on two
+different systems of the source tree (the host supervisor and the adapter
+runtime), reached it independently without seeing each other's output, and both
+concluded the technique does not model the split. Verified by the director against
+the technique text before landing.
+
+**Apply: unapplied**, and the absence was searched rather than assumed. No fleet
+project has a cooperative stop with an acknowledgement; children are spawned with
+a deadline and killed when it fires, so there is no rung 1 to split.

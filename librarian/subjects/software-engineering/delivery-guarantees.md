@@ -1,7 +1,7 @@
 ---
 subject: delivery-guarantees
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-09-04
 touched_by: intake
 dry_streak: 0
 ---
@@ -31,3 +31,29 @@ that could not tell success from failure.
 - The classifier's precision bounds the technique where the lane class is
   inferred per item rather than declared per class (the connected project
   infers it from text).
+
+## 2026-09-04 - intake `exo` v2.5.0 ([[2026-09-04-exo]], run intake-exo)
+
+**Application `rust--dead-letter-design`** (negative), from an agent harness's
+outbound message queue. The tree implements **five of six** of this subject
+faithfully and with evident care: explicit states as directories so location *is*
+state, atomic claiming by move, stuck-reaping that requeues the in-flight
+directory on worker start, retry escalation as a transition into the dead-letter
+lane rather than a bigger number, and a typed reason on the terminal outcome.
+
+The sixth is the one the golden path predicts in a sentence: **the failed
+directory has one writer and no readers.** Five references in the whole tree, all
+in one storage module - the path constructor, the two callers that write into it,
+and the routine that deletes it when the adapter is removed. No tool, CLI verb or
+sweep reads it, and nothing wakes anyone. *A dead-letter lane nobody can see is a
+`/dev/null` with extra steps*, and here it is worse than absent, because the
+machinery reads as completeness: a reviewer asking "do we drop messages?" finds a
+durable outbox with retry limits and a failure state and stops.
+
+**The generalisable half** is which piece gets built when a team builds this
+incrementally. Everything on the producing side is reachable from the code path
+already being written and makes the current change more correct; the consuming
+side is a different surface with no local pressure to exist, so it is deferred,
+and deferring it is invisible because nothing fails. The review question is
+therefore not "is there a dead-letter lane" but **"name the caller that reads
+it."**

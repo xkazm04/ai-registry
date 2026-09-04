@@ -123,6 +123,63 @@ verified, how privileges are represented and revoked — belong to the subject
 that owns hosting third-party extensions, and a runtime adopting the third row
 takes them from there rather than reinventing them at the assembly layer.
 
+## The fourth row: when the agent writes the configuration
+
+The three rows above are ordered by **who can write the configuration**, and
+every writer in them is a person: an operator with host access, an
+administrator with a login. A runtime that lets the agent it runs extend its
+own tool roster adds a fourth writer, and that writer is not a person who
+happens to be automated — it is a different kind of principal, and the
+difference lands on exactly one of the four conditions.
+
+| tier | written by | may name code |
+| --- | --- | --- |
+| **agent-writable configuration** | the model, through a tool call, at its own discretion | see below — the third row's inversion is **unavailable** |
+
+Read condition 3 again: *the administrator sees those privileges and consents
+at install time*. For this tier there is no administrator at install time,
+and that is not an oversight to be patched with a confirmation dialog — it is
+the tier's entire purpose. A runtime grants the agent an extension surface
+precisely so that capability can be added without a human in the loop; a
+consent step at install time removes the property the tier was built to have.
+The condition is not unmet, it is **structurally unavailable**.
+
+Because the four conditions are joint, that settles it. A host cannot take
+the third row's inversion on an agent-writable tier by satisfying the other
+three, for the same reason the third row already gives: three of four is not
+three-quarters of this rule, it is none of it. So the agent-writable tier has
+two honest resolutions and no third:
+
+- **Deny code entry, and extend through data.** The agent's durable
+  contributions are declarative — a schema, an instruction document, a
+  procedure the runtime interprets — and none of them is an entry point. New
+  *code* capability goes down the ladder to the startup tier, where a human
+  performs the build. This is row 2's rule applied to a non-human writer, and
+  it is the resolution that keeps the guarantee intact.
+- **Move consent in time, and say what that costs.** Where the surface must
+  load code, consent becomes *review-time* rather than install-time, and it
+  is a strictly weaker guarantee that may only be claimed when three things
+  hold together: every installation appends to a record the operator actually
+  reads, that record names the privileges rather than the fact of an install,
+  and the contributed code cannot take an irreversible action before the
+  review window closes. Without the third, review is an audit of damage
+  already done — and
+  [an audit record of an unrecoverable action is not a substitute for being
+  able to undo it](../../../../_laws.md#record-precedes-effect).
+
+**The isolation that counts is the one wrapping the contributed code, not the
+one wrapping the agent.** This is the specific way a runtime talks itself into
+row 3 without owning it: the agent's shell runs in a sandbox, the product page
+says the system is sandboxed, and the tool module the agent just wrote is
+imported into the host's own process with the host's privileges. Two different
+boundaries, one word. Condition 1 asks about the second one.
+
+The mechanical test transfers unchanged, with the writer swapped: have the
+agent install a code-naming extension through its own tool surface, and see
+what the runtime does. A runtime that loads it has granted a model the
+operator tier — and, unlike a misconfigured administrator account, this
+writer's whole design is to keep writing.
+
 ## Load order is deterministic and load failure is attributed
 
 Extensions load in the order the startup configuration lists them, never in
